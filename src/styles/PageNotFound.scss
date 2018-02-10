@@ -1,0 +1,29 @@
+// block
+.page-not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  // element
+  &__title {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  &__content {
+    font-size: 1.2rem;
+  }
+
+  &__link {
+    margin: 10px auto;
+    width: fit-content;
+    font-size: 1.2rem;
+
+    // modifier
+    &--boldered {
+      border: 1px solid  
+    }
+  }
+}

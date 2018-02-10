@@ -36,23 +36,34 @@ class Login extends Component {
     } = this.state;
 
     return (
-      <div>
-        <input 
-          id='email' 
-          type='text' 
-          placeholder="Enter Email"
-          value={email}
-          onChange={this.handleInput} 
-        />
-
-        <input 
-          id='password' 
-          type='password' 
-          placeholder="Enter Password"
-          value={password}
-          onChange={this.handleInput} 
-          onKeyPress={this.handleEnter}
-        />
+      <div className="login">
+        <div className="title">
+          MYRA APP
+        </div>
+        <div>
+          Login
+        </div>
+        <div className="email">
+          <label>Email</label>
+          <input 
+            id="email" 
+            type="text" 
+            placeholder="Enter Email"
+            value={email}
+            onChange={this.handleInput} 
+          />
+        </div>
+        <div className="password">
+          <label>Password</label>
+          <input 
+            id="password" 
+            type="password" 
+            placeholder="Enter Password"
+            value={password}
+            onChange={this.handleInput} 
+            onKeyPress={this.handleEnter}
+          />
+        </div>
 
         <button
           onClick={this.onSubmit}
