@@ -7,7 +7,7 @@ import * as Routes from '../constants/routes';
 
 import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
-import Login from './auths/Login';
+import Login from './Login';
 import Home from './Home';
 import Toast from './Toast';
 import PageNotFound from './PageNotFound';

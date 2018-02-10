@@ -1,0 +1,418 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Login
+    login={[Function]}
+    user={
+        Object {
+            "id": "id",
+          }
+    }
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="login__title"
+>
+          MYRA APP
+</div>,
+        <div>
+          Login
+</div>,
+        <div
+          className="login__email"
+>
+          <label>
+                    Email
+          </label>
+          <input
+                    id="email"
+                    onChange={[Function]}
+                    placeholder="Enter Email"
+                    type="text"
+                    value=""
+          />
+</div>,
+        <div
+          className="login__password"
+>
+          <label>
+                    Password
+          </label>
+          <input
+                    id="password"
+                    onChange={[Function]}
+                    onKeyPress={undefined}
+                    placeholder="Enter Password"
+                    type="password"
+                    value=""
+          />
+</div>,
+        <button
+          onClick={[Function]}
+>
+          Login
+</button>,
+      ],
+      "className": "login",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "MYRA APP",
+          "className": "login__title",
+        },
+        "ref": null,
+        "rendered": "MYRA APP",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Login",
+        },
+        "ref": null,
+        "rendered": "Login",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <label>
+              Email
+</label>,
+            <input
+              id="email"
+              onChange={[Function]}
+              placeholder="Enter Email"
+              type="text"
+              value=""
+/>,
+          ],
+          "className": "login__email",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Email",
+            },
+            "ref": null,
+            "rendered": "Email",
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "id": "email",
+              "onChange": [Function],
+              "placeholder": "Enter Email",
+              "type": "text",
+              "value": "",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <label>
+              Password
+</label>,
+            <input
+              id="password"
+              onChange={[Function]}
+              onKeyPress={undefined}
+              placeholder="Enter Password"
+              type="password"
+              value=""
+/>,
+          ],
+          "className": "login__password",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Password",
+            },
+            "ref": null,
+            "rendered": "Password",
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "id": "password",
+              "onChange": [Function],
+              "onKeyPress": undefined,
+              "placeholder": "Enter Password",
+              "type": "password",
+              "value": "",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Login",
+          "onClick": [Function],
+        },
+        "ref": null,
+        "rendered": "Login",
+        "type": "button",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="login__title"
+>
+            MYRA APP
+</div>,
+          <div>
+            Login
+</div>,
+          <div
+            className="login__email"
+>
+            <label>
+                        Email
+            </label>
+            <input
+                        id="email"
+                        onChange={[Function]}
+                        placeholder="Enter Email"
+                        type="text"
+                        value=""
+            />
+</div>,
+          <div
+            className="login__password"
+>
+            <label>
+                        Password
+            </label>
+            <input
+                        id="password"
+                        onChange={[Function]}
+                        onKeyPress={undefined}
+                        placeholder="Enter Password"
+                        type="password"
+                        value=""
+            />
+</div>,
+          <button
+            onClick={[Function]}
+>
+            Login
+</button>,
+        ],
+        "className": "login",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "MYRA APP",
+            "className": "login__title",
+          },
+          "ref": null,
+          "rendered": "MYRA APP",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Login",
+          },
+          "ref": null,
+          "rendered": "Login",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <label>
+                Email
+</label>,
+              <input
+                id="email"
+                onChange={[Function]}
+                placeholder="Enter Email"
+                type="text"
+                value=""
+/>,
+            ],
+            "className": "login__email",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Email",
+              },
+              "ref": null,
+              "rendered": "Email",
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "id": "email",
+                "onChange": [Function],
+                "placeholder": "Enter Email",
+                "type": "text",
+                "value": "",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <label>
+                Password
+</label>,
+              <input
+                id="password"
+                onChange={[Function]}
+                onKeyPress={undefined}
+                placeholder="Enter Password"
+                type="password"
+                value=""
+/>,
+            ],
+            "className": "login__password",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Password",
+              },
+              "ref": null,
+              "rendered": "Password",
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "id": "password",
+                "onChange": [Function],
+                "onKeyPress": undefined,
+                "placeholder": "Enter Password",
+                "type": "password",
+                "value": "",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Login",
+            "onClick": [Function],
+          },
+          "ref": null,
+          "rendered": "Login",
+          "type": "button",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

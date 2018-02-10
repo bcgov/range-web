@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { login } from '../../actions/authActions';
+import { login } from '../actions/authActions';
 
-class Login extends Component {
+export class Login extends Component {
   state = {
     email: '',
     password: '',
-    errors: {},
   }
   
   validateInputs() {
@@ -32,18 +31,17 @@ class Login extends Component {
     const { 
       email, 
       password, 
-      errors, 
     } = this.state;
 
     return (
       <div className="login">
-        <div className="title">
+        <div className="login__title">
           MYRA APP
         </div>
         <div>
           Login
         </div>
-        <div className="email">
+        <div className="login__email">
           <label>Email</label>
           <input 
             id="email" 
@@ -53,7 +51,7 @@ class Login extends Component {
             onChange={this.handleInput} 
           />
         </div>
-        <div className="password">
+        <div className="login__password">
           <label>Password</label>
           <input 
             id="password" 
