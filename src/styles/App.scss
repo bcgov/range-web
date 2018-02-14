@@ -1,9 +1,17 @@
 @import 'styles/mixins.scss';
 @import 'styles/PageNotFound.scss';
 @import 'styles/Login.scss';
+@import 'styles/Variables.scss';
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  min-width: $tablet-width;
+  background-color: $main-background;
+  font-family: Avenir, sans-serif;
 }
