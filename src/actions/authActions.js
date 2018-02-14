@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 // import { toastErrorMessage } from './toastActions.jsx';
 
 import { AUTH } from '../constants/reducerTypes';
@@ -12,7 +12,7 @@ import {
 } from '../constants/actionTypes';
 
 import Auth from '../handlers/auth';
-import Handlers from '../handlers';
+// import Handlers from '../handlers';
 
 const fakeResponse = 
 { 

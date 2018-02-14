@@ -27,7 +27,6 @@ export const successPaginated = (reducer, data) => {
     data: data.data,
     currentPage: data.current_page,
     totalPages: data.last_page,
-    path: data.path
   }
 }
 

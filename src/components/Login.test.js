@@ -20,6 +20,7 @@ describe('Login', () => {
     const wrapper = shallow(<Login {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
+
   it('initializes with the correct state', () => {
     const wrapper = shallow(<Login {...props} />);
     expect(wrapper.state()).toEqual({
@@ -28,17 +29,21 @@ describe('Login', () => {
     });
   });
 
+  it('`isInputsValid` returns a value correctly', () => {
+    const wrapper = shallow(<Login {...props} />);
+    expect(wrapper.instance().isInputsValid()).toEqual(true);    
+  });
+
   describe('when loggin in', () => {
-    const username = 'username';
-    const password = 'password';
-    
     it('update the local `username` state', () => {
+      const username = 'username';
       const wrapper = shallow(<Login {...props} />);
       wrapper.find('input#username').simulate('change', { target: { id: username, value: username }});
       expect(wrapper.state().username).toEqual(username);      
     });
-
+    
     it('update the local `password` state', () => {
+      const password = 'password';
       const wrapper = shallow(<Login {...props} />);
       wrapper.find('input#password').simulate('change', { target: { id: password, value: password }});
       expect(wrapper.state().password).toEqual(password);      

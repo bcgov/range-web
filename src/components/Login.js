@@ -24,8 +24,10 @@ export class Login extends Component {
   }
 
   handleInput = (e) => {
+    const { id, value } = e.target; 
+
     this.setState({
-      [e.target.id]: e.target.value
+      [id]: value
     });
   }
 

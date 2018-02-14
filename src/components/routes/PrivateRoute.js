@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 import { LOGIN } from '../../constants/routes';
+import LandingPage from '../LandingPage';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
@@ -16,11 +17,10 @@ const propTypes = {
 const PrivateRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
-    render = {props => // props = { match:{...}, history:{...}, location:{...} }
+    render={props => // props = { match:{...}, history:{...}, location:{...} }
       user
-        ? <Component {...props} />
-        : <Redirect to={LOGIN} /> 
-    }
+        ? <LandingPage {...props} component={Component} />
+        : <Redirect to={LOGIN} />}
   />
 );
 

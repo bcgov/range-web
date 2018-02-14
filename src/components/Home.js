@@ -18,7 +18,7 @@ class Home extends Component {
           Logout
         </button>
       </div>
-    )
+    );
   }
 }
 

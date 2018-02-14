@@ -13,7 +13,6 @@ const genericRequest = (state = {
   errorMessage: '',
   totalPages: 1,
   currentPage: 1,
-  path: ''
 }, action) => {
   switch (action.type) {
     case REQUEST:
@@ -37,7 +36,6 @@ const genericRequest = (state = {
         data: action.data,
         totalPages: action.totalPages,
         currentPage: action.currentPage,
-        path: action.path
       }
     case ERROR:
       return {
