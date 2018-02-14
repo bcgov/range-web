@@ -1,0 +1,6 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+
+/* loaderLineColor */
+@shapeBorderColor: @primaryColor;

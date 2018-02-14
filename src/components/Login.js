@@ -36,6 +36,10 @@ export class Login extends Component {
 
     return (
       <div className="login">
+        <img
+          className="login__image" 
+          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4" alt="gov-img"/>
+
         <div className="login__title">
           My Range Application
         </div>
@@ -44,14 +48,14 @@ export class Login extends Component {
           Login
         </div>
 
-        <Form>
+        <Form loading>
           <div className="login__form">
             <Form.Field>
               <label>Username</label>
               <input 
                 id="email" 
                 type="text" 
-                placeholder="Enter Email"
+                placeholder="Enter Username"
                 value={email}
                 onChange={this.handleInput} 
               />

@@ -9,9 +9,6 @@
 # production
 /build
 
-# Semantic UI
-src/semantic/
-
 # misc
 .DS_Store
 .env.local
