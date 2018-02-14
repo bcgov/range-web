@@ -6,20 +6,21 @@ import { login } from '../actions/authActions';
 
 export class Login extends Component {
   state = {
-    email: '',
+    username: '',
     password: '',
   }
   
-  validateInputs() {
-    return false;  
+  isInputsValid() {
+    return true;  
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.validateInputs()) {
-      return;
+    const { ...requestData } = this.state;
+
+    if (this.isInputsValid()) {
+      this.props.login({ ...requestData });
     }
-    this.props.login({...this.state});
   }
 
   handleInput = (e) => {
@@ -30,15 +31,21 @@ export class Login extends Component {
 
   render() {
     const { 
-      email, 
+      username, 
       password, 
     } = this.state;
+
+    const {
+      loginState
+    } = this.props;
 
     return (
       <div className="login">
         <img
           className="login__image" 
-          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4" alt="gov-img"/>
+          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4" 
+          alt="gov-img"
+        />
 
         <div className="login__title">
           My Range Application
@@ -48,15 +55,15 @@ export class Login extends Component {
           Login
         </div>
 
-        <Form loading>
+        <Form loading={loginState.isLoading || false}>
           <div className="login__form">
             <Form.Field>
               <label>Username</label>
               <input 
-                id="email" 
+                id="username" 
                 type="text" 
                 placeholder="Enter Username"
-                value={email}
+                value={username}
                 onChange={this.handleInput} 
               />
             </Form.Field>
@@ -93,8 +100,7 @@ export class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loginIsFetching: state.authReducer.isFetching,
-    loginSuccess: state.authReducer.success
+    loginState: state.authReducer,
   }; 
 };
 

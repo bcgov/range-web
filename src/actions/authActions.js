@@ -75,10 +75,11 @@ export const userProfileChange = (user) => {
 export const login = (requestData) => (dispatch) => {
   dispatch(loginRequest());
 
+  setTimeout(() => {
+    Auth.onSignedIn(fakeResponse);
+    dispatch(loginSuccess(fakeResponse.data, fakeResponse.data.user_data));
+  }, 1000);
 
-  Auth.onSignedIn(fakeResponse);
-  dispatch(loginSuccess(fakeResponse.data, fakeResponse.data.user_data));
-  
   // const { email, password } = requestData;
   // axios.post(API.BASE_URL + API.LOGIN, {
   //   email,

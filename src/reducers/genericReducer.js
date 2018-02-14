@@ -6,7 +6,7 @@ import {
 } from '../constants/actionTypes';
 
 const genericRequest = (state = {
-  isFetching: false,
+  isLoading: false,
   data: [],
   length: -1,
   success: false,
@@ -19,20 +19,20 @@ const genericRequest = (state = {
     case REQUEST:
       return { 
         ...state,
-        isFetching: true, 
+        isLoading: true, 
         success: false
       }  
     case SUCCESS:
       return { 
         ...state,
-        isFetching: false,
+        isLoading: false,
         success: true,
         data: action.data,
       }
     case SUCCESS_PAGINATED:
       return {
         ...state,
-        isFetching: false,
+        isLoading: false,
         success: true,
         data: action.data,
         totalPages: action.totalPages,
@@ -42,7 +42,7 @@ const genericRequest = (state = {
     case ERROR:
       return {
         ...state,
-        isFetching: false,
+        isLoading: false,
         success: false,
         errorMessage: action.errorMessage,
       }

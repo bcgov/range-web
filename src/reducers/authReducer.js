@@ -9,7 +9,7 @@ import {
 import Auth from '../handlers/auth';
 
 const authReducer = (state = {
-  isFetching: false,
+  isLoading: false,
   user: Auth.getUserDataFromLocalStorage(),
   success: false,
 }, action) => {
@@ -18,12 +18,12 @@ const authReducer = (state = {
       return {
         ...state,
         success: false,
-        isFetching: true,
+        isLoading: true,
       }
     case LOGIN_SUCCESS: 
       return {
         ...state, 
-        isFetching: false,
+        isLoading: false,
         success: true,
         data: action.data,
         user: action.user,
@@ -31,7 +31,7 @@ const authReducer = (state = {
     case LOGIN_ERROR: 
       return {
         ...state, 
-        isFetching: false,
+        isLoading: false,
         success: false,
         errorMessage: action.errorMessage
       }     

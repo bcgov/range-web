@@ -6,6 +6,7 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Login
     login={[Function]}
+    loginState={Object {}}
     user={
         Object {
             "id": "id",
@@ -25,48 +26,71 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
+        <img
+          alt="gov-img"
+          className="login__image"
+          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4"
+/>,
         <div
           className="login__title"
 >
-          MYRA APP
-</div>,
-        <div>
-          Login
+          My Range Application
 </div>,
         <div
-          className="login__email"
->
-          <label>
-                    Email
-          </label>
-          <input
-                    id="email"
-                    onChange={[Function]}
-                    placeholder="Enter Email"
-                    type="text"
-                    value=""
-          />
-</div>,
-        <div
-          className="login__password"
->
-          <label>
-                    Password
-          </label>
-          <input
-                    id="password"
-                    onChange={[Function]}
-                    onKeyPress={undefined}
-                    placeholder="Enter Password"
-                    type="password"
-                    value=""
-          />
-</div>,
-        <button
-          onClick={[Function]}
+          className="login__header"
 >
           Login
-</button>,
+</div>,
+        <Form
+          as="form"
+          loading={false}
+>
+          <div
+                    className="login__form"
+          >
+                    <FormField>
+                              <label>
+                                        Username
+                              </label>
+                              <input
+                                        id="username"
+                                        onChange={[Function]}
+                                        placeholder="Enter Username"
+                                        type="text"
+                                        value=""
+                              />
+                    </FormField>
+          </div>
+          <div
+                    className="login__form"
+          >
+                    <FormField>
+                              <label>
+                                        Password
+                              </label>
+                              <input
+                                        id="password"
+                                        onChange={[Function]}
+                                        onKeyPress={undefined}
+                                        placeholder="Enter Password"
+                                        type="password"
+                                        value=""
+                              />
+                    </FormField>
+          </div>
+          <div
+                    className="login__button"
+          >
+                    <Button
+                              as="button"
+                              fluid={true}
+                              onClick={[Function]}
+                              primary={true}
+                    >
+                              Login
+                    </Button>
+          </div>
+</Form>,
       ],
       "className": "login",
     },
@@ -77,11 +101,24 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "MYRA APP",
+          "alt": "gov-img",
+          "className": "login__image",
+          "src": "https://avatars3.githubusercontent.com/u/916280?s=200&v=4",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "img",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "My Range Application",
           "className": "login__title",
         },
         "ref": null,
-        "rendered": "MYRA APP",
+        "rendered": "My Range Application",
         "type": "div",
       },
       Object {
@@ -90,6 +127,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": "Login",
+          "className": "login__header",
         },
         "ref": null,
         "rendered": "Login",
@@ -98,21 +136,57 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "class",
         "props": Object {
+          "as": "form",
           "children": Array [
-            <label>
-              Email
-</label>,
-            <input
-              id="email"
-              onChange={[Function]}
-              placeholder="Enter Email"
-              type="text"
-              value=""
-/>,
+            <div
+              className="login__form"
+>
+              <FormField>
+                            <label>
+                                          Username
+                            </label>
+                            <input
+                                          id="username"
+                                          onChange={[Function]}
+                                          placeholder="Enter Username"
+                                          type="text"
+                                          value=""
+                            />
+              </FormField>
+</div>,
+            <div
+              className="login__form"
+>
+              <FormField>
+                            <label>
+                                          Password
+                            </label>
+                            <input
+                                          id="password"
+                                          onChange={[Function]}
+                                          onKeyPress={undefined}
+                                          placeholder="Enter Password"
+                                          type="password"
+                                          value=""
+                            />
+              </FormField>
+</div>,
+            <div
+              className="login__button"
+>
+              <Button
+                            as="button"
+                            fluid={true}
+                            onClick={[Function]}
+                            primary={true}
+              >
+                            Login
+              </Button>
+</div>,
           ],
-          "className": "login__email",
+          "loading": false,
         },
         "ref": null,
         "rendered": Array [
@@ -121,93 +195,181 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Email",
+              "children": <FormField>
+                <label>
+                                Username
+                </label>
+                <input
+                                id="username"
+                                onChange={[Function]}
+                                placeholder="Enter Username"
+                                type="text"
+                                value=""
+                />
+</FormField>,
+              "className": "login__form",
             },
             "ref": null,
-            "rendered": "Email",
-            "type": "label",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "id": "email",
-              "onChange": [Function],
-              "placeholder": "Enter Email",
-              "type": "text",
-              "value": "",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": "input",
-          },
-        ],
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <label>
-              Password
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  <label>
+                    Username
 </label>,
-            <input
-              id="password"
-              onChange={[Function]}
-              onKeyPress={undefined}
-              placeholder="Enter Password"
-              type="password"
-              value=""
+                  <input
+                    id="username"
+                    onChange={[Function]}
+                    placeholder="Enter Username"
+                    type="text"
+                    value=""
 />,
-          ],
-          "className": "login__password",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "Password",
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Username",
+                  },
+                  "ref": null,
+                  "rendered": "Username",
+                  "type": "label",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "id": "username",
+                    "onChange": [Function],
+                    "placeholder": "Enter Username",
+                    "type": "text",
+                    "value": "",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+              ],
+              "type": [Function],
             },
-            "ref": null,
-            "rendered": "Password",
-            "type": "label",
+            "type": "div",
           },
           Object {
             "instance": null,
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "id": "password",
-              "onChange": [Function],
-              "onKeyPress": undefined,
-              "placeholder": "Enter Password",
-              "type": "password",
-              "value": "",
+              "children": <FormField>
+                <label>
+                                Password
+                </label>
+                <input
+                                id="password"
+                                onChange={[Function]}
+                                onKeyPress={undefined}
+                                placeholder="Enter Password"
+                                type="password"
+                                value=""
+                />
+</FormField>,
+              "className": "login__form",
             },
             "ref": null,
-            "rendered": null,
-            "type": "input",
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  <label>
+                    Password
+</label>,
+                  <input
+                    id="password"
+                    onChange={[Function]}
+                    onKeyPress={undefined}
+                    placeholder="Enter Password"
+                    type="password"
+                    value=""
+/>,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Password",
+                  },
+                  "ref": null,
+                  "rendered": "Password",
+                  "type": "label",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "id": "password",
+                    "onChange": [Function],
+                    "onKeyPress": undefined,
+                    "placeholder": "Enter Password",
+                    "type": "password",
+                    "value": "",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+              ],
+              "type": [Function],
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <Button
+                as="button"
+                fluid={true}
+                onClick={[Function]}
+                primary={true}
+>
+                Login
+</Button>,
+              "className": "login__button",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "button",
+                "children": "Login",
+                "fluid": true,
+                "onClick": [Function],
+                "primary": true,
+              },
+              "ref": null,
+              "rendered": "Login",
+              "type": [Function],
+            },
+            "type": "div",
           },
         ],
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": "Login",
-          "onClick": [Function],
-        },
-        "ref": null,
-        "rendered": "Login",
-        "type": "button",
+        "type": [Function],
       },
     ],
     "type": "div",
@@ -219,48 +381,71 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
+          <img
+            alt="gov-img"
+            className="login__image"
+            src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4"
+/>,
           <div
             className="login__title"
 >
-            MYRA APP
-</div>,
-          <div>
-            Login
+            My Range Application
 </div>,
           <div
-            className="login__email"
->
-            <label>
-                        Email
-            </label>
-            <input
-                        id="email"
-                        onChange={[Function]}
-                        placeholder="Enter Email"
-                        type="text"
-                        value=""
-            />
-</div>,
-          <div
-            className="login__password"
->
-            <label>
-                        Password
-            </label>
-            <input
-                        id="password"
-                        onChange={[Function]}
-                        onKeyPress={undefined}
-                        placeholder="Enter Password"
-                        type="password"
-                        value=""
-            />
-</div>,
-          <button
-            onClick={[Function]}
+            className="login__header"
 >
             Login
-</button>,
+</div>,
+          <Form
+            as="form"
+            loading={false}
+>
+            <div
+                        className="login__form"
+            >
+                        <FormField>
+                                    <label>
+                                                Username
+                                    </label>
+                                    <input
+                                                id="username"
+                                                onChange={[Function]}
+                                                placeholder="Enter Username"
+                                                type="text"
+                                                value=""
+                                    />
+                        </FormField>
+            </div>
+            <div
+                        className="login__form"
+            >
+                        <FormField>
+                                    <label>
+                                                Password
+                                    </label>
+                                    <input
+                                                id="password"
+                                                onChange={[Function]}
+                                                onKeyPress={undefined}
+                                                placeholder="Enter Password"
+                                                type="password"
+                                                value=""
+                                    />
+                        </FormField>
+            </div>
+            <div
+                        className="login__button"
+            >
+                        <Button
+                                    as="button"
+                                    fluid={true}
+                                    onClick={[Function]}
+                                    primary={true}
+                        >
+                                    Login
+                        </Button>
+            </div>
+</Form>,
         ],
         "className": "login",
       },
@@ -271,11 +456,24 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "MYRA APP",
+            "alt": "gov-img",
+            "className": "login__image",
+            "src": "https://avatars3.githubusercontent.com/u/916280?s=200&v=4",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "img",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "My Range Application",
             "className": "login__title",
           },
           "ref": null,
-          "rendered": "MYRA APP",
+          "rendered": "My Range Application",
           "type": "div",
         },
         Object {
@@ -284,6 +482,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": "Login",
+            "className": "login__header",
           },
           "ref": null,
           "rendered": "Login",
@@ -292,21 +491,57 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "class",
           "props": Object {
+            "as": "form",
             "children": Array [
-              <label>
-                Email
-</label>,
-              <input
-                id="email"
-                onChange={[Function]}
-                placeholder="Enter Email"
-                type="text"
-                value=""
-/>,
+              <div
+                className="login__form"
+>
+                <FormField>
+                                <label>
+                                                Username
+                                </label>
+                                <input
+                                                id="username"
+                                                onChange={[Function]}
+                                                placeholder="Enter Username"
+                                                type="text"
+                                                value=""
+                                />
+                </FormField>
+</div>,
+              <div
+                className="login__form"
+>
+                <FormField>
+                                <label>
+                                                Password
+                                </label>
+                                <input
+                                                id="password"
+                                                onChange={[Function]}
+                                                onKeyPress={undefined}
+                                                placeholder="Enter Password"
+                                                type="password"
+                                                value=""
+                                />
+                </FormField>
+</div>,
+              <div
+                className="login__button"
+>
+                <Button
+                                as="button"
+                                fluid={true}
+                                onClick={[Function]}
+                                primary={true}
+                >
+                                Login
+                </Button>
+</div>,
             ],
-            "className": "login__email",
+            "loading": false,
           },
           "ref": null,
           "rendered": Array [
@@ -315,93 +550,181 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Email",
+                "children": <FormField>
+                  <label>
+                                    Username
+                  </label>
+                  <input
+                                    id="username"
+                                    onChange={[Function]}
+                                    placeholder="Enter Username"
+                                    type="text"
+                                    value=""
+                  />
+</FormField>,
+                "className": "login__form",
               },
               "ref": null,
-              "rendered": "Email",
-              "type": "label",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "id": "email",
-                "onChange": [Function],
-                "placeholder": "Enter Email",
-                "type": "text",
-                "value": "",
-              },
-              "ref": null,
-              "rendered": null,
-              "type": "input",
-            },
-          ],
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <label>
-                Password
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <label>
+                      Username
 </label>,
-              <input
-                id="password"
-                onChange={[Function]}
-                onKeyPress={undefined}
-                placeholder="Enter Password"
-                type="password"
-                value=""
+                    <input
+                      id="username"
+                      onChange={[Function]}
+                      placeholder="Enter Username"
+                      type="text"
+                      value=""
 />,
-            ],
-            "className": "login__password",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": "Password",
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Username",
+                    },
+                    "ref": null,
+                    "rendered": "Username",
+                    "type": "label",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "id": "username",
+                      "onChange": [Function],
+                      "placeholder": "Enter Username",
+                      "type": "text",
+                      "value": "",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "input",
+                  },
+                ],
+                "type": [Function],
               },
-              "ref": null,
-              "rendered": "Password",
-              "type": "label",
+              "type": "div",
             },
             Object {
               "instance": null,
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "id": "password",
-                "onChange": [Function],
-                "onKeyPress": undefined,
-                "placeholder": "Enter Password",
-                "type": "password",
-                "value": "",
+                "children": <FormField>
+                  <label>
+                                    Password
+                  </label>
+                  <input
+                                    id="password"
+                                    onChange={[Function]}
+                                    onKeyPress={undefined}
+                                    placeholder="Enter Password"
+                                    type="password"
+                                    value=""
+                  />
+</FormField>,
+                "className": "login__form",
               },
               "ref": null,
-              "rendered": null,
-              "type": "input",
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <label>
+                      Password
+</label>,
+                    <input
+                      id="password"
+                      onChange={[Function]}
+                      onKeyPress={undefined}
+                      placeholder="Enter Password"
+                      type="password"
+                      value=""
+/>,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Password",
+                    },
+                    "ref": null,
+                    "rendered": "Password",
+                    "type": "label",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "id": "password",
+                      "onChange": [Function],
+                      "onKeyPress": undefined,
+                      "placeholder": "Enter Password",
+                      "type": "password",
+                      "value": "",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "input",
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <Button
+                  as="button"
+                  fluid={true}
+                  onClick={[Function]}
+                  primary={true}
+>
+                  Login
+</Button>,
+                "className": "login__button",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": "Login",
+                  "fluid": true,
+                  "onClick": [Function],
+                  "primary": true,
+                },
+                "ref": null,
+                "rendered": "Login",
+                "type": [Function],
+              },
+              "type": "div",
             },
           ],
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "Login",
-            "onClick": [Function],
-          },
-          "ref": null,
-          "rendered": "Login",
-          "type": "button",
+          "type": [Function],
         },
       ],
       "type": "div",
