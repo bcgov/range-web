@@ -36,16 +36,18 @@ export class Login extends Component {
 
     return (
       <div className="login">
+        <div className="login__title">
+          My Range Application
+        </div>
+
+        <div className="login__header">
+          Login
+        </div>
+
         <Form>
-          <div className="login__title">
-            MYRA APP
-          </div>
-          <div>
-            Login
-          </div>
-          <div className="login__email">
+          <div className="login__form">
             <Form.Field>
-              <label>Email</label>
+              <label>Username</label>
               <input 
                 id="email" 
                 type="text" 
@@ -55,24 +57,30 @@ export class Login extends Component {
               />
             </Form.Field>
           </div>
-          <div className="login__password">
-            <label>Password</label>
-            <input 
-              id="password" 
-              type="password" 
-              placeholder="Enter Password"
-              value={password}
-              onChange={this.handleInput} 
-              onKeyPress={this.handleEnter}
-            />
+
+          <div className="login__form">
+            <Form.Field>
+              <label>Password</label>
+              <input 
+                id="password" 
+                type="password" 
+                placeholder="Enter Password"
+                value={password}
+                onChange={this.handleInput} 
+                onKeyPress={this.handleEnter}
+              />
+            </Form.Field>  
           </div>
 
-          <Button
-            primary
-            onClick={this.onSubmit}
-          > 
-            Login
-          </Button>
+          <div className="login__button">
+            <Button
+              onClick={this.onSubmit}
+              primary
+              fluid
+            > 
+              Login
+            </Button>
+          </div>
         </Form>
       </div>
     );

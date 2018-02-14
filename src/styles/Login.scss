@@ -1,3 +1,5 @@
+$form-min-width: 250px;
+
 .login {
   display: flex;
   flex-direction: column;
@@ -6,14 +8,30 @@
   height: 100vh;
 
   &__title {
-    
+    opacity: 0.5;	
+    color: #000000;	
+    font-family: "SF Pro Display";	
+    font-size: 60px;	
+    font-weight: 300;	
+    line-height: 40px;
+    margin-bottom: 50px;
   }
 
-  &__email {
-
+  &__header {
+    color: #000000;
+    font-family: "SF Pro Display";
+    font-size: 35px;
+    font-weight: bold;
+    line-height: 40px;
+    margin-bottom: 30px;
   }
 
-  &__password {
+  &__form {
+    min-width: $form-min-width;        
+    margin-bottom: 15px;
+  }
 
+  &__button {
+    min-width: $form-min-width;    
   }
 }
