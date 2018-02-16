@@ -23,12 +23,14 @@ describe('RangeUsePlanPage', () => {
 
   it('bottom section becomes active when clicking on View button', () => {
     const wrapper = shallow(<RangeUsePlan {...props} />);
-    expect(wrapper.find('.range-use-plan__bottom--hidden').exists()).toBe(true);    
+    const collapseActiveClass = '.range-use-plan__collapse--active';
+
+    expect(wrapper.find(collapseActiveClass).exists()).toBe(false);    
     
     wrapper.find('Button').simulate('click', { preventDefault: jest.fn() });
     wrapper.setProps({ isActive: true });
     expect(props.onViewClicked).toHaveBeenCalledWith(props.index);
-    expect(wrapper.find('.range-use-plan__bottom--hidden').exists()).toBe(false);    
+    expect(wrapper.find(collapseActiveClass).exists()).toBe(true);    
   });
 
   describe('Event handlers', () => {

@@ -62,7 +62,7 @@ ShallowWrapper {
           }
 />,
       ],
-      "className": "range-use-plan-page__list",
+      "className": "range-use-plan-list",
     },
     "ref": null,
     "rendered": Array [
@@ -141,7 +141,7 @@ ShallowWrapper {
             }
 />,
         ],
-        "className": "range-use-plan-page__list",
+        "className": "range-use-plan-list",
       },
       "ref": null,
       "rendered": Array [
