@@ -30,19 +30,19 @@ class RangeUsePlan extends Component {
 
     return (
       <li className="range-use-plan">
-        <div className="range-use-plan__top">
-          <div className="range-use-plan__top__left">
-            <div className="range-use-plan__top__number">
+        <div className="range-use-plan__content">
+          <div className="range-use-plan__content__left">
+            <div className="range-use-plan__content__number">
               {`RAN ${rangeUsePlan.number}`}
             </div>
 
-            <div className="range-use-plan__top__divider" />
-            <div className="range-use-plan__top__info">
+            <div className="range-use-plan__content__divider" />
+            <div className="range-use-plan__content__info">
               {rangeUsePlan.tenureHolder.name}
             </div>
           </div>
 
-          <div className="range-use-plan__top__right">
+          <div className="range-use-plan__content__right">
             <Button 
               primary
               onClick={this.onViewClicked}
@@ -53,7 +53,7 @@ class RangeUsePlan extends Component {
         </div>
 
         <div 
-          className={"range-use-plan__bottom" + (isActive ? "" : " range-use-plan__bottom--hidden")}
+          className={"range-use-plan__collapse" + (isActive ? " range-use-plan__collapse--active" : "")}
         >
           hello bottom!
         </div>

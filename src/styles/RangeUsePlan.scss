@@ -13,14 +13,14 @@
     justify-content: flex-end;
     margin-bottom: 15px;
   }
+}
 
-  &__list {
-    li:first-child {
-      border-top: 4px solid;
-    }
-    li:nth-child(2n) {
-      background: #fafafa;
-    }
+.range-use-plan-list {
+  li:first-child {
+    border-top: 4px solid;
+  }
+  li:nth-child(2n) {
+    background: #fafafa;
   }
 }
 
@@ -40,7 +40,7 @@
   list-style: none;
   border-bottom: 1px solid;
 
-  &__top {
+  &__content {
     display: flex;
     height: 50px;
     justify-content: space-between;
@@ -65,10 +65,11 @@
     }
   }
 
-  &__bottom {
+  &__collapse {
+    display: none;
 
-    &--hidden {
-      display: none;
+    &--active {
+      display: block;
     }
   }
 }

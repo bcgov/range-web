@@ -27,7 +27,7 @@ class RangeUsePlanList extends Component {
     const { activeIndex } = this.state;
 
     return (
-      <div className="range-use-plan-page__list">
+      <div className="range-use-plan-list">
         {rangeUsePlans.map((rangeUsePlan, index) => {
           return (
             <RangeUsePlan 
