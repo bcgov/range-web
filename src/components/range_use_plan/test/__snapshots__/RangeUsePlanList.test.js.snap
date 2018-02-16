@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RangeUsePlanList renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <RangeUsePlanList
+    rangeUsePlans={
+        Array [
+            Object {
+              "number": 1,
+              "tenureHolder": Object {
+                "name": "tenure holder #1",
+              },
+            },
+            Object {
+              "number": 2,
+              "tenureHolder": Object {
+                "name": "tenure holder #2",
+              },
+            },
+          ]
+    }
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <RangeUsePlan
+          index={0}
+          isActive={false}
+          onViewClicked={[Function]}
+          rangeUsePlan={
+                    Object {
+                              "number": 1,
+                              "tenureHolder": Object {
+                                "name": "tenure holder #1",
+                              },
+                            }
+          }
+/>,
+        <RangeUsePlan
+          index={1}
+          isActive={false}
+          onViewClicked={[Function]}
+          rangeUsePlan={
+                    Object {
+                              "number": 2,
+                              "tenureHolder": Object {
+                                "name": "tenure holder #2",
+                              },
+                            }
+          }
+/>,
+      ],
+      "className": "range-use-plan-page__list",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": "0",
+        "nodeType": "class",
+        "props": Object {
+          "index": 0,
+          "isActive": false,
+          "onViewClicked": [Function],
+          "rangeUsePlan": Object {
+            "number": 1,
+            "tenureHolder": Object {
+              "name": "tenure holder #1",
+            },
+          },
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": "1",
+        "nodeType": "class",
+        "props": Object {
+          "index": 1,
+          "isActive": false,
+          "onViewClicked": [Function],
+          "rangeUsePlan": Object {
+            "number": 2,
+            "tenureHolder": Object {
+              "name": "tenure holder #2",
+            },
+          },
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <RangeUsePlan
+            index={0}
+            isActive={false}
+            onViewClicked={[Function]}
+            rangeUsePlan={
+                        Object {
+                                    "number": 1,
+                                    "tenureHolder": Object {
+                                      "name": "tenure holder #1",
+                                    },
+                                  }
+            }
+/>,
+          <RangeUsePlan
+            index={1}
+            isActive={false}
+            onViewClicked={[Function]}
+            rangeUsePlan={
+                        Object {
+                                    "number": 2,
+                                    "tenureHolder": Object {
+                                      "name": "tenure holder #2",
+                                    },
+                                  }
+            }
+/>,
+        ],
+        "className": "range-use-plan-page__list",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": "0",
+          "nodeType": "class",
+          "props": Object {
+            "index": 0,
+            "isActive": false,
+            "onViewClicked": [Function],
+            "rangeUsePlan": Object {
+              "number": 1,
+              "tenureHolder": Object {
+                "name": "tenure holder #1",
+              },
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": "1",
+          "nodeType": "class",
+          "props": Object {
+            "index": 1,
+            "isActive": false,
+            "onViewClicked": [Function],
+            "rangeUsePlan": Object {
+              "number": 2,
+              "tenureHolder": Object {
+                "name": "tenure holder #2",
+              },
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

@@ -35,6 +35,8 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!**/semantic/**",
+      "!src/components/routes/*.js",
+      "!src/store/*.js",
       "!src/index.js",
       "!src/registerServiceWorker.js"
     ]
