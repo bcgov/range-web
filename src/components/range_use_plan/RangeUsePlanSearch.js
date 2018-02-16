@@ -28,8 +28,8 @@ class RangeUsePlanSearch extends Component {
     const { placeholder, label } = this.props;
 
     return (
-      <div className="range-use-plan__search__item">
-        <div className="range-use-plan__search__item__label">{label}</div>        
+      <div className="range-use-plan-search">
+        <div className="range-use-plan-search__label">{label}</div>        
         
         <Input icon placeholder={placeholder}>
           <input 

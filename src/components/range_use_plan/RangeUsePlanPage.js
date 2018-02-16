@@ -60,12 +60,12 @@ export class RangeUsePlanPage extends Component {
     const { rangeUsePlans } = this.props;
 
     return (
-      <div className="range-use-plan">
-        <div className="range-use-plan__header">
+      <div className="range-use-plan-page">
+        <div className="range-use-plan-page__header">
           Range Use Plans
         </div>
 
-        <div className="range-use-plan__search">
+        <div className="range-use-plan-page__search">
           <RangeUsePlanSearch
             label="Search Plans:"
             placeholder="Enter Search Terms..." 

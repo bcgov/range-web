@@ -20,19 +20,19 @@ class RangeUsePlan extends Component {
     const { rangeUsePlan } = this.props;
 
     return (
-      <li className="range-use-plan__list__item">
-        <div className="range-use-plan__list__item__left">
-          <div className="range-use-plan__list__item__number">
+      <li className="range-use-plan">
+        <div className="range-use-plan__left">
+          <div className="range-use-plan__number">
             {`RAN ${rangeUsePlan.number}`}
           </div>
 
-          <div className="range-use-plan__list__item__divider" />
-          <div className="range-use-plan__list__item__info">
+          <div className="range-use-plan__divider" />
+          <div className="range-use-plan__info">
             {rangeUsePlan.tenureHolder.name}
           </div>
         </div>
 
-        <div className="range-use-plan__list__item__right">
+        <div className="range-use-plan__right">
           <Button 
             primary
             onClick={this.onViewClicked}

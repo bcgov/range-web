@@ -15,7 +15,7 @@ class RangeUsePlanList extends Component {
     const { rangeUsePlans } = this.props; 
 
     return (
-      <div className="range-use-plan__list">
+      <div className="range-use-plan-page__list">
         {rangeUsePlans.map((rangeUsePlan, index) => {
           return (
             <RangeUsePlan 
