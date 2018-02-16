@@ -53,7 +53,7 @@ class RangeUsePlan extends Component {
         </div>
 
         <div 
-          className={"range-use-plan__bottom" + (isActive ? "" : " range-use-plan__bottom--hide")}
+          className={"range-use-plan__bottom" + (isActive ? "" : " range-use-plan__bottom--hidden")}
         >
           hello bottom!
         </div>

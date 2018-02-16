@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'semantic-ui-react';
 
-import { login } from '../actions/authActions';
+import { login } from '../../actions/authActions';
 
 export class Login extends Component {
   state = {
