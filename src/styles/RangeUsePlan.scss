@@ -1,0 +1,63 @@
+.range-use-plan {
+  display: flex;
+  flex-direction: column;
+  
+  &__header {
+    font-size: 35px;	
+    font-weight: bold;
+    line-height: 40px;
+  }
+
+  &__search {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    
+    &__item {
+      display: flex;
+      align-items: center;
+
+      &__label {
+        font-size: 15px;	
+        font-weight: bold;	
+        line-height: 20px;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &__list {
+    li:first-child {
+      border-top: 4px solid;
+    }
+    li:nth-child(2n) {
+      background: #fafafa;
+    }
+
+    &__item {
+      display: flex;
+      height: 50px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid;
+
+      &__left,
+      &__right {
+        display: flex;
+      }
+
+      &__number {
+        font-size: 1.2rem;
+      }
+
+      &__info {
+        font-size: 1.2rem;
+      }
+
+      &__divider {
+        margin: 0 30px;
+        border-right: 1px solid;
+      }    
+    }
+  }
+}

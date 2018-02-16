@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { logout } from '../actions/authActions';
+import RangeUsePlanPage from './range_use_plan/RangeUsePlanPage';
 
 class Home extends Component {
   onLogout = (e) => {
@@ -11,12 +12,15 @@ class Home extends Component {
   render() {
     return (
       <div> 
+       <RangeUsePlanPage />
+    
         Home 
         <button
           onClick={this.onLogout}
         >
           Logout
         </button>
+
       </div>
     );
   }
