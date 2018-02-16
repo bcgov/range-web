@@ -4,41 +4,58 @@ import { Button } from 'semantic-ui-react';
 
 const propTypes = {
   rangeUsePlan: PropTypes.object.isRequired,
+  onViewClicked: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
-  rangeUsePlan: {}
+  rangeUsePlan: {},
 };
 
 class RangeUsePlan extends Component {
+  state = {
+    isOpen: false
+  }
+
   onViewClicked = (e) => {
     e.preventDefault();
 
+    const { index, onViewClicked } = this.props;
+    onViewClicked(index)
   }
 
   render() {
-    const { rangeUsePlan } = this.props;
+    const { rangeUsePlan, isActive } = this.props;
 
     return (
       <li className="range-use-plan">
-        <div className="range-use-plan__left">
-          <div className="range-use-plan__number">
-            {`RAN ${rangeUsePlan.number}`}
+        <div className="range-use-plan__top">
+          <div className="range-use-plan__top__left">
+            <div className="range-use-plan__top__number">
+              {`RAN ${rangeUsePlan.number}`}
+            </div>
+
+            <div className="range-use-plan__top__divider" />
+            <div className="range-use-plan__top__info">
+              {rangeUsePlan.tenureHolder.name}
+            </div>
           </div>
 
-          <div className="range-use-plan__divider" />
-          <div className="range-use-plan__info">
-            {rangeUsePlan.tenureHolder.name}
+          <div className="range-use-plan__top__right">
+            <Button 
+              primary
+              onClick={this.onViewClicked}
+            >
+              View
+            </Button>
           </div>
         </div>
 
-        <div className="range-use-plan__right">
-          <Button 
-            primary
-            onClick={this.onViewClicked}
-          >
-            View
-          </Button>
+        <div 
+          className={"range-use-plan__bottom" + (isActive ? "" : " range-use-plan__bottom--hide")}
+        >
+          hello bottom!
         </div>
       </li>
     );

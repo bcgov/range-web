@@ -11,8 +11,20 @@ const defaultProps = {
 }
 
 class RangeUsePlanList extends Component {
+  state = {
+    activeIndex: -1,
+  }
+  
+  handleActiveRow = (index) => {
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index;
+    
+    this.setState({ activeIndex: newIndex })
+  }
+
   render() {
     const { rangeUsePlans } = this.props; 
+    const { activeIndex } = this.state;
 
     return (
       <div className="range-use-plan-page__list">
@@ -20,7 +32,10 @@ class RangeUsePlanList extends Component {
           return (
             <RangeUsePlan 
               key={index}
+              index={index}
+              isActive={activeIndex === index}
               rangeUsePlan={rangeUsePlan}
+              onViewClicked={this.handleActiveRow}
             />
           );
         })}

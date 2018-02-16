@@ -37,27 +37,38 @@
 }
 
 .range-use-plan {
-  display: flex;
-  height: 50px;
-  justify-content: space-between;
-  align-items: center;
+  list-style: none;
   border-bottom: 1px solid;
 
-  &__left,
-  &__right {
+  &__top {
     display: flex;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+  
+    &__left,
+    &__right {
+      display: flex;
+    }
+  
+    &__number {
+      font-size: 1.2rem;
+    }
+  
+    &__info {
+      font-size: 1.2rem;
+    }
+  
+    &__divider {
+      margin: 0 30px;
+      border-right: 1px solid;
+    }
   }
 
-  &__number {
-    font-size: 1.2rem;
+  &__bottom {
+    
+    &--hide {
+      display: none;
+    }
   }
-
-  &__info {
-    font-size: 1.2rem;
-  }
-
-  &__divider {
-    margin: 0 30px;
-    border-right: 1px solid;
-  }    
 }
