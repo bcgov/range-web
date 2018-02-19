@@ -95,6 +95,14 @@ export class Login extends Component {
             </Button>
           </div>
         </Form>
+        <a 
+          className="login__change-link"
+          href="https://summer.gov.bc.ca"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Is your password expired?
+        </a>
       </div>
     );
   }

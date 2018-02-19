@@ -39,4 +39,8 @@ $form-min-width: 250px;
   &__button {
     min-width: $form-min-width;    
   }
+
+  &__change-link {
+    margin-top: 10px;
+  }
 }
