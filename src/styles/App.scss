@@ -16,3 +16,97 @@ body {
   background-color: $main-background;
   font-family: Avenir, sans-serif;
 }
+
+.main {
+  display: block;
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: $nav-height;
+  left: 0;
+  z-index: 98;
+
+  &--hidden {
+    visibility: hidden;
+  }
+}
+
+.sidebar {
+  min-width: $sidebar-width;
+  max-width: $sidebar-width;
+  height: 100vh;
+  position: fixed;
+  top: $nav-height;
+  left: 0;
+  /* top layer */
+  z-index: 99;
+  background: white;
+  transition: all 0.3s;
+
+  &--hidden {
+    margin-left: -$sidebar-width;
+  }
+
+  &__list {
+    &__item {
+      display: flex;
+      align-items: center;
+      height: 60px;
+      padding: 10px;
+      color: black;
+
+      &--active {
+        background: $primary-color;
+        color: white;
+        border-left: 10px solid #404854;
+      }
+
+      &:hover {
+        background: $primary-color;
+        color: white;
+      }
+    }
+  }
+}
+
+.nav {
+  height: $nav-height;
+  background: $primary-color;
+  width: 100%;
+  z-index: 100;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__left {
+    display: flex;
+    align-items: center;
+
+    &__icon {
+      margin: 0 10px;
+      cursor: pointer;
+      color: white;
+    }
+
+    &__title {
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: white;
+
+      &:hover {
+        color: white;
+      } 
+    }
+  }
+}
+
+.content {
+  padding: 20px;
+  width: 100%;
+  transition: all 0.3s;
+}

@@ -4,7 +4,10 @@ $large-width: 1024px;
 $desktop-width: 75em;
 $x-large-width: 90em;
 
-// $primary-color: #55b560;
+$sidebar-width: 220px;
+$nav-height: 50px;
+$light-gray-color: rgba(34,36,38,.15);
+$primary-color: #0E6EB8;
 // $light-gray-color: rgba(34,36,38,.15);
 
 @mixin mobile {
