@@ -2,12 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
+import './semantic/dist/semantic.min.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import store from './store';
-
-import './semantic/dist/semantic.min.css';
 
 // Log the initial state
 // console.log(store.getState());

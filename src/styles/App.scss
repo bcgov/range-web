@@ -12,9 +12,8 @@
 body {
   margin: 0;
   padding: 0;
-  min-width: $tablet-width;
-  background-color: $main-background;
-  font-family: Avenir, sans-serif;
+  min-width: $mobile-width;
+  overflow-x: scroll;
 }
 
 .main {
@@ -62,7 +61,7 @@ body {
       &--active {
         background: $primary-color;
         color: white;
-        border-left: 10px solid #404854;
+        border-left: 7px solid #404854;
       }
 
       &:hover {
@@ -106,7 +105,6 @@ body {
 }
 
 .content {
-  padding: 20px;
+  padding: 15px;
   width: 100%;
-  transition: all 0.3s;
 }
