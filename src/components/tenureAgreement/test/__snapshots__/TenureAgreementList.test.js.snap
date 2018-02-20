@@ -1,12 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RangeUsePlanList renders correctly 1`] = `
+exports[`TenureAgreementList renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RangeUsePlanList
-    rangeUsePlans={
+  Symbol(enzyme.__unrendered__): <TenureAgreementList
+    tenureAgreements={
         Array [
+            Object {
+              "number": 0,
+              "tenureHolder": Object {
+                "name": "tenure holder #0",
+              },
+            },
             Object {
               "number": 1,
               "tenureHolder": Object {
@@ -35,11 +41,24 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        <RangeUsePlan
+        <TenureAgreementListItem
           index={0}
           isActive={false}
           onViewClicked={[Function]}
-          rangeUsePlan={
+          tenureAgreement={
+                    Object {
+                              "number": 0,
+                              "tenureHolder": Object {
+                                "name": "tenure holder #0",
+                              },
+                            }
+          }
+/>,
+        <TenureAgreementListItem
+          index={1}
+          isActive={false}
+          onViewClicked={[Function]}
+          tenureAgreement={
                     Object {
                               "number": 1,
                               "tenureHolder": Object {
@@ -48,11 +67,11 @@ ShallowWrapper {
                             }
           }
 />,
-        <RangeUsePlan
-          index={1}
+        <TenureAgreementListItem
+          index={2}
           isActive={false}
           onViewClicked={[Function]}
-          rangeUsePlan={
+          tenureAgreement={
                     Object {
                               "number": 2,
                               "tenureHolder": Object {
@@ -62,7 +81,7 @@ ShallowWrapper {
           }
 />,
       ],
-      "className": "range-use-plan-list",
+      "className": "tenure-agreement-list",
     },
     "ref": null,
     "rendered": Array [
@@ -74,10 +93,10 @@ ShallowWrapper {
           "index": 0,
           "isActive": false,
           "onViewClicked": [Function],
-          "rangeUsePlan": Object {
-            "number": 1,
+          "tenureAgreement": Object {
+            "number": 0,
             "tenureHolder": Object {
-              "name": "tenure holder #1",
+              "name": "tenure holder #0",
             },
           },
         },
@@ -93,7 +112,26 @@ ShallowWrapper {
           "index": 1,
           "isActive": false,
           "onViewClicked": [Function],
-          "rangeUsePlan": Object {
+          "tenureAgreement": Object {
+            "number": 1,
+            "tenureHolder": Object {
+              "name": "tenure holder #1",
+            },
+          },
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": "2",
+        "nodeType": "class",
+        "props": Object {
+          "index": 2,
+          "isActive": false,
+          "onViewClicked": [Function],
+          "tenureAgreement": Object {
             "number": 2,
             "tenureHolder": Object {
               "name": "tenure holder #2",
@@ -114,11 +152,24 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <RangeUsePlan
+          <TenureAgreementListItem
             index={0}
             isActive={false}
             onViewClicked={[Function]}
-            rangeUsePlan={
+            tenureAgreement={
+                        Object {
+                                    "number": 0,
+                                    "tenureHolder": Object {
+                                      "name": "tenure holder #0",
+                                    },
+                                  }
+            }
+/>,
+          <TenureAgreementListItem
+            index={1}
+            isActive={false}
+            onViewClicked={[Function]}
+            tenureAgreement={
                         Object {
                                     "number": 1,
                                     "tenureHolder": Object {
@@ -127,11 +178,11 @@ ShallowWrapper {
                                   }
             }
 />,
-          <RangeUsePlan
-            index={1}
+          <TenureAgreementListItem
+            index={2}
             isActive={false}
             onViewClicked={[Function]}
-            rangeUsePlan={
+            tenureAgreement={
                         Object {
                                     "number": 2,
                                     "tenureHolder": Object {
@@ -141,7 +192,7 @@ ShallowWrapper {
             }
 />,
         ],
-        "className": "range-use-plan-list",
+        "className": "tenure-agreement-list",
       },
       "ref": null,
       "rendered": Array [
@@ -153,10 +204,10 @@ ShallowWrapper {
             "index": 0,
             "isActive": false,
             "onViewClicked": [Function],
-            "rangeUsePlan": Object {
-              "number": 1,
+            "tenureAgreement": Object {
+              "number": 0,
               "tenureHolder": Object {
-                "name": "tenure holder #1",
+                "name": "tenure holder #0",
               },
             },
           },
@@ -172,7 +223,26 @@ ShallowWrapper {
             "index": 1,
             "isActive": false,
             "onViewClicked": [Function],
-            "rangeUsePlan": Object {
+            "tenureAgreement": Object {
+              "number": 1,
+              "tenureHolder": Object {
+                "name": "tenure holder #1",
+              },
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": "2",
+          "nodeType": "class",
+          "props": Object {
+            "index": 2,
+            "isActive": false,
+            "onViewClicked": [Function],
+            "tenureAgreement": Object {
               "number": 2,
               "tenureHolder": Object {
                 "name": "tenure holder #2",

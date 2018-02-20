@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RangeUsePlanPage renders correctly 1`] = `
+exports[`TenureAgreementListItem renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RangeUsePlan
+  Symbol(enzyme.__unrendered__): <TenureAgreementListItem
     index={1}
     isActive={false}
     onViewClicked={[Function]}
-    rangeUsePlan={
+    tenureAgreement={
         Object {
             "number": 1,
             "tenureHolder": Object {
@@ -31,27 +31,27 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          className="range-use-plan__content"
+          className="tenure-agreement-list-item__content"
 >
           <div
-                    className="range-use-plan__content__left"
+                    className="tenure-agreement-list-item__content__left"
           >
                     <div
-                              className="range-use-plan__content__number"
+                              className="tenure-agreement-list-item__content__number"
                     >
                               RAN 1
                     </div>
                     <div
-                              className="range-use-plan__content__divider"
+                              className="tenure-agreement-list-item__content__divider"
                     />
                     <div
-                              className="range-use-plan__content__info"
+                              className="tenure-agreement-list-item__content__info"
                     >
                               tenure holder #1
                     </div>
           </div>
           <div
-                    className="range-use-plan__content__right"
+                    className="tenure-agreement-list-item__content__right"
           >
                     <Button
                               as="button"
@@ -63,12 +63,12 @@ ShallowWrapper {
           </div>
 </div>,
         <div
-          className="range-use-plan__collapse"
+          className="tenure-agreement-list-item__collapse"
 >
           hello bottom!
 </div>,
       ],
-      "className": "range-use-plan",
+      "className": "tenure-agreement-list-item",
     },
     "ref": null,
     "rendered": Array [
@@ -79,24 +79,24 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <div
-              className="range-use-plan__content__left"
+              className="tenure-agreement-list-item__content__left"
 >
               <div
-                            className="range-use-plan__content__number"
+                            className="tenure-agreement-list-item__content__number"
               >
                             RAN 1
               </div>
               <div
-                            className="range-use-plan__content__divider"
+                            className="tenure-agreement-list-item__content__divider"
               />
               <div
-                            className="range-use-plan__content__info"
+                            className="tenure-agreement-list-item__content__info"
               >
                             tenure holder #1
               </div>
 </div>,
             <div
-              className="range-use-plan__content__right"
+              className="tenure-agreement-list-item__content__right"
 >
               <Button
                             as="button"
@@ -107,7 +107,7 @@ ShallowWrapper {
               </Button>
 </div>,
           ],
-          "className": "range-use-plan__content",
+          "className": "tenure-agreement-list-item__content",
         },
         "ref": null,
         "rendered": Array [
@@ -118,20 +118,20 @@ ShallowWrapper {
             "props": Object {
               "children": Array [
                 <div
-                  className="range-use-plan__content__number"
+                  className="tenure-agreement-list-item__content__number"
 >
                   RAN 1
 </div>,
                 <div
-                  className="range-use-plan__content__divider"
+                  className="tenure-agreement-list-item__content__divider"
 />,
                 <div
-                  className="range-use-plan__content__info"
+                  className="tenure-agreement-list-item__content__info"
 >
                   tenure holder #1
 </div>,
               ],
-              "className": "range-use-plan__content__left",
+              "className": "tenure-agreement-list-item__content__left",
             },
             "ref": null,
             "rendered": Array [
@@ -141,7 +141,7 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "RAN 1",
-                  "className": "range-use-plan__content__number",
+                  "className": "tenure-agreement-list-item__content__number",
                 },
                 "ref": null,
                 "rendered": "RAN 1",
@@ -152,7 +152,7 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "className": "range-use-plan__content__divider",
+                  "className": "tenure-agreement-list-item__content__divider",
                 },
                 "ref": null,
                 "rendered": null,
@@ -164,7 +164,7 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "tenure holder #1",
-                  "className": "range-use-plan__content__info",
+                  "className": "tenure-agreement-list-item__content__info",
                 },
                 "ref": null,
                 "rendered": "tenure holder #1",
@@ -185,7 +185,7 @@ ShallowWrapper {
 >
                 View
 </Button>,
-              "className": "range-use-plan__content__right",
+              "className": "tenure-agreement-list-item__content__right",
             },
             "ref": null,
             "rendered": Object {
@@ -213,7 +213,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": "hello bottom!",
-          "className": "range-use-plan__collapse",
+          "className": "tenure-agreement-list-item__collapse",
         },
         "ref": null,
         "rendered": "hello bottom!",
@@ -230,27 +230,27 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className="range-use-plan__content"
+            className="tenure-agreement-list-item__content"
 >
             <div
-                        className="range-use-plan__content__left"
+                        className="tenure-agreement-list-item__content__left"
             >
                         <div
-                                    className="range-use-plan__content__number"
+                                    className="tenure-agreement-list-item__content__number"
                         >
                                     RAN 1
                         </div>
                         <div
-                                    className="range-use-plan__content__divider"
+                                    className="tenure-agreement-list-item__content__divider"
                         />
                         <div
-                                    className="range-use-plan__content__info"
+                                    className="tenure-agreement-list-item__content__info"
                         >
                                     tenure holder #1
                         </div>
             </div>
             <div
-                        className="range-use-plan__content__right"
+                        className="tenure-agreement-list-item__content__right"
             >
                         <Button
                                     as="button"
@@ -262,12 +262,12 @@ ShallowWrapper {
             </div>
 </div>,
           <div
-            className="range-use-plan__collapse"
+            className="tenure-agreement-list-item__collapse"
 >
             hello bottom!
 </div>,
         ],
-        "className": "range-use-plan",
+        "className": "tenure-agreement-list-item",
       },
       "ref": null,
       "rendered": Array [
@@ -278,24 +278,24 @@ ShallowWrapper {
           "props": Object {
             "children": Array [
               <div
-                className="range-use-plan__content__left"
+                className="tenure-agreement-list-item__content__left"
 >
                 <div
-                                className="range-use-plan__content__number"
+                                className="tenure-agreement-list-item__content__number"
                 >
                                 RAN 1
                 </div>
                 <div
-                                className="range-use-plan__content__divider"
+                                className="tenure-agreement-list-item__content__divider"
                 />
                 <div
-                                className="range-use-plan__content__info"
+                                className="tenure-agreement-list-item__content__info"
                 >
                                 tenure holder #1
                 </div>
 </div>,
               <div
-                className="range-use-plan__content__right"
+                className="tenure-agreement-list-item__content__right"
 >
                 <Button
                                 as="button"
@@ -306,7 +306,7 @@ ShallowWrapper {
                 </Button>
 </div>,
             ],
-            "className": "range-use-plan__content",
+            "className": "tenure-agreement-list-item__content",
           },
           "ref": null,
           "rendered": Array [
@@ -317,20 +317,20 @@ ShallowWrapper {
               "props": Object {
                 "children": Array [
                   <div
-                    className="range-use-plan__content__number"
+                    className="tenure-agreement-list-item__content__number"
 >
                     RAN 1
 </div>,
                   <div
-                    className="range-use-plan__content__divider"
+                    className="tenure-agreement-list-item__content__divider"
 />,
                   <div
-                    className="range-use-plan__content__info"
+                    className="tenure-agreement-list-item__content__info"
 >
                     tenure holder #1
 </div>,
                 ],
-                "className": "range-use-plan__content__left",
+                "className": "tenure-agreement-list-item__content__left",
               },
               "ref": null,
               "rendered": Array [
@@ -340,7 +340,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "RAN 1",
-                    "className": "range-use-plan__content__number",
+                    "className": "tenure-agreement-list-item__content__number",
                   },
                   "ref": null,
                   "rendered": "RAN 1",
@@ -351,7 +351,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "className": "range-use-plan__content__divider",
+                    "className": "tenure-agreement-list-item__content__divider",
                   },
                   "ref": null,
                   "rendered": null,
@@ -363,7 +363,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "tenure holder #1",
-                    "className": "range-use-plan__content__info",
+                    "className": "tenure-agreement-list-item__content__info",
                   },
                   "ref": null,
                   "rendered": "tenure holder #1",
@@ -384,7 +384,7 @@ ShallowWrapper {
 >
                   View
 </Button>,
-                "className": "range-use-plan__content__right",
+                "className": "tenure-agreement-list-item__content__right",
               },
               "ref": null,
               "rendered": Object {
@@ -412,7 +412,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": "hello bottom!",
-            "className": "range-use-plan__collapse",
+            "className": "tenure-agreement-list-item__collapse",
           },
           "ref": null,
           "rendered": "hello bottom!",

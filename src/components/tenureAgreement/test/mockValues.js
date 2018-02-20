@@ -1,4 +1,4 @@
-export const rangeUsePlan = (number) => (
+export const getTenureAgreement = (number) => (
   {
     number,
     tenureHolder: {
@@ -7,7 +7,7 @@ export const rangeUsePlan = (number) => (
   }
 )
 
-export const rangeUsePlans = [1, 2].map(number => {
-  return rangeUsePlan(number);
-});
-
+export const getTenureAgreements = (length) => {
+  const array = Array.from(new Array(length), (x,i) => i);
+  return array.map(number => getTenureAgreement(number));
+}

@@ -62,12 +62,12 @@ export class TenureAgreement extends Component {
     return (
       <div className="tenure-agreement">
         <div className="tenure-agreement__header">
-          Range Use Plans
+          Tenure Agreements
         </div>
 
         <div className="tenure-agreement__search">
           <TenureAgreementSearch
-            label="Search Plans:"
+            label="Search Agreements:"
             placeholder="Enter Search Terms..." 
             handleSearchInput={this.handleSearchInput}
           />

@@ -1,32 +1,32 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import RangeUsePlanList from '../RangeUsePlanList';
-import { rangeUsePlans } from './mockValues';
+import TenureAgreementList from '../TenureAgreementList';
+import { getTenureAgreements } from './mockValues';
 
 const props = {};
 const setupProps = () => {
-  props.rangeUsePlans = rangeUsePlans; 
+  props.tenureAgreements = getTenureAgreements(3); 
 };
 
 beforeEach(() => {
   setupProps();
 });
 
-describe('RangeUsePlanList', () => {
+describe('TenureAgreementList', () => {
   it('renders correctly', () => {
-    const wrapper = shallow(<RangeUsePlanList {...props} />);
+    const wrapper = shallow(<TenureAgreementList {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders `RangeUsePlan` components correctly', () => {
-    const wrapper = shallow(<RangeUsePlanList {...props} />);
-    const numberOfPlans = props.rangeUsePlans.length;
-    expect(wrapper.find('RangeUsePlan').length).toEqual(numberOfPlans);    
+  it('renders `TenureAgreementListItem` components correctly', () => {
+    const wrapper = shallow(<TenureAgreementList {...props} />);
+    const numberOfAgreements = props.tenureAgreements.length;
+    expect(wrapper.find('TenureAgreementListItem').length).toEqual(numberOfAgreements);    
   });
 
   describe('Event handlers', () => {
     it('`handleActiveRow` set `activeIndex` state correctly', () => {
-      const wrapper = shallow(<RangeUsePlanList {...props} />);
+      const wrapper = shallow(<TenureAgreementList {...props} />);
       const mockIndex = 0;
   
       wrapper.instance().handleActiveRow(mockIndex);
