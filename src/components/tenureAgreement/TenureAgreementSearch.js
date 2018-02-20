@@ -8,7 +8,7 @@ const propTypes = {
   label: PropTypes.string.isRequired,
 }
 
-class RangeUsePlanSearch extends Component {
+class TenureAgreementSearch extends Component {
   state = {
     search: '',
   }
@@ -28,8 +28,8 @@ class RangeUsePlanSearch extends Component {
     const { placeholder, label } = this.props;
 
     return (
-      <div className="range-use-plan-search">
-        <div className="range-use-plan-search__label">{label}</div>        
+      <div className="tenure-agreement-search">
+        <div className="tenure-agreement-search__label">{label}</div>        
         
         <Input icon placeholder={placeholder}>
           <input 
@@ -43,5 +43,5 @@ class RangeUsePlanSearch extends Component {
     );
   }
 }
-RangeUsePlanSearch.propTypes = propTypes;
-export default RangeUsePlanSearch;
+TenureAgreementSearch.propTypes = propTypes;
+export default TenureAgreementSearch;

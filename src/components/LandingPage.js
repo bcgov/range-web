@@ -68,15 +68,15 @@ export class LandingPage extends Component {
               </NavLink>
             </div>
           </nav>
-
-          <div className="content">
-            <Component {...rest} />
-          </div>
-
+          
           <div 
             className={"overlay" + (isSidebarhidden ? " overlay--hidden" : "")} 
             onClick={this.toggleSidebar}
           />
+
+          <div className="content">
+            <Component {...rest} />
+          </div>
         </div>
       </div>
     );

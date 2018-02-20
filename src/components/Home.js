@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import RangeUsePlanPage from './rangeUsePlan/RangeUsePlanPage';
+import TenureAgreement from './tenureAgreement/TenureAgreement';
 
 class Home extends Component {
   render() {
     return (
       <div> 
-       <RangeUsePlanPage />
+       <TenureAgreement />
       </div>
     );
   }

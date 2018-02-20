@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import RangeUsePlan from './RangeUsePlan';
+import TenureAgreementListItem from './TenureAgreementListItem';
 
 const propTypes = {
-  rangeUsePlans: PropTypes.array.isRequired,
+  tenureAgreements: PropTypes.array.isRequired,
 }
 
 const defaultProps = {
-  rangeUsePlans: []
+  tenureAgreements: []
 }
 
-class RangeUsePlanList extends Component {
+class TenureAgreementList extends Component {
   state = {
     activeIndex: -1,
   }
@@ -23,18 +23,18 @@ class RangeUsePlanList extends Component {
   }
 
   render() {
-    const { rangeUsePlans } = this.props; 
+    const { tenureAgreements } = this.props; 
     const { activeIndex } = this.state;
 
     return (
-      <div className="range-use-plan-list">
-        {rangeUsePlans.map((rangeUsePlan, index) => {
+      <div className="tenure-agreement-list">
+        {tenureAgreements.map((tenureAgreement, index) => {
           return (
-            <RangeUsePlan 
+            <TenureAgreementListItem 
               key={index}
               index={index}
               isActive={activeIndex === index}
-              rangeUsePlan={rangeUsePlan}
+              tenureAgreement={tenureAgreement}
               onViewClicked={this.handleActiveRow}
             />
           );
@@ -44,6 +44,6 @@ class RangeUsePlanList extends Component {
   }
 }
 
-RangeUsePlanList.propTypes = propTypes;
-RangeUsePlanList.defaultProps = defaultProps;
-export default RangeUsePlanList;
+TenureAgreementList.propTypes = propTypes;
+TenureAgreementList.defaultProps = defaultProps;
+export default TenureAgreementList;

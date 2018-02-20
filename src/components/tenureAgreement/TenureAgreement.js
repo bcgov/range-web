@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 
-import RangeUsePlanList from './RangeUsePlanList';
-import RangeUsePlanSearch from './RangeUsePlanSearch';
+import TenureAgreementList from './TenureAgreementList';
+import TenureAgreementSearch from './TenureAgreementSearch';
 
 const propTypes = {
-  rangeUsePlans: PropTypes.array.isRequired,
-  searchRangeUsePlans: PropTypes.func.isRequired,
+  tenureAgreements: PropTypes.array.isRequired,
+  searchTenureAgreements: PropTypes.func.isRequired,
 }
 
 const defaultProps = {
-  rangeUsePlans: [
+  tenureAgreements: [
     {
       number: 1,
       tenureHolder: {
@@ -38,43 +38,43 @@ const defaultProps = {
       }
     }
   ],
-  searchRangeUsePlans: (term) => {
+  searchTenureAgreements: (term) => {
     console.log(term);
   },
 }
 
-export class RangeUsePlanPage extends Component {
+export class TenureAgreement extends Component {
   constructor(props) {
     super(props);
     this.state = {
 
     }
-    this.searchRangeUsePlans = debounce(props.searchRangeUsePlans, 1000);
+    this.searchTenureAgreements = debounce(props.searchTenureAgreements, 1000);
   }  
   
   handleSearchInput = (searchTerm) => {
-    this.searchRangeUsePlans(searchTerm)
+    this.searchTenureAgreements(searchTerm)
   }
   
   render() {
-    const { rangeUsePlans } = this.props;
+    const { tenureAgreements } = this.props;
 
     return (
-      <div className="range-use-plan-page">
-        <div className="range-use-plan-page__header">
+      <div className="tenure-agreement">
+        <div className="tenure-agreement__header">
           Range Use Plans
         </div>
 
-        <div className="range-use-plan-page__search">
-          <RangeUsePlanSearch
+        <div className="tenure-agreement__search">
+          <TenureAgreementSearch
             label="Search Plans:"
             placeholder="Enter Search Terms..." 
             handleSearchInput={this.handleSearchInput}
           />
         </div>
 
-        <RangeUsePlanList 
-          rangeUsePlans={rangeUsePlans}
+        <TenureAgreementList 
+          tenureAgreements={tenureAgreements}
         />
       </div>
     );
@@ -87,9 +87,9 @@ const mapStateToProps = state => {
   }; 
 };
 
-RangeUsePlanPage.propTypes = propTypes;
-RangeUsePlanPage.defaultProps = defaultProps;
+TenureAgreement.propTypes = propTypes;
+TenureAgreement.defaultProps = defaultProps;
 
 export default connect(
   mapStateToProps, null
-)(RangeUsePlanPage);
+)(TenureAgreement);

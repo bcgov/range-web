@@ -1,4 +1,4 @@
-.range-use-plan-page {
+.tenure-agreement {
   display: flex;
   flex-direction: column;
   
@@ -15,7 +15,7 @@
   }
 }
 
-.range-use-plan-list {
+.tenure-agreement-list {
   li:first-child {
     border-top: 4px solid;
   }
@@ -24,7 +24,7 @@
   }
 }
 
-.range-use-plan-search {
+.tenure-agreement-search {
   display: flex;
   align-items: center;
 
@@ -36,7 +36,7 @@
   }
 }
 
-.range-use-plan {
+.tenure-agreement-list-item {
   list-style: none;
   border-bottom: 1px solid;
 
