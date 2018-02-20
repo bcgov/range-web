@@ -97,12 +97,11 @@ components/
   ```
 
 * Adding a CSS Preprocessor (Sass)
-  Creating `src/App.scss` file while running the app results in generating `src/App.css` automatically. <br><br>
+  Creating `src/App.scss` file while running the app results in generating `src/App.css` automatically.
 
 * Semantic UI
   * Dependencies - [Getting Started](http://learnsemantic.com/guide/expert.html)
   * Custum Theming - [Semantic UI Theming](https://semantic-ui.com/usage/theming.html#override-files)
 
 ## Create React App
-  This project is based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app).
-  Check out their documentation for any references and other awesome features.
+  This project is based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). Check out their documentation for any references and other awesome features.

@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import { logout } from '../actions/authActions';
+
+const propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  component: PropTypes.func.isRequired,
+}
 
 export class LandingPage extends Component {
   state = {
@@ -41,7 +49,6 @@ export class LandingPage extends Component {
             > 
               MyRA
             </NavLink>
-
           </div>
 
           <div className="nav__right">
@@ -91,6 +98,7 @@ const mapStateToProps = state => {
   };  
 };
 
+LandingPage.propTypes = propTypes;
 export default connect (
   mapStateToProps, { logout }
 )(LandingPage)

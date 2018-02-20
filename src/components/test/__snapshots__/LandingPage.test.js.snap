@@ -1,0 +1,872 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <LandingPage
+    component={[Function]}
+    history={Object {}}
+    location={Object {}}
+    match={Object {}}
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="nav"
+>
+          <div
+                    className="nav__left"
+          >
+                    <div
+                              className="nav__left__icon"
+                    >
+                              <Icon
+                                        as="i"
+                                        name="bars"
+                                        onClick={[Function]}
+                                        size="large"
+                              />
+                    </div>
+                    <NavLink
+                              activeClassName="active"
+                              ariaCurrent="true"
+                              className="nav__left__title"
+                              to="/home"
+                    >
+                              MyRA
+                    </NavLink>
+          </div>
+          <div
+                    className="nav__right"
+          />
+</div>,
+        <div
+          className="main"
+>
+          <nav
+                    className="sidebar sidebar--hidden"
+          >
+                    <div
+                              className="sidebar__header"
+                    />
+                    <div
+                              className="sidebar__list"
+                    >
+                              <NavLink
+                                        activeClassName="sidebar__list__item--active"
+                                        ariaCurrent="true"
+                                        className="sidebar__list__item"
+                                        to="/home"
+                              >
+                                        Home
+                              </NavLink>
+                              <NavLink
+                                        activeClassName="active"
+                                        ariaCurrent="true"
+                                        className="sidebar__list__item"
+                                        onClick={[Function]}
+                                        to="/login"
+                              >
+                                        Sign Out
+                              </NavLink>
+                    </div>
+          </nav>
+          <div
+                    className="overlay overlay--hidden"
+                    onClick={[Function]}
+          />
+          <div
+                    className="content"
+          >
+                    <mockConstructor
+                              history={Object {}}
+                              location={Object {}}
+                              match={Object {}}
+                    />
+          </div>
+</div>,
+      ],
+      "className": "landing-page",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="nav__left"
+>
+              <div
+                            className="nav__left__icon"
+              >
+                            <Icon
+                                          as="i"
+                                          name="bars"
+                                          onClick={[Function]}
+                                          size="large"
+                            />
+              </div>
+              <NavLink
+                            activeClassName="active"
+                            ariaCurrent="true"
+                            className="nav__left__title"
+                            to="/home"
+              >
+                            MyRA
+              </NavLink>
+</div>,
+            <div
+              className="nav__right"
+/>,
+          ],
+          "className": "nav",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <div
+                  className="nav__left__icon"
+>
+                  <Icon
+                                    as="i"
+                                    name="bars"
+                                    onClick={[Function]}
+                                    size="large"
+                  />
+</div>,
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  className="nav__left__title"
+                  to="/home"
+>
+                  MyRA
+</NavLink>,
+              ],
+              "className": "nav__left",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <Icon
+                    as="i"
+                    name="bars"
+                    onClick={[Function]}
+                    size="large"
+/>,
+                  "className": "nav__left__icon",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "i",
+                    "name": "bars",
+                    "onClick": [Function],
+                    "size": "large",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "activeClassName": "active",
+                  "ariaCurrent": "true",
+                  "children": "MyRA",
+                  "className": "nav__left__title",
+                  "to": "/home",
+                },
+                "ref": null,
+                "rendered": "MyRA",
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "className": "nav__right",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <nav
+              className="sidebar sidebar--hidden"
+>
+              <div
+                            className="sidebar__header"
+              />
+              <div
+                            className="sidebar__list"
+              >
+                            <NavLink
+                                          activeClassName="sidebar__list__item--active"
+                                          ariaCurrent="true"
+                                          className="sidebar__list__item"
+                                          to="/home"
+                            >
+                                          Home
+                            </NavLink>
+                            <NavLink
+                                          activeClassName="active"
+                                          ariaCurrent="true"
+                                          className="sidebar__list__item"
+                                          onClick={[Function]}
+                                          to="/login"
+                            >
+                                          Sign Out
+                            </NavLink>
+              </div>
+</nav>,
+            <div
+              className="overlay overlay--hidden"
+              onClick={[Function]}
+/>,
+            <div
+              className="content"
+>
+              <mockConstructor
+                            history={Object {}}
+                            location={Object {}}
+                            match={Object {}}
+              />
+</div>,
+          ],
+          "className": "main",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <div
+                  className="sidebar__header"
+/>,
+                <div
+                  className="sidebar__list"
+>
+                  <NavLink
+                                    activeClassName="sidebar__list__item--active"
+                                    ariaCurrent="true"
+                                    className="sidebar__list__item"
+                                    to="/home"
+                  >
+                                    Home
+                  </NavLink>
+                  <NavLink
+                                    activeClassName="active"
+                                    ariaCurrent="true"
+                                    className="sidebar__list__item"
+                                    onClick={[Function]}
+                                    to="/login"
+                  >
+                                    Sign Out
+                  </NavLink>
+</div>,
+              ],
+              "className": "sidebar sidebar--hidden",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "className": "sidebar__header",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <NavLink
+                      activeClassName="sidebar__list__item--active"
+                      ariaCurrent="true"
+                      className="sidebar__list__item"
+                      to="/home"
+>
+                      Home
+</NavLink>,
+                    <NavLink
+                      activeClassName="active"
+                      ariaCurrent="true"
+                      className="sidebar__list__item"
+                      onClick={[Function]}
+                      to="/login"
+>
+                      Sign Out
+</NavLink>,
+                  ],
+                  "className": "sidebar__list",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "sidebar__list__item--active",
+                      "ariaCurrent": "true",
+                      "children": "Home",
+                      "className": "sidebar__list__item",
+                      "to": "/home",
+                    },
+                    "ref": null,
+                    "rendered": "Home",
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "active",
+                      "ariaCurrent": "true",
+                      "children": "Sign Out",
+                      "className": "sidebar__list__item",
+                      "onClick": [Function],
+                      "to": "/login",
+                    },
+                    "ref": null,
+                    "rendered": "Sign Out",
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+            ],
+            "type": "nav",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "className": "overlay overlay--hidden",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <mockConstructor
+                history={Object {}}
+                location={Object {}}
+                match={Object {}}
+/>,
+              "className": "content",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "history": Object {},
+                "location": Object {},
+                "match": Object {},
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="nav"
+>
+            <div
+                        className="nav__left"
+            >
+                        <div
+                                    className="nav__left__icon"
+                        >
+                                    <Icon
+                                                as="i"
+                                                name="bars"
+                                                onClick={[Function]}
+                                                size="large"
+                                    />
+                        </div>
+                        <NavLink
+                                    activeClassName="active"
+                                    ariaCurrent="true"
+                                    className="nav__left__title"
+                                    to="/home"
+                        >
+                                    MyRA
+                        </NavLink>
+            </div>
+            <div
+                        className="nav__right"
+            />
+</div>,
+          <div
+            className="main"
+>
+            <nav
+                        className="sidebar sidebar--hidden"
+            >
+                        <div
+                                    className="sidebar__header"
+                        />
+                        <div
+                                    className="sidebar__list"
+                        >
+                                    <NavLink
+                                                activeClassName="sidebar__list__item--active"
+                                                ariaCurrent="true"
+                                                className="sidebar__list__item"
+                                                to="/home"
+                                    >
+                                                Home
+                                    </NavLink>
+                                    <NavLink
+                                                activeClassName="active"
+                                                ariaCurrent="true"
+                                                className="sidebar__list__item"
+                                                onClick={[Function]}
+                                                to="/login"
+                                    >
+                                                Sign Out
+                                    </NavLink>
+                        </div>
+            </nav>
+            <div
+                        className="overlay overlay--hidden"
+                        onClick={[Function]}
+            />
+            <div
+                        className="content"
+            >
+                        <mockConstructor
+                                    history={Object {}}
+                                    location={Object {}}
+                                    match={Object {}}
+                        />
+            </div>
+</div>,
+        ],
+        "className": "landing-page",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="nav__left"
+>
+                <div
+                                className="nav__left__icon"
+                >
+                                <Icon
+                                                as="i"
+                                                name="bars"
+                                                onClick={[Function]}
+                                                size="large"
+                                />
+                </div>
+                <NavLink
+                                activeClassName="active"
+                                ariaCurrent="true"
+                                className="nav__left__title"
+                                to="/home"
+                >
+                                MyRA
+                </NavLink>
+</div>,
+              <div
+                className="nav__right"
+/>,
+            ],
+            "className": "nav",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="nav__left__icon"
+>
+                    <Icon
+                                        as="i"
+                                        name="bars"
+                                        onClick={[Function]}
+                                        size="large"
+                    />
+</div>,
+                  <NavLink
+                    activeClassName="active"
+                    ariaCurrent="true"
+                    className="nav__left__title"
+                    to="/home"
+>
+                    MyRA
+</NavLink>,
+                ],
+                "className": "nav__left",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <Icon
+                      as="i"
+                      name="bars"
+                      onClick={[Function]}
+                      size="large"
+/>,
+                    "className": "nav__left__icon",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "bars",
+                      "onClick": [Function],
+                      "size": "large",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "activeClassName": "active",
+                    "ariaCurrent": "true",
+                    "children": "MyRA",
+                    "className": "nav__left__title",
+                    "to": "/home",
+                  },
+                  "ref": null,
+                  "rendered": "MyRA",
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "nav__right",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <nav
+                className="sidebar sidebar--hidden"
+>
+                <div
+                                className="sidebar__header"
+                />
+                <div
+                                className="sidebar__list"
+                >
+                                <NavLink
+                                                activeClassName="sidebar__list__item--active"
+                                                ariaCurrent="true"
+                                                className="sidebar__list__item"
+                                                to="/home"
+                                >
+                                                Home
+                                </NavLink>
+                                <NavLink
+                                                activeClassName="active"
+                                                ariaCurrent="true"
+                                                className="sidebar__list__item"
+                                                onClick={[Function]}
+                                                to="/login"
+                                >
+                                                Sign Out
+                                </NavLink>
+                </div>
+</nav>,
+              <div
+                className="overlay overlay--hidden"
+                onClick={[Function]}
+/>,
+              <div
+                className="content"
+>
+                <mockConstructor
+                                history={Object {}}
+                                location={Object {}}
+                                match={Object {}}
+                />
+</div>,
+            ],
+            "className": "main",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="sidebar__header"
+/>,
+                  <div
+                    className="sidebar__list"
+>
+                    <NavLink
+                                        activeClassName="sidebar__list__item--active"
+                                        ariaCurrent="true"
+                                        className="sidebar__list__item"
+                                        to="/home"
+                    >
+                                        Home
+                    </NavLink>
+                    <NavLink
+                                        activeClassName="active"
+                                        ariaCurrent="true"
+                                        className="sidebar__list__item"
+                                        onClick={[Function]}
+                                        to="/login"
+                    >
+                                        Sign Out
+                    </NavLink>
+</div>,
+                ],
+                "className": "sidebar sidebar--hidden",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "className": "sidebar__header",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <NavLink
+                        activeClassName="sidebar__list__item--active"
+                        ariaCurrent="true"
+                        className="sidebar__list__item"
+                        to="/home"
+>
+                        Home
+</NavLink>,
+                      <NavLink
+                        activeClassName="active"
+                        ariaCurrent="true"
+                        className="sidebar__list__item"
+                        onClick={[Function]}
+                        to="/login"
+>
+                        Sign Out
+</NavLink>,
+                    ],
+                    "className": "sidebar__list",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "activeClassName": "sidebar__list__item--active",
+                        "ariaCurrent": "true",
+                        "children": "Home",
+                        "className": "sidebar__list__item",
+                        "to": "/home",
+                      },
+                      "ref": null,
+                      "rendered": "Home",
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "activeClassName": "active",
+                        "ariaCurrent": "true",
+                        "children": "Sign Out",
+                        "className": "sidebar__list__item",
+                        "onClick": [Function],
+                        "to": "/login",
+                      },
+                      "ref": null,
+                      "rendered": "Sign Out",
+                      "type": [Function],
+                    },
+                  ],
+                  "type": "div",
+                },
+              ],
+              "type": "nav",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "overlay overlay--hidden",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <mockConstructor
+                  history={Object {}}
+                  location={Object {}}
+                  match={Object {}}
+/>,
+                "className": "content",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "history": Object {},
+                  "location": Object {},
+                  "match": Object {},
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
