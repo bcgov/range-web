@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login renders correctly 1`] = `
+exports[`LandingPage renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
@@ -8,6 +8,7 @@ ShallowWrapper {
     component={[Function]}
     history={Object {}}
     location={Object {}}
+    logout={[Function]}
     match={Object {}}
 />,
   Symbol(enzyme.__renderer__): Object {
@@ -76,6 +77,7 @@ ShallowWrapper {
                                         activeClassName="active"
                                         ariaCurrent="true"
                                         className="sidebar__list__item"
+                                        id="sign-out"
                                         onClick={[Function]}
                                         to="/login"
                               >
@@ -93,6 +95,7 @@ ShallowWrapper {
                     <mockConstructor
                               history={Object {}}
                               location={Object {}}
+                              logout={[Function]}
                               match={Object {}}
                     />
           </div>
@@ -256,6 +259,7 @@ ShallowWrapper {
                                           activeClassName="active"
                                           ariaCurrent="true"
                                           className="sidebar__list__item"
+                                          id="sign-out"
                                           onClick={[Function]}
                                           to="/login"
                             >
@@ -273,6 +277,7 @@ ShallowWrapper {
               <mockConstructor
                             history={Object {}}
                             location={Object {}}
+                            logout={[Function]}
                             match={Object {}}
               />
 </div>,
@@ -305,6 +310,7 @@ ShallowWrapper {
                                     activeClassName="active"
                                     ariaCurrent="true"
                                     className="sidebar__list__item"
+                                    id="sign-out"
                                     onClick={[Function]}
                                     to="/login"
                   >
@@ -345,6 +351,7 @@ ShallowWrapper {
                       activeClassName="active"
                       ariaCurrent="true"
                       className="sidebar__list__item"
+                      id="sign-out"
                       onClick={[Function]}
                       to="/login"
 >
@@ -379,6 +386,7 @@ ShallowWrapper {
                       "ariaCurrent": "true",
                       "children": "Sign Out",
                       "className": "sidebar__list__item",
+                      "id": "sign-out",
                       "onClick": [Function],
                       "to": "/login",
                     },
@@ -412,6 +420,7 @@ ShallowWrapper {
               "children": <mockConstructor
                 history={Object {}}
                 location={Object {}}
+                logout={[Function]}
                 match={Object {}}
 />,
               "className": "content",
@@ -424,6 +433,7 @@ ShallowWrapper {
               "props": Object {
                 "history": Object {},
                 "location": Object {},
+                "logout": [Function],
                 "match": Object {},
               },
               "ref": null,
@@ -498,6 +508,7 @@ ShallowWrapper {
                                                 activeClassName="active"
                                                 ariaCurrent="true"
                                                 className="sidebar__list__item"
+                                                id="sign-out"
                                                 onClick={[Function]}
                                                 to="/login"
                                     >
@@ -515,6 +526,7 @@ ShallowWrapper {
                         <mockConstructor
                                     history={Object {}}
                                     location={Object {}}
+                                    logout={[Function]}
                                     match={Object {}}
                         />
             </div>
@@ -678,6 +690,7 @@ ShallowWrapper {
                                                 activeClassName="active"
                                                 ariaCurrent="true"
                                                 className="sidebar__list__item"
+                                                id="sign-out"
                                                 onClick={[Function]}
                                                 to="/login"
                                 >
@@ -695,6 +708,7 @@ ShallowWrapper {
                 <mockConstructor
                                 history={Object {}}
                                 location={Object {}}
+                                logout={[Function]}
                                 match={Object {}}
                 />
 </div>,
@@ -727,6 +741,7 @@ ShallowWrapper {
                                         activeClassName="active"
                                         ariaCurrent="true"
                                         className="sidebar__list__item"
+                                        id="sign-out"
                                         onClick={[Function]}
                                         to="/login"
                     >
@@ -767,6 +782,7 @@ ShallowWrapper {
                         activeClassName="active"
                         ariaCurrent="true"
                         className="sidebar__list__item"
+                        id="sign-out"
                         onClick={[Function]}
                         to="/login"
 >
@@ -801,6 +817,7 @@ ShallowWrapper {
                         "ariaCurrent": "true",
                         "children": "Sign Out",
                         "className": "sidebar__list__item",
+                        "id": "sign-out",
                         "onClick": [Function],
                         "to": "/login",
                       },
@@ -834,6 +851,7 @@ ShallowWrapper {
                 "children": <mockConstructor
                   history={Object {}}
                   location={Object {}}
+                  logout={[Function]}
                   match={Object {}}
 />,
                 "className": "content",
@@ -846,6 +864,7 @@ ShallowWrapper {
                 "props": Object {
                   "history": Object {},
                   "location": Object {},
+                  "logout": [Function],
                   "match": Object {},
                 },
                 "ref": null,

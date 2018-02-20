@@ -4,7 +4,7 @@ The Range project will move important crown land management documents from paper
 
 ## Folder Structure
 ```
-range-web/
+root/
   .eslintrc         // Displaying Lint Output in the Editor
   LICENSE
   README.md

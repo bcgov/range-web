@@ -91,6 +91,14 @@ ShallowWrapper {
                     </Button>
           </div>
 </Form>,
+        <a
+          className="login__change-link"
+          href="https://summer.gov.bc.ca"
+          rel="noopener noreferrer"
+          target="_blank"
+>
+          Is your password expired?
+</a>,
       ],
       "className": "login",
     },
@@ -371,6 +379,21 @@ ShallowWrapper {
         ],
         "type": [Function],
       },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Is your password expired?",
+          "className": "login__change-link",
+          "href": "https://summer.gov.bc.ca",
+          "rel": "noopener noreferrer",
+          "target": "_blank",
+        },
+        "ref": null,
+        "rendered": "Is your password expired?",
+        "type": "a",
+      },
     ],
     "type": "div",
   },
@@ -446,6 +469,14 @@ ShallowWrapper {
                         </Button>
             </div>
 </Form>,
+          <a
+            className="login__change-link"
+            href="https://summer.gov.bc.ca"
+            rel="noopener noreferrer"
+            target="_blank"
+>
+            Is your password expired?
+</a>,
         ],
         "className": "login",
       },
@@ -725,6 +756,21 @@ ShallowWrapper {
             },
           ],
           "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Is your password expired?",
+            "className": "login__change-link",
+            "href": "https://summer.gov.bc.ca",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+          },
+          "ref": null,
+          "rendered": "Is your password expired?",
+          "type": "a",
         },
       ],
       "type": "div",

@@ -15,12 +15,12 @@ const propTypes = {
 
 export class LandingPage extends Component {
   state = {
-    isSidebarhidden: true,
+    isSidebarHidden: true,
   }
   
   toggleSidebar = () => {
     this.setState({
-      isSidebarhidden: !this.state.isSidebarhidden
+      isSidebarHidden: !this.state.isSidebarHidden
     });
   }
 
@@ -30,7 +30,7 @@ export class LandingPage extends Component {
 
   render() {
     const { component: Component, user, ...rest } = this.props;
-    const { isSidebarhidden } = this.state;
+    const { isSidebarHidden } = this.state;
 
     return (
       <div className="landing-page">
@@ -56,7 +56,7 @@ export class LandingPage extends Component {
         </div>
         
         <div className="main">
-          <nav className={"sidebar" + (isSidebarhidden ? " sidebar--hidden" : "")} >
+          <nav className={"sidebar" + (isSidebarHidden ? " sidebar--hidden" : "")} >
             <div className="sidebar__header"></div>
             <div className="sidebar__list">
               <NavLink 
@@ -67,6 +67,7 @@ export class LandingPage extends Component {
                 Home
               </NavLink>
               <NavLink
+                id="sign-out"
                 to={Routes.LOGIN}
                 className="sidebar__list__item"
                 onClick={this.onLogout}
@@ -77,7 +78,7 @@ export class LandingPage extends Component {
           </nav>
           
           <div 
-            className={"overlay" + (isSidebarhidden ? " overlay--hidden" : "")} 
+            className={"overlay" + (isSidebarHidden ? " overlay--hidden" : "")} 
             onClick={this.toggleSidebar}
           />
 
