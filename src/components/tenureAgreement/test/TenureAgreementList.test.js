@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TenureAgreementList from '../TenureAgreementList';
-import { getTenureAgreements } from './mockValues';
+import { getMockTenureAgreements } from './mockValues';
 
 const props = {};
 const setupProps = () => {
-  props.tenureAgreements = getTenureAgreements(3); 
+  props.tenureAgreements = getMockTenureAgreements(3); 
 };
 
 beforeEach(() => {

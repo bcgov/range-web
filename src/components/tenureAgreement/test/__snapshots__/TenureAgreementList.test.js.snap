@@ -8,12 +8,6 @@ ShallowWrapper {
     tenureAgreements={
         Array [
             Object {
-              "number": 0,
-              "tenureHolder": Object {
-                "name": "tenure holder #0",
-              },
-            },
-            Object {
               "number": 1,
               "tenureHolder": Object {
                 "name": "tenure holder #1",
@@ -23,6 +17,12 @@ ShallowWrapper {
               "number": 2,
               "tenureHolder": Object {
                 "name": "tenure holder #2",
+              },
+            },
+            Object {
+              "number": 3,
+              "tenureHolder": Object {
+                "name": "tenure holder #3",
               },
             },
           ]
@@ -47,9 +47,9 @@ ShallowWrapper {
           onViewClicked={[Function]}
           tenureAgreement={
                     Object {
-                              "number": 0,
+                              "number": 1,
                               "tenureHolder": Object {
-                                "name": "tenure holder #0",
+                                "name": "tenure holder #1",
                               },
                             }
           }
@@ -60,9 +60,9 @@ ShallowWrapper {
           onViewClicked={[Function]}
           tenureAgreement={
                     Object {
-                              "number": 1,
+                              "number": 2,
                               "tenureHolder": Object {
-                                "name": "tenure holder #1",
+                                "name": "tenure holder #2",
                               },
                             }
           }
@@ -73,9 +73,9 @@ ShallowWrapper {
           onViewClicked={[Function]}
           tenureAgreement={
                     Object {
-                              "number": 2,
+                              "number": 3,
                               "tenureHolder": Object {
-                                "name": "tenure holder #2",
+                                "name": "tenure holder #3",
                               },
                             }
           }
@@ -94,9 +94,9 @@ ShallowWrapper {
           "isActive": false,
           "onViewClicked": [Function],
           "tenureAgreement": Object {
-            "number": 0,
+            "number": 1,
             "tenureHolder": Object {
-              "name": "tenure holder #0",
+              "name": "tenure holder #1",
             },
           },
         },
@@ -113,9 +113,9 @@ ShallowWrapper {
           "isActive": false,
           "onViewClicked": [Function],
           "tenureAgreement": Object {
-            "number": 1,
+            "number": 2,
             "tenureHolder": Object {
-              "name": "tenure holder #1",
+              "name": "tenure holder #2",
             },
           },
         },
@@ -132,9 +132,9 @@ ShallowWrapper {
           "isActive": false,
           "onViewClicked": [Function],
           "tenureAgreement": Object {
-            "number": 2,
+            "number": 3,
             "tenureHolder": Object {
-              "name": "tenure holder #2",
+              "name": "tenure holder #3",
             },
           },
         },
@@ -158,9 +158,9 @@ ShallowWrapper {
             onViewClicked={[Function]}
             tenureAgreement={
                         Object {
-                                    "number": 0,
+                                    "number": 1,
                                     "tenureHolder": Object {
-                                      "name": "tenure holder #0",
+                                      "name": "tenure holder #1",
                                     },
                                   }
             }
@@ -171,9 +171,9 @@ ShallowWrapper {
             onViewClicked={[Function]}
             tenureAgreement={
                         Object {
-                                    "number": 1,
+                                    "number": 2,
                                     "tenureHolder": Object {
-                                      "name": "tenure holder #1",
+                                      "name": "tenure holder #2",
                                     },
                                   }
             }
@@ -184,9 +184,9 @@ ShallowWrapper {
             onViewClicked={[Function]}
             tenureAgreement={
                         Object {
-                                    "number": 2,
+                                    "number": 3,
                                     "tenureHolder": Object {
-                                      "name": "tenure holder #2",
+                                      "name": "tenure holder #3",
                                     },
                                   }
             }
@@ -205,9 +205,9 @@ ShallowWrapper {
             "isActive": false,
             "onViewClicked": [Function],
             "tenureAgreement": Object {
-              "number": 0,
+              "number": 1,
               "tenureHolder": Object {
-                "name": "tenure holder #0",
+                "name": "tenure holder #1",
               },
             },
           },
@@ -224,9 +224,9 @@ ShallowWrapper {
             "isActive": false,
             "onViewClicked": [Function],
             "tenureAgreement": Object {
-              "number": 1,
+              "number": 2,
               "tenureHolder": Object {
-                "name": "tenure holder #1",
+                "name": "tenure holder #2",
               },
             },
           },
@@ -243,9 +243,9 @@ ShallowWrapper {
             "isActive": false,
             "onViewClicked": [Function],
             "tenureAgreement": Object {
-              "number": 2,
+              "number": 3,
               "tenureHolder": Object {
-                "name": "tenure holder #2",
+                "name": "tenure holder #3",
               },
             },
           },

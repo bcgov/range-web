@@ -33,6 +33,18 @@ ShallowWrapper {
                 "name": "tenure holder #4",
               },
             },
+            Object {
+              "number": 5,
+              "tenureHolder": Object {
+                "name": "tenure holder #5",
+              },
+            },
+            Object {
+              "number": 6,
+              "tenureHolder": Object {
+                "name": "tenure holder #6",
+              },
+            },
           ]
     }
 />,
@@ -88,6 +100,18 @@ ShallowWrapper {
                                 "number": 4,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #4",
+                                },
+                              },
+                              Object {
+                                "number": 5,
+                                "tenureHolder": Object {
+                                  "name": "tenure holder #5",
+                                },
+                              },
+                              Object {
+                                "number": 6,
+                                "tenureHolder": Object {
+                                  "name": "tenure holder #6",
                                 },
                               },
                             ]
@@ -168,6 +192,18 @@ ShallowWrapper {
                 "name": "tenure holder #4",
               },
             },
+            Object {
+              "number": 5,
+              "tenureHolder": Object {
+                "name": "tenure holder #5",
+              },
+            },
+            Object {
+              "number": 6,
+              "tenureHolder": Object {
+                "name": "tenure holder #6",
+              },
+            },
           ],
         },
         "ref": null,
@@ -223,6 +259,18 @@ ShallowWrapper {
                                       "number": 4,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #4",
+                                      },
+                                    },
+                                    Object {
+                                      "number": 5,
+                                      "tenureHolder": Object {
+                                        "name": "tenure holder #5",
+                                      },
+                                    },
+                                    Object {
+                                      "number": 6,
+                                      "tenureHolder": Object {
+                                        "name": "tenure holder #6",
                                       },
                                     },
                                   ]
@@ -301,6 +349,18 @@ ShallowWrapper {
                 "number": 4,
                 "tenureHolder": Object {
                   "name": "tenure holder #4",
+                },
+              },
+              Object {
+                "number": 5,
+                "tenureHolder": Object {
+                  "name": "tenure holder #5",
+                },
+              },
+              Object {
+                "number": 6,
+                "tenureHolder": Object {
+                  "name": "tenure holder #6",
                 },
               },
             ],

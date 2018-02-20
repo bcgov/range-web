@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TenureAgreementListItem from '../TenureAgreementListItem';
-import { getTenureAgreement } from './mockValues';
+import { getMockTenureAgreement } from './mockValues';
 
 const props = {};
 const setupProps = () => {
-  props.tenureAgreement = getTenureAgreement(1);
+  props.tenureAgreement = getMockTenureAgreement(1);
   props.onViewClicked = jest.fn();
   props.index = 1;
   props.isActive = false;

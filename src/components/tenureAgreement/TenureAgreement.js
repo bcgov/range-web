@@ -6,38 +6,15 @@ import debounce from 'lodash.debounce';
 import TenureAgreementList from './TenureAgreementList';
 import TenureAgreementSearch from './TenureAgreementSearch';
 
+import { getMockTenureAgreements } from './test/mockValues';
+
 const propTypes = {
   tenureAgreements: PropTypes.array.isRequired,
   searchTenureAgreements: PropTypes.func.isRequired,
 }
 
 const defaultProps = {
-  tenureAgreements: [
-    {
-      number: 1,
-      tenureHolder: {
-        name: "tenure holder #1"
-      }
-    },
-    {
-      number: 2,
-      tenureHolder: {
-        name: "tenure holder #2"
-      }
-    },
-    {
-      number: 3,
-      tenureHolder: {
-        name: "tenure holder #3"
-      }
-    },
-    {
-      number: 4,
-      tenureHolder: {
-        name: "tenure holder #4"
-      }
-    }
-  ],
+  tenureAgreements: getMockTenureAgreements(6),
   searchTenureAgreements: (term) => {
     console.log(term);
   },
@@ -49,6 +26,8 @@ export class TenureAgreement extends Component {
     this.state = {
 
     }
+    // wait for 1 second for the user to finish writing a search term
+    // then make a network call
     this.searchTenureAgreements = debounce(props.searchTenureAgreements, 1000);
   }  
   

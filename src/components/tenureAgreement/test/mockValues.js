@@ -1,4 +1,4 @@
-export const getTenureAgreement = (number) => (
+export const getMockTenureAgreement = (number) => (
   {
     number,
     tenureHolder: {
@@ -7,7 +7,7 @@ export const getTenureAgreement = (number) => (
   }
 )
 
-export const getTenureAgreements = (length) => {
+export const getMockTenureAgreements = (length) => {
   const array = Array.from(new Array(length), (x,i) => i);
-  return array.map(number => getTenureAgreement(number));
+  return array.map(number => getMockTenureAgreement(number + 1));
 }
