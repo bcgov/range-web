@@ -18,6 +18,19 @@ export class LandingPage extends Component {
     isSidebarHidden: true,
   }
   
+  componentWillReceiveProps(nextProps) {
+    // navigated!
+    if (this.props.location !== nextProps.location) {
+      this.closeSidebar();
+    }
+  }
+
+  closeSidebar = () => {
+    this.setState({
+      isSidebarHidden: true,
+    });
+  }
+
   toggleSidebar = () => {
     this.setState({
       isSidebarHidden: !this.state.isSidebarHidden

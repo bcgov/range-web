@@ -1,5 +1,6 @@
 export const getMockTenureAgreement = (number) => (
   {
+    id: number,
     number,
     tenureHolder: {
       name: `tenure holder #${number}`

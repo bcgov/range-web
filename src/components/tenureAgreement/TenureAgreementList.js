@@ -11,20 +11,8 @@ const defaultProps = {
 }
 
 class TenureAgreementList extends Component {
-  state = {
-    activeIndex: -1,
-  }
-  
-  handleActiveRow = (index) => {
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index;
-    
-    this.setState({ activeIndex: newIndex })
-  }
-
   render() {
     const { tenureAgreements } = this.props; 
-    const { activeIndex } = this.state;
 
     return (
       <div className="tenure-agreement-list">
@@ -32,10 +20,7 @@ class TenureAgreementList extends Component {
           return (
             <TenureAgreementListItem 
               key={index}
-              index={index}
-              isActive={activeIndex === index}
               tenureAgreement={tenureAgreement}
-              onViewClicked={this.handleActiveRow}
             />
           );
         })}

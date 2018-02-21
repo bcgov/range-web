@@ -24,16 +24,4 @@ describe('TenureAgreementList', () => {
     expect(wrapper.find('TenureAgreementListItem').length).toEqual(numberOfAgreements);    
   });
 
-  describe('Event handlers', () => {
-    it('`handleActiveRow` set `activeIndex` state correctly', () => {
-      const wrapper = shallow(<TenureAgreementList {...props} />);
-      const mockIndex = 0;
-  
-      wrapper.instance().handleActiveRow(mockIndex);
-      expect(wrapper.state().activeIndex).toEqual(mockIndex);
-  
-      wrapper.instance().handleActiveRow(mockIndex);
-      expect(wrapper.state().activeIndex).toEqual(-1);
-    });
-  });
 });

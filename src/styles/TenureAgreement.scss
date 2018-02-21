@@ -1,6 +1,7 @@
 .tenure-agreement {
   display: flex;
   flex-direction: column;
+  padding: 15px;
   
   &__header {
     font-size: 35px;	
@@ -46,7 +47,7 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    
+
     &__left,
     &__right {
       display: flex;

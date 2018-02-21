@@ -10,6 +10,7 @@ ShallowWrapper {
     onViewClicked={[Function]}
     tenureAgreement={
         Object {
+            "id": 1,
             "number": 1,
             "tenureHolder": Object {
               "name": "tenure holder #1",
@@ -29,10 +30,135 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": Array [
+      "children": <Link
+        className="tenure-agreement-list-item__content"
+        replace={false}
+        to="/tenure-agreement/1"
+>
         <div
+                className="tenure-agreement-list-item__content__left"
+        >
+                <div
+                        className="tenure-agreement-list-item__content__number"
+                >
+                        RAN 1
+                </div>
+                <div
+                        className="tenure-agreement-list-item__content__divider"
+                />
+                <div
+                        className="tenure-agreement-list-item__content__info"
+                >
+                        tenure holder #1
+                </div>
+        </div>
+</Link>,
+      "className": "tenure-agreement-list-item",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": <div
+          className="tenure-agreement-list-item__content__left"
+>
+          <div
+                    className="tenure-agreement-list-item__content__number"
+          >
+                    RAN 1
+          </div>
+          <div
+                    className="tenure-agreement-list-item__content__divider"
+          />
+          <div
+                    className="tenure-agreement-list-item__content__info"
+          >
+                    tenure holder #1
+          </div>
+</div>,
+        "className": "tenure-agreement-list-item__content",
+        "replace": false,
+        "to": "/tenure-agreement/1",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="tenure-agreement-list-item__content__number"
+>
+              RAN 1
+</div>,
+            <div
+              className="tenure-agreement-list-item__content__divider"
+/>,
+            <div
+              className="tenure-agreement-list-item__content__info"
+>
+              tenure holder #1
+</div>,
+          ],
+          "className": "tenure-agreement-list-item__content__left",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "RAN 1",
+              "className": "tenure-agreement-list-item__content__number",
+            },
+            "ref": null,
+            "rendered": "RAN 1",
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "className": "tenure-agreement-list-item__content__divider",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "tenure holder #1",
+              "className": "tenure-agreement-list-item__content__info",
+            },
+            "ref": null,
+            "rendered": "tenure holder #1",
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      "type": [Function],
+    },
+    "type": "li",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <Link
           className="tenure-agreement-list-item__content"
-          onClick={[Function]}
+          replace={false}
+          to="/tenure-agreement/1"
 >
           <div
                     className="tenure-agreement-list-item__content__left"
@@ -51,266 +177,58 @@ ShallowWrapper {
                               tenure holder #1
                     </div>
           </div>
-          <div
-                    className="tenure-agreement-list-item__content__right"
-          >
-                    <Button
-                              as="button"
-                              onClick={[Function]}
-                              primary={true}
-                    >
-                              View
-                    </Button>
-          </div>
-</div>,
-        <div
-          className="tenure-agreement-list-item__collapse "
->
-          hello bottom!
-</div>,
-      ],
-      "className": "tenure-agreement-list-item",
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <div
-              className="tenure-agreement-list-item__content__left"
->
-              <div
-                            className="tenure-agreement-list-item__content__number"
-              >
-                            RAN 1
-              </div>
-              <div
-                            className="tenure-agreement-list-item__content__divider"
-              />
-              <div
-                            className="tenure-agreement-list-item__content__info"
-              >
-                            tenure holder #1
-              </div>
-</div>,
-            <div
-              className="tenure-agreement-list-item__content__right"
->
-              <Button
-                            as="button"
-                            onClick={[Function]}
-                            primary={true}
-              >
-                            View
-              </Button>
-</div>,
-          ],
-          "className": "tenure-agreement-list-item__content",
-          "onClick": [Function],
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <div
-                  className="tenure-agreement-list-item__content__number"
->
-                  RAN 1
-</div>,
-                <div
-                  className="tenure-agreement-list-item__content__divider"
-/>,
-                <div
-                  className="tenure-agreement-list-item__content__info"
->
-                  tenure holder #1
-</div>,
-              ],
-              "className": "tenure-agreement-list-item__content__left",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "RAN 1",
-                  "className": "tenure-agreement-list-item__content__number",
-                },
-                "ref": null,
-                "rendered": "RAN 1",
-                "type": "div",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "className": "tenure-agreement-list-item__content__divider",
-                },
-                "ref": null,
-                "rendered": null,
-                "type": "div",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "tenure holder #1",
-                  "className": "tenure-agreement-list-item__content__info",
-                },
-                "ref": null,
-                "rendered": "tenure holder #1",
-                "type": "div",
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <Button
-                as="button"
-                onClick={[Function]}
-                primary={true}
->
-                View
-</Button>,
-              "className": "tenure-agreement-list-item__content__right",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "class",
-              "props": Object {
-                "as": "button",
-                "children": "View",
-                "onClick": [Function],
-                "primary": true,
-              },
-              "ref": null,
-              "rendered": "View",
-              "type": [Function],
-            },
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": "hello bottom!",
-          "className": "tenure-agreement-list-item__collapse ",
-        },
-        "ref": null,
-        "rendered": "hello bottom!",
-        "type": "div",
-      },
-    ],
-    "type": "li",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <div
-            className="tenure-agreement-list-item__content"
-            onClick={[Function]}
->
-            <div
-                        className="tenure-agreement-list-item__content__left"
-            >
-                        <div
-                                    className="tenure-agreement-list-item__content__number"
-                        >
-                                    RAN 1
-                        </div>
-                        <div
-                                    className="tenure-agreement-list-item__content__divider"
-                        />
-                        <div
-                                    className="tenure-agreement-list-item__content__info"
-                        >
-                                    tenure holder #1
-                        </div>
-            </div>
-            <div
-                        className="tenure-agreement-list-item__content__right"
-            >
-                        <Button
-                                    as="button"
-                                    onClick={[Function]}
-                                    primary={true}
-                        >
-                                    View
-                        </Button>
-            </div>
-</div>,
-          <div
-            className="tenure-agreement-list-item__collapse "
->
-            hello bottom!
-</div>,
-        ],
+</Link>,
         "className": "tenure-agreement-list-item",
       },
       "ref": null,
-      "rendered": Array [
-        Object {
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": <div
+            className="tenure-agreement-list-item__content__left"
+>
+            <div
+                        className="tenure-agreement-list-item__content__number"
+            >
+                        RAN 1
+            </div>
+            <div
+                        className="tenure-agreement-list-item__content__divider"
+            />
+            <div
+                        className="tenure-agreement-list-item__content__info"
+            >
+                        tenure holder #1
+            </div>
+</div>,
+          "className": "tenure-agreement-list-item__content",
+          "replace": false,
+          "to": "/tenure-agreement/1",
+        },
+        "ref": null,
+        "rendered": Object {
           "instance": null,
           "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
               <div
-                className="tenure-agreement-list-item__content__left"
+                className="tenure-agreement-list-item__content__number"
 >
-                <div
-                                className="tenure-agreement-list-item__content__number"
-                >
-                                RAN 1
-                </div>
-                <div
-                                className="tenure-agreement-list-item__content__divider"
-                />
-                <div
-                                className="tenure-agreement-list-item__content__info"
-                >
-                                tenure holder #1
-                </div>
+                RAN 1
 </div>,
               <div
-                className="tenure-agreement-list-item__content__right"
+                className="tenure-agreement-list-item__content__divider"
+/>,
+              <div
+                className="tenure-agreement-list-item__content__info"
 >
-                <Button
-                                as="button"
-                                onClick={[Function]}
-                                primary={true}
-                >
-                                View
-                </Button>
+                tenure holder #1
 </div>,
             ],
-            "className": "tenure-agreement-list-item__content",
-            "onClick": [Function],
+            "className": "tenure-agreement-list-item__content__left",
           },
           "ref": null,
           "rendered": Array [
@@ -319,61 +237,11 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": Array [
-                  <div
-                    className="tenure-agreement-list-item__content__number"
->
-                    RAN 1
-</div>,
-                  <div
-                    className="tenure-agreement-list-item__content__divider"
-/>,
-                  <div
-                    className="tenure-agreement-list-item__content__info"
->
-                    tenure holder #1
-</div>,
-                ],
-                "className": "tenure-agreement-list-item__content__left",
+                "children": "RAN 1",
+                "className": "tenure-agreement-list-item__content__number",
               },
               "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "RAN 1",
-                    "className": "tenure-agreement-list-item__content__number",
-                  },
-                  "ref": null,
-                  "rendered": "RAN 1",
-                  "type": "div",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "className": "tenure-agreement-list-item__content__divider",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": "div",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "tenure holder #1",
-                    "className": "tenure-agreement-list-item__content__info",
-                  },
-                  "ref": null,
-                  "rendered": "tenure holder #1",
-                  "type": "div",
-                },
-              ],
+              "rendered": "RAN 1",
               "type": "div",
             },
             Object {
@@ -381,48 +249,29 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": <Button
-                  as="button"
-                  onClick={[Function]}
-                  primary={true}
->
-                  View
-</Button>,
-                "className": "tenure-agreement-list-item__content__right",
+                "className": "tenure-agreement-list-item__content__divider",
               },
               "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "class",
-                "props": Object {
-                  "as": "button",
-                  "children": "View",
-                  "onClick": [Function],
-                  "primary": true,
-                },
-                "ref": null,
-                "rendered": "View",
-                "type": [Function],
+              "rendered": null,
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "tenure holder #1",
+                "className": "tenure-agreement-list-item__content__info",
               },
+              "ref": null,
+              "rendered": "tenure holder #1",
               "type": "div",
             },
           ],
           "type": "div",
         },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "hello bottom!",
-            "className": "tenure-agreement-list-item__collapse ",
-          },
-          "ref": null,
-          "rendered": "hello bottom!",
-          "type": "div",
-        },
-      ],
+        "type": [Function],
+      },
       "type": "li",
     },
   ],
