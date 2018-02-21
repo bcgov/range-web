@@ -27,22 +27,25 @@ class TenureAgreementListItem extends Component {
 
   render() {
     const { tenureAgreement, isActive } = this.props;
-
+    const getClassName = (className = '') => (
+      `tenure-agreement-list-item${className}`
+    );
+    
     return (
       <li className="tenure-agreement-list-item">
-        <div className="tenure-agreement-list-item__content">
-          <div className="tenure-agreement-list-item__content__left">
-            <div className="tenure-agreement-list-item__content__number">
+        <div className={getClassName("__content")}>
+          <div className={getClassName("__content__left")}>
+            <div className={getClassName("__content__number")}>
               {`RAN ${tenureAgreement.number}`}
             </div>
 
-            <div className="tenure-agreement-list-item__content__divider" />
-            <div className="tenure-agreement-list-item__content__info">
+            <div className={getClassName("__content__divider")}/>
+            <div className={getClassName("__content__info")}>
               {tenureAgreement.tenureHolder.name}
             </div>
           </div>
 
-          <div className="tenure-agreement-list-item__content__right">
+          <div className={getClassName("__content__right")}>
             <Button 
               primary
               onClick={this.onViewClicked}
@@ -53,7 +56,7 @@ class TenureAgreementListItem extends Component {
         </div>
 
         <div 
-          className={"tenure-agreement-list-item__collapse" + (isActive ? " tenure-agreement-list-item__collapse--active" : "")}
+          className={getClassName("__collapse ") + (isActive ? getClassName("__collapse--active") : "")}
         >
           hello bottom!
         </div>

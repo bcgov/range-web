@@ -63,7 +63,7 @@ ShallowWrapper {
           </div>
 </div>,
         <div
-          className="tenure-agreement-list-item__collapse"
+          className="tenure-agreement-list-item__collapse "
 >
           hello bottom!
 </div>,
@@ -213,7 +213,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": "hello bottom!",
-          "className": "tenure-agreement-list-item__collapse",
+          "className": "tenure-agreement-list-item__collapse ",
         },
         "ref": null,
         "rendered": "hello bottom!",
@@ -262,7 +262,7 @@ ShallowWrapper {
             </div>
 </div>,
           <div
-            className="tenure-agreement-list-item__collapse"
+            className="tenure-agreement-list-item__collapse "
 >
             hello bottom!
 </div>,
@@ -412,7 +412,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": "hello bottom!",
-            "className": "tenure-agreement-list-item__collapse",
+            "className": "tenure-agreement-list-item__collapse ",
           },
           "ref": null,
           "rendered": "hello bottom!",

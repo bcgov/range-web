@@ -1,7 +1,6 @@
 @import 'styles/mixins.scss';
 @import 'styles/PageNotFound.scss';
 @import 'styles/Login.scss';
-@import 'styles/Variables.scss';
 @import 'styles/TenureAgreement.scss';
 
 * {
@@ -18,6 +17,11 @@ body {
 
 .main {
   display: block;
+}
+
+.content {
+  padding: 15px;
+  width: 100%;
 }
 
 .overlay {
@@ -102,9 +106,4 @@ body {
       } 
     }
   }
-}
-
-.content {
-  padding: 15px;
-  width: 100%;
 }

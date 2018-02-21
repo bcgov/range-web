@@ -1,6 +1,6 @@
 # range-myra-web
 
-The Range project will move important crown land management documents from paper to digital, and make them accessible in the field through disconnected mobile devices. The web application will help ranch officers and districts to manage tenure agreements and get overview of the land usage.
+The Range project will move important crown land management documents from paper to digital, and make them accessible in the field through disconnected mobile devices. The web application will help ranch officers and district managers to manage tenure agreements and get overview of the land usage.
 
 ## Folder Structure
 ```

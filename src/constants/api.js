@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://app.swaggerhub.com/apis/AidanLaing/myra_api/1.0.0';
