@@ -65,7 +65,7 @@ body {
       &--active {
         background: $primary-color;
         color: white;
-        border-left: 7px solid #404854;
+        border-left: 5px solid $accent-color;
       }
 
       &:hover {
