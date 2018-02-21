@@ -37,8 +37,12 @@ describe('LandingPage', () => {
     expect(wrapper.find('.sidebar--hidden').exists()).toBe(false);
   });
 
+  describe('Life cycles', () => {
+    
+  });
+
   describe('Event handlers', () => {
-    it('`toggleSidebar` set `isSidebarHidden` state correctly', () => {
+    it('`toggleSidebar` sets `isSidebarHidden` state correctly', () => {
       const wrapper = shallow(<LandingPage {...props} />);
       const prevIsSidebarHidden = wrapper.state().isSidebarHidden;
 
@@ -46,11 +50,18 @@ describe('LandingPage', () => {
       expect(wrapper.state().isSidebarHidden).toEqual(!prevIsSidebarHidden);
     });
 
+    it('`closeSidebar` sets `isSidebarHidden` state correctly', () => {
+      const wrapper = shallow(<LandingPage {...props} />);
+
+      wrapper.instance().toggleSidebar();
+      expect(wrapper.state().isSidebarHidden).toEqual(true);
+    });
+
     it('`onLogout` calls props.logout', () => {
       const wrapper = shallow(<LandingPage {...props} />);
       
       wrapper.instance().onLogout();
       expect(props.logout).toHaveBeenCalled();
-    })
+    });
   });
 });
