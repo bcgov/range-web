@@ -11,14 +11,14 @@ import { getMockTenureAgreements } from './test/mockValues';
 const propTypes = {
   tenureAgreements: PropTypes.array.isRequired,
   searchTenureAgreements: PropTypes.func.isRequired,
-}
+};
 
 const defaultProps = {
   tenureAgreements: getMockTenureAgreements(6),
   searchTenureAgreements: (term) => {
     console.log(term);
   },
-}
+};
 
 export class TenureAgreement extends Component {
   constructor(props) {

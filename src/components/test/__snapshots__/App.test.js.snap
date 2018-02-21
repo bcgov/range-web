@@ -30,6 +30,11 @@ ShallowWrapper {
                               path="/home"
                               user={undefined}
                     />
+                    <PrivateRoute
+                              component={[Function]}
+                              path="/range-use-plan/:id"
+                              user={undefined}
+                    />
                     <Route
                               exact={true}
                               path="/"
@@ -63,6 +68,11 @@ ShallowWrapper {
                         path="/home"
                         user={undefined}
             />
+            <PrivateRoute
+                        component={[Function]}
+                        path="/range-use-plan/:id"
+                        user={undefined}
+            />
             <Route
                         exact={true}
                         path="/"
@@ -90,6 +100,11 @@ ShallowWrapper {
               <PrivateRoute
                 component={[Function]}
                 path="/home"
+                user={undefined}
+/>,
+              <PrivateRoute
+                component={[Function]}
+                path="/range-use-plan/:id"
                 user={undefined}
 />,
               <Route
@@ -126,6 +141,19 @@ ShallowWrapper {
               "props": Object {
                 "component": [Function],
                 "path": "/home",
+                "user": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "component": [Function],
+                "path": "/range-use-plan/:id",
                 "user": undefined,
               },
               "ref": null,
@@ -194,6 +222,11 @@ ShallowWrapper {
                                     path="/home"
                                     user={undefined}
                         />
+                        <PrivateRoute
+                                    component={[Function]}
+                                    path="/range-use-plan/:id"
+                                    user={undefined}
+                        />
                         <Route
                                     exact={true}
                                     path="/"
@@ -227,6 +260,11 @@ ShallowWrapper {
                             path="/home"
                             user={undefined}
               />
+              <PrivateRoute
+                            component={[Function]}
+                            path="/range-use-plan/:id"
+                            user={undefined}
+              />
               <Route
                             exact={true}
                             path="/"
@@ -254,6 +292,11 @@ ShallowWrapper {
                 <PrivateRoute
                   component={[Function]}
                   path="/home"
+                  user={undefined}
+/>,
+                <PrivateRoute
+                  component={[Function]}
+                  path="/range-use-plan/:id"
                   user={undefined}
 />,
                 <Route
@@ -290,6 +333,19 @@ ShallowWrapper {
                 "props": Object {
                   "component": [Function],
                   "path": "/home",
+                  "user": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "component": [Function],
+                  "path": "/range-use-plan/:id",
                   "user": undefined,
                 },
                 "ref": null,

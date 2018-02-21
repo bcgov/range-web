@@ -11,6 +11,7 @@ import Login from './auth/Login';
 import Home from './Home';
 import Toast from './Toast';
 import PageNotFound from './PageNotFound';
+import RangeUsePlan from './rangeUsePlan';
 
 import Auth from '../handlers/auth';
 import { logout } from '../actions/authActions';
@@ -31,7 +32,7 @@ export class App extends Component {
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
             <PrivateRoute path={Routes.HOME} component={Home} user={user} />
 
-            
+            <PrivateRoute path={'/range-use-plan/:id'} component={RangeUsePlan} user={user} />
             {/* An example of nested routes 
               https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#serving-apps-with-client-side-routing
               <PrivateRoute path={`${match.url}/:topicId`} component={Topic} user={user}/>

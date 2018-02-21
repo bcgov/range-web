@@ -45,7 +45,8 @@
     height: 50px;
     justify-content: space-between;
     align-items: center;
-  
+    cursor: pointer;
+    
     &__left,
     &__right {
       display: flex;

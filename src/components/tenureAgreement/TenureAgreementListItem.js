@@ -14,9 +14,6 @@ const defaultProps = {
 };
 
 class TenureAgreementListItem extends Component {
-  state = {
-    isOpen: false
-  }
 
   onViewClicked = (e) => {
     e.preventDefault();
@@ -30,10 +27,13 @@ class TenureAgreementListItem extends Component {
     const getClassName = (className = '') => (
       `tenure-agreement-list-item${className}`
     );
-    
+
     return (
       <li className="tenure-agreement-list-item">
-        <div className={getClassName("__content")}>
+        <div 
+          className={getClassName("__content")}
+          onClick={this.onViewClicked}  
+        >
           <div className={getClassName("__content__left")}>
             <div className={getClassName("__content__number")}>
               {`RAN ${tenureAgreement.number}`}

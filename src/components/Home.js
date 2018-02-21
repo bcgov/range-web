@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import TenureAgreement from './tenureAgreement/TenureAgreement';
+import TenureAgreement from './tenureAgreement';
 
 class Home extends Component {
   render() {
     return (
-      <div> 
+      <div className="home"> 
        <TenureAgreement />
       </div>
     );

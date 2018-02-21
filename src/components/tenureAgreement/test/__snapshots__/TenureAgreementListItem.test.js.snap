@@ -32,6 +32,7 @@ ShallowWrapper {
       "children": Array [
         <div
           className="tenure-agreement-list-item__content"
+          onClick={[Function]}
 >
           <div
                     className="tenure-agreement-list-item__content__left"
@@ -108,6 +109,7 @@ ShallowWrapper {
 </div>,
           ],
           "className": "tenure-agreement-list-item__content",
+          "onClick": [Function],
         },
         "ref": null,
         "rendered": Array [
@@ -231,6 +233,7 @@ ShallowWrapper {
         "children": Array [
           <div
             className="tenure-agreement-list-item__content"
+            onClick={[Function]}
 >
             <div
                         className="tenure-agreement-list-item__content__left"
@@ -307,6 +310,7 @@ ShallowWrapper {
 </div>,
             ],
             "className": "tenure-agreement-list-item__content",
+            "onClick": [Function],
           },
           "ref": null,
           "rendered": Array [
