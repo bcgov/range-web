@@ -38,7 +38,16 @@ describe('LandingPage', () => {
   });
 
   describe('Life cycles', () => {
-    
+    it('`componentWillReceiveProps` calls the right functions', () => {
+      const wrapper = shallow(<LandingPage {...props} />);
+      const instance = wrapper.instance();
+      const closeSidebarSpy = jest.spyOn(instance, 'closeSidebar');
+      const mockProps = { location: { mock: "value" } };
+      instance.componentWillReceiveProps(mockProps);
+
+      expect(wrapper.state().isSidebarHidden).toEqual(true);
+      expect(closeSidebarSpy).toHaveBeenCalled();
+    });
   });
 
   describe('Event handlers', () => {
@@ -53,7 +62,7 @@ describe('LandingPage', () => {
     it('`closeSidebar` sets `isSidebarHidden` state correctly', () => {
       const wrapper = shallow(<LandingPage {...props} />);
 
-      wrapper.instance().toggleSidebar();
+      wrapper.instance().closeSidebar();
       expect(wrapper.state().isSidebarHidden).toEqual(true);
     });
 

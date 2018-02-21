@@ -63,7 +63,7 @@ class RangeUsePlanPDFView extends Component {
         <Button 
           className="range-use-plan-pdf-view__floating-button"
           circular
-          size="big"
+          size="massive"
           icon="download" 
         />
       </div>

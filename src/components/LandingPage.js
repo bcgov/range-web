@@ -20,7 +20,7 @@ export class LandingPage extends Component {
   
   componentWillReceiveProps(nextProps) {
     // navigated!
-    if (nextProps.location !== this.props.location) {
+    if (this.props.location !== nextProps.location) {
       this.closeSidebar();
     }
   }
