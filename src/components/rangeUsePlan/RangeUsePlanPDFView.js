@@ -27,40 +27,43 @@ class RangeUsePlanPDFView extends Component {
   render() {
     const { file, numPages } = this.state;
 
+    const pages = Array.from(
+      new Array(numPages),
+      (el, index) => (
+        <Page
+          key={`page_${index + 1}`}
+          pageNumber={index + 1}
+          scale={1.2}
+        />
+      ),
+    );
+
+    const getClassName = (className = '') => (
+      `range-use-plan-pdf-view${className}`
+    );
+
     return (
       <div className="range-use-plan-pdf-view">
-        <div className="range-use-plan-pdf-view__container">
-          <div className="range-use-plan-pdf-view__container__load">
+        <div className={getClassName("__container")}>
+          <div className={getClassName("__container__load")}>
             <label htmlFor="file">Load from file:</label>&nbsp;
             <input
               type="file"
               onChange={this.onFileChange}
             />
           </div>
-          <div className="range-use-plan-pdf-view__container__document">
+          <div className={getClassName("__container__document")}>
             <Document
               file={file}
               onLoadSuccess={this.onDocumentLoadSuccess}
             >
-              {
-                Array.from(
-                  new Array(numPages),
-                  (el, index) => (
-                    <Page
-                      key={`page_${index + 1}`}
-                      pageNumber={index + 1}
-                      scale={1.2}
-                    />
-                  ),
-                )
-              }
+              {pages}
             </Document>
           </div>
         </div>
-        
     
         <Button 
-          className="range-use-plan-pdf-view__floating-button"
+          className={getClassName("__floating-button")}
           circular
           size="massive"
           icon="download" 
