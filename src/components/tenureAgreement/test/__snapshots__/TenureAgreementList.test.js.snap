@@ -8,18 +8,21 @@ ShallowWrapper {
     tenureAgreements={
         Array [
             Object {
+              "id": 1,
               "number": 1,
               "tenureHolder": Object {
                 "name": "tenure holder #1",
               },
             },
             Object {
+              "id": 2,
               "number": 2,
               "tenureHolder": Object {
                 "name": "tenure holder #2",
               },
             },
             Object {
+              "id": 3,
               "number": 3,
               "tenureHolder": Object {
                 "name": "tenure holder #3",
@@ -42,11 +45,9 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <TenureAgreementListItem
-          index={0}
-          isActive={false}
-          onViewClicked={[Function]}
           tenureAgreement={
                     Object {
+                              "id": 1,
                               "number": 1,
                               "tenureHolder": Object {
                                 "name": "tenure holder #1",
@@ -55,11 +56,9 @@ ShallowWrapper {
           }
 />,
         <TenureAgreementListItem
-          index={1}
-          isActive={false}
-          onViewClicked={[Function]}
           tenureAgreement={
                     Object {
+                              "id": 2,
                               "number": 2,
                               "tenureHolder": Object {
                                 "name": "tenure holder #2",
@@ -68,11 +67,9 @@ ShallowWrapper {
           }
 />,
         <TenureAgreementListItem
-          index={2}
-          isActive={false}
-          onViewClicked={[Function]}
           tenureAgreement={
                     Object {
+                              "id": 3,
                               "number": 3,
                               "tenureHolder": Object {
                                 "name": "tenure holder #3",
@@ -90,10 +87,8 @@ ShallowWrapper {
         "key": "0",
         "nodeType": "class",
         "props": Object {
-          "index": 0,
-          "isActive": false,
-          "onViewClicked": [Function],
           "tenureAgreement": Object {
+            "id": 1,
             "number": 1,
             "tenureHolder": Object {
               "name": "tenure holder #1",
@@ -109,10 +104,8 @@ ShallowWrapper {
         "key": "1",
         "nodeType": "class",
         "props": Object {
-          "index": 1,
-          "isActive": false,
-          "onViewClicked": [Function],
           "tenureAgreement": Object {
+            "id": 2,
             "number": 2,
             "tenureHolder": Object {
               "name": "tenure holder #2",
@@ -128,10 +121,8 @@ ShallowWrapper {
         "key": "2",
         "nodeType": "class",
         "props": Object {
-          "index": 2,
-          "isActive": false,
-          "onViewClicked": [Function],
           "tenureAgreement": Object {
+            "id": 3,
             "number": 3,
             "tenureHolder": Object {
               "name": "tenure holder #3",
@@ -153,11 +144,9 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <TenureAgreementListItem
-            index={0}
-            isActive={false}
-            onViewClicked={[Function]}
             tenureAgreement={
                         Object {
+                                    "id": 1,
                                     "number": 1,
                                     "tenureHolder": Object {
                                       "name": "tenure holder #1",
@@ -166,11 +155,9 @@ ShallowWrapper {
             }
 />,
           <TenureAgreementListItem
-            index={1}
-            isActive={false}
-            onViewClicked={[Function]}
             tenureAgreement={
                         Object {
+                                    "id": 2,
                                     "number": 2,
                                     "tenureHolder": Object {
                                       "name": "tenure holder #2",
@@ -179,11 +166,9 @@ ShallowWrapper {
             }
 />,
           <TenureAgreementListItem
-            index={2}
-            isActive={false}
-            onViewClicked={[Function]}
             tenureAgreement={
                         Object {
+                                    "id": 3,
                                     "number": 3,
                                     "tenureHolder": Object {
                                       "name": "tenure holder #3",
@@ -201,10 +186,8 @@ ShallowWrapper {
           "key": "0",
           "nodeType": "class",
           "props": Object {
-            "index": 0,
-            "isActive": false,
-            "onViewClicked": [Function],
             "tenureAgreement": Object {
+              "id": 1,
               "number": 1,
               "tenureHolder": Object {
                 "name": "tenure holder #1",
@@ -220,10 +203,8 @@ ShallowWrapper {
           "key": "1",
           "nodeType": "class",
           "props": Object {
-            "index": 1,
-            "isActive": false,
-            "onViewClicked": [Function],
             "tenureAgreement": Object {
+              "id": 2,
               "number": 2,
               "tenureHolder": Object {
                 "name": "tenure holder #2",
@@ -239,10 +220,8 @@ ShallowWrapper {
           "key": "2",
           "nodeType": "class",
           "props": Object {
-            "index": 2,
-            "isActive": false,
-            "onViewClicked": [Function],
             "tenureAgreement": Object {
+              "id": 3,
               "number": 3,
               "tenureHolder": Object {
                 "name": "tenure holder #3",

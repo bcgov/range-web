@@ -10,36 +10,42 @@ ShallowWrapper {
     tenureAgreements={
         Array [
             Object {
+              "id": 1,
               "number": 1,
               "tenureHolder": Object {
                 "name": "tenure holder #1",
               },
             },
             Object {
+              "id": 2,
               "number": 2,
               "tenureHolder": Object {
                 "name": "tenure holder #2",
               },
             },
             Object {
+              "id": 3,
               "number": 3,
               "tenureHolder": Object {
                 "name": "tenure holder #3",
               },
             },
             Object {
+              "id": 4,
               "number": 4,
               "tenureHolder": Object {
                 "name": "tenure holder #4",
               },
             },
             Object {
+              "id": 5,
               "number": 5,
               "tenureHolder": Object {
                 "name": "tenure holder #5",
               },
             },
             Object {
+              "id": 6,
               "number": 6,
               "tenureHolder": Object {
                 "name": "tenure holder #6",
@@ -79,36 +85,42 @@ ShallowWrapper {
           tenureAgreements={
                     Array [
                               Object {
+                                "id": 1,
                                 "number": 1,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #1",
                                 },
                               },
                               Object {
+                                "id": 2,
                                 "number": 2,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #2",
                                 },
                               },
                               Object {
+                                "id": 3,
                                 "number": 3,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #3",
                                 },
                               },
                               Object {
+                                "id": 4,
                                 "number": 4,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #4",
                                 },
                               },
                               Object {
+                                "id": 5,
                                 "number": 5,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #5",
                                 },
                               },
                               Object {
+                                "id": 6,
                                 "number": 6,
                                 "tenureHolder": Object {
                                   "name": "tenure holder #6",
@@ -169,36 +181,42 @@ ShallowWrapper {
         "props": Object {
           "tenureAgreements": Array [
             Object {
+              "id": 1,
               "number": 1,
               "tenureHolder": Object {
                 "name": "tenure holder #1",
               },
             },
             Object {
+              "id": 2,
               "number": 2,
               "tenureHolder": Object {
                 "name": "tenure holder #2",
               },
             },
             Object {
+              "id": 3,
               "number": 3,
               "tenureHolder": Object {
                 "name": "tenure holder #3",
               },
             },
             Object {
+              "id": 4,
               "number": 4,
               "tenureHolder": Object {
                 "name": "tenure holder #4",
               },
             },
             Object {
+              "id": 5,
               "number": 5,
               "tenureHolder": Object {
                 "name": "tenure holder #5",
               },
             },
             Object {
+              "id": 6,
               "number": 6,
               "tenureHolder": Object {
                 "name": "tenure holder #6",
@@ -238,36 +256,42 @@ ShallowWrapper {
             tenureAgreements={
                         Array [
                                     Object {
+                                      "id": 1,
                                       "number": 1,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #1",
                                       },
                                     },
                                     Object {
+                                      "id": 2,
                                       "number": 2,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #2",
                                       },
                                     },
                                     Object {
+                                      "id": 3,
                                       "number": 3,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #3",
                                       },
                                     },
                                     Object {
+                                      "id": 4,
                                       "number": 4,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #4",
                                       },
                                     },
                                     Object {
+                                      "id": 5,
                                       "number": 5,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #5",
                                       },
                                     },
                                     Object {
+                                      "id": 6,
                                       "number": 6,
                                       "tenureHolder": Object {
                                         "name": "tenure holder #6",
@@ -328,36 +352,42 @@ ShallowWrapper {
           "props": Object {
             "tenureAgreements": Array [
               Object {
+                "id": 1,
                 "number": 1,
                 "tenureHolder": Object {
                   "name": "tenure holder #1",
                 },
               },
               Object {
+                "id": 2,
                 "number": 2,
                 "tenureHolder": Object {
                   "name": "tenure holder #2",
                 },
               },
               Object {
+                "id": 3,
                 "number": 3,
                 "tenureHolder": Object {
                   "name": "tenure holder #3",
                 },
               },
               Object {
+                "id": 4,
                 "number": 4,
                 "tenureHolder": Object {
                   "name": "tenure holder #4",
                 },
               },
               Object {
+                "id": 5,
                 "number": 5,
                 "tenureHolder": Object {
                   "name": "tenure holder #5",
                 },
               },
               Object {
+                "id": 6,
                 "number": 6,
                 "tenureHolder": Object {
                   "name": "tenure holder #6",

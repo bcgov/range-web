@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { TENURE_AGREEMENT } from '../../constants/routes';
 
 const propTypes = {
   tenureAgreement: PropTypes.object.isRequired,
-  onViewClicked: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -15,24 +13,17 @@ const defaultProps = {
 
 class TenureAgreementListItem extends Component {
 
-  onViewClicked = (e) => {
-    e.preventDefault();
-
-    const { index, onViewClicked } = this.props;
-    onViewClicked(index)
-  }
-
   render() {
-    const { tenureAgreement, isActive } = this.props;
+    const { tenureAgreement } = this.props;
     const getClassName = (className = '') => (
       `tenure-agreement-list-item${className}`
     );
 
     return (
       <li className="tenure-agreement-list-item">
-        <div 
+        <Link
+          to={`${TENURE_AGREEMENT}/${tenureAgreement.id}`}
           className={getClassName("__content")}
-          onClick={this.onViewClicked}  
         >
           <div className={getClassName("__content__left")}>
             <div className={getClassName("__content__number")}>
@@ -44,22 +35,7 @@ class TenureAgreementListItem extends Component {
               {tenureAgreement.tenureHolder.name}
             </div>
           </div>
-
-          <div className={getClassName("__content__right")}>
-            <Button 
-              primary
-              onClick={this.onViewClicked}
-            >
-              View
-            </Button>
-          </div>
-        </div>
-
-        <div 
-          className={getClassName("__collapse ") + (isActive ? getClassName("__collapse--active") : "")}
-        >
-          hello bottom!
-        </div>
+        </Link>
       </li>
     );
   }

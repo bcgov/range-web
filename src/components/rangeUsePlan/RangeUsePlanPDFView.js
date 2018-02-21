@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import { Document, Page, setOptions } from 'react-pdf';
 import { Button } from 'semantic-ui-react';
 
