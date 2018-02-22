@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Document, Page, setOptions } from 'react-pdf';
-import { Button } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 
 setOptions({
   cMapUrl: 'cmaps/',
@@ -9,7 +9,7 @@ setOptions({
 
 class RangeUsePlanPDFView extends Component {
   state = {
-    file: './sample.pdf',
+    file: "./sample.pdf",
     numPages: null,
   }
 
@@ -27,6 +27,10 @@ class RangeUsePlanPDFView extends Component {
   render() {
     const { file, numPages } = this.state;
 
+    const getClassName = (className = '') => (
+      `range-use-plan-pdf-view${className}`
+    );
+    
     const pages = Array.from(
       new Array(numPages),
       (el, index) => (
@@ -38,8 +42,13 @@ class RangeUsePlanPDFView extends Component {
       ),
     );
 
-    const getClassName = (className = '') => (
-      `range-use-plan-pdf-view${className}`
+    const downloadButton = (
+      <Button 
+        className={getClassName("__floating-button")}
+        circular
+        size="massive"
+        icon="download" 
+      />
     );
 
     return (
@@ -61,13 +70,14 @@ class RangeUsePlanPDFView extends Component {
             </Document>
           </div>
         </div>
-    
-        <Button 
-          className={getClassName("__floating-button")}
-          circular
-          size="massive"
-          icon="download" 
+        
+        <Popup
+          trigger={downloadButton}
+          content='Download PDF'
+          inverted
+          position='top center'
         />
+        
       </div>
     );
   }

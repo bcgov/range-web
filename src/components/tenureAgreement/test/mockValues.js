@@ -3,9 +3,9 @@ export const getMockTenureAgreement = (number) => (
     id: number,
     number,
     status: 'pending',
-    region: 'Victoria',
+    region: `Victoria Ranch ${number}`,
     tenureHolder: {
-      name: `tenure holder #${number}`
+      name: `tenure holder ${number}`
     }
   }
 )

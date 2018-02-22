@@ -30,8 +30,8 @@ class TenureAgreementListItem extends Component {
         onClick={this.onRowClicked}
       >
         <Table.Cell>{`RAN ${tenureAgreement.number}`}</Table.Cell>
-        <Table.Cell>{tenureAgreement.tenureHolder.name}</Table.Cell>
         <Table.Cell>{tenureAgreement.region}</Table.Cell>
+        <Table.Cell>{tenureAgreement.tenureHolder.name}</Table.Cell>
         <Table.Cell>{tenureAgreement.status}</Table.Cell>
       </Table.Row>
       // <li className="tenure-agreement-list-item">

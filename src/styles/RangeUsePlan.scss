@@ -1,9 +1,30 @@
 .range-use-plan {
+  background-color: rgb(82, 86, 89);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+  }
   
+  &__title {
+    color: white;
+    font-size: 1.8rem;
+    margin-left: 20px;
+  }
+
+  &__dropdown {
+    // min-width: 20%;
+  }
 }
 
 .range-use-plan-pdf-view {
-  background-color: rgb(82, 86, 89);
 
   &__floating-button {
     position: fixed;
