@@ -17,12 +17,7 @@
 }
 
 .tenure-agreement-list {
-  li:first-child {
-    border-top: 4px solid;
-  }
-  li:nth-child(2n) {
-    background: #fafafa;
-  }
+  cursor: pointer;
 }
 
 .tenure-agreement-search {

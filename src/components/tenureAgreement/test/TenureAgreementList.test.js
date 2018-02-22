@@ -21,7 +21,6 @@ describe('TenureAgreementList', () => {
   it('renders `TenureAgreementListItem` components correctly', () => {
     const wrapper = shallow(<TenureAgreementList {...props} />);
     const numberOfAgreements = props.tenureAgreements.length;
-    expect(wrapper.find('TenureAgreementListItem').length).toEqual(numberOfAgreements);    
+    expect(wrapper.find('withRouter(TenureAgreementListItem)').length).toEqual(numberOfAgreements);    
   });
-
 });

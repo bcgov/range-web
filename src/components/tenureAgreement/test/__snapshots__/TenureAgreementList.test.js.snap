@@ -10,6 +10,8 @@ ShallowWrapper {
             Object {
               "id": 1,
               "number": 1,
+              "region": "Victoria",
+              "status": "pending",
               "tenureHolder": Object {
                 "name": "tenure holder #1",
               },
@@ -17,6 +19,8 @@ ShallowWrapper {
             Object {
               "id": 2,
               "number": 2,
+              "region": "Victoria",
+              "status": "pending",
               "tenureHolder": Object {
                 "name": "tenure holder #2",
               },
@@ -24,6 +28,8 @@ ShallowWrapper {
             Object {
               "id": 3,
               "number": 3,
+              "region": "Victoria",
+              "status": "pending",
               "tenureHolder": Object {
                 "name": "tenure holder #3",
               },
@@ -43,97 +49,405 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": Array [
-        <TenureAgreementListItem
-          tenureAgreement={
-                    Object {
-                              "id": 1,
-                              "number": 1,
-                              "tenureHolder": Object {
-                                "name": "tenure holder #1",
-                              },
-                            }
-          }
-/>,
-        <TenureAgreementListItem
-          tenureAgreement={
-                    Object {
-                              "id": 2,
-                              "number": 2,
-                              "tenureHolder": Object {
-                                "name": "tenure holder #2",
-                              },
-                            }
-          }
-/>,
-        <TenureAgreementListItem
-          tenureAgreement={
-                    Object {
-                              "id": 3,
-                              "number": 3,
-                              "tenureHolder": Object {
-                                "name": "tenure holder #3",
-                              },
-                            }
-          }
-/>,
-      ],
+      "children": <Table
+        as="table"
+        selectable={true}
+        singleLine={true}
+        striped={true}
+>
+        <TableHeader
+                as="thead"
+        >
+                <TableRow
+                        as="tr"
+                        cellAs="td"
+                >
+                        <TableHeaderCell
+                                as="th"
+                        >
+                                Ran #
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                as="th"
+                        >
+                                Name
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                as="th"
+                        >
+                                Region
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                as="th"
+                        >
+                                Status
+                        </TableHeaderCell>
+                </TableRow>
+        </TableHeader>
+        <TableBody
+                as="tbody"
+        >
+                <withRouter(TenureAgreementListItem)
+                        tenureAgreement={
+                                Object {
+                                        "id": 1,
+                                        "number": 1,
+                                        "region": "Victoria",
+                                        "status": "pending",
+                                        "tenureHolder": Object {
+                                          "name": "tenure holder #1",
+                                        },
+                                      }
+                        }
+                />
+                <withRouter(TenureAgreementListItem)
+                        tenureAgreement={
+                                Object {
+                                        "id": 2,
+                                        "number": 2,
+                                        "region": "Victoria",
+                                        "status": "pending",
+                                        "tenureHolder": Object {
+                                          "name": "tenure holder #2",
+                                        },
+                                      }
+                        }
+                />
+                <withRouter(TenureAgreementListItem)
+                        tenureAgreement={
+                                Object {
+                                        "id": 3,
+                                        "number": 3,
+                                        "region": "Victoria",
+                                        "status": "pending",
+                                        "tenureHolder": Object {
+                                          "name": "tenure holder #3",
+                                        },
+                                      }
+                        }
+                />
+        </TableBody>
+</Table>,
       "className": "tenure-agreement-list",
     },
     "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": "0",
-        "nodeType": "class",
-        "props": Object {
-          "tenureAgreement": Object {
-            "id": 1,
-            "number": 1,
-            "tenureHolder": Object {
-              "name": "tenure holder #1",
-            },
-          },
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "as": "table",
+        "children": Array [
+          <TableHeader
+            as="thead"
+>
+            <TableRow
+                        as="tr"
+                        cellAs="td"
+            >
+                        <TableHeaderCell
+                                    as="th"
+                        >
+                                    Ran #
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                    as="th"
+                        >
+                                    Name
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                    as="th"
+                        >
+                                    Region
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                    as="th"
+                        >
+                                    Status
+                        </TableHeaderCell>
+            </TableRow>
+</TableHeader>,
+          <TableBody
+            as="tbody"
+>
+            <withRouter(TenureAgreementListItem)
+                        tenureAgreement={
+                                    Object {
+                                                "id": 1,
+                                                "number": 1,
+                                                "region": "Victoria",
+                                                "status": "pending",
+                                                "tenureHolder": Object {
+                                                  "name": "tenure holder #1",
+                                                },
+                                              }
+                        }
+            />
+            <withRouter(TenureAgreementListItem)
+                        tenureAgreement={
+                                    Object {
+                                                "id": 2,
+                                                "number": 2,
+                                                "region": "Victoria",
+                                                "status": "pending",
+                                                "tenureHolder": Object {
+                                                  "name": "tenure holder #2",
+                                                },
+                                              }
+                        }
+            />
+            <withRouter(TenureAgreementListItem)
+                        tenureAgreement={
+                                    Object {
+                                                "id": 3,
+                                                "number": 3,
+                                                "region": "Victoria",
+                                                "status": "pending",
+                                                "tenureHolder": Object {
+                                                  "name": "tenure holder #3",
+                                                },
+                                              }
+                        }
+            />
+</TableBody>,
+        ],
+        "selectable": true,
+        "singleLine": true,
+        "striped": true,
       },
-      Object {
-        "instance": null,
-        "key": "1",
-        "nodeType": "class",
-        "props": Object {
-          "tenureAgreement": Object {
-            "id": 2,
-            "number": 2,
-            "tenureHolder": Object {
-              "name": "tenure holder #2",
-            },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "thead",
+            "children": <TableRow
+              as="tr"
+              cellAs="td"
+>
+              <TableHeaderCell
+                            as="th"
+              >
+                            Ran #
+              </TableHeaderCell>
+              <TableHeaderCell
+                            as="th"
+              >
+                            Name
+              </TableHeaderCell>
+              <TableHeaderCell
+                            as="th"
+              >
+                            Region
+              </TableHeaderCell>
+              <TableHeaderCell
+                            as="th"
+              >
+                            Status
+              </TableHeaderCell>
+</TableRow>,
           },
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "2",
-        "nodeType": "class",
-        "props": Object {
-          "tenureAgreement": Object {
-            "id": 3,
-            "number": 3,
-            "tenureHolder": Object {
-              "name": "tenure holder #3",
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": "tr",
+              "cellAs": "td",
+              "children": Array [
+                <TableHeaderCell
+                  as="th"
+>
+                  Ran #
+</TableHeaderCell>,
+                <TableHeaderCell
+                  as="th"
+>
+                  Name
+</TableHeaderCell>,
+                <TableHeaderCell
+                  as="th"
+>
+                  Region
+</TableHeaderCell>,
+                <TableHeaderCell
+                  as="th"
+>
+                  Status
+</TableHeaderCell>,
+              ],
             },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "as": "th",
+                  "children": "Ran #",
+                },
+                "ref": null,
+                "rendered": "Ran #",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "as": "th",
+                  "children": "Name",
+                },
+                "ref": null,
+                "rendered": "Name",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "as": "th",
+                  "children": "Region",
+                },
+                "ref": null,
+                "rendered": "Region",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "as": "th",
+                  "children": "Status",
+                },
+                "ref": null,
+                "rendered": "Status",
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
           },
+          "type": [Function],
         },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-    ],
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "tbody",
+            "children": Array [
+              <withRouter(TenureAgreementListItem)
+                tenureAgreement={
+                                Object {
+                                                "id": 1,
+                                                "number": 1,
+                                                "region": "Victoria",
+                                                "status": "pending",
+                                                "tenureHolder": Object {
+                                                  "name": "tenure holder #1",
+                                                },
+                                              }
+                }
+/>,
+              <withRouter(TenureAgreementListItem)
+                tenureAgreement={
+                                Object {
+                                                "id": 2,
+                                                "number": 2,
+                                                "region": "Victoria",
+                                                "status": "pending",
+                                                "tenureHolder": Object {
+                                                  "name": "tenure holder #2",
+                                                },
+                                              }
+                }
+/>,
+              <withRouter(TenureAgreementListItem)
+                tenureAgreement={
+                                Object {
+                                                "id": 3,
+                                                "number": 3,
+                                                "region": "Victoria",
+                                                "status": "pending",
+                                                "tenureHolder": Object {
+                                                  "name": "tenure holder #3",
+                                                },
+                                              }
+                }
+/>,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": "0",
+              "nodeType": "function",
+              "props": Object {
+                "tenureAgreement": Object {
+                  "id": 1,
+                  "number": 1,
+                  "region": "Victoria",
+                  "status": "pending",
+                  "tenureHolder": Object {
+                    "name": "tenure holder #1",
+                  },
+                },
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": "1",
+              "nodeType": "function",
+              "props": Object {
+                "tenureAgreement": Object {
+                  "id": 2,
+                  "number": 2,
+                  "region": "Victoria",
+                  "status": "pending",
+                  "tenureHolder": Object {
+                    "name": "tenure holder #2",
+                  },
+                },
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": "2",
+              "nodeType": "function",
+              "props": Object {
+                "tenureAgreement": Object {
+                  "id": 3,
+                  "number": 3,
+                  "region": "Victoria",
+                  "status": "pending",
+                  "tenureHolder": Object {
+                    "name": "tenure holder #3",
+                  },
+                },
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
+    },
     "type": "div",
   },
   Symbol(enzyme.__nodes__): Array [
@@ -142,97 +456,405 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "children": Array [
-          <TenureAgreementListItem
-            tenureAgreement={
-                        Object {
-                                    "id": 1,
-                                    "number": 1,
-                                    "tenureHolder": Object {
-                                      "name": "tenure holder #1",
-                                    },
-                                  }
-            }
-/>,
-          <TenureAgreementListItem
-            tenureAgreement={
-                        Object {
-                                    "id": 2,
-                                    "number": 2,
-                                    "tenureHolder": Object {
-                                      "name": "tenure holder #2",
-                                    },
-                                  }
-            }
-/>,
-          <TenureAgreementListItem
-            tenureAgreement={
-                        Object {
-                                    "id": 3,
-                                    "number": 3,
-                                    "tenureHolder": Object {
-                                      "name": "tenure holder #3",
-                                    },
-                                  }
-            }
-/>,
-        ],
+        "children": <Table
+          as="table"
+          selectable={true}
+          singleLine={true}
+          striped={true}
+>
+          <TableHeader
+                    as="thead"
+          >
+                    <TableRow
+                              as="tr"
+                              cellAs="td"
+                    >
+                              <TableHeaderCell
+                                        as="th"
+                              >
+                                        Ran #
+                              </TableHeaderCell>
+                              <TableHeaderCell
+                                        as="th"
+                              >
+                                        Name
+                              </TableHeaderCell>
+                              <TableHeaderCell
+                                        as="th"
+                              >
+                                        Region
+                              </TableHeaderCell>
+                              <TableHeaderCell
+                                        as="th"
+                              >
+                                        Status
+                              </TableHeaderCell>
+                    </TableRow>
+          </TableHeader>
+          <TableBody
+                    as="tbody"
+          >
+                    <withRouter(TenureAgreementListItem)
+                              tenureAgreement={
+                                        Object {
+                                                  "id": 1,
+                                                  "number": 1,
+                                                  "region": "Victoria",
+                                                  "status": "pending",
+                                                  "tenureHolder": Object {
+                                                    "name": "tenure holder #1",
+                                                  },
+                                                }
+                              }
+                    />
+                    <withRouter(TenureAgreementListItem)
+                              tenureAgreement={
+                                        Object {
+                                                  "id": 2,
+                                                  "number": 2,
+                                                  "region": "Victoria",
+                                                  "status": "pending",
+                                                  "tenureHolder": Object {
+                                                    "name": "tenure holder #2",
+                                                  },
+                                                }
+                              }
+                    />
+                    <withRouter(TenureAgreementListItem)
+                              tenureAgreement={
+                                        Object {
+                                                  "id": 3,
+                                                  "number": 3,
+                                                  "region": "Victoria",
+                                                  "status": "pending",
+                                                  "tenureHolder": Object {
+                                                    "name": "tenure holder #3",
+                                                  },
+                                                }
+                              }
+                    />
+          </TableBody>
+</Table>,
         "className": "tenure-agreement-list",
       },
       "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": "0",
-          "nodeType": "class",
-          "props": Object {
-            "tenureAgreement": Object {
-              "id": 1,
-              "number": 1,
-              "tenureHolder": Object {
-                "name": "tenure holder #1",
-              },
-            },
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "table",
+          "children": Array [
+            <TableHeader
+              as="thead"
+>
+              <TableRow
+                            as="tr"
+                            cellAs="td"
+              >
+                            <TableHeaderCell
+                                          as="th"
+                            >
+                                          Ran #
+                            </TableHeaderCell>
+                            <TableHeaderCell
+                                          as="th"
+                            >
+                                          Name
+                            </TableHeaderCell>
+                            <TableHeaderCell
+                                          as="th"
+                            >
+                                          Region
+                            </TableHeaderCell>
+                            <TableHeaderCell
+                                          as="th"
+                            >
+                                          Status
+                            </TableHeaderCell>
+              </TableRow>
+</TableHeader>,
+            <TableBody
+              as="tbody"
+>
+              <withRouter(TenureAgreementListItem)
+                            tenureAgreement={
+                                          Object {
+                                                        "id": 1,
+                                                        "number": 1,
+                                                        "region": "Victoria",
+                                                        "status": "pending",
+                                                        "tenureHolder": Object {
+                                                          "name": "tenure holder #1",
+                                                        },
+                                                      }
+                            }
+              />
+              <withRouter(TenureAgreementListItem)
+                            tenureAgreement={
+                                          Object {
+                                                        "id": 2,
+                                                        "number": 2,
+                                                        "region": "Victoria",
+                                                        "status": "pending",
+                                                        "tenureHolder": Object {
+                                                          "name": "tenure holder #2",
+                                                        },
+                                                      }
+                            }
+              />
+              <withRouter(TenureAgreementListItem)
+                            tenureAgreement={
+                                          Object {
+                                                        "id": 3,
+                                                        "number": 3,
+                                                        "region": "Victoria",
+                                                        "status": "pending",
+                                                        "tenureHolder": Object {
+                                                          "name": "tenure holder #3",
+                                                        },
+                                                      }
+                            }
+              />
+</TableBody>,
+          ],
+          "selectable": true,
+          "singleLine": true,
+          "striped": true,
         },
-        Object {
-          "instance": null,
-          "key": "1",
-          "nodeType": "class",
-          "props": Object {
-            "tenureAgreement": Object {
-              "id": 2,
-              "number": 2,
-              "tenureHolder": Object {
-                "name": "tenure holder #2",
-              },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": "thead",
+              "children": <TableRow
+                as="tr"
+                cellAs="td"
+>
+                <TableHeaderCell
+                                as="th"
+                >
+                                Ran #
+                </TableHeaderCell>
+                <TableHeaderCell
+                                as="th"
+                >
+                                Name
+                </TableHeaderCell>
+                <TableHeaderCell
+                                as="th"
+                >
+                                Region
+                </TableHeaderCell>
+                <TableHeaderCell
+                                as="th"
+                >
+                                Status
+                </TableHeaderCell>
+</TableRow>,
             },
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "2",
-          "nodeType": "class",
-          "props": Object {
-            "tenureAgreement": Object {
-              "id": 3,
-              "number": 3,
-              "tenureHolder": Object {
-                "name": "tenure holder #3",
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "as": "tr",
+                "cellAs": "td",
+                "children": Array [
+                  <TableHeaderCell
+                    as="th"
+>
+                    Ran #
+</TableHeaderCell>,
+                  <TableHeaderCell
+                    as="th"
+>
+                    Name
+</TableHeaderCell>,
+                  <TableHeaderCell
+                    as="th"
+>
+                    Region
+</TableHeaderCell>,
+                  <TableHeaderCell
+                    as="th"
+>
+                    Status
+</TableHeaderCell>,
+                ],
               },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": "th",
+                    "children": "Ran #",
+                  },
+                  "ref": null,
+                  "rendered": "Ran #",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": "th",
+                    "children": "Name",
+                  },
+                  "ref": null,
+                  "rendered": "Name",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": "th",
+                    "children": "Region",
+                  },
+                  "ref": null,
+                  "rendered": "Region",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": "th",
+                    "children": "Status",
+                  },
+                  "ref": null,
+                  "rendered": "Status",
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
             },
+            "type": [Function],
           },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-      ],
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": "tbody",
+              "children": Array [
+                <withRouter(TenureAgreementListItem)
+                  tenureAgreement={
+                                    Object {
+                                                      "id": 1,
+                                                      "number": 1,
+                                                      "region": "Victoria",
+                                                      "status": "pending",
+                                                      "tenureHolder": Object {
+                                                        "name": "tenure holder #1",
+                                                      },
+                                                    }
+                  }
+/>,
+                <withRouter(TenureAgreementListItem)
+                  tenureAgreement={
+                                    Object {
+                                                      "id": 2,
+                                                      "number": 2,
+                                                      "region": "Victoria",
+                                                      "status": "pending",
+                                                      "tenureHolder": Object {
+                                                        "name": "tenure holder #2",
+                                                      },
+                                                    }
+                  }
+/>,
+                <withRouter(TenureAgreementListItem)
+                  tenureAgreement={
+                                    Object {
+                                                      "id": 3,
+                                                      "number": 3,
+                                                      "region": "Victoria",
+                                                      "status": "pending",
+                                                      "tenureHolder": Object {
+                                                        "name": "tenure holder #3",
+                                                      },
+                                                    }
+                  }
+/>,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "0",
+                "nodeType": "function",
+                "props": Object {
+                  "tenureAgreement": Object {
+                    "id": 1,
+                    "number": 1,
+                    "region": "Victoria",
+                    "status": "pending",
+                    "tenureHolder": Object {
+                      "name": "tenure holder #1",
+                    },
+                  },
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "1",
+                "nodeType": "function",
+                "props": Object {
+                  "tenureAgreement": Object {
+                    "id": 2,
+                    "number": 2,
+                    "region": "Victoria",
+                    "status": "pending",
+                    "tenureHolder": Object {
+                      "name": "tenure holder #2",
+                    },
+                  },
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "2",
+                "nodeType": "function",
+                "props": Object {
+                  "tenureAgreement": Object {
+                    "id": 3,
+                    "number": 3,
+                    "region": "Victoria",
+                    "status": "pending",
+                    "tenureHolder": Object {
+                      "name": "tenure holder #3",
+                    },
+                  },
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
       "type": "div",
     },
   ],

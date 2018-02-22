@@ -96,8 +96,8 @@ components/
   }
   ```
 
-* Adding a CSS Preprocessor (Sass)
-  Creating `src/App.scss` file while running the app results in generating `src/App.css` automatically.
+* Integration with Sass 
+  - Whlie running the app creating `src/App.scss` file results in generating `src/App.css` automatically.
 
 * Semantic UI
   * Dependencies - [Getting Started](http://learnsemantic.com/guide/expert.html)
