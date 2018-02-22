@@ -31,7 +31,10 @@ class TenureAgreementSearch extends Component {
       <div className="tenure-agreement-search">
         <div className="tenure-agreement-search__label">{label}</div>        
         
-        <Input icon placeholder={placeholder}>
+        <Input 
+          icon
+          loading={false} 
+          placeholder={placeholder}>
           <input 
             id="search"
             value={search}

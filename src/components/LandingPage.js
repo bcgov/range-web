@@ -44,12 +44,13 @@ export class LandingPage extends Component {
   render() {
     const { component: Component, user, ...rest } = this.props;
     const { isSidebarHidden } = this.state;
+    const userInitial = 'KH';
 
     return (
       <div className="landing-page">
         <div className="nav">
           <div className="nav__left">
-            <div className="nav__left__icon">
+            <div className="nav__icon">
               <Icon 
                 size="large" 
                 name="bars" 
@@ -58,13 +59,18 @@ export class LandingPage extends Component {
             </div>
             <NavLink 
               to={Routes.HOME}
-              className="nav__left__title"
+              className="nav__title"
             > 
               MyRA
             </NavLink>
           </div>
 
           <div className="nav__right">
+            <div className="avatar">
+              <div className="avatar__initial">
+                {userInitial}
+              </div>
+            </div>
           </div>
         </div>
         

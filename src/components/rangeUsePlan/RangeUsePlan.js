@@ -26,7 +26,7 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const options = [{ key: 'AL', value: 'AL', text: 'Range use plan - 10/11/2017' }];
+    const options = [{ key: 'AL', value: 'AL', text: '10/11/2017 - pending' }];
 
     return (
       <div className="range-use-plan">
@@ -40,7 +40,7 @@ export class RangeUsePlan extends Component {
             />
             </Link>
             <div className="range-use-plan__title">
-              {"Range use plan #1"}
+              {"Range use plan #1231"}
             </div>
           </div>
 

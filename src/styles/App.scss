@@ -13,7 +13,7 @@ body {
   margin: 0;
   padding: 0;
   min-width: $mobile-width;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .main {
@@ -45,9 +45,8 @@ body {
   position: fixed;
   top: $nav-height;
   left: 0;
-  /* top layer */
+  background: $light-gray-color;
   z-index: 99;
-  background: white;
   transition: all 0.3s;
 
   &--hidden {
@@ -59,8 +58,8 @@ body {
       display: flex;
       align-items: center;
       height: 60px;
-      padding: 10px;
-      color: black;
+      padding: 0 15px;
+      color: white;
 
       &--active {
         background: $primary-color;
@@ -89,21 +88,37 @@ body {
   &__left {
     display: flex;
     align-items: center;
+  }
 
-    &__icon {
-      margin: 0 10px;
-      cursor: pointer;
+  &__icon {
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: white;
+
+    &:hover {
       color: white;
-    }
+    } 
+  }
+}
 
-    &__title {
-      font-size: 1.3rem;
-      cursor: pointer;
-      color: white;
+.avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: $general-padding;
+  border-radius: 50%;
+  background: $primary-light-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 
-      &:hover {
-        color: white;
-      } 
-    }
+  &__initial {
+    color: white;
   }
 }
