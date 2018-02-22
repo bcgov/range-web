@@ -31,7 +31,7 @@ ShallowWrapper {
                     className="nav__left"
           >
                     <div
-                              className="nav__left__icon"
+                              className="nav__icon"
                     >
                               <Icon
                                         as="i"
@@ -43,7 +43,7 @@ ShallowWrapper {
                     <NavLink
                               activeClassName="active"
                               ariaCurrent="true"
-                              className="nav__left__title"
+                              className="nav__title"
                               to="/home"
                     >
                               MyRA
@@ -51,7 +51,17 @@ ShallowWrapper {
           </div>
           <div
                     className="nav__right"
-          />
+          >
+                    <div
+                              className="avatar"
+                    >
+                              <div
+                                        className="avatar__initial"
+                              >
+                                        KH
+                              </div>
+                    </div>
+          </div>
 </div>,
         <div
           className="main"
@@ -115,7 +125,7 @@ ShallowWrapper {
               className="nav__left"
 >
               <div
-                            className="nav__left__icon"
+                            className="nav__icon"
               >
                             <Icon
                                           as="i"
@@ -127,7 +137,7 @@ ShallowWrapper {
               <NavLink
                             activeClassName="active"
                             ariaCurrent="true"
-                            className="nav__left__title"
+                            className="nav__title"
                             to="/home"
               >
                             MyRA
@@ -135,7 +145,17 @@ ShallowWrapper {
 </div>,
             <div
               className="nav__right"
-/>,
+>
+              <div
+                            className="avatar"
+              >
+                            <div
+                                          className="avatar__initial"
+                            >
+                                          KH
+                            </div>
+              </div>
+</div>,
           ],
           "className": "nav",
         },
@@ -148,7 +168,7 @@ ShallowWrapper {
             "props": Object {
               "children": Array [
                 <div
-                  className="nav__left__icon"
+                  className="nav__icon"
 >
                   <Icon
                                     as="i"
@@ -160,7 +180,7 @@ ShallowWrapper {
                 <NavLink
                   activeClassName="active"
                   ariaCurrent="true"
-                  className="nav__left__title"
+                  className="nav__title"
                   to="/home"
 >
                   MyRA
@@ -181,7 +201,7 @@ ShallowWrapper {
                     onClick={[Function]}
                     size="large"
 />,
-                  "className": "nav__left__icon",
+                  "className": "nav__icon",
                 },
                 "ref": null,
                 "rendered": Object {
@@ -208,7 +228,7 @@ ShallowWrapper {
                   "activeClassName": "active",
                   "ariaCurrent": "true",
                   "children": "MyRA",
-                  "className": "nav__left__title",
+                  "className": "nav__title",
                   "to": "/home",
                 },
                 "ref": null,
@@ -223,10 +243,45 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
+              "children": <div
+                className="avatar"
+>
+                <div
+                                className="avatar__initial"
+                >
+                                KH
+                </div>
+</div>,
               "className": "nav__right",
             },
             "ref": null,
-            "rendered": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  className="avatar__initial"
+>
+                  KH
+</div>,
+                "className": "avatar",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "KH",
+                  "className": "avatar__initial",
+                },
+                "ref": null,
+                "rendered": "KH",
+                "type": "div",
+              },
+              "type": "div",
+            },
             "type": "div",
           },
         ],
@@ -462,7 +517,7 @@ ShallowWrapper {
                         className="nav__left"
             >
                         <div
-                                    className="nav__left__icon"
+                                    className="nav__icon"
                         >
                                     <Icon
                                                 as="i"
@@ -474,7 +529,7 @@ ShallowWrapper {
                         <NavLink
                                     activeClassName="active"
                                     ariaCurrent="true"
-                                    className="nav__left__title"
+                                    className="nav__title"
                                     to="/home"
                         >
                                     MyRA
@@ -482,7 +537,17 @@ ShallowWrapper {
             </div>
             <div
                         className="nav__right"
-            />
+            >
+                        <div
+                                    className="avatar"
+                        >
+                                    <div
+                                                className="avatar__initial"
+                                    >
+                                                KH
+                                    </div>
+                        </div>
+            </div>
 </div>,
           <div
             className="main"
@@ -546,7 +611,7 @@ ShallowWrapper {
                 className="nav__left"
 >
                 <div
-                                className="nav__left__icon"
+                                className="nav__icon"
                 >
                                 <Icon
                                                 as="i"
@@ -558,7 +623,7 @@ ShallowWrapper {
                 <NavLink
                                 activeClassName="active"
                                 ariaCurrent="true"
-                                className="nav__left__title"
+                                className="nav__title"
                                 to="/home"
                 >
                                 MyRA
@@ -566,7 +631,17 @@ ShallowWrapper {
 </div>,
               <div
                 className="nav__right"
-/>,
+>
+                <div
+                                className="avatar"
+                >
+                                <div
+                                                className="avatar__initial"
+                                >
+                                                KH
+                                </div>
+                </div>
+</div>,
             ],
             "className": "nav",
           },
@@ -579,7 +654,7 @@ ShallowWrapper {
               "props": Object {
                 "children": Array [
                   <div
-                    className="nav__left__icon"
+                    className="nav__icon"
 >
                     <Icon
                                         as="i"
@@ -591,7 +666,7 @@ ShallowWrapper {
                   <NavLink
                     activeClassName="active"
                     ariaCurrent="true"
-                    className="nav__left__title"
+                    className="nav__title"
                     to="/home"
 >
                     MyRA
@@ -612,7 +687,7 @@ ShallowWrapper {
                       onClick={[Function]}
                       size="large"
 />,
-                    "className": "nav__left__icon",
+                    "className": "nav__icon",
                   },
                   "ref": null,
                   "rendered": Object {
@@ -639,7 +714,7 @@ ShallowWrapper {
                     "activeClassName": "active",
                     "ariaCurrent": "true",
                     "children": "MyRA",
-                    "className": "nav__left__title",
+                    "className": "nav__title",
                     "to": "/home",
                   },
                   "ref": null,
@@ -654,10 +729,45 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
+                "children": <div
+                  className="avatar"
+>
+                  <div
+                                    className="avatar__initial"
+                  >
+                                    KH
+                  </div>
+</div>,
                 "className": "nav__right",
               },
               "ref": null,
-              "rendered": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <div
+                    className="avatar__initial"
+>
+                    KH
+</div>,
+                  "className": "avatar",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "KH",
+                    "className": "avatar__initial",
+                  },
+                  "ref": null,
+                  "rendered": "KH",
+                  "type": "div",
+                },
+                "type": "div",
+              },
               "type": "div",
             },
           ],

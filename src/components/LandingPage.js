@@ -98,7 +98,7 @@ export class LandingPage extends Component {
           
           <div 
             className={"overlay" + (isSidebarHidden ? " overlay--hidden" : "")} 
-            onClick={this.toggleSidebar}
+            onClick={this.closeSidebar}
           />
 
           <div className="content">
