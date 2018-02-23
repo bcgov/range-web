@@ -59,6 +59,7 @@ export class Login extends Component {
         <div className="login__button">
           <Button
             loading={loginState.isLoading || false}
+            disabled={loginState.isLoading || false}
             primary
             fluid
             onClick={this.onButtonClick}

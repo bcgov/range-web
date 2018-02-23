@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf';
 import jspdf from 'jspdf';
 import { Button, Popup } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { HOME } from '../../constants/routes';
 
 class RangeUsePlanPDFView extends Component {
   state = {
@@ -70,12 +72,22 @@ class RangeUsePlanPDFView extends Component {
 
     const downloadButton = (
       <Button 
-        className={getClassName("__floating-button")}
+        className={getClassName("__download-button")}
         circular
         size="large"
         icon="download"
         onClick={this.onDownloadButtonClicked}
       />
+    );
+    const backButton = (
+      <Link to={HOME}>
+        <Button
+          className={getClassName("__back-button")}
+          circular
+          size="large"
+          icon="reply"
+        />
+      </Link>
     );
 
     return (
@@ -91,13 +103,23 @@ class RangeUsePlanPDFView extends Component {
           </div>
         </div>
         
-        <Popup
+        {downloadButton}
+        {backButton}
+
+        {/* <Popup
           trigger={downloadButton}
-          content='Download PDF'
+          content="Download PDF"
           inverted
-          position='top center'
+          position="top center"
         />
         
+        <Popup
+          trigger={backButton}
+          content="Back to list"
+          inverted
+          position="top center"
+        /> */}
+
       </div>
     );
   }

@@ -20,9 +20,9 @@ class TenureAgreementListItem extends Component {
 
   render() {
     const { tenureAgreement } = this.props;
-    const getClassName = (className = '') => (
-      `tenure-agreement-list-item${className}`
-    );
+    // const getClassName = (className = '') => (
+    //   `tenure-agreement-list-item${className}`
+    // );
 
     return (
       <Table.Row 

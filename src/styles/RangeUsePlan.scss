@@ -6,11 +6,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-
-    &__left {
-      display: flex;
-      align-items: center;
-    }
   }
   
   &__title {
@@ -27,9 +22,15 @@
 
 .range-use-plan-pdf-view {
 
-  &__floating-button {
+  &__download-button {
     position: fixed;
     bottom: 40px;
+    right: 40px;
+  }
+
+  &__back-button {
+    position: fixed;
+    bottom: 90px;
     right: 40px;
   }
 
