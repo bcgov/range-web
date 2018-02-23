@@ -18,7 +18,7 @@ class TenureAgreementList extends Component {
 
     return (
       <div className="tenure-agreement-list">
-        <Table singleLine selectable striped>
+        <Table singleLine selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>{RANGE_NUMBER}</Table.HeaderCell>

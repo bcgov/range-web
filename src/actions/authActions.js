@@ -8,6 +8,7 @@ import {
   SSO_REDIRECT_URI,
   SSO_CLIENT_ID,
   GET_TOKEN,
+  REFRESH_TOKEN,
 } from '../constants/api';
 import {
   LOGIN_ERROR,
@@ -78,8 +79,16 @@ export const userProfileChange = (user) => {
   }
 }
 
-const getToken = (code) => {
+export const fakeLogin = () => (dispatch) => {
+  dispatch(loginRequest());
+  
+  setTimeout(() => {
+    Auth.onSignedIn(fakeResponse);
+    dispatch(loginSuccess(fakeResponse.data, fakeResponse.data.user_data));
+  }, 1000);
+}
 
+const getToken = (code) => {
   // return axios({
   //   method:'post',
   //   url: SSO_BASE_URL + GET_TOKEN,
@@ -102,40 +111,31 @@ const getToken = (code) => {
   });
 }
 
-export const fakeLogin = () => (dispatch) => {
-  dispatch(loginRequest());
-  
-  setTimeout(() => {
-    Auth.onSignedIn(fakeResponse);
-    dispatch(loginSuccess(fakeResponse.data, fakeResponse.data.user_data));
-  }, 1000);
+const refreshToken = (refresh_token) => {
+  return axios.post(SSO_BASE_URL + REFRESH_TOKEN, {
+    refresh_token,
+    grant_type: 'refresh_token',
+    redirect_uri: SSO_REDIRECT_URI,
+    client_id: SSO_CLIENT_ID,
+  })
 }
 
 export const login = (code) => (dispatch) => {
   dispatch(loginRequest());
 
-  return getToken(code)
+  getToken(code)
+  .then(response => {
+    console.log(response)
+    // save tokens in local storage and set header for axios 
+    // Auth.onSignedIn(response);
 
-  // const { email, password } = requestData;
-  // axios.post(API.BASE_URL + API.LOGIN, {
-  //   email,
-  //   password
-  // }).then(response => {
-  //   const successful = Handlers.handleResponse(response);
-  //   if (successful) {
-  //     Auth.onSignedIn(response);
-  //     dispatch(loginSuccess(response.data, response.data.user_data));
-  //   } else {
-  //     dispatch(loginError(response));
-      
-  //     const err = { response };
-  //     dispatch(toastErrorMessage(err));
-  //   }
-    
-  // }).catch(err => {
-  //   dispatch(loginError(err));
-  //   dispatch(toastErrorMessage(err));
-  // });
+    // TODO: make a request to get user data
+    // dispatch(loginSuccess(response.data, response.data.user_data));
+  }).catch(err => {
+    dispatch(loginError(err));
+    // dispatch(toastErrorMessage(err));
+    console.log(err);
+  });
 }
 
 export const logout = () => (dispatch) => {

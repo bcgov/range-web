@@ -10,7 +10,7 @@ class Auth {
       this._auth = {
         
       };
-
+      this._name = 'auth-range-web';
       Auth.instance = this;
     }
     return Auth.instance;
@@ -44,7 +44,7 @@ class Auth {
   getUserDataFromLocalStorage() {
     let user = null;
     
-    const localData = JSON.parse(localStorage.getItem('auth'));
+    const localData = JSON.parse(localStorage.getItem(this._name));
     if(localData) {
       axios.defaults.headers.common['Authorization'] = "Bearer " + localData.access_token;
       user = {...localData.user_data};
@@ -60,7 +60,7 @@ class Auth {
    * after succesfully signing in
    */
   onSignedIn(response) {
-    localStorage.setItem('auth', JSON.stringify(response.data));
+    localStorage.setItem(this._name, JSON.stringify(response.data));
     axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.access_token;
   }
   
@@ -80,10 +80,10 @@ class Auth {
    * after succesfully update user profile 
    */
   onUserProfileChanged(newUserData) {
-    const localData = JSON.parse(localStorage.getItem('auth'));
+    const localData = JSON.parse(localStorage.getItem(this._name));
     if(localData) {
       localData.user_data = { ...newUserData };
-      localStorage.setItem('auth', JSON.stringify(localData));
+      localStorage.setItem(this._name, JSON.stringify(localData));
     }
   }
 }

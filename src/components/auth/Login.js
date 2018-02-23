@@ -17,11 +17,6 @@ export class Login extends Component {
 
     if(code) {
       login(code)
-      .then(response =>
-        console.log(response)
-      ).catch(err =>
-        console.log(err)
-      );
     }
   }
 
@@ -30,13 +25,14 @@ export class Login extends Component {
   }
 
   onButtonClick = (e) => {
-    const width = 900;
-    const height = 500;
-    const top = window.outerHeight/2 - height/2;
-    const left = window.outerWidth/2 - width/2;
-    const parameter = `width=${width}, height=${height}, top=${top}, left=${left}`;
-    // window.open(SSO_AUTH_ENDPOINT, "_self", parameter);
-    window.open(SSO_AUTH_ENDPOINT, "_blank", parameter);
+    // const width = 900;
+    // const height = 500;
+    // const top = window.outerHeight/2 - height/2;
+    // const left = window.outerWidth/2 - width/2;
+    // const parameter = `width=${width}, height=${height}, top=${top}, left=${left}`;
+    // window.open(SSO_AUTH_ENDPOINT, "_blank", parameter);
+
+    window.open(SSO_AUTH_ENDPOINT, "_self");
   }
 
   render() {
@@ -56,21 +52,22 @@ export class Login extends Component {
           My Range Application
         </div>
 
-        <div className="login__header">
+        {/* <div className="login__header">
           Login
-        </div>
+        </div> */}
 
         <div className="login__button">
           <Button
+            loading={loginState.isLoading || false}
             primary
             fluid
             onClick={this.onButtonClick}
             > 
             Login
           </Button>
+          
         </div>
-        
-        <a 
+        <a
           className="login__change-link"
           href="https://summer.gov.bc.ca"
           target="_blank"
@@ -78,9 +75,9 @@ export class Login extends Component {
         >
           Is your password expired?
         </a>
-
         <Button
           onClick={this.fakeLogin}
+          style={{ marginTop: '10px'}}
           > 
           Fake Login
         </Button>

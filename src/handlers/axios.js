@@ -1,13 +1,13 @@
-import baseAxios from 'axios';
+import axios from 'axios';
 
 /*
-  This is a helper class for axios related methods
+  create a custom axios instance
 */
 
-export const axios = baseAxios.create({
+export const instance = axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*'
   }
 });
 
-export default axios;
+export default instance;
