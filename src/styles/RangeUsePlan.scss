@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $general-padding;
+    padding: 15px;
 
     &__left {
       display: flex;
@@ -47,7 +47,7 @@
     &__document {
       margin: 1em 0;
 
-      .react-pdf {
+      .ReactPDF {
         &__Document {
           display: flex;
           flex-direction: column;
@@ -57,7 +57,7 @@
         &__Page {
           max-width: calc(100% - 2em);
           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
-          margin: 1em;
+          margin: 10px 0;
 
           canvas {
             max-width: 100%;

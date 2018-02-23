@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../handlers/axios';
 
 /*
   This is a helper class for authentication related methods

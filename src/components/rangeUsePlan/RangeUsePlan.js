@@ -26,7 +26,11 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const options = [{ key: 'AL', value: 'AL', text: '10/11/2017 - pending' }];
+    const options = [
+      { key: 'A', value: 'AL', text: '10/11/2017 - Pending' },
+      { key: 'L', value: 'AL', text: '12/01/2017 - Approved' },
+      { key: 'AL', value: 'AL', text: '14/11/2016 - Approved' },
+    ];
 
     return (
       <div className="range-use-plan">
@@ -35,7 +39,7 @@ export class RangeUsePlan extends Component {
             <Link to={HOME}>
             <Button
               circular
-              size="small"
+              size="mini"
               icon="arrow left"
             />
             </Link>
@@ -46,7 +50,7 @@ export class RangeUsePlan extends Component {
 
           <div className="range-use-plan__dropdown">
             <Dropdown 
-              placeholder='Range use plan' 
+              placeholder='select other range use plans' 
               search 
               selection
               fluid 

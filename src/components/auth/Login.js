@@ -1,42 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Button } from 'semantic-ui-react';
-
-import { login } from '../../actions/authActions';
+import { Button } from 'semantic-ui-react';
+import { SSO_AUTH_ENDPOINT } from '../../constants/api';
+import { login, fakeLogin } from '../../actions/authActions';
+import queryString from 'query-string';
 
 export class Login extends Component {
   state = {
-    username: '',
-    password: '',
+
   }
   
-  isInputsValid() {
-    return true;  
-  }
+  componentDidMount() {
+    const { login, location } = this.props;
+    const parsed = queryString.parse(location.search);
+    const { code } = parsed;
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    const { ...requestData } = this.state;
-
-    if (this.isInputsValid()) {
-      this.props.login({ ...requestData });
+    if(code) {
+      login(code)
+      .then(response =>
+        console.log(response)
+      ).catch(err =>
+        console.log(err)
+      );
     }
   }
 
-  handleInput = (e) => {
-    const { id, value } = e.target; 
+  fakeLogin = () => {
+    this.props.fakeLogin()
+  }
 
-    this.setState({
-      [id]: value
-    });
+  onButtonClick = (e) => {
+    const width = 900;
+    const height = 500;
+    const top = window.outerHeight/2 - height/2;
+    const left = window.outerWidth/2 - width/2;
+    const parameter = `width=${width}, height=${height}, top=${top}, left=${left}`;
+    // window.open(SSO_AUTH_ENDPOINT, "_self", parameter);
+    window.open(SSO_AUTH_ENDPOINT, "_blank", parameter);
   }
 
   render() {
-    const { 
-      username, 
-      password, 
-    } = this.state;
-
     const {
       loginState
     } = this.props;
@@ -57,44 +60,16 @@ export class Login extends Component {
           Login
         </div>
 
-        <Form loading={loginState.isLoading || false}>
-          <div className="login__form">
-            <Form.Field>
-              <label>Username</label>
-              <input 
-                id="username" 
-                type="text" 
-                placeholder="Enter Username"
-                value={username}
-                onChange={this.handleInput} 
-              />
-            </Form.Field>
-          </div>
-
-          <div className="login__form">
-            <Form.Field>
-              <label>Password</label>
-              <input 
-                id="password" 
-                type="password" 
-                placeholder="Enter Password"
-                value={password}
-                onChange={this.handleInput} 
-                onKeyPress={this.handleEnter}
-              />
-            </Form.Field>  
-          </div>
-
-          <div className="login__button">
-            <Button
-              onClick={this.onSubmit}
-              primary
-              fluid
+        <div className="login__button">
+          <Button
+            primary
+            fluid
+            onClick={this.onButtonClick}
             > 
-              Login
-            </Button>
-          </div>
-        </Form>
+            Login
+          </Button>
+        </div>
+        
         <a 
           className="login__change-link"
           href="https://summer.gov.bc.ca"
@@ -103,6 +78,12 @@ export class Login extends Component {
         >
           Is your password expired?
         </a>
+
+        <Button
+          onClick={this.fakeLogin}
+          > 
+          Fake Login
+        </Button>
       </div>
     );
   }
@@ -115,5 +96,5 @@ const mapStateToProps = state => {
 };
 
 export default connect (
-  mapStateToProps, { login }
+  mapStateToProps, { login, fakeLogin }
 )(Login)

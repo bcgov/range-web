@@ -1,8 +1,14 @@
 // import axios from 'axios';
+import axios from '../handlers/axios';
 // import { toastErrorMessage } from './toastActions.jsx';
 
 import { AUTH } from '../constants/reducerTypes';
-// import API from '../constants/API.jsx';
+import {
+  SSO_BASE_URL, 
+  SSO_REDIRECT_URI,
+  SSO_CLIENT_ID,
+  GET_TOKEN,
+} from '../constants/api';
 import {
   LOGIN_ERROR,
   LOGIN_REQUEST,
@@ -72,13 +78,43 @@ export const userProfileChange = (user) => {
   }
 }
 
-export const login = (requestData) => (dispatch) => {
-  dispatch(loginRequest());
+const getToken = (code) => {
 
+  // return axios({
+  //   method:'post',
+  //   url: SSO_BASE_URL + GET_TOKEN,
+  //   headers: {
+  //     'Access-Control-Allow-Origin': '*',
+  //   },
+  //   data: {
+  //     code,
+  //     grant_type: 'authorization_code',
+  //     redirect_uri: SSO_REDIRECT_URI,
+  //     client_id: SSO_CLIENT_ID,
+  //   }
+  // });
+
+  return axios.post(SSO_BASE_URL + GET_TOKEN, {
+    code,
+    grant_type: 'authorization_code',
+    redirect_uri: SSO_REDIRECT_URI,
+    client_id: SSO_CLIENT_ID,
+  });
+}
+
+export const fakeLogin = () => (dispatch) => {
+  dispatch(loginRequest());
+  
   setTimeout(() => {
     Auth.onSignedIn(fakeResponse);
     dispatch(loginSuccess(fakeResponse.data, fakeResponse.data.user_data));
   }, 1000);
+}
+
+export const login = (code) => (dispatch) => {
+  dispatch(loginRequest());
+
+  return getToken(code)
 
   // const { email, password } = requestData;
   // axios.post(API.BASE_URL + API.LOGIN, {
