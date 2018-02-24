@@ -29,6 +29,7 @@ ShallowWrapper {
 </div>,
         <Input
           icon={true}
+          loading={false}
           placeholder="placeholder"
           type="text"
 >
@@ -76,6 +77,7 @@ ShallowWrapper {
 />,
           ],
           "icon": true,
+          "loading": false,
           "placeholder": "placeholder",
           "type": "text",
         },
@@ -126,6 +128,7 @@ ShallowWrapper {
 </div>,
           <Input
             icon={true}
+            loading={false}
             placeholder="placeholder"
             type="text"
 >
@@ -173,6 +176,7 @@ ShallowWrapper {
 />,
             ],
             "icon": true,
+            "loading": false,
             "placeholder": "placeholder",
             "type": "text",
           },

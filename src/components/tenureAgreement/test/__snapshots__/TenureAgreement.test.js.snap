@@ -12,55 +12,55 @@ ShallowWrapper {
             Object {
               "id": 1,
               "number": 1,
-              "region": "Victoria",
+              "region": "Victoria Ranch 1",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #1",
+                "name": "tenure holder 1",
               },
             },
             Object {
               "id": 2,
               "number": 2,
-              "region": "Victoria",
+              "region": "Victoria Ranch 2",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #2",
+                "name": "tenure holder 2",
               },
             },
             Object {
               "id": 3,
               "number": 3,
-              "region": "Victoria",
+              "region": "Victoria Ranch 3",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #3",
+                "name": "tenure holder 3",
               },
             },
             Object {
               "id": 4,
               "number": 4,
-              "region": "Victoria",
+              "region": "Victoria Ranch 4",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #4",
+                "name": "tenure holder 4",
               },
             },
             Object {
               "id": 5,
               "number": 5,
-              "region": "Victoria",
+              "region": "Victoria Ranch 5",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #5",
+                "name": "tenure holder 5",
               },
             },
             Object {
               "id": 6,
               "number": 6,
-              "region": "Victoria",
+              "region": "Victoria Ranch 6",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #6",
+                "name": "tenure holder 6",
               },
             },
           ]
@@ -99,55 +99,55 @@ ShallowWrapper {
                               Object {
                                 "id": 1,
                                 "number": 1,
-                                "region": "Victoria",
+                                "region": "Victoria Ranch 1",
                                 "status": "pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder #1",
+                                  "name": "tenure holder 1",
                                 },
                               },
                               Object {
                                 "id": 2,
                                 "number": 2,
-                                "region": "Victoria",
+                                "region": "Victoria Ranch 2",
                                 "status": "pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder #2",
+                                  "name": "tenure holder 2",
                                 },
                               },
                               Object {
                                 "id": 3,
                                 "number": 3,
-                                "region": "Victoria",
+                                "region": "Victoria Ranch 3",
                                 "status": "pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder #3",
+                                  "name": "tenure holder 3",
                                 },
                               },
                               Object {
                                 "id": 4,
                                 "number": 4,
-                                "region": "Victoria",
+                                "region": "Victoria Ranch 4",
                                 "status": "pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder #4",
+                                  "name": "tenure holder 4",
                                 },
                               },
                               Object {
                                 "id": 5,
                                 "number": 5,
-                                "region": "Victoria",
+                                "region": "Victoria Ranch 5",
                                 "status": "pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder #5",
+                                  "name": "tenure holder 5",
                                 },
                               },
                               Object {
                                 "id": 6,
                                 "number": 6,
-                                "region": "Victoria",
+                                "region": "Victoria Ranch 6",
                                 "status": "pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder #6",
+                                  "name": "tenure holder 6",
                                 },
                               },
                             ]
@@ -207,55 +207,55 @@ ShallowWrapper {
             Object {
               "id": 1,
               "number": 1,
-              "region": "Victoria",
+              "region": "Victoria Ranch 1",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #1",
+                "name": "tenure holder 1",
               },
             },
             Object {
               "id": 2,
               "number": 2,
-              "region": "Victoria",
+              "region": "Victoria Ranch 2",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #2",
+                "name": "tenure holder 2",
               },
             },
             Object {
               "id": 3,
               "number": 3,
-              "region": "Victoria",
+              "region": "Victoria Ranch 3",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #3",
+                "name": "tenure holder 3",
               },
             },
             Object {
               "id": 4,
               "number": 4,
-              "region": "Victoria",
+              "region": "Victoria Ranch 4",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #4",
+                "name": "tenure holder 4",
               },
             },
             Object {
               "id": 5,
               "number": 5,
-              "region": "Victoria",
+              "region": "Victoria Ranch 5",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #5",
+                "name": "tenure holder 5",
               },
             },
             Object {
               "id": 6,
               "number": 6,
-              "region": "Victoria",
+              "region": "Victoria Ranch 6",
               "status": "pending",
               "tenureHolder": Object {
-                "name": "tenure holder #6",
+                "name": "tenure holder 6",
               },
             },
           ],
@@ -294,55 +294,55 @@ ShallowWrapper {
                                     Object {
                                       "id": 1,
                                       "number": 1,
-                                      "region": "Victoria",
+                                      "region": "Victoria Ranch 1",
                                       "status": "pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder #1",
+                                        "name": "tenure holder 1",
                                       },
                                     },
                                     Object {
                                       "id": 2,
                                       "number": 2,
-                                      "region": "Victoria",
+                                      "region": "Victoria Ranch 2",
                                       "status": "pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder #2",
+                                        "name": "tenure holder 2",
                                       },
                                     },
                                     Object {
                                       "id": 3,
                                       "number": 3,
-                                      "region": "Victoria",
+                                      "region": "Victoria Ranch 3",
                                       "status": "pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder #3",
+                                        "name": "tenure holder 3",
                                       },
                                     },
                                     Object {
                                       "id": 4,
                                       "number": 4,
-                                      "region": "Victoria",
+                                      "region": "Victoria Ranch 4",
                                       "status": "pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder #4",
+                                        "name": "tenure holder 4",
                                       },
                                     },
                                     Object {
                                       "id": 5,
                                       "number": 5,
-                                      "region": "Victoria",
+                                      "region": "Victoria Ranch 5",
                                       "status": "pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder #5",
+                                        "name": "tenure holder 5",
                                       },
                                     },
                                     Object {
                                       "id": 6,
                                       "number": 6,
-                                      "region": "Victoria",
+                                      "region": "Victoria Ranch 6",
                                       "status": "pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder #6",
+                                        "name": "tenure holder 6",
                                       },
                                     },
                                   ]
@@ -402,55 +402,55 @@ ShallowWrapper {
               Object {
                 "id": 1,
                 "number": 1,
-                "region": "Victoria",
+                "region": "Victoria Ranch 1",
                 "status": "pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder #1",
+                  "name": "tenure holder 1",
                 },
               },
               Object {
                 "id": 2,
                 "number": 2,
-                "region": "Victoria",
+                "region": "Victoria Ranch 2",
                 "status": "pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder #2",
+                  "name": "tenure holder 2",
                 },
               },
               Object {
                 "id": 3,
                 "number": 3,
-                "region": "Victoria",
+                "region": "Victoria Ranch 3",
                 "status": "pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder #3",
+                  "name": "tenure holder 3",
                 },
               },
               Object {
                 "id": 4,
                 "number": 4,
-                "region": "Victoria",
+                "region": "Victoria Ranch 4",
                 "status": "pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder #4",
+                  "name": "tenure holder 4",
                 },
               },
               Object {
                 "id": 5,
                 "number": 5,
-                "region": "Victoria",
+                "region": "Victoria Ranch 5",
                 "status": "pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder #5",
+                  "name": "tenure holder 5",
                 },
               },
               Object {
                 "id": 6,
                 "number": 6,
-                "region": "Victoria",
+                "region": "Victoria Ranch 6",
                 "status": "pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder #6",
+                  "name": "tenure holder 6",
                 },
               },
             ],

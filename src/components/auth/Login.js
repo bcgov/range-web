@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
+import queryString from 'query-string';
+
 import { SSO_AUTH_ENDPOINT } from '../../constants/api';
 import { login, fakeLogin } from '../../actions/authActions';
-import queryString from 'query-string';
 
 export class Login extends Component {
   state = {
@@ -58,6 +59,7 @@ export class Login extends Component {
 
         <div className="login__button">
           <Button
+            id="login-button"
             loading={loginState.isLoading || false}
             disabled={loginState.isLoading || false}
             primary

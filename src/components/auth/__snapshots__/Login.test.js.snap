@@ -5,6 +5,11 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Login
+    location={
+        Object {
+            "search": Object {},
+          }
+    }
     login={[Function]}
     loginState={Object {}}
     user={
@@ -37,60 +42,20 @@ ShallowWrapper {
           My Range Application
 </div>,
         <div
-          className="login__header"
+          className="login__button"
 >
-          Login
+          <Button
+                    as="button"
+                    disabled={false}
+                    fluid={true}
+                    id="login-button"
+                    loading={false}
+                    onClick={[Function]}
+                    primary={true}
+          >
+                    Login
+          </Button>
 </div>,
-        <Form
-          as="form"
-          loading={false}
->
-          <div
-                    className="login__form"
-          >
-                    <FormField>
-                              <label>
-                                        Username
-                              </label>
-                              <input
-                                        id="username"
-                                        onChange={[Function]}
-                                        placeholder="Enter Username"
-                                        type="text"
-                                        value=""
-                              />
-                    </FormField>
-          </div>
-          <div
-                    className="login__form"
-          >
-                    <FormField>
-                              <label>
-                                        Password
-                              </label>
-                              <input
-                                        id="password"
-                                        onChange={[Function]}
-                                        onKeyPress={undefined}
-                                        placeholder="Enter Password"
-                                        type="password"
-                                        value=""
-                              />
-                    </FormField>
-          </div>
-          <div
-                    className="login__button"
-          >
-                    <Button
-                              as="button"
-                              fluid={true}
-                              onClick={[Function]}
-                              primary={true}
-                    >
-                              Login
-                    </Button>
-          </div>
-</Form>,
         <a
           className="login__change-link"
           href="https://summer.gov.bc.ca"
@@ -99,6 +64,17 @@ ShallowWrapper {
 >
           Is your password expired?
 </a>,
+        <Button
+          as="button"
+          onClick={[Function]}
+          style={
+                    Object {
+                              "marginTop": "10px",
+                            }
+          }
+>
+          Fake Login
+</Button>,
       ],
       "className": "login",
     },
@@ -134,250 +110,39 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Login",
-          "className": "login__header",
-        },
-        "ref": null,
-        "rendered": "Login",
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "class",
-        "props": Object {
-          "as": "form",
-          "children": Array [
-            <div
-              className="login__form"
+          "children": <Button
+            as="button"
+            disabled={false}
+            fluid={true}
+            id="login-button"
+            loading={false}
+            onClick={[Function]}
+            primary={true}
 >
-              <FormField>
-                            <label>
-                                          Username
-                            </label>
-                            <input
-                                          id="username"
-                                          onChange={[Function]}
-                                          placeholder="Enter Username"
-                                          type="text"
-                                          value=""
-                            />
-              </FormField>
-</div>,
-            <div
-              className="login__form"
->
-              <FormField>
-                            <label>
-                                          Password
-                            </label>
-                            <input
-                                          id="password"
-                                          onChange={[Function]}
-                                          onKeyPress={undefined}
-                                          placeholder="Enter Password"
-                                          type="password"
-                                          value=""
-                            />
-              </FormField>
-</div>,
-            <div
-              className="login__button"
->
-              <Button
-                            as="button"
-                            fluid={true}
-                            onClick={[Function]}
-                            primary={true}
-              >
-                            Login
-              </Button>
-</div>,
-          ],
-          "loading": false,
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <FormField>
-                <label>
-                                Username
-                </label>
-                <input
-                                id="username"
-                                onChange={[Function]}
-                                placeholder="Enter Username"
-                                type="text"
-                                value=""
-                />
-</FormField>,
-              "className": "login__form",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": Array [
-                  <label>
-                    Username
-</label>,
-                  <input
-                    id="username"
-                    onChange={[Function]}
-                    placeholder="Enter Username"
-                    type="text"
-                    value=""
-/>,
-                ],
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "Username",
-                  },
-                  "ref": null,
-                  "rendered": "Username",
-                  "type": "label",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "id": "username",
-                    "onChange": [Function],
-                    "placeholder": "Enter Username",
-                    "type": "text",
-                    "value": "",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": "input",
-                },
-              ],
-              "type": [Function],
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <FormField>
-                <label>
-                                Password
-                </label>
-                <input
-                                id="password"
-                                onChange={[Function]}
-                                onKeyPress={undefined}
-                                placeholder="Enter Password"
-                                type="password"
-                                value=""
-                />
-</FormField>,
-              "className": "login__form",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": Array [
-                  <label>
-                    Password
-</label>,
-                  <input
-                    id="password"
-                    onChange={[Function]}
-                    onKeyPress={undefined}
-                    placeholder="Enter Password"
-                    type="password"
-                    value=""
-/>,
-                ],
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "Password",
-                  },
-                  "ref": null,
-                  "rendered": "Password",
-                  "type": "label",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "id": "password",
-                    "onChange": [Function],
-                    "onKeyPress": undefined,
-                    "placeholder": "Enter Password",
-                    "type": "password",
-                    "value": "",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": "input",
-                },
-              ],
-              "type": [Function],
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <Button
-                as="button"
-                fluid={true}
-                onClick={[Function]}
-                primary={true}
->
-                Login
+            Login
 </Button>,
-              "className": "login__button",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "class",
-              "props": Object {
-                "as": "button",
-                "children": "Login",
-                "fluid": true,
-                "onClick": [Function],
-                "primary": true,
-              },
-              "ref": null,
-              "rendered": "Login",
-              "type": [Function],
-            },
-            "type": "div",
+          "className": "login__button",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "as": "button",
+            "children": "Login",
+            "disabled": false,
+            "fluid": true,
+            "id": "login-button",
+            "loading": false,
+            "onClick": [Function],
+            "primary": true,
           },
-        ],
-        "type": [Function],
+          "ref": null,
+          "rendered": "Login",
+          "type": [Function],
+        },
+        "type": "div",
       },
       Object {
         "instance": null,
@@ -393,6 +158,22 @@ ShallowWrapper {
         "ref": null,
         "rendered": "Is your password expired?",
         "type": "a",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "as": "button",
+          "children": "Fake Login",
+          "onClick": [Function],
+          "style": Object {
+            "marginTop": "10px",
+          },
+        },
+        "ref": null,
+        "rendered": "Fake Login",
+        "type": [Function],
       },
     ],
     "type": "div",
@@ -415,60 +196,20 @@ ShallowWrapper {
             My Range Application
 </div>,
           <div
-            className="login__header"
+            className="login__button"
 >
-            Login
+            <Button
+                        as="button"
+                        disabled={false}
+                        fluid={true}
+                        id="login-button"
+                        loading={false}
+                        onClick={[Function]}
+                        primary={true}
+            >
+                        Login
+            </Button>
 </div>,
-          <Form
-            as="form"
-            loading={false}
->
-            <div
-                        className="login__form"
-            >
-                        <FormField>
-                                    <label>
-                                                Username
-                                    </label>
-                                    <input
-                                                id="username"
-                                                onChange={[Function]}
-                                                placeholder="Enter Username"
-                                                type="text"
-                                                value=""
-                                    />
-                        </FormField>
-            </div>
-            <div
-                        className="login__form"
-            >
-                        <FormField>
-                                    <label>
-                                                Password
-                                    </label>
-                                    <input
-                                                id="password"
-                                                onChange={[Function]}
-                                                onKeyPress={undefined}
-                                                placeholder="Enter Password"
-                                                type="password"
-                                                value=""
-                                    />
-                        </FormField>
-            </div>
-            <div
-                        className="login__button"
-            >
-                        <Button
-                                    as="button"
-                                    fluid={true}
-                                    onClick={[Function]}
-                                    primary={true}
-                        >
-                                    Login
-                        </Button>
-            </div>
-</Form>,
           <a
             className="login__change-link"
             href="https://summer.gov.bc.ca"
@@ -477,6 +218,17 @@ ShallowWrapper {
 >
             Is your password expired?
 </a>,
+          <Button
+            as="button"
+            onClick={[Function]}
+            style={
+                        Object {
+                                    "marginTop": "10px",
+                                  }
+            }
+>
+            Fake Login
+</Button>,
         ],
         "className": "login",
       },
@@ -512,250 +264,39 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Login",
-            "className": "login__header",
-          },
-          "ref": null,
-          "rendered": "Login",
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "as": "form",
-            "children": Array [
-              <div
-                className="login__form"
+            "children": <Button
+              as="button"
+              disabled={false}
+              fluid={true}
+              id="login-button"
+              loading={false}
+              onClick={[Function]}
+              primary={true}
 >
-                <FormField>
-                                <label>
-                                                Username
-                                </label>
-                                <input
-                                                id="username"
-                                                onChange={[Function]}
-                                                placeholder="Enter Username"
-                                                type="text"
-                                                value=""
-                                />
-                </FormField>
-</div>,
-              <div
-                className="login__form"
->
-                <FormField>
-                                <label>
-                                                Password
-                                </label>
-                                <input
-                                                id="password"
-                                                onChange={[Function]}
-                                                onKeyPress={undefined}
-                                                placeholder="Enter Password"
-                                                type="password"
-                                                value=""
-                                />
-                </FormField>
-</div>,
-              <div
-                className="login__button"
->
-                <Button
-                                as="button"
-                                fluid={true}
-                                onClick={[Function]}
-                                primary={true}
-                >
-                                Login
-                </Button>
-</div>,
-            ],
-            "loading": false,
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <FormField>
-                  <label>
-                                    Username
-                  </label>
-                  <input
-                                    id="username"
-                                    onChange={[Function]}
-                                    placeholder="Enter Username"
-                                    type="text"
-                                    value=""
-                  />
-</FormField>,
-                "className": "login__form",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "children": Array [
-                    <label>
-                      Username
-</label>,
-                    <input
-                      id="username"
-                      onChange={[Function]}
-                      placeholder="Enter Username"
-                      type="text"
-                      value=""
-/>,
-                  ],
-                },
-                "ref": null,
-                "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "Username",
-                    },
-                    "ref": null,
-                    "rendered": "Username",
-                    "type": "label",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "id": "username",
-                      "onChange": [Function],
-                      "placeholder": "Enter Username",
-                      "type": "text",
-                      "value": "",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": "input",
-                  },
-                ],
-                "type": [Function],
-              },
-              "type": "div",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <FormField>
-                  <label>
-                                    Password
-                  </label>
-                  <input
-                                    id="password"
-                                    onChange={[Function]}
-                                    onKeyPress={undefined}
-                                    placeholder="Enter Password"
-                                    type="password"
-                                    value=""
-                  />
-</FormField>,
-                "className": "login__form",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "children": Array [
-                    <label>
-                      Password
-</label>,
-                    <input
-                      id="password"
-                      onChange={[Function]}
-                      onKeyPress={undefined}
-                      placeholder="Enter Password"
-                      type="password"
-                      value=""
-/>,
-                  ],
-                },
-                "ref": null,
-                "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "Password",
-                    },
-                    "ref": null,
-                    "rendered": "Password",
-                    "type": "label",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "id": "password",
-                      "onChange": [Function],
-                      "onKeyPress": undefined,
-                      "placeholder": "Enter Password",
-                      "type": "password",
-                      "value": "",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": "input",
-                  },
-                ],
-                "type": [Function],
-              },
-              "type": "div",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <Button
-                  as="button"
-                  fluid={true}
-                  onClick={[Function]}
-                  primary={true}
->
-                  Login
+              Login
 </Button>,
-                "className": "login__button",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "class",
-                "props": Object {
-                  "as": "button",
-                  "children": "Login",
-                  "fluid": true,
-                  "onClick": [Function],
-                  "primary": true,
-                },
-                "ref": null,
-                "rendered": "Login",
-                "type": [Function],
-              },
-              "type": "div",
+            "className": "login__button",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "as": "button",
+              "children": "Login",
+              "disabled": false,
+              "fluid": true,
+              "id": "login-button",
+              "loading": false,
+              "onClick": [Function],
+              "primary": true,
             },
-          ],
-          "type": [Function],
+            "ref": null,
+            "rendered": "Login",
+            "type": [Function],
+          },
+          "type": "div",
         },
         Object {
           "instance": null,
@@ -771,6 +312,22 @@ ShallowWrapper {
           "ref": null,
           "rendered": "Is your password expired?",
           "type": "a",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "as": "button",
+            "children": "Fake Login",
+            "onClick": [Function],
+            "style": Object {
+              "marginTop": "10px",
+            },
+          },
+          "ref": null,
+          "rendered": "Fake Login",
+          "type": [Function],
         },
       ],
       "type": "div",
