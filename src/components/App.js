@@ -23,7 +23,7 @@ export class App extends Component {
 
   render() {
     const { user } = this.props;
-    
+
     return (
       <div>
         <BrowserRouter>

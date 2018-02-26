@@ -4,6 +4,7 @@ import jspdf from 'jspdf';
 import { Button, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { HOME } from '../../constants/routes';
+import axios from 'axios';
 
 class RangeUsePlanPDFView extends Component {
   state = {
@@ -28,8 +29,37 @@ class RangeUsePlanPDFView extends Component {
     });
   }
 
+  showFile(blob){
+    // It is necessary to create a new blob object with mime-type explicitly set
+    // otherwise only Chrome works like it should
+    var newBlob = new Blob([blob], {type: "application/pdf"})
+  
+    // IE doesn't allow using a blob object directly as link href
+    // instead it is necessary to use msSaveOrOpenBlob
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(newBlob);
+      return;
+    } 
+  
+    // For other browsers: 
+    // Create a link pointing to the ObjectURL containing the blob.
+    const data = window.URL.createObjectURL(newBlob);
+    var link = document.createElement('a');
+    link.href = data;
+    link.download="file.pdf";
+    link.click();
+    setTimeout(() => {
+      // For Firefox it is necessary to delay revoking the ObjectURL
+      window.URL.revokeObjectURL(data);
+    }, 100);
+  }
+
   onDownloadButtonClicked = () => {
-    this.state.pdf.save("rup.pdf");
+    // axios.get('https://kyubinhan11.github.io/showcase/p-eye/report.pdf')
+    // .then(this.showFile)
+    // axios.get()
+    
+    // this.state.pdf.save("rup.pdf");
   }
 
   getPdfFile() {

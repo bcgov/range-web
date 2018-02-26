@@ -1,5 +1,4 @@
-import axios from '../handlers/axios';
-
+import axios from 'axios';
 /*
   This is a helper class for authentication related methods
 */
@@ -46,7 +45,7 @@ class Auth {
     
     const localData = JSON.parse(localStorage.getItem(this._name));
     if(localData) {
-      axios.defaults.headers.common['Authorization'] = "Bearer " + localData.access_token;
+      axios.defaults.headers.common['Authorization'] = `${localData.token_type} ${localData.access_token}`;
       user = {...localData.user_data};
     } 
   
@@ -60,10 +59,12 @@ class Auth {
    * after succesfully signing in
    */
   onSignedIn(response) {
-    localStorage.setItem(this._name, JSON.stringify(response.data));
-    axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.access_token;
+    if(response && response.data) {
+      const data = response.data;
+      localStorage.setItem(this._name, JSON.stringify(data));
+      axios.defaults.headers.common['Authorization'] = `${data.token_type} ${data.access_token}`;
+    }
   }
-  
 
   /**
    * delete auth header in axios and clear localStorage after signing out

@@ -4,13 +4,13 @@ import { Button } from 'semantic-ui-react';
 import queryString from 'query-string';
 
 import { SSO_AUTH_ENDPOINT } from '../../constants/api';
-import { login, fakeLogin } from '../../actions/authActions';
+import { login } from '../../actions/authActions';
 
 export class Login extends Component {
   state = {
 
   }
-  
+
   componentDidMount() {
     const { login, location } = this.props;
     const parsed = queryString.parse(location.search);
@@ -19,10 +19,6 @@ export class Login extends Component {
     if(code) {
       login(code)
     }
-  }
-
-  fakeLogin = () => {
-    this.props.fakeLogin()
   }
 
   onButtonClick = (e) => {
@@ -78,12 +74,6 @@ export class Login extends Component {
         >
           Is your password expired?
         </a>
-        <Button
-          onClick={this.fakeLogin}
-          style={{ marginTop: '10px'}}
-          > 
-          Fake Login
-        </Button>
       </div>
     );
   }
@@ -96,5 +86,5 @@ const mapStateToProps = state => {
 };
 
 export default connect (
-  mapStateToProps, { login, fakeLogin }
+  mapStateToProps, { login }
 )(Login)
