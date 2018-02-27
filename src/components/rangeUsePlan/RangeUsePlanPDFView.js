@@ -59,7 +59,7 @@ class RangeUsePlanPDFView extends Component {
     // .then(this.showFile)
     // axios.get()
     
-    // this.state.pdf.save("rup.pdf");
+    this.state.pdf.save("rup.pdf");
   }
 
   getPdfFile() {
