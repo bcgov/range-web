@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import { Button, Modal, Image, Header } from 'semantic-ui-react';
 
 import TenureAgreementList from './TenureAgreementList';
 import TenureAgreementSearch from './TenureAgreementSearch';
@@ -14,7 +15,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  tenureAgreements: getMockTenureAgreements(6),
+  tenureAgreements: getMockTenureAgreements(7),
   searchTenureAgreements: (term) => {
     console.log(term);
   },
@@ -41,15 +42,29 @@ export class TenureAgreement extends Component {
     return (
       <div className="tenure-agreement">
         <div className="tenure-agreement__header">
-          Tenure Agreements
+            Range Use Plans
         </div>
 
-        <div className="tenure-agreement__search">
-          <TenureAgreementSearch
-            label="Search Agreements:"
-            placeholder="Enter Search Terms..." 
-            handleSearchInput={this.handleSearchInput}
-          />
+        <div className="tenure-agreement__actions">
+          <div className="tenure-agreement__assign">
+            <Modal trigger={<Button primary>Assign Staffs</Button>}>
+              <Modal.Header>Select Assignee</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  <Header>Assign an officer to a tenure</Header>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+          </div>
+
+          <div className="tenure-agreement__search">
+            <TenureAgreementSearch
+              label="Search Agreements:"
+              placeholder="Enter Search Terms..." 
+              handleSearchInput={this.handleSearchInput}
+            />
+          </div>
         </div>
 
         <TenureAgreementList 
