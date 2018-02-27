@@ -29,7 +29,7 @@ export class RangeUsePlan extends Component {
       { key: 'L', value: 'AL', text: '12/01/2017 - Approved' },
       { key: 'AL', value: 'AL', text: '14/11/2016 - Approved' },
     ];
-    const id = ("" + this.state.id).padStart(5, "0");
+    const id = ("" + this.state.id).padStart(4, "0");
 
     return (
       <div className="range-use-plan">
