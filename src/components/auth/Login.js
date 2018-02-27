@@ -13,6 +13,8 @@ export class Login extends Component {
 
   componentDidMount() {
     const { login, location } = this.props;
+    
+    // grab the code from the redirect url
     const parsed = queryString.parse(location.search);
     const { code } = parsed;
 

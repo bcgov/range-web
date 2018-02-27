@@ -29,12 +29,13 @@ export class RangeUsePlan extends Component {
       { key: 'L', value: 'AL', text: '12/01/2017 - Approved' },
       { key: 'AL', value: 'AL', text: '14/11/2016 - Approved' },
     ];
+    const id = ("" + this.state.id).padStart(5, "0");
 
     return (
       <div className="range-use-plan">
         <div className="range-use-plan__header">
           <div className="range-use-plan__title">
-            {"Range use plan #1231"}
+            {`Range Use Plan #${id}`}
           </div>
 
           <div className="range-use-plan__dropdown">

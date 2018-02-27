@@ -1,4 +1,9 @@
 import axios from 'axios';
+import querystring from 'querystring';
+import {
+  SSO_BASE_URL, 
+  REFRESH_TOKEN,
+} from '../constants/api';
 /*
   This is a helper class for authentication related methods
 */
@@ -21,7 +26,12 @@ class Auth {
    * this method is called in App.jsx to register an interceptor to catch 
    * any 401 unauthorized response and redirect users to the login page
    */
-  registerAxiosInterceptor(logout) {
+  registerAxiosInterceptors(logout) {
+    // axios.interceptors.request.use(config => {
+    //   axios.post(SSO_BASE_URL + REFRESH_TOKEN, querystring.stringify(data));
+    //   return Promise.resolve(config)      
+    // });
+
     axios.interceptors.response.use(
       (response) => {
         return response;

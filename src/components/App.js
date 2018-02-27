@@ -18,7 +18,7 @@ import { logout } from '../actions/authActions';
 
 export class App extends Component {
   componentDidMount() {
-    Auth.registerAxiosInterceptor(this.props.logout);
+    Auth.registerAxiosInterceptors(this.props.logout);
   }
 
   render() {

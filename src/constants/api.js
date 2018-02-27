@@ -10,5 +10,5 @@ export const SSO_AUTH_ENDPOINT = SSO_BASE_AUTH_ENDPOINT
   + `&redirect_uri=${SSO_REDIRECT_URI}`;
 
 export const GET_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
-export const REFRESH_TOKEN = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`
+export const REFRESH_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`
 export const BASE_URL = 'https://app.swaggerhub.com/apis/AidanLaing/myra_api/1.0.0';

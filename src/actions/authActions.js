@@ -98,6 +98,9 @@ export const login = (code) => (dispatch) => {
 
     // TODO: make a request to get user data
     dispatch(loginSuccess(response.data, response.data.user_data));
+
+    refreshToken(response.data.refresh_token)
+    .then(response => console.log(response))
   }).catch(err => {
     dispatch(loginError(err));
     // dispatch(toastErrorMessage(err));

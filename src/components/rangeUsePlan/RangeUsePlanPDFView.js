@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf';
 import jspdf from 'jspdf';
-import { Button, Popup } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { HOME } from '../../constants/routes';
-import axios from 'axios';
+// import axios from 'axios';
 
 class RangeUsePlanPDFView extends Component {
   state = {
