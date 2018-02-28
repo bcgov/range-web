@@ -1,16 +1,20 @@
 import axios from 'axios';
-
+import querystring from 'querystring';
+import {
+  SSO_BASE_URL, 
+  REFRESH_TOKEN,
+} from '../constants/api';
 /*
   This is a helper class for authentication related methods
 */
 
-class Auth {
+export class Auth {
   constructor() {
     if(!Auth.instance) {
       this._auth = {
         
       };
-
+      this._name = 'auth-range-web';
       Auth.instance = this;
     }
     return Auth.instance;
@@ -22,7 +26,12 @@ class Auth {
    * this method is called in App.jsx to register an interceptor to catch 
    * any 401 unauthorized response and redirect users to the login page
    */
-  registerAxiosInterceptor(logout) {
+  registerAxiosInterceptors(logout) {
+    // axios.interceptors.request.use(config => {
+    //   axios.post(SSO_BASE_URL + REFRESH_TOKEN, querystring.stringify(data));
+    //   return Promise.resolve(config)      
+    // });
+
     axios.interceptors.response.use(
       (response) => {
         return response;
@@ -44,9 +53,9 @@ class Auth {
   getUserDataFromLocalStorage() {
     let user = null;
     
-    const localData = JSON.parse(localStorage.getItem('auth'));
+    const localData = JSON.parse(localStorage.getItem(this._name));
     if(localData) {
-      axios.defaults.headers.common['Authorization'] = "Bearer " + localData.access_token;
+      axios.defaults.headers.common['Authorization'] = `${localData.token_type} ${localData.access_token}`;
       user = {...localData.user_data};
     } 
   
@@ -60,10 +69,12 @@ class Auth {
    * after succesfully signing in
    */
   onSignedIn(response) {
-    localStorage.setItem('auth', JSON.stringify(response.data));
-    axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.access_token;
+    if(response && response.data) {
+      const data = response.data;
+      localStorage.setItem(this._name, JSON.stringify(data));
+      axios.defaults.headers.common['Authorization'] = `${data.token_type} ${data.access_token}`;
+    }
   }
-  
 
   /**
    * delete auth header in axios and clear localStorage after signing out
@@ -80,10 +91,10 @@ class Auth {
    * after succesfully update user profile 
    */
   onUserProfileChanged(newUserData) {
-    const localData = JSON.parse(localStorage.getItem('auth'));
+    const localData = JSON.parse(localStorage.getItem(this._name));
     if(localData) {
       localData.user_data = { ...newUserData };
-      localStorage.setItem('auth', JSON.stringify(localData));
+      localStorage.setItem(this._name, JSON.stringify(localData));
     }
   }
 }

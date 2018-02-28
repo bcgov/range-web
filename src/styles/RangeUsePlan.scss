@@ -5,12 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $general-padding;
-
-    &__left {
-      display: flex;
-      align-items: center;
-    }
+    padding: 15px;
   }
   
   &__title {
@@ -27,9 +22,15 @@
 
 .range-use-plan-pdf-view {
 
-  &__floating-button {
+  &__download-button {
     position: fixed;
     bottom: 40px;
+    right: 40px;
+  }
+
+  &__back-button {
+    position: fixed;
+    bottom: 90px;
     right: 40px;
   }
 
@@ -37,7 +38,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
 
     &__load {
       margin-top: 1em;
@@ -45,9 +45,9 @@
     }
 
     &__document {
-      margin: 1em 0;
+      margin-bottom: 1em;
 
-      .react-pdf {
+      .ReactPDF {
         &__Document {
           display: flex;
           flex-direction: column;
@@ -57,7 +57,7 @@
         &__Page {
           max-width: calc(100% - 2em);
           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
-          margin: 1em;
+          margin: 10px 0;
 
           canvas {
             max-width: 100%;

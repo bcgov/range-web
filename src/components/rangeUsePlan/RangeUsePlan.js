@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Dropdown, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Dropdown } from 'semantic-ui-react';
 
-import { HOME } from '../../constants/routes';
 import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
@@ -26,27 +24,23 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const options = [{ key: 'AL', value: 'AL', text: '10/11/2017 - pending' }];
+    const options = [
+      { key: 'A', value: 'AL', text: '10/11/2017 - Pending' },
+      { key: 'L', value: 'AL', text: '12/01/2017 - Approved' },
+      { key: 'AL', value: 'AL', text: '14/11/2016 - Approved' },
+    ];
+    const id = ("" + this.state.id).padStart(4, "0");
 
     return (
       <div className="range-use-plan">
         <div className="range-use-plan__header">
-          <div className="range-use-plan__header__left">
-            <Link to={HOME}>
-            <Button
-              circular
-              size="small"
-              icon="arrow left"
-            />
-            </Link>
-            <div className="range-use-plan__title">
-              {"Range use plan #1231"}
-            </div>
+          <div className="range-use-plan__title">
+            {`Range Use Plan #${id}`}
           </div>
 
           <div className="range-use-plan__dropdown">
             <Dropdown 
-              placeholder='Range use plan' 
+              placeholder='select other range use plans' 
               search 
               selection
               fluid 

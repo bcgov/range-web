@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 import TenureAgreement from './tenureAgreement';
 
-class Home extends Component {
+export class Home extends Component {
   render() {
     return (
       <div className="home"> 
-       <TenureAgreement />
+        <TenureAgreement />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  const { user } = state.authReducer;
+export default Home;
+// const mapStateToProps = state => {
+//   const { user } = state.authReducer;
   
-  return {
-    user
-  };  
-};
+//   return {
+//     user
+//   };  
+// };
 
-export default connect (
-  mapStateToProps, null
-)(Home)
+// export default connect (
+//   mapStateToProps, null
+// )(Home)

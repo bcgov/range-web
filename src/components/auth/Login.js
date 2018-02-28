@@ -1,42 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Button } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
+import queryString from 'query-string';
 
+import { SSO_AUTH_ENDPOINT } from '../../constants/api';
 import { login } from '../../actions/authActions';
 
+
+const propTypes = {
+  location: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+  loginState: PropTypes.object.isRequired,
+};
+
 export class Login extends Component {
-  state = {
-    username: '',
-    password: '',
-  }
-  
-  isInputsValid() {
-    return true;  
-  }
+  componentDidMount() {
+    const { login, location } = this.props;
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    const { ...requestData } = this.state;
+    // grab the code from the redirect url
+    const parsed = queryString.parse(location.search);
+    const { code } = parsed;
 
-    if (this.isInputsValid()) {
-      this.props.login({ ...requestData });
+    if(code) {
+      login(code)
     }
   }
 
-  handleInput = (e) => {
-    const { id, value } = e.target; 
-
-    this.setState({
-      [id]: value
-    });
+  onButtonClick = () => {
+    window.open(SSO_AUTH_ENDPOINT, "_self");
   }
 
   render() {
-    const { 
-      username, 
-      password, 
-    } = this.state;
-
     const {
       loginState
     } = this.props;
@@ -53,49 +48,20 @@ export class Login extends Component {
           My Range Application
         </div>
 
-        <div className="login__header">
-          Login
-        </div>
-
-        <Form loading={loginState.isLoading || false}>
-          <div className="login__form">
-            <Form.Field>
-              <label>Username</label>
-              <input 
-                id="username" 
-                type="text" 
-                placeholder="Enter Username"
-                value={username}
-                onChange={this.handleInput} 
-              />
-            </Form.Field>
-          </div>
-
-          <div className="login__form">
-            <Form.Field>
-              <label>Password</label>
-              <input 
-                id="password" 
-                type="password" 
-                placeholder="Enter Password"
-                value={password}
-                onChange={this.handleInput} 
-                onKeyPress={this.handleEnter}
-              />
-            </Form.Field>  
-          </div>
-
-          <div className="login__button">
-            <Button
-              onClick={this.onSubmit}
-              primary
-              fluid
+        <div className="login__button">
+          <Button
+            id="login-button"
+            loading={loginState.isLoading || false}
+            disabled={loginState.isLoading || false}
+            primary
+            fluid
+            onClick={this.onButtonClick}
             > 
-              Login
-            </Button>
-          </div>
-        </Form>
-        <a 
+            Login
+          </Button>
+          
+        </div>
+        <a
           className="login__change-link"
           href="https://summer.gov.bc.ca"
           target="_blank"
@@ -114,6 +80,7 @@ const mapStateToProps = state => {
   }; 
 };
 
+Login.propTypes = propTypes;
 export default connect (
   mapStateToProps, { login }
 )(Login)

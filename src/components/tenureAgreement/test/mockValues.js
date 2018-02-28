@@ -1,11 +1,14 @@
 export const getMockTenureAgreement = (number) => (
   {
     id: number,
-    number,
-    status: 'pending',
+    number: ("" + number).padStart(4, "0"),
+    status: number/3 <= 1 ? "Approved" : "Pending",
     region: `Victoria Ranch ${number}`,
     tenureHolder: {
-      name: `tenure holder ${number}`
+      name: number%2 === 0 ? "Han Solo" : "Luke Skywalker"
+    },
+    rangeOfficer: {
+      name: number%2 === 0 ? "Leia Organa" : "Obi-Wan Kenobi"
     }
   }
 )
