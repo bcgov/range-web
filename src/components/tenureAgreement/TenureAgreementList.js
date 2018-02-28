@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TenureAgreementListItem from './TenureAgreementListItem';
 import { Table } from 'semantic-ui-react';
-import { RANGE_NUMBER, TENURE_HOLDER, RANGE_OFFICER ,RANGE_NAME, STATUS } from '../../constants/strings';
+import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
   tenureAgreements: PropTypes.array.isRequired,
@@ -23,8 +23,8 @@ class TenureAgreementList extends Component {
             <Table.Row>
               <Table.HeaderCell>{RANGE_NUMBER}</Table.HeaderCell>
               <Table.HeaderCell>{RANGE_NAME}</Table.HeaderCell>
-              <Table.HeaderCell>{TENURE_HOLDER}</Table.HeaderCell>
-              <Table.HeaderCell>{RANGE_OFFICER}</Table.HeaderCell>
+              <Table.HeaderCell>{AGREEMENT_HOLDER}</Table.HeaderCell>
+              <Table.HeaderCell>{STAFF_CONTACT}</Table.HeaderCell>
               <Table.HeaderCell>{STATUS}</Table.HeaderCell>
             </Table.Row>
             

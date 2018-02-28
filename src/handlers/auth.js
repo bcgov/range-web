@@ -8,7 +8,7 @@ import {
   This is a helper class for authentication related methods
 */
 
-class Auth {
+export class Auth {
   constructor() {
     if(!Auth.instance) {
       this._auth = {

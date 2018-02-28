@@ -4,18 +4,23 @@ exports[`TenureAgreementListItem renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <withRouter(TenureAgreementListItem)
-    index={1}
-    isActive={false}
-    onViewClicked={[Function]}
+  Symbol(enzyme.__unrendered__): <TenureAgreementListItem
+    history={
+        Object {
+            "push": [Function],
+          }
+    }
     tenureAgreement={
         Object {
             "id": 1,
-            "number": 1,
+            "number": "0001",
+            "rangeOfficer": Object {
+              "name": "Obi-Wan Kenobi",
+            },
             "region": "Victoria Ranch 1",
-            "status": "pending",
+            "status": "Approved",
             "tenureHolder": Object {
-              "name": "tenure holder 1",
+              "name": "Luke Skywalker",
             },
           }
     }
@@ -30,24 +35,206 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "class",
+    "nodeType": "function",
     "props": Object {
-      "render": [Function],
+      "as": "tr",
+      "cellAs": "td",
+      "children": Array [
+        <TableCell
+          as="td"
+>
+          RAN0001
+</TableCell>,
+        <TableCell
+          as="td"
+>
+          Victoria Ranch 1
+</TableCell>,
+        <TableCell
+          as="td"
+>
+          Luke Skywalker
+</TableCell>,
+        <TableCell
+          as="td"
+>
+          Obi-Wan Kenobi
+</TableCell>,
+        <TableCell
+          as="td"
+>
+          Approved
+</TableCell>,
+      ],
+      "className": "tenure-agreement-list-item",
+      "onClick": [Function],
     },
     "ref": null,
-    "rendered": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "td",
+          "children": "RAN0001",
+        },
+        "ref": null,
+        "rendered": "RAN0001",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "td",
+          "children": "Victoria Ranch 1",
+        },
+        "ref": null,
+        "rendered": "Victoria Ranch 1",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "td",
+          "children": "Luke Skywalker",
+        },
+        "ref": null,
+        "rendered": "Luke Skywalker",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "td",
+          "children": "Obi-Wan Kenobi",
+        },
+        "ref": null,
+        "rendered": "Obi-Wan Kenobi",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "td",
+          "children": "Approved",
+        },
+        "ref": null,
+        "rendered": "Approved",
+        "type": [Function],
+      },
+    ],
     "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "class",
+      "nodeType": "function",
       "props": Object {
-        "render": [Function],
+        "as": "tr",
+        "cellAs": "td",
+        "children": Array [
+          <TableCell
+            as="td"
+>
+            RAN0001
+</TableCell>,
+          <TableCell
+            as="td"
+>
+            Victoria Ranch 1
+</TableCell>,
+          <TableCell
+            as="td"
+>
+            Luke Skywalker
+</TableCell>,
+          <TableCell
+            as="td"
+>
+            Obi-Wan Kenobi
+</TableCell>,
+          <TableCell
+            as="td"
+>
+            Approved
+</TableCell>,
+        ],
+        "className": "tenure-agreement-list-item",
+        "onClick": [Function],
       },
       "ref": null,
-      "rendered": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "td",
+            "children": "RAN0001",
+          },
+          "ref": null,
+          "rendered": "RAN0001",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "td",
+            "children": "Victoria Ranch 1",
+          },
+          "ref": null,
+          "rendered": "Victoria Ranch 1",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "td",
+            "children": "Luke Skywalker",
+          },
+          "ref": null,
+          "rendered": "Luke Skywalker",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "td",
+            "children": "Obi-Wan Kenobi",
+          },
+          "ref": null,
+          "rendered": "Obi-Wan Kenobi",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "td",
+            "children": "Approved",
+          },
+          "ref": null,
+          "rendered": "Approved",
+          "type": [Function],
+        },
+      ],
       "type": [Function],
     },
   ],

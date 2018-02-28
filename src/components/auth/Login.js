@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import queryString from 'query-string';
 
 import { SSO_AUTH_ENDPOINT } from '../../constants/api';
 import { login } from '../../actions/authActions';
 
+
+const propTypes = {
+  location: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+  loginState: PropTypes.object.isRequired,
+};
+
 export class Login extends Component {
-  state = {
-
-  }
-
   componentDidMount() {
     const { login, location } = this.props;
-    
+
     // grab the code from the redirect url
     const parsed = queryString.parse(location.search);
     const { code } = parsed;
@@ -51,10 +55,6 @@ export class Login extends Component {
           My Range Application
         </div>
 
-        {/* <div className="login__header">
-          Login
-        </div> */}
-
         <div className="login__button">
           <Button
             id="login-button"
@@ -87,6 +87,7 @@ const mapStateToProps = state => {
   }; 
 };
 
+Login.propTypes = propTypes;
 export default connect (
   mapStateToProps, { login }
 )(Login)

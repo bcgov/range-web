@@ -7,16 +7,11 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Login
     location={
         Object {
-            "search": Object {},
+            "search": "",
           }
     }
     login={[Function]}
     loginState={Object {}}
-    user={
-        Object {
-            "id": "id",
-          }
-    }
 />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -64,17 +59,6 @@ ShallowWrapper {
 >
           Is your password expired?
 </a>,
-        <Button
-          as="button"
-          onClick={[Function]}
-          style={
-                    Object {
-                              "marginTop": "10px",
-                            }
-          }
->
-          Fake Login
-</Button>,
       ],
       "className": "login",
     },
@@ -159,22 +143,6 @@ ShallowWrapper {
         "rendered": "Is your password expired?",
         "type": "a",
       },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "class",
-        "props": Object {
-          "as": "button",
-          "children": "Fake Login",
-          "onClick": [Function],
-          "style": Object {
-            "marginTop": "10px",
-          },
-        },
-        "ref": null,
-        "rendered": "Fake Login",
-        "type": [Function],
-      },
     ],
     "type": "div",
   },
@@ -218,17 +186,6 @@ ShallowWrapper {
 >
             Is your password expired?
 </a>,
-          <Button
-            as="button"
-            onClick={[Function]}
-            style={
-                        Object {
-                                    "marginTop": "10px",
-                                  }
-            }
->
-            Fake Login
-</Button>,
         ],
         "className": "login",
       },
@@ -312,22 +269,6 @@ ShallowWrapper {
           "ref": null,
           "rendered": "Is your password expired?",
           "type": "a",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "as": "button",
-            "children": "Fake Login",
-            "onClick": [Function],
-            "style": Object {
-              "marginTop": "10px",
-            },
-          },
-          "ref": null,
-          "rendered": "Fake Login",
-          "type": [Function],
         },
       ],
       "type": "div",

@@ -11,56 +11,86 @@ ShallowWrapper {
         Array [
             Object {
               "id": 1,
-              "number": 1,
+              "number": "0001",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 1",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 1",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 2,
-              "number": 2,
+              "number": "0002",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 2",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 2",
+                "name": "Han Solo",
               },
             },
             Object {
               "id": 3,
-              "number": 3,
+              "number": "0003",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 3",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 3",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 4,
-              "number": 4,
+              "number": "0004",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 4",
-              "status": "pending",
+              "status": "Pending",
               "tenureHolder": Object {
-                "name": "tenure holder 4",
+                "name": "Han Solo",
               },
             },
             Object {
               "id": 5,
-              "number": 5,
+              "number": "0005",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 5",
-              "status": "pending",
+              "status": "Pending",
               "tenureHolder": Object {
-                "name": "tenure holder 5",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 6,
-              "number": 6,
+              "number": "0006",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 6",
-              "status": "pending",
+              "status": "Pending",
               "tenureHolder": Object {
-                "name": "tenure holder 6",
+                "name": "Han Solo",
+              },
+            },
+            Object {
+              "id": 7,
+              "number": "0007",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
+              "region": "Victoria Ranch 7",
+              "status": "Pending",
+              "tenureHolder": Object {
+                "name": "Luke Skywalker",
               },
             },
           ]
@@ -82,72 +112,138 @@ ShallowWrapper {
         <div
           className="tenure-agreement__header"
 >
-          Tenure Agreements
+          Range Use Plans
 </div>,
         <div
-          className="tenure-agreement__search"
+          className="tenure-agreement__actions"
 >
-          <TenureAgreementSearch
-                    handleSearchInput={[Function]}
-                    label="Search Agreements:"
-                    placeholder="Enter Search Terms..."
-          />
+          <div
+                    className="tenure-agreement__assign"
+          >
+                    <Modal
+                              closeOnDimmerClick={true}
+                              closeOnDocumentClick={false}
+                              dimmer={true}
+                              eventPool="Modal"
+                              trigger={
+                                        <Button
+                                                  as="button"
+                                                  primary={true}
+                                        >
+                                                  Assign Staffs
+                                        </Button>
+                              }
+                    >
+                              <ModalHeader>
+                                        Select Assignee
+                              </ModalHeader>
+                              <ModalContent>
+                                        <ModalDescription>
+                                                  <Header>
+                                                            Assign an officer to a tenure
+                                                  </Header>
+                                                  <p>
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                                  </p>
+                                        </ModalDescription>
+                              </ModalContent>
+                    </Modal>
+          </div>
+          <div
+                    className="tenure-agreement__search"
+          >
+                    <TenureAgreementSearch
+                              handleSearchInput={[Function]}
+                              label="Search Agreements:"
+                              placeholder="Enter Search Terms..."
+                    />
+          </div>
 </div>,
         <TenureAgreementList
           tenureAgreements={
                     Array [
                               Object {
                                 "id": 1,
-                                "number": 1,
+                                "number": "0001",
+                                "rangeOfficer": Object {
+                                  "name": "Obi-Wan Kenobi",
+                                },
                                 "region": "Victoria Ranch 1",
-                                "status": "pending",
+                                "status": "Approved",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder 1",
+                                  "name": "Luke Skywalker",
                                 },
                               },
                               Object {
                                 "id": 2,
-                                "number": 2,
+                                "number": "0002",
+                                "rangeOfficer": Object {
+                                  "name": "Leia Organa",
+                                },
                                 "region": "Victoria Ranch 2",
-                                "status": "pending",
+                                "status": "Approved",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder 2",
+                                  "name": "Han Solo",
                                 },
                               },
                               Object {
                                 "id": 3,
-                                "number": 3,
+                                "number": "0003",
+                                "rangeOfficer": Object {
+                                  "name": "Obi-Wan Kenobi",
+                                },
                                 "region": "Victoria Ranch 3",
-                                "status": "pending",
+                                "status": "Approved",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder 3",
+                                  "name": "Luke Skywalker",
                                 },
                               },
                               Object {
                                 "id": 4,
-                                "number": 4,
+                                "number": "0004",
+                                "rangeOfficer": Object {
+                                  "name": "Leia Organa",
+                                },
                                 "region": "Victoria Ranch 4",
-                                "status": "pending",
+                                "status": "Pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder 4",
+                                  "name": "Han Solo",
                                 },
                               },
                               Object {
                                 "id": 5,
-                                "number": 5,
+                                "number": "0005",
+                                "rangeOfficer": Object {
+                                  "name": "Obi-Wan Kenobi",
+                                },
                                 "region": "Victoria Ranch 5",
-                                "status": "pending",
+                                "status": "Pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder 5",
+                                  "name": "Luke Skywalker",
                                 },
                               },
                               Object {
                                 "id": 6,
-                                "number": 6,
+                                "number": "0006",
+                                "rangeOfficer": Object {
+                                  "name": "Leia Organa",
+                                },
                                 "region": "Victoria Ranch 6",
-                                "status": "pending",
+                                "status": "Pending",
                                 "tenureHolder": Object {
-                                  "name": "tenure holder 6",
+                                  "name": "Han Solo",
+                                },
+                              },
+                              Object {
+                                "id": 7,
+                                "number": "0007",
+                                "rangeOfficer": Object {
+                                  "name": "Obi-Wan Kenobi",
+                                },
+                                "region": "Victoria Ranch 7",
+                                "status": "Pending",
+                                "tenureHolder": Object {
+                                  "name": "Luke Skywalker",
                                 },
                               },
                             ]
@@ -163,11 +259,11 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Tenure Agreements",
+          "children": "Range Use Plans",
           "className": "tenure-agreement__header",
         },
         "ref": null,
-        "rendered": "Tenure Agreements",
+        "rendered": "Range Use Plans",
         "type": "div",
       },
       Object {
@@ -175,27 +271,225 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <TenureAgreementSearch
-            handleSearchInput={[Function]}
-            label="Search Agreements:"
-            placeholder="Enter Search Terms..."
-/>,
-          "className": "tenure-agreement__search",
+          "children": Array [
+            <div
+              className="tenure-agreement__assign"
+>
+              <Modal
+                            closeOnDimmerClick={true}
+                            closeOnDocumentClick={false}
+                            dimmer={true}
+                            eventPool="Modal"
+                            trigger={
+                                          <Button
+                                                        as="button"
+                                                        primary={true}
+                                          >
+                                                        Assign Staffs
+                                          </Button>
+                            }
+              >
+                            <ModalHeader>
+                                          Select Assignee
+                            </ModalHeader>
+                            <ModalContent>
+                                          <ModalDescription>
+                                                        <Header>
+                                                                      Assign an officer to a tenure
+                                                        </Header>
+                                                        <p>
+                                                                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                                        </p>
+                                          </ModalDescription>
+                            </ModalContent>
+              </Modal>
+</div>,
+            <div
+              className="tenure-agreement__search"
+>
+              <TenureAgreementSearch
+                            handleSearchInput={[Function]}
+                            label="Search Agreements:"
+                            placeholder="Enter Search Terms..."
+              />
+</div>,
+          ],
+          "className": "tenure-agreement__actions",
         },
         "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "handleSearchInput": [Function],
-            "label": "Search Agreements:",
-            "placeholder": "Enter Search Terms...",
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <Modal
+                closeOnDimmerClick={true}
+                closeOnDocumentClick={false}
+                dimmer={true}
+                eventPool="Modal"
+                trigger={
+                                <Button
+                                                as="button"
+                                                primary={true}
+                                >
+                                                Assign Staffs
+                                </Button>
+                }
+>
+                <ModalHeader>
+                                Select Assignee
+                </ModalHeader>
+                <ModalContent>
+                                <ModalDescription>
+                                                <Header>
+                                                                Assign an officer to a tenure
+                                                </Header>
+                                                <p>
+                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                                </p>
+                                </ModalDescription>
+                </ModalContent>
+</Modal>,
+              "className": "tenure-agreement__assign",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": Array [
+                  <ModalHeader>
+                    Select Assignee
+</ModalHeader>,
+                  <ModalContent>
+                    <ModalDescription>
+                                        <Header>
+                                                            Assign an officer to a tenure
+                                        </Header>
+                                        <p>
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                        </p>
+                    </ModalDescription>
+</ModalContent>,
+                ],
+                "closeOnDimmerClick": true,
+                "closeOnDocumentClick": false,
+                "dimmer": true,
+                "eventPool": "Modal",
+                "trigger": <Button
+                  as="button"
+                  primary={true}
+>
+                  Assign Staffs
+</Button>,
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": "Select Assignee",
+                  },
+                  "ref": null,
+                  "rendered": "Select Assignee",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <ModalDescription>
+                      <Header>
+                                            Assign an officer to a tenure
+                      </Header>
+                      <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                      </p>
+</ModalDescription>,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "children": Array [
+                        <Header>
+                          Assign an officer to a tenure
+</Header>,
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+</p>,
+                      ],
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "function",
+                        "props": Object {
+                          "children": "Assign an officer to a tenure",
+                        },
+                        "ref": null,
+                        "rendered": "Assign an officer to a tenure",
+                        "type": [Function],
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                        },
+                        "ref": null,
+                        "rendered": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                        "type": "p",
+                      },
+                    ],
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": "div",
           },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <TenureAgreementSearch
+                handleSearchInput={[Function]}
+                label="Search Agreements:"
+                placeholder="Enter Search Terms..."
+/>,
+              "className": "tenure-agreement__search",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "handleSearchInput": [Function],
+                "label": "Search Agreements:",
+                "placeholder": "Enter Search Terms...",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "div",
+          },
+        ],
         "type": "div",
       },
       Object {
@@ -206,56 +500,86 @@ ShallowWrapper {
           "tenureAgreements": Array [
             Object {
               "id": 1,
-              "number": 1,
+              "number": "0001",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 1",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 1",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 2,
-              "number": 2,
+              "number": "0002",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 2",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 2",
+                "name": "Han Solo",
               },
             },
             Object {
               "id": 3,
-              "number": 3,
+              "number": "0003",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 3",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 3",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 4,
-              "number": 4,
+              "number": "0004",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 4",
-              "status": "pending",
+              "status": "Pending",
               "tenureHolder": Object {
-                "name": "tenure holder 4",
+                "name": "Han Solo",
               },
             },
             Object {
               "id": 5,
-              "number": 5,
+              "number": "0005",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 5",
-              "status": "pending",
+              "status": "Pending",
               "tenureHolder": Object {
-                "name": "tenure holder 5",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 6,
-              "number": 6,
+              "number": "0006",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 6",
-              "status": "pending",
+              "status": "Pending",
               "tenureHolder": Object {
-                "name": "tenure holder 6",
+                "name": "Han Solo",
+              },
+            },
+            Object {
+              "id": 7,
+              "number": "0007",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
+              "region": "Victoria Ranch 7",
+              "status": "Pending",
+              "tenureHolder": Object {
+                "name": "Luke Skywalker",
               },
             },
           ],
@@ -277,72 +601,138 @@ ShallowWrapper {
           <div
             className="tenure-agreement__header"
 >
-            Tenure Agreements
+            Range Use Plans
 </div>,
           <div
-            className="tenure-agreement__search"
+            className="tenure-agreement__actions"
 >
-            <TenureAgreementSearch
-                        handleSearchInput={[Function]}
-                        label="Search Agreements:"
-                        placeholder="Enter Search Terms..."
-            />
+            <div
+                        className="tenure-agreement__assign"
+            >
+                        <Modal
+                                    closeOnDimmerClick={true}
+                                    closeOnDocumentClick={false}
+                                    dimmer={true}
+                                    eventPool="Modal"
+                                    trigger={
+                                                <Button
+                                                            as="button"
+                                                            primary={true}
+                                                >
+                                                            Assign Staffs
+                                                </Button>
+                                    }
+                        >
+                                    <ModalHeader>
+                                                Select Assignee
+                                    </ModalHeader>
+                                    <ModalContent>
+                                                <ModalDescription>
+                                                            <Header>
+                                                                        Assign an officer to a tenure
+                                                            </Header>
+                                                            <p>
+                                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                                            </p>
+                                                </ModalDescription>
+                                    </ModalContent>
+                        </Modal>
+            </div>
+            <div
+                        className="tenure-agreement__search"
+            >
+                        <TenureAgreementSearch
+                                    handleSearchInput={[Function]}
+                                    label="Search Agreements:"
+                                    placeholder="Enter Search Terms..."
+                        />
+            </div>
 </div>,
           <TenureAgreementList
             tenureAgreements={
                         Array [
                                     Object {
                                       "id": 1,
-                                      "number": 1,
+                                      "number": "0001",
+                                      "rangeOfficer": Object {
+                                        "name": "Obi-Wan Kenobi",
+                                      },
                                       "region": "Victoria Ranch 1",
-                                      "status": "pending",
+                                      "status": "Approved",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder 1",
+                                        "name": "Luke Skywalker",
                                       },
                                     },
                                     Object {
                                       "id": 2,
-                                      "number": 2,
+                                      "number": "0002",
+                                      "rangeOfficer": Object {
+                                        "name": "Leia Organa",
+                                      },
                                       "region": "Victoria Ranch 2",
-                                      "status": "pending",
+                                      "status": "Approved",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder 2",
+                                        "name": "Han Solo",
                                       },
                                     },
                                     Object {
                                       "id": 3,
-                                      "number": 3,
+                                      "number": "0003",
+                                      "rangeOfficer": Object {
+                                        "name": "Obi-Wan Kenobi",
+                                      },
                                       "region": "Victoria Ranch 3",
-                                      "status": "pending",
+                                      "status": "Approved",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder 3",
+                                        "name": "Luke Skywalker",
                                       },
                                     },
                                     Object {
                                       "id": 4,
-                                      "number": 4,
+                                      "number": "0004",
+                                      "rangeOfficer": Object {
+                                        "name": "Leia Organa",
+                                      },
                                       "region": "Victoria Ranch 4",
-                                      "status": "pending",
+                                      "status": "Pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder 4",
+                                        "name": "Han Solo",
                                       },
                                     },
                                     Object {
                                       "id": 5,
-                                      "number": 5,
+                                      "number": "0005",
+                                      "rangeOfficer": Object {
+                                        "name": "Obi-Wan Kenobi",
+                                      },
                                       "region": "Victoria Ranch 5",
-                                      "status": "pending",
+                                      "status": "Pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder 5",
+                                        "name": "Luke Skywalker",
                                       },
                                     },
                                     Object {
                                       "id": 6,
-                                      "number": 6,
+                                      "number": "0006",
+                                      "rangeOfficer": Object {
+                                        "name": "Leia Organa",
+                                      },
                                       "region": "Victoria Ranch 6",
-                                      "status": "pending",
+                                      "status": "Pending",
                                       "tenureHolder": Object {
-                                        "name": "tenure holder 6",
+                                        "name": "Han Solo",
+                                      },
+                                    },
+                                    Object {
+                                      "id": 7,
+                                      "number": "0007",
+                                      "rangeOfficer": Object {
+                                        "name": "Obi-Wan Kenobi",
+                                      },
+                                      "region": "Victoria Ranch 7",
+                                      "status": "Pending",
+                                      "tenureHolder": Object {
+                                        "name": "Luke Skywalker",
                                       },
                                     },
                                   ]
@@ -358,11 +748,11 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Tenure Agreements",
+            "children": "Range Use Plans",
             "className": "tenure-agreement__header",
           },
           "ref": null,
-          "rendered": "Tenure Agreements",
+          "rendered": "Range Use Plans",
           "type": "div",
         },
         Object {
@@ -370,27 +760,225 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": <TenureAgreementSearch
-              handleSearchInput={[Function]}
-              label="Search Agreements:"
-              placeholder="Enter Search Terms..."
-/>,
-            "className": "tenure-agreement__search",
+            "children": Array [
+              <div
+                className="tenure-agreement__assign"
+>
+                <Modal
+                                closeOnDimmerClick={true}
+                                closeOnDocumentClick={false}
+                                dimmer={true}
+                                eventPool="Modal"
+                                trigger={
+                                                <Button
+                                                                as="button"
+                                                                primary={true}
+                                                >
+                                                                Assign Staffs
+                                                </Button>
+                                }
+                >
+                                <ModalHeader>
+                                                Select Assignee
+                                </ModalHeader>
+                                <ModalContent>
+                                                <ModalDescription>
+                                                                <Header>
+                                                                                Assign an officer to a tenure
+                                                                </Header>
+                                                                <p>
+                                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                                                </p>
+                                                </ModalDescription>
+                                </ModalContent>
+                </Modal>
+</div>,
+              <div
+                className="tenure-agreement__search"
+>
+                <TenureAgreementSearch
+                                handleSearchInput={[Function]}
+                                label="Search Agreements:"
+                                placeholder="Enter Search Terms..."
+                />
+</div>,
+            ],
+            "className": "tenure-agreement__actions",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "handleSearchInput": [Function],
-              "label": "Search Agreements:",
-              "placeholder": "Enter Search Terms...",
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <Modal
+                  closeOnDimmerClick={true}
+                  closeOnDocumentClick={false}
+                  dimmer={true}
+                  eventPool="Modal"
+                  trigger={
+                                    <Button
+                                                      as="button"
+                                                      primary={true}
+                                    >
+                                                      Assign Staffs
+                                    </Button>
+                  }
+>
+                  <ModalHeader>
+                                    Select Assignee
+                  </ModalHeader>
+                  <ModalContent>
+                                    <ModalDescription>
+                                                      <Header>
+                                                                        Assign an officer to a tenure
+                                                      </Header>
+                                                      <p>
+                                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                                      </p>
+                                    </ModalDescription>
+                  </ModalContent>
+</Modal>,
+                "className": "tenure-agreement__assign",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": Array [
+                    <ModalHeader>
+                      Select Assignee
+</ModalHeader>,
+                    <ModalContent>
+                      <ModalDescription>
+                                            <Header>
+                                                                  Assign an officer to a tenure
+                                            </Header>
+                                            <p>
+                                                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                            </p>
+                      </ModalDescription>
+</ModalContent>,
+                  ],
+                  "closeOnDimmerClick": true,
+                  "closeOnDocumentClick": false,
+                  "dimmer": true,
+                  "eventPool": "Modal",
+                  "trigger": <Button
+                    as="button"
+                    primary={true}
+>
+                    Assign Staffs
+</Button>,
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "children": "Select Assignee",
+                    },
+                    "ref": null,
+                    "rendered": "Select Assignee",
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "children": <ModalDescription>
+                        <Header>
+                                                Assign an officer to a tenure
+                        </Header>
+                        <p>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+</ModalDescription>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "children": Array [
+                          <Header>
+                            Assign an officer to a tenure
+</Header>,
+                          <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+</p>,
+                        ],
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "function",
+                          "props": Object {
+                            "children": "Assign an officer to a tenure",
+                          },
+                          "ref": null,
+                          "rendered": "Assign an officer to a tenure",
+                          "type": [Function],
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                          },
+                          "ref": null,
+                          "rendered": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                          "type": "p",
+                        },
+                      ],
+                      "type": [Function],
+                    },
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": "div",
             },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <TenureAgreementSearch
+                  handleSearchInput={[Function]}
+                  label="Search Agreements:"
+                  placeholder="Enter Search Terms..."
+/>,
+                "className": "tenure-agreement__search",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "handleSearchInput": [Function],
+                  "label": "Search Agreements:",
+                  "placeholder": "Enter Search Terms...",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              "type": "div",
+            },
+          ],
           "type": "div",
         },
         Object {
@@ -401,56 +989,86 @@ ShallowWrapper {
             "tenureAgreements": Array [
               Object {
                 "id": 1,
-                "number": 1,
+                "number": "0001",
+                "rangeOfficer": Object {
+                  "name": "Obi-Wan Kenobi",
+                },
                 "region": "Victoria Ranch 1",
-                "status": "pending",
+                "status": "Approved",
                 "tenureHolder": Object {
-                  "name": "tenure holder 1",
+                  "name": "Luke Skywalker",
                 },
               },
               Object {
                 "id": 2,
-                "number": 2,
+                "number": "0002",
+                "rangeOfficer": Object {
+                  "name": "Leia Organa",
+                },
                 "region": "Victoria Ranch 2",
-                "status": "pending",
+                "status": "Approved",
                 "tenureHolder": Object {
-                  "name": "tenure holder 2",
+                  "name": "Han Solo",
                 },
               },
               Object {
                 "id": 3,
-                "number": 3,
+                "number": "0003",
+                "rangeOfficer": Object {
+                  "name": "Obi-Wan Kenobi",
+                },
                 "region": "Victoria Ranch 3",
-                "status": "pending",
+                "status": "Approved",
                 "tenureHolder": Object {
-                  "name": "tenure holder 3",
+                  "name": "Luke Skywalker",
                 },
               },
               Object {
                 "id": 4,
-                "number": 4,
+                "number": "0004",
+                "rangeOfficer": Object {
+                  "name": "Leia Organa",
+                },
                 "region": "Victoria Ranch 4",
-                "status": "pending",
+                "status": "Pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder 4",
+                  "name": "Han Solo",
                 },
               },
               Object {
                 "id": 5,
-                "number": 5,
+                "number": "0005",
+                "rangeOfficer": Object {
+                  "name": "Obi-Wan Kenobi",
+                },
                 "region": "Victoria Ranch 5",
-                "status": "pending",
+                "status": "Pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder 5",
+                  "name": "Luke Skywalker",
                 },
               },
               Object {
                 "id": 6,
-                "number": 6,
+                "number": "0006",
+                "rangeOfficer": Object {
+                  "name": "Leia Organa",
+                },
                 "region": "Victoria Ranch 6",
-                "status": "pending",
+                "status": "Pending",
                 "tenureHolder": Object {
-                  "name": "tenure holder 6",
+                  "name": "Han Solo",
+                },
+              },
+              Object {
+                "id": 7,
+                "number": "0007",
+                "rangeOfficer": Object {
+                  "name": "Obi-Wan Kenobi",
+                },
+                "region": "Victoria Ranch 7",
+                "status": "Pending",
+                "tenureHolder": Object {
+                  "name": "Luke Skywalker",
                 },
               },
             ],

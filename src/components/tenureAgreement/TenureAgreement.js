@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import { Button, Modal, Image, Header } from 'semantic-ui-react';
+import { Button, Modal, Header } from 'semantic-ui-react';
 
 import TenureAgreementList from './TenureAgreementList';
 import TenureAgreementSearch from './TenureAgreementSearch';

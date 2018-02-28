@@ -9,29 +9,38 @@ ShallowWrapper {
         Array [
             Object {
               "id": 1,
-              "number": 1,
+              "number": "0001",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 1",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 1",
+                "name": "Luke Skywalker",
               },
             },
             Object {
               "id": 2,
-              "number": 2,
+              "number": "0002",
+              "rangeOfficer": Object {
+                "name": "Leia Organa",
+              },
               "region": "Victoria Ranch 2",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 2",
+                "name": "Han Solo",
               },
             },
             Object {
               "id": 3,
-              "number": 3,
+              "number": "0003",
+              "rangeOfficer": Object {
+                "name": "Obi-Wan Kenobi",
+              },
               "region": "Victoria Ranch 3",
-              "status": "pending",
+              "status": "Approved",
               "tenureHolder": Object {
-                "name": "tenure holder 3",
+                "name": "Luke Skywalker",
               },
             },
           ]
@@ -74,7 +83,12 @@ ShallowWrapper {
                         <TableHeaderCell
                                 as="th"
                         >
-                                Tenure Holder
+                                Agreement Holder
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                as="th"
+                        >
+                                Staff Contact
                         </TableHeaderCell>
                         <TableHeaderCell
                                 as="th"
@@ -90,11 +104,14 @@ ShallowWrapper {
                         tenureAgreement={
                                 Object {
                                         "id": 1,
-                                        "number": 1,
+                                        "number": "0001",
+                                        "rangeOfficer": Object {
+                                          "name": "Obi-Wan Kenobi",
+                                        },
                                         "region": "Victoria Ranch 1",
-                                        "status": "pending",
+                                        "status": "Approved",
                                         "tenureHolder": Object {
-                                          "name": "tenure holder 1",
+                                          "name": "Luke Skywalker",
                                         },
                                       }
                         }
@@ -103,11 +120,14 @@ ShallowWrapper {
                         tenureAgreement={
                                 Object {
                                         "id": 2,
-                                        "number": 2,
+                                        "number": "0002",
+                                        "rangeOfficer": Object {
+                                          "name": "Leia Organa",
+                                        },
                                         "region": "Victoria Ranch 2",
-                                        "status": "pending",
+                                        "status": "Approved",
                                         "tenureHolder": Object {
-                                          "name": "tenure holder 2",
+                                          "name": "Han Solo",
                                         },
                                       }
                         }
@@ -116,11 +136,14 @@ ShallowWrapper {
                         tenureAgreement={
                                 Object {
                                         "id": 3,
-                                        "number": 3,
+                                        "number": "0003",
+                                        "rangeOfficer": Object {
+                                          "name": "Obi-Wan Kenobi",
+                                        },
                                         "region": "Victoria Ranch 3",
-                                        "status": "pending",
+                                        "status": "Approved",
                                         "tenureHolder": Object {
-                                          "name": "tenure holder 3",
+                                          "name": "Luke Skywalker",
                                         },
                                       }
                         }
@@ -157,7 +180,12 @@ ShallowWrapper {
                         <TableHeaderCell
                                     as="th"
                         >
-                                    Tenure Holder
+                                    Agreement Holder
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                                    as="th"
+                        >
+                                    Staff Contact
                         </TableHeaderCell>
                         <TableHeaderCell
                                     as="th"
@@ -173,11 +201,14 @@ ShallowWrapper {
                         tenureAgreement={
                                     Object {
                                                 "id": 1,
-                                                "number": 1,
+                                                "number": "0001",
+                                                "rangeOfficer": Object {
+                                                  "name": "Obi-Wan Kenobi",
+                                                },
                                                 "region": "Victoria Ranch 1",
-                                                "status": "pending",
+                                                "status": "Approved",
                                                 "tenureHolder": Object {
-                                                  "name": "tenure holder 1",
+                                                  "name": "Luke Skywalker",
                                                 },
                                               }
                         }
@@ -186,11 +217,14 @@ ShallowWrapper {
                         tenureAgreement={
                                     Object {
                                                 "id": 2,
-                                                "number": 2,
+                                                "number": "0002",
+                                                "rangeOfficer": Object {
+                                                  "name": "Leia Organa",
+                                                },
                                                 "region": "Victoria Ranch 2",
-                                                "status": "pending",
+                                                "status": "Approved",
                                                 "tenureHolder": Object {
-                                                  "name": "tenure holder 2",
+                                                  "name": "Han Solo",
                                                 },
                                               }
                         }
@@ -199,11 +233,14 @@ ShallowWrapper {
                         tenureAgreement={
                                     Object {
                                                 "id": 3,
-                                                "number": 3,
+                                                "number": "0003",
+                                                "rangeOfficer": Object {
+                                                  "name": "Obi-Wan Kenobi",
+                                                },
                                                 "region": "Victoria Ranch 3",
-                                                "status": "pending",
+                                                "status": "Approved",
                                                 "tenureHolder": Object {
-                                                  "name": "tenure holder 3",
+                                                  "name": "Luke Skywalker",
                                                 },
                                               }
                         }
@@ -238,7 +275,12 @@ ShallowWrapper {
               <TableHeaderCell
                             as="th"
               >
-                            Tenure Holder
+                            Agreement Holder
+              </TableHeaderCell>
+              <TableHeaderCell
+                            as="th"
+              >
+                            Staff Contact
               </TableHeaderCell>
               <TableHeaderCell
                             as="th"
@@ -269,7 +311,12 @@ ShallowWrapper {
                 <TableHeaderCell
                   as="th"
 >
-                  Tenure Holder
+                  Agreement Holder
+</TableHeaderCell>,
+                <TableHeaderCell
+                  as="th"
+>
+                  Staff Contact
 </TableHeaderCell>,
                 <TableHeaderCell
                   as="th"
@@ -310,10 +357,22 @@ ShallowWrapper {
                 "nodeType": "function",
                 "props": Object {
                   "as": "th",
-                  "children": "Tenure Holder",
+                  "children": "Agreement Holder",
                 },
                 "ref": null,
-                "rendered": "Tenure Holder",
+                "rendered": "Agreement Holder",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "as": "th",
+                  "children": "Staff Contact",
+                },
+                "ref": null,
+                "rendered": "Staff Contact",
                 "type": [Function],
               },
               Object {
@@ -344,11 +403,14 @@ ShallowWrapper {
                 tenureAgreement={
                                 Object {
                                                 "id": 1,
-                                                "number": 1,
+                                                "number": "0001",
+                                                "rangeOfficer": Object {
+                                                  "name": "Obi-Wan Kenobi",
+                                                },
                                                 "region": "Victoria Ranch 1",
-                                                "status": "pending",
+                                                "status": "Approved",
                                                 "tenureHolder": Object {
-                                                  "name": "tenure holder 1",
+                                                  "name": "Luke Skywalker",
                                                 },
                                               }
                 }
@@ -357,11 +419,14 @@ ShallowWrapper {
                 tenureAgreement={
                                 Object {
                                                 "id": 2,
-                                                "number": 2,
+                                                "number": "0002",
+                                                "rangeOfficer": Object {
+                                                  "name": "Leia Organa",
+                                                },
                                                 "region": "Victoria Ranch 2",
-                                                "status": "pending",
+                                                "status": "Approved",
                                                 "tenureHolder": Object {
-                                                  "name": "tenure holder 2",
+                                                  "name": "Han Solo",
                                                 },
                                               }
                 }
@@ -370,11 +435,14 @@ ShallowWrapper {
                 tenureAgreement={
                                 Object {
                                                 "id": 3,
-                                                "number": 3,
+                                                "number": "0003",
+                                                "rangeOfficer": Object {
+                                                  "name": "Obi-Wan Kenobi",
+                                                },
                                                 "region": "Victoria Ranch 3",
-                                                "status": "pending",
+                                                "status": "Approved",
                                                 "tenureHolder": Object {
-                                                  "name": "tenure holder 3",
+                                                  "name": "Luke Skywalker",
                                                 },
                                               }
                 }
@@ -390,11 +458,14 @@ ShallowWrapper {
               "props": Object {
                 "tenureAgreement": Object {
                   "id": 1,
-                  "number": 1,
+                  "number": "0001",
+                  "rangeOfficer": Object {
+                    "name": "Obi-Wan Kenobi",
+                  },
                   "region": "Victoria Ranch 1",
-                  "status": "pending",
+                  "status": "Approved",
                   "tenureHolder": Object {
-                    "name": "tenure holder 1",
+                    "name": "Luke Skywalker",
                   },
                 },
               },
@@ -409,11 +480,14 @@ ShallowWrapper {
               "props": Object {
                 "tenureAgreement": Object {
                   "id": 2,
-                  "number": 2,
+                  "number": "0002",
+                  "rangeOfficer": Object {
+                    "name": "Leia Organa",
+                  },
                   "region": "Victoria Ranch 2",
-                  "status": "pending",
+                  "status": "Approved",
                   "tenureHolder": Object {
-                    "name": "tenure holder 2",
+                    "name": "Han Solo",
                   },
                 },
               },
@@ -428,11 +502,14 @@ ShallowWrapper {
               "props": Object {
                 "tenureAgreement": Object {
                   "id": 3,
-                  "number": 3,
+                  "number": "0003",
+                  "rangeOfficer": Object {
+                    "name": "Obi-Wan Kenobi",
+                  },
                   "region": "Victoria Ranch 3",
-                  "status": "pending",
+                  "status": "Approved",
                   "tenureHolder": Object {
-                    "name": "tenure holder 3",
+                    "name": "Luke Skywalker",
                   },
                 },
               },
@@ -479,7 +556,12 @@ ShallowWrapper {
                               <TableHeaderCell
                                         as="th"
                               >
-                                        Tenure Holder
+                                        Agreement Holder
+                              </TableHeaderCell>
+                              <TableHeaderCell
+                                        as="th"
+                              >
+                                        Staff Contact
                               </TableHeaderCell>
                               <TableHeaderCell
                                         as="th"
@@ -495,11 +577,14 @@ ShallowWrapper {
                               tenureAgreement={
                                         Object {
                                                   "id": 1,
-                                                  "number": 1,
+                                                  "number": "0001",
+                                                  "rangeOfficer": Object {
+                                                    "name": "Obi-Wan Kenobi",
+                                                  },
                                                   "region": "Victoria Ranch 1",
-                                                  "status": "pending",
+                                                  "status": "Approved",
                                                   "tenureHolder": Object {
-                                                    "name": "tenure holder 1",
+                                                    "name": "Luke Skywalker",
                                                   },
                                                 }
                               }
@@ -508,11 +593,14 @@ ShallowWrapper {
                               tenureAgreement={
                                         Object {
                                                   "id": 2,
-                                                  "number": 2,
+                                                  "number": "0002",
+                                                  "rangeOfficer": Object {
+                                                    "name": "Leia Organa",
+                                                  },
                                                   "region": "Victoria Ranch 2",
-                                                  "status": "pending",
+                                                  "status": "Approved",
                                                   "tenureHolder": Object {
-                                                    "name": "tenure holder 2",
+                                                    "name": "Han Solo",
                                                   },
                                                 }
                               }
@@ -521,11 +609,14 @@ ShallowWrapper {
                               tenureAgreement={
                                         Object {
                                                   "id": 3,
-                                                  "number": 3,
+                                                  "number": "0003",
+                                                  "rangeOfficer": Object {
+                                                    "name": "Obi-Wan Kenobi",
+                                                  },
                                                   "region": "Victoria Ranch 3",
-                                                  "status": "pending",
+                                                  "status": "Approved",
                                                   "tenureHolder": Object {
-                                                    "name": "tenure holder 3",
+                                                    "name": "Luke Skywalker",
                                                   },
                                                 }
                               }
@@ -562,7 +653,12 @@ ShallowWrapper {
                             <TableHeaderCell
                                           as="th"
                             >
-                                          Tenure Holder
+                                          Agreement Holder
+                            </TableHeaderCell>
+                            <TableHeaderCell
+                                          as="th"
+                            >
+                                          Staff Contact
                             </TableHeaderCell>
                             <TableHeaderCell
                                           as="th"
@@ -578,11 +674,14 @@ ShallowWrapper {
                             tenureAgreement={
                                           Object {
                                                         "id": 1,
-                                                        "number": 1,
+                                                        "number": "0001",
+                                                        "rangeOfficer": Object {
+                                                          "name": "Obi-Wan Kenobi",
+                                                        },
                                                         "region": "Victoria Ranch 1",
-                                                        "status": "pending",
+                                                        "status": "Approved",
                                                         "tenureHolder": Object {
-                                                          "name": "tenure holder 1",
+                                                          "name": "Luke Skywalker",
                                                         },
                                                       }
                             }
@@ -591,11 +690,14 @@ ShallowWrapper {
                             tenureAgreement={
                                           Object {
                                                         "id": 2,
-                                                        "number": 2,
+                                                        "number": "0002",
+                                                        "rangeOfficer": Object {
+                                                          "name": "Leia Organa",
+                                                        },
                                                         "region": "Victoria Ranch 2",
-                                                        "status": "pending",
+                                                        "status": "Approved",
                                                         "tenureHolder": Object {
-                                                          "name": "tenure holder 2",
+                                                          "name": "Han Solo",
                                                         },
                                                       }
                             }
@@ -604,11 +706,14 @@ ShallowWrapper {
                             tenureAgreement={
                                           Object {
                                                         "id": 3,
-                                                        "number": 3,
+                                                        "number": "0003",
+                                                        "rangeOfficer": Object {
+                                                          "name": "Obi-Wan Kenobi",
+                                                        },
                                                         "region": "Victoria Ranch 3",
-                                                        "status": "pending",
+                                                        "status": "Approved",
                                                         "tenureHolder": Object {
-                                                          "name": "tenure holder 3",
+                                                          "name": "Luke Skywalker",
                                                         },
                                                       }
                             }
@@ -643,7 +748,12 @@ ShallowWrapper {
                 <TableHeaderCell
                                 as="th"
                 >
-                                Tenure Holder
+                                Agreement Holder
+                </TableHeaderCell>
+                <TableHeaderCell
+                                as="th"
+                >
+                                Staff Contact
                 </TableHeaderCell>
                 <TableHeaderCell
                                 as="th"
@@ -674,7 +784,12 @@ ShallowWrapper {
                   <TableHeaderCell
                     as="th"
 >
-                    Tenure Holder
+                    Agreement Holder
+</TableHeaderCell>,
+                  <TableHeaderCell
+                    as="th"
+>
+                    Staff Contact
 </TableHeaderCell>,
                   <TableHeaderCell
                     as="th"
@@ -715,10 +830,22 @@ ShallowWrapper {
                   "nodeType": "function",
                   "props": Object {
                     "as": "th",
-                    "children": "Tenure Holder",
+                    "children": "Agreement Holder",
                   },
                   "ref": null,
-                  "rendered": "Tenure Holder",
+                  "rendered": "Agreement Holder",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": "th",
+                    "children": "Staff Contact",
+                  },
+                  "ref": null,
+                  "rendered": "Staff Contact",
                   "type": [Function],
                 },
                 Object {
@@ -749,11 +876,14 @@ ShallowWrapper {
                   tenureAgreement={
                                     Object {
                                                       "id": 1,
-                                                      "number": 1,
+                                                      "number": "0001",
+                                                      "rangeOfficer": Object {
+                                                        "name": "Obi-Wan Kenobi",
+                                                      },
                                                       "region": "Victoria Ranch 1",
-                                                      "status": "pending",
+                                                      "status": "Approved",
                                                       "tenureHolder": Object {
-                                                        "name": "tenure holder 1",
+                                                        "name": "Luke Skywalker",
                                                       },
                                                     }
                   }
@@ -762,11 +892,14 @@ ShallowWrapper {
                   tenureAgreement={
                                     Object {
                                                       "id": 2,
-                                                      "number": 2,
+                                                      "number": "0002",
+                                                      "rangeOfficer": Object {
+                                                        "name": "Leia Organa",
+                                                      },
                                                       "region": "Victoria Ranch 2",
-                                                      "status": "pending",
+                                                      "status": "Approved",
                                                       "tenureHolder": Object {
-                                                        "name": "tenure holder 2",
+                                                        "name": "Han Solo",
                                                       },
                                                     }
                   }
@@ -775,11 +908,14 @@ ShallowWrapper {
                   tenureAgreement={
                                     Object {
                                                       "id": 3,
-                                                      "number": 3,
+                                                      "number": "0003",
+                                                      "rangeOfficer": Object {
+                                                        "name": "Obi-Wan Kenobi",
+                                                      },
                                                       "region": "Victoria Ranch 3",
-                                                      "status": "pending",
+                                                      "status": "Approved",
                                                       "tenureHolder": Object {
-                                                        "name": "tenure holder 3",
+                                                        "name": "Luke Skywalker",
                                                       },
                                                     }
                   }
@@ -795,11 +931,14 @@ ShallowWrapper {
                 "props": Object {
                   "tenureAgreement": Object {
                     "id": 1,
-                    "number": 1,
+                    "number": "0001",
+                    "rangeOfficer": Object {
+                      "name": "Obi-Wan Kenobi",
+                    },
                     "region": "Victoria Ranch 1",
-                    "status": "pending",
+                    "status": "Approved",
                     "tenureHolder": Object {
-                      "name": "tenure holder 1",
+                      "name": "Luke Skywalker",
                     },
                   },
                 },
@@ -814,11 +953,14 @@ ShallowWrapper {
                 "props": Object {
                   "tenureAgreement": Object {
                     "id": 2,
-                    "number": 2,
+                    "number": "0002",
+                    "rangeOfficer": Object {
+                      "name": "Leia Organa",
+                    },
                     "region": "Victoria Ranch 2",
-                    "status": "pending",
+                    "status": "Approved",
                     "tenureHolder": Object {
-                      "name": "tenure holder 2",
+                      "name": "Han Solo",
                     },
                   },
                 },
@@ -833,11 +975,14 @@ ShallowWrapper {
                 "props": Object {
                   "tenureAgreement": Object {
                     "id": 3,
-                    "number": 3,
+                    "number": "0003",
+                    "rangeOfficer": Object {
+                      "name": "Obi-Wan Kenobi",
+                    },
                     "region": "Victoria Ranch 3",
-                    "status": "pending",
+                    "status": "Approved",
                     "tenureHolder": Object {
-                      "name": "tenure holder 3",
+                      "name": "Luke Skywalker",
                     },
                   },
                 },
