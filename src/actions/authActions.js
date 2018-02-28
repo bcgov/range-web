@@ -90,7 +90,7 @@ export const login = (code) => (dispatch) => {
 
   getToken(code)
   .then(response => {
-    console.log(response)
+    // console.log(response)
     response.data.user_data = jwtDecode(response.data.access_token);
     
     // save tokens in local storage and set header for axios 
@@ -99,8 +99,8 @@ export const login = (code) => (dispatch) => {
     // TODO: make a request to get user data
     dispatch(loginSuccess(response.data, response.data.user_data));
 
-    refreshToken(response.data.refresh_token)
-    .then(response => console.log(response))
+    // refreshToken(response.data.refresh_token)
+    // .then(response => console.log(response))
   }).catch(err => {
     dispatch(loginError(err));
     // dispatch(toastErrorMessage(err));

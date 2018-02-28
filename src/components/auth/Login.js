@@ -27,14 +27,7 @@ export class Login extends Component {
     }
   }
 
-  onButtonClick = (e) => {
-    // const width = 900;
-    // const height = 500;
-    // const top = window.outerHeight/2 - height/2;
-    // const left = window.outerWidth/2 - width/2;
-    // const parameter = `width=${width}, height=${height}, top=${top}, left=${left}`;
-    // window.open(SSO_AUTH_ENDPOINT, "_blank", parameter);
-
+  onButtonClick = () => {
     window.open(SSO_AUTH_ENDPOINT, "_self");
   }
 
