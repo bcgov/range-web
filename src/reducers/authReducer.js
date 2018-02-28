@@ -6,11 +6,11 @@ import {
   USER_PROFILE_CHANGE
 } from '../constants/actionTypes';
 
-import Auth from '../handlers/auth';
+import { initializeUser } from '../handlers/authentication';
 
 const authReducer = (state = {
   isLoading: false,
-  user: Auth.getUserDataFromLocalStorage(),
+  user: initializeUser(),
   success: false,
 }, action) => {
   switch (action.type) {

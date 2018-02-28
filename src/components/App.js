@@ -13,12 +13,12 @@ import Toast from './Toast';
 import PageNotFound from './PageNotFound';
 import RangeUsePlan from './rangeUsePlan';
 
-import Auth from '../handlers/auth';
+import { registerAxiosInterceptors } from '../handlers/authentication';
 import { logout } from '../actions/authActions';
 
 export class App extends Component {
   componentDidMount() {
-    Auth.registerAxiosInterceptors(this.props.logout);
+    registerAxiosInterceptors(this.props.logout);
   }
 
   render() {
