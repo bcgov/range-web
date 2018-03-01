@@ -3,7 +3,7 @@ def BUILD_CONFIG = APP_NAME
 def IMAGESTREAM_NAME = APP_NAME
 def TAG_NAMES = ['dev', 'test']
 def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
-def NODE_URI = 'https://nodejs.org/dist/latest-v9.x/node-v9.6.1-linux-x64.tar.xz'
+def NODE_URI = 'https://nodejs.org/dist/v9.7.0/node-v9.7.0-linux-x64.tar.xz'
 
 node {
   stage('Checkout') {
