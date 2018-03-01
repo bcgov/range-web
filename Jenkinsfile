@@ -19,7 +19,7 @@ node {
     sh "curl ${NODE_URI} | tar -Jx"
 
     // setup the node dev environment
-    sh "${CMD_PREFIX} npm i --only=dev"
+    sh "${CMD_PREFIX} npm i"
     // not sure if this needs to be added to package.json.
     sh "${CMD_PREFIX} npm i escape-string-regexp"
     sh "${CMD_PREFIX} npm -v"
