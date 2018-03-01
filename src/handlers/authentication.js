@@ -149,8 +149,8 @@ export const registerAxiosInterceptors = (logout) => {
       return response;
     }, (error) => {
       const { response } = error;
+      // Plan B for refreshing token
       // const originalRequest = error.config;
-      
       // if (response && response.status === 401 && !originalRequest._retry) {
       //   originalRequest._retry = true;
       //   const token = getRefreshTokenFromLocal();
