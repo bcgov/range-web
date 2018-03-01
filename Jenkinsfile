@@ -1,9 +1,9 @@
-def APP_NAME = 'range-myra-api'
+def APP_NAME = 'range-myra-web'
 def BUILD_CONFIG = APP_NAME
 def IMAGESTREAM_NAME = APP_NAME
 def TAG_NAMES = ['dev', 'test']
-def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v8.9.4-linux-x64/bin'
-def NODE_URI = 'https://nodejs.org/dist/v8.9.4/node-v8.9.4-linux-x64.tar.xz'
+def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
+def NODE_URI = 'https://nodejs.org/dist/latest-v9.x/node-v9.6.1-linux-x64.tar.xz'
 
 node {
   stage('Checkout') {
@@ -16,14 +16,14 @@ node {
     
     // The version of node in the `node` that comes with OpenShift is too old
     // so I use a generic Linux and install my own node from LTS.
-    // sh "curl ${NODE_URI} | tar -Jx"
+    sh "curl ${NODE_URI} | tar -Jx"
 
     // setup the node dev environment
-    sh "npm i --only=dev"
+    sh "${CMD_PREFIX} npm i --only=dev"
     // not sure if this needs to be added to package.json.
-    // sh "${CMD_PREFIX} npm i escape-string-regexp"
-    sh "npm -v"
-    sh "node -v"
+    sh "${CMD_PREFIX} npm i escape-string-regexp"
+    sh "${CMD_PREFIX} npm -v"
+    sh "${CMD_PREFIX} node -v"
   }
   
   stage('Test') {
@@ -31,8 +31,7 @@ node {
     // Run a security check on our packages
     // sh "${CMD_PREFIX} npm run test:security"
     // Run our unit tests et al.
-    //sh "${CMD_PREFIX} npm test"
-    sh "npm run build"
+    // sh "${CMD_PREFIX} npm run test"
   }
 
   stage('Build') {
