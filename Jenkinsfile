@@ -34,7 +34,15 @@ node {
     sh "${CMD_PREFIX} npm run test"
   }
 
-  stage('Build') {
+    stage('Build Artifacts') {
+    echo "Testing: ${BUILD_ID}"
+    // Run a security check on our packages
+    // sh "${CMD_PREFIX} npm run test:security"
+    // Run our unit tests et al.
+    sh "${CMD_PREFIX} npm run build"
+  }
+
+  stage('Build Image') {
     echo "Build: ${BUILD_ID}"
     // run the oc build to package the artifacts into a docker image
     openshiftBuild bldCfg: APP_NAME, showBuildLogs: 'true', verbose: 'true'
