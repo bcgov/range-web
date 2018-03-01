@@ -12,7 +12,7 @@ const defaultProps = {
   tenureAgreements: []
 }
 
-class TenureAgreementList extends Component {
+export class TenureAgreementList extends Component {
   render() {
     const { tenureAgreements } = this.props; 
 

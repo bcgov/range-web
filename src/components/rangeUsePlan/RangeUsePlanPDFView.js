@@ -4,7 +4,6 @@ import jspdf from 'jspdf';
 import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { HOME } from '../../constants/routes';
-// import axios from 'axios';
 
 class RangeUsePlanPDFView extends Component {
   state = {

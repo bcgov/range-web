@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TenureAgreementList from '../TenureAgreementList';
+import { TenureAgreementList } from '../TenureAgreementList';
 import { getMockTenureAgreements } from './mockValues';
 
 const props = {};

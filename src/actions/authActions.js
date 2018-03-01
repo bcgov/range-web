@@ -1,17 +1,10 @@
-import axios from 'axios';
-import querystring from 'querystring';
-import jwtDecode from 'jwt-decode';
+// import axios from 'axios';
+// import axios from '../handlers/axios';
+// import jwtDecode from 'jwt-decode';
 
 // import { toastErrorMessage } from './toastActions.jsx';
 
 import { AUTH } from '../constants/reducerTypes';
-import {
-  SSO_BASE_URL, 
-  SSO_REDIRECT_URI,
-  SSO_CLIENT_ID,
-  GET_TOKEN,
-  REFRESH_TOKEN,
-} from '../constants/api';
 import {
   LOGIN_ERROR,
   LOGIN_REQUEST,
@@ -20,15 +13,19 @@ import {
   USER_PROFILE_CHANGE
 } from '../constants/actionTypes';
 
-import Auth from '../handlers/auth';
+import {
+  getTokenFromRemote,
+  onAuthenticated,
+  onSignedOut
+} from '../handlers/authentication';
 // import Handlers from '../handlers';
 
-export const loginSuccess = (data, user) => {
+export const loginSuccess = (data) => {
   return {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user
+    user: data.user_data
   }
 }
 
@@ -62,53 +59,26 @@ export const userProfileChange = (user) => {
   }
 }
 
-const getToken = (code) => {
-  const data = {
-    code,
-    grant_type: 'authorization_code',
-    redirect_uri: SSO_REDIRECT_URI,
-    client_id: SSO_CLIENT_ID,
-  };
-  // make an application/x-www-form-urlencoded request with axios
-  return axios.post(SSO_BASE_URL + GET_TOKEN, querystring.stringify(data));
-}
-
-const refreshToken = (refresh_token) => {
-  const data = {
-    refresh_token,
-    grant_type: 'refresh_token',
-    redirect_uri: SSO_REDIRECT_URI,
-    client_id: SSO_CLIENT_ID,
-  };
-
-  // make an application/x-www-form-urlencoded request with axios
-  return axios.post(SSO_BASE_URL + REFRESH_TOKEN, querystring.stringify(data));
-}
-
 export const login = (code) => (dispatch) => {
   dispatch(loginRequest());
 
-  getToken(code)
+  getTokenFromRemote(code)
   .then(response => {
-    // console.log(response)
-    response.data.user_data = jwtDecode(response.data.access_token);
+    console.log(response)
     
     // save tokens in local storage and set header for axios 
-    Auth.onSignedIn(response);
+    onAuthenticated(response);
 
     // TODO: make a request to get user data
-    dispatch(loginSuccess(response.data, response.data.user_data));
-
-    // refreshToken(response.data.refresh_token)
-    // .then(response => console.log(response))
+    dispatch(loginSuccess(response.data));
   }).catch(err => {
     dispatch(loginError(err));
     // dispatch(toastErrorMessage(err));
-    console.log(err);
+    // console.log(err);
   });
 }
 
 export const logout = () => (dispatch) => {
-  Auth.onSignedOut();
+  onSignedOut();
   dispatch(logoutSuccess());
 }
