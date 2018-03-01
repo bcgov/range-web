@@ -31,7 +31,7 @@ node {
     // Run a security check on our packages
     // sh "${CMD_PREFIX} npm run test:security"
     // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm run test -- --coverage"
+    sh "${CMD_PREFIX} npm run test"
   }
 
     stage('Build Artifacts') {
