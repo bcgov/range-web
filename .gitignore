@@ -21,5 +21,6 @@ yarn-error.log*
 yarn.lock
 
 src/**/*.css
+!src/semantic/dist/*.css
 .vscode/*
 
