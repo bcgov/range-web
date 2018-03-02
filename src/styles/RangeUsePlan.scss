@@ -1,22 +1,71 @@
-.range-use-plan {
-  background-color: rgb(82, 86, 89);
+$row-height: 70px;
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-  }
+.status {
+  display: flex;
+  align-items: center;
   
-  &__title {
-    color: white;
-    font-size: 1.8rem;
-    margin-left: 10px;
-    line-height: 30px;
+  &__icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+ 
+    &--approved {
+      background: green;
+    }
+  
+    &--pending {
+      background: orange;
+    }
+  
+    &--draft {
+      background: $accent-color;
+    }
   }
 
-  &__dropdown {
-    min-width: 200px;
+}
+
+.range-use-plan {
+  &__header {
+    margin-bottom: 20px;
+  }
+  &__form {
+    align-self: center;
+
+    &__label {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: gray;
+      margin-bottom: 10px;
+      display: inline-block;
+
+      &--hidden {
+        visibility: hidden;
+      }
+    }
+
+    &__input {
+      // border-bottom: 2px solid $primary-color;
+      font-size: 1.1rem;
+    }
+  }
+
+  &__divider {
+    border: 1px solid $primary-color;
+    margin: 10px 0;
+  }
+
+  &__basic-info {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: $row-height $row-height $row-height;
+  }
+
+  &__agreement-info {
+    display: grid;
+    grid-template-columns: 50% 30% 20%;
+    grid-template-rows: $row-height $row-height;
   }
 }
 

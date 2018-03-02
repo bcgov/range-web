@@ -41,9 +41,7 @@ export class TenureAgreement extends Component {
 
     return (
       <div className="tenure-agreement">
-        <div className="tenure-agreement__header">
-            Range Use Plans
-        </div>
+        <Header as='h1'>Range Use Plans</Header>
 
         <div className="tenure-agreement__actions">
           <div className="tenure-agreement__assign">
