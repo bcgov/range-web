@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TenureAgreementListItem renders correctly 1`] = `
+exports[`RangeUsePlanTableItem renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <TenureAgreementListItem
+  Symbol(enzyme.__unrendered__): <RangeUsePlanTableItem
     history={
         Object {
             "push": [Function],
           }
     }
-    tenureAgreement={
+    rangeUsePlan={
         Object {
             "id": 1,
             "number": "0001",

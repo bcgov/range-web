@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TenureAgreementSearch renders correctly 1`] = `
+exports[`RangeUsePlanSearch renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <TenureAgreementSearch
+  Symbol(enzyme.__unrendered__): <RangeUsePlanSearch
     handleSearchInput={[Function]}
     label="label"
     placeholder="placeholder"

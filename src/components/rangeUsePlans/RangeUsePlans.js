@@ -4,24 +4,24 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { Button, Modal, Header } from 'semantic-ui-react';
 
-import TenureAgreementList from './TenureAgreementList';
-import TenureAgreementSearch from './TenureAgreementSearch';
+import RangeUsePlansTable from './RangeUsePlansTable';
+import RangeUsePlansSearch from './RangeUsePlansSearch';
 
-import { getMockTenureAgreements } from './test/mockValues';
+import { getMockRangeUsePlans } from './test/mockValues';
 
 const propTypes = {
-  tenureAgreements: PropTypes.array.isRequired,
-  searchTenureAgreements: PropTypes.func.isRequired,
+  rangeUsePlans: PropTypes.array.isRequired,
+  searchRangeUsePlans: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
-  tenureAgreements: getMockTenureAgreements(7),
-  searchTenureAgreements: (term) => {
+  rangeUsePlans: getMockRangeUsePlans(7),
+  searchRangeUsePlans: (term) => {
     console.log(term);
   },
 };
 
-export class TenureAgreement extends Component {
+export class RangeUsePlans extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,22 +29,22 @@ export class TenureAgreement extends Component {
     }
     // wait for 1 second for the user to finish writing a search term
     // then make a network call
-    this.searchTenureAgreements = debounce(props.searchTenureAgreements, 1000);
+    this.searchRangeUsePlans = debounce(props.searchRangeUsePlans, 1000);
   }  
   
   handleSearchInput = (searchTerm) => {
-    this.searchTenureAgreements(searchTerm)
+    this.searchRangeUsePlans(searchTerm)
   }
   
   render() {
-    const { tenureAgreements } = this.props;
+    const { rangeUsePlans } = this.props;
 
     return (
-      <div className="tenure-agreement">
+      <div className="range-use-plans">
         <Header as='h1'>Range Use Plans</Header>
 
-        <div className="tenure-agreement__actions">
-          <div className="tenure-agreement__assign">
+        <div className="range-use-plans__actions">
+          <div className="range-use-plans__assign">
             <Modal trigger={<Button primary>Assign Staffs</Button>}>
               <Modal.Header>Select Assignee</Modal.Header>
               <Modal.Content>
@@ -56,8 +56,8 @@ export class TenureAgreement extends Component {
             </Modal>
           </div>
 
-          <div className="tenure-agreement__search">
-            <TenureAgreementSearch
+          <div className="range-use-plans__search">
+            <RangeUsePlansSearch
               label="Search Agreements:"
               placeholder="Enter Search Terms..." 
               handleSearchInput={this.handleSearchInput}
@@ -65,8 +65,8 @@ export class TenureAgreement extends Component {
           </div>
         </div>
 
-        <TenureAgreementList 
-          tenureAgreements={tenureAgreements}
+        <RangeUsePlansTable 
+          rangeUsePlans={rangeUsePlans}
         />
       </div>
     );
@@ -79,9 +79,9 @@ const mapStateToProps = state => {
   }; 
 };
 
-TenureAgreement.propTypes = propTypes;
-TenureAgreement.defaultProps = defaultProps;
+RangeUsePlans.propTypes = propTypes;
+RangeUsePlans.defaultProps = defaultProps;
 
 export default connect(
   mapStateToProps, null
-)(TenureAgreement);
+)(RangeUsePlans);

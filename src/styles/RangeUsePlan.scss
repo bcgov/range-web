@@ -1,29 +1,33 @@
 $row-height: 70px;
 
-.status {
+.range-use-plans {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   
-  &__icon {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 10px;
- 
-    &--approved {
-      background: green;
-    }
-  
-    &--pending {
-      background: orange;
-    }
-  
-    &--draft {
-      background: $accent-color;
-    }
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 15px;
   }
 
+  &__search {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 15px;
+  }
+}
+
+.range-use-plans-search {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    font-size: 15px;	
+    font-weight: bold;	
+    line-height: 20px;
+    margin-right: 10px;
+  }
 }
 
 .range-use-plan {
@@ -69,56 +73,60 @@ $row-height: 70px;
   }
 }
 
-.range-use-plan-pdf-view {
 
-  &__download-button {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-  }
 
-  &__back-button {
-    position: fixed;
-    bottom: 90px;
-    right: 40px;
-  }
 
-  &__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-    &__load {
-      margin-top: 1em;
-      color: white;
-    }
+// .range-use-plan-pdf-view {
 
-    &__document {
-      margin-bottom: 1em;
+//   &__download-button {
+//     position: fixed;
+//     bottom: 40px;
+//     right: 40px;
+//   }
 
-      .ReactPDF {
-        &__Document {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
+//   &__back-button {
+//     position: fixed;
+//     bottom: 90px;
+//     right: 40px;
+//   }
 
-        &__Page {
-          max-width: calc(100% - 2em);
-          box-shadow: 0 0 8px rgba(0, 0, 0, .5);
-          margin: 10px 0;
+//   &__container {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
 
-          canvas {
-            max-width: 100%;
-            height: auto !important;
-          }
-        }
+//     &__load {
+//       margin-top: 1em;
+//       color: white;
+//     }
 
-        &__message {
-          padding: 20px;
-          color: white;
-        }
-      }
-    }
-  }
-}
+//     &__document {
+//       margin-bottom: 1em;
+
+//       .ReactPDF {
+//         &__Document {
+//           display: flex;
+//           flex-direction: column;
+//           align-items: center;
+//         }
+
+//         &__Page {
+//           max-width: calc(100% - 2em);
+//           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+//           margin: 10px 0;
+
+//           canvas {
+//             max-width: 100%;
+//             height: auto !important;
+//           }
+//         }
+
+//         &__message {
+//           padding: 20px;
+//           color: white;
+//         }
+//       }
+//     }
+//   }
+// }

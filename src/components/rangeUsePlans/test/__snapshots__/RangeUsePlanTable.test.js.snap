@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TenureAgreementList renders correctly 1`] = `
+exports[`RangeUsePlanTable renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <TenureAgreementList
-    tenureAgreements={
+  Symbol(enzyme.__unrendered__): <RangeUsePlanTable
+    rangeUsePlans={
         Array [
             Object {
               "id": 1,
@@ -73,7 +73,7 @@ ShallowWrapper {
                         <TableHeaderCell
                                 as="th"
                         >
-                                Range #
+                                Range Number
                         </TableHeaderCell>
                         <TableHeaderCell
                                 as="th"
@@ -100,8 +100,8 @@ ShallowWrapper {
         <TableBody
                 as="tbody"
         >
-                <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+                <withRouter(RangeUsePlanTableItem)
+                        rangeUsePlan={
                                 Object {
                                         "id": 1,
                                         "number": "0001",
@@ -116,8 +116,8 @@ ShallowWrapper {
                                       }
                         }
                 />
-                <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+                <withRouter(RangeUsePlanTableItem)
+                        rangeUsePlan={
                                 Object {
                                         "id": 2,
                                         "number": "0002",
@@ -132,8 +132,8 @@ ShallowWrapper {
                                       }
                         }
                 />
-                <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+                <withRouter(RangeUsePlanTableItem)
+                        rangeUsePlan={
                                 Object {
                                         "id": 3,
                                         "number": "0003",
@@ -170,7 +170,7 @@ ShallowWrapper {
                         <TableHeaderCell
                                     as="th"
                         >
-                                    Range #
+                                    Range Number
                         </TableHeaderCell>
                         <TableHeaderCell
                                     as="th"
@@ -197,8 +197,8 @@ ShallowWrapper {
           <TableBody
             as="tbody"
 >
-            <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+            <withRouter(RangeUsePlanTableItem)
+                        rangeUsePlan={
                                     Object {
                                                 "id": 1,
                                                 "number": "0001",
@@ -213,8 +213,8 @@ ShallowWrapper {
                                               }
                         }
             />
-            <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+            <withRouter(RangeUsePlanTableItem)
+                        rangeUsePlan={
                                     Object {
                                                 "id": 2,
                                                 "number": "0002",
@@ -229,8 +229,8 @@ ShallowWrapper {
                                               }
                         }
             />
-            <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+            <withRouter(RangeUsePlanTableItem)
+                        rangeUsePlan={
                                     Object {
                                                 "id": 3,
                                                 "number": "0003",
@@ -265,7 +265,7 @@ ShallowWrapper {
               <TableHeaderCell
                             as="th"
               >
-                            Range #
+                            Range Number
               </TableHeaderCell>
               <TableHeaderCell
                             as="th"
@@ -301,7 +301,7 @@ ShallowWrapper {
                 <TableHeaderCell
                   as="th"
 >
-                  Range #
+                  Range Number
 </TableHeaderCell>,
                 <TableHeaderCell
                   as="th"
@@ -333,10 +333,10 @@ ShallowWrapper {
                 "nodeType": "function",
                 "props": Object {
                   "as": "th",
-                  "children": "Range #",
+                  "children": "Range Number",
                 },
                 "ref": null,
-                "rendered": "Range #",
+                "rendered": "Range Number",
                 "type": [Function],
               },
               Object {
@@ -399,8 +399,8 @@ ShallowWrapper {
           "props": Object {
             "as": "tbody",
             "children": Array [
-              <withRouter(TenureAgreementListItem)
-                tenureAgreement={
+              <withRouter(RangeUsePlanTableItem)
+                rangeUsePlan={
                                 Object {
                                                 "id": 1,
                                                 "number": "0001",
@@ -415,8 +415,8 @@ ShallowWrapper {
                                               }
                 }
 />,
-              <withRouter(TenureAgreementListItem)
-                tenureAgreement={
+              <withRouter(RangeUsePlanTableItem)
+                rangeUsePlan={
                                 Object {
                                                 "id": 2,
                                                 "number": "0002",
@@ -431,8 +431,8 @@ ShallowWrapper {
                                               }
                 }
 />,
-              <withRouter(TenureAgreementListItem)
-                tenureAgreement={
+              <withRouter(RangeUsePlanTableItem)
+                rangeUsePlan={
                                 Object {
                                                 "id": 3,
                                                 "number": "0003",
@@ -456,7 +456,7 @@ ShallowWrapper {
               "key": "0",
               "nodeType": "function",
               "props": Object {
-                "tenureAgreement": Object {
+                "rangeUsePlan": Object {
                   "id": 1,
                   "number": "0001",
                   "rangeOfficer": Object {
@@ -478,7 +478,7 @@ ShallowWrapper {
               "key": "1",
               "nodeType": "function",
               "props": Object {
-                "tenureAgreement": Object {
+                "rangeUsePlan": Object {
                   "id": 2,
                   "number": "0002",
                   "rangeOfficer": Object {
@@ -500,7 +500,7 @@ ShallowWrapper {
               "key": "2",
               "nodeType": "function",
               "props": Object {
-                "tenureAgreement": Object {
+                "rangeUsePlan": Object {
                   "id": 3,
                   "number": "0003",
                   "rangeOfficer": Object {
@@ -546,7 +546,7 @@ ShallowWrapper {
                               <TableHeaderCell
                                         as="th"
                               >
-                                        Range #
+                                        Range Number
                               </TableHeaderCell>
                               <TableHeaderCell
                                         as="th"
@@ -573,8 +573,8 @@ ShallowWrapper {
           <TableBody
                     as="tbody"
           >
-                    <withRouter(TenureAgreementListItem)
-                              tenureAgreement={
+                    <withRouter(RangeUsePlanTableItem)
+                              rangeUsePlan={
                                         Object {
                                                   "id": 1,
                                                   "number": "0001",
@@ -589,8 +589,8 @@ ShallowWrapper {
                                                 }
                               }
                     />
-                    <withRouter(TenureAgreementListItem)
-                              tenureAgreement={
+                    <withRouter(RangeUsePlanTableItem)
+                              rangeUsePlan={
                                         Object {
                                                   "id": 2,
                                                   "number": "0002",
@@ -605,8 +605,8 @@ ShallowWrapper {
                                                 }
                               }
                     />
-                    <withRouter(TenureAgreementListItem)
-                              tenureAgreement={
+                    <withRouter(RangeUsePlanTableItem)
+                              rangeUsePlan={
                                         Object {
                                                   "id": 3,
                                                   "number": "0003",
@@ -643,7 +643,7 @@ ShallowWrapper {
                             <TableHeaderCell
                                           as="th"
                             >
-                                          Range #
+                                          Range Number
                             </TableHeaderCell>
                             <TableHeaderCell
                                           as="th"
@@ -670,8 +670,8 @@ ShallowWrapper {
             <TableBody
               as="tbody"
 >
-              <withRouter(TenureAgreementListItem)
-                            tenureAgreement={
+              <withRouter(RangeUsePlanTableItem)
+                            rangeUsePlan={
                                           Object {
                                                         "id": 1,
                                                         "number": "0001",
@@ -686,8 +686,8 @@ ShallowWrapper {
                                                       }
                             }
               />
-              <withRouter(TenureAgreementListItem)
-                            tenureAgreement={
+              <withRouter(RangeUsePlanTableItem)
+                            rangeUsePlan={
                                           Object {
                                                         "id": 2,
                                                         "number": "0002",
@@ -702,8 +702,8 @@ ShallowWrapper {
                                                       }
                             }
               />
-              <withRouter(TenureAgreementListItem)
-                            tenureAgreement={
+              <withRouter(RangeUsePlanTableItem)
+                            rangeUsePlan={
                                           Object {
                                                         "id": 3,
                                                         "number": "0003",
@@ -738,7 +738,7 @@ ShallowWrapper {
                 <TableHeaderCell
                                 as="th"
                 >
-                                Range #
+                                Range Number
                 </TableHeaderCell>
                 <TableHeaderCell
                                 as="th"
@@ -774,7 +774,7 @@ ShallowWrapper {
                   <TableHeaderCell
                     as="th"
 >
-                    Range #
+                    Range Number
 </TableHeaderCell>,
                   <TableHeaderCell
                     as="th"
@@ -806,10 +806,10 @@ ShallowWrapper {
                   "nodeType": "function",
                   "props": Object {
                     "as": "th",
-                    "children": "Range #",
+                    "children": "Range Number",
                   },
                   "ref": null,
-                  "rendered": "Range #",
+                  "rendered": "Range Number",
                   "type": [Function],
                 },
                 Object {
@@ -872,8 +872,8 @@ ShallowWrapper {
             "props": Object {
               "as": "tbody",
               "children": Array [
-                <withRouter(TenureAgreementListItem)
-                  tenureAgreement={
+                <withRouter(RangeUsePlanTableItem)
+                  rangeUsePlan={
                                     Object {
                                                       "id": 1,
                                                       "number": "0001",
@@ -888,8 +888,8 @@ ShallowWrapper {
                                                     }
                   }
 />,
-                <withRouter(TenureAgreementListItem)
-                  tenureAgreement={
+                <withRouter(RangeUsePlanTableItem)
+                  rangeUsePlan={
                                     Object {
                                                       "id": 2,
                                                       "number": "0002",
@@ -904,8 +904,8 @@ ShallowWrapper {
                                                     }
                   }
 />,
-                <withRouter(TenureAgreementListItem)
-                  tenureAgreement={
+                <withRouter(RangeUsePlanTableItem)
+                  rangeUsePlan={
                                     Object {
                                                       "id": 3,
                                                       "number": "0003",
@@ -929,7 +929,7 @@ ShallowWrapper {
                 "key": "0",
                 "nodeType": "function",
                 "props": Object {
-                  "tenureAgreement": Object {
+                  "rangeUsePlan": Object {
                     "id": 1,
                     "number": "0001",
                     "rangeOfficer": Object {
@@ -951,7 +951,7 @@ ShallowWrapper {
                 "key": "1",
                 "nodeType": "function",
                 "props": Object {
-                  "tenureAgreement": Object {
+                  "rangeUsePlan": Object {
                     "id": 2,
                     "number": "0002",
                     "rangeOfficer": Object {
@@ -973,7 +973,7 @@ ShallowWrapper {
                 "key": "2",
                 "nodeType": "function",
                 "props": Object {
-                  "tenureAgreement": Object {
+                  "rangeUsePlan": Object {
                     "id": 3,
                     "number": "0003",
                     "rangeOfficer": Object {

@@ -32,7 +32,7 @@ ShallowWrapper {
                     />
                     <PrivateRoute
                               component={[Function]}
-                              path="/tenure-agreement/:id"
+                              path="/range-use-plans/:id"
                               user={undefined}
                     />
                     <Route
@@ -70,7 +70,7 @@ ShallowWrapper {
             />
             <PrivateRoute
                         component={[Function]}
-                        path="/tenure-agreement/:id"
+                        path="/range-use-plans/:id"
                         user={undefined}
             />
             <Route
@@ -104,7 +104,7 @@ ShallowWrapper {
 />,
               <PrivateRoute
                 component={[Function]}
-                path="/tenure-agreement/:id"
+                path="/range-use-plans/:id"
                 user={undefined}
 />,
               <Route
@@ -153,7 +153,7 @@ ShallowWrapper {
               "nodeType": "function",
               "props": Object {
                 "component": [Function],
-                "path": "/tenure-agreement/:id",
+                "path": "/range-use-plans/:id",
                 "user": undefined,
               },
               "ref": null,
@@ -224,7 +224,7 @@ ShallowWrapper {
                         />
                         <PrivateRoute
                                     component={[Function]}
-                                    path="/tenure-agreement/:id"
+                                    path="/range-use-plans/:id"
                                     user={undefined}
                         />
                         <Route
@@ -262,7 +262,7 @@ ShallowWrapper {
               />
               <PrivateRoute
                             component={[Function]}
-                            path="/tenure-agreement/:id"
+                            path="/range-use-plans/:id"
                             user={undefined}
               />
               <Route
@@ -296,7 +296,7 @@ ShallowWrapper {
 />,
                 <PrivateRoute
                   component={[Function]}
-                  path="/tenure-agreement/:id"
+                  path="/range-use-plans/:id"
                   user={undefined}
 />,
                 <Route
@@ -345,7 +345,7 @@ ShallowWrapper {
                 "nodeType": "function",
                 "props": Object {
                   "component": [Function],
-                  "path": "/tenure-agreement/:id",
+                  "path": "/range-use-plans/:id",
                   "user": undefined,
                 },
                 "ref": null,

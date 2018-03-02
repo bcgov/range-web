@@ -58,7 +58,7 @@ export class LandingPage extends Component {
               />
             </div>
             <NavLink 
-              to={Routes.HOME}
+              to={Routes.RANGE_USE_PLANS}
               className="nav__title"
             > 
               MyRA
@@ -79,11 +79,11 @@ export class LandingPage extends Component {
             <div className="sidebar__header"></div>
             <div className="sidebar__list">
               <NavLink 
-                to={Routes.HOME}
+                to={Routes.RANGE_USE_PLANS}
                 className="sidebar__list__item"
                 activeClassName="sidebar__list__item--active"
               >
-                Home
+                Range Use Plans
               </NavLink>
               <NavLink
                 id="sign-out"

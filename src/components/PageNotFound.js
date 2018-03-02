@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { HOME } from '../constants/routes';
+import { RANGE_USE_PLANS } from '../constants/routes';
 import { Link } from 'react-router-dom';
 
 class PageNotFound extends Component {
   componentDidMount() {
     setTimeout(() => {
-      this.props.history.push(HOME);
+      this.props.history.push(RANGE_USE_PLANS);
     }, 10000);
   }
 
@@ -16,7 +16,7 @@ class PageNotFound extends Component {
           <div className="page-not-found__title">Error 404</div>
           <div className="page-not-found__content">Woops. Looks like this page doesn't exist </div>
           <div className="page-not-found__link">
-            <Link to={HOME}> Go to home </Link>
+            <Link to={RANGE_USE_PLANS}> Go to home </Link>
           </div>
         </div>
       </div>

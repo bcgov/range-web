@@ -1,4 +1,4 @@
-export const getMockTenureAgreement = (number) => (
+export const getMockRangeUsePlan = (number) => (
   {
     id: number,
     number: ("" + number).padStart(4, "0"),
@@ -13,7 +13,7 @@ export const getMockTenureAgreement = (number) => (
   }
 )
 
-export const getMockTenureAgreements = (length) => {
+export const getMockRangeUsePlans = (length) => {
   const array = Array.from(new Array(length), (x,i) => i);
-  return array.map(number => getMockTenureAgreement(number + 1));
+  return array.map(number => getMockRangeUsePlan(number + 1));
 }

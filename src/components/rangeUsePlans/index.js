@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import TenureAgreement from './TenureAgreement';
+import RangeUsePlans from './RangeUsePlans';
 
 export default class extends Component {
   render() {
     return (
-      <TenureAgreement {...this.props} />
+      <RangeUsePlans {...this.props} />
     );
   }
 }
