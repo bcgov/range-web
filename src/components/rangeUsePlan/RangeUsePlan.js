@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Table } from 'semantic-ui-react';
+import { Header, Button } from 'semantic-ui-react';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
   AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
-  ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDER, TYPE, RANGE_NAME,
+  ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
 } from '../../constants/strings';
-import { PENDING, DRAFT, APPROVED } from '../../constants/variables';
+import { SUBMITTED, PENDING, APPROVED, NOT_APPROVED } from '../../constants/variables';
+import { Field, Status } from '../common';
 import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
@@ -29,94 +30,97 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const id = ("" + this.state.id).padStart(4, "0");
+    const id = `RAN07123${this.state.id}`;
 
     return (
       <div className="range-use-plan">
         <div className="range-use-plan__header">
-          <Header as='h1'>{`Range Use Plan ${id}`}</Header>
+          <Header as="h1">{`${id}`}</Header>
+          <div className="range-use-plan__header__actions">
+            <Status 
+              className="range-use-plan__status" 
+              status={PENDING}
+            />
+            <Button className="range-use-plan__btn range-use-plan__btn--view" primary>View</Button>
+            <Button className="range-use-plan__btn range-use-plan__btn--not-approved" color="red">Not Approve</Button>
+            <Button className="range-use-plan__btn" color="green">Approve</Button>
+          </div>
         </div>
 
-        <div className="range-use-plan__divider" />
-        <Header as='h3'>Basic Information</Header>
+        <Header as='h2'>Basic Information</Header>
 
         <div className="range-use-plan__basic-info">
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{RANGE_NUMBER}</label>
-            <div className="range-use-plan__form__input">{'132132'}</div>
-          </div>
-
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{AGREEMENT_START}</label>
-            <div className="range-use-plan__form__input">{'Apr 14, 2018'}</div>
-          </div>
-
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{AGREEMENT_END}</label>
-            <div className="range-use-plan__form__input">{'Apr 14, 2019'}</div>
-          </div>
-
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{AGREEMENT_TYPE}</label>
-            <div className="range-use-plan__form__input">{'E01'}</div>
-          </div>
-
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{PLAN_START}</label>
-            <div className="range-use-plan__form__input">{'Apr 14, 2018'}</div>
-          </div>
-          
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{PLAN_END}</label>
-            <div className="range-use-plan__form__input">{'Apr 14, 2019'}</div>
-          </div>
-
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{DISTRICT}</label>
-            <div className="range-use-plan__form__input">{'DND'}</div>
-          </div>
-
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{ZONE}</label>
-            <div className="range-use-plan__form__input">{'LASO'}</div>
-          </div>
+          <Field 
+            label={RANGE_NUMBER}
+            input={`07123${this.state.id}`}
+          />
+          <Field 
+            label={AGREEMENT_START}
+            input={'Sep 13, 2010'}
+          />
+          <Field 
+            label={AGREEMENT_END}
+            input={'Sep 13, 2019'}
+          />
+          <Field 
+            label={AGREEMENT_TYPE}
+            input={'E01'}
+          />
+          <Field 
+            label={PLAN_START}
+            input={'Jan 14, 2018'}
+          />
+          <Field 
+            label={PLAN_END}
+            input={'Dec 14, 2018'}
+          />
+          <Field 
+            label={DISTRICT}
+            input={'DND'}
+          />
+          <Field 
+            label={ZONE}
+            input={'LASO'}
+          />
         </div>
 
         <div className="range-use-plan__divider" />
-        <Header as='h3'>Agreement Information</Header>
+        <Header as='h4'>Agreement Information</Header>
 
         <div className="range-use-plan__agreement-info">
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{RANGE_NAME}</label>
-            <div className="range-use-plan__form__input">{'Star Range'}</div>
-          </div>
-          
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{AGREEMENT_HOLDER}</label>
-            <div className="range-use-plan__form__input">{'Obiwan Kenobi'}</div>
-          </div>
+          <Field 
+            label={RANGE_NAME}
+            input={'Star Range'}
+          />
+          <Field 
+            label={ALTERNATIVE_BUSINESS_NAME}
+            input={'Star Range Alternative'}
+          />
 
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{TYPE}</label>
-            <div className="range-use-plan__form__input">{'Primary'}</div>
-          </div>
+          <Field 
+            label={AGREEMENT_HOLDERS}
+            input={'Obiwan Kenobi'}
+          />
 
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{ALTERNATIVE_BUSINESS_NAME}</label>
-            <div className="range-use-plan__form__input">{'Star Range Alternative'}</div>
-          </div>
-          
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{AGREEMENT_HOLDER}</label>
-            <div className="range-use-plan__form__input">{'Luke Skywalker'}</div>
-          </div>
-          <div className="range-use-plan__form">
-            <label className="range-use-plan__form__label">{TYPE}</label>
-            <div className="range-use-plan__form__input">{'Others'}</div>
-          </div>
+          <Field 
+            label={TYPE}
+            input={'Primary'}
+          />
+
+          <Field 
+            label={AGREEMENT_HOLDERS}
+            input={'Luke Skywalker'}
+            isLabelHidden={true}
+          />
+
+          <Field 
+            label={TYPE}
+            input={'Others'}
+            isLabelHidden={true}
+          />
         </div>
 
-        <div className="range-use-plan__divider" />
+        {/* <div className="range-use-plan__divider" />
         <Header as='h3'>Versions</Header>
         <Table basic="very">
           <Table.Body>
@@ -137,7 +141,7 @@ export class RangeUsePlan extends Component {
               </Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table> */}
 
         {/* <RangeUsePlanPDFView /> */}
       </div>

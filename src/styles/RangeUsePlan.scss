@@ -1,14 +1,19 @@
-$row-height: 70px;
+$row-height: 65px;
 
 .range-use-plans {
-  display: flex;
-  flex-direction: column;
-  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__actions {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 15px;
+  }
+
+  &__assign {
+    display: none;
   }
 
   &__search {
@@ -16,6 +21,20 @@ $row-height: 70px;
     justify-content: flex-end;
     margin-left: 15px;
   }
+
+  &__table {
+    margin-top: 20px;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+}
+
+.range-use-plans-table-item {
+  cursor: pointer;
 }
 
 .range-use-plans-search {
@@ -32,26 +51,26 @@ $row-height: 70px;
 
 .range-use-plan {
   &__header {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &__actions {
+      display: flex;
+      align-items: center;
+    }
   }
-  &__form {
-    align-self: center;
 
-    &__label {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: gray;
-      margin-bottom: 10px;
-      display: inline-block;
-
-      &--hidden {
-        visibility: hidden;
-      }
+  &__btn {
+    width: 130px !important;
+    
+    &--not-approved {
+      margin-right: 15px !important;
     }
 
-    &__input {
-      // border-bottom: 2px solid $primary-color;
-      font-size: 1.1rem;
+    &--view {
+      margin-right: 15px !important;
     }
   }
 
@@ -68,7 +87,7 @@ $row-height: 70px;
 
   &__agreement-info {
     display: grid;
-    grid-template-columns: 50% 30% 20%;
+    grid-template-columns: 50% 50%;
     grid-template-rows: $row-height $row-height;
   }
 }

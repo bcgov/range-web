@@ -1,7 +1,7 @@
 export const getMockRangeUsePlan = (number) => (
   {
     id: number,
-    number: ("" + number).padStart(4, "0"),
+    number,
     status: number/3 <= 1 ? "Approved" : "Pending",
     region: `Victoria Ranch ${number}`,
     tenureHolder: {

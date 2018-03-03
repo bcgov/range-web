@@ -1,13 +1,17 @@
 .status {
   display: flex;
   align-items: center;
-  
+
+  &__label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
   &__icon {
     width: 15px;
     height: 15px;
     border-radius: 50%;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
  
     &--approved {
       background: green;
@@ -17,8 +21,29 @@
       background: orange;
     }
   
-    &--draft {
-      background: $accent-color;
+    &--not-approved {
+      background: red;
     }
+  }
+}
+
+.field {
+  align-self: center;
+
+  &__label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: gray;
+    margin-bottom: 10px;
+    display: inline-block;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__input {
+    // border-bottom: 2px solid $primary-color;
+    font-size: 1.1rem;
   }
 }

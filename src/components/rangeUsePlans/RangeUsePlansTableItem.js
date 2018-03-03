@@ -22,10 +22,11 @@ export class RangeUsePlansTableItem extends Component {
     const { rangeUsePlan } = this.props;
 
     return (
-      <Table.Row 
+      <Table.Row
+        className="range-use-plans-table-item"
         onClick={this.onRowClicked}
       >
-        <Table.Cell>{`RAN${rangeUsePlan.number}`}</Table.Cell>
+        <Table.Cell>{`RAN07123${rangeUsePlan.number}`}</Table.Cell>
         <Table.Cell>{rangeUsePlan.region}</Table.Cell>
         <Table.Cell>{rangeUsePlan.tenureHolder.name}</Table.Cell>
         <Table.Cell>{rangeUsePlan.rangeOfficer.name}</Table.Cell>
