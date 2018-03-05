@@ -41,7 +41,7 @@ export class RangeUsePlan extends Component {
               className="range-use-plan__status" 
               status={PENDING}
             />
-            <Button className="range-use-plan__btn range-use-plan__btn--view" primary>View</Button>
+            <Button className="range-use-plan__btn range-use-plan__btn--view" primary>View PDF</Button>
             <Button className="range-use-plan__btn range-use-plan__btn--not-approved" color="red">Not Approve</Button>
             <Button className="range-use-plan__btn" color="green">Approve</Button>
           </div>

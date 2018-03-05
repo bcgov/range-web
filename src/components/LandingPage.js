@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import * as Routes from '../constants/routes';
+import { LOGO_SRC } from '../constants/variables';
 import { logout } from '../actions/authActions';
 
 const propTypes = {
@@ -48,6 +49,15 @@ export class LandingPage extends Component {
 
     return (
       <div className="landing-page">
+        {/* <header className="header">
+          <div className="header__left">
+            <img className="header__logo" src={LOGO_SRC} alt="Logo"/>
+            <div className="header__title">My Range App</div>
+          </div>
+          <nav className="navbar">
+          </nav>
+        </header> */}
+
         <div className="nav">
           <div className="nav__left">
             <div className="nav__icon">

@@ -27,6 +27,46 @@ body {
   padding: 15px;
 }
 
+// .header {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   z-index: 1000;
+//   padding: 0;
+//   border-bottom-style: solid;
+//   border-bottom-width: 0;
+//   border-bottom-color: rgba(84,117,167,.25);
+//   background-color: rgba(0,51,102,.25);
+//   transition: all .2s linear;
+
+//   border-bottom: 4px solid $accent-color;
+//   background: $primary-color;
+//   color: white;
+//   height: 55px;
+//   display: flex;
+//   justify-content: space-between;
+
+//   &__left {
+//     display: flex;
+//     align-items: center;
+//   }
+
+//   &__logo {
+//     width: 40px;
+//     height: 40px;
+//     margin-left: 10px;
+//   }
+
+//   &__title {
+//     border-left: 1px solid $accent-color;
+//     font-size: 1.2rem;
+//     padding-left: 15px;
+//     margin-left: 10px;
+//   }
+// }
+
+
 .overlay {
   width: 100vw;
   height: 100vh;

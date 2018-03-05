@@ -1,4 +1,5 @@
 $row-height: 65px;
+$primary-color: #003366;
 
 .range-use-plans {
   &__header {
@@ -29,7 +30,7 @@ $row-height: 65px;
   &__pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 15px;
   }
 }
 

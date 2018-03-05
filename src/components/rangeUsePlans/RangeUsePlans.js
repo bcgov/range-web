@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { Button, Modal, Header, Pagination, Icon } from 'semantic-ui-react';
@@ -7,18 +6,9 @@ import { Button, Modal, Header, Pagination, Icon } from 'semantic-ui-react';
 import RangeUsePlansTable from './RangeUsePlansTable';
 import RangeUsePlansSearch from './RangeUsePlansSearch';
 
-import { getMockRangeUsePlans } from './test/mockValues';
-
 const propTypes = {
-  rangeUsePlans: PropTypes.array.isRequired,
+  rangeUsePlanState: PropTypes.object.isRequired,
   searchRangeUsePlans: PropTypes.func.isRequired,
-};
-
-const defaultProps = {
-  rangeUsePlans: getMockRangeUsePlans(9),
-  searchRangeUsePlans: (term) => {
-    console.log(term);
-  },
 };
 
 export class RangeUsePlans extends Component {
@@ -39,7 +29,7 @@ export class RangeUsePlans extends Component {
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
   
   render() {
-    const { rangeUsePlans } = this.props;
+    const { rangeUsePlans, isLoading, success, totalPages, currentPage } = this.props.rangeUsePlanState;
     const { activePage } = this.state;
 
     return (
@@ -71,7 +61,8 @@ export class RangeUsePlans extends Component {
         </div>
 
         <div className="range-use-plans__table">
-          <RangeUsePlansTable 
+          <RangeUsePlansTable
+            isLoading={isLoading}
             rangeUsePlans={rangeUsePlans}
           />
         </div>
@@ -79,8 +70,8 @@ export class RangeUsePlans extends Component {
         <div className="range-use-plans__pagination">
           <Pagination 
             size='mini' 
-            activePage={activePage} 
-            onPageChange={this.handlePaginationChange} totalPages={5}
+            activePage={activePage}
+            onPageChange={this.handlePaginationChange} totalPages={totalPages}
             ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
             firstItem={{ content: <Icon name='angle double left' />, icon: true }}
             lastItem={{ content: <Icon name='angle double right' />, icon: true }}
@@ -93,15 +84,5 @@ export class RangeUsePlans extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-
-  }; 
-};
-
 RangeUsePlans.propTypes = propTypes;
-RangeUsePlans.defaultProps = defaultProps;
-
-export default connect(
-  mapStateToProps, null
-)(RangeUsePlans);
+export default RangeUsePlans;

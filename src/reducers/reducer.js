@@ -7,6 +7,7 @@ import {
 
 import authReducer from './authReducer';
 import toastReducer from './toastReducer';
+import rangeUsePlanReducer from './rangeUsePlanRedcuer';
 // import genericReducer from './genericReducer';
 
 // const createReducer = (reducerFunction, reducerName) => {
@@ -21,6 +22,7 @@ import toastReducer from './toastReducer';
 const appReducer = combineReducers({
   authReducer,
   toastReducer,
+  rangeUsePlanReducer,
   // [ReducerTypes.FAQS]: createReducer(genericReducer, ReducerTypes.FAQS),
 });
 
