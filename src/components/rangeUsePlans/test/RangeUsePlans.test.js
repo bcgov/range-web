@@ -6,6 +6,14 @@ const props = {};
 const setupProps = () => {
   props.rangeUsePlans = [];
   props.searchRangeUsePlans = jest.fn();
+  props.rangeUsePlanState = {
+    isLoading: false,
+    rangeUsePlans: [],
+    success: false,
+    totalPages: 1,
+    currentPage: 1,
+    errorResponse: {},
+  }
 };
 
 beforeEach(() => {
@@ -20,8 +28,8 @@ describe('RangeUsePlans', () => {
 
   it('renders `RangeUsePlanSearch and RangeUsePlanTable`', () => {
     const wrapper = shallow(<RangeUsePlans {...props} />);
-    expect(wrapper.find('RangeUsePlanSearch').exists()).toBe(true);    
-    expect(wrapper.find('RangeUsePlanTable').exists()).toBe(true);    
+    expect(wrapper.find('RangeUsePlansSearch').exists()).toBe(true);    
+    expect(wrapper.find('RangeUsePlansTable').exists()).toBe(true);    
   });
 
   describe('Event handlers', () => {

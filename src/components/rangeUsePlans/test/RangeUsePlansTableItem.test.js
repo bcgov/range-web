@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlansTableItem } from '../RangeUsePlansTableItem';
 import { getMockRangeUsePlan } from './mockValues';
-import { RANGE_USE_PLANS } from '../../../constants/routes';
+import { RANGE_USE_PLAN } from '../../../constants/routes';
 
 const props = {};
 const setupProps = () => {
@@ -27,7 +27,7 @@ describe('RangeUsePlansTableItem', () => {
     wrapper.simulate('click', {});
 
     expect(props.history.push).toHaveBeenCalledTimes(1);
-    expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLANS}/${props.rangeUsePlan.id}`);
+    expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.rangeUsePlan.id}`);
   });
 
   describe('Event handlers', () => {
@@ -36,7 +36,7 @@ describe('RangeUsePlansTableItem', () => {
       wrapper.instance().onRowClicked();
 
       expect(props.history.push).toHaveBeenCalledTimes(1);
-      expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLANS}/${props.rangeUsePlan.id}`);
+      expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.rangeUsePlan.id}`);
     });
   });
 });

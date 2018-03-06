@@ -44,7 +44,7 @@ ShallowWrapper {
                               activeClassName="active"
                               ariaCurrent="true"
                               className="nav__title"
-                              to="/home"
+                              to="/range-use-plans"
                     >
                               MyRA
                     </NavLink>
@@ -79,9 +79,9 @@ ShallowWrapper {
                                         activeClassName="sidebar__list__item--active"
                                         ariaCurrent="true"
                                         className="sidebar__list__item"
-                                        to="/home"
+                                        to="/range-use-plans"
                               >
-                                        Home
+                                        Range Use Plans
                               </NavLink>
                               <NavLink
                                         activeClassName="active"
@@ -138,7 +138,7 @@ ShallowWrapper {
                             activeClassName="active"
                             ariaCurrent="true"
                             className="nav__title"
-                            to="/home"
+                            to="/range-use-plans"
               >
                             MyRA
               </NavLink>
@@ -181,7 +181,7 @@ ShallowWrapper {
                   activeClassName="active"
                   ariaCurrent="true"
                   className="nav__title"
-                  to="/home"
+                  to="/range-use-plans"
 >
                   MyRA
 </NavLink>,
@@ -229,7 +229,7 @@ ShallowWrapper {
                   "ariaCurrent": "true",
                   "children": "MyRA",
                   "className": "nav__title",
-                  "to": "/home",
+                  "to": "/range-use-plans",
                 },
                 "ref": null,
                 "rendered": "MyRA",
@@ -306,9 +306,9 @@ ShallowWrapper {
                                           activeClassName="sidebar__list__item--active"
                                           ariaCurrent="true"
                                           className="sidebar__list__item"
-                                          to="/home"
+                                          to="/range-use-plans"
                             >
-                                          Home
+                                          Range Use Plans
                             </NavLink>
                             <NavLink
                                           activeClassName="active"
@@ -357,9 +357,9 @@ ShallowWrapper {
                                     activeClassName="sidebar__list__item--active"
                                     ariaCurrent="true"
                                     className="sidebar__list__item"
-                                    to="/home"
+                                    to="/range-use-plans"
                   >
-                                    Home
+                                    Range Use Plans
                   </NavLink>
                   <NavLink
                                     activeClassName="active"
@@ -398,9 +398,9 @@ ShallowWrapper {
                       activeClassName="sidebar__list__item--active"
                       ariaCurrent="true"
                       className="sidebar__list__item"
-                      to="/home"
+                      to="/range-use-plans"
 >
-                      Home
+                      Range Use Plans
 </NavLink>,
                     <NavLink
                       activeClassName="active"
@@ -424,12 +424,12 @@ ShallowWrapper {
                     "props": Object {
                       "activeClassName": "sidebar__list__item--active",
                       "ariaCurrent": "true",
-                      "children": "Home",
+                      "children": "Range Use Plans",
                       "className": "sidebar__list__item",
-                      "to": "/home",
+                      "to": "/range-use-plans",
                     },
                     "ref": null,
-                    "rendered": "Home",
+                    "rendered": "Range Use Plans",
                     "type": [Function],
                   },
                   Object {
@@ -530,7 +530,7 @@ ShallowWrapper {
                                     activeClassName="active"
                                     ariaCurrent="true"
                                     className="nav__title"
-                                    to="/home"
+                                    to="/range-use-plans"
                         >
                                     MyRA
                         </NavLink>
@@ -565,9 +565,9 @@ ShallowWrapper {
                                                 activeClassName="sidebar__list__item--active"
                                                 ariaCurrent="true"
                                                 className="sidebar__list__item"
-                                                to="/home"
+                                                to="/range-use-plans"
                                     >
-                                                Home
+                                                Range Use Plans
                                     </NavLink>
                                     <NavLink
                                                 activeClassName="active"
@@ -624,7 +624,7 @@ ShallowWrapper {
                                 activeClassName="active"
                                 ariaCurrent="true"
                                 className="nav__title"
-                                to="/home"
+                                to="/range-use-plans"
                 >
                                 MyRA
                 </NavLink>
@@ -667,7 +667,7 @@ ShallowWrapper {
                     activeClassName="active"
                     ariaCurrent="true"
                     className="nav__title"
-                    to="/home"
+                    to="/range-use-plans"
 >
                     MyRA
 </NavLink>,
@@ -715,7 +715,7 @@ ShallowWrapper {
                     "ariaCurrent": "true",
                     "children": "MyRA",
                     "className": "nav__title",
-                    "to": "/home",
+                    "to": "/range-use-plans",
                   },
                   "ref": null,
                   "rendered": "MyRA",
@@ -792,9 +792,9 @@ ShallowWrapper {
                                                 activeClassName="sidebar__list__item--active"
                                                 ariaCurrent="true"
                                                 className="sidebar__list__item"
-                                                to="/home"
+                                                to="/range-use-plans"
                                 >
-                                                Home
+                                                Range Use Plans
                                 </NavLink>
                                 <NavLink
                                                 activeClassName="active"
@@ -843,9 +843,9 @@ ShallowWrapper {
                                         activeClassName="sidebar__list__item--active"
                                         ariaCurrent="true"
                                         className="sidebar__list__item"
-                                        to="/home"
+                                        to="/range-use-plans"
                     >
-                                        Home
+                                        Range Use Plans
                     </NavLink>
                     <NavLink
                                         activeClassName="active"
@@ -884,9 +884,9 @@ ShallowWrapper {
                         activeClassName="sidebar__list__item--active"
                         ariaCurrent="true"
                         className="sidebar__list__item"
-                        to="/home"
+                        to="/range-use-plans"
 >
-                        Home
+                        Range Use Plans
 </NavLink>,
                       <NavLink
                         activeClassName="active"
@@ -910,12 +910,12 @@ ShallowWrapper {
                       "props": Object {
                         "activeClassName": "sidebar__list__item--active",
                         "ariaCurrent": "true",
-                        "children": "Home",
+                        "children": "Range Use Plans",
                         "className": "sidebar__list__item",
-                        "to": "/home",
+                        "to": "/range-use-plans",
                       },
                       "ref": null,
-                      "rendered": "Home",
+                      "rendered": "Range Use Plans",
                       "type": [Function],
                     },
                     Object {

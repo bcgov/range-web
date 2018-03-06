@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RangeUsePlanTable renders correctly 1`] = `
+exports[`RangeUsePlansTable renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RangeUsePlanTable
+  Symbol(enzyme.__unrendered__): <RangeUsePlansTable
     rangeUsePlans={
         Array [
             Object {
               "id": 1,
-              "number": "0001",
+              "number": 1,
               "rangeOfficer": Object {
                 "name": "Obi-Wan Kenobi",
               },
@@ -21,7 +21,7 @@ ShallowWrapper {
             },
             Object {
               "id": 2,
-              "number": "0002",
+              "number": 2,
               "rangeOfficer": Object {
                 "name": "Leia Organa",
               },
@@ -33,7 +33,7 @@ ShallowWrapper {
             },
             Object {
               "id": 3,
-              "number": "0003",
+              "number": 3,
               "rangeOfficer": Object {
                 "name": "Obi-Wan Kenobi",
               },
@@ -56,8 +56,9 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "host",
+    "nodeType": "class",
     "props": Object {
+      "as": "form",
       "children": <Table
         as="table"
         selectable={true}
@@ -100,11 +101,11 @@ ShallowWrapper {
         <TableBody
                 as="tbody"
         >
-                <withRouter(RangeUsePlanTableItem)
+                <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                 Object {
                                         "id": 1,
-                                        "number": "0001",
+                                        "number": 1,
                                         "rangeOfficer": Object {
                                           "name": "Obi-Wan Kenobi",
                                         },
@@ -116,11 +117,11 @@ ShallowWrapper {
                                       }
                         }
                 />
-                <withRouter(RangeUsePlanTableItem)
+                <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                 Object {
                                         "id": 2,
-                                        "number": "0002",
+                                        "number": 2,
                                         "rangeOfficer": Object {
                                           "name": "Leia Organa",
                                         },
@@ -132,11 +133,11 @@ ShallowWrapper {
                                       }
                         }
                 />
-                <withRouter(RangeUsePlanTableItem)
+                <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                 Object {
                                         "id": 3,
-                                        "number": "0003",
+                                        "number": 3,
                                         "rangeOfficer": Object {
                                           "name": "Obi-Wan Kenobi",
                                         },
@@ -150,7 +151,7 @@ ShallowWrapper {
                 />
         </TableBody>
 </Table>,
-      "className": "tenure-agreement-list",
+      "loading": undefined,
     },
     "ref": null,
     "rendered": Object {
@@ -197,11 +198,11 @@ ShallowWrapper {
           <TableBody
             as="tbody"
 >
-            <withRouter(RangeUsePlanTableItem)
+            <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                     Object {
                                                 "id": 1,
-                                                "number": "0001",
+                                                "number": 1,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
@@ -213,11 +214,11 @@ ShallowWrapper {
                                               }
                         }
             />
-            <withRouter(RangeUsePlanTableItem)
+            <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                     Object {
                                                 "id": 2,
-                                                "number": "0002",
+                                                "number": 2,
                                                 "rangeOfficer": Object {
                                                   "name": "Leia Organa",
                                                 },
@@ -229,11 +230,11 @@ ShallowWrapper {
                                               }
                         }
             />
-            <withRouter(RangeUsePlanTableItem)
+            <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                     Object {
                                                 "id": 3,
-                                                "number": "0003",
+                                                "number": 3,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
@@ -399,11 +400,11 @@ ShallowWrapper {
           "props": Object {
             "as": "tbody",
             "children": Array [
-              <withRouter(RangeUsePlanTableItem)
+              <withRouter(RangeUsePlansTableItem)
                 rangeUsePlan={
                                 Object {
                                                 "id": 1,
-                                                "number": "0001",
+                                                "number": 1,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
@@ -415,11 +416,11 @@ ShallowWrapper {
                                               }
                 }
 />,
-              <withRouter(RangeUsePlanTableItem)
+              <withRouter(RangeUsePlansTableItem)
                 rangeUsePlan={
                                 Object {
                                                 "id": 2,
-                                                "number": "0002",
+                                                "number": 2,
                                                 "rangeOfficer": Object {
                                                   "name": "Leia Organa",
                                                 },
@@ -431,11 +432,11 @@ ShallowWrapper {
                                               }
                 }
 />,
-              <withRouter(RangeUsePlanTableItem)
+              <withRouter(RangeUsePlansTableItem)
                 rangeUsePlan={
                                 Object {
                                                 "id": 3,
-                                                "number": "0003",
+                                                "number": 3,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
@@ -458,7 +459,7 @@ ShallowWrapper {
               "props": Object {
                 "rangeUsePlan": Object {
                   "id": 1,
-                  "number": "0001",
+                  "number": 1,
                   "rangeOfficer": Object {
                     "name": "Obi-Wan Kenobi",
                   },
@@ -480,7 +481,7 @@ ShallowWrapper {
               "props": Object {
                 "rangeUsePlan": Object {
                   "id": 2,
-                  "number": "0002",
+                  "number": 2,
                   "rangeOfficer": Object {
                     "name": "Leia Organa",
                   },
@@ -502,7 +503,7 @@ ShallowWrapper {
               "props": Object {
                 "rangeUsePlan": Object {
                   "id": 3,
-                  "number": "0003",
+                  "number": 3,
                   "rangeOfficer": Object {
                     "name": "Obi-Wan Kenobi",
                   },
@@ -523,14 +524,15 @@ ShallowWrapper {
       ],
       "type": [Function],
     },
-    "type": "div",
+    "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "host",
+      "nodeType": "class",
       "props": Object {
+        "as": "form",
         "children": <Table
           as="table"
           selectable={true}
@@ -573,11 +575,11 @@ ShallowWrapper {
           <TableBody
                     as="tbody"
           >
-                    <withRouter(RangeUsePlanTableItem)
+                    <withRouter(RangeUsePlansTableItem)
                               rangeUsePlan={
                                         Object {
                                                   "id": 1,
-                                                  "number": "0001",
+                                                  "number": 1,
                                                   "rangeOfficer": Object {
                                                     "name": "Obi-Wan Kenobi",
                                                   },
@@ -589,11 +591,11 @@ ShallowWrapper {
                                                 }
                               }
                     />
-                    <withRouter(RangeUsePlanTableItem)
+                    <withRouter(RangeUsePlansTableItem)
                               rangeUsePlan={
                                         Object {
                                                   "id": 2,
-                                                  "number": "0002",
+                                                  "number": 2,
                                                   "rangeOfficer": Object {
                                                     "name": "Leia Organa",
                                                   },
@@ -605,11 +607,11 @@ ShallowWrapper {
                                                 }
                               }
                     />
-                    <withRouter(RangeUsePlanTableItem)
+                    <withRouter(RangeUsePlansTableItem)
                               rangeUsePlan={
                                         Object {
                                                   "id": 3,
-                                                  "number": "0003",
+                                                  "number": 3,
                                                   "rangeOfficer": Object {
                                                     "name": "Obi-Wan Kenobi",
                                                   },
@@ -623,7 +625,7 @@ ShallowWrapper {
                     />
           </TableBody>
 </Table>,
-        "className": "tenure-agreement-list",
+        "loading": undefined,
       },
       "ref": null,
       "rendered": Object {
@@ -670,11 +672,11 @@ ShallowWrapper {
             <TableBody
               as="tbody"
 >
-              <withRouter(RangeUsePlanTableItem)
+              <withRouter(RangeUsePlansTableItem)
                             rangeUsePlan={
                                           Object {
                                                         "id": 1,
-                                                        "number": "0001",
+                                                        "number": 1,
                                                         "rangeOfficer": Object {
                                                           "name": "Obi-Wan Kenobi",
                                                         },
@@ -686,11 +688,11 @@ ShallowWrapper {
                                                       }
                             }
               />
-              <withRouter(RangeUsePlanTableItem)
+              <withRouter(RangeUsePlansTableItem)
                             rangeUsePlan={
                                           Object {
                                                         "id": 2,
-                                                        "number": "0002",
+                                                        "number": 2,
                                                         "rangeOfficer": Object {
                                                           "name": "Leia Organa",
                                                         },
@@ -702,11 +704,11 @@ ShallowWrapper {
                                                       }
                             }
               />
-              <withRouter(RangeUsePlanTableItem)
+              <withRouter(RangeUsePlansTableItem)
                             rangeUsePlan={
                                           Object {
                                                         "id": 3,
-                                                        "number": "0003",
+                                                        "number": 3,
                                                         "rangeOfficer": Object {
                                                           "name": "Obi-Wan Kenobi",
                                                         },
@@ -872,11 +874,11 @@ ShallowWrapper {
             "props": Object {
               "as": "tbody",
               "children": Array [
-                <withRouter(RangeUsePlanTableItem)
+                <withRouter(RangeUsePlansTableItem)
                   rangeUsePlan={
                                     Object {
                                                       "id": 1,
-                                                      "number": "0001",
+                                                      "number": 1,
                                                       "rangeOfficer": Object {
                                                         "name": "Obi-Wan Kenobi",
                                                       },
@@ -888,11 +890,11 @@ ShallowWrapper {
                                                     }
                   }
 />,
-                <withRouter(RangeUsePlanTableItem)
+                <withRouter(RangeUsePlansTableItem)
                   rangeUsePlan={
                                     Object {
                                                       "id": 2,
-                                                      "number": "0002",
+                                                      "number": 2,
                                                       "rangeOfficer": Object {
                                                         "name": "Leia Organa",
                                                       },
@@ -904,11 +906,11 @@ ShallowWrapper {
                                                     }
                   }
 />,
-                <withRouter(RangeUsePlanTableItem)
+                <withRouter(RangeUsePlansTableItem)
                   rangeUsePlan={
                                     Object {
                                                       "id": 3,
-                                                      "number": "0003",
+                                                      "number": 3,
                                                       "rangeOfficer": Object {
                                                         "name": "Obi-Wan Kenobi",
                                                       },
@@ -931,7 +933,7 @@ ShallowWrapper {
                 "props": Object {
                   "rangeUsePlan": Object {
                     "id": 1,
-                    "number": "0001",
+                    "number": 1,
                     "rangeOfficer": Object {
                       "name": "Obi-Wan Kenobi",
                     },
@@ -953,7 +955,7 @@ ShallowWrapper {
                 "props": Object {
                   "rangeUsePlan": Object {
                     "id": 2,
-                    "number": "0002",
+                    "number": 2,
                     "rangeOfficer": Object {
                       "name": "Leia Organa",
                     },
@@ -975,7 +977,7 @@ ShallowWrapper {
                 "props": Object {
                   "rangeUsePlan": Object {
                     "id": 3,
-                    "number": "0003",
+                    "number": 3,
                     "rangeOfficer": Object {
                       "name": "Obi-Wan Kenobi",
                     },
@@ -996,7 +998,7 @@ ShallowWrapper {
         ],
         "type": [Function],
       },
-      "type": "div",
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {

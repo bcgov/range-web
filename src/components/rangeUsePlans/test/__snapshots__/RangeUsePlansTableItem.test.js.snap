@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RangeUsePlanTableItem renders correctly 1`] = `
+exports[`RangeUsePlansTableItem renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RangeUsePlanTableItem
+  Symbol(enzyme.__unrendered__): <RangeUsePlansTableItem
     history={
         Object {
             "push": [Function],
@@ -13,7 +13,7 @@ ShallowWrapper {
     rangeUsePlan={
         Object {
             "id": 1,
-            "number": "0001",
+            "number": 1,
             "rangeOfficer": Object {
               "name": "Obi-Wan Kenobi",
             },
@@ -43,7 +43,7 @@ ShallowWrapper {
         <TableCell
           as="td"
 >
-          RAN0001
+          RAN071231
 </TableCell>,
         <TableCell
           as="td"
@@ -66,7 +66,7 @@ ShallowWrapper {
           Approved
 </TableCell>,
       ],
-      "className": "tenure-agreement-list-item",
+      "className": "range-use-plans-table-item",
       "onClick": [Function],
     },
     "ref": null,
@@ -77,10 +77,10 @@ ShallowWrapper {
         "nodeType": "function",
         "props": Object {
           "as": "td",
-          "children": "RAN0001",
+          "children": "RAN071231",
         },
         "ref": null,
-        "rendered": "RAN0001",
+        "rendered": "RAN071231",
         "type": [Function],
       },
       Object {
@@ -146,7 +146,7 @@ ShallowWrapper {
           <TableCell
             as="td"
 >
-            RAN0001
+            RAN071231
 </TableCell>,
           <TableCell
             as="td"
@@ -169,7 +169,7 @@ ShallowWrapper {
             Approved
 </TableCell>,
         ],
-        "className": "tenure-agreement-list-item",
+        "className": "range-use-plans-table-item",
         "onClick": [Function],
       },
       "ref": null,
@@ -180,10 +180,10 @@ ShallowWrapper {
           "nodeType": "function",
           "props": Object {
             "as": "td",
-            "children": "RAN0001",
+            "children": "RAN071231",
           },
           "ref": null,
-          "rendered": "RAN0001",
+          "rendered": "RAN071231",
           "type": [Function],
         },
         Object {

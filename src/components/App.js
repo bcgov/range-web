@@ -8,7 +8,6 @@ import * as Routes from '../constants/routes';
 import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
 import Login from './auth/Login';
-// import Home from './Home';
 import Toast from './Toast';
 import PageNotFound from './PageNotFound';
 import RangeUsePlan from './rangeUsePlan';
@@ -31,7 +30,6 @@ export class App extends Component {
           <Switch>
             
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
-            {/* <PrivateRoute path={Routes.HOME} component={Home} user={user} /> */}
 
             <PrivateRoute path={Routes.RANGE_USE_PLANS} component={RangeUsePlans} user={user} />
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:id`} component={RangeUsePlan} user={user} />
