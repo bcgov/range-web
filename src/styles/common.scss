@@ -27,7 +27,7 @@
   }
 }
 
-.field {
+.text-field {
   align-self: center;
 
   &__label {
@@ -35,15 +35,29 @@
     font-size: 1.1rem;
     color: gray;
     margin-bottom: 10px;
-    display: inline-block;
 
     &--hidden {
       display: none;
     }
   }
 
-  &__input {
+  &__text {
     // border-bottom: 2px solid $primary-color;
     font-size: 1.1rem;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $primary-light-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // cursor: pointer;
+
+  &__initial {
+    color: white;
   }
 }

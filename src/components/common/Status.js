@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { PENDING, NOT_APPROVED, APPROVED, SUBMITTED } from '../../constants/variables';
 
 export const Status = ({ status, className = "" }) => {
@@ -22,8 +23,8 @@ export const Status = ({ status, className = "" }) => {
   }
 
   return (
-    <div className={`status ${className}`}>
-      <span className={`status__icon ${modifier}`}/>
+    <div className={classNames('status', className)}>
+      <span className={classNames('status__icon', modifier)}/>
       <span className="status__label">{status}</span>  
     </div>
   );

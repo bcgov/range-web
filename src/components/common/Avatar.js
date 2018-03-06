@@ -1,8 +1,10 @@
 import React from 'react';
-export const Avatar = ({ name, className = "", isLabelHidden = false }) => (
-  <div className={"avatar " + className}>
+import classNames from 'classnames';
+
+export const Avatar = ({ name, className = "" }) => (
+  <div className={classNames('avatar', className)}>
     <div className="avatar__initial">
       {name}
     </div>
   </div>
-);  
+);

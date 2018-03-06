@@ -8,7 +8,7 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
 } from '../../constants/strings';
 import { SUBMITTED, PENDING, APPROVED, NOT_APPROVED } from '../../constants/variables';
-import { Field, Status } from '../common';
+import { TextField, Status } from '../common';
 import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
@@ -50,37 +50,37 @@ export class RangeUsePlan extends Component {
         <Header as='h2'>Basic Information</Header>
 
         <div className="range-use-plan__basic-info">
-          <Field 
+          <TextField 
             label={RANGE_NUMBER}
-            input={`07123${this.state.id}`}
+            text={`07123${this.state.id}`}
           />
-          <Field 
+          <TextField 
             label={AGREEMENT_START}
-            input={'Sep 13, 2010'}
+            text={'Sep 13, 2010'}
           />
-          <Field 
+          <TextField 
             label={AGREEMENT_END}
-            input={'Sep 13, 2019'}
+            text={'Sep 13, 2019'}
           />
-          <Field 
+          <TextField 
             label={AGREEMENT_TYPE}
-            input={'E01'}
+            text={'E01'}
           />
-          <Field 
+          <TextField 
             label={PLAN_START}
-            input={'Jan 14, 2018'}
+            text={'Jan 14, 2018'}
           />
-          <Field 
+          <TextField 
             label={PLAN_END}
-            input={'Dec 14, 2018'}
+            text={'Dec 14, 2018'}
           />
-          <Field 
+          <TextField 
             label={DISTRICT}
-            input={'DND'}
+            text={'DND'}
           />
-          <Field 
+          <TextField 
             label={ZONE}
-            input={'LASO'}
+            text={'LASO'}
           />
         </div>
 
@@ -88,34 +88,34 @@ export class RangeUsePlan extends Component {
         <Header as='h4'>Agreement Information</Header>
 
         <div className="range-use-plan__agreement-info">
-          <Field 
+          <TextField 
             label={RANGE_NAME}
-            input={'Star Range'}
+            text={'Star Range'}
           />
-          <Field 
+          <TextField 
             label={ALTERNATIVE_BUSINESS_NAME}
-            input={'Star Range Alternative'}
+            text={'Star Range Alternative'}
           />
 
-          <Field 
+          <TextField 
             label={AGREEMENT_HOLDERS}
-            input={'Obiwan Kenobi'}
+            text={'Obiwan Kenobi'}
           />
 
-          <Field 
+          <TextField 
             label={TYPE}
-            input={'Primary'}
+            text={'Primary'}
           />
 
-          <Field 
+          <TextField 
             label={AGREEMENT_HOLDERS}
-            input={'Luke Skywalker'}
+            text={'Luke Skywalker'}
             isLabelHidden={true}
           />
 
-          <Field 
+          <TextField 
             label={TYPE}
-            input={'Others'}
+            text={'Others'}
             isLabelHidden={true}
           />
         </div>
