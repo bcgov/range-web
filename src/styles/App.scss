@@ -16,16 +16,96 @@ body {
   overflow-x: auto;
 }
 
-.main {
-  display: block;
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+.navbar {
+  background: $primary-color;
+  color: white;
+  border-bottom: 3px solid $accent-color;
+
+  &__container {
+    height: $nav-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__link {
+    height: $nav-height;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 0 20px;
+
+    &:hover {
+      background: $primary-light-color;
+      color: white;
+    }
+
+    &--active {
+      background: $primary-light-color;
+    }
+  }
+
+  &__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  &__title {
+    border-left: 1px solid $accent-color;
+    font-size: 1.2rem;
+    padding-left: 15px;
+    margin-left: 10px;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $primary-light-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // cursor: pointer;
+
+  &__initial {
+    color: white;
+  }
 }
 
 .content {
-  width: 100%;
-  max-width: 1000px;
-  margin: 15px auto 0 auto;
-  padding: 15px;
+  margin-top: 30px;
 }
+
+
 
 // .header {
 //   position: fixed;
@@ -67,104 +147,90 @@ body {
 // }
 
 
-.overlay {
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
-  position: fixed;
-  top: $nav-height;
-  left: 0;
-  z-index: 98;
+// .overlay {
+//   width: 100vw;
+//   height: 100vh;
+//   background: rgba(0, 0, 0, 0.8);
+//   position: fixed;
+//   top: $nav-height;
+//   left: 0;
+//   z-index: 98;
 
-  &--hidden {
-    visibility: hidden;
-  }
-}
+//   &--hidden {
+//     visibility: hidden;
+//   }
+// }
 
-.sidebar {
-  min-width: $sidebar-width;
-  max-width: $sidebar-width;
-  height: 100vh;
-  position: fixed;
-  top: $nav-height;
-  left: 0;
-  background: $light-gray-color;
-  z-index: 99;
-  transition: all 0.3s;
+// .sidebar {
+//   min-width: $sidebar-width;
+//   max-width: $sidebar-width;
+//   height: 100vh;
+//   position: fixed;
+//   top: $nav-height;
+//   left: 0;
+//   background: $light-gray-color;
+//   z-index: 99;
+//   transition: all 0.3s;
 
-  &--hidden {
-    margin-left: -$sidebar-width;
-  }
+//   &--hidden {
+//     margin-left: -$sidebar-width;
+//   }
 
-  &__list {
-    &__item {
-      display: flex;
-      align-items: center;
-      height: 60px;
-      padding: 0 15px;
-      color: white;
+//   &__list {
+//     &__item {
+//       display: flex;
+//       align-items: center;
+//       height: 60px;
+//       padding: 0 15px;
+//       color: white;
 
-      &--active {
-        background: $primary-color;
-        color: white;
-        border-left: 5px solid $accent-color;
-      }
+//       &--active {
+//         background: $primary-color;
+//         color: white;
+//         border-left: 5px solid $accent-color;
+//       }
 
-      &:hover {
-        background: $primary-color;
-        color: white;
-      }
-    }
-  }
-}
+//       &:hover {
+//         background: $primary-color;
+//         color: white;
+//       }
+//     }
+//   }
+// }
 
-.nav {
-  height: $nav-height;
-  background: $primary-color;
-  width: 100%;
-  z-index: 100;
+// .nav {
+//   height: $nav-height;
+//   background: $primary-color;
+//   width: 100%;
+//   z-index: 100;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
 
-  &__left {
-    display: flex;
-    align-items: center;
-  }
+//   &__left {
+//     display: flex;
+//     align-items: center;
+//   }
 
-  &__right {
-    margin-right: $general-padding;
-  }
+//   &__right {
+//     margin-right: $general-padding;
+//   }
 
-  &__icon {
-    margin: 0 10px;
-    cursor: pointer;
-    color: white;
-  }
+//   &__icon {
+//     margin: 0 10px;
+//     cursor: pointer;
+//     color: white;
+//   }
 
-  &__title {
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: white;
+//   &__title {
+//     font-size: 1.6rem;
+//     cursor: pointer;
+//     color: white;
 
-    &:hover {
-      color: white;
-    } 
-  }
-}
+//     &:hover {
+//       color: white;
+//     } 
+//   }
+// }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: $primary-light-color;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // cursor: pointer;
-
-  &__initial {
-    color: white;
-  }
-}
