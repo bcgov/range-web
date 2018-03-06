@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { PENDING, NOT_APPROVED, APPROVED, SUBMITTED } from '../../constants/variables';
+import { PENDING, COMPLETED, SUBMITTED } from '../../constants/variables';
 
 export const Status = ({ status, className = "" }) => {
   let modifier = 'status__icon';
@@ -11,11 +11,8 @@ export const Status = ({ status, className = "" }) => {
     case SUBMITTED:
       modifier += '--submitted';
       break;
-    case NOT_APPROVED:
-      modifier += '--not-approved';
-      break;
-    case APPROVED:
-      modifier += '--approved';
+    case COMPLETED:
+      modifier += '--completed';
       break;
     default:
       modifier = '';

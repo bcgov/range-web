@@ -1,3 +1,5 @@
+@import 'styles/mixins.scss';
+
 .status {
   display: flex;
   align-items: center;
@@ -7,13 +9,13 @@
     font-weight: bold;
   }
   &__icon {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     display: inline-block;
     margin-right: 5px;
  
-    &--approved {
+    &--completed {
       background: green;
     }
   
@@ -21,8 +23,8 @@
       background: orange;
     }
   
-    &--not-approved {
-      background: red;
+    &--submitted {
+      background: $primary-light-color;
     }
   }
 }

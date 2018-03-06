@@ -2,7 +2,7 @@ export const getMockRangeUsePlan = (number) => (
   {
     id: number,
     number,
-    status: number/3 <= 1 ? "Approved" : "Pending",
+    status: number/3 <= 1 ? "Completed" : "Pending",
     region: `Victoria Ranch ${number}`,
     tenureHolder: {
       name: number%2 === 0 ? "Han Solo" : "Luke Skywalker"
