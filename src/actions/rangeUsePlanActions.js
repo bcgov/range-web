@@ -11,8 +11,8 @@ const getPlansSuccess = (data, currentPage, totalPages) => {
   return {
     type: GET_PLANS_SUCCESS,
     data,
-    currentPage: 1,
-    totalPages: 5,
+    currentPage,
+    totalPages,
   }
 };
 
