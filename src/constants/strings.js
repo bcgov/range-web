@@ -1,5 +1,5 @@
 // tenure agreement table header labels
-export const RANGE_NUMBER = "Range Number";
+export const RANGE_NUMBER = "RAN Number";
 export const RANGE_NAME = "Range Name";
 export const AGREEMENT_HOLDER = "Agreement Holder";
 export const STATUS = "Status";
