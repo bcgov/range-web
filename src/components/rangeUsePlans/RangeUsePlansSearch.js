@@ -5,7 +5,6 @@ import { Icon, Input } from 'semantic-ui-react';
 const propTypes = {
   handleSearchInput: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-  label: PropTypes.string,
 }
 
 class RangeUsePlansSearch extends Component {
@@ -25,13 +24,13 @@ class RangeUsePlansSearch extends Component {
   
   render() {
     const { search } = this.state;
-    const { placeholder, className } = this.props;
+    const { placeholder } = this.props;
 
     return (
-      <div className={className}>
-        <Input 
-          icon
+      <div className="range-use-plans-search">
+        <Input
           fluid
+          icon
           loading={false} 
           placeholder={placeholder}>
           <input 

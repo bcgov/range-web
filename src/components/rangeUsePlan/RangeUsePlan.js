@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button } from 'semantic-ui-react';
+import { Header, Button, Dropdown } from 'semantic-ui-react';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
   AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
@@ -31,19 +31,22 @@ export class RangeUsePlan extends Component {
 
   render() {
     const id = `RAN07123${this.state.id}`;
+    const options = [
+      { key: 1, text: 'Completed', value: 1 },
+      { key: 2, text: 'Pending', value: 2 },
+    ];
 
     return (
-      <div className="range-use-plan">
+      <div className="range-use-plan container">
         <div className="range-use-plan__header">
           <Header as="h1">{`${id}`}</Header>
           <div className="range-use-plan__header__actions">
             <Status 
               className="range-use-plan__status" 
-              status={PENDING}
+              status={SUBMITTED}
             />
-            <Button className="range-use-plan__btn range-use-plan__btn--view" primary>View PDF</Button>
-            <Button className="range-use-plan__btn range-use-plan__btn--not-approved" color="red">Not Approve</Button>
-            <Button className="range-use-plan__btn" color="green">Approve</Button>
+            <Button className="range-use-plan__btn" primary>View PDF</Button>
+            <Dropdown text='Update status' options={options} simple item />
           </div>
         </div>
 

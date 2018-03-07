@@ -3,37 +3,11 @@
 $row-height: 65px;
 
 .range-use-plans {
-  &__header {
-    background: $primary-color;
-    color: white;
-    
-    &__container {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      min-height: 200px;
-      padding: 20px 0;
-    }
+  margin-top: $content-margin-top;
+}
 
-    &__content {
-      font-size: 1.2rem;
-    }
-  }
-
-  &__search {
-    min-width: 400px;
-    align-self: flex-end;
-  }
-
-  &__table {
-    margin-top: 15px;
-
-    &__pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
-    }
-  }
+.range-use-plans-search {
+  width: 400px;
 }
 
 .range-use-plans-table-item {
@@ -41,6 +15,8 @@ $row-height: 65px;
 }
 
 .range-use-plan {
+  margin-top: $content-margin-top;
+  
   &__header {
     display: flex;
     justify-content: space-between;
@@ -54,15 +30,11 @@ $row-height: 65px;
   }
 
   &__btn {
-    width: 130px !important;
-    
-    &--not-approved {
-      margin-right: 15px !important;
-    }
+    margin-right: 15px !important;
+  }
 
-    &--view {
-      margin-right: 15px !important;
-    }
+  &__status {
+    margin-right: 15px;
   }
 
   &__divider {
