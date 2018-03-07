@@ -40,7 +40,7 @@ export class App extends Component {
             */}
             
             <Route path='/' exact render={() => (<Redirect to={Routes.LOGIN}/>)} />
-            <Route path='*' exact component={PageNotFound} />
+            <Route path='*' component={PageNotFound} />
 
           </Switch>
         </BrowserRouter>
