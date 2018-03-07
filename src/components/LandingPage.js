@@ -39,7 +39,7 @@ export class LandingPage extends Component {
                 Range Use Plans
               </NavLink>
               <NavLink
-                to={Routes.LOGIN}
+                to={Routes.MANAGE_ZONE}
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >

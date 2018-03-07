@@ -12,6 +12,7 @@ import Toast from './Toast';
 import PageNotFound from './PageNotFound';
 import RangeUsePlan from './rangeUsePlan';
 import RangeUsePlans from './rangeUsePlans';
+import ManageZone from './manageZone';
 
 import { registerAxiosInterceptors } from '../handlers/authentication';
 import { logout } from '../actions/authActions';
@@ -33,6 +34,7 @@ export class App extends Component {
 
             <PrivateRoute path={Routes.RANGE_USE_PLANS} component={RangeUsePlans} user={user} />
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:id`} component={RangeUsePlan} user={user} />
+            <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
             {/* An example of nested routes 
               https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#serving-apps-with-client-side-routing
               <PrivateRoute path={`${match.url}/:topicId`} component={Topic} user={user}/>
