@@ -3,25 +3,25 @@ import { combineReducers } from 'redux';
 import {
   LOGOUT_SUCCESS
 } from '../constants/actionTypes';
-// import * as ReducerTypes from '../constants/reducerTypes';
+import * as ReducerTypes from '../constants/reducerTypes';
 
-import authReducer from './authReducer';
-import toastReducer from './toastReducer';
-// import genericReducer from './genericReducer';
+import auth from './authReducer';
+import toast from './toastReducer';
+import genericReducer from './genericReducer';
 
-// const createReducer = (reducerFunction, reducerName) => {
-//   return (state, action) => {
-//     const { name } = action;
-//     const isInitializationCall = state === undefined;
-//     if (name !== reducerName && !isInitializationCall) return state;
-//     return reducerFunction(state, action);
-//   }
-// }
+const createReducer = (reducerFunction, reducerName) => {
+  return (state, action) => {
+    const { name } = action;
+    const isInitializationCall = state === undefined;
+    if (name !== reducerName && !isInitializationCall) return state;
+    return reducerFunction(state, action);
+  }
+}
 
 const appReducer = combineReducers({
-  authReducer,
-  toastReducer,
-  // [ReducerTypes.FAQS]: createReducer(genericReducer, ReducerTypes.FAQS),
+  auth,
+  toast,
+  getRangeUsePlans: createReducer(genericReducer, ReducerTypes.GET_RANGE_USE_PLANS),
 });
 
 const rootReducer = (state, action) => {

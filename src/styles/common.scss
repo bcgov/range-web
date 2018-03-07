@@ -1,0 +1,84 @@
+@import 'styles/mixins.scss';
+
+.status {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  &__icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+ 
+    &--completed {
+      background: green;
+    }
+  
+    &--pending {
+      background: orange;
+    }
+  
+    &--submitted {
+      background: $primary-light-color;
+    }
+  }
+}
+
+.text-field {
+  align-self: center;
+
+  &__label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: gray;
+    margin-bottom: 10px;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__text {
+    // border-bottom: 2px solid $primary-color;
+    font-size: 1.1rem;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $primary-light-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // cursor: pointer;
+
+  &__initial {
+    color: white;
+  }
+}
+
+.banner {
+  background: $primary-color;
+  color: white;
+  
+  &__container {
+    min-height: 200px;
+    padding: 30px 0 10px 0;
+  }
+
+  &__content {
+    font-size: 1.2rem;
+  }
+
+  &__action {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

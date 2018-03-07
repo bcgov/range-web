@@ -76,7 +76,7 @@ export class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loginState: state.authReducer,
+    loginState: state.auth,
   }; 
 };
 

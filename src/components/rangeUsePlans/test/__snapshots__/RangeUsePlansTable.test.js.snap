@@ -1,44 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TenureAgreementList renders correctly 1`] = `
+exports[`RangeUsePlansTable renders correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <TenureAgreementList
-    tenureAgreements={
+  Symbol(enzyme.__unrendered__): <RangeUsePlansTable
+    isLoading={false}
+    rangeUsePlans={
         Array [
             Object {
-              "id": 1,
-              "number": "0001",
+              "id": "RAN071231",
+              "number": 1,
               "rangeOfficer": Object {
                 "name": "Obi-Wan Kenobi",
               },
               "region": "Victoria Ranch 1",
-              "status": "Approved",
+              "status": "Completed",
               "tenureHolder": Object {
                 "name": "Luke Skywalker",
               },
             },
             Object {
-              "id": 2,
-              "number": "0002",
+              "id": "RAN071232",
+              "number": 2,
               "rangeOfficer": Object {
                 "name": "Leia Organa",
               },
               "region": "Victoria Ranch 2",
-              "status": "Approved",
+              "status": "Completed",
               "tenureHolder": Object {
                 "name": "Han Solo",
               },
             },
             Object {
-              "id": 3,
-              "number": "0003",
+              "id": "RAN071233",
+              "number": 3,
               "rangeOfficer": Object {
                 "name": "Obi-Wan Kenobi",
               },
               "region": "Victoria Ranch 3",
-              "status": "Approved",
+              "status": "Completed",
               "tenureHolder": Object {
                 "name": "Luke Skywalker",
               },
@@ -56,8 +57,9 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "host",
+    "nodeType": "class",
     "props": Object {
+      "as": "form",
       "children": <Table
         as="table"
         selectable={true}
@@ -73,7 +75,7 @@ ShallowWrapper {
                         <TableHeaderCell
                                 as="th"
                         >
-                                Range #
+                                RAN Number
                         </TableHeaderCell>
                         <TableHeaderCell
                                 as="th"
@@ -100,48 +102,48 @@ ShallowWrapper {
         <TableBody
                 as="tbody"
         >
-                <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+                <withRouter(RangeUsePlansTableItem)
+                        rangeUsePlan={
                                 Object {
-                                        "id": 1,
-                                        "number": "0001",
+                                        "id": "RAN071231",
+                                        "number": 1,
                                         "rangeOfficer": Object {
                                           "name": "Obi-Wan Kenobi",
                                         },
                                         "region": "Victoria Ranch 1",
-                                        "status": "Approved",
+                                        "status": "Completed",
                                         "tenureHolder": Object {
                                           "name": "Luke Skywalker",
                                         },
                                       }
                         }
                 />
-                <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+                <withRouter(RangeUsePlansTableItem)
+                        rangeUsePlan={
                                 Object {
-                                        "id": 2,
-                                        "number": "0002",
+                                        "id": "RAN071232",
+                                        "number": 2,
                                         "rangeOfficer": Object {
                                           "name": "Leia Organa",
                                         },
                                         "region": "Victoria Ranch 2",
-                                        "status": "Approved",
+                                        "status": "Completed",
                                         "tenureHolder": Object {
                                           "name": "Han Solo",
                                         },
                                       }
                         }
                 />
-                <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+                <withRouter(RangeUsePlansTableItem)
+                        rangeUsePlan={
                                 Object {
-                                        "id": 3,
-                                        "number": "0003",
+                                        "id": "RAN071233",
+                                        "number": 3,
                                         "rangeOfficer": Object {
                                           "name": "Obi-Wan Kenobi",
                                         },
                                         "region": "Victoria Ranch 3",
-                                        "status": "Approved",
+                                        "status": "Completed",
                                         "tenureHolder": Object {
                                           "name": "Luke Skywalker",
                                         },
@@ -150,7 +152,7 @@ ShallowWrapper {
                 />
         </TableBody>
 </Table>,
-      "className": "tenure-agreement-list",
+      "loading": false,
     },
     "ref": null,
     "rendered": Object {
@@ -170,7 +172,7 @@ ShallowWrapper {
                         <TableHeaderCell
                                     as="th"
                         >
-                                    Range #
+                                    RAN Number
                         </TableHeaderCell>
                         <TableHeaderCell
                                     as="th"
@@ -197,48 +199,48 @@ ShallowWrapper {
           <TableBody
             as="tbody"
 >
-            <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+            <withRouter(RangeUsePlansTableItem)
+                        rangeUsePlan={
                                     Object {
-                                                "id": 1,
-                                                "number": "0001",
+                                                "id": "RAN071231",
+                                                "number": 1,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 1",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
                                               }
                         }
             />
-            <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+            <withRouter(RangeUsePlansTableItem)
+                        rangeUsePlan={
                                     Object {
-                                                "id": 2,
-                                                "number": "0002",
+                                                "id": "RAN071232",
+                                                "number": 2,
                                                 "rangeOfficer": Object {
                                                   "name": "Leia Organa",
                                                 },
                                                 "region": "Victoria Ranch 2",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Han Solo",
                                                 },
                                               }
                         }
             />
-            <withRouter(TenureAgreementListItem)
-                        tenureAgreement={
+            <withRouter(RangeUsePlansTableItem)
+                        rangeUsePlan={
                                     Object {
-                                                "id": 3,
-                                                "number": "0003",
+                                                "id": "RAN071233",
+                                                "number": 3,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 3",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
@@ -265,7 +267,7 @@ ShallowWrapper {
               <TableHeaderCell
                             as="th"
               >
-                            Range #
+                            RAN Number
               </TableHeaderCell>
               <TableHeaderCell
                             as="th"
@@ -301,7 +303,7 @@ ShallowWrapper {
                 <TableHeaderCell
                   as="th"
 >
-                  Range #
+                  RAN Number
 </TableHeaderCell>,
                 <TableHeaderCell
                   as="th"
@@ -333,10 +335,10 @@ ShallowWrapper {
                 "nodeType": "function",
                 "props": Object {
                   "as": "th",
-                  "children": "Range #",
+                  "children": "RAN Number",
                 },
                 "ref": null,
-                "rendered": "Range #",
+                "rendered": "RAN Number",
                 "type": [Function],
               },
               Object {
@@ -399,48 +401,48 @@ ShallowWrapper {
           "props": Object {
             "as": "tbody",
             "children": Array [
-              <withRouter(TenureAgreementListItem)
-                tenureAgreement={
+              <withRouter(RangeUsePlansTableItem)
+                rangeUsePlan={
                                 Object {
-                                                "id": 1,
-                                                "number": "0001",
+                                                "id": "RAN071231",
+                                                "number": 1,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 1",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
                                               }
                 }
 />,
-              <withRouter(TenureAgreementListItem)
-                tenureAgreement={
+              <withRouter(RangeUsePlansTableItem)
+                rangeUsePlan={
                                 Object {
-                                                "id": 2,
-                                                "number": "0002",
+                                                "id": "RAN071232",
+                                                "number": 2,
                                                 "rangeOfficer": Object {
                                                   "name": "Leia Organa",
                                                 },
                                                 "region": "Victoria Ranch 2",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Han Solo",
                                                 },
                                               }
                 }
 />,
-              <withRouter(TenureAgreementListItem)
-                tenureAgreement={
+              <withRouter(RangeUsePlansTableItem)
+                rangeUsePlan={
                                 Object {
-                                                "id": 3,
-                                                "number": "0003",
+                                                "id": "RAN071233",
+                                                "number": 3,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 3",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
@@ -453,17 +455,17 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": "0",
+              "key": "RAN071231",
               "nodeType": "function",
               "props": Object {
-                "tenureAgreement": Object {
-                  "id": 1,
-                  "number": "0001",
+                "rangeUsePlan": Object {
+                  "id": "RAN071231",
+                  "number": 1,
                   "rangeOfficer": Object {
                     "name": "Obi-Wan Kenobi",
                   },
                   "region": "Victoria Ranch 1",
-                  "status": "Approved",
+                  "status": "Completed",
                   "tenureHolder": Object {
                     "name": "Luke Skywalker",
                   },
@@ -475,17 +477,17 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": "1",
+              "key": "RAN071232",
               "nodeType": "function",
               "props": Object {
-                "tenureAgreement": Object {
-                  "id": 2,
-                  "number": "0002",
+                "rangeUsePlan": Object {
+                  "id": "RAN071232",
+                  "number": 2,
                   "rangeOfficer": Object {
                     "name": "Leia Organa",
                   },
                   "region": "Victoria Ranch 2",
-                  "status": "Approved",
+                  "status": "Completed",
                   "tenureHolder": Object {
                     "name": "Han Solo",
                   },
@@ -497,17 +499,17 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": "2",
+              "key": "RAN071233",
               "nodeType": "function",
               "props": Object {
-                "tenureAgreement": Object {
-                  "id": 3,
-                  "number": "0003",
+                "rangeUsePlan": Object {
+                  "id": "RAN071233",
+                  "number": 3,
                   "rangeOfficer": Object {
                     "name": "Obi-Wan Kenobi",
                   },
                   "region": "Victoria Ranch 3",
-                  "status": "Approved",
+                  "status": "Completed",
                   "tenureHolder": Object {
                     "name": "Luke Skywalker",
                   },
@@ -523,14 +525,15 @@ ShallowWrapper {
       ],
       "type": [Function],
     },
-    "type": "div",
+    "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "host",
+      "nodeType": "class",
       "props": Object {
+        "as": "form",
         "children": <Table
           as="table"
           selectable={true}
@@ -546,7 +549,7 @@ ShallowWrapper {
                               <TableHeaderCell
                                         as="th"
                               >
-                                        Range #
+                                        RAN Number
                               </TableHeaderCell>
                               <TableHeaderCell
                                         as="th"
@@ -573,48 +576,48 @@ ShallowWrapper {
           <TableBody
                     as="tbody"
           >
-                    <withRouter(TenureAgreementListItem)
-                              tenureAgreement={
+                    <withRouter(RangeUsePlansTableItem)
+                              rangeUsePlan={
                                         Object {
-                                                  "id": 1,
-                                                  "number": "0001",
+                                                  "id": "RAN071231",
+                                                  "number": 1,
                                                   "rangeOfficer": Object {
                                                     "name": "Obi-Wan Kenobi",
                                                   },
                                                   "region": "Victoria Ranch 1",
-                                                  "status": "Approved",
+                                                  "status": "Completed",
                                                   "tenureHolder": Object {
                                                     "name": "Luke Skywalker",
                                                   },
                                                 }
                               }
                     />
-                    <withRouter(TenureAgreementListItem)
-                              tenureAgreement={
+                    <withRouter(RangeUsePlansTableItem)
+                              rangeUsePlan={
                                         Object {
-                                                  "id": 2,
-                                                  "number": "0002",
+                                                  "id": "RAN071232",
+                                                  "number": 2,
                                                   "rangeOfficer": Object {
                                                     "name": "Leia Organa",
                                                   },
                                                   "region": "Victoria Ranch 2",
-                                                  "status": "Approved",
+                                                  "status": "Completed",
                                                   "tenureHolder": Object {
                                                     "name": "Han Solo",
                                                   },
                                                 }
                               }
                     />
-                    <withRouter(TenureAgreementListItem)
-                              tenureAgreement={
+                    <withRouter(RangeUsePlansTableItem)
+                              rangeUsePlan={
                                         Object {
-                                                  "id": 3,
-                                                  "number": "0003",
+                                                  "id": "RAN071233",
+                                                  "number": 3,
                                                   "rangeOfficer": Object {
                                                     "name": "Obi-Wan Kenobi",
                                                   },
                                                   "region": "Victoria Ranch 3",
-                                                  "status": "Approved",
+                                                  "status": "Completed",
                                                   "tenureHolder": Object {
                                                     "name": "Luke Skywalker",
                                                   },
@@ -623,7 +626,7 @@ ShallowWrapper {
                     />
           </TableBody>
 </Table>,
-        "className": "tenure-agreement-list",
+        "loading": false,
       },
       "ref": null,
       "rendered": Object {
@@ -643,7 +646,7 @@ ShallowWrapper {
                             <TableHeaderCell
                                           as="th"
                             >
-                                          Range #
+                                          RAN Number
                             </TableHeaderCell>
                             <TableHeaderCell
                                           as="th"
@@ -670,48 +673,48 @@ ShallowWrapper {
             <TableBody
               as="tbody"
 >
-              <withRouter(TenureAgreementListItem)
-                            tenureAgreement={
+              <withRouter(RangeUsePlansTableItem)
+                            rangeUsePlan={
                                           Object {
-                                                        "id": 1,
-                                                        "number": "0001",
+                                                        "id": "RAN071231",
+                                                        "number": 1,
                                                         "rangeOfficer": Object {
                                                           "name": "Obi-Wan Kenobi",
                                                         },
                                                         "region": "Victoria Ranch 1",
-                                                        "status": "Approved",
+                                                        "status": "Completed",
                                                         "tenureHolder": Object {
                                                           "name": "Luke Skywalker",
                                                         },
                                                       }
                             }
               />
-              <withRouter(TenureAgreementListItem)
-                            tenureAgreement={
+              <withRouter(RangeUsePlansTableItem)
+                            rangeUsePlan={
                                           Object {
-                                                        "id": 2,
-                                                        "number": "0002",
+                                                        "id": "RAN071232",
+                                                        "number": 2,
                                                         "rangeOfficer": Object {
                                                           "name": "Leia Organa",
                                                         },
                                                         "region": "Victoria Ranch 2",
-                                                        "status": "Approved",
+                                                        "status": "Completed",
                                                         "tenureHolder": Object {
                                                           "name": "Han Solo",
                                                         },
                                                       }
                             }
               />
-              <withRouter(TenureAgreementListItem)
-                            tenureAgreement={
+              <withRouter(RangeUsePlansTableItem)
+                            rangeUsePlan={
                                           Object {
-                                                        "id": 3,
-                                                        "number": "0003",
+                                                        "id": "RAN071233",
+                                                        "number": 3,
                                                         "rangeOfficer": Object {
                                                           "name": "Obi-Wan Kenobi",
                                                         },
                                                         "region": "Victoria Ranch 3",
-                                                        "status": "Approved",
+                                                        "status": "Completed",
                                                         "tenureHolder": Object {
                                                           "name": "Luke Skywalker",
                                                         },
@@ -738,7 +741,7 @@ ShallowWrapper {
                 <TableHeaderCell
                                 as="th"
                 >
-                                Range #
+                                RAN Number
                 </TableHeaderCell>
                 <TableHeaderCell
                                 as="th"
@@ -774,7 +777,7 @@ ShallowWrapper {
                   <TableHeaderCell
                     as="th"
 >
-                    Range #
+                    RAN Number
 </TableHeaderCell>,
                   <TableHeaderCell
                     as="th"
@@ -806,10 +809,10 @@ ShallowWrapper {
                   "nodeType": "function",
                   "props": Object {
                     "as": "th",
-                    "children": "Range #",
+                    "children": "RAN Number",
                   },
                   "ref": null,
-                  "rendered": "Range #",
+                  "rendered": "RAN Number",
                   "type": [Function],
                 },
                 Object {
@@ -872,48 +875,48 @@ ShallowWrapper {
             "props": Object {
               "as": "tbody",
               "children": Array [
-                <withRouter(TenureAgreementListItem)
-                  tenureAgreement={
+                <withRouter(RangeUsePlansTableItem)
+                  rangeUsePlan={
                                     Object {
-                                                      "id": 1,
-                                                      "number": "0001",
+                                                      "id": "RAN071231",
+                                                      "number": 1,
                                                       "rangeOfficer": Object {
                                                         "name": "Obi-Wan Kenobi",
                                                       },
                                                       "region": "Victoria Ranch 1",
-                                                      "status": "Approved",
+                                                      "status": "Completed",
                                                       "tenureHolder": Object {
                                                         "name": "Luke Skywalker",
                                                       },
                                                     }
                   }
 />,
-                <withRouter(TenureAgreementListItem)
-                  tenureAgreement={
+                <withRouter(RangeUsePlansTableItem)
+                  rangeUsePlan={
                                     Object {
-                                                      "id": 2,
-                                                      "number": "0002",
+                                                      "id": "RAN071232",
+                                                      "number": 2,
                                                       "rangeOfficer": Object {
                                                         "name": "Leia Organa",
                                                       },
                                                       "region": "Victoria Ranch 2",
-                                                      "status": "Approved",
+                                                      "status": "Completed",
                                                       "tenureHolder": Object {
                                                         "name": "Han Solo",
                                                       },
                                                     }
                   }
 />,
-                <withRouter(TenureAgreementListItem)
-                  tenureAgreement={
+                <withRouter(RangeUsePlansTableItem)
+                  rangeUsePlan={
                                     Object {
-                                                      "id": 3,
-                                                      "number": "0003",
+                                                      "id": "RAN071233",
+                                                      "number": 3,
                                                       "rangeOfficer": Object {
                                                         "name": "Obi-Wan Kenobi",
                                                       },
                                                       "region": "Victoria Ranch 3",
-                                                      "status": "Approved",
+                                                      "status": "Completed",
                                                       "tenureHolder": Object {
                                                         "name": "Luke Skywalker",
                                                       },
@@ -926,17 +929,17 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": "0",
+                "key": "RAN071231",
                 "nodeType": "function",
                 "props": Object {
-                  "tenureAgreement": Object {
-                    "id": 1,
-                    "number": "0001",
+                  "rangeUsePlan": Object {
+                    "id": "RAN071231",
+                    "number": 1,
                     "rangeOfficer": Object {
                       "name": "Obi-Wan Kenobi",
                     },
                     "region": "Victoria Ranch 1",
-                    "status": "Approved",
+                    "status": "Completed",
                     "tenureHolder": Object {
                       "name": "Luke Skywalker",
                     },
@@ -948,17 +951,17 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": "1",
+                "key": "RAN071232",
                 "nodeType": "function",
                 "props": Object {
-                  "tenureAgreement": Object {
-                    "id": 2,
-                    "number": "0002",
+                  "rangeUsePlan": Object {
+                    "id": "RAN071232",
+                    "number": 2,
                     "rangeOfficer": Object {
                       "name": "Leia Organa",
                     },
                     "region": "Victoria Ranch 2",
-                    "status": "Approved",
+                    "status": "Completed",
                     "tenureHolder": Object {
                       "name": "Han Solo",
                     },
@@ -970,17 +973,17 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": "2",
+                "key": "RAN071233",
                 "nodeType": "function",
                 "props": Object {
-                  "tenureAgreement": Object {
-                    "id": 3,
-                    "number": "0003",
+                  "rangeUsePlan": Object {
+                    "id": "RAN071233",
+                    "number": 3,
                     "rangeOfficer": Object {
                       "name": "Obi-Wan Kenobi",
                     },
                     "region": "Victoria Ranch 3",
-                    "status": "Approved",
+                    "status": "Completed",
                     "tenureHolder": Object {
                       "name": "Luke Skywalker",
                     },
@@ -996,7 +999,7 @@ ShallowWrapper {
         ],
         "type": [Function],
       },
-      "type": "div",
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {
