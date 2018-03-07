@@ -1,8 +1,8 @@
-export const getMockTenureAgreement = (number) => (
+export const getMockRangeUsePlan = (number) => (
   {
-    id: number,
-    number: ("" + number).padStart(4, "0"),
-    status: number/3 <= 1 ? "Approved" : "Pending",
+    id: `RAN07123${number}`,
+    number,
+    status: number/3 <= 1 ? "Completed" : "Pending",
     region: `Victoria Ranch ${number}`,
     tenureHolder: {
       name: number%2 === 0 ? "Han Solo" : "Luke Skywalker"
@@ -13,7 +13,7 @@ export const getMockTenureAgreement = (number) => (
   }
 )
 
-export const getMockTenureAgreements = (length) => {
+export const getMockRangeUsePlans = (length) => {
   const array = Array.from(new Array(length), (x,i) => i);
-  return array.map(number => getMockTenureAgreement(number + 1));
+  return array.map(number => getMockRangeUsePlan(number + 1));
 }

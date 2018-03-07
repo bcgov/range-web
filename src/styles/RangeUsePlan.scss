@@ -1,75 +1,116 @@
-.range-use-plan {
-  background-color: rgb(82, 86, 89);
+@import 'styles/mixins.scss';
 
+$row-height: 65px;
+
+.range-use-plans {
+  &__table{
+    margin-top: $content-margin-top;
+  }
+}
+
+.range-use-plans-search {
+  width: 400px;
+}
+
+.range-use-plans-table-item {
+  cursor: pointer;
+}
+
+.range-use-plan {
+  margin-top: $content-margin-top;
+  
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-  }
-  
-  &__title {
-    color: white;
-    font-size: 1.8rem;
-    margin-left: 10px;
-    line-height: 30px;
+    flex-wrap: wrap;
+
+    &__actions {
+      display: flex;
+      align-items: center;
+    }
   }
 
-  &__dropdown {
-    min-width: 200px;
+  &__btn {
+    margin-right: 15px !important;
+  }
+
+  &__status {
+    margin-right: 15px;
+  }
+
+  &__divider {
+    border-top: 2px solid $primary-color;
+    margin: 10px 0;
+  }
+
+  &__basic-info {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: $row-height $row-height $row-height;
+  }
+
+  &__agreement-info {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: $row-height $row-height;
   }
 }
 
-.range-use-plan-pdf-view {
 
-  &__download-button {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-  }
 
-  &__back-button {
-    position: fixed;
-    bottom: 90px;
-    right: 40px;
-  }
 
-  &__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-    &__load {
-      margin-top: 1em;
-      color: white;
-    }
+// // .range-use-plan-pdf-view {
 
-    &__document {
-      margin-bottom: 1em;
+// //   &__download-button {
+// //     position: fixed;
+// //     bottom: 40px;
+// //     right: 40px;
+// //   }
 
-      .ReactPDF {
-        &__Document {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
+// //   &__back-button {
+// //     position: fixed;
+// //     bottom: 90px;
+// //     right: 40px;
+// //   }
 
-        &__Page {
-          max-width: calc(100% - 2em);
-          box-shadow: 0 0 8px rgba(0, 0, 0, .5);
-          margin: 10px 0;
+// //   &__container {
+// //     display: flex;
+// //     flex-direction: column;
+// //     align-items: center;
 
-          canvas {
-            max-width: 100%;
-            height: auto !important;
-          }
-        }
+// //     &__load {
+// //       margin-top: 1em;
+// //       color: white;
+// //     }
 
-        &__message {
-          padding: 20px;
-          color: white;
-        }
-      }
-    }
-  }
-}
+// //     &__document {
+// //       margin-bottom: 1em;
+
+// //       .ReactPDF {
+// //         &__Document {
+// //           display: flex;
+// //           flex-direction: column;
+// //           align-items: center;
+// //         }
+
+// //         &__Page {
+// //           max-width: calc(100% - 2em);
+// //           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+// //           margin: 10px 0;
+
+// //           canvas {
+// //             max-width: 100%;
+// //             height: auto !important;
+// //           }
+// //         }
+
+// //         &__message {
+// //           padding: 20px;
+// //           color: white;
+// //         }
+// //       }
+// //     }
+// //   }
+// // }

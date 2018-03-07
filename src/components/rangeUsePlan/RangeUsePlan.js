@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'semantic-ui-react';
+import { Header, Button, Dropdown } from 'semantic-ui-react';
 
-import RangeUsePlanPDFView from './RangeUsePlanPDFView';
+import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
+  AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
+  ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
+} from '../../constants/strings';
+import { SUBMITTED } from '../../constants/variables';
+import { TextField, Status } from '../common';
+// import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
   match: PropTypes.object.isRequired,
@@ -24,32 +30,128 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
+    const { id } = this.state;
     const options = [
-      { key: 'A', value: 'AL', text: '10/11/2017 - Pending' },
-      { key: 'L', value: 'AL', text: '12/01/2017 - Approved' },
-      { key: 'AL', value: 'AL', text: '14/11/2016 - Approved' },
+      { key: 1, text: 'Completed', value: 1, onClick: () => {console.log('com')} },
+      { key: 2, text: 'Pending', value: 2, onClick: () => {console.log('pending')} },
     ];
-    const id = ("" + this.state.id).padStart(4, "0");
 
     return (
-      <div className="range-use-plan">
+      <div className="range-use-plan container">
         <div className="range-use-plan__header">
-          <div className="range-use-plan__title">
-            {`Range Use Plan #${id}`}
-          </div>
-
-          <div className="range-use-plan__dropdown">
+          <Header as="h1">{id}</Header>
+          <div className="range-use-plan__header__actions">
+            <Status 
+              className="range-use-plan__status" 
+              status={SUBMITTED}
+            />
+            <Button className="range-use-plan__btn" primary>View PDF</Button>
             <Dropdown 
-              placeholder='select other range use plans' 
-              search 
-              selection
-              fluid 
+              text='Update Status' 
               options={options} 
+              button
+              item 
             />
           </div>
         </div>
-        
-        <RangeUsePlanPDFView />
+
+        <Header as='h2'>Basic Information</Header>
+
+        <div className="range-use-plan__basic-info">
+          <TextField 
+            label={RANGE_NUMBER}
+            text={id}
+          />
+          <TextField 
+            label={AGREEMENT_START}
+            text={'Sep 13, 2010'}
+          />
+          <TextField 
+            label={AGREEMENT_END}
+            text={'Sep 13, 2019'}
+          />
+          <TextField 
+            label={AGREEMENT_TYPE}
+            text={'E01'}
+          />
+          <TextField 
+            label={PLAN_START}
+            text={'Jan 14, 2018'}
+          />
+          <TextField 
+            label={PLAN_END}
+            text={'Dec 14, 2018'}
+          />
+          <TextField 
+            label={DISTRICT}
+            text={'DND'}
+          />
+          <TextField 
+            label={ZONE}
+            text={'LASO'}
+          />
+        </div>
+
+        <div className="range-use-plan__divider" />
+        <Header as='h4'>Agreement Information</Header>
+
+        <div className="range-use-plan__agreement-info">
+          <TextField 
+            label={RANGE_NAME}
+            text={'Star Range'}
+          />
+          <TextField 
+            label={ALTERNATIVE_BUSINESS_NAME}
+            text={'Star Range Alternative'}
+          />
+
+          <TextField 
+            label={AGREEMENT_HOLDERS}
+            text={'Obiwan Kenobi'}
+          />
+
+          <TextField 
+            label={TYPE}
+            text={'Primary'}
+          />
+
+          <TextField 
+            label={AGREEMENT_HOLDERS}
+            text={'Luke Skywalker'}
+            isLabelHidden={true}
+          />
+
+          <TextField 
+            label={TYPE}
+            text={'Others'}
+            isLabelHidden={true}
+          />
+        </div>
+
+        {/* <div className="range-use-plan__divider" />
+        <Header as='h3'>Versions</Header>
+        <Table basic="very">
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell collapsing>
+                <div className="status">
+                  <span className="status__icon status__icon--draft"></span> {DRAFT}
+                </div>
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                {'Last modified - 21/02/2018'}
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                {'Current'}
+              </Table.Cell>
+              <Table.Cell textAlign="right">
+                <Button primary>View</Button>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table> */}
+
+        {/* <RangeUsePlanPDFView /> */}
       </div>
     );
   }

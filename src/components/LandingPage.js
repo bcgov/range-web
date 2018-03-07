@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import { Avatar } from './common';
 import * as Routes from '../constants/routes';
+import { LOGO_SRC } from '../constants/variables';
 import { logout } from '../actions/authActions';
 
 const propTypes = {
@@ -14,104 +15,59 @@ const propTypes = {
 }
 
 export class LandingPage extends Component {
-  state = {
-    isSidebarHidden: true,
-  }
-  
-  componentWillReceiveProps(nextProps) {
-    // navigated!
-    if (this.props.location !== nextProps.location) {
-      this.closeSidebar();
-    }
-  }
-
-  closeSidebar = () => {
-    this.setState({
-      isSidebarHidden: true,
-    });
-  }
-
-  toggleSidebar = () => {
-    this.setState({
-      isSidebarHidden: !this.state.isSidebarHidden
-    });
-  }
-
   onLogout = () => {
     this.props.logout();
   }
 
   render() {
     const { component: Component, user, ...rest } = this.props;
-    const { isSidebarHidden } = this.state;
-    const userInitial = 'KH';
 
     return (
-      <div className="landing-page">
-        <div className="nav">
-          <div className="nav__left">
-            <div className="nav__icon">
-              <Icon 
-                size="large" 
-                name="bars" 
-                onClick={this.toggleSidebar}
-              />
+      <div className="main">
+        <nav className="navbar">
+          <div className="navbar__container container">
+            <div className="navbar__left">
+              <img className="navbar__logo" src={LOGO_SRC} alt="Logo"/>
+              <div className="navbar__title">My Range App</div>
             </div>
-            <NavLink 
-              to={Routes.HOME}
-              className="nav__title"
-            > 
-              MyRA
-            </NavLink>
-          </div>
-
-          <div className="nav__right">
-            <div className="avatar">
-              <div className="avatar__initial">
-                {userInitial}
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="main">
-          <nav className={"sidebar" + (isSidebarHidden ? " sidebar--hidden" : "")} >
-            <div className="sidebar__header"></div>
-            <div className="sidebar__list">
+            <div className="navbar__right">
               <NavLink 
-                to={Routes.HOME}
-                className="sidebar__list__item"
-                activeClassName="sidebar__list__item--active"
+                to={Routes.RANGE_USE_PLANS}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
               >
-                Home
+                Range Use Plans
+              </NavLink>
+              <NavLink
+                to={Routes.LOGIN}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                Manage Zone
               </NavLink>
               <NavLink
                 id="sign-out"
                 to={Routes.LOGIN}
-                className="sidebar__list__item"
+                className="navbar__link"
                 onClick={this.onLogout}
               >
                 Sign Out
               </NavLink>
+              <Avatar 
+                name="KH" 
+              />
             </div>
-          </nav>
-          
-          <div 
-            className={"overlay" + (isSidebarHidden ? " overlay--hidden" : "")} 
-            onClick={this.closeSidebar}
-          />
-
-          <div className="content">
-            <Component {...rest} />
           </div>
-        </div>
+        </nav>
+
+        <Component {...rest} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { user } = state.authReducer;
+  const { user } = state.auth;
   
   return {
     user

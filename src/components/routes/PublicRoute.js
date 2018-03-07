@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { HOME } from '../../constants/routes';
+import { RANGE_USE_PLANS } from '../../constants/routes';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -17,7 +17,7 @@ const PublicRoute = ({ component: Component, user, ...rest }) => (
     {...rest}
     render={props =>
       user
-        ? <Redirect to={HOME} />
+        ? <Redirect to={RANGE_USE_PLANS} />
         : <Component {...props} />
     }
   />
