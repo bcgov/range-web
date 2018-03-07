@@ -59,7 +59,7 @@ ShallowWrapper {
                                         activeClassName="navbar__link--active"
                                         ariaCurrent="true"
                                         className="navbar__link"
-                                        to="/login"
+                                        to="/manage-zone"
                               >
                                         Manage Zone
                               </NavLink>
@@ -127,7 +127,7 @@ ShallowWrapper {
                                     activeClassName="navbar__link--active"
                                     ariaCurrent="true"
                                     className="navbar__link"
-                                    to="/login"
+                                    to="/manage-zone"
                         >
                                     Manage Zone
                         </NavLink>
@@ -184,7 +184,7 @@ ShallowWrapper {
                                 activeClassName="navbar__link--active"
                                 ariaCurrent="true"
                                 className="navbar__link"
-                                to="/login"
+                                to="/manage-zone"
                 >
                                 Manage Zone
                 </NavLink>
@@ -274,7 +274,7 @@ ShallowWrapper {
                     activeClassName="navbar__link--active"
                     ariaCurrent="true"
                     className="navbar__link"
-                    to="/login"
+                    to="/manage-zone"
 >
                     Manage Zone
 </NavLink>,
@@ -320,7 +320,7 @@ ShallowWrapper {
                     "ariaCurrent": "true",
                     "children": "Manage Zone",
                     "className": "navbar__link",
-                    "to": "/login",
+                    "to": "/manage-zone",
                   },
                   "ref": null,
                   "rendered": "Manage Zone",
@@ -421,7 +421,7 @@ ShallowWrapper {
                                                 activeClassName="navbar__link--active"
                                                 ariaCurrent="true"
                                                 className="navbar__link"
-                                                to="/login"
+                                                to="/manage-zone"
                                     >
                                                 Manage Zone
                                     </NavLink>
@@ -489,7 +489,7 @@ ShallowWrapper {
                                           activeClassName="navbar__link--active"
                                           ariaCurrent="true"
                                           className="navbar__link"
-                                          to="/login"
+                                          to="/manage-zone"
                             >
                                           Manage Zone
                             </NavLink>
@@ -546,7 +546,7 @@ ShallowWrapper {
                                     activeClassName="navbar__link--active"
                                     ariaCurrent="true"
                                     className="navbar__link"
-                                    to="/login"
+                                    to="/manage-zone"
                   >
                                     Manage Zone
                   </NavLink>
@@ -636,7 +636,7 @@ ShallowWrapper {
                       activeClassName="navbar__link--active"
                       ariaCurrent="true"
                       className="navbar__link"
-                      to="/login"
+                      to="/manage-zone"
 >
                       Manage Zone
 </NavLink>,
@@ -682,7 +682,7 @@ ShallowWrapper {
                       "ariaCurrent": "true",
                       "children": "Manage Zone",
                       "className": "navbar__link",
-                      "to": "/login",
+                      "to": "/manage-zone",
                     },
                     "ref": null,
                     "rendered": "Manage Zone",
