@@ -60,9 +60,7 @@ export class LandingPage extends Component {
           </div>
         </nav>
 
-        <div className="content">
-          <Component {...rest} />
-        </div>
+        <Component {...rest} />
       </div>
     );
   }

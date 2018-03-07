@@ -29,7 +29,7 @@ export class RangeUsePlans extends Component {
     const { data, isLoading } = this.props.rangeUsePlanState;
 
     return (
-      <div>
+      <div className="range-use-plans">
         <Banner
           header="Range Use Plans"
           content="This is range use plans! This is range use plans! This is range use plans! 
@@ -42,7 +42,7 @@ export class RangeUsePlans extends Component {
           />
         </Banner>
 
-        <div className="range-use-plans container">
+        <div className="range-use-plans__table container">
           <RangeUsePlansTable
             rangeUsePlans={data}
             isLoading={isLoading}

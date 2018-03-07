@@ -5,6 +5,7 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <RangeUsePlans
+    getRangeUsePlans={[Function]}
     rangeUsePlanState={
         Object {
             "currentPage": 1,
@@ -16,7 +17,6 @@ ShallowWrapper {
           }
     }
     rangeUsePlans={Array []}
-    searchRangeUsePlans={[Function]}
 />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -31,125 +31,21 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        <div
-          className="range-use-plans__header"
+        <Unknown
+          content="This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!"
+          header="Range Use Plans"
 >
-          <Header
-                    as="h1"
-          >
-                    Range Use Plans
-          </Header>
-          <div
-                    className="range-use-plans__actions"
-          >
-                    <div
-                              className="range-use-plans__assign"
-                    >
-                              <Modal
-                                        closeOnDimmerClick={true}
-                                        closeOnDocumentClick={false}
-                                        dimmer={true}
-                                        eventPool="Modal"
-                                        trigger={
-                                                  <Button
-                                                            as="button"
-                                                            primary={true}
-                                                  >
-                                                            Assign Staffs
-                                                  </Button>
-                                        }
-                              >
-                                        <ModalHeader>
-                                                  Select Assignee
-                                        </ModalHeader>
-                                        <ModalContent>
-                                                  <ModalDescription>
-                                                            <Header>
-                                                                      Assign an officer to a tenure
-                                                            </Header>
-                                                            <p>
-                                                                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                            </p>
-                                                  </ModalDescription>
-                                        </ModalContent>
-                              </Modal>
-                    </div>
-                    <div
-                              className="range-use-plans__search"
-                    >
-                              <RangeUsePlansSearch
-                                        handleSearchInput={[Function]}
-                                        label="Search Agreements:"
-                                        placeholder="Enter Search Terms..."
-                              />
-                    </div>
-          </div>
-</div>,
+          <RangeUsePlansSearch
+                    handleSearchInput={[Function]}
+                    placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+          />
+</Unknown>,
         <div
-          className="range-use-plans__table"
+          className="range-use-plans__table container"
 >
           <RangeUsePlansTable
                     isLoading={false}
                     rangeUsePlans={Array []}
-          />
-</div>,
-        <div
-          className="range-use-plans__pagination"
->
-          <Pagination
-                    activePage={1}
-                    ariaLabel="Pagination Navigation"
-                    boundaryRange={1}
-                    ellipsisItem={
-                              Object {
-                                        "content": <Icon
-                                          as="i"
-                                          name="ellipsis horizontal"
-                              />,
-                                        "icon": true,
-                                      }
-                    }
-                    firstItem={
-                              Object {
-                                        "content": <Icon
-                                          as="i"
-                                          name="angle double left"
-                              />,
-                                        "icon": true,
-                                      }
-                    }
-                    lastItem={
-                              Object {
-                                        "content": <Icon
-                                          as="i"
-                                          name="angle double right"
-                              />,
-                                        "icon": true,
-                                      }
-                    }
-                    nextItem={
-                              Object {
-                                        "content": <Icon
-                                          as="i"
-                                          name="angle right"
-                              />,
-                                        "icon": true,
-                                      }
-                    }
-                    onPageChange={[Function]}
-                    pageItem={Object {}}
-                    prevItem={
-                              Object {
-                                        "content": <Icon
-                                          as="i"
-                                          name="angle left"
-                              />,
-                                        "icon": true,
-                                      }
-                    }
-                    siblingRange={1}
-                    size="mini"
-                    totalPages={1}
           />
 </div>,
       ],
@@ -160,304 +56,29 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
-          "children": Array [
-            <Header
-              as="h1"
->
-              Range Use Plans
-</Header>,
-            <div
-              className="range-use-plans__actions"
->
-              <div
-                            className="range-use-plans__assign"
-              >
-                            <Modal
-                                          closeOnDimmerClick={true}
-                                          closeOnDocumentClick={false}
-                                          dimmer={true}
-                                          eventPool="Modal"
-                                          trigger={
-                                                        <Button
-                                                                      as="button"
-                                                                      primary={true}
-                                                        >
-                                                                      Assign Staffs
-                                                        </Button>
-                                          }
-                            >
-                                          <ModalHeader>
-                                                        Select Assignee
-                                          </ModalHeader>
-                                          <ModalContent>
-                                                        <ModalDescription>
-                                                                      <Header>
-                                                                                    Assign an officer to a tenure
-                                                                      </Header>
-                                                                      <p>
-                                                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                                      </p>
-                                                        </ModalDescription>
-                                          </ModalContent>
-                            </Modal>
-              </div>
-              <div
-                            className="range-use-plans__search"
-              >
-                            <RangeUsePlansSearch
-                                          handleSearchInput={[Function]}
-                                          label="Search Agreements:"
-                                          placeholder="Enter Search Terms..."
-                            />
-              </div>
-</div>,
-          ],
-          "className": "range-use-plans__header",
+          "children": <RangeUsePlansSearch
+            handleSearchInput={[Function]}
+            placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+/>,
+          "content": "This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!",
+          "header": "Range Use Plans",
         },
         "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "as": "h1",
-              "children": "Range Use Plans",
-            },
-            "ref": null,
-            "rendered": "Range Use Plans",
-            "type": [Function],
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "handleSearchInput": [Function],
+            "placeholder": "Enter RAN#, Agreement holder's name, or staff contact",
           },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <div
-                  className="range-use-plans__assign"
->
-                  <Modal
-                                    closeOnDimmerClick={true}
-                                    closeOnDocumentClick={false}
-                                    dimmer={true}
-                                    eventPool="Modal"
-                                    trigger={
-                                                      <Button
-                                                                        as="button"
-                                                                        primary={true}
-                                                      >
-                                                                        Assign Staffs
-                                                      </Button>
-                                    }
-                  >
-                                    <ModalHeader>
-                                                      Select Assignee
-                                    </ModalHeader>
-                                    <ModalContent>
-                                                      <ModalDescription>
-                                                                        <Header>
-                                                                                          Assign an officer to a tenure
-                                                                        </Header>
-                                                                        <p>
-                                                                                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                                        </p>
-                                                      </ModalDescription>
-                                    </ModalContent>
-                  </Modal>
-</div>,
-                <div
-                  className="range-use-plans__search"
->
-                  <RangeUsePlansSearch
-                                    handleSearchInput={[Function]}
-                                    label="Search Agreements:"
-                                    placeholder="Enter Search Terms..."
-                  />
-</div>,
-              ],
-              "className": "range-use-plans__actions",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <Modal
-                    closeOnDimmerClick={true}
-                    closeOnDocumentClick={false}
-                    dimmer={true}
-                    eventPool="Modal"
-                    trigger={
-                                        <Button
-                                                            as="button"
-                                                            primary={true}
-                                        >
-                                                            Assign Staffs
-                                        </Button>
-                    }
->
-                    <ModalHeader>
-                                        Select Assignee
-                    </ModalHeader>
-                    <ModalContent>
-                                        <ModalDescription>
-                                                            <Header>
-                                                                                Assign an officer to a tenure
-                                                            </Header>
-                                                            <p>
-                                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                            </p>
-                                        </ModalDescription>
-                    </ModalContent>
-</Modal>,
-                  "className": "range-use-plans__assign",
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "children": Array [
-                      <ModalHeader>
-                        Select Assignee
-</ModalHeader>,
-                      <ModalContent>
-                        <ModalDescription>
-                                                <Header>
-                                                                        Assign an officer to a tenure
-                                                </Header>
-                                                <p>
-                                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                </p>
-                        </ModalDescription>
-</ModalContent>,
-                    ],
-                    "closeOnDimmerClick": true,
-                    "closeOnDocumentClick": false,
-                    "dimmer": true,
-                    "eventPool": "Modal",
-                    "trigger": <Button
-                      as="button"
-                      primary={true}
->
-                      Assign Staffs
-</Button>,
-                  },
-                  "ref": null,
-                  "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "children": "Select Assignee",
-                      },
-                      "ref": null,
-                      "rendered": "Select Assignee",
-                      "type": [Function],
-                    },
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "children": <ModalDescription>
-                          <Header>
-                                                    Assign an officer to a tenure
-                          </Header>
-                          <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                          </p>
-</ModalDescription>,
-                      },
-                      "ref": null,
-                      "rendered": Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "function",
-                        "props": Object {
-                          "children": Array [
-                            <Header>
-                              Assign an officer to a tenure
-</Header>,
-                            <p>
-                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-</p>,
-                          ],
-                        },
-                        "ref": null,
-                        "rendered": Array [
-                          Object {
-                            "instance": null,
-                            "key": undefined,
-                            "nodeType": "function",
-                            "props": Object {
-                              "children": "Assign an officer to a tenure",
-                            },
-                            "ref": null,
-                            "rendered": "Assign an officer to a tenure",
-                            "type": [Function],
-                          },
-                          Object {
-                            "instance": null,
-                            "key": undefined,
-                            "nodeType": "host",
-                            "props": Object {
-                              "children": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                            },
-                            "ref": null,
-                            "rendered": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                            "type": "p",
-                          },
-                        ],
-                        "type": [Function],
-                      },
-                      "type": [Function],
-                    },
-                  ],
-                  "type": [Function],
-                },
-                "type": "div",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <RangeUsePlansSearch
-                    handleSearchInput={[Function]}
-                    label="Search Agreements:"
-                    placeholder="Enter Search Terms..."
-/>,
-                  "className": "range-use-plans__search",
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "handleSearchInput": [Function],
-                    "label": "Search Agreements:",
-                    "placeholder": "Enter Search Terms...",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                "type": "div",
-              },
-            ],
-            "type": "div",
-          },
-        ],
-        "type": "div",
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": [Function],
       },
       Object {
         "instance": null,
@@ -468,7 +89,7 @@ ShallowWrapper {
             isLoading={false}
             rangeUsePlans={Array []}
 />,
-          "className": "range-use-plans__table",
+          "className": "range-use-plans__table container",
         },
         "ref": null,
         "rendered": Object {
@@ -478,124 +99,6 @@ ShallowWrapper {
           "props": Object {
             "isLoading": false,
             "rangeUsePlans": Array [],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": <Pagination
-            activePage={1}
-            ariaLabel="Pagination Navigation"
-            boundaryRange={1}
-            ellipsisItem={
-                        Object {
-                                    "content": <Icon
-                                      as="i"
-                                      name="ellipsis horizontal"
-                        />,
-                                    "icon": true,
-                                  }
-            }
-            firstItem={
-                        Object {
-                                    "content": <Icon
-                                      as="i"
-                                      name="angle double left"
-                        />,
-                                    "icon": true,
-                                  }
-            }
-            lastItem={
-                        Object {
-                                    "content": <Icon
-                                      as="i"
-                                      name="angle double right"
-                        />,
-                                    "icon": true,
-                                  }
-            }
-            nextItem={
-                        Object {
-                                    "content": <Icon
-                                      as="i"
-                                      name="angle right"
-                        />,
-                                    "icon": true,
-                                  }
-            }
-            onPageChange={[Function]}
-            pageItem={Object {}}
-            prevItem={
-                        Object {
-                                    "content": <Icon
-                                      as="i"
-                                      name="angle left"
-                        />,
-                                    "icon": true,
-                                  }
-            }
-            siblingRange={1}
-            size="mini"
-            totalPages={1}
-/>,
-          "className": "range-use-plans__pagination",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "activePage": 1,
-            "ariaLabel": "Pagination Navigation",
-            "boundaryRange": 1,
-            "ellipsisItem": Object {
-              "content": <Icon
-                as="i"
-                name="ellipsis horizontal"
-/>,
-              "icon": true,
-            },
-            "firstItem": Object {
-              "content": <Icon
-                as="i"
-                name="angle double left"
-/>,
-              "icon": true,
-            },
-            "lastItem": Object {
-              "content": <Icon
-                as="i"
-                name="angle double right"
-/>,
-              "icon": true,
-            },
-            "nextItem": Object {
-              "content": <Icon
-                as="i"
-                name="angle right"
-/>,
-              "icon": true,
-            },
-            "onPageChange": [Function],
-            "pageItem": Object {},
-            "prevItem": Object {
-              "content": <Icon
-                as="i"
-                name="angle left"
-/>,
-              "icon": true,
-            },
-            "siblingRange": 1,
-            "size": "mini",
-            "totalPages": 1,
           },
           "ref": null,
           "rendered": null,
@@ -613,125 +116,21 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <div
-            className="range-use-plans__header"
+          <Unknown
+            content="This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!"
+            header="Range Use Plans"
 >
-            <Header
-                        as="h1"
-            >
-                        Range Use Plans
-            </Header>
-            <div
-                        className="range-use-plans__actions"
-            >
-                        <div
-                                    className="range-use-plans__assign"
-                        >
-                                    <Modal
-                                                closeOnDimmerClick={true}
-                                                closeOnDocumentClick={false}
-                                                dimmer={true}
-                                                eventPool="Modal"
-                                                trigger={
-                                                            <Button
-                                                                        as="button"
-                                                                        primary={true}
-                                                            >
-                                                                        Assign Staffs
-                                                            </Button>
-                                                }
-                                    >
-                                                <ModalHeader>
-                                                            Select Assignee
-                                                </ModalHeader>
-                                                <ModalContent>
-                                                            <ModalDescription>
-                                                                        <Header>
-                                                                                    Assign an officer to a tenure
-                                                                        </Header>
-                                                                        <p>
-                                                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                                        </p>
-                                                            </ModalDescription>
-                                                </ModalContent>
-                                    </Modal>
-                        </div>
-                        <div
-                                    className="range-use-plans__search"
-                        >
-                                    <RangeUsePlansSearch
-                                                handleSearchInput={[Function]}
-                                                label="Search Agreements:"
-                                                placeholder="Enter Search Terms..."
-                                    />
-                        </div>
-            </div>
-</div>,
+            <RangeUsePlansSearch
+                        handleSearchInput={[Function]}
+                        placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+            />
+</Unknown>,
           <div
-            className="range-use-plans__table"
+            className="range-use-plans__table container"
 >
             <RangeUsePlansTable
                         isLoading={false}
                         rangeUsePlans={Array []}
-            />
-</div>,
-          <div
-            className="range-use-plans__pagination"
->
-            <Pagination
-                        activePage={1}
-                        ariaLabel="Pagination Navigation"
-                        boundaryRange={1}
-                        ellipsisItem={
-                                    Object {
-                                                "content": <Icon
-                                                  as="i"
-                                                  name="ellipsis horizontal"
-                                    />,
-                                                "icon": true,
-                                              }
-                        }
-                        firstItem={
-                                    Object {
-                                                "content": <Icon
-                                                  as="i"
-                                                  name="angle double left"
-                                    />,
-                                                "icon": true,
-                                              }
-                        }
-                        lastItem={
-                                    Object {
-                                                "content": <Icon
-                                                  as="i"
-                                                  name="angle double right"
-                                    />,
-                                                "icon": true,
-                                              }
-                        }
-                        nextItem={
-                                    Object {
-                                                "content": <Icon
-                                                  as="i"
-                                                  name="angle right"
-                                    />,
-                                                "icon": true,
-                                              }
-                        }
-                        onPageChange={[Function]}
-                        pageItem={Object {}}
-                        prevItem={
-                                    Object {
-                                                "content": <Icon
-                                                  as="i"
-                                                  name="angle left"
-                                    />,
-                                                "icon": true,
-                                              }
-                        }
-                        siblingRange={1}
-                        size="mini"
-                        totalPages={1}
             />
 </div>,
         ],
@@ -742,304 +141,29 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "function",
           "props": Object {
-            "children": Array [
-              <Header
-                as="h1"
->
-                Range Use Plans
-</Header>,
-              <div
-                className="range-use-plans__actions"
->
-                <div
-                                className="range-use-plans__assign"
-                >
-                                <Modal
-                                                closeOnDimmerClick={true}
-                                                closeOnDocumentClick={false}
-                                                dimmer={true}
-                                                eventPool="Modal"
-                                                trigger={
-                                                                <Button
-                                                                                as="button"
-                                                                                primary={true}
-                                                                >
-                                                                                Assign Staffs
-                                                                </Button>
-                                                }
-                                >
-                                                <ModalHeader>
-                                                                Select Assignee
-                                                </ModalHeader>
-                                                <ModalContent>
-                                                                <ModalDescription>
-                                                                                <Header>
-                                                                                                Assign an officer to a tenure
-                                                                                </Header>
-                                                                                <p>
-                                                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                                                </p>
-                                                                </ModalDescription>
-                                                </ModalContent>
-                                </Modal>
-                </div>
-                <div
-                                className="range-use-plans__search"
-                >
-                                <RangeUsePlansSearch
-                                                handleSearchInput={[Function]}
-                                                label="Search Agreements:"
-                                                placeholder="Enter Search Terms..."
-                                />
-                </div>
-</div>,
-            ],
-            "className": "range-use-plans__header",
+            "children": <RangeUsePlansSearch
+              handleSearchInput={[Function]}
+              placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+/>,
+            "content": "This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!",
+            "header": "Range Use Plans",
           },
           "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "as": "h1",
-                "children": "Range Use Plans",
-              },
-              "ref": null,
-              "rendered": "Range Use Plans",
-              "type": [Function],
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "handleSearchInput": [Function],
+              "placeholder": "Enter RAN#, Agreement holder's name, or staff contact",
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
-                  <div
-                    className="range-use-plans__assign"
->
-                    <Modal
-                                        closeOnDimmerClick={true}
-                                        closeOnDocumentClick={false}
-                                        dimmer={true}
-                                        eventPool="Modal"
-                                        trigger={
-                                                            <Button
-                                                                                as="button"
-                                                                                primary={true}
-                                                            >
-                                                                                Assign Staffs
-                                                            </Button>
-                                        }
-                    >
-                                        <ModalHeader>
-                                                            Select Assignee
-                                        </ModalHeader>
-                                        <ModalContent>
-                                                            <ModalDescription>
-                                                                                <Header>
-                                                                                                    Assign an officer to a tenure
-                                                                                </Header>
-                                                                                <p>
-                                                                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                                                </p>
-                                                            </ModalDescription>
-                                        </ModalContent>
-                    </Modal>
-</div>,
-                  <div
-                    className="range-use-plans__search"
->
-                    <RangeUsePlansSearch
-                                        handleSearchInput={[Function]}
-                                        label="Search Agreements:"
-                                        placeholder="Enter Search Terms..."
-                    />
-</div>,
-                ],
-                "className": "range-use-plans__actions",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": <Modal
-                      closeOnDimmerClick={true}
-                      closeOnDocumentClick={false}
-                      dimmer={true}
-                      eventPool="Modal"
-                      trigger={
-                                            <Button
-                                                                  as="button"
-                                                                  primary={true}
-                                            >
-                                                                  Assign Staffs
-                                            </Button>
-                      }
->
-                      <ModalHeader>
-                                            Select Assignee
-                      </ModalHeader>
-                      <ModalContent>
-                                            <ModalDescription>
-                                                                  <Header>
-                                                                                        Assign an officer to a tenure
-                                                                  </Header>
-                                                                  <p>
-                                                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                                  </p>
-                                            </ModalDescription>
-                      </ModalContent>
-</Modal>,
-                    "className": "range-use-plans__assign",
-                  },
-                  "ref": null,
-                  "rendered": Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "children": Array [
-                        <ModalHeader>
-                          Select Assignee
-</ModalHeader>,
-                        <ModalContent>
-                          <ModalDescription>
-                                                    <Header>
-                                                                              Assign an officer to a tenure
-                                                    </Header>
-                                                    <p>
-                                                                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                                    </p>
-                          </ModalDescription>
-</ModalContent>,
-                      ],
-                      "closeOnDimmerClick": true,
-                      "closeOnDocumentClick": false,
-                      "dimmer": true,
-                      "eventPool": "Modal",
-                      "trigger": <Button
-                        as="button"
-                        primary={true}
->
-                        Assign Staffs
-</Button>,
-                    },
-                    "ref": null,
-                    "rendered": Array [
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "function",
-                        "props": Object {
-                          "children": "Select Assignee",
-                        },
-                        "ref": null,
-                        "rendered": "Select Assignee",
-                        "type": [Function],
-                      },
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "function",
-                        "props": Object {
-                          "children": <ModalDescription>
-                            <Header>
-                                                        Assign an officer to a tenure
-                            </Header>
-                            <p>
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                            </p>
-</ModalDescription>,
-                        },
-                        "ref": null,
-                        "rendered": Object {
-                          "instance": null,
-                          "key": undefined,
-                          "nodeType": "function",
-                          "props": Object {
-                            "children": Array [
-                              <Header>
-                                Assign an officer to a tenure
-</Header>,
-                              <p>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-</p>,
-                            ],
-                          },
-                          "ref": null,
-                          "rendered": Array [
-                            Object {
-                              "instance": null,
-                              "key": undefined,
-                              "nodeType": "function",
-                              "props": Object {
-                                "children": "Assign an officer to a tenure",
-                              },
-                              "ref": null,
-                              "rendered": "Assign an officer to a tenure",
-                              "type": [Function],
-                            },
-                            Object {
-                              "instance": null,
-                              "key": undefined,
-                              "nodeType": "host",
-                              "props": Object {
-                                "children": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                              },
-                              "ref": null,
-                              "rendered": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                              "type": "p",
-                            },
-                          ],
-                          "type": [Function],
-                        },
-                        "type": [Function],
-                      },
-                    ],
-                    "type": [Function],
-                  },
-                  "type": "div",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": <RangeUsePlansSearch
-                      handleSearchInput={[Function]}
-                      label="Search Agreements:"
-                      placeholder="Enter Search Terms..."
-/>,
-                    "className": "range-use-plans__search",
-                  },
-                  "ref": null,
-                  "rendered": Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "handleSearchInput": [Function],
-                      "label": "Search Agreements:",
-                      "placeholder": "Enter Search Terms...",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
-                  "type": "div",
-                },
-              ],
-              "type": "div",
-            },
-          ],
-          "type": "div",
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
         },
         Object {
           "instance": null,
@@ -1050,7 +174,7 @@ ShallowWrapper {
               isLoading={false}
               rangeUsePlans={Array []}
 />,
-            "className": "range-use-plans__table",
+            "className": "range-use-plans__table container",
           },
           "ref": null,
           "rendered": Object {
@@ -1060,124 +184,6 @@ ShallowWrapper {
             "props": Object {
               "isLoading": false,
               "rangeUsePlans": Array [],
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": <Pagination
-              activePage={1}
-              ariaLabel="Pagination Navigation"
-              boundaryRange={1}
-              ellipsisItem={
-                            Object {
-                                          "content": <Icon
-                                            as="i"
-                                            name="ellipsis horizontal"
-                            />,
-                                          "icon": true,
-                                        }
-              }
-              firstItem={
-                            Object {
-                                          "content": <Icon
-                                            as="i"
-                                            name="angle double left"
-                            />,
-                                          "icon": true,
-                                        }
-              }
-              lastItem={
-                            Object {
-                                          "content": <Icon
-                                            as="i"
-                                            name="angle double right"
-                            />,
-                                          "icon": true,
-                                        }
-              }
-              nextItem={
-                            Object {
-                                          "content": <Icon
-                                            as="i"
-                                            name="angle right"
-                            />,
-                                          "icon": true,
-                                        }
-              }
-              onPageChange={[Function]}
-              pageItem={Object {}}
-              prevItem={
-                            Object {
-                                          "content": <Icon
-                                            as="i"
-                                            name="angle left"
-                            />,
-                                          "icon": true,
-                                        }
-              }
-              siblingRange={1}
-              size="mini"
-              totalPages={1}
-/>,
-            "className": "range-use-plans__pagination",
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "activePage": 1,
-              "ariaLabel": "Pagination Navigation",
-              "boundaryRange": 1,
-              "ellipsisItem": Object {
-                "content": <Icon
-                  as="i"
-                  name="ellipsis horizontal"
-/>,
-                "icon": true,
-              },
-              "firstItem": Object {
-                "content": <Icon
-                  as="i"
-                  name="angle double left"
-/>,
-                "icon": true,
-              },
-              "lastItem": Object {
-                "content": <Icon
-                  as="i"
-                  name="angle double right"
-/>,
-                "icon": true,
-              },
-              "nextItem": Object {
-                "content": <Icon
-                  as="i"
-                  name="angle right"
-/>,
-                "icon": true,
-              },
-              "onPageChange": [Function],
-              "pageItem": Object {},
-              "prevItem": Object {
-                "content": <Icon
-                  as="i"
-                  name="angle left"
-/>,
-                "icon": true,
-              },
-              "siblingRange": 1,
-              "size": "mini",
-              "totalPages": 1,
             },
             "ref": null,
             "rendered": null,

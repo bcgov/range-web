@@ -3,7 +3,9 @@
 $row-height: 65px;
 
 .range-use-plans {
-  margin-top: $content-margin-top;
+  &__table{
+    margin-top: $content-margin-top;
+  }
 }
 
 .range-use-plans-search {

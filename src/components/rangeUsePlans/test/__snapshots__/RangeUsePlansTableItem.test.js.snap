@@ -12,13 +12,13 @@ ShallowWrapper {
     }
     rangeUsePlan={
         Object {
-            "id": 1,
+            "id": "RAN071231",
             "number": 1,
             "rangeOfficer": Object {
               "name": "Obi-Wan Kenobi",
             },
             "region": "Victoria Ranch 1",
-            "status": "Approved",
+            "status": "Completed",
             "tenureHolder": Object {
               "name": "Luke Skywalker",
             },
@@ -63,7 +63,9 @@ ShallowWrapper {
         <TableCell
           as="td"
 >
-          Approved
+          <Unknown
+                    status="Completed"
+          />
 </TableCell>,
       ],
       "className": "range-use-plans-table-item",
@@ -125,10 +127,22 @@ ShallowWrapper {
         "nodeType": "function",
         "props": Object {
           "as": "td",
-          "children": "Approved",
+          "children": <Unknown
+            status="Completed"
+/>,
         },
         "ref": null,
-        "rendered": "Approved",
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "status": "Completed",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         "type": [Function],
       },
     ],
@@ -166,7 +180,9 @@ ShallowWrapper {
           <TableCell
             as="td"
 >
-            Approved
+            <Unknown
+                        status="Completed"
+            />
 </TableCell>,
         ],
         "className": "range-use-plans-table-item",
@@ -228,10 +244,22 @@ ShallowWrapper {
           "nodeType": "function",
           "props": Object {
             "as": "td",
-            "children": "Approved",
+            "children": <Unknown
+              status="Completed"
+/>,
           },
           "ref": null,
-          "rendered": "Approved",
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "status": "Completed",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           "type": [Function],
         },
       ],
