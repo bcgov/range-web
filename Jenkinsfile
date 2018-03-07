@@ -19,27 +19,27 @@ node {
     sh "curl ${NODE_URI} | tar -Jx"
 
     // setup the node dev environment
-    sh "${CMD_PREFIX} npm i"
+    sh "${CMD_PREFIX} npm i "
     // not sure if this needs to be added to package.json.
     sh "${CMD_PREFIX} npm i escape-string-regexp"
     sh "${CMD_PREFIX} npm -v"
     sh "${CMD_PREFIX} node -v"
   }
   
+  stage('Build Artifacts') {
+    echo "Build Artifacts: ${BUILD_ID}"
+    // Run a security check on our packages
+    // sh "${CMD_PREFIX} npm run test:security"
+    // Run our unit tests et al.
+    sh "${CMD_PREFIX} npm run build"
+  }
+
   stage('Test') {
     echo "Testing: ${BUILD_ID}"
     // Run a security check on our packages
     // sh "${CMD_PREFIX} npm run test:security"
     // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm run test"
-  }
-
-    stage('Build Artifacts') {
-    echo "Testing: ${BUILD_ID}"
-    // Run a security check on our packages
-    // sh "${CMD_PREFIX} npm run test:security"
-    // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm run build"
+    sh "${CMD_PREFIX} npm test"
   }
 
   stage('Build Image') {

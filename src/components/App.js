@@ -40,7 +40,7 @@ export class App extends Component {
             */}
             
             <Route path='/' exact render={() => (<Redirect to={Routes.LOGIN}/>)} />
-            <Route path='*' exact component={PageNotFound} />
+            <Route path='*' component={PageNotFound} />
 
           </Switch>
         </BrowserRouter>
@@ -51,7 +51,7 @@ export class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { user } = state.authReducer;
+  const { user } = state.auth;
   
   return {
     user

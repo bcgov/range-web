@@ -24,94 +24,69 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        <div
-          className="nav"
+        <nav
+          className="navbar"
 >
           <div
-                    className="nav__left"
+                    className="navbar__container container"
           >
                     <div
-                              className="nav__icon"
+                              className="navbar__left"
                     >
-                              <Icon
-                                        as="i"
-                                        name="bars"
-                                        onClick={[Function]}
-                                        size="large"
+                              <img
+                                        alt="Logo"
+                                        className="navbar__logo"
+                                        src="/logo.png"
                               />
-                    </div>
-                    <NavLink
-                              activeClassName="active"
-                              ariaCurrent="true"
-                              className="nav__title"
-                              to="/range-use-plans"
-                    >
-                              MyRA
-                    </NavLink>
-          </div>
-          <div
-                    className="nav__right"
-          >
-                    <div
-                              className="avatar"
-                    >
                               <div
-                                        className="avatar__initial"
+                                        className="navbar__title"
                               >
-                                        KH
+                                        My Range App
                               </div>
                     </div>
-          </div>
-</div>,
-        <div
-          className="main"
->
-          <nav
-                    className="sidebar sidebar--hidden"
-          >
                     <div
-                              className="sidebar__header"
-                    />
-                    <div
-                              className="sidebar__list"
+                              className="navbar__right"
                     >
                               <NavLink
-                                        activeClassName="sidebar__list__item--active"
+                                        activeClassName="navbar__link--active"
                                         ariaCurrent="true"
-                                        className="sidebar__list__item"
+                                        className="navbar__link"
                                         to="/range-use-plans"
                               >
                                         Range Use Plans
                               </NavLink>
                               <NavLink
+                                        activeClassName="navbar__link--active"
+                                        ariaCurrent="true"
+                                        className="navbar__link"
+                                        to="/login"
+                              >
+                                        Manage Zone
+                              </NavLink>
+                              <NavLink
                                         activeClassName="active"
                                         ariaCurrent="true"
-                                        className="sidebar__list__item"
+                                        className="navbar__link"
                                         id="sign-out"
                                         onClick={[Function]}
                                         to="/login"
                               >
                                         Sign Out
                               </NavLink>
+                              <Unknown
+                                        name="KH"
+                              />
                     </div>
-          </nav>
-          <div
-                    className="overlay overlay--hidden"
-                    onClick={[Function]}
-          />
-          <div
-                    className="content"
-          >
-                    <mockConstructor
-                              history={Object {}}
-                              location={Object {}}
-                              logout={[Function]}
-                              match={Object {}}
-                    />
           </div>
-</div>,
+</nav>,
+        <mockConstructor
+          history={Object {}}
+          location={Object {}}
+          logout={[Function]}
+          match={Object {}}
+/>,
       ],
-      "className": "landing-page",
+      "className": "main",
     },
     "ref": null,
     "rendered": Array [
@@ -120,385 +95,286 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            <div
-              className="nav__left"
+          "children": <div
+            className="navbar__container container"
 >
-              <div
-                            className="nav__icon"
-              >
-                            <Icon
-                                          as="i"
-                                          name="bars"
-                                          onClick={[Function]}
-                                          size="large"
-                            />
-              </div>
-              <NavLink
-                            activeClassName="active"
-                            ariaCurrent="true"
-                            className="nav__title"
-                            to="/range-use-plans"
-              >
-                            MyRA
-              </NavLink>
-</div>,
             <div
-              className="nav__right"
->
-              <div
-                            className="avatar"
-              >
-                            <div
-                                          className="avatar__initial"
-                            >
-                                          KH
-                            </div>
-              </div>
+                        className="navbar__left"
+            >
+                        <img
+                                    alt="Logo"
+                                    className="navbar__logo"
+                                    src="/logo.png"
+                        />
+                        <div
+                                    className="navbar__title"
+                        >
+                                    My Range App
+                        </div>
+            </div>
+            <div
+                        className="navbar__right"
+            >
+                        <NavLink
+                                    activeClassName="navbar__link--active"
+                                    ariaCurrent="true"
+                                    className="navbar__link"
+                                    to="/range-use-plans"
+                        >
+                                    Range Use Plans
+                        </NavLink>
+                        <NavLink
+                                    activeClassName="navbar__link--active"
+                                    ariaCurrent="true"
+                                    className="navbar__link"
+                                    to="/login"
+                        >
+                                    Manage Zone
+                        </NavLink>
+                        <NavLink
+                                    activeClassName="active"
+                                    ariaCurrent="true"
+                                    className="navbar__link"
+                                    id="sign-out"
+                                    onClick={[Function]}
+                                    to="/login"
+                        >
+                                    Sign Out
+                        </NavLink>
+                        <Unknown
+                                    name="KH"
+                        />
+            </div>
 </div>,
-          ],
-          "className": "nav",
+          "className": "navbar",
         },
         "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="navbar__left"
+>
+                <img
+                                alt="Logo"
+                                className="navbar__logo"
+                                src="/logo.png"
+                />
                 <div
-                  className="nav__icon"
->
-                  <Icon
-                                    as="i"
-                                    name="bars"
-                                    onClick={[Function]}
-                                    size="large"
-                  />
+                                className="navbar__title"
+                >
+                                My Range App
+                </div>
 </div>,
-                <NavLink
-                  activeClassName="active"
-                  ariaCurrent="true"
-                  className="nav__title"
-                  to="/range-use-plans"
+              <div
+                className="navbar__right"
 >
-                  MyRA
-</NavLink>,
-              ],
-              "className": "nav__left",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <Icon
-                    as="i"
-                    name="bars"
-                    onClick={[Function]}
-                    size="large"
+                <NavLink
+                                activeClassName="navbar__link--active"
+                                ariaCurrent="true"
+                                className="navbar__link"
+                                to="/range-use-plans"
+                >
+                                Range Use Plans
+                </NavLink>
+                <NavLink
+                                activeClassName="navbar__link--active"
+                                ariaCurrent="true"
+                                className="navbar__link"
+                                to="/login"
+                >
+                                Manage Zone
+                </NavLink>
+                <NavLink
+                                activeClassName="active"
+                                ariaCurrent="true"
+                                className="navbar__link"
+                                id="sign-out"
+                                onClick={[Function]}
+                                to="/login"
+                >
+                                Sign Out
+                </NavLink>
+                <Unknown
+                                name="KH"
+                />
+</div>,
+            ],
+            "className": "navbar__container container",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <img
+                    alt="Logo"
+                    className="navbar__logo"
+                    src="/logo.png"
 />,
-                  "className": "nav__icon",
-                },
-                "ref": null,
-                "rendered": Object {
+                  <div
+                    className="navbar__title"
+>
+                    My Range App
+</div>,
+                ],
+                "className": "navbar__left",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
                   "instance": null,
                   "key": undefined,
-                  "nodeType": "class",
+                  "nodeType": "host",
                   "props": Object {
-                    "as": "i",
-                    "name": "bars",
+                    "alt": "Logo",
+                    "className": "navbar__logo",
+                    "src": "/logo.png",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "img",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "My Range App",
+                    "className": "navbar__title",
+                  },
+                  "ref": null,
+                  "rendered": "My Range App",
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <NavLink
+                    activeClassName="navbar__link--active"
+                    ariaCurrent="true"
+                    className="navbar__link"
+                    to="/range-use-plans"
+>
+                    Range Use Plans
+</NavLink>,
+                  <NavLink
+                    activeClassName="navbar__link--active"
+                    ariaCurrent="true"
+                    className="navbar__link"
+                    to="/login"
+>
+                    Manage Zone
+</NavLink>,
+                  <NavLink
+                    activeClassName="active"
+                    ariaCurrent="true"
+                    className="navbar__link"
+                    id="sign-out"
+                    onClick={[Function]}
+                    to="/login"
+>
+                    Sign Out
+</NavLink>,
+                  <Unknown
+                    name="KH"
+/>,
+                ],
+                "className": "navbar__right",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "activeClassName": "navbar__link--active",
+                    "ariaCurrent": "true",
+                    "children": "Range Use Plans",
+                    "className": "navbar__link",
+                    "to": "/range-use-plans",
+                  },
+                  "ref": null,
+                  "rendered": "Range Use Plans",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "activeClassName": "navbar__link--active",
+                    "ariaCurrent": "true",
+                    "children": "Manage Zone",
+                    "className": "navbar__link",
+                    "to": "/login",
+                  },
+                  "ref": null,
+                  "rendered": "Manage Zone",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "activeClassName": "active",
+                    "ariaCurrent": "true",
+                    "children": "Sign Out",
+                    "className": "navbar__link",
+                    "id": "sign-out",
                     "onClick": [Function],
-                    "size": "large",
+                    "to": "/login",
+                  },
+                  "ref": null,
+                  "rendered": "Sign Out",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "name": "KH",
                   },
                   "ref": null,
                   "rendered": null,
                   "type": [Function],
                 },
-                "type": "div",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "activeClassName": "active",
-                  "ariaCurrent": "true",
-                  "children": "MyRA",
-                  "className": "nav__title",
-                  "to": "/range-use-plans",
-                },
-                "ref": null,
-                "rendered": "MyRA",
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <div
-                className="avatar"
->
-                <div
-                                className="avatar__initial"
-                >
-                                KH
-                </div>
-</div>,
-              "className": "nav__right",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <div
-                  className="avatar__initial"
->
-                  KH
-</div>,
-                "className": "avatar",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "KH",
-                  "className": "avatar__initial",
-                },
-                "ref": null,
-                "rendered": "KH",
-                "type": "div",
-              },
+              ],
               "type": "div",
             },
-            "type": "div",
-          },
-        ],
-        "type": "div",
+          ],
+          "type": "div",
+        },
+        "type": "nav",
       },
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
-          "children": Array [
-            <nav
-              className="sidebar sidebar--hidden"
->
-              <div
-                            className="sidebar__header"
-              />
-              <div
-                            className="sidebar__list"
-              >
-                            <NavLink
-                                          activeClassName="sidebar__list__item--active"
-                                          ariaCurrent="true"
-                                          className="sidebar__list__item"
-                                          to="/range-use-plans"
-                            >
-                                          Range Use Plans
-                            </NavLink>
-                            <NavLink
-                                          activeClassName="active"
-                                          ariaCurrent="true"
-                                          className="sidebar__list__item"
-                                          id="sign-out"
-                                          onClick={[Function]}
-                                          to="/login"
-                            >
-                                          Sign Out
-                            </NavLink>
-              </div>
-</nav>,
-            <div
-              className="overlay overlay--hidden"
-              onClick={[Function]}
-/>,
-            <div
-              className="content"
->
-              <mockConstructor
-                            history={Object {}}
-                            location={Object {}}
-                            logout={[Function]}
-                            match={Object {}}
-              />
-</div>,
-          ],
-          "className": "main",
+          "history": Object {},
+          "location": Object {},
+          "logout": [Function],
+          "match": Object {},
         },
         "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <div
-                  className="sidebar__header"
-/>,
-                <div
-                  className="sidebar__list"
->
-                  <NavLink
-                                    activeClassName="sidebar__list__item--active"
-                                    ariaCurrent="true"
-                                    className="sidebar__list__item"
-                                    to="/range-use-plans"
-                  >
-                                    Range Use Plans
-                  </NavLink>
-                  <NavLink
-                                    activeClassName="active"
-                                    ariaCurrent="true"
-                                    className="sidebar__list__item"
-                                    id="sign-out"
-                                    onClick={[Function]}
-                                    to="/login"
-                  >
-                                    Sign Out
-                  </NavLink>
-</div>,
-              ],
-              "className": "sidebar sidebar--hidden",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "className": "sidebar__header",
-                },
-                "ref": null,
-                "rendered": null,
-                "type": "div",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": Array [
-                    <NavLink
-                      activeClassName="sidebar__list__item--active"
-                      ariaCurrent="true"
-                      className="sidebar__list__item"
-                      to="/range-use-plans"
->
-                      Range Use Plans
-</NavLink>,
-                    <NavLink
-                      activeClassName="active"
-                      ariaCurrent="true"
-                      className="sidebar__list__item"
-                      id="sign-out"
-                      onClick={[Function]}
-                      to="/login"
->
-                      Sign Out
-</NavLink>,
-                  ],
-                  "className": "sidebar__list",
-                },
-                "ref": null,
-                "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "function",
-                    "props": Object {
-                      "activeClassName": "sidebar__list__item--active",
-                      "ariaCurrent": "true",
-                      "children": "Range Use Plans",
-                      "className": "sidebar__list__item",
-                      "to": "/range-use-plans",
-                    },
-                    "ref": null,
-                    "rendered": "Range Use Plans",
-                    "type": [Function],
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "function",
-                    "props": Object {
-                      "activeClassName": "active",
-                      "ariaCurrent": "true",
-                      "children": "Sign Out",
-                      "className": "sidebar__list__item",
-                      "id": "sign-out",
-                      "onClick": [Function],
-                      "to": "/login",
-                    },
-                    "ref": null,
-                    "rendered": "Sign Out",
-                    "type": [Function],
-                  },
-                ],
-                "type": "div",
-              },
-            ],
-            "type": "nav",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "className": "overlay overlay--hidden",
-              "onClick": [Function],
-            },
-            "ref": null,
-            "rendered": null,
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <mockConstructor
-                history={Object {}}
-                location={Object {}}
-                logout={[Function]}
-                match={Object {}}
-/>,
-              "className": "content",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "history": Object {},
-                "location": Object {},
-                "logout": [Function],
-                "match": Object {},
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
-            "type": "div",
-          },
-        ],
-        "type": "div",
+        "rendered": null,
+        "type": [Function],
       },
     ],
     "type": "div",
@@ -510,94 +386,69 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <div
-            className="nav"
+          <nav
+            className="navbar"
 >
             <div
-                        className="nav__left"
+                        className="navbar__container container"
             >
                         <div
-                                    className="nav__icon"
+                                    className="navbar__left"
                         >
-                                    <Icon
-                                                as="i"
-                                                name="bars"
-                                                onClick={[Function]}
-                                                size="large"
+                                    <img
+                                                alt="Logo"
+                                                className="navbar__logo"
+                                                src="/logo.png"
                                     />
-                        </div>
-                        <NavLink
-                                    activeClassName="active"
-                                    ariaCurrent="true"
-                                    className="nav__title"
-                                    to="/range-use-plans"
-                        >
-                                    MyRA
-                        </NavLink>
-            </div>
-            <div
-                        className="nav__right"
-            >
-                        <div
-                                    className="avatar"
-                        >
                                     <div
-                                                className="avatar__initial"
+                                                className="navbar__title"
                                     >
-                                                KH
+                                                My Range App
                                     </div>
                         </div>
-            </div>
-</div>,
-          <div
-            className="main"
->
-            <nav
-                        className="sidebar sidebar--hidden"
-            >
                         <div
-                                    className="sidebar__header"
-                        />
-                        <div
-                                    className="sidebar__list"
+                                    className="navbar__right"
                         >
                                     <NavLink
-                                                activeClassName="sidebar__list__item--active"
+                                                activeClassName="navbar__link--active"
                                                 ariaCurrent="true"
-                                                className="sidebar__list__item"
+                                                className="navbar__link"
                                                 to="/range-use-plans"
                                     >
                                                 Range Use Plans
                                     </NavLink>
                                     <NavLink
+                                                activeClassName="navbar__link--active"
+                                                ariaCurrent="true"
+                                                className="navbar__link"
+                                                to="/login"
+                                    >
+                                                Manage Zone
+                                    </NavLink>
+                                    <NavLink
                                                 activeClassName="active"
                                                 ariaCurrent="true"
-                                                className="sidebar__list__item"
+                                                className="navbar__link"
                                                 id="sign-out"
                                                 onClick={[Function]}
                                                 to="/login"
                                     >
                                                 Sign Out
                                     </NavLink>
+                                    <Unknown
+                                                name="KH"
+                                    />
                         </div>
-            </nav>
-            <div
-                        className="overlay overlay--hidden"
-                        onClick={[Function]}
-            />
-            <div
-                        className="content"
-            >
-                        <mockConstructor
-                                    history={Object {}}
-                                    location={Object {}}
-                                    logout={[Function]}
-                                    match={Object {}}
-                        />
             </div>
-</div>,
+</nav>,
+          <mockConstructor
+            history={Object {}}
+            location={Object {}}
+            logout={[Function]}
+            match={Object {}}
+/>,
         ],
-        "className": "landing-page",
+        "className": "main",
       },
       "ref": null,
       "rendered": Array [
@@ -606,385 +457,286 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              <div
-                className="nav__left"
+            "children": <div
+              className="navbar__container container"
 >
-                <div
-                                className="nav__icon"
-                >
-                                <Icon
-                                                as="i"
-                                                name="bars"
-                                                onClick={[Function]}
-                                                size="large"
-                                />
-                </div>
-                <NavLink
-                                activeClassName="active"
-                                ariaCurrent="true"
-                                className="nav__title"
-                                to="/range-use-plans"
-                >
-                                MyRA
-                </NavLink>
-</div>,
               <div
-                className="nav__right"
->
-                <div
-                                className="avatar"
-                >
-                                <div
-                                                className="avatar__initial"
-                                >
-                                                KH
-                                </div>
-                </div>
+                            className="navbar__left"
+              >
+                            <img
+                                          alt="Logo"
+                                          className="navbar__logo"
+                                          src="/logo.png"
+                            />
+                            <div
+                                          className="navbar__title"
+                            >
+                                          My Range App
+                            </div>
+              </div>
+              <div
+                            className="navbar__right"
+              >
+                            <NavLink
+                                          activeClassName="navbar__link--active"
+                                          ariaCurrent="true"
+                                          className="navbar__link"
+                                          to="/range-use-plans"
+                            >
+                                          Range Use Plans
+                            </NavLink>
+                            <NavLink
+                                          activeClassName="navbar__link--active"
+                                          ariaCurrent="true"
+                                          className="navbar__link"
+                                          to="/login"
+                            >
+                                          Manage Zone
+                            </NavLink>
+                            <NavLink
+                                          activeClassName="active"
+                                          ariaCurrent="true"
+                                          className="navbar__link"
+                                          id="sign-out"
+                                          onClick={[Function]}
+                                          to="/login"
+                            >
+                                          Sign Out
+                            </NavLink>
+                            <Unknown
+                                          name="KH"
+                            />
+              </div>
 </div>,
-            ],
-            "className": "nav",
+            "className": "navbar",
           },
           "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <div
+                  className="navbar__left"
+>
+                  <img
+                                    alt="Logo"
+                                    className="navbar__logo"
+                                    src="/logo.png"
+                  />
                   <div
-                    className="nav__icon"
->
-                    <Icon
-                                        as="i"
-                                        name="bars"
-                                        onClick={[Function]}
-                                        size="large"
-                    />
+                                    className="navbar__title"
+                  >
+                                    My Range App
+                  </div>
 </div>,
-                  <NavLink
-                    activeClassName="active"
-                    ariaCurrent="true"
-                    className="nav__title"
-                    to="/range-use-plans"
+                <div
+                  className="navbar__right"
 >
-                    MyRA
-</NavLink>,
-                ],
-                "className": "nav__left",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": <Icon
-                      as="i"
-                      name="bars"
-                      onClick={[Function]}
-                      size="large"
+                  <NavLink
+                                    activeClassName="navbar__link--active"
+                                    ariaCurrent="true"
+                                    className="navbar__link"
+                                    to="/range-use-plans"
+                  >
+                                    Range Use Plans
+                  </NavLink>
+                  <NavLink
+                                    activeClassName="navbar__link--active"
+                                    ariaCurrent="true"
+                                    className="navbar__link"
+                                    to="/login"
+                  >
+                                    Manage Zone
+                  </NavLink>
+                  <NavLink
+                                    activeClassName="active"
+                                    ariaCurrent="true"
+                                    className="navbar__link"
+                                    id="sign-out"
+                                    onClick={[Function]}
+                                    to="/login"
+                  >
+                                    Sign Out
+                  </NavLink>
+                  <Unknown
+                                    name="KH"
+                  />
+</div>,
+              ],
+              "className": "navbar__container container",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <img
+                      alt="Logo"
+                      className="navbar__logo"
+                      src="/logo.png"
 />,
-                    "className": "nav__icon",
-                  },
-                  "ref": null,
-                  "rendered": Object {
+                    <div
+                      className="navbar__title"
+>
+                      My Range App
+</div>,
+                  ],
+                  "className": "navbar__left",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
                     "instance": null,
                     "key": undefined,
-                    "nodeType": "class",
+                    "nodeType": "host",
                     "props": Object {
-                      "as": "i",
-                      "name": "bars",
+                      "alt": "Logo",
+                      "className": "navbar__logo",
+                      "src": "/logo.png",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "img",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "My Range App",
+                      "className": "navbar__title",
+                    },
+                    "ref": null,
+                    "rendered": "My Range App",
+                    "type": "div",
+                  },
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <NavLink
+                      activeClassName="navbar__link--active"
+                      ariaCurrent="true"
+                      className="navbar__link"
+                      to="/range-use-plans"
+>
+                      Range Use Plans
+</NavLink>,
+                    <NavLink
+                      activeClassName="navbar__link--active"
+                      ariaCurrent="true"
+                      className="navbar__link"
+                      to="/login"
+>
+                      Manage Zone
+</NavLink>,
+                    <NavLink
+                      activeClassName="active"
+                      ariaCurrent="true"
+                      className="navbar__link"
+                      id="sign-out"
+                      onClick={[Function]}
+                      to="/login"
+>
+                      Sign Out
+</NavLink>,
+                    <Unknown
+                      name="KH"
+/>,
+                  ],
+                  "className": "navbar__right",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "navbar__link--active",
+                      "ariaCurrent": "true",
+                      "children": "Range Use Plans",
+                      "className": "navbar__link",
+                      "to": "/range-use-plans",
+                    },
+                    "ref": null,
+                    "rendered": "Range Use Plans",
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "navbar__link--active",
+                      "ariaCurrent": "true",
+                      "children": "Manage Zone",
+                      "className": "navbar__link",
+                      "to": "/login",
+                    },
+                    "ref": null,
+                    "rendered": "Manage Zone",
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "active",
+                      "ariaCurrent": "true",
+                      "children": "Sign Out",
+                      "className": "navbar__link",
+                      "id": "sign-out",
                       "onClick": [Function],
-                      "size": "large",
+                      "to": "/login",
+                    },
+                    "ref": null,
+                    "rendered": "Sign Out",
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "name": "KH",
                     },
                     "ref": null,
                     "rendered": null,
                     "type": [Function],
                   },
-                  "type": "div",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "function",
-                  "props": Object {
-                    "activeClassName": "active",
-                    "ariaCurrent": "true",
-                    "children": "MyRA",
-                    "className": "nav__title",
-                    "to": "/range-use-plans",
-                  },
-                  "ref": null,
-                  "rendered": "MyRA",
-                  "type": [Function],
-                },
-              ],
-              "type": "div",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <div
-                  className="avatar"
->
-                  <div
-                                    className="avatar__initial"
-                  >
-                                    KH
-                  </div>
-</div>,
-                "className": "nav__right",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <div
-                    className="avatar__initial"
->
-                    KH
-</div>,
-                  "className": "avatar",
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "KH",
-                    "className": "avatar__initial",
-                  },
-                  "ref": null,
-                  "rendered": "KH",
-                  "type": "div",
-                },
+                ],
                 "type": "div",
               },
-              "type": "div",
-            },
-          ],
-          "type": "div",
+            ],
+            "type": "div",
+          },
+          "type": "nav",
         },
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "function",
           "props": Object {
-            "children": Array [
-              <nav
-                className="sidebar sidebar--hidden"
->
-                <div
-                                className="sidebar__header"
-                />
-                <div
-                                className="sidebar__list"
-                >
-                                <NavLink
-                                                activeClassName="sidebar__list__item--active"
-                                                ariaCurrent="true"
-                                                className="sidebar__list__item"
-                                                to="/range-use-plans"
-                                >
-                                                Range Use Plans
-                                </NavLink>
-                                <NavLink
-                                                activeClassName="active"
-                                                ariaCurrent="true"
-                                                className="sidebar__list__item"
-                                                id="sign-out"
-                                                onClick={[Function]}
-                                                to="/login"
-                                >
-                                                Sign Out
-                                </NavLink>
-                </div>
-</nav>,
-              <div
-                className="overlay overlay--hidden"
-                onClick={[Function]}
-/>,
-              <div
-                className="content"
->
-                <mockConstructor
-                                history={Object {}}
-                                location={Object {}}
-                                logout={[Function]}
-                                match={Object {}}
-                />
-</div>,
-            ],
-            "className": "main",
+            "history": Object {},
+            "location": Object {},
+            "logout": [Function],
+            "match": Object {},
           },
           "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
-                  <div
-                    className="sidebar__header"
-/>,
-                  <div
-                    className="sidebar__list"
->
-                    <NavLink
-                                        activeClassName="sidebar__list__item--active"
-                                        ariaCurrent="true"
-                                        className="sidebar__list__item"
-                                        to="/range-use-plans"
-                    >
-                                        Range Use Plans
-                    </NavLink>
-                    <NavLink
-                                        activeClassName="active"
-                                        ariaCurrent="true"
-                                        className="sidebar__list__item"
-                                        id="sign-out"
-                                        onClick={[Function]}
-                                        to="/login"
-                    >
-                                        Sign Out
-                    </NavLink>
-</div>,
-                ],
-                "className": "sidebar sidebar--hidden",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "className": "sidebar__header",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": "div",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": Array [
-                      <NavLink
-                        activeClassName="sidebar__list__item--active"
-                        ariaCurrent="true"
-                        className="sidebar__list__item"
-                        to="/range-use-plans"
->
-                        Range Use Plans
-</NavLink>,
-                      <NavLink
-                        activeClassName="active"
-                        ariaCurrent="true"
-                        className="sidebar__list__item"
-                        id="sign-out"
-                        onClick={[Function]}
-                        to="/login"
->
-                        Sign Out
-</NavLink>,
-                    ],
-                    "className": "sidebar__list",
-                  },
-                  "ref": null,
-                  "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "activeClassName": "sidebar__list__item--active",
-                        "ariaCurrent": "true",
-                        "children": "Range Use Plans",
-                        "className": "sidebar__list__item",
-                        "to": "/range-use-plans",
-                      },
-                      "ref": null,
-                      "rendered": "Range Use Plans",
-                      "type": [Function],
-                    },
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "activeClassName": "active",
-                        "ariaCurrent": "true",
-                        "children": "Sign Out",
-                        "className": "sidebar__list__item",
-                        "id": "sign-out",
-                        "onClick": [Function],
-                        "to": "/login",
-                      },
-                      "ref": null,
-                      "rendered": "Sign Out",
-                      "type": [Function],
-                    },
-                  ],
-                  "type": "div",
-                },
-              ],
-              "type": "nav",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "className": "overlay overlay--hidden",
-                "onClick": [Function],
-              },
-              "ref": null,
-              "rendered": null,
-              "type": "div",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <mockConstructor
-                  history={Object {}}
-                  location={Object {}}
-                  logout={[Function]}
-                  match={Object {}}
-/>,
-                "className": "content",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "history": Object {},
-                  "location": Object {},
-                  "logout": [Function],
-                  "match": Object {},
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              "type": "div",
-            },
-          ],
-          "type": "div",
+          "rendered": null,
+          "type": [Function],
         },
       ],
       "type": "div",

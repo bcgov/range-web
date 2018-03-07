@@ -5,7 +5,7 @@ import { RangeUsePlans } from '../RangeUsePlans';
 const props = {};
 const setupProps = () => {
   props.rangeUsePlans = [];
-  props.searchRangeUsePlans = jest.fn();
+  props.getRangeUsePlans = jest.fn();
   props.rangeUsePlanState = {
     isLoading: false,
     rangeUsePlans: [],
@@ -33,7 +33,7 @@ describe('RangeUsePlans', () => {
   });
 
   describe('Event handlers', () => {
-    it('`handleSearchInput` calls searchRangeUsePlans function', () => {
+    it('`handleSearchInput` calls getRangeUsePlans function', () => {
       const wrapper = shallow(<RangeUsePlans {...props} />);
       const instance = wrapper.instance();
       const mockSearchTerm = 'search';

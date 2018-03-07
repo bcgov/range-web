@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RangeUsePlans from './RangeUsePlans';
-import { getRangeUsePlans, searchRangeUsePlans } from '../../actions/rangeUsePlanActions';
+import { getRangeUsePlans } from '../../actions/rangeUsePlanActions';
+
+class Base extends Component {
+  componentDidMount() {
+    this.props.getRangeUsePlans();
+  }
+
+  render() {
+    return (
+      <RangeUsePlans {...this.props} />
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
-    rangeUsePlanState: state.rangeUsePlanReducer,
+    rangeUsePlanState: state.getRangeUsePlans
   };
 };
 
 export default connect(
-  mapStateToProps, { getRangeUsePlans, searchRangeUsePlans }
-)(
-  class extends Component {
-    componentDidMount() {
-      this.props.getRangeUsePlans();
-    }
-
-    render() {
-      return (
-        <RangeUsePlans {...this.props} />
-      );
-    }
-  }
-);
-
+  mapStateToProps, { getRangeUsePlans }
+)(Base);

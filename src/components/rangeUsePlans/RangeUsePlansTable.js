@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RangeUsePlansTableItem from './RangeUsePlansTableItem';
-import { Table, Form as Loader } from 'semantic-ui-react';
+import { Table, Form as Loader, Pagination, Icon } from 'semantic-ui-react';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
   rangeUsePlans: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 const defaultProps = {
-  rangeUsePlans: []
+  rangeUsePlans: [],
 }
 
 export class RangeUsePlansTable extends Component {
+  state = {
+    activePage: 1,
+  }
+
+  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+  
   render() {
-    const { rangeUsePlans, isLoading } = this.props; 
+    const { activePage } = this.state;
+    const { rangeUsePlans, isLoading } = this.props;
 
     return (
       <Loader loading={isLoading}>
@@ -30,16 +38,28 @@ export class RangeUsePlansTable extends Component {
           </Table.Header>
       
           <Table.Body>
-            {rangeUsePlans.map((rangeUsePlan, index) => {
+            {rangeUsePlans.map((rangeUsePlan) => {
               return (
                 <RangeUsePlansTableItem 
-                  key={index}
+                  key={rangeUsePlan.id}
                   rangeUsePlan={rangeUsePlan}
                 />
               );
             })}
           </Table.Body>
         </Table>
+
+        {/* <Pagination 
+          size='mini'
+          activePage={activePage}
+          onPageChange={this.handlePaginationChange} 
+          totalPages={totalPages}
+          ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
+          firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+          lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+          prevItem={{ content: <Icon name='angle left' />, icon: true }}
+          nextItem={{ content: <Icon name='angle right' />, icon: true }}
+        /> */}
       </Loader>
     );
   }

@@ -5,7 +5,8 @@ import { getMockRangeUsePlans } from './mockValues';
 
 const props = {};
 const setupProps = () => {
-  props.rangeUsePlans = getMockRangeUsePlans(3); 
+  props.rangeUsePlans = getMockRangeUsePlans(3);
+  props.isLoading = false;
 };
 
 beforeEach(() => {

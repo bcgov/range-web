@@ -5,40 +5,41 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <RangeUsePlansTable
+    isLoading={false}
     rangeUsePlans={
         Array [
             Object {
-              "id": 1,
+              "id": "RAN071231",
               "number": 1,
               "rangeOfficer": Object {
                 "name": "Obi-Wan Kenobi",
               },
               "region": "Victoria Ranch 1",
-              "status": "Approved",
+              "status": "Completed",
               "tenureHolder": Object {
                 "name": "Luke Skywalker",
               },
             },
             Object {
-              "id": 2,
+              "id": "RAN071232",
               "number": 2,
               "rangeOfficer": Object {
                 "name": "Leia Organa",
               },
               "region": "Victoria Ranch 2",
-              "status": "Approved",
+              "status": "Completed",
               "tenureHolder": Object {
                 "name": "Han Solo",
               },
             },
             Object {
-              "id": 3,
+              "id": "RAN071233",
               "number": 3,
               "rangeOfficer": Object {
                 "name": "Obi-Wan Kenobi",
               },
               "region": "Victoria Ranch 3",
-              "status": "Approved",
+              "status": "Completed",
               "tenureHolder": Object {
                 "name": "Luke Skywalker",
               },
@@ -74,7 +75,7 @@ ShallowWrapper {
                         <TableHeaderCell
                                 as="th"
                         >
-                                Range Number
+                                RAN Number
                         </TableHeaderCell>
                         <TableHeaderCell
                                 as="th"
@@ -104,13 +105,13 @@ ShallowWrapper {
                 <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                 Object {
-                                        "id": 1,
+                                        "id": "RAN071231",
                                         "number": 1,
                                         "rangeOfficer": Object {
                                           "name": "Obi-Wan Kenobi",
                                         },
                                         "region": "Victoria Ranch 1",
-                                        "status": "Approved",
+                                        "status": "Completed",
                                         "tenureHolder": Object {
                                           "name": "Luke Skywalker",
                                         },
@@ -120,13 +121,13 @@ ShallowWrapper {
                 <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                 Object {
-                                        "id": 2,
+                                        "id": "RAN071232",
                                         "number": 2,
                                         "rangeOfficer": Object {
                                           "name": "Leia Organa",
                                         },
                                         "region": "Victoria Ranch 2",
-                                        "status": "Approved",
+                                        "status": "Completed",
                                         "tenureHolder": Object {
                                           "name": "Han Solo",
                                         },
@@ -136,13 +137,13 @@ ShallowWrapper {
                 <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                 Object {
-                                        "id": 3,
+                                        "id": "RAN071233",
                                         "number": 3,
                                         "rangeOfficer": Object {
                                           "name": "Obi-Wan Kenobi",
                                         },
                                         "region": "Victoria Ranch 3",
-                                        "status": "Approved",
+                                        "status": "Completed",
                                         "tenureHolder": Object {
                                           "name": "Luke Skywalker",
                                         },
@@ -151,7 +152,7 @@ ShallowWrapper {
                 />
         </TableBody>
 </Table>,
-      "loading": undefined,
+      "loading": false,
     },
     "ref": null,
     "rendered": Object {
@@ -171,7 +172,7 @@ ShallowWrapper {
                         <TableHeaderCell
                                     as="th"
                         >
-                                    Range Number
+                                    RAN Number
                         </TableHeaderCell>
                         <TableHeaderCell
                                     as="th"
@@ -201,13 +202,13 @@ ShallowWrapper {
             <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                     Object {
-                                                "id": 1,
+                                                "id": "RAN071231",
                                                 "number": 1,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 1",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
@@ -217,13 +218,13 @@ ShallowWrapper {
             <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                     Object {
-                                                "id": 2,
+                                                "id": "RAN071232",
                                                 "number": 2,
                                                 "rangeOfficer": Object {
                                                   "name": "Leia Organa",
                                                 },
                                                 "region": "Victoria Ranch 2",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Han Solo",
                                                 },
@@ -233,13 +234,13 @@ ShallowWrapper {
             <withRouter(RangeUsePlansTableItem)
                         rangeUsePlan={
                                     Object {
-                                                "id": 3,
+                                                "id": "RAN071233",
                                                 "number": 3,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 3",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
@@ -266,7 +267,7 @@ ShallowWrapper {
               <TableHeaderCell
                             as="th"
               >
-                            Range Number
+                            RAN Number
               </TableHeaderCell>
               <TableHeaderCell
                             as="th"
@@ -302,7 +303,7 @@ ShallowWrapper {
                 <TableHeaderCell
                   as="th"
 >
-                  Range Number
+                  RAN Number
 </TableHeaderCell>,
                 <TableHeaderCell
                   as="th"
@@ -334,10 +335,10 @@ ShallowWrapper {
                 "nodeType": "function",
                 "props": Object {
                   "as": "th",
-                  "children": "Range Number",
+                  "children": "RAN Number",
                 },
                 "ref": null,
-                "rendered": "Range Number",
+                "rendered": "RAN Number",
                 "type": [Function],
               },
               Object {
@@ -403,13 +404,13 @@ ShallowWrapper {
               <withRouter(RangeUsePlansTableItem)
                 rangeUsePlan={
                                 Object {
-                                                "id": 1,
+                                                "id": "RAN071231",
                                                 "number": 1,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 1",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
@@ -419,13 +420,13 @@ ShallowWrapper {
               <withRouter(RangeUsePlansTableItem)
                 rangeUsePlan={
                                 Object {
-                                                "id": 2,
+                                                "id": "RAN071232",
                                                 "number": 2,
                                                 "rangeOfficer": Object {
                                                   "name": "Leia Organa",
                                                 },
                                                 "region": "Victoria Ranch 2",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Han Solo",
                                                 },
@@ -435,13 +436,13 @@ ShallowWrapper {
               <withRouter(RangeUsePlansTableItem)
                 rangeUsePlan={
                                 Object {
-                                                "id": 3,
+                                                "id": "RAN071233",
                                                 "number": 3,
                                                 "rangeOfficer": Object {
                                                   "name": "Obi-Wan Kenobi",
                                                 },
                                                 "region": "Victoria Ranch 3",
-                                                "status": "Approved",
+                                                "status": "Completed",
                                                 "tenureHolder": Object {
                                                   "name": "Luke Skywalker",
                                                 },
@@ -454,17 +455,17 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": "0",
+              "key": "RAN071231",
               "nodeType": "function",
               "props": Object {
                 "rangeUsePlan": Object {
-                  "id": 1,
+                  "id": "RAN071231",
                   "number": 1,
                   "rangeOfficer": Object {
                     "name": "Obi-Wan Kenobi",
                   },
                   "region": "Victoria Ranch 1",
-                  "status": "Approved",
+                  "status": "Completed",
                   "tenureHolder": Object {
                     "name": "Luke Skywalker",
                   },
@@ -476,17 +477,17 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": "1",
+              "key": "RAN071232",
               "nodeType": "function",
               "props": Object {
                 "rangeUsePlan": Object {
-                  "id": 2,
+                  "id": "RAN071232",
                   "number": 2,
                   "rangeOfficer": Object {
                     "name": "Leia Organa",
                   },
                   "region": "Victoria Ranch 2",
-                  "status": "Approved",
+                  "status": "Completed",
                   "tenureHolder": Object {
                     "name": "Han Solo",
                   },
@@ -498,17 +499,17 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": "2",
+              "key": "RAN071233",
               "nodeType": "function",
               "props": Object {
                 "rangeUsePlan": Object {
-                  "id": 3,
+                  "id": "RAN071233",
                   "number": 3,
                   "rangeOfficer": Object {
                     "name": "Obi-Wan Kenobi",
                   },
                   "region": "Victoria Ranch 3",
-                  "status": "Approved",
+                  "status": "Completed",
                   "tenureHolder": Object {
                     "name": "Luke Skywalker",
                   },
@@ -548,7 +549,7 @@ ShallowWrapper {
                               <TableHeaderCell
                                         as="th"
                               >
-                                        Range Number
+                                        RAN Number
                               </TableHeaderCell>
                               <TableHeaderCell
                                         as="th"
@@ -578,13 +579,13 @@ ShallowWrapper {
                     <withRouter(RangeUsePlansTableItem)
                               rangeUsePlan={
                                         Object {
-                                                  "id": 1,
+                                                  "id": "RAN071231",
                                                   "number": 1,
                                                   "rangeOfficer": Object {
                                                     "name": "Obi-Wan Kenobi",
                                                   },
                                                   "region": "Victoria Ranch 1",
-                                                  "status": "Approved",
+                                                  "status": "Completed",
                                                   "tenureHolder": Object {
                                                     "name": "Luke Skywalker",
                                                   },
@@ -594,13 +595,13 @@ ShallowWrapper {
                     <withRouter(RangeUsePlansTableItem)
                               rangeUsePlan={
                                         Object {
-                                                  "id": 2,
+                                                  "id": "RAN071232",
                                                   "number": 2,
                                                   "rangeOfficer": Object {
                                                     "name": "Leia Organa",
                                                   },
                                                   "region": "Victoria Ranch 2",
-                                                  "status": "Approved",
+                                                  "status": "Completed",
                                                   "tenureHolder": Object {
                                                     "name": "Han Solo",
                                                   },
@@ -610,13 +611,13 @@ ShallowWrapper {
                     <withRouter(RangeUsePlansTableItem)
                               rangeUsePlan={
                                         Object {
-                                                  "id": 3,
+                                                  "id": "RAN071233",
                                                   "number": 3,
                                                   "rangeOfficer": Object {
                                                     "name": "Obi-Wan Kenobi",
                                                   },
                                                   "region": "Victoria Ranch 3",
-                                                  "status": "Approved",
+                                                  "status": "Completed",
                                                   "tenureHolder": Object {
                                                     "name": "Luke Skywalker",
                                                   },
@@ -625,7 +626,7 @@ ShallowWrapper {
                     />
           </TableBody>
 </Table>,
-        "loading": undefined,
+        "loading": false,
       },
       "ref": null,
       "rendered": Object {
@@ -645,7 +646,7 @@ ShallowWrapper {
                             <TableHeaderCell
                                           as="th"
                             >
-                                          Range Number
+                                          RAN Number
                             </TableHeaderCell>
                             <TableHeaderCell
                                           as="th"
@@ -675,13 +676,13 @@ ShallowWrapper {
               <withRouter(RangeUsePlansTableItem)
                             rangeUsePlan={
                                           Object {
-                                                        "id": 1,
+                                                        "id": "RAN071231",
                                                         "number": 1,
                                                         "rangeOfficer": Object {
                                                           "name": "Obi-Wan Kenobi",
                                                         },
                                                         "region": "Victoria Ranch 1",
-                                                        "status": "Approved",
+                                                        "status": "Completed",
                                                         "tenureHolder": Object {
                                                           "name": "Luke Skywalker",
                                                         },
@@ -691,13 +692,13 @@ ShallowWrapper {
               <withRouter(RangeUsePlansTableItem)
                             rangeUsePlan={
                                           Object {
-                                                        "id": 2,
+                                                        "id": "RAN071232",
                                                         "number": 2,
                                                         "rangeOfficer": Object {
                                                           "name": "Leia Organa",
                                                         },
                                                         "region": "Victoria Ranch 2",
-                                                        "status": "Approved",
+                                                        "status": "Completed",
                                                         "tenureHolder": Object {
                                                           "name": "Han Solo",
                                                         },
@@ -707,13 +708,13 @@ ShallowWrapper {
               <withRouter(RangeUsePlansTableItem)
                             rangeUsePlan={
                                           Object {
-                                                        "id": 3,
+                                                        "id": "RAN071233",
                                                         "number": 3,
                                                         "rangeOfficer": Object {
                                                           "name": "Obi-Wan Kenobi",
                                                         },
                                                         "region": "Victoria Ranch 3",
-                                                        "status": "Approved",
+                                                        "status": "Completed",
                                                         "tenureHolder": Object {
                                                           "name": "Luke Skywalker",
                                                         },
@@ -740,7 +741,7 @@ ShallowWrapper {
                 <TableHeaderCell
                                 as="th"
                 >
-                                Range Number
+                                RAN Number
                 </TableHeaderCell>
                 <TableHeaderCell
                                 as="th"
@@ -776,7 +777,7 @@ ShallowWrapper {
                   <TableHeaderCell
                     as="th"
 >
-                    Range Number
+                    RAN Number
 </TableHeaderCell>,
                   <TableHeaderCell
                     as="th"
@@ -808,10 +809,10 @@ ShallowWrapper {
                   "nodeType": "function",
                   "props": Object {
                     "as": "th",
-                    "children": "Range Number",
+                    "children": "RAN Number",
                   },
                   "ref": null,
-                  "rendered": "Range Number",
+                  "rendered": "RAN Number",
                   "type": [Function],
                 },
                 Object {
@@ -877,13 +878,13 @@ ShallowWrapper {
                 <withRouter(RangeUsePlansTableItem)
                   rangeUsePlan={
                                     Object {
-                                                      "id": 1,
+                                                      "id": "RAN071231",
                                                       "number": 1,
                                                       "rangeOfficer": Object {
                                                         "name": "Obi-Wan Kenobi",
                                                       },
                                                       "region": "Victoria Ranch 1",
-                                                      "status": "Approved",
+                                                      "status": "Completed",
                                                       "tenureHolder": Object {
                                                         "name": "Luke Skywalker",
                                                       },
@@ -893,13 +894,13 @@ ShallowWrapper {
                 <withRouter(RangeUsePlansTableItem)
                   rangeUsePlan={
                                     Object {
-                                                      "id": 2,
+                                                      "id": "RAN071232",
                                                       "number": 2,
                                                       "rangeOfficer": Object {
                                                         "name": "Leia Organa",
                                                       },
                                                       "region": "Victoria Ranch 2",
-                                                      "status": "Approved",
+                                                      "status": "Completed",
                                                       "tenureHolder": Object {
                                                         "name": "Han Solo",
                                                       },
@@ -909,13 +910,13 @@ ShallowWrapper {
                 <withRouter(RangeUsePlansTableItem)
                   rangeUsePlan={
                                     Object {
-                                                      "id": 3,
+                                                      "id": "RAN071233",
                                                       "number": 3,
                                                       "rangeOfficer": Object {
                                                         "name": "Obi-Wan Kenobi",
                                                       },
                                                       "region": "Victoria Ranch 3",
-                                                      "status": "Approved",
+                                                      "status": "Completed",
                                                       "tenureHolder": Object {
                                                         "name": "Luke Skywalker",
                                                       },
@@ -928,17 +929,17 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": "0",
+                "key": "RAN071231",
                 "nodeType": "function",
                 "props": Object {
                   "rangeUsePlan": Object {
-                    "id": 1,
+                    "id": "RAN071231",
                     "number": 1,
                     "rangeOfficer": Object {
                       "name": "Obi-Wan Kenobi",
                     },
                     "region": "Victoria Ranch 1",
-                    "status": "Approved",
+                    "status": "Completed",
                     "tenureHolder": Object {
                       "name": "Luke Skywalker",
                     },
@@ -950,17 +951,17 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": "1",
+                "key": "RAN071232",
                 "nodeType": "function",
                 "props": Object {
                   "rangeUsePlan": Object {
-                    "id": 2,
+                    "id": "RAN071232",
                     "number": 2,
                     "rangeOfficer": Object {
                       "name": "Leia Organa",
                     },
                     "region": "Victoria Ranch 2",
-                    "status": "Approved",
+                    "status": "Completed",
                     "tenureHolder": Object {
                       "name": "Han Solo",
                     },
@@ -972,17 +973,17 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": "2",
+                "key": "RAN071233",
                 "nodeType": "function",
                 "props": Object {
                   "rangeUsePlan": Object {
-                    "id": 3,
+                    "id": "RAN071233",
                     "number": 3,
                     "rangeOfficer": Object {
                       "name": "Obi-Wan Kenobi",
                     },
                     "region": "Victoria Ranch 3",
-                    "status": "Approved",
+                    "status": "Completed",
                     "tenureHolder": Object {
                       "name": "Luke Skywalker",
                     },

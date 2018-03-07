@@ -1,56 +1,24 @@
+@import 'styles/mixins.scss';
+
 $row-height: 65px;
-$primary-color: #003366;
 
 .range-use-plans {
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  &__table{
+    margin-top: $content-margin-top;
   }
+}
 
-  &__actions {
-    display: flex;
-    align-items: center;
-  }
-
-  &__assign {
-    display: none;
-  }
-
-  &__search {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 15px;
-  }
-
-  &__table {
-    margin-top: 20px;
-  }
-
-  &__pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-  }
+.range-use-plans-search {
+  width: 400px;
 }
 
 .range-use-plans-table-item {
   cursor: pointer;
 }
 
-.range-use-plans-search {
-  display: flex;
-  align-items: center;
-
-  &__label {
-    font-size: 15px;	
-    font-weight: bold;	
-    line-height: 20px;
-    margin-right: 10px;
-  }
-}
-
 .range-use-plan {
+  margin-top: $content-margin-top;
+  
   &__header {
     display: flex;
     justify-content: space-between;
@@ -64,19 +32,15 @@ $primary-color: #003366;
   }
 
   &__btn {
-    width: 130px !important;
-    
-    &--not-approved {
-      margin-right: 15px !important;
-    }
+    margin-right: 15px !important;
+  }
 
-    &--view {
-      margin-right: 15px !important;
-    }
+  &__status {
+    margin-right: 15px;
   }
 
   &__divider {
-    border: 1px solid $primary-color;
+    border-top: 2px solid $primary-color;
     margin: 10px 0;
   }
 
@@ -97,56 +61,56 @@ $primary-color: #003366;
 
 
 
-// .range-use-plan-pdf-view {
+// // .range-use-plan-pdf-view {
 
-//   &__download-button {
-//     position: fixed;
-//     bottom: 40px;
-//     right: 40px;
-//   }
+// //   &__download-button {
+// //     position: fixed;
+// //     bottom: 40px;
+// //     right: 40px;
+// //   }
 
-//   &__back-button {
-//     position: fixed;
-//     bottom: 90px;
-//     right: 40px;
-//   }
+// //   &__back-button {
+// //     position: fixed;
+// //     bottom: 90px;
+// //     right: 40px;
+// //   }
 
-//   &__container {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
+// //   &__container {
+// //     display: flex;
+// //     flex-direction: column;
+// //     align-items: center;
 
-//     &__load {
-//       margin-top: 1em;
-//       color: white;
-//     }
+// //     &__load {
+// //       margin-top: 1em;
+// //       color: white;
+// //     }
 
-//     &__document {
-//       margin-bottom: 1em;
+// //     &__document {
+// //       margin-bottom: 1em;
 
-//       .ReactPDF {
-//         &__Document {
-//           display: flex;
-//           flex-direction: column;
-//           align-items: center;
-//         }
+// //       .ReactPDF {
+// //         &__Document {
+// //           display: flex;
+// //           flex-direction: column;
+// //           align-items: center;
+// //         }
 
-//         &__Page {
-//           max-width: calc(100% - 2em);
-//           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
-//           margin: 10px 0;
+// //         &__Page {
+// //           max-width: calc(100% - 2em);
+// //           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+// //           margin: 10px 0;
 
-//           canvas {
-//             max-width: 100%;
-//             height: auto !important;
-//           }
-//         }
+// //           canvas {
+// //             max-width: 100%;
+// //             height: auto !important;
+// //           }
+// //         }
 
-//         &__message {
-//           padding: 20px;
-//           color: white;
-//         }
-//       }
-//     }
-//   }
-// }
+// //         &__message {
+// //           padding: 20px;
+// //           color: white;
+// //         }
+// //       }
+// //     }
+// //   }
+// // }
