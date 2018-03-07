@@ -42,7 +42,6 @@ ShallowWrapper {
                     />
                     <Route
                               component={[Function]}
-                              exact={true}
                               path="*"
                     />
           </Switch>
@@ -80,7 +79,6 @@ ShallowWrapper {
             />
             <Route
                         component={[Function]}
-                        exact={true}
                         path="*"
             />
 </Switch>,
@@ -114,7 +112,6 @@ ShallowWrapper {
 />,
               <Route
                 component={[Function]}
-                exact={true}
                 path="*"
 />,
             ],
@@ -179,7 +176,6 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "component": [Function],
-                "exact": true,
                 "path": "*",
               },
               "ref": null,
@@ -234,7 +230,6 @@ ShallowWrapper {
                         />
                         <Route
                                     component={[Function]}
-                                    exact={true}
                                     path="*"
                         />
             </Switch>
@@ -272,7 +267,6 @@ ShallowWrapper {
               />
               <Route
                             component={[Function]}
-                            exact={true}
                             path="*"
               />
 </Switch>,
@@ -306,7 +300,6 @@ ShallowWrapper {
 />,
                 <Route
                   component={[Function]}
-                  exact={true}
                   path="*"
 />,
               ],
@@ -371,7 +364,6 @@ ShallowWrapper {
                 "nodeType": "class",
                 "props": Object {
                   "component": [Function],
-                  "exact": true,
                   "path": "*",
                 },
                 "ref": null,
