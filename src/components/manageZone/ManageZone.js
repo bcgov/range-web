@@ -11,8 +11,7 @@ export class ManageZone extends Component {
       <div className="manage-zone">
         <Banner 
           header="Manage Zone"
-          content="This is where the description of Manage Zone would go. This is where the description of Manage Zone would go. 
-          This is where the description of Manage Zone would go."
+          content="Follow steps to assign a zone from the current staff to other staff."
         />
         <div className="manage-zone__content container">
           <div className="manage-zone__steps">

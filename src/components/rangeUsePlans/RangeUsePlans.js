@@ -32,12 +32,11 @@ export class RangeUsePlans extends Component {
       <div className="range-use-plans">
         <Banner
           header="Range Use Plans"
-          content="This is range use plans! This is range use plans! This is range use plans! 
-          This is range use plans! This is range use plans! This is range use plans! 
-          This is range use plans! This is range use plans! This is range use plans!"
+          content="Enter RAN number, Agreement holder's name, 
+          or staff contact in the search box to search for a specific range use plan."
         >
           <RangeUsePlansSearch
-            placeholder="Enter RAN#, Agreement holder's name, or staff contact" 
+            placeholder="Enter Search Term" 
             handleSearchInput={this.handleSearchInput}
           />
         </Banner>
