@@ -42,7 +42,7 @@ export const getRangeUsePlans = (requestData) => (dispatch) => {
   dispatch(plansRequest());
   setTimeout(() => {
     const plans = getMockRangeUsePlans(8);
-    dispatch(getPlansSuccess(plans, 1, 5));
+    dispatch(getPlansSuccess(plans, 1, 10));
   }, 1000);
 };
 
@@ -55,7 +55,7 @@ export const searchRangeUsePlans = (term) => (dispatch) => {
       dispatch(searchPlansSuccess(plans, 1, 1));
     } else {
       plans = getMockRangeUsePlans(8);
-      dispatch(searchPlansSuccess(plans, 1, 5));
+      dispatch(searchPlansSuccess(plans, 1, 10));
     }
   }, 1000);
 };

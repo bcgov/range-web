@@ -32,8 +32,8 @@ export class RangeUsePlan extends Component {
   render() {
     const id = `RAN07123${this.state.id}`;
     const options = [
-      { key: 1, text: 'Completed', value: 1 },
-      { key: 2, text: 'Pending', value: 2 },
+      { key: 1, text: 'Completed', value: 1, onClick: () => {console.log('com')} },
+      { key: 2, text: 'Pending', value: 2, onClick: () => {console.log('pending')} },
     ];
 
     return (
@@ -46,7 +46,12 @@ export class RangeUsePlan extends Component {
               status={SUBMITTED}
             />
             <Button className="range-use-plan__btn" primary>View PDF</Button>
-            <Dropdown text='Update status' options={options} simple item />
+            <Dropdown 
+              text='Update Status' 
+              options={options} 
+              button
+              item 
+            />
           </div>
         </div>
 
