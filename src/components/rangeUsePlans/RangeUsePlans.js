@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import { Pagination, Icon } from 'semantic-ui-react';
-
 import RangeUsePlansTable from './RangeUsePlansTable';
 import RangeUsePlansSearch from './RangeUsePlansSearch';
 import { Banner } from '../common';
 
 const propTypes = {
   rangeUsePlanState: PropTypes.object.isRequired,
-  searchRangeUsePlans: PropTypes.func.isRequired,
+  getRangeUsePlans: PropTypes.func.isRequired,
 };
 
 export class RangeUsePlans extends Component {
@@ -20,7 +18,7 @@ export class RangeUsePlans extends Component {
     }
     // wait for 1 second for the user to finish writing a search term
     // then make a network call
-    this.searchRangeUsePlans = debounce(props.searchRangeUsePlans, 1000);
+    this.searchRangeUsePlans = debounce(props.getRangeUsePlans, 1000);
   }  
   
   handleSearchInput = (searchTerm) => {
@@ -28,7 +26,7 @@ export class RangeUsePlans extends Component {
   }
   
   render() {
-    const { rangeUsePlanState } = this.props;
+    const { data, isLoading } = this.props.rangeUsePlanState;
 
     return (
       <div>
@@ -46,7 +44,8 @@ export class RangeUsePlans extends Component {
 
         <div className="range-use-plans container">
           <RangeUsePlansTable
-            rangeUsePlanState={rangeUsePlanState}
+            rangeUsePlans={data}
+            isLoading={isLoading}
           />
         </div>
       </div>

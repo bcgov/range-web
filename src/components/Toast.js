@@ -32,7 +32,7 @@ class Toast extends Component {
   // }
 
   render() {
-    const { close, success, error, message } = this.props;
+    // const { close, success, error, message } = this.props;
 
     return (
       <div className='toast-message-container'>
@@ -52,7 +52,7 @@ class Toast extends Component {
 Toast.propTypes = propTypes;
 
 const mapStateToProps = state => {
-  const { close, success, error, message } = state.toastReducer;
+  const { close, success, error, message } = state.toast;
 
   return {
     close,

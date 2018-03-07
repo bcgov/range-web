@@ -27,7 +27,7 @@ export class RangeUsePlansTableItem extends Component {
         className="range-use-plans-table-item"
         onClick={this.onRowClicked}
       >
-        <Table.Cell>{`RAN07123${rangeUsePlan.number}`}</Table.Cell>
+        <Table.Cell>{rangeUsePlan.id}</Table.Cell>
         <Table.Cell>{rangeUsePlan.region}</Table.Cell>
         <Table.Cell>{rangeUsePlan.tenureHolder.name}</Table.Cell>
         <Table.Cell>{rangeUsePlan.rangeOfficer.name}</Table.Cell>

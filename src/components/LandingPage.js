@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
@@ -70,7 +69,7 @@ export class LandingPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { user } = state.authReducer;
+  const { user } = state.auth;
   
   return {
     user

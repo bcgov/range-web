@@ -5,7 +5,12 @@ import { Table, Form as Loader, Pagination, Icon } from 'semantic-ui-react';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
-  rangeUsePlanState: PropTypes.object.rangeUsePlanState,
+  rangeUsePlans: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+}
+
+const defaultProps = {
+  rangeUsePlans: [],
 }
 
 export class RangeUsePlansTable extends Component {
@@ -17,7 +22,7 @@ export class RangeUsePlansTable extends Component {
   
   render() {
     const { activePage } = this.state;
-    const { rangeUsePlans, isLoading, success, totalPages, currentPage } = this.props.rangeUsePlanState;
+    const { rangeUsePlans, isLoading } = this.props;
 
     return (
       <Loader loading={isLoading}>
@@ -33,10 +38,10 @@ export class RangeUsePlansTable extends Component {
           </Table.Header>
       
           <Table.Body>
-            {rangeUsePlans.map((rangeUsePlan, index) => {
+            {rangeUsePlans.map((rangeUsePlan) => {
               return (
                 <RangeUsePlansTableItem 
-                  key={index}
+                  key={rangeUsePlan.id}
                   rangeUsePlan={rangeUsePlan}
                 />
               );
@@ -44,7 +49,7 @@ export class RangeUsePlansTable extends Component {
           </Table.Body>
         </Table>
 
-        <Pagination 
+        {/* <Pagination 
           size='mini'
           activePage={activePage}
           onPageChange={this.handlePaginationChange} 
@@ -54,11 +59,12 @@ export class RangeUsePlansTable extends Component {
           lastItem={{ content: <Icon name='angle double right' />, icon: true }}
           prevItem={{ content: <Icon name='angle left' />, icon: true }}
           nextItem={{ content: <Icon name='angle right' />, icon: true }}
-        />
+        /> */}
       </Loader>
     );
   }
 }
 
 RangeUsePlansTable.propTypes = propTypes;
+RangeUsePlansTable.defaultProps = defaultProps;
 export default RangeUsePlansTable;

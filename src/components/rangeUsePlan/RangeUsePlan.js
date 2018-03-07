@@ -7,9 +7,9 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
 } from '../../constants/strings';
-import { SUBMITTED, PENDING, APPROVED, NOT_APPROVED } from '../../constants/variables';
+import { SUBMITTED } from '../../constants/variables';
 import { TextField, Status } from '../common';
-import RangeUsePlanPDFView from './RangeUsePlanPDFView';
+// import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
   match: PropTypes.object.isRequired,
@@ -30,7 +30,7 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const id = `RAN07123${this.state.id}`;
+    const { id } = this.state;
     const options = [
       { key: 1, text: 'Completed', value: 1, onClick: () => {console.log('com')} },
       { key: 2, text: 'Pending', value: 2, onClick: () => {console.log('pending')} },
@@ -39,7 +39,7 @@ export class RangeUsePlan extends Component {
     return (
       <div className="range-use-plan container">
         <div className="range-use-plan__header">
-          <Header as="h1">{`${id}`}</Header>
+          <Header as="h1">{id}</Header>
           <div className="range-use-plan__header__actions">
             <Status 
               className="range-use-plan__status" 
@@ -60,7 +60,7 @@ export class RangeUsePlan extends Component {
         <div className="range-use-plan__basic-info">
           <TextField 
             label={RANGE_NUMBER}
-            text={`07123${this.state.id}`}
+            text={id}
           />
           <TextField 
             label={AGREEMENT_START}
