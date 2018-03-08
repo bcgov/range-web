@@ -1,6 +1,6 @@
 @import 'styles/mixins.scss';
 
-$row-height: 65px;
+$row-height: 80px;
 
 .range-use-plans {
   &__table{
@@ -52,8 +52,22 @@ $row-height: 65px;
 
   &__agreement-info {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 33% 33%;
     grid-template-rows: $row-height $row-height;
+    margin-top: 20px;
+  }
+
+  &__info-first-row,
+  &__info-third-row {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: $row-height;
+  }
+
+  &__info-second-row {
+    display: grid;
+    grid-template-columns: 33% 33%;
+    grid-template-rows: $row-height;
   }
 }
 

@@ -72,7 +72,7 @@ export class RangeUsePlan extends Component {
 
         <Header as='h2'>Basic Information</Header>
 
-        <div className="range-use-plan__basic-info">
+        <div className="range-use-plan__info-first-row">
           <TextField 
             label={RANGE_NUMBER}
             text={id}
@@ -85,41 +85,8 @@ export class RangeUsePlan extends Component {
             label={AGREEMENT_END}
             text={'Sep 13, 2019'}
           />
-          <TextField 
-            label={AGREEMENT_TYPE}
-            text={'E01'}
-          />
-          <TextField 
-            label={PLAN_START}
-            text={'Jan 14, 2018'}
-          />
-          <TextField 
-            label={PLAN_END}
-            text={'Dec 14, 2018'}
-          />
-          <TextField 
-            label={DISTRICT}
-            text={'DND'}
-          />
-          <TextField 
-            label={ZONE}
-            text={'LASO'}
-          />
         </div>
-
-        <div className="range-use-plan__divider" />
-        <Header as='h4'>Agreement Information</Header>
-
-        <div className="range-use-plan__agreement-info">
-          <TextField 
-            label={RANGE_NAME}
-            text={'Star Range'}
-          />
-          <TextField 
-            label={ALTERNATIVE_BUSINESS_NAME}
-            text={'Star Range Alternative'}
-          />
-
+        <div className="range-use-plan__info-second-row">
           <TextField 
             label={AGREEMENT_HOLDERS}
             text={'Obiwan Kenobi'}
@@ -140,6 +107,40 @@ export class RangeUsePlan extends Component {
             label={TYPE}
             text={'Others'}
             isLabelHidden={true}
+          />
+        </div>
+        <div className="range-use-plan__info-third-row">
+          <TextField 
+            label={AGREEMENT_TYPE}
+            text={'E01'}
+          />
+          <TextField 
+            label={DISTRICT}
+            text={'DND'}
+          />
+          <TextField 
+            label={ZONE}
+            text={'LASO'}
+          />
+        </div>
+          
+          
+        <div className="range-use-plan__agreement-info">
+          <TextField 
+            label={RANGE_NAME}
+            text={'Star Range'}
+          />
+          <TextField 
+            label={ALTERNATIVE_BUSINESS_NAME}
+            text={'Star Range Alternative'}
+          />
+          <TextField 
+            label={PLAN_START}
+            text={'Jan 14, 2018'}
+          />
+          <TextField 
+            label={PLAN_END}
+            text={'Dec 14, 2018'}
           />
         </div>
 
