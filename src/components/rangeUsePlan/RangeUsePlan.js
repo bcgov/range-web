@@ -106,7 +106,7 @@ export class RangeUsePlan extends Component {
 
         <Header as='h2'>Basic Information</Header>
 
-        <div className="range-use-plan__info-first-row">
+        <div className="range-use-plan__basic-info-first-row">
           <TextField 
             label={RANGE_NUMBER}
             text={id}
@@ -120,7 +120,7 @@ export class RangeUsePlan extends Component {
             text={'Sep 13, 2019'}
           />
         </div>
-        <div className="range-use-plan__info-second-row">
+        <div className="range-use-plan__basic-info-second-row">
           <TextField 
             label={AGREEMENT_HOLDERS}
             text={'Obiwan Kenobi'}
@@ -143,7 +143,7 @@ export class RangeUsePlan extends Component {
             isLabelHidden={true}
           />
         </div>
-        <div className="range-use-plan__info-third-row">
+        <div className="range-use-plan__basic-info-third-row">
           <TextField 
             label={AGREEMENT_TYPE}
             text={'E01'}

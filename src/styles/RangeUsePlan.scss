@@ -54,20 +54,20 @@ $row-height: 80px;
     display: grid;
     grid-template-columns: 33% 33%;
     grid-template-rows: $row-height $row-height;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
-  &__info-first-row,
-  &__info-third-row {
+  &__basic-info-first-row,
+  &__basic-info-third-row {
     display: grid;
     grid-template-columns: 33% 33% 33%;
     grid-template-rows: $row-height;
   }
 
-  &__info-second-row {
+  &__basic-info-second-row {
     display: grid;
     grid-template-columns: 33% 33%;
-    grid-template-rows: $row-height;
+    grid-template-rows: $row-height 40px;
   }
 }
 
