@@ -1,5 +1,5 @@
-import authReducer from './authReducer';
-import { LOGIN_SUCCESS } from '../constants/actionTypes';
+import authReducer from '../authReducer';
+import { LOGIN_SUCCESS } from '../../constants/actionTypes';
 
 describe('authReducer', () => {
   it('login successfully', () => {

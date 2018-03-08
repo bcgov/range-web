@@ -35,6 +35,11 @@ ShallowWrapper {
                               path="/range-use-plan/:id"
                               user={undefined}
                     />
+                    <PrivateRoute
+                              component={[Function]}
+                              path="/manage-zone"
+                              user={undefined}
+                    />
                     <Route
                               exact={true}
                               path="/"
@@ -42,7 +47,6 @@ ShallowWrapper {
                     />
                     <Route
                               component={[Function]}
-                              exact={true}
                               path="*"
                     />
           </Switch>
@@ -73,6 +77,11 @@ ShallowWrapper {
                         path="/range-use-plan/:id"
                         user={undefined}
             />
+            <PrivateRoute
+                        component={[Function]}
+                        path="/manage-zone"
+                        user={undefined}
+            />
             <Route
                         exact={true}
                         path="/"
@@ -80,7 +89,6 @@ ShallowWrapper {
             />
             <Route
                         component={[Function]}
-                        exact={true}
                         path="*"
             />
 </Switch>,
@@ -107,6 +115,11 @@ ShallowWrapper {
                 path="/range-use-plan/:id"
                 user={undefined}
 />,
+              <PrivateRoute
+                component={[Function]}
+                path="/manage-zone"
+                user={undefined}
+/>,
               <Route
                 exact={true}
                 path="/"
@@ -114,7 +127,6 @@ ShallowWrapper {
 />,
               <Route
                 component={[Function]}
-                exact={true}
                 path="*"
 />,
             ],
@@ -163,6 +175,19 @@ ShallowWrapper {
             Object {
               "instance": null,
               "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "component": [Function],
+                "path": "/manage-zone",
+                "user": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
               "nodeType": "class",
               "props": Object {
                 "exact": true,
@@ -179,7 +204,6 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "component": [Function],
-                "exact": true,
                 "path": "*",
               },
               "ref": null,
@@ -227,6 +251,11 @@ ShallowWrapper {
                                     path="/range-use-plan/:id"
                                     user={undefined}
                         />
+                        <PrivateRoute
+                                    component={[Function]}
+                                    path="/manage-zone"
+                                    user={undefined}
+                        />
                         <Route
                                     exact={true}
                                     path="/"
@@ -234,7 +263,6 @@ ShallowWrapper {
                         />
                         <Route
                                     component={[Function]}
-                                    exact={true}
                                     path="*"
                         />
             </Switch>
@@ -265,6 +293,11 @@ ShallowWrapper {
                             path="/range-use-plan/:id"
                             user={undefined}
               />
+              <PrivateRoute
+                            component={[Function]}
+                            path="/manage-zone"
+                            user={undefined}
+              />
               <Route
                             exact={true}
                             path="/"
@@ -272,7 +305,6 @@ ShallowWrapper {
               />
               <Route
                             component={[Function]}
-                            exact={true}
                             path="*"
               />
 </Switch>,
@@ -299,6 +331,11 @@ ShallowWrapper {
                   path="/range-use-plan/:id"
                   user={undefined}
 />,
+                <PrivateRoute
+                  component={[Function]}
+                  path="/manage-zone"
+                  user={undefined}
+/>,
                 <Route
                   exact={true}
                   path="/"
@@ -306,7 +343,6 @@ ShallowWrapper {
 />,
                 <Route
                   component={[Function]}
-                  exact={true}
                   path="*"
 />,
               ],
@@ -355,6 +391,19 @@ ShallowWrapper {
               Object {
                 "instance": null,
                 "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "component": [Function],
+                  "path": "/manage-zone",
+                  "user": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
                 "nodeType": "class",
                 "props": Object {
                   "exact": true,
@@ -371,7 +420,6 @@ ShallowWrapper {
                 "nodeType": "class",
                 "props": Object {
                   "component": [Function],
-                  "exact": true,
                   "path": "*",
                 },
                 "ref": null,

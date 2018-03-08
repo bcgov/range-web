@@ -45,7 +45,7 @@ export class Login extends Component {
         />
 
         <div className="login__title">
-          My Range Application
+          My Range App
         </div>
 
         <div className="login__button">

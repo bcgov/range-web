@@ -34,7 +34,7 @@ ShallowWrapper {
         <div
           className="login__title"
 >
-          My Range Application
+          My Range App
 </div>,
         <div
           className="login__button"
@@ -82,11 +82,11 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "My Range Application",
+          "children": "My Range App",
           "className": "login__title",
         },
         "ref": null,
-        "rendered": "My Range Application",
+        "rendered": "My Range App",
         "type": "div",
       },
       Object {
@@ -161,7 +161,7 @@ ShallowWrapper {
           <div
             className="login__title"
 >
-            My Range Application
+            My Range App
 </div>,
           <div
             className="login__button"
@@ -209,11 +209,11 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "My Range Application",
+            "children": "My Range App",
             "className": "login__title",
           },
           "ref": null,
-          "rendered": "My Range Application",
+          "rendered": "My Range App",
           "type": "div",
         },
         Object {

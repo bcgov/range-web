@@ -32,12 +32,12 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <Unknown
-          content="This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!"
+          content="Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan."
           header="Range Use Plans"
 >
           <RangeUsePlansSearch
                     handleSearchInput={[Function]}
-                    placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+                    placeholder="Enter Search Term"
           />
 </Unknown>,
         <div
@@ -60,9 +60,9 @@ ShallowWrapper {
         "props": Object {
           "children": <RangeUsePlansSearch
             handleSearchInput={[Function]}
-            placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+            placeholder="Enter Search Term"
 />,
-          "content": "This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!",
+          "content": "Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan.",
           "header": "Range Use Plans",
         },
         "ref": null,
@@ -72,7 +72,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "handleSearchInput": [Function],
-            "placeholder": "Enter RAN#, Agreement holder's name, or staff contact",
+            "placeholder": "Enter Search Term",
           },
           "ref": null,
           "rendered": null,
@@ -117,12 +117,12 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <Unknown
-            content="This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!"
+            content="Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan."
             header="Range Use Plans"
 >
             <RangeUsePlansSearch
                         handleSearchInput={[Function]}
-                        placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+                        placeholder="Enter Search Term"
             />
 </Unknown>,
           <div
@@ -145,9 +145,9 @@ ShallowWrapper {
           "props": Object {
             "children": <RangeUsePlansSearch
               handleSearchInput={[Function]}
-              placeholder="Enter RAN#, Agreement holder's name, or staff contact"
+              placeholder="Enter Search Term"
 />,
-            "content": "This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!  This is range use plans! This is range use plans! This is range use plans!",
+            "content": "Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan.",
             "header": "Range Use Plans",
           },
           "ref": null,
@@ -157,7 +157,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "handleSearchInput": [Function],
-              "placeholder": "Enter RAN#, Agreement holder's name, or staff contact",
+              "placeholder": "Enter Search Term",
             },
             "ref": null,
             "rendered": null,

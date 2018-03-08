@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { LOGO_SRC } from '../constants/variables';
 import { logout } from '../actions/authActions';
 
 const propTypes = {
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   component: PropTypes.func.isRequired,
 }
 
@@ -28,7 +25,7 @@ export class LandingPage extends Component {
           <div className="navbar__container container">
             <div className="navbar__left">
               <img className="navbar__logo" src={LOGO_SRC} alt="Logo"/>
-              <div className="navbar__title">My Range App</div>
+              <Link to={Routes.RANGE_USE_PLANS}><div className="navbar__title">My Range App</div></Link>
             </div>
             <div className="navbar__right">
               <NavLink 
@@ -39,7 +36,7 @@ export class LandingPage extends Component {
                 Range Use Plans
               </NavLink>
               <NavLink
-                to={Routes.LOGIN}
+                to={Routes.MANAGE_ZONE}
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >

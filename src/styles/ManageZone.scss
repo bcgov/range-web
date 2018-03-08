@@ -1,0 +1,38 @@
+@import 'styles/mixins.scss';
+
+.manage-zone {
+  &__content {
+    display: flex;
+    justify-content: center;
+  }
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-top: $content-margin-top;
+  }
+
+  &__step-one,
+  &__step-two {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__update-btn {
+    margin-top: 40px;
+  }
+
+  &__dropdown {
+    width: 40%;
+  }
+
+  &__text-field {
+    display: flex;
+    align-self: stretch;
+    align-items: center;
+    border-bottom: 1px solid black;
+    width: 40%;
+    color: gray;
+  }
+}

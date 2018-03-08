@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Header, Button, Dropdown } from 'semantic-ui-react';
+import mockupPDF from './mockup.pdf';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
   AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
@@ -29,6 +30,14 @@ export class RangeUsePlan extends Component {
     this.setState({ id });
   }
 
+  onViewClicked = () => {
+    const link = document.createElement('a');
+    link.target = "_blank";
+    link.href = mockupPDF;
+    // link.download = "file.pdf";
+    link.click();
+  }
+
   render() {
     const { id } = this.state;
     const options = [
@@ -45,7 +54,13 @@ export class RangeUsePlan extends Component {
               className="range-use-plan__status" 
               status={SUBMITTED}
             />
-            <Button className="range-use-plan__btn" primary>View PDF</Button>
+            <Button 
+              onClick={this.onViewClicked}
+              className="range-use-plan__btn" 
+              primary
+            >
+              View PDF
+            </Button>
             <Dropdown 
               text='Update Status' 
               options={options} 
