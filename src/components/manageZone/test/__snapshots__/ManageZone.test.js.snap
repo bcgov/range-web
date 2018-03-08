@@ -1,0 +1,1681 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManageZone renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ManageZone />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <Unknown
+          content="Are you sure you want to update the contact?"
+          header="Confirmation: Update Contact"
+          onNoClicked={[Function]}
+          onYesClicked={[Function]}
+          open={false}
+/>,
+        <Unknown
+          content="Follow steps to assign a zone from the current staff to other staff."
+          header="Manage Zone"
+/>,
+        <div
+          className="manage-zone__content container"
+>
+          <div
+                    className="manage-zone__steps"
+          >
+                    <h3>
+                              Step 1: Pick A Zone
+                    </h3>
+                    <div
+                              className="manage-zone__step-one"
+                    >
+                              <div
+                                        className="manage-zone__dropdown"
+                              >
+                                        <Dropdown
+                                                  additionLabel="Add "
+                                                  additionPosition="top"
+                                                  closeOnBlur={true}
+                                                  deburr={false}
+                                                  fluid={true}
+                                                  icon="dropdown"
+                                                  minCharacters={1}
+                                                  noResultsMessage="No results found."
+                                                  onChange={[Function]}
+                                                  openOnFocus={true}
+                                                  options={
+                                                            Array [
+                                                                      Object {
+                                                                        "key": 1,
+                                                                        "text": "LASO",
+                                                                        "value": "LASO",
+                                                                      },
+                                                                      Object {
+                                                                        "key": 2,
+                                                                        "text": "VIC",
+                                                                        "value": "VIC",
+                                                                      },
+                                                                    ]
+                                                  }
+                                                  placeholder="Zone"
+                                                  renderLabel={[Function]}
+                                                  search={true}
+                                                  searchInput="text"
+                                                  selectOnBlur={true}
+                                                  selectOnNavigation={true}
+                                                  selection={true}
+                                        />
+                              </div>
+                              <div
+                                        className="manage-zone__text-field"
+                              >
+                                        Assigned Zone Contact
+                              </div>
+                    </div>
+                    <h3>
+                              Step 2: Change A Zone Contact
+                    </h3>
+                    <div
+                              className="manage-zone__step-two"
+                    >
+                              <div
+                                        className="manage-zone__text-field"
+                              >
+                                        Zone
+                              </div>
+                              <div
+                                        className="manage-zone__dropdown"
+                              >
+                                        <Dropdown
+                                                  additionLabel="Add "
+                                                  additionPosition="top"
+                                                  closeOnBlur={true}
+                                                  deburr={false}
+                                                  fluid={true}
+                                                  icon="dropdown"
+                                                  minCharacters={1}
+                                                  noResultsMessage="No results found."
+                                                  onChange={[Function]}
+                                                  openOnFocus={true}
+                                                  options={
+                                                            Array [
+                                                                      Object {
+                                                                        "key": 1,
+                                                                        "text": "Luke Skywalker",
+                                                                        "value": "Luke Skywalker",
+                                                                      },
+                                                                      Object {
+                                                                        "key": 2,
+                                                                        "text": "Obi-Wan Kenobi",
+                                                                        "value": "Obi-Wan Kenobi",
+                                                                      },
+                                                                      Object {
+                                                                        "key": 3,
+                                                                        "text": "Han Solo",
+                                                                        "value": "Han Solo",
+                                                                      },
+                                                                      Object {
+                                                                        "key": 4,
+                                                                        "text": "Leia Organa",
+                                                                        "value": "Leia Organa",
+                                                                      },
+                                                                    ]
+                                                  }
+                                                  placeholder="Contact"
+                                                  renderLabel={[Function]}
+                                                  search={true}
+                                                  searchInput="text"
+                                                  selectOnBlur={true}
+                                                  selectOnNavigation={true}
+                                                  selection={true}
+                                        />
+                              </div>
+                    </div>
+                    <div
+                              className="manage-zone__update-btn"
+                    >
+                              <Button
+                                        as="button"
+                                        onClick={[Function]}
+                                        primary={true}
+                              >
+                                        Update Zone
+                              </Button>
+                    </div>
+          </div>
+</div>,
+      ],
+      "className": "manage-zone",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "content": "Are you sure you want to update the contact?",
+          "header": "Confirmation: Update Contact",
+          "onNoClicked": [Function],
+          "onYesClicked": [Function],
+          "open": false,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "content": "Follow steps to assign a zone from the current staff to other staff.",
+          "header": "Manage Zone",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="manage-zone__steps"
+>
+            <h3>
+                        Step 1: Pick A Zone
+            </h3>
+            <div
+                        className="manage-zone__step-one"
+            >
+                        <div
+                                    className="manage-zone__dropdown"
+                        >
+                                    <Dropdown
+                                                additionLabel="Add "
+                                                additionPosition="top"
+                                                closeOnBlur={true}
+                                                deburr={false}
+                                                fluid={true}
+                                                icon="dropdown"
+                                                minCharacters={1}
+                                                noResultsMessage="No results found."
+                                                onChange={[Function]}
+                                                openOnFocus={true}
+                                                options={
+                                                            Array [
+                                                                        Object {
+                                                                          "key": 1,
+                                                                          "text": "LASO",
+                                                                          "value": "LASO",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 2,
+                                                                          "text": "VIC",
+                                                                          "value": "VIC",
+                                                                        },
+                                                                      ]
+                                                }
+                                                placeholder="Zone"
+                                                renderLabel={[Function]}
+                                                search={true}
+                                                searchInput="text"
+                                                selectOnBlur={true}
+                                                selectOnNavigation={true}
+                                                selection={true}
+                                    />
+                        </div>
+                        <div
+                                    className="manage-zone__text-field"
+                        >
+                                    Assigned Zone Contact
+                        </div>
+            </div>
+            <h3>
+                        Step 2: Change A Zone Contact
+            </h3>
+            <div
+                        className="manage-zone__step-two"
+            >
+                        <div
+                                    className="manage-zone__text-field"
+                        >
+                                    Zone
+                        </div>
+                        <div
+                                    className="manage-zone__dropdown"
+                        >
+                                    <Dropdown
+                                                additionLabel="Add "
+                                                additionPosition="top"
+                                                closeOnBlur={true}
+                                                deburr={false}
+                                                fluid={true}
+                                                icon="dropdown"
+                                                minCharacters={1}
+                                                noResultsMessage="No results found."
+                                                onChange={[Function]}
+                                                openOnFocus={true}
+                                                options={
+                                                            Array [
+                                                                        Object {
+                                                                          "key": 1,
+                                                                          "text": "Luke Skywalker",
+                                                                          "value": "Luke Skywalker",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 2,
+                                                                          "text": "Obi-Wan Kenobi",
+                                                                          "value": "Obi-Wan Kenobi",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 3,
+                                                                          "text": "Han Solo",
+                                                                          "value": "Han Solo",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 4,
+                                                                          "text": "Leia Organa",
+                                                                          "value": "Leia Organa",
+                                                                        },
+                                                                      ]
+                                                }
+                                                placeholder="Contact"
+                                                renderLabel={[Function]}
+                                                search={true}
+                                                searchInput="text"
+                                                selectOnBlur={true}
+                                                selectOnNavigation={true}
+                                                selection={true}
+                                    />
+                        </div>
+            </div>
+            <div
+                        className="manage-zone__update-btn"
+            >
+                        <Button
+                                    as="button"
+                                    onClick={[Function]}
+                                    primary={true}
+                        >
+                                    Update Zone
+                        </Button>
+            </div>
+</div>,
+          "className": "manage-zone__content container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <h3>
+                Step 1: Pick A Zone
+</h3>,
+              <div
+                className="manage-zone__step-one"
+>
+                <div
+                                className="manage-zone__dropdown"
+                >
+                                <Dropdown
+                                                additionLabel="Add "
+                                                additionPosition="top"
+                                                closeOnBlur={true}
+                                                deburr={false}
+                                                fluid={true}
+                                                icon="dropdown"
+                                                minCharacters={1}
+                                                noResultsMessage="No results found."
+                                                onChange={[Function]}
+                                                openOnFocus={true}
+                                                options={
+                                                                Array [
+                                                                                Object {
+                                                                                  "key": 1,
+                                                                                  "text": "LASO",
+                                                                                  "value": "LASO",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 2,
+                                                                                  "text": "VIC",
+                                                                                  "value": "VIC",
+                                                                                },
+                                                                              ]
+                                                }
+                                                placeholder="Zone"
+                                                renderLabel={[Function]}
+                                                search={true}
+                                                searchInput="text"
+                                                selectOnBlur={true}
+                                                selectOnNavigation={true}
+                                                selection={true}
+                                />
+                </div>
+                <div
+                                className="manage-zone__text-field"
+                >
+                                Assigned Zone Contact
+                </div>
+</div>,
+              <h3>
+                Step 2: Change A Zone Contact
+</h3>,
+              <div
+                className="manage-zone__step-two"
+>
+                <div
+                                className="manage-zone__text-field"
+                >
+                                Zone
+                </div>
+                <div
+                                className="manage-zone__dropdown"
+                >
+                                <Dropdown
+                                                additionLabel="Add "
+                                                additionPosition="top"
+                                                closeOnBlur={true}
+                                                deburr={false}
+                                                fluid={true}
+                                                icon="dropdown"
+                                                minCharacters={1}
+                                                noResultsMessage="No results found."
+                                                onChange={[Function]}
+                                                openOnFocus={true}
+                                                options={
+                                                                Array [
+                                                                                Object {
+                                                                                  "key": 1,
+                                                                                  "text": "Luke Skywalker",
+                                                                                  "value": "Luke Skywalker",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 2,
+                                                                                  "text": "Obi-Wan Kenobi",
+                                                                                  "value": "Obi-Wan Kenobi",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 3,
+                                                                                  "text": "Han Solo",
+                                                                                  "value": "Han Solo",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 4,
+                                                                                  "text": "Leia Organa",
+                                                                                  "value": "Leia Organa",
+                                                                                },
+                                                                              ]
+                                                }
+                                                placeholder="Contact"
+                                                renderLabel={[Function]}
+                                                search={true}
+                                                searchInput="text"
+                                                selectOnBlur={true}
+                                                selectOnNavigation={true}
+                                                selection={true}
+                                />
+                </div>
+</div>,
+              <div
+                className="manage-zone__update-btn"
+>
+                <Button
+                                as="button"
+                                onClick={[Function]}
+                                primary={true}
+                >
+                                Update Zone
+                </Button>
+</div>,
+            ],
+            "className": "manage-zone__steps",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Step 1: Pick A Zone",
+              },
+              "ref": null,
+              "rendered": "Step 1: Pick A Zone",
+              "type": "h3",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="manage-zone__dropdown"
+>
+                    <Dropdown
+                                        additionLabel="Add "
+                                        additionPosition="top"
+                                        closeOnBlur={true}
+                                        deburr={false}
+                                        fluid={true}
+                                        icon="dropdown"
+                                        minCharacters={1}
+                                        noResultsMessage="No results found."
+                                        onChange={[Function]}
+                                        openOnFocus={true}
+                                        options={
+                                                            Array [
+                                                                                Object {
+                                                                                  "key": 1,
+                                                                                  "text": "LASO",
+                                                                                  "value": "LASO",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 2,
+                                                                                  "text": "VIC",
+                                                                                  "value": "VIC",
+                                                                                },
+                                                                              ]
+                                        }
+                                        placeholder="Zone"
+                                        renderLabel={[Function]}
+                                        search={true}
+                                        searchInput="text"
+                                        selectOnBlur={true}
+                                        selectOnNavigation={true}
+                                        selection={true}
+                    />
+</div>,
+                  <div
+                    className="manage-zone__text-field"
+>
+                    Assigned Zone Contact
+</div>,
+                ],
+                "className": "manage-zone__step-one",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <Dropdown
+                      additionLabel="Add "
+                      additionPosition="top"
+                      closeOnBlur={true}
+                      deburr={false}
+                      fluid={true}
+                      icon="dropdown"
+                      minCharacters={1}
+                      noResultsMessage="No results found."
+                      onChange={[Function]}
+                      openOnFocus={true}
+                      options={
+                                            Array [
+                                                                  Object {
+                                                                    "key": 1,
+                                                                    "text": "LASO",
+                                                                    "value": "LASO",
+                                                                  },
+                                                                  Object {
+                                                                    "key": 2,
+                                                                    "text": "VIC",
+                                                                    "value": "VIC",
+                                                                  },
+                                                                ]
+                      }
+                      placeholder="Zone"
+                      renderLabel={[Function]}
+                      search={true}
+                      searchInput="text"
+                      selectOnBlur={true}
+                      selectOnNavigation={true}
+                      selection={true}
+/>,
+                    "className": "manage-zone__dropdown",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "additionLabel": "Add ",
+                      "additionPosition": "top",
+                      "closeOnBlur": true,
+                      "deburr": false,
+                      "fluid": true,
+                      "icon": "dropdown",
+                      "minCharacters": 1,
+                      "noResultsMessage": "No results found.",
+                      "onChange": [Function],
+                      "openOnFocus": true,
+                      "options": Array [
+                        Object {
+                          "key": 1,
+                          "text": "LASO",
+                          "value": "LASO",
+                        },
+                        Object {
+                          "key": 2,
+                          "text": "VIC",
+                          "value": "VIC",
+                        },
+                      ],
+                      "placeholder": "Zone",
+                      "renderLabel": [Function],
+                      "search": true,
+                      "searchInput": "text",
+                      "selectOnBlur": true,
+                      "selectOnNavigation": true,
+                      "selection": true,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Assigned Zone Contact",
+                    "className": "manage-zone__text-field",
+                  },
+                  "ref": null,
+                  "rendered": "Assigned Zone Contact",
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Step 2: Change A Zone Contact",
+              },
+              "ref": null,
+              "rendered": "Step 2: Change A Zone Contact",
+              "type": "h3",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="manage-zone__text-field"
+>
+                    Zone
+</div>,
+                  <div
+                    className="manage-zone__dropdown"
+>
+                    <Dropdown
+                                        additionLabel="Add "
+                                        additionPosition="top"
+                                        closeOnBlur={true}
+                                        deburr={false}
+                                        fluid={true}
+                                        icon="dropdown"
+                                        minCharacters={1}
+                                        noResultsMessage="No results found."
+                                        onChange={[Function]}
+                                        openOnFocus={true}
+                                        options={
+                                                            Array [
+                                                                                Object {
+                                                                                  "key": 1,
+                                                                                  "text": "Luke Skywalker",
+                                                                                  "value": "Luke Skywalker",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 2,
+                                                                                  "text": "Obi-Wan Kenobi",
+                                                                                  "value": "Obi-Wan Kenobi",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 3,
+                                                                                  "text": "Han Solo",
+                                                                                  "value": "Han Solo",
+                                                                                },
+                                                                                Object {
+                                                                                  "key": 4,
+                                                                                  "text": "Leia Organa",
+                                                                                  "value": "Leia Organa",
+                                                                                },
+                                                                              ]
+                                        }
+                                        placeholder="Contact"
+                                        renderLabel={[Function]}
+                                        search={true}
+                                        searchInput="text"
+                                        selectOnBlur={true}
+                                        selectOnNavigation={true}
+                                        selection={true}
+                    />
+</div>,
+                ],
+                "className": "manage-zone__step-two",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Zone",
+                    "className": "manage-zone__text-field",
+                  },
+                  "ref": null,
+                  "rendered": "Zone",
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <Dropdown
+                      additionLabel="Add "
+                      additionPosition="top"
+                      closeOnBlur={true}
+                      deburr={false}
+                      fluid={true}
+                      icon="dropdown"
+                      minCharacters={1}
+                      noResultsMessage="No results found."
+                      onChange={[Function]}
+                      openOnFocus={true}
+                      options={
+                                            Array [
+                                                                  Object {
+                                                                    "key": 1,
+                                                                    "text": "Luke Skywalker",
+                                                                    "value": "Luke Skywalker",
+                                                                  },
+                                                                  Object {
+                                                                    "key": 2,
+                                                                    "text": "Obi-Wan Kenobi",
+                                                                    "value": "Obi-Wan Kenobi",
+                                                                  },
+                                                                  Object {
+                                                                    "key": 3,
+                                                                    "text": "Han Solo",
+                                                                    "value": "Han Solo",
+                                                                  },
+                                                                  Object {
+                                                                    "key": 4,
+                                                                    "text": "Leia Organa",
+                                                                    "value": "Leia Organa",
+                                                                  },
+                                                                ]
+                      }
+                      placeholder="Contact"
+                      renderLabel={[Function]}
+                      search={true}
+                      searchInput="text"
+                      selectOnBlur={true}
+                      selectOnNavigation={true}
+                      selection={true}
+/>,
+                    "className": "manage-zone__dropdown",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "additionLabel": "Add ",
+                      "additionPosition": "top",
+                      "closeOnBlur": true,
+                      "deburr": false,
+                      "fluid": true,
+                      "icon": "dropdown",
+                      "minCharacters": 1,
+                      "noResultsMessage": "No results found.",
+                      "onChange": [Function],
+                      "openOnFocus": true,
+                      "options": Array [
+                        Object {
+                          "key": 1,
+                          "text": "Luke Skywalker",
+                          "value": "Luke Skywalker",
+                        },
+                        Object {
+                          "key": 2,
+                          "text": "Obi-Wan Kenobi",
+                          "value": "Obi-Wan Kenobi",
+                        },
+                        Object {
+                          "key": 3,
+                          "text": "Han Solo",
+                          "value": "Han Solo",
+                        },
+                        Object {
+                          "key": 4,
+                          "text": "Leia Organa",
+                          "value": "Leia Organa",
+                        },
+                      ],
+                      "placeholder": "Contact",
+                      "renderLabel": [Function],
+                      "search": true,
+                      "searchInput": "text",
+                      "selectOnBlur": true,
+                      "selectOnNavigation": true,
+                      "selection": true,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <Button
+                  as="button"
+                  onClick={[Function]}
+                  primary={true}
+>
+                  Update Zone
+</Button>,
+                "className": "manage-zone__update-btn",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": "Update Zone",
+                  "onClick": [Function],
+                  "primary": true,
+                },
+                "ref": null,
+                "rendered": "Update Zone",
+                "type": [Function],
+              },
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <Unknown
+            content="Are you sure you want to update the contact?"
+            header="Confirmation: Update Contact"
+            onNoClicked={[Function]}
+            onYesClicked={[Function]}
+            open={false}
+/>,
+          <Unknown
+            content="Follow steps to assign a zone from the current staff to other staff."
+            header="Manage Zone"
+/>,
+          <div
+            className="manage-zone__content container"
+>
+            <div
+                        className="manage-zone__steps"
+            >
+                        <h3>
+                                    Step 1: Pick A Zone
+                        </h3>
+                        <div
+                                    className="manage-zone__step-one"
+                        >
+                                    <div
+                                                className="manage-zone__dropdown"
+                                    >
+                                                <Dropdown
+                                                            additionLabel="Add "
+                                                            additionPosition="top"
+                                                            closeOnBlur={true}
+                                                            deburr={false}
+                                                            fluid={true}
+                                                            icon="dropdown"
+                                                            minCharacters={1}
+                                                            noResultsMessage="No results found."
+                                                            onChange={[Function]}
+                                                            openOnFocus={true}
+                                                            options={
+                                                                        Array [
+                                                                                    Object {
+                                                                                      "key": 1,
+                                                                                      "text": "LASO",
+                                                                                      "value": "LASO",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 2,
+                                                                                      "text": "VIC",
+                                                                                      "value": "VIC",
+                                                                                    },
+                                                                                  ]
+                                                            }
+                                                            placeholder="Zone"
+                                                            renderLabel={[Function]}
+                                                            search={true}
+                                                            searchInput="text"
+                                                            selectOnBlur={true}
+                                                            selectOnNavigation={true}
+                                                            selection={true}
+                                                />
+                                    </div>
+                                    <div
+                                                className="manage-zone__text-field"
+                                    >
+                                                Assigned Zone Contact
+                                    </div>
+                        </div>
+                        <h3>
+                                    Step 2: Change A Zone Contact
+                        </h3>
+                        <div
+                                    className="manage-zone__step-two"
+                        >
+                                    <div
+                                                className="manage-zone__text-field"
+                                    >
+                                                Zone
+                                    </div>
+                                    <div
+                                                className="manage-zone__dropdown"
+                                    >
+                                                <Dropdown
+                                                            additionLabel="Add "
+                                                            additionPosition="top"
+                                                            closeOnBlur={true}
+                                                            deburr={false}
+                                                            fluid={true}
+                                                            icon="dropdown"
+                                                            minCharacters={1}
+                                                            noResultsMessage="No results found."
+                                                            onChange={[Function]}
+                                                            openOnFocus={true}
+                                                            options={
+                                                                        Array [
+                                                                                    Object {
+                                                                                      "key": 1,
+                                                                                      "text": "Luke Skywalker",
+                                                                                      "value": "Luke Skywalker",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 2,
+                                                                                      "text": "Obi-Wan Kenobi",
+                                                                                      "value": "Obi-Wan Kenobi",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 3,
+                                                                                      "text": "Han Solo",
+                                                                                      "value": "Han Solo",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 4,
+                                                                                      "text": "Leia Organa",
+                                                                                      "value": "Leia Organa",
+                                                                                    },
+                                                                                  ]
+                                                            }
+                                                            placeholder="Contact"
+                                                            renderLabel={[Function]}
+                                                            search={true}
+                                                            searchInput="text"
+                                                            selectOnBlur={true}
+                                                            selectOnNavigation={true}
+                                                            selection={true}
+                                                />
+                                    </div>
+                        </div>
+                        <div
+                                    className="manage-zone__update-btn"
+                        >
+                                    <Button
+                                                as="button"
+                                                onClick={[Function]}
+                                                primary={true}
+                                    >
+                                                Update Zone
+                                    </Button>
+                        </div>
+            </div>
+</div>,
+        ],
+        "className": "manage-zone",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "content": "Are you sure you want to update the contact?",
+            "header": "Confirmation: Update Contact",
+            "onNoClicked": [Function],
+            "onYesClicked": [Function],
+            "open": false,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "content": "Follow steps to assign a zone from the current staff to other staff.",
+            "header": "Manage Zone",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="manage-zone__steps"
+>
+              <h3>
+                            Step 1: Pick A Zone
+              </h3>
+              <div
+                            className="manage-zone__step-one"
+              >
+                            <div
+                                          className="manage-zone__dropdown"
+                            >
+                                          <Dropdown
+                                                        additionLabel="Add "
+                                                        additionPosition="top"
+                                                        closeOnBlur={true}
+                                                        deburr={false}
+                                                        fluid={true}
+                                                        icon="dropdown"
+                                                        minCharacters={1}
+                                                        noResultsMessage="No results found."
+                                                        onChange={[Function]}
+                                                        openOnFocus={true}
+                                                        options={
+                                                                      Array [
+                                                                                    Object {
+                                                                                      "key": 1,
+                                                                                      "text": "LASO",
+                                                                                      "value": "LASO",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 2,
+                                                                                      "text": "VIC",
+                                                                                      "value": "VIC",
+                                                                                    },
+                                                                                  ]
+                                                        }
+                                                        placeholder="Zone"
+                                                        renderLabel={[Function]}
+                                                        search={true}
+                                                        searchInput="text"
+                                                        selectOnBlur={true}
+                                                        selectOnNavigation={true}
+                                                        selection={true}
+                                          />
+                            </div>
+                            <div
+                                          className="manage-zone__text-field"
+                            >
+                                          Assigned Zone Contact
+                            </div>
+              </div>
+              <h3>
+                            Step 2: Change A Zone Contact
+              </h3>
+              <div
+                            className="manage-zone__step-two"
+              >
+                            <div
+                                          className="manage-zone__text-field"
+                            >
+                                          Zone
+                            </div>
+                            <div
+                                          className="manage-zone__dropdown"
+                            >
+                                          <Dropdown
+                                                        additionLabel="Add "
+                                                        additionPosition="top"
+                                                        closeOnBlur={true}
+                                                        deburr={false}
+                                                        fluid={true}
+                                                        icon="dropdown"
+                                                        minCharacters={1}
+                                                        noResultsMessage="No results found."
+                                                        onChange={[Function]}
+                                                        openOnFocus={true}
+                                                        options={
+                                                                      Array [
+                                                                                    Object {
+                                                                                      "key": 1,
+                                                                                      "text": "Luke Skywalker",
+                                                                                      "value": "Luke Skywalker",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 2,
+                                                                                      "text": "Obi-Wan Kenobi",
+                                                                                      "value": "Obi-Wan Kenobi",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 3,
+                                                                                      "text": "Han Solo",
+                                                                                      "value": "Han Solo",
+                                                                                    },
+                                                                                    Object {
+                                                                                      "key": 4,
+                                                                                      "text": "Leia Organa",
+                                                                                      "value": "Leia Organa",
+                                                                                    },
+                                                                                  ]
+                                                        }
+                                                        placeholder="Contact"
+                                                        renderLabel={[Function]}
+                                                        search={true}
+                                                        searchInput="text"
+                                                        selectOnBlur={true}
+                                                        selectOnNavigation={true}
+                                                        selection={true}
+                                          />
+                            </div>
+              </div>
+              <div
+                            className="manage-zone__update-btn"
+              >
+                            <Button
+                                          as="button"
+                                          onClick={[Function]}
+                                          primary={true}
+                            >
+                                          Update Zone
+                            </Button>
+              </div>
+</div>,
+            "className": "manage-zone__content container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <h3>
+                  Step 1: Pick A Zone
+</h3>,
+                <div
+                  className="manage-zone__step-one"
+>
+                  <div
+                                    className="manage-zone__dropdown"
+                  >
+                                    <Dropdown
+                                                      additionLabel="Add "
+                                                      additionPosition="top"
+                                                      closeOnBlur={true}
+                                                      deburr={false}
+                                                      fluid={true}
+                                                      icon="dropdown"
+                                                      minCharacters={1}
+                                                      noResultsMessage="No results found."
+                                                      onChange={[Function]}
+                                                      openOnFocus={true}
+                                                      options={
+                                                                        Array [
+                                                                                          Object {
+                                                                                            "key": 1,
+                                                                                            "text": "LASO",
+                                                                                            "value": "LASO",
+                                                                                          },
+                                                                                          Object {
+                                                                                            "key": 2,
+                                                                                            "text": "VIC",
+                                                                                            "value": "VIC",
+                                                                                          },
+                                                                                        ]
+                                                      }
+                                                      placeholder="Zone"
+                                                      renderLabel={[Function]}
+                                                      search={true}
+                                                      searchInput="text"
+                                                      selectOnBlur={true}
+                                                      selectOnNavigation={true}
+                                                      selection={true}
+                                    />
+                  </div>
+                  <div
+                                    className="manage-zone__text-field"
+                  >
+                                    Assigned Zone Contact
+                  </div>
+</div>,
+                <h3>
+                  Step 2: Change A Zone Contact
+</h3>,
+                <div
+                  className="manage-zone__step-two"
+>
+                  <div
+                                    className="manage-zone__text-field"
+                  >
+                                    Zone
+                  </div>
+                  <div
+                                    className="manage-zone__dropdown"
+                  >
+                                    <Dropdown
+                                                      additionLabel="Add "
+                                                      additionPosition="top"
+                                                      closeOnBlur={true}
+                                                      deburr={false}
+                                                      fluid={true}
+                                                      icon="dropdown"
+                                                      minCharacters={1}
+                                                      noResultsMessage="No results found."
+                                                      onChange={[Function]}
+                                                      openOnFocus={true}
+                                                      options={
+                                                                        Array [
+                                                                                          Object {
+                                                                                            "key": 1,
+                                                                                            "text": "Luke Skywalker",
+                                                                                            "value": "Luke Skywalker",
+                                                                                          },
+                                                                                          Object {
+                                                                                            "key": 2,
+                                                                                            "text": "Obi-Wan Kenobi",
+                                                                                            "value": "Obi-Wan Kenobi",
+                                                                                          },
+                                                                                          Object {
+                                                                                            "key": 3,
+                                                                                            "text": "Han Solo",
+                                                                                            "value": "Han Solo",
+                                                                                          },
+                                                                                          Object {
+                                                                                            "key": 4,
+                                                                                            "text": "Leia Organa",
+                                                                                            "value": "Leia Organa",
+                                                                                          },
+                                                                                        ]
+                                                      }
+                                                      placeholder="Contact"
+                                                      renderLabel={[Function]}
+                                                      search={true}
+                                                      searchInput="text"
+                                                      selectOnBlur={true}
+                                                      selectOnNavigation={true}
+                                                      selection={true}
+                                    />
+                  </div>
+</div>,
+                <div
+                  className="manage-zone__update-btn"
+>
+                  <Button
+                                    as="button"
+                                    onClick={[Function]}
+                                    primary={true}
+                  >
+                                    Update Zone
+                  </Button>
+</div>,
+              ],
+              "className": "manage-zone__steps",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Step 1: Pick A Zone",
+                },
+                "ref": null,
+                "rendered": "Step 1: Pick A Zone",
+                "type": "h3",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <div
+                      className="manage-zone__dropdown"
+>
+                      <Dropdown
+                                            additionLabel="Add "
+                                            additionPosition="top"
+                                            closeOnBlur={true}
+                                            deburr={false}
+                                            fluid={true}
+                                            icon="dropdown"
+                                            minCharacters={1}
+                                            noResultsMessage="No results found."
+                                            onChange={[Function]}
+                                            openOnFocus={true}
+                                            options={
+                                                                  Array [
+                                                                                        Object {
+                                                                                          "key": 1,
+                                                                                          "text": "LASO",
+                                                                                          "value": "LASO",
+                                                                                        },
+                                                                                        Object {
+                                                                                          "key": 2,
+                                                                                          "text": "VIC",
+                                                                                          "value": "VIC",
+                                                                                        },
+                                                                                      ]
+                                            }
+                                            placeholder="Zone"
+                                            renderLabel={[Function]}
+                                            search={true}
+                                            searchInput="text"
+                                            selectOnBlur={true}
+                                            selectOnNavigation={true}
+                                            selection={true}
+                      />
+</div>,
+                    <div
+                      className="manage-zone__text-field"
+>
+                      Assigned Zone Contact
+</div>,
+                  ],
+                  "className": "manage-zone__step-one",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <Dropdown
+                        additionLabel="Add "
+                        additionPosition="top"
+                        closeOnBlur={true}
+                        deburr={false}
+                        fluid={true}
+                        icon="dropdown"
+                        minCharacters={1}
+                        noResultsMessage="No results found."
+                        onChange={[Function]}
+                        openOnFocus={true}
+                        options={
+                                                Array [
+                                                                        Object {
+                                                                          "key": 1,
+                                                                          "text": "LASO",
+                                                                          "value": "LASO",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 2,
+                                                                          "text": "VIC",
+                                                                          "value": "VIC",
+                                                                        },
+                                                                      ]
+                        }
+                        placeholder="Zone"
+                        renderLabel={[Function]}
+                        search={true}
+                        searchInput="text"
+                        selectOnBlur={true}
+                        selectOnNavigation={true}
+                        selection={true}
+/>,
+                      "className": "manage-zone__dropdown",
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "additionLabel": "Add ",
+                        "additionPosition": "top",
+                        "closeOnBlur": true,
+                        "deburr": false,
+                        "fluid": true,
+                        "icon": "dropdown",
+                        "minCharacters": 1,
+                        "noResultsMessage": "No results found.",
+                        "onChange": [Function],
+                        "openOnFocus": true,
+                        "options": Array [
+                          Object {
+                            "key": 1,
+                            "text": "LASO",
+                            "value": "LASO",
+                          },
+                          Object {
+                            "key": 2,
+                            "text": "VIC",
+                            "value": "VIC",
+                          },
+                        ],
+                        "placeholder": "Zone",
+                        "renderLabel": [Function],
+                        "search": true,
+                        "searchInput": "text",
+                        "selectOnBlur": true,
+                        "selectOnNavigation": true,
+                        "selection": true,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Assigned Zone Contact",
+                      "className": "manage-zone__text-field",
+                    },
+                    "ref": null,
+                    "rendered": "Assigned Zone Contact",
+                    "type": "div",
+                  },
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Step 2: Change A Zone Contact",
+                },
+                "ref": null,
+                "rendered": "Step 2: Change A Zone Contact",
+                "type": "h3",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <div
+                      className="manage-zone__text-field"
+>
+                      Zone
+</div>,
+                    <div
+                      className="manage-zone__dropdown"
+>
+                      <Dropdown
+                                            additionLabel="Add "
+                                            additionPosition="top"
+                                            closeOnBlur={true}
+                                            deburr={false}
+                                            fluid={true}
+                                            icon="dropdown"
+                                            minCharacters={1}
+                                            noResultsMessage="No results found."
+                                            onChange={[Function]}
+                                            openOnFocus={true}
+                                            options={
+                                                                  Array [
+                                                                                        Object {
+                                                                                          "key": 1,
+                                                                                          "text": "Luke Skywalker",
+                                                                                          "value": "Luke Skywalker",
+                                                                                        },
+                                                                                        Object {
+                                                                                          "key": 2,
+                                                                                          "text": "Obi-Wan Kenobi",
+                                                                                          "value": "Obi-Wan Kenobi",
+                                                                                        },
+                                                                                        Object {
+                                                                                          "key": 3,
+                                                                                          "text": "Han Solo",
+                                                                                          "value": "Han Solo",
+                                                                                        },
+                                                                                        Object {
+                                                                                          "key": 4,
+                                                                                          "text": "Leia Organa",
+                                                                                          "value": "Leia Organa",
+                                                                                        },
+                                                                                      ]
+                                            }
+                                            placeholder="Contact"
+                                            renderLabel={[Function]}
+                                            search={true}
+                                            searchInput="text"
+                                            selectOnBlur={true}
+                                            selectOnNavigation={true}
+                                            selection={true}
+                      />
+</div>,
+                  ],
+                  "className": "manage-zone__step-two",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Zone",
+                      "className": "manage-zone__text-field",
+                    },
+                    "ref": null,
+                    "rendered": "Zone",
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <Dropdown
+                        additionLabel="Add "
+                        additionPosition="top"
+                        closeOnBlur={true}
+                        deburr={false}
+                        fluid={true}
+                        icon="dropdown"
+                        minCharacters={1}
+                        noResultsMessage="No results found."
+                        onChange={[Function]}
+                        openOnFocus={true}
+                        options={
+                                                Array [
+                                                                        Object {
+                                                                          "key": 1,
+                                                                          "text": "Luke Skywalker",
+                                                                          "value": "Luke Skywalker",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 2,
+                                                                          "text": "Obi-Wan Kenobi",
+                                                                          "value": "Obi-Wan Kenobi",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 3,
+                                                                          "text": "Han Solo",
+                                                                          "value": "Han Solo",
+                                                                        },
+                                                                        Object {
+                                                                          "key": 4,
+                                                                          "text": "Leia Organa",
+                                                                          "value": "Leia Organa",
+                                                                        },
+                                                                      ]
+                        }
+                        placeholder="Contact"
+                        renderLabel={[Function]}
+                        search={true}
+                        searchInput="text"
+                        selectOnBlur={true}
+                        selectOnNavigation={true}
+                        selection={true}
+/>,
+                      "className": "manage-zone__dropdown",
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "additionLabel": "Add ",
+                        "additionPosition": "top",
+                        "closeOnBlur": true,
+                        "deburr": false,
+                        "fluid": true,
+                        "icon": "dropdown",
+                        "minCharacters": 1,
+                        "noResultsMessage": "No results found.",
+                        "onChange": [Function],
+                        "openOnFocus": true,
+                        "options": Array [
+                          Object {
+                            "key": 1,
+                            "text": "Luke Skywalker",
+                            "value": "Luke Skywalker",
+                          },
+                          Object {
+                            "key": 2,
+                            "text": "Obi-Wan Kenobi",
+                            "value": "Obi-Wan Kenobi",
+                          },
+                          Object {
+                            "key": 3,
+                            "text": "Han Solo",
+                            "value": "Han Solo",
+                          },
+                          Object {
+                            "key": 4,
+                            "text": "Leia Organa",
+                            "value": "Leia Organa",
+                          },
+                        ],
+                        "placeholder": "Contact",
+                        "renderLabel": [Function],
+                        "search": true,
+                        "searchInput": "text",
+                        "selectOnBlur": true,
+                        "selectOnNavigation": true,
+                        "selection": true,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": "div",
+                  },
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <Button
+                    as="button"
+                    onClick={[Function]}
+                    primary={true}
+>
+                    Update Zone
+</Button>,
+                  "className": "manage-zone__update-btn",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "children": "Update Zone",
+                    "onClick": [Function],
+                    "primary": true,
+                  },
+                  "ref": null,
+                  "rendered": "Update Zone",
+                  "type": [Function],
+                },
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
