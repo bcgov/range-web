@@ -1,8 +1,5 @@
 # About My Range Application (MyRA) for Web
 
-<<<<<<< HEAD
-The Range project will move important crown land management documents from paper to digital, and make them accessible in the field through disconnected mobile devices. The web application will help ranchers and range staff to manage tenure agreements and get overview of the land usage.
-=======
 The Range Mobile Pathfinder project is developing a suite of applications to support the sustainable management of cattle range on crown lands in British Columbia. [Learn more about the Range Program](https://www.for.gov.bc.ca/hra/)
 
 The goal is to move important crown land management documents from paper to digital, and to make this information accessible in the field through disconnected mobile devices. This also supports a new and consistent process for Range staff across the province to support decision making processes.
@@ -20,7 +17,6 @@ For the Alpha Release, the **web application** documented here will allow Range 
 - [MyRa API Github Repository](https://github.com/bcgov/range-api)
 - [Our current Sprint Backlog is visible on Trello](https://trello.com/b/YxiYOPGU)
 - [See the database Schema on Schema-Spy](http://schema-spy-range-myra-dev.pathfinder.gov.bc.ca/)
->>>>>>> 86f0b787f2aa1b12e696533c3b320237ec7248ab
 
 ## Folder Structure
 ```
@@ -66,7 +62,6 @@ The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
 ### `npm test:watch`
-****
 Launches the test runner in the interactive watch mode.<br>
 
 ### `npm test -- --coverage`
