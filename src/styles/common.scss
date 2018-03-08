@@ -82,3 +82,9 @@
     justify-content: flex-end;
   }
 }
+
+.confirmation-modal {
+  &__content {
+    font-size: 1.25rem;
+  }
+}

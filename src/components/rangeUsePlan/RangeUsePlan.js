@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown } from 'semantic-ui-react';
+import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
@@ -9,7 +9,7 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
 } from '../../constants/strings';
 import { SUBMITTED } from '../../constants/variables';
-import { TextField, Status } from '../common';
+import { TextField, Status, ConfirmationModal } from '../common';
 // import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
@@ -23,6 +23,8 @@ const defaultProps = {
 export class RangeUsePlan extends Component {
   state = {
     id: null,
+    isCompletedModalOpen: false,
+    isPendingModalOpen: false,
   }
   
   componentDidMount() {
@@ -38,15 +40,47 @@ export class RangeUsePlan extends Component {
     link.click();
   }
 
+  openCompletedConfirmModal = () => {
+    this.setState({ isCompletedModalOpen: true });
+  }
+
+  closeCompletedConfirmModal = () => {
+    this.setState({ isCompletedModalOpen: false });
+  }
+
+  openPendingConfirmModal = () => {
+    this.setState({ isPendingModalOpen: true });
+  }
+  
+  closePendingConfirmModal = () => {
+    this.setState({ isPendingModalOpen: false });
+  }
+
   render() {
-    const { id } = this.state;
+    const { id, isCompletedModalOpen, isPendingModalOpen } = this.state;
     const options = [
-      { key: 1, text: 'Completed', value: 1, onClick: () => {console.log('com')} },
-      { key: 2, text: 'Pending', value: 2, onClick: () => {console.log('pending')} },
+      { key: 1, text: 'Completed', value: 1, onClick: this.openCompletedConfirmModal },
+      { key: 2, text: 'Pending', value: 2, onClick: this.openPendingConfirmModal },
     ];
 
     return (
       <div className="range-use-plan container">
+        <ConfirmationModal
+          open={isCompletedModalOpen}
+          header="Confirmation: Completed"
+          content="Are you sure this range use plan is completed?"
+          onNoClicked={this.closeCompletedConfirmModal}
+          onYesClicked={this.closeCompletedConfirmModal}
+        />
+
+        <ConfirmationModal 
+          open={isPendingModalOpen}
+          header="Confirmation: Pending"
+          content="Are you sure this range use plan is not completed?"
+          onNoClicked={this.closePendingConfirmModal}
+          onYesClicked={this.closePendingConfirmModal}
+        />
+
         <div className="range-use-plan__header">
           <Header as="h1">{id}</Header>
           <div className="range-use-plan__header__actions">
@@ -72,7 +106,7 @@ export class RangeUsePlan extends Component {
 
         <Header as='h2'>Basic Information</Header>
 
-        <div className="range-use-plan__basic-info">
+        <div className="range-use-plan__basic-info-first-row">
           <TextField 
             label={RANGE_NUMBER}
             text={id}
@@ -85,41 +119,8 @@ export class RangeUsePlan extends Component {
             label={AGREEMENT_END}
             text={'Sep 13, 2019'}
           />
-          <TextField 
-            label={AGREEMENT_TYPE}
-            text={'E01'}
-          />
-          <TextField 
-            label={PLAN_START}
-            text={'Jan 14, 2018'}
-          />
-          <TextField 
-            label={PLAN_END}
-            text={'Dec 14, 2018'}
-          />
-          <TextField 
-            label={DISTRICT}
-            text={'DND'}
-          />
-          <TextField 
-            label={ZONE}
-            text={'LASO'}
-          />
         </div>
-
-        <div className="range-use-plan__divider" />
-        <Header as='h4'>Agreement Information</Header>
-
-        <div className="range-use-plan__agreement-info">
-          <TextField 
-            label={RANGE_NAME}
-            text={'Star Range'}
-          />
-          <TextField 
-            label={ALTERNATIVE_BUSINESS_NAME}
-            text={'Star Range Alternative'}
-          />
-
+        <div className="range-use-plan__basic-info-second-row">
           <TextField 
             label={AGREEMENT_HOLDERS}
             text={'Obiwan Kenobi'}
@@ -140,6 +141,40 @@ export class RangeUsePlan extends Component {
             label={TYPE}
             text={'Others'}
             isLabelHidden={true}
+          />
+        </div>
+        <div className="range-use-plan__basic-info-third-row">
+          <TextField 
+            label={AGREEMENT_TYPE}
+            text={'E01'}
+          />
+          <TextField 
+            label={DISTRICT}
+            text={'DND'}
+          />
+          <TextField 
+            label={ZONE}
+            text={'LASO'}
+          />
+        </div>
+          
+          
+        <div className="range-use-plan__agreement-info">
+          <TextField 
+            label={RANGE_NAME}
+            text={'Star Range'}
+          />
+          <TextField 
+            label={ALTERNATIVE_BUSINESS_NAME}
+            text={'Star Range Alternative'}
+          />
+          <TextField 
+            label={PLAN_START}
+            text={'Jan 14, 2018'}
+          />
+          <TextField 
+            label={PLAN_END}
+            text={'Dec 14, 2018'}
           />
         </div>
 
