@@ -1,9 +1,26 @@
+import groovy.json.JsonOutput
+
 def APP_NAME = 'range-myra-web'
 def BUILD_CONFIG = APP_NAME
 def IMAGESTREAM_NAME = APP_NAME
-def TAG_NAMES = ['dev', 'test']
+def TAG_NAMES = ['dev', 'test', 'prod']
 def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
 def NODE_URI = 'https://nodejs.org/dist/v9.7.0/node-v9.7.0-linux-x64.tar.xz'
+def PIRATE_ICO = 'http://icons.iconarchive.com/icons/aha-soft/torrent/64/pirate-icon.png'
+def JENKINS_ICO = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+def OPENSHIFT_ICO = 'https://commons.wikimedia.org/wiki/File:OpenShift-LogoType.svg'
+
+def notifySlack(text, channel, url, attachments, icon) {
+    def slackURL = url
+    def jenkinsIcon = icon
+    def payload = JsonOutput.toJson([text: text,
+        channel: channel,
+        username: "Jenkins",
+        icon_url: jenkinsIcon,
+        attachments: attachments
+    ])
+    sh "curl -s -S -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
+}
 
 node {
   stage('Checkout') {
@@ -36,10 +53,21 @@ node {
 
   stage('Test') {
     echo "Testing: ${BUILD_ID}"
-    // Run a security check on our packages
-    // sh "${CMD_PREFIX} npm run test:security"
     // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm test"
+    try {
+      // Run our unit tests et al.
+      sh "${CMD_PREFIX} npm test"
+    } catch (error) {
+      def attachment = [:]
+      attachment.fallback = 'See build log for more details'
+      attachment.title = 'Unit Testing Failed'
+      attachment.color = '#CD0000' // Red
+      attachment.text = 'Their are issues with the unit tests.'
+      // attachment.title_link = "${env.BUILD_URL}"
+
+      notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+      sh "exit 1001"
+    }
   }
 
   stage('Build Image') {
@@ -53,5 +81,13 @@ node {
       script: """oc get istag ${IMAGESTREAM_NAME}:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
       returnStdout: true).trim()
     echo ">> IMAGE_HASH: ${IMAGE_HASH}"
+
+    openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[0], srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
+
+    try {
+      notifySlack("${APP_NAME}, Build #${BUILD_ID}, OK>", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], JENKINS_ICO)
+    } catch (error) {
+      echo "Unable send update to slack, error = ${error}"
+    }
   }
 }
