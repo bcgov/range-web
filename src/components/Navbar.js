@@ -9,7 +9,7 @@ const propTypes = {
   onLogout: PropTypes.func.isRequired,
 };
 
-class Navbar extends Component {
+export class Navbar extends Component {
   render() {
     const { onLogout } = this.props;
 
