@@ -32,7 +32,7 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <Unknown
-          content="Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan."
+          content="View detail of each range use plan. Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan."
           header="Range Use Plans"
 >
           <RangeUsePlansSearch
@@ -62,7 +62,7 @@ ShallowWrapper {
             handleSearchInput={[Function]}
             placeholder="Enter Search Term"
 />,
-          "content": "Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan.",
+          "content": "View detail of each range use plan. Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan.",
           "header": "Range Use Plans",
         },
         "ref": null,
@@ -117,7 +117,7 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <Unknown
-            content="Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan."
+            content="View detail of each range use plan. Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan."
             header="Range Use Plans"
 >
             <RangeUsePlansSearch
@@ -147,7 +147,7 @@ ShallowWrapper {
               handleSearchInput={[Function]}
               placeholder="Enter Search Term"
 />,
-            "content": "Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan.",
+            "content": "View detail of each range use plan. Enter RAN number, Agreement holder's name,  or staff contact in the search box to search for a specific range use plan.",
             "header": "Range Use Plans",
           },
           "ref": null,

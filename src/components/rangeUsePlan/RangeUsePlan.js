@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown } from 'semantic-ui-react';
+import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
@@ -9,7 +9,7 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
 } from '../../constants/strings';
 import { SUBMITTED } from '../../constants/variables';
-import { TextField, Status } from '../common';
+import { TextField, Status, ConfirmationModal } from '../common';
 // import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
@@ -23,6 +23,8 @@ const defaultProps = {
 export class RangeUsePlan extends Component {
   state = {
     id: null,
+    isCompletedModalOpen: false,
+    isPendingModalOpen: false,
   }
   
   componentDidMount() {
@@ -38,15 +40,47 @@ export class RangeUsePlan extends Component {
     link.click();
   }
 
+  openCompletedConfirmModal = () => {
+    this.setState({ isCompletedModalOpen: true });
+  }
+
+  closeCompletedConfirmModal = () => {
+    this.setState({ isCompletedModalOpen: false });
+  }
+
+  openPendingConfirmModal = () => {
+    this.setState({ isPendingModalOpen: true });
+  }
+  
+  closePendingConfirmModal = () => {
+    this.setState({ isPendingModalOpen: false });
+  }
+
   render() {
-    const { id } = this.state;
+    const { id, isCompletedModalOpen, isPendingModalOpen } = this.state;
     const options = [
-      { key: 1, text: 'Completed', value: 1, onClick: () => {console.log('com')} },
-      { key: 2, text: 'Pending', value: 2, onClick: () => {console.log('pending')} },
+      { key: 1, text: 'Completed', value: 1, onClick: this.openCompletedConfirmModal },
+      { key: 2, text: 'Pending', value: 2, onClick: this.openPendingConfirmModal },
     ];
 
     return (
       <div className="range-use-plan container">
+        <ConfirmationModal
+          open={isCompletedModalOpen}
+          header="Confirmation: Completed"
+          content="Are you sure this range use plan is completed?"
+          onNoClicked={this.closeCompletedConfirmModal}
+          onYesClicked={this.closeCompletedConfirmModal}
+        />
+
+        <ConfirmationModal 
+          open={isPendingModalOpen}
+          header="Confirmation: Pending"
+          content="Are you sure this range use plan is not completed?"
+          onNoClicked={this.closePendingConfirmModal}
+          onYesClicked={this.closePendingConfirmModal}
+        />
+
         <div className="range-use-plan__header">
           <Header as="h1">{id}</Header>
           <div className="range-use-plan__header__actions">
