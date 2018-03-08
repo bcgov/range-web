@@ -1,5 +1,9 @@
 @import 'styles/mixins.scss';
 
+$field-width: 35%;
+$field-min-width: 160px;
+$content-max-width: 600px;
+
 .manage-zone {
   &__content {
     display: flex;
@@ -8,7 +12,8 @@
   &__steps {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 80%;
+    max-width: $content-max-width;
     margin-top: $content-margin-top;
   }
 
@@ -24,7 +29,8 @@
   }
 
   &__dropdown {
-    width: 40%;
+    min-width: $field-min-width;
+    width: $field-width;
   }
 
   &__text-field {
@@ -32,7 +38,8 @@
     align-self: stretch;
     align-items: center;
     border-bottom: 1px solid black;
-    width: 40%;
     color: gray;
+    min-width: $field-min-width;
+    width: $field-width;
   }
 }
