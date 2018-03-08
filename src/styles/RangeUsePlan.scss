@@ -31,6 +31,10 @@ $row-height: 80px;
     }
   }
 
+  &__pdf-link {
+    display: none
+  }
+
   &__btn {
     margin-right: 15px !important;
   }

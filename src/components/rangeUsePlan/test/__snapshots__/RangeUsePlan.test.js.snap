@@ -1,0 +1,1467 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RangeUsePlan renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <RangeUsePlan
+    match={
+        Object {
+            "params": Object {
+              "id": "mockId",
+            },
+          }
+    }
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <a
+          className="range-use-plan__pdf-link"
+          href="mockup.pdf"
+          target="_black"
+>
+          pdf link
+</a>,
+        <Unknown
+          content="Are you sure this range use plan is completed?"
+          header="Confirmation: Completed"
+          onNoClicked={[Function]}
+          onYesClicked={[Function]}
+          open={false}
+/>,
+        <Unknown
+          content="Are you sure this range use plan is not completed?"
+          header="Confirmation: Pending"
+          onNoClicked={[Function]}
+          onYesClicked={[Function]}
+          open={false}
+/>,
+        <div
+          className="range-use-plan__header"
+>
+          <Header
+                    as="h1"
+          >
+                    mockId
+          </Header>
+          <div
+                    className="range-use-plan__header__actions"
+          >
+                    <Unknown
+                              className="range-use-plan__status"
+                              status="Submitted"
+                    />
+                    <Button
+                              as="button"
+                              className="range-use-plan__btn"
+                              onClick={[Function]}
+                              primary={true}
+                    >
+                              View PDF
+                    </Button>
+                    <Dropdown
+                              additionLabel="Add "
+                              additionPosition="top"
+                              button={true}
+                              closeOnBlur={true}
+                              deburr={false}
+                              icon="dropdown"
+                              item={true}
+                              minCharacters={1}
+                              noResultsMessage="No results found."
+                              openOnFocus={true}
+                              options={
+                                        Array [
+                                                  Object {
+                                                    "key": 1,
+                                                    "onClick": [Function],
+                                                    "text": "Completed",
+                                                    "value": 1,
+                                                  },
+                                                  Object {
+                                                    "key": 2,
+                                                    "onClick": [Function],
+                                                    "text": "Pending",
+                                                    "value": 2,
+                                                  },
+                                                ]
+                              }
+                              renderLabel={[Function]}
+                              searchInput="text"
+                              selectOnBlur={true}
+                              selectOnNavigation={true}
+                              text="Update Status"
+                    />
+          </div>
+</div>,
+        <Header
+          as="h2"
+>
+          Basic Information
+</Header>,
+        <div
+          className="range-use-plan__basic-info-first-row"
+>
+          <Unknown
+                    label="RAN Number"
+                    text="mockId"
+          />
+          <Unknown
+                    label="Agreement Start Date"
+                    text="Sep 13, 2010"
+          />
+          <Unknown
+                    label="Agreement End Date"
+                    text="Sep 13, 2019"
+          />
+</div>,
+        <div
+          className="range-use-plan__basic-info-second-row"
+>
+          <Unknown
+                    label="Agreement Holders"
+                    text="Obiwan Kenobi"
+          />
+          <Unknown
+                    label="Type"
+                    text="Primary"
+          />
+          <Unknown
+                    isLabelHidden={true}
+                    label="Agreement Holders"
+                    text="Luke Skywalker"
+          />
+          <Unknown
+                    isLabelHidden={true}
+                    label="Type"
+                    text="Others"
+          />
+</div>,
+        <div
+          className="range-use-plan__basic-info-third-row"
+>
+          <Unknown
+                    label="Agreement Type"
+                    text="E01"
+          />
+          <Unknown
+                    label="District (Responsible)"
+                    text="DND"
+          />
+          <Unknown
+                    label="Zone"
+                    text="LASO"
+          />
+</div>,
+        <div
+          className="range-use-plan__agreement-info"
+>
+          <Unknown
+                    label="Range Name"
+                    text="Star Range"
+          />
+          <Unknown
+                    label="Alternative Business Name"
+                    text="Star Range Alternative"
+          />
+          <Unknown
+                    label="Plan Start Date"
+                    text="Jan 14, 2018"
+          />
+          <Unknown
+                    label="Plan End Date"
+                    text="Dec 14, 2018"
+          />
+</div>,
+      ],
+      "className": "range-use-plan container",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "pdf link",
+          "className": "range-use-plan__pdf-link",
+          "href": "mockup.pdf",
+          "target": "_black",
+        },
+        "ref": [Function],
+        "rendered": "pdf link",
+        "type": "a",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "content": "Are you sure this range use plan is completed?",
+          "header": "Confirmation: Completed",
+          "onNoClicked": [Function],
+          "onYesClicked": [Function],
+          "open": false,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "content": "Are you sure this range use plan is not completed?",
+          "header": "Confirmation: Pending",
+          "onNoClicked": [Function],
+          "onYesClicked": [Function],
+          "open": false,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <Header
+              as="h1"
+>
+              mockId
+</Header>,
+            <div
+              className="range-use-plan__header__actions"
+>
+              <Unknown
+                            className="range-use-plan__status"
+                            status="Submitted"
+              />
+              <Button
+                            as="button"
+                            className="range-use-plan__btn"
+                            onClick={[Function]}
+                            primary={true}
+              >
+                            View PDF
+              </Button>
+              <Dropdown
+                            additionLabel="Add "
+                            additionPosition="top"
+                            button={true}
+                            closeOnBlur={true}
+                            deburr={false}
+                            icon="dropdown"
+                            item={true}
+                            minCharacters={1}
+                            noResultsMessage="No results found."
+                            openOnFocus={true}
+                            options={
+                                          Array [
+                                                        Object {
+                                                          "key": 1,
+                                                          "onClick": [Function],
+                                                          "text": "Completed",
+                                                          "value": 1,
+                                                        },
+                                                        Object {
+                                                          "key": 2,
+                                                          "onClick": [Function],
+                                                          "text": "Pending",
+                                                          "value": 2,
+                                                        },
+                                                      ]
+                            }
+                            renderLabel={[Function]}
+                            searchInput="text"
+                            selectOnBlur={true}
+                            selectOnNavigation={true}
+                            text="Update Status"
+              />
+</div>,
+          ],
+          "className": "range-use-plan__header",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": "h1",
+              "children": "mockId",
+            },
+            "ref": null,
+            "rendered": "mockId",
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <Unknown
+                  className="range-use-plan__status"
+                  status="Submitted"
+/>,
+                <Button
+                  as="button"
+                  className="range-use-plan__btn"
+                  onClick={[Function]}
+                  primary={true}
+>
+                  View PDF
+</Button>,
+                <Dropdown
+                  additionLabel="Add "
+                  additionPosition="top"
+                  button={true}
+                  closeOnBlur={true}
+                  deburr={false}
+                  icon="dropdown"
+                  item={true}
+                  minCharacters={1}
+                  noResultsMessage="No results found."
+                  openOnFocus={true}
+                  options={
+                                    Array [
+                                                      Object {
+                                                        "key": 1,
+                                                        "onClick": [Function],
+                                                        "text": "Completed",
+                                                        "value": 1,
+                                                      },
+                                                      Object {
+                                                        "key": 2,
+                                                        "onClick": [Function],
+                                                        "text": "Pending",
+                                                        "value": 2,
+                                                      },
+                                                    ]
+                  }
+                  renderLabel={[Function]}
+                  searchInput="text"
+                  selectOnBlur={true}
+                  selectOnNavigation={true}
+                  text="Update Status"
+/>,
+              ],
+              "className": "range-use-plan__header__actions",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "className": "range-use-plan__status",
+                  "status": "Submitted",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": "View PDF",
+                  "className": "range-use-plan__btn",
+                  "onClick": [Function],
+                  "primary": true,
+                },
+                "ref": null,
+                "rendered": "View PDF",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "additionLabel": "Add ",
+                  "additionPosition": "top",
+                  "button": true,
+                  "closeOnBlur": true,
+                  "deburr": false,
+                  "icon": "dropdown",
+                  "item": true,
+                  "minCharacters": 1,
+                  "noResultsMessage": "No results found.",
+                  "openOnFocus": true,
+                  "options": Array [
+                    Object {
+                      "key": 1,
+                      "onClick": [Function],
+                      "text": "Completed",
+                      "value": 1,
+                    },
+                    Object {
+                      "key": 2,
+                      "onClick": [Function],
+                      "text": "Pending",
+                      "value": 2,
+                    },
+                  ],
+                  "renderLabel": [Function],
+                  "searchInput": "text",
+                  "selectOnBlur": true,
+                  "selectOnNavigation": true,
+                  "text": "Update Status",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "as": "h2",
+          "children": "Basic Information",
+        },
+        "ref": null,
+        "rendered": "Basic Information",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <Unknown
+              label="RAN Number"
+              text="mockId"
+/>,
+            <Unknown
+              label="Agreement Start Date"
+              text="Sep 13, 2010"
+/>,
+            <Unknown
+              label="Agreement End Date"
+              text="Sep 13, 2019"
+/>,
+          ],
+          "className": "range-use-plan__basic-info-first-row",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "RAN Number",
+              "text": "mockId",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Agreement Start Date",
+              "text": "Sep 13, 2010",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Agreement End Date",
+              "text": "Sep 13, 2019",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <Unknown
+              label="Agreement Holders"
+              text="Obiwan Kenobi"
+/>,
+            <Unknown
+              label="Type"
+              text="Primary"
+/>,
+            <Unknown
+              isLabelHidden={true}
+              label="Agreement Holders"
+              text="Luke Skywalker"
+/>,
+            <Unknown
+              isLabelHidden={true}
+              label="Type"
+              text="Others"
+/>,
+          ],
+          "className": "range-use-plan__basic-info-second-row",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Agreement Holders",
+              "text": "Obiwan Kenobi",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Type",
+              "text": "Primary",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "isLabelHidden": true,
+              "label": "Agreement Holders",
+              "text": "Luke Skywalker",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "isLabelHidden": true,
+              "label": "Type",
+              "text": "Others",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <Unknown
+              label="Agreement Type"
+              text="E01"
+/>,
+            <Unknown
+              label="District (Responsible)"
+              text="DND"
+/>,
+            <Unknown
+              label="Zone"
+              text="LASO"
+/>,
+          ],
+          "className": "range-use-plan__basic-info-third-row",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Agreement Type",
+              "text": "E01",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "District (Responsible)",
+              "text": "DND",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Zone",
+              "text": "LASO",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <Unknown
+              label="Range Name"
+              text="Star Range"
+/>,
+            <Unknown
+              label="Alternative Business Name"
+              text="Star Range Alternative"
+/>,
+            <Unknown
+              label="Plan Start Date"
+              text="Jan 14, 2018"
+/>,
+            <Unknown
+              label="Plan End Date"
+              text="Dec 14, 2018"
+/>,
+          ],
+          "className": "range-use-plan__agreement-info",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Range Name",
+              "text": "Star Range",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Alternative Business Name",
+              "text": "Star Range Alternative",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Plan Start Date",
+              "text": "Jan 14, 2018",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "Plan End Date",
+              "text": "Dec 14, 2018",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <a
+            className="range-use-plan__pdf-link"
+            href="mockup.pdf"
+            target="_black"
+>
+            pdf link
+</a>,
+          <Unknown
+            content="Are you sure this range use plan is completed?"
+            header="Confirmation: Completed"
+            onNoClicked={[Function]}
+            onYesClicked={[Function]}
+            open={false}
+/>,
+          <Unknown
+            content="Are you sure this range use plan is not completed?"
+            header="Confirmation: Pending"
+            onNoClicked={[Function]}
+            onYesClicked={[Function]}
+            open={false}
+/>,
+          <div
+            className="range-use-plan__header"
+>
+            <Header
+                        as="h1"
+            >
+                        mockId
+            </Header>
+            <div
+                        className="range-use-plan__header__actions"
+            >
+                        <Unknown
+                                    className="range-use-plan__status"
+                                    status="Submitted"
+                        />
+                        <Button
+                                    as="button"
+                                    className="range-use-plan__btn"
+                                    onClick={[Function]}
+                                    primary={true}
+                        >
+                                    View PDF
+                        </Button>
+                        <Dropdown
+                                    additionLabel="Add "
+                                    additionPosition="top"
+                                    button={true}
+                                    closeOnBlur={true}
+                                    deburr={false}
+                                    icon="dropdown"
+                                    item={true}
+                                    minCharacters={1}
+                                    noResultsMessage="No results found."
+                                    openOnFocus={true}
+                                    options={
+                                                Array [
+                                                            Object {
+                                                              "key": 1,
+                                                              "onClick": [Function],
+                                                              "text": "Completed",
+                                                              "value": 1,
+                                                            },
+                                                            Object {
+                                                              "key": 2,
+                                                              "onClick": [Function],
+                                                              "text": "Pending",
+                                                              "value": 2,
+                                                            },
+                                                          ]
+                                    }
+                                    renderLabel={[Function]}
+                                    searchInput="text"
+                                    selectOnBlur={true}
+                                    selectOnNavigation={true}
+                                    text="Update Status"
+                        />
+            </div>
+</div>,
+          <Header
+            as="h2"
+>
+            Basic Information
+</Header>,
+          <div
+            className="range-use-plan__basic-info-first-row"
+>
+            <Unknown
+                        label="RAN Number"
+                        text="mockId"
+            />
+            <Unknown
+                        label="Agreement Start Date"
+                        text="Sep 13, 2010"
+            />
+            <Unknown
+                        label="Agreement End Date"
+                        text="Sep 13, 2019"
+            />
+</div>,
+          <div
+            className="range-use-plan__basic-info-second-row"
+>
+            <Unknown
+                        label="Agreement Holders"
+                        text="Obiwan Kenobi"
+            />
+            <Unknown
+                        label="Type"
+                        text="Primary"
+            />
+            <Unknown
+                        isLabelHidden={true}
+                        label="Agreement Holders"
+                        text="Luke Skywalker"
+            />
+            <Unknown
+                        isLabelHidden={true}
+                        label="Type"
+                        text="Others"
+            />
+</div>,
+          <div
+            className="range-use-plan__basic-info-third-row"
+>
+            <Unknown
+                        label="Agreement Type"
+                        text="E01"
+            />
+            <Unknown
+                        label="District (Responsible)"
+                        text="DND"
+            />
+            <Unknown
+                        label="Zone"
+                        text="LASO"
+            />
+</div>,
+          <div
+            className="range-use-plan__agreement-info"
+>
+            <Unknown
+                        label="Range Name"
+                        text="Star Range"
+            />
+            <Unknown
+                        label="Alternative Business Name"
+                        text="Star Range Alternative"
+            />
+            <Unknown
+                        label="Plan Start Date"
+                        text="Jan 14, 2018"
+            />
+            <Unknown
+                        label="Plan End Date"
+                        text="Dec 14, 2018"
+            />
+</div>,
+        ],
+        "className": "range-use-plan container",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "pdf link",
+            "className": "range-use-plan__pdf-link",
+            "href": "mockup.pdf",
+            "target": "_black",
+          },
+          "ref": [Function],
+          "rendered": "pdf link",
+          "type": "a",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "content": "Are you sure this range use plan is completed?",
+            "header": "Confirmation: Completed",
+            "onNoClicked": [Function],
+            "onYesClicked": [Function],
+            "open": false,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "content": "Are you sure this range use plan is not completed?",
+            "header": "Confirmation: Pending",
+            "onNoClicked": [Function],
+            "onYesClicked": [Function],
+            "open": false,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <Header
+                as="h1"
+>
+                mockId
+</Header>,
+              <div
+                className="range-use-plan__header__actions"
+>
+                <Unknown
+                                className="range-use-plan__status"
+                                status="Submitted"
+                />
+                <Button
+                                as="button"
+                                className="range-use-plan__btn"
+                                onClick={[Function]}
+                                primary={true}
+                >
+                                View PDF
+                </Button>
+                <Dropdown
+                                additionLabel="Add "
+                                additionPosition="top"
+                                button={true}
+                                closeOnBlur={true}
+                                deburr={false}
+                                icon="dropdown"
+                                item={true}
+                                minCharacters={1}
+                                noResultsMessage="No results found."
+                                openOnFocus={true}
+                                options={
+                                                Array [
+                                                                Object {
+                                                                  "key": 1,
+                                                                  "onClick": [Function],
+                                                                  "text": "Completed",
+                                                                  "value": 1,
+                                                                },
+                                                                Object {
+                                                                  "key": 2,
+                                                                  "onClick": [Function],
+                                                                  "text": "Pending",
+                                                                  "value": 2,
+                                                                },
+                                                              ]
+                                }
+                                renderLabel={[Function]}
+                                searchInput="text"
+                                selectOnBlur={true}
+                                selectOnNavigation={true}
+                                text="Update Status"
+                />
+</div>,
+            ],
+            "className": "range-use-plan__header",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "as": "h1",
+                "children": "mockId",
+              },
+              "ref": null,
+              "rendered": "mockId",
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <Unknown
+                    className="range-use-plan__status"
+                    status="Submitted"
+/>,
+                  <Button
+                    as="button"
+                    className="range-use-plan__btn"
+                    onClick={[Function]}
+                    primary={true}
+>
+                    View PDF
+</Button>,
+                  <Dropdown
+                    additionLabel="Add "
+                    additionPosition="top"
+                    button={true}
+                    closeOnBlur={true}
+                    deburr={false}
+                    icon="dropdown"
+                    item={true}
+                    minCharacters={1}
+                    noResultsMessage="No results found."
+                    openOnFocus={true}
+                    options={
+                                        Array [
+                                                            Object {
+                                                              "key": 1,
+                                                              "onClick": [Function],
+                                                              "text": "Completed",
+                                                              "value": 1,
+                                                            },
+                                                            Object {
+                                                              "key": 2,
+                                                              "onClick": [Function],
+                                                              "text": "Pending",
+                                                              "value": 2,
+                                                            },
+                                                          ]
+                    }
+                    renderLabel={[Function]}
+                    searchInput="text"
+                    selectOnBlur={true}
+                    selectOnNavigation={true}
+                    text="Update Status"
+/>,
+                ],
+                "className": "range-use-plan__header__actions",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "className": "range-use-plan__status",
+                    "status": "Submitted",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "children": "View PDF",
+                    "className": "range-use-plan__btn",
+                    "onClick": [Function],
+                    "primary": true,
+                  },
+                  "ref": null,
+                  "rendered": "View PDF",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "additionLabel": "Add ",
+                    "additionPosition": "top",
+                    "button": true,
+                    "closeOnBlur": true,
+                    "deburr": false,
+                    "icon": "dropdown",
+                    "item": true,
+                    "minCharacters": 1,
+                    "noResultsMessage": "No results found.",
+                    "openOnFocus": true,
+                    "options": Array [
+                      Object {
+                        "key": 1,
+                        "onClick": [Function],
+                        "text": "Completed",
+                        "value": 1,
+                      },
+                      Object {
+                        "key": 2,
+                        "onClick": [Function],
+                        "text": "Pending",
+                        "value": 2,
+                      },
+                    ],
+                    "renderLabel": [Function],
+                    "searchInput": "text",
+                    "selectOnBlur": true,
+                    "selectOnNavigation": true,
+                    "text": "Update Status",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": "h2",
+            "children": "Basic Information",
+          },
+          "ref": null,
+          "rendered": "Basic Information",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <Unknown
+                label="RAN Number"
+                text="mockId"
+/>,
+              <Unknown
+                label="Agreement Start Date"
+                text="Sep 13, 2010"
+/>,
+              <Unknown
+                label="Agreement End Date"
+                text="Sep 13, 2019"
+/>,
+            ],
+            "className": "range-use-plan__basic-info-first-row",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "RAN Number",
+                "text": "mockId",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Agreement Start Date",
+                "text": "Sep 13, 2010",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Agreement End Date",
+                "text": "Sep 13, 2019",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <Unknown
+                label="Agreement Holders"
+                text="Obiwan Kenobi"
+/>,
+              <Unknown
+                label="Type"
+                text="Primary"
+/>,
+              <Unknown
+                isLabelHidden={true}
+                label="Agreement Holders"
+                text="Luke Skywalker"
+/>,
+              <Unknown
+                isLabelHidden={true}
+                label="Type"
+                text="Others"
+/>,
+            ],
+            "className": "range-use-plan__basic-info-second-row",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Agreement Holders",
+                "text": "Obiwan Kenobi",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Type",
+                "text": "Primary",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "isLabelHidden": true,
+                "label": "Agreement Holders",
+                "text": "Luke Skywalker",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "isLabelHidden": true,
+                "label": "Type",
+                "text": "Others",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <Unknown
+                label="Agreement Type"
+                text="E01"
+/>,
+              <Unknown
+                label="District (Responsible)"
+                text="DND"
+/>,
+              <Unknown
+                label="Zone"
+                text="LASO"
+/>,
+            ],
+            "className": "range-use-plan__basic-info-third-row",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Agreement Type",
+                "text": "E01",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "District (Responsible)",
+                "text": "DND",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Zone",
+                "text": "LASO",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <Unknown
+                label="Range Name"
+                text="Star Range"
+/>,
+              <Unknown
+                label="Alternative Business Name"
+                text="Star Range Alternative"
+/>,
+              <Unknown
+                label="Plan Start Date"
+                text="Jan 14, 2018"
+/>,
+              <Unknown
+                label="Plan End Date"
+                text="Dec 14, 2018"
+/>,
+            ],
+            "className": "range-use-plan__agreement-info",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Range Name",
+                "text": "Star Range",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Alternative Business Name",
+                "text": "Star Range Alternative",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Plan Start Date",
+                "text": "Jan 14, 2018",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "label": "Plan End Date",
+                "text": "Dec 14, 2018",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

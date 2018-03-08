@@ -18,7 +18,7 @@ export class RangeUsePlansTable extends Component {
     activePage: 1,
   }
 
-  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+  // handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
   
   render() {
     const { activePage } = this.state;
