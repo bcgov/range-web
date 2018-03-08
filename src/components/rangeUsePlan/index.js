@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import RangeUsePlan from './RangeUsePlan';
 
-export default class extends Component {
+class Base extends Component {
   render() {
     return (
       <RangeUsePlan {...this.props} />
@@ -9,3 +10,12 @@ export default class extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+
+  }; 
+};
+
+export default connect(
+  mapStateToProps, null
+)(Base);

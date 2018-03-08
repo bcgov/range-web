@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
+import { Header, Button, Dropdown } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
@@ -33,11 +32,7 @@ export class RangeUsePlan extends Component {
   }
 
   onViewClicked = () => {
-    const link = document.createElement('a');
-    link.target = "_blank";
-    link.href = mockupPDF;
-    // link.download = "file.pdf";
-    link.click();
+    this.pdfLink.click();
   }
 
   openCompletedConfirmModal = () => {
@@ -65,6 +60,15 @@ export class RangeUsePlan extends Component {
 
     return (
       <div className="range-use-plan container">
+        <a 
+          className="range-use-plan__pdf-link" 
+          href={mockupPDF}
+          ref={(pdfLink) => this.pdfLink = pdfLink}
+          target="_black" 
+        >
+          pdf link
+        </a>
+
         <ConfirmationModal
           open={isCompletedModalOpen}
           header="Confirmation: Completed"
@@ -207,15 +211,7 @@ export class RangeUsePlan extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-
-  }; 
-};
-
 RangeUsePlan.propTypes = propTypes;
 RangeUsePlan.defaultProps = defaultProps;
 
-export default connect(
-  mapStateToProps, null
-)(RangeUsePlan);
+export default RangeUsePlan;
