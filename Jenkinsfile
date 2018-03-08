@@ -85,7 +85,13 @@ node {
     openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[0], srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
 
     try {
-      notifySlack("${APP_NAME}, Build #${BUILD_ID}, OK>", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], JENKINS_ICO)
+      def attachment = [:]
+      attachment.fallback = 'See build log for more details'
+      attachment.text = ':raised_hands: :clap: A freshly minted build is being deployed. You should see the results shortly.'
+      attachment.title = "Build ${BUILD_ID} OK!"
+      attachment.color = '#00FF00' // Lime Green
+
+      notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
     } catch (error) {
       echo "Unable send update to slack, error = ${error}"
     }
