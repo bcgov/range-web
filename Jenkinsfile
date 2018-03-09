@@ -2,6 +2,8 @@ import groovy.json.JsonOutput
 
 def APP_NAME = 'range-myra-web'
 def BUILD_CONFIG = APP_NAME
+def CADDY_BUILD_CONFIG = 'range-myra-web-caddy'
+def CADDY_IMAGESTREAM_NAME = 'range-myra-web-caddy'
 def IMAGESTREAM_NAME = APP_NAME
 def TAG_NAMES = ['dev', 'test', 'prod']
 def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
@@ -75,14 +77,16 @@ node {
     // run the oc build to package the artifacts into a docker image
     openshiftBuild bldCfg: APP_NAME, showBuildLogs: 'true', verbose: 'true'
 
+    openshiftBuild bldCfg: CADDY_BUILD_CONFIG, showBuildLogs: 'true', verbose: 'true'
+
     // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
     // Tag the images for deployment based on the image's hash
     IMAGE_HASH = sh (
-      script: """oc get istag ${IMAGESTREAM_NAME}:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
+      script: """oc get istag ${CADDY_IMAGESTREAM_NAME}:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
       returnStdout: true).trim()
     echo ">> IMAGE_HASH: ${IMAGE_HASH}"
 
-    openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[0], srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
+    openshiftTag destStream: CADDY_IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[0], srcStream: CADDY_IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
 
     try {
       def attachment = [:]
