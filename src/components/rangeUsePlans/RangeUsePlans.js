@@ -31,8 +31,8 @@ export class RangeUsePlans extends Component {
     return (
       <div className="range-use-plans">
         <Banner
-          header="Range Use Plans"
-          content="View detail of each range use plan. Enter RAN number, Agreement holder's name, 
+          header="Select Range Use Plan"
+          content="View details of each range use plan. Enter RAN number, Agreement holder's name, 
           or staff contact in the search box to search for a specific range use plan."
         >
           <RangeUsePlansSearch

@@ -22,7 +22,7 @@ RangeUsePlan.prototype.pdfLink = {
 }
 
 describe('RangeUsePlan', () => {
-  it('renders correctly', () => {
+  xit('renders correctly', () => {
     const wrapper = shallow(<RangeUsePlan {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
