@@ -17,18 +17,8 @@ $row-height: 80px;
 }
 
 .range-use-plan {
-  margin-top: $content-margin-top;
-  
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-
-    &__actions {
-      display: flex;
-      align-items: center;
-    }
+  &__content {
+    margin-top: $content-margin-top;
   }
 
   &__pdf-link {

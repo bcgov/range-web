@@ -60,7 +60,7 @@ export class ManageZone extends Component {
 
         <div className="manage-zone__content container">
           <div className="manage-zone__steps">
-            <h3>Step 1: Pick A Zone</h3>
+            <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
               <div className="manage-zone__dropdown">
                 <Dropdown 
@@ -77,11 +77,11 @@ export class ManageZone extends Component {
               </div>
             </div>
 
-            <h3>Step 2: Change A Zone Contact</h3>
+            <h3>Step 2: Assign a new contact</h3>
             <div className="manage-zone__step-two">
-              <div className="manage-zone__text-field">
+              {/* <div className="manage-zone__text-field">
                 {zone ||'Zone'}
-              </div>
+              </div> */}
               <div className="manage-zone__dropdown">
                 <Dropdown 
                   placeholder='Contact' 

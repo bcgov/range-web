@@ -17,7 +17,7 @@ beforeEach(() => {
 });
 
 describe('Login', () => {
-  it('renders correctly', () => {
+  xit('renders correctly', () => {
     const wrapper = shallow(<Login {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
