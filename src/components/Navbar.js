@@ -26,7 +26,7 @@ export class Navbar extends Component {
               className="navbar__link"
               activeClassName="navbar__link--active"
             >
-              Range Use Plans
+              Select RUP
             </NavLink>
             <NavLink
               to={Routes.MANAGE_ZONE}

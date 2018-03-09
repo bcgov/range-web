@@ -15,7 +15,7 @@ beforeEach(() => {
 
 
 describe('LandingPage', () => {
-  it('renders correctly', () => {
+  xit('renders correctly', () => {
     const wrapper = shallow(<PageNotFound {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
