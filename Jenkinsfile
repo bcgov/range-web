@@ -60,13 +60,13 @@ node {
     } catch (error) {
       def attachment = [:]
       attachment.fallback = 'See build log for more details'
-      attachment.title = 'Unit Testing Failed'
+      attachment.title = 'Unit Testing Failed :hankey: :face_with_head_bandage:'
       attachment.color = '#CD0000' // Red
       attachment.text = 'Their are issues with the unit tests.'
       // attachment.title_link = "${env.BUILD_URL}"
 
       notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
-      sh "exit 1001"
+      sh "exit 1"
     }
   }
 
@@ -87,8 +87,8 @@ node {
     try {
       def attachment = [:]
       attachment.fallback = 'See build log for more details'
-      attachment.text = ':raised_hands: :clap: Another huge sucess for the Range Team.\n A freshly minted build is being deployed. You should see the results shortly.'
-      attachment.title = "Build ${BUILD_ID} OK!"
+      attachment.text = 'Another huge sucess for the Range Team.\n A freshly minted build is being deployed. You should see the results shortly.'
+      attachment.title = "Build ${BUILD_ID} OK! :raised_hands: :clap:"
       attachment.color = '#00FF00' // Lime Green
 
       notifySlack("${APP_NAME}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
