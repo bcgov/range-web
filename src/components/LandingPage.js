@@ -20,6 +20,7 @@ export class LandingPage extends Component {
       <div className="main">
         <Navbar onLogout={this.onLogout}/>
         <Component {...rest} />
+        <footer></footer>
       </div>
     );
   }

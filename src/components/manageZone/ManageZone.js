@@ -73,7 +73,8 @@ export class ManageZone extends Component {
                 />
               </div>
               <div className="manage-zone__text-field">
-                {currContact || 'Assigned Zone Contact'}
+                <div className="manage-zone__text-field__title">Assigned Zone Contact</div>
+                <div>{currContact}</div> 
               </div>
             </div>
 
