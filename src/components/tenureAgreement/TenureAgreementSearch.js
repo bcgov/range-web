@@ -7,7 +7,7 @@ const propTypes = {
   placeholder: PropTypes.string.isRequired,
 }
 
-class RangeUsePlansSearch extends Component {
+class TenureAgreementSearch extends Component {
   state = {
     search: '',
   }
@@ -27,7 +27,7 @@ class RangeUsePlansSearch extends Component {
     const { placeholder } = this.props;
 
     return (
-      <div className="range-use-plans-search">
+      <div className="tenure-agreement-search">
         <Input
           fluid
           icon
@@ -44,5 +44,5 @@ class RangeUsePlansSearch extends Component {
     );
   }
 }
-RangeUsePlansSearch.propTypes = propTypes;
-export default RangeUsePlansSearch;
+TenureAgreementSearch.propTypes = propTypes;
+export default TenureAgreementSearch;
