@@ -21,7 +21,8 @@ const createReducer = (reducerFunction, reducerName) => {
 const appReducer = combineReducers({
   auth,
   toast,
-  tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENT),
+  tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS),
+  rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN),
 });
 
 const rootReducer = (state, action) => {

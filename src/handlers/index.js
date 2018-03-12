@@ -1,6 +1,12 @@
 // import validator from 'validator';
 // import Strings from '../constants/Strings';
 import { toastMessage } from '../actions/toastActions';
+import moment from 'moment';
+
+export const formatDate = (isoFormatDate) => {
+  return moment(isoFormatDate, "YYYY-MM-DDTHH:mm:ss.SSSZ").format("MMMM Do YYYY, h:mm a");
+  // return moment(isoFormatDate, "YYYY-MM-DDTHH:mm:ss.SSSZ").format("dddd, MMMM Do YYYY, h:mm:ss a");
+};
 
 class Handlers {
   constructor() {

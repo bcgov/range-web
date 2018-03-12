@@ -6,7 +6,7 @@ import TenureAgreementSearch from './TenureAgreementSearch';
 import { Banner } from '../common';
 
 const propTypes = {
-  tenureAgreementState: PropTypes.object.isRequired,
+  tenureAgreementsState: PropTypes.object.isRequired,
   searchTenureAgreements: PropTypes.func.isRequired,
 };
 
@@ -26,7 +26,7 @@ export class TenureAgreement extends Component {
   }
   
   render() {
-    const { data, isLoading } = this.props.tenureAgreementState;
+    const { data, isLoading } = this.props.tenureAgreementsState;
 
     return (
       <div className="tenure-agreement">

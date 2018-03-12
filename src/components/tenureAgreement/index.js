@@ -17,7 +17,7 @@ class Base extends Component {
 
 const mapStateToProps = state => {
   return {
-    tenureAgreementState: state.tenureAgreements
+    tenureAgreementsState: state.tenureAgreements
   };
 };
 

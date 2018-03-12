@@ -27,11 +27,11 @@ export class TenureAgreementTableItem extends Component {
         className="tenure-agreement-table-item"
         onClick={this.onRowClicked}
       >
-        <Table.Cell>{tenureAgreement.id}</Table.Cell>
-        <Table.Cell>{tenureAgreement.region}</Table.Cell>
-        <Table.Cell>{tenureAgreement.tenureHolder.name}</Table.Cell>
-        <Table.Cell>{tenureAgreement.rangeOfficer.name}</Table.Cell>
-        <Table.Cell><Status status={tenureAgreement.status}/></Table.Cell>
+        <Table.Cell>{tenureAgreement.agreementId}</Table.Cell>
+        <Table.Cell>{tenureAgreement.rangeName}</Table.Cell>
+        <Table.Cell>{tenureAgreement.rangeName}</Table.Cell>
+        <Table.Cell>{tenureAgreement.rangeName}</Table.Cell>
+        <Table.Cell><Status status={"Pending" || tenureAgreement.status}/></Table.Cell>
       </Table.Row>
     );
   }
