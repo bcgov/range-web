@@ -1,3 +1,4 @@
 export const AUTH = 'AUTH';
 export const TOAST = 'TOAST';
-export const GET_RANGE_USE_PLANS = 'GET_RANGE_USE_PLANS';
+export const TENURE_AGREEMENTS = 'TENURE_AGREEMENTS';
+export const RANGE_USE_PLAN = 'RANGE_USE_PLAN';

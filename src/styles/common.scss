@@ -20,11 +20,11 @@
     }
   
     &--pending {
-      background: orange;
+      background: red;
     }
   
     &--submitted {
-      background: $primary-light-color;
+      background: orange;
     }
   }
 }

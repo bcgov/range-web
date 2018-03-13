@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import RangeUsePlansTableItem from './RangeUsePlansTableItem';
+import TenureAgreementTableItem from './TenureAgreementTableItem';
 import { Table, Form as Loader, Pagination, Icon } from 'semantic-ui-react';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
-  rangeUsePlans: PropTypes.array.isRequired,
+  tenureAgreements: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 
 const defaultProps = {
-  rangeUsePlans: [],
+  tenureAgreements: [],
 }
 
-export class RangeUsePlansTable extends Component {
+export class TenureAgreementTable extends Component {
   state = {
     activePage: 1,
   }
@@ -21,8 +21,8 @@ export class RangeUsePlansTable extends Component {
   // handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
   
   render() {
-    const { activePage } = this.state;
-    const { rangeUsePlans, isLoading } = this.props;
+    // const { activePage } = this.state;
+    const { tenureAgreements, isLoading } = this.props;
 
     return (
       <Loader loading={isLoading}>
@@ -38,11 +38,11 @@ export class RangeUsePlansTable extends Component {
           </Table.Header>
       
           <Table.Body>
-            {rangeUsePlans.map((rangeUsePlan) => {
+            {tenureAgreements.map((tenureAgreement) => {
               return (
-                <RangeUsePlansTableItem 
-                  key={rangeUsePlan.id}
-                  rangeUsePlan={rangeUsePlan}
+                <TenureAgreementTableItem 
+                  key={tenureAgreement.id}
+                  tenureAgreement={tenureAgreement}
                 />
               );
             })}
@@ -65,6 +65,6 @@ export class RangeUsePlansTable extends Component {
   }
 }
 
-RangeUsePlansTable.propTypes = propTypes;
-RangeUsePlansTable.defaultProps = defaultProps;
-export default RangeUsePlansTable;
+TenureAgreementTable.propTypes = propTypes;
+TenureAgreementTable.defaultProps = defaultProps;
+export default TenureAgreementTable;

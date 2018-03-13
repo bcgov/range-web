@@ -1,14 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
-
+import { getMockRangeUsePlan } from '../../tenureAgreement/test/mockValues'
 const props = {};
 const setupProps = () => {
-  props.match = {
-    params: {
-      id: 'mockId',
-    },
-  }
+  props.rangeUsePlan = getMockRangeUsePlan(2);
 };
 
 const mockClick = jest.fn();
@@ -25,13 +21,6 @@ describe('RangeUsePlan', () => {
   xit('renders correctly', () => {
     const wrapper = shallow(<RangeUsePlan {...props} />);
     expect(wrapper).toMatchSnapshot();
-  });
-
-  describe('Life cycles', () => {
-    it('componentDidMount', () => {
-      const wrapper = shallow(<RangeUsePlan {...props} />);
-      expect(wrapper.state().id).toEqual(props.match.params.id);
-    });
   });
 
   describe('Event handlers', () => {

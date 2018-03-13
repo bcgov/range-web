@@ -9,10 +9,11 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
 } from '../../constants/strings';
 import { SUBMITTED } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
+import { formatDate } from '../../handlers';
 // import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
-  match: PropTypes.object.isRequired,
+  rangeUsePlan: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
@@ -21,14 +22,8 @@ const defaultProps = {
 
 export class RangeUsePlan extends Component {
   state = {
-    id: null,
     isCompletedModalOpen: false,
     isPendingModalOpen: false,
-  }
-  
-  componentDidMount() {
-    const { id } = this.props.match.params;
-    this.setState({ id });
   }
 
   onViewClicked = () => {
@@ -52,7 +47,8 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const { id, isCompletedModalOpen, isPendingModalOpen } = this.state;
+    const { rangeUsePlan } = this.props;
+    const { isCompletedModalOpen, isPendingModalOpen } = this.state;
     const options = [
       { key: 1, text: 'Completed', value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: 'Pending', value: 2, onClick: this.openPendingConfirmModal },
@@ -72,7 +68,9 @@ export class RangeUsePlan extends Component {
         <ConfirmationModal
           open={isCompletedModalOpen}
           header="Confirmation: Completed"
-          content="Are you sure this range use plan is completed?"
+          content="COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. 
+            If you change status to COMPLETE you will no longer be able to make edits to this RUP. 
+            Would you like to switch this RUP to complete?"
           onNoClicked={this.closeCompletedConfirmModal}
           onYesClicked={this.closeCompletedConfirmModal}
         />
@@ -80,12 +78,15 @@ export class RangeUsePlan extends Component {
         <ConfirmationModal 
           open={isPendingModalOpen}
           header="Confirmation: Pending"
-          content="Are you sure this range use plan is not completed?"
+          content="PENDING indicates that a RUP is in edit mode. It is used during initial creation 
+            if the decision maker has requested edits before approving. 
+            Do not switch the status to PENDING unless the decision maker has requested specific edits. 
+            Would you like to switch this RUP to Pending?"
           onNoClicked={this.closePendingConfirmModal}
           onYesClicked={this.closePendingConfirmModal}
         />
         <Banner
-          header={id}
+          header={rangeUsePlan.agreementId}
           content="View the full PDF file or update the status of the range use plan."
         >
           <Status 
@@ -112,15 +113,15 @@ export class RangeUsePlan extends Component {
           <div className="range-use-plan__basic-info-first-row">
             <TextField 
               label={RANGE_NUMBER}
-              text={id}
+              text={rangeUsePlan.agreementId}
             />
             <TextField 
               label={AGREEMENT_START}
-              text={'Sep 13, 2010'}
+              text={formatDate(rangeUsePlan.agreementStartDate)}
             />
             <TextField 
               label={AGREEMENT_END}
-              text={'Sep 13, 2019'}
+              text={formatDate(rangeUsePlan.agreementEndDate)}
             />
           </div>
           <div className="range-use-plan__basic-info-second-row">
@@ -153,19 +154,18 @@ export class RangeUsePlan extends Component {
             />
             <TextField 
               label={DISTRICT}
-              text={'DND'}
+              text={rangeUsePlan.zone.district.code}
             />
             <TextField 
               label={ZONE}
-              text={'LASO'}
+              text={rangeUsePlan.zone.code}
             />
           </div>
-            
             
           <div className="range-use-plan__agreement-info">
             <TextField 
               label={RANGE_NAME}
-              text={'Star Range'}
+              text={rangeUsePlan.rangeName}
             />
             <TextField 
               label={ALTERNATIVE_BUSINESS_NAME}
@@ -173,11 +173,11 @@ export class RangeUsePlan extends Component {
             />
             <TextField 
               label={PLAN_START}
-              text={'Jan 14, 2018'}
+              text={formatDate(rangeUsePlan.planStartDate)}
             />
             <TextField 
               label={PLAN_END}
-              text={'Dec 14, 2018'}
+              text={formatDate(rangeUsePlan.planEndDate)}
             />
           </div>
         </div>
