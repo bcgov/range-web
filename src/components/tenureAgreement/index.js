@@ -9,8 +9,13 @@ class Base extends Component {
   }
 
   render() {
+    const { searchTenureAgreements, tenureAgreementsState } = this.props;
+
     return (
-      <TenureAgreement {...this.props} />
+      <TenureAgreement 
+        searchTenureAgreements={searchTenureAgreements}
+        tenureAgreementsState={tenureAgreementsState}
+      />
     );
   }
 }

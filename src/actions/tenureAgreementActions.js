@@ -112,9 +112,7 @@ export const searchTenureAgreements = (requestData) => (dispatch) => {
     });
 
   // setTimeout(() => {
-    // let plans;
-    // plans = getMockRangeUsePlans(2);
-    // dispatch(success(TENURE_AGREEMENTS, agreements));
+  //   dispatch(success(TENURE_AGREEMENTS, agreements));
   // }, 1000);
 };
 
@@ -133,7 +131,7 @@ export const getRangeUsePlan = (id) => (dispatch) => {
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
     });
 
-    // const rangeUsePlan = agreements.find(a => a.id == id);
+  // const rangeUsePlan = agreements.find(a => a.id == id);
   // setTimeout(() => {
   //   dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
   // }, 500);

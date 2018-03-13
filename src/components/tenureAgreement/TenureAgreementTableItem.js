@@ -29,8 +29,8 @@ export class TenureAgreementTableItem extends Component {
       >
         <Table.Cell>{tenureAgreement.agreementId}</Table.Cell>
         <Table.Cell>{tenureAgreement.rangeName}</Table.Cell>
-        <Table.Cell>{tenureAgreement.rangeName}</Table.Cell>
-        <Table.Cell>{tenureAgreement.rangeName}</Table.Cell>
+        <Table.Cell>{`Agreement holder ${tenureAgreement.id}`}</Table.Cell>
+        <Table.Cell>{`Staff Contact${tenureAgreement.id}`}</Table.Cell>
         <Table.Cell><Status status={"Pending" || tenureAgreement.status}/></Table.Cell>
       </Table.Row>
     );

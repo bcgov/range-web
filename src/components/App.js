@@ -19,7 +19,7 @@ import { logout } from '../actions/authActions';
 
 export class App extends Component {
   componentDidMount() {
-    registerAxiosInterceptors(this.props.logout);
+    // registerAxiosInterceptors(this.props.logout);
   }
 
   render() {
