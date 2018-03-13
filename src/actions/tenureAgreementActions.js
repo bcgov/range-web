@@ -5,7 +5,6 @@ import {
   error,
 } from '../actions/genericActions';
 import { TENURE_AGREEMENTS, RANGE_USE_PLAN } from '../constants/reducerTypes';
-import { getMockRangeUsePlans } from '../components/tenureAgreement/test/mockValues';
 import { BASE_URL, AGREEMENTS } from '../constants/api';
 import axios from '../handlers/axios';
 
@@ -102,24 +101,40 @@ const agreements = [
 export const searchTenureAgreements = (requestData) => (dispatch) => {
   dispatch(request(TENURE_AGREEMENTS));
 
-  // axios.get(BASE_URL + AGREEMENTS)
-  //   .then(response => {
-  //     console.log(response);
-  //   }).catch(err => {
-  //     console.log(err);
-  //   });
+  axios.get(BASE_URL + AGREEMENTS)
+    .then(response => {
+      console.log(response);
+      const agreements = response.data;
+      dispatch(success(TENURE_AGREEMENTS, agreements));
+    }).catch(err => {
+      console.log(err);
+      dispatch(success(TENURE_AGREEMENTS, agreements));
+    });
 
-  setTimeout(() => {
+  // setTimeout(() => {
     // let plans;
     // plans = getMockRangeUsePlans(2);
-    dispatch(success(TENURE_AGREEMENTS, agreements));
-  }, 1000);
+    // dispatch(success(TENURE_AGREEMENTS, agreements));
+  // }, 1000);
 };
 
 export const getRangeUsePlan = (id) => (dispatch) => {
-  const rangeUsePlan = agreements.find(a => a.id == id);
   dispatch(request(RANGE_USE_PLAN));
-  setTimeout(() => {
-    dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
-  }, 500);
+
+  axios.get(`${BASE_URL}${AGREEMENTS}/${id}`)
+    .then(response => {
+      console.log(response);
+      const rangeUsePlan = response.data;
+      dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
+    })
+    .catch(err => {
+      console.log(err);
+      const rangeUsePlan = agreements.find(a => a.id == id);
+      dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
+    });
+
+    // const rangeUsePlan = agreements.find(a => a.id == id);
+  // setTimeout(() => {
+  //   dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
+  // }, 500);
 }
