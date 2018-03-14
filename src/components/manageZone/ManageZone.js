@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Banner, ConfirmationModal } from '../common';
 import { Dropdown, Button } from 'semantic-ui-react';
+import { 
+  MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
+  UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
+} from '../../constants/strings';
 
 export class ManageZone extends Component {
   state = {
@@ -47,15 +51,15 @@ export class ManageZone extends Component {
       <div className="manage-zone">
         <ConfirmationModal
           open={isUpdateModalOpen}
-          header="Confirmation: Update Contact"
-          content="Are you sure you want to update the contact?"
+          header={UPDATE_CONTACT_CONFIRMATION_HEADER}
+          content={UPDATE_CONTACT_CONFIRMATION_CONTENT}
           onNoClicked={this.closeUpdateConfirmationModal}
           onYesClicked={this.closeUpdateConfirmationModal}
         />
 
         <Banner 
-          header="Manage Zone"
-          content="Follow steps to assign a zone from the current staff to other staff."
+          header={MANAGE_ZONE_BANNER_HEADER}
+          content={MANAGE_ZONE_BANNER_CONTENT}
         />
 
         <div className="manage-zone__content container">

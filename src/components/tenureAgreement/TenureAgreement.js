@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 import TenureAgreementTable from './TenureAgreementTable';
 import TenureAgreementSearch from './TenureAgreementSearch';
 import { Banner } from '../common';
+import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
 
 const propTypes = {
   tenureAgreementsState: PropTypes.object.isRequired,
@@ -31,9 +32,8 @@ export class TenureAgreement extends Component {
     return (
       <div className="tenure-agreement">
         <Banner
-          header="Select Range Use Plan"
-          content="View details of each range use plan. Enter RAN number, Agreement holder's name, 
-          or staff contact in the search box to search for a specific range use plan."
+          header={SELECT_RUP_BANNER_HEADER}
+          content={SELECT_RUP_BANNER_CONTENT}
         >
           <TenureAgreementSearch
             placeholder="Enter Search Term" 

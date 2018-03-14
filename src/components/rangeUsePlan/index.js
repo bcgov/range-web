@@ -19,14 +19,10 @@ class Base extends Component {
 
     return (
       <div>
-        { rangeUsePlanState.isLoading &&
-          <div>loading...</div>
-        }
-        { rangeUsePlanState.success && 
-          <RangeUsePlan 
-            rangeUsePlan={rangeUsePlanState.data}
-          />
-        }
+        <RangeUsePlan 
+          rangeUsePlan={rangeUsePlanState.data}
+          isLoading={rangeUsePlanState.isLoading}
+        />
       </div>
     );
   }

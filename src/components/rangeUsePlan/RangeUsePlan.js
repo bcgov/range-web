@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown } from 'semantic-ui-react';
+import { Header, Button, Dropdown, Form } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
   AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
+  COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
+  PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
+  DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { SUBMITTED } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
-// import RangeUsePlanPDFView from './RangeUsePlanPDFView';
 
 const propTypes = {
   rangeUsePlan: PropTypes.object.isRequired,
@@ -47,142 +49,144 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const { rangeUsePlan } = this.props;
     const { isCompletedModalOpen, isPendingModalOpen } = this.state;
-    const options = [
+    const statusDropdownOptions = [
       { key: 1, text: 'Completed', value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: 'Pending', value: 2, onClick: this.openPendingConfirmModal },
     ];
+    const { 
+      agreementId, agreementStartDate, agreementEndDate,
+      zone, rangeName, alternateBusinessName, planStartDate, planEndDate,
+    } = this.props.rangeUsePlan;
+    const districtCode = zone && zone.district && zone.district.code;
+    const zoneCode = zone && zone.code;
 
     return (
-      <div className="range-use-plan">
-        <a 
-          className="range-use-plan__pdf-link" 
-          href={mockupPDF}
-          ref={(pdfLink) => this.pdfLink = pdfLink}
-          target="_black" 
-        >
-          pdf link
-        </a>
-
-        <ConfirmationModal
-          open={isCompletedModalOpen}
-          header="Confirmation: Completed"
-          content="COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. 
-            If you change status to COMPLETE you will no longer be able to make edits to this RUP. 
-            Would you like to switch this RUP to complete?"
-          onNoClicked={this.closeCompletedConfirmModal}
-          onYesClicked={this.closeCompletedConfirmModal}
-        />
-
-        <ConfirmationModal 
-          open={isPendingModalOpen}
-          header="Confirmation: Pending"
-          content="PENDING indicates that a RUP is in edit mode. It is used during initial creation 
-            if the decision maker has requested edits before approving. 
-            Do not switch the status to PENDING unless the decision maker has requested specific edits. 
-            Would you like to switch this RUP to Pending?"
-          onNoClicked={this.closePendingConfirmModal}
-          onYesClicked={this.closePendingConfirmModal}
-        />
-        <Banner
-          header={rangeUsePlan.agreementId}
-          content="View the full PDF file or update the status of the range use plan."
-        >
-          <Status 
-            className="range-use-plan__status" 
-            status={SUBMITTED}
-          />
-          <Button 
-            onClick={this.onViewClicked}
-            className="range-use-plan__btn" 
-            
+      <Form loading={this.props.isLoading}>
+        <div className="range-use-plan">
+          <a 
+            className="range-use-plan__pdf-link" 
+            href={mockupPDF}
+            ref={(pdfLink) => this.pdfLink = pdfLink}
+            target="_black" 
           >
-            View PDF
-          </Button>
-          <Dropdown 
-            text='Update Status' 
-            options={options} 
-            button
-            item 
+            pdf link
+          </a>
+
+          <ConfirmationModal
+            open={isCompletedModalOpen}
+            header={COMPLETED_CONFIRMATION_HEADER}
+            content={COMPLETED_CONFIRMATION_CONTENT}
+            onNoClicked={this.closeCompletedConfirmModal}
+            onYesClicked={this.closeCompletedConfirmModal}
           />
-        </Banner>
-        
-        <div className="range-use-plan__content container">
-          <Header as='h2'>Basic Information</Header>
-          <div className="range-use-plan__basic-info-first-row">
-            <TextField 
-              label={RANGE_NUMBER}
-              text={rangeUsePlan.agreementId}
-            />
-            <TextField 
-              label={AGREEMENT_START}
-              text={formatDate(rangeUsePlan.agreementStartDate)}
-            />
-            <TextField 
-              label={AGREEMENT_END}
-              text={formatDate(rangeUsePlan.agreementEndDate)}
-            />
-          </div>
-          <div className="range-use-plan__basic-info-second-row">
-            <TextField 
-              label={AGREEMENT_HOLDERS}
-              text={'Obiwan Kenobi'}
-            />
 
-            <TextField 
-              label={TYPE}
-              text={'Primary'}
-            />
+          <ConfirmationModal 
+            open={isPendingModalOpen}
+            header={PENDING_CONFIRMATION_HEADER}
+            content={PENDING_CONFIRMATION_CONTENT}
+            onNoClicked={this.closePendingConfirmModal}
+            onYesClicked={this.closePendingConfirmModal}
+          />
 
-            <TextField 
-              label={AGREEMENT_HOLDERS}
-              text={'Luke Skywalker'}
-              isLabelHidden={true}
+          <Banner
+            header={agreementId}
+            content={DETAIL_RUP_BANNER_CONTENT}
+          >
+            <Status 
+              className="range-use-plan__status" 
+              status={SUBMITTED}
             />
+            <Button 
+              onClick={this.onViewClicked}
+              className="range-use-plan__btn" 
+              
+            >
+              View PDF
+            </Button>
+            <Dropdown 
+              text='Update Status' 
+              options={statusDropdownOptions} 
+              button
+              item 
+            />
+          </Banner>
+          
+          <div className="range-use-plan__content container">
+            <Header as='h2'>Basic Information</Header>
+            <div className="range-use-plan__basic-info-first-row">
+              <TextField 
+                label={RANGE_NUMBER}
+                text={agreementId}
+              />
+              <TextField 
+                label={AGREEMENT_START}
+                text={formatDate(agreementStartDate)}
+              />
+              <TextField 
+                label={AGREEMENT_END}
+                text={formatDate(agreementEndDate)}
+              />
+            </div>
+            <div className="range-use-plan__basic-info-second-row">
+              <TextField 
+                label={AGREEMENT_HOLDERS}
+                text={'Obiwan Kenobi'}
+              />
 
-            <TextField 
-              label={TYPE}
-              text={'Others'}
-              isLabelHidden={true}
-            />
-          </div>
-          <div className="range-use-plan__basic-info-third-row">
-            <TextField 
-              label={AGREEMENT_TYPE}
-              text={'E01'}
-            />
-            <TextField 
-              label={DISTRICT}
-              text={rangeUsePlan.zone.district.code}
-            />
-            <TextField 
-              label={ZONE}
-              text={rangeUsePlan.zone.code}
-            />
-          </div>
-            
-          <div className="range-use-plan__agreement-info">
-            <TextField 
-              label={RANGE_NAME}
-              text={rangeUsePlan.rangeName}
-            />
-            <TextField 
-              label={ALTERNATIVE_BUSINESS_NAME}
-              text={'Star Range Alternative'}
-            />
-            <TextField 
-              label={PLAN_START}
-              text={formatDate(rangeUsePlan.planStartDate)}
-            />
-            <TextField 
-              label={PLAN_END}
-              text={formatDate(rangeUsePlan.planEndDate)}
-            />
+              <TextField 
+                label={TYPE}
+                text={'Primary'}
+              />
+
+              <TextField 
+                label={AGREEMENT_HOLDERS}
+                text={'Luke Skywalker'}
+                isLabelHidden={true}
+              />
+
+              <TextField 
+                label={TYPE}
+                text={'Others'}
+                isLabelHidden={true}
+              />
+            </div>
+            <div className="range-use-plan__basic-info-third-row">
+              <TextField 
+                label={AGREEMENT_TYPE}
+                text={'E01'}
+              />
+              <TextField 
+                label={DISTRICT}
+                text={districtCode}
+              />
+              <TextField 
+                label={ZONE}
+                text={zoneCode}
+              />
+            </div>
+              
+            <div className="range-use-plan__agreement-info">
+              <TextField 
+                label={RANGE_NAME}
+                text={rangeName}
+              />
+              <TextField 
+                label={ALTERNATIVE_BUSINESS_NAME}
+                text={alternateBusinessName}
+              />
+              <TextField 
+                label={PLAN_START}
+                text={formatDate(planStartDate)}
+              />
+              <TextField 
+                label={PLAN_END}
+                text={formatDate(planEndDate)}
+              />
+            </div>
           </div>
         </div>
-        
-      </div>
+      </Form>
     );
   }
 }
