@@ -61,21 +61,20 @@ export const userProfileChange = (user) => {
 
 export const login = (code) => (dispatch) => {
   dispatch(loginRequest());
+  const makeRequest = async () => {
+    try {
+      const response = await getTokenFromRemote(code);
+      
+      // save tokens in local storage and set header for axios 
+      onAuthenticated(response);
 
-  getTokenFromRemote(code)
-  .then(response => {
-    console.log(response)
-    
-    // save tokens in local storage and set header for axios 
-    onAuthenticated(response);
-
-    // TODO: make a request to get user data
-    dispatch(loginSuccess(response.data));
-  }).catch(err => {
-    dispatch(loginError(err));
-    // dispatch(toastErrorMessage(err));
-    // console.log(err);
-  });
+      // TODO: make a request to get user data
+      dispatch(loginSuccess(response.data));  
+    } catch (err) {
+      dispatch(loginError(err));
+    }
+  }
+  makeRequest();
 }
 
 export const logout = () => (dispatch) => {

@@ -17,7 +17,7 @@ const getRefreshTokenFromLocal = () => {
   return data.refresh_token;
 };
 
-const refreshAccessToken = (refresh_token) => {
+const refreshAccessToken = (refresh_token, _retry) => {
   const data = {
     refresh_token,
     grant_type: 'refresh_token',
@@ -26,7 +26,13 @@ const refreshAccessToken = (refresh_token) => {
   };
 
   // make an application/x-www-form-urlencoded request with axios
-  return axios.post(SSO_BASE_URL + REFRESH_TOKEN, querystring.stringify(data));
+  // pass _retry in config so that it only tries to refresh once.
+  return axios({
+    method: 'post',
+    url: SSO_BASE_URL + REFRESH_TOKEN,
+    data: querystring.stringify(data),
+    _retry,
+  });
 };
 
 const getDataFromLocal = () => {
@@ -121,7 +127,7 @@ export const onUserProfileChanged = (newUserData) => {
 /**
  * 
  * @param {function} logout
- * register an interceptor to catch 401 unauthorized response 
+ * register an interceptor to refresh the access token when expired
  * case 1: access token is expired
  *  - get new access token using the refresh token and try it again
  * case 2: both tokens are expired
@@ -129,49 +135,25 @@ export const onUserProfileChanged = (newUserData) => {
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
-    if(isTokenExpired()) {
+    if(isTokenExpired() && !config._retry) {
+      config._retry = true;
       const token = getRefreshTokenFromLocal();
-      return refreshAccessToken(token)
-        .then(response => {
+      const makeRequest = async () => {
+        try {
+          const response = await refreshAccessToken(token, config._retry);
           onAuthenticated(response);
           config.headers.Authorization = `${response.token_type} ${response.access_token}`;
-          return Promise.resolve(config);
-        }).catch( err => {
-          return Promise.reject(err);
-        });
+          
+          return config;
+        } catch (err) {
+          // the refresh token is also expired therefore sign out the user
+          logout();
+          return err;
+        }
+      }
+      makeRequest();
     }
 
     return config;
   });
-
-  axios.interceptors.response.use(
-    (response) => {
-      return response;
-    }, (error) => {
-      const { response } = error;
-      // Plan B for refreshing token
-      // const originalRequest = error.config;
-      // if (response && response.status === 401 && !originalRequest._retry) {
-      //   originalRequest._retry = true;
-      //   const token = getRefreshTokenFromLocal();
-
-      //   return refreshAccessToken(token)
-      //     .then(response => {
-      //       // successfully get a new access token
-      //       onAuthenticated(response);
-      //       originalRequest.headers['Authorization'] = `${response.token_type} ${response.access_token}`;
-      //       return axios(originalRequest);
-      //     })
-      //     .catch(err => {
-      //       // refresh token is also expired
-      //       logout();
-      //       return Promise.reject(error.response)
-      //     });
-      // }
-      if (response && response.status === 401) {
-        logout();
-      }
-      return Promise.reject(response);
-    }
-  );
 };

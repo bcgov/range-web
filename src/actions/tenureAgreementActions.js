@@ -100,16 +100,16 @@ const agreements = [
 
 export const searchTenureAgreements = (requestData) => (dispatch) => {
   dispatch(request(TENURE_AGREEMENTS));
-
-  axios.get(BASE_URL + AGREEMENTS)
-    .then(response => {
-      console.log(response);
+  const makeRequest = async () => {
+    try {
+      const response = await axios.get(BASE_URL + AGREEMENTS);
       const agreements = response.data;
       dispatch(success(TENURE_AGREEMENTS, agreements));
-    }).catch(err => {
-      console.log(err);
-      dispatch(success(TENURE_AGREEMENTS, agreements));
-    });
+    } catch (err) {
+      dispatch(error(TENURE_AGREEMENTS, err));
+    }
+  }
+  makeRequest();
 
   // setTimeout(() => {
   //   dispatch(success(TENURE_AGREEMENTS, agreements));
@@ -118,18 +118,16 @@ export const searchTenureAgreements = (requestData) => (dispatch) => {
 
 export const getRangeUsePlan = (id) => (dispatch) => {
   dispatch(request(RANGE_USE_PLAN));
-
-  axios.get(`${BASE_URL}${AGREEMENTS}/${id}`)
-    .then(response => {
-      console.log(response);
+  const makeRequest = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}${AGREEMENTS}/${id}`)
       const rangeUsePlan = response.data;
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
-    })
-    .catch(err => {
-      console.log(err);
-      const rangeUsePlan = agreements.find(a => a.id == id);
-      dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
-    });
+    } catch (err) {
+      dispatch(error(RANGE_USE_PLAN, err));
+    }
+  }
+  makeRequest();
 
   // const rangeUsePlan = agreements.find(a => a.id == id);
   // setTimeout(() => {
