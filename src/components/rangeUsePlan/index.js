@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RangeUsePlan from './RangeUsePlan';
 import { getRangeUsePlan } from '../../actions/tenureAgreementActions';
+import { Form } from 'semantic-ui-react';
 
 class Base extends Component {
   state = {
@@ -18,12 +19,11 @@ class Base extends Component {
     const { rangeUsePlanState } = this.props;
 
     return (
-      <div>
+      <Form loading={rangeUsePlanState.isLoading}>
         <RangeUsePlan 
           rangeUsePlan={rangeUsePlanState.data}
-          isLoading={rangeUsePlanState.isLoading}
         />
-      </div>
+      </Form>
     );
   }
 }
