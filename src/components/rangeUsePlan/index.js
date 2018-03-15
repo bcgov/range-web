@@ -18,7 +18,7 @@ class Base extends Component {
 
   render() {
     const { data, isLoading } = this.props.rangeUsePlanState;
-    const rangeUsePlan = data instanceof Array ? {} : data;
+    const rangeUsePlan = data || {};
 
     return (
       <Form loading={isLoading}>

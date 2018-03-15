@@ -7,7 +7,8 @@ import { Banner } from '../common';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
 
 const propTypes = {
-  tenureAgreementsState: PropTypes.object.isRequired,
+  tenureAgreements: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   searchTenureAgreements: PropTypes.func.isRequired,
 };
 
@@ -27,7 +28,7 @@ export class TenureAgreement extends Component {
   }
   
   render() {
-    const { data, isLoading } = this.props.tenureAgreementsState;
+    const { tenureAgreements, isLoading } = this.props;
 
     return (
       <div className="tenure-agreement">
@@ -43,7 +44,7 @@ export class TenureAgreement extends Component {
 
         <div className="tenure-agreement__table container">
           <TenureAgreementTable
-            tenureAgreements={data}
+            tenureAgreements={tenureAgreements}
             isLoading={isLoading}
           />
         </div>

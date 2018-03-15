@@ -23,6 +23,7 @@ const appReducer = combineReducers({
   toast,
   tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS),
   rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN),
+  references: createReducer(genericReducer, ReducerTypes.REFERENCES),
 });
 
 const rootReducer = (state, action) => {

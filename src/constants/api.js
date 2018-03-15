@@ -13,4 +13,6 @@ export const GET_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/
 export const REFRESH_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`
 
 export const BASE_URL = 'http://api-range-myra-dev.pathfinder.gov.bc.ca/v1';
-export const AGREEMENTS = '/agreement';
+export const GET_AGREEMENTS = '/agreement';
+export const GET_REFERENCES = '/reference';
+export const GET_CLIENTS = '/client';

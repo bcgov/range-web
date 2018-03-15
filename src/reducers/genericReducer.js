@@ -7,7 +7,7 @@ import {
 
 const genericRequest = (state = {
   isLoading: false,
-  data: [],
+  data: null,
   length: -1,
   success: false,
   errorMessage: '',
