@@ -5,14 +5,8 @@ import { TenureAgreement } from '../TenureAgreement';
 const props = {};
 const setupProps = () => {
   props.searchTenureAgreements = jest.fn();
-  props.tenureAgreementsState = {
-    isLoading: false,
-    rangeUsePlans: [],
-    success: false,
-    totalPages: 1,
-    currentPage: 1,
-    errorResponse: {},
-  }
+  props.tenureAgreements = [],
+  props.isLoading = false;
 };
 
 beforeEach(() => {
