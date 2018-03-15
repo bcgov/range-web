@@ -91,24 +91,27 @@ export class RangeUsePlan extends Component {
         <Banner
           header={agreementId}
           content={DETAIL_RUP_BANNER_CONTENT}
+          actionClassName="range-use-plan__actions"
         >
           <Status 
             className="range-use-plan__status" 
             status={SUBMITTED}
           />
-          <Button 
-            onClick={this.onViewClicked}
-            className="range-use-plan__btn" 
-            
-          >
-            View PDF
-          </Button>
-          <Dropdown 
-            text='Update Status' 
-            options={statusDropdownOptions} 
-            button
-            item 
-          />
+          <div>
+            <Button 
+              onClick={this.onViewClicked}
+              className="range-use-plan__btn" 
+              
+            >
+              View PDF
+            </Button>
+            <Dropdown 
+              text='Update Status' 
+              options={statusDropdownOptions} 
+              button
+              item 
+            />
+          </div>
         </Banner>
         
         <div className="range-use-plan__content container">

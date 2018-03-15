@@ -17,6 +17,7 @@ export const ALTERNATIVE_BUSINESS_NAME = "Alternative Business Name";
 export const AGREEMENT_HOLDERS = "Agreement Holders";
 export const TYPE = "Type";
 export const NOT_PROVIDED = "Not provided";
+export const NOT_SELECTED = "Not selected";
 
 export const COMPLETED_CONFIRMATION_HEADER = "Confirmation: Completed";
 export const COMPLETED_CONFIRMATION_CONTENT = "COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. If you change status to COMPLETE you will no longer be able to make edits to this RUP. Would you like to switch this RUP to complete?";

@@ -4,6 +4,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import { 
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
+  NOT_SELECTED,
 } from '../../constants/strings';
 
 export class ManageZone extends Component {
@@ -78,7 +79,7 @@ export class ManageZone extends Component {
               </div>
               <div className="manage-zone__text-field">
                 <div className="manage-zone__text-field__title">Assigned Zone Contact</div>
-                <div>{currContact}</div> 
+                <div>{currContact || NOT_SELECTED}</div> 
               </div>
             </div>
 

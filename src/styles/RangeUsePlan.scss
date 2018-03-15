@@ -25,6 +25,10 @@ $row-height: 80px;
     display: none
   }
 
+  &__actions {
+    justify-content: space-between;
+  }
+
   &__btn {
     margin-right: 15px !important;
   }
