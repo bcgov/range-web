@@ -25,7 +25,7 @@ export const loginSuccess = (data) => {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.user_data
+    user: data.auth_data
   }
 }
 
@@ -67,7 +67,7 @@ export const login = (code) => (dispatch) => {
       
       // save tokens in local storage and set header for axios 
       onAuthenticated(response);
-
+      console.log(response)
       // TODO: make a request to get user data
       dispatch(loginSuccess(response.data));  
     } catch (err) {

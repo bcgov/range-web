@@ -43,9 +43,9 @@ const saveDataInLocal = (data) => {
   localStorage.setItem(label, JSON.stringify(data));
 };
 
-const getUserData = () => {
+const getAuthDataFromLocal = () => {
   const data = getDataFromLocal();
-  return data.user_data;
+  return data.auth_data;
 };
 
 const setAxiosAuthHeader = (data) => {
@@ -53,8 +53,14 @@ const setAxiosAuthHeader = (data) => {
 };
 
 const isTokenExpired = () => {
-  const userData = getUserData();
-  return (new Date() / 1000) > userData.exp;
+  const authData = getAuthDataFromLocal();
+  return (new Date() / 1000) > authData.exp;
+};
+
+const isRefreshTokenExpired = () => {
+  const data = getDataFromLocal();
+  const authData = getAuthDataFromLocal();
+  return (new Date() / 1000) > authData.auth_time + data.refresh_expires_in;
 };
 
 export const getTokenFromRemote = (code) => {
@@ -80,7 +86,7 @@ export const initializeUser = () => {
   const data = getDataFromLocal();
   if(data) {
     setAxiosAuthHeader(data);
-    user = {...data.user_data};
+    user = {...data.auth_data};
   }
 
   return user;
@@ -95,7 +101,7 @@ export const initializeUser = () => {
 export const onAuthenticated = (response) => {
   if(response && response.data) {
     const data = response.data;
-    data.user_data = jwtDecode(response.data.access_token);
+    data.auth_data = jwtDecode(response.data.access_token);
 
     saveDataInLocal(data);
     setAxiosAuthHeader(data);
@@ -116,13 +122,13 @@ export const onSignedOut = () => {
  * update the new user data in localStorage 
  * after succesfully update user profile 
  */
-export const onUserProfileChanged = (newUserData) => {
-  const data = getDataFromLocal();
-  if(data) {
-    data.user_data = { ...newUserData };
-    saveDataInLocal(data);
-  }
-};
+// export const onUserProfileChanged = (newUserData) => {
+//   const data = getDataFromLocal();
+//   if(data) {
+//     data.auth_data = { ...newUserData };
+//     saveDataInLocal(data);
+//   }
+// };
 
 /**
  * 
@@ -135,6 +141,11 @@ export const onUserProfileChanged = (newUserData) => {
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
+    if(isRefreshTokenExpired()) {
+      logout();
+      return config;
+    }
+
     if(isTokenExpired() && !config._retry) {
       config._retry = true;
       const token = getRefreshTokenFromLocal();

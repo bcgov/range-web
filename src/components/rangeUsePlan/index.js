@@ -11,17 +11,19 @@ class Base extends Component {
   }
   
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.props.getRangeUsePlan(id);
+    const { getRangeUsePlan, match } = this.props;
+    const { id } = match.params;
+    getRangeUsePlan(id);
   }
 
   render() {
-    const { rangeUsePlanState } = this.props;
+    const { data, isLoading } = this.props.rangeUsePlanState;
+    const rangeUsePlan = data instanceof Array ? {} : data;
 
     return (
-      <Form loading={rangeUsePlanState.isLoading}>
+      <Form loading={isLoading}>
         <RangeUsePlan 
-          rangeUsePlan={rangeUsePlanState.data}
+          rangeUsePlan={rangeUsePlan}
         />
       </Form>
     );
