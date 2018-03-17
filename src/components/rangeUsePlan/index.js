@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RangeUsePlan from './RangeUsePlan';
 import { getRangeUsePlan } from '../../actions/tenureAgreementActions';
-import { Form } from 'semantic-ui-react';
+import { Form as Loading } from 'semantic-ui-react';
+import { AGREEMENT_STATUS } from '../../constants/variables';
 
 class Base extends Component {
   state = {
@@ -17,22 +18,26 @@ class Base extends Component {
   }
 
   render() {
-    const { data, isLoading } = this.props.rangeUsePlanState;
-    const rangeUsePlan = data || {};
+    const { references, rangeUsePlanState } = this.props;
+    const { data, isLoading } = rangeUsePlanState;
+    const rangeUsePlan = data;
+    const status = references[AGREEMENT_STATUS];
 
     return (
-      <Form loading={isLoading}>
+      <Loading loading={isLoading}>
         <RangeUsePlan 
           rangeUsePlan={rangeUsePlan}
+          status={status}
         />
-      </Form>
+      </Loading>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    rangeUsePlanState: state.rangeUsePlan
+    rangeUsePlanState: state.rangeUsePlan,
+    references: state.references.data
   };
 };
 

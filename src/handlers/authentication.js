@@ -10,7 +10,9 @@ import {
   GET_TOKEN,
 } from '../constants/api';
 
-const label = 'auth-range-web';
+import {
+  AUTH_KEY,
+} from '../constants/strings';
 
 const getRefreshTokenFromLocal = () => {
   const data = getDataFromLocal();
@@ -36,11 +38,11 @@ const refreshAccessToken = (refresh_token, _retry) => {
 };
 
 const getDataFromLocal = () => {
-  return JSON.parse(localStorage.getItem(label));
+  return JSON.parse(localStorage.getItem(AUTH_KEY));
 };
 
 const saveDataInLocal = (data) => {
-  localStorage.setItem(label, JSON.stringify(data));
+  localStorage.setItem(AUTH_KEY, JSON.stringify(data));
 };
 
 const getAuthDataFromLocal = () => {

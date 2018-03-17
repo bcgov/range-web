@@ -11,7 +11,7 @@ class Base extends Component {
   render() {
     const { searchTenureAgreements, tenureAgreementsState } = this.props;
     const { data, isLoading } = tenureAgreementsState;
-    const tenureAgreements = data || [];
+    const tenureAgreements = data;
     
     return (
       <TenureAgreement 
