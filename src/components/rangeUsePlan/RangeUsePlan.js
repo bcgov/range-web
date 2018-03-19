@@ -10,13 +10,13 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
-import { SUBMITTED, COMPLETED } from '../../constants/variables';
+import { SUBMITTED, COMPLETED, PENDING } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
 
 const propTypes = {
   rangeUsePlan: PropTypes.object.isRequired,
-  status: PropTypes.array.isRequired,
+  statuses: PropTypes.array.isRequired,
 };
 
 const defaultProps = {
@@ -50,7 +50,7 @@ export class RangeUsePlan extends Component {
   }
 
   onYesCompletedClicked = () => {
-    const completed = this.props.status.find(status => status.name === COMPLETED);
+    const completed = this.props.statuses.find(status => status.name === COMPLETED);
     // console.log(completed)
     // TODO: make a network call with completed.id
     this.closeCompletedConfirmModal();
@@ -60,8 +60,8 @@ export class RangeUsePlan extends Component {
     const { isCompletedModalOpen, isPendingModalOpen } = this.state;
 
     const statusDropdownOptions = [
-      { key: 1, text: 'Completed', value: 1, onClick: this.openCompletedConfirmModal },
-      { key: 2, text: 'Pending', value: 2, onClick: this.openPendingConfirmModal },
+      { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
+      { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
     const { 
       agreementId, agreementStartDate, agreementEndDate,

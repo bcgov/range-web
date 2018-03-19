@@ -21,13 +21,13 @@ class Base extends Component {
     const { references, rangeUsePlanState } = this.props;
     const { data, isLoading } = rangeUsePlanState;
     const rangeUsePlan = data;
-    const status = references[AGREEMENT_STATUS];
+    const statuses = references[AGREEMENT_STATUS];
 
     return (
       <Loading loading={isLoading}>
         <RangeUsePlan 
           rangeUsePlan={rangeUsePlan}
-          status={status}
+          statuses={statuses}
         />
       </Loading>
     );
