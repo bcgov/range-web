@@ -29,7 +29,7 @@ const createReducer = (reducerFunction, reducerName, initialState) => {
 const appReducer = combineReducers({
   auth,
   toast,
-  tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS, { data: [], isLoading: false }),
+  tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS, { data: [] }),
   rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN, { data: {} }),
   references: createReducer(genericReducer, ReducerTypes.REFERENCES, { data: getReferencesFromLocal() }),
 });
