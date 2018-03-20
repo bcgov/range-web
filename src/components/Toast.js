@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Message, Icon } from 'semantic-ui-react';
+import { Message, Icon } from 'semantic-ui-react';
 
 const propTypes = {
   close: PropTypes.bool.isRequired,
@@ -11,39 +11,27 @@ const propTypes = {
 }
 
 class Toast extends Component {
-  // getMessageLayout(success, message) {
-  //   let layout = (
-  //     <div className='message'> 
-  //       <div className="icon"> <Icon name='ban' /> </div>
-  //       {message} 
-  //     </div>
-  //   );
-
-  //   if (success) {
-  //     layout = (
-  //       <div className='message'> 
-  //         <div className="icon"> <Icon name='check circle' /> </div> 
-  //         {message} 
-  //       </div>
-  //     );
-  //   }
-
-  //   return layout;
-  // }
-
   render() {
-    // const { close, success, error, message } = this.props;
+    const { close, success, error, message } = this.props;
 
     return (
-      <div className='toast-message-container'>
-        {/* <Message 
+      <div className='toast'>
+        <Message
+          icon
           hidden={close}
           success={success}
           error={error}>
 
-          {this.getMessageLayout(success, message)}  
+          <div className="toast__message"> 
+            <div className="toast__message__icon">
+              <Icon size="large" name={success ? "check circle" : "ban"} /> 
+            </div>
+            <div className="toast__message__content">
+              {message} 
+            </div>
+          </div>
 
-        </Message>   */}
+        </Message>  
       </div>
     );
   }  
