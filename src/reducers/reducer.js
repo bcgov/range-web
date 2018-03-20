@@ -4,13 +4,21 @@ import {
   LOGOUT_SUCCESS
 } from '../constants/actionTypes';
 import * as ReducerTypes from '../constants/reducerTypes';
-
+import { getReferencesFromLocal } from '../handlers';
 import auth from './authReducer';
 import toast from './toastReducer';
 import genericReducer from './genericReducer';
 
-const createReducer = (reducerFunction, reducerName) => {
-  return (state, action) => {
+const createReducer = (reducerFunction, reducerName, initialState) => {
+  const genericInitialState = {
+    isLoading: false,
+    data: null,
+    length: -1,
+    success: false,
+    errorMessage: '',
+  };
+
+  return (state = { ...genericInitialState, ...initialState }, action) => {
     const { name } = action;
     const isInitializationCall = state === undefined;
     if (name !== reducerName && !isInitializationCall) return state;
@@ -21,9 +29,9 @@ const createReducer = (reducerFunction, reducerName) => {
 const appReducer = combineReducers({
   auth,
   toast,
-  tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS),
-  rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN),
-  references: createReducer(genericReducer, ReducerTypes.REFERENCES),
+  tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS, { data: [] }),
+  rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN, { data: {} }),
+  references: createReducer(genericReducer, ReducerTypes.REFERENCES, { data: getReferencesFromLocal() }),
 });
 
 const rootReducer = (state, action) => {

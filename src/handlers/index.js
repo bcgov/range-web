@@ -1,5 +1,5 @@
 // import validator from 'validator';
-import { NOT_PROVIDED } from '../constants/strings';
+import { NOT_PROVIDED, REFERENCE_KEY } from '../constants/strings';
 import { toastMessage } from '../actions/toastActions';
 import moment from 'moment';
 
@@ -9,6 +9,14 @@ export const formatDate = (isoFormatDate) => {
     return moment(isoFormatDate, "YYYY-MM-DDTHH:mm:ss.SSSZ").format("MMMM Do, YYYY");
   }
   return NOT_PROVIDED;
+};
+
+export const saveReferencesInLocal = (references) => {
+  localStorage.setItem(REFERENCE_KEY, JSON.stringify(references));
+};
+
+export const getReferencesFromLocal = () => {
+  return JSON.parse(localStorage.getItem(REFERENCE_KEY)) || {};
 };
 
 class Handlers {

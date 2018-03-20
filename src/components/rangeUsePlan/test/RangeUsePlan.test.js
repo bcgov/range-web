@@ -5,6 +5,7 @@ import { getMockRangeUsePlan } from '../../tenureAgreement/test/mockValues'
 const props = {};
 const setupProps = () => {
   props.rangeUsePlan = getMockRangeUsePlan(2);
+  props.statuses = [];
 };
 
 const mockClick = jest.fn();
@@ -48,6 +49,15 @@ describe('RangeUsePlan', () => {
       wrapper.instance().onViewClicked();
 
       expect(mockClick).toHaveBeenCalled();
+    });
+
+    it('onYesCompletedClicked calls the right function', () => {
+      const wrapper = shallow(<RangeUsePlan {...props} />);
+      const instance = wrapper.instance();
+      const closeCompletedConfirmModalSpy = jest.spyOn(instance, 'closeCompletedConfirmModal');
+
+      instance.onYesCompletedClicked();
+      expect(closeCompletedConfirmModalSpy).toHaveBeenCalled();
     });
   });
 });

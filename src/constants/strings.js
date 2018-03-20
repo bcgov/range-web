@@ -1,3 +1,6 @@
+export const REFERENCE_KEY = "range-web-reference";
+export const AUTH_KEY = 'auth-range-web';
+
 // tenure agreement table header labels
 export const RANGE_NUMBER = "RAN Number";
 export const RANGE_NAME = "Range Name";
@@ -30,4 +33,4 @@ export const DETAIL_RUP_BANNER_CONTENT = "View the full PDF file or update the s
 export const SELECT_RUP_BANNER_HEADER = "Select Range Use Plan";
 export const SELECT_RUP_BANNER_CONTENT = "View details of each range use plan. Enter RAN number, Agreement holder's name, or staff contact in the search box to search for a specific range use plan.";
 export const MANAGE_ZONE_BANNER_HEADER = "Manage Zone";
-export const MANAGE_ZONE_BANNER_CONTENT = "Follow steps to assign a zone from the current staff to other staff."
+export const MANAGE_ZONE_BANNER_CONTENT = "Follow steps to assign a zone from the current staff to other staff.";

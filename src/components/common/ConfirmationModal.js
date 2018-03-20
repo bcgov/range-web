@@ -5,7 +5,7 @@ export const ConfirmationModal = ({ open, header, content, onNoClicked, onYesCli
   <Modal open={open} basic size='small'>
     <Header as='h2'content={header} />
     <Modal.Content>
-      <p className="confirmation-modal__content">{content}</p>
+      <div className="confirmation-modal__content">{content}</div>
     </Modal.Content>
     <Modal.Actions>
       <Button basic color='red' inverted onClick={onNoClicked}>

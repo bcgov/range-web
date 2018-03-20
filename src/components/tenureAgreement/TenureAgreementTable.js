@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TenureAgreementTableItem from './TenureAgreementTableItem';
-import { Table, Form as Loader, Pagination, Icon } from 'semantic-ui-react';
+import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
@@ -25,7 +25,7 @@ export class TenureAgreementTable extends Component {
     const { tenureAgreements, isLoading } = this.props;
 
     return (
-      <Loader loading={isLoading}>
+      <Loading loading={isLoading}>
         <Table singleLine selectable>
           <Table.Header>
             <Table.Row>
@@ -60,7 +60,7 @@ export class TenureAgreementTable extends Component {
           prevItem={{ content: <Icon name='angle left' />, icon: true }}
           nextItem={{ content: <Icon name='angle right' />, icon: true }}
         /> */}
-      </Loader>
+      </Loading>
     );
   }
 }
