@@ -93,7 +93,7 @@
   width: fit-content;
   min-width: 400px;
   position: absolute;
-  top: 52px;
+  top: calc(#{$nav-height} + 2px);
   left: 0;
   right: 0;
   margin: 0 auto;
