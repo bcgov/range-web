@@ -10,7 +10,7 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
-import { SUBMITTED, COMPLETED, PENDING } from '../../constants/variables';
+import { COMPLETED, PENDING } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
 
@@ -18,6 +18,8 @@ const propTypes = {
   rangeUsePlan: PropTypes.object.isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.array.isRequired,
+  isUpdatingStatus: PropTypes.bool.isRequired,
+  newStatus: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
