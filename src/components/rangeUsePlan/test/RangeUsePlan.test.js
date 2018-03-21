@@ -2,10 +2,17 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
 import { getMockRangeUsePlan } from '../../tenureAgreement/test/mockValues'
+import { COMPLETED, PENDING } from '../../../constants/variables';
+
+const mockStatus = { id: 1, name: 'name' };
+
 const props = {};
 const setupProps = () => {
   props.rangeUsePlan = getMockRangeUsePlan(2);
-  props.statuses = [];
+  props.statuses = [mockStatus];
+  props.newStatus = { id: 2, name: 'name' };
+  props.isUpdatingStatus = false;
+  props.updateRupStatus = jest.fn(() => Promise.resolve({}));
 };
 
 const mockClick = jest.fn();
@@ -51,13 +58,34 @@ describe('RangeUsePlan', () => {
       expect(mockClick).toHaveBeenCalled();
     });
 
-    it('onYesCompletedClicked calls the right function', () => {
+    it('onYesSomethingClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
+      const updateStatusSpy = jest.spyOn(instance, 'updateStatus');
       const closeCompletedConfirmModalSpy = jest.spyOn(instance, 'closeCompletedConfirmModal');
+      const closePendingConfirmModalSpy = jest.spyOn(instance, 'closePendingConfirmModal');
 
       instance.onYesCompletedClicked();
-      expect(closeCompletedConfirmModalSpy).toHaveBeenCalled();
+      expect(updateStatusSpy).toHaveBeenCalledWith(COMPLETED, closeCompletedConfirmModalSpy);
+
+      instance.onYesPendingClicked();
+      expect(updateStatusSpy).toHaveBeenCalledWith(PENDING, closePendingConfirmModalSpy);
+    });
+
+    it('updateStatus calls the right function', () => {
+      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const instance = wrapper.instance();
+      const mockCloseConfirmModal = jest.fn();
+
+      instance.updateStatus({}, mockCloseConfirmModal);
+      expect(props.updateRupStatus).not.toBeCalled();
+
+      instance.updateStatus(mockStatus.name, mockCloseConfirmModal);
+      const requestData = { 
+        agreementId: props.rangeUsePlan.id,
+        statusId: mockStatus.id,
+      };
+      expect(props.updateRupStatus).toHaveBeenCalledWith(requestData);
     });
   });
 });

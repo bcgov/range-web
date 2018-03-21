@@ -55,12 +55,14 @@ export class RangeUsePlan extends Component {
   updateStatus = (statusName, closeConfirmModal) => {
     const { rangeUsePlan, statuses, updateRupStatus } = this.props;
     const status = statuses.find(status => status.name === statusName);
-    const requestData = {
-      agreementId: rangeUsePlan.id,
-      statusId: status.id,
+    if(status) {
+      const requestData = {
+        agreementId: rangeUsePlan.id,
+        statusId: status.id,
+      }
+  
+      updateRupStatus(requestData).then(closeConfirmModal);
     }
-
-    updateRupStatus(requestData).then(closeConfirmModal);
   }
 
   onYesCompletedClicked = () => {
