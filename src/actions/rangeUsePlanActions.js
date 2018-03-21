@@ -18,7 +18,7 @@ export const updateRupStatus = (requestData) => (dispatch) => {
         `${BASE_URL}${AGREEMENT}/${agreementId}${STATUS}`, 
         { statusId }
       );
-      dispatch(success(UPDATE_RUP_STATUS, response));
+      dispatch(success(UPDATE_RUP_STATUS, response.data));
       dispatch(toastSuccessMessage(UPDATE_RUP_STATUS_SUCCESS));
     } catch (err) {
       dispatch(error(UPDATE_RUP_STATUS, err));

@@ -57,12 +57,8 @@ export class RangeUsePlan extends Component {
       agreementId: rangeUsePlan.id,
       statusId: status.id,
     }
-    const statusUpdated = () => {
-      closeConfirmModal();
-      // TODO: update view
-    };
 
-    updateRupStatus(requestData).then(statusUpdated);
+    updateRupStatus(requestData).then(closeConfirmModal);
   }
 
   onYesCompletedClicked = () => {
@@ -75,7 +71,7 @@ export class RangeUsePlan extends Component {
 
   render() {
     const { isCompletedModalOpen, isPendingModalOpen } = this.state;
-    const { rangeUsePlan, isUpdatingStatus } = this.props;
+    const { rangeUsePlan, isUpdatingStatus, newStatus } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
@@ -83,10 +79,13 @@ export class RangeUsePlan extends Component {
 
     const { 
       agreementId, agreementStartDate, agreementEndDate,
-      zone, rangeName, alternateBusinessName, planStartDate, planEndDate,
+      zone, rangeName, alternateBusinessName, 
+      planStartDate, planEndDate, status:currStatus
     } = rangeUsePlan;
     const districtCode = zone && zone.district && zone.district.code;
     const zoneCode = zone && zone.code;
+    const status = (newStatus && newStatus.name) || 
+      (currStatus && currStatus.name);
 
     return (
       <div className="range-use-plan">
@@ -124,7 +123,7 @@ export class RangeUsePlan extends Component {
         >
           <Status 
             className="range-use-plan__status" 
-            status={SUBMITTED}
+            status={status}
           />
           <div>
             <Button 
