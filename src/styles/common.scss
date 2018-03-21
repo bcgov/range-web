@@ -92,8 +92,8 @@
 .toast {
   width: fit-content;
   min-width: 400px;
-  position: absolute;
-  top: calc(#{$nav-height} + 2px);
+  position: fixed;
+  top: calc(#{$nav-height} + 10px);
   left: 0;
   right: 0;
   margin: 0 auto;
