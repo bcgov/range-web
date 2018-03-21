@@ -21,23 +21,6 @@ export const getReferencesFromLocal = () => {
   return JSON.parse(localStorage.getItem(REFERENCE_KEY)) || {};
 };
 
-let toastTimeout = null;
-export const handleToastMessage = (openToastMessage, closeToastMessage, timeout) => {
-  // unregister the timeout to prevent from closing
-  if (toastTimeout) {
-    clearTimeout(toastTimeout);
-  }
-  // close the previous message if it was presented
-  closeToastMessage();
-
-  // open a new message
-  openToastMessage();
-
-  toastTimeout = setTimeout(() => {
-    closeToastMessage();
-  }, timeout);
-};
-
 export const getErrorMessage = (err) => {
   let message = UNEXPECTED_ERROR;
   
