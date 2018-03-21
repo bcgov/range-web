@@ -21,12 +21,12 @@ export class TenureAgreementTableItem extends Component {
 
   render() {
     const { tenureAgreement } = this.props;
-    const status = tenureAgreement.status && tenureAgreement.status.name;
+    const statusName = tenureAgreement.status && tenureAgreement.status.name;
     const agreementId = tenureAgreement.agreementId;
     const rangeName = tenureAgreement.rangeName;
-    const primaryAgreementHolder = tenureAgreement.primaryAgreementHolder && tenureAgreement.primaryAgreementHolder.name;
+    const primaryAgreementHolderName = tenureAgreement.primaryAgreementHolder && tenureAgreement.primaryAgreementHolder.name;
     const staff = `Staff Contact ${tenureAgreement.id}`;
-    
+
     return (
       <Table.Row
         className="tenure-agreement-table-item"
@@ -34,9 +34,9 @@ export class TenureAgreementTableItem extends Component {
       >
         <Table.Cell>{agreementId}</Table.Cell>
         <Table.Cell>{rangeName}</Table.Cell>
-        <Table.Cell>{primaryAgreementHolder}</Table.Cell>
+        <Table.Cell>{primaryAgreementHolderName}</Table.Cell>
         <Table.Cell>{staff}</Table.Cell>
-        <Table.Cell><Status status={status}/></Table.Cell>
+        <Table.Cell><Status status={statusName}/></Table.Cell>
       </Table.Row>
     );
   }

@@ -80,16 +80,22 @@ export class RangeUsePlan extends Component {
     ];
 
     const { 
-      agreementId, agreementStartDate, agreementEndDate,
-      zone, rangeName, alternateBusinessName, 
-      planStartDate, planEndDate, status:currStatus,
-      primaryAgreementHolder: currPAHolder,
+      agreementId,
+      agreementStartDate,
+      agreementEndDate,
+      zone,
+      rangeName,
+      alternateBusinessName,
+      planStartDate,
+      planEndDate,
+      status,
+      primaryAgreementHolder,
     } = rangeUsePlan;
     const districtCode = zone && zone.district && zone.district.code;
     const zoneCode = zone && zone.code;
-    const status = (newStatus && newStatus.name) || 
-      (currStatus && currStatus.name);
-    const primaryAgreementHolder = currPAHolder && currPAHolder.name;
+    const statusName = (newStatus && newStatus.name) || 
+      (status && status.name);
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     return (
       <div className="range-use-plan">
@@ -127,7 +133,7 @@ export class RangeUsePlan extends Component {
         >
           <Status 
             className="range-use-plan__status" 
-            status={status}
+            status={statusName}
           />
           <div>
             <Button 
@@ -164,7 +170,7 @@ export class RangeUsePlan extends Component {
           <div className="range-use-plan__basic-info-second-row">
             <TextField 
               label={AGREEMENT_HOLDERS}
-              text={primaryAgreementHolder}
+              text={primaryAgreementHolderName}
             />
 
             <TextField 
