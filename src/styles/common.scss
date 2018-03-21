@@ -88,3 +88,28 @@
     font-size: 1.2rem;
   }
 }
+
+.toast {
+  width: fit-content;
+  min-width: 400px;
+  position: absolute;
+  top: calc(#{$nav-height} + 2px);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1000;
+
+  &__message {
+    display: flex;
+    align-items: center;
+
+    &__content {
+      font-size: 1.1rem;
+    }
+
+    &__icon {
+      margin-right: 15px;
+      // color: $primary-color;
+    }
+  }
+}

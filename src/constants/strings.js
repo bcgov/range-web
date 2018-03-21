@@ -34,3 +34,7 @@ export const SELECT_RUP_BANNER_HEADER = "Select Range Use Plan";
 export const SELECT_RUP_BANNER_CONTENT = "View details of each range use plan. Enter RAN number, Agreement holder's name, or staff contact in the search box to search for a specific range use plan.";
 export const MANAGE_ZONE_BANNER_HEADER = "Manage Zone";
 export const MANAGE_ZONE_BANNER_CONTENT = "Follow steps to assign a zone from the current staff to other staff.";
+
+export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
+export const STATUS404 = 'The request is currently not available, please try later.';
+export const STATUS500 = 'Internal server errors occured, please contact to the administrator.';

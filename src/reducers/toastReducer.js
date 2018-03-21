@@ -4,7 +4,7 @@ import {
 } from '../constants/actionTypes';
 
 const toastReducer = (state = {
-  close: false,
+  close: true,
   success: false,
   error: false,
   message: ''
