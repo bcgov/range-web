@@ -31,7 +31,8 @@ const appReducer = combineReducers({
   toast,
   tenureAgreements: createReducer(genericReducer, ReducerTypes.TENURE_AGREEMENTS, { data: [] }),
   rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN, { data: {} }),
-  references: createReducer(genericReducer, ReducerTypes.REFERENCES, { data: getReferencesFromLocal() }),
+  references: createReducer(genericReducer, ReducerTypes.GET_REFERENCES, { data: getReferencesFromLocal() }),
+  updateRupStatus: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_STATUS),
 });
 
 const rootReducer = (state, action) => {

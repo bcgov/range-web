@@ -3,4 +3,4 @@
 *******************************/
 
 /* loaderLineColor */
-@shapeBorderColor: @primaryColor;
+@shapeBorderColor: @primaryColor transparent transparent;

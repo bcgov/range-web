@@ -16,6 +16,7 @@ import { formatDate } from '../../handlers';
 
 const propTypes = {
   rangeUsePlan: PropTypes.object.isRequired,
+  updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.array.isRequired,
 };
 
@@ -49,24 +50,41 @@ export class RangeUsePlan extends Component {
     this.setState({ isPendingModalOpen: false });
   }
 
+  updateStatus = (statusName, closeConfirmModal) => {
+    const { rangeUsePlan, statuses, updateRupStatus } = this.props;
+    const status = statuses.find(status => status.name === statusName);
+    const requestData = {
+      agreementId: rangeUsePlan.id,
+      statusId: status.id,
+    }
+    const statusUpdated = () => {
+      closeConfirmModal();
+      // TODO: update view
+    };
+
+    updateRupStatus(requestData).then(statusUpdated);
+  }
+
   onYesCompletedClicked = () => {
-    const completed = this.props.statuses.find(status => status.name === COMPLETED);
-    // console.log(completed)
-    // TODO: make a network call with completed.id
-    this.closeCompletedConfirmModal();
+    this.updateStatus(COMPLETED, this.closeCompletedConfirmModal);
+  }
+
+  onYesPendingClicked = () => {
+    this.updateStatus(PENDING, this.closePendingConfirmModal);
   }
 
   render() {
     const { isCompletedModalOpen, isPendingModalOpen } = this.state;
-
+    const { rangeUsePlan, isUpdatingStatus } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
+
     const { 
       agreementId, agreementStartDate, agreementEndDate,
       zone, rangeName, alternateBusinessName, planStartDate, planEndDate,
-    } = this.props.rangeUsePlan;
+    } = rangeUsePlan;
     const districtCode = zone && zone.district && zone.district.code;
     const zoneCode = zone && zone.code;
 
@@ -87,6 +105,7 @@ export class RangeUsePlan extends Component {
           content={COMPLETED_CONFIRMATION_CONTENT}
           onNoClicked={this.closeCompletedConfirmModal}
           onYesClicked={this.onYesCompletedClicked}
+          loading={isUpdatingStatus}
         />
 
         <ConfirmationModal 
@@ -94,7 +113,8 @@ export class RangeUsePlan extends Component {
           header={PENDING_CONFIRMATION_HEADER}
           content={PENDING_CONFIRMATION_CONTENT}
           onNoClicked={this.closePendingConfirmModal}
-          onYesClicked={this.closePendingConfirmModal}
+          onYesClicked={this.onYesPendingClicked}
+          loading={isUpdatingStatus}
         />
 
         <Banner
@@ -110,7 +130,6 @@ export class RangeUsePlan extends Component {
             <Button 
               onClick={this.onViewClicked}
               className="range-use-plan__btn" 
-              
             >
               View PDF
             </Button>

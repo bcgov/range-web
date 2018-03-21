@@ -38,3 +38,5 @@ export const MANAGE_ZONE_BANNER_CONTENT = "Follow steps to assign a zone from th
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
 export const STATUS500 = 'Internal server errors occured, please contact to the administrator.';
+
+export const UPDATE_RUP_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
