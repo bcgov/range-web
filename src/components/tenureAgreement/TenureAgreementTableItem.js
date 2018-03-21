@@ -24,7 +24,8 @@ export class TenureAgreementTableItem extends Component {
     const statusName = tenureAgreement.status && tenureAgreement.status.name;
     const agreementId = tenureAgreement.agreementId;
     const rangeName = tenureAgreement.rangeName;
-    const primaryAgreementHolderName = tenureAgreement.primaryAgreementHolder && tenureAgreement.primaryAgreementHolder.name;
+    const primaryAgreementHolderName = tenureAgreement.primaryAgreementHolder 
+      && tenureAgreement.primaryAgreementHolder.name;
     const staff = `Staff Contact ${tenureAgreement.id}`;
 
     return (

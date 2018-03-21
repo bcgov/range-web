@@ -19,9 +19,14 @@ class Base extends Component {
   }
 
   render() {
-    const { references, rangeUsePlanState, updateRupStatus, isUpdatingStatus, newStatus } = this.props;
-    const { data, isLoading, success } = rangeUsePlanState;
-    const rangeUsePlan = data;
+    const { 
+      references,
+      rangeUsePlanState,
+      updateRupStatus,
+      isUpdatingStatus,
+      newStatus
+    } = this.props;
+    const { data: rangeUsePlan, isLoading, success } = rangeUsePlanState;
     const statuses = references[AGREEMENT_STATUS];
 
     return (
