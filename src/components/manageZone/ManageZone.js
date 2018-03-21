@@ -47,6 +47,7 @@ export class ManageZone extends Component {
     ];
 
     const { zone, isUpdateModalOpen, currContact, newContact } = this.state;
+    const isUpdateBtnDisabled = (newContact && zone) === null;
 
     return (
       <div className="manage-zone">
@@ -86,9 +87,6 @@ export class ManageZone extends Component {
 
             <h3>Step 2: Assign a new contact</h3>
             <div className="manage-zone__step-two">
-              {/* <div className="manage-zone__text-field">
-                {zone ||'Zone'}
-              </div> */}
               <div className="manage-zone__dropdown">
                 <Dropdown 
                   id='manage-zone__contact-dropdown'
@@ -106,6 +104,7 @@ export class ManageZone extends Component {
               <Button 
                 onClick={this.openUpdateConfirmationModal}
                 primary
+                disabled={isUpdateBtnDisabled}
               >
                 Update Zone
               </Button>
