@@ -45,6 +45,6 @@ export const toastErrorMessage = (err, timeout) => (dispatch) => {
   dispatch(toastMessage(false, errorMessage, timeout));
 }
 
-export const toastSuccessMessage = (message, timeout) => (dispatch) => {
+export const toastSuccessMessage = (message = "Success!", timeout) => (dispatch) => {
   dispatch(toastMessage(true, message, timeout));
 }

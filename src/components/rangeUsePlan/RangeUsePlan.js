@@ -10,13 +10,16 @@ import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
-import { SUBMITTED, COMPLETED, PENDING } from '../../constants/variables';
+import { COMPLETED, PENDING } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
 
 const propTypes = {
   rangeUsePlan: PropTypes.object.isRequired,
+  updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.array.isRequired,
+  isUpdatingStatus: PropTypes.bool.isRequired,
+  newStatus: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
@@ -49,26 +52,50 @@ export class RangeUsePlan extends Component {
     this.setState({ isPendingModalOpen: false });
   }
 
+  updateStatus = (statusName, closeConfirmModal) => {
+    const { rangeUsePlan, statuses, updateRupStatus } = this.props;
+    const status = statuses.find(status => status.name === statusName);
+    const requestData = {
+      agreementId: rangeUsePlan.id,
+      statusId: status.id,
+    }
+
+    updateRupStatus(requestData).then(closeConfirmModal);
+  }
+
   onYesCompletedClicked = () => {
-    const completed = this.props.statuses.find(status => status.name === COMPLETED);
-    // console.log(completed)
-    // TODO: make a network call with completed.id
-    this.closeCompletedConfirmModal();
+    this.updateStatus(COMPLETED, this.closeCompletedConfirmModal);
+  }
+
+  onYesPendingClicked = () => {
+    this.updateStatus(PENDING, this.closePendingConfirmModal);
   }
 
   render() {
     const { isCompletedModalOpen, isPendingModalOpen } = this.state;
-
+    const { rangeUsePlan, isUpdatingStatus, newStatus } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
+
     const { 
-      agreementId, agreementStartDate, agreementEndDate,
-      zone, rangeName, alternateBusinessName, planStartDate, planEndDate,
-    } = this.props.rangeUsePlan;
+      agreementId,
+      agreementStartDate,
+      agreementEndDate,
+      zone,
+      rangeName,
+      alternateBusinessName,
+      planStartDate,
+      planEndDate,
+      status,
+      primaryAgreementHolder,
+    } = rangeUsePlan;
     const districtCode = zone && zone.district && zone.district.code;
     const zoneCode = zone && zone.code;
+    const statusName = (newStatus && newStatus.name) || 
+      (status && status.name);
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     return (
       <div className="range-use-plan">
@@ -87,6 +114,7 @@ export class RangeUsePlan extends Component {
           content={COMPLETED_CONFIRMATION_CONTENT}
           onNoClicked={this.closeCompletedConfirmModal}
           onYesClicked={this.onYesCompletedClicked}
+          loading={isUpdatingStatus}
         />
 
         <ConfirmationModal 
@@ -94,7 +122,8 @@ export class RangeUsePlan extends Component {
           header={PENDING_CONFIRMATION_HEADER}
           content={PENDING_CONFIRMATION_CONTENT}
           onNoClicked={this.closePendingConfirmModal}
-          onYesClicked={this.closePendingConfirmModal}
+          onYesClicked={this.onYesPendingClicked}
+          loading={isUpdatingStatus}
         />
 
         <Banner
@@ -104,13 +133,12 @@ export class RangeUsePlan extends Component {
         >
           <Status 
             className="range-use-plan__status" 
-            status={SUBMITTED}
+            status={statusName}
           />
           <div>
             <Button 
               onClick={this.onViewClicked}
               className="range-use-plan__btn" 
-              
             >
               View PDF
             </Button>
@@ -142,7 +170,7 @@ export class RangeUsePlan extends Component {
           <div className="range-use-plan__basic-info-second-row">
             <TextField 
               label={AGREEMENT_HOLDERS}
-              text={'Obiwan Kenobi'}
+              text={primaryAgreementHolderName}
             />
 
             <TextField 

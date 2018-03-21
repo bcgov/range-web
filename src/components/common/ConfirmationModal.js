@@ -1,7 +1,8 @@
 import React from 'react';
 import { Header, Button, Modal, Icon } from 'semantic-ui-react';
 
-export const ConfirmationModal = ({ open, header, content, onNoClicked, onYesClicked }) => (
+export const ConfirmationModal = ({ open, header, content, 
+  onNoClicked, onYesClicked, loading = false }) => (
   <Modal open={open} basic size='small'>
     <Header as='h2'content={header} />
     <Modal.Content>
@@ -11,7 +12,7 @@ export const ConfirmationModal = ({ open, header, content, onNoClicked, onYesCli
       <Button basic color='red' inverted onClick={onNoClicked}>
         <Icon name='remove' /> No
       </Button>
-      <Button color='green' inverted onClick={onYesClicked}>
+      <Button loading={loading} color='green' inverted onClick={onYesClicked}>
         <Icon name='checkmark' /> Yes
       </Button>
     </Modal.Actions>

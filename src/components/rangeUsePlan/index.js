@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RangeUsePlan from './RangeUsePlan';
+import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/tenureAgreementActions';
-import { Form as Loading } from 'semantic-ui-react';
+import { updateRupStatus } from '../../actions/rangeUsePlanActions';
 import { AGREEMENT_STATUS } from '../../constants/variables';
 
 class Base extends Component {
@@ -18,18 +19,31 @@ class Base extends Component {
   }
 
   render() {
-    const { references, rangeUsePlanState } = this.props;
-    const { data, isLoading } = rangeUsePlanState;
-    const rangeUsePlan = data;
+    const { 
+      references,
+      rangeUsePlanState,
+      updateRupStatus,
+      isUpdatingStatus,
+      newStatus
+    } = this.props;
+    const { data: rangeUsePlan, isLoading, success } = rangeUsePlanState;
     const statuses = references[AGREEMENT_STATUS];
 
     return (
-      <Loading loading={isLoading}>
-        <RangeUsePlan 
-          rangeUsePlan={rangeUsePlan}
-          statuses={statuses}
-        />
-      </Loading>
+      <div>
+        { isLoading &&
+          <Loading />
+        }
+        { success && 
+          <RangeUsePlan 
+            rangeUsePlan={rangeUsePlan}
+            statuses={statuses}
+            updateRupStatus={updateRupStatus}
+            isUpdatingStatus={isUpdatingStatus}
+            newStatus={newStatus}
+          />
+        }
+      </div>
     );
   }
 }
@@ -37,10 +51,12 @@ class Base extends Component {
 const mapStateToProps = state => {
   return {
     rangeUsePlanState: state.rangeUsePlan,
-    references: state.references.data
+    references: state.references.data,
+    isUpdatingStatus: state.updateRupStatus.isLoading,
+    newStatus: state.updateRupStatus.data,
   };
 };
 
 export default connect(
-  mapStateToProps, { getRangeUsePlan }
+  mapStateToProps, { getRangeUsePlan, updateRupStatus }
 )(Base);

@@ -68,7 +68,8 @@ export class ManageZone extends Component {
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
               <div className="manage-zone__dropdown">
-                <Dropdown 
+                <Dropdown
+                  id='manage-zone__zone-dropdown'
                   placeholder='Zone' 
                   options={zoneOptions}
                   onChange={this.onZoneChanged}
@@ -90,6 +91,7 @@ export class ManageZone extends Component {
               </div> */}
               <div className="manage-zone__dropdown">
                 <Dropdown 
+                  id='manage-zone__contact-dropdown'
                   placeholder='Contact' 
                   options={contactOptions} 
                   onChange={this.onContactChanged}

@@ -8,22 +8,22 @@ import {
   saveReferencesInLocal,
 } from '../handlers';
 
-import { REFERENCES } from '../constants/reducerTypes';
-import { BASE_URL, GET_REFERENCES } from '../constants/api';
+import { GET_REFERENCES } from '../constants/reducerTypes';
+import { BASE_URL, REFERENCES } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getReferences = (requestData) => (dispatch) => {
-  dispatch(request(REFERENCES));
+  dispatch(request(GET_REFERENCES));
 
   const makeRequest = async () => {
     try {
-      const response = await axios.get(BASE_URL + GET_REFERENCES);
+      const response = await axios.get(BASE_URL + REFERENCES);
       const references = response.data;
       
       saveReferencesInLocal(references);
-      dispatch(success(REFERENCES, references));
+      dispatch(success(GET_REFERENCES, references));
     } catch (err) {
-      dispatch(error(REFERENCES, err));
+      dispatch(error(GET_REFERENCES, err));
     }
   }
   makeRequest();
