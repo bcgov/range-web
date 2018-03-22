@@ -208,8 +208,18 @@ export class RangeUsePlan extends Component {
             />
             <TextField 
               label={ZONE}
-              text={zoneCode}
+              text={<Dropdown 
+              id='range-use-plan__zone-dropdown'
+              placeholder='Zone' 
+              options={[]}
+              onChange={this.onContactChanged}
+              fluid
+              search
+              selection 
+            />}
             />
+
+            
           </div>
             
           <div className="range-use-plan__agreement-info">

@@ -17,3 +17,4 @@ export const AGREEMENT = '/agreement';
 export const REFERENCES = '/reference';
 export const CLIENT = '/client';
 export const STATUS = '/status';
+export const ZONE = '/zone';
