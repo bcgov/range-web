@@ -24,7 +24,6 @@ class Base extends Component {
       rangeUsePlanState,
       updateRupStatus,
       isUpdatingStatus,
-      newStatus
     } = this.props;
     const { data: rangeUsePlan, isLoading, success } = rangeUsePlanState;
     const statuses = references[AGREEMENT_STATUS];
@@ -40,7 +39,6 @@ class Base extends Component {
             statuses={statuses}
             updateRupStatus={updateRupStatus}
             isUpdatingStatus={isUpdatingStatus}
-            newStatus={newStatus}
           />
         }
       </div>
@@ -53,7 +51,6 @@ const mapStateToProps = state => {
     rangeUsePlanState: state.rangeUsePlan,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
-    newStatus: state.updateRupStatus.data,
   };
 };
 

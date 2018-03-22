@@ -19,7 +19,6 @@ const propTypes = {
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.array.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
-  newStatus: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
@@ -30,6 +29,7 @@ export class RangeUsePlan extends Component {
   state = {
     isCompletedModalOpen: false,
     isPendingModalOpen: false,
+    newStatus: null,
   }
 
   onViewClicked = () => {
@@ -60,8 +60,13 @@ export class RangeUsePlan extends Component {
         agreementId: rangeUsePlan.id,
         statusId: status.id,
       }
-  
-      updateRupStatus(requestData).then(closeConfirmModal);
+      
+      updateRupStatus(requestData).then(() => {
+        closeConfirmModal();
+        this.setState({
+          newStatus: status,
+        });
+      });
     }
   }
 
@@ -74,8 +79,8 @@ export class RangeUsePlan extends Component {
   }
 
   render() {
-    const { isCompletedModalOpen, isPendingModalOpen } = this.state;
-    const { rangeUsePlan, isUpdatingStatus, newStatus } = this.props;
+    const { isCompletedModalOpen, isPendingModalOpen, newStatus } = this.state;
+    const { rangeUsePlan, isUpdatingStatus } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
