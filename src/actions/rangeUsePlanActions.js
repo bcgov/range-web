@@ -3,7 +3,7 @@ import {
   request,
   error,
 } from '../actions/genericActions';
-import { UPDATE_RUP_STATUS_SUCCESS } from '../constants/strings';
+import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
 import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES } from '../constants/reducerTypes';
 import { BASE_URL, STATUS, AGREEMENT, ZONE } from '../constants/api';
@@ -40,7 +40,7 @@ export const updateRupZone = (requestData) => (dispatch) => {
         { zoneId }
       );
       dispatch(success(UPDATE_RUP_ZONE, response.data));
-      dispatch(toastSuccessMessage());
+      dispatch(toastSuccessMessage(UPDATE_RUP_ZONE_SUCCESS));
       return response.data;
     } catch (err) {
       dispatch(error(UPDATE_RUP_ZONE, err));

@@ -27,6 +27,7 @@ export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
 export const STATUS500 = 'Internal server error occurred, please contact the administrator.';
 export const UPDATE_RUP_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
+export const UPDATE_RUP_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = "Confirmation: Completed";

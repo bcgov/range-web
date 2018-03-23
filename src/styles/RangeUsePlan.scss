@@ -29,12 +29,8 @@ $row-height: 80px;
     justify-content: space-between;
   }
 
-  &__btn {
-    margin-right: 15px !important;
-  }
-
-  &__status {
-    margin-right: 15px;
+  &__status-dropdown {
+    margin-left: 15px !important;
   }
 
   &__divider {
