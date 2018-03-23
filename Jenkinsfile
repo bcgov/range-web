@@ -24,7 +24,7 @@ def notifySlack(text, channel, url, attachments, icon) {
     sh "curl -s -S -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
 }
 
-node {
+node('master') {
   stage('Checkout') {
     echo "Checking out source"
     checkout scm
