@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Header, Button, Dropdown } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
+import UpdateZoneModal from './UpdateZoneModal';
 import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
   AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
@@ -29,7 +30,17 @@ export class RangeUsePlan extends Component {
   state = {
     isCompletedModalOpen: false,
     isPendingModalOpen: false,
-    newStatus: null,
+    isUpdateZoneModalOpen: false,
+    zone: {},
+    status: {},
+  }
+
+  componentDidMount() {
+    const { zone, status } = this.props.rangeUsePlan;
+    this.setState({
+      zone,
+      status
+    });
   }
 
   onViewClicked = () => {
@@ -52,6 +63,14 @@ export class RangeUsePlan extends Component {
     this.setState({ isPendingModalOpen: false });
   }
 
+  openUpdateZoneModal = () => {
+    this.setState({ isUpdateZoneModalOpen: true });
+  }
+
+  closeUpdateZoneModal = () => {
+    this.setState({ isUpdateZoneModalOpen: false });
+  }
+
   updateStatus = (statusName, closeConfirmModal) => {
     const { rangeUsePlan, statuses, updateRupStatus } = this.props;
     const status = statuses.find(status => status.name === statusName);
@@ -61,10 +80,10 @@ export class RangeUsePlan extends Component {
         statusId: status.id,
       }
       
-      updateRupStatus(requestData).then(() => {
+      updateRupStatus(requestData).then((newStatus) => {
         closeConfirmModal();
         this.setState({
-          newStatus: status,
+          status: newStatus,
         });
       });
     }
@@ -78,30 +97,42 @@ export class RangeUsePlan extends Component {
     this.updateStatus(PENDING, this.closePendingConfirmModal);
   }
 
+  onZoneClicked = () => {
+    this.openUpdateZoneModal();
+  }
+
+  onZoneUpdated = (newZone) => {
+    this.setState({ zone: newZone });
+  }
+
   render() {
-    const { isCompletedModalOpen, isPendingModalOpen, newStatus } = this.state;
+    const { 
+      isCompletedModalOpen,
+      isPendingModalOpen,
+      isUpdateZoneModalOpen,
+      zone,
+      status,
+    } = this.state;
     const { rangeUsePlan, isUpdatingStatus } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
 
-    const { 
+    const {
+      id,
       agreementId,
       agreementStartDate,
       agreementEndDate,
-      zone,
       rangeName,
       alternateBusinessName,
       planStartDate,
       planEndDate,
-      status,
       primaryAgreementHolder,
     } = rangeUsePlan;
     const districtCode = zone && zone.district && zone.district.code;
     const zoneCode = zone && zone.code;
-    const statusName = (newStatus && newStatus.name) || 
-      (status && status.name);
+    const statusName = status && status.name;
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     return (
@@ -114,6 +145,14 @@ export class RangeUsePlan extends Component {
         >
           pdf link
         </a>
+        
+        <UpdateZoneModal 
+          isUpdateZoneModalOpen={isUpdateZoneModalOpen}
+          closeUpdateZoneModal={this.closeUpdateZoneModal}
+          onZoneUpdated={this.onZoneUpdated}
+          agreementId={id}
+          currZone={zone}
+        />
 
         <ConfirmationModal
           open={isCompletedModalOpen}
@@ -208,18 +247,9 @@ export class RangeUsePlan extends Component {
             />
             <TextField 
               label={ZONE}
-              text={<Dropdown 
-              id='range-use-plan__zone-dropdown'
-              placeholder='Zone' 
-              options={[]}
-              onChange={this.onContactChanged}
-              fluid
-              search
-              selection 
-            />}
+              text={zoneCode}
+              onClick={this.onZoneClicked}
             />
-
-            
           </div>
             
           <div className="range-use-plan__agreement-info">

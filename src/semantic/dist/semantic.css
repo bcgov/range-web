@@ -33158,7 +33158,7 @@ select.ui.dropdown {
 
 .ui.modal > .actions {
   background: #F9FAFB;
-  padding: 1rem 1rem;
+  padding: 1rem 1.5rem;
   border-top: 1px solid rgba(34, 36, 38, 0.15);
   text-align: right;
 }

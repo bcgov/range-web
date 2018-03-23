@@ -10,10 +10,12 @@ export const ConfirmationModal = ({ open, header, content,
     </Modal.Content>
     <Modal.Actions>
       <Button basic color='red' inverted onClick={onNoClicked}>
-        <Icon name='remove' /> No
+        <Icon name='remove' /> 
+        No
       </Button>
       <Button loading={loading} color='green' inverted onClick={onYesClicked}>
-        <Icon name='checkmark' /> Yes
+        <Icon name='checkmark' /> 
+        Yes
       </Button>
     </Modal.Actions>
   </Modal>
