@@ -48,17 +48,17 @@ export class RangeUsePlan extends Component {
     this.pdfLink.click();
   }
 
-  openCompletedConfirmModal = () => { this.setState({ isCompletedModalOpen: true }); }
+  openCompletedConfirmModal = () => this.setState({ isCompletedModalOpen: true })
 
-  closeCompletedConfirmModal = () => { this.setState({ isCompletedModalOpen: false }); }
+  closeCompletedConfirmModal = () => this.setState({ isCompletedModalOpen: false })
 
-  openPendingConfirmModal = () => { this.setState({ isPendingModalOpen: true }); }
+  openPendingConfirmModal = () => this.setState({ isPendingModalOpen: true })
   
-  closePendingConfirmModal = () => { this.setState({ isPendingModalOpen: false }); }
+  closePendingConfirmModal = () => this.setState({ isPendingModalOpen: false })
 
-  openUpdateZoneModal = () => { this.setState({ isUpdateZoneModalOpen: true }); }
+  openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
 
-  closeUpdateZoneModal = () => { this.setState({ isUpdateZoneModalOpen: false }); }
+  closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
 
   updateStatus = (statusName, closeConfirmModal) => {
     const { rangeUsePlan, statuses, updateRupStatus } = this.props;
@@ -69,12 +69,14 @@ export class RangeUsePlan extends Component {
         statusId: status.id,
       }
       
-      updateRupStatus(requestData).then((newStatus) => {
+      const statusUpdated = (newStatus) => {
         closeConfirmModal();
         this.setState({
           status: newStatus,
         });
-      });
+      };
+      
+      updateRupStatus(requestData).then(statusUpdated);
     }
   }
 

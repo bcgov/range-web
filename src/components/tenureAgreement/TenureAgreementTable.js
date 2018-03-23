@@ -19,7 +19,15 @@ export class TenureAgreementTable extends Component {
   }
 
   // handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
-  
+  renderTenureAgreementTableItem = (tenureAgreement) => {
+    return (
+      <TenureAgreementTableItem 
+        key={tenureAgreement.id}
+        tenureAgreement={tenureAgreement}
+      />
+    );
+  }
+
   render() {
     // const { activePage } = this.state;
     const { tenureAgreements, isLoading } = this.props;
@@ -38,14 +46,7 @@ export class TenureAgreementTable extends Component {
           </Table.Header>
       
           <Table.Body>
-            {tenureAgreements.map((tenureAgreement) => {
-              return (
-                <TenureAgreementTableItem 
-                  key={tenureAgreement.id}
-                  tenureAgreement={tenureAgreement}
-                />
-              );
-            })}
+            {tenureAgreements.map(this.renderTenureAgreementTableItem)}
           </Table.Body>
         </Table>
 
