@@ -4,8 +4,9 @@ import { Header, Button, Dropdown } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import UpdateZoneModal from './UpdateZoneModal';
-import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, 
-  AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE, 
+import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, AGREEMENT_DATE,
+  AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE,
+  CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
   ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
@@ -67,7 +68,7 @@ export class RangeUsePlan extends Component {
       const requestData = {
         agreementId: rangeUsePlan.id,
         statusId: status.id,
-      }
+      };
       
       const statusUpdated = (newStatus) => {
         closeConfirmModal();
@@ -125,11 +126,16 @@ export class RangeUsePlan extends Component {
     const zoneCode = zone && zone.code;
     const statusName = status && status.name;
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+    const extended = '';
+    const exemptionStatus = '';
+    const contactEmail = '';
+    const contactName = '';
+    const contactPhone = '';
 
     return (
-      <div className="range-use-plan">
+      <div className="rup">
         <a 
-          className="range-use-plan__pdf-link" 
+          className="rup__pdf-link" 
           href={mockupPDF}
           ref={(pdfLink) => this.pdfLink = pdfLink}
           target="_black" 
@@ -166,22 +172,22 @@ export class RangeUsePlan extends Component {
         <Banner
           header={agreementId}
           content={DETAIL_RUP_BANNER_CONTENT}
-          actionClassName="range-use-plan__actions"
+          actionClassName="rup__actions"
         >
           <Status 
-            className="range-use-plan__status" 
+            className="rup__status" 
             status={statusName}
           />
           <div>
             <Button 
               onClick={this.onViewClicked}
-              className="range-use-plan__btn" 
+              className="rup__btn" 
             >
               View PDF
             </Button>
             { statusName !== COMPLETED && 
               <Dropdown
-                className="range-use-plan__status-dropdown"
+                className="rup__status-dropdown"
                 text='Update Status' 
                 options={statusDropdownOptions} 
                 button
@@ -191,79 +197,108 @@ export class RangeUsePlan extends Component {
           </div>
         </Banner>
         
-        <div className="range-use-plan__content container">
-          <Header as='h2'>Basic Information</Header>
-          <div className="range-use-plan__basic-info-first-row">
-            <TextField 
-              label={RANGE_NUMBER}
-              text={agreementId}
-            />
-            <TextField 
-              label={AGREEMENT_START}
-              text={formatDate(agreementStartDate)}
-            />
-            <TextField 
-              label={AGREEMENT_END}
-              text={formatDate(agreementEndDate)}
-            />
-          </div>
-          <div className="range-use-plan__basic-info-second-row">
-            <TextField 
-              label={AGREEMENT_HOLDERS}
-              text={primaryAgreementHolderName}
-            />
+        <div className="rup__content container">
+          <div className="rup__title">Basic Information</div>
+          <div className="rup__row">
+            <div className="rup__agreement-info rup__cell-4">
+              <div className="rup__divider" />
+              <div className="rup__info-title">Agreement Information</div>
+              <TextField 
+                label={RANGE_NUMBER}
+                text={agreementId}
+              />
+              <TextField 
+                label={AGREEMENT_TYPE}
+                text={'Primary'}
+              />
+              <TextField 
+                label={AGREEMENT_DATE}
+                text={`${formatDate(agreementStartDate)} to ${formatDate(agreementEndDate)}` }
+              />
+              <TextField 
+                label={RANGE_NAME}
+                text={rangeName}
+              />
+              <TextField 
+                label={ALTERNATIVE_BUSINESS_NAME}
+                text={alternateBusinessName}
+              />
+            </div>
+            <div className="rup__contact-info rup__cell-4">
+              <div className="rup__divider" />
+              <div className="rup__info-title">Contact Information</div>
+              <TextField 
+                label={DISTRICT}
+                text={districtCode}
+              />
+              <TextField 
+                label={ZONE}
+                text={zoneCode}
+                onClick={this.onZoneClicked}
+              />
+              <TextField 
+                label={CONTACT_NAME}
+                text={contactName}
+              />
+              <TextField 
+                label={CONTACT_PHONE}
+                text={contactPhone}
+              />
+              <TextField 
+                label={CONTACT_EMAIL}
+                text={contactEmail}
+              />
+            </div>
 
-            <TextField 
-              label={TYPE}
-              text={'Primary'}
-            />
-
-            <TextField 
-              label={AGREEMENT_HOLDERS}
-              text={'Luke Skywalker'}
-              isLabelHidden={true}
-            />
-
-            <TextField 
-              label={TYPE}
-              text={'Others'}
-              isLabelHidden={true}
-            />
+            <div className="rup__plan-info rup__cell-4">
+              <div className="rup__divider" />
+              <div className="rup__info-title">Plan Information</div>
+              <TextField 
+                label={PLAN_START}
+                text={formatDate(planStartDate)}
+              />
+              <TextField 
+                label={PLAN_END}
+                text={formatDate(planEndDate)}
+              />
+              <TextField 
+                label={EXTENDED}
+                text={extended}
+              />
+              <TextField 
+                label={EXEMPTION_STATUS}
+                text={exemptionStatus}
+              />
+            </div>  
           </div>
-          <div className="range-use-plan__basic-info-third-row">
-            <TextField 
-              label={AGREEMENT_TYPE}
-              text={'E01'}
-            />
-            <TextField 
-              label={DISTRICT}
-              text={districtCode}
-            />
-            <TextField 
-              label={ZONE}
-              text={zoneCode}
-              onClick={this.onZoneClicked}
-            />
-          </div>
-            
-          <div className="range-use-plan__agreement-info">
-            <TextField 
-              label={RANGE_NAME}
-              text={rangeName}
-            />
-            <TextField 
-              label={ALTERNATIVE_BUSINESS_NAME}
-              text={alternateBusinessName}
-            />
-            <TextField 
-              label={PLAN_START}
-              text={formatDate(planStartDate)}
-            />
-            <TextField 
-              label={PLAN_END}
-              text={formatDate(planEndDate)}
-            />
-          </div>
+          <div className="rup__divider" />
+          
+          {/* <div className="rup__divider" />
+          <div className="rup__plan-info">
+            <div className="rup__info-title">Plan Information</div>
+            <div className="rup__row">
+              <div className="rup__cell-6">
+                <TextField 
+                  label={PLAN_START}
+                  text={formatDate(planStartDate)}
+                />
+                <TextField 
+                  label={PLAN_END}
+                  text={formatDate(planEndDate)}
+                />
+              </div>
+              <div className="rup__cell-6">
+                <TextField 
+                  label={EXTENDED}
+                  text={extended}
+                />
+                <TextField 
+                  label={EXEMPTION_STATUS}
+                  text={exemptionStatus}
+                />
+              </div>
+            </div>
+          </div> */}
         </div>
       </div>
     );

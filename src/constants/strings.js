@@ -13,6 +13,7 @@ export const PLAN_START = "Plan Start Date";
 export const PLAN_END = "Plan End Date";
 export const AGREEMENT_START = "Agreement Start Date";
 export const AGREEMENT_END = "Agreement End Date";
+export const AGREEMENT_DATE = "Agreement Date";
 export const AGREEMENT_TYPE = "Agreement Type";
 export const DISTRICT = "District (Responsible)";
 export const ZONE = "Zone";
@@ -21,6 +22,11 @@ export const AGREEMENT_HOLDERS = "Agreement Holders";
 export const TYPE = "Type";
 export const NOT_PROVIDED = "Not provided";
 export const NOT_SELECTED = "Not selected";
+export const CONTACT_NAME = "Contact Name"; 
+export const CONTACT_EMAIL = "Contact Email";
+export const CONTACT_PHONE = "Contact Phone";
+export const EXTENDED = "Extended";
+export const EXEMPTION_STATUS = "Exemption Status";
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
