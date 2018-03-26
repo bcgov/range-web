@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/authActions';
+import { getReferences } from '../actions/commonActions';
+import { getZones } from '../actions/rangeUsePlanActions';
 import Navbar from './Navbar';
 
 const propTypes = {
@@ -9,6 +11,12 @@ const propTypes = {
 };
 
 export class LandingPage extends Component {
+  componentDidMount() {
+    const { getReferences, getZones } = this.props;
+    getReferences();
+    getZones();
+  }
+  
   onLogout = () => {
     this.props.logout();
   }
@@ -36,5 +44,5 @@ const mapStateToProps = state => {
 
 LandingPage.propTypes = propTypes;
 export default connect (
-  mapStateToProps, { logout }
+  mapStateToProps, { logout, getReferences, getZones }
 )(LandingPage)

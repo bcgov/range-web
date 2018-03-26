@@ -62,7 +62,12 @@ const isTokenExpired = () => {
 const isRefreshTokenExpired = () => {
   const data = getDataFromLocal();
   const authData = getAuthDataFromLocal();
-  return (new Date() / 1000) > authData.auth_time + data.refresh_expires_in;
+  
+  if(data && authData) {
+    const exp = authData.exp + (data.refresh_expires_in - data.expires_in);
+    return (new Date() / 1000) > exp;
+  }
+  return false;
 };
 
 export const getTokenFromRemote = (code) => {
@@ -145,6 +150,7 @@ export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
     if(isRefreshTokenExpired()) {
       logout();
+      console.log("refresh token is expired");
       return config;
     }
 
@@ -166,7 +172,6 @@ export const registerAxiosInterceptors = (logout) => {
       }
       makeRequest();
     }
-
     return config;
   });
 

@@ -26,7 +26,7 @@ export class TenureAgreementTableItem extends Component {
     const rangeName = tenureAgreement.rangeName;
     const primaryAgreementHolderName = tenureAgreement.primaryAgreementHolder 
       && tenureAgreement.primaryAgreementHolder.name;
-    const staff = `Staff Contact ${tenureAgreement.id}`;
+    const staff = `Staff Contact ${Math.floor((Math.random() * 10) + 1)}`;
 
     return (
       <Table.Row

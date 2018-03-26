@@ -4,13 +4,13 @@ import { Header, Button, Dropdown } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import UpdateZoneModal from './UpdateZoneModal';
-import { RANGE_NUMBER, PLAN_START, PLAN_END, AGREEMENT_END, AGREEMENT_DATE,
-  AGREEMENT_START, AGREEMENT_TYPE, DISTRICT, ZONE,
+import { RANGE_NUMBER, AGREEMENT_DATE,
+  AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
   CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
-  ALTERNATIVE_BUSINESS_NAME, AGREEMENT_HOLDERS, TYPE, RANGE_NAME,
+  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME,
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT,
+  DETAIL_RUP_BANNER_CONTENT, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../constants/strings';
 import { COMPLETED, PENDING } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
@@ -200,7 +200,7 @@ export class RangeUsePlan extends Component {
         <div className="rup__content container">
           <div className="rup__title">Basic Information</div>
           <div className="rup__row">
-            <div className="rup__agreement-info rup__cell-4">
+            <div className="rup__agreement-info rup__cell-6">
               <div className="rup__divider" />
               <div className="rup__info-title">Agreement Information</div>
               <TextField 
@@ -224,7 +224,7 @@ export class RangeUsePlan extends Component {
                 text={alternateBusinessName}
               />
             </div>
-            <div className="rup__contact-info rup__cell-4">
+            <div className="rup__contact-info rup__cell-6">
               <div className="rup__divider" />
               <div className="rup__info-title">Contact Information</div>
               <TextField 
@@ -248,18 +248,15 @@ export class RangeUsePlan extends Component {
                 label={CONTACT_EMAIL}
                 text={contactEmail}
               />
-            </div>
-
-            <div className="rup__plan-info rup__cell-4">
+            </div>  
+          </div>
+          <div className="rup__row">
+            <div className="rup__plan-info rup__cell-6">
               <div className="rup__divider" />
               <div className="rup__info-title">Plan Information</div>
               <TextField 
-                label={PLAN_START}
-                text={formatDate(planStartDate)}
-              />
-              <TextField 
-                label={PLAN_END}
-                text={formatDate(planEndDate)}
+                label={PLAN_DATE}
+                text={`${formatDate(planStartDate)} to ${formatDate(planEndDate)}`}
               />
               <TextField 
                 label={EXTENDED}
@@ -269,10 +266,25 @@ export class RangeUsePlan extends Component {
                 label={EXEMPTION_STATUS}
                 text={exemptionStatus}
               />
-            </div>  
+            </div>
+            
+            <div className="rup__plan-info rup__cell-6">
+              <div className="rup__divider" />
+              <div className="rup__info-title">Agreement Holders</div>
+              <TextField 
+                label={PRIMARY_AGREEMENT_HOLDER}
+                text={primaryAgreementHolderName}
+              />
+              <TextField 
+                label={OTHER_AGREEMENT_HOLDER}
+                text={''}
+              />
+              <TextField 
+                label={OTHER_AGREEMENT_HOLDER}
+                text={''}
+              />
+            </div>
           </div>
-          <div className="rup__divider" />
-          
           {/* <div className="rup__divider" />
           <div className="rup__plan-info">
             <div className="rup__info-title">Plan Information</div>
