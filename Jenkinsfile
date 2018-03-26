@@ -24,14 +24,14 @@ def notifySlack(text, channel, url, attachments, icon) {
     sh "curl -s -S -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
 }
 
-GIT_COMMIT_SHORT_HASH = sh (
-  script: """git describe --always""",
-  returnStdout: true).trim()
-GIT_COMMIT_AUTHOR = sh (
-  script: """git show -s --pretty=%an""",
-  returnStdout: true).trim()
-
 node('master') {
+  GIT_COMMIT_SHORT_HASH = sh (
+    script: """git describe --always""",
+    returnStdout: true).trim()
+  GIT_COMMIT_AUTHOR = sh (
+    script: """git show -s --pretty=%an""",
+    returnStdout: true).trim()
+
   stage('Checkout') {
     echo "Checking out source"
     checkout scm
