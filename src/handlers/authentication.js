@@ -64,7 +64,7 @@ const isRefreshTokenExpired = () => {
   const authData = getAuthDataFromLocal();
   
   if(data && authData) {
-    const exp = authData.exp + (data.refresh_expires_in - data.expires_in);
+    const exp = authData.iat + data.refresh_expires_in;
     return (new Date() / 1000) > exp;
   }
   return false;

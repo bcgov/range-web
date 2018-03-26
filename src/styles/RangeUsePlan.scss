@@ -17,8 +17,6 @@ $row-height: 80px;
   cursor: pointer;
 }
 
-
-
 .rup {
   &__cell-6 {
     @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
@@ -69,88 +67,4 @@ $row-height: 80px;
     display: flex;
     flex-direction: column;
   }
-  
-  // &__basic-info {
-  //   display: grid;
-  //   grid-template-columns: 33% 33% 33%;
-  //   grid-template-rows: $row-height $row-height $row-height;
-  // }
-
-  // &__agreement-info {
-  //   display: grid;
-  //   grid-template-columns: 33% 33%;
-  //   grid-template-rows: $row-height $row-height;
-  //   margin-top: 10px;
-  // }
-
-  // &__basic-info-first-row,
-  // &__basic-info-third-row {
-  //   display: grid;
-  //   grid-template-columns: 33% 33% 33%;
-  //   grid-template-rows: $row-height;
-  // }
-
-  // &__basic-info-second-row {
-  //   display: grid;
-  //   grid-template-columns: 33% 33%;
-  //   grid-template-rows: $row-height 40px;
-  // }
 }
-
-
-
-
-
-// // .range-use-plan-pdf-view {
-
-// //   &__download-button {
-// //     position: fixed;
-// //     bottom: 40px;
-// //     right: 40px;
-// //   }
-
-// //   &__back-button {
-// //     position: fixed;
-// //     bottom: 90px;
-// //     right: 40px;
-// //   }
-
-// //   &__container {
-// //     display: flex;
-// //     flex-direction: column;
-// //     align-items: center;
-
-// //     &__load {
-// //       margin-top: 1em;
-// //       color: white;
-// //     }
-
-// //     &__document {
-// //       margin-bottom: 1em;
-
-// //       .ReactPDF {
-// //         &__Document {
-// //           display: flex;
-// //           flex-direction: column;
-// //           align-items: center;
-// //         }
-
-// //         &__Page {
-// //           max-width: calc(100% - 2em);
-// //           box-shadow: 0 0 8px rgba(0, 0, 0, .5);
-// //           margin: 10px 0;
-
-// //           canvas {
-// //             max-width: 100%;
-// //             height: auto !important;
-// //           }
-// //         }
-
-// //         &__message {
-// //           padding: 20px;
-// //           color: white;
-// //         }
-// //       }
-// //     }
-// //   }
-// // }
