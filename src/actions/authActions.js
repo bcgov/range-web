@@ -1,9 +1,4 @@
-// import axios from 'axios';
-// import axios from '../handlers/axios';
-// import jwtDecode from 'jwt-decode';
-
-// import { toastErrorMessage } from './toastActions.jsx';
-
+import { toastErrorMessage } from './toastActions';
 import { AUTH } from '../constants/reducerTypes';
 import {
   LOGIN_ERROR,
@@ -12,20 +7,18 @@ import {
   LOGOUT_SUCCESS,
   USER_PROFILE_CHANGE
 } from '../constants/actionTypes';
-
 import {
   getTokenFromRemote,
   onAuthenticated,
   onSignedOut
 } from '../handlers/authentication';
-// import Handlers from '../handlers';
 
 export const loginSuccess = (data) => {
   return {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.user_data
+    user: data.auth_data
   }
 }
 
@@ -61,21 +54,22 @@ export const userProfileChange = (user) => {
 
 export const login = (code) => (dispatch) => {
   dispatch(loginRequest());
+  const makeRequest = async () => {
+    try {
+      const response = await getTokenFromRemote(code);
+      
+      // save tokens in local storage and set header for axios 
+      onAuthenticated(response);
+      console.log(response)
 
-  getTokenFromRemote(code)
-  .then(response => {
-    console.log(response)
-    
-    // save tokens in local storage and set header for axios 
-    onAuthenticated(response);
-
-    // TODO: make a request to get user data
-    dispatch(loginSuccess(response.data));
-  }).catch(err => {
-    dispatch(loginError(err));
-    // dispatch(toastErrorMessage(err));
-    // console.log(err);
-  });
+      // TODO: make a request to get user data
+      dispatch(loginSuccess(response.data));  
+    } catch (err) {
+      dispatch(loginError(err));
+      dispatch(toastErrorMessage(err));
+    }
+  }
+  makeRequest();
 }
 
 export const logout = () => (dispatch) => {

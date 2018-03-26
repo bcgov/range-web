@@ -2,5 +2,5 @@
     User Variable Overrides
 *******************************/
 
-/* loaderLineColor */
-@shapeBorderColor: @primaryColor;
+/* loaderLineColor custom-styling */
+@shapeBorderColor: @accentColor transparent transparent;

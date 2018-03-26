@@ -10,12 +10,12 @@ import * as actions from './authActions';
 
 it('creates an action to login successfully', () => {
   const user = { name: "kyub" };
-  const data = { user_data: user };
+  const data = { auth_data: user };
   const expectedAction = {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.user_data
+    user: data.auth_data
   };
 
   expect(actions.loginSuccess(data, user)).toEqual(expectedAction);

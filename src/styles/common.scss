@@ -20,23 +20,27 @@
     }
   
     &--pending {
-      background: orange;
+      background: red;
     }
   
     &--submitted {
-      background: $primary-light-color;
+      background: orange;
+    }
+
+    &--not-provided {
+      display: none;
     }
   }
 }
 
 .text-field {
-  align-self: center;
+  // align-self: center;
 
   &__label {
-    font-weight: bold;
+    // font-weight: bold;
     font-size: 1.1rem;
     color: gray;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
 
     &--hidden {
       display: none;
@@ -45,7 +49,11 @@
 
   &__text {
     // border-bottom: 2px solid $primary-color;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    background: gainsboro;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 0;
   }
 }
 
@@ -69,8 +77,8 @@
   color: white;
   
   &__container {
-    min-height: 200px;
-    padding: 30px 0 10px 0;
+    min-height: 150px;
+    padding: 20px 0 10px 0;
   }
 
   &__content {
@@ -85,6 +93,31 @@
 
 .confirmation-modal {
   &__content {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
+  }
+}
+
+.toast {
+  width: fit-content;
+  min-width: 400px;
+  position: fixed;
+  top: calc(#{$nav-height} + 10px);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 2000;
+
+  &__message {
+    display: flex;
+    align-items: center;
+
+    &__content {
+      font-size: 1.1rem;
+    }
+
+    &__icon {
+      margin-right: 15px;
+      // color: $primary-color;
+    }
   }
 }

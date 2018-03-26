@@ -10,14 +10,16 @@ import {
   GET_TOKEN,
 } from '../constants/api';
 
-const label = 'auth-range-web';
+import {
+  AUTH_KEY,
+} from '../constants/strings';
 
 const getRefreshTokenFromLocal = () => {
   const data = getDataFromLocal();
   return data.refresh_token;
 };
 
-const refreshAccessToken = (refresh_token) => {
+const refreshAccessToken = (refresh_token, _retry) => {
   const data = {
     refresh_token,
     grant_type: 'refresh_token',
@@ -26,20 +28,26 @@ const refreshAccessToken = (refresh_token) => {
   };
 
   // make an application/x-www-form-urlencoded request with axios
-  return axios.post(SSO_BASE_URL + REFRESH_TOKEN, querystring.stringify(data));
+  // pass _retry in config so that it only tries to refresh once.
+  return axios({
+    method: 'post',
+    url: SSO_BASE_URL + REFRESH_TOKEN,
+    data: querystring.stringify(data),
+    _retry,
+  });
 };
 
 const getDataFromLocal = () => {
-  return JSON.parse(localStorage.getItem(label));
+  return JSON.parse(localStorage.getItem(AUTH_KEY));
 };
 
 const saveDataInLocal = (data) => {
-  localStorage.setItem(label, JSON.stringify(data));
+  localStorage.setItem(AUTH_KEY, JSON.stringify(data));
 };
 
-const getUserData = () => {
+const getAuthDataFromLocal = () => {
   const data = getDataFromLocal();
-  return data.user_data;
+  return data.auth_data;
 };
 
 const setAxiosAuthHeader = (data) => {
@@ -47,8 +55,19 @@ const setAxiosAuthHeader = (data) => {
 };
 
 const isTokenExpired = () => {
-  const userData = getUserData();
-  return (new Date() / 1000) > userData.exp;
+  const authData = getAuthDataFromLocal();
+  return (new Date() / 1000) > authData.exp;
+};
+
+const isRefreshTokenExpired = () => {
+  const data = getDataFromLocal();
+  const authData = getAuthDataFromLocal();
+  
+  if(data && authData) {
+    const exp = authData.exp + (data.refresh_expires_in - data.expires_in);
+    return (new Date() / 1000) > exp;
+  }
+  return false;
 };
 
 export const getTokenFromRemote = (code) => {
@@ -74,7 +93,7 @@ export const initializeUser = () => {
   const data = getDataFromLocal();
   if(data) {
     setAxiosAuthHeader(data);
-    user = {...data.user_data};
+    user = {...data.auth_data};
   }
 
   return user;
@@ -89,7 +108,7 @@ export const initializeUser = () => {
 export const onAuthenticated = (response) => {
   if(response && response.data) {
     const data = response.data;
-    data.user_data = jwtDecode(response.data.access_token);
+    data.auth_data = jwtDecode(response.data.access_token);
 
     saveDataInLocal(data);
     setAxiosAuthHeader(data);
@@ -110,18 +129,18 @@ export const onSignedOut = () => {
  * update the new user data in localStorage 
  * after succesfully update user profile 
  */
-export const onUserProfileChanged = (newUserData) => {
-  const data = getDataFromLocal();
-  if(data) {
-    data.user_data = { ...newUserData };
-    saveDataInLocal(data);
-  }
-};
+// export const onUserProfileChanged = (newUserData) => {
+//   const data = getDataFromLocal();
+//   if(data) {
+//     data.auth_data = { ...newUserData };
+//     saveDataInLocal(data);
+//   }
+// };
 
 /**
  * 
  * @param {function} logout
- * register an interceptor to catch 401 unauthorized response 
+ * register an interceptor to refresh the access token when expired
  * case 1: access token is expired
  *  - get new access token using the refresh token and try it again
  * case 2: both tokens are expired
@@ -129,49 +148,36 @@ export const onUserProfileChanged = (newUserData) => {
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
-    if(isTokenExpired()) {
-      const token = getRefreshTokenFromLocal();
-      return refreshAccessToken(token)
-        .then(response => {
-          onAuthenticated(response);
-          config.headers.Authorization = `${response.token_type} ${response.access_token}`;
-          return Promise.resolve(config);
-        }).catch( err => {
-          return Promise.reject(err);
-        });
+    if(isRefreshTokenExpired()) {
+      logout();
+      console.log("refresh token is expired");
+      return config;
     }
 
+    if(isTokenExpired() && !config._retry) {
+      config._retry = true;
+      const token = getRefreshTokenFromLocal();
+      const makeRequest = async () => {
+        try {
+          const response = await refreshAccessToken(token, config._retry);
+          onAuthenticated(response);
+          config.headers.Authorization = `${response.token_type} ${response.access_token}`;
+          
+          return config;
+        } catch (err) {
+          // the refresh token is also expired therefore sign out the user
+          logout();
+          return err;
+        }
+      }
+      makeRequest();
+    }
     return config;
   });
 
-  axios.interceptors.response.use(
-    (response) => {
-      return response;
-    }, (error) => {
-      const { response } = error;
-      // Plan B for refreshing token
-      // const originalRequest = error.config;
-      // if (response && response.status === 401 && !originalRequest._retry) {
-      //   originalRequest._retry = true;
-      //   const token = getRefreshTokenFromLocal();
-
-      //   return refreshAccessToken(token)
-      //     .then(response => {
-      //       // successfully get a new access token
-      //       onAuthenticated(response);
-      //       originalRequest.headers['Authorization'] = `${response.token_type} ${response.access_token}`;
-      //       return axios(originalRequest);
-      //     })
-      //     .catch(err => {
-      //       // refresh token is also expired
-      //       logout();
-      //       return Promise.reject(error.response)
-      //     });
-      // }
-      if (response && response.status === 401) {
-        logout();
-      }
-      return Promise.reject(response);
-    }
-  );
+  axios.interceptors.response.use((response) => {
+    return response;
+  }, (error) => {
+      return Promise.reject(error.response);
+  });
 };

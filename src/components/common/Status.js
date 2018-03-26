@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import { NOT_PROVIDED } from '../../constants/strings';
 import { PENDING, COMPLETED, SUBMITTED } from '../../constants/variables';
 
-export const Status = ({ status, className = "" }) => {
+export const Status = ({ status = NOT_PROVIDED, className = "" }) => {
   let modifier = 'status__icon';
   switch (status) {
     case PENDING:
@@ -15,7 +16,7 @@ export const Status = ({ status, className = "" }) => {
       modifier += '--completed';
       break;
     default:
-      modifier = '';
+      modifier += '--not-provided';
       break;
   }
 

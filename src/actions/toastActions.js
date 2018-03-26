@@ -3,7 +3,7 @@ import {
   OPEN_TOAST_MESSAGE,
   CLOSE_TOAST_MESSAGE
 } from '../constants/actionTypes';
-import Handlers from '../handlers';
+import { getErrorMessage } from '../handlers';
 
 export const openToastMessage = (success, message) => {
   return {
@@ -22,22 +22,29 @@ export const closeToastMessage = () => {
   }
 }
 
+let toastTimeout = null;
 const toastMessage = (success, message, timeout = 4000) => (dispatch) => {
-  const open = () => { 
-    dispatch(openToastMessage(success, message)); 
+  // unregister the timeout to prevent from closing
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
   }
-  const close = () => {
+  
+  // close the previous message if it was presented
+  dispatch(closeToastMessage());
+
+  // open a new message
+  dispatch(openToastMessage(success, message)); 
+
+  toastTimeout = setTimeout(() => {
     dispatch(closeToastMessage());
-  }
-
-  Handlers.toastMessage(open, close, timeout);
+  }, timeout);
 }
 
-export const toastErrorMessage = (err) => (dispatch) => {
-  const errorMessage = Handlers.handleErrorMessage(err);
-  dispatch(toastMessage(false, errorMessage));
+export const toastErrorMessage = (err, timeout) => (dispatch) => {
+  const errorMessage = getErrorMessage(err);
+  dispatch(toastMessage(false, errorMessage, timeout));
 }
 
-export const toastSuccessMessage = (message) => (dispatch) => {
-  dispatch(toastMessage(true, message));
+export const toastSuccessMessage = (message = "Success!", timeout) => (dispatch) => {
+  dispatch(toastMessage(true, message, timeout));
 }

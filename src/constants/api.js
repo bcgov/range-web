@@ -11,4 +11,11 @@ export const SSO_AUTH_ENDPOINT = SSO_BASE_AUTH_ENDPOINT
 
 export const GET_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const REFRESH_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`
-export const BASE_URL = 'https://app.swaggerhub.com/apis/AidanLaing/myra_api/1.0.0';
+
+export const BASE_URL = 'http://api-range-myra-dev.pathfinder.gov.bc.ca/v1';
+// export const BASE_URL = 'http://localhost:8000/v1';
+export const AGREEMENT = '/agreement';
+export const REFERENCES = '/reference';
+export const CLIENT = '/client';
+export const STATUS = '/status';
+export const ZONE = '/zone';

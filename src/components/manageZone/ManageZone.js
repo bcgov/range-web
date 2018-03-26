@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Banner, ConfirmationModal } from '../common';
 import { Dropdown, Button } from 'semantic-ui-react';
+import { 
+  MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
+  UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
+  NOT_SELECTED,
+} from '../../constants/strings';
 
 export class ManageZone extends Component {
   state = {
@@ -42,20 +47,21 @@ export class ManageZone extends Component {
     ];
 
     const { zone, isUpdateModalOpen, currContact, newContact } = this.state;
+    const isUpdateBtnDisabled = (newContact && zone) === null;
 
     return (
       <div className="manage-zone">
         <ConfirmationModal
           open={isUpdateModalOpen}
-          header="Confirmation: Update Contact"
-          content="Are you sure you want to update the contact?"
+          header={UPDATE_CONTACT_CONFIRMATION_HEADER}
+          content={UPDATE_CONTACT_CONFIRMATION_CONTENT}
           onNoClicked={this.closeUpdateConfirmationModal}
           onYesClicked={this.closeUpdateConfirmationModal}
         />
 
         <Banner 
-          header="Manage Zone"
-          content="Follow steps to assign a zone from the current staff to other staff."
+          header={MANAGE_ZONE_BANNER_HEADER}
+          content={MANAGE_ZONE_BANNER_CONTENT}
         />
 
         <div className="manage-zone__content container">
@@ -63,7 +69,8 @@ export class ManageZone extends Component {
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
               <div className="manage-zone__dropdown">
-                <Dropdown 
+                <Dropdown
+                  id='manage-zone__zone-dropdown'
                   placeholder='Zone' 
                   options={zoneOptions}
                   onChange={this.onZoneChanged}
@@ -73,17 +80,16 @@ export class ManageZone extends Component {
                 />
               </div>
               <div className="manage-zone__text-field">
-                {currContact || 'Assigned Zone Contact'}
+                <div className="manage-zone__text-field__title">Assigned Zone Contact</div>
+                <div className="manage-zone__text-field__content">{currContact || NOT_SELECTED}</div> 
               </div>
             </div>
 
             <h3>Step 2: Assign a new contact</h3>
             <div className="manage-zone__step-two">
-              {/* <div className="manage-zone__text-field">
-                {zone ||'Zone'}
-              </div> */}
               <div className="manage-zone__dropdown">
                 <Dropdown 
+                  id='manage-zone__contact-dropdown'
                   placeholder='Contact' 
                   options={contactOptions} 
                   onChange={this.onContactChanged}
@@ -98,6 +104,7 @@ export class ManageZone extends Component {
               <Button 
                 onClick={this.openUpdateConfirmationModal}
                 primary
+                disabled={isUpdateBtnDisabled}
               >
                 Update Zone
               </Button>

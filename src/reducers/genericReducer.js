@@ -5,15 +5,7 @@ import {
   ERROR
 } from '../constants/actionTypes';
 
-const genericRequest = (state = {
-  isLoading: false,
-  data: [],
-  length: -1,
-  success: false,
-  errorMessage: '',
-  totalPages: 1,
-  currentPage: 1,
-}, action) => {
+const genericRequest = (state, action) => {
   switch (action.type) {
     case REQUEST:
       return { 

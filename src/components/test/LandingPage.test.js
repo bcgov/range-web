@@ -9,6 +9,8 @@ const setupProps = () => {
   props.history = {};
   props.component = jest.fn();
   props.logout = jest.fn();
+  props.getReferences = jest.fn();
+  props.getZones = jest.fn();
 };
 
 beforeEach(() => {
@@ -27,6 +29,15 @@ describe('LandingPage', () => {
       
       wrapper.instance().onLogout();
       expect(props.logout).toHaveBeenCalled();
+    });
+  });
+
+  describe('Life cycles', () => {
+    it('componentDidMount calls the right functinos', () => {
+      const wrapper = shallow(<LandingPage {...props} />);
+      
+      expect(props.getReferences).toHaveBeenCalled();
+      expect(props.getZones).toHaveBeenCalled();
     });
   });
 });

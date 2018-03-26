@@ -2,8 +2,11 @@
      User Global Variables
 *******************************/
 
-@primaryColor   : #003366;
-@secondaryColor : @grey;
+/* custom-styling */
+@primaryColor        : #003366;
+@secondaryColor      : @grey;
+@accentColor         : #FCBA19;
+@primaryLightColor   : #5475A7;
 
 @red            : #B03060;
 @orange         : #FE9A76;
