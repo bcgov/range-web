@@ -26,6 +26,10 @@
     &--submitted {
       background: orange;
     }
+
+    &--not-provided {
+      display: none;
+    }
   }
 }
 

@@ -113,7 +113,6 @@ export class RangeUsePlan extends Component {
 
     const {
       id,
-      agreementId,
       agreementStartDate,
       agreementEndDate,
       rangeName,
@@ -170,7 +169,7 @@ export class RangeUsePlan extends Component {
         />
 
         <Banner
-          header={agreementId}
+          header={id}
           content={DETAIL_RUP_BANNER_CONTENT}
           actionClassName="rup__actions"
         >
@@ -205,7 +204,7 @@ export class RangeUsePlan extends Component {
               <div className="rup__info-title">Agreement Information</div>
               <TextField 
                 label={RANGE_NUMBER}
-                text={agreementId}
+                text={id}
               />
               <TextField 
                 label={AGREEMENT_TYPE}
