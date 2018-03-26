@@ -4,7 +4,7 @@ import RangeUsePlan from './RangeUsePlan';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/tenureAgreementActions';
 import { updateRupStatus } from '../../actions/rangeUsePlanActions';
-import { AGREEMENT_STATUS } from '../../constants/variables';
+import { PLAN_STATUS } from '../../constants/variables';
 
 class Base extends Component {
   state = {
@@ -26,7 +26,7 @@ class Base extends Component {
       isUpdatingStatus,
     } = this.props;
     const { data: rangeUsePlan, isLoading, success } = rangeUsePlanState;
-    const statuses = references[AGREEMENT_STATUS];
+    const statuses = references[PLAN_STATUS];
 
     return (
       <div>
