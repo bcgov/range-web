@@ -54,10 +54,23 @@ node('master') {
   
   stage('Build Artifacts') {
     echo "Build Artifacts: ${BUILD_ID}"
-    // Run a security check on our packages
-    // sh "${CMD_PREFIX} npm run test:security"
-    // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm run build"
+
+    try {
+      // Run a security check on our packages
+      // sh "${CMD_PREFIX} npm run test:security"
+      // Run our unit tests et al.
+      sh "${CMD_PREFIX} npm run build"
+    } catch (error) {
+      def attachment = [:]
+      attachment.fallback = 'See build log for more details'
+      attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
+      attachment.color = '#CD0000' // Red
+      attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+      // attachment.title_link = "${env.BUILD_URL}"
+
+      notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+      sh "exit 1"
+    }
   }
 
   stage('Test') {
@@ -71,7 +84,7 @@ node('master') {
       attachment.fallback = 'See build log for more details'
       attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
       attachment.color = '#CD0000' // Red
-      attachment.text = "Their are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+      attachment.text = "There are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
       // attachment.title_link = "${env.BUILD_URL}"
 
       notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
