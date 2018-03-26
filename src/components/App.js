@@ -16,13 +16,10 @@ import ManageZone from './manageZone';
 
 import { registerAxiosInterceptors } from '../handlers/authentication';
 import { logout } from '../actions/authActions';
-import { getReferences } from '../actions/commonActions';
 
 export class App extends Component {
   componentDidMount() {
-    const { getReferences, logout } = this.props;
-    getReferences();
-    // registerAxiosInterceptors(logout);
+    registerAxiosInterceptors(this.props.logout);
   }
 
   render() {
@@ -64,5 +61,5 @@ const mapStateToProps = state => {
 };
 
 export default connect (
-  mapStateToProps, { logout, getReferences }
+  mapStateToProps, { logout }
 )(App)

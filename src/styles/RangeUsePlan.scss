@@ -16,9 +16,24 @@ $row-height: 80px;
   cursor: pointer;
 }
 
-.range-use-plan {
-  &__content {
-    margin-top: $content-margin-top;
+
+
+.rup {
+  &__cell-6 {
+    @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
+  }
+
+  &__cell-4 {
+    @extend .col-md-4, .col-lg-4, .col-sm-4, .col-xs-12;
+  }
+
+  &__row {
+    @extend .row;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 
   &__pdf-link {
@@ -29,44 +44,56 @@ $row-height: 80px;
     justify-content: space-between;
   }
 
-  &__btn {
-    margin-right: 15px !important;
-  }
-
-  &__status {
-    margin-right: 15px;
+  &__status-dropdown {
+    margin-left: 15px !important;
   }
 
   &__divider {
-    border-top: 2px solid $primary-color;
+    border-top: 3px solid $accent-color;
+    margin-top: 15px;
+  }
+
+  &__content {
+    margin-top: $content-margin-top;
+  }
+
+  &__info-title {
+    font-weight: bold;
+    font-size: 1.2rem;
     margin: 10px 0;
   }
-
-  &__basic-info {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    grid-template-rows: $row-height $row-height $row-height;
+  &__plan-info,
+  &__agreement-info,
+  &__contact-info, {
+    display: flex;
+    flex-direction: column;
   }
+  
+  // &__basic-info {
+  //   display: grid;
+  //   grid-template-columns: 33% 33% 33%;
+  //   grid-template-rows: $row-height $row-height $row-height;
+  // }
 
-  &__agreement-info {
-    display: grid;
-    grid-template-columns: 33% 33%;
-    grid-template-rows: $row-height $row-height;
-    margin-top: 10px;
-  }
+  // &__agreement-info {
+  //   display: grid;
+  //   grid-template-columns: 33% 33%;
+  //   grid-template-rows: $row-height $row-height;
+  //   margin-top: 10px;
+  // }
 
-  &__basic-info-first-row,
-  &__basic-info-third-row {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    grid-template-rows: $row-height;
-  }
+  // &__basic-info-first-row,
+  // &__basic-info-third-row {
+  //   display: grid;
+  //   grid-template-columns: 33% 33% 33%;
+  //   grid-template-rows: $row-height;
+  // }
 
-  &__basic-info-second-row {
-    display: grid;
-    grid-template-columns: 33% 33%;
-    grid-template-rows: $row-height 40px;
-  }
+  // &__basic-info-second-row {
+  //   display: grid;
+  //   grid-template-columns: 33% 33%;
+  //   grid-template-rows: $row-height 40px;
+  // }
 }
 
 

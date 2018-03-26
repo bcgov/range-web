@@ -13,6 +13,7 @@ export const PLAN_START = "Plan Start Date";
 export const PLAN_END = "Plan End Date";
 export const AGREEMENT_START = "Agreement Start Date";
 export const AGREEMENT_END = "Agreement End Date";
+export const AGREEMENT_DATE = "Agreement Date";
 export const AGREEMENT_TYPE = "Agreement Type";
 export const DISTRICT = "District (Responsible)";
 export const ZONE = "Zone";
@@ -21,12 +22,21 @@ export const AGREEMENT_HOLDERS = "Agreement Holders";
 export const TYPE = "Type";
 export const NOT_PROVIDED = "Not provided";
 export const NOT_SELECTED = "Not selected";
+export const CONTACT_NAME = "Contact Name"; 
+export const CONTACT_EMAIL = "Contact Email";
+export const CONTACT_PHONE = "Contact Phone";
+export const EXTENDED = "Extended";
+export const EXEMPTION_STATUS = "Exemption Status";
+export const PLAN_DATE = "Plan Date";
+export const PRIMARY_AGREEMENT_HOLDER = "Primary Agreement Holder";
+export const OTHER_AGREEMENT_HOLDER = "Agreement Holder - Other"
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
 export const STATUS500 = 'Internal server error occurred, please contact the administrator.';
 export const UPDATE_RUP_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
+export const UPDATE_RUP_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = "Confirmation: Completed";

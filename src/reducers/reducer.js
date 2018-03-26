@@ -24,7 +24,7 @@ const createReducer = (reducerFunction, reducerName, initialState) => {
     if (name !== reducerName && !isInitializationCall) return state;
     return reducerFunction(state, action);
   }
-}
+};
 
 const appReducer = combineReducers({
   auth,
@@ -33,6 +33,8 @@ const appReducer = combineReducers({
   rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN, { data: {} }),
   references: createReducer(genericReducer, ReducerTypes.GET_REFERENCES, { data: getReferencesFromLocal() }),
   updateRupStatus: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_STATUS, { data: {} }),
+  updateRupZone: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_ZONE, { data: {} }),
+  zones: createReducer(genericReducer, ReducerTypes.GET_ZONES, { data: [] }),
 });
 
 const rootReducer = (state, action) => {
@@ -42,6 +44,6 @@ const rootReducer = (state, action) => {
   }
 
   return appReducer(state, action)
-}
+};
 
 export default rootReducer;
