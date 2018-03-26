@@ -24,7 +24,7 @@ def notifySlack(text, channel, url, attachments, icon) {
     sh "curl -s -S -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
 }
 
-node {
+node ('master') {
   stage('Checkout') {
     echo "Checking out source"
     checkout scm
@@ -101,3 +101,36 @@ node {
     }
   }
 }
+
+  podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+  containerTemplate(
+    name: 'jnlp',
+    image: '172.50.0.2:5000/openshift/jenkins-slave-bddstack',
+    resourceRequestCpu: '500m',
+    resourceLimitCpu: '1000m',
+    resourceRequestMemory: '1Gi',
+    resourceLimitMemory: '4Gi',
+    workingDir: '/home/jenkins',
+    command: '',
+    args: '${computer.jnlpmac} ${computer.name}'
+    )
+  ])       
+  {
+    stage('Functional Test') {
+      node('bddstack') {
+        echo "BDD Funtional Testing"
+        echo "checking out source"
+        echo "Build: ${BUILD_ID}"
+        checkout scm
+        dir('BDDStack-web-test') {
+          try {
+            sh './gradlew --debug --stacktrace chromeHeadlessTest'
+          } finally { 
+            archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/**/*'
+            archiveArtifacts allowEmptyArchive: true, artifacts: 'build/test-results/**/*'
+          }
+        }
+      }
+    }
+  }
+
