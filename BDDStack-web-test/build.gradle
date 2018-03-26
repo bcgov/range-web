@@ -102,7 +102,8 @@ tasks.withType(Test) {
     // Spock Report settings
     systemProperty 'com.athaydes.spockframework.report.outputDir', 'build/reports/spock'
     systemProperty 'com.athaydes.spockframework.report.internal.HtmlReportCreator.inlineCss', false
-    systemProperty 'com.athaydes.spockframework.report.projectName',"GWELLS"
+    systemProperty 'com.athaydes.spockframework.report.projectName',"Range-Web"
+    systemProperty 'com.athaydes.spockframework.report.projectVersion',"0.1.0"
 }
 
 tasks.withType(GroovyCompile) {
