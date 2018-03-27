@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TenureAgreementTableItem from './TenureAgreementTableItem';
+import AgreementTableItem from './AgreementTableItem';
 import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
-  tenureAgreements: PropTypes.array.isRequired,
+  agreements: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 
 const defaultProps = {
-  tenureAgreements: [],
+  agreements: [],
 }
 
-export class TenureAgreementTable extends Component {
+export class AgreementTable extends Component {
   state = {
     activePage: 1,
   }
 
   // handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
-  renderTenureAgreementTableItem = (tenureAgreement) => {
+  renderAgreementTableItem = (agreement) => {
     return (
-      <TenureAgreementTableItem 
-        key={tenureAgreement.id}
-        tenureAgreement={tenureAgreement}
+      <AgreementTableItem 
+        key={agreement.id}
+        agreement={agreement}
       />
     );
   }
 
   render() {
     // const { activePage } = this.state;
-    const { tenureAgreements, isLoading } = this.props;
+    const { agreements, isLoading } = this.props;
 
     return (
       <Loading loading={isLoading}>
@@ -46,7 +46,7 @@ export class TenureAgreementTable extends Component {
           </Table.Header>
       
           <Table.Body>
-            {tenureAgreements.map(this.renderTenureAgreementTableItem)}
+            {agreements.map(this.renderAgreementTableItem)}
           </Table.Body>
         </Table>
 
@@ -66,6 +66,6 @@ export class TenureAgreementTable extends Component {
   }
 }
 
-TenureAgreementTable.propTypes = propTypes;
-TenureAgreementTable.defaultProps = defaultProps;
-export default TenureAgreementTable;
+AgreementTable.propTypes = propTypes;
+AgreementTable.defaultProps = defaultProps;
+export default AgreementTable;

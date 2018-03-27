@@ -7,7 +7,7 @@ const propTypes = {
   placeholder: PropTypes.string.isRequired,
 }
 
-class TenureAgreementSearch extends Component {
+class AgreementSearch extends Component {
   state = {
     search: '',
   }
@@ -27,7 +27,7 @@ class TenureAgreementSearch extends Component {
     const { placeholder } = this.props;
 
     return (
-      <div className="tenure-agreement-search">
+      <div className="agreement-search">
         <Input
           fluid
           icon
@@ -44,5 +44,5 @@ class TenureAgreementSearch extends Component {
     );
   }
 }
-TenureAgreementSearch.propTypes = propTypes;
-export default TenureAgreementSearch;
+AgreementSearch.propTypes = propTypes;
+export default AgreementSearch;

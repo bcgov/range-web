@@ -6,29 +6,30 @@ import { withRouter } from 'react-router-dom';
 import { Status } from '../common';
 import { NOT_PROVIDED } from '../../constants/strings';
 const propTypes = {
-  tenureAgreement: PropTypes.object.isRequired,
+  agreement: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
-  tenureAgreement: {},
+  agreement: {},
 };
 
-export class TenureAgreementTableItem extends Component {
+export class AgreementTableItem extends Component {
   onRowClicked = () => {
-    const { tenureAgreement, history } = this.props;
-    if (tenureAgreement && tenureAgreement.plans.length !== 0) {
-      history.push(`${RANGE_USE_PLAN}/${tenureAgreement.id}`);
-    } else {
-      alert("No range use plan found!");
-    }
-    // history.push(`${RANGE_USE_PLAN}/${tenureAgreement.id}/${tenureAgreement.plan[0]}`)
+    const { agreement, history } = this.props;
+    // if (agreement && agreement.plans.length !== 0) {
+      history.push(`${RANGE_USE_PLAN}/${agreement.id}`);
+    // } else {
+      // alert("No range use plan found!");
+    // }
+    // history.push(`${RANGE_USE_PLAN}/${agreement.id}/${agreement.plan[0]}`)
   }
 
   render() {
-    const { tenureAgreement: agreement } = this.props;
-    const recentPlan = agreement.plans[0];
-    const statusName = recentPlan && recentPlan.status && recentPlan.status.name;
-    const rangeName = recentPlan && recentPlan.rangeName;
+    const { agreement } = this.props;
+    const plans = agreement.plans;
+    const plan = plans[0];
+    const statusName = plan && plan.status && plan.status.name;
+    const rangeName = plan && plan.rangeName;
     const agreementId = agreement.id;
     const primaryAgreementHolderName = agreement.primaryAgreementHolder
       && agreement.primaryAgreementHolder.name;
@@ -36,7 +37,7 @@ export class TenureAgreementTableItem extends Component {
 
     return (
       <Table.Row
-        className="tenure-agreement-table-item"
+        className="agreement-table-item"
         onClick={this.onRowClicked}
       >
         <Table.Cell>{agreementId}</Table.Cell>
@@ -49,6 +50,6 @@ export class TenureAgreementTableItem extends Component {
   }
 }
 
-TenureAgreementTableItem.propTypes = propTypes;
-TenureAgreementTableItem.defaultProps = defaultProps;
-export default withRouter(TenureAgreementTableItem);
+AgreementTableItem.propTypes = propTypes;
+AgreementTableItem.defaultProps = defaultProps;
+export default withRouter(AgreementTableItem);

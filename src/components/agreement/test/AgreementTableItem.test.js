@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { TenureAgreementTableItem } from '../TenureAgreementTableItem';
+import { AgreementTableItem } from '../AgreementTableItem';
 import { getMockRangeUsePlan } from './mockValues';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
 
 const props = {};
 const setupProps = () => {
-  props.tenureAgreement = getMockRangeUsePlan(1);
+  props.agreement = getMockRangeUsePlan(1);
   props.history = {
     push: jest.fn(),
   }
@@ -18,25 +18,25 @@ beforeEach(() => {
 
 describe('tenureAgreementTableItem', () => {
   xit('renders correctly', () => {
-    const wrapper = shallow(<TenureAgreementTableItem {...props} />);
+    const wrapper = shallow(<AgreementTableItem {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   xit('push to the new route when clicking on Table.row', () => {
-    const wrapper = shallow(<TenureAgreementTableItem {...props} />);
+    const wrapper = shallow(<AgreementTableItem {...props} />);
     wrapper.simulate('click', {});
 
     expect(props.history.push).toHaveBeenCalledTimes(1);
-    expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.tenureAgreement.id}`);
+    expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.agreement.id}`);
   });
 
   describe('Event handlers', () => {
     xit('onRowClicked is called to push to the new route', () => {
-      const wrapper = shallow(<TenureAgreementTableItem {...props} />);
+      const wrapper = shallow(<AgreementTableItem {...props} />);
       wrapper.instance().onRowClicked();
 
       expect(props.history.push).toHaveBeenCalledTimes(1);
-      expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.tenureAgreement.id}`);
+      expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.agreement.id}`);
     });
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TenureAgreementSearch from '../TenureAgreementSearch';
+import AgreementSearch from '../AgreementSearch';
 
 const props = {};
 const setupProps = () => {
@@ -13,14 +13,14 @@ beforeEach(() => {
   setupProps();
 });
 
-describe('TenureAgreementSearch', () => {
+describe('AgreementSearch', () => {
   xit('renders correctly', () => {
-    const wrapper = shallow(<TenureAgreementSearch {...props} />);
+    const wrapper = shallow(<AgreementSearch {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
   
   it('set `search` state when typing terms for searching', () => {
-    const wrapper = shallow(<TenureAgreementSearch {...props} />);
+    const wrapper = shallow(<AgreementSearch {...props} />);
     const mockTerm = "hello";
 
     wrapper.find('input#search').simulate('change', { target: { id: 'search', value: mockTerm }});
@@ -30,7 +30,7 @@ describe('TenureAgreementSearch', () => {
 
   describe('Event handlers', () => {
     it('`handleInput` set state and calls handleSearchInput', () => {
-      const wrapper = shallow(<TenureAgreementSearch {...props} />);
+      const wrapper = shallow(<AgreementSearch {...props} />);
       const mockId = 'id';
       const mockValue = 'value';
 

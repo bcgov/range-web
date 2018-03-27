@@ -3,17 +3,18 @@
 
 $row-height: 80px;
 
-.tenure-agreement {
+.agreement {
   &__table{
+    @extend .container;
     margin-top: $content-margin-top;
   }
 }
 
-.tenure-agreement-search {
+.agreement-search {
   width: 200px;
 }
 
-.tenure-agreement-table-item {
+.agreement-table-item {
   cursor: pointer;
 }
 

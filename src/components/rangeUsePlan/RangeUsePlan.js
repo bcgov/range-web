@@ -39,10 +39,12 @@ export class RangeUsePlan extends Component {
   componentDidMount() {
     // store fields that can be updated within this page
     const { zone, plans } = this.props.agreement;
-    const status = plans[0] && plans[0].status;
+    const plan = plans[0];
+    const status = plan && plan.status;
     this.setState({
       zone,
-      status
+      status,
+      plan,
     });
   }
 
@@ -105,6 +107,7 @@ export class RangeUsePlan extends Component {
       isUpdateZoneModalOpen,
       zone,
       status,
+      plan,
     } = this.state;
     const { agreement, isUpdatingStatus } = this.props;
     const statusDropdownOptions = [
@@ -119,22 +122,21 @@ export class RangeUsePlan extends Component {
     const contactPhone = zone && zone.contactPhoneNumber;
     const districtCode = zone && zone.district && zone.district.code;
     const statusName = status && status.name;
-    const {
-      id,
-      agreementStartDate,
-      agreementEndDate,
-      primaryAgreementHolder,
-      plans,
-      agreementExemptionStatus,
-    } = agreement;
-    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
-    const plan = plans[0];
     const rangeName = plan && plan.rangeName;
     const alternateBusinessName = plan && plan.alternateBusinessName;
     const planStartDate = plan && plan.planStartDate;
     const planEndDate = plan && plan.planEndDate;
     const extention = plan && plan.extension;
+
+    const {
+      id,
+      agreementStartDate,
+      agreementEndDate,
+      primaryAgreementHolder,
+      agreementExemptionStatus,
+    } = agreement;
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
 
     return (
       <div className="rup">

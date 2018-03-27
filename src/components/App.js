@@ -11,7 +11,7 @@ import Login from './auth/Login';
 import Toast from './Toast';
 import PageNotFound from './PageNotFound';
 import RangeUsePlan from './rangeUsePlan';
-import TenureAgreement from './tenureAgreement';
+import Agreement from './agreement';
 import ManageZone from './manageZone';
 
 import { registerAxiosInterceptors } from '../handlers/authentication';
@@ -32,7 +32,7 @@ export class App extends Component {
             
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
 
-            <PrivateRoute path={Routes.RANGE_USE_PLANS} component={TenureAgreement} user={user} />
+            <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId`} component={RangeUsePlan} user={user} />
             {/* <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} user={user} /> */}
             <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />

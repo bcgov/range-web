@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import TenureAgreementTable from './TenureAgreementTable';
-import TenureAgreementSearch from './TenureAgreementSearch';
+import AgreementTable from './AgreementTable';
+import AgreementSearch from './AgreementSearch';
 import { Banner } from '../common';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
 
 const propTypes = {
-  tenureAgreements: PropTypes.array.isRequired,
+  agreements: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  searchTenureAgreements: PropTypes.func.isRequired,
+  searchAgreements: PropTypes.func.isRequired,
 };
 
-export class TenureAgreement extends Component {
+export class Agreement extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,31 +20,31 @@ export class TenureAgreement extends Component {
     }
     // wait for 1 second for the user to finish writing a search term
     // then make a network call
-    this.searchTenureAgreements = debounce(props.searchTenureAgreements, 1000);
+    this.searchAgreements = debounce(props.searchAgreements, 1000);
   }
   
   handleSearchInput = (searchTerm) => {
-    this.searchTenureAgreements(searchTerm)
+    this.searchAgreements(searchTerm)
   }
   
   render() {
-    const { tenureAgreements, isLoading } = this.props;
+    const { agreements, isLoading } = this.props;
 
     return (
-      <div className="tenure-agreement">
+      <div className="agreement">
         <Banner
           header={SELECT_RUP_BANNER_HEADER}
           content={SELECT_RUP_BANNER_CONTENT}
         >
-          <TenureAgreementSearch
+          <AgreementSearch
             placeholder="Enter Search Term" 
             handleSearchInput={this.handleSearchInput}
           />
         </Banner>
 
-        <div className="tenure-agreement__table container">
-          <TenureAgreementTable
-            tenureAgreements={tenureAgreements}
+        <div className="agreement__table">
+          <AgreementTable
+            agreements={agreements}
             isLoading={isLoading}
           />
         </div>
@@ -53,5 +53,5 @@ export class TenureAgreement extends Component {
   }
 }
 
-TenureAgreement.propTypes = propTypes;
-export default TenureAgreement;
+Agreement.propTypes = propTypes;
+export default Agreement;

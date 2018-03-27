@@ -1,6 +1,6 @@
 export const AUTH = 'AUTH';
 export const TOAST = 'TOAST';
-export const TENURE_AGREEMENTS = 'TENURE_AGREEMENTS';
+export const AGREEMENTS = 'AGREEMENTS';
 export const RANGE_USE_PLAN = 'RANGE_USE_PLAN';
 export const GET_REFERENCES = 'GET_REFERENCES';
 export const CLIENTS = 'CLIENTS';

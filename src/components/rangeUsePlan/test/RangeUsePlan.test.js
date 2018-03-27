@@ -1,14 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
-import { getMockRangeUsePlan } from '../../tenureAgreement/test/mockValues'
+import { getMockRangeUsePlan } from '../../aagreement/test/mockValues'
 import { COMPLETED, PENDING } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
 
 const props = {};
 const setupProps = () => {
-  props.rangeUsePlan = getMockRangeUsePlan(2);
+  props.agreement = getMockRangeUsePlan(2);
   props.statuses = [mockStatus];
   props.newStatus = { id: 2, name: 'name' };
   props.isUpdatingStatus = false;
@@ -32,7 +32,7 @@ describe('RangeUsePlan', () => {
   });
 
   describe('Event handlers', () => {
-    xit('opening and closing modal events change states correctly', () => {
+    it('opening and closing modal events change states correctly', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
       expect(wrapper.state().isCompletedModalOpen).toEqual(false);
@@ -51,14 +51,14 @@ describe('RangeUsePlan', () => {
       expect(wrapper.state().isPendingModalOpen).toEqual(false);
     });
 
-    xit('onViewClicked calls the right function', () => {
+    it('onViewClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
       wrapper.instance().onViewClicked();
 
       expect(mockClick).toHaveBeenCalled();
     });
 
-    xit('onYesSomethingClicked calls the right function', () => {
+    it('onYesSomethingClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
       const updateStatusSpy = jest.spyOn(instance, 'updateStatus');
@@ -72,7 +72,7 @@ describe('RangeUsePlan', () => {
       expect(updateStatusSpy).toHaveBeenCalledWith(PENDING, closePendingConfirmModalSpy);
     });
 
-    xit('updateStatus calls the right function', () => {
+    it('updateStatus calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props } />);
       const instance = wrapper.instance();
       const mockCloseConfirmModal = jest.fn();
@@ -82,7 +82,7 @@ describe('RangeUsePlan', () => {
 
       instance.updateStatus(mockStatus.name, mockCloseConfirmModal);
       const requestData = { 
-        agreementId: props.rangeUsePlan.id,
+        planId: props.agreement.plans[0].id,
         statusId: mockStatus.id,
       };
       expect(props.updateRupStatus).toHaveBeenCalledWith(requestData);

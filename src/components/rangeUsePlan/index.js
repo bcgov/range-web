@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RangeUsePlan from './RangeUsePlan';
 import { Loading } from '../common';
-import { getRangeUsePlan } from '../../actions/tenureAgreementActions';
+import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus } from '../../actions/rangeUsePlanActions';
 import { PLAN_STATUS } from '../../constants/variables';
 
