@@ -29,7 +29,7 @@ export const EXTENDED = "Extended";
 export const EXEMPTION_STATUS = "Exemption Status";
 export const PLAN_DATE = "Plan Date";
 export const PRIMARY_AGREEMENT_HOLDER = "Primary Agreement Holder";
-export const OTHER_AGREEMENT_HOLDER = "Agreement Holder - Other"
+export const OTHER_AGREEMENT_HOLDER = "Agreement Holder(Other)"
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';

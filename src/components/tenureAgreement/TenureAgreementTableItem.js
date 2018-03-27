@@ -16,15 +16,20 @@ const defaultProps = {
 export class TenureAgreementTableItem extends Component {
   onRowClicked = () => {
     const { tenureAgreement, history } = this.props;
-    history.push(`${RANGE_USE_PLAN}/${tenureAgreement.id}`)
+    if (tenureAgreement && tenureAgreement.plans.length !== 0) {
+      history.push(`${RANGE_USE_PLAN}/${tenureAgreement.id}`);
+    } else {
+      alert("No range use plan found!");
+    }
+    // history.push(`${RANGE_USE_PLAN}/${tenureAgreement.id}/${tenureAgreement.plan[0]}`)
   }
 
   render() {
     const { tenureAgreement: agreement } = this.props;
     const recentPlan = agreement.plans[0];
     const statusName = recentPlan && recentPlan.status && recentPlan.status.name;
+    const rangeName = recentPlan && recentPlan.rangeName;
     const agreementId = agreement.id;
-    const rangeName = agreement.rangeName;
     const primaryAgreementHolderName = agreement.primaryAgreementHolder
       && agreement.primaryAgreementHolder.name;
     const staff = agreement && agreement.zone && agreement.zone.contactName;

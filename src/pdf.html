@@ -29,7 +29,7 @@
       border-top: 2px solid #003366;
   }
   
-  .info-title {
+  .section-title {
       font-weight: bold;
       font-size: 1.1rem;
       margin: 10px 0;
@@ -51,7 +51,7 @@
 <h2>Basic Information</h2>
   <div class="divider"></div>
   <div class="cell-6">
-    <div class="info-title">Agreement Information</div>
+    <div class="section-title">Agreement Information</div>
     <div class="textfield">
       <div class="textfield__title">Range Number</div>
       <div class="textfield__content">{{rangeNumber}}</div>
@@ -74,7 +74,7 @@
     </div>
   </div>
   <div class="cell-6">
-    <div class="info-title">Contact Information</div>
+    <div class="section-title">Contact Information</div>
     <div class="textfield">
       <div class="textfield__title">District (Responsible)</div>
       <div class="textfield__content">{{district}}</div>
@@ -98,7 +98,7 @@
   </div>
   
   <div class="divider"></div>
-  <div class="info-title">Plan Information</div>
+  <div class="section-title">Plan Information</div>
   <div class="cell-6">
     <div class="textfield">
       <div class="textfield__title">Plan Start Date</div>
@@ -120,43 +120,44 @@
     </div>
   </div>
   
-<table>
-  <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-  </tr>
-  <tr>
-    <td>Island Trading</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-  </tr>
-</table>
+  <div class="divider"></div>
+  <div class="section-title">Agreement Holders</div>
+  <div class="cell-6">
+    <div class="textfield__title">Name</div>
+    <div class="textfield__content">{{primaryAgreementHolder}}</div>
+  </div>
+  <div class="cell-6">
+    <div class="textfield__title">Type</div>
+    <div class="textfield__content">Primary</div>
+  </div>
 
+  <h2>Schedule Information</h2>
+  <div class="divider"></div>
+  <div class="section-title">{{year}} Grazing Schedule</div>
+  
+  <table>
+    <tr>
+      <th>Pasture</th>
+      <th>Livestock Type</th>
+      <th># of Animals</th>
+      <th>Date in</th>
+      <th>Date out</th>
+      <th>Days</th>
+      <th>Grace Days</th>
+      <th>PLD</th>
+      <th>Crown AUMs</th>
+    </tr>
+    <tr>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
+    </tr>
+  </table>
 </body>
 </html>

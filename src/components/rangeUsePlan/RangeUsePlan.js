@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown } from 'semantic-ui-react';
+import {Icon, Button, Dropdown } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import UpdateZoneModal from './UpdateZoneModal';
@@ -125,10 +125,10 @@ export class RangeUsePlan extends Component {
       agreementEndDate,
       primaryAgreementHolder,
       plans,
-      exemptionStatus,
+      agreementExemptionStatus,
     } = agreement;
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-    const exemptionStatusName = exemptionStatus && exemptionStatus.name;
+    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
     const plan = plans[0];
     const rangeName = plan && plan.rangeName;
     const alternateBusinessName = plan && plan.alternateBusinessName;
@@ -237,8 +237,13 @@ export class RangeUsePlan extends Component {
               />
               <TextField 
                 label={ZONE}
-                text={zoneCode}
-                onClick={this.onZoneClicked}
+                text={
+                  <div className="rup__zone-text">
+                    {zoneCode}
+                    <Icon className="rup__zone-text__icon" name='edit' />
+                  </div>
+                }
+                onClick={this.onZoneClicked} 
               />
               <TextField 
                 label={CONTACT_NAME}

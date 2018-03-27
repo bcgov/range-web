@@ -14,8 +14,8 @@ class Base extends Component {
   
   componentDidMount() {
     const { getRangeUsePlan, match } = this.props;
-    const { id } = match.params;
-    getRangeUsePlan(id);
+    const { agreementId } = match.params;
+    getRangeUsePlan(agreementId);
   }
 
   render() {

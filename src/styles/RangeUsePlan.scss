@@ -67,4 +67,17 @@ $row-height: 80px;
     display: flex;
     flex-direction: column;
   }
+  &__zone-text {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &__icon {
+      visibility: hidden;
+    }
+  }
+
+  &__zone-text:hover i {
+    visibility: visible;
+  }
 }
