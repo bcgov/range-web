@@ -21,11 +21,11 @@ class Base extends Component {
   render() {
     const { 
       references,
-      rangeUsePlanState,
+      agreementState,
       updateRupStatus,
       isUpdatingStatus,
     } = this.props;
-    const { data: rangeUsePlan, isLoading, success } = rangeUsePlanState;
+    const { data: agreement, isLoading, success } = agreementState;
     const statuses = references[PLAN_STATUS];
 
     return (
@@ -35,7 +35,7 @@ class Base extends Component {
         }
         { success && 
           <RangeUsePlan 
-            rangeUsePlan={rangeUsePlan}
+            agreement={agreement}
             statuses={statuses}
             updateRupStatus={updateRupStatus}
             isUpdatingStatus={isUpdatingStatus}
@@ -48,7 +48,7 @@ class Base extends Component {
 
 const mapStateToProps = state => {
   return {
-    rangeUsePlanState: state.rangeUsePlan,
+    agreementState: state.rangeUsePlan,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
   };

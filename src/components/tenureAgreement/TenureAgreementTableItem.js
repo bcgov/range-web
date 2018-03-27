@@ -20,13 +20,14 @@ export class TenureAgreementTableItem extends Component {
   }
 
   render() {
-    const { tenureAgreement } = this.props;
-    const statusName = tenureAgreement.status && tenureAgreement.status.name;
-    const agreementId = tenureAgreement.id;
-    const rangeName = tenureAgreement.rangeName;
-    const primaryAgreementHolderName = tenureAgreement.primaryAgreementHolder
-      && tenureAgreement.primaryAgreementHolder.name;
-    const staff = `Staff Contact ${Math.floor((Math.random() * 10) + 1)}`;
+    const { tenureAgreement: agreement } = this.props;
+    const recentPlan = agreement.plans[0];
+    const statusName = recentPlan && recentPlan.status && recentPlan.status.name;
+    const agreementId = agreement.id;
+    const rangeName = agreement.rangeName;
+    const primaryAgreementHolderName = agreement.primaryAgreementHolder
+      && agreement.primaryAgreementHolder.name;
+    const staff = agreement && agreement.zone && agreement.zone.contactName;
 
     return (
       <Table.Row

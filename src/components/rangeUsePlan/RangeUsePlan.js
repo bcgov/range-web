@@ -17,7 +17,7 @@ import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
 
 const propTypes = {
-  rangeUsePlan: PropTypes.object.isRequired,
+  agreement: PropTypes.object.isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.array.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
@@ -38,7 +38,8 @@ export class RangeUsePlan extends Component {
 
   componentDidMount() {
     // store fields that can be updated within this page
-    const { zone, status } = this.props.rangeUsePlan;
+    const { zone, plans } = this.props.agreement;
+    const status = plans[0] && plans[0].status;
     this.setState({
       zone,
       status
@@ -62,11 +63,12 @@ export class RangeUsePlan extends Component {
   closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
 
   updateStatus = (statusName, closeConfirmModal) => {
-    const { rangeUsePlan, statuses, updateRupStatus } = this.props;
+    const { agreement, statuses, updateRupStatus } = this.props;
+    const plan = agreement.plans[0];
     const status = statuses.find(status => status.name === statusName);
     if (status) {
       const requestData = {
-        agreementId: rangeUsePlan.id,
+        planId: plan.id,
         statusId: status.id,
       };
       
@@ -76,7 +78,6 @@ export class RangeUsePlan extends Component {
           status: newStatus,
         });
       };
-      
       updateRupStatus(requestData).then(statusUpdated);
     }
   }
@@ -105,31 +106,35 @@ export class RangeUsePlan extends Component {
       zone,
       status,
     } = this.state;
-    const { rangeUsePlan, isUpdatingStatus } = this.props;
+    const { agreement, isUpdatingStatus } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
 
+    // variables for textfields
+    const zoneCode = zone && zone.code;
+    const contactEmail = zone && zone.contactEmail;
+    const contactName = zone && zone.contactName;
+    const contactPhone = zone && zone.contactPhoneNumber;
+    const districtCode = zone && zone.district && zone.district.code;
+    const statusName = status && status.name;
     const {
       id,
       agreementStartDate,
       agreementEndDate,
-      rangeName,
-      alternateBusinessName,
-      planStartDate,
-      planEndDate,
       primaryAgreementHolder,
-    } = rangeUsePlan;
-    const districtCode = zone && zone.district && zone.district.code;
-    const zoneCode = zone && zone.code;
-    const statusName = status && status.name;
+      plans,
+      exemptionStatus,
+    } = agreement;
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-    const extended = '';
-    const exemptionStatus = '';
-    const contactEmail = '';
-    const contactName = '';
-    const contactPhone = '';
+    const exemptionStatusName = exemptionStatus && exemptionStatus.name;
+    const plan = plans[0];
+    const rangeName = plan && plan.rangeName;
+    const alternateBusinessName = plan && plan.alternateBusinessName;
+    const planStartDate = plan && plan.planStartDate;
+    const planEndDate = plan && plan.planEndDate;
+    const extention = plan && plan.extension;
 
     return (
       <div className="rup">
@@ -259,11 +264,11 @@ export class RangeUsePlan extends Component {
               />
               <TextField 
                 label={EXTENDED}
-                text={extended}
+                text={extention}
               />
               <TextField 
                 label={EXEMPTION_STATUS}
-                text={exemptionStatus}
+                text={exemptionStatusName}
               />
             </div>
             

@@ -53,11 +53,14 @@ export class UpdateZoneModal extends Component {
     const zoneOptions = zones
       .filter(zone => (zone.districtId === currDistrictId) && (zone.code !== currZoneCode))
       .map(zone => {
-        zone.key = zone.id;
-        zone.text = zone.code;
-        zone.value = zone.id;
-        const { createdAt, updatedAt, districtId, district_id, ...rest } = zone;
-        return rest;
+        const { id, code, description } = zone;
+        const _zone = {
+          key: id,
+          text: code,
+          value: id,
+          description,
+        };
+        return _zone;
       });
 
     return (

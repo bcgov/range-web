@@ -6,16 +6,16 @@ import {
 import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
 import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES } from '../constants/reducerTypes';
-import { BASE_URL, STATUS, AGREEMENT, ZONE } from '../constants/api';
+import { BASE_URL, STATUS, AGREEMENT, ZONE, PLAN } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const updateRupStatus = (requestData) => (dispatch) => {
   dispatch(request(UPDATE_RUP_STATUS));
   const makeRequest = async () => {
     try {
-      const { agreementId, statusId } = requestData;
+      const { planId, statusId } = requestData;
       const response = await axios.put(
-        `${BASE_URL}${AGREEMENT}/${agreementId}${STATUS}`, 
+        `${BASE_URL}${PLAN}/${planId}${STATUS}`, 
         { statusId }
       );
       dispatch(success(UPDATE_RUP_STATUS, response.data));

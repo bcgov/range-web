@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: arial, sans-serif;
+  }
+  table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+  }
+
+  td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
+
+  tr:nth-child(even) {
+      background-color: #dddddd;
+  }
+  
+  .divider {
+      border-top: 2px solid #003366;
+      margin: 10px 0 10px;
+  }
+  
+  .info-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin: 10px 0;
+  }
+  .textfield {
+      margin: 5px 0;
+  }
+  .textfield__title {
+      font-weight: bold;
+  }
+  .cell-6 {
+      width: 49%;
+      display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<h2>Basic Information</h2>
+  <div class="divider"></div>
+  <div class="cell-6">
+    <div class="info-title">Agreement Information</div>
+    <div class="textfield">
+      <div class="textfield__title">Range Number</div>
+      <div class="textfield__content">{{rangeNumber}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Agreement Type</div>
+      <div class="textfield__content">{{agreementType}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Agreement Date</div>
+      <div class="textfield__content">{{}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Range Name</div>
+      <div class="textfield__content">{{rangeName}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Alternative Business Name</div>
+      <div class="textfield__content">{{}}</div>
+    </div>
+  </div>
+  <div class="cell-6">
+    <div class="info-title">Contact Information</div>
+    <div class="textfield">
+      <div class="textfield__title">District (Responsible)</div>
+      <div class="textfield__content">{{district}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Zone</div>
+      <div class="textfield__content">{{zone}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Contact Name</div>
+      <div class="textfield__content">{{cantactName}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Contact Phone</div>
+      <div class="textfield__content">{{contactPhoneNumber}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Contact Email</div>
+      <div class="textfield__content">{{contactEmail}}</div>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+  <div class="info-title">Plan Information</div>
+  <div class="cell-6">
+    <div class="textfield">
+      <div class="textfield__title">Plan Start Date</div>
+      <div class="textfield__content">{{planStartDate}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Extended</div>
+      <div class="textfield__content">{{extension}}</div>
+    </div>
+  </div>
+  <div class="cell-6">
+    <div class="textfield">
+      <div class="textfield__title">Plan End Date</div>
+      <div class="textfield__content">{{planEndDate}}</div>
+    </div>
+    <div class="textfield">
+      <div class="textfield__title">Exemption Status</div>
+      <div class="textfield__content">{{examptionStatus}}</div>
+    </div>
+  </div>
+  
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Centro comercial Moctezuma</td>
+    <td>Francisco Chang</td>
+    <td>Mexico</td>
+  </tr>
+  <tr>
+    <td>Ernst Handel</td>
+    <td>Roland Mendel</td>
+    <td>Austria</td>
+  </tr>
+  <tr>
+    <td>Island Trading</td>
+    <td>Helen Bennett</td>
+    <td>UK</td>
+  </tr>
+  <tr>
+    <td>Laughing Bacchus Winecellars</td>
+    <td>Yoshi Tannamuri</td>
+    <td>Canada</td>
+  </tr>
+  <tr>
+    <td>Magazzini Alimentari Riuniti</td>
+    <td>Giovanni Rovelli</td>
+    <td>Italy</td>
+  </tr>
+</table>
+
+</body>
+</html>

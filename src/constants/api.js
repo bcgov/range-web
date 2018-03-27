@@ -17,5 +17,6 @@ export const BASE_URL = 'http://api-range-myra-dev.pathfinder.gov.bc.ca/v1';
 export const AGREEMENT = '/agreement';
 export const REFERENCES = '/reference';
 export const CLIENT = '/client';
+export const PLAN = '/plan';
 export const STATUS = '/status';
 export const ZONE = '/zone';
