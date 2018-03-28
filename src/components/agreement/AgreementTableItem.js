@@ -37,7 +37,7 @@ export class AgreementTableItem extends Component {
 
     return (
       <Table.Row
-        className="agreement-table-item"
+        className="agreement__table__item"
         onClick={this.onRowClicked}
       >
         <Table.Cell>{agreementId}</Table.Cell>

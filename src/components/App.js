@@ -18,7 +18,7 @@ import { registerAxiosInterceptors } from '../handlers/authentication';
 import { logout } from '../actions/authActions';
 
 export class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     registerAxiosInterceptors(this.props.logout);
   }
 

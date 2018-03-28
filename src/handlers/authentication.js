@@ -14,9 +14,45 @@ import {
   AUTH_KEY,
 } from '../constants/strings';
 
+const getDataFromLocal = () => {
+  return JSON.parse(localStorage.getItem(AUTH_KEY));
+};
+
+const saveDataInLocal = (data) => {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(data));
+};
+
 const getRefreshTokenFromLocal = () => {
   const data = getDataFromLocal();
-  return data.refresh_token;
+  return data && data.refresh_token;
+};
+
+const getAuthDataFromLocal = () => {
+  const data = getDataFromLocal();
+  return data && data.auth_data;
+};
+
+const isTokenExpired = () => {
+  const authData = getAuthDataFromLocal();
+  if (authData) {
+    return (new Date() / 1000) > authData.exp;
+  }
+  return false;
+};
+
+const isRefreshTokenExpired = () => {
+  const data = getDataFromLocal();
+  const authData = getAuthDataFromLocal();
+  
+  if (data && authData) {
+    const exp = authData.iat + data.refresh_expires_in;
+    return (new Date() / 1000) > exp;
+  }
+  return false;
+};
+
+const setAxiosAuthHeader = (data) => {
+  axios.defaults.headers.common['Authorization'] = `${data.token_type} ${data.access_token}`;
 };
 
 const refreshAccessToken = (refresh_token, _retry) => {
@@ -35,39 +71,6 @@ const refreshAccessToken = (refresh_token, _retry) => {
     data: querystring.stringify(data),
     _retry,
   });
-};
-
-const getDataFromLocal = () => {
-  return JSON.parse(localStorage.getItem(AUTH_KEY));
-};
-
-const saveDataInLocal = (data) => {
-  localStorage.setItem(AUTH_KEY, JSON.stringify(data));
-};
-
-const getAuthDataFromLocal = () => {
-  const data = getDataFromLocal();
-  return data.auth_data;
-};
-
-const setAxiosAuthHeader = (data) => {
-  axios.defaults.headers.common['Authorization'] = `${data.token_type} ${data.access_token}`;
-};
-
-const isTokenExpired = () => {
-  const authData = getAuthDataFromLocal();
-  return (new Date() / 1000) > authData.exp;
-};
-
-const isRefreshTokenExpired = () => {
-  const data = getDataFromLocal();
-  const authData = getAuthDataFromLocal();
-  
-  if(data && authData) {
-    const exp = authData.iat + data.refresh_expires_in;
-    return (new Date() / 1000) > exp;
-  }
-  return false;
 };
 
 export const getTokenFromRemote = (code) => {
@@ -150,11 +153,11 @@ export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
     if(isRefreshTokenExpired()) {
       logout();
-      console.log("refresh token is expired");
-      return config;
+      throw new Error("Refresh token is expired");
     }
 
     if(isTokenExpired() && !config._retry) {
+      console.log("token is expired. Try to refresh the token");
       config._retry = true;
       const token = getRefreshTokenFromLocal();
       const makeRequest = async () => {
@@ -167,17 +170,11 @@ export const registerAxiosInterceptors = (logout) => {
         } catch (err) {
           // the refresh token is also expired therefore sign out the user
           logout();
-          return err;
+          throw err;
         }
       }
       makeRequest();
     }
     return config;
-  });
-
-  axios.interceptors.response.use((response) => {
-    return response;
-  }, (error) => {
-      return Promise.reject(error.response);
   });
 };

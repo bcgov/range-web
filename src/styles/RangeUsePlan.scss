@@ -4,18 +4,19 @@
 $row-height: 80px;
 
 .agreement {
+  &__search {
+    width: 200px;
+
+  }
+
   &__table{
     @extend .container;
     margin-top: $content-margin-top;
+
+    &__item {
+      cursor: pointer;
+    }
   }
-}
-
-.agreement-search {
-  width: 200px;
-}
-
-.agreement-table-item {
-  cursor: pointer;
 }
 
 .rup {

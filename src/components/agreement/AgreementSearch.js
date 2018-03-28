@@ -27,7 +27,7 @@ class AgreementSearch extends Component {
     const { placeholder } = this.props;
 
     return (
-      <div className="agreement-search">
+      <div className="agreement__search">
         <Input
           fluid
           icon
