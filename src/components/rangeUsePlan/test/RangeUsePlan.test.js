@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
-import { getMockRangeUsePlan } from '../../aagreement/test/mockValues'
+import { getMockRangeUsePlan } from '../../agreement/test/mockValues'
 import { COMPLETED, PENDING } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };

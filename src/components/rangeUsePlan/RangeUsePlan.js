@@ -242,7 +242,7 @@ export class RangeUsePlan extends Component {
                 text={
                   <div className="rup__zone-text">
                     {zoneCode}
-                    <Icon className="rup__zone-text__icon" name='edit' />
+                    <Icon className="rup__zone-text__icon" name='pencil' />
                   </div>
                 }
                 onClick={this.onZoneClicked} 
