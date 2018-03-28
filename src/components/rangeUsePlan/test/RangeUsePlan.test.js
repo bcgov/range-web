@@ -87,5 +87,14 @@ describe('RangeUsePlan', () => {
       };
       expect(props.updateRupStatus).toHaveBeenCalledWith(requestData);
     });
+
+    it('onZoneClicked calls the right function', () => {
+      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const instance = wrapper.instance();
+      const openUpdateZoneModalModalSpy = jest.spyOn(instance, 'openUpdateZoneModal');
+      
+      instance.onZoneClicked();
+      expect(openUpdateZoneModalModalSpy).toHaveBeenCalled();
+    });
   });
 });

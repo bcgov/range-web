@@ -152,29 +152,47 @@ export const onSignedOut = () => {
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
     if(isRefreshTokenExpired()) {
+      console.log("Refresh token is expired");
       logout();
-      throw new Error("Refresh token is expired");
+      return config;
     }
 
-    if(isTokenExpired() && !config._retry) {
-      console.log("token is expired. Try to refresh the token");
-      config._retry = true;
-      const token = getRefreshTokenFromLocal();
-      const makeRequest = async () => {
-        try {
+    const makeRequest = async () => {
+      try {
+        if (isTokenExpired() && !config._retry) {
+          console.log("Access token is expired. Trying to refresh the token");
+          config._retry = true;
+          const token = getRefreshTokenFromLocal();
           const response = await refreshAccessToken(token, config._retry);
           onAuthenticated(response);
           config.headers.Authorization = `${response.token_type} ${response.access_token}`;
-          
-          return config;
-        } catch (err) {
-          // the refresh token is also expired therefore sign out the user
-          logout();
-          throw err;
         }
+        return config;
+      } catch (err) {
+        logout();
+        throw err;
       }
-      makeRequest();
     }
-    return config;
+    return makeRequest();
+
+    // if(isTokenExpired() && !config._retry) {
+    //   console.log("token is expired. Try to refresh the token");
+    //   config._retry = true;
+    //   const token = getRefreshTokenFromLocal();
+    //   const makeRequest = async () => {
+    //     try {
+    //       const response = await refreshAccessToken(token, config._retry);
+    //       onAuthenticated(response);
+    //       config.headers.Authorization = `${response.token_type} ${response.access_token}`;
+          
+    //       return config;
+    //     } catch (err) {
+    //       // the refresh token is also expired therefore sign out the user
+    //       logout();
+    //       throw err;
+    //     }
+    //   }
+    //   makeRequest();
+    // }
   });
 };

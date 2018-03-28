@@ -18,7 +18,7 @@ class Toast extends Component {
       <div className='toast'>
         <Message
           icon
-          hidden={close}
+          hidden={close && !message}
           success={success}
           error={error}>
 
