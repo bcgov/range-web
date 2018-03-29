@@ -92,9 +92,15 @@ describe('RangeUsePlan', () => {
       const wrapper = shallow(<RangeUsePlan {...props } />);
       const instance = wrapper.instance();
       const openUpdateZoneModalModalSpy = jest.spyOn(instance, 'openUpdateZoneModal');
-      
       instance.onZoneClicked();
       expect(openUpdateZoneModalModalSpy).toHaveBeenCalled();
+    });
+
+    it('onZoneUpdated calls right the function', () => {
+      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const mockZone = "mockZone";
+      wrapper.instance().onZoneUpdated(mockZone);
+      expect(wrapper.state().zone).toEqual(mockZone);
     });
   });
 });

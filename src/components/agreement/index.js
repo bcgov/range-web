@@ -4,7 +4,7 @@ import Agreement from './Agreement';
 import { searchAgreements } from '../../actions/agreementActions';
 
 class Base extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.searchAgreements();
   }
 

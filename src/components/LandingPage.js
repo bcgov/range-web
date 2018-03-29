@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 export class LandingPage extends Component {
-  componentDidMount() {
+  componentWillMount() {
     const { getReferences, getZones } = this.props;
     getReferences();
     getZones();

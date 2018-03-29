@@ -69,5 +69,5 @@ export const getZones = (districtId) => (dispatch) => {
       dispatch(toastErrorMessage(err));
     }
   };
-  makeRequest();
+  return makeRequest();
 };

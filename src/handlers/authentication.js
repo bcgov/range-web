@@ -111,7 +111,7 @@ export const initializeUser = () => {
 export const onAuthenticated = (response) => {
   if(response && response.data) {
     const data = response.data;
-    data.auth_data = jwtDecode(response.data.access_token);
+    data.auth_data = jwtDecode(data.access_token);
 
     saveDataInLocal(data);
     setAxiosAuthHeader(data);
@@ -151,21 +151,25 @@ export const onSignedOut = () => {
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
-    if(isRefreshTokenExpired()) {
-      console.log("Refresh token is expired");
-      logout();
-      return config;
-    }
+    // if(isRefreshTokenExpired()) {
+    //   logout();
+    //   console.log('Refresh token is expired');
+    //   return;
+    // }
 
     const makeRequest = async () => {
       try {
         if (isTokenExpired() && !config._retry) {
           console.log("Access token is expired. Trying to refresh the token");
           config._retry = true;
-          const token = getRefreshTokenFromLocal();
-          const response = await refreshAccessToken(token, config._retry);
+          const refreshToken = getRefreshTokenFromLocal();
+          const response = await refreshAccessToken(refreshToken, config._retry);
           onAuthenticated(response);
-          config.headers.Authorization = `${response.token_type} ${response.access_token}`;
+
+          const data = response && response.data;
+          const tokenType = data && data.token_type;
+          const accessToken = data && data.access_token;
+          config.headers.Authorization = `${tokenType} ${accessToken}`;
         }
         return config;
       } catch (err) {
@@ -174,25 +178,5 @@ export const registerAxiosInterceptors = (logout) => {
       }
     }
     return makeRequest();
-
-    // if(isTokenExpired() && !config._retry) {
-    //   console.log("token is expired. Try to refresh the token");
-    //   config._retry = true;
-    //   const token = getRefreshTokenFromLocal();
-    //   const makeRequest = async () => {
-    //     try {
-    //       const response = await refreshAccessToken(token, config._retry);
-    //       onAuthenticated(response);
-    //       config.headers.Authorization = `${response.token_type} ${response.access_token}`;
-          
-    //       return config;
-    //     } catch (err) {
-    //       // the refresh token is also expired therefore sign out the user
-    //       logout();
-    //       throw err;
-    //     }
-    //   }
-    //   makeRequest();
-    // }
   });
 };

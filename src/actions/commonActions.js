@@ -26,5 +26,5 @@ export const getReferences = (requestData) => (dispatch) => {
       dispatch(error(GET_REFERENCES, err));
     }
   }
-  makeRequest();
+  return makeRequest();
 };

@@ -84,6 +84,26 @@ export class RangeUsePlan extends Component {
     }
   }
 
+  renderAgreementHolders = (client) => {
+    if (client.clientType.code === 'A') {
+      return (
+        <TextField
+          key={client.id}
+          label={PRIMARY_AGREEMENT_HOLDER}
+          text={client && client.name}
+        />
+      );
+    } else {
+      return (
+        <TextField 
+          key={client.id}
+          label={OTHER_AGREEMENT_HOLDER}
+          text={client && client.name}
+        />    
+      );
+    }
+  }
+
   onYesCompletedClicked = () => {
     this.updateStatus(COMPLETED, this.closeCompletedConfirmModal);
   }
@@ -132,10 +152,18 @@ export class RangeUsePlan extends Component {
       id,
       agreementStartDate,
       agreementEndDate,
-      primaryAgreementHolder,
       agreementExemptionStatus,
+      clients,
     } = agreement;
-    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+
+    let primaryAgreementHolderName = '';
+    clients && clients.forEach(client => {
+      if (client.clientType.code === 'A') {
+        primaryAgreementHolderName = client.name;
+      } else {
+
+      }
+    });
     const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
 
     return (
@@ -282,18 +310,7 @@ export class RangeUsePlan extends Component {
             <div className="rup__plan-info rup__cell-6">
               <div className="rup__divider" />
               <div className="rup__info-title">Agreement Holders</div>
-              <TextField 
-                label={PRIMARY_AGREEMENT_HOLDER}
-                text={primaryAgreementHolderName}
-              />
-              <TextField 
-                label={OTHER_AGREEMENT_HOLDER}
-                text={''}
-              />
-              <TextField 
-                label={OTHER_AGREEMENT_HOLDER}
-                text={''}
-              />
+              {clients && clients.map(this.renderAgreementHolders)}
             </div>
           </div>
           {/* <div className="rup__divider" />
