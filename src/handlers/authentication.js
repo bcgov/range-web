@@ -40,17 +40,6 @@ const isTokenExpired = () => {
   return false;
 };
 
-const isRefreshTokenExpired = () => {
-  const data = getDataFromLocal();
-  const authData = getAuthDataFromLocal();
-  
-  if (data && authData) {
-    const exp = authData.iat + data.refresh_expires_in;
-    return (new Date() / 1000) > exp;
-  }
-  return false;
-};
-
 const setAxiosAuthHeader = (data) => {
   axios.defaults.headers.common['Authorization'] = `${data.token_type} ${data.access_token}`;
 };
@@ -151,12 +140,6 @@ export const onSignedOut = () => {
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use(config => {
-    // if(isRefreshTokenExpired()) {
-    //   logout();
-    //   console.log('Refresh token is expired');
-    //   return;
-    // }
-
     const makeRequest = async () => {
       try {
         if (isTokenExpired() && !config._retry) {

@@ -313,32 +313,6 @@ export class RangeUsePlan extends Component {
               {clients && clients.map(this.renderAgreementHolders)}
             </div>
           </div>
-          {/* <div className="rup__divider" />
-          <div className="rup__plan-info">
-            <div className="rup__info-title">Plan Information</div>
-            <div className="rup__row">
-              <div className="rup__cell-6">
-                <TextField 
-                  label={PLAN_START}
-                  text={formatDate(planStartDate)}
-                />
-                <TextField 
-                  label={PLAN_END}
-                  text={formatDate(planEndDate)}
-                />
-              </div>
-              <div className="rup__cell-6">
-                <TextField 
-                  label={EXTENDED}
-                  text={extended}
-                />
-                <TextField 
-                  label={EXEMPTION_STATUS}
-                  text={exemptionStatus}
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
     );
