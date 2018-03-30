@@ -18,11 +18,11 @@ const defaultProps = {
 export class AgreementTableItem extends Component {
   onRowClicked = () => {
     const { agreement, history } = this.props;
-    if (agreement && agreement.plans.length !== 0) {
+    // if (agreement && agreement.plans.length !== 0) {
       history.push(`${RANGE_USE_PLAN}/${agreement.id}`);
-    } else {
-      alert("No range use plan found!");
-    }
+    // } else {
+      // alert("No range use plan found!");
+    // }
     // history.push(`${RANGE_USE_PLAN}/${agreement.id}/${agreement.plan[0]}`)
   }
 
