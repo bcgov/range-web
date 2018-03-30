@@ -263,6 +263,7 @@ export class RangeUsePlan extends Component {
                     <Icon className="rup__zone-text__icon" name='pencil' />
                   </div>
                 }
+                isEditable
                 onClick={this.onZoneClicked} 
               />
               <TextField 

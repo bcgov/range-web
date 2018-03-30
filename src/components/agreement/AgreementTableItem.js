@@ -30,7 +30,7 @@ export class AgreementTableItem extends Component {
     const { agreement } = this.props;
     const plans = agreement.plans;
     const plan = plans[0];
-    const statusName = (plan && plan.status && plan.status.name) || NO_RUP_PROVIDED;
+    const statusName = (plan && plan.status && plan.status.name);
     const rangeName = (plan && plan.rangeName) || NO_RUP_PROVIDED;
     const agreementId = agreement.id;
     const staff = agreement && agreement.zone && agreement.zone.contactName;

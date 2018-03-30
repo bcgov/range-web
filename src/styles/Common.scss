@@ -35,13 +35,9 @@
 }
 
 .text-field {
-  // align-self: center;
-
   &__label {
-    // font-weight: bold;
     font-size: 1.1rem;
     color: gray;
-    // margin-bottom: 10px;
 
     &--hidden {
       display: none;
@@ -49,12 +45,14 @@
   }
 
   &__text {
-    // border-bottom: 2px solid $primary-color;
-    font-size: 1rem;
-    background: gainsboro;
-    padding: 8px;
+    padding: 2px;
     border-radius: 5px;
-    margin: 5px 0;
+    margin: 10px 0;
+
+    &--editable {
+      background: #eeeeee;
+      padding: 8px;    
+    }
   }
 }
 

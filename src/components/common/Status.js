@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { NOT_PROVIDED } from '../../constants/strings';
+import { NO_RUP_PROVIDED } from '../../constants/strings';
 import { PENDING, COMPLETED, SUBMITTED } from '../../constants/variables';
 
-export const Status = ({ status = NOT_PROVIDED, className = "" }) => {
+export const Status = ({ status = NO_RUP_PROVIDED, className = "" }) => {
   let modifier = 'status__icon';
   switch (status) {
     case PENDING:
