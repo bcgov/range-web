@@ -12,7 +12,7 @@ import { RANGE_NUMBER, AGREEMENT_DATE,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../constants/strings';
-import { COMPLETED, PENDING } from '../../constants/variables';
+import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
 
@@ -84,25 +84,13 @@ export class RangeUsePlan extends Component {
     }
   }
 
-  renderAgreementHolders = (client) => {
-    if (client.clientType.code === 'A') {
-      return (
-        <TextField
-          key={client.id}
-          label={PRIMARY_AGREEMENT_HOLDER}
-          text={client && client.name}
-        />
-      );
-    } else {
-      return (
-        <TextField 
-          key={client.id}
-          label={OTHER_AGREEMENT_HOLDER}
-          text={client && client.name}
-        />    
-      );
-    }
-  }
+  renderOtherAgreementHolders = (client) => (
+    <TextField 
+      key={client.id}
+      label={OTHER_AGREEMENT_HOLDER}
+      text={client && client.name}
+    />    
+  )
 
   onYesCompletedClicked = () => {
     this.updateStatus(COMPLETED, this.closeCompletedConfirmModal);
@@ -156,15 +144,17 @@ export class RangeUsePlan extends Component {
       clients,
     } = agreement;
 
-    let primaryAgreementHolderName = '';
+    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
+    
+    let primaryAgreementHolderName;
+    let otherAgreementHolders = [];
     clients && clients.forEach(client => {
-      if (client.clientType.code === 'A') {
+      if (client.clientTypeCode === PRIMARY_TYPE) {
         primaryAgreementHolderName = client.name;
-      } else {
-
+      } else if (client.clientTypeCode === OTHER_TYPE) {
+        otherAgreementHolders.push(client);
       }
     });
-    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
 
     return (
       <div className="rup">
@@ -310,7 +300,11 @@ export class RangeUsePlan extends Component {
             <div className="rup__plan-info rup__cell-6">
               <div className="rup__divider" />
               <div className="rup__info-title">Agreement Holders</div>
-              {clients && clients.map(this.renderAgreementHolders)}
+              <TextField
+                label={PRIMARY_AGREEMENT_HOLDER}
+                text={primaryAgreementHolderName}
+              />
+              {otherAgreementHolders.map(this.renderOtherAgreementHolders)}
             </div>
           </div>
         </div>
