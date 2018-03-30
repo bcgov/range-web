@@ -48,7 +48,7 @@ export class UpdateZoneModal extends Component {
     } = this.props;
     const { newZoneId } = this.state;
 
-    const currDistrictId = currZone && currZone.districtId;
+    const currDistrictId = currZone && currZone.district && currZone.district.id;
     const currZoneCode = currZone && currZone.code;
     const zoneOptions = zones
       .filter(zone => (zone.districtId === currDistrictId) && (zone.code !== currZoneCode))

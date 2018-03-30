@@ -34,7 +34,7 @@ export class AgreementTable extends Component {
 
     return (
       <Loading loading={isLoading}>
-        <Table singleLine selectable>
+        <Table selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>{RANGE_NUMBER}</Table.HeaderCell>

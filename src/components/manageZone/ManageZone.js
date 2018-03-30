@@ -64,7 +64,7 @@ export class ManageZone extends Component {
           content={MANAGE_ZONE_BANNER_CONTENT}
         />
 
-        <div className="manage-zone__content container">
+        <div className="manage-zone__content">
           <div className="manage-zone__steps">
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">

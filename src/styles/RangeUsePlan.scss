@@ -55,6 +55,7 @@ $row-height: 80px;
   }
 
   &__content {
+    @extend .container;
     margin-top: $content-margin-top;
   }
 

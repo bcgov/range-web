@@ -68,7 +68,7 @@ export class RangeUsePlan extends Component {
     const { agreement, statuses, updateRupStatus } = this.props;
     const plan = agreement.plans[0];
     const status = statuses.find(status => status.name === statusName);
-    if (status) {
+    if (status && plan) {
       const requestData = {
         planId: plan.id,
         statusId: status.id,
@@ -221,7 +221,7 @@ export class RangeUsePlan extends Component {
           </div>
         </Banner>
         
-        <div className="rup__content container">
+        <div className="rup__content">
           <div className="rup__title">Basic Information</div>
           <div className="rup__row">
             <div className="rup__agreement-info rup__cell-6">
