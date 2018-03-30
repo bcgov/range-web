@@ -22,6 +22,7 @@ export const AGREEMENT_HOLDERS = "Agreement Holders";
 export const TYPE = "Type";
 export const NOT_PROVIDED = "Not provided";
 export const NOT_SELECTED = "Not selected";
+export const NO_RUP_PROVIDED = "No RUP found";
 export const CONTACT_NAME = "Contact Name"; 
 export const CONTACT_EMAIL = "Contact Email";
 export const CONTACT_PHONE = "Contact Phone";
