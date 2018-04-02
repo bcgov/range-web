@@ -7,8 +7,6 @@ import { getAgreements } from '../../actions/agreementActions';
 
 const propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  agreementsState: PropTypes.shape({}).isRequired,
   getAgreements: PropTypes.func.isRequired,
 };
 

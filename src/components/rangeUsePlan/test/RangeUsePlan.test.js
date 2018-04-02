@@ -1,14 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
-import { getMockRangeUsePlan } from '../../agreement/test/mockValues'
+import { getMockAgreement } from '../../agreement/test/mockValues'
 import { COMPLETED, PENDING } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
 
 const props = {};
 const setupProps = () => {
-  props.agreement = getMockRangeUsePlan(2);
+  props.agreement = getMockAgreement(2);
   props.statuses = [mockStatus];
   props.newStatus = { id: 2, name: 'name' };
   props.isUpdatingStatus = false;

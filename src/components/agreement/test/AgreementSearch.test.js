@@ -5,8 +5,8 @@ import AgreementSearch from '../AgreementSearch';
 const props = {};
 const setupProps = () => {
   props.handleSearchInput = jest.fn();
-  props.placeholder = "placeholder";
-  props.label = "label";
+  props.placeholder = 'placeholder';
+  props.searchTerm = 'label';
 };
 
 beforeEach(() => {
@@ -18,12 +18,12 @@ describe('AgreementSearch', () => {
     const wrapper = shallow(<AgreementSearch {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-  
+
   it('set `search` state when typing terms for searching', () => {
     const wrapper = shallow(<AgreementSearch {...props} />);
-    const mockTerm = "hello";
+    const mockTerm = 'hello';
 
-    wrapper.find('input#search').simulate('change', { target: { id: 'search', value: mockTerm }});
+    wrapper.find('input#searchTerm').simulate('change', { target: { id: 'search', value: mockTerm } });
     expect(wrapper.state().search).toEqual(mockTerm);
     expect(props.handleSearchInput).toHaveBeenCalledWith(mockTerm);
   });
@@ -34,7 +34,7 @@ describe('AgreementSearch', () => {
       const mockId = 'id';
       const mockValue = 'value';
 
-      wrapper.instance().handleInput({ target: { id: mockId, value: mockValue }});
+      wrapper.instance().handleInput({ target: { id: mockId, value: mockValue } });
       expect(wrapper.state()[mockId]).toEqual(mockValue);
       expect(props.handleSearchInput).toHaveBeenCalledWith(mockValue);
     });

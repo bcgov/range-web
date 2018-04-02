@@ -1,12 +1,17 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { AgreementTable } from '../AgreementTable';
-import { getMockRangeUsePlans } from './mockValues';
+import { getMockAgreements } from './mockValues';
 
 const props = {};
 const setupProps = () => {
-  props.agreements = getMockRangeUsePlans(3);
-  props.isLoading = false;
+  props.agreementsState = {
+    isLoading: false,
+    currentPage: 1,
+    totalPages: 1,
+    data: getMockAgreements(3),
+  };
+  props.handlePaginationChange = jest.fn();
 };
 
 beforeEach(() => {
@@ -21,7 +26,7 @@ describe('AgreementTable', () => {
 
   it('renders `AgreementTableItem` components correctly', () => {
     const wrapper = shallow(<AgreementTable {...props} />);
-    const numberOfAgreements = props.agreements.length;
-    expect(wrapper.find('withRouter(AgreementTableItem)').length).toEqual(numberOfAgreements);    
+    const numberOfAgreements = props.agreementsState.data.length;
+    expect(wrapper.find('withRouter(AgreementTableItem)').length).toEqual(numberOfAgreements);
   });
 });

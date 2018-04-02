@@ -33,9 +33,10 @@ class AgreementSearch extends Component {
         <Input
           fluid
           icon
-          loading={false} 
-          placeholder={placeholder}>
-          <input 
+          loading={false}
+          placeholder={placeholder}
+        >
+          <input
             id="searchTerm"
             value={searchTerm}
             onChange={this.handleInput}

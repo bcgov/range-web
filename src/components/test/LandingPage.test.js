@@ -11,6 +11,7 @@ const setupProps = () => {
   props.logout = jest.fn();
   props.getReferences = jest.fn();
   props.getZones = jest.fn();
+  props.user = {};
 };
 
 beforeEach(() => {

@@ -9,15 +9,14 @@ import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../const
 
 const propTypes = {
   agreementsState: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  history: PropTypes.shape({ location: {} }).isRequired,
 };
 
 export class Agreement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: queryString.parse(props.location.search).term || '',
+      searchTerm: queryString.parse(props.history.location.search).term || '',
     };
     this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
   }
