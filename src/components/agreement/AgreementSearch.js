@@ -12,14 +12,8 @@ class AgreementSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: '',
+      searchTerm: props.searchTerm,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.searchTerm !== this.props.searchTerm) {
-      this.setState({ searchTerm: nextProps.searchTerm });
-    }
   }
 
   handleInput = (e) => {
