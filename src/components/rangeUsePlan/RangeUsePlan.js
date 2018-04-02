@@ -113,9 +113,9 @@ export class RangeUsePlan extends Component {
       isCompletedModalOpen,
       isPendingModalOpen,
       isUpdateZoneModalOpen,
-      zone,
+      zone = {},
       status,
-      plan,
+      plan = {},
     } = this.state;
     const { agreement, isUpdatingStatus } = this.props;
     const statusDropdownOptions = [
@@ -124,31 +124,31 @@ export class RangeUsePlan extends Component {
     ];
 
     // variables for textfields
-    const zoneCode = zone && zone.code;
-    const contactEmail = zone && zone.contactEmail;
-    const contactName = zone && zone.contactName;
-    const contactPhone = zone && zone.contactPhoneNumber;
-    const districtCode = zone && zone.district && zone.district.code;
+    const zoneCode = zone.code;
+    const contactEmail = zone.contactEmail;
+    const contactName = zone.contactName;
+    const contactPhone = zone.contactPhoneNumber;
+    const districtCode = zone.district && zone.district.code;
     const statusName = status && status.name;
-    const rangeName = plan && plan.rangeName;
-    const alternateBusinessName = plan && plan.alternateBusinessName;
-    const planStartDate = plan && plan.planStartDate;
-    const planEndDate = plan && plan.planEndDate;
-    const extention = plan && plan.extension;
+    const rangeName = plan.rangeName;
+    const alternateBusinessName = plan.alternateBusinessName;
+    const planStartDate = plan.planStartDate;
+    const planEndDate = plan.planEndDate;
+    const extention = plan.extension;
 
     const {
       id,
       agreementStartDate,
       agreementEndDate,
-      agreementExemptionStatus,
-      clients,
+      agreementExemptionStatus = {},
+      clients = [],
     } = agreement;
 
-    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
+    const exemptionStatusName = agreementExemptionStatus.description;
     
     let primaryAgreementHolderName;
     let otherAgreementHolders = [];
-    clients && clients.forEach(client => {
+    clients.forEach(client => {
       if (client.clientTypeCode === PRIMARY_TYPE) {
         primaryAgreementHolderName = client.name;
       } else if (client.clientTypeCode === OTHER_TYPE) {

@@ -9,7 +9,7 @@ const propTypes = {
 
 class AgreementSearch extends Component {
   state = {
-    search: '',
+    searchTerm: '',
   }
   
   handleInput = (e) => {
@@ -22,10 +22,15 @@ class AgreementSearch extends Component {
     });
   }
   
-  render() {
-    const { search } = this.state;
-    const { placeholder } = this.props;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.searchTerm !== this.props.searchTerm) {
+      this.setState({ searchTerm: nextProps.searchTerm });
+    }
+  }
 
+  render() {
+    const { searchTerm } = this.state;
+    const { placeholder } = this.props;
     return (
       <div className="agreement__search">
         <Input
@@ -34,8 +39,8 @@ class AgreementSearch extends Component {
           loading={false} 
           placeholder={placeholder}>
           <input 
-            id="search"
-            value={search}
+            id="searchTerm"
+            value={searchTerm}
             onChange={this.handleInput}
           />
           <Icon name="search" />

@@ -20,13 +20,13 @@ export const request = (reducer) => {
   }
 }
 
-export const successPaginated = (reducer, data) => {
+export const successPaginated = (reducer, data, currentPage, totalPages) => {
   return {
     name: reducer,
     type: SUCCESS_PAGINATED,
-    data: data.data,
-    currentPage: data.current_page,
-    totalPages: data.last_page,
+    data,
+    currentPage,
+    totalPages,
   }
 }
 

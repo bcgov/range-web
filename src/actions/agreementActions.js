@@ -8,19 +8,19 @@ import { AGREEMENTS, RANGE_USE_PLAN } from '../constants/reducerTypes';
 import { BASE_URL, AGREEMENT } from '../constants/api';
 import axios from '../handlers/axios';
 
-export const searchAgreements = (term) => (dispatch) => {
+export const getAgreements = ({ term = '', page = 1 }) => (dispatch) => {
   dispatch(request(AGREEMENTS));
   const makeRequest = async () => {
     try {
-      let config = {};
-      if (term) {
-        config.params = {
+      let config = {
+        params: {
           term,
-        };
-      }
+          page
+        }
+      };
       const response = await axios.get(BASE_URL + AGREEMENT, config);
-      const agreements = response.data;
-      dispatch(success(AGREEMENTS, agreements));
+      const { agreements, currentPage, totalPage } = response.data;
+      dispatch(successPaginated(AGREEMENTS, agreements, currentPage, totalPage));
     } catch (err) {
       dispatch(error(AGREEMENTS, err));
     }

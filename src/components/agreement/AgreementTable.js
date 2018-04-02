@@ -5,8 +5,8 @@ import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
-  agreements: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  agreementsState: PropTypes.object.isRequired,
+  handlePaginationChange: PropTypes.func.isRequired,
 }
 
 const defaultProps = {
@@ -14,23 +14,26 @@ const defaultProps = {
 }
 
 export class AgreementTable extends Component {
-  state = {
-    activePage: 1,
+  handlePaginationChange = (e, { activePage: currentPage }) => {
+    this.props.handlePaginationChange(currentPage);
   }
-
-  // handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
-  renderAgreementTableItem = (agreement) => {
+  
+  renderAgreementTableItem = (agreement, index) => {
     return (
       <AgreementTableItem 
-        key={agreement.id}
+        key={index}
         agreement={agreement}
       />
     );
   }
 
   render() {
-    // const { activePage } = this.state;
-    const { agreements, isLoading } = this.props;
+    const { 
+      data: agreements, 
+      isLoading, 
+      currentPage, 
+      totalPages
+    } = this.props.agreementsState;
 
     return (
       <Loading loading={isLoading}>
@@ -50,9 +53,9 @@ export class AgreementTable extends Component {
           </Table.Body>
         </Table>
 
-        {/* <Pagination 
+        <Pagination 
           size='mini'
-          activePage={activePage}
+          activePage={currentPage}
           onPageChange={this.handlePaginationChange} 
           totalPages={totalPages}
           ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
@@ -60,7 +63,7 @@ export class AgreementTable extends Component {
           lastItem={{ content: <Icon name='angle double right' />, icon: true }}
           prevItem={{ content: <Icon name='angle left' />, icon: true }}
           nextItem={{ content: <Icon name='angle right' />, icon: true }}
-        /> */}
+        />
       </Loading>
     );
   }

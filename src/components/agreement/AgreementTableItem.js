@@ -27,13 +27,13 @@ export class AgreementTableItem extends Component {
   }
 
   render() {
-    const { agreement } = this.props;
+    const { agreement = {} } = this.props;
     const plans = agreement.plans;
     const plan = plans[0];
     const statusName = (plan && plan.status && plan.status.name);
     const rangeName = (plan && plan.rangeName) || NO_RUP_PROVIDED;
     const agreementId = agreement.id;
-    const staff = agreement && agreement.zone && agreement.zone.contactName;
+    const staff = agreement.zone && agreement.zone.contactName;
     let primaryAgreementHolderName = '';
     agreement.clients && agreement.clients.forEach(client => {
       if (client.clientTypeCode === PRIMARY_TYPE) {
