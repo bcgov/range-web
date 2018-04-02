@@ -12,11 +12,11 @@ export const getAgreements = ({ term = '', page = 1 }) => (dispatch) => {
   dispatch(request(AGREEMENTS));
   const makeRequest = async () => {
     try {
-      let config = {
+      const config = {
         params: {
           term,
-          page
-        }
+          page,
+        },
       };
       const response = await axios.get(BASE_URL + AGREEMENT, config);
       const { agreements, currentPage, totalPage } = response.data;
@@ -28,12 +28,12 @@ export const getAgreements = ({ term = '', page = 1 }) => (dispatch) => {
   makeRequest();
 };
 
-export const getRangeUsePlan = (id) => (dispatch) => {
+export const getRangeUsePlan = id => (dispatch) => {
   dispatch(request(RANGE_USE_PLAN));
   const makeRequest = async () => {
     try {
       const url = `${BASE_URL}${AGREEMENT}/${id}`;
-      const response = await axios.get(url)
+      const response = await axios.get(url);
       const rangeUsePlan = response.data;
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
     } catch (err) {

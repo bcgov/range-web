@@ -11,41 +11,36 @@ class Base extends Component {
     searchTerm: '',
   }
 
-  componentWillMount() {
-    const { getAgreements, location } = this.props;
-    const parsedParams = queryString.parse(location.search);
-    getAgreements({ ...parsedParams });
-    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
-  }
-
   componentWillReceiveProps(nextProps) {
     const { location, getAgreements } = this.props;
     const locationChanged = nextProps.location !== location;
     if (locationChanged) {
       const parsedParams = queryString.parse(nextProps.location.search);
-      getAgreements({
-        ...parsedParams
-      });
+      getAgreements({ ...parsedParams });
     }
   }
 
   componentDidMount() {
-    const parsedParams = queryString.parse(this.props.location.search);
+    const { getAgreements, location } = this.props;
+    const parsedParams = queryString.parse(location.search);
     if (parsedParams.term) {
       this.setState({ searchTerm: parsedParams.term });    
     }
+    getAgreements({ ...parsedParams });
+    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
   }
 
   handlePaginationChange = (currentPage) => {
-    const { history, location } = this.props;
-    const parsedParams = queryString.parse(location.search);
+    const { history } = this.props;
+    const parsedParams = queryString.parse(history.location.search);
     parsedParams.page = currentPage;
     history.push(`${RANGE_USE_PLANS}?${queryString.stringify(parsedParams)}`);
   }
 
   handleSearchInput = (term) => {
-    const { history, location } = this.props;
-    const parsedParams = queryString.parse(location.search);
+    const { history } = this.props;
+    const parsedParams = queryString.parse(history.location.search);
+    // show new results from page 1
     parsedParams.page = 1;
     parsedParams.term = term;
     history.push(`${RANGE_USE_PLANS}?${queryString.stringify(parsedParams)}`);
