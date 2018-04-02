@@ -7,11 +7,10 @@ import queryString from 'query-string';
 import { SSO_AUTH_ENDPOINT } from '../../constants/api';
 import { login } from '../../actions/authActions';
 
-
 const propTypes = {
-  location: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
-  loginState: PropTypes.object.isRequired,
+  location: PropTypes.shape({}).isRequired,
+  loginState: PropTypes.shape({}).isRequired,
 };
 
 export class Login extends Component {
@@ -22,25 +21,25 @@ export class Login extends Component {
     const parsed = queryString.parse(location.search);
     const { code } = parsed;
 
-    if(code) {
-      login(code)
+    if (code) {
+      login(code);
     }
   }
 
   onButtonClick = () => {
-    window.open(SSO_AUTH_ENDPOINT, "_self");
+    window.open(SSO_AUTH_ENDPOINT, '_self');
   }
 
   render() {
     const {
-      loginState
+      loginState,
     } = this.props;
 
     return (
       <div className="login">
         <img
-          className="login__image" 
-          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4" 
+          className="login__image"
+          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4"
           alt="gov-img"
         />
 
@@ -56,10 +55,10 @@ export class Login extends Component {
             primary
             fluid
             onClick={this.onButtonClick}
-            > 
+          >
             Login
           </Button>
-          
+
         </div>
         <a
           className="login__change-link"
@@ -74,13 +73,12 @@ export class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => (
+  {
     loginState: state.auth,
-  }; 
-};
+  }
+);
 
 Login.propTypes = propTypes;
-export default connect (
-  mapStateToProps, { login }
-)(Login)
+export default connect(mapStateToProps, { login })(Login);
+

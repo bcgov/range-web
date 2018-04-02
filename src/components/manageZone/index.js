@@ -8,12 +8,10 @@ class Base extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => (
+  {
 
-  };
-};
+  }
+);
 
-export default connect(
-  mapStateToProps, {  }
-)(Base);
+export default connect(mapStateToProps, { })(Base);

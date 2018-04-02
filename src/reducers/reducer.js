@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
-
 import {
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
 } from '../constants/actionTypes';
 import * as ReducerTypes from '../constants/reducerTypes';
 import { getReferencesFromLocal } from '../handlers';
@@ -23,7 +22,7 @@ const createReducer = (reducerFunction, reducerName, initialState) => {
     const isInitializationCall = state === undefined;
     if (name !== reducerName && !isInitializationCall) return state;
     return reducerFunction(state, action);
-  }
+  };
 };
 
 const appReducer = combineReducers({
@@ -40,10 +39,10 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   // reset the state of a Redux store when users sign out
   if (action.type === LOGOUT_SUCCESS) {
-    state = undefined
+    state = undefined;
   }
 
-  return appReducer(state, action)
+  return appReducer(state, action);
 };
 
 export default rootReducer;
