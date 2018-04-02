@@ -8,6 +8,8 @@ import Navbar from './Navbar';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  user: PropTypes.shape({}).isRequired,
 };
 
 export class LandingPage extends Component {
@@ -16,7 +18,7 @@ export class LandingPage extends Component {
     getReferences();
     getZones();
   }
-  
+
   onLogout = () => {
     this.props.logout();
   }
@@ -26,23 +28,21 @@ export class LandingPage extends Component {
 
     return (
       <div className="main">
-        <Navbar onLogout={this.onLogout}/>
+        <Navbar onLogout={this.onLogout} />
         <Component {...rest} />
-        <footer></footer>
+        <footer />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { user } = state.auth;
-  
+
   return {
-    user
-  };  
+    user,
+  };
 };
 
 LandingPage.propTypes = propTypes;
-export default connect (
-  mapStateToProps, { logout, getReferences, getZones }
-)(LandingPage)
+export default connect(mapStateToProps, { logout, getReferences, getZones })(LandingPage);

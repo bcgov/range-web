@@ -1,38 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AgreementTableItem from './AgreementTableItem';
 import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
-import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT ,RANGE_NAME, STATUS } from '../../constants/strings';
+import AgreementTableItem from './AgreementTableItem';
+import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT, RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
-  agreementsState: PropTypes.object.isRequired,
+  agreementsState: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
-}
-
-const defaultProps = {
-  agreements: [],
-}
+};
 
 export class AgreementTable extends Component {
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
-  
-  renderAgreementTableItem = (agreement, index) => {
-    return (
-      <AgreementTableItem 
-        key={index}
-        agreement={agreement}
-      />
-    );
-  }
+
+  renderAgreementTableItem = (agreement, index) => (
+    <AgreementTableItem
+      key={index}
+      agreement={agreement}
+    />
+  )
 
   render() {
-    const { 
-      data: agreements, 
-      isLoading, 
+    const {
+      data: agreements,
+      isLoading,
       currentPage, 
-      totalPages
+      totalPages,
     } = this.props.agreementsState;
 
     return (
@@ -47,22 +41,22 @@ export class AgreementTable extends Component {
               <Table.HeaderCell>{STATUS}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-      
+
           <Table.Body>
             {agreements.map(this.renderAgreementTableItem)}
           </Table.Body>
         </Table>
 
-        <Pagination 
-          size='mini'
+        <Pagination
+          size="mini"
           activePage={currentPage}
           onPageChange={this.handlePaginationChange} 
           totalPages={totalPages}
-          ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
-          firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-          lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-          prevItem={{ content: <Icon name='angle left' />, icon: true }}
-          nextItem={{ content: <Icon name='angle right' />, icon: true }}
+          ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+          firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+          lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+          prevItem={{ content: <Icon name="angle left" />, icon: true }}
+          nextItem={{ content: <Icon name="angle right" />, icon: true }}
         />
       </Loading>
     );
@@ -70,5 +64,4 @@ export class AgreementTable extends Component {
 }
 
 AgreementTable.propTypes = propTypes;
-AgreementTable.defaultProps = defaultProps;
 export default AgreementTable;

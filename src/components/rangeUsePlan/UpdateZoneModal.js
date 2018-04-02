@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Header, Button, Dropdown, Modal } from 'semantic-ui-react';
 import { updateRupZone } from '../../actions/rangeUsePlanActions';
 
-import { Header, Button, Dropdown, Modal } from 'semantic-ui-react';
 
 const propTypes = {
   isUpdateZoneModalOpen: PropTypes.bool.isRequired,
   closeUpdateZoneModal: PropTypes.func.isRequired,
   onZoneUpdated: PropTypes.func.isRequired,
-  zones: PropTypes.array.isRequired,
-  currZone: PropTypes.object.isRequired,
+  currZone: PropTypes.shape({}).isRequired,
+  updateRupZone: PropTypes.func.isRequired,
+  agreementId: PropTypes.string.isRequired,
+  zones: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  isUpdating: PropTypes.bool.isRequired,
 };
 
 export class UpdateZoneModal extends Component {
   state = {
     newZoneId: null,
   }
-  
+
   onZoneChanged = (e, { value }) => {
     this.setState({ newZoneId: value });
   }
@@ -40,11 +43,11 @@ export class UpdateZoneModal extends Component {
   }
 
   render() {
-    const { 
+    const {
       isUpdateZoneModalOpen,
       zones,
       currZone,
-      isUpdateing,
+      isUpdating,
     } = this.props;
     const { newZoneId } = this.state;
 
@@ -52,15 +55,15 @@ export class UpdateZoneModal extends Component {
     const currZoneCode = currZone && currZone.code;
     const zoneOptions = zones
       .filter(zone => (zone.districtId === currDistrictId) && (zone.code !== currZoneCode))
-      .map(zone => {
-        const { id, code, description } = zone;
-        const _zone = {
+      .map((z) => {
+        const { id, code, description } = z;
+        const zone = {
           key: id,
           text: code,
           value: id,
           description,
         };
-        return _zone;
+        return zone;
       });
 
     return (
@@ -69,8 +72,8 @@ export class UpdateZoneModal extends Component {
         <Modal.Content>
           <Header>Pick a new zone within the district</Header>
           <Dropdown
-            id='range-use-plan__zone-dropdown'
-            placeholder='Zone'
+            id="range-use-plan__zone-dropdown"
+            placeholder="Zone"
             options={zoneOptions}
             onChange={this.onZoneChanged}
             fluid
@@ -79,14 +82,14 @@ export class UpdateZoneModal extends Component {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button color='red' inverted onClick={this.closeUpdateZoneModal}>
+          <Button color="red" inverted onClick={this.closeUpdateZoneModal}>
             Cancel
           </Button>
-          <Button 
-            color='green' 
+          <Button
+            color="green"
             inverted
             disabled={newZoneId === null}
-            loading={isUpdateing}
+            loading={isUpdating}
             onClick={this.onUpdateZoneClicked}>
             Update Zone
           </Button>
@@ -94,17 +97,14 @@ export class UpdateZoneModal extends Component {
       </Modal>
     );
   }
-} 
+}
 
-
-const mapStateToProps = state => {
-  return {
-    isUpdateing: state.updateRupZone.isLoading,
+const mapStateToProps = state => (
+  {
+    isUpdating: state.updateRupZone.isLoading,
     zones: state.zones.data,
-  };
-};
+  }
+);
 
 UpdateZoneModal.propTypes = propTypes;
-export default connect(
-  mapStateToProps, { updateRupZone }
-)(UpdateZoneModal);
+export default connect(mapStateToProps, { updateRupZone })(UpdateZoneModal);

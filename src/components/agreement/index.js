@@ -1,14 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import queryString from 'query-string';
 import Agreement from './Agreement';
 import { getAgreements } from '../../actions/agreementActions';
 import { RANGE_USE_PLANS } from '../../constants/routes';
 
+const propTypes = {
+  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  history: PropTypes.shape({}).isRequired,
+  agreementsState: PropTypes.shape({}).isRequired,
+  getAgreements: PropTypes.func.isRequired,
+};
+
 class Base extends Component {
-  state = {
-    searchTerm: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchTerm: queryString.parse(props.location.search).term || '',
+    };
+    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
+  }
+
+  componentDidMount() {
+    const { getAgreements, location } = this.props;
+    const parsedParams = queryString.parse(location.search);
+    getAgreements({ ...parsedParams });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,16 +36,6 @@ class Base extends Component {
       const parsedParams = queryString.parse(nextProps.location.search);
       getAgreements({ ...parsedParams });
     }
-  }
-
-  componentDidMount() {
-    const { getAgreements, location } = this.props;
-    const parsedParams = queryString.parse(location.search);
-    if (parsedParams.term) {
-      this.setState({ searchTerm: parsedParams.term });    
-    }
-    getAgreements({ ...parsedParams });
-    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
   }
 
   handlePaginationChange = (currentPage) => {
@@ -60,12 +68,11 @@ class Base extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    agreementsState: state.agreements
-  };
-};
+const mapStateToProps = state => (
+  {
+    agreementsState: state.agreements,
+  }
+);
 
-export default connect(
-  mapStateToProps, { getAgreements }
-)(Base);
+Base.propTypes = propTypes;
+export default connect(mapStateToProps, { getAgreements })(Base);

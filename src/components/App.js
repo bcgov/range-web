@@ -18,6 +18,10 @@ import { registerAxiosInterceptors } from '../handlers/authentication';
 import { logout } from '../actions/authActions';
 
 export class App extends Component {
+  state = {
+
+  }
+  
   componentWillMount() {
     registerAxiosInterceptors(this.props.logout);
   }

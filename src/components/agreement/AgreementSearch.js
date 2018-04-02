@@ -5,27 +5,30 @@ import { Icon, Input } from 'semantic-ui-react';
 const propTypes = {
   handleSearchInput: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-}
+  searchTerm: PropTypes.string.isRequired,
+};
 
 class AgreementSearch extends Component {
-  state = {
-    searchTerm: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchTerm: '',
+    };
   }
-  
-  handleInput = (e) => {
-    const { id, value } = e.target;
-    
-    this.setState({
-      [id]: value
-    }, () => {
-      this.props.handleSearchInput(value);
-    });
-  }
-  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.searchTerm !== this.props.searchTerm) {
       this.setState({ searchTerm: nextProps.searchTerm });
     }
+  }
+
+  handleInput = (e) => {
+    const { id, value } = e.target;
+    this.setState({
+      [id]: value,
+    }, () => {
+      this.props.handleSearchInput(value);
+    });
   }
 
   render() {
