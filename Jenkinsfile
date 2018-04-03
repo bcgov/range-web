@@ -44,8 +44,6 @@ node('master') {
     // so I use a generic Linux and install my own node from LTS.
     sh "curl ${NODE_URI} | tar -Jx"
 
-    sh "rm -rf /node_modules"
-
     // setup the node dev environment
     sh "${CMD_PREFIX} npm i "
     // not sure if this needs to be added to package.json.
