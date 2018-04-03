@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
+import { parseQuery } from '../../handlers';
 import Agreement from './Agreement';
 import { getAgreements } from '../../actions/agreementActions';
 
@@ -13,7 +13,7 @@ const propTypes = {
 class Base extends Component {
   componentDidMount() {
     const { getAgreements, location } = this.props;
-    const parsedParams = queryString.parse(location.search);
+    const parsedParams = parseQuery(location.search);
     getAgreements({ ...parsedParams });
   }
 
@@ -21,7 +21,7 @@ class Base extends Component {
     const { getAgreements, location } = this.props;
     const locationChanged = nextProps.location !== location;
     if (locationChanged) {
-      const parsedParams = queryString.parse(nextProps.location.search);
+      const parsedParams = parseQuery(nextProps.location.search);
       getAgreements({ ...parsedParams });
     }
   }

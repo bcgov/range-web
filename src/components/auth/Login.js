@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import queryString from 'query-string';
 
+import { parseQuery } from '../../handlers';
 import { SSO_AUTH_ENDPOINT } from '../../constants/api';
 import { LOGIN_LOGO_SRC } from '../../constants/variables';
 import { login } from '../../actions/authActions';
@@ -19,7 +19,7 @@ export class Login extends Component {
     const { login, location } = this.props;
 
     // grab the code from the redirect url
-    const parsed = queryString.parse(location.search);
+    const parsed = parseQuery(location.search);
     const { code } = parsed;
 
     if (code) {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import queryString from 'query-string';
 import AgreementTable from './AgreementTable';
 import AgreementSearch from './AgreementSearch';
 import { Banner } from '../common';
+import { parseQuery, stringifyQuery } from '../../handlers';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
 
 const propTypes = {
@@ -16,25 +16,25 @@ export class Agreement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: queryString.parse(props.history.location.search).term || '',
+      searchTerm: parseQuery(props.history.location.search).term || '',
     };
     this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
   }
 
   handlePaginationChange = (currentPage) => {
     const { history, history: { location } } = this.props;
-    const parsedParams = queryString.parse(location.search);
+    const parsedParams = parseQuery(location.search);
     parsedParams.page = currentPage;
-    history.push(`${location.pathname}?${queryString.stringify(parsedParams)}`);
+    history.push(`${location.pathname}?${stringifyQuery(parsedParams)}`);
   }
 
   handleSearchInput = (term) => {
     const { history, history: { location } } = this.props;
-    const parsedParams = queryString.parse(location.search);
+    const parsedParams = parseQuery(location.search);
     // show new results from page 1
     parsedParams.page = 1;
     parsedParams.term = term;
-    history.push(`${location.pathname}?${queryString.stringify(parsedParams)}`);
+    history.push(`${location.pathname}?${stringifyQuery(parsedParams)}`);
   }
 
   render() {
