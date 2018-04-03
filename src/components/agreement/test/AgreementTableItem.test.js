@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { AgreementTableItem } from '../AgreementTableItem';
-import { getMockRangeUsePlan } from './mockValues';
+import { getMockAgreement } from './mockValues';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
 
 const props = {};
 const setupProps = () => {
-  props.agreement = getMockRangeUsePlan(1);
+  props.agreement = getMockAgreement(1);
   props.history = {
     push: jest.fn(),
   }
@@ -22,7 +22,7 @@ describe('tenureAgreementTableItem', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  xit('push to the new route when clicking on Table.row', () => {
+  it('push to the new route when clicking on Table.row', () => {
     const wrapper = shallow(<AgreementTableItem {...props} />);
     wrapper.simulate('click', {});
 
@@ -31,7 +31,7 @@ describe('tenureAgreementTableItem', () => {
   });
 
   describe('Event handlers', () => {
-    xit('onRowClicked is called to push to the new route', () => {
+    it('onRowClicked is called to push to the new route', () => {
       const wrapper = shallow(<AgreementTableItem {...props} />);
       wrapper.instance().onRowClicked();
 

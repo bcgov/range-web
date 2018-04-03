@@ -7,11 +7,6 @@ import { updateRupStatus } from '../../actions/rangeUsePlanActions';
 import { PLAN_STATUS } from '../../constants/variables';
 
 class Base extends Component {
-  state = {
-    id: null,
-    rangeUsePlan: null,
-  }
-  
   componentDidMount() {
     const { getRangeUsePlan, match } = this.props;
     const { agreementId } = match.params;
@@ -19,7 +14,7 @@ class Base extends Component {
   }
 
   render() {
-    const { 
+    const {
       references,
       agreementState,
       updateRupStatus,
@@ -33,8 +28,8 @@ class Base extends Component {
         { isLoading &&
           <Loading />
         }
-        { success && 
-          <RangeUsePlan 
+        { success &&
+          <RangeUsePlan
             agreement={agreement}
             statuses={statuses}
             updateRupStatus={updateRupStatus}
@@ -46,14 +41,12 @@ class Base extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => (
+  {
     agreementState: state.rangeUsePlan,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
-  };
-};
+  }
+);
 
-export default connect(
-  mapStateToProps, { getRangeUsePlan, updateRupStatus }
-)(Base);
+export default connect(mapStateToProps, { getRangeUsePlan, updateRupStatus })(Base);

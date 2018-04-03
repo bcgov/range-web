@@ -1,34 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import Agreement from './Agreement';
-import { searchAgreements } from '../../actions/agreementActions';
+import { getAgreements } from '../../actions/agreementActions';
+
+const propTypes = {
+  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  getAgreements: PropTypes.func.isRequired,
+};
 
 class Base extends Component {
-  componentWillMount() {
-    this.props.searchAgreements();
+  componentDidMount() {
+    const { getAgreements, location } = this.props;
+    const parsedParams = queryString.parse(location.search);
+    getAgreements({ ...parsedParams });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { getAgreements, location } = this.props;
+    const locationChanged = nextProps.location !== location;
+    if (locationChanged) {
+      const parsedParams = queryString.parse(nextProps.location.search);
+      getAgreements({ ...parsedParams });
+    }
   }
 
   render() {
-    const { searchAgreements, agreementsState } = this.props;
-    const { data, isLoading } = agreementsState;
-    const agreements = data;
-    
     return (
-      <Agreement 
-        searchAgreements={searchAgreements}
-        agreements={agreements}
-        isLoading={isLoading}
+      <Agreement
+        {...this.props}
       />
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    agreementsState: state.agreements
-  };
-};
+const mapStateToProps = state => (
+  {
+    agreementsState: state.agreements,
+  }
+);
 
-export default connect(
-  mapStateToProps, { searchAgreements }
-)(Base);
+Base.propTypes = propTypes;
+export default connect(mapStateToProps, { getAgreements })(Base);

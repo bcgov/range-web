@@ -3,7 +3,7 @@ import {
   LOGIN_ERROR,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  USER_PROFILE_CHANGE
+  USER_PROFILE_CHANGE,
 } from '../constants/actionTypes';
 
 import { initializeUser } from '../handlers/authentication';
@@ -14,39 +14,39 @@ const authReducer = (state = {
   success: false,
 }, action) => {
   switch (action.type) {
-    case LOGIN_REQUEST: 
+    case LOGIN_REQUEST:
       return {
         ...state,
         success: false,
         isLoading: true,
-      }
-    case LOGIN_SUCCESS: 
+      };
+    case LOGIN_SUCCESS:
       return {
-        ...state, 
+        ...state,
         isLoading: false,
         success: true,
         data: action.data,
         user: action.user,
-      }
-    case LOGIN_ERROR: 
+      };
+    case LOGIN_ERROR:
       return {
-        ...state, 
+        ...state,
         isLoading: false,
         success: false,
-        errorMessage: action.errorMessage
-      }     
+        errorMessage: action.errorMessage,
+      };
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        user: null
-      }
-    case USER_PROFILE_CHANGE: 
+        user: null,
+      };
+    case USER_PROFILE_CHANGE:
       return {
-        ...state, 
-        user: action.user,        
-      }  
-    default: 
-      return state    
+        ...state,
+        user: action.user,
+      };
+    default:
+      return state;
   }
 };
 

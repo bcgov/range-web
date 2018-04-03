@@ -9,14 +9,13 @@ import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES } from '../constants/redu
 import { BASE_URL, STATUS, AGREEMENT, ZONE, PLAN } from '../constants/api';
 import axios from '../handlers/axios';
 
-export const updateRupStatus = (requestData) => (dispatch) => {
+export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
   dispatch(request(UPDATE_RUP_STATUS));
   const makeRequest = async () => {
     try {
-      const { planId, statusId } = requestData;
       const response = await axios.put(
-        `${BASE_URL}${PLAN}/${planId}${STATUS}`, 
-        { statusId }
+        `${BASE_URL}${PLAN}/${planId}${STATUS}`,
+        { statusId },
       );
       dispatch(success(UPDATE_RUP_STATUS, response.data));
       dispatch(toastSuccessMessage(UPDATE_RUP_STATUS_SUCCESS));
@@ -30,14 +29,13 @@ export const updateRupStatus = (requestData) => (dispatch) => {
   return makeRequest();
 };
 
-export const updateRupZone = (requestData) => (dispatch) => {
+export const updateRupZone = ({ agreementId, zoneId }) => (dispatch) => {
   dispatch(request(UPDATE_RUP_ZONE));
   const makeRequest = async () => {
     try {
-      const { agreementId, zoneId } = requestData;
       const response = await axios.put(
         `${BASE_URL}${AGREEMENT}/${agreementId}${ZONE}`,
-        { zoneId }
+        { zoneId },
       );
       dispatch(success(UPDATE_RUP_ZONE, response.data));
       dispatch(toastSuccessMessage(UPDATE_RUP_ZONE_SUCCESS));
@@ -52,11 +50,12 @@ export const updateRupZone = (requestData) => (dispatch) => {
   return makeRequest();
 };
 
-export const getZones = (districtId) => (dispatch) => {
+export const getZones = districtId => (dispatch) => {
   dispatch(request(GET_ZONES));
   const makeRequest = async () => {
     try {
-      let config = {};
+      const config = {};
+
       if (districtId) {
         config.params = {
           districtId,

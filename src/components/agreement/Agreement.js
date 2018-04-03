@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import queryString from 'query-string';
 import AgreementTable from './AgreementTable';
 import AgreementSearch from './AgreementSearch';
 import { Banner } from '../common';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
 
 const propTypes = {
-  agreements: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  searchAgreements: PropTypes.func.isRequired,
+  agreementsState: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({ location: PropTypes.object }).isRequired,
 };
 
 export class Agreement extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchTerm: queryString.parse(props.history.location.search).term || '',
+    };
+    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
+  }
 
-    }
-    // wait for 1 second for the user to finish writing a search term
-    // then make a network call
-    this.searchAgreements = debounce(props.searchAgreements, 1000);
+  handlePaginationChange = (currentPage) => {
+    const { history, history: { location } } = this.props;
+    const parsedParams = queryString.parse(location.search);
+    parsedParams.page = currentPage;
+    history.push(`${location.pathname}?${queryString.stringify(parsedParams)}`);
   }
-  
-  handleSearchInput = (searchTerm) => {
-    this.searchAgreements(searchTerm)
+
+  handleSearchInput = (term) => {
+    const { history, history: { location } } = this.props;
+    const parsedParams = queryString.parse(location.search);
+    // show new results from page 1
+    parsedParams.page = 1;
+    parsedParams.term = term;
+    history.push(`${location.pathname}?${queryString.stringify(parsedParams)}`);
   }
-  
+
   render() {
-    const { agreements, isLoading } = this.props;
+    const {
+      agreementsState,
+    } = this.props;
+
+    const {
+      searchTerm,
+    } = this.state;
 
     return (
       <div className="agreement">
@@ -37,15 +53,16 @@ export class Agreement extends Component {
           content={SELECT_RUP_BANNER_CONTENT}
         >
           <AgreementSearch
-            placeholder="Enter Search Term" 
-            handleSearchInput={this.handleSearchInput}
+            placeholder="Enter Search Term"
+            handleSearchInput={this.searchAgreementsWithDebounce}
+            searchTerm={searchTerm}
           />
         </Banner>
 
         <div className="agreement__table">
           <AgreementTable
-            agreements={agreements}
-            isLoading={isLoading}
+            agreementsState={agreementsState}
+            handlePaginationChange={this.handlePaginationChange}
           />
         </div>
       </div>
