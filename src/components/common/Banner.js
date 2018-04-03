@@ -7,12 +7,13 @@ const propTypes = {
   actionClassName: PropTypes.string,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
 
 const defaultProps = {
   className: '',
   actionClassName: '',
+  children: (<div />),
 };
 
 const Banner = ({
