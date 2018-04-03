@@ -51,9 +51,9 @@ describe('RangeUsePlan', () => {
       expect(wrapper.state().isPendingModalOpen).toEqual(false);
     });
 
-    it('onViewClicked calls the right function', () => {
+    it('onViewPDFClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
-      wrapper.instance().onViewClicked();
+      wrapper.instance().onViewPDFClicked();
 
       expect(mockClick).toHaveBeenCalled();
     });
