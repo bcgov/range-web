@@ -23,7 +23,7 @@ beforeEach(() => {
 
 RangeUsePlan.prototype.pdfLink = {
   click: mockClick,
-}
+};
 
 describe('RangeUsePlan', () => {
   xit('renders correctly', () => {
@@ -43,10 +43,10 @@ describe('RangeUsePlan', () => {
 
       instance.closeCompletedConfirmModal();
       expect(wrapper.state().isCompletedModalOpen).toEqual(false);
-      
+
       instance.openPendingConfirmModal();
       expect(wrapper.state().isPendingModalOpen).toEqual(true);
-      
+
       instance.closePendingConfirmModal();
       expect(wrapper.state().isPendingModalOpen).toEqual(false);
     });
@@ -98,7 +98,7 @@ describe('RangeUsePlan', () => {
 
     it('onZoneUpdated calls right the function', () => {
       const wrapper = shallow(<RangeUsePlan {...props } />);
-      const mockZone = "mockZone";
+      const mockZone = 'mockZone';
       wrapper.instance().onZoneUpdated(mockZone);
       expect(wrapper.state().zone).toEqual(mockZone);
     });
