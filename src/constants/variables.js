@@ -5,6 +5,7 @@ export const COMPLETED = 'Completed';
 export const PLAN_STATUS = 'PLAN_STATUS';
 
 export const LOGO_SRC = '/logo.png';
+export const LOGIN_LOGO_SRC = 'https://avatars3.githubusercontent.com/u/916280?s=200&v=4';
 
 // clients
 export const PRIMARY_TYPE = 'A';

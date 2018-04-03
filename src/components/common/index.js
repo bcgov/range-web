@@ -1,6 +1,6 @@
-export * from './TextField';
-export * from './Status';
-export * from './Avatar';
-export * from './Banner';
-export * from './ConfirmationModal';
-export * from './Loading';
+export { default as TextField } from './TextField';
+export { default as Status } from './Status';
+export { default as Avatar } from './Avatar';
+export { default as Banner } from './Banner';
+export { default as ConfirmationModal } from './ConfirmationModal';
+export { default as Loading } from './Loading';

@@ -60,7 +60,8 @@ export const login = code => (dispatch) => {
 
       // save tokens in local storage and set header for axios
       onAuthenticated(response);
-
+      console.log(response);
+      
       // TODO: make a request to get user data
       dispatch(loginSuccess(response.data));
     } catch (err) {

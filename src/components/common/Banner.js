@@ -1,7 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export const Banner = ({ header, content, children, className = '', actionClassName = '' }) => (
+const propTypes = {
+  className: PropTypes.string,
+  actionClassName: PropTypes.string,
+  header: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+const defaultProps = {
+  className: '',
+  actionClassName: '',
+};
+
+const Banner = ({
+  className,
+  actionClassName,
+  header,
+  content,
+  children,
+}) => (
   <div className={classNames('banner', className)}>
     <div className="banner__container">
       <h2>{header}</h2>
@@ -14,3 +34,7 @@ export const Banner = ({ header, content, children, className = '', actionClassN
     </div>
   </div>
 );
+
+Banner.propTypes = propTypes;
+Banner.defaultProps = defaultProps;
+export default Banner;

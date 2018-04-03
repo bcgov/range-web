@@ -9,7 +9,7 @@ import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../const
 
 const propTypes = {
   agreementsState: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({ location: {} }).isRequired,
+  history: PropTypes.shape({ location: PropTypes.object }).isRequired,
 };
 
 export class Agreement extends Component {

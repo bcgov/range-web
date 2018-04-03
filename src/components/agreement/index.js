@@ -11,13 +11,6 @@ const propTypes = {
 };
 
 class Base extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
-
   componentDidMount() {
     const { getAgreements, location } = this.props;
     const parsedParams = queryString.parse(location.search);

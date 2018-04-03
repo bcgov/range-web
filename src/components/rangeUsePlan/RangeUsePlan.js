@@ -4,7 +4,8 @@ import { Icon, Button, Dropdown } from 'semantic-ui-react';
 import mockupPDF from './mockup.pdf';
 
 import UpdateZoneModal from './UpdateZoneModal';
-import { RANGE_NUMBER, AGREEMENT_DATE,
+import {
+  RANGE_NUMBER, AGREEMENT_DATE,
   AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
   CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
   ALTERNATIVE_BUSINESS_NAME, RANGE_NAME,
@@ -21,10 +22,6 @@ const propTypes = {
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
-};
-
-const defaultProps = {
-
 };
 
 export class RangeUsePlan extends Component {
@@ -46,7 +43,7 @@ export class RangeUsePlan extends Component {
     };
   }
 
-  onViewClicked = () => {
+  onViewPDFClicked = () => {
     this.pdfLink.click();
   }
 
@@ -75,7 +72,6 @@ export class RangeUsePlan extends Component {
         planId: plan.id,
         statusId: status.id,
       };
-
       const statusUpdated = (newStatus) => {
         closeConfirmModal();
         this.setState({
@@ -86,17 +82,21 @@ export class RangeUsePlan extends Component {
     }
   }
 
-  openCompletedConfirmModal = () => this.setState({ isCompletedModalOpen: true })
+  openModal = property => this.setState({ [property]: true })
 
-  closeCompletedConfirmModal = () => this.setState({ isCompletedModalOpen: false })
+  closeModal = property => this.setState({ [property]: false })
 
-  openPendingConfirmModal = () => this.setState({ isPendingModalOpen: true })
+  openCompletedConfirmModal = () => this.openModal('isCompletedModalOpen')
 
-  closePendingConfirmModal = () => this.setState({ isPendingModalOpen: false })
+  closeCompletedConfirmModal = () => this.closeModal('isCompletedModalOpen')
 
-  openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
+  openPendingConfirmModal = () => this.openModal('isPendingModalOpen')
 
-  closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
+  closePendingConfirmModal = () => this.closeModal('isPendingModalOpen')
+
+  openUpdateZoneModal = () => this.openModal('isUpdateZoneModalOpen')
+
+  closeUpdateZoneModal = () => this.closeModal('isUpdateZoneModalOpen')
 
   renderOtherAgreementHolders = client => (
     <TextField
@@ -112,7 +112,7 @@ export class RangeUsePlan extends Component {
       isPendingModalOpen,
       isUpdateZoneModalOpen,
       zone = {},
-      status,
+      status = {},
       plan = {},
     } = this.state;
     const { agreement, isUpdatingStatus } = this.props;
@@ -127,9 +127,11 @@ export class RangeUsePlan extends Component {
       contactEmail,
       contactName,
       contactPhoneNumber,
+      district,
     } = zone;
-    const districtCode = zone.district && zone.district.code;
-    const statusName = status && status.name;
+    const districtCode = district && district.code;
+    const { name: statusName } = status;
+
     const {
       rangeName,
       alternateBusinessName,
@@ -206,7 +208,7 @@ export class RangeUsePlan extends Component {
           />
           <div>
             <Button
-              onClick={this.onViewClicked}
+              onClick={this.onViewPDFClicked}
               className="rup__btn"
             >
               View PDF
@@ -317,6 +319,4 @@ export class RangeUsePlan extends Component {
 }
 
 RangeUsePlan.propTypes = propTypes;
-RangeUsePlan.defaultProps = defaultProps;
-
 export default RangeUsePlan;

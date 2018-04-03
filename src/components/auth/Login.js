@@ -5,6 +5,7 @@ import { Button } from 'semantic-ui-react';
 import queryString from 'query-string';
 
 import { SSO_AUTH_ENDPOINT } from '../../constants/api';
+import { LOGIN_LOGO_SRC } from '../../constants/variables';
 import { login } from '../../actions/authActions';
 
 const propTypes = {
@@ -39,7 +40,7 @@ export class Login extends Component {
       <div className="login">
         <img
           className="login__image"
-          src="https://avatars3.githubusercontent.com/u/916280?s=200&v=4"
+          src={LOGIN_LOGO_SRC}
           alt="gov-img"
         />
 
