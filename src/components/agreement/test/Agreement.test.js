@@ -12,8 +12,10 @@ const setupProps = () => {
     data: getMockAgreements(3),
   };
   props.history = {
+    push: jest.fn(),
     location: {
-      search: '',
+      pathname: 'mockPathname',
+      search: '?mock=search',
     },
   };
 };
@@ -35,14 +37,16 @@ describe('Agreement', () => {
   });
 
   describe('Event handlers', () => {
-    it('`handleSearchInput` calls searchTenureAgreement function', () => {
+    it('`handleSearchInput` and `handlePaginationChange` push to a different route', () => {
       const wrapper = shallow(<Agreement {...props} />);
       const instance = wrapper.instance();
-      // const mockSearchTerm = 'search';
-      // const searchAgreementSpy = jest.spyOn(instance, 'searchAgreements');
-      
-      // instance.handleSearchInput(mockSearchTerm);
-      // expect(searchAgreementSpy).toHaveBeenCalledWith(mockSearchTerm);
+      const mockSearchTerm = 'mock';
+      const mockPage = 'mockPage';
+      instance.handleSearchInput(mockSearchTerm);
+      expect(props.history.push).toHaveBeenCalled();
+
+      instance.handlePaginationChange(mockPage);
+      expect(props.history.push).toHaveBeenCalled();
     });
   });
 });

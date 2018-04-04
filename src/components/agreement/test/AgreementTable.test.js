@@ -29,4 +29,13 @@ describe('AgreementTable', () => {
     const numberOfAgreements = props.agreementsState.data.length;
     expect(wrapper.find('withRouter(AgreementTableItem)').length).toEqual(numberOfAgreements);
   });
+
+  describe('Event handlers', () => {
+    it('`handlePaginationChange` calls the right function', () => {
+      const wrapper = shallow(<AgreementTable {...props} />);
+      const mockCurrentPage = '1';
+      wrapper.instance().handlePaginationChange({}, { activePage: mockCurrentPage });
+      expect(props.handlePaginationChange).toHaveBeenCalledWith(mockCurrentPage);
+    });
+  });
 });

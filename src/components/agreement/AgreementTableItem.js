@@ -23,20 +23,25 @@ export class AgreementTableItem extends Component {
     // history.push(`${RANGE_USE_PLAN}/${agreement.id}/${agreement.plan[0]}`)
   }
 
-  render() {
-    const { agreement = { clients: [] } } = this.props;
-    const { plans } = agreement;
-    const plan = plans[0];
-    const statusName = (plan && plan.status && plan.status.name);
-    const rangeName = (plan && plan.rangeName) || NO_RUP_PROVIDED;
-    const agreementId = agreement.id;
-    const staff = agreement.zone && agreement.zone.contactName;
-    let primaryAgreementHolderName = '';
-    agreement.clients.forEach((client) => {
+  getPrimaryAgreementHolder = (clients = []) => {
+    let primaryAgreementHolder = {};
+    clients.forEach((client) => {
       if (client.clientTypeCode === PRIMARY_TYPE) {
-        primaryAgreementHolderName = client.name;
+        primaryAgreementHolder = client;
       }
     });
+
+    return primaryAgreementHolder;
+  }
+
+  render() {
+    const { agreement = {} } = this.props;
+    const { plans, id: agreementId } = agreement;
+    const staffName = agreement.zone && agreement.zone.contactName;
+    const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
+    const plan = plans[0] || {};
+    const statusName = plan.status && plan.status.name;
+    const { rangeName = NO_RUP_PROVIDED } = plan;
 
     return (
       <Table.Row
@@ -46,8 +51,8 @@ export class AgreementTableItem extends Component {
         <Table.Cell>{agreementId}</Table.Cell>
         <Table.Cell>{rangeName || NOT_PROVIDED}</Table.Cell>
         <Table.Cell>{primaryAgreementHolderName || NOT_PROVIDED}</Table.Cell>
-        <Table.Cell>{staff || NOT_PROVIDED}</Table.Cell>
-        <Table.Cell><Status status={statusName}/></Table.Cell>
+        <Table.Cell>{staffName || NOT_PROVIDED}</Table.Cell>
+        <Table.Cell><Status status={statusName} /></Table.Cell>
       </Table.Row>
     );
   }

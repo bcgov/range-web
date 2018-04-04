@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
-import { getMockAgreement } from '../../agreement/test/mockValues'
-import { COMPLETED, PENDING } from '../../../constants/variables';
+import { getMockAgreement } from '../../agreement/test/mockValues';
+import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
 
@@ -31,6 +31,26 @@ describe('RangeUsePlan', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('`getAgreementHolders` returns agreementholders', () => {
+    const wrapper = shallow(<RangeUsePlan {...props} />);
+    const instance = wrapper.instance();
+    let mockClients;
+    const primaryAgreementHolder = {};
+    const otherAgreementHolders = [];
+    expect(instance.getAgreementHolders(mockClients))
+      .toEqual({ primaryAgreementHolder, otherAgreementHolders });
+
+    primaryAgreementHolder.clientTypeCode = PRIMARY_TYPE;
+    const mockOtherAgreementHolder = { clientTypeCode: OTHER_TYPE };
+    otherAgreementHolders.push(mockOtherAgreementHolder);
+    mockClients = [
+      primaryAgreementHolder,
+      mockOtherAgreementHolder,
+    ];
+    expect(instance.getAgreementHolders(mockClients))
+      .toEqual({ primaryAgreementHolder, otherAgreementHolders });
+  });
+
   describe('Event handlers', () => {
     it('opening and closing modal events change states correctly', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
@@ -49,6 +69,12 @@ describe('RangeUsePlan', () => {
 
       instance.closePendingConfirmModal();
       expect(wrapper.state().isPendingModalOpen).toEqual(false);
+
+      instance.closeUpdateZoneModal();
+      expect(wrapper.state().isUpdateZoneModalOpen).toEqual(false);
+
+      instance.openUpdateZoneModal();
+      expect(wrapper.state().isUpdateZoneModalOpen).toEqual(true);
     });
 
     it('onViewPDFClicked calls the right function', () => {

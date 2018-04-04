@@ -63,6 +63,20 @@ export class RangeUsePlan extends Component {
     this.setState({ zone: newZone });
   }
 
+  getAgreementHolders = (clients = []) => {
+    let primaryAgreementHolder = {};
+    const otherAgreementHolders = [];
+    clients.forEach((client) => {
+      if (client.clientTypeCode === PRIMARY_TYPE) {
+        primaryAgreementHolder = client;
+      } else if (client.clientTypeCode === OTHER_TYPE) {
+        otherAgreementHolders.push(client);
+      }
+    });
+
+    return { primaryAgreementHolder, otherAgreementHolders };
+  }
+
   updateStatus = (statusName, closeConfirmModal) => {
     const { agreement, statuses, updateRupStatus } = this.props;
     const plan = agreement.plans[0];
@@ -145,20 +159,13 @@ export class RangeUsePlan extends Component {
       agreementStartDate,
       agreementEndDate,
       agreementExemptionStatus = {},
-      clients = [],
+      clients,
     } = agreement;
 
     const exemptionStatusName = agreementExemptionStatus.description;
 
-    let primaryAgreementHolderName;
-    const otherAgreementHolders = [];
-    clients.forEach((client) => {
-      if (client.clientTypeCode === PRIMARY_TYPE) {
-        primaryAgreementHolderName = client.name;
-      } else if (client.clientTypeCode === OTHER_TYPE) {
-        otherAgreementHolders.push(client);
-      }
-    });
+    const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
+    const { name: primaryAgreementHolderName } = primaryAgreementHolder;
 
     return (
       <div className="rup">
