@@ -49,7 +49,7 @@ export const getErrorMessage = (err) => {
   return message;
 };
 
-export const parseQuery = query => (
+export const parseQuery = (query = '') => (
   queryParams.decode(query.replace(/\?/g, ''))
 );
 
