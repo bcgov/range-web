@@ -8,7 +8,7 @@ import { AGREEMENTS, RANGE_USE_PLAN } from '../constants/reducerTypes';
 import { BASE_URL, AGREEMENT } from '../constants/api';
 import axios from '../handlers/axios';
 
-export const getAgreements = ({ term = '', page = 1 }) => (dispatch) => {
+export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch) => {
   dispatch(request(AGREEMENTS));
   const makeRequest = async () => {
     try {
@@ -16,6 +16,7 @@ export const getAgreements = ({ term = '', page = 1 }) => (dispatch) => {
         params: {
           term,
           page,
+          limit,
         },
       };
       const response = await axios.get(BASE_URL + AGREEMENT, config);
