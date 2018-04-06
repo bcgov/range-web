@@ -5,7 +5,12 @@ import AgreementTableItem from './AgreementTableItem';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT, RANGE_NAME, STATUS } from '../../constants/strings';
 
 const propTypes = {
-  agreementsState: PropTypes.shape({}).isRequired,
+  agreementsState: PropTypes.shape({
+    data: PropTypes.array,
+    isLoading: PropTypes.bool,
+    currentPage: PropTypes.number,
+    totalPages: PropTypes.number,
+  }).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
 };
 
@@ -25,7 +30,7 @@ export class AgreementTable extends Component {
     const {
       data: agreements,
       isLoading,
-      currentPage, 
+      currentPage,
       totalPages,
     } = this.props.agreementsState;
 

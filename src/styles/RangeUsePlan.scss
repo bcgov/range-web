@@ -43,6 +43,10 @@ $row-height: 80px;
 
   &__actions {
     justify-content: space-between;
+    
+    &--hidden {
+      display: none;  
+    }
   }
 
   &__status-dropdown {

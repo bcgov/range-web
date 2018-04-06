@@ -207,7 +207,7 @@ export class RangeUsePlan extends Component {
         <Banner
           header={id}
           content={DETAIL_RUP_BANNER_CONTENT}
-          actionClassName="rup__actions"
+          actionClassName={rangeName ? 'rup__actions' : 'rup__actions--hidden'}
         >
           <Status
             className="rup__status"
