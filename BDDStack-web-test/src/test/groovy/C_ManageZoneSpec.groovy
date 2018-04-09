@@ -4,7 +4,7 @@ import spock.lang.*
 import pages.app.*
 import pages.external.*
 
-@Title(" Zone ")
+@Title(" Mange Zone ")
 @Narrative("""
 At Mange Zone page, I should see two steps to update zone.
 """)
@@ -12,8 +12,7 @@ At Mange Zone page, I should see two steps to update zone.
 @Stepwise
 class C_ManageZoneSpec extends GebReportingSpec {
 
-    @Ignore
-    def "Scenario: 4 - Manage Zone"(){
+    def "Scenario: 4.1 - Update contact for zone"() {
         given: "I am at the Manage Zone Page"
         to ManageZonePage
 
@@ -35,15 +34,25 @@ class C_ManageZoneSpec extends GebReportingSpec {
         sleep(100)
         step2DropDownList[0].click()
 
-        and: "I click on Update button"
+        then: "I should be able to click on Update button"
         assert updateButton.@disabled == ''
+    }
+
+    def "Scenario: 4.0 - Submit the update"() {
+        given: "I am at the Manage Zone Page"
+        at ManageZonePage
+
+        when: "I click on Update button"
         updateButton.click()
         sleep(5000)
 
-        then: "I should see the confirm page popup"
-        assert confirmYesButton
+        and: "I am provided a confirm popup"
         assert confirmNoButton
+        assert confirmYesButton
         confirmYesButton.click()
+
+        then: "I should be back in the Manage zone page"
+        at ManageZonePage
     }
 
 }
