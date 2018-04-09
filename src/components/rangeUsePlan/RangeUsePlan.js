@@ -8,7 +8,7 @@ import {
   RANGE_NUMBER, AGREEMENT_DATE,
   AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
   CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
-  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME,
+  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME, NO_RUP_PROVIDED,
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
@@ -166,6 +166,7 @@ export class RangeUsePlan extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
+    const rupExist = rangeName;
 
     return (
       <div className="rup">
@@ -206,8 +207,8 @@ export class RangeUsePlan extends Component {
 
         <Banner
           header={id}
-          content={DETAIL_RUP_BANNER_CONTENT}
-          actionClassName={rangeName ? 'rup__actions' : 'rup__actions--hidden'}
+          content={rupExist ? DETAIL_RUP_BANNER_CONTENT : NO_RUP_PROVIDED}
+          actionClassName={rupExist ? 'rup__actions' : 'rup__actions--hidden'}
         >
           <Status
             className="rup__status"

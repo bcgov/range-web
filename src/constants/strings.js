@@ -30,7 +30,7 @@ export const EXTENDED = 'Extended';
 export const EXEMPTION_STATUS = 'Exemption Status';
 export const PLAN_DATE = 'Plan Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
-export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder(Other)';
+export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
@@ -50,6 +50,6 @@ export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to upd
 // banners
 export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the status of the range use plan.';
 export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
-export const SELECT_RUP_BANNER_CONTENT = "View details of each range use plan. Enter RAN number, Agreement holder's name, or staff contact in the search box to search for a specific range use plan.";
+export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder`s name, or staff contact in the search box to search for a specific range use plan.';
 export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
