@@ -9,11 +9,14 @@ class PlanPage extends Page {
 
     static content= {
 
-        PDFButton {$("button", class: "ui button range-use-plan__btn")}
+        PDFButton {$("button", class: "ui button item dropdown rup__status-dropdown")}
 
         statusDropDown {$("div", class: "ui button item dropdown")}
 
         completeOption {$("div", role: "option")[0]}
+//        active selected item
+
+
         pendingOption {$("div", role: "option")[1]}
     }
 }

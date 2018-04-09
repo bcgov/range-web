@@ -14,7 +14,7 @@ class HomePage extends Page {
 //        logoutButton {$("a", id: "sign-out")}
 
 //      Agreements:
-        agreementList {$("tr", class: "tenure-agreement-table-item")}
+        agreementList {$("form", class: "ui form").$("tr", class: "tenure-agreement-table-item")}
 
 
         searchField (wait: true) {$("input", id: "search")}
