@@ -1,179 +1,230 @@
 {
-    "kind": "Template",
-    "apiVersion": "v1",
-    "metadata": {
-        "name": "range-web",
-        "creationTimestamp": null
-    },
-    "labels": {
-      "template":"caddy-dc"
-    },
-    "parameters": [
-      {
-        "name": "BUILD_PROJECT",
-        "displayName": "Build Project",
-        "description": "The openshift project where builds and target images are stored.",
-        "required": true,
-        "value": "range-myra-tools"
-      },{
-        "name": "APP_NAME",
-        "displayName": "Name",
-        "description": "Application name used for griuping objects in the openshift console. You should keep this as default unless your know what your doing.",
-        "required": true,
-        "value": "range-myra-web-caddy"
-      },{
-        "name": "NAME",
-        "displayName": "Name",
-        "description": "The name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing.",
-        "required": true,
-        "value": "range-myra-web"
-      },{
-        "name": "NAME_SUFFIX",
-        "displayName": "Name",
-        "description": "The suffix for all created objects",
-        "required": false,
-        "value": ""
-      },{
-        "name": "IMAGE_TAG",
-        "displayName": "Name",
-        "description": "The suffix for all created objects",
-        "required": false,
-        "value": "latest"
-      }
-    ],
-    "objects": [
-        {
-            "kind": "Service",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${NAME}-caddy${NAME_SUFFIX}",
-                "labels": {
-                    "app": "${APP_NAME}"
-                }
-            },
-            "spec": {
-                "ports": [
-                    {
-                        "name": "2015-tcp",
-                        "protocol": "TCP",
-                        "port": 2015,
-                        "targetPort": 2015
-                    }
-                ],
-                "selector": {
-                    "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
-                },
-                "type": "ClusterIP",
-                "sessionAffinity": "None"
-            },
-            "status": {
-                "loadBalancer": {}
-            }
-        },
-        {
-            "kind": "DeploymentConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${NAME}-caddy${NAME_SUFFIX}",
-                "labels": {
-                    "app": "${APP_NAME}"
-                }
-            },
-            "spec": {
-                "strategy": {
-                    "type": "Rolling",
-                    "rollingParams": {
-                        "updatePeriodSeconds": 1,
-                        "intervalSeconds": 1,
-                        "timeoutSeconds": 600,
-                        "maxUnavailable": "25%",
-                        "maxSurge": "25%"
-                    },
-                    "resources": {},
-                    "activeDeadlineSeconds": 21600
-                },
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange",
-                        "imageChangeParams": {
-                            "automatic": true,
-                            "containerNames": [
-                                "${NAME}-caddy${NAME_SUFFIX}"
-                            ],
-                            "from": {
-                                "kind": "ImageStreamTag",
-                                "namespace": "${BUILD_PROJECT}",
-                                "name": "${NAME}-caddy${NAME_SUFFIX}:${IMAGE_TAG}"
-                            }
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "test": false,
-                "selector": {
-                    "app": "${APP_NAME}",
-                    "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
-                },
-                "template": {
-                    "metadata": {
-                        "creationTimestamp": null,
-                        "labels": {
-                            "app": "${APP_NAME}",
-                            "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
-                        }
-                    },
-                    "spec": {
-                        "containers": [
-                            {
-                                "name": "${NAME}-caddy${NAME_SUFFIX}",
-                                "image": "${NAME}-caddy${NAME_SUFFIX}@${IMAGE_TAG}",
-                                "args": [
-                                    "/tmp/scripts/run"
-                                ],
-                                "ports": [
-                                    {
-                                        "containerPort": 2015,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "resources": {},
-                                "terminationMessagePath": "/dev/termination-log",
-                                "terminationMessagePolicy": "File",
-                                "imagePullPolicy": "Always"
-                            }
-                        ],
-                        "restartPolicy": "Always",
-                        "terminationGracePeriodSeconds": 30,
-                        "dnsPolicy": "ClusterFirst",
-                        "securityContext": {},
-                        "schedulerName": "default-scheduler"
-                    }
-                }
-            }
-        },
-        {
-            "kind": "Route",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${NAME}-caddy${NAME_SUFFIX}",
-                "labels": {
-                    "app": "${APP_NAME}"
-                }
-            },
-            "spec": {
-                "to": {
-                    "kind": "Service",
-                    "name": "${NAME}-caddy${NAME_SUFFIX}",
-                    "weight": 100
-                },
-                "port": {
-                    "targetPort": "2015-tcp"
-                },
-                "wildcardPolicy": "None"
-            }
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "range-web",
+    "creationTimestamp": null
+  },
+  "labels": {
+    "template":"caddy-dc"
+  },
+  "parameters": [
+    {
+      "name": "BUILD_PROJECT",
+      "displayName": "Build Project",
+      "description": "The openshift project where builds and target images are stored.",
+      "required": true,
+      "value": "range-myra-tools"
+    },{
+      "name": "APP_NAME",
+      "displayName": "Name",
+      "description": "Application name used for griuping objects in the openshift console. You should keep this as default unless your know what your doing.",
+      "required": true,
+      "value": "range-myra-web-caddy"
+    },{
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing.",
+      "required": true,
+      "value": "range-myra-web"
+    },{
+      "name": "NAME_SUFFIX",
+      "displayName": "Name",
+      "description": "The suffix for all created objects",
+      "required": false,
+      "value": ""
+    },{
+      "name": "IMAGE_TAG",
+      "displayName": "Name",
+      "description": "The suffix for all created objects",
+      "required": false,
+      "value": "test"
+    },{
+      "name": "ROUTE_NAME",
+      "displayName": "Application Route",
+      "description": "The name of the default route use to access this service.",
+      "required": true,
+      "value": "web"
+    },{
+      "name": "VOLUMN_NAME",
+      "displayName": "The volumn name for caddyfile",
+      "description": "The volumn name for caddyfile",
+      "value": "web-caddy-config-sffrf",
+      "required": true
+    },{
+      "name": "CADDY_CONFIGMAP_NAME",
+      "displayName": "name of the config map for caddyfile",
+      "description": "name of the config map for caddyfile",
+      "value": "web-caddy-config",
+      "required": true
+    }
+  ],
+  "objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-caddy${NAME_SUFFIX}",
+        "labels": {
+          "app": "${APP_NAME}"
         }
-    ]
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "2015-tcp",
+            "protocol": "TCP",
+            "port": 2015,
+            "targetPort": 2015
+          }
+        ],
+        "selector": {
+          "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-caddy${NAME_SUFFIX}",
+        "labels": {
+          "app": "${APP_NAME}"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling",
+          "rollingParams": {
+            "updatePeriodSeconds": 1,
+            "intervalSeconds": 1,
+            "timeoutSeconds": 600,
+            "maxUnavailable": "25%",
+            "maxSurge": "25%"
+          },
+          "resources": {},
+          "activeDeadlineSeconds": 21600
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${NAME}-caddy${NAME_SUFFIX}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${BUILD_PROJECT}",
+                "name": "${NAME}-caddy${NAME_SUFFIX}:${IMAGE_TAG}"
+              }
+            }
+          }
+        ],
+        "replicas": 1,
+        "test": false,
+        "selector": {
+          "app": "${APP_NAME}",
+          "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "app": "${APP_NAME}",
+              "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "${NAME}-caddy${NAME_SUFFIX}",
+                "image": "${NAME}-caddy${NAME_SUFFIX}@${IMAGE_TAG}",
+                "args": [
+                  "/tmp/scripts/run"
+                ],
+                "ports": [
+                  {
+                    "containerPort": 2015,
+                    "protocol": "TCP"
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "${VOLUMN_NAME}",
+                    "mountPath": "/etc/Caddyfile",
+                    "readOnly": true,
+                    "subPath": "Caddyfile"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "imagePullPolicy": "Always"
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${VOLUMN_NAME}",
+                "configMap": {
+                  "defaultMode": "420",
+                  "name": "${CADDY_CONFIGMAP_NAME}"
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "terminationGracePeriodSeconds": 30,
+            "dnsPolicy": "ClusterFirst",
+            "securityContext": {},
+            "schedulerName": "default-scheduler"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ROUTE_NAME}",
+        "labels": {
+          "app": "${NAME}-caddy${NAME_SUFFIX}"
+        }
+      },
+      "spec": {
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}-caddy${NAME_SUFFIX}",
+          "weight": 100
+        },
+        "port": {
+          "targetPort": "2015-tcp"
+        },
+        "tls": {
+          "termination": "edge"
+        },
+        "wildcardPolicy": "None"
+      }
+    },
+    {
+      "kind": "ConfigMap",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${CADDY_CONFIGMAP_NAME}",
+        "labels": {
+          "app": "${APP_NAME}"
+        }
+      },
+      "data": {
+        "Caddyfile": "0.0.0.0:2015\nroot /var/www/html\nlog stdout\nerrors stdout\nrewrite {\n  if    {path} not_match ^\\/0.0.0.0\n  to    {path} {path}/ /?_url={uri}\n}"
+      }
+    }
+  ]
 }
