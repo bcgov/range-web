@@ -78,9 +78,9 @@ export class RangeUsePlan extends Component {
   }
 
   updateStatus = (statusName, closeConfirmModal) => {
-    const { agreement, statuses, updateRupStatus } = this.props;
+    const { agreement, statuses: statusReferences, updateRupStatus } = this.props;
     const plan = agreement.plans[0];
-    const status = statuses.find(s => s.name === statusName);
+    const status = statusReferences.find(s => s.name === statusName);
     if (status && plan) {
       const requestData = {
         planId: plan.id,
