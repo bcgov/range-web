@@ -98,7 +98,7 @@ export const stringifyQuery = query => (
  *
  * @param {response.data} blob The binary array buffer from API
  * @param {object} ref The React reference of an a tag
- * @returns nothing
+ * @returns undefined
  */
 export const downloadPDFBlob = (blob, ref, fileName) => {
   // It is necessary to create a new blob object with mime-type explicitly set
