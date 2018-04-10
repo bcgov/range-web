@@ -58,7 +58,7 @@ class Base extends Component {
           />
         }
         { errorMessage &&
-          <Redirect to="/error" />
+          <Redirect to="/no-range-use-plan-found" />
         }
       </div>
     );

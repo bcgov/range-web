@@ -121,7 +121,7 @@ describe('RangeUsePlan', () => {
     });
 
     it('onZoneClicked calls the right function', () => {
-      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
       const openUpdateZoneModalModalSpy = jest.spyOn(instance, 'openUpdateZoneModal');
       instance.onZoneClicked();
@@ -129,7 +129,7 @@ describe('RangeUsePlan', () => {
     });
 
     it('onZoneUpdated calls right the function', () => {
-      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const wrapper = shallow(<RangeUsePlan {...props} />);
       const mockZone = 'mockZone';
       wrapper.instance().onZoneUpdated(mockZone);
       expect(wrapper.state().zone).toEqual(mockZone);
