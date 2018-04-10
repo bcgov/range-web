@@ -14,7 +14,7 @@ import {
 } from '../../constants/strings';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
-import { formatDate } from '../../handlers';
+import { formatDate, linkPDFBlobToDownload } from '../../handlers';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -47,38 +47,7 @@ export class RangeUsePlan extends Component {
     const { id: planId, agreementId } = this.state.plan;
     if (planId && agreementId) {
       this.props.getRupPDF(planId)
-        .then((blob) => {
-          // It is necessary to create a new blob object with mime-type explicitly set
-          // otherwise only Chrome works like it should
-          const newBlob = new Blob([blob], { type: 'application/octet-stream' });
-
-          // IE doesn't allow using a blob object directly as link href
-          // instead it is necessary to use msSaveOrOpenBlob
-          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(newBlob);
-            return;
-          }
-
-          // For other browsers:
-          // Create a link pointing to the ObjectURL containing the blob.
-          const data = window.URL.createObjectURL(newBlob);
-          const link = this.pdfLink;
-          link.href = data;
-          link.download = `${agreementId || 'range-use-plan'}.pdf`;
-
-          // Safari thinks _blank anchor are pop ups. We only want to set _blank
-          // target if the browser does not support the HTML5 download attribute.
-          // This allows you to download files in desktop safari if pop up blocking is enabled.
-          if (typeof link.download === 'undefined') {
-            link.setAttribute('target', '_blank');
-          }
-
-          link.click();
-          setTimeout(() => {
-            // For Firefox it is necessary to delay revoking the ObjectURL
-            window.URL.revokeObjectURL(data);
-          }, 100);
-        });
+        .then(blob => linkPDFBlobToDownload(blob, this.pdfLink, `${agreementId}.pdf`));
     }
   }
 
@@ -111,6 +80,8 @@ export class RangeUsePlan extends Component {
 
     return { primaryAgreementHolder, otherAgreementHolders };
   }
+
+  setPDFRef = (ref) => { this.pdfLink = ref; }
 
   updateStatus = (statusName, closeConfirmModal) => {
     const { agreement, statuses: statusReferences, updateRupStatus } = this.props;
@@ -208,7 +179,7 @@ export class RangeUsePlan extends Component {
         <a
           className="rup__pdf-link"
           href="href"
-          ref={(pdfLink) => { this.pdfLink = pdfLink; }}
+          ref={this.setPDFRef}
         >
           pdf link
         </a>

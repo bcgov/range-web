@@ -5,7 +5,6 @@ import { getMockAgreement } from '../../agreement/test/mockValues';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
-const mockClick = jest.fn();
 
 const props = {};
 const setupProps = () => {
@@ -22,7 +21,7 @@ beforeEach(() => {
 });
 
 RangeUsePlan.prototype.pdfLink = {
-  click: mockClick,
+  click: jest.fn(),
 };
 
 describe('RangeUsePlan', () => {
@@ -79,15 +78,16 @@ describe('RangeUsePlan', () => {
 
     it('onViewPDFClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
-      wrapper.instance().onViewPDFClicked();
       global.window.URL.createObjectURL = jest.fn();
+      wrapper.instance().onViewPDFClicked();
+      expect(props.getRupPDF).toHaveBeenCalled();
 
-      const { id, agreementId } = wrapper.state().plan;
-      if (id && agreementId) {
-        expect(props.getRupPDF).toHaveBeenCalled();
-      } else {
-        expect(props.getRupPDF).not.toHaveBeenCalled();
-      }
+      props.getRupPDF.mockClear();
+      wrapper.setState({
+        plan: { id: null },
+      });
+      wrapper.instance().onViewPDFClicked();
+      expect(props.getRupPDF).not.toHaveBeenCalled();
     });
 
     it('onYesSomethingClicked calls the right function', () => {
@@ -113,7 +113,7 @@ describe('RangeUsePlan', () => {
       expect(props.updateRupStatus).not.toBeCalled();
 
       instance.updateStatus(mockStatus.name, mockCloseConfirmModal);
-      const requestData = { 
+      const requestData = {
         planId: props.agreement.plans[0].id,
         statusId: mockStatus.id,
       };
