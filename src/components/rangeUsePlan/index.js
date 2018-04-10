@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import RangeUsePlan from './RangeUsePlan';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
-import { updateRupStatus } from '../../actions/rangeUsePlanActions';
+import { updateRupStatus, getRupPDF } from '../../actions/rangeUsePlanActions';
 import { PLAN_STATUS } from '../../constants/variables';
 
 class Base extends Component {
@@ -19,13 +20,20 @@ class Base extends Component {
       agreementState,
       updateRupStatus,
       isUpdatingStatus,
+      getRupPDF,
+      isDownloadingPdf,
     } = this.props;
-    const { data: agreement, isLoading, success } = agreementState;
+    const {
+      data: agreement,
+      isLoading,
+      success,
+      errorMessage,
+    } = agreementState;
     const statuses = references[PLAN_STATUS];
 
     return (
       <div>
-        { isLoading &&
+        {(isLoading || isDownloadingPdf) &&
           <Loading />
         }
         { success &&
@@ -34,7 +42,11 @@ class Base extends Component {
             statuses={statuses}
             updateRupStatus={updateRupStatus}
             isUpdatingStatus={isUpdatingStatus}
+            getRupPDF={getRupPDF}
           />
+        }
+        { errorMessage &&
+          <Redirect to="/error" />
         }
       </div>
     );
@@ -44,9 +56,10 @@ class Base extends Component {
 const mapStateToProps = state => (
   {
     agreementState: state.rangeUsePlan,
+    isDownloadingPdf: state.pdf.isLoading,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
   }
 );
 
-export default connect(mapStateToProps, { getRangeUsePlan, updateRupStatus })(Base);
+export default connect(mapStateToProps, { getRangeUsePlan, updateRupStatus, getRupPDF })(Base);

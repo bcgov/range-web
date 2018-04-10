@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button, Dropdown } from 'semantic-ui-react';
-import mockupPDF from './mockup.pdf';
 
 import UpdateZoneModal from './UpdateZoneModal';
 import {
@@ -22,6 +21,7 @@ const propTypes = {
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  getRupPDF: PropTypes.func.isRequired,
 };
 
 export class RangeUsePlan extends Component {
@@ -44,7 +44,42 @@ export class RangeUsePlan extends Component {
   }
 
   onViewPDFClicked = () => {
-    this.pdfLink.click();
+    const { id: planId, agreementId } = this.state.plan;
+    if (planId && agreementId) {
+      this.props.getRupPDF(planId)
+        .then((blob) => {
+          // It is necessary to create a new blob object with mime-type explicitly set
+          // otherwise only Chrome works like it should
+          const newBlob = new Blob([blob], { type: 'application/octet-stream' });
+
+          // IE doesn't allow using a blob object directly as link href
+          // instead it is necessary to use msSaveOrOpenBlob
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob);
+            return;
+          }
+
+          // For other browsers:
+          // Create a link pointing to the ObjectURL containing the blob.
+          const data = window.URL.createObjectURL(newBlob);
+          const link = this.pdfLink;
+          link.href = data;
+          link.download = `${agreementId || 'range-use-plan'}.pdf`;
+
+          // Safari thinks _blank anchor are pop ups. We only want to set _blank
+          // target if the browser does not support the HTML5 download attribute.
+          // This allows you to download files in desktop safari if pop up blocking is enabled.
+          if (typeof link.download === 'undefined') {
+            link.setAttribute('target', '_blank');
+          }
+
+          link.click();
+          setTimeout(() => {
+            // For Firefox it is necessary to delay revoking the ObjectURL
+            window.URL.revokeObjectURL(data);
+          }, 100);
+        });
+    }
   }
 
   onYesCompletedClicked = () => {
@@ -172,9 +207,8 @@ export class RangeUsePlan extends Component {
       <div className="rup">
         <a
           className="rup__pdf-link"
-          href={mockupPDF}
+          href="href"
           ref={(pdfLink) => { this.pdfLink = pdfLink; }}
-          target="_black"
         >
           pdf link
         </a>
