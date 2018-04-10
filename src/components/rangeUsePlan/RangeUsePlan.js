@@ -14,7 +14,7 @@ import {
 } from '../../constants/strings';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
-import { formatDate, linkPDFBlobToDownload } from '../../handlers';
+import { formatDate, downloadPDFBlob } from '../../handlers';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -47,7 +47,7 @@ export class RangeUsePlan extends Component {
     const { id: planId, agreementId } = this.state.plan;
     if (planId && agreementId) {
       this.props.getRupPDF(planId)
-        .then(blob => linkPDFBlobToDownload(blob, this.pdfLink, `${agreementId}.pdf`));
+        .then(blob => downloadPDFBlob(blob, this.pdfLink, `${agreementId}.pdf`));
     }
   }
 

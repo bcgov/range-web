@@ -100,7 +100,7 @@ export const stringifyQuery = query => (
  * @param {object} ref The React reference of an a tag
  * @returns nothing
  */
-export const linkPDFBlobToDownload = (blob, ref, fileName) => {
+export const downloadPDFBlob = (blob, ref, fileName) => {
   // It is necessary to create a new blob object with mime-type explicitly set
   // otherwise only Chrome works like it should
   const newBlob = new Blob([blob], { type: 'application/octet-stream' });
