@@ -45,7 +45,7 @@ class Base extends Component {
 
     return (
       <div>
-        {(isLoading || isDownloadingPDF) &&
+        {isLoading &&
           <Loading />
         }
         { success &&
@@ -53,8 +53,9 @@ class Base extends Component {
             agreement={agreement}
             statuses={statuses}
             updateRupStatus={updateRupStatus}
-            isUpdatingStatus={isUpdatingStatus}
             getRupPDF={getRupPDF}
+            isUpdatingStatus={isUpdatingStatus}
+            isDownloadingPDF={isDownloadingPDF}
           />
         }
         { errorMessage &&

@@ -20,6 +20,7 @@ const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
   getRupPDF: PropTypes.func.isRequired,
 };
@@ -135,7 +136,7 @@ export class RangeUsePlan extends Component {
       status = {},
       plan = {},
     } = this.state;
-    const { agreement, isUpdatingStatus } = this.props;
+    const { agreement, isUpdatingStatus, isDownloadingPDF } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
@@ -223,6 +224,7 @@ export class RangeUsePlan extends Component {
             <Button
               onClick={this.onViewPDFClicked}
               className="rup__btn"
+              loading={isDownloadingPDF}
             >
               View PDF
             </Button>

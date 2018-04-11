@@ -26,8 +26,8 @@ class PageNotFound extends Component {
           />
           <div className="page-not-found__title">Page Not Found</div>
           <div className="page-not-found__content">
-            This is not the web page you are looking for. <br />
-            You will be redirected to the My Range Application home page within 10 seconds.
+            <p>This is not the web page you are looking for.</p>
+            <p>You will be redirected to the My Range Application home page within 10 seconds.</p>
           </div>
           <div className="page-not-found__link">
             <Link to={RANGE_USE_PLANS}>
