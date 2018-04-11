@@ -45,7 +45,7 @@ class Base extends Component {
 
     return (
       <div>
-        {isLoading &&
+        { isLoading &&
           <Loading />
         }
         { success &&
