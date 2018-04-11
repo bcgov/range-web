@@ -12,6 +12,7 @@ const setupProps = () => {
   props.statuses = [mockStatus];
   props.newStatus = { id: 2, name: 'name' };
   props.isUpdatingStatus = false;
+  props.isDownloadingPDF = false;
   props.updateRupStatus = jest.fn(() => Promise.resolve({}));
   props.getRupPDF = jest.fn(() => Promise.resolve({}));
 };
