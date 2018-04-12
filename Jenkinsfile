@@ -45,14 +45,6 @@ node {
     sh "${CMD_PREFIX} node -v"
   }
   
-  stage('Build Artifacts') {
-    echo "Build Artifacts: ${BUILD_ID}"
-    // Run a security check on our packages
-    // sh "${CMD_PREFIX} npm run test:security"
-    // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm run build"
-  }
-
   stage('Test') {
     echo "Testing: ${BUILD_ID}"
     // Run our unit tests et al.
@@ -70,6 +62,14 @@ node {
       notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
       sh "exit 1"
     }
+  }
+
+  stage('Build Artifacts') {
+    echo "Build Artifacts: ${BUILD_ID}"
+    // Run a security check on our packages
+    // sh "${CMD_PREFIX} npm run test:security"
+    // Run our unit tests et al.
+    sh "${CMD_PREFIX} npm run build"
   }
 
   stage('Build Image') {
