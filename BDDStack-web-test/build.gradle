@@ -91,6 +91,8 @@ edgeTest {
 test {
     dependsOn drivers.collect { tasks["${it}Test"] }
     enabled = false
+    scanForTestClasses = false
+    include '**/CustomJUnitSpecRunner*'
 }
 
 tasks.withType(Test) {
