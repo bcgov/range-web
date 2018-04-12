@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button, Dropdown } from 'semantic-ui-react';
-import mockupPDF from './mockup.pdf';
 
 import UpdateZoneModal from './UpdateZoneModal';
 import {
@@ -15,13 +14,15 @@ import {
 } from '../../constants/strings';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
-import { formatDate } from '../../handlers';
+import { formatDate, downloadPDFBlob } from '../../handlers';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  getRupPDF: PropTypes.func.isRequired,
 };
 
 export class RangeUsePlan extends Component {
@@ -44,7 +45,11 @@ export class RangeUsePlan extends Component {
   }
 
   onViewPDFClicked = () => {
-    this.pdfLink.click();
+    const { id: planId, agreementId } = this.state.plan;
+    if (planId && agreementId) {
+      this.props.getRupPDF(planId)
+        .then(blob => downloadPDFBlob(blob, this.pdfLink, `${agreementId}.pdf`));
+    }
   }
 
   onYesCompletedClicked = () => {
@@ -76,6 +81,8 @@ export class RangeUsePlan extends Component {
 
     return { primaryAgreementHolder, otherAgreementHolders };
   }
+
+  setPDFRef = (ref) => { this.pdfLink = ref; }
 
   updateStatus = (statusName, closeConfirmModal) => {
     const { agreement, statuses: statusReferences, updateRupStatus } = this.props;
@@ -129,7 +136,7 @@ export class RangeUsePlan extends Component {
       status = {},
       plan = {},
     } = this.state;
-    const { agreement, isUpdatingStatus } = this.props;
+    const { agreement, isUpdatingStatus, isDownloadingPDF } = this.props;
     const statusDropdownOptions = [
       { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
       { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
@@ -172,9 +179,8 @@ export class RangeUsePlan extends Component {
       <div className="rup">
         <a
           className="rup__pdf-link"
-          href={mockupPDF}
-          ref={(pdfLink) => { this.pdfLink = pdfLink; }}
-          target="_black"
+          href="href"
+          ref={this.setPDFRef}
         >
           pdf link
         </a>
@@ -218,6 +224,7 @@ export class RangeUsePlan extends Component {
             <Button
               onClick={this.onViewPDFClicked}
               className="rup__btn"
+              loading={isDownloadingPDF}
             >
               View PDF
             </Button>

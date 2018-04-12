@@ -5,23 +5,37 @@
   align-items: center;
   height: 100vh;
 
-  // element
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__image {
+    margin-left: 30px;
+    width: 150px;
+  }
+
   &__title {
     text-align: center;
     font-size: 3rem;
-    margin-bottom: 20px;
+    margin: 10px 0 30px 0;
   }
 
   &__content {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    text-align: center;
+    line-height: 140%;
+    p {
+      margin: 0;
+    }
   }
 
   &__link {
     margin: 10px auto;
     width: fit-content;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 
-    // modifier
     &--boldered {
       border: 1px solid  
     }

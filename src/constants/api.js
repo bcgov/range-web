@@ -17,3 +17,4 @@ export const CLIENT = '/client';
 export const PLAN = '/plan';
 export const STATUS = '/status';
 export const ZONE = '/zone';
+export const REPORT = '/report';

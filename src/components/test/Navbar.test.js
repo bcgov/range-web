@@ -19,7 +19,7 @@ describe('Navbar', () => {
 
   it('call `onLogout` when clicking on sign-out NavLink', () => {
     const wrapper = shallow(<Navbar {...props} />);
-    wrapper.find('#sign-out').simulate('click', {}); 
+    wrapper.find('#sign-out').simulate('click', {});
     expect(props.onLogout).toHaveBeenCalled();
   });
 });

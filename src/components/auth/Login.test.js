@@ -8,8 +8,8 @@ const setupProps = () => {
   props.login = jest.fn();
   props.loginState = {};
   props.location = {
-    search: ''
-  }
+    search: '',
+  };
 };
 
 beforeEach(() => {
@@ -34,7 +34,7 @@ describe('Login', () => {
     it('componentDidmount', () => {
       const mockCode = 'hhAvWWCcAztaAfswBN4XHbPPgiplWk8UtY5Lhs';
       props.location = {
-        search: `?code=${mockCode}`
+        search: `?code=${mockCode}`,
       };
       const wrapper = shallow(<Login {...props} />);
       const { login } = props;

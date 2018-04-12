@@ -12,17 +12,17 @@ const setupProps = () => {
   props.statuses = [mockStatus];
   props.newStatus = { id: 2, name: 'name' };
   props.isUpdatingStatus = false;
+  props.isDownloadingPDF = false;
   props.updateRupStatus = jest.fn(() => Promise.resolve({}));
+  props.getRupPDF = jest.fn(() => Promise.resolve({}));
 };
-
-const mockClick = jest.fn();
 
 beforeEach(() => {
   setupProps();
 });
 
 RangeUsePlan.prototype.pdfLink = {
-  click: mockClick,
+  click: jest.fn(),
 };
 
 describe('RangeUsePlan', () => {
@@ -79,9 +79,16 @@ describe('RangeUsePlan', () => {
 
     it('onViewPDFClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
+      global.window.URL.createObjectURL = jest.fn();
       wrapper.instance().onViewPDFClicked();
+      expect(props.getRupPDF).toHaveBeenCalled();
 
-      expect(mockClick).toHaveBeenCalled();
+      props.getRupPDF.mockClear();
+      wrapper.setState({
+        plan: { id: null },
+      });
+      wrapper.instance().onViewPDFClicked();
+      expect(props.getRupPDF).not.toHaveBeenCalled();
     });
 
     it('onYesSomethingClicked calls the right function', () => {
@@ -99,7 +106,7 @@ describe('RangeUsePlan', () => {
     });
 
     it('updateStatus calls the right function', () => {
-      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
       const mockCloseConfirmModal = jest.fn();
 
@@ -107,7 +114,7 @@ describe('RangeUsePlan', () => {
       expect(props.updateRupStatus).not.toBeCalled();
 
       instance.updateStatus(mockStatus.name, mockCloseConfirmModal);
-      const requestData = { 
+      const requestData = {
         planId: props.agreement.plans[0].id,
         statusId: mockStatus.id,
       };
@@ -115,7 +122,7 @@ describe('RangeUsePlan', () => {
     });
 
     it('onZoneClicked calls the right function', () => {
-      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
       const openUpdateZoneModalModalSpy = jest.spyOn(instance, 'openUpdateZoneModal');
       instance.onZoneClicked();
@@ -123,7 +130,7 @@ describe('RangeUsePlan', () => {
     });
 
     it('onZoneUpdated calls right the function', () => {
-      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const wrapper = shallow(<RangeUsePlan {...props} />);
       const mockZone = 'mockZone';
       wrapper.instance().onZoneUpdated(mockZone);
       expect(wrapper.state().zone).toEqual(mockZone);

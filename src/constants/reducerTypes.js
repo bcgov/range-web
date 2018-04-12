@@ -7,3 +7,4 @@ export const CLIENTS = 'CLIENTS';
 export const UPDATE_RUP_STATUS = 'UPDATE_RUP_STATUS';
 export const UPDATE_RUP_ZONE = 'UPDATE_RUP_ZONE';
 export const GET_ZONES = 'GET_ZONES';
+export const GET_PDF = 'GET_PDF';

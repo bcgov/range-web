@@ -35,8 +35,10 @@
 }
 
 .text-field {
+  margin: 3px 0;
+
   &__label {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: gray;
 
     &--hidden {
@@ -46,8 +48,8 @@
 
   &__text {
     border-radius: 5px;
-    margin: 10px 0;
-    font-size: 0.9rem;
+    margin: 5px 0;
+    padding: 8px 0;
     
     &--editable {
       background: #eeeeee;

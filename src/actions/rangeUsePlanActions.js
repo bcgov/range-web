@@ -5,8 +5,8 @@ import {
 } from '../actions/genericActions';
 import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
-import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES } from '../constants/reducerTypes';
-import { BASE_URL, STATUS, AGREEMENT, ZONE, PLAN } from '../constants/api';
+import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES, GET_PDF } from '../constants/reducerTypes';
+import { BASE_URL, STATUS, AGREEMENT, ZONE, PLAN, REPORT } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
@@ -66,6 +66,25 @@ export const getZones = districtId => (dispatch) => {
     } catch (err) {
       dispatch(error(GET_ZONES, err));
       dispatch(toastErrorMessage(err));
+    }
+  };
+  return makeRequest();
+};
+
+export const getRupPDF = planId => (dispatch) => {
+  dispatch(request(GET_PDF));
+  const makeRequest = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}${REPORT}/${planId}`,
+        { responseType: 'arraybuffer' },
+      );
+      dispatch(success(GET_PDF, response.data));
+      return response.data;
+    } catch (err) {
+      dispatch(error(GET_PDF, err));
+      dispatch(toastErrorMessage(err));
+      throw err;
     }
   };
   return makeRequest();

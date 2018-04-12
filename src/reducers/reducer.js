@@ -34,6 +34,7 @@ const appReducer = combineReducers({
   updateRupStatus: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_STATUS, { data: {} }),
   updateRupZone: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_ZONE, { data: {} }),
   zones: createReducer(genericReducer, ReducerTypes.GET_ZONES, { data: [] }),
+  pdf: createReducer(genericReducer, ReducerTypes.GET_PDF, { }),
 });
 
 const rootReducer = (state, action) => {

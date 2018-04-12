@@ -40,7 +40,7 @@ export class Login extends Component {
         <img
           className="login__image"
           src={LOGIN_LOGO_SRC}
-          alt="gov-img"
+          alt="login-img"
         />
 
         <div className="login__title">

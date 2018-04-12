@@ -20,6 +20,7 @@ import { logout } from '../actions/authActions';
 
 const propTypes = {
   logout: PropTypes.func.isRequired,
+  user: PropTypes.shape({}).isRequired,
 };
 
 export class App extends Component {
@@ -44,7 +45,7 @@ export class App extends Component {
               <PrivateRoute path={`${match.url}/:topicId`} component={Topic} user={user}/>
               <PrivateRoute exact path={match.url} component={TopicPage} user={user}/>
             */}
-            <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN}/>)} />
+            <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
             <Route path="*" component={PageNotFound} />
           </Switch>
         </BrowserRouter>
