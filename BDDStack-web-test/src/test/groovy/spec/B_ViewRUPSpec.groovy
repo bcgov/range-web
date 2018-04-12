@@ -13,7 +13,7 @@ At Home page, I should see a search field that search all the agreements by RAN 
 @See("https://trello.com/c/0G0t1c3e/161-web-search-rup-by-agreement-holder-name")
 @Stepwise
 class B_ViewRUPSpec extends GebReportingSpec {
-//TODO: Check for token validity and of logged into the web app (what about iOS???)
+//TODO: Check for token validity and of logged into the web app (or wait for the IDIR logout)
 ////
 //    def setupSpec() {
 //        given: "I enter Range web app"
