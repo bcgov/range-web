@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Banner, ConfirmationModal } from '../common';
 import { Dropdown, Button } from 'semantic-ui-react';
-import { 
+import { Banner, ConfirmationModal } from '../common';
+import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
   NOT_SELECTED,
@@ -16,9 +16,9 @@ export class ManageZone extends Component {
   }
 
   onZoneChanged = (e, { value }) => {
-    this.setState({ 
+    this.setState({
       zone: value,
-      currContact: 'Jar Jar Binks'
+      currContact: 'Jar Jar Binks',
     });
   }
 
@@ -36,17 +36,22 @@ export class ManageZone extends Component {
 
   render() {
     const zoneOptions = [
-      { key: 1, text: 'LASO', value: 'LASO', },
-      { key: 2, text: 'VIC', value: 'VIC', },
+      { key: 1, text: 'LASO', value: 'LASO' },
+      { key: 2, text: 'VIC', value: 'VIC' },
     ];
     const contactOptions = [
-      { key: 1, text: 'Luke Skywalker', value: 'Luke Skywalker', },
-      { key: 2, text: 'Obi-Wan Kenobi', value: 'Obi-Wan Kenobi', },
-      { key: 3, text: 'Han Solo', value: 'Han Solo', },
-      { key: 4, text: 'Leia Organa', value: 'Leia Organa', },
+      { key: 1, text: 'Luke Skywalker', value: 'Luke Skywalker' },
+      { key: 2, text: 'Obi-Wan Kenobi', value: 'Obi-Wan Kenobi' },
+      { key: 3, text: 'Han Solo', value: 'Han Solo' },
+      { key: 4, text: 'Leia Organa', value: 'Leia Organa' },
     ];
 
-    const { zone, isUpdateModalOpen, currContact, newContact } = this.state;
+    const {
+      zone,
+      isUpdateModalOpen,
+      currContact,
+      newContact,
+    } = this.state;
     const isUpdateBtnDisabled = (newContact && zone) === null;
 
     return (
@@ -59,49 +64,49 @@ export class ManageZone extends Component {
           onYesClicked={this.closeUpdateConfirmationModal}
         />
 
-        <Banner 
+        <Banner
           header={MANAGE_ZONE_BANNER_HEADER}
           content={MANAGE_ZONE_BANNER_CONTENT}
         />
 
-        <div className="manage-zone__content container">
+        <div className="manage-zone__content">
           <div className="manage-zone__steps">
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
               <div className="manage-zone__dropdown">
                 <Dropdown
-                  id='manage-zone__zone-dropdown'
-                  placeholder='Zone' 
+                  id="manage-zone__zone-dropdown"
+                  placeholder="Zone"
                   options={zoneOptions}
                   onChange={this.onZoneChanged}
-                  fluid 
-                  search 
-                  selection 
+                  fluid
+                  search
+                  selection
                 />
               </div>
               <div className="manage-zone__text-field">
                 <div className="manage-zone__text-field__title">Assigned Zone Contact</div>
-                <div>{currContact || NOT_SELECTED}</div> 
+                <div className="manage-zone__text-field__content">{currContact || NOT_SELECTED}</div>
               </div>
             </div>
 
             <h3>Step 2: Assign a new contact</h3>
             <div className="manage-zone__step-two">
               <div className="manage-zone__dropdown">
-                <Dropdown 
-                  id='manage-zone__contact-dropdown'
-                  placeholder='Contact' 
-                  options={contactOptions} 
+                <Dropdown
+                  id="manage-zone__contact-dropdown"
+                  placeholder="Contact"
+                  options={contactOptions}
                   onChange={this.onContactChanged}
                   fluid
                   search
-                  selection 
+                  selection
                 />
               </div>
             </div>
 
             <div className="manage-zone__update-btn">
-              <Button 
+              <Button
                 onClick={this.openUpdateConfirmationModal}
                 primary
                 disabled={isUpdateBtnDisabled}
@@ -112,7 +117,7 @@ export class ManageZone extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

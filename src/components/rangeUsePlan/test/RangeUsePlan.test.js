@@ -1,34 +1,54 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { RangeUsePlan } from '../RangeUsePlan';
-import { getMockRangeUsePlan } from '../../tenureAgreement/test/mockValues'
-import { COMPLETED, PENDING } from '../../../constants/variables';
+import { getMockAgreement } from '../../agreement/test/mockValues';
+import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
 
 const props = {};
 const setupProps = () => {
-  props.rangeUsePlan = getMockRangeUsePlan(2);
+  props.agreement = getMockAgreement(2);
   props.statuses = [mockStatus];
   props.newStatus = { id: 2, name: 'name' };
   props.isUpdatingStatus = false;
+  props.isDownloadingPDF = false;
   props.updateRupStatus = jest.fn(() => Promise.resolve({}));
+  props.getRupPDF = jest.fn(() => Promise.resolve({}));
 };
-
-const mockClick = jest.fn();
 
 beforeEach(() => {
   setupProps();
 });
 
 RangeUsePlan.prototype.pdfLink = {
-  click: mockClick,
-}
+  click: jest.fn(),
+};
 
 describe('RangeUsePlan', () => {
   xit('renders correctly', () => {
     const wrapper = shallow(<RangeUsePlan {...props} />);
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it('`getAgreementHolders` returns agreementholders', () => {
+    const wrapper = shallow(<RangeUsePlan {...props} />);
+    const instance = wrapper.instance();
+    let mockClients;
+    const primaryAgreementHolder = {};
+    const otherAgreementHolders = [];
+    expect(instance.getAgreementHolders(mockClients))
+      .toEqual({ primaryAgreementHolder, otherAgreementHolders });
+
+    primaryAgreementHolder.clientTypeCode = PRIMARY_TYPE;
+    const mockOtherAgreementHolder = { clientTypeCode: OTHER_TYPE };
+    otherAgreementHolders.push(mockOtherAgreementHolder);
+    mockClients = [
+      primaryAgreementHolder,
+      mockOtherAgreementHolder,
+    ];
+    expect(instance.getAgreementHolders(mockClients))
+      .toEqual({ primaryAgreementHolder, otherAgreementHolders });
   });
 
   describe('Event handlers', () => {
@@ -43,19 +63,32 @@ describe('RangeUsePlan', () => {
 
       instance.closeCompletedConfirmModal();
       expect(wrapper.state().isCompletedModalOpen).toEqual(false);
-      
+
       instance.openPendingConfirmModal();
       expect(wrapper.state().isPendingModalOpen).toEqual(true);
-      
+
       instance.closePendingConfirmModal();
       expect(wrapper.state().isPendingModalOpen).toEqual(false);
+
+      instance.closeUpdateZoneModal();
+      expect(wrapper.state().isUpdateZoneModalOpen).toEqual(false);
+
+      instance.openUpdateZoneModal();
+      expect(wrapper.state().isUpdateZoneModalOpen).toEqual(true);
     });
 
-    it('onViewClicked calls the right function', () => {
+    it('onViewPDFClicked calls the right function', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
-      wrapper.instance().onViewClicked();
+      global.window.URL.createObjectURL = jest.fn();
+      wrapper.instance().onViewPDFClicked();
+      expect(props.getRupPDF).toHaveBeenCalled();
 
-      expect(mockClick).toHaveBeenCalled();
+      props.getRupPDF.mockClear();
+      wrapper.setState({
+        plan: { id: null },
+      });
+      wrapper.instance().onViewPDFClicked();
+      expect(props.getRupPDF).not.toHaveBeenCalled();
     });
 
     it('onYesSomethingClicked calls the right function', () => {
@@ -73,7 +106,7 @@ describe('RangeUsePlan', () => {
     });
 
     it('updateStatus calls the right function', () => {
-      const wrapper = shallow(<RangeUsePlan {...props } />);
+      const wrapper = shallow(<RangeUsePlan {...props} />);
       const instance = wrapper.instance();
       const mockCloseConfirmModal = jest.fn();
 
@@ -81,11 +114,26 @@ describe('RangeUsePlan', () => {
       expect(props.updateRupStatus).not.toBeCalled();
 
       instance.updateStatus(mockStatus.name, mockCloseConfirmModal);
-      const requestData = { 
-        agreementId: props.rangeUsePlan.id,
+      const requestData = {
+        planId: props.agreement.plans[0].id,
         statusId: mockStatus.id,
       };
       expect(props.updateRupStatus).toHaveBeenCalledWith(requestData);
+    });
+
+    it('onZoneClicked calls the right function', () => {
+      const wrapper = shallow(<RangeUsePlan {...props} />);
+      const instance = wrapper.instance();
+      const openUpdateZoneModalModalSpy = jest.spyOn(instance, 'openUpdateZoneModal');
+      instance.onZoneClicked();
+      expect(openUpdateZoneModalModalSpy).toHaveBeenCalled();
+    });
+
+    it('onZoneUpdated calls right the function', () => {
+      const wrapper = shallow(<RangeUsePlan {...props} />);
+      const mockZone = 'mockZone';
+      wrapper.instance().onZoneUpdated(mockZone);
+      expect(wrapper.state().zone).toEqual(mockZone);
     });
   });
 });

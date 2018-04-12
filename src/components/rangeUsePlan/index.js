@@ -1,59 +1,79 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import RangeUsePlan from './RangeUsePlan';
 import { Loading } from '../common';
-import { getRangeUsePlan } from '../../actions/tenureAgreementActions';
-import { updateRupStatus } from '../../actions/rangeUsePlanActions';
-import { AGREEMENT_STATUS } from '../../constants/variables';
+import { getRangeUsePlan } from '../../actions/agreementActions';
+import { updateRupStatus, getRupPDF } from '../../actions/rangeUsePlanActions';
+import { PLAN_STATUS } from '../../constants/variables';
+
+const propTypes = {
+  references: PropTypes.shape({}).isRequired,
+  agreementState: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
+  isUpdatingStatus: PropTypes.bool.isRequired,
+  isDownloadingPDF: PropTypes.bool.isRequired,
+  getRupPDF: PropTypes.func.isRequired,
+  updateRupStatus: PropTypes.func.isRequired,
+  getRangeUsePlan: PropTypes.func.isRequired,
+};
 
 class Base extends Component {
-  state = {
-    id: null,
-    rangeUsePlan: null,
-  }
-  
   componentDidMount() {
     const { getRangeUsePlan, match } = this.props;
-    const { id } = match.params;
-    getRangeUsePlan(id);
+    const { agreementId } = match.params;
+    getRangeUsePlan(agreementId);
   }
 
   render() {
-    const { 
+    const {
       references,
-      rangeUsePlanState,
-      updateRupStatus,
+      agreementState,
       isUpdatingStatus,
+      isDownloadingPDF,
+      updateRupStatus,
+      getRupPDF,
     } = this.props;
-    const { data: rangeUsePlan, isLoading, success } = rangeUsePlanState;
-    const statuses = references[AGREEMENT_STATUS];
+    const {
+      data: agreement,
+      isLoading,
+      success,
+      errorMessage,
+    } = agreementState;
+    const statuses = references[PLAN_STATUS];
 
     return (
       <div>
         { isLoading &&
           <Loading />
         }
-        { success && 
-          <RangeUsePlan 
-            rangeUsePlan={rangeUsePlan}
+        { success &&
+          <RangeUsePlan
+            agreement={agreement}
             statuses={statuses}
             updateRupStatus={updateRupStatus}
+            getRupPDF={getRupPDF}
             isUpdatingStatus={isUpdatingStatus}
+            isDownloadingPDF={isDownloadingPDF}
           />
+        }
+        { errorMessage &&
+          <Redirect to="/no-range-use-plan-found" />
         }
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    rangeUsePlanState: state.rangeUsePlan,
+const mapStateToProps = state => (
+  {
+    agreementState: state.rangeUsePlan,
+    isDownloadingPDF: state.pdf.isLoading,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
-  };
-};
+  }
+);
 
-export default connect(
-  mapStateToProps, { getRangeUsePlan, updateRupStatus }
-)(Base);
+Base.propTypes = propTypes;
+export default connect(mapStateToProps, { getRangeUsePlan, updateRupStatus, getRupPDF })(Base);

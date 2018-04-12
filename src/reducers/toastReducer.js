@@ -1,13 +1,13 @@
 import {
   OPEN_TOAST_MESSAGE,
-  CLOSE_TOAST_MESSAGE
+  CLOSE_TOAST_MESSAGE,
 } from '../constants/actionTypes';
 
 const toastReducer = (state = {
   close: true,
   success: false,
   error: false,
-  message: ''
+  message: '',
 }, action) => {
   switch (action.type) {
     case OPEN_TOAST_MESSAGE:
@@ -17,15 +17,15 @@ const toastReducer = (state = {
         success: action.success,
         error: action.error,
         message: action.message,
-      }
+      };
     case CLOSE_TOAST_MESSAGE:
       return {
         ...state,
         close: true,
         message: '',
-      }
+      };
     default:
-      return state
+      return state;
   }
 };
 

@@ -5,74 +5,74 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  USER_PROFILE_CHANGE
+  USER_PROFILE_CHANGE,
 } from '../constants/actionTypes';
 import {
   getTokenFromRemote,
   onAuthenticated,
-  onSignedOut
+  onSignedOut,
 } from '../handlers/authentication';
 
-export const loginSuccess = (data) => {
-  return {
+export const loginSuccess = data => (
+  {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.auth_data
+    user: data.auth_data,
   }
-}
+);
 
-export const loginRequest = () => {
-  return {
+export const loginRequest = () => (
+  {
     name: AUTH,
     type: LOGIN_REQUEST,
   }
-}
+);
 
-export const loginError = (errorMessage) => {
-  return {
+export const loginError = errorMessage => (
+  {
     name: AUTH,
     type: LOGIN_ERROR,
-    errorMessage
+    errorMessage,
   }
-}
+);
 
-export const logoutSuccess = () => {
-  return {
+export const logoutSuccess = () => (
+  {
     name: AUTH,
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   }
-}
+);
 
-export const userProfileChange = (user) => {
-  return {
+export const userProfileChange = user => (
+  {
     name: AUTH,
     type: USER_PROFILE_CHANGE,
-    user
+    user,
   }
-}
+);
 
-export const login = (code) => (dispatch) => {
+export const login = code => (dispatch) => {
   dispatch(loginRequest());
   const makeRequest = async () => {
     try {
       const response = await getTokenFromRemote(code);
-      
-      // save tokens in local storage and set header for axios 
+
+      // save tokens in local storage and set header for axios
       onAuthenticated(response);
-      console.log(response)
+      console.log(response);
 
       // TODO: make a request to get user data
-      dispatch(loginSuccess(response.data));  
+      dispatch(loginSuccess(response.data));
     } catch (err) {
       dispatch(loginError(err));
       dispatch(toastErrorMessage(err));
     }
-  }
+  };
   makeRequest();
-}
+};
 
 export const logout = () => (dispatch) => {
   onSignedOut();
   dispatch(logoutSuccess());
-}
+};

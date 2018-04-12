@@ -15,7 +15,7 @@ export class Navbar extends Component {
 
     return (
       <nav className="navbar">
-        <div className="navbar__container container">
+        <div className="navbar__container">
           <div className="navbar__left">
             <img className="navbar__logo" src={LOGO_SRC} alt="Logo"/>
             <Link to={Routes.RANGE_USE_PLANS}><div className="navbar__title">My Range App</div></Link>

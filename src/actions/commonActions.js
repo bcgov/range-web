@@ -12,7 +12,7 @@ import { GET_REFERENCES } from '../constants/reducerTypes';
 import { BASE_URL, REFERENCES } from '../constants/api';
 import axios from '../handlers/axios';
 
-export const getReferences = (requestData) => (dispatch) => {
+export const getReferences = () => (dispatch) => {
   dispatch(request(GET_REFERENCES));
 
   const makeRequest = async () => {
@@ -26,5 +26,5 @@ export const getReferences = (requestData) => (dispatch) => {
       dispatch(error(GET_REFERENCES, err));
     }
   }
-  makeRequest();
+  return makeRequest();
 };
