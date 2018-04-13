@@ -54,6 +54,7 @@ export class AgreementTable extends Component {
 
         <Pagination
           size="mini"
+          siblingRange="2"
           activePage={currentPage}
           onPageChange={this.handlePaginationChange} 
           totalPages={totalPages}
