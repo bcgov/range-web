@@ -11,7 +11,7 @@ import {
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  getZones: PropTypes.func.isRequired,
+  staffAssignedToZone: PropTypes.func.isRequired,
   assignStaffToZone: PropTypes.func.isRequired,
   isAssigning: PropTypes.bool.isRequired,
 };
@@ -49,10 +49,11 @@ export class ManageZone extends Component {
 
   assignStaffToZone = () => {
     const { zoneId, newContactId: userId } = this.state;
-    const { getZones, assignStaffToZone } = this.props;
+    const { zones, assignStaffToZone, staffAssignedToZone } = this.props;
 
-    const staffAssigned = () => {
-      getZones();
+    const staffAssigned = (assignedUser) => {
+      // update zones in Redux state
+      staffAssignedToZone({ zones, zoneId, assignedUser });
       this.closeUpdateConfirmationModal();
       this.setState({
         newContactId: null,

@@ -2,6 +2,7 @@ export const REQUEST = 'REQUEST';
 export const SUCCESS = 'SUCCESS';
 export const SUCCESS_PAGINATED = 'SUCCESS_PAGINATED';
 export const ERROR = 'ERROR';
+export const DATA_CHANGED = 'DATA_CHANGED';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

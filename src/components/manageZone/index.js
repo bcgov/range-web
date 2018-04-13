@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ManazeZone from './ManageZone';
 import { getUsers, getZones } from '../../actions/commonActions';
-import { assignStaffToZone } from '../../actions/manageZoneActions';
+import { assignStaffToZone, staffAssignedToZone } from '../../actions/manageZoneActions';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   getUsers: PropTypes.func.isRequired,
   assignStaffToZone: PropTypes.func.isRequired,
+  staffAssignedToZone: PropTypes.func.isRequired,
   isAssigning: PropTypes.bool.isRequired,
 };
 
@@ -36,4 +37,9 @@ const mapStateToProps = state => (
 );
 
 Base.propTypes = propTypes;
-export default connect(mapStateToProps, { getUsers, getZones, assignStaffToZone })(Base);
+export default connect(mapStateToProps, {
+  getUsers,
+  getZones,
+  assignStaffToZone,
+  staffAssignedToZone,
+})(Base);

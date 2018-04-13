@@ -39,7 +39,7 @@ class Base extends Component {
       data: agreement,
       isLoading,
       success,
-      errorMessage,
+      error,
     } = agreementState;
     const statuses = references[PLAN_STATUS];
 
@@ -58,7 +58,7 @@ class Base extends Component {
             isDownloadingPDF={isDownloadingPDF}
           />
         }
-        { errorMessage &&
+        { error &&
           <Redirect to="/no-range-use-plan-found" />
         }
       </div>

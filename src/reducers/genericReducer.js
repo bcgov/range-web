@@ -3,6 +3,7 @@ import {
   SUCCESS,
   SUCCESS_PAGINATED,
   ERROR,
+  DATA_CHANGED,
 } from '../constants/actionTypes';
 
 const genericRequest = (state, action) => {
@@ -29,12 +30,17 @@ const genericRequest = (state, action) => {
         totalPages: action.totalPages,
         currentPage: action.currentPage,
       };
+    case DATA_CHANGED:
+      return {
+        ...state,
+        data: action.data,
+      };
     case ERROR:
       return {
         ...state,
         isLoading: false,
         success: false,
-        errorMessage: action.errorMessage,
+        error: action.error,
       };
     default: return state;
   }
