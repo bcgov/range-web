@@ -50,27 +50,6 @@ export const updateRupZone = ({ agreementId, zoneId }) => (dispatch) => {
   return makeRequest();
 };
 
-export const getZones = districtId => (dispatch) => {
-  dispatch(request(GET_ZONES));
-  const makeRequest = async () => {
-    try {
-      const config = {};
-
-      if (districtId) {
-        config.params = {
-          districtId,
-        };
-      }
-      const response = await axios.get(`${BASE_URL}${ZONE}`, config);
-      dispatch(success(GET_ZONES, response.data));
-    } catch (err) {
-      dispatch(error(GET_ZONES, err));
-      dispatch(toastErrorMessage(err));
-    }
-  };
-  return makeRequest();
-};
-
 export const getRupPDF = planId => (dispatch) => {
   dispatch(request(GET_PDF));
   const makeRequest = async () => {

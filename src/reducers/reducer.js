@@ -35,6 +35,8 @@ const appReducer = combineReducers({
   updateRupZone: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_ZONE, { data: {} }),
   zones: createReducer(genericReducer, ReducerTypes.GET_ZONES, { data: [] }),
   pdf: createReducer(genericReducer, ReducerTypes.GET_PDF, { }),
+  users: createReducer(genericReducer, ReducerTypes.GET_USERS, { data: [] }),
+  assignStaffToZone: createReducer(genericReducer, ReducerTypes.ASSIGN_STAFF_TO_ZONE, { }),
 });
 
 const rootReducer = (state, action) => {

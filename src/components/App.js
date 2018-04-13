@@ -20,7 +20,11 @@ import { logout } from '../actions/authActions';
 
 const propTypes = {
   logout: PropTypes.func.isRequired,
-  user: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}),
+};
+
+const defaultProps = {
+  user: null,
 };
 
 export class App extends Component {
@@ -40,11 +44,6 @@ export class App extends Component {
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId`} component={RangeUsePlan} user={user} />
             <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
 
-            {/* An example of nested routes 
-              https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#serving-apps-with-client-side-routing
-              <PrivateRoute path={`${match.url}/:topicId`} component={Topic} user={user}/>
-              <PrivateRoute exact path={match.url} component={TopicPage} user={user}/>
-            */}
             <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
             <Route path="*" component={PageNotFound} />
           </Switch>
@@ -63,4 +62,5 @@ const mapStateToProps = (state) => {
 };
 
 App.propTypes = propTypes;
+App.defaultProps = defaultProps;
 export default connect(mapStateToProps, { logout })(App);
