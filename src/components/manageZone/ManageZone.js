@@ -25,7 +25,7 @@ export class ManageZone extends Component {
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
-    const { user } = this.props.zones.find(z => z.id === zoneId);
+    const { user } = this.props.zones.find(z => z.id === zoneId) || {};
     const currContactName = (user && `${user.givenName} ${user.familyName}`)
       || CONTACT_NO_EXIST;
 
@@ -49,17 +49,18 @@ export class ManageZone extends Component {
 
   assignStaffToZone = () => {
     const { zoneId, newContactId: userId } = this.state;
+    const { getZones, assignStaffToZone } = this.props;
+
     const staffAssigned = () => {
+      getZones();
       this.closeUpdateConfirmationModal();
       this.setState({
         newContactId: null,
         zoneId: null,
         currContactName: null,
       });
-      this.props.getZones();
     };
-    this.props.assignStaffToZone({ zoneId, userId })
-      .then(staffAssigned);
+    assignStaffToZone({ zoneId, userId }).then(staffAssigned);
   }
 
   render() {
@@ -69,7 +70,7 @@ export class ManageZone extends Component {
       currContactName,
       newContactId,
     } = this.state;
-    const { users, zones, isAssigning} = this.props;
+    const { users, zones, isAssigning } = this.props;
 
     const zoneOptions = zones.map((zone) => {
       const { id, code } = zone;
@@ -91,11 +92,11 @@ export class ManageZone extends Component {
       <div className="manage-zone">
         <ConfirmationModal
           open={isUpdateModalOpen}
+          loading={isAssigning}
           header={UPDATE_CONTACT_CONFIRMATION_HEADER}
           content={UPDATE_CONTACT_CONFIRMATION_CONTENT}
           onNoClicked={this.closeUpdateConfirmationModal}
           onYesClicked={this.assignStaffToZone}
-          loading={isAssigning}
         />
 
         <Banner
@@ -143,8 +144,8 @@ export class ManageZone extends Component {
 
             <div className="manage-zone__update-btn">
               <Button
-                onClick={this.openUpdateConfirmationModal}
                 primary
+                onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
                 Update Zone

@@ -4,7 +4,11 @@ import { ManageZone } from '../ManageZone';
 
 const props = {};
 const setupProps = () => {
-  // props.
+  props.users = [];
+  props.zones = [];
+  props.getZones = jest.fn();
+  props.assignStaffToZone = jest.fn(() => Promise.resolve({}));
+  props.isAssigning = false;
 };
 
 beforeEach(() => {
@@ -18,7 +22,7 @@ describe('ManageZone', () => {
   });
 
   describe('Event handlers', () => {
-    xit('`closeUpdateConfirmationModal` updates the state `isUpdateModalOpen` correctly', () => {
+    it('`closeUpdateConfirmationModal` updates the state `isUpdateModalOpen` correctly', () => {
       const wrapper = shallow(<ManageZone {...props} />);
       wrapper.instance().closeUpdateConfirmationModal();
       expect(wrapper.state().isUpdateModalOpen).toEqual(false);
@@ -27,22 +31,33 @@ describe('ManageZone', () => {
       expect(wrapper.state().isUpdateModalOpen).toEqual(true);
     });
 
-    xit('`onContactChanged` updates the state `newContact` correctly', () => {
+    it('`onContactChanged` updates the state `newContactId` correctly', () => {
       const wrapper = shallow(<ManageZone {...props} />);
-      const mockValue = 'mockValue';
-      wrapper.instance().onContactChanged({}, { value: mockValue });
+      const mockContactId = 'mockContactId';
+      wrapper.instance().onContactChanged({}, { value: mockContactId });
 
-      expect(wrapper.state().newContact).toEqual(mockValue);      
+      expect(wrapper.state().newContactId).toEqual(mockContactId);
     });
 
-    xit('`onZoneChanged` updates the state `zone` and `currContact` correctly', () => {
+    it('`onZoneChanged` updates the state `zone` and `currContactName` correctly', () => {
       const wrapper = shallow(<ManageZone {...props} />);
-      const mockValue = 'mockValue';
-      expect(wrapper.state().currContact).toEqual(null);    
-      
-      wrapper.instance().onZoneChanged({}, { value: mockValue });
-      expect(wrapper.state().zone).toEqual(mockValue);
-      expect(wrapper.state().currContact).not.toEqual(null);    
+      const mockZoneId = 'mockZoneId';
+      expect(wrapper.state().currContactName).toEqual(null);
+
+      wrapper.instance().onZoneChanged({}, { value: mockZoneId });
+      expect(wrapper.state().zoneId).toEqual(mockZoneId);
+      expect(wrapper.state().currContactName).not.toEqual(null);
+    });
+
+    it('`assignStaffToZone` calls the right function', () => {
+      const wrapper = shallow(<ManageZone {...props} />);
+      wrapper.instance().assignStaffToZone();
+      const { zoneId, newContactId: userId } = wrapper.state();
+
+      expect(props.assignStaffToZone).toHaveBeenCalledWith({
+        zoneId,
+        userId,
+      });
     });
   });
 });
