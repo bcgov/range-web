@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/authActions';
-import { getReferences } from '../actions/commonActions';
-import { getZones } from '../actions/rangeUsePlanActions';
+import { getReferences, getZones } from '../actions/commonActions';
 import Navbar from './Navbar';
 
 const propTypes = {

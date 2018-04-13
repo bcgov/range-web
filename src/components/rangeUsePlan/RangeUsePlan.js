@@ -19,7 +19,7 @@ import { formatDate, downloadPDFBlob } from '../../handlers';
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
-  statuses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
   getRupPDF: PropTypes.func.isRequired,

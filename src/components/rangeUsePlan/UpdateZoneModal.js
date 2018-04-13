@@ -12,7 +12,7 @@ const propTypes = {
   currZone: PropTypes.shape({}).isRequired,
   updateRupZone: PropTypes.func.isRequired,
   agreementId: PropTypes.string.isRequired,
-  zones: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   isUpdating: PropTypes.bool.isRequired,
 };
 
