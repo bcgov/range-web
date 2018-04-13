@@ -33,7 +33,7 @@ export class RangeUsePlan extends Component {
     const { zone, plans } = props.agreement;
     const plan = plans[0];
     const status = plan && plan.status;
-
+    console.log(plan)
     this.state = {
       isCompletedModalOpen: false,
       isPendingModalOpen: false,
@@ -173,7 +173,7 @@ export class RangeUsePlan extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
-    const rupExist = rangeName;
+    const rupExist = plan.id;
 
     return (
       <div className="rup">
