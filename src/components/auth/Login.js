@@ -44,7 +44,7 @@ export class Login extends Component {
         />
 
         <div className="login__title">
-          My Range App
+          My Range Application
         </div>
 
         <div className="login__button">
@@ -56,7 +56,7 @@ export class Login extends Component {
             fluid
             onClick={this.onButtonClick}
           >
-            Login
+            Login with IDIR
           </Button>
 
         </div>
