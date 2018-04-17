@@ -5,7 +5,7 @@ import {
   error,
 } from '../actions/genericActions';
 import { AGREEMENTS, RANGE_USE_PLAN } from '../constants/reducerTypes';
-import { BASE_URL, AGREEMENT } from '../constants/api';
+import { AGREEMENT } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch) => {
@@ -19,7 +19,7 @@ export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch)
           limit,
         },
       };
-      const response = await axios.get(`${BASE_URL}${AGREEMENT}/search`, config);
+      const response = await axios.get(`${AGREEMENT}/search`, config);
       const { agreements, currentPage, totalPage } = response.data;
       dispatch(successPaginated(AGREEMENTS, agreements, currentPage, totalPage));
     } catch (err) {
@@ -33,7 +33,7 @@ export const getRangeUsePlan = id => (dispatch) => {
   dispatch(request(RANGE_USE_PLAN));
   const makeRequest = async () => {
     try {
-      const url = `${BASE_URL}${AGREEMENT}/${id}`;
+      const url = `${AGREEMENT}/${id}`;
       const response = await axios.get(url);
       const rangeUsePlan = response.data;
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));

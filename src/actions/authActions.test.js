@@ -1,7 +1,5 @@
 import { AUTH } from '../constants/reducerTypes';
-import {
-  LOGIN_SUCCESS,
-} from '../constants/actionTypes';
+import { LOGIN_SUCCESS } from '../constants/actionTypes';
 import * as actions from './authActions';
 
 it('creates an action to login successfully', () => {

@@ -5,8 +5,8 @@ import {
 } from '../actions/genericActions';
 import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
-import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES, GET_PDF } from '../constants/reducerTypes';
-import { BASE_URL, STATUS, AGREEMENT, ZONE, PLAN, REPORT } from '../constants/api';
+import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_PDF } from '../constants/reducerTypes';
+import { STATUS, AGREEMENT, ZONE, PLAN, REPORT } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
@@ -14,7 +14,7 @@ export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
   const makeRequest = async () => {
     try {
       const response = await axios.put(
-        `${BASE_URL}${PLAN}/${planId}${STATUS}`,
+        `${PLAN}/${planId}${STATUS}`,
         { statusId },
       );
       dispatch(success(UPDATE_RUP_STATUS, response.data));
@@ -34,7 +34,7 @@ export const updateRupZone = ({ agreementId, zoneId }) => (dispatch) => {
   const makeRequest = async () => {
     try {
       const response = await axios.put(
-        `${BASE_URL}${AGREEMENT}/${agreementId}${ZONE}`,
+        `${AGREEMENT}/${agreementId}${ZONE}`,
         { zoneId },
       );
       dispatch(success(UPDATE_RUP_ZONE, response.data));
@@ -55,7 +55,7 @@ export const getRupPDF = planId => (dispatch) => {
   const makeRequest = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}${REPORT}/${planId}`,
+        `${REPORT}/${planId}`,
         { responseType: 'arraybuffer' },
       );
       dispatch(success(GET_PDF, response.data));

@@ -8,7 +8,7 @@ import { saveReferencesInLocal } from '../handlers';
 import { toastErrorMessage } from '../actions/toastActions';
 
 import { GET_REFERENCES, GET_USERS, GET_ZONES } from '../constants/reducerTypes';
-import { BASE_URL, REFERENCES, USER, ZONE } from '../constants/api';
+import { REFERENCES, USER, ZONE } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getReferences = () => (dispatch) => {
@@ -16,7 +16,7 @@ export const getReferences = () => (dispatch) => {
 
   const makeRequest = async () => {
     try {
-      const response = await axios.get(BASE_URL + REFERENCES);
+      const response = await axios.get(REFERENCES);
       const references = response.data;
 
       saveReferencesInLocal(references);
@@ -39,7 +39,7 @@ export const getZones = districtId => (dispatch) => {
           districtId,
         };
       }
-      const response = await axios.get(`${BASE_URL}${ZONE}`, config);
+      const response = await axios.get(ZONE, config);
       const zones = response.data;
 
       dispatch(success(GET_ZONES, zones));
@@ -55,7 +55,7 @@ export const getUsers = () => (dispatch) => {
   dispatch(request(GET_USERS));
   const makeRequest = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}${USER}`);
+      const response = await axios.get(USER);
       const users = response.data;
 
       dispatch(success(GET_USERS, users));
