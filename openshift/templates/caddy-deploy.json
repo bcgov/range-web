@@ -214,6 +214,32 @@
       }
     },
     {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ROUTE_NAME}-api",
+        "labels": {
+          "app": "${NAME}-caddy${NAME_SUFFIX}"
+        }
+      },
+      "spec": {
+        "path": "/api",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}-caddy${NAME_SUFFIX}",
+          "weight": 100
+        },
+        "port": {
+          "targetPort": "2015-tcp"
+        },
+        "tls": {
+          "termination": "edge",
+          "insecureEdgeTerminationPolicy": "Redirect"
+        },
+        "wildcardPolicy": "None"
+      }
+    },
+    {
       "kind": "ConfigMap",
       "apiVersion": "v1",
       "metadata": {
