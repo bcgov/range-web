@@ -5,16 +5,15 @@ import { getMockAgreement } from '../../agreement/test/mockValues';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
+const mockPDFLinkClick = jest.fn();
 
 const props = {};
 const setupProps = () => {
   props.agreement = getMockAgreement(2);
+  props.updateRupStatus = jest.fn(() => Promise.resolve({}));
   props.statuses = [mockStatus];
-  props.newStatus = { id: 2, name: 'name' };
   props.isUpdatingStatus = false;
   props.isDownloadingPDF = false;
-  props.updateRupStatus = jest.fn(() => Promise.resolve({}));
-  props.getRupPDF = jest.fn(() => Promise.resolve({}));
 };
 
 beforeEach(() => {
@@ -22,7 +21,7 @@ beforeEach(() => {
 });
 
 RangeUsePlan.prototype.pdfLink = {
-  click: jest.fn(),
+  click: mockPDFLinkClick,
 };
 
 describe('RangeUsePlan', () => {
@@ -81,14 +80,14 @@ describe('RangeUsePlan', () => {
       const wrapper = shallow(<RangeUsePlan {...props} />);
       global.window.URL.createObjectURL = jest.fn();
       wrapper.instance().onViewPDFClicked();
-      expect(props.getRupPDF).toHaveBeenCalled();
+      expect(mockPDFLinkClick).toHaveBeenCalled();
 
-      props.getRupPDF.mockClear();
+      mockPDFLinkClick.mockClear();
       wrapper.setState({
         plan: { id: null },
       });
       wrapper.instance().onViewPDFClicked();
-      expect(props.getRupPDF).not.toHaveBeenCalled();
+      expect(mockPDFLinkClick).not.toHaveBeenCalled();
     });
 
     it('onYesSomethingClicked calls the right function', () => {

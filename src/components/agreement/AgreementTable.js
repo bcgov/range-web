@@ -48,7 +48,7 @@ export class AgreementTable extends Component {
           </Table.Header>
 
           <Table.Body>
-            {agreements.map(this.renderAgreementTableItem)}
+            {agreements && agreements.map(this.renderAgreementTableItem)}
           </Table.Body>
         </Table>
 
@@ -56,7 +56,7 @@ export class AgreementTable extends Component {
           size="mini"
           siblingRange="2"
           activePage={currentPage}
-          onPageChange={this.handlePaginationChange} 
+          onPageChange={this.handlePaginationChange}
           totalPages={totalPages}
           ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
           firstItem={{ content: <Icon name="angle double left" />, icon: true }}

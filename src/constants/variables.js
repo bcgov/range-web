@@ -6,7 +6,7 @@ export const PLAN_STATUS = 'PLAN_STATUS';
 
 export const LOGO_SRC = '/logo.png';
 export const COW_PIC_SRC = '/cow.jpg';
-export const LOGIN_LOGO_SRC = 'https://avatars3.githubusercontent.com/u/916280?s=200&v=4';
+export const LOGIN_LOGO_SRC = '/login_logo.png';
 
 // clients
 export const PRIMARY_TYPE = 'A';

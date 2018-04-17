@@ -1,11 +1,4 @@
 @import 'styles/mixins.scss';
-@import 'styles/Common.scss';
-@import 'styles/PageNotFound.scss';
-@import 'styles/Login.scss';
-@import 'styles/RangeUsePlan.scss';
-@import 'styles/ManageZone.scss';
-@import 'styles/Navbar.scss';
-@import 'styles/Grid.scss';
 
 * {
   margin: 0;
@@ -23,3 +16,10 @@ footer {
   height: 20px;
 }
 
+@import 'styles/Common.scss';
+@import 'styles/PageNotFound.scss';
+@import 'styles/Login.scss';
+@import 'styles/RangeUsePlan.scss';
+@import 'styles/ManageZone.scss';
+@import 'styles/Navbar.scss';
+@import 'styles/Grid.scss';

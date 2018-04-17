@@ -27,6 +27,7 @@
     ],
     "indent": "off",
     "jsx-a11y/click-events-have-key-events": "off",
+    "import/no-named-as-default": "off",
     "no-shadow": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",

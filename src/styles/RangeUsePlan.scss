@@ -80,3 +80,42 @@ $row-height: 80px;
     cursor: pointer;
   }
 }
+
+.rup-pdf {
+  display: flex;
+  justify-content: center;
+  
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+
+    &__download-btn {
+      align-self: flex-end;
+    }
+    
+    &__load {
+      margin-top: 1em;
+      color: white;
+    }
+
+    &__document {
+      .ReactPDF {
+        &__Page {
+          box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+          margin: 10px 0;
+
+          canvas {
+            max-width: 100%;
+            height: auto !important;
+          }
+        }
+
+        &__message {
+          padding: 20px;
+          color: black;
+        }
+      }
+    }
+  }
+}

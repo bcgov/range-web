@@ -103,7 +103,7 @@ export const stringifyQuery = query => (
 export const downloadPDFBlob = (blob, ref, fileName) => {
   // It is necessary to create a new blob object with mime-type explicitly set
   // otherwise only Chrome works like it should
-  const newBlob = new Blob([blob], { type: 'application/pdf' });
+  const newBlob = new Blob([blob], { type: 'application/octet-stream' });
 
   // IE doesn't allow using a blob object directly as link href
   // instead it is necessary to use msSaveOrOpenBlob
@@ -127,6 +127,7 @@ export const downloadPDFBlob = (blob, ref, fileName) => {
   }
 
   pdfLink.click();
+
   setTimeout(() => {
     // For Firefox it is necessary to delay revoking the ObjectURL
     window.URL.revokeObjectURL(data);

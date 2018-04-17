@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button, Dropdown } from 'semantic-ui-react';
-
 import UpdateZoneModal from './UpdateZoneModal';
 import {
-  RANGE_NUMBER, AGREEMENT_DATE,
+  RANGE_NUMBER, AGREEMENT_DATE, NOT_PROVIDED,
   AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
   CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
   ALTERNATIVE_BUSINESS_NAME, RANGE_NAME, NO_RUP_PROVIDED,
@@ -12,9 +11,10 @@ import {
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../constants/strings';
+import { EXPORT_PDF } from '../../constants/routes';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
-import { formatDate, downloadPDFBlob } from '../../handlers';
+import { formatDate } from '../../handlers';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -22,7 +22,6 @@ const propTypes = {
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
-  getRupPDF: PropTypes.func.isRequired,
 };
 
 export class RangeUsePlan extends Component {
@@ -31,7 +30,7 @@ export class RangeUsePlan extends Component {
 
     // store fields that can be updated within this page
     const { zone, plans } = props.agreement;
-    const plan = plans[0];
+    const plan = plans && plans[0];
     const status = plan && plan.status;
 
     this.state = {
@@ -45,10 +44,9 @@ export class RangeUsePlan extends Component {
   }
 
   onViewPDFClicked = () => {
-    const { id: planId, agreementId } = this.state.plan;
-    if (planId && agreementId) {
-      this.props.getRupPDF(planId)
-        .then(blob => downloadPDFBlob(blob, this.pdfLink, `${agreementId}.pdf`));
+    const { id, agreementId } = this.state.plan;
+    if (id && agreementId) {
+      this.pdfLink.click();
     }
   }
 
@@ -138,8 +136,8 @@ export class RangeUsePlan extends Component {
     } = this.state;
     const { agreement, isUpdatingStatus, isDownloadingPDF } = this.props;
     const statusDropdownOptions = [
-      { key: 1, text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
-      { key: 2, text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
+      { text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
+      { text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
 
     // variables for textfields
@@ -179,7 +177,8 @@ export class RangeUsePlan extends Component {
       <div className="rup">
         <a
           className="rup__pdf-link"
-          href="href"
+          target="_blank"
+          href={`${EXPORT_PDF}/${id}/${plan.id}`}
           ref={this.setPDFRef}
         >
           pdf link
@@ -278,7 +277,7 @@ export class RangeUsePlan extends Component {
                 label={ZONE}
                 text={
                   <div className="rup__zone-text">
-                    {zoneCode}
+                    {zoneCode || NOT_PROVIDED}
                     <Icon className="rup__zone-text__icon" name="pencil" />
                   </div>
                 }

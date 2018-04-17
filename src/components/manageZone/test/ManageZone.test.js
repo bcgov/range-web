@@ -9,6 +9,7 @@ const setupProps = () => {
   props.getZones = jest.fn();
   props.assignStaffToZone = jest.fn(() => Promise.resolve({}));
   props.isAssigning = false;
+  props.staffAssignedToZone = jest.fn();
 };
 
 beforeEach(() => {

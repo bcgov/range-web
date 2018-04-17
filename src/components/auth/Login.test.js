@@ -37,6 +37,8 @@ describe('Login', () => {
         search: `?code=${mockCode}`,
       };
       const wrapper = shallow(<Login {...props} />);
+      wrapper.instance().componentDidMount();
+
       const { login } = props;
       expect(login).toHaveBeenCalledWith(mockCode);
     });

@@ -12,6 +12,7 @@ import Login from './auth/Login';
 import Toast from './Toast';
 import PageNotFound from './PageNotFound';
 import RangeUsePlan from './rangeUsePlan';
+import RangeUsePlanPDF from './rangeUsePlan/RangeUsePlanPDF';
 import Agreement from './agreement';
 import ManageZone from './manageZone';
 
@@ -44,6 +45,7 @@ export class App extends Component {
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId`} component={RangeUsePlan} user={user} />
             <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
 
+            <Route path={`${Routes.EXPORT_PDF}/:agreementId/:planId`} component={RangeUsePlanPDF} user={user} />
             <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
             <Route path="*" component={PageNotFound} />
           </Switch>
