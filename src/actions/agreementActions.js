@@ -19,7 +19,7 @@ export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch)
           limit,
         },
       };
-      const response = await axios.get(BASE_URL + AGREEMENT, config);
+      const response = await axios.get(`${BASE_URL}${AGREEMENT}/search`, config);
       const { agreements, currentPage, totalPage } = response.data;
       dispatch(successPaginated(AGREEMENTS, agreements, currentPage, totalPage));
     } catch (err) {
