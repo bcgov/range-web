@@ -95,7 +95,7 @@ def env = System.getenv()
 baseUrl = env['BASEURL']
 if (!baseUrl) {
 	//baseUrl = "http://localhost:8000/"
-	baseUrl = "http://web-range-myra-dev.pathfinder.gov.bc.ca"
+	baseUrl = "https://web-range-myra-test.pathfinder.gov.bc.ca"
 	//baseUrl = "" //Dev
 	//baseUrl = "" //Test
 	//baseUrl = "" //Prod

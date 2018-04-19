@@ -33,10 +33,9 @@ class A_LoginSpec extends GebReportingSpec {
         given: "I am at the redhat page"
         at IDIRPage
 
-        when: "I enter the IDIR account username and password"
-//      To be updated:
-        IDIRusername = "test"
-        IDIRpassword = "test"
+        when: "I enter the IDIR account username and password as Admin"
+        IDIRusername = "myra1"
+        IDIRpassword = "myra1"
 
         and: "I click on submit"
         IDIRloginButton.click()

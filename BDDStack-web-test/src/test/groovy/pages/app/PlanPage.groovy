@@ -4,7 +4,6 @@ import geb.Page
 
 class PlanPage extends Page {
     static at = { title == "My Range App" }
-//    static url = "range-use-plan/RAN073218"
 
     static content= {
 
