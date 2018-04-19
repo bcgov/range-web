@@ -59,6 +59,11 @@ $row-height: 80px;
     border-top: 3px solid $accent-color;
     margin-top: 15px;
   }
+  
+  &__sub-divider {
+    border-top: 1px solid $accent-color;
+    margin-top: 5px;
+  }
 
   &__content {
     @extend .container;
@@ -67,9 +72,10 @@ $row-height: 80px;
 
   &__info-title {
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin: 10px 0;
   }
+
   &__plan-info,
   &__agreement-info,
   &__contact-info, {
@@ -80,6 +86,17 @@ $row-height: 80px;
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+  }
+
+  &__pasture {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
   }
 }
 

@@ -111,8 +111,18 @@ export class Rup extends Component {
     } = this.state;
     const { agreement, isUpdatingStatus, isDownloadingPDF } = this.props;
     const statusDropdownOptions = [
-      { text: COMPLETED, value: 1, onClick: this.openCompletedConfirmModal },
-      { text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
+      {
+        key: 'completed',
+        text: COMPLETED,
+        value: 1,
+        onClick: this.openCompletedConfirmModal,
+      },
+      {
+        key: 'pending',
+        text: PENDING,
+        value: 2,
+        onClick: this.openPendingConfirmModal,
+      },
     ];
 
     const { name: statusName } = status;
