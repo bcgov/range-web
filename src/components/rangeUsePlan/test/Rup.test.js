@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { RangeUsePlan } from '../RangeUsePlan';
+import { RangeUsePlan } from '../Rup';
 import { getMockAgreement } from '../../agreement/test/mockValues';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 

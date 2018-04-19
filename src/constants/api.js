@@ -9,8 +9,8 @@ export const SSO_AUTH_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}?response_type=code&c
 export const GET_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const REFRESH_TOKEN = `auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 
-const DEV_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
-// const DEV_BASE_URL = 'http://localhost:8000/api/v1';
+// const DEV_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
+const DEV_BASE_URL = 'http://localhost:8000/api/v1';
 
 export const BASE_URL = (process.env.NODE_ENV === 'production')
   ? `${window.location.origin}/api/v1`

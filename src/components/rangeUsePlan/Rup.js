@@ -15,6 +15,7 @@ import { EXPORT_PDF } from '../../constants/routes';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { TextField, Status, ConfirmationModal, Banner } from '../common';
 import { formatDate } from '../../handlers';
+import RupBasicInformation from './RupBasicInformation';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -240,7 +241,13 @@ export class RangeUsePlan extends Component {
         </Banner>
 
         <div className="rup__content">
-          <div className="rup__title">Basic Information</div>
+          <RupBasicInformation
+            agreement={agreement}
+            plan={plan}
+            zone={zone}
+            onZoneClicked={this.onZoneClicked}
+          />
+          {/* <div className="rup__title">Basic Information</div>
           <div className="rup__row">
             <div className="rup__agreement-info rup__cell-6">
               <div className="rup__divider" />
@@ -325,7 +332,7 @@ export class RangeUsePlan extends Component {
               />
               {otherAgreementHolders.map(this.renderOtherAgreementHolders)}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );
