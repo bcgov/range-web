@@ -1,4 +1,9 @@
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+// Shelly's note: setup baseURL env var to take test/dev
+
 
 plugins {
     id "groovy"
@@ -93,6 +98,9 @@ test {
     enabled = false
     scanForTestClasses = false
     include '**/CustomJUnitSpecRunner*'
+
+
+
 }
 
 tasks.withType(Test) {
@@ -106,15 +114,45 @@ tasks.withType(Test) {
     systemProperty 'com.athaydes.spockframework.report.internal.HtmlReportCreator.inlineCss', false
     systemProperty 'com.athaydes.spockframework.report.projectName',"Range-Web"
     systemProperty 'com.athaydes.spockframework.report.projectVersion',"0.1.0"
+
+
+    //for individual reports:
+    testLogging {
+        // set options for log level LIFECYCLE
+        events TestLogEvent.FAILED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.STANDARD_OUT
+        exceptionFormat TestExceptionFormat.FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        // set options for log level DEBUG and INFO
+        debug {
+            events TestLogEvent.STARTED,
+                    TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.STANDARD_ERROR,
+                    TestLogEvent.STANDARD_OUT
+            exceptionFormat TestExceptionFormat.FULL
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
 }
 
 tasks.withType(GroovyCompile) {
     groovyOptions.forkOptions.memoryMaximumSize = '256m'
 }
 
-jmeter {
-  jmTestFiles = [file("src/test/jmeter/test.jmx")] //if jmx file is not in the default location
-  jmSystemPropertiesFiles= [file("src/test/jmeter/jmeter.properties")] //to add additional system properties
-  //enableReports = true //produce Graphical and CSV reports
-  //enableExtendedReports = true //produce Graphical and CSV reports
-}

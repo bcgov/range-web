@@ -5,6 +5,8 @@ def BUILD_CONFIG = APP_NAME
 def CADDY_BUILD_CONFIG = 'range-myra-web-caddy'
 def CADDY_IMAGESTREAM_NAME = 'range-myra-web-caddy'
 def IMAGESTREAM_NAME = APP_NAME
+def TEST_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca'
+def DEV_URL = '"http://web-range-myra-dev.pathfinder.gov.bc.ca"'
 def TAG_NAMES = ['dev', 'test', 'prod']
 def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
 def NODE_URI = 'https://nodejs.org/dist/v9.7.0/node-v9.7.0-linux-x64.tar.xz'
@@ -24,7 +26,14 @@ def notifySlack(text, channel, url, attachments, icon) {
     sh "curl -s -S -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
 }
 
-node ('master') {
+node('master') {
+  GIT_COMMIT_SHORT_HASH = sh (
+    script: """git describe --always""",
+    returnStdout: true).trim()
+  GIT_COMMIT_AUTHOR = sh (
+    script: """git show -s --pretty=%an""",
+    returnStdout: true).trim()
+
   stage('Checkout') {
     echo "Checking out source"
     checkout scm
@@ -44,14 +53,6 @@ node ('master') {
     sh "${CMD_PREFIX} npm -v"
     sh "${CMD_PREFIX} node -v"
   }
-  
-  stage('Build Artifacts') {
-    echo "Build Artifacts: ${BUILD_ID}"
-    // Run a security check on our packages
-    // sh "${CMD_PREFIX} npm run test:security"
-    // Run our unit tests et al.
-    sh "${CMD_PREFIX} npm run build"
-  }
 
   stage('Test') {
     echo "Testing: ${BUILD_ID}"
@@ -62,9 +63,29 @@ node ('master') {
     } catch (error) {
       def attachment = [:]
       attachment.fallback = 'See build log for more details'
-      attachment.title = 'Unit Testing Failed :hankey: :face_with_head_bandage:'
+      attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
       attachment.color = '#CD0000' // Red
-      attachment.text = 'Their are issues with the unit tests.'
+      attachment.text = "There are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+      // attachment.title_link = "${env.BUILD_URL}"
+
+      notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+      sh "exit 1"
+    }
+  }
+
+  stage('Build Artifacts') {
+    echo "Build Artifacts: ${BUILD_ID}"
+    try {
+      // Run a security check on our packages
+      // sh "${CMD_PREFIX} npm run test:security"
+      // Run our unit tests et al.
+      sh "${CMD_PREFIX} npm run build"
+    } catch (error) {
+      def attachment = [:]
+      attachment.fallback = 'See build log for more details'
+      attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
+      attachment.color = '#CD0000' // Red
+      attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
       // attachment.title_link = "${env.BUILD_URL}"
 
       notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
@@ -91,8 +112,8 @@ node ('master') {
     try {
       def attachment = [:]
       attachment.fallback = 'See build log for more details'
-      attachment.text = 'Another huge sucess for the Range Team.\n A freshly minted build is being deployed. You should see the results shortly.'
-      attachment.title = "Build ${BUILD_ID} OK! :raised_hands: :clap:"
+      attachment.text = "Another huge sucess for the Range Team.\n A freshly minted build is being deployed. You should see the results shortly.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+      attachment.title = "WEB Build ${BUILD_ID} OK! :raised_hands: :clap:"
       attachment.color = '#00FF00' // Lime Green
 
       notifySlack("${APP_NAME}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
@@ -102,7 +123,7 @@ node ('master') {
   }
 }
 
-  podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
     image: '172.50.0.2:5000/openshift/jenkins-slave-bddstack',
@@ -113,24 +134,24 @@ node ('master') {
     workingDir: '/home/jenkins',
     command: '',
     args: '${computer.jnlpmac} ${computer.name}'
-    )
-  ])       
-  {
-    stage('Functional Test') {
-      node('bddstack') {
-        echo "BDD Funtional Testing"
-        echo "checking out source"
-        echo "Build: ${BUILD_ID}"
-        checkout scm
-        dir('BDDStack-web-test') {
-          try {
-            sh './gradlew --debug --stacktrace chromeHeadlessTest'
-          } finally { 
-            archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/**/*'
-            archiveArtifacts allowEmptyArchive: true, artifacts: 'build/test-results/**/*'
-          }
+  )
+])       
+{
+  stage('Functional Test') {
+    node('bddstack') {
+      echo "BDD Funtional Testing"
+      echo "checking out source"
+      echo "Build: ${BUILD_ID}"
+      checkout scm
+      dir('BDDStack-web-test') {
+        try {
+          sh './gradlew -i clean -DchromeHeadlessTest.single=CustomJUnitSpecRunner chromeHeadlessTest'
+        } finally {
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/**/*'
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'build/test-results/**/*'
         }
       }
     }
   }
+}
 
