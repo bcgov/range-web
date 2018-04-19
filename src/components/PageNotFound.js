@@ -10,9 +10,13 @@ const propTypes = {
 
 class PageNotFound extends Component {
   componentDidMount() {
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.props.history.push(RANGE_USE_PLANS);
     }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   render() {

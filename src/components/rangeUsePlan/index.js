@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import RangeUsePlan from './RangeUsePlan';
+import RangeUsePlan from './Rup';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF } from '../../actions/rangeUsePlanActions';
