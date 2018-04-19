@@ -36,12 +36,12 @@ export class AgreementTableItem extends Component {
 
   render() {
     const { agreement = {} } = this.props;
-    const { plans, id: agreementId } = agreement;
-    const staffName = agreement.zone && agreement.zone.contactName;
+    const { plans, id: agreementId, zone = {} } = agreement;
+    const staffName = zone.user && `${zone.user.givenName} ${zone.user.familyName}`;
     const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
     const plan = plans[0] || {};
     const statusName = plan.status && plan.status.name;
-    const { rangeName = NO_RUP_PROVIDED } = plan;
+    const { rangeName } = plan;
 
     return (
       <Table.Row

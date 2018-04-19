@@ -25,7 +25,7 @@ const Banner = ({
 }) => (
   <div className={classNames('banner', className)}>
     <div className="banner__container">
-      <h2>{header}</h2>
+      <h1>{header}</h1>
       <p className="banner__content">
         {content}
       </p>

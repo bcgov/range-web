@@ -7,7 +7,7 @@ import {
   RANGE_NUMBER, AGREEMENT_DATE, NOT_PROVIDED,
   AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
   CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
-  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME, PRIMARY_AGREEMENT_HOLDER,
+  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../constants/strings';
 import { PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 
@@ -16,6 +16,7 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   zone: PropTypes.shape({}).isRequired,
   onZoneClicked: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 class RupBasicInformation extends Component {
@@ -33,12 +34,21 @@ class RupBasicInformation extends Component {
     return { primaryAgreementHolder, otherAgreementHolders };
   }
 
+  renderOtherAgreementHolders = client => (
+    <TextField
+      key={client.id}
+      label={OTHER_AGREEMENT_HOLDER}
+      text={client && client.name}
+    />
+  )
+
   render() {
     const {
       agreement,
       plan,
       zone,
       onZoneClicked,
+      className,
     } = this.props;
 
     // variables for textfields
@@ -73,7 +83,7 @@ class RupBasicInformation extends Component {
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
 
     return (
-      <div className="rup__basic_information">
+      <div className={className}>
         <div className="rup__title">Basic Information</div>
         <div className="rup__row">
           <div className="rup__agreement-info rup__cell-6">

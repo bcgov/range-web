@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Button, Dropdown } from 'semantic-ui-react';
+import { Button, Dropdown } from 'semantic-ui-react';
 import UpdateZoneModal from './UpdateZoneModal';
 import {
-  RANGE_NUMBER, AGREEMENT_DATE, NOT_PROVIDED,
-  AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
-  CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
-  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME, NO_RUP_PROVIDED,
-  COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
+  NO_RUP_PROVIDED, COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
+  DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
-import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
-import { TextField, Status, ConfirmationModal, Banner } from '../common';
-import { formatDate } from '../../handlers';
+import { COMPLETED, PENDING } from '../../constants/variables';
+import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
+import RupPastures from './RupPastures';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -67,20 +63,6 @@ export class RangeUsePlan extends Component {
     this.setState({ zone: newZone });
   }
 
-  getAgreementHolders = (clients = []) => {
-    let primaryAgreementHolder = {};
-    const otherAgreementHolders = [];
-    clients.forEach((client) => {
-      if (client.clientTypeCode === PRIMARY_TYPE) {
-        primaryAgreementHolder = client;
-      } else if (client.clientTypeCode === OTHER_TYPE) {
-        otherAgreementHolders.push(client);
-      }
-    });
-
-    return { primaryAgreementHolder, otherAgreementHolders };
-  }
-
   setPDFRef = (ref) => { this.pdfLink = ref; }
 
   updateStatus = (statusName, closeConfirmModal) => {
@@ -118,14 +100,6 @@ export class RangeUsePlan extends Component {
 
   closeUpdateZoneModal = () => this.closeModal('isUpdateZoneModalOpen')
 
-  renderOtherAgreementHolders = client => (
-    <TextField
-      key={client.id}
-      label={OTHER_AGREEMENT_HOLDER}
-      text={client && client.name}
-    />
-  )
-
   render() {
     const {
       isCompletedModalOpen,
@@ -141,37 +115,11 @@ export class RangeUsePlan extends Component {
       { text: PENDING, value: 2, onClick: this.openPendingConfirmModal },
     ];
 
-    // variables for textfields
-    const {
-      code: zoneCode,
-      contactEmail,
-      contactName,
-      contactPhoneNumber,
-      district,
-    } = zone;
-    const districtCode = district && district.code;
     const { name: statusName } = status;
-
-    const {
-      rangeName,
-      alternateBusinessName,
-      planStartDate,
-      planEndDate,
-      extension,
-    } = plan;
-
     const {
       id,
-      agreementStartDate,
-      agreementEndDate,
-      agreementExemptionStatus = {},
-      clients,
     } = agreement;
 
-    const exemptionStatusName = agreementExemptionStatus.description;
-
-    const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
-    const { name: primaryAgreementHolderName } = primaryAgreementHolder;
     const rupExist = plan.id;
 
     return (
@@ -242,97 +190,17 @@ export class RangeUsePlan extends Component {
 
         <div className="rup__content">
           <RupBasicInformation
+            className="rup__basic_information"
             agreement={agreement}
             plan={plan}
             zone={zone}
             onZoneClicked={this.onZoneClicked}
           />
-          {/* <div className="rup__title">Basic Information</div>
-          <div className="rup__row">
-            <div className="rup__agreement-info rup__cell-6">
-              <div className="rup__divider" />
-              <div className="rup__info-title">Agreement Information</div>
-              <TextField
-                label={RANGE_NUMBER}
-                text={id}
-              />
-              <TextField
-                label={AGREEMENT_TYPE}
-                text="Primary"
-              />
-              <TextField
-                label={AGREEMENT_DATE}
-                text={`${formatDate(agreementStartDate)} to ${formatDate(agreementEndDate)}`}
-              />
-              <TextField
-                label={RANGE_NAME}
-                text={rangeName}
-              />
-              <TextField
-                label={ALTERNATIVE_BUSINESS_NAME}
-                text={alternateBusinessName}
-              />
-            </div>
-            <div className="rup__contact-info rup__cell-6">
-              <div className="rup__divider" />
-              <div className="rup__info-title">Contact Information</div>
-              <TextField
-                label={DISTRICT}
-                text={districtCode}
-              />
-              <TextField
-                label={ZONE}
-                text={
-                  <div className="rup__zone-text">
-                    {zoneCode || NOT_PROVIDED}
-                    <Icon className="rup__zone-text__icon" name="pencil" />
-                  </div>
-                }
-                isEditable
-                onClick={this.onZoneClicked}
-              />
-              <TextField
-                label={CONTACT_NAME}
-                text={contactName}
-              />
-              <TextField
-                label={CONTACT_PHONE}
-                text={contactPhoneNumber}
-              />
-              <TextField
-                label={CONTACT_EMAIL}
-                text={contactEmail}
-              />
-            </div>
-          </div>
-          <div className="rup__row">
-            <div className="rup__plan-info rup__cell-6">
-              <div className="rup__divider" />
-              <div className="rup__info-title">Plan Information</div>
-              <TextField
-                label={PLAN_DATE}
-                text={`${formatDate(planStartDate)} to ${formatDate(planEndDate)}`}
-              />
-              <TextField
-                label={EXTENDED}
-                text={extension}
-              />
-              <TextField
-                label={EXEMPTION_STATUS}
-                text={exemptionStatusName}
-              />
-            </div>
 
-            <div className="rup__plan-info rup__cell-6">
-              <div className="rup__divider" />
-              <div className="rup__info-title">Agreement Holders</div>
-              <TextField
-                label={PRIMARY_AGREEMENT_HOLDER}
-                text={primaryAgreementHolderName}
-              />
-              {otherAgreementHolders.map(this.renderOtherAgreementHolders)}
-            </div>
-          </div> */}
+          <RupPastures
+            className="rup__pastures"
+            plan={plan}
+          />
         </div>
       </div>
     );

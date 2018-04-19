@@ -8,7 +8,7 @@ export const AGREEMENT_HOLDER = 'Agreement Holder';
 export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 
-// range use plan form labels
+// Range use plan basic information
 export const PLAN_START = 'Plan Start Date';
 export const PLAN_END = 'Plan End Date';
 export const AGREEMENT_START = 'Agreement Start Date';
@@ -31,6 +31,11 @@ export const EXEMPTION_STATUS = 'Exemption Status';
 export const PLAN_DATE = 'Plan Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
+
+// Range use plan pastures
+export const ALLOWABLE_AUMS = 'Allowable AUMs';
+export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction';
+export const GRACE_DAYS = 'Grace Days';
 
 export const CONTACT_NO_EXIST = 'Contact doesn\'t exist';
 
