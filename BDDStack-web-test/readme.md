@@ -1,4 +1,4 @@
-# BDDStack setup and sample tests
+# BDDStack testing for MyRa Web Application
 
 ## Description
 
@@ -10,69 +10,17 @@ This repository also holds a Dockerfile for a CentOS based image that will run h
 
 ## Usage
 
-The following commands will launch the tests with the individual browsers:
+The following commands will launch the tests with the individual browsers, either headless or with browser opened up:
 
-    ./gradlew chromeTest
-    ./gradlew chromeHeadlessTest //Will run in pipeline as well
-    ./gradlew firefoxTest
-    ./gradlew firefoxHeadlessTest //Will run in pipeline as well
-    ./gradlew edgeTest
-    ./gradlew ieTest
+    ./gradlew -i clean -DchromeTest.single=CustomJUnitSpecRunner chromeTest
+    ./gradlew -i clean -DchromeHeadlessTest.single=CustomJUnitSpecRunner chromeHeadlessTest
+    ./gradlew -i clean -DfirefoxHeadlessTest.single=CustomJUnitSpecRunner firefoxHeadlessTest
+    ./gradlew -i clean -DedgeTest.single=CustomJUnitSpecRunner edgeTest
+    ./gradlew -i clean -DieTest.single=CustomJUnitSpecRunner ieTest
+
     
 To run with all, you can run:
 
-    ./gradlew test
+    ./gradlew -i clean -Dtest.single=CustomJUnitSpecRunner test
 
 Replace `./gradlew` with `gradlew.bat` in the above examples if you're on Windows.
-
-## Questions and issues
-
-Please ask questions on our [Slack Channel][slack_channel] and raise issues in [BDDStack issue tracker][issue_tracker].
-
-[dockerfile]: https://github.com/agehlers/openshift-tools/blob/master/provisioning/jenkins-slaves/chrome/Dockerfile
-[issue_tracker]: https://github.com/rstens/BDDStack/issues
-[slack_channel]: https://devopspathfinder.slack.com/messages/C7J72K1MG
-
-## Performance Testing with BDDStack and JMeter
-
-include the following in your build.gradle (Optional - if this section is not declared, default configuration is used):
-
-	jmeter {
-	  jmTestFiles = [file("src/test/jmeter/test2.jmx")] //if jmx file is not in the default location
-	  jmSystemPropertiesFiles= [file("src/test/jmeter/jmeter.properties")] //to add additional system properties
-	  enableExtendedReports = true //produce Graphical and CSV reports
-	}
-
-**Changing default path**
-
-In order to use a custom directory for jmx files (default is `src/test/jmeter`) you can set the property *testFileDir*.
-* E.g. testFileDir = file("src/main/resources/jmeter")
-
-**Include and exclude files**
-
-When working with the default or custom path to scan for jmx files, you can include or exclude specific files with the *ïncludes* and *excludes* properties.
-* E.g. excludes = ["excludeThisTest.jmx"]
-
-(Note that you should provide a list of patterns, not just a String) 
-
-### Edit JMeter files
-
-By default the plugin will search for *.jmx files in `src/test/jmeter`. You can launch the UI end edit your files by running:
-
-`gradle jmGui`
-
-### Run the tests
-
-You can run the tests by executing 
-
-`gradle jmRun`
-
-### Create Reports
-
-You can run the tests by executing 
-
-`gradle jmReport`
-
-By default, extended reports are turned on and HTML reports are turned off
-
-The results of the tests will can be found in(default location, can be overridden) `build/jmeter-report`
