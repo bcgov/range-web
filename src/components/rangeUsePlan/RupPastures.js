@@ -5,7 +5,7 @@ import { TextField } from '../common';
 // import { formatDate } from '../../handlers';
 import {
   ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
-  PASTURE_NOTES,
+  PASTURE_NOTES, NOT_PROVIDED,
 } from '../../constants/strings';
 
 const propTypes = {
@@ -79,7 +79,14 @@ class RupPastures extends Component {
       <div className={className}>
         <div className="rup__title">Pastures</div>
         <div className="rup__divider" />
-        {plan.pastures && plan.pastures.map(this.renderPastures)}
+        {
+          plan.pastures &&
+          plan.pastures.length === 0 ? (
+            <div className="rup__pasture__not-found">{NOT_PROVIDED}</div>
+          ) : (
+            plan.pastures.map(this.renderPastures)
+          )
+        }
       </div>
     );
   }

@@ -97,6 +97,12 @@ $row-height: 80px;
       font-weight: bold;
       font-size: 1.4rem;
     }
+    &__not-found {
+      border-radius: 5px;
+      margin: 2px 0 5px 0;
+      padding: 8px 0;
+      font-size: 1.1rem;
+    }
   }
 }
 
