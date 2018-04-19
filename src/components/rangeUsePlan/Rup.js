@@ -21,7 +21,7 @@ const propTypes = {
   isUpdatingStatus: PropTypes.bool.isRequired,
 };
 
-export class RangeUsePlan extends Component {
+export class Rup extends Component {
   constructor(props) {
     super(props);
 
@@ -207,5 +207,5 @@ export class RangeUsePlan extends Component {
   }
 }
 
-RangeUsePlan.propTypes = propTypes;
-export default RangeUsePlan;
+Rup.propTypes = propTypes;
+export default Rup;
