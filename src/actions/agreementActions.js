@@ -37,6 +37,7 @@ export const getRangeUsePlan = ({ agreementId, planId }) => (dispatch) => {
       const response2 = await axios.get(`${PLAN}/${planId}`);
       const agreement = response1.data;
       const plan = response2.data;
+      delete agreement.plans;
 
       const rangeUsePlan = { ...agreement, plan };
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));

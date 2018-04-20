@@ -10,6 +10,7 @@ const mockPDFLinkClick = jest.fn();
 const props = {};
 const setupProps = () => {
   props.agreement = getMockAgreement(2);
+  props.agreement.plan = props.agreement.plans[0];
   props.updateRupStatus = jest.fn(() => Promise.resolve({}));
   props.statuses = [mockStatus];
   props.isUpdatingStatus = false;
