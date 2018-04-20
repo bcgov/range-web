@@ -12,7 +12,7 @@ import {
 /**
  * Present the date time in a more readable way
  *
- * @param {string} isoFormatDate The stringified date time
+ * @param {string | Date} isoFormatDate The stringified date time
  * @returns a formatted string or 'Not provided'
  */
 export const formatDate = (isoFormatDate) => {
@@ -34,6 +34,20 @@ export const presentNullValue = (value, fullText = true) => {
     return value;
   }
   return fullText ? NOT_PROVIDED : NP;
+};
+
+/**
+ * Present user friendly string when getting null or undefined value
+ *
+ * @param {string | Date} first the string in the class Date form
+ * @param {string | Date} second the string in the class Date form
+ * @returns the number of days or 'N/P'
+ */
+export const calcDateDiff = (first, second) => {
+  if (first && second) {
+    return moment(first).diff(moment(second), 'days');
+  }
+  return NP;
 };
 
 /**

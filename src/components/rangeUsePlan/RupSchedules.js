@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { formatDate, presentNullValue } from '../../handlers';
+import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
 
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
@@ -41,7 +41,6 @@ class RupSchedules extends Component {
             </Table.Header>
           </Table>
         </div>
-        <div className="rup__sub-divider" />
       </div>
     );
   }
@@ -56,7 +55,8 @@ class RupSchedules extends Component {
       dateOut,
       graceDays,
     } = entry;
-    const days = 0;
+    const days = calcDateDiff(dateOut, dateIn);
+
     return (
       <Table.Row key={id}>
         <Table.Cell>{presentNullValue(pasture.name, false)}</Table.Cell>
@@ -74,21 +74,7 @@ class RupSchedules extends Component {
   render() {
     const { className, plan } = this.props;
     const { grazingSchedules = [] } = plan;
-    // const grazingSchedules = [
-    //   {
-    //     id: 1,
-    //     year: 2017,
-    //     grazingScheduleEntries: [
-    //         {
-    //           dateIn: "2018-03-15T16:52:37.658Z",
-    //           dateOut: "2018-03-17T16:52:37.658Z",
-    //           pastureId: 3,
-    //           livestockCount: 1,
-    //           livestockTypeId: 1,
-    //         },
-    //     ],
-    //   },
-    // ];
+
     return (
       <div className={className}>
         <div className="rup__title">Schedules</div>
