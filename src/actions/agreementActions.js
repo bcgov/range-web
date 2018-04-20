@@ -5,7 +5,7 @@ import {
   error,
 } from '../actions/genericActions';
 import { AGREEMENTS, RANGE_USE_PLAN } from '../constants/reducerTypes';
-import { AGREEMENT } from '../constants/api';
+import { AGREEMENT, PLAN } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch) => {
@@ -29,13 +29,16 @@ export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch)
   makeRequest();
 };
 
-export const getRangeUsePlan = id => (dispatch) => {
+export const getRangeUsePlan = ({ agreementId, planId }) => (dispatch) => {
   dispatch(request(RANGE_USE_PLAN));
   const makeRequest = async () => {
     try {
-      const url = `${AGREEMENT}/${id}`;
-      const response = await axios.get(url);
-      const rangeUsePlan = response.data;
+      const response1 = await axios.get(`${AGREEMENT}/${agreementId}`);
+      const response2 = await axios.get(`${PLAN}/${planId}`);
+      const agreement = response1.data;
+      const plan = response2.data;
+
+      const rangeUsePlan = { ...agreement, plan };
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
     } catch (err) {
       dispatch(error(RANGE_USE_PLAN, err));

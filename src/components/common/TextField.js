@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { NOT_PROVIDED } from '../../constants/strings';
+import { presentNullValue } from '../../handlers';
 
 const propTypes = {
   className: PropTypes.string,
@@ -28,12 +28,7 @@ const TextField = ({
   isEditable = false,
   onClick,
 }) => {
-  let text;
-  if (rawText || rawText === 0) {
-    text = rawText;
-  } else {
-    text = NOT_PROVIDED;
-  }
+  const text = presentNullValue(rawText);
 
   return (
     <div className={classNames('text-field', className)}>

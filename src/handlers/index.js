@@ -2,6 +2,7 @@ import moment from 'moment';
 import queryParams from 'query-params';
 import {
   NOT_PROVIDED,
+  NP,
   REFERENCE_KEY,
   UNEXPECTED_ERROR,
   STATUS404,
@@ -19,6 +20,20 @@ export const formatDate = (isoFormatDate) => {
     return moment(isoFormatDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('MMMM Do, YYYY');
   }
   return NOT_PROVIDED;
+};
+
+/**
+ * Present user friendly string when getting null or undefined value
+ *
+ * @param {string} value
+ * @param {boolean} fullText default is true
+ * @returns the value or 'Not provided' or 'N/P'
+ */
+export const presentNullValue = (value, fullText = true) => {
+  if (value || value === 0) {
+    return value;
+  }
+  return fullText ? NOT_PROVIDED : NP;
 };
 
 /**

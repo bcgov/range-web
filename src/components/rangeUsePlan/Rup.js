@@ -12,6 +12,7 @@ import { COMPLETED, PENDING } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
+import RupSchedules from './RupSchedules';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -26,8 +27,7 @@ export class Rup extends Component {
     super(props);
 
     // store fields that can be updated within this page
-    const { zone, plans } = props.agreement;
-    const plan = plans && plans[0];
+    const { zone, plan = {} } = props.agreement;
     const status = plan && plan.status;
 
     this.state = {
@@ -209,6 +209,11 @@ export class Rup extends Component {
 
           <RupPastures
             className="rup__pastures"
+            plan={plan}
+          />
+
+          <RupSchedules
+            className="rup__schedules"
             plan={plan}
           />
         </div>

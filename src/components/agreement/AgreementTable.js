@@ -51,19 +51,20 @@ export class AgreementTable extends Component {
             {agreements && agreements.map(this.renderAgreementTableItem)}
           </Table.Body>
         </Table>
-
-        <Pagination
-          size="mini"
-          siblingRange="2"
-          activePage={currentPage}
-          onPageChange={this.handlePaginationChange}
-          totalPages={totalPages}
-          ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-          firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-          lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-          prevItem={{ content: <Icon name="angle left" />, icon: true }}
-          nextItem={{ content: <Icon name="angle right" />, icon: true }}
-        />
+        <div className="agreement__pagination">
+          <Pagination
+            size="mini"
+            siblingRange="2"
+            activePage={currentPage}
+            onPageChange={this.handlePaginationChange}
+            totalPages={totalPages}
+            ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+            firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+            lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+          />
+        </div>
       </Loading>
     );
   }
