@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Rup } from '../Rup';
-import { getMockAgreement } from '../../agreement/test/mockValues';
+import { getMockRangeUsePlan } from '../../agreement/test/mockValues';
 import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
@@ -9,7 +9,7 @@ const mockPDFLinkClick = jest.fn();
 
 const props = {};
 const setupProps = () => {
-  props.agreement = getMockAgreement(2);
+  props.agreement = getMockRangeUsePlan(2);
   props.updateRupStatus = jest.fn(() => Promise.resolve({}));
   props.statuses = [mockStatus];
   props.isUpdatingStatus = false;
@@ -114,7 +114,7 @@ describe('Rup', () => {
 
       instance.updateStatus(mockStatus.name, mockCloseConfirmModal);
       const requestData = {
-        planId: props.agreement.plans[0].id,
+        planId: props.agreement.plan.id,
         statusId: mockStatus.id,
       };
       expect(props.updateRupStatus).toHaveBeenCalledWith(requestData);
