@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 
-import '../styles/App.css';
 import * as Routes from '../constants/routes';
-
 import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
 import Login from './auth/Login';
@@ -42,7 +40,7 @@ export class App extends Component {
           <Switch>
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
             <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
-            <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId`} component={RangeUsePlan} user={user} />
+            <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} user={user} />
             <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
 
             <Route path={`${Routes.EXPORT_PDF}/:agreementId/:planId`} component={RangeUsePlanPDFView} user={user} />

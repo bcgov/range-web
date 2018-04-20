@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../common';
-import { formatDate } from '../../handlers';
+import { formatDate, presentNullValue } from '../../handlers';
 import {
-  RANGE_NUMBER, AGREEMENT_DATE, NOT_PROVIDED,
-  AGREEMENT_TYPE, DISTRICT, ZONE, PLAN_DATE,
-  CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE, EXTENDED, EXEMPTION_STATUS,
-  ALTERNATIVE_BUSINESS_NAME, RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
+  RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
+  ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
+  EXTENDED, EXEMPTION_STATUS, ALTERNATIVE_BUSINESS_NAME,
+  RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../constants/strings';
 import { PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 
@@ -121,7 +121,7 @@ class RupBasicInformation extends Component {
               label={ZONE}
               text={
                 <div className="rup__zone-text">
-                  {zoneCode || NOT_PROVIDED}
+                  {presentNullValue(zoneCode)}
                   <Icon className="rup__zone-text__icon" name="pencil" />
                 </div>
               }

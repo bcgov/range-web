@@ -21,6 +21,7 @@ export const ALTERNATIVE_BUSINESS_NAME = 'Alternative Business Name';
 export const AGREEMENT_HOLDERS = 'Agreement Holders';
 export const TYPE = 'Type';
 export const NOT_PROVIDED = 'Not provided';
+export const NP = 'N/P';
 export const NOT_SELECTED = 'Not selected';
 export const NO_RUP_PROVIDED = 'No RUP found';
 export const CONTACT_NAME = 'Contact Name';
@@ -37,6 +38,16 @@ export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction';
 export const GRACE_DAYS = 'Grace Days';
 export const PASTURE_NOTES = 'Pasture notes';
+
+// Range use plan schedules
+export const PASTURE = 'Pasture';
+export const LIVESTOCK_TYPE = 'Livestock Type';
+export const NUM_OF_ANIMALS = '# of Animals';
+export const DATE_IN = 'Date in';
+export const DATE_OUT = 'Date out';
+export const DAYS = 'Days';
+export const PLD = 'PLD';
+export const CROWN_AUMS = 'Crown AUMs';
 
 export const CONTACT_NO_EXIST = 'Contact doesn\'t exist';
 

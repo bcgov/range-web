@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import { TextField } from '../common';
-// import { formatDate } from '../../handlers';
+
 import {
   ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
   PASTURE_NOTES, NOT_PROVIDED,
@@ -15,26 +15,34 @@ const propTypes = {
 
 class RupPastures extends Component {
   renderPastures = (pasture) => {
-    // const options = [
-    //   {
-    //     key: 'edit',
-    //     text: 'Edit',
-    //     icon: 'edit',
-    //     onClick: () => console.log('edit'),
-    //   },
-    //   {
-    //     key: 'delete',
-    //     text: 'Delete',
-    //     icon: 'delete',
-    //     onClick: () => console.log('delete'),
-    //   },
-    // ];
+    const options = [
+      {
+        key: 'edit',
+        text: 'Edit',
+        icon: 'edit',
+        onClick: () => console.log('edit'),
+      },
+      {
+        key: 'delete',
+        text: 'Delete',
+        icon: 'delete',
+        onClick: () => console.log('delete'),
+      },
+    ];
+    const {
+      id,
+      name,
+      allowableAum,
+      pldPercent,
+      graceDays,
+      notes,
+    } = pasture;
 
     return (
-      <div className="rup__pasture" key={pasture.id}>
+      <div className="rup__pasture" key={id}>
         <div className="rup__pasture__header">
           <div>
-            Pasture: {pasture.name}
+            Pasture: {name}
           </div>
           {/* <Dropdown
             trigger={<Icon name="ellipsis vertical" />}
@@ -47,25 +55,25 @@ class RupPastures extends Component {
           <div className="rup__cell-4">
             <TextField
               label={ALLOWABLE_AUMS}
-              text={pasture.allowableAum}
+              text={allowableAum}
             />
           </div>
           <div className="rup__cell-4">
             <TextField
               label={PRIVATE_LAND_DEDUCTION}
-              text={pasture.pldPercent}
+              text={pldPercent}
             />
           </div>
           <div className="rup__cell-4">
             <TextField
               label={GRACE_DAYS}
-              text={pasture.graceDays}
+              text={graceDays}
             />
           </div>
         </div>
         <TextField
           label={PASTURE_NOTES}
-          text={pasture.notes}
+          text={notes}
         />
         <div className="rup__sub-divider" />
       </div>
@@ -74,17 +82,16 @@ class RupPastures extends Component {
 
   render() {
     const { plan, className } = this.props;
-
+    const { pastures = [] } = plan;
     return (
       <div className={className}>
         <div className="rup__title">Pastures</div>
         <div className="rup__divider" />
         {
-          plan.pastures &&
-          plan.pastures.length === 0 ? (
-            <div className="rup__pasture__not-found">{NOT_PROVIDED}</div>
+          pastures.length === 0 ? (
+            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
           ) : (
-            plan.pastures.map(this.renderPastures)
+            pastures.map(this.renderPastures)
           )
         }
       </div>

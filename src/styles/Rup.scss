@@ -9,13 +9,17 @@ $row-height: 80px;
 
   }
 
-  &__table{
+  &__table {
     @extend .container;
     margin-top: $content-margin-top;
 
     &__item {
       cursor: pointer;
     }
+  }
+
+  &__pagination {
+    margin-top: 15px;
   }
 }
 
@@ -70,6 +74,13 @@ $row-height: 80px;
     margin-top: $content-margin-top;
   }
 
+  &__section-not-found {
+    border-radius: 5px;
+    margin: 2px 0 5px 0;
+    padding: 8px 0;
+    font-size: 1.1rem;
+  }
+
   &__info-title {
     font-weight: bold;
     font-size: 1.4rem;
@@ -89,6 +100,8 @@ $row-height: 80px;
   }
 
   &__pasture {
+    margin: 5px 0;
+
     &__header {
       display: flex;
       justify-content: space-between;
@@ -97,11 +110,21 @@ $row-height: 80px;
       font-weight: bold;
       font-size: 1.4rem;
     }
-    &__not-found {
-      border-radius: 5px;
-      margin: 2px 0 5px 0;
-      padding: 8px 0;
-      font-size: 1.1rem;
+  }
+
+  &__schedule {
+    margin: 5px 0;
+    
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    &__table {
+      margin-bottom: 15px;
     }
   }
 }
