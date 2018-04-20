@@ -40,7 +40,8 @@ const TextField = ({
         aria-pressed
         tabIndex={isEditable ? '0' : null}
         onClick={onClick}
-        className={classNames('text-field__text', { 'text-field__text--editable': isEditable })}>
+        className={classNames('text-field__text', { 'text-field__text--editable': isEditable })}
+      >
         {text}
       </div>
     </div>

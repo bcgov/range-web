@@ -15,9 +15,10 @@ const propTypes = {
 
 export class AgreementTableItem extends Component {
   onRowClicked = () => {
-    const { agreement, history } = this.props;
-    if (agreement && agreement.plans.length !== 0) {
-      history.push(`${RANGE_USE_PLAN}/${agreement.id}/${agreement.plans[0].id}`);
+    const { agreement = {}, history } = this.props;
+    const { id, plans } = agreement;
+    if (id && plans && plans.length !== 0) {
+      history.push(`${RANGE_USE_PLAN}/${id}/${plans[0].id}`);
     } else {
       alert('No range use plan found!');
     }

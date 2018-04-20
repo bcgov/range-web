@@ -36,6 +36,29 @@ export const getMockAgreement = number => (
         }
     },
     "livestockIdentifiers": [],
+    plan: {
+        "id": 12,
+        "rangeName": "ag1",
+        "planStartDate": null,
+        "planEndDate": null,
+        "notes": null,
+        "statusId": 1,
+        "agreementId": "RAN072848",
+        "extensionId": null,
+        "createdAt": "2018-03-27T16:43:53.513Z",
+        "updatedAt": "2018-03-27T16:43:53.537Z",
+        "agreement_id": "RAN072848",
+        "status": {
+            "id": 1,
+            "code": "S",
+            "name": "Submitted",
+            "active": true,
+            "createdAt": "2018-03-24T03:13:18.287Z",
+            "updatedAt": "2018-03-24T03:13:18.287Z"
+        },
+        "pastures": [],
+        "grazingSchedules": []
+    },
     "plans": [
         {
             "id": 12,

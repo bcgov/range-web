@@ -86,7 +86,7 @@ class RupSchedules extends Component {
             grazingSchedules.map(this.renderSchedule)
           )
         }
-      </div>
+  `    </div>
     );
   }
 }

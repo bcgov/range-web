@@ -28,7 +28,7 @@ export class Rup extends Component {
 
     // store fields that can be updated within this page
     const { zone, plan = {} } = props.agreement;
-    const status = plan && plan.status;
+    const { status } = plan;
 
     this.state = {
       isCompletedModalOpen: false,
@@ -67,7 +67,7 @@ export class Rup extends Component {
 
   updateStatus = (statusName, closeConfirmModal) => {
     const { agreement, statuses: statusReferences, updateRupStatus } = this.props;
-    const plan = agreement.plans[0];
+    const { plan } = agreement;
     const status = statusReferences.find(s => s.name === statusName);
     if (status && plan) {
       const requestData = {
@@ -105,9 +105,9 @@ export class Rup extends Component {
       isCompletedModalOpen,
       isPendingModalOpen,
       isUpdateZoneModalOpen,
+      plan,
       zone = {},
       status = {},
-      plan = {},
     } = this.state;
     const { agreement, isUpdatingStatus, isDownloadingPDF } = this.props;
     const statusDropdownOptions = [

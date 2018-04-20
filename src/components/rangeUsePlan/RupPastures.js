@@ -91,7 +91,7 @@ class RupPastures extends Component {
           pastures.length === 0 ? (
             <div className="rup__section-not-found">{NOT_PROVIDED}</div>
           ) : (
-            plan.pastures.map(this.renderPastures)
+            pastures.map(this.renderPastures)
           )
         }
       </div>
