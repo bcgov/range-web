@@ -17,7 +17,7 @@ class C_ManageZoneSpec extends GebReportingSpec {
     def "Scenario: 4.1 - Update contact for zone"() {
         given: "I am at the Manage Zone Page"
         to ManageZonePage
-        sleep(100)
+        sleep(1000)
 
         when: "I have not select any options"
         assert updateButton.@disabled == 'true'

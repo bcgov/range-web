@@ -30,7 +30,7 @@ class B_ViewRUPSpec extends GebReportingSpec {
    }
 
 
-    def "Scenario: 3.1 - Open an agreement"(){
+    def "Scenario: 3.1 - Open an agreement with completed RUP"(){
         given: "I am at the Home page with the search result"
         at HomePage
 
@@ -40,26 +40,30 @@ class B_ViewRUPSpec extends GebReportingSpec {
 
         then: "I should be in the Plan view"
         at PlanPage
+        sleep(1000)
+        assert RUPstatus.text() == "Completed"
+        assert PDFButton
     }
 
+    @Ignore
     def "Scenario: 3.2 - Update status of agreement to completed"(){
         given: "I am at the Plan page"
         at PlanPage
 
         when: "I see the status of the current RUP is Submitted"
-//        RUPstatus.text() == "Submitted"
+        RUPstatus.text() == "Submitted"
 
         and: "I click on the status DropDown and update to Complete"
-//        statusDropDown.click()
-//        sleep(100)
-//        completeOption.click()
-//        sleep(200)
+        statusDropDown.click()
+        sleep(100)
+        completeOption.click()
+        sleep(200)
 
         and: "I see pop up window for confirmation of action and confirm"
-//        confirmButton.click()
-//        sleep(100)
+        confirmButton.click()
+        sleep(100)
 
-        then: "I should see the status of RUP updated"
+        then: "I should see the status of  RUP updated"
         assert RUPstatus.text() == "Completed"
     }
 
