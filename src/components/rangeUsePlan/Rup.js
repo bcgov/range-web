@@ -178,22 +178,24 @@ export class Rup extends Component {
             className="rup__status"
             status={statusName}
           />
-          <Button
-            onClick={this.onViewPDFClicked}
-            className="rup__btn"
-            loading={isDownloadingPDF}
-          >
-            View PDF
-          </Button>
-          { statusName !== COMPLETED &&
-            <Dropdown
-              className="rup__status-dropdown"
-              text="Update Status"
-              options={statusDropdownOptions}
-              button
-              item
-            />
-          }
+          <div className="rup__btn-container">
+            <Button
+              onClick={this.onViewPDFClicked}
+              className="rup__btn"
+              loading={isDownloadingPDF}
+            >
+              View PDF
+            </Button>
+            { statusName !== COMPLETED &&
+              <Dropdown
+                className="rup__status-dropdown"
+                text="Update Status"
+                options={statusDropdownOptions}
+                button
+                item
+              />
+            }
+          </div>
         </Banner>
 
         <div className="rup__content">
