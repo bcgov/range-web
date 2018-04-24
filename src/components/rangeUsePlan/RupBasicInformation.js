@@ -54,12 +54,18 @@ class RupBasicInformation extends Component {
     // variables for textfields
     const {
       code: zoneCode,
-      contactEmail,
-      contactName,
-      contactPhoneNumber,
-      district,
+      user = {},
+      district = {},
     } = zone;
-    const districtCode = district && district.code;
+    const districtCode = district.code;
+
+    const {
+      email: contactEmail,
+      givenName,
+      familyName,
+      contactPhoneNumber,
+    } = user;
+    const contactName = givenName && familyName && `${givenName} ${familyName}`;
 
     const {
       rangeName,

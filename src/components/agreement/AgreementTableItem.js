@@ -4,7 +4,6 @@ import { Table } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
-import { NO_RUP_PROVIDED } from '../../constants/strings';
 import { PRIMARY_TYPE } from '../../constants/variables';
 import { presentNullValue } from '../../handlers';
 

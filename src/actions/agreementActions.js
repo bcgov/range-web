@@ -29,17 +29,13 @@ export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch)
   makeRequest();
 };
 
-export const getRangeUsePlan = ({ agreementId, planId }) => (dispatch) => {
+export const getRangeUsePlan = ({ planId }) => (dispatch) => {
   dispatch(request(RANGE_USE_PLAN));
   const makeRequest = async () => {
     try {
-      const response1 = await axios.get(`${AGREEMENT}/${agreementId}`);
-      const response2 = await axios.get(`${PLAN}/${planId}`);
-      const agreement = response1.data;
-      const plan = response2.data;
-      delete agreement.plans;
+      const response = await axios.get(`${PLAN}/${planId}`);
+      const rangeUsePlan = response.data;
 
-      const rangeUsePlan = { ...agreement, plan };
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
     } catch (err) {
       dispatch(error(RANGE_USE_PLAN, err));
