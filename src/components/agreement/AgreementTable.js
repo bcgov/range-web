@@ -15,16 +15,34 @@ const propTypes = {
 };
 
 export class AgreementTable extends Component {
+  state = {
+    activeIndex: 0,
+  }
+
+  onRowClicked = (index, agrementId, planId) => {
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+    this.setState({ activeIndex: newIndex });
+  }
+
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
 
-  renderAgreementTableItem = (agreement, index) => (
-    <AgreementTableItem
-      key={index}
-      agreement={agreement}
-    />
-  )
+  renderAgreementTableItem = (agreement, index) => {
+    const { activeIndex } = this.state;
+    const isActive = activeIndex === index;
+
+    return (
+      <AgreementTableItem
+        key={index}
+        index={index}
+        isActive={isActive}
+        agreement={agreement}
+        onRowClicked={this.onRowClicked}
+      />
+    );
+  }
 
   render() {
     const {

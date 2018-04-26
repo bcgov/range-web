@@ -54,17 +54,17 @@ class RupBasicInformation extends Component {
     // variables for textfields
     const {
       code: zoneCode,
-      user = {},
-      district = {},
-    } = zone;
-    const districtCode = district.code;
+      user,
+      district,
+    } = zone || {};
+    const districtCode = district && district.code;
 
     const {
       email: contactEmail,
       givenName,
       familyName,
       contactPhoneNumber,
-    } = user;
+    } = user || {};
     const contactName = givenName && familyName && `${givenName} ${familyName}`;
 
     const {
@@ -73,17 +73,17 @@ class RupBasicInformation extends Component {
       planStartDate,
       planEndDate,
       extension,
-    } = plan;
+    } = plan || {};
 
     const {
       id,
       agreementStartDate,
       agreementEndDate,
-      agreementExemptionStatus = {},
+      agreementExemptionStatus,
       clients,
-    } = agreement;
+    } = agreement || {};
 
-    const exemptionStatusName = agreementExemptionStatus.description;
+    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;

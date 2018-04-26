@@ -27,8 +27,8 @@ export class Rup extends Component {
     super(props);
 
     // store fields that can be updated within this page
-    const { zone, plan = {} } = props.agreement;
-    const { status } = plan;
+    const { zone, plan } = props.agreement;
+    const { status } = plan || {};
 
     this.state = {
       isCompletedModalOpen: false,
@@ -106,8 +106,8 @@ export class Rup extends Component {
       isPendingModalOpen,
       isUpdateZoneModalOpen,
       plan,
-      zone = {},
-      status = {},
+      zone,
+      status,
     } = this.state;
     const { agreement, isUpdatingStatus, isDownloadingPDF } = this.props;
     const statusDropdownOptions = [
@@ -125,11 +125,8 @@ export class Rup extends Component {
       },
     ];
 
-    const { name: statusName } = status;
-    const {
-      id,
-    } = agreement;
-
+    const statusName = status && status.name;
+    const agreementId = agreement && agreement.id;
     const rupExist = plan.id;
 
     return (
@@ -137,7 +134,7 @@ export class Rup extends Component {
         <a
           className="rup__pdf-link"
           target="_blank"
-          href={`${EXPORT_PDF}/${id}/${plan.id}`}
+          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
           ref={this.setPDFRef}
         >
           pdf link
@@ -147,7 +144,7 @@ export class Rup extends Component {
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           onZoneUpdated={this.onZoneUpdated}
-          agreementId={id}
+          agreementId={agreementId}
           currZone={zone}
         />
 
@@ -170,7 +167,7 @@ export class Rup extends Component {
         />
 
         <Banner
-          header={id}
+          header={agreementId}
           content={rupExist ? DETAIL_RUP_BANNER_CONTENT : NO_RUP_PROVIDED}
           actionClassName={rupExist ? 'rup__actions' : 'rup__actions--hidden'}
         >

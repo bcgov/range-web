@@ -10,14 +10,19 @@ import { presentNullValue } from '../../handlers';
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
+  onRowClicked: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  // isActive: PropTypes.bool.isRequired,
 };
 
 export class AgreementTableItem extends Component {
   onRowClicked = () => {
-    const { agreement = {}, history } = this.props;
-    const { id, plans } = agreement;
-    if (id && plans && plans.length !== 0) {
-      history.push(`${RANGE_USE_PLAN}/${id}/${plans[0].id}`);
+    const { agreement = {}, history, index } = this.props;
+    const { id: agreementId, plans } = agreement;
+    if (agreementId && plans && plans.length !== 0) {
+      const planId = plans[0].id;
+      history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
+      this.props.onRowClicked(index, agreementId, planId);
     } else {
       alert('No range use plan found!');
     }
@@ -35,13 +40,15 @@ export class AgreementTableItem extends Component {
   }
 
   render() {
-    const { agreement = {} } = this.props;
-    const { plans, id: agreementId, zone = {} } = agreement;
-    const staffName = zone.user && `${zone.user.givenName} ${zone.user.familyName}`;
+    const { agreement } = this.props;
+    const { plans, id: agreementId, zone } = agreement || {};
+    const { user } = zone || {};
+    const plan = plans[0];
+
+    const staffName = user && `${user.givenName} ${user.familyName}`;
     const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
-    const plan = plans[0] || {};
-    const statusName = plan.status && plan.status.name;
-    const { rangeName } = plan;
+    const { rangeName, status } = plan || {};
+    const statusName = status && status.name;
 
     return (
       <Table.Row
