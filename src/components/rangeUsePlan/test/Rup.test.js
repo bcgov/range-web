@@ -14,6 +14,7 @@ const setupProps = () => {
   props.statuses = [mockStatus];
   props.isUpdatingStatus = false;
   props.isDownloadingPDF = false;
+  props.livestockTypes = [{}];
 };
 
 beforeEach(() => {

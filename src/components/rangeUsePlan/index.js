@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import RangeUsePlan from './Rup';
+import Rup from './Rup';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF } from '../../actions/rangeUsePlanActions';
-import { PLAN_STATUS } from '../../constants/variables';
+import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
@@ -42,6 +42,7 @@ class Base extends Component {
       error,
     } = agreementState;
     const statuses = references[PLAN_STATUS];
+    const livestockTypes = references[LIVESTOCK_TYPE];
 
     return (
       <div>
@@ -49,9 +50,10 @@ class Base extends Component {
           <Loading />
         }
         { success &&
-          <RangeUsePlan
+          <Rup
             agreement={agreement}
             statuses={statuses}
+            livestockTypes={livestockTypes}
             updateRupStatus={updateRupStatus}
             getRupPDF={getRupPDF}
             isUpdatingStatus={isUpdatingStatus}

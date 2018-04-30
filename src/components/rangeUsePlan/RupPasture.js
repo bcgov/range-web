@@ -13,7 +13,7 @@ const propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-class RupPastures extends Component {
+class RupPasture extends Component {
   renderPastures = (pasture) => {
     const options = [
       {
@@ -75,7 +75,6 @@ class RupPastures extends Component {
           label={PASTURE_NOTES}
           text={notes}
         />
-        <div className="rup__sub-divider" />
       </div>
     );
   }
@@ -99,5 +98,5 @@ class RupPastures extends Component {
   }
 }
 
-RupPastures.propTypes = propTypes;
-export default RupPastures;
+RupPasture.propTypes = propTypes;
+export default RupPasture;

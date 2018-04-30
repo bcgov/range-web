@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
-
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -14,7 +13,7 @@ const propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-class RupSchedules extends Component {
+class RupSchedule extends Component {
   renderSchedule = (schedule) => {
     const { id, year, grazingScheduleEntries = [] } = schedule;
 
@@ -48,19 +47,21 @@ class RupSchedules extends Component {
   renderScheduleEntry = (entry) => {
     const {
       id,
-      pasture = {},
-      livestockType = {},
+      pasture,
+      livestockType,
       livestockCount,
       dateIn,
       dateOut,
       graceDays,
     } = entry;
     const days = calcDateDiff(dateOut, dateIn);
+    const pastureName = pasture && pasture.name;
+    const livestockTypeName = livestockType && livestockType.name;
 
     return (
       <Table.Row key={id}>
-        <Table.Cell>{presentNullValue(pasture.name, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(livestockType.name, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(pastureName, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(livestockTypeName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockCount, false)}</Table.Cell>
         <Table.Cell>{formatDate(dateIn)}</Table.Cell>
         <Table.Cell>{formatDate(dateOut)}</Table.Cell>
@@ -73,7 +74,7 @@ class RupSchedules extends Component {
   }
   render() {
     const { className, plan } = this.props;
-    const { grazingSchedules = [] } = plan;
+    const grazingSchedules = (plan && plan.grazingSchedules) || [];
 
     return (
       <div className={className}>
@@ -91,5 +92,5 @@ class RupSchedules extends Component {
   }
 }
 
-RupSchedules.propTypes = propTypes;
-export default RupSchedules;
+RupSchedule.propTypes = propTypes;
+export default RupSchedule;

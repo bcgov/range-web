@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Navbar } from '../Navbar';
+import { SSO_AUTH_LOGOUT_ENDPOINT } from '../../constants/api';
 
 const props = {};
 const setupProps = () => {
@@ -18,8 +19,9 @@ describe('Navbar', () => {
   });
 
   it('call `onLogout` when clicking on sign-out NavLink', () => {
+    global.window.open = jest.fn();
     const wrapper = shallow(<Navbar {...props} />);
     wrapper.find('#sign-out').simulate('click', {});
-    expect(props.onLogout).toHaveBeenCalled();
+    expect(global.window.open).toHaveBeenCalledWith(SSO_AUTH_LOGOUT_ENDPOINT, '_self');
   });
 });

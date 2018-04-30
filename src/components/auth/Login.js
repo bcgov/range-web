@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 
 import { parseQuery } from '../../handlers';
-import { SSO_AUTH_ENDPOINT } from '../../constants/api';
+import { SSO_AUTH_LOGIN_ENDPOINT } from '../../constants/api';
 import { LOGIN_LOGO_SRC } from '../../constants/variables';
 import { login } from '../../actions/authActions';
 
@@ -26,8 +26,8 @@ export class Login extends Component {
     }
   }
 
-  onButtonClick = () => {
-    window.open(SSO_AUTH_ENDPOINT, '_self');
+  onLoginBtnClick = () => {
+    window.open(SSO_AUTH_LOGIN_ENDPOINT, '_self');
   }
 
   render() {
@@ -54,7 +54,7 @@ export class Login extends Component {
             disabled={loginState.isLoading || false}
             primary
             fluid
-            onClick={this.onButtonClick}
+            onClick={this.onLoginBtnClick}
           >
             Login with IDIR
           </Button>

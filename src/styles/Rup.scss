@@ -41,6 +41,16 @@ $row-height: 80px;
     font-weight: bold;
     margin-top: 20px;
     color: $primary-color;
+
+    &--editable {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-top: 20px;
+      color: $primary-color;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
   &__pdf-link {
