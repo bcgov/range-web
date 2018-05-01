@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Button, Dropdown, Input } from 'semantic-ui-react';
-import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
+import Pikaday from 'pikaday';
+import { formatDateFromUTC, presentNullValue, calcDateDiff } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -28,6 +29,66 @@ class EditRupSchedule extends Component {
     };
   }
 
+  componentDidMount() {
+    this.state.grazingSchedules.map((schedule, sIndex) => {
+      const { year, grazingScheduleEntries } = schedule;
+      const minDate = new Date(`${year}-01-02`);
+      const maxDate = new Date(`${year + 1}-01-01`);
+
+      (grazingScheduleEntries || []).map((entry, eIndex) => {
+        const { dateIn, dateOut } = entry;
+
+        const p1 = new Pikaday({
+          field: this.dateInRefs[sIndex][eIndex],
+          format: 'MM/DD/YYYY',
+          minDate,
+          maxDate,
+          onSelect: this.onDateChanged(sIndex, eIndex, 'dateIn'),
+        });
+        p1.setDate(new Date(dateIn));
+
+        const p2 = new Pikaday({
+          field: this.dateOutRefs[sIndex][eIndex],
+          format: 'MM/DD/YYYY',
+          defaultDate: new Date(dateOut),
+          minDate,
+          maxDate,
+          onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),
+        });
+        p2.setDate(new Date(dateOut));
+      });
+    });
+  }
+
+  onDateChanged = (sIndex, eIndex, key) => (date) => {
+    const grazingSchedules = [...this.state.grazingSchedules];
+    grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = formatDateFromUTC(date);
+
+    this.setState({
+      grazingSchedules,
+    });
+  }
+
+  setDateInRef = (sIndex, eIndex) => (ref) => {
+    if (!this.dateInRefs) {
+      this.dateInRefs = {};
+    }
+    if (!this.dateInRefs[sIndex]) {
+      this.dateInRefs[sIndex] = {};
+    }
+    this.dateInRefs[sIndex][eIndex] = ref;
+  }
+
+  setDateOutRef = (sIndex, eIndex) => (ref) => {
+    if (!this.dateOutRefs) {
+      this.dateOutRefs = {};
+    }
+    if (!this.dateOutRefs[sIndex]) {
+      this.dateOutRefs[sIndex] = {};
+    }
+    this.dateOutRefs[sIndex][eIndex] = ref;
+  }
+
   handleInput = (sIndex, eIndex, key) => (e) => {
     const { value } = e.target;
     const grazingSchedules = [...this.state.grazingSchedules];
@@ -38,7 +99,7 @@ class EditRupSchedule extends Component {
     });
   }
 
-  handleKeyPressForNumber = (e) => {
+  handleNumberOnly = (e) => {
     if (!(e.charCode >= 48 && e.charCode <= 57)) {
       e.preventDefault();
       e.stopPropagation();
@@ -72,8 +133,8 @@ class EditRupSchedule extends Component {
                 <Table.HeaderCell>{PASTURE}</Table.HeaderCell>
                 <Table.HeaderCell>{LIVESTOCK_TYPE}</Table.HeaderCell>
                 <Table.HeaderCell>{NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell>{DATE_IN}</Table.HeaderCell>
-                <Table.HeaderCell>{DATE_OUT}</Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__table__dates">{DATE_IN}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__table__dates">{DATE_OUT}</div></Table.HeaderCell>
                 <Table.HeaderCell>{DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{PLD}</Table.HeaderCell>
@@ -86,6 +147,7 @@ class EditRupSchedule extends Component {
       </div>
     );
   }
+
   renderScheduleEntries = (grazingScheduleEntries, scheduleIndex) => {
     const pastureOptions = this.state.pastures.map((pasture) => {
       const { id, name } = pasture || {};
@@ -144,17 +206,27 @@ class EditRupSchedule extends Component {
             <Input fluid>
               <input
                 type="text"
-                onKeyPress={this.handleKeyPressForNumber}
+                onKeyPress={this.handleNumberOnly}
                 value={livestockCount || 0}
                 onChange={this.handleInput(scheduleIndex, entryIndex, 'livestockCount')}
               />
             </Input>
           </Table.Cell>
           <Table.Cell>
-            {formatDate(dateIn)}
+            <Input fluid>
+              <input
+                type="text"
+                ref={this.setDateInRef(scheduleIndex, entryIndex)}
+              />
+            </Input>
           </Table.Cell>
           <Table.Cell>
-            {formatDate(dateOut)}
+            <Input fluid>
+              <input
+                type="text"
+                ref={this.setDateOutRef(scheduleIndex, entryIndex)}
+              />
+            </Input>
           </Table.Cell>
           <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
           <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>

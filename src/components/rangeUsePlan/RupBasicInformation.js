@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../common';
-import { formatDate, presentNullValue } from '../../handlers';
+import { formatDateFromServer, presentNullValue } from '../../handlers';
 import {
   RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
   ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
@@ -105,7 +105,7 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={AGREEMENT_DATE}
-              text={`${formatDate(agreementStartDate)} to ${formatDate(agreementEndDate)}`}
+              text={`${formatDateFromServer(agreementStartDate)} to ${formatDateFromServer(agreementEndDate)}`}
             />
             <TextField
               label={RANGE_NAME}
@@ -154,7 +154,7 @@ class RupBasicInformation extends Component {
             <div className="rup__info-title">Plan Information</div>
             <TextField
               label={PLAN_DATE}
-              text={`${formatDate(planStartDate)} to ${formatDate(planEndDate)}`}
+              text={`${formatDateFromServer(planStartDate)} to ${formatDateFromServer(planEndDate)}`}
             />
             <TextField
               label={EXTENDED}

@@ -6,7 +6,6 @@ import Navbar from './Navbar';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
 };
 
@@ -15,10 +14,6 @@ export class LandingPage extends Component {
     const { getReferences, getZones } = this.props;
     getReferences();
     getZones();
-  }
-
-  onLogout = () => {
-    this.props.logout();
   }
 
   render() {

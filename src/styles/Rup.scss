@@ -135,6 +135,10 @@ $row-height: 80px;
     }
     &__table {
       margin-bottom: 15px;
+
+      &__dates {
+        min-width: 110px;
+      }
     }
   }
 }

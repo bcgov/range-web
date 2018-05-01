@@ -11,6 +11,7 @@
     "moment": "^2.21.0",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.2",
+    "pikaday": "^1.7.0",
     "prop-types": "^15.6.0",
     "query-params": "0.0.1",
     "react": "^16.2.0",

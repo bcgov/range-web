@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
+import { formatDateFromServer, presentNullValue, calcDateDiff } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -63,8 +63,8 @@ class RupSchedule extends Component {
         <Table.Cell>{presentNullValue(pastureName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockTypeName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockCount, false)}</Table.Cell>
-        <Table.Cell>{formatDate(dateIn)}</Table.Cell>
-        <Table.Cell>{formatDate(dateOut)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateIn)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateOut)}</Table.Cell>
         <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(pasture.pldPercent, false)}</Table.Cell>

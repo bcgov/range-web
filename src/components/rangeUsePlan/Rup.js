@@ -13,7 +13,7 @@ import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPasture from './RupPasture';
 import RupSchedule from './RupSchedule';
-// import EditRupSchedule from './EditRupSchedule';
+import EditRupSchedule from './EditRupSchedule';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -221,11 +221,11 @@ export class Rup extends Component {
             plan={plan}
           />
 
-          {/* <EditRupSchedule
+          <EditRupSchedule
             className="rup__edit-schedules"
             livestockTypes={livestockTypes}
             plan={plan}
-          /> */}
+          />
         </div>
       </div>
     );

@@ -15,12 +15,22 @@ import {
  * @param {string | Date} isoFormatDate The stringified date time
  * @returns a formatted string or 'Not provided'
  */
-export const formatDate = (isoFormatDate) => {
+export const formatDateFromServer = (isoFormatDate) => {
   if (isoFormatDate) {
     return moment(isoFormatDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('MMMM Do, YYYY');
   }
   return NOT_PROVIDED;
 };
+
+/**
+ * Format a Date instance to server side date format
+ *
+ * @param {Date} date The Date instance created by Pikaday
+ * @returns a formatted string
+ */
+export const formatDateFromUTC = date => (
+  moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ')
+);
 
 /**
  * Present user friendly string when getting null or undefined value
