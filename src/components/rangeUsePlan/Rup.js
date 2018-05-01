@@ -216,10 +216,10 @@ export class Rup extends Component {
             plan={plan}
           />
 
-          <RupSchedule
+          {/* <RupSchedule
             className="rup__schedules"
             plan={plan}
-          />
+          /> */}
 
           <EditRupSchedule
             className="rup__edit-schedules"

@@ -32,6 +32,7 @@ const appReducer = combineReducers({
   rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN, { data: {} }),
   references: createReducer(genericReducer, ReducerTypes.GET_REFERENCES, { data: getReferencesFromLocal() }),
   updateRupStatus: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_STATUS, { data: {} }),
+  updateRupSchedule: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_SCHEDULE, { data: {} }),
   updateRupZone: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_ZONE, { data: {} }),
   zones: createReducer(genericReducer, ReducerTypes.GET_ZONES, { data: [] }),
   pdf: createReducer(genericReducer, ReducerTypes.GET_PDF, { }),

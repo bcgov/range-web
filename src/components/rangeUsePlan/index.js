@@ -78,4 +78,8 @@ const mapStateToProps = state => (
 );
 
 Base.propTypes = propTypes;
-export default connect(mapStateToProps, { getRangeUsePlan, updateRupStatus, getRupPDF })(Base);
+export default connect(mapStateToProps, {
+  getRangeUsePlan,
+  updateRupStatus,
+  getRupPDF,
+})(Base);

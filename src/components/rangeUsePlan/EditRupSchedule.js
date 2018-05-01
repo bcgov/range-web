@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, Button, Dropdown, Input } from 'semantic-ui-react';
 import Pikaday from 'pikaday';
+import { updateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { formatDateFromUTC, presentNullValue, calcDateDiff } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
@@ -12,6 +14,7 @@ import {
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
+  updateRupSchedule: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -50,7 +53,6 @@ class EditRupSchedule extends Component {
         const p2 = new Pikaday({
           field: this.dateOutRefs[sIndex][eIndex],
           format: 'MM/DD/YYYY',
-          defaultDate: new Date(dateOut),
           minDate,
           maxDate,
           onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),
@@ -66,6 +68,46 @@ class EditRupSchedule extends Component {
 
     this.setState({
       grazingSchedules,
+    });
+  }
+
+  onSaveClick = () => {
+    const { updateRupSchedule, plan: { id: planId } } = this.props;
+    Promise.all(this.state.grazingSchedules.map(schedule => (
+      updateRupSchedule({ planId, schedule })
+    ))).then((data) => {
+      console.log(data);
+    });
+  }
+
+  onNewRowClick = sIndex => () => {
+    const grazingSchedules = [...this.state.grazingSchedules];
+    const { year, grazingScheduleEntries } = grazingSchedules[sIndex] || {};
+    grazingScheduleEntries.push({ id: Math.random() });
+    const eIndex = grazingScheduleEntries.length - 1;
+    const minDate = new Date(`${year}-01-02`);
+    const maxDate = new Date(`${year + 1}-01-01`);
+
+    this.setState({
+      grazingSchedules,
+    }, () => {
+      const p1 = new Pikaday({
+        field: this.dateInRefs[sIndex][eIndex],
+        format: 'MM/DD/YYYY',
+        minDate,
+        maxDate,
+        onSelect: this.onDateChanged(sIndex, eIndex, 'dateIn'),
+      });
+      p1.setDate(new Date(minDate));
+
+      const p2 = new Pikaday({
+        field: this.dateOutRefs[sIndex][eIndex],
+        format: 'MM/DD/YYYY',
+        minDate,
+        maxDate,
+        onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),
+      });
+      p2.setDate(new Date(maxDate));
     });
   }
 
@@ -118,6 +160,17 @@ class EditRupSchedule extends Component {
     });
   }
 
+  handleLiveStockTypeDropdown = (sIndex, eIndex, key) => (e, { value }) => {
+    const { livestockTypes } = this.props;
+    const grazingSchedules = [...this.state.grazingSchedules];
+    const livestockType = livestockTypes.find(p => p.id === value);
+    grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = livestockType;
+
+    this.setState({
+      grazingSchedules,
+    });
+  }
+
   renderSchedule = (schedule, scheduleIndex) => {
     const { id, year, grazingScheduleEntries = [] } = schedule;
 
@@ -144,6 +197,7 @@ class EditRupSchedule extends Component {
             </Table.Header>
           </Table>
         </div>
+        <Button onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
       </div>
     );
   }
@@ -178,6 +232,8 @@ class EditRupSchedule extends Component {
       } = entry;
       const days = calcDateDiff(dateOut, dateIn);
       const pastureName = pasture && pasture.name;
+      const pldPercent = pasture && pasture.pldPercent;
+      const allowableAum = pasture && pasture.allowableAum;
       const livestockTypeName = livestockType && livestockType.name;
 
       return (
@@ -196,7 +252,7 @@ class EditRupSchedule extends Component {
             <Dropdown
               placeholder={livestockTypeName}
               options={livestockTypeOptions}
-              onChange={this.onZoneChanged}
+              onChange={this.handleLiveStockTypeDropdown(scheduleIndex, entryIndex, 'liveStockType')}
               fluid
               search
               selection
@@ -230,8 +286,8 @@ class EditRupSchedule extends Component {
           </Table.Cell>
           <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
           <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(pasture.pldPercent, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(pasture.allowableAum, false)}</Table.Cell>
+          <Table.Cell>{presentNullValue(pldPercent, false)}</Table.Cell>
+          <Table.Cell>{presentNullValue(allowableAum, false)}</Table.Cell>
         </Table.Row>
       );
     });
@@ -255,10 +311,17 @@ class EditRupSchedule extends Component {
             grazingSchedules.map(this.renderSchedule)
           )
         }
+        <Button onClick={this.onSaveClick}>Save Schedules</Button>
       </div>
     );
   }
 }
+const mapStateToProps = state => (
+  {
+  }
+);
 
 EditRupSchedule.propTypes = propTypes;
-export default EditRupSchedule;
+export default connect(mapStateToProps, {
+  updateRupSchedule,
+})(EditRupSchedule);

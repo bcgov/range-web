@@ -56,6 +56,8 @@ class RupSchedule extends Component {
     } = entry;
     const days = calcDateDiff(dateOut, dateIn);
     const pastureName = pasture && pasture.name;
+    const pldPercent = pasture && pasture.pldPercent;
+    const allowableAum = pasture && pasture.allowableAum;
     const livestockTypeName = livestockType && livestockType.name;
 
     return (
@@ -67,8 +69,8 @@ class RupSchedule extends Component {
         <Table.Cell>{formatDateFromServer(dateOut)}</Table.Cell>
         <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pasture.pldPercent, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pasture.allowableAum, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(pldPercent, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(allowableAum, false)}</Table.Cell>
       </Table.Row>
     );
   }

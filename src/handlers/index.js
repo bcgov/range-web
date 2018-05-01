@@ -17,7 +17,7 @@ import {
  */
 export const formatDateFromServer = (isoFormatDate) => {
   if (isoFormatDate) {
-    return moment(isoFormatDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('MMMM Do, YYYY');
+    return moment(isoFormatDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('MMMM D, YYYY');
   }
   return NOT_PROVIDED;
 };
