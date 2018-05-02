@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, Button, Dropdown, Input } from 'semantic-ui-react';
+import { Table, Button, Dropdown, Input, Icon } from 'semantic-ui-react';
 import Pikaday from 'pikaday';
 import { updateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { formatDateFromUTC, presentNullValue, calcDateDiff } from '../../handlers';
@@ -25,14 +25,17 @@ class EditRupSchedule extends Component {
     const { plan } = this.props;
     const grazingSchedules = (plan && plan.grazingSchedules) || [];
     const pastures = (plan && plan.pastures) || [];
+    const yearOptions = this.getInitialYearOptions(plan, grazingSchedules);
 
     this.state = {
       grazingSchedules,
       pastures,
+      yearOptions,
     };
   }
 
   componentDidMount() {
+    // set up date pickers
     this.state.grazingSchedules.map((schedule, sIndex) => {
       const { year, grazingScheduleEntries } = schedule;
       const minDate = new Date(`${year}-01-02`);
@@ -59,6 +62,17 @@ class EditRupSchedule extends Component {
         });
         p2.setDate(new Date(dateOut));
       });
+    });
+  }
+
+  onYearSelected = (e, { value: year }) => {
+    const grazingSchedules = [...this.state.grazingSchedules];
+    grazingSchedules.push({ id: Math.random(), year, grazingScheduleEntries: [] });
+    const yearOptions = this.state.yearOptions.filter(y => y.value !== year);
+
+    this.setState({
+      grazingSchedules,
+      yearOptions,
     });
   }
 
@@ -111,13 +125,29 @@ class EditRupSchedule extends Component {
     });
   }
 
-  onAddYear = () => {
-    const grazingSchedules = [...this.state.grazingSchedules];
-    grazingSchedules.push({ year: 2014, grazingScheduleEntries: [] });
-
-    this.setState({
-      grazingSchedules,
-    });
+  getInitialYearOptions = (plan, grazingSchedules) => {
+    const { planStartDate, planEndDate } = plan || {};
+    if (planStartDate && planEndDate) {
+      // set up year options
+      const psd = new Date(planStartDate).getFullYear();
+      const ped = new Date(planEndDate).getFullYear();
+      const length = (ped - psd) + 1;
+      const yearOptions = Array.apply(null, { length })
+        .map((v, i) => (
+          {
+            key: psd + i,
+            text: psd + i,
+            value: psd + i,
+          }
+        ))
+        .filter((y) => {
+          // give only available year options
+          const years = grazingSchedules.map(s => s.year);
+          return !years.includes(y.value);
+        });
+      return yearOptions;
+    }
+    return [];
   }
 
   setDateInRef = (sIndex, eIndex) => (ref) => {
@@ -305,14 +335,21 @@ class EditRupSchedule extends Component {
   }
 
   render() {
-    const { className } = this.props;
-    const { grazingSchedules } = this.state;
+    const { className, plan } = this.props;
+    const { grazingSchedules, yearOptions } = this.state;
 
     return (
       <div className={className}>
         <div className="rup__title--editable">
           <div>Schedules</div>
-          <Button basic primary onClick={this.onAddYear}>Add year</Button>
+          <Dropdown
+            trigger={<Button basic primary><Icon name="add" />Add year</Button>}
+            options={yearOptions}
+            icon={null}
+            pointing="right"
+            onChange={this.onYearSelected}
+            selectOnBlur={false}
+          />
         </div>
         <div className="rup__divider" />
         {
