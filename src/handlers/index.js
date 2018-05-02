@@ -55,7 +55,7 @@ export const presentNullValue = (value, fullText = true) => {
  */
 export const calcDateDiff = (first, second) => {
   if (first && second) {
-    return moment(first).diff(moment(second), 'days');
+    return moment(first).diff(moment(second), 'days') + 1;
   }
   return NP;
 };

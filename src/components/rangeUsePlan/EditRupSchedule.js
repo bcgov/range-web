@@ -335,7 +335,7 @@ class EditRupSchedule extends Component {
   }
 
   render() {
-    const { className, plan } = this.props;
+    const { className } = this.props;
     const { grazingSchedules, yearOptions } = this.state;
 
     return (
@@ -347,6 +347,7 @@ class EditRupSchedule extends Component {
             options={yearOptions}
             icon={null}
             pointing="right"
+            disabled={yearOptions.length === 0}
             onChange={this.onYearSelected}
             selectOnBlur={false}
           />
