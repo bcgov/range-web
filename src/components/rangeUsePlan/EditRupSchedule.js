@@ -43,7 +43,7 @@ class EditRupSchedule extends Component {
 
         const p1 = new Pikaday({
           field: this.dateInRefs[sIndex][eIndex],
-          format: 'MM/DD/YYYY',
+          format: 'MMM D, YYYY',
           minDate,
           maxDate,
           onSelect: this.onDateChanged(sIndex, eIndex, 'dateIn'),
@@ -52,7 +52,7 @@ class EditRupSchedule extends Component {
 
         const p2 = new Pikaday({
           field: this.dateOutRefs[sIndex][eIndex],
-          format: 'MM/DD/YYYY',
+          format: 'MMM D, YYYY',
           minDate,
           maxDate,
           onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),
@@ -93,7 +93,7 @@ class EditRupSchedule extends Component {
     }, () => {
       const p1 = new Pikaday({
         field: this.dateInRefs[sIndex][eIndex],
-        format: 'MM/DD/YYYY',
+        format: 'MMM D, YYYY',
         minDate,
         maxDate,
         onSelect: this.onDateChanged(sIndex, eIndex, 'dateIn'),
@@ -102,12 +102,21 @@ class EditRupSchedule extends Component {
 
       const p2 = new Pikaday({
         field: this.dateOutRefs[sIndex][eIndex],
-        format: 'MM/DD/YYYY',
+        format: 'MMM D, YYYY',
         minDate,
         maxDate,
         onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),
       });
       p2.setDate(new Date(maxDate));
+    });
+  }
+
+  onAddYear = () => {
+    const grazingSchedules = [...this.state.grazingSchedules];
+    grazingSchedules.push({ year: 2014, grazingScheduleEntries: [] });
+
+    this.setState({
+      grazingSchedules,
     });
   }
 
@@ -153,6 +162,7 @@ class EditRupSchedule extends Component {
     const grazingSchedules = [...this.state.grazingSchedules];
     const pasture = pastures.find(p => p.id === value);
     grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = pasture;
+    grazingSchedules[sIndex].grazingScheduleEntries[eIndex].pastureId = pasture.id;
     grazingSchedules[sIndex].grazingScheduleEntries[eIndex].graceDays = pasture.graceDays;
 
     this.setState({
@@ -165,6 +175,7 @@ class EditRupSchedule extends Component {
     const grazingSchedules = [...this.state.grazingSchedules];
     const livestockType = livestockTypes.find(p => p.id === value);
     grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = livestockType;
+    grazingSchedules[sIndex].grazingScheduleEntries[eIndex].livestockTypeId = livestockType.id;
 
     this.setState({
       grazingSchedules,
@@ -301,7 +312,7 @@ class EditRupSchedule extends Component {
       <div className={className}>
         <div className="rup__title--editable">
           <div>Schedules</div>
-          <Button basic primary>Add year</Button>
+          <Button basic primary onClick={this.onAddYear}>Add year</Button>
         </div>
         <div className="rup__divider" />
         {
