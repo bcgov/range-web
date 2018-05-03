@@ -18,7 +18,7 @@ const propTypes = {
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-class EditRupSchedule extends Component {
+class EditRupSchedules extends Component {
   constructor(props) {
     super(props);
 
@@ -67,7 +67,7 @@ class EditRupSchedule extends Component {
 
   onYearSelected = (e, { value: year }) => {
     const grazingSchedules = [...this.state.grazingSchedules];
-    grazingSchedules.push({ id: Math.random(), year, grazingScheduleEntries: [] });
+    grazingSchedules.push({ year, grazingScheduleEntries: [] });
     const yearOptions = this.state.yearOptions.filter(y => y.value !== year);
 
     this.setState({
@@ -97,7 +97,7 @@ class EditRupSchedule extends Component {
   onNewRowClick = sIndex => () => {
     const grazingSchedules = [...this.state.grazingSchedules];
     const { year, grazingScheduleEntries } = grazingSchedules[sIndex] || {};
-    grazingScheduleEntries.push({ id: Math.random() });
+    grazingScheduleEntries.push({});
     const eIndex = grazingScheduleEntries.length - 1;
     const minDate = new Date(`${year}-01-02`);
     const maxDate = new Date(`${year + 1}-01-01`);
@@ -105,6 +105,7 @@ class EditRupSchedule extends Component {
     this.setState({
       grazingSchedules,
     }, () => {
+      // set up date pickers for a new entry
       const p1 = new Pikaday({
         field: this.dateInRefs[sIndex][eIndex],
         format: 'MMM D, YYYY',
@@ -213,10 +214,11 @@ class EditRupSchedule extends Component {
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
-    const { id, year, grazingScheduleEntries = [] } = schedule;
+    const { year, grazingScheduleEntries = [] } = schedule;
+    const key = `schedule${scheduleIndex}`;
 
     return (
-      <div key={id} className="rup__schedule">
+      <div key={key} className="rup__schedule">
         <div className="rup__schedule__header">
           {year} Grazing Schedule
         </div>
@@ -276,9 +278,10 @@ class EditRupSchedule extends Component {
       const pldPercent = pasture && pasture.pldPercent;
       const allowableAum = pasture && pasture.allowableAum;
       const livestockTypeName = livestockType && livestockType.name;
+      const key = `entry${entryIndex}`;
 
       return (
-        <Table.Row key={id}>
+        <Table.Row key={key}>
           <Table.Cell>
             <Dropdown
               placeholder={pastureName}
@@ -376,7 +379,7 @@ const mapStateToProps = state => (
   }
 );
 
-EditRupSchedule.propTypes = propTypes;
+EditRupSchedules.propTypes = propTypes;
 export default connect(mapStateToProps, {
   updateRupSchedule,
-})(EditRupSchedule);
+})(EditRupSchedules);

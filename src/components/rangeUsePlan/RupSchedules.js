@@ -13,7 +13,7 @@ const propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-class RupSchedule extends Component {
+class RupSchedules extends Component {
   renderSchedule = (schedule) => {
     const { id, year, grazingScheduleEntries = [] } = schedule;
 
@@ -94,5 +94,5 @@ class RupSchedule extends Component {
   }
 }
 
-RupSchedule.propTypes = propTypes;
-export default RupSchedule;
+RupSchedules.propTypes = propTypes;
+export default RupSchedules;

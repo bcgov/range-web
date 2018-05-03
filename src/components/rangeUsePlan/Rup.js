@@ -11,9 +11,9 @@ import { EXPORT_PDF } from '../../constants/routes';
 import { COMPLETED, PENDING } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
-import RupPasture from './RupPasture';
-import RupSchedule from './RupSchedule';
-import EditRupSchedule from './EditRupSchedule';
+import RupPastures from './RupPastures';
+import RupSchedules from './RupSchedules';
+import EditRupSchedules from './EditRupSchedules';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -211,17 +211,17 @@ export class Rup extends Component {
             onZoneClicked={this.onZoneClicked}
           />
 
-          <RupPasture
+          <RupPastures
             className="rup__pastures"
             plan={plan}
           />
 
-          {/* <RupSchedule
+          {/* <RupSchedules
             className="rup__schedules"
             plan={plan}
           /> */}
 
-          <EditRupSchedule
+          <EditRupSchedules
             className="rup__edit-schedules"
             livestockTypes={livestockTypes}
             plan={plan}
