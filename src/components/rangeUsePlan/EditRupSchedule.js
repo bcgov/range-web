@@ -238,7 +238,7 @@ class EditRupSchedule extends Component {
             </Table.Header>
           </Table>
         </div>
-        <Button onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
+        <Button basic onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
       </div>
     );
   }
@@ -283,6 +283,7 @@ class EditRupSchedule extends Component {
             <Dropdown
               placeholder={pastureName}
               options={pastureOptions}
+              selectOnBlur={false}
               onChange={this.handlePastureDropdown(scheduleIndex, entryIndex, 'pasture')}
               fluid
               search
@@ -293,6 +294,7 @@ class EditRupSchedule extends Component {
             <Dropdown
               placeholder={livestockTypeName}
               options={livestockTypeOptions}
+              selectOnBlur={false}
               onChange={this.handleLiveStockTypeDropdown(scheduleIndex, entryIndex, 'liveStockType')}
               fluid
               search
@@ -343,10 +345,14 @@ class EditRupSchedule extends Component {
         <div className="rup__title--editable">
           <div>Schedules</div>
           <Dropdown
-            trigger={<Button basic primary><Icon name="add" />Add year</Button>}
+            className="icon"
+            text="Add Year"
+            icon="add"
+            basic
+            labeled
+            button
+            item
             options={yearOptions}
-            icon={null}
-            pointing="right"
             disabled={yearOptions.length === 0}
             onChange={this.onYearSelected}
             selectOnBlur={false}
