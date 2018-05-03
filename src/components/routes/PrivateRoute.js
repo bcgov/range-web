@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { LOGIN } from '../../constants/routes';
@@ -8,7 +8,11 @@ import LandingPage from '../LandingPage';
 const propTypes = {
   component: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
-  user: PropTypes.object,
+  user: PropTypes.shape({}),
+};
+
+const defaultProps = {
+  user: null,
 };
 
 /**
@@ -25,4 +29,5 @@ const PrivateRoute = ({ component: Component, user, ...rest }) => (
 );
 
 PrivateRoute.propTypes = propTypes;
+PrivateRoute.defaultProps = defaultProps;
 export default PrivateRoute;

@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Login } from './Login';
-import { SSO_AUTH_ENDPOINT } from '../../constants/api';
+import { SSO_AUTH_LOGIN_ENDPOINT } from '../../constants/api';
 
 const props = {};
 const setupProps = () => {
   props.login = jest.fn();
   props.loginState = {};
   props.location = {
-    search: ''
-  }
+    search: '',
+  };
 };
 
 beforeEach(() => {
@@ -27,16 +27,18 @@ describe('Login', () => {
     const wrapper = shallow(<Login {...props} />);
 
     wrapper.find('Button').simulate('click', {});
-    expect(global.window.open).toHaveBeenCalledWith(SSO_AUTH_ENDPOINT, '_self'); 
+    expect(global.window.open).toHaveBeenCalledWith(SSO_AUTH_LOGIN_ENDPOINT, '_self');
   });
 
   describe('Life cycles', () => {
     it('componentDidmount', () => {
       const mockCode = 'hhAvWWCcAztaAfswBN4XHbPPgiplWk8UtY5Lhs';
       props.location = {
-        search: `?code=${mockCode}`
+        search: `?code=${mockCode}`,
       };
       const wrapper = shallow(<Login {...props} />);
+      wrapper.instance().componentDidMount();
+
       const { login } = props;
       expect(login).toHaveBeenCalledWith(mockCode);
     });

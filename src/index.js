@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
-import './semantic/dist/semantic.min.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-
 import store from './store';
+import './semantic/dist/semantic.min.css';
+import './styles/App.css';
 
 // Log the initial state
 // console.log(store.getState());
@@ -14,13 +13,13 @@ import store from './store';
 // Every time the state changes, log it
 // Note that subscribe() returns a function for unregistering the listener
 // const unsubscribe = store.subscribe(() =>
-  // console.log(store.getState())
+// console.log(store.getState())
 // )
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>, 
-  document.getElementById('root')
+  </Provider>,
+  document.getElementById('root'),
 );
 registerServiceWorker();

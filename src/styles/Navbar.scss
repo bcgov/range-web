@@ -1,10 +1,12 @@
 @import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
 
 .navbar {
   background: $primary-color;
   border-bottom: 2px solid $accent-color;
 
   &__container {
+    @extend .container;
     height: $nav-height;
     display: flex;
     justify-content: space-between;
@@ -23,7 +25,8 @@
     align-items: center;
     color: white;
     padding: 0 20px;
-
+    cursor: pointer;
+    
     &:hover {
       color: white;
       text-decoration: underline;

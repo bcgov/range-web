@@ -1,30 +1,22 @@
-// .container-fluid,
-// .container {
-//   margin-right: auto;
-//   margin-left: auto;
-// }
-
-// .container-fluid {
-//   padding-right: 2rem;
-//   padding-left: 2rem;
-// }
-
 .container {
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 2rem;
+  padding-left: 2rem;
   margin-right: auto;
   margin-left: auto;
 }
+
 @media (min-width: 768px) {
   .container {
     width: 750px;
   }
 }
+
 @media (min-width: 992px) {
   .container {
     width: 970px;
   }
 }
+
 @media (min-width: 1200px) {
   .container {
     width: 1170px;

@@ -7,8 +7,10 @@
   }
   
   body {
+    padding: 25px;
     font-family: arial, sans-serif;
   }
+  
   table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -25,10 +27,27 @@
       background-color: #dddddd;
   }
   
+  .header {
+      display: flex;
+      justify-content: space-between;
+  }
+  .header__logo {
+    height: 90px;
+  }
+  .header__right {
+      text-align: end;
+      line-height: 160%;
+  }
+  .header__title {
+      font-weight: bold;
+      font-size: 1.2rem;
+  }
+  .header__divider {
+      border-top: 1px solid #aaaaaa;
+  }
   .divider {
       border-top: 2px solid #003366;
   }
-  
   .section-title {
       font-weight: bold;
       font-size: 1.1rem;
@@ -38,7 +57,7 @@
       margin: 5px 0;
   }
   .textfield__title {
-      font-weight: bold;
+    font-weight: bold;
   }
   .cell-6 {
       width: 49%;
@@ -47,8 +66,18 @@
 </style>
 </head>
 <body>
-
-<h2>Basic Information</h2>
+<div class="header">
+  <div class="header__left">
+    <img class="header__logo" src="https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fbest.bc.ca%2Fwp-content%2Fuploads%2F2014%2F03%2FBC-government-logo-NEW.png&f=1" alt="">
+  </div>
+  <div class="header__right">
+    <div class="header__title">Range Use Plan</div>
+    <div>{{id}} | {{primaryAgreementHolder}}</div>
+    <div>{{planStartDate}} - {{planEndDate}}</div>    
+  </div>
+  </div>
+  <div class="header__divider"></div>  
+  <h2>Basic Information</h2>
   <div class="divider"></div>
   <div class="cell-6">
     <div class="section-title">Agreement Information</div>
@@ -131,7 +160,7 @@
     <div class="textfield__content">Primary</div>
   </div>
 
-  <h2>Schedule Information</h2>
+  <h2>Schedule</h2>
   <div class="divider"></div>
   <div class="section-title">{{year}} Grazing Schedule</div>
   
@@ -146,6 +175,17 @@
       <th>Grace Days</th>
       <th>PLD</th>
       <th>Crown AUMs</th>
+    </tr>
+    <tr>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
     </tr>
     <tr>
       <td>Alfreds Futterkiste</td>

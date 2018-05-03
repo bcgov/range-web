@@ -2,39 +2,47 @@ import {
   SUCCESS,
   REQUEST,
   SUCCESS_PAGINATED,
-  ERROR
+  ERROR,
+  DATA_CHANGED,
 } from '../constants/actionTypes';
 
-export const success = (reducer, data) => {
-  return {
+export const success = (reducer, data) => (
+  {
     name: reducer,
     type: SUCCESS,
     data,
   }
-} 
+);
 
-export const request = (reducer) => {
-  return {
+export const request = reducer => (
+  {
     name: reducer,
     type: REQUEST,
   }
-}
+);
 
-export const successPaginated = (reducer, data) => {
-  return {
+export const successPaginated = (reducer, data, currentPage, totalPages) => (
+  {
     name: reducer,
     type: SUCCESS_PAGINATED,
-    data: data.data,
-    currentPage: data.current_page,
-    totalPages: data.last_page,
+    data,
+    currentPage,
+    totalPages,
   }
-}
+);
 
-export const error = (reducer, error) => {
-  return {
+export const error = (reducer, error) => (
+  {
     name: reducer,
     type: ERROR,
-    errorMessage: error,
+    error,
   }
-}
+);
 
+export const dataChanged = (reducer, data) => (
+  {
+    name: reducer,
+    type: DATA_CHANGED,
+    data,
+  }
+);

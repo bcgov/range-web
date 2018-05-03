@@ -5,18 +5,17 @@ import {
 } from '../actions/genericActions';
 import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
-import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_ZONES } from '../constants/reducerTypes';
-import { BASE_URL, STATUS, AGREEMENT, ZONE, PLAN } from '../constants/api';
+import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_PDF } from '../constants/reducerTypes';
+import { STATUS, AGREEMENT, ZONE, PLAN, REPORT } from '../constants/api';
 import axios from '../handlers/axios';
 
-export const updateRupStatus = (requestData) => (dispatch) => {
+export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
   dispatch(request(UPDATE_RUP_STATUS));
   const makeRequest = async () => {
     try {
-      const { planId, statusId } = requestData;
       const response = await axios.put(
-        `${BASE_URL}${PLAN}/${planId}${STATUS}`, 
-        { statusId }
+        `${PLAN}/${planId}${STATUS}`,
+        { statusId },
       );
       dispatch(success(UPDATE_RUP_STATUS, response.data));
       dispatch(toastSuccessMessage(UPDATE_RUP_STATUS_SUCCESS));
@@ -30,14 +29,13 @@ export const updateRupStatus = (requestData) => (dispatch) => {
   return makeRequest();
 };
 
-export const updateRupZone = (requestData) => (dispatch) => {
+export const updateRupZone = ({ agreementId, zoneId }) => (dispatch) => {
   dispatch(request(UPDATE_RUP_ZONE));
   const makeRequest = async () => {
     try {
-      const { agreementId, zoneId } = requestData;
       const response = await axios.put(
-        `${BASE_URL}${AGREEMENT}/${agreementId}${ZONE}`,
-        { zoneId }
+        `${AGREEMENT}/${agreementId}${ZONE}`,
+        { zoneId },
       );
       dispatch(success(UPDATE_RUP_ZONE, response.data));
       dispatch(toastSuccessMessage(UPDATE_RUP_ZONE_SUCCESS));
@@ -52,22 +50,21 @@ export const updateRupZone = (requestData) => (dispatch) => {
   return makeRequest();
 };
 
-export const getZones = (districtId) => (dispatch) => {
-  dispatch(request(GET_ZONES));
+export const getRupPDF = planId => (dispatch) => {
+  dispatch(request(GET_PDF));
   const makeRequest = async () => {
     try {
-      let config = {};
-      if (districtId) {
-        config.params = {
-          districtId,
-        };
-      }
-      const response = await axios.get(`${BASE_URL}${ZONE}`, config);
-      dispatch(success(GET_ZONES, response.data));
+      const response = await axios.get(
+        `${REPORT}/${planId}`,
+        { responseType: 'arraybuffer' },
+      );
+      dispatch(success(GET_PDF, response.data));
+      return response.data;
     } catch (err) {
-      dispatch(error(GET_ZONES, err));
+      dispatch(error(GET_PDF, err));
       dispatch(toastErrorMessage(err));
+      throw err;
     }
   };
-  makeRequest();
+  return makeRequest();
 };

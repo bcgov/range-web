@@ -1,4 +1,5 @@
 @import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
 
 .status {
   display: flex;
@@ -34,13 +35,11 @@
 }
 
 .text-field {
-  // align-self: center;
+  margin: 3px 0;
 
   &__label {
-    // font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: gray;
-    // margin-bottom: 10px;
 
     &--hidden {
       display: none;
@@ -48,12 +47,15 @@
   }
 
   &__text {
-    // border-bottom: 2px solid $primary-color;
-    font-size: 1rem;
-    background: gainsboro;
-    padding: 8px;
     border-radius: 5px;
-    margin: 5px 0;
+    margin: 2px 0 5px 0;
+    padding: 8px 0;
+    font-size: 1.1rem;
+    
+    &--editable {
+      background: #eeeeee;
+      padding: 8px;    
+    }
   }
 }
 
@@ -77,6 +79,7 @@
   color: white;
   
   &__container {
+    @extend .container;
     min-height: 150px;
     padding: 20px 0 10px 0;
   }
@@ -101,8 +104,7 @@
   width: fit-content;
   min-width: 400px;
   position: fixed;
-  top: 10px;
-  // top: calc(#{$nav-height} + 10px);
+  top: calc(#{$nav-height} + 10px);
   left: 0;
   right: 0;
   margin: 0 auto;
