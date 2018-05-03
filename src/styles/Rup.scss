@@ -121,21 +121,28 @@ $row-height: 80px;
       font-size: 1.4rem;
     }
   }
-
+  &__schedules {
+    margin: 10px 0;
+  }
   &__schedule {
-    margin: 5px 0;
-    
+    border: 1px solid gainsboro;
+    padding: 15px;
+
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 40px;
       font-weight: bold;
       font-size: 1.2rem;
+      cursor: pointer;
     }
     &__table {
-      margin-bottom: 15px;
-
+      margin-top: 15px;
+      
+      &__hidden {
+        display: none;  
+      }
+      
       &__dates {
         min-width: 75px;
       }

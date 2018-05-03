@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Table, Button, Dropdown, Input, Icon } from 'semantic-ui-react';
 import Pikaday from 'pikaday';
 import { updateRupSchedule } from '../../actions/rangeUsePlanActions';
@@ -31,6 +32,7 @@ class EditRupSchedules extends Component {
       grazingSchedules,
       pastures,
       yearOptions,
+      activeScheduleIndex: -1,
     };
   }
 
@@ -213,16 +215,28 @@ class EditRupSchedules extends Component {
     });
   }
 
+  onScheduleClicked = (scheduleIndex) => (e) => {
+    const { activeScheduleIndex } = this.state;
+    const newIndex = activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+
+    this.setState({ activeScheduleIndex: newIndex });
+  }
+
   renderSchedule = (schedule, scheduleIndex) => {
     const { year, grazingScheduleEntries = [] } = schedule;
     const key = `schedule${scheduleIndex}`;
+    const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
 
     return (
       <div key={key} className="rup__schedule">
-        <div className="rup__schedule__header">
+        <div
+          className="rup__schedule__header"
+          onClick={this.onScheduleClicked(scheduleIndex)}
+          role="button"
+        >
           {year} Grazing Schedule
         </div>
-        <div className="rup__schedule__table">
+        <div className={classNames('rup__schedule__table', { 'rup__schedule__table__hidden': !isScheduleActive })} >
           <Table>
             <Table.Header>
               <Table.Row>
@@ -239,8 +253,8 @@ class EditRupSchedules extends Component {
               {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
             </Table.Header>
           </Table>
+          <Button basic onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
         </div>
-        <Button basic onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
       </div>
     );
   }
@@ -346,7 +360,7 @@ class EditRupSchedules extends Component {
     return (
       <div className={className}>
         <div className="rup__title--editable">
-          <div>Schedules</div>
+          <div>Yearly Schedules</div>
           <Dropdown
             className="icon"
             text="Add Year"
@@ -362,13 +376,15 @@ class EditRupSchedules extends Component {
           />
         </div>
         <div className="rup__divider" />
-        {
-          grazingSchedules.length === 0 ? (
-            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-          ) : (
-            grazingSchedules.map(this.renderSchedule)
-          )
-        }
+        <div className="rup__schedules">
+          {
+            grazingSchedules.length === 0 ? (
+              <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+            ) : (
+              grazingSchedules.map(this.renderSchedule)
+            )
+          }
+        </div>
         <Button onClick={this.onSaveClick}>Save Schedules</Button>
       </div>
     );
