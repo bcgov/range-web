@@ -231,12 +231,14 @@ class EditRupSchedules extends Component {
       : (<Icon name="chevron down" />);
 
     return (
-      <li key={key} className="rup__schedule">
+      <li
+        key={key}
+        className="rup__schedule"
+        onClick={this.onScheduleClicked(scheduleIndex)}
+        role="button"
+      >
         <div
-          className="rup__schedule__header"
-          onClick={this.onScheduleClicked(scheduleIndex)}
-          role="button"
-        >
+          className="rup__schedule__header">
           <div>{year} Grazing Schedule</div>
           <div>
             {arrow}
@@ -285,7 +287,6 @@ class EditRupSchedules extends Component {
 
     return grazingScheduleEntries.map((entry, entryIndex) => {
       const {
-        id,
         pasture,
         livestockType,
         livestockCount,

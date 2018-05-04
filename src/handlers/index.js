@@ -9,11 +9,19 @@ import {
   STATUS500,
 } from '../constants/strings';
 
+const saveDataInLocal = (key, data) => {
+  localStorage.setItem(key, JSON.stringify(data));
+};
+
+const getDataFromLocal = key => (
+  JSON.parse(localStorage.getItem(key))
+);
+
 /**
  * Present the date time in a more readable way
  *
  * @param {string | Date} isoFormatDate The stringified date time
- * @returns a formatted string or 'Not provided'
+ * @returns {string} a formatted string or 'Not provided'
  */
 export const formatDateFromServer = (isoFormatDate) => {
   if (isoFormatDate) {
@@ -26,7 +34,7 @@ export const formatDateFromServer = (isoFormatDate) => {
  * Format a Date instance to server side date format
  *
  * @param {Date} date The Date instance created by Pikaday
- * @returns a formatted string
+ * @returns {string} a formatted string
  */
 export const formatDateFromUTC = date => (
   moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ')
@@ -37,7 +45,7 @@ export const formatDateFromUTC = date => (
  *
  * @param {string} value
  * @param {boolean} fullText default is true
- * @returns the value or 'Not provided' or 'N/P'
+ * @returns {string} the value or 'Not provided' or 'N/P'
  */
 export const presentNullValue = (value, fullText = true) => {
   if (value || value === 0) {
@@ -51,7 +59,7 @@ export const presentNullValue = (value, fullText = true) => {
  *
  * @param {string | Date} first the string in the class Date form
  * @param {string | Date} second the string in the class Date form
- * @returns the number of days or 'N/P'
+ * @returns {number | string} the number of days or 'N/P'
  */
 export const calcDateDiff = (first, second) => {
   if (first && second) {
@@ -61,13 +69,44 @@ export const calcDateDiff = (first, second) => {
 };
 
 /**
+ *
+ * @param {number} numberOfAnimals
+ * @param {number} totalDays
+ * @param {number} auFactor parameter provided from the livestock type
+ * @returns {number} the total AUMs
+ */
+export const calcTotalAUMs = (numberOfAnimals, totalDays, auFactor) => (
+  (numberOfAnimals * totalDays * auFactor) / 30.44
+);
+
+/**
+ *
+ * @param {number} totalAUMs
+ * @param {number} pasturePld
+ * @returns {number} the pld AUMs
+ */
+export const calcPldAUMs = (totalAUMs, pasturePld) => (
+  totalAUMs * (pasturePld / 100)
+);
+
+/**
+ *
+ * @param {number} totalAUMs
+ * @param {number} pldAUMs
+ * @returns {number} the crown AUMs
+ */
+export const calcCrownAUMs = (totalAUMs, pldAUMs) => (
+  totalAUMs - pldAUMs
+);
+
+/**
  * Save references in local that was sent from the server
  *
  * @param {object} references all the references
- * @returns an object of all the references
+ * @returns {null}
  */
 export const saveReferencesInLocal = (references) => {
-  localStorage.setItem(REFERENCE_KEY, JSON.stringify(references));
+  saveDataInLocal(REFERENCE_KEY, references);
 };
 
 /**
@@ -76,7 +115,7 @@ export const saveReferencesInLocal = (references) => {
  * @returns an object of all the references
  */
 export const getReferencesFromLocal = () => (
-  JSON.parse(localStorage.getItem(REFERENCE_KEY)) || {}
+  getDataFromLocal(REFERENCE_KEY) || {}
 );
 
 /**
