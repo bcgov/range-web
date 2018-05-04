@@ -29,6 +29,7 @@
     "jsx-a11y/click-events-have-key-events": "off",
     "import/no-named-as-default": "off",
     "no-shadow": "off",
+    "quote-props": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",
     "block-scoped-var": "error",

@@ -123,9 +123,27 @@ $row-height: 80px;
   }
   &__schedules {
     margin: 10px 0;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      border: 1px solid gainsboro;
+    }
+    li:nth-child(even) {
+      border-top: 0;
+      border-bottom: 0;
+    }
+    li:first-child {
+      border-top: 1px solid gainsboro;
+      border-radius: 5px 5px 0 0;
+    }
+    li:last-child {
+      border-bottom: 1px solid gainsboro;
+      border-radius: 0 0 5px 5px;
+    }
   }
   &__schedule {
-    border: 1px solid gainsboro;
+    // border: 1px solid gainsboro;
     padding: 15px;
 
     &__header {
@@ -138,7 +156,7 @@ $row-height: 80px;
     }
     &__table {
       margin-top: 15px;
-      
+
       &__hidden {
         display: none;  
       }

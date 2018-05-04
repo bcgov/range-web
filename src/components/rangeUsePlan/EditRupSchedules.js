@@ -226,15 +226,21 @@ class EditRupSchedules extends Component {
     const { year, grazingScheduleEntries = [] } = schedule;
     const key = `schedule${scheduleIndex}`;
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
+    const arrow = isScheduleActive
+      ? (<Icon name="chevron up" />)
+      : (<Icon name="chevron down" />);
 
     return (
-      <div key={key} className="rup__schedule">
+      <li key={key} className="rup__schedule">
         <div
           className="rup__schedule__header"
           onClick={this.onScheduleClicked(scheduleIndex)}
           role="button"
         >
-          {year} Grazing Schedule
+          <div>{year} Grazing Schedule</div>
+          <div>
+            {arrow}
+          </div>
         </div>
         <div className={classNames('rup__schedule__table', { 'rup__schedule__table__hidden': !isScheduleActive })} >
           <Table>
@@ -255,7 +261,7 @@ class EditRupSchedules extends Component {
           </Table>
           <Button basic onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
         </div>
-      </div>
+      </li>
     );
   }
 
@@ -376,7 +382,7 @@ class EditRupSchedules extends Component {
           />
         </div>
         <div className="rup__divider" />
-        <div className="rup__schedules">
+        <ul className="rup__schedules">
           {
             grazingSchedules.length === 0 ? (
               <div className="rup__section-not-found">{NOT_PROVIDED}</div>
@@ -384,7 +390,7 @@ class EditRupSchedules extends Component {
               grazingSchedules.map(this.renderSchedule)
             )
           }
-        </div>
+        </ul>
         <Button onClick={this.onSaveClick}>Save Schedules</Button>
       </div>
     );
