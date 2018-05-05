@@ -153,15 +153,30 @@ $row-height: 80px;
       font-size: 1.2rem;
       cursor: pointer;
     }
-    &__table {
+    &__content {
       margin-top: 15px;
 
       &__hidden {
         display: none;  
       }
-      
       &__dates {
         min-width: 75px;
+      }
+      &__AUMs {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.1rem;
+        text-align: right;
+      }
+      &__AUM-label {
+        font-weight: bold;
+        margin: 0 10px;
+      }
+      &__AUM-number {
+        border: 1px solid gainsboro;
+        padding: 8px 15px;
+        border-radius: 3px;
       }
     }
   }

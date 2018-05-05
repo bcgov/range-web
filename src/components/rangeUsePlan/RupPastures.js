@@ -36,7 +36,8 @@ class RupPastures extends Component {
       pldPercent,
       graceDays,
       notes,
-    } = pasture;
+    } = pasture || {};
+    const pld = pldPercent * 100;
 
     return (
       <div className="rup__pasture" key={id}>
@@ -61,7 +62,7 @@ class RupPastures extends Component {
           <div className="rup__cell-4">
             <TextField
               label={PRIVATE_LAND_DEDUCTION}
-              text={pldPercent}
+              text={pld}
             />
           </div>
           <div className="rup__cell-4">

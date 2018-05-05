@@ -35,7 +35,7 @@ export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
 // Range use plan pastures
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
-export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction';
+export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
 export const GRACE_DAYS = 'Grace Days';
 export const PASTURE_NOTES = 'Pasture Notes';
 

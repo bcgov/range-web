@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Table, Button, Dropdown, Input, Icon } from 'semantic-ui-react';
+import { Table, Button, Dropdown, Input, Icon, TextArea, Form } from 'semantic-ui-react';
 import Pikaday from 'pikaday';
 import { updateRupSchedule } from '../../actions/rangeUsePlanActions';
-import { formatDateFromUTC, presentNullValue, calcDateDiff } from '../../handlers';
+import {
+  formatDateFromUTC,
+  presentNullValue,
+  calcDateDiff,
+  calcTotalAUMs,
+  calcCrownAUMs,
+  calcPldAUMs,
+  calcCrownTotalAUMs,
+} from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -13,10 +21,17 @@ import {
 } from '../../constants/strings';
 
 const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
+  plan: PropTypes.shape({}),
+  usage: PropTypes.arrayOf(PropTypes.object),
   className: PropTypes.string.isRequired,
   updateRupSchedule: PropTypes.func.isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  livestockTypes: PropTypes.arrayOf(PropTypes.object),
+};
+
+const defaultProps = {
+  plan: {},
+  usage: [],
+  livestockTypes: [],
 };
 
 class EditRupSchedules extends Component {
@@ -32,7 +47,7 @@ class EditRupSchedules extends Component {
       grazingSchedules,
       pastures,
       yearOptions,
-      activeScheduleIndex: -1,
+      activeScheduleIndex: 0,
     };
   }
 
@@ -128,6 +143,13 @@ class EditRupSchedules extends Component {
     });
   }
 
+  onScheduleClicked = scheduleIndex => (e) => {
+    const { activeScheduleIndex } = this.state;
+    const newIndex = activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+
+    this.setState({ activeScheduleIndex: newIndex });
+  }
+
   getInitialYearOptions = (plan, grazingSchedules) => {
     const { planStartDate, planEndDate } = plan || {};
     if (planStartDate && planEndDate) {
@@ -209,50 +231,43 @@ class EditRupSchedules extends Component {
     const livestockType = livestockTypes.find(p => p.id === value);
     grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = livestockType;
     grazingSchedules[sIndex].grazingScheduleEntries[eIndex].livestockTypeId = livestockType.id;
-
     this.setState({
       grazingSchedules,
     });
   }
 
-  onScheduleClicked = (scheduleIndex) => (e) => {
-    const { activeScheduleIndex } = this.state;
-    const newIndex = activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
-
-    this.setState({ activeScheduleIndex: newIndex });
-  }
-
   renderSchedule = (schedule, scheduleIndex) => {
-    const { year, grazingScheduleEntries = [] } = schedule;
+    const { year, grazingScheduleEntries } = schedule;
     const key = `schedule${scheduleIndex}`;
+    const yearUsage = this.props.usage.find(u => u.year === year);
+    const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+    const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries).toFixed(2);
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
     const arrow = isScheduleActive
       ? (<Icon name="chevron up" />)
       : (<Icon name="chevron down" />);
 
     return (
-      <li
-        key={key}
-        className="rup__schedule"
-        onClick={this.onScheduleClicked(scheduleIndex)}
-        role="button"
-      >
+      <li key={key} className="rup__schedule">
         <div
-          className="rup__schedule__header">
+          className="rup__schedule__header"
+          onClick={this.onScheduleClicked(scheduleIndex)}
+          role="button"
+        >
           <div>{year} Grazing Schedule</div>
           <div>
             {arrow}
           </div>
         </div>
-        <div className={classNames('rup__schedule__table', { 'rup__schedule__table__hidden': !isScheduleActive })} >
+        <div className={classNames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>{PASTURE}</Table.HeaderCell>
                 <Table.HeaderCell>{LIVESTOCK_TYPE}</Table.HeaderCell>
                 <Table.HeaderCell>{NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__schedule__table__dates">{DATE_IN}</div></Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__schedule__table__dates">{DATE_OUT}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__content__dates">{DATE_IN}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__content__dates">{DATE_OUT}</div></Table.HeaderCell>
                 <Table.HeaderCell>{DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{PLD}</Table.HeaderCell>
@@ -261,13 +276,26 @@ class EditRupSchedules extends Component {
               {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
             </Table.Header>
           </Table>
-          <Button basic onClick={this.onNewRowClick(scheduleIndex)}>Add row</Button>
+          <Button style={{ margin: '10px 0' }} icon basic onClick={this.onNewRowClick(scheduleIndex)}><Icon name="add" /> Add row</Button>
+          <div className="rup__schedule__content__AUMs">
+            <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
+            <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
+            <div className="rup__schedule__content__AUM-label">Total AUMs</div>
+            <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
+          </div>
+          {/* <b>Schedule Description</b>
+          <Form>
+            <TextArea
+              rows={2}
+              onChange={this.onScheduleTextChanged}
+            />
+          </Form> */}
         </div>
       </li>
     );
   }
 
-  renderScheduleEntries = (grazingScheduleEntries, scheduleIndex) => {
+  renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
     const pastureOptions = this.state.pastures.map((pasture) => {
       const { id, name } = pasture || {};
       return {
@@ -292,13 +320,15 @@ class EditRupSchedules extends Component {
         livestockCount,
         dateIn,
         dateOut,
-        graceDays,
-      } = entry;
-      const days = calcDateDiff(dateOut, dateIn);
+      } = entry || {};
+      const days = calcDateDiff(dateOut, dateIn, false);
       const pastureName = pasture && pasture.name;
-      const pldPercent = pasture && pasture.pldPercent;
-      const allowableAum = pasture && pasture.allowableAum;
+      const auFactor = livestockType && livestockType.auFactor;
+      const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
+      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent).toFixed(2);
+      const crownAUMs = calcCrownAUMs(totalAUMs, pldAUMs).toFixed(2);
       const livestockTypeName = livestockType && livestockType.name;
+      const graceDays = pasture && pasture.graceDays;
       const key = `entry${entryIndex}`;
 
       return (
@@ -319,7 +349,7 @@ class EditRupSchedules extends Component {
               placeholder={livestockTypeName}
               options={livestockTypeOptions}
               selectOnBlur={false}
-              onChange={this.handleLiveStockTypeDropdown(scheduleIndex, entryIndex, 'liveStockType')}
+              onChange={this.handleLiveStockTypeDropdown(scheduleIndex, entryIndex, 'livestockType')}
               fluid
               search
               selection
@@ -353,8 +383,8 @@ class EditRupSchedules extends Component {
           </Table.Cell>
           <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
           <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(pldPercent, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(allowableAum, false)}</Table.Cell>
+          <Table.Cell>{presentNullValue(pldAUMs, false)}</Table.Cell>
+          <Table.Cell>{presentNullValue(crownAUMs, false)}</Table.Cell>
         </Table.Row>
       );
     });
@@ -370,7 +400,7 @@ class EditRupSchedules extends Component {
           <div>Yearly Schedules</div>
           <Dropdown
             className="icon"
-            text="Add Year"
+            text="Add Yearly schedule"
             icon="add"
             basic
             labeled
@@ -388,7 +418,9 @@ class EditRupSchedules extends Component {
             grazingSchedules.length === 0 ? (
               <div className="rup__section-not-found">{NOT_PROVIDED}</div>
             ) : (
-              grazingSchedules.map(this.renderSchedule)
+              grazingSchedules
+                .sort((s1, s2) => s1.year > s2.year)
+                .map(this.renderSchedule)
             )
           }
         </ul>
@@ -403,6 +435,7 @@ const mapStateToProps = state => (
 );
 
 EditRupSchedules.propTypes = propTypes;
+EditRupSchedules.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   updateRupSchedule,
 })(EditRupSchedules);

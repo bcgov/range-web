@@ -134,6 +134,7 @@ export class Rup extends Component {
 
     const statusName = status && status.name;
     const agreementId = agreement && agreement.id;
+    const usage = agreement && agreement.usage;
     const rupExist = plan.id;
 
     return (
@@ -225,6 +226,7 @@ export class Rup extends Component {
             className="rup__edit-schedules"
             livestockTypes={livestockTypes}
             plan={plan}
+            usage={usage}
           />
         </div>
       </div>

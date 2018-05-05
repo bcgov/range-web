@@ -54,7 +54,7 @@ class RupSchedules extends Component {
       dateOut,
       graceDays,
     } = entry;
-    const days = calcDateDiff(dateOut, dateIn);
+    const days = calcDateDiff(dateOut, dateIn, true);
     const pastureName = pasture && pasture.name;
     const pldPercent = pasture && pasture.pldPercent;
     const allowableAum = pasture && pasture.allowableAum;

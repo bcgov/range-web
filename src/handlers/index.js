@@ -59,13 +59,14 @@ export const presentNullValue = (value, fullText = true) => {
  *
  * @param {string | Date} first the string in the class Date form
  * @param {string | Date} second the string in the class Date form
+ * @param {bool} isUserFriendly
  * @returns {number | string} the number of days or 'N/P'
  */
-export const calcDateDiff = (first, second) => {
+export const calcDateDiff = (first, second, isUserFriendly) => {
   if (first && second) {
     return moment(first).diff(moment(second), 'days') + 1;
   }
-  return NP;
+  return isUserFriendly ? NP : 0;
 };
 
 /**
@@ -73,32 +74,60 @@ export const calcDateDiff = (first, second) => {
  * @param {number} numberOfAnimals
  * @param {number} totalDays
  * @param {number} auFactor parameter provided from the livestock type
- * @returns {number} the total AUMs
+ * @returns {float} the total AUMs
  */
-export const calcTotalAUMs = (numberOfAnimals, totalDays, auFactor) => (
-  (numberOfAnimals * totalDays * auFactor) / 30.44
+export const calcTotalAUMs = (numberOfAnimals = 0, totalDays, auFactor = 0) => (
+  ((numberOfAnimals * totalDays * auFactor) / 30.44)
 );
 
 /**
  *
  * @param {number} totalAUMs
- * @param {number} pasturePld
- * @returns {number} the pld AUMs
+ * @param {float} pasturePldPercent
+ * @returns {float} the pld AUMs
  */
-export const calcPldAUMs = (totalAUMs, pasturePld) => (
-  totalAUMs * (pasturePld / 100)
+export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) => (
+  totalAUMs * pasturePldPercent
 );
 
 /**
  *
  * @param {number} totalAUMs
  * @param {number} pldAUMs
- * @returns {number} the crown AUMs
+ * @returns {float} the crown AUMs
  */
 export const calcCrownAUMs = (totalAUMs, pldAUMs) => (
-  totalAUMs - pldAUMs
+  (totalAUMs - pldAUMs)
 );
 
+/**
+ *
+ * @param {Array} entries grazing schedule entries
+ * @returns {float} the total crown AUMs
+ */
+export const calcCrownTotalAUMs = (entries = []) => {
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  if (entries.length === 0) {
+    return 0;
+  }
+  return entries
+    .map((entry) => {
+      const {
+        pasture,
+        livestockType,
+        livestockCount,
+        dateIn,
+        dateOut,
+      } = entry || {};
+      const days = calcDateDiff(dateOut, dateIn, false);
+      const auFactor = livestockType && livestockType.auFactor;
+      const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
+      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent);
+      const crownAUMs = calcCrownAUMs(totalAUMs, pldAUMs);
+      return crownAUMs;
+    })
+    .reduce(reducer);
+};
 /**
  * Save references in local that was sent from the server
  *
