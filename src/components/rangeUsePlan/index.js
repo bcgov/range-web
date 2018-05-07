@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Rup from './Rup';
+import EditRup from './EditRup';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF } from '../../actions/rangeUsePlanActions';
@@ -50,7 +51,7 @@ class Base extends Component {
           <Loading />
         }
         { success &&
-          <Rup
+          <EditRup
             agreement={agreement}
             statuses={statuses}
             livestockTypes={livestockTypes}

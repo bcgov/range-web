@@ -15,8 +15,14 @@ const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   zone: PropTypes.shape({}).isRequired,
-  onZoneClicked: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  onZoneClicked: PropTypes.func,
+  isAdmin: PropTypes.bool,
+};
+
+const defaultProps = {
+  onZoneClicked: () => {},
+  isAdmin: true,
 };
 
 class RupBasicInformation extends Component {
@@ -49,6 +55,7 @@ class RupBasicInformation extends Component {
       zone,
       onZoneClicked,
       className,
+      isAdmin,
     } = this.props;
 
     // variables for textfields
@@ -87,6 +94,14 @@ class RupBasicInformation extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
+    const zoneText = isAdmin
+      ? (
+        <div className="rup__zone-text">
+          {presentNullValue(zoneCode)}
+          <Icon className="rup__zone-text__icon" name="pencil" />
+        </div>
+      )
+      : presentNullValue(zoneCode);
 
     return (
       <div className={className}>
@@ -125,13 +140,8 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={ZONE}
-              text={
-                <div className="rup__zone-text">
-                  {presentNullValue(zoneCode)}
-                  <Icon className="rup__zone-text__icon" name="pencil" />
-                </div>
-              }
-              isEditable
+              text={zoneText}
+              isEditable={isAdmin}
               onClick={onZoneClicked}
             />
             <TextField
@@ -182,4 +192,5 @@ class RupBasicInformation extends Component {
 }
 
 RupBasicInformation.propTypes = propTypes;
+RupBasicInformation.defaultProps = defaultProps;
 export default RupBasicInformation;
