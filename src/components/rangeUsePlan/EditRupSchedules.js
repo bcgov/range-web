@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Table, Button, Dropdown, Input, Icon, TextArea, Form } from 'semantic-ui-react';
 import Pikaday from 'pikaday';
-import { updateRupSchedule } from '../../actions/rangeUsePlanActions';
+import { createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import {
   formatDateFromUTC,
   presentNullValue,
@@ -24,7 +24,7 @@ const propTypes = {
   plan: PropTypes.shape({}),
   usage: PropTypes.arrayOf(PropTypes.object),
   className: PropTypes.string.isRequired,
-  updateRupSchedule: PropTypes.func.isRequired,
+  createOrUpdateRupSchedule: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -85,11 +85,15 @@ class EditRupSchedules extends Component {
   onYearSelected = (e, { value: year }) => {
     const grazingSchedules = [...this.state.grazingSchedules];
     grazingSchedules.push({ year, grazingScheduleEntries: [] });
+    grazingSchedules.sort((s1, s2) => s1.year > s2.year);
+
     const yearOptions = this.state.yearOptions.filter(y => y.value !== year);
+    const activeScheduleIndex = grazingSchedules.findIndex(s => s.year === year);
 
     this.setState({
       grazingSchedules,
       yearOptions,
+      activeScheduleIndex,
     });
   }
 
@@ -103,9 +107,9 @@ class EditRupSchedules extends Component {
   }
 
   onSaveClick = () => {
-    const { updateRupSchedule, plan: { id: planId } } = this.props;
+    const { createOrUpdateRupSchedule, plan: { id: planId } } = this.props;
     Promise.all(this.state.grazingSchedules.map(schedule => (
-      updateRupSchedule({ planId, schedule })
+      createOrUpdateRupSchedule({ planId, schedule })
     ))).then((data) => {
       console.log(data);
     });
@@ -419,7 +423,6 @@ class EditRupSchedules extends Component {
               <div className="rup__section-not-found">{NOT_PROVIDED}</div>
             ) : (
               grazingSchedules
-                .sort((s1, s2) => s1.year > s2.year)
                 .map(this.renderSchedule)
             )
           }
@@ -437,5 +440,5 @@ const mapStateToProps = state => (
 EditRupSchedules.propTypes = propTypes;
 EditRupSchedules.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
-  updateRupSchedule,
+  createOrUpdateRupSchedule,
 })(EditRupSchedules);
