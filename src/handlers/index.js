@@ -8,6 +8,7 @@ import {
   STATUS404,
   STATUS500,
 } from '../constants/strings';
+import { SERVER_SIDE_DATE_FORMAT, CLIENT_SIDE_DATE_FORMAT } from '../constants/variables';
 
 const saveDataInLocal = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
@@ -25,7 +26,7 @@ const getDataFromLocal = key => (
  */
 export const formatDateFromServer = (isoFormatDate) => {
   if (isoFormatDate) {
-    return moment(isoFormatDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('MMMM D, YYYY');
+    return moment(isoFormatDate, SERVER_SIDE_DATE_FORMAT).format(CLIENT_SIDE_DATE_FORMAT);
   }
   return NOT_PROVIDED;
 };
@@ -37,7 +38,7 @@ export const formatDateFromServer = (isoFormatDate) => {
  * @returns {string} a formatted string
  */
 export const formatDateFromUTC = date => (
-  moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ')
+  moment(date).format(SERVER_SIDE_DATE_FORMAT)
 );
 
 /**

@@ -57,6 +57,35 @@ $row-height: 80px;
     display: none
   }
 
+  &__sticky {
+    background: $primary-color;
+    color: white;
+
+    &__container {
+      @extend .container;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+    &__left {
+      display: flex;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 16px;
+    }
+    &__title {
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+  }
+
   &__actions {
     justify-content: space-between;
     

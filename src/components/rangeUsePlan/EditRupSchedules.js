@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Table, Button, Dropdown, Input, Icon, TextArea, Form } from 'semantic-ui-react';
 import Pikaday from 'pikaday';
+import { Table, Button, Dropdown, Input, Icon, TextArea, Form } from 'semantic-ui-react';
+import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../constants/variables';
 import { createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import {
   formatDateFromUTC,
@@ -63,7 +64,7 @@ class EditRupSchedules extends Component {
 
         const p1 = new Pikaday({
           field: this.dateInRefs[sIndex][eIndex],
-          format: 'MMM D, YYYY',
+          format: SCHEUDLE_ENTRY_DATE_FORMAT,
           minDate,
           maxDate,
           onSelect: this.onDateChanged(sIndex, eIndex, 'dateIn'),
@@ -72,7 +73,7 @@ class EditRupSchedules extends Component {
 
         const p2 = new Pikaday({
           field: this.dateOutRefs[sIndex][eIndex],
-          format: 'MMM D, YYYY',
+          format: SCHEUDLE_ENTRY_DATE_FORMAT,
           minDate,
           maxDate,
           onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),
@@ -129,7 +130,7 @@ class EditRupSchedules extends Component {
       // set up date pickers for a new entry
       const p1 = new Pikaday({
         field: this.dateInRefs[sIndex][eIndex],
-        format: 'MMM D, YYYY',
+        format: SCHEUDLE_ENTRY_DATE_FORMAT,
         minDate,
         maxDate,
         onSelect: this.onDateChanged(sIndex, eIndex, 'dateIn'),
@@ -138,7 +139,7 @@ class EditRupSchedules extends Component {
 
       const p2 = new Pikaday({
         field: this.dateOutRefs[sIndex][eIndex],
-        format: 'MMM D, YYYY',
+        format: SCHEUDLE_ENTRY_DATE_FORMAT,
         minDate,
         maxDate,
         onSelect: this.onDateChanged(sIndex, eIndex, 'dateOut'),

@@ -12,3 +12,8 @@ export const LOGIN_LOGO_SRC = '/login_logo.png';
 // clients
 export const PRIMARY_TYPE = 'A';
 export const OTHER_TYPE = 'B';
+
+// date formats
+export const SCHEUDLE_ENTRY_DATE_FORMAT = 'MMM D';
+export const SERVER_SIDE_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
+export const CLIENT_SIDE_DATE_FORMAT = 'MMMM D, YYYY';

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { NO_RUP_PROVIDED, DETAIL_RUP_BANNER_CONTENT } from '../../constants/strings';
+import classnames from 'classnames';
+import { DETAIL_RUP_EDIT_BANNER_CONTENT } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
 import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
@@ -11,7 +12,6 @@ import EditRupSchedules from './EditRupSchedules';
 const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isDownloadingPDF: PropTypes.bool.isRequired,
 };
 
 export class EditRup extends Component {
@@ -24,23 +24,38 @@ export class EditRup extends Component {
     };
   }
 
-  onViewPDFClicked = () => {
-    const { id, agreementId } = this.state.plan;
-    if (id && agreementId) {
-      this.pdfLink.click();
-    }
+  componentDidMount() {
+    // requires the absolute offsetTop value
+    this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
+    this.scrollListner = window.addEventListener('scroll', this.handleScroll);
   }
 
-  setPDFRef = (ref) => { this.pdfLink = ref; }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollListner);
+  }
+
+  setStickyRef = (ref) => { this.stickyHeader = ref; }
+
+  handleScroll = () => {
+    let isStickyFixed;
+    if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
+      isStickyFixed = true;
+    } else {
+      isStickyFixed = false;
+    }
+    this.setState({
+      isStickyFixed,
+    });
+  }
 
   render() {
     const {
       plan,
+      isStickyFixed,
     } = this.state;
 
     const {
       agreement,
-      isDownloadingPDF,
       livestockTypes,
     } = this.props;
 
@@ -49,7 +64,6 @@ export class EditRup extends Component {
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;
     const usage = agreement && agreement.usage;
-    const rupExist = plan.id;
 
     return (
       <div className="rup">
@@ -63,22 +77,31 @@ export class EditRup extends Component {
         </a>
 
         <Banner
+          className="banner__edit-rup"
           header={agreementId}
-          content={rupExist ? DETAIL_RUP_BANNER_CONTENT : NO_RUP_PROVIDED}
-          actionClassName={rupExist ? 'rup__actions' : 'rup__actions--hidden'}
+          content={DETAIL_RUP_EDIT_BANNER_CONTENT}
+        />
+
+        <div
+          className={classnames('rup__sticky', { 'rup__sticky--fixed': isStickyFixed })}
+          ref={this.setStickyRef}
         >
-          <Status
-            className="rup__status"
-            status={statusName}
-          />
-          <Button
-            onClick={this.onViewPDFClicked}
-            className="rup__btn"
-            loading={isDownloadingPDF}
-          >
-            View PDF
-          </Button>
-        </Banner>
+          <div className="rup__sticky__container">
+            <div className="rup__sticky__left">
+              {isStickyFixed &&
+                <div className="rup__sticky__title">{agreementId}</div>
+              }
+              <Status
+                className="rup__status"
+                status={statusName}
+              />
+            </div>
+            <div className="rup__sticky__btns">
+              <Button>Save Draft</Button>
+              <Button style={{ marginLeft: '15px' }}>Submit for Review</Button>
+            </div>
+          </div>
+        </div>
 
         <div className="rup__content">
           <RupBasicInformation

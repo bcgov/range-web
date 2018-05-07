@@ -51,14 +51,18 @@ class Base extends Component {
           <Loading />
         }
         { success &&
+          // <Rup
+          //   agreement={agreement}
+          //   statuses={statuses}
+          //   livestockTypes={livestockTypes}
+          //   updateRupStatus={updateRupStatus}
+          //   getRupPDF={getRupPDF}
+          //   isUpdatingStatus={isUpdatingStatus}
+          //   isDownloadingPDF={isDownloadingPDF}
+          // />
           <EditRup
             agreement={agreement}
-            statuses={statuses}
             livestockTypes={livestockTypes}
-            updateRupStatus={updateRupStatus}
-            getRupPDF={getRupPDF}
-            isUpdatingStatus={isUpdatingStatus}
-            isDownloadingPDF={isDownloadingPDF}
           />
         }
         { error &&
