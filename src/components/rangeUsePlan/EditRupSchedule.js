@@ -21,15 +21,33 @@ const propTypes = {
 };
 
 class EditRupSchedule extends Component {
-  onNewRowClick = sIndex => () => {
-    const grazingSchedule = this.props.schedule;
-    grazingSchedule.grazingScheduleEntries.push({});
+  onScheduleClicked = () => {
+    const { scheduleIndex, onScheduleClicked } = this.props;
+    onScheduleClicked(scheduleIndex);
+  }
 
-    this.props.handleScheduleChange(grazingSchedule, sIndex);
+  onNewRowClick = scheduleIndex => () => {
+    const { schedule } = this.props;
+    const { year, grazingScheduleEntries } = schedule;
+    grazingScheduleEntries.push({
+      livestockCount: 0,
+      dateIn: new Date(`${year}-01-02`),
+      dateOut: new Date(`${year}-01-02`),
+    });
+
+    this.props.handleScheduleChange(schedule, scheduleIndex);
+  }
+
+  handleScheduleEntryChange = (entry, entryIndex) => {
+    const { schedule, scheduleIndex } = this.props;
+    schedule.grazingScheduleEntries[entryIndex] = entry;
+
+    this.props.handleScheduleChange(schedule, scheduleIndex);
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
-    const { pastures, livestockTypes } = this.props;
+    const { schedule, pastures, livestockTypes } = this.props;
+    const { year } = schedule;
     const pastureOptions = pastures.map((pasture) => {
       const { id, name } = pasture || {};
       return {
@@ -47,14 +65,23 @@ class EditRupSchedule extends Component {
       };
     });
 
-    return grazingScheduleEntries.map((entry, entryIndex) => (
-      <EditRupScheduleEntry
-        entry={entry}
-        entryIndex={entryIndex}
-        pastureOptions={pastureOptions}
-        livestockTypeOptions={livestockTypeOptions}
-      />
-    ));
+    return grazingScheduleEntries.map((entry, entryIndex) => {
+      const key = `entry${scheduleIndex}${entryIndex}`;
+      return (
+        <EditRupScheduleEntry
+          key={key}
+          year={year}
+          entry={entry}
+          entryIndex={entryIndex}
+          scheduleIndex={scheduleIndex}
+          pastures={pastures}
+          pastureOptions={pastureOptions}
+          livestockTypes={livestockTypes}
+          livestockTypeOptions={livestockTypeOptions}
+          handleScheduleEntryChange={this.handleScheduleEntryChange}
+        />
+      );
+    });
   }
 
   render() {
@@ -63,11 +90,9 @@ class EditRupSchedule extends Component {
       scheduleIndex,
       usage,
       activeScheduleIndex,
-      onScheduleClicked,
     } = this.props;
 
     const { year, grazingScheduleEntries } = schedule;
-    const key = `schedule${scheduleIndex}`;
     const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries).toFixed(2);
@@ -77,10 +102,10 @@ class EditRupSchedule extends Component {
       : (<Icon name="chevron down" />);
 
     return (
-      <li key={key} className="rup__schedule">
+      <li className="rup__schedule">
         <div
           className="rup__schedule__header"
-          onClick={onScheduleClicked(scheduleIndex)}
+          onClick={this.onScheduleClicked}
           role="button"
         >
           <div>{year} Grazing Schedule</div>

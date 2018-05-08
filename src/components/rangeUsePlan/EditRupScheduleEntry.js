@@ -1,25 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button, Dropdown, Input, Icon, TextArea, Form } from 'semantic-ui-react';
+import Pikaday from 'pikaday';
+import { Table, Dropdown, Input } from 'semantic-ui-react';
 import {
   presentNullValue,
   calcDateDiff,
   calcTotalAUMs,
   calcCrownAUMs,
   calcPldAUMs,
+  formatDateFromUTC,
 } from '../../handlers';
+import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../constants/variables';
 
 const propTypes = {
+  year: PropTypes.number.isRequired,
   entry: PropTypes.shape({}).isRequired,
+  entryIndex: PropTypes.number.isRequired,
+  pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
   pastureOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // scheduleIndex: PropTypes.number.isRequired,
-  // onScheduleClicked: PropTypes.func.isRequired,
-  // activeScheduleIndex: PropTypes.number.isRequired,
-  // handleScheduleChange: PropTypes.func.isRequired,
+  handleScheduleEntryChange: PropTypes.func.isRequired,
 };
 
 class EditRupScheduleEntry extends Component {
+  componentDidMount() {
+    const { entry, year } = this.props;
+    const { dateIn, dateOut } = entry;
+    const minDate = new Date(`${year}-01-02`);
+    const maxDate = new Date(`${year + 1}-01-01`);
+
+    const p1 = new Pikaday({
+      field: this.dateInRef,
+      format: SCHEUDLE_ENTRY_DATE_FORMAT,
+      minDate,
+      maxDate,
+      onSelect: this.handleDateChange('dateIn'),
+    });
+    p1.setDate(new Date(dateIn));
+
+    const p2 = new Pikaday({
+      field: this.dateOutRef,
+      format: SCHEUDLE_ENTRY_DATE_FORMAT,
+      minDate,
+      maxDate,
+      onSelect: this.handleDateChange('dateOut'),
+    });
+    p2.setDate(new Date(dateOut));
+  }
+
+  setDateInRef = (ref) => { this.dateInRef = ref; }
+  setDateOutRef = (ref) => { this.dateOutRef = ref; }
+
   handleNumberOnly = (e) => {
     if (!(e.charCode >= 48 && e.charCode <= 57)) {
       e.preventDefault();
@@ -27,10 +59,55 @@ class EditRupScheduleEntry extends Component {
     }
   }
 
-  render() {
+  handleDateChange = key => (date) => {
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
+    entry[key] = formatDateFromUTC(date);
+
+    handleScheduleEntryChange(entry, entryIndex);
+  }
+
+  handleNumberInput = key => (e) => {
+    const { value } = e.target;
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
+    entry[key] = Number(value);
+
+    handleScheduleEntryChange(entry, entryIndex);
+  }
+
+  handlePastureDropdown = (e, { value }) => {
     const {
       entry,
       entryIndex,
+      handleScheduleEntryChange,
+      pastures,
+    } = this.props;
+
+    const pasture = pastures.find(p => p.id === value);
+    entry.pasture = pasture;
+    entry.pastureId = pasture.id;
+    entry.graceDays = pasture.graceDays;
+
+    handleScheduleEntryChange(entry, entryIndex);
+  }
+
+  handleLiveStockTypeDropdown = (e, { value }) => {
+    const {
+      entry,
+      entryIndex,
+      handleScheduleEntryChange,
+      livestockTypes,
+    } = this.props;
+
+    const livestockType = livestockTypes.find(p => p.id === value);
+    entry.livestockType = livestockType;
+    entry.livestockTypeId = livestockType.id;
+
+    handleScheduleEntryChange(entry, entryIndex);
+  }
+
+  render() {
+    const {
+      entry,
       pastureOptions,
       livestockTypeOptions,
     } = this.props;
@@ -51,16 +128,15 @@ class EditRupScheduleEntry extends Component {
     const crownAUMs = calcCrownAUMs(totalAUMs, pldAUMs).toFixed(2);
     const livestockTypeName = livestockType && livestockType.name;
     const graceDays = pasture && pasture.graceDays;
-    const key = `entry${entryIndex}`;
 
     return (
-      <Table.Row key={key}>
+      <Table.Row>
         <Table.Cell>
           <Dropdown
             placeholder={pastureName}
             options={pastureOptions}
             selectOnBlur={false}
-            // onChange={this.handlePastureDropdown(scheduleIndex, entryIndex, 'pasture')}
+            onChange={this.handlePastureDropdown}
             fluid
             search
             selection
@@ -71,7 +147,7 @@ class EditRupScheduleEntry extends Component {
             placeholder={livestockTypeName}
             options={livestockTypeOptions}
             selectOnBlur={false}
-            // onChange={this.handleLiveStockTypeDropdown(scheduleIndex, entryIndex, 'livestockType')}
+            onChange={this.handleLiveStockTypeDropdown}
             fluid
             search
             selection
@@ -82,8 +158,8 @@ class EditRupScheduleEntry extends Component {
             <input
               type="text"
               onKeyPress={this.handleNumberOnly}
-              value={livestockCount || 0}
-              // onChange={this.handleInput(scheduleIndex, entryIndex, 'livestockCount')}
+              value={livestockCount}
+              onChange={this.handleNumberInput('livestockCount')}
             />
           </Input>
         </Table.Cell>
@@ -91,7 +167,7 @@ class EditRupScheduleEntry extends Component {
           <Input fluid>
             <input
               type="text"
-              // ref={this.setDateInRef(scheduleIndex, entryIndex)}
+              ref={this.setDateInRef}
             />
           </Input>
         </Table.Cell>
@@ -99,7 +175,7 @@ class EditRupScheduleEntry extends Component {
           <Input fluid>
             <input
               type="text"
-              // ref={this.setDateOutRef(scheduleIndex, entryIndex)}
+              ref={this.setDateOutRef}
             />
           </Input>
         </Table.Cell>
