@@ -8,11 +8,11 @@ import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import EditRupSchedules from './EditRupSchedules';
-import EditRupS from './EditRupS';
 
 const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  createOrUpdateRupSchedule: PropTypes.func.isRequired,
 };
 
 export class EditRup extends Component {
@@ -22,6 +22,7 @@ export class EditRup extends Component {
     // store fields that can be updated within this page
     this.state = {
       plan: props.agreement.plan,
+      isUpdatingRup: false,
     };
   }
 
@@ -33,6 +34,28 @@ export class EditRup extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.scrollListner);
+  }
+
+  onSaveDraftClick = () => {
+    const { createOrUpdateRupSchedule, agreement } = this.props;
+
+    // create or update schedules
+    const plan = agreement && agreement.plan;
+    const grazingSchedules = plan && plan.grazingSchedules;
+    if (plan && grazingSchedules) {
+      this.setState({ isUpdatingRup: true });
+
+      // update grazing schedules
+      Promise.all(grazingSchedules.map(schedule => (
+        createOrUpdateRupSchedule({ planId: plan.id, schedule })
+      ))).then((data) => {
+        this.setState({ isUpdatingRup: false });
+        console.log(data);
+      }).catch((err) => {
+        this.setState({ isUpdatingRup: false });
+        console.log(err);
+      });
+    }
   }
 
   setStickyRef = (ref) => { this.stickyHeader = ref; }
@@ -61,6 +84,7 @@ export class EditRup extends Component {
     const {
       plan,
       isStickyFixed,
+      isUpdatingRup,
     } = this.state;
 
     const {
@@ -106,7 +130,7 @@ export class EditRup extends Component {
               />
             </div>
             <div className="rup__sticky__btns">
-              <Button>Save Draft</Button>
+              <Button loading={isUpdatingRup} onClick={this.onSaveDraftClick}>Save Draft</Button>
               <Button style={{ marginLeft: '15px' }}>Submit for Review</Button>
             </div>
           </div>
@@ -133,7 +157,7 @@ export class EditRup extends Component {
             usage={usage}
           /> */}
 
-          <EditRupS
+          <EditRupSchedules
             className="rup__edit-schedules"
             livestockTypes={livestockTypes}
             plan={plan}

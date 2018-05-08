@@ -6,7 +6,7 @@ import Rup from './Rup';
 import EditRup from './EditRup';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
-import { updateRupStatus, getRupPDF } from '../../actions/rangeUsePlanActions';
+import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
 
 const propTypes = {
@@ -35,6 +35,7 @@ class Base extends Component {
       isDownloadingPDF,
       updateRupStatus,
       getRupPDF,
+      createOrUpdateRupSchedule,
     } = this.props;
     const {
       data: agreement,
@@ -63,6 +64,7 @@ class Base extends Component {
           <EditRup
             agreement={agreement}
             livestockTypes={livestockTypes}
+            createOrUpdateRupSchedule={createOrUpdateRupSchedule}
           />
         }
         { error &&
@@ -87,4 +89,5 @@ export default connect(mapStateToProps, {
   getRangeUsePlan,
   updateRupStatus,
   getRupPDF,
+  createOrUpdateRupSchedule,
 })(Base);
