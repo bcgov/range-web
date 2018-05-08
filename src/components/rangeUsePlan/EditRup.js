@@ -8,6 +8,7 @@ import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import EditRupSchedules from './EditRupSchedules';
+import EditRupS from './EditRupS';
 
 const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
@@ -45,6 +46,14 @@ export class EditRup extends Component {
     }
     this.setState({
       isStickyFixed,
+    });
+  }
+
+  handleSchedulesChange = (schedules) => {
+    const { plan } = this.state;
+    plan.grazingSchedules = schedules;
+    this.setState({
+      plan,
     });
   }
 
@@ -117,11 +126,19 @@ export class EditRup extends Component {
             plan={plan}
           />
 
-          <EditRupSchedules
+          {/* <EditRupSchedules
             className="rup__edit-schedules"
             livestockTypes={livestockTypes}
             plan={plan}
             usage={usage}
+          /> */}
+
+          <EditRupS
+            className="rup__edit-schedules"
+            livestockTypes={livestockTypes}
+            plan={plan}
+            usage={usage}
+            handleSchedulesChange={this.handleSchedulesChange}
           />
         </div>
       </div>
