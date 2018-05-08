@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Table, Button, Dropdown, Input, Icon, TextArea, Form } from 'semantic-ui-react';
-import {
-  formatDateFromUTC,
-  presentNullValue,
-  calcDateDiff,
-  calcTotalAUMs,
-  calcCrownAUMs,
-  calcPldAUMs,
-  calcCrownTotalAUMs,
-} from '../../handlers';
+import { Table, Button, Icon, TextArea, Form } from 'semantic-ui-react';
+import { calcCrownTotalAUMs } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
-  DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
-  CROWN_AUMS, NOT_PROVIDED,
+  DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
 } from '../../constants/strings';
+import EditRupScheduleEntry from './EditRupScheduleEntry';
 
 const propTypes = {
   schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
@@ -37,7 +29,8 @@ class EditRupSchedule extends Component {
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
-    const pastureOptions = this.props.pastures.map((pasture) => {
+    const { pastures, livestockTypes } = this.props;
+    const pastureOptions = pastures.map((pasture) => {
       const { id, name } = pasture || {};
       return {
         key: id,
@@ -45,7 +38,7 @@ class EditRupSchedule extends Component {
         text: name,
       };
     });
-    const livestockTypeOptions = this.props.livestockTypes.map((lt) => {
+    const livestockTypeOptions = livestockTypes.map((lt) => {
       const { id, name } = lt || {};
       return {
         key: id,
@@ -54,9 +47,14 @@ class EditRupSchedule extends Component {
       };
     });
 
-    return grazingScheduleEntries.map((entry, entryIndex) => {
-      return (<pre>{JSON.stringify(entry)}</pre>);
-    });
+    return grazingScheduleEntries.map((entry, entryIndex) => (
+      <EditRupScheduleEntry
+        entry={entry}
+        entryIndex={entryIndex}
+        pastureOptions={pastureOptions}
+        livestockTypeOptions={livestockTypeOptions}
+      />
+    ));
   }
 
   render() {
@@ -67,6 +65,7 @@ class EditRupSchedule extends Component {
       activeScheduleIndex,
       onScheduleClicked,
     } = this.props;
+
     const { year, grazingScheduleEntries } = schedule;
     const key = `schedule${scheduleIndex}`;
     const yearUsage = usage.find(u => u.year === year);
@@ -113,13 +112,13 @@ class EditRupSchedule extends Component {
             <div className="rup__schedule__content__AUM-label">Total AUMs</div>
             <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
           </div>
-          {/* <b>Schedule Description</b>
+          <b>Schedule Description</b>
           <Form>
             <TextArea
               rows={2}
               onChange={this.onScheduleTextChanged}
             />
-          </Form> */}
+          </Form>
         </div>
       </li>
     );
