@@ -20,13 +20,13 @@ const Status = ({ status, className, style }) => {
   let modifier = 'status__icon';
   switch (status) {
     case PENDING:
-      modifier += '--pending';
+      modifier += '--pending'; // red
       break;
     case SUBMITTED:
-      modifier += '--submitted';
+      modifier += '--submitted'; // orange
       break;
     case COMPLETED:
-      modifier += '--completed';
+      modifier += '--completed'; // green
       break;
     default:
       modifier += '--not-provided';

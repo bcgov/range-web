@@ -2,6 +2,9 @@
 export const PENDING = 'Pending';
 export const SUBMITTED = 'Submitted';
 export const COMPLETED = 'Completed';
+export const DRAFT = 'Draft';
+export const CREATED = 'Created';
+
 export const PLAN_STATUS = 'PLAN_STATUS';
 export const LIVESTOCK_TYPE = 'LIVESTOCK_TYPE';
 
@@ -17,3 +20,8 @@ export const OTHER_TYPE = 'B';
 export const SCHEUDLE_ENTRY_DATE_FORMAT = 'MMM D';
 export const SERVER_SIDE_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 export const CLIENT_SIDE_DATE_FORMAT = 'MMMM D, YYYY';
+
+// roles
+export const ADMINISTRATOR = 'myra_admin';
+export const RANGE_OFFICER = 'myra_range_officer';
+export const AGREEMENT_HOLDER = 'myra_client';

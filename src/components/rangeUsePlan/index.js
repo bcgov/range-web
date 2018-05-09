@@ -18,6 +18,7 @@ const propTypes = {
   getRupPDF: PropTypes.func.isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   getRangeUsePlan: PropTypes.func.isRequired,
+  user: PropTypes.shape({}).isRequired,
 };
 
 class Base extends Component {
@@ -36,6 +37,7 @@ class Base extends Component {
       updateRupStatus,
       getRupPDF,
       createOrUpdateRupSchedule,
+      user,
     } = this.props;
     const {
       data: agreement,

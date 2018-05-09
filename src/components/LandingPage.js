@@ -17,7 +17,7 @@ export class LandingPage extends Component {
   }
 
   render() {
-    const { component: Component, user, ...rest } = this.props;
+    const { component: Component, ...rest } = this.props;
 
     return (
       <div className="main">
