@@ -39,25 +39,27 @@ const isTokenExpired = () => {
 };
 
 const setAxiosAuthHeader = (data) => {
-  axios.defaults.headers.common['Authorization'] = `${data.token_type} ${data.access_token}`;
+  const tokenType = data && data.token_type;
+  const accessToken = data && data.access_token;
+  axios.defaults.headers.common.Authorization = tokenType && accessToken && `${tokenType} ${accessToken}`;
 };
 
-const refreshAccessToken = (refresh_token, _retry) => {
+const refreshAccessToken = (refreshToken, isRetry) => {
   const data = {
-    refresh_token,
+    refresh_token: refreshToken,
     grant_type: 'refresh_token',
     redirect_uri: SSO_LOGIN_REDIRECT_URI,
     client_id: SSO_CLIENT_ID,
   };
 
   // make an application/x-www-form-urlencoded request with axios
-  // pass _retry in config so that it only tries to refresh once.
+  // pass isRetry in config so that it only tries to refresh once.
   return axios({
     method: 'post',
     baseURL: SSO_BASE_URL,
     url: REFRESH_TOKEN,
     data: querystring.stringify(data),
-    _retry,
+    isRetry,
   });
 };
 
@@ -115,7 +117,7 @@ export const onAuthenticated = (response) => {
  * delete auth header in axios and clear localStorage after signing out
  */
 export const onSignedOut = () => {
-  delete axios.defaults.headers.common['Authorization']
+  delete axios.defaults.headers.common.Authorization;
   localStorage.clear();
 };
 
@@ -150,20 +152,21 @@ const isRangeAPIs = (config) => {
  *  - sign out the user
  */
 export const registerAxiosInterceptors = (logout) => {
-  axios.interceptors.request.use((config) => {
+  axios.interceptors.request.use((c) => {
+    const config = { ...c };
     const makeRequest = async () => {
       try {
-        if (isTokenExpired() && !config._retry && isRangeAPIs()) {
+        if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
           console.log('Access token is expired. Trying to refresh the token');
-          config._retry = true;
+          config.isRetry = true;
           const refreshToken = getRefreshTokenFromLocal();
-          const response = await refreshAccessToken(refreshToken, config._retry);
+          const response = await refreshAccessToken(refreshToken, config.isRetry);
           onAuthenticated(response);
 
           const data = response && response.data;
           const tokenType = data && data.token_type;
           const accessToken = data && data.access_token;
-          config.headers.Authorization = `${tokenType} ${accessToken}`;
+          config.headers.Authorization = tokenType && accessToken && `${tokenType} ${accessToken}`;
         }
         return config;
       } catch (err) {
