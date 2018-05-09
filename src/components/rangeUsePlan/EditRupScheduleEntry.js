@@ -30,23 +30,21 @@ class EditRupScheduleEntry extends Component {
     const minDate = new Date(`${year}-01-02`);
     const maxDate = new Date(`${year + 1}-01-01`);
 
-    const p1 = new Pikaday({
+    new Pikaday({
       field: this.dateInRef,
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate,
       maxDate,
       onSelect: this.handleDateChange('dateIn'),
-    });
-    p1.setDate(new Date(dateIn));
+    }).setDate(new Date(dateIn));
 
-    const p2 = new Pikaday({
+    new Pikaday({
       field: this.dateOutRef,
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate,
       maxDate,
       onSelect: this.handleDateChange('dateOut'),
-    });
-    p2.setDate(new Date(dateOut));
+    }).setDate(new Date(dateOut));
   }
 
   setDateInRef = (ref) => { this.dateInRef = ref; }
