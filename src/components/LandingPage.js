@@ -6,8 +6,9 @@ import Navbar from './Navbar';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
+  getReferences: PropTypes.func.isRequired,
+  getZones: PropTypes.func.isRequired,
 };
 
 export class LandingPage extends Component {
@@ -17,12 +18,8 @@ export class LandingPage extends Component {
     getZones();
   }
 
-  onLogout = () => {
-    this.props.logout();
-  }
-
   render() {
-    const { component: Component, user, ...rest } = this.props;
+    const { component: Component, ...rest } = this.props;
 
     return (
       <div className="main">

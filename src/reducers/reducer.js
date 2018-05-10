@@ -32,11 +32,14 @@ const appReducer = combineReducers({
   rangeUsePlan: createReducer(genericReducer, ReducerTypes.RANGE_USE_PLAN, { data: {} }),
   references: createReducer(genericReducer, ReducerTypes.GET_REFERENCES, { data: getReferencesFromLocal() }),
   updateRupStatus: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_STATUS, { data: {} }),
+  createRupSchedule: createReducer(genericReducer, ReducerTypes.CREATE_RUP_SCHEDULE, { data: {} }),
+  updateRupSchedule: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_SCHEDULE, { data: {} }),
   updateRupZone: createReducer(genericReducer, ReducerTypes.UPDATE_RUP_ZONE, { data: {} }),
   zones: createReducer(genericReducer, ReducerTypes.GET_ZONES, { data: [] }),
   pdf: createReducer(genericReducer, ReducerTypes.GET_PDF, { }),
   users: createReducer(genericReducer, ReducerTypes.GET_USERS, { data: [] }),
   assignStaffToZone: createReducer(genericReducer, ReducerTypes.ASSIGN_STAFF_TO_ZONE, { }),
+  userProfile: createReducer(genericReducer, ReducerTypes.GET_USER_PROFILE, { data: {} }),
 });
 
 const rootReducer = (state, action) => {

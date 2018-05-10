@@ -11,15 +11,14 @@ import { EXPORT_PDF } from '../../constants/routes';
 import { COMPLETED, PENDING } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
-import RupPasture from './RupPasture';
-import RupSchedule from './RupSchedule';
-// import EditRupSchedule from './EditRupSchedule';
+import RupPastures from './RupPastures';
+import RupSchedules from './RupSchedules';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
 };
@@ -111,12 +110,14 @@ export class Rup extends Component {
       zone,
       status,
     } = this.state;
+
     const {
+      user,
       agreement,
       isUpdatingStatus,
       isDownloadingPDF,
-      livestockTypes,
     } = this.props;
+
     const statusDropdownOptions = [
       {
         key: 'completed',
@@ -208,24 +209,19 @@ export class Rup extends Component {
             agreement={agreement}
             plan={plan}
             zone={zone}
+            user={user}
             onZoneClicked={this.onZoneClicked}
           />
 
-          <RupPasture
+          <RupPastures
             className="rup__pastures"
             plan={plan}
           />
 
-          <RupSchedule
+          <RupSchedules
             className="rup__schedules"
             plan={plan}
           />
-
-          {/* <EditRupSchedule
-            className="rup__edit-schedules"
-            livestockTypes={livestockTypes}
-            plan={plan}
-          /> */}
         </div>
       </div>
     );

@@ -15,6 +15,7 @@ const setupProps = () => {
   props.isUpdatingStatus = false;
   props.isDownloadingPDF = false;
   props.livestockTypes = [{}];
+  props.user = {};
 };
 
 beforeEach(() => {

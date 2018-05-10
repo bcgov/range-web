@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
+import { formatDateFromServer, presentNullValue, calcDateDiff } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -13,7 +13,7 @@ const propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-class RupSchedule extends Component {
+class RupSchedules extends Component {
   renderSchedule = (schedule) => {
     const { id, year, grazingScheduleEntries = [] } = schedule;
 
@@ -54,8 +54,10 @@ class RupSchedule extends Component {
       dateOut,
       graceDays,
     } = entry;
-    const days = calcDateDiff(dateOut, dateIn);
+    const days = calcDateDiff(dateOut, dateIn, true);
     const pastureName = pasture && pasture.name;
+    const pldPercent = pasture && pasture.pldPercent;
+    const allowableAum = pasture && pasture.allowableAum;
     const livestockTypeName = livestockType && livestockType.name;
 
     return (
@@ -63,12 +65,12 @@ class RupSchedule extends Component {
         <Table.Cell>{presentNullValue(pastureName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockTypeName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockCount, false)}</Table.Cell>
-        <Table.Cell>{formatDate(dateIn)}</Table.Cell>
-        <Table.Cell>{formatDate(dateOut)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateIn)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateOut)}</Table.Cell>
         <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pasture.pldPercent, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pasture.allowableAum, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(pldPercent, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(allowableAum, false)}</Table.Cell>
       </Table.Row>
     );
   }
@@ -92,5 +94,5 @@ class RupSchedule extends Component {
   }
 }
 
-RupSchedule.propTypes = propTypes;
-export default RupSchedule;
+RupSchedules.propTypes = propTypes;
+export default RupSchedules;

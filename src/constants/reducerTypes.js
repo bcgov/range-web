@@ -10,3 +10,6 @@ export const GET_ZONES = 'GET_ZONES';
 export const GET_PDF = 'GET_PDF';
 export const GET_USERS = 'GET_USERS';
 export const ASSIGN_STAFF_TO_ZONE = 'ASSIGN_STAFF_TO_ZONE';
+export const CREATE_RUP_SCHEDULE = 'CREATE_RUP_SCHEDULE';
+export const UPDATE_RUP_SCHEDULE = 'UPDATE_RUP_SCHEDULE';
+export const GET_USER_PROFILE = 'GET_USER_PROFILE';

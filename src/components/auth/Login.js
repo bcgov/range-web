@@ -56,7 +56,7 @@ export class Login extends Component {
             fluid
             onClick={this.onLoginBtnClick}
           >
-            Login with IDIR
+            Login
           </Button>
 
         </div>

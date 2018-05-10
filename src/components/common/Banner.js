@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 const propTypes = {
   className: PropTypes.string,
@@ -8,12 +8,14 @@ const propTypes = {
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   children: PropTypes.node,
+  style: PropTypes.shape({}),
 };
 
 const defaultProps = {
   className: '',
   actionClassName: '',
   children: (<div />),
+  style: {},
 };
 
 const Banner = ({
@@ -22,14 +24,15 @@ const Banner = ({
   header,
   content,
   children,
+  style,
 }) => (
-  <div className={classNames('banner', className)}>
+  <div className={classnames('banner', className)} style={style}>
     <div className="banner__container">
       <h1>{header}</h1>
       <p className="banner__content">
         {content}
       </p>
-      <div className={classNames('banner__action', actionClassName)}>
+      <div className={classnames('banner__action', actionClassName)}>
         {children}
       </div>
     </div>

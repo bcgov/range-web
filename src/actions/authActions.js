@@ -11,6 +11,8 @@ import {
   getTokenFromRemote,
   onAuthenticated,
   onSignedOut,
+  onUserProfileChanged,
+  getUserProfileFromRemote,
 } from '../handlers/authentication';
 
 export const loginSuccess = data => (
@@ -18,7 +20,7 @@ export const loginSuccess = data => (
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.auth_data,
+    user: data,
   }
 );
 
@@ -56,13 +58,15 @@ export const login = code => (dispatch) => {
   dispatch(loginRequest());
   const makeRequest = async () => {
     try {
-      const response = await getTokenFromRemote(code);
+      const response1 = await getTokenFromRemote(code);
 
       // save tokens in local storage and set header for axios
-      onAuthenticated(response);
+      onAuthenticated(response1);
 
-      // TODO: make a request to get user data
-      dispatch(loginSuccess(response.data));
+      const response2 = await getUserProfileFromRemote();
+      onUserProfileChanged(response2.data);
+
+      dispatch(loginSuccess(response2.data));
     } catch (err) {
       dispatch(loginError(err));
       dispatch(toastErrorMessage(err));

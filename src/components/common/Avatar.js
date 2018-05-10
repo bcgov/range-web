@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -8,7 +8,7 @@ const propTypes = {
 };
 
 const Avatar = ({ name, className = '' }) => (
-  <div className={classNames('avatar', className)}>
+  <div className={classnames('avatar', className)}>
     <div className="avatar__initial">
       {name}
     </div>

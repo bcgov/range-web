@@ -7,8 +7,13 @@ import {
 import { saveReferencesInLocal } from '../handlers';
 import { toastErrorMessage } from '../actions/toastActions';
 
-import { GET_REFERENCES, GET_USERS, GET_ZONES } from '../constants/reducerTypes';
-import { REFERENCES, USER, ZONE } from '../constants/api';
+import {
+  GET_REFERENCES,
+  GET_USERS,
+  GET_ZONES,
+  GET_USER_PROFILE,
+} from '../constants/reducerTypes';
+import { REFERENCES, USER, ZONE, ME } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getReferences = () => (dispatch) => {
@@ -24,7 +29,7 @@ export const getReferences = () => (dispatch) => {
     } catch (err) {
       dispatch(error(GET_REFERENCES, err));
     }
-  }
+  };
   return makeRequest();
 };
 

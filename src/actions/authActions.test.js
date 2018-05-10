@@ -9,7 +9,7 @@ it('creates an action to login successfully', () => {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.auth_data,
+    user: data,
   };
 
   expect(actions.loginSuccess(data, user)).toEqual(expectedAction);
