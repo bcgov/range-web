@@ -11,39 +11,33 @@ import {
   USER,
   ME,
 } from '../constants/api';
-
+import { saveDataInLocal, getDataFromLocal } from '../handlers';
 import { AUTH_KEY } from '../constants/strings';
 
-const getDataFromLocal = () => (
-  JSON.parse(localStorage.getItem(AUTH_KEY))
+const getAuthDataFromLocal = () => (
+  getDataFromLocal(AUTH_KEY)
 );
 
-const saveDataInLocal = (data) => {
-  localStorage.setItem(AUTH_KEY, JSON.stringify(data));
+const saveAuthDataInLocal = (data) => {
+  saveDataInLocal(AUTH_KEY, data);
 };
 
 const getRefreshTokenFromLocal = () => {
-  const data = getDataFromLocal();
+  const data = getAuthDataFromLocal();
   return data && data.refresh_token;
 };
 
-const getAuthDataFromLocal = () => {
-  const data = getDataFromLocal();
-  return data && data.auth_data;
+const getJWTDataFromLocal = () => {
+  const data = getAuthDataFromLocal();
+  return data && data.jwtData;
 };
 
 const isTokenExpired = () => {
-  const authData = getAuthDataFromLocal();
-  if (authData) {
-    return (new Date() / 1000) > authData.exp;
+  const jstData = getJWTDataFromLocal();
+  if (jstData) {
+    return (new Date() / 1000) > jstData.exp;
   }
   return false;
-};
-
-const setAxiosAuthHeader = (data) => {
-  const tokenType = data && data.token_type;
-  const accessToken = data && data.access_token;
-  axios.defaults.headers.common.Authorization = tokenType && accessToken && `${tokenType} ${accessToken}`;
 };
 
 const refreshAccessToken = (refreshToken, isRetry) => {
@@ -81,6 +75,12 @@ export const getTokenFromRemote = (code) => {
   });
 };
 
+const setAxiosAuthHeader = (data) => {
+  const tokenType = data && data.token_type;
+  const accessToken = data && data.access_token;
+  axios.defaults.headers.common.Authorization = tokenType && accessToken && `${tokenType} ${accessToken}`;
+};
+
 /**
  * this method is called immediately at the very beginning in the auth reducer
  * to initialize 'user' object in App.jsx. It checks whether
@@ -90,10 +90,10 @@ export const getTokenFromRemote = (code) => {
 export const initializeUser = () => {
   let user = null;
 
-  const data = getDataFromLocal();
-  if (data) {
-    setAxiosAuthHeader(data);
-    user = { ...data.auth_data };
+  const authData = getAuthDataFromLocal();
+  if (authData) {
+    setAxiosAuthHeader(authData);
+    user = { ...authData };
   }
 
   return user;
@@ -108,9 +108,9 @@ export const initializeUser = () => {
 export const onAuthenticated = (response) => {
   if (response && response.data) {
     const { data } = response;
-    data.auth_data = jwtDecode(data.access_token);
+    data.jwtData = jwtDecode(data.access_token);
 
-    saveDataInLocal(data);
+    saveAuthDataInLocal(data);
     setAxiosAuthHeader(data);
   }
 };
@@ -134,11 +134,11 @@ export const getUserProfileFromRemote = () => (
  * after succesfully update user profile
  */
 export const onUserProfileChanged = (newUserData) => {
-  const data = getDataFromLocal();
+  const data = getAuthDataFromLocal();
   if (data) {
-    saveDataInLocal({ ...data, ...newUserData });
+    saveAuthDataInLocal({ ...data, ...newUserData });
   } else {
-    saveDataInLocal(newUserData);
+    saveAuthDataInLocal(newUserData);
   }
 };
 

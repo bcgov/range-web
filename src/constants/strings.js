@@ -1,5 +1,5 @@
 export const REFERENCE_KEY = 'range-web-reference';
-export const AUTH_KEY = 'auth-range-web';
+export const AUTH_KEY = 'range-web-auth';
 
 // tenure agreement table header labels
 export const RANGE_NUMBER = 'RAN Number';

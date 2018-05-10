@@ -15,11 +15,24 @@ import {
   AGREEMENT_HOLDER,
 } from '../constants/variables';
 
-const saveDataInLocal = (key, data) => {
+/**
+ * Save data in local storage
+ *
+ * @param {string} key
+ * @param {object} data
+ * @returns undefined
+ */
+export const saveDataInLocal = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-const getDataFromLocal = key => (
+/**
+ * Get data that was saved in local storage
+ *
+ * @param {string} key
+ * @returns {object} the data object
+ */
+export const getDataFromLocal = key => (
   JSON.parse(localStorage.getItem(key))
 );
 
