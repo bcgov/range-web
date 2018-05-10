@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../common';
-import { formatDateFromServer, presentNullValue } from '../../handlers';
+import { formatDateFromServer, presentNullValue, isUserAdmin } from '../../handlers';
 import {
   RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
   ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
@@ -12,17 +12,16 @@ import {
 import { PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   zone: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
   onZoneClicked: PropTypes.func,
-  isAdmin: PropTypes.bool,
 };
 
 const defaultProps = {
   onZoneClicked: () => {},
-  isAdmin: true,
 };
 
 class RupBasicInformation extends Component {
@@ -55,7 +54,6 @@ class RupBasicInformation extends Component {
       zone,
       onZoneClicked,
       className,
-      isAdmin,
     } = this.props;
 
     // variables for textfields
@@ -94,6 +92,7 @@ class RupBasicInformation extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
+    const isAdmin = isUserAdmin(this.props.user);
     const zoneText = isAdmin
       ? (
         <div className="rup__zone-text">

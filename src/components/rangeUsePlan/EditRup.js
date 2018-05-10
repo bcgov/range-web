@@ -10,9 +10,12 @@ import RupPastures from './RupPastures';
 import EditRupSchedules from './EditRupSchedules';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  toastErrorMessage: PropTypes.func.isRequired,
+  toastSuccessMessage: PropTypes.func.isRequired,
 };
 
 export class EditRup extends Component {
@@ -94,6 +97,7 @@ export class EditRup extends Component {
     } = this.state;
 
     const {
+      user,
       agreement,
       livestockTypes,
     } = this.props;
@@ -148,7 +152,7 @@ export class EditRup extends Component {
             agreement={agreement}
             plan={plan}
             zone={zone}
-            isAdmin={false}
+            user={user}
           />
 
           <RupPastures

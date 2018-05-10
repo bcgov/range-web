@@ -61,6 +61,7 @@ class Base extends Component {
     if (isUserAdmin(user)) {
       planPage = (
         <Rup
+          user={user}
           agreement={agreement}
           statuses={statuses}
           livestockTypes={livestockTypes}
@@ -73,6 +74,7 @@ class Base extends Component {
     } else if (isUserAgreementHolder(user)) {
       planPage = (
         <EditRup
+          user={user}
           agreement={agreement}
           livestockTypes={livestockTypes}
           createOrUpdateRupSchedule={createOrUpdateRupSchedule}

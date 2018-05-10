@@ -13,13 +13,12 @@ import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import RupSchedules from './RupSchedules';
-import EditRupSchedules from './EditRupSchedules';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
 };
@@ -111,12 +110,14 @@ export class Rup extends Component {
       zone,
       status,
     } = this.state;
+
     const {
+      user,
       agreement,
       isUpdatingStatus,
       isDownloadingPDF,
-      livestockTypes,
     } = this.props;
+
     const statusDropdownOptions = [
       {
         key: 'completed',
@@ -134,7 +135,6 @@ export class Rup extends Component {
 
     const statusName = status && status.name;
     const agreementId = agreement && agreement.id;
-    const usage = agreement && agreement.usage;
     const rupExist = plan.id;
 
     return (
@@ -209,6 +209,7 @@ export class Rup extends Component {
             agreement={agreement}
             plan={plan}
             zone={zone}
+            user={user}
             onZoneClicked={this.onZoneClicked}
           />
 
