@@ -12,23 +12,15 @@ import {
   ME,
 } from '../constants/api';
 import { saveDataInLocal, getDataFromLocal } from '../handlers';
-import { AUTH_KEY } from '../constants/strings';
-
-const getAuthDataFromLocal = () => (
-  getDataFromLocal(AUTH_KEY)
-);
-
-const saveAuthDataInLocal = (data) => {
-  saveDataInLocal(AUTH_KEY, data);
-};
+import { AUTH_KEY, USER_KEY } from '../constants/variables';
 
 const getRefreshTokenFromLocal = () => {
-  const data = getAuthDataFromLocal();
+  const data = getDataFromLocal(AUTH_KEY);
   return data && data.refresh_token;
 };
 
 const getJWTDataFromLocal = () => {
-  const data = getAuthDataFromLocal();
+  const data = getDataFromLocal(AUTH_KEY);
   return data && data.jwtData;
 };
 
@@ -90,12 +82,14 @@ const setAxiosAuthHeader = (data) => {
 export const initializeUser = () => {
   let user = null;
 
-  const authData = getAuthDataFromLocal();
+  const userData = getDataFromLocal(USER_KEY);
+  if (userData) {
+    user = { ...userData };
+  }
+  const authData = getDataFromLocal(AUTH_KEY);
   if (authData) {
     setAxiosAuthHeader(authData);
-    user = { ...authData };
   }
-
   return user;
 };
 
@@ -110,7 +104,7 @@ export const onAuthenticated = (response) => {
     const { data } = response;
     data.jwtData = jwtDecode(data.access_token);
 
-    saveAuthDataInLocal(data);
+    saveDataInLocal(AUTH_KEY, data);
     setAxiosAuthHeader(data);
   }
 };
@@ -134,12 +128,7 @@ export const getUserProfileFromRemote = () => (
  * after succesfully update user profile
  */
 export const onUserProfileChanged = (newUserData) => {
-  const data = getAuthDataFromLocal();
-  if (data) {
-    saveAuthDataInLocal({ ...data, ...newUserData });
-  } else {
-    saveAuthDataInLocal(newUserData);
-  }
+  saveDataInLocal(USER_KEY, newUserData);
 };
 
 const isRangeAPIs = (config) => {

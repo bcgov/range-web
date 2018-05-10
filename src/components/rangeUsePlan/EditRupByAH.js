@@ -70,9 +70,9 @@ export class EditRupByAH extends Component {
 
   handleScroll = () => {
     if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
-      this.stickyHeader.classList.add('rup__sticky--fixed');
+      this.stickyHeader && this.stickyHeader.classList.add('rup__sticky--fixed');
     } else {
-      this.stickyHeader.classList.remove('rup__sticky--fixed');
+      this.stickyHeader && this.stickyHeader.classList.remove('rup__sticky--fixed');
     }
   }
 

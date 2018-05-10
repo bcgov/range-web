@@ -64,10 +64,9 @@ export const login = code => (dispatch) => {
       onAuthenticated(response1);
 
       const response2 = await getUserProfileFromRemote();
-      const data = { ...response1.data, ...response2.data };
-      onUserProfileChanged(data);
+      onUserProfileChanged(response2.data);
 
-      dispatch(loginSuccess(data));
+      dispatch(loginSuccess(response2.data));
     } catch (err) {
       dispatch(loginError(err));
       dispatch(toastErrorMessage(err));

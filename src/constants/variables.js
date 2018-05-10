@@ -1,3 +1,8 @@
+// local storage keys
+export const REFERENCE_KEY = 'range-web-reference';
+export const AUTH_KEY = 'range-web-auth';
+export const USER_KEY = 'range-web-user';
+
 // range use plan status
 export const PENDING = 'Pending';
 export const SUBMITTED = 'Submitted';
