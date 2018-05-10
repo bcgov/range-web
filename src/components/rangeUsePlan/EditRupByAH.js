@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import classnames from 'classnames';
 import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS } from '../../constants/strings';
-import { EXPORT_PDF } from '../../constants/routes';
 import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
@@ -18,18 +17,18 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
 };
 
-export class EditRup extends Component {
+export class EditRupByAH extends Component {
   constructor(props) {
     super(props);
 
     // store fields that can be updated within this page
     this.state = {
       plan: props.agreement.plan,
-      isUpdatingRup: false,
     };
   }
 
   componentDidMount() {
+    this.stickyHeader = document.getElementById('edit-rup-sticky-header');
     // requires the absolute offsetTop value
     this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
     this.scrollListner = window.addEventListener('scroll', this.handleScroll);
@@ -70,15 +69,11 @@ export class EditRup extends Component {
   setStickyRef = (ref) => { this.stickyHeader = ref; }
 
   handleScroll = () => {
-    let isStickyFixed;
     if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
-      isStickyFixed = true;
+      this.stickyHeader.classList.add('rup__sticky--fixed');
     } else {
-      isStickyFixed = false;
+      this.stickyHeader.classList.remove('rup__sticky--fixed');
     }
-    this.setState({
-      isStickyFixed,
-    });
   }
 
   handleSchedulesChange = (schedules) => {
@@ -92,7 +87,6 @@ export class EditRup extends Component {
   render() {
     const {
       plan,
-      isStickyFixed,
       isUpdatingRup,
     } = this.state;
 
@@ -110,15 +104,6 @@ export class EditRup extends Component {
 
     return (
       <div className="rup">
-        <a
-          className="rup__pdf-link"
-          target="_blank"
-          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
-          ref={this.setPDFRef}
-        >
-          pdf link
-        </a>
-
         <Banner
           className="banner__edit-rup"
           header={agreementId}
@@ -126,14 +111,13 @@ export class EditRup extends Component {
         />
 
         <div
-          className={classnames('rup__sticky', { 'rup__sticky--fixed': isStickyFixed })}
+          id="edit-rup-sticky-header"
+          className="rup__sticky"
           ref={this.setStickyRef}
         >
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
-              {isStickyFixed &&
-                <div className="rup__sticky__title">{agreementId}</div>
-              }
+              <div className="rup__sticky__title">{agreementId}</div>
               <Status
                 className="rup__status"
                 status={statusName}
@@ -172,5 +156,6 @@ export class EditRup extends Component {
     );
   }
 }
-EditRup.propTypes = propTypes;
-export default EditRup;
+
+EditRupByAH.propTypes = propTypes;
+export default EditRupByAH;

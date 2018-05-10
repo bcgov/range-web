@@ -135,7 +135,6 @@ class EditRupSchedules extends Component {
             )
           }
         </ul>
-        {/* <Button onClick={this.onSaveClick}>Save Schedules</Button> */}
       </div>
     );
   }

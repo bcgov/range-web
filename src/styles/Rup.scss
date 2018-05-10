@@ -75,17 +75,20 @@ $row-height: 80px;
       line-height: 16px;
     }
     &__title {
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
+      display: none;
     }
     &--fixed {
       position: fixed;
       top: 0;
       width: 100%;
     }
+    &--fixed &__title {
+      display: inline-block;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
   }
-
   &__actions {
     justify-content: space-between;
     
