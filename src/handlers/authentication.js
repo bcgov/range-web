@@ -8,6 +8,8 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN,
   REFRESH_TOKEN,
+  USER,
+  ME,
 } from '../constants/api';
 
 import { AUTH_KEY } from '../constants/strings';
@@ -121,6 +123,10 @@ export const onSignedOut = () => {
   localStorage.clear();
 };
 
+export const getUserProfileFromRemote = () => (
+  axios.get(`${USER}${ME}`)
+);
+
 /**
  *
  * @param {object} newUserData
@@ -130,8 +136,9 @@ export const onSignedOut = () => {
 export const onUserProfileChanged = (newUserData) => {
   const data = getDataFromLocal();
   if (data) {
-    data.auth_data = { ...newUserData };
-    saveDataInLocal(data);
+    saveDataInLocal({ ...data, ...newUserData });
+  } else {
+    saveDataInLocal(newUserData);
   }
 };
 

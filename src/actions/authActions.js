@@ -11,14 +11,17 @@ import {
   getTokenFromRemote,
   onAuthenticated,
   onSignedOut,
+  onUserProfileChanged,
+  getUserProfileFromRemote,
 } from '../handlers/authentication';
+import { getUserProfile } from '../actions/commonActions';
 
 export const loginSuccess = data => (
   {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.auth_data,
+    user: data,
   }
 );
 
@@ -56,13 +59,16 @@ export const login = code => (dispatch) => {
   dispatch(loginRequest());
   const makeRequest = async () => {
     try {
-      const response = await getTokenFromRemote(code);
+      const response1 = await getTokenFromRemote(code);
 
       // save tokens in local storage and set header for axios
-      onAuthenticated(response);
+      onAuthenticated(response1);
 
-      // TODO: make a request to get user data
-      dispatch(loginSuccess(response.data));
+      const response2 = await getUserProfileFromRemote();
+      const data = { ...response1.data, ...response2.data };
+      onUserProfileChanged(data);
+
+      dispatch(loginSuccess(data));
     } catch (err) {
       dispatch(loginError(err));
       dispatch(toastErrorMessage(err));

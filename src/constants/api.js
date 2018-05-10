@@ -28,3 +28,4 @@ export const ZONE = '/zone';
 export const REPORT = '/report';
 export const USER = '/user';
 export const SCHEDULE = '/schedule';
+export const ME = '/me';

@@ -30,6 +30,7 @@
     "import/no-named-as-default": "off",
     "no-shadow": "off",
     "quote-props": "off",
+    "max-len": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",
     "block-scoped-var": "error",

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import classnames from 'classnames';
-import { DETAIL_RUP_EDIT_BANNER_CONTENT } from '../../constants/strings';
+import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
 import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
@@ -37,23 +37,29 @@ export class EditRup extends Component {
   }
 
   onSaveDraftClick = () => {
-    const { createOrUpdateRupSchedule, agreement } = this.props;
+    const {
+      createOrUpdateRupSchedule,
+      toastErrorMessage,
+      toastSuccessMessage,
+      agreement,
+    } = this.props;
 
-    // create or update schedules
     const plan = agreement && agreement.plan;
     const grazingSchedules = plan && plan.grazingSchedules;
+
     if (plan && grazingSchedules) {
       this.setState({ isUpdatingRup: true });
 
-      // update grazing schedules
+      // update grazing schedules(create or update each schedule)
       Promise.all(grazingSchedules.map(schedule => (
         createOrUpdateRupSchedule({ planId: plan.id, schedule })
-      ))).then((data) => {
+      ))).then(() => {
         this.setState({ isUpdatingRup: false });
-        console.log(data);
+        toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
       }).catch((err) => {
         this.setState({ isUpdatingRup: false });
-        console.log(err);
+        toastErrorMessage(err);
+        throw err;
       });
     }
   }

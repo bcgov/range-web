@@ -7,7 +7,8 @@ import EditRup from './EditRup';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
-import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
+import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
+import { PLAN_STATUS, LIVESTOCK_TYPE, AGREEMENT_HOLDER, ADMINISTRATOR } from '../../constants/variables';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
@@ -38,6 +39,8 @@ class Base extends Component {
       getRupPDF,
       createOrUpdateRupSchedule,
       user,
+      toastErrorMessage,
+      toastSuccessMessage,
     } = this.props;
     const {
       data: agreement,
@@ -47,6 +50,32 @@ class Base extends Component {
     } = agreementState;
     const statuses = references[PLAN_STATUS];
     const livestockTypes = references[LIVESTOCK_TYPE];
+    let planPage;
+    if (user.roles && user.roles.includes(ADMINISTRATOR)) {
+      planPage = (
+        <Rup
+          agreement={agreement}
+          statuses={statuses}
+          livestockTypes={livestockTypes}
+          updateRupStatus={updateRupStatus}
+          getRupPDF={getRupPDF}
+          isUpdatingStatus={isUpdatingStatus}
+          isDownloadingPDF={isDownloadingPDF}
+        />
+      );
+    } else if (user.roles && user.roles.includes(AGREEMENT_HOLDER)) {
+      planPage = (
+        <EditRup
+          agreement={agreement}
+          livestockTypes={livestockTypes}
+          createOrUpdateRupSchedule={createOrUpdateRupSchedule}
+          toastErrorMessage={toastErrorMessage}
+          toastSuccessMessage={toastSuccessMessage}
+        />
+      );
+    } else {
+      planPage = (<div>No role found</div>);
+    }
 
     return (
       <div>
@@ -54,20 +83,7 @@ class Base extends Component {
           <Loading />
         }
         { success &&
-          // <Rup
-          //   agreement={agreement}
-          //   statuses={statuses}
-          //   livestockTypes={livestockTypes}
-          //   updateRupStatus={updateRupStatus}
-          //   getRupPDF={getRupPDF}
-          //   isUpdatingStatus={isUpdatingStatus}
-          //   isDownloadingPDF={isDownloadingPDF}
-          // />
-          <EditRup
-            agreement={agreement}
-            livestockTypes={livestockTypes}
-            createOrUpdateRupSchedule={createOrUpdateRupSchedule}
-          />
+          planPage
         }
         { error &&
           <Redirect to="/no-range-use-plan-found" />
@@ -92,4 +108,6 @@ export default connect(mapStateToProps, {
   updateRupStatus,
   getRupPDF,
   createOrUpdateRupSchedule,
+  toastErrorMessage,
+  toastSuccessMessage,
 })(Base);

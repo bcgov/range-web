@@ -217,16 +217,9 @@ export class Rup extends Component {
             plan={plan}
           />
 
-          {/* <RupSchedules
+          <RupSchedules
             className="rup__schedules"
             plan={plan}
-          /> */}
-
-          <EditRupSchedules
-            className="rup__edit-schedules"
-            livestockTypes={livestockTypes}
-            plan={plan}
-            usage={usage}
           />
         </div>
       </div>

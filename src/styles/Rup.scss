@@ -172,6 +172,15 @@ $row-height: 80px;
     }
   }
   &__schedule {
+    padding-top: 12px;
+    &__header {
+      padding-bottom: 7px;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__edit-schedule {
     padding: 15px;
 
     &__header {
