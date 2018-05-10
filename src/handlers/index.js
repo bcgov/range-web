@@ -23,7 +23,10 @@ import {
  * @returns undefined
  */
 export const saveDataInLocal = (key, data) => {
-  localStorage.setItem(key, JSON.stringify(data));
+//   localStorage.setItem(key, JSON.stringify(data));
+
+  const encode = window.btoa(JSON.stringify(data));
+  localStorage.setItem(key, encode);
 };
 
 /**
@@ -32,10 +35,13 @@ export const saveDataInLocal = (key, data) => {
  * @param {string} key
  * @returns {object} the data object
  */
-export const getDataFromLocal = key => (
-  JSON.parse(localStorage.getItem(key))
-);
+export const getDataFromLocal = (key) => {
+//   JSON.parse(localStorage.getItem(key))
 
+  const localData = localStorage.getItem(key);
+  const decode = localData ? window.atob(localData) : null;
+  return JSON.parse(decode);
+};
 /**
  * Check the user if he or she is an admin
  *
