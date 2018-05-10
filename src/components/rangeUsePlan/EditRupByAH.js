@@ -66,8 +66,6 @@ export class EditRupByAH extends Component {
     }
   }
 
-  setStickyRef = (ref) => { this.stickyHeader = ref; }
-
   handleScroll = () => {
     if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
       this.stickyHeader && this.stickyHeader.classList.add('rup__sticky--fixed');
@@ -113,7 +111,6 @@ export class EditRupByAH extends Component {
         <div
           id="edit-rup-sticky-header"
           className="rup__sticky"
-          ref={this.setStickyRef}
         >
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
