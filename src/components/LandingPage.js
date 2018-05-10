@@ -7,6 +7,8 @@ import Navbar from './Navbar';
 const propTypes = {
   component: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
+  getReferences: PropTypes.func.isRequired,
+  getZones: PropTypes.func.isRequired,
 };
 
 export class LandingPage extends Component {

@@ -76,7 +76,7 @@ class RupBasicInformation extends Component {
 
     const {
       rangeName,
-      alternateBusinessName,
+      alternativeBusinessName,
       planStartDate,
       planEndDate,
       extension,
@@ -128,7 +128,7 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={ALTERNATIVE_BUSINESS_NAME}
-              text={alternateBusinessName}
+              text={alternativeBusinessName}
             />
           </div>
           <div className="rup__contact-info rup__cell-6">

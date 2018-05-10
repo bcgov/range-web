@@ -8,7 +8,12 @@ import {
   STATUS404,
   STATUS500,
 } from '../constants/strings';
-import { SERVER_SIDE_DATE_FORMAT, CLIENT_SIDE_DATE_FORMAT } from '../constants/variables';
+import {
+  SERVER_SIDE_DATE_FORMAT,
+  CLIENT_SIDE_DATE_FORMAT,
+  ADMINISTRATOR,
+  AGREEMENT_HOLDER,
+} from '../constants/variables';
 
 const saveDataInLocal = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
@@ -16,6 +21,26 @@ const saveDataInLocal = (key, data) => {
 
 const getDataFromLocal = key => (
   JSON.parse(localStorage.getItem(key))
+);
+
+/**
+ * Check the user if he or she is an admin
+ *
+ * @param {object} user the user object from authentication
+ * @returns {boolean}
+ */
+export const isUserAdmin = (user = {}) => (
+  user.roles && user.roles.includes(ADMINISTRATOR)
+);
+
+/**
+ * Check the user if he or she is an agreement holder
+ *
+ * @param {object} user the user object from authentication
+ * @returns {boolean}
+ */
+export const isUserAgreementHolder = (user = {}) => (
+  user.roles && user.roles.includes(AGREEMENT_HOLDER)
 );
 
 /**

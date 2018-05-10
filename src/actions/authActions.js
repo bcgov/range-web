@@ -14,7 +14,6 @@ import {
   onUserProfileChanged,
   getUserProfileFromRemote,
 } from '../handlers/authentication';
-import { getUserProfile } from '../actions/commonActions';
 
 export const loginSuccess = data => (
   {
