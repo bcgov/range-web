@@ -7,7 +7,7 @@ import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import RupSchedules from './RupSchedules';
 import EditRupSchedules from './EditRupSchedules';
-import { CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
+import { CREATED, DRAFT, CHANGE_REQUESTED, PENDING } from '../../constants/variables';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -47,10 +47,6 @@ export class EditRupByAH extends Component {
 
   onSaveDraftClick = () => {
     const {
-      createOrUpdateRupSchedule,
-      updateRupStatus,
-      toastErrorMessage,
-      toastSuccessMessage,
       agreement,
       statuses,
     } = this.props;
@@ -59,6 +55,31 @@ export class EditRupByAH extends Component {
 
     const plan = agreement && agreement.plan;
     const status = statuses.find(s => s.name === DRAFT);
+
+    this.updateRupStatusAndContent(plan, status, true);
+  }
+
+  onSubmitClicked = () => {
+    const {
+      agreement,
+      statuses,
+    } = this.props;
+
+    this.setState({ isSubmitting: true });
+
+    const plan = agreement && agreement.plan;
+    const status = statuses.find(s => s.name === PENDING);
+
+    this.updateRupStatusAndContent(plan, status, false);
+  }
+
+  updateRupStatusAndContent = (plan, status, isDraft) => {
+    const {
+      createOrUpdateRupSchedule,
+      updateRupStatus,
+      toastErrorMessage,
+      toastSuccessMessage,
+    } = this.props;
 
     const planId = plan && plan.id;
     const statusId = status && status.id;
@@ -73,9 +94,10 @@ export class EditRupByAH extends Component {
 
           this.setState({
             isSavingAsDraft: false,
+            isSubmitting: false,
             status: newStatus,
           });
-          toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
+          toastSuccessMessage(isDraft ? SAVE_PLAN_AS_DRAFT_SUCCESS : 'Submit success!');
         } catch (err) {
           toastErrorMessage(err);
           throw err;
@@ -84,7 +106,6 @@ export class EditRupByAH extends Component {
       makeRequest();
     }
   }
-
   handleScroll = () => {
     if (this.stickyHeader) {
       if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
@@ -108,6 +129,7 @@ export class EditRupByAH extends Component {
       plan,
       status,
       isSavingAsDraft,
+      isSubmitting,
     } = this.state;
 
     const {
@@ -172,7 +194,9 @@ export class EditRupByAH extends Component {
                 Save Draft
               </Button>
               <Button
+                loading={isSubmitting}
                 disabled={!isEditable}
+                onClick={this.onSubmitClicked}
                 style={{ marginLeft: '15px' }}
               >
                 Submit for Review
