@@ -11,6 +11,7 @@ const propTypes = {
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
   }).isRequired,
+  user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
 };
 
@@ -19,7 +20,7 @@ export class AgreementTable extends Component {
     activeIndex: 0,
   }
 
-  onRowClicked = (index, agrementId, planId) => {
+  onRowClicked = (index, agrementId) => {
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;
     this.setState({ activeIndex: newIndex });
@@ -35,6 +36,7 @@ export class AgreementTable extends Component {
 
     return (
       <AgreementTableItem
+        user={this.props.user}
         key={index}
         index={index}
         isActive={isActive}

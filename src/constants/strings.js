@@ -72,3 +72,11 @@ export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder\'s name, or staff contact in the search box to search for a specific range use plan.';
 export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
+
+// statuses of range use plan in user perspective
+export const INPUT_REQUIRED = 'Input Required';
+export const REVIEW_REQUIRED = 'Review Required';
+export const IN_REVIEW = 'In Review';
+export const REVISIONS_REQUESTED = 'Revisions Requested';
+export const SENT_FOR_INPUT = 'Sent for Input';
+export const IN_PROGRESS = 'In Progress';

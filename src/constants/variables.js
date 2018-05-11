@@ -5,10 +5,10 @@ export const USER_KEY = 'range-web-user';
 
 // range use plan status
 export const PENDING = 'Pending';
-export const SUBMITTED = 'Submitted';
 export const COMPLETED = 'Completed';
 export const DRAFT = 'Draft';
 export const CREATED = 'Created';
+export const CHANGE_REQUESTED = 'Change Requested';
 
 export const PLAN_STATUS = 'PLAN_STATUS';
 export const LIVESTOCK_TYPE = 'LIVESTOCK_TYPE';

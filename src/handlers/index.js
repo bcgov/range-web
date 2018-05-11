@@ -42,6 +42,7 @@ export const getDataFromLocal = (key) => {
   const decode = localData ? window.atob(localData) : null;
   return JSON.parse(decode);
 };
+
 /**
  * Check the user if he or she is an admin
  *

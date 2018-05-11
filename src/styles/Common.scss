@@ -15,19 +15,22 @@
     border-radius: 50%;
     display: inline-block;
     margin-right: 7px;
- 
+
+    &--created {
+      background: orange;
+    } 
+    &--pending {
+      background: purple;
+    }
+    &--draft {
+      background: yellow;
+    }
     &--completed {
       background: green;
     }
-  
-    &--pending {
+    &--change-requested {
       background: red;
     }
-  
-    &--submitted {
-      background: orange;
-    }
-
     &--not-provided {
       display: none;
     }

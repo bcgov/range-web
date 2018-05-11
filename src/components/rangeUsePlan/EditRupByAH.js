@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import classnames from 'classnames';
 import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS } from '../../constants/strings';
 import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
+import RupSchedules from './RupSchedules';
 import EditRupSchedules from './EditRupSchedules';
+import { CREATED, DRAFT, CHANGE_REQUESTED, PENDING } from '../../constants/variables';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  updateRupStatus: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
 };
@@ -22,8 +25,12 @@ export class EditRupByAH extends Component {
     super(props);
 
     // store fields that can be updated within this page
+    const { plan } = props.agreement;
+    const { status } = plan || {};
+
     this.state = {
-      plan: props.agreement.plan,
+      plan,
+      status,
     };
   }
 
@@ -40,37 +47,72 @@ export class EditRupByAH extends Component {
 
   onSaveDraftClick = () => {
     const {
-      createOrUpdateRupSchedule,
-      toastErrorMessage,
-      toastSuccessMessage,
       agreement,
+      statuses,
     } = this.props;
 
+    this.setState({ isSavingAsDraft: true });
+
     const plan = agreement && agreement.plan;
-    const grazingSchedules = plan && plan.grazingSchedules;
+    const status = statuses.find(s => s.name === DRAFT);
 
-    if (plan && grazingSchedules) {
-      this.setState({ isUpdatingRup: true });
-
-      // update grazing schedules(create or update each schedule)
-      Promise.all(grazingSchedules.map(schedule => (
-        createOrUpdateRupSchedule({ planId: plan.id, schedule })
-      ))).then(() => {
-        this.setState({ isUpdatingRup: false });
-        toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
-      }).catch((err) => {
-        this.setState({ isUpdatingRup: false });
-        toastErrorMessage(err);
-        throw err;
-      });
-    }
+    this.updateRupStatusAndContent(plan, status, true);
   }
 
+  onSubmitClicked = () => {
+    const {
+      agreement,
+      statuses,
+    } = this.props;
+
+    this.setState({ isSubmitting: true });
+
+    const plan = agreement && agreement.plan;
+    const status = statuses.find(s => s.name === PENDING);
+
+    this.updateRupStatusAndContent(plan, status, false);
+  }
+
+  updateRupStatusAndContent = (plan, status, isDraft) => {
+    const {
+      createOrUpdateRupSchedule,
+      updateRupStatus,
+      toastErrorMessage,
+      toastSuccessMessage,
+    } = this.props;
+
+    const planId = plan && plan.id;
+    const statusId = status && status.id;
+    const grazingSchedules = plan && plan.grazingSchedules;
+    if (planId && statusId && grazingSchedules) {
+      const makeRequest = async () => {
+        try {
+          const newStatus = await updateRupStatus({ planId, statusId });
+          await Promise.all(grazingSchedules.map(schedule => (
+            createOrUpdateRupSchedule({ planId, schedule })
+          )));
+
+          this.setState({
+            isSavingAsDraft: false,
+            isSubmitting: false,
+            status: newStatus,
+          });
+          toastSuccessMessage(isDraft ? SAVE_PLAN_AS_DRAFT_SUCCESS : 'Submit success!');
+        } catch (err) {
+          toastErrorMessage(err);
+          throw err;
+        }
+      };
+      makeRequest();
+    }
+  }
   handleScroll = () => {
-    if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
-      this.stickyHeader && this.stickyHeader.classList.add('rup__sticky--fixed');
-    } else {
-      this.stickyHeader && this.stickyHeader.classList.remove('rup__sticky--fixed');
+    if (this.stickyHeader) {
+      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
+        this.stickyHeader.classList.add('rup__sticky--fixed');
+      } else {
+        this.stickyHeader.classList.remove('rup__sticky--fixed');
+      }
     }
   }
 
@@ -85,7 +127,9 @@ export class EditRupByAH extends Component {
   render() {
     const {
       plan,
-      isUpdatingRup,
+      status,
+      isSavingAsDraft,
+      isSubmitting,
     } = this.state;
 
     const {
@@ -94,11 +138,31 @@ export class EditRupByAH extends Component {
       livestockTypes,
     } = this.props;
 
-    const status = plan && plan.status;
     const statusName = status && status.name;
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;
     const usage = agreement && agreement.usage;
+    const isEditable = statusName === CREATED || statusName === DRAFT || statusName === CHANGE_REQUESTED;
+
+    let rupSchedules;
+    if (isEditable) {
+      rupSchedules = (
+        <EditRupSchedules
+          className="rup__edit-schedules"
+          livestockTypes={livestockTypes}
+          plan={plan}
+          usage={usage}
+          handleSchedulesChange={this.handleSchedulesChange}
+        />
+      );
+    } else {
+      rupSchedules = (
+        <RupSchedules
+          className="rup__schedules"
+          plan={plan}
+        />
+      );
+    }
 
     return (
       <div className="rup">
@@ -118,11 +182,25 @@ export class EditRupByAH extends Component {
               <Status
                 className="rup__status"
                 status={statusName}
+                user={user}
               />
             </div>
             <div className="rup__sticky__btns">
-              <Button loading={isUpdatingRup} onClick={this.onSaveDraftClick}>Save Draft</Button>
-              <Button style={{ marginLeft: '15px' }}>Submit for Review</Button>
+              <Button
+                loading={isSavingAsDraft}
+                disabled={!isEditable}
+                onClick={this.onSaveDraftClick}
+              >
+                Save Draft
+              </Button>
+              <Button
+                loading={isSubmitting}
+                disabled={!isEditable}
+                onClick={this.onSubmitClicked}
+                style={{ marginLeft: '15px' }}
+              >
+                Submit for Review
+              </Button>
             </div>
           </div>
         </div>
@@ -141,13 +219,7 @@ export class EditRupByAH extends Component {
             plan={plan}
           />
 
-          <EditRupSchedules
-            className="rup__edit-schedules"
-            livestockTypes={livestockTypes}
-            plan={plan}
-            usage={usage}
-            handleSchedulesChange={this.handleSchedulesChange}
-          />
+          {rupSchedules}
         </div>
       </div>
     );
