@@ -57,9 +57,9 @@ class Base extends Component {
     const statuses = references[PLAN_STATUS];
     const livestockTypes = references[LIVESTOCK_TYPE];
 
-    let planPage;
+    let rup;
     if (isUserAdmin(user)) {
-      planPage = (
+      rup = (
         <Rup
           user={user}
           agreement={agreement}
@@ -72,7 +72,7 @@ class Base extends Component {
         />
       );
     } else if (isUserAgreementHolder(user)) {
-      planPage = (
+      rup = (
         <EditRupByAH
           user={user}
           agreement={agreement}
@@ -85,7 +85,7 @@ class Base extends Component {
         />
       );
     } else {
-      planPage = (<div>No role found</div>);
+      rup = (<div>No role found</div>);
     }
 
     return (
@@ -94,7 +94,7 @@ class Base extends Component {
           <Loading />
         }
         { success &&
-          planPage
+          rup
         }
         { error &&
           <Redirect to="/no-range-use-plan-found" />

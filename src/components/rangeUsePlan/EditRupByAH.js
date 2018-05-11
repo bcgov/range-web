@@ -7,7 +7,7 @@ import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import RupSchedules from './RupSchedules';
 import EditRupSchedules from './EditRupSchedules';
-import { PENDING, CREATED, SUBMITTED, DRAFT } from '../../constants/variables';
+import { PENDING, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -120,7 +120,8 @@ export class EditRupByAH extends Component {
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;
     const usage = agreement && agreement.usage;
-    const isEditable = statusName === SUBMITTED || statusName === CREATED || statusName === DRAFT;
+    const isEditable = statusName === CREATED || statusName === DRAFT || statusName === CHANGE_REQUESTED;
+
     let rupSchedules;
     if (isEditable) {
       rupSchedules = (
