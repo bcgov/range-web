@@ -12,6 +12,7 @@ const propTypes = {
   history: PropTypes.shape({}).isRequired,
   onRowClicked: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
+  user: PropTypes.shape({}).isRequired,
   // isActive: PropTypes.bool.isRequired,
 };
 
@@ -59,7 +60,9 @@ export class AgreementTableItem extends Component {
         <Table.Cell>{presentNullValue(rangeName)}</Table.Cell>
         <Table.Cell>{presentNullValue(primaryAgreementHolderName)}</Table.Cell>
         <Table.Cell>{presentNullValue(staffName)}</Table.Cell>
-        <Table.Cell><Status status={statusName} /></Table.Cell>
+        <Table.Cell>
+          <Status user={this.props.user} status={statusName} />
+        </Table.Cell>
       </Table.Row>
     );
   }
