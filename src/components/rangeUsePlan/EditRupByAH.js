@@ -7,7 +7,7 @@ import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import RupSchedules from './RupSchedules';
 import EditRupSchedules from './EditRupSchedules';
-import { PENDING, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
+import { CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -58,7 +58,7 @@ export class EditRupByAH extends Component {
     this.setState({ isSavingAsDraft: true });
 
     const plan = agreement && agreement.plan;
-    const status = statuses.find(s => s.name === PENDING);
+    const status = statuses.find(s => s.name === DRAFT);
 
     const planId = plan && plan.id;
     const statusId = status && status.id;
