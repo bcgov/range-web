@@ -76,8 +76,10 @@ class Base extends Component {
         <EditRupByAH
           user={user}
           agreement={agreement}
+          statuses={statuses}
           livestockTypes={livestockTypes}
           createOrUpdateRupSchedule={createOrUpdateRupSchedule}
+          updateRupStatus={updateRupStatus}
           toastErrorMessage={toastErrorMessage}
           toastSuccessMessage={toastSuccessMessage}
         />
