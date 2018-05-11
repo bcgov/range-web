@@ -3,17 +3,32 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const propTypes = {
-  name: PropTypes.string.isRequired,
+  user: PropTypes.shape({}).isRequired,
   className: PropTypes.string,
 };
 
-const Avatar = ({ name, className = '' }) => (
-  <div className={classnames('avatar', className)}>
-    <div className="avatar__initial">
-      {name}
+const defaultProps = {
+  className: '',
+};
+
+const Avatar = ({ className, user }) => {
+  const { familyName, givenName } = user || {};
+  let name = '';
+  if (familyName && givenName
+    && typeof familyName === 'string'
+    && typeof givenName === 'string') {
+    name = givenName.charAt(0) + familyName.charAt(0);
+  }
+
+  return (
+    <div className={classnames('avatar', className)}>
+      <div className="avatar__initial">
+        {name}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 Avatar.propTypes = propTypes;
+Avatar.defaultProps = defaultProps;
 export default Avatar;
