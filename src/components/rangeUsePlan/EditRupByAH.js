@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS } from '../../constants/strings';
+import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS, SUBMIT_PLAN_SUCCESS } from '../../constants/strings';
 import { Status, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
@@ -87,7 +87,7 @@ export class EditRupByAH extends Component {
     if (planId && statusId && grazingSchedules) {
       const makeRequest = async () => {
         try {
-          const newStatus = await updateRupStatus({ planId, statusId });
+          const newStatus = await updateRupStatus({ planId, statusId }, false);
           await Promise.all(grazingSchedules.map(schedule => (
             createOrUpdateRupSchedule({ planId, schedule })
           )));
@@ -97,7 +97,7 @@ export class EditRupByAH extends Component {
             isSubmitting: false,
             status: newStatus,
           });
-          toastSuccessMessage(isDraft ? SAVE_PLAN_AS_DRAFT_SUCCESS : 'Submit success!');
+          toastSuccessMessage(isDraft ? SAVE_PLAN_AS_DRAFT_SUCCESS : SUBMIT_PLAN_SUCCESS);
         } catch (err) {
           toastErrorMessage(err);
           throw err;
@@ -139,10 +139,11 @@ export class EditRupByAH extends Component {
     } = this.props;
 
     const statusName = status && status.name;
+    const isEditable = statusName === CREATED || statusName === DRAFT || statusName === CHANGE_REQUESTED;
+
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;
     const usage = agreement && agreement.usage;
-    const isEditable = statusName === CREATED || statusName === DRAFT || statusName === CHANGE_REQUESTED;
 
     let rupSchedules;
     if (isEditable) {
@@ -181,7 +182,7 @@ export class EditRupByAH extends Component {
               <div className="rup__sticky__title">{agreementId}</div>
               <Status
                 className="rup__status"
-                status={statusName}
+                status={status}
                 user={user}
               />
             </div>

@@ -56,6 +56,7 @@ export const UPDATE_RUP_STATUS_SUCCESS = 'You have successfully updated the stat
 export const UPDATE_RUP_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone';
 export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range use plan as a draft';
+export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Confirmation: Completed';

@@ -13,6 +13,8 @@ import {
   CLIENT_SIDE_DATE_FORMAT,
   ADMINISTRATOR,
   AGREEMENT_HOLDER,
+  DRAFT,
+  COMPLETED,
 } from '../constants/variables';
 
 /**
@@ -68,6 +70,13 @@ export const isUserAgreementHolder = (user = {}) => (
   user.roles && user.roles.includes(AGREEMENT_HOLDER)
 );
 
+export const isRupInDraftByAH = (status = {}) => (
+  status.name === DRAFT
+);
+
+export const isRupComplete = (status = {}) => (
+  status.name === COMPLETED
+);
 /**
  * Present the date time in a more readable way
  *
