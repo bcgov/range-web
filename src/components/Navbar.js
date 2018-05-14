@@ -5,6 +5,7 @@ import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { LOGO_SRC } from '../constants/variables';
 import { SSO_AUTH_LOGOUT_ENDPOINT } from '../constants/api';
+import { isUserAdmin } from '../handlers';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -37,13 +38,15 @@ export class Navbar extends Component {
               Select RUP
             </NavLink>
 
-            <NavLink
-              to={Routes.MANAGE_ZONE}
-              className="navbar__link"
-              activeClassName="navbar__link--active"
-            >
-              Manage Zone
-            </NavLink>
+            {isUserAdmin(user) &&
+              <NavLink
+                to={Routes.MANAGE_ZONE}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                Manage Zone
+              </NavLink>
+            }
 
             <div
               id="sign-out"
