@@ -9,7 +9,7 @@ import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_PDF, UPDATE_RUP_SCHEDULE, CREAT
 import { STATUS, AGREEMENT, ZONE, PLAN, REPORT, SCHEDULE } from '../constants/api';
 import axios from '../handlers/axios';
 
-export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
+export const updateRupStatus = ({ planId, statusId }, shouldToast = true) => (dispatch) => {
   dispatch(request(UPDATE_RUP_STATUS));
   const makeRequest = async () => {
     try {
@@ -18,7 +18,9 @@ export const updateRupStatus = ({ planId, statusId }) => (dispatch) => {
         { statusId },
       );
       dispatch(success(UPDATE_RUP_STATUS, response.data));
-      dispatch(toastSuccessMessage(UPDATE_RUP_STATUS_SUCCESS));
+      if (shouldToast) {
+        dispatch(toastSuccessMessage(UPDATE_RUP_STATUS_SUCCESS));
+      }
       return response.data;
     } catch (err) {
       dispatch(error(UPDATE_RUP_STATUS, err));
