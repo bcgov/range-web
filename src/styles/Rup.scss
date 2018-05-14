@@ -176,10 +176,25 @@ $row-height: 80px;
   }
   &__schedule {
     padding-top: 12px;
+
     &__header {
       padding-bottom: 7px;
       font-weight: bold;
       font-size: 1.2rem;
+    }
+
+    &__draft-container {
+      margin-top: 10px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
     }
   }
 

@@ -13,6 +13,11 @@ import {
   CLIENT_SIDE_DATE_FORMAT,
   ADMINISTRATOR,
   AGREEMENT_HOLDER,
+  DRAFT,
+  COMPLETED,
+  CHANGE_REQUESTED,
+  PENDING,
+  CREATED,
 } from '../constants/variables';
 
 /**
@@ -66,6 +71,28 @@ export const isUserAdmin = (user = {}) => (
  */
 export const isUserAgreementHolder = (user = {}) => (
   user.roles && user.roles.includes(AGREEMENT_HOLDER)
+);
+
+/**
+ * check the range use plan for a certain status
+ *
+ * @param {object} status the status of the range use plan
+ * @returns {boolean}
+ */
+export const isRupCreated = (status = {}) => (
+  status.name === CREATED
+);
+export const isRupInDraftByAH = (status = {}) => (
+  status.name === DRAFT
+);
+export const isRupComplete = (status = {}) => (
+  status.name === COMPLETED
+);
+export const isRupChangedRequested = (status = {}) => (
+  status.name === CHANGE_REQUESTED
+);
+export const isRupPending = (status = {}) => (
+  status.name === PENDING
 );
 
 /**

@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS } from '../../constants/strings';
+import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, NOT_PROVIDED } from '../../constants/strings';
 import { PENDING, COMPLETED, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
 import { isUserAdmin, isUserAgreementHolder } from '../../handlers';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
+  status: PropTypes.shape({}),
   className: PropTypes.string,
-  status: PropTypes.string,
   style: PropTypes.shape({}),
 };
 
 const defaultProps = {
   className: '',
-  status: NO_RUP_PROVIDED,
+  status: {},
   style: {},
 };
 
@@ -25,8 +25,8 @@ const Status = ({
   user,
 }) => {
   let modifier = 'status__icon';
-  let statusName = '';
-  switch (status) {
+  let statusName = NO_RUP_PROVIDED;
+  switch (status && status.name) {
     case CREATED:
       if (isUserAdmin(user)) {
         statusName = SENT_FOR_INPUT;
@@ -39,7 +39,7 @@ const Status = ({
       if (isUserAdmin(user)) {
         statusName = IN_PROGRESS;
       } else if (isUserAgreementHolder(user)) {
-        statusName = status;
+        statusName = status.name;
       }
       modifier += '--draft'; // orange
       break;
@@ -52,15 +52,14 @@ const Status = ({
       modifier += '--pending'; // red
       break;
     case CHANGE_REQUESTED:
-      statusName = status;
+      statusName = status.name;
       modifier += '--change-requested'; // orange
       break;
     case COMPLETED:
-      statusName = status;
+      statusName = status.name;
       modifier += '--completed'; // green
       break;
     default:
-      statusName = status;
       modifier += '--not-provided';
       break;
   }

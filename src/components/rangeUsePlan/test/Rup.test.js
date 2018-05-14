@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Rup } from '../Rup';
 import { getMockRangeUsePlan } from '../../agreement/test/mockValues';
-import { COMPLETED, PENDING, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
+import { COMPLETED, CHANGE_REQUESTED, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const mockStatus = { id: 1, name: 'name' };
 const mockPDFLinkClick = jest.fn();
@@ -103,7 +103,7 @@ describe('Rup', () => {
       expect(updateStatusSpy).toHaveBeenCalledWith(COMPLETED, closeCompletedConfirmModalSpy);
 
       instance.onYesPendingClicked();
-      expect(updateStatusSpy).toHaveBeenCalledWith(PENDING, closePendingConfirmModalSpy);
+      expect(updateStatusSpy).toHaveBeenCalledWith(CHANGE_REQUESTED, closePendingConfirmModalSpy);
     });
 
     it('updateStatus calls the right function', () => {

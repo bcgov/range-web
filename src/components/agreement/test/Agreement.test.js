@@ -11,6 +11,7 @@ const setupProps = () => {
     totalPages: 1,
     data: getMockAgreements(3),
   };
+  props.user = {};
   props.history = {
     push: jest.fn(),
     location: {

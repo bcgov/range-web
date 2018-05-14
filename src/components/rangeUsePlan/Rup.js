@@ -8,7 +8,8 @@ import {
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
-import { COMPLETED, PENDING } from '../../constants/variables';
+import { COMPLETED, CHANGE_REQUESTED } from '../../constants/variables';
+import { isRupPending, isRupCreated } from '../../handlers';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
@@ -53,7 +54,7 @@ export class Rup extends Component {
   }
 
   onYesPendingClicked = () => {
-    this.updateStatus(PENDING, this.closePendingConfirmModal);
+    this.updateStatus(CHANGE_REQUESTED, this.closePendingConfirmModal);
   }
 
   onZoneClicked = () => {
@@ -126,14 +127,13 @@ export class Rup extends Component {
         onClick: this.openCompletedConfirmModal,
       },
       {
-        key: 'pending',
-        text: PENDING,
+        key: 'change requested',
+        text: CHANGE_REQUESTED,
         value: 2,
         onClick: this.openPendingConfirmModal,
       },
     ];
 
-    const statusName = status && status.name;
     const agreementId = agreement && agreement.id;
     const rupExist = plan.id;
 
@@ -167,8 +167,8 @@ export class Rup extends Component {
 
         <ConfirmationModal
           open={isPendingModalOpen}
-          header={PENDING_CONFIRMATION_HEADER}
-          content={PENDING_CONFIRMATION_CONTENT}
+          header="Confirmation: Request Change"
+          content="Are you sure you want to request changes to the agreement holder?"
           onNoClicked={this.closePendingConfirmModal}
           onYesClicked={this.onYesPendingClicked}
           loading={isUpdatingStatus}
@@ -181,7 +181,7 @@ export class Rup extends Component {
         >
           <Status
             className="rup__status"
-            status={statusName}
+            status={status}
             user={user}
           />
           <div className="rup__btn-container">
@@ -192,7 +192,7 @@ export class Rup extends Component {
             >
               View PDF
             </Button>
-            { statusName !== COMPLETED &&
+            {(isRupPending(status) || isRupCreated(status)) &&
               <Dropdown
                 className="rup__status-dropdown"
                 text="Update Status"
@@ -222,6 +222,7 @@ export class Rup extends Component {
           <RupSchedules
             className="rup__schedules"
             plan={plan}
+            status={status}
           />
         </div>
       </div>
