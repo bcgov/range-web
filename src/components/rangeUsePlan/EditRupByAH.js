@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS, SUBMIT_PLAN_SUCCESS } from '../../constants/strings';
-import { Status, Banner } from '../common';
+import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import RupSchedules from './RupSchedules';
@@ -31,6 +31,7 @@ export class EditRupByAH extends Component {
     this.state = {
       plan,
       status,
+      isSubmitModalOpen: false,
     };
   }
 
@@ -49,6 +50,7 @@ export class EditRupByAH extends Component {
     const {
       agreement,
       statuses,
+      toastSuccessMessage,
     } = this.props;
 
     this.setState({ isSavingAsDraft: true });
@@ -56,13 +58,21 @@ export class EditRupByAH extends Component {
     const plan = agreement && agreement.plan;
     const status = statuses.find(s => s.name === DRAFT);
 
-    this.updateRupStatusAndContent(plan, status, true);
+    const onUpdated = () => {
+      toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
+      this.setState({
+        isSavingAsDraft: false,
+        status,
+      });
+    };
+    this.updateRupStatusAndContent(plan, status, onUpdated);
   }
 
   onSubmitClicked = () => {
     const {
       agreement,
       statuses,
+      toastSuccessMessage,
     } = this.props;
 
     this.setState({ isSubmitting: true });
@@ -70,15 +80,25 @@ export class EditRupByAH extends Component {
     const plan = agreement && agreement.plan;
     const status = statuses.find(s => s.name === PENDING);
 
-    this.updateRupStatusAndContent(plan, status, false);
+    const onUpdated = () => {
+      toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
+      this.setState({
+        isSubmitting: false,
+        isSubmitModalOpen: false,
+        status,
+      });
+    };
+    this.updateRupStatusAndContent(plan, status, onUpdated);
   }
 
-  updateRupStatusAndContent = (plan, status, isDraft) => {
+  closeSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: false })
+  openSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: true })
+
+  updateRupStatusAndContent = (plan, status, onSuccess) => {
     const {
       createOrUpdateRupSchedule,
       updateRupStatus,
       toastErrorMessage,
-      toastSuccessMessage,
     } = this.props;
 
     const planId = plan && plan.id;
@@ -87,17 +107,12 @@ export class EditRupByAH extends Component {
     if (planId && statusId && grazingSchedules) {
       const makeRequest = async () => {
         try {
-          const newStatus = await updateRupStatus({ planId, statusId }, false);
+          await updateRupStatus({ planId, statusId }, false);
           await Promise.all(grazingSchedules.map(schedule => (
             createOrUpdateRupSchedule({ planId, schedule })
           )));
 
-          this.setState({
-            isSavingAsDraft: false,
-            isSubmitting: false,
-            status: newStatus,
-          });
-          toastSuccessMessage(isDraft ? SAVE_PLAN_AS_DRAFT_SUCCESS : SUBMIT_PLAN_SUCCESS);
+          onSuccess();
         } catch (err) {
           toastErrorMessage(err);
           throw err;
@@ -130,6 +145,7 @@ export class EditRupByAH extends Component {
       status,
       isSavingAsDraft,
       isSubmitting,
+      isSubmitModalOpen,
     } = this.state;
 
     const {
@@ -167,6 +183,15 @@ export class EditRupByAH extends Component {
 
     return (
       <div className="rup">
+        <ConfirmationModal
+          open={isSubmitModalOpen}
+          header="Confirmation: Submit"
+          content="Are you sure you want to submit the change to the range staff?"
+          onNoClicked={this.closeSubmitConfirmModal}
+          onYesClicked={this.onSubmitClicked}
+          loading={isSubmitting}
+        />
+
         <Banner
           className="banner__edit-rup"
           header={agreementId}
@@ -197,7 +222,7 @@ export class EditRupByAH extends Component {
               <Button
                 loading={isSubmitting}
                 disabled={!isEditable}
-                onClick={this.onSubmitClicked}
+                onClick={this.openSubmitConfirmModal}
                 style={{ marginLeft: '15px' }}
               >
                 Submit for Review

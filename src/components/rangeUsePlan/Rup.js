@@ -8,8 +8,8 @@ import {
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
-import { COMPLETED, PENDING, DRAFT } from '../../constants/variables';
-import { isRupInDraftByAH, isRupComplete } from '../../handlers';
+import { COMPLETED, CHANGE_REQUESTED } from '../../constants/variables';
+import { isRupPending, isRupCreated } from '../../handlers';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
@@ -54,7 +54,7 @@ export class Rup extends Component {
   }
 
   onYesPendingClicked = () => {
-    this.updateStatus(DRAFT, this.closePendingConfirmModal);
+    this.updateStatus(CHANGE_REQUESTED, this.closePendingConfirmModal);
   }
 
   onZoneClicked = () => {
@@ -127,8 +127,8 @@ export class Rup extends Component {
         onClick: this.openCompletedConfirmModal,
       },
       {
-        key: 'draft',
-        text: DRAFT,
+        key: 'change requested',
+        text: CHANGE_REQUESTED,
         value: 2,
         onClick: this.openPendingConfirmModal,
       },
@@ -167,8 +167,8 @@ export class Rup extends Component {
 
         <ConfirmationModal
           open={isPendingModalOpen}
-          header={PENDING_CONFIRMATION_HEADER}
-          content={PENDING_CONFIRMATION_CONTENT}
+          header="Confirmation: Request Change"
+          content="Are you sure you want to request changes to the agreement holder?"
           onNoClicked={this.closePendingConfirmModal}
           onYesClicked={this.onYesPendingClicked}
           loading={isUpdatingStatus}
@@ -192,8 +192,7 @@ export class Rup extends Component {
             >
               View PDF
             </Button>
-            { !isRupComplete(status) &&
-              !isRupInDraftByAH(status) &&
+            {(isRupPending(status) || isRupCreated(status)) &&
               <Dropdown
                 className="rup__status-dropdown"
                 text="Update Status"
