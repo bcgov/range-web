@@ -7,6 +7,7 @@ const props = {};
 const setupProps = () => {
   props.login = jest.fn();
   props.loginState = {};
+  props.user = {};
   props.location = {
     search: '',
   };
