@@ -142,7 +142,7 @@ export const presentNullValue = (value, fullText = true) => {
  */
 export const calcDateDiff = (first, second, isUserFriendly) => {
   if (first && second) {
-    return moment(first).diff(moment(second), 'days') + 1;
+    return moment(first).diff(moment(second), 'days');
   }
   return isUserFriendly ? NP : 0;
 };
@@ -318,3 +318,21 @@ export const downloadPDFBlob = (blob, ref, fileName) => {
     window.URL.revokeObjectURL(data);
   }, 100);
 };
+
+const round = (number, precision) => {
+  const shift = (number, precision) => {
+    const numArray = ('' + number).split('e');
+    return +(numArray[0] + 'e' + (numArray[1] ? (+numArray[1] + precision) : precision));
+  };
+  return shift(Math.round(shift(number, +precision)), -precision);
+};
+
+/**
+ * Round the float to 1 decimal
+ *
+ * @param {float} number
+ * @returns the rounded float number
+ */
+export const roundTo1Decimal = number => (
+  round(number, 1)
+);

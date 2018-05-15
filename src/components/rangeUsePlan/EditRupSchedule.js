@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { Table, Button, Icon, TextArea, Form } from 'semantic-ui-react';
-import { calcCrownTotalAUMs } from '../../handlers';
+import { calcCrownTotalAUMs, roundTo1Decimal } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
@@ -95,16 +95,16 @@ class EditRupSchedule extends Component {
     const { year, grazingScheduleEntries } = schedule;
     const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-    const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries).toFixed(2);
+    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
     const arrow = isScheduleActive
       ? (<Icon name="chevron up" />)
       : (<Icon name="chevron down" />);
 
     return (
-      <li className="rup__edit-schedule">
+      <li className="rup__schedule">
         <div
-          className="rup__edit-schedule__header"
+          className="rup__schedule__header"
           onClick={this.onScheduleClicked}
           role="button"
         >
@@ -113,15 +113,15 @@ class EditRupSchedule extends Component {
             {arrow}
           </div>
         </div>
-        <div className={classNames('rup__edit-schedule__content', { 'rup__edit-schedule__content__hidden': !isScheduleActive })} >
+        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>{PASTURE}</Table.HeaderCell>
                 <Table.HeaderCell>{LIVESTOCK_TYPE}</Table.HeaderCell>
                 <Table.HeaderCell>{NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__edit-schedule__content__dates">{DATE_IN}</div></Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__edit-schedule__content__dates">{DATE_OUT}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__content__dates">{DATE_IN}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__content__dates">{DATE_OUT}</div></Table.HeaderCell>
                 <Table.HeaderCell>{DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{PLD}</Table.HeaderCell>
@@ -131,11 +131,11 @@ class EditRupSchedule extends Component {
             </Table.Header>
           </Table>
           <Button style={{ margin: '10px 0' }} icon basic onClick={this.onNewRowClick(scheduleIndex)}><Icon name="add" /> Add row</Button>
-          <div className="rup__edit-schedule__content__AUMs">
-            <div className="rup__edit-schedule__content__AUM-label">Authorized AUMs</div>
-            <div className="rup__edit-schedule__content__AUM-number">{authorizedAUMs}</div>
-            <div className="rup__edit-schedule__content__AUM-label">Total AUMs</div>
-            <div className="rup__edit-schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
+          <div className="rup__schedule__content__AUMs">
+            <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
+            <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
+            <div className="rup__schedule__content__AUM-label">Total AUMs</div>
+            <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
           </div>
           <b>Schedule Description</b>
           <Form>

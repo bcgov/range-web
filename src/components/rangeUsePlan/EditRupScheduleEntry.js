@@ -9,6 +9,7 @@ import {
   calcCrownAUMs,
   calcPldAUMs,
   formatDateFromUTC,
+  roundTo1Decimal,
 } from '../../handlers';
 import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../constants/variables';
 
@@ -122,8 +123,8 @@ class EditRupScheduleEntry extends Component {
     const pastureName = pasture && pasture.name;
     const auFactor = livestockType && livestockType.auFactor;
     const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-    const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent).toFixed(2);
-    const crownAUMs = calcCrownAUMs(totalAUMs, pldAUMs).toFixed(2);
+    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent));
+    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
     const livestockTypeName = livestockType && livestockType.name;
     const graceDays = pasture && pasture.graceDays;
 

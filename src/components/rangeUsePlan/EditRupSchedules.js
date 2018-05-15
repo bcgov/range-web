@@ -45,8 +45,7 @@ class EditRupSchedules extends Component {
   }
 
   onScheduleClicked = (scheduleIndex) => {
-    const { activeScheduleIndex } = this.state;
-    const newIndex = activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+    const newIndex = this.state.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
 
     this.setState({ activeScheduleIndex: newIndex });
   }

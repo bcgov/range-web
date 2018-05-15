@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { Table, Icon } from 'semantic-ui-react';
-import { formatDateFromServer, presentNullValue, calcDateDiff, isRupInDraftByAH } from '../../handlers';
+import {
+  formatDateFromServer,
+  presentNullValue,
+  calcDateDiff,
+  isRupInDraftByAH,
+  calcCrownAUMs,
+  calcPldAUMs,
+  calcTotalAUMs,
+  calcCrownTotalAUMs,
+  roundTo1Decimal,
+} from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -11,10 +22,21 @@ import {
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   status: PropTypes.shape({}).isRequired,
+  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string.isRequired,
 };
 
 class RupSchedules extends Component {
+  state = {
+    activeScheduleIndex: 0,
+  }
+
+  onScheduleClicked = scheduleIndex => () => {
+    const newIndex = this.state.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+
+    this.setState({ activeScheduleIndex: newIndex });
+  }
+
   renderSchedules = (grazingSchedules) => {
     if (isRupInDraftByAH(this.props.status)) {
       return (
@@ -39,15 +61,29 @@ class RupSchedules extends Component {
     );
   }
 
-  renderSchedule = (schedule) => {
+  renderSchedule = (schedule, scheduleIndex) => {
     const { id, year, grazingScheduleEntries = [] } = schedule;
+    const yearUsage = this.props.usage.find(u => u.year === year);
+    const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
+    const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
+    const arrow = isScheduleActive
+      ? (<Icon name="chevron up" />)
+      : (<Icon name="chevron down" />);
 
     return (
-      <div key={id} className="rup__schedule">
-        <div className="rup__schedule__header">
-          {year} Grazing Schedule
+      <li key={id} className="rup__schedule">
+        <div
+          className="rup__schedule__header"
+          onClick={this.onScheduleClicked(scheduleIndex)}
+          role="button"
+        >
+          <div>{year} Grazing Schedule</div>
+          <div>
+            {arrow}
+          </div>
         </div>
-        <div className="rup__schedule__table">
+        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
             <Table.Header>
               <Table.Row>
@@ -64,8 +100,14 @@ class RupSchedules extends Component {
               {grazingScheduleEntries.map(this.renderScheduleEntry)}
             </Table.Header>
           </Table>
+          <div className="rup__schedule__content__AUMs" style={{ marginTop: '10px' }}>
+            <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
+            <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
+            <div className="rup__schedule__content__AUM-label">Total AUMs</div>
+            <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
+          </div>
         </div>
-      </div>
+      </li>
     );
   }
 
@@ -77,13 +119,15 @@ class RupSchedules extends Component {
       livestockCount,
       dateIn,
       dateOut,
-      graceDays,
     } = entry;
     const days = calcDateDiff(dateOut, dateIn, true);
     const pastureName = pasture && pasture.name;
-    const pldPercent = pasture && pasture.pldPercent;
-    const allowableAum = pasture && pasture.allowableAum;
+    const auFactor = livestockType && livestockType.auFactor;
+    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
+    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent));
+    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
     const livestockTypeName = livestockType && livestockType.name;
+    const graceDays = pasture && pasture.graceDays;
 
     return (
       <Table.Row key={id}>
@@ -94,8 +138,8 @@ class RupSchedules extends Component {
         <Table.Cell>{formatDateFromServer(dateOut)}</Table.Cell>
         <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pldPercent, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(allowableAum, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(crownAUMs, false)}</Table.Cell>
       </Table.Row>
     );
   }
@@ -107,7 +151,9 @@ class RupSchedules extends Component {
       <div className={className}>
         <div className="rup__title">Schedules</div>
         <div className="rup__divider" />
-        {this.renderSchedules(grazingSchedules)}
+        <ul className="rup__schedules">
+          {this.renderSchedules(grazingSchedules)}
+        </ul>  
       </div>
     );
   }

@@ -37,7 +37,7 @@ class RupPastures extends Component {
       graceDays,
       notes,
     } = pasture || {};
-    const pld = pldPercent * 100;
+    const pld = pldPercent && Math.floor(pldPercent * 100);
 
     return (
       <div className="rup__pasture" key={id}>

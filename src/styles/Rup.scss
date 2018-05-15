@@ -60,6 +60,7 @@ $row-height: 80px;
   &__sticky {
     background: $primary-color;
     color: white;
+    z-index: 1;
 
     &__container {
       @extend .container;
@@ -175,30 +176,6 @@ $row-height: 80px;
     }
   }
   &__schedule {
-    padding-top: 12px;
-
-    &__header {
-      padding-bottom: 7px;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-
-    &__draft-container {
-      margin-top: 10px;
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #CCCCCC;
-      border-radius: 5px;
-    }
-    &__in-draft {
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  &__edit-schedule {
     padding: 15px;
 
     &__header {
@@ -216,7 +193,7 @@ $row-height: 80px;
         display: none;  
       }
       &__dates {
-        min-width: 75px;
+        min-width: 70px;
       }
       &__AUMs {
         display: flex;
@@ -235,7 +212,59 @@ $row-height: 80px;
         border-radius: 3px;
       }
     }
+    &__draft-container {
+      margin-top: 10px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
+    }
   }
+
+  // &__edit-schedule {
+  //   padding: 15px;
+
+  //   &__header {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     font-weight: bold;
+  //     font-size: 1.2rem;
+  //     cursor: pointer;
+  //   }
+  //   &__content {
+  //     margin-top: 15px;
+
+  //     &__hidden {
+  //       display: none;  
+  //     }
+  //     &__dates {
+  //       min-width: 75px;
+  //     }
+  //     &__AUMs {
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: flex-end;
+  //       font-size: 1.1rem;
+  //       text-align: right;
+  //     }
+  //     &__AUM-label {
+  //       font-weight: bold;
+  //       margin: 0 10px;
+  //     }
+  //     &__AUM-number {
+  //       border: 1px solid gainsboro;
+  //       padding: 8px 15px;
+  //       border-radius: 3px;
+  //     }
+  //   }
+  // }
 }
 
 .rup-pdf {
