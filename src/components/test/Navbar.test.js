@@ -6,6 +6,7 @@ import { SSO_AUTH_LOGOUT_ENDPOINT } from '../../constants/api';
 const props = {};
 const setupProps = () => {
   props.onLogout = jest.fn();
+  props.user = {};
 };
 
 beforeEach(() => {

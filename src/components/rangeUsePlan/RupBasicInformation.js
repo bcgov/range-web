@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../common';
-import { formatDate, presentNullValue } from '../../handlers';
+import { formatDateFromServer, presentNullValue, isUserAdmin } from '../../handlers';
 import {
   RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
   ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
@@ -12,11 +12,16 @@ import {
 import { PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   zone: PropTypes.shape({}).isRequired,
-  onZoneClicked: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  onZoneClicked: PropTypes.func,
+};
+
+const defaultProps = {
+  onZoneClicked: () => {},
 };
 
 class RupBasicInformation extends Component {
@@ -69,7 +74,7 @@ class RupBasicInformation extends Component {
 
     const {
       rangeName,
-      alternateBusinessName,
+      alternativeBusinessName,
       planStartDate,
       planEndDate,
       extension,
@@ -87,6 +92,15 @@ class RupBasicInformation extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
+    const isAdmin = isUserAdmin(this.props.user);
+    const zoneText = isAdmin
+      ? (
+        <div className="rup__zone-text">
+          {presentNullValue(zoneCode)}
+          <Icon className="rup__zone-text__icon" name="pencil" />
+        </div>
+      )
+      : presentNullValue(zoneCode);
 
     return (
       <div className={className}>
@@ -105,7 +119,7 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={AGREEMENT_DATE}
-              text={`${formatDate(agreementStartDate)} to ${formatDate(agreementEndDate)}`}
+              text={`${formatDateFromServer(agreementStartDate)} to ${formatDateFromServer(agreementEndDate)}`}
             />
             <TextField
               label={RANGE_NAME}
@@ -113,7 +127,7 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={ALTERNATIVE_BUSINESS_NAME}
-              text={alternateBusinessName}
+              text={alternativeBusinessName}
             />
           </div>
           <div className="rup__contact-info rup__cell-6">
@@ -125,13 +139,8 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={ZONE}
-              text={
-                <div className="rup__zone-text">
-                  {presentNullValue(zoneCode)}
-                  <Icon className="rup__zone-text__icon" name="pencil" />
-                </div>
-              }
-              isEditable
+              text={zoneText}
+              isEditable={isAdmin}
               onClick={onZoneClicked}
             />
             <TextField
@@ -154,7 +163,7 @@ class RupBasicInformation extends Component {
             <div className="rup__info-title">Plan Information</div>
             <TextField
               label={PLAN_DATE}
-              text={`${formatDate(planStartDate)} to ${formatDate(planEndDate)}`}
+              text={`${formatDateFromServer(planStartDate)} to ${formatDateFromServer(planEndDate)}`}
             />
             <TextField
               label={EXTENDED}
@@ -182,4 +191,5 @@ class RupBasicInformation extends Component {
 }
 
 RupBasicInformation.propTypes = propTypes;
+RupBasicInformation.defaultProps = defaultProps;
 export default RupBasicInformation;

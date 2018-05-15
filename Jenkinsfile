@@ -66,7 +66,7 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
         sh "npm ci"
 
         // not sure if this needs to be added to package.json.
-        sh "npm i escape-string-regexp"
+        // sh "npm i escape-string-regexp"
         sh "npm -v"
         sh "node -v"
       }

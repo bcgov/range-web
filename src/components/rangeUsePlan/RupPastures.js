@@ -13,7 +13,7 @@ const propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-class RupPasture extends Component {
+class RupPastures extends Component {
   renderPastures = (pasture) => {
     const options = [
       {
@@ -36,7 +36,8 @@ class RupPasture extends Component {
       pldPercent,
       graceDays,
       notes,
-    } = pasture;
+    } = pasture || {};
+    const pld = pldPercent * 100;
 
     return (
       <div className="rup__pasture" key={id}>
@@ -61,7 +62,7 @@ class RupPasture extends Component {
           <div className="rup__cell-4">
             <TextField
               label={PRIVATE_LAND_DEDUCTION}
-              text={pldPercent}
+              text={pld}
             />
           </div>
           <div className="rup__cell-4">
@@ -98,5 +99,5 @@ class RupPasture extends Component {
   }
 }
 
-RupPasture.propTypes = propTypes;
-export default RupPasture;
+RupPastures.propTypes = propTypes;
+export default RupPastures;

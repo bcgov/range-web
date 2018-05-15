@@ -12,6 +12,7 @@ const propTypes = {
   history: PropTypes.shape({}).isRequired,
   onRowClicked: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
+  user: PropTypes.shape({}).isRequired,
   // isActive: PropTypes.bool.isRequired,
 };
 
@@ -48,7 +49,6 @@ export class AgreementTableItem extends Component {
     const staffName = user && `${user.givenName} ${user.familyName}`;
     const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
     const { rangeName, status } = plan || {};
-    const statusName = status && status.name;
 
     return (
       <Table.Row
@@ -59,7 +59,9 @@ export class AgreementTableItem extends Component {
         <Table.Cell>{presentNullValue(rangeName)}</Table.Cell>
         <Table.Cell>{presentNullValue(primaryAgreementHolderName)}</Table.Cell>
         <Table.Cell>{presentNullValue(staffName)}</Table.Cell>
-        <Table.Cell><Status status={statusName} /></Table.Cell>
+        <Table.Cell>
+          <Status user={this.props.user} status={status} />
+        </Table.Cell>
       </Table.Row>
     );
   }

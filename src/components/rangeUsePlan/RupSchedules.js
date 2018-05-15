@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
-import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
+import { Table, Icon } from 'semantic-ui-react';
+import { formatDateFromServer, presentNullValue, calcDateDiff, isRupInDraftByAH } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
@@ -10,10 +10,35 @@ import {
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
+  status: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
 };
 
-class RupSchedule extends Component {
+class RupSchedules extends Component {
+  renderSchedules = (grazingSchedules) => {
+    if (isRupInDraftByAH(this.props.status)) {
+      return (
+        <div className="rup__schedule__draft-container">
+          <div className="rup__schedule__in-draft">
+            <Icon name="lock" size="big" />
+            <div style={{ marginLeft: '10px' }}>
+              <div style={{ fontSize: '1.15rem', fontWeight: 'bold' }}> RUP Awaiting Input from Agreement Holder </div>
+              <div style={{ opacity: '0.7' }}> RUP will remain hidden until the agreement holder submits for staff reviews. </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      grazingSchedules.length === 0 ? (
+        <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      ) : (
+        grazingSchedules.map(this.renderSchedule)
+      )
+    );
+  }
+
   renderSchedule = (schedule) => {
     const { id, year, grazingScheduleEntries = [] } = schedule;
 
@@ -54,8 +79,10 @@ class RupSchedule extends Component {
       dateOut,
       graceDays,
     } = entry;
-    const days = calcDateDiff(dateOut, dateIn);
+    const days = calcDateDiff(dateOut, dateIn, true);
     const pastureName = pasture && pasture.name;
+    const pldPercent = pasture && pasture.pldPercent;
+    const allowableAum = pasture && pasture.allowableAum;
     const livestockTypeName = livestockType && livestockType.name;
 
     return (
@@ -63,12 +90,12 @@ class RupSchedule extends Component {
         <Table.Cell>{presentNullValue(pastureName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockTypeName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockCount, false)}</Table.Cell>
-        <Table.Cell>{formatDate(dateIn)}</Table.Cell>
-        <Table.Cell>{formatDate(dateOut)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateIn)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateOut)}</Table.Cell>
         <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pasture.pldPercent, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pasture.allowableAum, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(pldPercent, false)}</Table.Cell>
+        <Table.Cell>{presentNullValue(allowableAum, false)}</Table.Cell>
       </Table.Row>
     );
   }
@@ -80,17 +107,11 @@ class RupSchedule extends Component {
       <div className={className}>
         <div className="rup__title">Schedules</div>
         <div className="rup__divider" />
-        {
-          grazingSchedules.length === 0 ? (
-            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-          ) : (
-            grazingSchedules.map(this.renderSchedule)
-          )
-        }
+        {this.renderSchedules(grazingSchedules)}
       </div>
     );
   }
 }
 
-RupSchedule.propTypes = propTypes;
-export default RupSchedule;
+RupSchedules.propTypes = propTypes;
+export default RupSchedules;

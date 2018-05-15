@@ -13,6 +13,7 @@ const setupProps = () => {
   props.history = {
     push: jest.fn(),
   };
+  props.user = {};
 };
 
 beforeEach(() => {

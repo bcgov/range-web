@@ -9,6 +9,7 @@ import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../const
 
 const propTypes = {
   agreementsState: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({ location: PropTypes.object }).isRequired,
 };
 
@@ -40,6 +41,7 @@ export class Agreement extends Component {
   render() {
     const {
       agreementsState,
+      user,
     } = this.props;
 
     const {
@@ -61,6 +63,7 @@ export class Agreement extends Component {
 
         <div className="agreement__table">
           <AgreementTable
+            user={user}
             agreementsState={agreementsState}
             handlePaginationChange={this.handlePaginationChange}
           />

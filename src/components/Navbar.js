@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { LOGO_SRC } from '../constants/variables';
 import { SSO_AUTH_LOGOUT_ENDPOINT } from '../constants/api';
+import { isUserAdmin } from '../handlers';
+
+const propTypes = {
+  user: PropTypes.shape({}).isRequired,
+};
 
 export class Navbar extends Component {
   onLogoutBtnClick = () => {
@@ -11,6 +17,8 @@ export class Navbar extends Component {
   }
 
   render() {
+    const { user } = this.props;
+
     return (
       <nav className="navbar">
         <div className="navbar__container">
@@ -20,6 +28,7 @@ export class Navbar extends Component {
               <div className="navbar__title">My Range App</div>
             </Link>
           </div>
+
           <div className="navbar__right">
             <NavLink
               to={Routes.RANGE_USE_PLANS}
@@ -28,13 +37,17 @@ export class Navbar extends Component {
             >
               Select RUP
             </NavLink>
-            <NavLink
-              to={Routes.MANAGE_ZONE}
-              className="navbar__link"
-              activeClassName="navbar__link--active"
-            >
-              Manage Zone
-            </NavLink>
+
+            {isUserAdmin(user) &&
+              <NavLink
+                to={Routes.MANAGE_ZONE}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                Manage Zone
+              </NavLink>
+            }
+
             <div
               id="sign-out"
               className="navbar__link"
@@ -44,8 +57,9 @@ export class Navbar extends Component {
             >
               Sign Out
             </div>
+
             <Avatar
-              name="KH"
+              user={user}
             />
           </div>
         </div>
@@ -54,4 +68,5 @@ export class Navbar extends Component {
   }
 }
 
+Navbar.propTypes = propTypes;
 export default Navbar;

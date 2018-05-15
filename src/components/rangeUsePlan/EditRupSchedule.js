@@ -1,93 +1,54 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button, Dropdown, Input } from 'semantic-ui-react';
-import { formatDate, presentNullValue, calcDateDiff } from '../../handlers';
+import classNames from 'classnames';
+import { Table, Button, Icon, TextArea, Form } from 'semantic-ui-react';
+import { calcCrownTotalAUMs } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
-  DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
-  CROWN_AUMS, NOT_PROVIDED,
+  DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
 } from '../../constants/strings';
+import EditRupScheduleEntry from './EditRupScheduleEntry';
 
 const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  className: PropTypes.string.isRequired,
+  schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
+  scheduleIndex: PropTypes.number.isRequired,
+  onScheduleClicked: PropTypes.func.isRequired,
+  activeScheduleIndex: PropTypes.number.isRequired,
+  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleScheduleChange: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 class EditRupSchedule extends Component {
-  constructor(props) {
-    super(props);
-
-    const { plan } = this.props;
-    const grazingSchedules = (plan && plan.grazingSchedules) || [];
-    const pastures = (plan && plan.pastures) || [];
-
-    this.state = {
-      grazingSchedules,
-      pastures,
-    };
+  onScheduleClicked = () => {
+    const { scheduleIndex, onScheduleClicked } = this.props;
+    onScheduleClicked(scheduleIndex);
   }
 
-  handleInput = (sIndex, eIndex, key) => (e) => {
-    const { value } = e.target;
-    const grazingSchedules = [...this.state.grazingSchedules];
-    grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = Number(value);
-
-    this.setState({
-      grazingSchedules,
+  onNewRowClick = scheduleIndex => () => {
+    const { schedule } = this.props;
+    const { year, grazingScheduleEntries } = schedule;
+    grazingScheduleEntries.push({
+      livestockCount: 0,
+      dateIn: new Date(`${year}-01-02`),
+      dateOut: new Date(`${year}-01-02`),
     });
+
+    this.props.handleScheduleChange(schedule, scheduleIndex);
   }
 
-  handleKeyPressForNumber = (e) => {
-    if (!(e.charCode >= 48 && e.charCode <= 57)) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  handleScheduleEntryChange = (entry, entryIndex) => {
+    const { schedule, scheduleIndex } = this.props;
+    schedule.grazingScheduleEntries[entryIndex] = entry;
+
+    this.props.handleScheduleChange(schedule, scheduleIndex);
   }
 
-  handlePastureDropdown = (sIndex, eIndex, key) => (e, { value }) => {
-    const { pastures } = this.state;
-    const grazingSchedules = [...this.state.grazingSchedules];
-    const pasture = pastures.find(p => p.id === value);
-    grazingSchedules[sIndex].grazingScheduleEntries[eIndex][key] = pasture;
-    grazingSchedules[sIndex].grazingScheduleEntries[eIndex].graceDays = pasture.graceDays;
-
-    this.setState({
-      grazingSchedules,
-    });
-  }
-
-  renderSchedule = (schedule, scheduleIndex) => {
-    const { id, year, grazingScheduleEntries = [] } = schedule;
-
-    return (
-      <div key={id} className="rup__schedule">
-        <div className="rup__schedule__header">
-          {year} Grazing Schedule
-        </div>
-        <div className="rup__schedule__table">
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{PASTURE}</Table.HeaderCell>
-                <Table.HeaderCell>{LIVESTOCK_TYPE}</Table.HeaderCell>
-                <Table.HeaderCell>{NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell>{DATE_IN}</Table.HeaderCell>
-                <Table.HeaderCell>{DATE_OUT}</Table.HeaderCell>
-                <Table.HeaderCell>{DAYS}</Table.HeaderCell>
-                <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
-                <Table.HeaderCell>{PLD}</Table.HeaderCell>
-                <Table.HeaderCell>{CROWN_AUMS}</Table.HeaderCell>
-              </Table.Row>
-              {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
-            </Table.Header>
-          </Table>
-        </div>
-      </div>
-    );
-  }
-  renderScheduleEntries = (grazingScheduleEntries, scheduleIndex) => {
-    const pastureOptions = this.state.pastures.map((pasture) => {
+  renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
+    const { schedule, pastures, livestockTypes } = this.props;
+    const { year } = schedule;
+    const pastureOptions = pastures.map((pasture) => {
       const { id, name } = pasture || {};
       return {
         key: id,
@@ -95,7 +56,7 @@ class EditRupSchedule extends Component {
         text: name,
       };
     });
-    const livestockTypeOptions = this.props.livestockTypes.map((lt) => {
+    const livestockTypeOptions = livestockTypes.map((lt) => {
       const { id, name } = lt || {};
       return {
         key: id,
@@ -105,85 +66,86 @@ class EditRupSchedule extends Component {
     });
 
     return grazingScheduleEntries.map((entry, entryIndex) => {
-      const {
-        id,
-        pasture,
-        livestockType,
-        livestockCount,
-        dateIn,
-        dateOut,
-        graceDays,
-      } = entry;
-      const days = calcDateDiff(dateOut, dateIn);
-      const pastureName = pasture && pasture.name;
-      const livestockTypeName = livestockType && livestockType.name;
-
+      const key = `entry${scheduleIndex}${entryIndex}`;
       return (
-        <Table.Row key={id}>
-          <Table.Cell>
-            <Dropdown
-              placeholder={pastureName}
-              options={pastureOptions}
-              onChange={this.handlePastureDropdown(scheduleIndex, entryIndex, 'pasture')}
-              fluid
-              search
-              selection
-            />
-          </Table.Cell>
-          <Table.Cell>
-            <Dropdown
-              placeholder={livestockTypeName}
-              options={livestockTypeOptions}
-              onChange={this.onZoneChanged}
-              fluid
-              search
-              selection
-            />
-          </Table.Cell>
-          <Table.Cell>
-            <Input fluid>
-              <input
-                type="text"
-                onKeyPress={this.handleKeyPressForNumber}
-                value={livestockCount || 0}
-                onChange={this.handleInput(scheduleIndex, entryIndex, 'livestockCount')}
-              />
-            </Input>
-          </Table.Cell>
-          <Table.Cell>
-            {formatDate(dateIn)}
-          </Table.Cell>
-          <Table.Cell>
-            {formatDate(dateOut)}
-          </Table.Cell>
-          <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(pasture.pldPercent, false)}</Table.Cell>
-          <Table.Cell>{presentNullValue(pasture.allowableAum, false)}</Table.Cell>
-        </Table.Row>
+        <EditRupScheduleEntry
+          key={key}
+          year={year}
+          entry={entry}
+          entryIndex={entryIndex}
+          scheduleIndex={scheduleIndex}
+          pastures={pastures}
+          pastureOptions={pastureOptions}
+          livestockTypes={livestockTypes}
+          livestockTypeOptions={livestockTypeOptions}
+          handleScheduleEntryChange={this.handleScheduleEntryChange}
+        />
       );
     });
   }
 
   render() {
-    const { className } = this.props;
-    const { grazingSchedules } = this.state;
+    const {
+      schedule,
+      scheduleIndex,
+      usage,
+      activeScheduleIndex,
+    } = this.props;
+
+    const { year, grazingScheduleEntries } = schedule;
+    const yearUsage = usage.find(u => u.year === year);
+    const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+    const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries).toFixed(2);
+    const isScheduleActive = activeScheduleIndex === scheduleIndex;
+    const arrow = isScheduleActive
+      ? (<Icon name="chevron up" />)
+      : (<Icon name="chevron down" />);
 
     return (
-      <div className={className}>
-        <div className="rup__title--editable">
-          <div>Schedules</div>
-          <Button basic primary>Add year</Button>
+      <li className="rup__edit-schedule">
+        <div
+          className="rup__edit-schedule__header"
+          onClick={this.onScheduleClicked}
+          role="button"
+        >
+          <div>{year} Grazing Schedule</div>
+          <div>
+            {arrow}
+          </div>
         </div>
-        <div className="rup__divider" />
-        {
-          grazingSchedules.length === 0 ? (
-            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-          ) : (
-            grazingSchedules.map(this.renderSchedule)
-          )
-        }
-      </div>
+        <div className={classNames('rup__edit-schedule__content', { 'rup__edit-schedule__content__hidden': !isScheduleActive })} >
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>{PASTURE}</Table.HeaderCell>
+                <Table.HeaderCell>{LIVESTOCK_TYPE}</Table.HeaderCell>
+                <Table.HeaderCell>{NUM_OF_ANIMALS}</Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__edit-schedule__content__dates">{DATE_IN}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__edit-schedule__content__dates">{DATE_OUT}</div></Table.HeaderCell>
+                <Table.HeaderCell>{DAYS}</Table.HeaderCell>
+                <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
+                <Table.HeaderCell>{PLD}</Table.HeaderCell>
+                <Table.HeaderCell>{CROWN_AUMS}</Table.HeaderCell>
+              </Table.Row>
+              {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
+            </Table.Header>
+          </Table>
+          <Button style={{ margin: '10px 0' }} icon basic onClick={this.onNewRowClick(scheduleIndex)}><Icon name="add" /> Add row</Button>
+          <div className="rup__edit-schedule__content__AUMs">
+            <div className="rup__edit-schedule__content__AUM-label">Authorized AUMs</div>
+            <div className="rup__edit-schedule__content__AUM-number">{authorizedAUMs}</div>
+            <div className="rup__edit-schedule__content__AUM-label">Total AUMs</div>
+            <div className="rup__edit-schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
+          </div>
+          <b>Schedule Description</b>
+          <Form>
+            <TextArea
+              rows={2}
+              onChange={this.onScheduleTextChanged}
+            />
+          </Form>
+        </div>
+      </li>
     );
   }
 }

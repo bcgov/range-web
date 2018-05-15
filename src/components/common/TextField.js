@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { presentNullValue } from '../../handlers';
 
 const propTypes = {
@@ -31,8 +31,8 @@ const TextField = ({
   const text = presentNullValue(rawText);
 
   return (
-    <div className={classNames('text-field', className)}>
-      <div className={classNames('text-field__label', { 'text-field__label--hidden': isLabelHidden })}>
+    <div className={classnames('text-field', className)}>
+      <div className={classnames('text-field__label', { 'text-field__label--hidden': isLabelHidden })}>
         {label}
       </div>
       <div
@@ -40,7 +40,7 @@ const TextField = ({
         aria-pressed
         tabIndex={isEditable ? '0' : null}
         onClick={onClick}
-        className={classNames('text-field__text', { 'text-field__text--editable': isEditable })}
+        className={classnames('text-field__text', { 'text-field__text--editable': isEditable })}
       >
         {text}
       </div>

@@ -57,6 +57,38 @@ $row-height: 80px;
     display: none
   }
 
+  &__sticky {
+    background: $primary-color;
+    color: white;
+
+    &__container {
+      @extend .container;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+    &__left {
+      display: flex;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 16px;
+    }
+    &__title {
+      display: none;
+    }
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+    &--fixed &__title {
+      display: inline-block;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
+  }
   &__actions {
     justify-content: space-between;
     
@@ -121,20 +153,87 @@ $row-height: 80px;
       font-size: 1.4rem;
     }
   }
+  &__schedules {
+    margin: 10px 0;
+    list-style-type: none;
+    padding: 0;
 
+    li {
+      border: 1px solid gainsboro;
+    }
+    li:nth-child(even) {
+      border-top: 0;
+      border-bottom: 0;
+    }
+    li:first-child {
+      border-top: 1px solid gainsboro;
+      border-radius: 5px 5px 0 0;
+    }
+    li:last-child {
+      border-bottom: 1px solid gainsboro;
+      border-radius: 0 0 5px 5px;
+    }
+  }
   &__schedule {
-    margin: 5px 0;
-    
+    padding-top: 12px;
+
+    &__header {
+      padding-bottom: 7px;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    &__draft-container {
+      margin-top: 10px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__edit-schedule {
+    padding: 15px;
+
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 40px;
       font-weight: bold;
       font-size: 1.2rem;
+      cursor: pointer;
     }
-    &__table {
-      margin-bottom: 15px;
+    &__content {
+      margin-top: 15px;
+
+      &__hidden {
+        display: none;  
+      }
+      &__dates {
+        min-width: 75px;
+      }
+      &__AUMs {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.1rem;
+        text-align: right;
+      }
+      &__AUM-label {
+        font-weight: bold;
+        margin: 0 10px;
+      }
+      &__AUM-number {
+        border: 1px solid gainsboro;
+        padding: 8px 15px;
+        border-radius: 3px;
+      }
     }
   }
 }
