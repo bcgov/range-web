@@ -34,7 +34,7 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
     workingDir: '/tmp',
     command: '',
     args: '${computer.jnlpmac} ${computer.name}',
-    alwaysPullImage: true
+    alwaysPullImage: false
     // envVars: [
     //     secretEnvVar(key: 'BDD_DEVICE_FARM_USER', secretName: 'bdd-credentials', secretKey: 'username'),
     //     secretEnvVar(key: 'BDD_DEVICE_FARM_PASSWD', secretName: 'bdd-credentials', secretKey: 'password'),
@@ -52,6 +52,10 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
           returnStdout: true).trim()
         GIT_COMMIT_AUTHOR = sh (
           script: """git show -s --pretty=%an""",
+          returnStdout: true).trim()
+
+        SLACK_TOKEN = sh (
+          script: """oc get secret/slack -o template --template="{{.data.token}}" | base64 --decode""",
           returnStdout: true).trim()
       }
       
