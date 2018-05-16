@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Dropdown } from 'semantic-ui-react';
-import { TextField } from '../common';
+// import { Icon, Dropdown } from 'semantic-ui-react';
+import { TextField } from '../../common';
 
 import {
   ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
   PASTURE_NOTES, NOT_PROVIDED,
-} from '../../constants/strings';
+} from '../../../constants/strings';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,

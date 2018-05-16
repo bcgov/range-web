@@ -12,12 +12,12 @@ import {
   calcTotalAUMs,
   calcCrownTotalAUMs,
   roundTo1Decimal,
-} from '../../handlers';
+} from '../../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
   CROWN_AUMS, NOT_PROVIDED,
-} from '../../constants/strings';
+} from '../../../constants/strings';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,

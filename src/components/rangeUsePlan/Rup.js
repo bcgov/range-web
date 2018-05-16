@@ -10,9 +10,9 @@ import { EXPORT_PDF } from '../../constants/routes';
 import { COMPLETED, CHANGE_REQUESTED } from '../../constants/variables';
 import { isRupPending, isRupCreated } from '../../handlers';
 import { Status, ConfirmationModal, Banner } from '../common';
-import RupBasicInformation from './RupBasicInformation';
-import RupPastures from './RupPastures';
-import RupSchedules from './RupSchedules';
+import RupBasicInformation from './view/RupBasicInformation';
+import RupPastures from './view/RupPastures';
+import RupSchedules from './view/RupSchedules';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,

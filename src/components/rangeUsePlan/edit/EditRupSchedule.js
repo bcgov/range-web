@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
-import { calcCrownTotalAUMs, roundTo1Decimal } from '../../handlers';
+import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
-} from '../../constants/strings';
+} from '../../../constants/strings';
 import EditRupScheduleEntry from './EditRupScheduleEntry';
 
 const propTypes = {

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { TextField } from '../common';
-import { formatDateFromServer, presentNullValue, isUserAdmin } from '../../handlers';
+import { TextField } from '../../common';
+import { formatDateFromServer, presentNullValue, isUserAdmin } from '../../../handlers';
 import {
   RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
   ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
   EXTENDED, EXEMPTION_STATUS, ALTERNATIVE_BUSINESS_NAME,
   RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
-} from '../../constants/strings';
-import { PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
+} from '../../../constants/strings';
+import { PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,

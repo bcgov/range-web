@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { Status, ConfirmationModal, Banner } from '../common';
-import RupBasicInformation from './RupBasicInformation';
-import RupPastures from './RupPastures';
-import RupSchedules from './RupSchedules';
-import EditRupSchedules from './EditRupSchedules';
+import RupBasicInformation from './view/RupBasicInformation';
+import RupPastures from './view/RupPastures';
+import RupSchedules from './view/RupSchedules';
+import EditRupSchedules from './edit/EditRupSchedules';
 import { DRAFT, PENDING } from '../../constants/variables';
 import { isRupComplete, isRupCreated, isRupChangedRequested, isRupPending, isRupInDraftByAH } from '../../handlers';
 import {

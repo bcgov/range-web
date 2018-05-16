@@ -10,8 +10,8 @@ import {
   calcPldAUMs,
   formatDateFromUTC,
   roundTo1Decimal,
-} from '../../handlers';
-import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../constants/variables';
+} from '../../../handlers';
+import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../../constants/variables';
 
 const propTypes = {
   year: PropTypes.number.isRequired,

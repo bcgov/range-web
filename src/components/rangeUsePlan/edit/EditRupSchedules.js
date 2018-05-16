@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
-import { NOT_PROVIDED } from '../../constants/strings';
+import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupSchedule from './EditRupSchedule';
 
 const propTypes = {
