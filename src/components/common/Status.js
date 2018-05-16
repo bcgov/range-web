@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, NOT_PROVIDED } from '../../constants/strings';
 import { PENDING, COMPLETED, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
-import { isUserAdmin, isUserAgreementHolder } from '../../handlers';
+import { isUserAdmin, isUserAgreementHolder, isUserRangeOfficer } from '../../handlers';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -28,7 +28,7 @@ const Status = ({
   let statusName = NO_RUP_PROVIDED;
   switch (status && status.name) {
     case CREATED:
-      if (isUserAdmin(user)) {
+      if (isUserAdmin(user) || isUserRangeOfficer(user)) {
         statusName = SENT_FOR_INPUT;
       } else if (isUserAgreementHolder(user)) {
         statusName = INPUT_REQUIRED;
@@ -36,7 +36,7 @@ const Status = ({
       modifier += '--created'; // orange
       break;
     case DRAFT:
-      if (isUserAdmin(user)) {
+      if (isUserAdmin(user) || isUserRangeOfficer(user)) {
         statusName = IN_PROGRESS;
       } else if (isUserAgreementHolder(user)) {
         statusName = status.name;
@@ -44,7 +44,7 @@ const Status = ({
       modifier += '--draft'; // orange
       break;
     case PENDING:
-      if (isUserAdmin(user)) {
+      if (isUserAdmin(user) || isUserRangeOfficer(user)) {
         statusName = IN_REVIEW;
       } else if (isUserAgreementHolder(user)) {
         statusName = REVIEW_REQUIRED;

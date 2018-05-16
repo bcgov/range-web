@@ -9,7 +9,7 @@ import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
-import { isUserAdmin, isUserAgreementHolder } from '../../handlers';
+import { isUserAdmin, isUserAgreementHolder, isUserRangeOfficer } from '../../handlers';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
@@ -58,7 +58,7 @@ class Base extends Component {
     const livestockTypes = references[LIVESTOCK_TYPE];
 
     let rup;
-    if (isUserAdmin(user)) {
+    if (isUserAdmin(user) || isUserRangeOfficer(user)) {
       rup = (
         <Rup
           user={user}

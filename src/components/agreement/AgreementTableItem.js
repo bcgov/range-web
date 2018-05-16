@@ -46,7 +46,7 @@ export class AgreementTableItem extends Component {
     const { user } = zone || {};
     const plan = plans[0];
 
-    const staffName = user && `${user.givenName} ${user.familyName}`;
+    const staffName = user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`;
     const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
     const { rangeName, status } = plan || {};
 

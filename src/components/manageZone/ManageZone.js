@@ -26,7 +26,7 @@ export class ManageZone extends Component {
 
   onZoneChanged = (e, { value: zoneId }) => {
     const { user } = this.props.zones.find(z => z.id === zoneId) || {};
-    const currContactName = (user && `${user.givenName} ${user.familyName}`)
+    const currContactName = (user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`)
       || CONTACT_NO_EXIST;
 
     this.setState({

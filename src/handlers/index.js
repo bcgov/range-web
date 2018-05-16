@@ -13,6 +13,7 @@ import {
   CLIENT_SIDE_DATE_FORMAT,
   ADMINISTRATOR,
   AGREEMENT_HOLDER,
+  RANGE_OFFICER,
   DRAFT,
   COMPLETED,
   CHANGE_REQUESTED,
@@ -61,6 +62,16 @@ export const getDataFromLocal = (key) => {
  */
 export const isUserAdmin = (user = {}) => (
   user.roles && user.roles.includes(ADMINISTRATOR)
+);
+
+/**
+ * Check the user if he or she is an range officer
+ *
+ * @param {object} user the user object from authentication
+ * @returns {boolean}
+ */
+export const isUserRangeOfficer = (user = {}) => (
+  user.roles && user.roles.includes(RANGE_OFFICER)
 );
 
 /**

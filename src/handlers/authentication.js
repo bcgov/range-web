@@ -153,7 +153,7 @@ export const registerAxiosInterceptors = (logout) => {
     const makeRequest = async () => {
       try {
         if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
-          console.log('Access token is expired. Trying to refresh the token');
+          console.log('Access token is expired. Trying to refresh it');
           config.isRetry = true;
           const refreshToken = getRefreshTokenFromLocal();
           const response = await refreshAccessToken(refreshToken, config.isRetry);
