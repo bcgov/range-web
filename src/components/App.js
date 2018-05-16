@@ -6,6 +6,7 @@ import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
+import AdminRoute from './routes/AdminRoute';
 import Login from './auth/Login';
 import Logout from './auth/Logout';
 
@@ -41,12 +42,14 @@ export class App extends Component {
         <BrowserRouter>
           <Switch>
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
+
+            <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+
             <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} user={user} />
-            <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+            <PrivateRoute path={`${Routes.EXPORT_PDF}/:agreementId/:planId`} component={RangeUsePlanPDFView} user={user} />
 
             <Route path={Routes.LOGOUT} component={Logout} />
-            <Route path={`${Routes.EXPORT_PDF}/:agreementId/:planId`} component={RangeUsePlanPDFView} user={user} />
             <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
             <Route path="*" component={PageNotFound} />
           </Switch>

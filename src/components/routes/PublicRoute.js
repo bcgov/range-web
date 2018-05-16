@@ -19,11 +19,12 @@ const defaultProps = {
 const PublicRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      user
-        ? <Redirect to={RANGE_USE_PLANS} />
-        : <Component {...props} />
-    }
+    render={(props) => {
+      if (user) {
+        return <Redirect to={RANGE_USE_PLANS} />;
+      }
+      return <Component {...props} />;
+    }}
   />
 );
 
