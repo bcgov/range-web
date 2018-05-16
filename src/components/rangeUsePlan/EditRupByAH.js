@@ -7,7 +7,8 @@ import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
 import RupSchedules from './RupSchedules';
 import EditRupSchedules from './EditRupSchedules';
-import { CREATED, DRAFT, CHANGE_REQUESTED, PENDING } from '../../constants/variables';
+import { DRAFT, PENDING } from '../../constants/variables';
+import { isRupComplete, isRupCreated, isRupChangedRequested, isRupPending, isRupInDraftByAH } from '../../handlers';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -139,6 +140,28 @@ export class EditRupByAH extends Component {
     });
   }
 
+  renderBanner = (agreementId, status) => {
+    let content = '';
+    if (isRupCreated(status)) {
+      content = 'Please confirm your range use plan.';
+    } else if (isRupInDraftByAH(status)) {
+      content = 'Please finalize your changes and submit for Range staff review.';
+    } else if (isRupPending(status)) {
+      content = 'Your range use plan is currently being reviewed by range staff.';
+    } else if (isRupChangedRequested(status)) {
+      content = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
+    } else if (isRupComplete(status)) {
+      content = 'Your range use plan is approved by Range staff.';
+    }
+    return (
+      <Banner
+        className="banner__edit-rup"
+        header={agreementId}
+        content={content}
+      />
+    );
+  }
+
   render() {
     const {
       plan,
@@ -154,8 +177,7 @@ export class EditRupByAH extends Component {
       livestockTypes,
     } = this.props;
 
-    const statusName = status && status.name;
-    const isEditable = statusName === CREATED || statusName === DRAFT || statusName === CHANGE_REQUESTED;
+    const isEditable = isRupCreated(status) || isRupInDraftByAH(status) || isRupChangedRequested(status);
 
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;
@@ -176,7 +198,9 @@ export class EditRupByAH extends Component {
       rupSchedules = (
         <RupSchedules
           className="rup__schedules"
+          usage={usage}
           plan={plan}
+          status={status}
         />
       );
     }
@@ -192,11 +216,7 @@ export class EditRupByAH extends Component {
           loading={isSubmitting}
         />
 
-        <Banner
-          className="banner__edit-rup"
-          header={agreementId}
-          content={DETAIL_RUP_EDIT_BANNER_CONTENT}
-        />
+        {this.renderBanner(agreementId, status)}
 
         <div
           id="edit-rup-sticky-header"

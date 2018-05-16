@@ -4,7 +4,6 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import UpdateZoneModal from './UpdateZoneModal';
 import {
   NO_RUP_PROVIDED, COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
-  PENDING_CONFIRMATION_CONTENT, PENDING_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';

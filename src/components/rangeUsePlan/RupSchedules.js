@@ -153,7 +153,7 @@ class RupSchedules extends Component {
         <div className="rup__divider" />
         <ul className="rup__schedules">
           {this.renderSchedules(grazingSchedules)}
-        </ul>  
+        </ul>
       </div>
     );
   }

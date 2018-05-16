@@ -12,9 +12,9 @@ export const GET_TOKEN = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect
 export const REFRESH_TOKEN = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const LOGOUT = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/logout`;
 
-const DEV_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
+// const DEV_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
 // const DEV_BASE_URL = 'http://localhost:8000/api/v1';
-// const DEV_BASE_URL = 'http://10.10.10.74:8000/api/v1';
+const DEV_BASE_URL = 'http://10.10.10.74:8000/api/v1';
 
 export const BASE_URL = (process.env.NODE_ENV === 'production')
   ? `${window.location.origin}/api/v1`

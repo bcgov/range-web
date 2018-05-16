@@ -82,7 +82,8 @@ class RupPastures extends Component {
 
   render() {
     const { plan, className } = this.props;
-    const { pastures = [] } = plan;
+    const pastures = (plan && plan.pastures) || [];
+
     return (
       <div className={className}>
         <div className="rup__title">Pastures</div>

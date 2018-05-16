@@ -103,7 +103,7 @@ class EditRupSchedules extends Component {
   render() {
     const { className, plan } = this.props;
     const { yearOptions } = this.state;
-    const grazingSchedules = plan && plan.grazingSchedules;
+    const grazingSchedules = (plan && plan.grazingSchedules) || [];
 
     return (
       <div className={className}>
