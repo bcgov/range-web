@@ -13,6 +13,15 @@ $primary-color: #003366;
 $primary-light-color : #5475A7;
 $accent-color: #FCBA19;
 
+.default-button {
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 @mixin mobile {
   @media (max-width: #{$mobile-width}) {
     @content;

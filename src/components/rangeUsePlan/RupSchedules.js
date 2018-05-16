@@ -67,21 +67,22 @@ class RupSchedules extends Component {
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
-    const arrow = isScheduleActive
-      ? (<Icon name="chevron up" />)
-      : (<Icon name="chevron down" />);
 
     return (
       <li key={id} className="rup__schedule">
-        <div
-          className="rup__schedule__header"
-          onClick={this.onScheduleClicked(scheduleIndex)}
-          role="button"
-        >
-          <div>{year} Grazing Schedule</div>
-          <div>
-            {arrow}
-          </div>
+        <div className="rup__schedule__header">
+          <button
+            className="rup__schedule__header__title"
+            onClick={this.onScheduleClicked(scheduleIndex)}
+          >
+            <div>{year} Grazing Schedule</div>
+            {isScheduleActive &&
+              <Icon name="chevron up" />
+            }
+            {!isScheduleActive &&
+              <Icon name="chevron down" />
+            }
+          </button>
         </div>
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>

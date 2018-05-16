@@ -76,8 +76,25 @@ class EditRupSchedules extends Component {
 
   handleScheduleChange = (schedule, sIndex) => {
     const grazingSchedules = [...this.props.plan.grazingSchedules];
-    grazingSchedules[sIndex] = schedule;
+    if (schedule) {
+      grazingSchedules[sIndex] = schedule;
+    } else {
+      // a schedule is deleted so add this year to the year option list
+      const [schedule] = grazingSchedules.splice(sIndex, 1);
+      const { year } = schedule || {};
+      const option = {
+        key: year,
+        text: year,
+        value: year,
+      };
+      const yearOptions = [...this.state.yearOptions];
+      yearOptions.push(option);
+      yearOptions.sort((y1, y2) => y1.year > y2.year);
 
+      this.setState({
+        yearOptions,
+      });
+    }
     this.props.handleSchedulesChange(grazingSchedules);
   }
 

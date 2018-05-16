@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Table, Button, Icon, TextArea, Form } from 'semantic-ui-react';
+import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
@@ -42,6 +42,12 @@ class EditRupSchedule extends Component {
       dateOut: new Date(`${year}-01-02`),
     });
 
+    handleScheduleChange(schedule, scheduleIndex);
+  }
+
+  handleScheduleDelete = () => {
+    const { scheduleIndex, handleScheduleChange } = this.props;
+    const schedule = null;
     handleScheduleChange(schedule, scheduleIndex);
   }
 
@@ -105,20 +111,31 @@ class EditRupSchedule extends Component {
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
-    const arrow = isScheduleActive
-      ? (<Icon name="chevron up" />)
-      : (<Icon name="chevron down" />);
+    // const scheduleOptions = [
+    //   { key: `${scheduleIndex}`, text: 'Delete', onClick: this.handleScheduleDelete },
+    // ];
 
     return (
       <li className="rup__schedule">
-        <div
-          className="rup__schedule__header"
-          onClick={this.onScheduleClicked}
-          role="button"
-        >
-          <div>{year} Grazing Schedule</div>
-          <div>
-            {arrow}
+        <div className="rup__schedule__header">
+          <button
+            className="rup__schedule__header__title"
+            onClick={this.onScheduleClicked}
+          >
+            <div>{year} Grazing Schedule</div>
+            {isScheduleActive &&
+              <Icon name="chevron up" />
+            }
+            {!isScheduleActive &&
+              <Icon name="chevron down" />
+            }
+          </button>
+          <div className="rup__schedule__header__action">
+            {/* <Dropdown
+              trigger={<Icon name="ellipsis vertical" />}
+              options={scheduleOptions}
+              icon={null}
+            /> */}
           </div>
         </div>
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
@@ -145,7 +162,7 @@ class EditRupSchedule extends Component {
             <div className="rup__schedule__content__AUM-label">Total AUMs</div>
             <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
           </div>
-          <b>Schedule Description</b>
+          <div className="rup__schedule__content__narrative">Schedule Description</div>
           <Form>
             <TextArea
               rows={2}
