@@ -73,11 +73,11 @@ export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder\'s name, or staff contact in the search box to search for a specific range use plan.';
 export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
-// export const RUP_CREATED_FOR_AH_CONTENT
-// export const RUP_IN_DRAFT_FOR_AH_CONTENT
-// export const RUP_PENDING_FOR_AH_CONTENT
-// export const RUP__FOR_AH_CONTENT
-// export const RUP_CREATED_FOR_AH_CONTENT
+export const RUP_CREATED_FOR_AH_CONTENT = 'Please confirm your range use plan.';
+export const RUP_IN_DRAFT_FOR_AH_CONTENT = 'Please finalize your changes and submit for Range staff review.';
+export const RUP_PENDING_FOR_AH_CONTENT = 'Your range use plan is currently being reviewed by range staff.';
+export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
+export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { DETAIL_RUP_EDIT_BANNER_CONTENT, SAVE_PLAN_AS_DRAFT_SUCCESS, SUBMIT_PLAN_SUCCESS } from '../../constants/strings';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './RupBasicInformation';
 import RupPastures from './RupPastures';
@@ -9,6 +8,15 @@ import RupSchedules from './RupSchedules';
 import EditRupSchedules from './EditRupSchedules';
 import { DRAFT, PENDING } from '../../constants/variables';
 import { isRupComplete, isRupCreated, isRupChangedRequested, isRupPending, isRupInDraftByAH } from '../../handlers';
+import {
+  RUP_CHANGE_REQUESTED_FOR_AH_CONTENT,
+  RUP_COMPLETE_FOR_AH_CONTENT,
+  RUP_CREATED_FOR_AH_CONTENT,
+  RUP_IN_DRAFT_FOR_AH_CONTENT,
+  RUP_PENDING_FOR_AH_CONTENT,
+  SAVE_PLAN_AS_DRAFT_SUCCESS,
+  SUBMIT_PLAN_SUCCESS,
+} from '../../constants/strings';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -21,7 +29,7 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
 };
 
-export class EditRupByAH extends Component {
+export class RupAH extends Component {
   constructor(props) {
     super(props);
 
@@ -143,21 +151,42 @@ export class EditRupByAH extends Component {
   renderBanner = (agreementId, status) => {
     let content = '';
     if (isRupCreated(status)) {
-      content = 'Please confirm your range use plan.';
+      content = RUP_CREATED_FOR_AH_CONTENT;
     } else if (isRupInDraftByAH(status)) {
-      content = 'Please finalize your changes and submit for Range staff review.';
+      content = RUP_IN_DRAFT_FOR_AH_CONTENT;
     } else if (isRupPending(status)) {
-      content = 'Your range use plan is currently being reviewed by range staff.';
+      content = RUP_PENDING_FOR_AH_CONTENT;
     } else if (isRupChangedRequested(status)) {
-      content = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
+      content = RUP_CHANGE_REQUESTED_FOR_AH_CONTENT;
     } else if (isRupComplete(status)) {
-      content = 'Your range use plan is approved by Range staff.';
+      content = RUP_COMPLETE_FOR_AH_CONTENT;
     }
     return (
       <Banner
         className="banner__edit-rup"
         header={agreementId}
         content={content}
+      />
+    );
+  }
+  renderSchedules = (plan, usage = [], status, livestockTypes = [], isEditable) => {
+    if (isEditable) {
+      return (
+        <EditRupSchedules
+          className="rup__edit-schedules"
+          livestockTypes={livestockTypes}
+          plan={plan}
+          usage={usage}
+          handleSchedulesChange={this.handleSchedulesChange}
+        />
+      );
+    }
+    return (
+      <RupSchedules
+        className="rup__schedules"
+        usage={usage}
+        plan={plan}
+        status={status}
       />
     );
   }
@@ -183,27 +212,7 @@ export class EditRupByAH extends Component {
     const zone = agreement && agreement.zone;
     const usage = agreement && agreement.usage;
 
-    let rupSchedules;
-    if (isEditable) {
-      rupSchedules = (
-        <EditRupSchedules
-          className="rup__edit-schedules"
-          livestockTypes={livestockTypes}
-          plan={plan}
-          usage={usage}
-          handleSchedulesChange={this.handleSchedulesChange}
-        />
-      );
-    } else {
-      rupSchedules = (
-        <RupSchedules
-          className="rup__schedules"
-          usage={usage}
-          plan={plan}
-          status={status}
-        />
-      );
-    }
+    const rupSchedules = this.renderSchedules(plan, usage, status, livestockTypes, isEditable);
 
     return (
       <div className="rup">
@@ -272,5 +281,5 @@ export class EditRupByAH extends Component {
   }
 }
 
-EditRupByAH.propTypes = propTypes;
-export default EditRupByAH;
+RupAH.propTypes = propTypes;
+export default RupAH;
