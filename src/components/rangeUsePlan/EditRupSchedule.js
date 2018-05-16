@@ -26,8 +26,15 @@ class EditRupSchedule extends Component {
     onScheduleClicked(scheduleIndex);
   }
 
+  onNarativeChanged = (e, { value }) => {
+    const { schedule, scheduleIndex, handleScheduleChange } = this.props;
+    schedule.narative = value;
+
+    handleScheduleChange(schedule, scheduleIndex);
+  }
+
   onNewRowClick = scheduleIndex => () => {
-    const { schedule } = this.props;
+    const { schedule, handleScheduleChange } = this.props;
     const { year, grazingScheduleEntries } = schedule;
     grazingScheduleEntries.push({
       livestockCount: 0,
@@ -35,14 +42,14 @@ class EditRupSchedule extends Component {
       dateOut: new Date(`${year}-01-02`),
     });
 
-    this.props.handleScheduleChange(schedule, scheduleIndex);
+    handleScheduleChange(schedule, scheduleIndex);
   }
 
   handleScheduleEntryChange = (entry, entryIndex) => {
-    const { schedule, scheduleIndex } = this.props;
+    const { schedule, scheduleIndex, handleScheduleChange } = this.props;
     schedule.grazingScheduleEntries[entryIndex] = entry;
 
-    this.props.handleScheduleChange(schedule, scheduleIndex);
+    handleScheduleChange(schedule, scheduleIndex);
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
@@ -93,6 +100,7 @@ class EditRupSchedule extends Component {
     } = this.props;
 
     const { year, grazingScheduleEntries } = schedule;
+    const narative = (schedule && schedule.narative) || '';
     const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
@@ -141,7 +149,8 @@ class EditRupSchedule extends Component {
           <Form>
             <TextArea
               rows={2}
-              onChange={this.onScheduleTextChanged}
+              onChange={this.onNarativeChanged}
+              value={narative}
             />
           </Form>
         </div>
