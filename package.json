@@ -13,7 +13,6 @@
     "npm-run-all": "^4.1.2",
     "pikaday": "^1.7.0",
     "prop-types": "^15.6.0",
-    "query-params": "0.0.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-pdf": "^2.5.3",
