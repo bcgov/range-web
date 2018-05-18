@@ -7,6 +7,7 @@ import {
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
   NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
+import User from '../../models/User';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -25,9 +26,9 @@ export class ManageZone extends Component {
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
-    const { user } = this.props.zones.find(z => z.id === zoneId) || {};
-    const currContactName = (user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`)
-      || CONTACT_NO_EXIST;
+    const zone = this.props.zones.find(z => z.id === zoneId);
+    const user = new User(zone && zone.user);
+    const currContactName = user.fullName || CONTACT_NO_EXIST;
 
     this.setState({
       zoneId,
@@ -80,11 +81,12 @@ export class ManageZone extends Component {
         text: code,
       };
     });
-    const contactOptions = users.map((user) => {
-      const { givenName, familyName, id } = user;
+    const contactOptions = users.map((u) => {
+      const user = new User(u);
+      const { id, fullName } = user;
       return {
         value: id,
-        text: `${givenName} ${familyName}`,
+        text: fullName,
       };
     });
     const isUpdateBtnEnabled = newContactId && zoneId;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
-import { formatDateFromServer, presentNullValue, isUserAdmin } from '../../../handlers';
+import { formatDateFromServer, presentNullValue } from '../../../handlers';
 import {
   RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
   ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
@@ -10,6 +10,7 @@ import {
   RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../../constants/strings';
 import { PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
+import User from '../../../models/User';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -59,18 +60,14 @@ class RupBasicInformation extends Component {
     // variables for textfields
     const {
       code: zoneCode,
-      user,
       district,
     } = zone || {};
     const districtCode = district && district.code;
 
-    const {
-      email: contactEmail,
-      givenName,
-      familyName,
-      contactPhoneNumber,
-    } = user || {};
-    const contactName = givenName && familyName && `${givenName} ${familyName}`;
+    const user = new User(zone && zone.user);
+    const contactEmail = user.email;
+    const contactPhoneNumber = user.phone;
+    const contactName = user.fullName;
 
     const {
       rangeName,
@@ -92,7 +89,7 @@ class RupBasicInformation extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
-    const isAdmin = isUserAdmin(this.props.user);
+    const { isAdmin } = new User(this.props.user);
     const zoneText = isAdmin
       ? (
         <div className="rup__zone-text">

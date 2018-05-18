@@ -68,6 +68,7 @@ export const login = code => (dispatch) => {
       if (user && user.id) {
         onUserProfileChanged(user);
       }
+
       dispatch(loginSuccess(response2.data));
     } catch (err) {
       dispatch(loginError(err));

@@ -9,7 +9,7 @@ import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
-import { isUserAdmin, isUserAgreementHolder, isUserRangeOfficer } from '../../handlers';
+import User from '../../models/User';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
@@ -44,8 +44,9 @@ class Base extends Component {
       createOrUpdateRupSchedule,
       toastErrorMessage,
       toastSuccessMessage,
-      user,
+      user: u,
     } = this.props;
+    const user = new User(u);
 
     const {
       data: agreement,
@@ -58,20 +59,7 @@ class Base extends Component {
     const livestockTypes = references[LIVESTOCK_TYPE];
 
     let rup;
-    if (isUserAdmin(user) || isUserRangeOfficer(user)) {
-      rup = (
-        <Rup
-          user={user}
-          agreement={agreement}
-          statuses={statuses}
-          livestockTypes={livestockTypes}
-          updateRupStatus={updateRupStatus}
-          getRupPDF={getRupPDF}
-          isUpdatingStatus={isUpdatingStatus}
-          isDownloadingPDF={isDownloadingPDF}
-        />
-      );
-    } else if (isUserAgreementHolder(user)) {
+    if (user.isAgreementHolder) {
       rup = (
         <RupAH
           user={user}
@@ -85,7 +73,18 @@ class Base extends Component {
         />
       );
     } else {
-      rup = (<div>No role found</div>);
+      rup = (
+        <Rup
+          user={user}
+          agreement={agreement}
+          statuses={statuses}
+          livestockTypes={livestockTypes}
+          updateRupStatus={updateRupStatus}
+          getRupPDF={getRupPDF}
+          isUpdatingStatus={isUpdatingStatus}
+          isDownloadingPDF={isDownloadingPDF}
+        />
+      );
     }
 
     return (

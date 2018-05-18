@@ -5,7 +5,7 @@ import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { LOGO_SRC } from '../constants/variables';
 import { SSO_AUTH_LOGOUT_ENDPOINT } from '../constants/api';
-import { isUserAdmin } from '../handlers';
+import User from '../models/User';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -17,7 +17,8 @@ export class Navbar extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user: u } = this.props;
+    const user = new User(u);
 
     return (
       <nav className="navbar">
@@ -38,7 +39,7 @@ export class Navbar extends Component {
               Select RUP
             </NavLink>
 
-            {isUserAdmin(user) &&
+            {user.isAdmin &&
               <NavLink
                 to={Routes.MANAGE_ZONE}
                 className="navbar__link"

@@ -6,6 +6,7 @@ import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
 import { PRIMARY_TYPE } from '../../constants/variables';
 import { presentNullValue } from '../../handlers';
+import User from '../../models/User';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -43,10 +44,10 @@ export class AgreementTableItem extends Component {
   render() {
     const { agreement } = this.props;
     const { plans, id: agreementId, zone } = agreement || {};
-    const { user } = zone || {};
     const plan = plans[0];
 
-    const staffName = user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`;
+    const user = new User(zone && zone.user);
+    const staffFullName = user.fullName;
     const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
     const { rangeName, status } = plan || {};
 
@@ -58,7 +59,7 @@ export class AgreementTableItem extends Component {
         <Table.Cell>{agreementId}</Table.Cell>
         <Table.Cell>{presentNullValue(rangeName)}</Table.Cell>
         <Table.Cell>{presentNullValue(primaryAgreementHolderName)}</Table.Cell>
-        <Table.Cell>{presentNullValue(staffName)}</Table.Cell>
+        <Table.Cell>{presentNullValue(staffFullName)}</Table.Cell>
         <Table.Cell>
           <Status user={this.props.user} status={status} />
         </Table.Cell>

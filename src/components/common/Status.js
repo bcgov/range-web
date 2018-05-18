@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, NOT_PROVIDED } from '../../constants/strings';
+import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED } from '../../constants/strings';
 import { PENDING, COMPLETED, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
-import { isUserAdmin, isUserAgreementHolder, isUserRangeOfficer } from '../../handlers';
+import User from '../../models/User';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -22,38 +22,40 @@ const Status = ({
   status,
   className,
   style,
-  user,
+  user: u,
 }) => {
   let modifier = 'status__icon';
   let statusName = NO_RUP_PROVIDED;
+  const user = new User(u);
+
   switch (status && status.name) {
     case CREATED:
-      if (isUserAdmin(user) || isUserRangeOfficer(user)) {
-        statusName = SENT_FOR_INPUT;
-      } else if (isUserAgreementHolder(user)) {
+      if (user.isAgreementHolder) {
         statusName = INPUT_REQUIRED;
+      } else {
+        statusName = SENT_FOR_INPUT;
       }
       modifier += '--created'; // orange
       break;
     case DRAFT:
-      if (isUserAdmin(user) || isUserRangeOfficer(user)) {
-        statusName = IN_PROGRESS;
-      } else if (isUserAgreementHolder(user)) {
+      if (user.isAgreementHolder) {
         statusName = status.name;
+      } else {
+        statusName = IN_PROGRESS;
       }
-      modifier += '--draft'; // orange
+      modifier += '--draft'; // gray
       break;
     case PENDING:
-      if (isUserAdmin(user) || isUserRangeOfficer(user)) {
-        statusName = IN_REVIEW;
-      } else if (isUserAgreementHolder(user)) {
+      if (user.isAgreementHolder) {
         statusName = REVIEW_REQUIRED;
+      } else {
+        statusName = IN_REVIEW;
       }
-      modifier += '--pending'; // red
+      modifier += '--pending'; // purple
       break;
     case CHANGE_REQUESTED:
-      statusName = status.name;
-      modifier += '--change-requested'; // orange
+      statusName = REVIEW_REQUIRED;
+      modifier += '--change-requested'; // red
       break;
     case COMPLETED:
       statusName = status.name;

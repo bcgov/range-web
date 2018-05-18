@@ -6,7 +6,6 @@ import {
   formatDateFromServer,
   presentNullValue,
   calcDateDiff,
-  isRupInDraftByAH,
   calcCrownAUMs,
   calcPldAUMs,
   calcTotalAUMs,
@@ -18,6 +17,7 @@ import {
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
   CROWN_AUMS, NOT_PROVIDED,
 } from '../../../constants/strings';
+import PlanStatus from '../../../models/PlanStatus';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
@@ -38,7 +38,9 @@ class RupSchedules extends Component {
   }
 
   renderSchedules = (grazingSchedules) => {
-    if (isRupInDraftByAH(this.props.status)) {
+    const status = new PlanStatus(this.props.status);
+
+    if (status.isInDraft) {
       return (
         <div className="rup__schedule__draft-container">
           <div className="rup__schedule__in-draft">

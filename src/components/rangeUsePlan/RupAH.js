@@ -7,16 +7,8 @@ import RupPastures from './view/RupPastures';
 import RupSchedules from './view/RupSchedules';
 import EditRupSchedules from './edit/EditRupSchedules';
 import { DRAFT, PENDING } from '../../constants/variables';
-import { isRupComplete, isRupCreated, isRupChangedRequested, isRupPending, isRupInDraftByAH } from '../../handlers';
-import {
-  RUP_CHANGE_REQUESTED_FOR_AH_CONTENT,
-  RUP_COMPLETE_FOR_AH_CONTENT,
-  RUP_CREATED_FOR_AH_CONTENT,
-  RUP_IN_DRAFT_FOR_AH_CONTENT,
-  RUP_PENDING_FOR_AH_CONTENT,
-  SAVE_PLAN_AS_DRAFT_SUCCESS,
-  SUBMIT_PLAN_SUCCESS,
-} from '../../constants/strings';
+import { SAVE_PLAN_AS_DRAFT_SUCCESS, SUBMIT_PLAN_SUCCESS } from '../../constants/strings';
+import PlanStatus from '../../models/PlanStatus';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -130,6 +122,7 @@ export class RupAH extends Component {
       makeRequest();
     }
   }
+
   handleScroll = () => {
     if (this.stickyHeader) {
       if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
@@ -149,18 +142,8 @@ export class RupAH extends Component {
   }
 
   renderBanner = (agreementId, status) => {
-    let content = '';
-    if (isRupCreated(status)) {
-      content = RUP_CREATED_FOR_AH_CONTENT;
-    } else if (isRupInDraftByAH(status)) {
-      content = RUP_IN_DRAFT_FOR_AH_CONTENT;
-    } else if (isRupPending(status)) {
-      content = RUP_PENDING_FOR_AH_CONTENT;
-    } else if (isRupChangedRequested(status)) {
-      content = RUP_CHANGE_REQUESTED_FOR_AH_CONTENT;
-    } else if (isRupComplete(status)) {
-      content = RUP_COMPLETE_FOR_AH_CONTENT;
-    }
+    const content = status.bannerContentForAH;
+
     return (
       <Banner
         className="banner__edit-rup"
@@ -194,7 +177,7 @@ export class RupAH extends Component {
   render() {
     const {
       plan,
-      status,
+      status: s,
       isSavingAsDraft,
       isSubmitting,
       isSubmitModalOpen,
@@ -206,7 +189,8 @@ export class RupAH extends Component {
       livestockTypes,
     } = this.props;
 
-    const isEditable = isRupCreated(status) || isRupInDraftByAH(status) || isRupChangedRequested(status);
+    const status = new PlanStatus(s);
+    const isEditable = status.isCreated || status.isInDraft || status.isChangedRequested;
 
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;

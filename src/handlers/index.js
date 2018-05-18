@@ -11,14 +11,6 @@ import {
   REFERENCE_KEY,
   SERVER_SIDE_DATE_FORMAT,
   CLIENT_SIDE_DATE_FORMAT,
-  ADMINISTRATOR,
-  AGREEMENT_HOLDER,
-  RANGE_OFFICER,
-  DRAFT,
-  COMPLETED,
-  CHANGE_REQUESTED,
-  PENDING,
-  CREATED,
 } from '../constants/variables';
 
 /**
@@ -53,58 +45,6 @@ export const getDataFromLocal = (key) => {
   // }
   // return JSON.parse(decode);
 };
-
-/**
- * Check the user if he or she is an admin
- *
- * @param {object} user the user object from authentication
- * @returns {boolean}
- */
-export const isUserAdmin = (user = {}) => (
-  user.roles && user.roles.includes(ADMINISTRATOR)
-);
-
-/**
- * Check the user if he or she is an range officer
- *
- * @param {object} user the user object from authentication
- * @returns {boolean}
- */
-export const isUserRangeOfficer = (user = {}) => (
-  user.roles && user.roles.includes(RANGE_OFFICER)
-);
-
-/**
- * Check the user if he or she is an agreement holder
- *
- * @param {object} user the user object from authentication
- * @returns {boolean}
- */
-export const isUserAgreementHolder = (user = {}) => (
-  user.roles && user.roles.includes(AGREEMENT_HOLDER)
-);
-
-/**
- * check the range use plan for a certain status
- *
- * @param {object} status the status of the range use plan
- * @returns {boolean}
- */
-export const isRupCreated = (status = {}) => (
-  status.name === CREATED
-);
-export const isRupInDraftByAH = (status = {}) => (
-  status.name === DRAFT
-);
-export const isRupComplete = (status = {}) => (
-  status.name === COMPLETED
-);
-export const isRupChangedRequested = (status = {}) => (
-  status.name === CHANGE_REQUESTED
-);
-export const isRupPending = (status = {}) => (
-  status.name === PENDING
-);
 
 /**
  * Present the date time in a more readable way

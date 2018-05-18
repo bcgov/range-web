@@ -8,11 +8,11 @@ import {
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
 import { COMPLETED, CHANGE_REQUESTED } from '../../constants/variables';
-import { isRupPending, isRupCreated } from '../../handlers';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupSchedules from './view/RupSchedules';
+import PlanStatus from '../../models/PlanStatus';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -108,7 +108,7 @@ export class Rup extends Component {
       isUpdateZoneModalOpen,
       plan,
       zone,
-      status,
+      status: s,
     } = this.state;
 
     const {
@@ -132,6 +132,7 @@ export class Rup extends Component {
         onClick: this.openPendingConfirmModal,
       },
     ];
+    const status = new PlanStatus(s);
 
     const agreementId = agreement && agreement.id;
     const usage = agreement && agreement.usage;
@@ -192,7 +193,7 @@ export class Rup extends Component {
             >
               View PDF
             </Button>
-            {(isRupPending(status) || isRupCreated(status)) &&
+            {(status.isPending || status.isCreated) &&
               <Dropdown
                 className="rup__status-dropdown"
                 text="Update Status"
