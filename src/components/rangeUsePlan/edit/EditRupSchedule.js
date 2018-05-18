@@ -58,6 +58,13 @@ class EditRupSchedule extends Component {
     handleScheduleChange(schedule, scheduleIndex);
   }
 
+  handleScheduleEntryCopy = (entryIndex) => {
+    const { schedule, scheduleIndex, handleScheduleChange } = this.props;
+    schedule.grazingScheduleEntries.push({ ...schedule.grazingScheduleEntries[entryIndex] });
+
+    handleScheduleChange(schedule, scheduleIndex);
+  }
+
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
     const { schedule, pastures, livestockTypes } = this.props;
     const { year } = schedule;
@@ -92,6 +99,7 @@ class EditRupSchedule extends Component {
           livestockTypes={livestockTypes}
           livestockTypeOptions={livestockTypeOptions}
           handleScheduleEntryChange={this.handleScheduleEntryChange}
+          handleScheduleEntryCopy={this.handleScheduleEntryCopy}
         />
       );
     });
@@ -151,6 +159,7 @@ class EditRupSchedule extends Component {
                 <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
                 <Table.HeaderCell>{PLD}</Table.HeaderCell>
                 <Table.HeaderCell>{CROWN_AUMS}</Table.HeaderCell>
+                <Table.HeaderCell />
               </Table.Row>
               {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
             </Table.Header>

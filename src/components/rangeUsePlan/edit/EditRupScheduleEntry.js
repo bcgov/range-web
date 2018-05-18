@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Pikaday from 'pikaday';
-import { Table, Dropdown, Input } from 'semantic-ui-react';
+import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import {
   presentNullValue,
   calcDateDiff,
@@ -22,6 +22,7 @@ const propTypes = {
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleEntryChange: PropTypes.func.isRequired,
+  handleScheduleEntryCopy: PropTypes.func.isRequired,
 };
 
 class EditRupScheduleEntry extends Component {
@@ -46,6 +47,11 @@ class EditRupScheduleEntry extends Component {
       maxDate,
       onSelect: this.handleDateChange('dateOut'),
     }).setDate(new Date(dateOut));
+  }
+
+  onCopyEntryClicked = () => {
+    const { handleScheduleEntryCopy, entryIndex } = this.props;
+    handleScheduleEntryCopy(entryIndex);
   }
 
   setDateInRef = (ref) => { this.dateInRef = ref; }
@@ -107,6 +113,7 @@ class EditRupScheduleEntry extends Component {
   render() {
     const {
       entry,
+      entryIndex,
       pastureOptions,
       livestockTypeOptions,
     } = this.props;
@@ -127,6 +134,10 @@ class EditRupScheduleEntry extends Component {
     const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
     const livestockTypeName = livestockType && livestockType.name;
     const graceDays = pasture && pasture.graceDays;
+
+    const entryOptions = [
+      { key: `entry${entryIndex}`, text: 'copy', onClick: this.onCopyEntryClicked },
+    ];
 
     return (
       <Table.Row>
@@ -182,6 +193,13 @@ class EditRupScheduleEntry extends Component {
         <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(pldAUMs, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell textAlign="center">
+          <Dropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={entryOptions}
+            icon={null}
+          />
+        </Table.Cell>
       </Table.Row>
     );
   }
