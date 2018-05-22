@@ -60,7 +60,9 @@ class EditRupSchedule extends Component {
 
   handleScheduleEntryCopy = (entryIndex) => {
     const { schedule, scheduleIndex, handleScheduleChange } = this.props;
-    schedule.grazingScheduleEntries.push({ ...schedule.grazingScheduleEntries[entryIndex] });
+    // deep copy the object
+    const copy = JSON.parse(JSON.stringify(schedule.grazingScheduleEntries[entryIndex]));
+    schedule.grazingScheduleEntries.push(copy);
 
     handleScheduleChange(schedule, scheduleIndex);
   }

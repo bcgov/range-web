@@ -127,23 +127,22 @@ class EditRupScheduleEntry extends Component {
     } = entry || {};
 
     const days = calcDateDiff(dateOut, dateIn, false);
-    const pastureName = pasture && pasture.name;
+    const pastureId = pasture && pasture.id;
     const auFactor = livestockType && livestockType.auFactor;
     const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
     const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent));
     const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
-    const livestockTypeName = livestockType && livestockType.name;
+    const livestockTypeId = livestockType && livestockType.id;
     const graceDays = pasture && pasture.graceDays;
 
     const entryOptions = [
       { key: `entry${entryIndex}`, text: 'copy', onClick: this.onCopyEntryClicked },
     ];
-
     return (
       <Table.Row>
         <Table.Cell>
           <Dropdown
-            placeholder={pastureName}
+            value={pastureId}
             options={pastureOptions}
             selectOnBlur={false}
             onChange={this.handlePastureDropdown}
@@ -154,7 +153,7 @@ class EditRupScheduleEntry extends Component {
         </Table.Cell>
         <Table.Cell>
           <Dropdown
-            placeholder={livestockTypeName}
+            value={livestockTypeId}
             options={livestockTypeOptions}
             selectOnBlur={false}
             onChange={this.handleLiveStockTypeDropdown}
