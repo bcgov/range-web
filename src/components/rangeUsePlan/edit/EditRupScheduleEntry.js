@@ -79,34 +79,25 @@ class EditRupScheduleEntry extends Component {
     handleScheduleEntryChange(entry, entryIndex);
   }
 
-  handlePastureDropdown = (e, { value }) => {
+  handlePastureDropdown = (e, { value: pastureId }) => {
     const {
       entry,
       entryIndex,
       handleScheduleEntryChange,
-      pastures,
     } = this.props;
 
-    const pasture = pastures.find(p => p.id === value);
-    entry.pasture = pasture;
-    entry.pastureId = pasture.id;
-    entry.graceDays = pasture.graceDays;
-
+    entry.pastureId = pastureId;
     handleScheduleEntryChange(entry, entryIndex);
   }
 
-  handleLiveStockTypeDropdown = (e, { value }) => {
+  handleLiveStockTypeDropdown = (e, { value: livestockTypeId }) => {
     const {
       entry,
       entryIndex,
       handleScheduleEntryChange,
-      livestockTypes,
     } = this.props;
 
-    const livestockType = livestockTypes.find(p => p.id === value);
-    entry.livestockType = livestockType;
-    entry.livestockTypeId = livestockType.id;
-
+    entry.livestockTypeId = livestockTypeId;
     handleScheduleEntryChange(entry, entryIndex);
   }
 
@@ -114,26 +105,30 @@ class EditRupScheduleEntry extends Component {
     const {
       entry,
       entryIndex,
+      pastures,
       pastureOptions,
+      livestockTypes,
       livestockTypeOptions,
     } = this.props;
 
     const {
-      pasture,
-      livestockType,
+      pastureId,
+      livestockTypeId,
       livestockCount,
       dateIn,
       dateOut,
     } = entry || {};
 
     const days = calcDateDiff(dateOut, dateIn, false);
-    const pastureId = pasture && pasture.id;
-    const auFactor = livestockType && livestockType.auFactor;
-    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent));
-    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
-    const livestockTypeId = livestockType && livestockType.id;
+    const pasture = pastures.find(p => p.id === pastureId);
     const graceDays = pasture && pasture.graceDays;
+    const pldPercent = pasture && pasture.pldPercent;
+    const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
+    const auFactor = livestockType && livestockType.auFactor;
+
+    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
+    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pldPercent));
+    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
 
     const entryOptions = [
       { key: `entry${entryIndex}`, text: 'copy', onClick: this.onCopyEntryClicked },
