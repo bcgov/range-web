@@ -54,6 +54,10 @@ class EditRupScheduleEntry extends Component {
     handleScheduleEntryCopy(entryIndex);
   }
 
+  onDeleteEntryClicked = () => {
+    const { handleScheduleEntryCopy, entryIndex } = this.props;
+  }
+
   setDateInRef = (ref) => { this.dateInRef = ref; }
   setDateOutRef = (ref) => { this.dateOutRef = ref; }
 
@@ -131,7 +135,8 @@ class EditRupScheduleEntry extends Component {
     const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
 
     const entryOptions = [
-      { key: `entry${entryIndex}`, text: 'copy', onClick: this.onCopyEntryClicked },
+      { key: `entry${entryIndex}option1`, text: 'copy', onClick: this.onCopyEntryClicked },
+      { key: `entry${entryIndex}option2`, text: 'delete', onClick: this.onDeleteEntryClicked },
     ];
     return (
       <Table.Row>
@@ -157,7 +162,7 @@ class EditRupScheduleEntry extends Component {
             selection
           />
         </Table.Cell>
-        <Table.Cell>
+        <Table.Cell collapsing>
           <Input fluid>
             <input
               type="text"
@@ -183,10 +188,10 @@ class EditRupScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(days, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(graceDays, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(crownAUMs, false)}</Table.Cell>
         <Table.Cell textAlign="center">
           <Dropdown
             trigger={<Icon name="ellipsis vertical" />}

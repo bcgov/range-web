@@ -17,6 +17,7 @@ const propTypes = {
   usage: PropTypes.arrayOf(PropTypes.object).isRequired,
   pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleChange: PropTypes.func.isRequired,
+  handleScheduleDelete: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -45,10 +46,9 @@ class EditRupSchedule extends Component {
     handleScheduleChange(schedule, scheduleIndex);
   }
 
-  handleScheduleDelete = () => {
-    const { scheduleIndex, handleScheduleChange } = this.props;
-    const schedule = null;
-    handleScheduleChange(schedule, scheduleIndex);
+  onScheduleDeleteClicked = () => {
+    const { scheduleIndex, handleScheduleDelete } = this.props;
+    handleScheduleDelete(scheduleIndex);
   }
 
   handleScheduleEntryChange = (entry, entryIndex) => {
@@ -121,9 +121,9 @@ class EditRupSchedule extends Component {
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
-    // const scheduleOptions = [
-    //   { key: `${scheduleIndex}`, text: 'Delete', onClick: this.handleScheduleDelete },
-    // ];
+    const scheduleOptions = [
+      { key: `${scheduleIndex}`, text: 'Delete', onClick: this.onScheduleDeleteClicked },
+    ];
 
     return (
       <li className="rup__schedule">
@@ -141,11 +141,11 @@ class EditRupSchedule extends Component {
             }
           </button>
           <div className="rup__schedule__header__action">
-            {/* <Dropdown
+            <Dropdown
               trigger={<Icon name="ellipsis vertical" />}
               options={scheduleOptions}
               icon={null}
-            /> */}
+            />
           </div>
         </div>
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >

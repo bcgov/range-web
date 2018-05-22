@@ -76,25 +76,29 @@ class EditRupSchedules extends Component {
 
   handleScheduleChange = (schedule, sIndex) => {
     const grazingSchedules = [...this.props.plan.grazingSchedules];
-    if (schedule) {
-      grazingSchedules[sIndex] = schedule;
-    } else {
-      // a schedule is deleted so add this year to the year option list
-      const [schedule] = grazingSchedules.splice(sIndex, 1);
-      const { year } = schedule || {};
-      const option = {
-        key: year,
-        text: year,
-        value: year,
-      };
-      const yearOptions = [...this.state.yearOptions];
-      yearOptions.push(option);
-      yearOptions.sort((y1, y2) => y1.year > y2.year);
+    grazingSchedules[sIndex] = schedule;
+    this.props.handleSchedulesChange(grazingSchedules);
+  }
 
-      this.setState({
-        yearOptions,
-      });
-    }
+  handleScheduleDelete = (sIndex) => {
+    const grazingSchedules = [...this.props.plan.grazingSchedules];
+
+    // a schedule is deleted so add this year to the year option list
+    const [schedule] = grazingSchedules.splice(sIndex, 1);
+    const { year } = schedule || {};
+    const option = {
+      key: year,
+      text: year,
+      value: year,
+    };
+    const yearOptions = [...this.state.yearOptions];
+    yearOptions.push(option);
+    yearOptions.sort((o1, o2) => o1.value > o2.value);
+
+    this.setState({
+      yearOptions,
+    });
+
     this.props.handleSchedulesChange(grazingSchedules);
   }
 
@@ -113,6 +117,7 @@ class EditRupSchedules extends Component {
         livestockTypes={livestockTypes}
         pastures={plan.pastures}
         handleScheduleChange={this.handleScheduleChange}
+        handleScheduleDelete={this.handleScheduleDelete}
       />
     );
   }
