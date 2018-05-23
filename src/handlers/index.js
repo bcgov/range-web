@@ -10,6 +10,7 @@ import {
   REFERENCE_KEY,
   SERVER_SIDE_DATE_FORMAT,
   CLIENT_SIDE_DATE_FORMAT,
+  SCHEUDLE_ENTRY_DATE_FORMAT,
 } from '../constants/variables';
 
 /**
@@ -49,11 +50,15 @@ export const getDataFromLocal = (key) => {
  * Present the date time in a more readable way
  *
  * @param {string | Date} isoFormatDate The stringified date time
+ * @param {boolean} isYearIncluded The boolean to specify whether the year is needed
  * @returns {string} a formatted string or 'Not provided'
  */
-export const formatDateFromServer = (isoFormatDate) => {
+export const formatDateFromServer = (isoFormatDate, isYearIncluded = true) => {
   if (isoFormatDate) {
-    return moment(isoFormatDate, SERVER_SIDE_DATE_FORMAT).format(CLIENT_SIDE_DATE_FORMAT);
+    if (isYearIncluded) {
+      return moment(isoFormatDate, SERVER_SIDE_DATE_FORMAT).format(CLIENT_SIDE_DATE_FORMAT);
+    }
+    return moment(isoFormatDate, SERVER_SIDE_DATE_FORMAT).format(SCHEUDLE_ENTRY_DATE_FORMAT);
   }
   return NOT_PROVIDED;
 };
@@ -133,7 +138,7 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => (
  * @param {Array} entries grazing schedule entries
  * @returns {float} the total crown AUMs
  */
-export const calcCrownTotalAUMs = (entries = []) => {
+export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes = []) => {
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   if (entries.length === 0) {
     return 0;
@@ -141,13 +146,15 @@ export const calcCrownTotalAUMs = (entries = []) => {
   return entries
     .map((entry) => {
       const {
-        pasture,
-        livestockType,
+        pastureId,
+        livestockTypeId,
         livestockCount,
         dateIn,
         dateOut,
       } = entry || {};
       const days = calcDateDiff(dateOut, dateIn, false);
+      const pasture = pastures.find(p => p.id === pastureId);
+      const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
       const auFactor = livestockType && livestockType.auFactor;
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
       const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent);

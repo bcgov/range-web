@@ -129,13 +129,15 @@ class EditRupSchedule extends Component {
       usage,
       activeScheduleIndex,
       yearOptions,
+      pastures,
+      livestockTypes,
     } = this.props;
 
     const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
     const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
+    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
     const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) })) || [];
 

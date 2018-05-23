@@ -179,6 +179,7 @@ export class RupAH extends Component {
     return (
       <RupSchedules
         className="rup__schedules"
+        livestockTypes={livestockTypes}
         usage={usage}
         plan={plan}
         status={status}

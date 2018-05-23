@@ -21,6 +21,7 @@ const propTypes = {
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export class Rup extends Component {
@@ -116,6 +117,7 @@ export class Rup extends Component {
       agreement,
       isUpdatingStatus,
       isDownloadingPDF,
+      livestockTypes,
     } = this.props;
 
     const statusDropdownOptions = [
@@ -225,6 +227,7 @@ export class Rup extends Component {
             plan={plan}
             status={status}
             usage={usage}
+            livestockTypes={livestockTypes}
           />
         </div>
       </div>

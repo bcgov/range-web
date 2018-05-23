@@ -24,6 +24,7 @@ const propTypes = {
   status: PropTypes.shape({}).isRequired,
   usage: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string.isRequired,
+  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 class RupSchedules extends Component {
@@ -64,10 +65,12 @@ class RupSchedules extends Component {
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
+    const { usage, plan, livestockTypes } = this.props;
     const { id, year, grazingScheduleEntries = [] } = schedule;
-    const yearUsage = this.props.usage.find(u => u.year === year);
+    const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
+    const pastures = plan && plan.pastures;
+    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
 
     return (
@@ -115,34 +118,41 @@ class RupSchedules extends Component {
   }
 
   renderScheduleEntry = (entry) => {
+    const { livestockTypes, plan } = this.props;
+    const pastures = plan && plan.pastures;
     const {
       id,
-      pasture,
-      livestockType,
+      pastureId,
+      livestockTypeId,
       livestockCount,
       dateIn,
       dateOut,
-    } = entry;
-    const days = calcDateDiff(dateOut, dateIn, true);
-    const pastureName = pasture && pasture.name;
-    const auFactor = livestockType && livestockType.auFactor;
-    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent));
-    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
-    const livestockTypeName = livestockType && livestockType.name;
+    } = entry || {};
+
+    const days = calcDateDiff(dateOut, dateIn, false);
+    const pasture = pastures.find(p => p.id === pastureId);
     const graceDays = pasture && pasture.graceDays;
+    const pldPercent = pasture && pasture.pldPercent;
+    const pastureName = pasture && pasture.name;
+    const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
+    const livestockTypeName = livestockType && livestockType.name;
+    const auFactor = livestockType && livestockType.auFactor;
+
+    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
+    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pldPercent));
+    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
 
     return (
       <Table.Row key={id}>
         <Table.Cell>{presentNullValue(pastureName, false)}</Table.Cell>
         <Table.Cell>{presentNullValue(livestockTypeName, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(livestockCount, false)}</Table.Cell>
-        <Table.Cell>{formatDateFromServer(dateIn)}</Table.Cell>
-        <Table.Cell>{formatDateFromServer(dateOut)}</Table.Cell>
-        <Table.Cell>{presentNullValue(days, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(livestockCount, false)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateIn, false)}</Table.Cell>
+        <Table.Cell>{formatDateFromServer(dateOut, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(days, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(graceDays, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(crownAUMs, false)}</Table.Cell>
       </Table.Row>
     );
   }
