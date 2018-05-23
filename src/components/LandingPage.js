@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../actions/authActions';
-import { getReferences } from '../actions/commonActions';
-import { getZones } from '../actions/rangeUsePlanActions';
+import { getReferences, getZones } from '../actions/commonActions';
 import Navbar from './Navbar';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
+  getReferences: PropTypes.func.isRequired,
+  getZones: PropTypes.func.isRequired,
 };
 
 export class LandingPage extends Component {
@@ -19,16 +18,12 @@ export class LandingPage extends Component {
     getZones();
   }
 
-  onLogout = () => {
-    this.props.logout();
-  }
-
   render() {
-    const { component: Component, user, ...rest } = this.props;
+    const { component: Component, ...rest } = this.props;
 
     return (
       <div className="main">
-        <Navbar onLogout={this.onLogout} />
+        <Navbar {...rest} />
         <Component {...rest} />
         <footer />
       </div>
@@ -45,4 +40,4 @@ const mapStateToProps = (state) => {
 };
 
 LandingPage.propTypes = propTypes;
-export default connect(mapStateToProps, { logout, getReferences, getZones })(LandingPage);
+export default connect(mapStateToProps, { getReferences, getZones })(LandingPage);

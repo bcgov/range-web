@@ -2,5 +2,5 @@
     User Variable Overrides
 *******************************/
 
-/* custom-styling */
+/* changed by Kyubin */
 @loaderLineColor: @accentColor;

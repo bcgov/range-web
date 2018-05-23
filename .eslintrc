@@ -3,7 +3,6 @@
   "env": {
     "browser": true,
     "es6": true,
-    "jquery": true,
     "jest": true
   },
   "extends": "airbnb",
@@ -14,10 +13,6 @@
     "react"
   ],
   "rules": {
-    "indent": [
-      "warn",
-      2
-    ],
     "linebreak-style": [
       "warn",
       "unix"
@@ -30,11 +25,16 @@
       "error",
       "always"
     ],
+    "indent": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "import/no-named-as-default": "off",
+    "no-shadow": "off",
+    "quote-props": "off",
+    "max-len": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",
     "block-scoped-var": "error",
     "consistent-return": "error",
-    "jsx-a11y/click-events-have-key-events": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }

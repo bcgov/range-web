@@ -4,23 +4,30 @@ import { Table } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
-import { NOT_PROVIDED, NO_RUP_PROVIDED } from '../../constants/strings';
 import { PRIMARY_TYPE } from '../../constants/variables';
+import { presentNullValue } from '../../handlers';
+import User from '../../models/User';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
+  onRowClicked: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  user: PropTypes.shape({}).isRequired,
+  // isActive: PropTypes.bool.isRequired,
 };
 
 export class AgreementTableItem extends Component {
   onRowClicked = () => {
-    const { agreement, history } = this.props;
-    // if (agreement && agreement.plans.length !== 0) {
-    history.push(`${RANGE_USE_PLAN}/${agreement.id}`);
-    // } else {
-    // alert("No range use plan found!");
-    // }
-    // history.push(`${RANGE_USE_PLAN}/${agreement.id}/${agreement.plan[0]}`)
+    const { agreement = {}, history, index } = this.props;
+    const { id: agreementId, plans } = agreement;
+    if (agreementId && plans && plans.length !== 0) {
+      const planId = plans[0].id;
+      history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
+      this.props.onRowClicked(index, agreementId, planId);
+    } else {
+      alert('No range use plan found!');
+    }
   }
 
   getPrimaryAgreementHolder = (clients = []) => {
@@ -35,13 +42,14 @@ export class AgreementTableItem extends Component {
   }
 
   render() {
-    const { agreement = {} } = this.props;
-    const { plans, id: agreementId } = agreement;
-    const staffName = agreement.zone && agreement.zone.contactName;
+    const { agreement } = this.props;
+    const { plans, id: agreementId, zone } = agreement || {};
+    const plan = plans[0];
+
+    const user = new User(zone && zone.user);
+    const staffFullName = user.fullName;
     const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
-    const plan = plans[0] || {};
-    const statusName = plan.status && plan.status.name;
-    const { rangeName = NO_RUP_PROVIDED } = plan;
+    const { rangeName, status } = plan || {};
 
     return (
       <Table.Row
@@ -49,10 +57,12 @@ export class AgreementTableItem extends Component {
         onClick={this.onRowClicked}
       >
         <Table.Cell>{agreementId}</Table.Cell>
-        <Table.Cell>{rangeName || NOT_PROVIDED}</Table.Cell>
-        <Table.Cell>{primaryAgreementHolderName || NOT_PROVIDED}</Table.Cell>
-        <Table.Cell>{staffName || NOT_PROVIDED}</Table.Cell>
-        <Table.Cell><Status status={statusName} /></Table.Cell>
+        <Table.Cell>{presentNullValue(rangeName)}</Table.Cell>
+        <Table.Cell>{presentNullValue(primaryAgreementHolderName)}</Table.Cell>
+        <Table.Cell>{presentNullValue(staffFullName)}</Table.Cell>
+        <Table.Cell>
+          <Status user={this.props.user} status={status} />
+        </Table.Cell>
       </Table.Row>
     );
   }

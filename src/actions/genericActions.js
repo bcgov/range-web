@@ -3,6 +3,7 @@ import {
   REQUEST,
   SUCCESS_PAGINATED,
   ERROR,
+  DATA_CHANGED,
 } from '../constants/actionTypes';
 
 export const success = (reducer, data) => (
@@ -30,10 +31,18 @@ export const successPaginated = (reducer, data, currentPage, totalPages) => (
   }
 );
 
-export const error = (reducer, errorMessage) => (
+export const error = (reducer, error) => (
   {
     name: reducer,
     type: ERROR,
-    errorMessage,
+    error,
+  }
+);
+
+export const dataChanged = (reducer, data) => (
+  {
+    name: reducer,
+    type: DATA_CHANGED,
+    data,
   }
 );

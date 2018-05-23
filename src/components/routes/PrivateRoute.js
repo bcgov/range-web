@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { LOGIN } from '../../constants/routes';
@@ -8,7 +8,11 @@ import LandingPage from '../LandingPage';
 const propTypes = {
   component: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
-  user: PropTypes.object,
+  user: PropTypes.shape({}),
+};
+
+const defaultProps = {
+  user: null,
 };
 
 /**
@@ -17,12 +21,16 @@ const propTypes = {
 const PrivateRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
-    render={props => // props = { match:{...}, history:{...}, location:{...} }
-      user
-        ? <LandingPage {...props} component={Component} />
-        : <Redirect to={LOGIN} />}
+    render={(props) => { // props = { match:{...}, history:{...}, location:{...} }
+        if (user) {
+          return <LandingPage {...props} component={Component} />;
+        }
+        return <Redirect to={LOGIN} />;
+      }
+    }
   />
 );
 
 PrivateRoute.propTypes = propTypes;
+PrivateRoute.defaultProps = defaultProps;
 export default PrivateRoute;

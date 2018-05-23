@@ -1,7 +1,5 @@
 import { AUTH } from '../constants/reducerTypes';
-import {
-  LOGIN_SUCCESS,
-} from '../constants/actionTypes';
+import { LOGIN_SUCCESS } from '../constants/actionTypes';
 import * as actions from './authActions';
 
 it('creates an action to login successfully', () => {
@@ -11,7 +9,7 @@ it('creates an action to login successfully', () => {
     name: AUTH,
     type: LOGIN_SUCCESS,
     data,
-    user: data.auth_data,
+    user: data,
   };
 
   expect(actions.loginSuccess(data, user)).toEqual(expectedAction);

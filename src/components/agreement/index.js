@@ -25,7 +25,6 @@ class Base extends Component {
       getAgreements({ ...parsedParams });
     }
   }
-
   render() {
     return (
       <Agreement

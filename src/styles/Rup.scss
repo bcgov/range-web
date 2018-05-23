@@ -1,0 +1,321 @@
+@import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
+
+$row-height: 80px;
+
+.agreement {
+  &__search {
+    width: 200px;
+
+  }
+
+  &__table {
+    @extend .container;
+    margin-top: $content-margin-top;
+
+    &__item {
+      cursor: pointer;
+    }
+  }
+
+  &__pagination {
+    margin-top: 15px;
+  }
+}
+
+.rup {
+  &__cell-6 {
+    @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
+  }
+
+  &__cell-4 {
+    @extend .col-md-4, .col-lg-4, .col-sm-4, .col-xs-12;
+  }
+
+  &__row {
+    @extend .row;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+    color: $primary-color;
+
+    &--editable {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-top: 20px;
+      color: $primary-color;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__pdf-link {
+    display: none
+  }
+
+  &__sticky {
+    background: $primary-color;
+    color: white;
+    z-index: 1;
+
+    &__container {
+      @extend .container;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+    &__left {
+      display: flex;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 16px;
+    }
+    &__title {
+      display: none;
+    }
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+    &--fixed &__title {
+      display: inline-block;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
+  }
+  &__actions {
+    justify-content: space-between;
+    
+    &--hidden {
+      display: none;  
+    }
+  }
+
+  &__status-dropdown {
+    margin-left: 15px !important;
+  }
+
+  &__divider {
+    border-top: 3px solid $accent-color;
+    margin-top: 15px;
+  }
+  
+  &__sub-divider {
+    border-top: 1px solid $accent-color;
+    margin-top: 5px;
+  }
+
+  &__content {
+    @extend .container;
+    margin-top: $content-margin-top;
+  }
+
+  &__section-not-found {
+    border-radius: 5px;
+    margin: 2px 0 5px 0;
+    padding: 8px 0;
+    font-size: 1.1rem;
+  }
+
+  &__info-title {
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 10px 0;
+  }
+
+  &__plan-info,
+  &__agreement-info,
+  &__contact-info, {
+    display: flex;
+    flex-direction: column;
+  }
+  &__zone-text {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  &__pasture {
+    margin: 5px 0;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+  }
+  &__schedules {
+    margin: 10px 0;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      border: 1px solid gainsboro;
+    }
+    li:nth-child(even) {
+      border-top: 0;
+      border-bottom: 0;
+    }
+    li:first-child {
+      border-top: 1px solid gainsboro;
+      border-radius: 5px 5px 0 0;
+    }
+    li:last-child {
+      border-bottom: 1px solid gainsboro;
+      border-radius: 0 0 5px 5px;
+    }
+  }
+  &__schedule {
+    padding: 15px;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 100%;
+      &__title {
+        @extend .default-button;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: none;
+      }
+      &__action {
+        margin-left: 10px;
+      }
+    }
+    &__content {
+      margin-top: 15px;
+
+      &__hidden {
+        display: none;  
+      }
+      &__dates {
+        min-width: 70px;
+      }
+      &__AUMs {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.1rem;
+        text-align: right;
+      }
+      &__AUM-label {
+        font-weight: bold;
+        margin: 0 10px;
+      }
+      &__AUM-number {
+        border: 1px solid gainsboro;
+        padding: 8px 15px;
+        border-radius: 3px;
+      }
+      &__narrative {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+    &__draft-container {
+      margin-top: 10px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // &__edit-schedule {
+  //   padding: 15px;
+
+  //   &__header {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     font-weight: bold;
+  //     font-size: 1.2rem;
+  //     cursor: pointer;
+  //   }
+  //   &__content {
+  //     margin-top: 15px;
+
+  //     &__hidden {
+  //       display: none;  
+  //     }
+  //     &__dates {
+  //       min-width: 75px;
+  //     }
+  //     &__AUMs {
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: flex-end;
+  //       font-size: 1.1rem;
+  //       text-align: right;
+  //     }
+  //     &__AUM-label {
+  //       font-weight: bold;
+  //       margin: 0 10px;
+  //     }
+  //     &__AUM-number {
+  //       border: 1px solid gainsboro;
+  //       padding: 8px 15px;
+  //       border-radius: 3px;
+  //     }
+  //   }
+  // }
+}
+
+.rup-pdf {
+  display: flex;
+  justify-content: center;
+  
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+
+    &__download-btn {
+      align-self: flex-end;
+    }
+    
+    &__load {
+      margin-top: 1em;
+      color: white;
+    }
+
+    &__document {
+      .ReactPDF {
+        &__Page {
+          box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+          margin: 10px 0;
+
+          canvas {
+            max-width: 100%;
+            height: auto !important;
+          }
+        }
+
+        &__message {
+          padding: 20px;
+          color: black;
+        }
+      }
+    }
+  }
+}

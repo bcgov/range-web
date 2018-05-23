@@ -34,6 +34,7 @@ class AgreementSearch extends Component {
           fluid
           icon
           loading={false}
+          iconPosition="left"
           placeholder={placeholder}
         >
           <input

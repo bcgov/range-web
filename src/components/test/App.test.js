@@ -7,6 +7,7 @@ const props = {};
 const setupProps = () => {
   props.getReferences = jest.fn();
   props.logout = jest.fn();
+  props.user = {};
 };
 
 beforeEach(() => {

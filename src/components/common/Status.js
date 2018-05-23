@@ -1,40 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { NO_RUP_PROVIDED } from '../../constants/strings';
-import { PENDING, COMPLETED, SUBMITTED } from '../../constants/variables';
+import classnames from 'classnames';
+import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED } from '../../constants/strings';
+import { PENDING, COMPLETED, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
+import User from '../../models/User';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
+  status: PropTypes.shape({}),
   className: PropTypes.string,
-  status: PropTypes.string,
+  style: PropTypes.shape({}),
 };
 
 const defaultProps = {
   className: '',
-  status: NO_RUP_PROVIDED,
+  status: {},
+  style: {},
 };
 
-const Status = ({ status, className }) => {
+const Status = ({
+  status,
+  className,
+  style,
+  user: u,
+}) => {
   let modifier = 'status__icon';
-  switch (status) {
-    case PENDING:
-      modifier += '--pending';
+  let statusName = NO_RUP_PROVIDED;
+  const user = new User(u);
+
+  switch (status && status.name) {
+    case CREATED:
+      if (user.isAgreementHolder) {
+        statusName = INPUT_REQUIRED;
+      } else {
+        statusName = SENT_FOR_INPUT;
+      }
+      modifier += '--created'; // orange
       break;
-    case SUBMITTED:
-      modifier += '--submitted';
+    case DRAFT:
+      if (user.isAgreementHolder) {
+        statusName = status.name;
+      } else {
+        statusName = IN_PROGRESS;
+      }
+      modifier += '--draft'; // gray
+      break;
+    case PENDING:
+      if (user.isAgreementHolder) {
+        statusName = REVIEW_REQUIRED;
+      } else {
+        statusName = IN_REVIEW;
+      }
+      modifier += '--pending'; // purple
+      break;
+    case CHANGE_REQUESTED:
+      statusName = REVIEW_REQUIRED;
+      modifier += '--change-requested'; // red
       break;
     case COMPLETED:
-      modifier += '--completed';
+      statusName = status.name;
+      modifier += '--completed'; // green
       break;
     default:
       modifier += '--not-provided';
       break;
   }
-
   return (
-    <div className={classNames('status', className)}>
-      <span className={classNames('status__icon', modifier)} />
-      <span className="status__label">{status}</span>
+    <div className={classnames('status', className)} style={style}>
+      <span className={classnames('status__icon', modifier)} />
+      <span className="status__label">{statusName}</span>
     </div>
   );
 };

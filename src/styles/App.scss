@@ -1,11 +1,4 @@
 @import 'styles/mixins.scss';
-@import 'styles/Common.scss';
-@import 'styles/PageNotFound.scss';
-@import 'styles/Login.scss';
-@import 'styles/RangeUsePlan.scss';
-@import 'styles/ManageZone.scss';
-@import 'styles/Navbar.scss';
-@import 'styles/Grid.scss';
 
 * {
   margin: 0;
@@ -17,9 +10,18 @@ body {
   padding: 0;
   min-width: $mobile-width;
   overflow-x: auto;
+  background: #fdfdfd;
 }
 
 footer {
   height: 20px;
 }
 
+@import 'styles/Common.scss';
+@import 'styles/PageNotFound.scss';
+@import 'styles/Login.scss';
+@import 'styles/Rup.scss';
+@import 'styles/ManageZone.scss';
+@import 'styles/Navbar.scss';
+@import 'styles/Grid.scss';
+@import 'styles/pikaday.scss';

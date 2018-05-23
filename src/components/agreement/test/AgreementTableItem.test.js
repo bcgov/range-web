@@ -8,9 +8,12 @@ import { PRIMARY_TYPE } from '../../../constants/variables';
 const props = {};
 const setupProps = () => {
   props.agreement = getMockAgreement(1);
+  props.onRowClicked = jest.fn();
+  props.index = 1;
   props.history = {
     push: jest.fn(),
   };
+  props.user = {};
 };
 
 beforeEach(() => {
@@ -28,7 +31,8 @@ describe('tenureAgreementTableItem', () => {
     wrapper.simulate('click', {});
 
     expect(props.history.push).toHaveBeenCalledTimes(1);
-    expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.agreement.id}`);
+    expect(props.history.push)
+      .toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.agreement.id}/${props.agreement.plans[0].id}`);
   });
 
   it('`getPrimaryAgreementHolder` returns primaryAgreement', () => {
@@ -52,7 +56,8 @@ describe('tenureAgreementTableItem', () => {
       wrapper.instance().onRowClicked();
 
       expect(props.history.push).toHaveBeenCalledTimes(1);
-      expect(props.history.push).toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.agreement.id}`);
+      expect(props.history.push)
+        .toHaveBeenCalledWith(`${RANGE_USE_PLAN}/${props.agreement.id}/${props.agreement.plans[0].id}`);
     });
   });
 });
