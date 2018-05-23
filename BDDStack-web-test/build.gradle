@@ -113,7 +113,7 @@ tasks.withType(Test) {
     systemProperty 'com.athaydes.spockframework.report.outputDir', 'build/reports/spock'
     systemProperty 'com.athaydes.spockframework.report.internal.HtmlReportCreator.inlineCss', false
     systemProperty 'com.athaydes.spockframework.report.projectName',"Range-Web"
-    systemProperty 'com.athaydes.spockframework.report.projectVersion',"0.1.0"
+    systemProperty 'com.athaydes.spockframework.report.projectVersion',"1.0"
 
 
     //for individual reports:
