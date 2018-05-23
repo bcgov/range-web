@@ -1,10 +1,8 @@
 import groovy.json.JsonOutput
 
-def APP_NAME = 'range-myra-web'
-def BUILD_CONFIG = APP_NAME
-def CADDY_BUILD_CONFIG = 'range-myra-web-caddy'
+def APP_NAME = 'range-myra-web-caddy'
+def CADDY_BUILD_CONFIG = APP_NAME
 def CADDY_IMAGESTREAM_NAME = 'range-myra-web-caddy'
-def IMAGESTREAM_NAME = APP_NAME
 def TAG_NAMES = ['dev', 'test', 'prod']
 def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
 def NODE_URI = 'https://nodejs.org/dist/v9.7.0/node-v9.7.0-linux-x64.tar.xz'
@@ -119,5 +117,12 @@ node('master') {
     } catch (error) {
       echo "Unable send update to slack, error = ${error}"
     }
+  }
+  stage('Approval') {
+    timeout(time: 1, unit: 'DAYS') {
+      input message: "Deploy to test?", submitter: 'jleach-admin'
+    }
+    openshiftTag destStream: CADDY_IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[1], srcStream: CADDY_IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
+    notifySlack("Promotion Completed\n Build #${BUILD_ID} was promoted to test.", "#range-web-caddy", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], OPENSHIFT_ICO)
   }
 }
