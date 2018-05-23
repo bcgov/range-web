@@ -23,6 +23,7 @@ const propTypes = {
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleEntryChange: PropTypes.func.isRequired,
   handleScheduleEntryCopy: PropTypes.func.isRequired,
+  handleScheduleEntryDelete: PropTypes.func.isRequired,
 };
 
 class EditRupScheduleEntry extends Component {
@@ -55,7 +56,8 @@ class EditRupScheduleEntry extends Component {
   }
 
   onDeleteEntryClicked = () => {
-    const { handleScheduleEntryCopy, entryIndex } = this.props;
+    const { handleScheduleEntryDelete, entryIndex } = this.props;
+    handleScheduleEntryDelete(entryIndex);
   }
 
   setDateInRef = (ref) => { this.dateInRef = ref; }
@@ -190,13 +192,14 @@ class EditRupScheduleEntry extends Component {
         </Table.Cell>
         <Table.Cell collapsing>{presentNullValue(days, false)}</Table.Cell>
         <Table.Cell collapsing>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{presentNullValue(pldAUMs, false)}</Table.Cell>
         <Table.Cell collapsing>{presentNullValue(crownAUMs, false)}</Table.Cell>
-        <Table.Cell textAlign="center">
+        <Table.Cell collapsing textAlign="center">
           <Dropdown
             trigger={<Icon name="ellipsis vertical" />}
             options={entryOptions}
             icon={null}
+            pointing="right"
           />
         </Table.Cell>
       </Table.Row>

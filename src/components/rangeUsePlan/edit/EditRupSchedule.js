@@ -15,6 +15,7 @@ const propTypes = {
   onScheduleClicked: PropTypes.func.isRequired,
   activeScheduleIndex: PropTypes.number.isRequired,
   usage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleChange: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
@@ -46,6 +47,11 @@ class EditRupSchedule extends Component {
     handleScheduleChange(schedule, scheduleIndex);
   }
 
+  onScheduleCopyClicked = ({ value: year }) => () => {
+    const { handleScheduleCopy, scheduleIndex } = this.props;
+    handleScheduleCopy(year, scheduleIndex);
+  }
+
   onScheduleDeleteClicked = () => {
     const { scheduleIndex, handleScheduleDelete } = this.props;
     handleScheduleDelete(scheduleIndex);
@@ -63,6 +69,13 @@ class EditRupSchedule extends Component {
     // deep copy the object
     const copy = JSON.parse(JSON.stringify(schedule.grazingScheduleEntries[entryIndex]));
     schedule.grazingScheduleEntries.push(copy);
+
+    handleScheduleChange(schedule, scheduleIndex);
+  }
+
+  handleScheduleEntryDelete = (entryIndex) => {
+    const { schedule, scheduleIndex, handleScheduleChange } = this.props;
+    const [deletedEntry] = schedule.grazingScheduleEntries.splice(entryIndex, 1);
 
     handleScheduleChange(schedule, scheduleIndex);
   }
@@ -102,6 +115,7 @@ class EditRupSchedule extends Component {
           livestockTypeOptions={livestockTypeOptions}
           handleScheduleEntryChange={this.handleScheduleEntryChange}
           handleScheduleEntryCopy={this.handleScheduleEntryCopy}
+          handleScheduleEntryDelete={this.handleScheduleEntryDelete}
         />
       );
     });
@@ -113,6 +127,7 @@ class EditRupSchedule extends Component {
       scheduleIndex,
       usage,
       activeScheduleIndex,
+      yearOptions,
     } = this.props;
 
     const { year, grazingScheduleEntries } = schedule;
@@ -121,9 +136,7 @@ class EditRupSchedule extends Component {
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
-    const scheduleOptions = [
-      { key: `${scheduleIndex}`, text: 'Delete', onClick: this.onScheduleDeleteClicked },
-    ];
+    const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) }));
 
     return (
       <li className="rup__schedule">
@@ -143,9 +156,20 @@ class EditRupSchedule extends Component {
           <div className="rup__schedule__header__action">
             <Dropdown
               trigger={<Icon name="ellipsis vertical" />}
-              options={scheduleOptions}
               icon={null}
-            />
+              pointing="right"
+            >
+              <Dropdown.Menu>
+                <Dropdown
+                  header="Years"
+                  text="Copy"
+                  pointing="left"
+                  className="link item"
+                  options={copyOptions}
+                />
+                <Dropdown.Item onClick={this.onScheduleDeleteClicked}>delete</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >

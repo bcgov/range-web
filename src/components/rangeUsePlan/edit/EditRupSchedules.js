@@ -75,17 +75,46 @@ class EditRupSchedules extends Component {
   }
 
   handleScheduleChange = (schedule, sIndex) => {
-    const grazingSchedules = [...this.props.plan.grazingSchedules];
+    const { plan, handleSchedulesChange } = this.props;
+    const grazingSchedules = [...plan.grazingSchedules];
     grazingSchedules[sIndex] = schedule;
-    this.props.handleSchedulesChange(grazingSchedules);
+    handleSchedulesChange(grazingSchedules);
+  }
+
+  handleScheduleCopy = (year, sIndex) => {
+    const { plan, handleSchedulesChange } = this.props;
+    const grazingSchedules = [...plan.grazingSchedules];
+
+    // deep copy the object
+    const copy = JSON.parse(JSON.stringify(grazingSchedules[sIndex].grazingScheduleEntries));
+    const grazingScheduleEntries = copy.map(entry => (
+      {
+        ...entry,
+        dateIn: new Date(entry.dateIn).setFullYear(year),
+        dateOut: new Date(entry.dateOut).setFullYear(year),
+      }
+    ));
+    grazingSchedules.push({
+      year,
+      grazingScheduleEntries,
+    });
+    grazingSchedules.sort((s1, s2) => s1.year > s2.year);
+
+    // remove this year from the year options
+    this.setState({
+      yearOptions: this.state.yearOptions.filter(o => o.value !== year),
+    });
+
+    handleSchedulesChange(grazingSchedules);
   }
 
   handleScheduleDelete = (sIndex) => {
-    const grazingSchedules = [...this.props.plan.grazingSchedules];
+    const { plan, handleSchedulesChange } = this.props;
+    const grazingSchedules = [...plan.grazingSchedules];
 
     // a schedule is deleted so add this year to the year option list
-    const [schedule] = grazingSchedules.splice(sIndex, 1);
-    const { year } = schedule || {};
+    const [deletedSchedule] = grazingSchedules.splice(sIndex, 1);
+    const { year } = deletedSchedule || {};
     const option = {
       key: year,
       text: year,
@@ -99,25 +128,28 @@ class EditRupSchedules extends Component {
       yearOptions,
     });
 
-    this.props.handleSchedulesChange(grazingSchedules);
+    handleSchedulesChange(grazingSchedules);
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
     const { plan, usage, livestockTypes } = this.props;
+    const { yearOptions, activeScheduleIndex } = this.state;
     const key = `schedule${scheduleIndex}`;
 
     return (
       <EditRupSchedule
         key={key}
+        yearOptions={yearOptions}
         schedule={schedule}
         scheduleIndex={scheduleIndex}
         onScheduleClicked={this.onScheduleClicked}
-        activeScheduleIndex={this.state.activeScheduleIndex}
+        activeScheduleIndex={activeScheduleIndex}
         usage={usage}
         livestockTypes={livestockTypes}
         pastures={plan.pastures}
         handleScheduleChange={this.handleScheduleChange}
         handleScheduleDelete={this.handleScheduleDelete}
+        handleScheduleCopy={this.handleScheduleCopy}
       />
     );
   }
@@ -133,7 +165,8 @@ class EditRupSchedules extends Component {
           <div>Yearly Schedules</div>
           <Dropdown
             className="icon"
-            text="Add Yearly schedule"
+            text="Add Schedule"
+            header="Years"
             icon="add"
             basic
             labeled
@@ -143,6 +176,7 @@ class EditRupSchedules extends Component {
             disabled={yearOptions.length === 0}
             onChange={this.onYearSelected}
             selectOnBlur={false}
+            pointing
           />
         </div>
         <div className="rup__divider" />
