@@ -19,6 +19,7 @@ const propTypes = {
   pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleChange: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
+  handleScheduleCopy: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

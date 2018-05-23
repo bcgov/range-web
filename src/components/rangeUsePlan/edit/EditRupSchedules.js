@@ -87,22 +87,25 @@ class EditRupSchedules extends Component {
 
     // deep copy the object
     const copy = JSON.parse(JSON.stringify(grazingSchedules[sIndex].grazingScheduleEntries));
-    const grazingScheduleEntries = copy.map(entry => (
-      {
+    const grazingScheduleEntries = copy.map((e) => {
+      const { id, ...entry } = e;
+      return {
         ...entry,
         dateIn: new Date(entry.dateIn).setFullYear(year),
         dateOut: new Date(entry.dateOut).setFullYear(year),
-      }
-    ));
+      };
+    });
     grazingSchedules.push({
       year,
       grazingScheduleEntries,
     });
     grazingSchedules.sort((s1, s2) => s1.year > s2.year);
+    const activeScheduleIndex = grazingSchedules.findIndex(s => s.year === year);
 
     // remove this year from the year options
     this.setState({
       yearOptions: this.state.yearOptions.filter(o => o.value !== year),
+      activeScheduleIndex,
     });
 
     handleSchedulesChange(grazingSchedules);
