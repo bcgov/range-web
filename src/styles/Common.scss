@@ -15,19 +15,22 @@
     border-radius: 50%;
     display: inline-block;
     margin-right: 7px;
- 
+
+    &--created {
+      background: orange;
+    } 
+    &--pending {
+      background: purple;
+    }
+    &--draft {
+      background: gray;
+    }
     &--completed {
       background: green;
     }
-  
-    &--pending {
+    &--change-requested {
       background: red;
     }
-  
-    &--submitted {
-      background: orange;
-    }
-
     &--not-provided {
       display: none;
     }
@@ -35,8 +38,10 @@
 }
 
 .text-field {
+  margin: 3px 0;
+
   &__label {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: gray;
 
     &--hidden {
@@ -46,8 +51,9 @@
 
   &__text {
     border-radius: 5px;
-    margin: 10px 0;
-    font-size: 0.9rem;
+    margin: 2px 0 5px 0;
+    padding: 8px 0;
+    font-size: 1.1rem;
     
     &--editable {
       background: #eeeeee;
@@ -88,6 +94,9 @@
   &__action {
     display: flex;
     justify-content: flex-end;
+  }
+  &__edit-rup {
+    height: 100px;
   }
 }
 

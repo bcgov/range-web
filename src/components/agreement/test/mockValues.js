@@ -179,9 +179,109 @@ export const getMockAgreement = number => (
         },
     ]
   }
-)
+);
 
 export const getMockAgreements = (length) => {
   const array = Array.from(new Array(length), (x,i) => i);
   return array.map(number => getMockAgreement(number + 1));
 }
+
+export const getMockRangeUsePlan = (number) => (
+    {
+        id: `RAN072844${number}`,
+        "agreementStartDate": "2016-01-01T08:00:00.000Z",
+        "agreementEndDate": "2040-12-31T08:00:00.000Z",
+        "typeId": 1,
+        "exemptionStatusId": 1,
+        "createdAt": "2018-03-24T03:15:37.069Z",
+        "updatedAt": "2018-03-27T16:32:42.330Z",
+        "primary_agreement_holder_id": null,
+        "agreement_type_id": 1,
+        "agreement_exemption_status_id": 1,
+        "zone_id": 23,
+        "agreementExemptionStatus": {
+            "id": 1,
+            "code": "N",
+            "description": "Not Exempt"
+        },
+        "clients" : [],
+        "zone": {
+            "id": 23,
+            "code": "MER2",
+            "description": "Merritt Zone ",
+            "contactName": "Philip Gyug",
+            "contactPhoneNumber": null,
+            "contactEmail": null,
+            "districtId": 4,
+            "createdAt": "2018-03-24T03:13:17.264Z",
+            "updatedAt": "2018-03-24T03:15:11.644Z",
+            "district": {
+                "id": 4,
+                "code": "DCS",
+                "description": "",
+                "createdAt": "2018-03-24T03:13:17.199Z",
+                "updatedAt": "2018-03-24T03:13:17.199Z"
+            }
+        },
+        "livestockIdentifiers": [],
+        "plan": {
+            "id": 12,
+            "rangeName": "ag1",
+            "planStartDate": null,
+            "planEndDate": null,
+            "notes": null,
+            "statusId": 1,
+            "agreementId": "RAN072848",
+            "extensionId": null,
+            "createdAt": "2018-03-27T16:43:53.513Z",
+            "updatedAt": "2018-03-27T16:43:53.537Z",
+            "agreement_id": "RAN072848",
+            "status": {
+                "id": 1,
+                "code": "S",
+                "name": "Submitted",
+                "active": true,
+                "createdAt": "2018-03-24T03:13:18.287Z",
+                "updatedAt": "2018-03-24T03:13:18.287Z"
+            },
+            "pastures": [],
+            "grazingSchedules": []
+        },
+        "primaryAgreementHolder": null,
+        "usage": [
+            {
+                "id": 9,
+                "year": "1996",
+                "authorizedAum": 17,
+                "temporaryIncrease": 0,
+                "totalNonUse": 0,
+                "totalAnnualUse": 17,
+                "agreementId": "RAN072848",
+                "createdAt": "2018-03-24T03:19:09.118Z",
+                "updatedAt": "2018-03-24T03:19:09.118Z"
+            },
+            {
+                "id": 10,
+                "year": "1997",
+                "authorizedAum": 185,
+                "temporaryIncrease": 0,
+                "totalNonUse": 168,
+                "totalAnnualUse": 17,
+                "agreementId": "RAN072848",
+                "createdAt": "2018-03-24T03:19:09.235Z",
+                "updatedAt": "2018-03-24T03:19:09.235Z"
+            },
+            {
+                "id": 11,
+                "year": "1999",
+                "authorizedAum": 185,
+                "temporaryIncrease": 0,
+                "totalNonUse": 168,
+                "totalAnnualUse": 17,
+                "agreementId": "RAN072848",
+                "createdAt": "2018-03-24T03:19:09.322Z",
+                "updatedAt": "2018-03-24T03:19:09.322Z"
+            },
+        ]
+      }
+);

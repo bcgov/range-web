@@ -1,19 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
+import User from '../../models/User';
 
 const propTypes = {
-  name: PropTypes.string.isRequired,
+  user: PropTypes.shape({}).isRequired,
   className: PropTypes.string,
 };
 
-const Avatar = ({ name, className = '' }) => (
-  <div className={classNames('avatar', className)}>
-    <div className="avatar__initial">
-      {name}
+const defaultProps = {
+  className: '',
+};
+
+const Avatar = ({ className, user: u }) => {
+  const { initial } = new User(u);
+
+  return (
+    <div className={classnames('avatar', className)}>
+      <div className="avatar__initial">
+        {initial}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 Avatar.propTypes = propTypes;
+Avatar.defaultProps = defaultProps;
 export default Avatar;

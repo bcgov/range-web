@@ -5,7 +5,7 @@ import {
   error,
 } from '../actions/genericActions';
 import { AGREEMENTS, RANGE_USE_PLAN } from '../constants/reducerTypes';
-import { BASE_URL, AGREEMENT } from '../constants/api';
+import { AGREEMENT, PLAN } from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch) => {
@@ -19,9 +19,9 @@ export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch)
           limit,
         },
       };
-      const response = await axios.get(BASE_URL + AGREEMENT, config);
-      const { agreements, currentPage, totalPage } = response.data;
-      dispatch(successPaginated(AGREEMENTS, agreements, currentPage, totalPage));
+      const response = await axios.get(`${AGREEMENT}/search`, config);
+      const { agreements, currentPage, totalPages } = response.data;
+      dispatch(successPaginated(AGREEMENTS, agreements, currentPage, totalPages));
     } catch (err) {
       dispatch(error(AGREEMENTS, err));
     }
@@ -29,13 +29,13 @@ export const getAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch)
   makeRequest();
 };
 
-export const getRangeUsePlan = id => (dispatch) => {
+export const getRangeUsePlan = ({ planId }) => (dispatch) => {
   dispatch(request(RANGE_USE_PLAN));
   const makeRequest = async () => {
     try {
-      const url = `${BASE_URL}${AGREEMENT}/${id}`;
-      const response = await axios.get(url);
+      const response = await axios.get(`${PLAN}/${planId}`);
       const rangeUsePlan = response.data;
+
       dispatch(success(RANGE_USE_PLAN, rangeUsePlan));
     } catch (err) {
       dispatch(error(RANGE_USE_PLAN, err));

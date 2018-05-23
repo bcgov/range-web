@@ -4,47 +4,63 @@ import { NavLink, Link } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { LOGO_SRC } from '../constants/variables';
+import { SSO_AUTH_LOGOUT_ENDPOINT } from '../constants/api';
+import User from '../models/User';
 
 const propTypes = {
-  onLogout: PropTypes.func.isRequired,
+  user: PropTypes.shape({}).isRequired,
 };
 
 export class Navbar extends Component {
+  onLogoutBtnClick = () => {
+    window.open(SSO_AUTH_LOGOUT_ENDPOINT, '_self');
+  }
+
   render() {
-    const { onLogout } = this.props;
+    const { user: u } = this.props;
+    const user = new User(u);
 
     return (
       <nav className="navbar">
         <div className="navbar__container">
           <div className="navbar__left">
-            <img className="navbar__logo" src={LOGO_SRC} alt="Logo"/>
-            <Link to={Routes.RANGE_USE_PLANS}><div className="navbar__title">My Range App</div></Link>
+            <img className="navbar__logo" src={LOGO_SRC} alt="Logo" />
+            <Link to={Routes.RANGE_USE_PLANS}>
+              <div className="navbar__title">My Range App</div>
+            </Link>
           </div>
+
           <div className="navbar__right">
-            <NavLink 
+            <NavLink
               to={Routes.RANGE_USE_PLANS}
               className="navbar__link"
               activeClassName="navbar__link--active"
             >
               Select RUP
             </NavLink>
-            <NavLink
-              to={Routes.MANAGE_ZONE}
-              className="navbar__link"
-              activeClassName="navbar__link--active"
-            >
-              Manage Zone
-            </NavLink>
-            <NavLink
+
+            {user.isAdmin &&
+              <NavLink
+                to={Routes.MANAGE_ZONE}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                Manage Zone
+              </NavLink>
+            }
+
+            <div
               id="sign-out"
-              to={Routes.LOGIN}
               className="navbar__link"
-              onClick={onLogout}
+              role="button"
+              tabIndex="0"
+              onClick={this.onLogoutBtnClick}
             >
               Sign Out
-            </NavLink>
-            <Avatar 
-              name="KH" 
+            </div>
+
+            <Avatar
+              user={user}
             />
           </div>
         </div>

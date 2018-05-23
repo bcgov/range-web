@@ -11,20 +11,40 @@ const propTypes = {
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
   }).isRequired,
+  user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
 };
 
 export class AgreementTable extends Component {
+  state = {
+    activeIndex: 0,
+  }
+
+  onRowClicked = (index, agrementId) => {
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+    this.setState({ activeIndex: newIndex });
+  }
+
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
 
-  renderAgreementTableItem = (agreement, index) => (
-    <AgreementTableItem
-      key={index}
-      agreement={agreement}
-    />
-  )
+  renderAgreementTableItem = (agreement, index) => {
+    const { activeIndex } = this.state;
+    const isActive = activeIndex === index;
+
+    return (
+      <AgreementTableItem
+        user={this.props.user}
+        key={index}
+        index={index}
+        isActive={isActive}
+        agreement={agreement}
+        onRowClicked={this.onRowClicked}
+      />
+    );
+  }
 
   render() {
     const {
@@ -48,21 +68,23 @@ export class AgreementTable extends Component {
           </Table.Header>
 
           <Table.Body>
-            {agreements.map(this.renderAgreementTableItem)}
+            {agreements && agreements.map(this.renderAgreementTableItem)}
           </Table.Body>
         </Table>
-
-        <Pagination
-          size="mini"
-          activePage={currentPage}
-          onPageChange={this.handlePaginationChange} 
-          totalPages={totalPages}
-          ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-          firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-          lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-          prevItem={{ content: <Icon name="angle left" />, icon: true }}
-          nextItem={{ content: <Icon name="angle right" />, icon: true }}
-        />
+        <div className="agreement__pagination">
+          <Pagination
+            size="mini"
+            siblingRange="2"
+            activePage={currentPage}
+            onPageChange={this.handlePaginationChange}
+            totalPages={totalPages}
+            ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+            firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+            lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+          />
+        </div>
       </Loading>
     );
   }

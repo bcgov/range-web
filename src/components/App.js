@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 
-import '../styles/App.css';
 import * as Routes from '../constants/routes';
-
 import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
+import AdminRoute from './routes/AdminRoute';
 import Login from './auth/Login';
+import Logout from './auth/Logout';
+
 import Toast from './Toast';
 import PageNotFound from './PageNotFound';
 import RangeUsePlan from './rangeUsePlan';
+import RangeUsePlanPDFView from './rangeUsePlan/RupPDFView';
 import Agreement from './agreement';
 import ManageZone from './manageZone';
 
@@ -20,6 +22,11 @@ import { logout } from '../actions/authActions';
 
 const propTypes = {
   logout: PropTypes.func.isRequired,
+  user: PropTypes.shape({}),
+};
+
+const defaultProps = {
+  user: null,
 };
 
 export class App extends Component {
@@ -35,16 +42,15 @@ export class App extends Component {
         <BrowserRouter>
           <Switch>
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
-            <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
-            <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId`} component={RangeUsePlan} user={user} />
-            <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
 
-            {/* An example of nested routes 
-              https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#serving-apps-with-client-side-routing
-              <PrivateRoute path={`${match.url}/:topicId`} component={Topic} user={user}/>
-              <PrivateRoute exact path={match.url} component={TopicPage} user={user}/>
-            */}
-            <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN}/>)} />
+            <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+
+            <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
+            <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} user={user} />
+
+            <Route path={`${Routes.EXPORT_PDF}/:agreementId/:planId`} component={RangeUsePlanPDFView} user={user} />
+            <Route path={Routes.LOGOUT} component={Logout} />
+            <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
             <Route path="*" component={PageNotFound} />
           </Switch>
         </BrowserRouter>
@@ -62,4 +68,5 @@ const mapStateToProps = (state) => {
 };
 
 App.propTypes = propTypes;
+App.defaultProps = defaultProps;
 export default connect(mapStateToProps, { logout })(App);

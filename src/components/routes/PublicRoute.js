@@ -1,12 +1,16 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { RANGE_USE_PLANS } from '../../constants/routes';
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { RANGE_USE_PLANS } from '../../constants/routes';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
-  user: PropTypes.object,
+  user: PropTypes.shape({}),
+};
+
+const defaultProps = {
+  user: null,
 };
 
 /**
@@ -15,13 +19,15 @@ const propTypes = {
 const PublicRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      user
-        ? <Redirect to={RANGE_USE_PLANS} />
-        : <Component {...props} />
-    }
+    render={(props) => {
+      if (user) {
+        return <Redirect to={RANGE_USE_PLANS} />;
+      }
+      return <Component {...props} />;
+    }}
   />
 );
 
 PublicRoute.propTypes = propTypes;
+PublicRoute.defaultProps = defaultProps;
 export default PublicRoute;
