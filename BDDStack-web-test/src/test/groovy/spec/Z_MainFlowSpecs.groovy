@@ -14,7 +14,7 @@ As a user I expect all links in the Myra web application to work.
 class Z_MainFlowSpecs extends GebReportingSpec {
 
    @Unroll
-   def "Navigatino at the Home page"() {
+   def "Navigation at the Home page"() {
        given: "I start on the #startPage"
        to startPage
 

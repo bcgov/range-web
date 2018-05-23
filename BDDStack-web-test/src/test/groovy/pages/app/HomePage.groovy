@@ -17,5 +17,7 @@ class HomePage extends Page {
 //        agreementList {$("form", class: "ui form").$("table", class: "ui selectable table").$("tbody").$("tr", class: "agreement__table__item")}
 
         searchField (wait: true) {$("input", id: "searchTerm")}
+
+        elea {$("")}
     }
 }

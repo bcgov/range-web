@@ -50,6 +50,7 @@ class C_ManageZoneSpec extends GebReportingSpec {
         confirmYesButton.click()
 
         then: "I should be back in the Manage zone page"
+//        TODO: db refresh for empty contact field:
         at ManageZonePage
     }
 

@@ -9,6 +9,7 @@ import org.junit.runners.Suite
         B_ViewRUPSpec.class,
         C_ManageZoneSpec.class,
         Z_MainFlowSpecs.class])
+//        ,D_AgreementHolderFlowSpec.class])
 
 class CustomJUnitSpecRunner {
 }

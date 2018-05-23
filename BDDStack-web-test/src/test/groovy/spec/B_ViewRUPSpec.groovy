@@ -19,7 +19,7 @@ class B_ViewRUPSpec extends GebReportingSpec {
        to HomePage
 
        when: "I enter in the search field"
-//       TODO: should start with clean db
+//       TODO: start with clean db
        searchField.value("RAN073258")
 
        and: "I wait for response"

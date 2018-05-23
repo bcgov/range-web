@@ -26,10 +26,9 @@ class A_LoginSpec extends GebReportingSpec {
 
         then: "I should be redirected to login webview using IDIR account"
         at IDIRPage
-
     }
 
-    def "Scenario: 2 - Login with IDIR account"(){
+    def "Scenario: 2.0 - Login with IDIR account"(){
         given: "I am at the redhat page"
         at IDIRPage
 
@@ -39,6 +38,7 @@ class A_LoginSpec extends GebReportingSpec {
 
         and: "I click on submit"
         IDIRloginButton.click()
+        sleep(500)
 
         then: "I should be redirected to the Home page"
         at HomePage
