@@ -43,48 +43,47 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
   )
 ])
 {
-  node('master') {
-    GIT_COMMIT_SHORT_HASH = sh (
-      script: """git describe --always""",
-      returnStdout: true).trim()
-    GIT_COMMIT_AUTHOR = sh (
-      script: """git show -s --pretty=%an""",
-      returnStdout: true).trim()
-
+  node('range-web-node-build') {
     stage('Checkout') {
       echo "Checking out source"
       checkout scm
+
+      GIT_COMMIT_SHORT_HASH = sh (
+        script: """git describe --always""",
+        returnStdout: true).trim()
+      GIT_COMMIT_AUTHOR = sh (
+        script: """git show -s --pretty=%an""",
+        returnStdout: true).trim()
+
+      SLACK_TOKEN = sh (
+        script: """oc get secret/slack -o template --template="{{.data.token}}" | base64 --decode""",
+        returnStdout: true).trim()
     }
     
     stage('Install') {
       echo "Setup: ${BUILD_ID}"
-      
-      // The version of node in the `node` that comes with OpenShift is too old
-      // so I use a generic Linux and install my own node from LTS.
-      sh "curl ${NODE_URI} | tar -Jx"
 
-      // setup the node dev environment
-      sh "${CMD_PREFIX} npm i "
+      // install packages
+      sh "npm ci"
+
       // not sure if this needs to be added to package.json.
-      sh "${CMD_PREFIX} npm i escape-string-regexp"
-      sh "${CMD_PREFIX} npm -v"
-      sh "${CMD_PREFIX} node -v"
+      // sh "npm i escape-string-regexp"
+      sh "npm -v"
+      sh "node -v"
     }
-    
-    stage('Build Artifacts') {
-      echo "Build Artifacts: ${BUILD_ID}"
+
+    stage('Test') {
+      echo "Testing: ${BUILD_ID}"
 
       try {
-        // Run a security check on our packages
-        // sh "${CMD_PREFIX} npm run test:security"
         // Run our unit tests et al.
-        sh "${CMD_PREFIX} npm run build"
+        sh "npm test"
       } catch (error) {
         def attachment = [:]
         attachment.fallback = 'See build log for more details'
         attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
         attachment.color = '#CD0000' // Red
-        attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+        attachment.text = "There are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
         // attachment.title_link = "${env.BUILD_URL}"
 
         notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
@@ -92,18 +91,17 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
       }
     }
 
-    stage('Test') {
-      echo "Testing: ${BUILD_ID}"
-      // Run our unit tests et al.
+    stage('Build Artifacts') {
+      echo "Build Artifacts: ${BUILD_ID}"
       try {
         // Run our unit tests et al.
-        sh "${CMD_PREFIX} npm test"
+        sh "npm run build"
       } catch (error) {
         def attachment = [:]
         attachment.fallback = 'See build log for more details'
         attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
         attachment.color = '#CD0000' // Red
-        attachment.text = "There are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+        attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
         // attachment.title_link = "${env.BUILD_URL}"
 
         notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
@@ -139,12 +137,17 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
         echo "Unable send update to slack, error = ${error}"
       }
     }
+
     stage('Approval') {
       timeout(time: 1, unit: 'DAYS') {
         input message: "Deploy to test?", submitter: 'jleach-admin'
       }
-      openshiftTag destStream: CADDY_IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[1], srcStream: CADDY_IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
-      notifySlack("Promotion Completed\n Build #${BUILD_ID} was promoted to test.", "#range-web-caddy", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], OPENSHIFT_ICO)
-    }
+      node ('master') {
+        stage('Promotion') {
+          openshiftTag destStream: CADDY_IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[1], srcStream: CADDY_IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
+          notifySlack("Promotion Completed\n Build #${BUILD_ID} was promoted to test.", "#range-web-caddy", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], OPENSHIFT_ICO)
+        }
+      }
+    }   
   }
 }
