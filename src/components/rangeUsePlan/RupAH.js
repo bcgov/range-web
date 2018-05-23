@@ -66,7 +66,12 @@ export class RupAH extends Component {
         status,
       });
     };
-    this.updateRupStatusAndContent(plan, status, onUpdated);
+    const onFailed = () => {
+      this.setState({
+        isSavingAsDraft: false,
+      });
+    };
+    this.updateRupStatusAndContent(plan, status, onUpdated, onFailed);
   }
 
   onSubmitClicked = () => {
@@ -89,13 +94,19 @@ export class RupAH extends Component {
         status,
       });
     };
-    this.updateRupStatusAndContent(plan, status, onUpdated);
+    const onFailed = () => {
+      this.setState({
+        isSubmitting: false,
+        isSubmitModalOpen: false,
+      });
+    };
+    this.updateRupStatusAndContent(plan, status, onUpdated, onFailed);
   }
 
   closeSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: false })
   openSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: true })
 
-  updateRupStatusAndContent = (plan, status, onSuccess) => {
+  updateRupStatusAndContent = (plan, status, onSuccess, onFailed) => {
     const {
       createOrUpdateRupSchedule,
       updateRupStatus,
@@ -115,6 +126,7 @@ export class RupAH extends Component {
 
           onSuccess();
         } catch (err) {
+          onFailed();
           toastErrorMessage(err);
           throw err;
         }

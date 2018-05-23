@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 import { NOT_PROVIDED } from '../../../constants/strings';
+import { formatDateFromUTC } from '../../../handlers';
 import EditRupSchedule from './EditRupSchedule';
 
 const propTypes = {
@@ -88,11 +89,14 @@ class EditRupSchedules extends Component {
     // deep copy the object
     const copy = JSON.parse(JSON.stringify(grazingSchedules[sIndex].grazingScheduleEntries));
     const grazingScheduleEntries = copy.map((e) => {
-      const { id, ...entry } = e;
+      const { id, grazingScheduleId, ...entry } = e;
+      const dateIn = entry.dateIn && typeof entry.dateIn === 'string' && `${year}${entry.dateIn.slice(4)}`;
+      const dateOut = entry.dateOut && typeof entry.dateOut === 'string' && `${year}${entry.dateOut.slice(4)}`;
+
       return {
         ...entry,
-        dateIn: new Date(entry.dateIn).setFullYear(year),
-        dateOut: new Date(entry.dateOut).setFullYear(year),
+        dateIn,
+        dateOut,
       };
     });
     grazingSchedules.push({

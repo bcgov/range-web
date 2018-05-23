@@ -137,7 +137,7 @@ class EditRupSchedule extends Component {
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
-    const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) }));
+    const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) })) || [];
 
     return (
       <li className="rup__schedule">
@@ -159,6 +159,8 @@ class EditRupSchedule extends Component {
               trigger={<Icon name="ellipsis vertical" />}
               icon={null}
               pointing="right"
+              loading={false}
+              disabled={false}
             >
               <Dropdown.Menu>
                 <Dropdown
@@ -167,6 +169,7 @@ class EditRupSchedule extends Component {
                   pointing="left"
                   className="link item"
                   options={copyOptions}
+                  disabled={copyOptions.length === 0}
                 />
                 <Dropdown.Item onClick={this.onScheduleDeleteClicked}>delete</Dropdown.Item>
               </Dropdown.Menu>
