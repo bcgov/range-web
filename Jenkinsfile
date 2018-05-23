@@ -2,7 +2,7 @@ import groovy.json.JsonOutput
 
 def APP_NAME = 'range-myra-web-caddy'
 def CADDY_BUILD_CONFIG = APP_NAME
-def CADDY_IMAGESTREAM_NAME = 'range-myra-web-caddy'
+def CADDY_IMAGESTREAM_NAME = APP_NAME
 def TAG_NAMES = ['dev', 'test', 'prod']
 def CMD_PREFIX = 'PATH=$PATH:$PWD/node-v9.6.1-linux-x64/bin'
 def NODE_URI = 'https://nodejs.org/dist/v9.7.0/node-v9.7.0-linux-x64.tar.xz'
