@@ -19,6 +19,8 @@ const propTypes = {
   updateRupStatus: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
+  deleteRupSchedule: PropTypes.func.isRequired,
+  deleteRupScheduleEntry: PropTypes.func.isRequired,
 };
 
 export class RupAH extends Component {
@@ -59,11 +61,14 @@ export class RupAH extends Component {
     const plan = agreement && agreement.plan;
     const status = statuses.find(s => s.name === DRAFT);
 
-    const onUpdated = () => {
+    const onUpdated = (newSchedules) => {
+      // update schedules in the state
+      plan.grazingSchedules = newSchedules;
       toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
       this.setState({
         isSavingAsDraft: false,
         status,
+        plan,
       });
     };
     const onFailed = () => {
@@ -86,12 +91,15 @@ export class RupAH extends Component {
     const plan = agreement && agreement.plan;
     const status = statuses.find(s => s.name === PENDING);
 
-    const onUpdated = () => {
+    const onUpdated = (newSchedules) => {
+      // update schedules in the state
+      plan.grazingSchedules = newSchedules;
       toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
       this.setState({
         isSubmitting: false,
         isSubmitModalOpen: false,
         status,
+        plan,
       });
     };
     const onFailed = () => {
@@ -120,11 +128,10 @@ export class RupAH extends Component {
       const makeRequest = async () => {
         try {
           await updateRupStatus({ planId, statusId }, false);
-          await Promise.all(grazingSchedules.map(schedule => (
+          const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
             createOrUpdateRupSchedule(planId, schedule)
           )));
-
-          onSuccess();
+          onSuccess(newSchedules);
         } catch (err) {
           onFailed();
           toastErrorMessage(err);
@@ -173,6 +180,8 @@ export class RupAH extends Component {
           plan={plan}
           usage={usage}
           handleSchedulesChange={this.handleSchedulesChange}
+          deleteRupSchedule={this.props.deleteRupSchedule}
+          deleteRupScheduleEntry={this.props.deleteRupScheduleEntry}
         />
       );
     }

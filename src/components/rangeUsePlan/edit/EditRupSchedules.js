@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 import { NOT_PROVIDED } from '../../../constants/strings';
-import { formatDateFromUTC } from '../../../handlers';
 import EditRupSchedule from './EditRupSchedule';
 
 const propTypes = {
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }),
   usage: PropTypes.arrayOf(PropTypes.object),
+  livestockTypes: PropTypes.arrayOf(PropTypes.object),
   className: PropTypes.string.isRequired,
   handleSchedulesChange: PropTypes.func.isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object),
+  deleteRupSchedule: PropTypes.func.isRequired,
+  deleteRupScheduleEntry: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -116,26 +117,36 @@ class EditRupSchedules extends Component {
   }
 
   handleScheduleDelete = (sIndex) => {
-    const { plan, handleSchedulesChange } = this.props;
+    const { plan, handleSchedulesChange, deleteRupSchedule } = this.props;
     const grazingSchedules = [...plan.grazingSchedules];
 
     // a schedule is deleted so add this year to the year option list
     const [deletedSchedule] = grazingSchedules.splice(sIndex, 1);
-    const { year } = deletedSchedule || {};
-    const option = {
-      key: year,
-      text: year,
-      value: year,
+    const planId = plan && plan.id;
+    const { year, id: scheduleId } = deletedSchedule || {};
+    const onDeleted = () => {
+      const option = {
+        key: year,
+        text: year,
+        value: year,
+      };
+      const yearOptions = [...this.state.yearOptions];
+      yearOptions.push(option);
+      yearOptions.sort((o1, o2) => o1.value > o2.value);
+
+      this.setState({
+        yearOptions,
+      });
+
+      handleSchedulesChange(grazingSchedules);
     };
-    const yearOptions = [...this.state.yearOptions];
-    yearOptions.push(option);
-    yearOptions.sort((o1, o2) => o1.value > o2.value);
 
-    this.setState({
-      yearOptions,
-    });
-
-    handleSchedulesChange(grazingSchedules);
+    // delete the schedule saved in server
+    if (planId && scheduleId) {
+      deleteRupSchedule(planId, scheduleId).then(onDeleted);
+    } else { // or delete the schedule saved in state
+      onDeleted();
+    }
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
