@@ -54,7 +54,7 @@ export class ManageZone extends Component {
 
     const staffAssigned = (assignedUser) => {
       // update zones in Redux state
-      staffAssignedToZone({ zones, zoneId, assignedUser });
+      staffAssignedToZone(zones, zoneId, assignedUser);
       this.closeUpdateConfirmationModal();
       this.setState({
         newContactId: null,
@@ -62,7 +62,7 @@ export class ManageZone extends Component {
         currContactName: null,
       });
     };
-    assignStaffToZone({ zoneId, userId }).then(staffAssigned);
+    assignStaffToZone(zoneId, userId).then(staffAssigned);
   }
 
   render() {

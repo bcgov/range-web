@@ -8,8 +8,7 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN,
   REFRESH_TOKEN,
-  USER,
-  ME,
+  GET_USER_PROFILE_ENDPOINT,
 } from '../constants/api';
 import { saveDataInLocal, getDataFromLocal } from '../handlers';
 import { AUTH_KEY, USER_KEY } from '../constants/variables';
@@ -118,7 +117,7 @@ export const onSignedOut = () => {
 };
 
 export const getUserProfileFromRemote = () => (
-  axios.get(`${USER}${ME}`)
+  axios.get(GET_USER_PROFILE_ENDPOINT)
 );
 
 /**

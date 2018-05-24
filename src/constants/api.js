@@ -20,13 +20,18 @@ export const BASE_URL = (process.env.NODE_ENV === 'production')
   ? `${window.location.origin}/api/v1`
   : DEV_BASE_URL;
 
-export const AGREEMENT = '/agreement';
-export const REFERENCES = '/reference';
-export const CLIENT = '/client';
-export const PLAN = '/plan';
-export const STATUS = '/status';
-export const ZONE = '/zone';
-export const REPORT = '/report';
-export const USER = '/user';
-export const SCHEDULE = '/schedule';
-export const ME = '/me';
+export const SEARCH_AGREEMENTS_ENDPOINT = 'agreement/search';
+export const GET_REFERENCES_ENDPOINT = '/reference';
+export const GET_ZONES_ENTPOINT = '/zone';
+export const GET_USERS_ENDPOINT = '/user';
+export const GET_USER_PROFILE_ENDPOINT = '/user/me';
+
+export const GET_RUP_ENDPOINT = planId => `/plan/${planId}`;
+export const UPDATE_STAFF_OF_ZONE_ENDPOINT = zoneId => `/zone/${zoneId}/user`;
+export const UPDATE_RUP_STATUS_ENDPOINT = planId => `/plan/${planId}/status`;
+export const UPDATE_RUP_ZONE_ENDPOINT = agreementId => `/agreement/${agreementId}/zone`;
+export const GET_RUP_PDF_ENDPOINT = planId => `/report/${planId}`;
+export const CREATE_RUP_SCHEDULE_ENDPOINT = planId => `/plan/${planId}/schedule`;
+export const UPDATE_RUP_SCHEDULE_ENDPOINT = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
+export const DELETE_RUP_SCHEDULE_ENDPOINT = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
+export const DELETE_RUP_SCHEDULE_ENTRY_ENDPOINT = (planId, scheduleId, entryId) => `/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;

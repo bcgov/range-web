@@ -29,8 +29,8 @@ const propTypes = {
 class Base extends Component {
   componentDidMount() {
     const { getRangeUsePlan, match } = this.props;
-    const { agreementId, planId } = match.params;
-    getRangeUsePlan({ agreementId, planId });
+    const { planId } = match.params;
+    getRangeUsePlan(planId);
   }
 
   render() {

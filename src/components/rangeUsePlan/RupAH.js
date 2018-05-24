@@ -121,7 +121,7 @@ export class RupAH extends Component {
         try {
           await updateRupStatus({ planId, statusId }, false);
           await Promise.all(grazingSchedules.map(schedule => (
-            createOrUpdateRupSchedule({ planId, schedule })
+            createOrUpdateRupSchedule(planId, schedule)
           )));
 
           onSuccess();

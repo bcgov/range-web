@@ -11,9 +11,12 @@ import {
   GET_REFERENCES,
   GET_USERS,
   GET_ZONES,
-  GET_USER_PROFILE,
 } from '../constants/reducerTypes';
-import { REFERENCES, USER, ZONE, ME } from '../constants/api';
+import {
+  GET_REFERENCES_ENDPOINT,
+  GET_USERS_ENDPOINT,
+  GET_ZONES_ENTPOINT,
+} from '../constants/api';
 import axios from '../handlers/axios';
 
 export const getReferences = () => (dispatch) => {
@@ -21,13 +24,14 @@ export const getReferences = () => (dispatch) => {
 
   const makeRequest = async () => {
     try {
-      const response = await axios.get(REFERENCES);
+      const response = await axios.get(GET_REFERENCES_ENDPOINT);
       const references = response.data;
 
       saveReferencesInLocal(references);
       dispatch(success(GET_REFERENCES, references));
     } catch (err) {
       dispatch(error(GET_REFERENCES, err));
+      throw err;
     }
   };
   return makeRequest();
@@ -44,13 +48,14 @@ export const getZones = districtId => (dispatch) => {
           districtId,
         };
       }
-      const response = await axios.get(ZONE, config);
+      const response = await axios.get(GET_ZONES_ENTPOINT, config);
       const zones = response.data;
 
       dispatch(success(GET_ZONES, zones));
     } catch (err) {
       dispatch(error(GET_ZONES, err));
       dispatch(toastErrorMessage(err));
+      throw err;
     }
   };
   return makeRequest();
@@ -60,7 +65,7 @@ export const getUsers = () => (dispatch) => {
   dispatch(request(GET_USERS));
   const makeRequest = async () => {
     try {
-      const response = await axios.get(USER);
+      const response = await axios.get(GET_USERS_ENDPOINT);
       const users = response.data;
 
       dispatch(success(GET_USERS, users));

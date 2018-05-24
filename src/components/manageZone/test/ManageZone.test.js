@@ -55,10 +55,7 @@ describe('ManageZone', () => {
       wrapper.instance().assignStaffToZone();
       const { zoneId, newContactId: userId } = wrapper.state();
 
-      expect(props.assignStaffToZone).toHaveBeenCalledWith({
-        zoneId,
-        userId,
-      });
+      expect(props.assignStaffToZone).toHaveBeenCalledWith(zoneId, userId);
     });
   });
 });

@@ -5,8 +5,24 @@ import {
 } from '../actions/genericActions';
 import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
-import { UPDATE_RUP_STATUS, UPDATE_RUP_ZONE, GET_PDF, UPDATE_RUP_SCHEDULE, CREATE_RUP_SCHEDULE } from '../constants/reducerTypes';
-import { STATUS, AGREEMENT, ZONE, PLAN, REPORT, SCHEDULE } from '../constants/api';
+import {
+  UPDATE_RUP_STATUS,
+  UPDATE_RUP_ZONE,
+  GET_PDF,
+  UPDATE_RUP_SCHEDULE,
+  CREATE_RUP_SCHEDULE,
+  DELETE_SCHEUDLE,
+  DELETE_SCHEUDLE_ENTRY,
+} from '../constants/reducerTypes';
+import {
+  UPDATE_RUP_STATUS_ENDPOINT,
+  UPDATE_RUP_ZONE_ENDPOINT,
+  GET_RUP_PDF_ENDPOINT,
+  CREATE_RUP_SCHEDULE_ENDPOINT,
+  UPDATE_RUP_SCHEDULE_ENDPOINT,
+  DELETE_RUP_SCHEDULE_ENDPOINT,
+  DELETE_RUP_SCHEDULE_ENTRY_ENDPOINT,
+} from '../constants/api';
 import axios from '../handlers/axios';
 
 export const updateRupStatus = ({ planId, statusId }, shouldToast = true) => (dispatch) => {
@@ -14,7 +30,7 @@ export const updateRupStatus = ({ planId, statusId }, shouldToast = true) => (di
   const makeRequest = async () => {
     try {
       const response = await axios.put(
-        `${PLAN}/${planId}${STATUS}`,
+        UPDATE_RUP_STATUS_ENDPOINT(planId),
         { statusId },
       );
       dispatch(success(UPDATE_RUP_STATUS, response.data));
@@ -36,7 +52,7 @@ export const updateRupZone = ({ agreementId, zoneId }) => (dispatch) => {
   const makeRequest = async () => {
     try {
       const response = await axios.put(
-        `${AGREEMENT}/${agreementId}${ZONE}`,
+        UPDATE_RUP_ZONE_ENDPOINT(agreementId),
         { zoneId },
       );
       dispatch(success(UPDATE_RUP_ZONE, response.data));
@@ -57,7 +73,7 @@ export const getRupPDF = planId => (dispatch) => {
   const makeRequest = async () => {
     try {
       const { data } = await axios.get(
-        `${REPORT}/${planId}`,
+        GET_RUP_PDF_ENDPOINT(planId),
         { responseType: 'arraybuffer' },
       );
       dispatch(success(GET_PDF, data));
@@ -71,12 +87,12 @@ export const getRupPDF = planId => (dispatch) => {
   return makeRequest();
 };
 
-const createRupSchedule = ({ planId, schedule }) => (dispatch) => {
+const createRupSchedule = (planId, schedule) => (dispatch) => {
   dispatch(request(CREATE_RUP_SCHEDULE));
   const makeRequest = async () => {
     try {
       const { data } = await axios.post(
-        `${PLAN}/${planId}${SCHEDULE}`,
+        CREATE_RUP_SCHEDULE_ENDPOINT(planId),
         { ...schedule, plan_id: planId },
       );
       dispatch(success(CREATE_RUP_SCHEDULE, data));
@@ -90,12 +106,12 @@ const createRupSchedule = ({ planId, schedule }) => (dispatch) => {
   return makeRequest();
 };
 
-const updateRupSchedule = ({ planId, schedule }) => (dispatch) => {
+const updateRupSchedule = (planId, schedule) => (dispatch) => {
   dispatch(request(UPDATE_RUP_SCHEDULE));
   const makeRequest = async () => {
     try {
       const { data } = await axios.put(
-        `${PLAN}/${planId}${SCHEDULE}/${schedule.id}`,
+        UPDATE_RUP_SCHEDULE_ENDPOINT(planId, schedule.id),
         { ...schedule },
       );
       dispatch(success(UPDATE_RUP_SCHEDULE, data));
@@ -109,9 +125,41 @@ const updateRupSchedule = ({ planId, schedule }) => (dispatch) => {
   return makeRequest();
 };
 
-export const createOrUpdateRupSchedule = ({ planId, schedule }) => (dispatch) => {
+export const createOrUpdateRupSchedule = (planId, schedule) => (dispatch) => {
   if (schedule.id) {
-    return dispatch(updateRupSchedule({ planId, schedule }));
+    return dispatch(updateRupSchedule(planId, schedule));
   }
-  return dispatch(createRupSchedule({ planId, schedule }));
+  return dispatch(createRupSchedule(planId, schedule));
+};
+
+export const deleteRupSchedule = (planId, scheduleId) => (dispatch) => {
+  dispatch(request(DELETE_SCHEUDLE));
+  const makeRequest = async () => {
+    try {
+      const { data } = await axios.delete(DELETE_RUP_SCHEDULE_ENDPOINT(planId, scheduleId));
+      dispatch(success(DELETE_SCHEUDLE, data));
+      return data;
+    } catch (err) {
+      dispatch(error(DELETE_SCHEUDLE, err));
+      dispatch(toastErrorMessage(err));
+      throw err;
+    }
+  };
+  return makeRequest();
+};
+
+export const deleteRupScheduleEntry = (planId, scheduleId, entryId) => (dispatch) => {
+  dispatch(request(DELETE_SCHEUDLE_ENTRY));
+  const makeRequest = async () => {
+    try {
+      const { data } = await axios.delete(DELETE_RUP_SCHEDULE_ENTRY_ENDPOINT(planId, scheduleId, entryId));
+      dispatch(success(DELETE_SCHEUDLE, data));
+      return data;
+    } catch (err) {
+      dispatch(error(DELETE_SCHEUDLE, err));
+      dispatch(toastErrorMessage(err));
+      throw err;
+    }
+  };
+  return makeRequest();
 };
