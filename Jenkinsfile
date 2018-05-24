@@ -138,7 +138,7 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
 
     stage('Approval') {
       timeout(time: 1, unit: 'DAYS') {
-        input message: "Deploy to test?", submitter: 'bcgov*range'
+        input message: "Deploy to test?", submitter: 'authenticated'
       }
       node ('master') {
         stage('Promotion') {
