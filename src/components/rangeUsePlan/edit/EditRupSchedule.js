@@ -129,7 +129,7 @@ class EditRupSchedule extends Component {
     });
 
     return grazingScheduleEntries.map((entry, entryIndex) => {
-      const key = `entry${scheduleIndex}${entryIndex}`;
+      const key = `schedule${scheduleIndex}entry${entryIndex}${new Date()}`;
       return (
         <EditRupScheduleEntry
           key={key}

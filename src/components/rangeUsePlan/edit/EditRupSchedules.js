@@ -161,7 +161,7 @@ class EditRupSchedules extends Component {
       isDeletingScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
-    const key = `schedule${scheduleIndex}`;
+    const key = `schedule${schedule.year}${new Date()}`;
 
     return (
       <EditRupSchedule
