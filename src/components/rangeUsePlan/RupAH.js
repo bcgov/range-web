@@ -21,6 +21,8 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
   deleteRupSchedule: PropTypes.func.isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
+  isDeletingSchedule: PropTypes.bool.isRequired,
+  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 export class RupAH extends Component {
@@ -182,6 +184,8 @@ export class RupAH extends Component {
           handleSchedulesChange={this.handleSchedulesChange}
           deleteRupSchedule={this.props.deleteRupSchedule}
           deleteRupScheduleEntry={this.props.deleteRupScheduleEntry}
+          isDeletingSchedule={this.props.isDeletingSchedule}
+          isDeletingScheduleEntry={this.props.isDeletingScheduleEntry}
         />
       );
     }

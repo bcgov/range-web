@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
-
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupSchedule from './EditRupSchedule';
 
@@ -13,6 +13,8 @@ const propTypes = {
   handleSchedulesChange: PropTypes.func.isRequired,
   deleteRupSchedule: PropTypes.func.isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
+  isDeletingSchedule: PropTypes.bool.isRequired,
+  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -155,6 +157,8 @@ class EditRupSchedules extends Component {
       usage,
       livestockTypes,
       deleteRupScheduleEntry,
+      isDeletingSchedule,
+      isDeletingScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
     const key = `schedule${scheduleIndex}`;
@@ -174,10 +178,11 @@ class EditRupSchedules extends Component {
         handleScheduleDelete={this.handleScheduleDelete}
         handleScheduleCopy={this.handleScheduleCopy}
         deleteRupScheduleEntry={deleteRupScheduleEntry}
+        isDeletingSchedule={isDeletingSchedule}
+        isDeletingScheduleEntry={isDeletingScheduleEntry}
       />
     );
   }
-
   render() {
     const { className, plan } = this.props;
     const { yearOptions } = this.state;
@@ -204,7 +209,7 @@ class EditRupSchedules extends Component {
           />
         </div>
         <div className="rup__divider" />
-        <ul className="rup__schedules">
+        <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
           {
             grazingSchedules.length === 0 ? (
               <div className="rup__section-not-found">{NOT_PROVIDED}</div>

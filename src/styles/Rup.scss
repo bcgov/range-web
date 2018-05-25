@@ -160,7 +160,9 @@ $row-height: 80px;
     padding: 0;
     border-radius: 5px;
     border: 1px solid gainsboro;
-
+    &--empty {
+      border: 0px;
+    }
     li {
       border-bottom: 1px solid gainsboro;
     }
@@ -233,45 +235,6 @@ $row-height: 80px;
       align-items: center;
     }
   }
-
-  // &__edit-schedule {
-  //   padding: 15px;
-
-  //   &__header {
-  //     display: flex;
-  //     justify-content: space-between;
-  //     align-items: center;
-  //     font-weight: bold;
-  //     font-size: 1.2rem;
-  //     cursor: pointer;
-  //   }
-  //   &__content {
-  //     margin-top: 15px;
-
-  //     &__hidden {
-  //       display: none;  
-  //     }
-  //     &__dates {
-  //       min-width: 75px;
-  //     }
-  //     &__AUMs {
-  //       display: flex;
-  //       align-items: center;
-  //       justify-content: flex-end;
-  //       font-size: 1.1rem;
-  //       text-align: right;
-  //     }
-  //     &__AUM-label {
-  //       font-weight: bold;
-  //       margin: 0 10px;
-  //     }
-  //     &__AUM-number {
-  //       border: 1px solid gainsboro;
-  //       padding: 8px 15px;
-  //       border-radius: 3px;
-  //     }
-  //   }
-  // }
 }
 
 .rup-pdf {

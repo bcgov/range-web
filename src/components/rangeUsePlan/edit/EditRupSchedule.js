@@ -8,6 +8,7 @@ import {
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
 } from '../../../constants/strings';
 import EditRupScheduleEntry from './EditRupScheduleEntry';
+import { ConfirmationModal } from '../../common';
 
 const propTypes = {
   schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
@@ -22,9 +23,15 @@ const propTypes = {
   handleScheduleCopy: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
+  isDeletingSchedule: PropTypes.bool.isRequired,
+  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 class EditRupSchedule extends Component {
+  state = {
+    isDeleteScheduleModalOpen: false,
+  }
+
   onScheduleClicked = () => {
     const { scheduleIndex, onScheduleClicked } = this.props;
     onScheduleClicked(scheduleIndex);
@@ -58,6 +65,9 @@ class EditRupSchedule extends Component {
     const { scheduleIndex, handleScheduleDelete } = this.props;
     handleScheduleDelete(scheduleIndex);
   }
+
+  closeDeleteScheduleConfirmationModal = () => this.setState({ isDeleteScheduleModalOpen: false })
+  openDeleteScheduleConfirmationModal = () => this.setState({ isDeleteScheduleModalOpen: true })
 
   handleScheduleEntryChange = (entry, entryIndex) => {
     const { schedule, scheduleIndex, handleScheduleChange } = this.props;
@@ -148,8 +158,9 @@ class EditRupSchedule extends Component {
       yearOptions,
       pastures,
       livestockTypes,
+      isDeletingSchedule,
     } = this.props;
-
+    const { isDeleteScheduleModalOpen } = this.state;
     const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
     const yearUsage = usage.find(u => u.year === year);
@@ -160,6 +171,14 @@ class EditRupSchedule extends Component {
 
     return (
       <li className="rup__schedule">
+        <ConfirmationModal
+          open={isDeleteScheduleModalOpen}
+          loading={isDeletingSchedule}
+          header="Confirmation: Deleting Schedule"
+          content="Are you sure you want to delete this schedule?"
+          onNoClicked={this.closeDeleteScheduleConfirmationModal}
+          onYesClicked={this.onScheduleDeleteClicked}
+        />
         <div className="rup__schedule__header">
           <button
             className="rup__schedule__header__title"
@@ -190,7 +209,7 @@ class EditRupSchedule extends Component {
                   options={copyOptions}
                   disabled={copyOptions.length === 0}
                 />
-                <Dropdown.Item onClick={this.onScheduleDeleteClicked}>delete</Dropdown.Item>
+                <Dropdown.Item onClick={this.openDeleteScheduleConfirmationModal}>delete</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

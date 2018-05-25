@@ -26,6 +26,8 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
   deleteRupSchedule: PropTypes.func.isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
+  isDeletingSchedule: PropTypes.bool.isRequired,
+  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 class Base extends Component {
@@ -49,6 +51,8 @@ class Base extends Component {
       user: u,
       deleteRupSchedule,
       deleteRupScheduleEntry,
+      isDeletingSchedule,
+      isDeletingScheduleEntry,
     } = this.props;
     const user = new User(u);
 
@@ -76,6 +80,8 @@ class Base extends Component {
           toastSuccessMessage={toastSuccessMessage}
           deleteRupSchedule={deleteRupSchedule}
           deleteRupScheduleEntry={deleteRupScheduleEntry}
+          isDeletingSchedule={isDeletingSchedule}
+          isDeletingScheduleEntry={isDeletingScheduleEntry}
         />
       );
     } else {
@@ -115,6 +121,8 @@ const mapStateToProps = state => (
     isDownloadingPDF: state.pdf.isLoading,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
+    isDeletingSchedule: state.deleteRupSchedule.isLoading,
+    isDeletingScheduleEntry: state.deleteRupScheduleEntry.isLoading,
   }
 );
 
