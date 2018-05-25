@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import uniqid from 'uniqid';
 import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
 import {
@@ -129,7 +130,7 @@ class EditRupSchedule extends Component {
     });
 
     return grazingScheduleEntries.map((entry, entryIndex) => {
-      const key = `schedule${scheduleIndex}entry${entryIndex}${new Date()}`;
+      const key = uniqid(`schedule${scheduleIndex}entry${entryIndex}`);
       return (
         <EditRupScheduleEntry
           key={key}

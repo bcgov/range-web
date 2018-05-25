@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import uniqid from 'uniqid';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupSchedule from './EditRupSchedule';
@@ -161,7 +162,7 @@ class EditRupSchedules extends Component {
       isDeletingScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
-    const key = `schedule${schedule.year}${new Date()}`;
+    const key = uniqid(`schedule${scheduleIndex}`);
 
     return (
       <EditRupSchedule
