@@ -153,10 +153,10 @@ export const deleteRupScheduleEntry = (planId, scheduleId, entryId) => (dispatch
   const makeRequest = async () => {
     try {
       const { data } = await axios.delete(DELETE_RUP_SCHEDULE_ENTRY_ENDPOINT(planId, scheduleId, entryId));
-      dispatch(success(DELETE_SCHEUDLE, data));
+      dispatch(success(DELETE_SCHEUDLE_ENTRY, data));
       return data;
     } catch (err) {
-      dispatch(error(DELETE_SCHEUDLE, err));
+      dispatch(error(DELETE_SCHEUDLE_ENTRY, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }

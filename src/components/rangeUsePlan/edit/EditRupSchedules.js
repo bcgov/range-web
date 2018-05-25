@@ -150,7 +150,12 @@ class EditRupSchedules extends Component {
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
-    const { plan, usage, livestockTypes } = this.props;
+    const {
+      plan,
+      usage,
+      livestockTypes,
+      deleteRupScheduleEntry,
+    } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
     const key = `schedule${scheduleIndex}`;
 
@@ -168,6 +173,7 @@ class EditRupSchedules extends Component {
         handleScheduleChange={this.handleScheduleChange}
         handleScheduleDelete={this.handleScheduleDelete}
         handleScheduleCopy={this.handleScheduleCopy}
+        deleteRupScheduleEntry={deleteRupScheduleEntry}
       />
     );
   }

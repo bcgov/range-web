@@ -158,21 +158,14 @@ $row-height: 80px;
     margin: 10px 0;
     list-style-type: none;
     padding: 0;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
 
     li {
-      border: 1px solid gainsboro;
-    }
-    li:nth-child(even) {
-      border-top: 0;
-      border-bottom: 0;
-    }
-    li:first-child {
-      border-top: 1px solid gainsboro;
-      border-radius: 5px 5px 0 0;
+      border-bottom: 1px solid gainsboro;
     }
     li:last-child {
-      border-bottom: 1px solid gainsboro;
-      border-radius: 0 0 5px 5px;
+      border-bottom: 0px solid gainsboro;
     }
   }
   &__schedule {

@@ -21,6 +21,7 @@ const propTypes = {
   handleScheduleDelete: PropTypes.func.isRequired,
   handleScheduleCopy: PropTypes.func.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteRupScheduleEntry: PropTypes.func.isRequired,
 };
 
 class EditRupSchedule extends Component {
@@ -75,10 +76,26 @@ class EditRupSchedule extends Component {
   }
 
   handleScheduleEntryDelete = (entryIndex) => {
-    const { schedule, scheduleIndex, handleScheduleChange } = this.props;
+    const {
+      schedule,
+      scheduleIndex,
+      handleScheduleChange,
+      deleteRupScheduleEntry,
+    } = this.props;
     const [deletedEntry] = schedule.grazingScheduleEntries.splice(entryIndex, 1);
+    const planId = schedule && schedule.planId;
+    const scheduleId = schedule && schedule.id;
+    const entryId = deletedEntry && deletedEntry.id;
+    const onDeleted = () => {
+      handleScheduleChange(schedule, scheduleIndex);
+    };
 
-    handleScheduleChange(schedule, scheduleIndex);
+    // delete the entry saved in server
+    if (planId && scheduleId && entryId) {
+      deleteRupScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
+    } else { // or delete the entry saved in state
+      onDeleted();
+    }
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
