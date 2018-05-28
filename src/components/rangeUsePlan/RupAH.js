@@ -7,7 +7,12 @@ import RupPastures from './view/RupPastures';
 import RupSchedules from './view/RupSchedules';
 import EditRupSchedules from './edit/EditRupSchedules';
 import { DRAFT, PENDING } from '../../constants/variables';
-import { SAVE_PLAN_AS_DRAFT_SUCCESS, SUBMIT_PLAN_SUCCESS } from '../../constants/strings';
+import {
+  SAVE_PLAN_AS_DRAFT_SUCCESS,
+  SUBMIT_PLAN_SUCCESS,
+  SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
+  SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
+} from '../../constants/strings';
 import PlanStatus from '../../models/PlanStatus';
 
 const propTypes = {
@@ -162,17 +167,6 @@ export class RupAH extends Component {
     });
   }
 
-  renderBanner = (agreementId, status) => {
-    const content = status.bannerContentForAH;
-
-    return (
-      <Banner
-        className="banner__edit-rup"
-        header={agreementId}
-        content={content}
-      />
-    );
-  }
   renderSchedules = (plan, usage = [], status, livestockTypes = [], isEditable) => {
     if (isEditable) {
       return (
@@ -228,14 +222,18 @@ export class RupAH extends Component {
       <div className="rup">
         <ConfirmationModal
           open={isSubmitModalOpen}
-          header="Confirmation: Submit"
-          content="Are you sure you want to submit the change to the range staff?"
+          header={SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
+          content={SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
           onNoClicked={this.closeSubmitConfirmModal}
           onYesClicked={this.onSubmitClicked}
           loading={isSubmitting}
         />
 
-        {this.renderBanner(agreementId, status)}
+        <Banner
+          className="banner__edit-rup"
+          header={agreementId}
+          content={status && status.bannerContentForAH}
+        />
 
         <div
           id="edit-rup-sticky-header"

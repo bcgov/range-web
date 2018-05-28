@@ -6,6 +6,7 @@ import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
+  DELETE_SCHEDULE_FOR_AH_CONTENT, DELETE_SCHEDULE_FOR_AH_HEADER,
 } from '../../../constants/strings';
 import EditRupScheduleEntry from './EditRupScheduleEntry';
 import { ConfirmationModal } from '../../common';
@@ -181,8 +182,8 @@ class EditRupSchedule extends Component {
         <ConfirmationModal
           open={isDeleteScheduleModalOpen}
           loading={isDeletingSchedule}
-          header="Confirmation: Deleting Schedule"
-          content="Are you sure you want to delete this schedule?"
+          header={DELETE_SCHEDULE_FOR_AH_HEADER}
+          content={DELETE_SCHEDULE_FOR_AH_CONTENT}
           onNoClicked={this.closeDeleteScheduleConfirmationModal}
           onYesClicked={this.onScheduleDeleteClicked}
         />

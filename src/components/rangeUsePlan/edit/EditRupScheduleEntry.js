@@ -29,25 +29,29 @@ const propTypes = {
 class EditRupScheduleEntry extends Component {
   componentDidMount() {
     const { entry, year } = this.props;
-    const { dateIn, dateOut } = entry;
+    const { dateIn: din, dateOut: dout } = entry;
+    const dateIn = new Date(din);
+    const dateOut = new Date(dout);
     const minDate = new Date(`${year}-01-02`);
     const maxDate = new Date(`${year + 1}-01-01`);
 
-    new Pikaday({
+    this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate,
-      maxDate,
+      maxDate: dateOut || maxDate,
       onSelect: this.handleDateChange('dateIn'),
-    }).setDate(new Date(dateIn));
+    });
+    this.pikaDayDateIn.setDate(dateIn);
 
-    new Pikaday({
+    this.pikaDayDateOut = new Pikaday({
       field: this.dateOutRef,
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
-      minDate,
+      minDate: dateIn || minDate,
       maxDate,
       onSelect: this.handleDateChange('dateOut'),
-    }).setDate(new Date(dateOut));
+    });
+    this.pikaDayDateOut.setDate(dateOut);
   }
 
   onCopyEntryClicked = () => {
@@ -74,6 +78,12 @@ class EditRupScheduleEntry extends Component {
     const { entry, entryIndex, handleScheduleEntryChange } = this.props;
     entry[key] = formatDateFromUTC(date);
 
+    // setting user restrictions when date picker values change
+    if (this.pikaDayDateIn && key === 'dateOut') {
+      this.pikaDayDateIn.setMaxDate(date);
+    } else if (this.pikaDayDateOut && key === 'dateIn') {
+      this.pikaDayDateOut.setMinDate(date);
+    }
     handleScheduleEntryChange(entry, entryIndex);
   }
 

@@ -78,6 +78,10 @@ export const RUP_IN_DRAFT_FOR_AH_CONTENT = 'Please finalize your changes and sub
 export const RUP_PENDING_FOR_AH_CONTENT = 'Your range use plan is currently being reviewed by range staff.';
 export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
 export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
+export const SUBMIT_RUP_CHANGE_FOR_AH_HEADER = 'Confirmation: Submit';
+export const SUBMIT_RUP_CHANGE_FOR_AH_CONTENT = 'Are you sure you want to submit the change to the range staff?';
+export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Schedule';
+export const DELETE_SCHEDULE_FOR_AH_CONTENT = 'Are you sure you want to delete this schedule?';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';
