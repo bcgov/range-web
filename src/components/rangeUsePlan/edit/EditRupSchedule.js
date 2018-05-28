@@ -222,7 +222,7 @@ class EditRupSchedule extends Component {
                   options={copyOptions}
                   disabled={copyOptions.length === 0}
                 />
-                <Dropdown.Item onClick={this.openDeleteScheduleConfirmationModal}>delete</Dropdown.Item>
+                <Dropdown.Item onClick={this.openDeleteScheduleConfirmationModal}>Delete</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

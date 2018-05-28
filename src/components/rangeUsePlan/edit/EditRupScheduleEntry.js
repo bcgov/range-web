@@ -159,8 +159,8 @@ class EditRupScheduleEntry extends Component {
     const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
 
     const entryOptions = [
-      { key: `entry${entryIndex}option1`, text: 'copy', onClick: this.onCopyEntryClicked },
-      { key: `entry${entryIndex}option2`, text: 'delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
+      { key: `entry${entryIndex}option1`, text: 'Copy', onClick: this.onCopyEntryClicked },
+      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
     ];
 
     return (
