@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import uniqid from 'uniqid';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupSchedule from './EditRupSchedule';
@@ -36,7 +35,11 @@ class EditRupSchedules extends Component {
 
   onYearSelected = (e, { value: year }) => {
     const grazingSchedules = [...this.props.plan.grazingSchedules];
-    grazingSchedules.push({ year, grazingScheduleEntries: [] });
+    grazingSchedules.push({
+      key: new Date().getTime(),
+      year,
+      grazingScheduleEntries: [],
+    });
     grazingSchedules.sort((s1, s2) => s1.year > s2.year);
 
     const yearOptions = this.state.yearOptions.filter(y => y.value !== year);
@@ -104,6 +107,7 @@ class EditRupSchedules extends Component {
       };
     });
     grazingSchedules.push({
+      key: new Date().getTime(),
       year,
       grazingScheduleEntries,
     });
@@ -162,7 +166,7 @@ class EditRupSchedules extends Component {
       isDeletingScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
-    const key = uniqid(`schedule${scheduleIndex}`);
+    const key = `schedule${schedule.key || schedule.id}`;
 
     return (
       <EditRupSchedule

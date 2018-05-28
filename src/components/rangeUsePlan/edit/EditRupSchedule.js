@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import uniqid from 'uniqid';
 import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
 import {
@@ -49,6 +48,7 @@ class EditRupSchedule extends Component {
     const { schedule, handleScheduleChange } = this.props;
     const { year, grazingScheduleEntries } = schedule;
     grazingScheduleEntries.push({
+      key: new Date().getTime(),
       livestockCount: 0,
       dateIn: new Date(`${year}-01-02`),
       dateOut: new Date(`${year}-01-02`),
@@ -79,9 +79,15 @@ class EditRupSchedule extends Component {
 
   handleScheduleEntryCopy = (entryIndex) => {
     const { schedule, scheduleIndex, handleScheduleChange } = this.props;
+
     // deep copy the object
-    const copy = JSON.parse(JSON.stringify(schedule.grazingScheduleEntries[entryIndex]));
-    schedule.grazingScheduleEntries.push(copy);
+    const { id, ...copy } = JSON.parse(JSON.stringify(schedule.grazingScheduleEntries[entryIndex]));
+
+    const entry = {
+      key: new Date().getTime(),
+      ...copy,
+    };
+    schedule.grazingScheduleEntries.push(entry);
 
     handleScheduleChange(schedule, scheduleIndex);
   }
@@ -130,7 +136,7 @@ class EditRupSchedule extends Component {
     });
 
     return grazingScheduleEntries.map((entry, entryIndex) => {
-      const key = uniqid(`schedule${scheduleIndex}entry${entryIndex}`);
+      const key = `schedule${scheduleIndex}entry${entry.key || entry.id}`;
       return (
         <EditRupScheduleEntry
           key={key}
