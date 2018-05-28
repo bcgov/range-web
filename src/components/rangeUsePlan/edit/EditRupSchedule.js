@@ -250,6 +250,7 @@ class EditRupSchedule extends Component {
         </div>
 
         {this.renderWarningMessage(grazingScheduleEntries)}
+
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
             <Table.Header>
@@ -268,7 +269,14 @@ class EditRupSchedule extends Component {
               {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
             </Table.Header>
           </Table>
-          <Button style={{ margin: '10px 0' }} icon basic onClick={this.onNewRowClick(scheduleIndex)}><Icon name="add" /> Add row</Button>
+          <Button
+            style={{ margin: '10px 0' }}
+            icon
+            basic
+            onClick={this.onNewRowClick(scheduleIndex)}
+          >
+            <Icon name="add" /> Add row
+          </Button>
           <div className="rup__schedule__content__AUMs">
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
             <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>

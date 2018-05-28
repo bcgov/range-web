@@ -161,9 +161,8 @@ export class RupAH extends Component {
 
   handleSchedulesChange = (schedules) => {
     const { plan } = this.state;
-    plan.grazingSchedules = schedules;
     this.setState({
-      plan,
+      plan: { ...plan, grazingSchedules: schedules },
     });
   }
 
