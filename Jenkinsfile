@@ -1,8 +1,8 @@
 import groovy.json.JsonOutput
 
-def APP_NAME = 'range-myra-web-caddy'
-def CADDY_BUILD_CONFIG = APP_NAME
-def CADDY_IMAGESTREAM_NAME = APP_NAME
+def APP_NAME = 'range-myra-web'
+def CADDY_BUILD_CONFIG = "${APP_NAME}-caddy"
+def CADDY_IMAGESTREAM_NAME = "${APP_NAME}-caddy"
 def TAG_NAMES = ['dev', 'test', 'prod']
 def PIRATE_ICO = 'http://icons.iconarchive.com/icons/aha-soft/torrent/64/pirate-icon.png'
 def JENKINS_ICO = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
