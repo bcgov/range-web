@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
+import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
@@ -50,6 +50,7 @@ class EditRupSchedule extends Component {
     const { year, grazingScheduleEntries } = schedule;
     grazingScheduleEntries.push({
       key: new Date().getTime(),
+      livestockCount: 0,
       dateIn: new Date(`${year}-01-02`),
       dateOut: new Date(`${year}-01-02`),
     });
@@ -113,6 +114,25 @@ class EditRupSchedule extends Component {
     } else { // or delete the entry saved in state
       onDeleted();
     }
+  }
+
+  renderWarningMessage = (grazingScheduleEntries = []) => {
+    let message;
+    if (grazingScheduleEntries.length === 0) {
+      message = 'Schedule must have at least 1 entry.';
+    }
+    grazingScheduleEntries.map((e) => {
+      if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && e.livestockCount) {
+        // valid entry
+      } else {
+        message = 'Schedule has one or more invalid entries.';
+      }
+      return undefined;
+    });
+    const hidden = typeof message !== 'string';
+    return (
+      <Message hidden={hidden} warning header={message} />
+    );
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
@@ -192,6 +212,7 @@ class EditRupSchedule extends Component {
           onNoClicked={this.closeDeleteScheduleConfirmationModal}
           onYesClicked={this.onScheduleDeleteClicked}
         />
+
         <div className="rup__schedule__header">
           <button
             className="rup__schedule__header__title"
@@ -227,6 +248,8 @@ class EditRupSchedule extends Component {
             </Dropdown>
           </div>
         </div>
+
+        {this.renderWarningMessage(grazingScheduleEntries)}
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
             <Table.Header>

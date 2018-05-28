@@ -62,19 +62,19 @@ class EditRupSchedules extends Component {
     const { planStartDate, planEndDate } = plan || {};
     if (planStartDate && planEndDate) {
       // set up year options
-      const psd = new Date(planStartDate).getFullYear();
-      const ped = new Date(planEndDate).getFullYear();
-      const length = (ped - psd) + 1;
+      const planStartYear = new Date(planStartDate).getFullYear();
+      const planEndYear = new Date(planEndDate).getFullYear();
+      const length = (planEndYear - planStartYear) + 1;
       return [...Array(length)]
         .map((v, i) => (
           {
-            key: psd + i,
-            text: psd + i,
-            value: psd + i,
+            key: planStartYear + i,
+            text: planStartYear + i,
+            value: planStartYear + i,
           }
         ))
         .filter((option) => {
-          // give only available year options
+          // give year options that hasn't been added yet in schedules
           const years = plan.grazingSchedules.map(s => s.year);
           return !years.includes(option.value);
         });
@@ -103,7 +103,7 @@ class EditRupSchedules extends Component {
       return {
         ...entry,
         // prevent from generating the same key(it maps too quickly) by adding extra
-        key: new Date().getTime() + (i * 100),
+        key: new Date().getTime() + (i * 10),
         dateIn,
         dateOut,
       };
@@ -221,8 +221,7 @@ class EditRupSchedules extends Component {
             grazingSchedules.length === 0 ? (
               <div className="rup__section-not-found">{NOT_PROVIDED}</div>
             ) : (
-              grazingSchedules
-                .map(this.renderSchedule)
+              grazingSchedules.map(this.renderSchedule)
             )
           }
         </ul>

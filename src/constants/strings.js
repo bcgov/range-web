@@ -65,6 +65,10 @@ export const PENDING_CONFIRMATION_HEADER = 'Confirmation: Pending';
 export const PENDING_CONFIRMATION_CONTENT = 'PENDING indicates that a RUP is in edit mode. It is used during initial creation if the decision maker has requested edits before approving. Do not switch the status to PENDING unless the decision maker has requested specific edits. Would you like to switch this RUP to Pending?';
 export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
 export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';
+export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule';
+export const DELETE_SCHEDULE_FOR_AH_CONTENT = 'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
+export const DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
+export const DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
 
 // banners
 export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the status of the range use plan.';
@@ -80,10 +84,6 @@ export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was revi
 export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
 export const SUBMIT_RUP_CHANGE_FOR_AH_HEADER = 'Confirmation: Submit';
 export const SUBMIT_RUP_CHANGE_FOR_AH_CONTENT = 'Are you sure you want to submit the change to the range staff?';
-export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule';
-export const DELETE_SCHEDULE_FOR_AH_CONTENT = 'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
-export const DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
-export const DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';
