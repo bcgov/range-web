@@ -95,13 +95,15 @@ class EditRupSchedules extends Component {
 
     // deep copy the object
     const copy = JSON.parse(JSON.stringify(grazingSchedules[sIndex].grazingScheduleEntries));
-    const grazingScheduleEntries = copy.map((e) => {
+    const grazingScheduleEntries = copy.map((e, i) => {
       const { id, grazingScheduleId, ...entry } = e;
       const dateIn = entry.dateIn && typeof entry.dateIn === 'string' && `${year}${entry.dateIn.slice(4)}`;
       const dateOut = entry.dateOut && typeof entry.dateOut === 'string' && `${year}${entry.dateOut.slice(4)}`;
 
       return {
         ...entry,
+        // prevent from generating the same key(it maps too quickly) by adding extra
+        key: new Date().getTime() + (i * 100),
         dateIn,
         dateOut,
       };

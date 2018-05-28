@@ -11,7 +11,10 @@ import {
   formatDateFromUTC,
   roundTo1Decimal,
 } from '../../../handlers';
+import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
+
 import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../../constants/variables';
+import { ConfirmationModal } from '../../common';
 
 const propTypes = {
   year: PropTypes.number.isRequired,
@@ -24,9 +27,14 @@ const propTypes = {
   handleScheduleEntryChange: PropTypes.func.isRequired,
   handleScheduleEntryCopy: PropTypes.func.isRequired,
   handleScheduleEntryDelete: PropTypes.func.isRequired,
+  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 class EditRupScheduleEntry extends Component {
+  state = {
+    isDeleteScheduleEntryModalOpen: false,
+  }
+
   componentDidMount() {
     const { entry, year } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
@@ -66,6 +74,9 @@ class EditRupScheduleEntry extends Component {
 
   setDateInRef = (ref) => { this.dateInRef = ref; }
   setDateOutRef = (ref) => { this.dateOutRef = ref; }
+
+  closeDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: false })
+  openDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: true })
 
   handleNumberOnly = (e) => {
     if (!(e.charCode >= 48 && e.charCode <= 57)) {
@@ -125,6 +136,7 @@ class EditRupScheduleEntry extends Component {
       pastureOptions,
       livestockTypes,
       livestockTypeOptions,
+      isDeletingScheduleEntry,
     } = this.props;
 
     const {
@@ -148,10 +160,20 @@ class EditRupScheduleEntry extends Component {
 
     const entryOptions = [
       { key: `entry${entryIndex}option1`, text: 'copy', onClick: this.onCopyEntryClicked },
-      { key: `entry${entryIndex}option2`, text: 'delete', onClick: this.onDeleteEntryClicked },
+      { key: `entry${entryIndex}option2`, text: 'delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
     ];
+
     return (
       <Table.Row>
+        <ConfirmationModal
+          open={this.state.isDeleteScheduleEntryModalOpen}
+          loading={isDeletingScheduleEntry}
+          header={DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER}
+          content={DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT}
+          onNoClicked={this.closeDeleteScheduleEntryConfirmationModal}
+          onYesClicked={this.onDeleteEntryClicked}
+        />
+
         <Table.Cell>
           <Dropdown
             value={pastureId}

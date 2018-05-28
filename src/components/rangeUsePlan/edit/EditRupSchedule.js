@@ -50,7 +50,6 @@ class EditRupSchedule extends Component {
     const { year, grazingScheduleEntries } = schedule;
     grazingScheduleEntries.push({
       key: new Date().getTime(),
-      livestockCount: 0,
       dateIn: new Date(`${year}-01-02`),
       dateOut: new Date(`${year}-01-02`),
     });
@@ -85,8 +84,8 @@ class EditRupSchedule extends Component {
     const { id, ...copy } = JSON.parse(JSON.stringify(schedule.grazingScheduleEntries[entryIndex]));
 
     const entry = {
-      key: new Date().getTime(),
       ...copy,
+      key: new Date().getTime(),
     };
     schedule.grazingScheduleEntries.push(entry);
 
@@ -117,7 +116,12 @@ class EditRupSchedule extends Component {
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
-    const { schedule, pastures, livestockTypes } = this.props;
+    const {
+      schedule,
+      pastures,
+      livestockTypes,
+      isDeletingScheduleEntry,
+    } = this.props;
     const { year } = schedule;
     const pastureOptions = pastures.map((pasture) => {
       const { id, name } = pasture || {};
@@ -152,6 +156,7 @@ class EditRupSchedule extends Component {
           handleScheduleEntryChange={this.handleScheduleEntryChange}
           handleScheduleEntryCopy={this.handleScheduleEntryCopy}
           handleScheduleEntryDelete={this.handleScheduleEntryDelete}
+          isDeletingScheduleEntry={isDeletingScheduleEntry}
         />
       );
     });
