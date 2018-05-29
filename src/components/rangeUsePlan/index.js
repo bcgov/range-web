@@ -6,7 +6,7 @@ import Rup from './Rup';
 import RupAH from './RupAH';
 import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
-import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule, deleteRupSchedule, deleteRupScheduleEntry } from '../../actions/rangeUsePlanActions';
+import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
 import User from '../../models/User';
@@ -24,10 +24,6 @@ const propTypes = {
   createOrUpdateRupSchedule: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
-  deleteRupSchedule: PropTypes.func.isRequired,
-  deleteRupScheduleEntry: PropTypes.func.isRequired,
-  isDeletingSchedule: PropTypes.bool.isRequired,
-  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 class Base extends Component {
@@ -49,10 +45,6 @@ class Base extends Component {
       toastErrorMessage,
       toastSuccessMessage,
       user: u,
-      deleteRupSchedule,
-      deleteRupScheduleEntry,
-      isDeletingSchedule,
-      isDeletingScheduleEntry,
     } = this.props;
     const user = new User(u);
 
@@ -78,10 +70,6 @@ class Base extends Component {
           updateRupStatus={updateRupStatus}
           toastErrorMessage={toastErrorMessage}
           toastSuccessMessage={toastSuccessMessage}
-          deleteRupSchedule={deleteRupSchedule}
-          deleteRupScheduleEntry={deleteRupScheduleEntry}
-          isDeletingSchedule={isDeletingSchedule}
-          isDeletingScheduleEntry={isDeletingScheduleEntry}
         />
       );
     } else {
@@ -121,8 +109,6 @@ const mapStateToProps = state => (
     isDownloadingPDF: state.pdf.isLoading,
     references: state.references.data,
     isUpdatingStatus: state.updateRupStatus.isLoading,
-    isDeletingSchedule: state.deleteRupSchedule.isLoading,
-    isDeletingScheduleEntry: state.deleteRupScheduleEntry.isLoading,
   }
 );
 
@@ -134,6 +120,4 @@ export default connect(mapStateToProps, {
   createOrUpdateRupSchedule,
   toastErrorMessage,
   toastSuccessMessage,
-  deleteRupSchedule,
-  deleteRupScheduleEntry,
 })(Base);

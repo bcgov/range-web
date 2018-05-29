@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
+import cloneDeep from 'lodash.clonedeep';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
@@ -25,10 +26,6 @@ const propTypes = {
   updateRupStatus: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
-  deleteRupSchedule: PropTypes.func.isRequired,
-  deleteRupScheduleEntry: PropTypes.func.isRequired,
-  isDeletingSchedule: PropTypes.bool.isRequired,
-  isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 export class RupAH extends Component {
@@ -177,9 +174,10 @@ export class RupAH extends Component {
   }
 
   handleSchedulesChange = (schedules) => {
-    const { plan } = this.state;
+    const plan = cloneDeep(this.state.plan);
+    plan.grazingSchedules = schedules;
     this.setState({
-      plan: { ...plan, grazingSchedules: schedules },
+      plan,
     });
   }
 
@@ -192,10 +190,6 @@ export class RupAH extends Component {
           plan={plan}
           usage={usage}
           handleSchedulesChange={this.handleSchedulesChange}
-          deleteRupSchedule={this.props.deleteRupSchedule}
-          deleteRupScheduleEntry={this.props.deleteRupScheduleEntry}
-          isDeletingSchedule={this.props.isDeletingSchedule}
-          isDeletingScheduleEntry={this.props.isDeletingScheduleEntry}
         />
       );
     }

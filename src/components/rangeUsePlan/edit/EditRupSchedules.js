@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import cloneDeep from 'lodash.clonedeep';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupSchedule from './EditRupSchedule';
 import { GRAZING_SCHEDULE_ELEMENT_ID } from '../../../constants/variables';
+import { deleteRupSchedule, deleteRupScheduleEntry } from '../../../actions/rangeUsePlanActions';
 
 const propTypes = {
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }),
@@ -94,10 +97,10 @@ class EditRupSchedules extends Component {
     const { plan, handleSchedulesChange } = this.props;
     const grazingSchedules = [...plan.grazingSchedules];
 
-    // deep copy the object
-    const copy = JSON.parse(JSON.stringify(grazingSchedules[sIndex].grazingScheduleEntries));
-    const grazingScheduleEntries = copy.map((e, i) => {
+    const deeoCopy = cloneDeep(grazingSchedules[sIndex].grazingScheduleEntries);
+    const grazingScheduleEntries = deeoCopy.map((e, i) => {
       const { id, grazingScheduleId, ...entry } = e;
+      // replace the first 4 characters with the new year
       const dateIn = entry.dateIn && typeof entry.dateIn === 'string' && `${year}${entry.dateIn.slice(4)}`;
       const dateOut = entry.dateOut && typeof entry.dateOut === 'string' && `${year}${entry.dateOut.slice(4)}`;
 
@@ -231,6 +234,13 @@ class EditRupSchedules extends Component {
   }
 }
 
+const mapStateToProps = state => (
+  {
+    isDeletingSchedule: state.deleteRupSchedule.isLoading,
+    isDeletingScheduleEntry: state.deleteRupScheduleEntry.isLoading,
+  }
+);
+
 EditRupSchedules.propTypes = propTypes;
 EditRupSchedules.defaultProps = defaultProps;
-export default EditRupSchedules;
+export default connect(mapStateToProps, { deleteRupSchedule, deleteRupScheduleEntry })(EditRupSchedules);

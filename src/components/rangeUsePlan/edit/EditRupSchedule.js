@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import cloneDeep from 'lodash.clonedeep';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
 import { validateGrazingSchedule } from '../../../handlers/validation';
@@ -82,11 +83,9 @@ class EditRupSchedule extends Component {
   handleScheduleEntryCopy = (entryIndex) => {
     const { schedule, scheduleIndex, handleScheduleChange } = this.props;
 
-    // deep copy the object
-    const { id, ...copy } = JSON.parse(JSON.stringify(schedule.grazingScheduleEntries[entryIndex]));
-
+    const { id, ...deeoCopy } = cloneDeep(schedule.grazingScheduleEntries[entryIndex]);
     const entry = {
-      ...copy,
+      ...deeoCopy,
       key: new Date().getTime(),
     };
     schedule.grazingScheduleEntries.push(entry);
