@@ -19,15 +19,15 @@ class User {
   }
 
   get isAdmin() {
-    return this.roles && this.roles.includes(ADMINISTRATOR);
+    return this.roles && (this.roles.indexOf(ADMINISTRATOR) >= 0);
   }
 
   get isRangeOfficer() {
-    return this.roles && this.roles.includes(RANGE_OFFICER);
+    return this.roles && (this.roles.indexOf(RANGE_OFFICER) >= 0);
   }
 
   get isAgreementHolder() {
-    return this.roles && this.roles.includes(AGREEMENT_HOLDER);
+    return this.roles && (this.roles.indexOf(AGREEMENT_HOLDER) >= 0);
   }
 
   get initial() {

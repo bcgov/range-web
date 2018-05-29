@@ -76,7 +76,7 @@ class EditRupSchedules extends Component {
         .filter((option) => {
           // give year options that hasn't been added yet in schedules
           const years = plan.grazingSchedules.map(s => s.year);
-          return !years.includes(option.value);
+          return !(years.indexOf(option.value) >= 0);
         });
     }
     return [];
