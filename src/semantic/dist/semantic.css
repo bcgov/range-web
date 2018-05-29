@@ -17213,6 +17213,7 @@ ol.ui.horizontal.list li:before,
 *******************************/
 
 .ui.indeterminate.loader:after {
+  -webkit-animation-direction: reverse;
   animation-direction: reverse;
   -webkit-animation-duration: 1.2s;
   animation-duration: 1.2s;
@@ -25938,6 +25939,12 @@ Floated Menu / Item
 /*******************************
         Site Overrides
 *******************************/
+
+/* added by Kyubin */
+
+.ui.message {
+  margin: 0;
+}
 /*!
  * # Semantic UI 2.3.1 - Table
  * http://github.com/semantic-org/semantic-ui/
@@ -25957,7 +25964,7 @@ Floated Menu / Item
 .ui.table {
   width: 100%;
   background: #FFFFFF;
-  margin: 0;
+  margin: 1em 0em;
   border: 1px solid rgba(34, 36, 38, 0.15);
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -27233,6 +27240,12 @@ Floated Menu / Item
 /*******************************
          Site Overrides
 *******************************/
+
+/* added by Kyubin */
+
+.ui.table {
+  margin: 0;
+}
 /*!
  * # Semantic UI 2.3.1 - Ad
  * http://github.com/semantic-org/semantic-ui/
