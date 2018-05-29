@@ -30,3 +30,13 @@ export const CLIENT_SIDE_DATE_FORMAT = 'MMMM D, YYYY';
 export const ADMINISTRATOR = 'myra_admin';
 export const RANGE_OFFICER = 'myra_range_officer';
 export const AGREEMENT_HOLDER = 'myra_client';
+
+// element ids
+export const GRAZING_SCHEDULE_ELEMENT_ID = 'rup__grazing-schedule';
+export const RUP_ZONE_DROPDOWN_ELEMENT_ID = 'rup__zone-dropdown';
+export const RUP_STICKY_HEADER_ELEMENT_ID = 'rup-sticky-header';
+export const SIGN_OUT_ELEMENT_ID = 'sign-out';
+export const MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID = 'manage-zone__zone-dropdown';
+export const MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID = 'manage-zone__contact-dropdown';
+export const LOGIN_BUTTON_ELEMENT_ID = 'login-button';
+export const SEARCH_TERM = 'searchTerm';

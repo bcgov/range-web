@@ -57,6 +57,8 @@ export const UPDATE_RUP_ZONE_SUCCESS = 'You have successfully updated the zone o
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone';
 export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range use plan as a draft';
 export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff';
+export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
+export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Confirmation: Completed';

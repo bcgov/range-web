@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
+import { validateGrazingSchedule } from '../../../handlers/validation';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
@@ -116,22 +117,12 @@ class EditRupSchedule extends Component {
     }
   }
 
-  renderWarningMessage = (grazingScheduleEntries = []) => {
-    let message;
-    if (grazingScheduleEntries.length === 0) {
-      message = 'Schedule must have at least 1 entry.';
-    }
-    grazingScheduleEntries.map((e) => {
-      if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && e.livestockCount) {
-        // valid entry
-      } else {
-        message = 'Schedule has one or more invalid entries.';
-      }
-      return undefined;
-    });
-    const hidden = typeof message !== 'string';
+  renderWarningMessage = (grazingSchedule = {}) => {
+    const [result] = validateGrazingSchedule(grazingSchedule);
+    const { message, error } = result || {};
+    const hidden = !error;
     return (
-      <Message hidden={hidden} warning header={message} />
+      <Message style={{ marginTop: '10px' }} hidden={hidden} warning header={message} />
     );
   }
 
@@ -249,7 +240,7 @@ class EditRupSchedule extends Component {
           </div>
         </div>
 
-        {this.renderWarningMessage(grazingScheduleEntries)}
+        {this.renderWarningMessage(schedule)}
 
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>

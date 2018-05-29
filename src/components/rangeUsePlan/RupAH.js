@@ -6,7 +6,8 @@ import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupSchedules from './view/RupSchedules';
 import EditRupSchedules from './edit/EditRupSchedules';
-import { DRAFT, PENDING } from '../../constants/variables';
+import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID } from '../../constants/variables';
+import { validateRangeUsePlan } from '../../handlers/validation';
 import {
   SAVE_PLAN_AS_DRAFT_SUCCESS,
   SUBMIT_PLAN_SUCCESS,
@@ -46,7 +47,7 @@ export class RupAH extends Component {
   }
 
   componentDidMount() {
-    this.stickyHeader = document.getElementById('edit-rup-sticky-header');
+    this.stickyHeader = document.getElementById(RUP_STICKY_HEADER_ELEMENT_ID);
     // requires the absolute offsetTop value
     this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
     this.scrollListner = window.addEventListener('scroll', this.handleScroll);
@@ -58,64 +59,79 @@ export class RupAH extends Component {
 
   onSaveDraftClick = () => {
     const {
-      agreement,
       statuses,
       toastSuccessMessage,
     } = this.props;
-
-    this.setState({ isSavingAsDraft: true });
-
-    const plan = agreement && agreement.plan;
+    const { plan } = this.state;
     const status = statuses.find(s => s.name === DRAFT);
 
-    const onUpdated = (newSchedules) => {
-      // update schedules in the state
-      plan.grazingSchedules = newSchedules;
-      toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
-      this.setState({
-        isSavingAsDraft: false,
-        status,
-        plan,
+    const errors = validateRangeUsePlan(plan);
+    // errors are found
+    if (errors.length !== 0) {
+      const [error] = errors;
+      document.getElementById(error.elementId).scrollIntoView({
+        behavior: 'smooth',
       });
-    };
-    const onFailed = () => {
-      this.setState({
-        isSavingAsDraft: false,
-      });
-    };
-    this.updateRupStatusAndContent(plan, status, onUpdated, onFailed);
+    } else { // no errors, start making network calls
+      this.setState({ isSavingAsDraft: true });
+
+      const onUpdated = (newSchedules) => {
+        // update schedules in the state
+        plan.grazingSchedules = newSchedules;
+        toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
+        this.setState({
+          isSavingAsDraft: false,
+          status,
+          plan,
+        });
+      };
+      const onFailed = () => {
+        this.setState({
+          isSavingAsDraft: false,
+        });
+      };
+      this.updateRupStatusAndContent(plan, status, onUpdated, onFailed);
+    }
   }
 
   onSubmitClicked = () => {
     const {
-      agreement,
       statuses,
       toastSuccessMessage,
     } = this.props;
 
-    this.setState({ isSubmitting: true });
-
-    const plan = agreement && agreement.plan;
+    const { plan } = this.state;
     const status = statuses.find(s => s.name === PENDING);
+    const errors = validateRangeUsePlan(plan);
 
-    const onUpdated = (newSchedules) => {
-      // update schedules in the state
-      plan.grazingSchedules = newSchedules;
-      toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
-      this.setState({
-        isSubmitting: false,
-        isSubmitModalOpen: false,
-        status,
-        plan,
+    // errors are found
+    if (errors.length !== 0) {
+      const [error] = errors;
+      document.getElementById(error.elementId).scrollIntoView({
+        behavior: 'smooth',
       });
-    };
-    const onFailed = () => {
-      this.setState({
-        isSubmitting: false,
-        isSubmitModalOpen: false,
-      });
-    };
-    this.updateRupStatusAndContent(plan, status, onUpdated, onFailed);
+    } else { // no errors, start making network calls
+      this.setState({ isSubmitting: true });
+
+      const onUpdated = (newSchedules) => {
+        // update schedules in the state
+        plan.grazingSchedules = newSchedules;
+        toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
+        this.setState({
+          isSubmitting: false,
+          isSubmitModalOpen: false,
+          status,
+          plan,
+        });
+      };
+      const onFailed = () => {
+        this.setState({
+          isSubmitting: false,
+          isSubmitModalOpen: false,
+        });
+      };
+      this.updateRupStatusAndContent(plan, status, onUpdated, onFailed);
+    }
   }
 
   closeSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: false })
@@ -131,6 +147,7 @@ export class RupAH extends Component {
     const planId = plan && plan.id;
     const statusId = status && status.id;
     const grazingSchedules = plan && plan.grazingSchedules;
+
     if (planId && statusId && grazingSchedules) {
       const makeRequest = async () => {
         try {
@@ -235,7 +252,7 @@ export class RupAH extends Component {
         />
 
         <div
-          id="edit-rup-sticky-header"
+          id={RUP_STICKY_HEADER_ELEMENT_ID}
           className="rup__sticky"
         >
           <div className="rup__sticky__container">

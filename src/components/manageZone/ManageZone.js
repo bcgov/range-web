@@ -7,6 +7,7 @@ import {
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
   NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
+import { MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID, MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
 import User from '../../models/User';
 
 const propTypes = {
@@ -113,7 +114,7 @@ export class ManageZone extends Component {
             <div className="manage-zone__step-one">
               <div className="manage-zone__dropdown">
                 <Dropdown
-                  id="manage-zone__zone-dropdown"
+                  id={MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID}
                   placeholder="Zone"
                   options={zoneOptions}
                   value={zoneId}
@@ -133,7 +134,7 @@ export class ManageZone extends Component {
             <div className="manage-zone__step-two">
               <div className="manage-zone__dropdown">
                 <Dropdown
-                  id="manage-zone__contact-dropdown"
+                  id={MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID}
                   placeholder="Contact"
                   options={contactOptions}
                   value={newContactId}

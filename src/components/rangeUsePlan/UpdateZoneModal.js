@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Header, Button, Dropdown, Modal } from 'semantic-ui-react';
 import { updateRupZone } from '../../actions/rangeUsePlanActions';
-
+import { RUP_ZONE_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
 
 const propTypes = {
   isUpdateZoneModalOpen: PropTypes.bool.isRequired,
@@ -72,7 +72,7 @@ export class UpdateZoneModal extends Component {
         <Modal.Content>
           <Header>Pick a new zone within the district</Header>
           <Dropdown
-            id="range-use-plan__zone-dropdown"
+            id={RUP_ZONE_DROPDOWN_ELEMENT_ID}
             placeholder="Zone"
             options={zoneOptions}
             onChange={this.onZoneChanged}

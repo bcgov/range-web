@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupSchedule from './EditRupSchedule';
+import { GRAZING_SCHEDULE_ELEMENT_ID } from '../../../constants/variables';
 
 const propTypes = {
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }),
@@ -196,7 +197,7 @@ class EditRupSchedules extends Component {
     const grazingSchedules = (plan && plan.grazingSchedules) || [];
 
     return (
-      <div className={className}>
+      <div className={className} id={GRAZING_SCHEDULE_ELEMENT_ID}>
         <div className="rup__title--editable">
           <div>Yearly Schedules</div>
           <Dropdown

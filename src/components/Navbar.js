@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
-import { LOGO_SRC } from '../constants/variables';
+import { LOGO_SRC, SIGN_OUT_ELEMENT_ID } from '../constants/variables';
 import { SSO_AUTH_LOGOUT_ENDPOINT } from '../constants/api';
 import User from '../models/User';
 
@@ -50,7 +50,7 @@ export class Navbar extends Component {
             }
 
             <div
-              id="sign-out"
+              id={SIGN_OUT_ELEMENT_ID}
               className="navbar__link"
               role="button"
               tabIndex="0"
