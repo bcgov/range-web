@@ -49,12 +49,10 @@ class EditRupSchedule extends Component {
 
   onNewRowClick = scheduleIndex => () => {
     const { schedule, handleScheduleChange } = this.props;
-    const { year, grazingScheduleEntries } = schedule;
+    const { grazingScheduleEntries } = schedule;
     grazingScheduleEntries.push({
       key: new Date().getTime(),
       livestockCount: 0,
-      // dateIn: new Date(`${year}-01-02`),
-      // dateOut: new Date(`${year + 1}-01-01`),
     });
 
     handleScheduleChange(schedule, scheduleIndex);

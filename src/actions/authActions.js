@@ -14,6 +14,7 @@ import {
   onUserProfileChanged,
   getUserProfileFromRemote,
 } from '../handlers/authentication';
+import { USER_NOT_ACTIVE, USER_NOT_REGISTERED } from '../constants/strings';
 
 export const loginSuccess = data => (
   {
@@ -70,10 +71,10 @@ export const login = code => (dispatch) => {
           onUserProfileChanged(user);
           dispatch(loginSuccess(user));
         } else {
-          throw new Error('The user is not active');
+          throw new Error(USER_NOT_ACTIVE);
         }
       } else {
-        throw new Error('The user doesn\'t exist in the server');
+        throw new Error(USER_NOT_REGISTERED);
       }
     } catch (err) {
       dispatch(loginError(err));

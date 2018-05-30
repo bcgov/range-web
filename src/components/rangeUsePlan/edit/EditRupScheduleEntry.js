@@ -48,7 +48,7 @@ class EditRupScheduleEntry extends Component {
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate,
       maxDate: dateOut || maxDate,
-      defaultDate: minDate,
+      defaultDate: minDate, // the initial date to view when first opened
       onSelect: this.handleDateChange('dateIn'),
     });
     if (dateIn) this.pikaDayDateIn.setDate(dateIn);
@@ -58,7 +58,7 @@ class EditRupScheduleEntry extends Component {
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate: dateIn || minDate,
       maxDate,
-      defaultDate: maxDate,
+      defaultDate: minDate,
       onSelect: this.handleDateChange('dateOut'),
     });
     if (dateOut) this.pikaDayDateOut.setDate(dateOut);
@@ -91,7 +91,7 @@ class EditRupScheduleEntry extends Component {
     const { entry, entryIndex, handleScheduleEntryChange } = this.props;
     entry[key] = formatDateFromUTC(date);
 
-    // setting user restrictions when date picker values change
+    // prevent users from inputting wrong dates
     if (this.pikaDayDateIn && key === 'dateOut') {
       this.pikaDayDateIn.setMaxDate(date);
     } else if (this.pikaDayDateOut && key === 'dateIn') {
