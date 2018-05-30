@@ -149,6 +149,7 @@ class EditRupSchedules extends Component {
 
       this.setState({
         yearOptions,
+        activeScheduleIndex: 0,
       });
 
       handleSchedulesChange(grazingSchedules);

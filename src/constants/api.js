@@ -13,6 +13,7 @@ export const REFRESH_TOKEN = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-con
 export const LOGOUT = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/logout`;
 
 const DEV_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
+// const DEV_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api/v1';
 // const DEV_BASE_URL = 'http://localhost:8000/api/v1';
 // const DEV_BASE_URL = 'http://10.10.10.75:8000/api/v1';
 

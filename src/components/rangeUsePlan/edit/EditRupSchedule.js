@@ -54,7 +54,7 @@ class EditRupSchedule extends Component {
       key: new Date().getTime(),
       livestockCount: 0,
       dateIn: new Date(`${year}-01-02`),
-      dateOut: new Date(`${year}-01-02`),
+      dateOut: new Date(`${year + 1}-01-01`),
     });
 
     handleScheduleChange(schedule, scheduleIndex);

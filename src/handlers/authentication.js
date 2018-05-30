@@ -1,7 +1,5 @@
-import querystring from 'querystring';
 import jwtDecode from 'jwt-decode';
 import axios from '../handlers/axios';
-
 import {
   SSO_BASE_URL,
   SSO_LOGIN_REDIRECT_URI,
@@ -10,7 +8,7 @@ import {
   REFRESH_TOKEN,
   GET_USER_PROFILE_ENDPOINT,
 } from '../constants/api';
-import { saveDataInLocal, getDataFromLocal } from '../handlers';
+import { saveDataInLocal, getDataFromLocal, stringifyQuery } from '../handlers';
 import { AUTH_KEY, USER_KEY } from '../constants/variables';
 
 const getRefreshTokenFromLocal = () => {
@@ -45,7 +43,7 @@ const refreshAccessToken = (refreshToken, isRetry) => {
     method: 'post',
     baseURL: SSO_BASE_URL,
     url: REFRESH_TOKEN,
-    data: querystring.stringify(data),
+    data: stringifyQuery(data),
     isRetry,
   });
 };
@@ -62,7 +60,7 @@ export const getTokenFromRemote = (code) => {
     method: 'post',
     baseURL: SSO_BASE_URL,
     url: GET_TOKEN,
-    data: querystring.stringify(data),
+    data: stringifyQuery(data),
   });
 };
 
