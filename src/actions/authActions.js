@@ -66,10 +66,15 @@ export const login = code => (dispatch) => {
       const response2 = await getUserProfileFromRemote();
       const user = response2.data;
       if (user && user.id) {
-        onUserProfileChanged(user);
+        if (user.active) {
+          onUserProfileChanged(user);
+          dispatch(loginSuccess(user));
+        } else {
+          throw new Error('The user is not active');
+        }
+      } else {
+        throw new Error('The user doesn\'t exist in the server');
       }
-
-      dispatch(loginSuccess(response2.data));
     } catch (err) {
       dispatch(loginError(err));
       dispatch(toastErrorMessage(err));
