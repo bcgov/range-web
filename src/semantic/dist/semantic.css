@@ -33253,6 +33253,10 @@ select.ui.dropdown {
 .ui.dropdown .menu > .item .dropdown.icon {
   float: none;
 }
+
+.ui.dropdown.error > .menu > .item {
+  color: black;
+}
 /*!
  * # Semantic UI 2.3.1 - Video
  * http://github.com/semantic-org/semantic-ui/

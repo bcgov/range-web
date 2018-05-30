@@ -6,3 +6,7 @@
 .ui.dropdown .menu > .item .dropdown.icon {
   float: none;
 }
+
+.ui.dropdown.error > .menu > .item {
+  color: black;
+}
