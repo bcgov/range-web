@@ -38,8 +38,8 @@ class EditRupScheduleEntry extends Component {
   componentDidMount() {
     const { entry, year } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
-    const dateIn = new Date(din);
-    const dateOut = new Date(dout);
+    const dateIn = din ? new Date(din) : null;
+    const dateOut = dout ? new Date(dout) : null;
     const minDate = new Date(`${year}-01-02`);
     const maxDate = new Date(`${year + 1}-01-01`);
 
@@ -48,18 +48,20 @@ class EditRupScheduleEntry extends Component {
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate,
       maxDate: dateOut || maxDate,
+      defaultDate: minDate,
       onSelect: this.handleDateChange('dateIn'),
     });
-    this.pikaDayDateIn.setDate(dateIn);
+    if (dateIn) this.pikaDayDateIn.setDate(dateIn);
 
     this.pikaDayDateOut = new Pikaday({
       field: this.dateOutRef,
       format: SCHEUDLE_ENTRY_DATE_FORMAT,
       minDate: dateIn || minDate,
       maxDate,
+      defaultDate: maxDate,
       onSelect: this.handleDateChange('dateOut'),
     });
-    this.pikaDayDateOut.setDate(dateOut);
+    if (dateOut) this.pikaDayDateOut.setDate(dateOut);
   }
 
   onCopyEntryClicked = () => {
@@ -163,6 +165,12 @@ class EditRupScheduleEntry extends Component {
       { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
     ];
 
+    const isPastureDropdownError = pastureId === undefined;
+    const isLivestockTypeDropdownError = livestockTypeId === undefined;
+    const isLivestockCountError = livestockCount <= 0;
+    const isDateInError = dateIn === undefined;
+    const isDateOutError = dateOut === undefined;
+
     return (
       <Table.Row>
         <ConfirmationModal
@@ -180,6 +188,7 @@ class EditRupScheduleEntry extends Component {
             options={pastureOptions}
             selectOnBlur={false}
             onChange={this.handlePastureDropdown}
+            error={isPastureDropdownError}
             fluid
             search
             selection
@@ -191,13 +200,14 @@ class EditRupScheduleEntry extends Component {
             options={livestockTypeOptions}
             selectOnBlur={false}
             onChange={this.handleLiveStockTypeDropdown}
+            error={isLivestockTypeDropdownError}
             fluid
             search
             selection
           />
         </Table.Cell>
         <Table.Cell collapsing>
-          <Input fluid>
+          <Input fluid error={isLivestockCountError}>
             <input
               type="text"
               onKeyPress={this.handleNumberOnly}
@@ -207,7 +217,7 @@ class EditRupScheduleEntry extends Component {
           </Input>
         </Table.Cell>
         <Table.Cell>
-          <Input fluid>
+          <Input fluid error={isDateInError}>
             <input
               type="text"
               ref={this.setDateInRef}
@@ -215,7 +225,7 @@ class EditRupScheduleEntry extends Component {
           </Input>
         </Table.Cell>
         <Table.Cell>
-          <Input fluid>
+          <Input fluid error={isDateOutError}>
             <input
               type="text"
               ref={this.setDateOutRef}
