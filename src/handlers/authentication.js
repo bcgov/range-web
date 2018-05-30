@@ -142,9 +142,9 @@ const isRangeAPIs = (config) => {
  * @param {function} logout
  * register an interceptor to refresh the access token when expired
  * case 1: access token is expired
- *  - get new access token using the refresh token and try it again
- * case 2: both tokens are expired
- *  - sign out the user
+ *  -> get new access token using the refresh token and try making the network again
+ * case 2: both access and refresh tokens are expired
+ *  -> sign out the user
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
@@ -152,7 +152,7 @@ export const registerAxiosInterceptors = (logout) => {
     const makeRequest = async () => {
       try {
         if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
-          console.log('Access token is expired. Trying to refresh it');
+          if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
           config.isRetry = true;
           const refreshToken = getRefreshTokenFromLocal();
           const response = await refreshAccessToken(refreshToken, config.isRetry);
@@ -166,6 +166,7 @@ export const registerAxiosInterceptors = (logout) => {
         return config;
       } catch (err) {
         logout();
+        if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
         throw err;
       }
     };
