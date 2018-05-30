@@ -190,29 +190,31 @@ export const getReferencesFromLocal = () => (
  * @returns an error message string
  */
 export const getErrorMessage = (err) => {
-  let message = UNEXPECTED_ERROR;
-
   if (err instanceof Object) {
-    const res = err.response;
-    const { status } = err;
+    const {
+      name,
+      message,
+      status,
+    } = err;
+    const res = err.response || {};
 
-    if (res && res.data && res.data.error) {
-      message = res.data.error;
+    if (res.data && res.data.error) {
+      return res.data.error;
     } else if (status) {
       switch (status) {
         case 404:
-          message = STATUS404;
-          break;
+          return STATUS404;
         case 500:
-          message = STATUS500;
-          break;
+          return STATUS500;
         default:
           break;
       }
+    } else if (name === 'CustomError') {
+      return message;
     }
   }
 
-  return message;
+  return UNEXPECTED_ERROR;
 };
 
 /**

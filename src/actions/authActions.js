@@ -15,6 +15,7 @@ import {
   getUserProfileFromRemote,
 } from '../handlers/authentication';
 import { USER_NOT_ACTIVE, USER_NOT_REGISTERED } from '../constants/strings';
+import CustomError from '../models/CustomError';
 
 export const loginSuccess = data => (
   {
@@ -32,11 +33,11 @@ export const loginRequest = () => (
   }
 );
 
-export const loginError = errorMessage => (
+export const loginError = error => (
   {
     name: AUTH,
     type: LOGIN_ERROR,
-    errorMessage,
+    error,
   }
 );
 
@@ -71,10 +72,10 @@ export const login = code => (dispatch) => {
           onUserProfileChanged(user);
           dispatch(loginSuccess(user));
         } else {
-          throw new Error(USER_NOT_ACTIVE);
+          throw new CustomError(USER_NOT_ACTIVE);
         }
       } else {
-        throw new Error(USER_NOT_REGISTERED);
+        throw new CustomError(USER_NOT_REGISTERED);
       }
     } catch (err) {
       dispatch(loginError(err));

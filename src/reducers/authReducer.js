@@ -33,7 +33,7 @@ const authReducer = (state = {
         ...state,
         isLoading: false,
         success: false,
-        errorMessage: action.error,
+        error: action.error,
       };
     case LOGOUT_SUCCESS:
       return {
