@@ -14,9 +14,9 @@ beforeEach(() => {
 });
 
 describe('AgreementSearch', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<AgreementSearch {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    
   });
 
   it('set `search` state when typing terms for searching', () => {

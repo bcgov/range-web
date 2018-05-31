@@ -19,9 +19,8 @@ beforeEach(() => {
 });
 
 describe('LandingPage', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<LandingPage {...props} />);
-    expect(wrapper).toMatchSnapshot();
   });
 
   describe('Event handlers', () => {

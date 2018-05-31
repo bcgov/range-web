@@ -18,9 +18,9 @@ beforeEach(() => {
 });
 
 describe('Login', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<Login {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    
   });
 
   it('opens a new tab when clicking on Login button', () => {

@@ -26,9 +26,9 @@ beforeEach(() => {
 });
 
 describe('Agreement', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<Agreement {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    
   });
 
   it('renders `AgreementSearch and AgreementTable`', () => {

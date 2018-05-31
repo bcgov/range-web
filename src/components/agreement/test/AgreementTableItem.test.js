@@ -21,9 +21,9 @@ beforeEach(() => {
 });
 
 describe('tenureAgreementTableItem', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<AgreementTableItem {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    
   });
 
   it('push to the new route when clicking on Table.row', () => {

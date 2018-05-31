@@ -15,9 +15,8 @@ beforeEach(() => {
 
 
 describe('LandingPage', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<PageNotFound {...props} />);
-    expect(wrapper).toMatchSnapshot();
   });
 
   describe('Life cycles', () => {

@@ -26,7 +26,7 @@ const defaultProps = {
   livestockTypes: [],
 };
 
-class EditRupSchedules extends Component {
+export class EditRupSchedules extends Component {
   constructor(props) {
     super(props);
 

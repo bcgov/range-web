@@ -17,9 +17,9 @@ beforeEach(() => {
 });
 
 describe('ManageZone', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<ManageZone {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    
   });
 
   describe('Event handlers', () => {

@@ -14,9 +14,8 @@ beforeEach(() => {
 });
 
 describe('Navbar', () => {
-  xit('render correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<Navbar {...props} />);
-    expect(wrapper).toMatchSnapshot();
   });
 
   it('call `onLogout` when clicking on sign-out NavLink', () => {

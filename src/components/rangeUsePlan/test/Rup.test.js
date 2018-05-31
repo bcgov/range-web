@@ -27,9 +27,8 @@ Rup.prototype.pdfLink = {
 };
 
 describe('Rup', () => {
-  xit('renders correctly', () => {
+  it('renders without crashing', () => {
     const wrapper = shallow(<Rup {...props} />);
-    expect(wrapper).toMatchSnapshot();
   });
 
   xit('`getAgreementHolders` returns agreementholders', () => {

@@ -17,9 +17,8 @@ beforeEach(() => {
 Authentication.registerAxiosInterceptors = jest.fn();
 
 describe('App', () => {
-  xit('renders properly', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper).toMatchSnapshot();
+  it('renders without crashing', () => {
+    const wrapper = shallow(<App {...props} />);
   });
 
   it('`componentWillMount` calls the right function', () => {
