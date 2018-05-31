@@ -7,7 +7,7 @@ import { calcCrownTotalAUMs } from '../handlers';
  * @param {object} entry the grazing schedule entry object
  * @returns {object | undefined} the error object that has error and message properties
  */
-export const validateGrazingScheduleEntry = (e = {}) => {
+export const handleGrazingScheduleEntryValidation = (e = {}) => {
   if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && e.livestockCount) {
     // valid entry
   } else {
@@ -28,7 +28,7 @@ export const validateGrazingScheduleEntry = (e = {}) => {
  * @param {Array} usages the array of usages from the agreement
  * @returns {Array} An array of errors
  */
-export const validateGrazingSchedule = (schedule = {}, pastures = [], livestockTypes = [], usages = []) => {
+export const handleGrazingScheduleValidation = (schedule = {}, pastures = [], livestockTypes = [], usages = []) => {
   const { year, grazingScheduleEntries: gse } = schedule;
   const grazingScheduleEntries = gse || [];
   const yearUsage = usages.find(u => u.year === year);
@@ -47,7 +47,7 @@ export const validateGrazingSchedule = (schedule = {}, pastures = [], livestockT
   }
 
   grazingScheduleEntries.forEach((entry) => {
-    const result = validateGrazingScheduleEntry(entry);
+    const result = handleGrazingScheduleEntryValidation(entry);
     if (result) {
       errors.push({ ...result, elementId });
     }
@@ -71,13 +71,13 @@ export const validateGrazingSchedule = (schedule = {}, pastures = [], livestockT
  * @param {Array} usages the array of usages from the agreement
  * @returns {Array} An array of errors
  */
-export const validateRangeUsePlan = (plan = {}, livestockTypes = [], usages = []) => {
+export const handleRupValidation = (plan = {}, livestockTypes = [], usages = []) => {
   const grazingSchedules = plan.grazingSchedules || [];
   const pastures = plan.pastures || [];
 
   let errors = [];
   grazingSchedules.forEach((schedule) => {
-    errors = [...errors, ...validateGrazingSchedule(schedule, pastures, livestockTypes, usages)];
+    errors = [...errors, ...handleGrazingScheduleValidation(schedule, pastures, livestockTypes, usages)];
   });
   return errors;
 };

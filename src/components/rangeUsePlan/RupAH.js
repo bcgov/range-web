@@ -8,7 +8,7 @@ import RupPastures from './view/RupPastures';
 import RupSchedules from './view/RupSchedules';
 import EditRupSchedules from './edit/EditRupSchedules';
 import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID } from '../../constants/variables';
-import { validateRangeUsePlan } from '../../handlers/validation';
+import { handleRupValidation } from '../../handlers/validation';
 import {
   SAVE_PLAN_AS_DRAFT_SUCCESS,
   SUBMIT_PLAN_SUCCESS,
@@ -115,27 +115,45 @@ export class RupAH extends Component {
   }
 
   closeSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: false })
-  openSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: true })
+  openSubmitConfirmModal = () => {
+    const error = this.validateRup(this.state.plan);
+    if (!error) {
+      this.setState({ isSubmitModalOpen: true });
+    }
+  }
+
+  validateRup = (plan) => {
+    const {
+      livestockTypes,
+      agreement,
+    } = this.props;
+    const usages = agreement && agreement.usage;
+    const errors = handleRupValidation(plan, livestockTypes, usages);
+
+    // errors have been found
+    if (errors.length !== 0) {
+      const [error] = errors;
+      document.getElementById(error.elementId).scrollIntoView({
+        behavior: 'smooth',
+      });
+      return error;
+    }
+
+    // no errors found
+    return false;
+  }
 
   updateRupStatusAndContent = (plan, status, onRequested, onSuccess, onFailed) => {
     const {
       createOrUpdateRupSchedule,
       updateRupStatus,
       toastErrorMessage,
-      livestockTypes,
-      agreement,
     } = this.props;
-    const usages = agreement && agreement.usage;
-    const errors = validateRangeUsePlan(plan, livestockTypes, usages);
 
     onRequested();
 
-    // errors are found
-    if (errors.length !== 0) {
-      const [error] = errors;
-      document.getElementById(error.elementId).scrollIntoView({
-        behavior: 'smooth',
-      });
+    const error = this.validateRup(plan);
+    if (error) {
       onFailed();
     } else {
       const planId = plan && plan.id;

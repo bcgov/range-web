@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import cloneDeep from 'lodash.clonedeep';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
 import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
-import { validateGrazingSchedule } from '../../../handlers/validation';
+import { handleGrazingScheduleValidation } from '../../../handlers/validation';
 import {
   PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
@@ -116,7 +116,7 @@ class EditRupSchedule extends Component {
 
   renderWarningMessage = (grazingSchedule = {}) => {
     const { pastures, livestockTypes, usages } = this.props;
-    const [result] = validateGrazingSchedule(grazingSchedule, pastures, livestockTypes, usages);
+    const [result] = handleGrazingScheduleValidation(grazingSchedule, pastures, livestockTypes, usages);
     const { message, error } = result || {};
     const hidden = !error;
     return (
