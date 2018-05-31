@@ -216,8 +216,7 @@ $row-height: 80px;
         padding: 8px 15px;
         border-radius: 3px;
         &--invalid {
-          border: 1px solid red;
-          color: red;
+          @extend .error;
         }
       }
       &__narrative {

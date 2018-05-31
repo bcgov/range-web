@@ -120,7 +120,7 @@ class EditRupSchedule extends Component {
     const { message, error } = result || {};
     const hidden = !error;
     return (
-      <Message style={{ marginTop: '10px' }} hidden={hidden} warning header={message} />
+      <Message style={{ marginTop: '10px' }} hidden={hidden} error content={`Error: ${message}`} />
     );
   }
 

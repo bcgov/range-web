@@ -18,7 +18,7 @@
 // Created by Kyubin Han.
 //
 
-import { INVALID_GRAZING_SCHEDULE_ENTRY, EMPTY_GRAZING_SCHEDULE_ENTRIES } from '../constants/strings';
+import { INVALID_GRAZING_SCHEDULE_ENTRY, EMPTY_GRAZING_SCHEDULE_ENTRIES, TOTAL_AUMS_EXCEEDS } from '../constants/strings';
 import { GRAZING_SCHEDULE_ELEMENT_ID } from '../constants/variables';
 import { calcCrownTotalAUMs } from '../handlers';
 /**
@@ -66,7 +66,7 @@ export const handleGrazingScheduleValidation = (schedule = {}, pastures = [], li
     });
   }
 
-  grazingScheduleEntries.forEach((entry) => {
+  grazingScheduleEntries.map((entry) => {
     const result = handleGrazingScheduleEntryValidation(entry);
     if (result) {
       errors.push({ ...result, elementId });
@@ -76,7 +76,7 @@ export const handleGrazingScheduleValidation = (schedule = {}, pastures = [], li
   if (totalCrownTotalAUMs > authorizedAUMs) {
     errors.push({
       error: true,
-      message: 'Total AUMs exceeds authorized AUMs',
+      message: TOTAL_AUMS_EXCEEDS,
       elementId,
     });
   }
