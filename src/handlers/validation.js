@@ -1,5 +1,6 @@
 import { INVALID_GRAZING_SCHEDULE_ENTRY, EMPTY_GRAZING_SCHEDULE_ENTRIES } from '../constants/strings';
 import { GRAZING_SCHEDULE_ELEMENT_ID } from '../constants/variables';
+import { calcCrownTotalAUMs } from '../handlers';
 /**
  * Validate a grazing schedule entry
  *
@@ -22,10 +23,18 @@ export const validateGrazingScheduleEntry = (e = {}) => {
  * Validate a grazing schedule
  *
  * @param {object} schedule the grazing schedule object
+ * @param {Array} pastures the array of pastures from the plan
+ * @param {Array} livestockTypes the array of live stock types
+ * @param {Array} usages the array of usages from the agreement
  * @returns {Array} An array of errors
  */
-export const validateGrazingSchedule = (schedule = {}) => {
-  const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
+export const validateGrazingSchedule = (schedule = {}, pastures = [], livestockTypes = [], usages = []) => {
+  const { year, grazingScheduleEntries: gse } = schedule;
+  const grazingScheduleEntries = gse || [];
+  const yearUsage = usages.find(u => u.year === year);
+  const authorizedAUMs = yearUsage && yearUsage.authorizedAum; 
+  const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
+
   const elementId = GRAZING_SCHEDULE_ELEMENT_ID;
   const errors = [];
 
@@ -36,6 +45,7 @@ export const validateGrazingSchedule = (schedule = {}) => {
       elementId,
     });
   }
+
   grazingScheduleEntries.forEach((entry) => {
     const result = validateGrazingScheduleEntry(entry);
     if (result) {
@@ -43,6 +53,13 @@ export const validateGrazingSchedule = (schedule = {}) => {
     }
   });
 
+  if (totalCrownTotalAUMs > authorizedAUMs) {
+    errors.push({
+      error: true,
+      message: 'Total AUMs exceeds authorized AUMs',
+      elementId,
+    });
+  }
   return errors;
 };
 
@@ -50,13 +67,17 @@ export const validateGrazingSchedule = (schedule = {}) => {
  * Validate a range use plan
  *
  * @param {Object} plan the range use plan object
+ * @param {Array} livestockTypes the array of live stock types
+ * @param {Array} usages the array of usages from the agreement
  * @returns {Array} An array of errors
  */
-export const validateRangeUsePlan = (plan = {}) => {
+export const validateRangeUsePlan = (plan = {}, livestockTypes = [], usages = []) => {
   const grazingSchedules = plan.grazingSchedules || [];
+  const pastures = plan.pastures || [];
+
   let errors = [];
   grazingSchedules.forEach((schedule) => {
-    errors = [...errors, ...validateGrazingSchedule(schedule)];
+    errors = [...errors, ...validateGrazingSchedule(schedule, pastures, livestockTypes, usages)];
   });
   return errors;
 };

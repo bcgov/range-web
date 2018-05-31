@@ -18,7 +18,7 @@ const propTypes = {
   scheduleIndex: PropTypes.number.isRequired,
   onScheduleClicked: PropTypes.func.isRequired,
   activeScheduleIndex: PropTypes.number.isRequired,
-  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleChange: PropTypes.func.isRequired,
@@ -115,7 +115,8 @@ class EditRupSchedule extends Component {
   }
 
   renderWarningMessage = (grazingSchedule = {}) => {
-    const [result] = validateGrazingSchedule(grazingSchedule);
+    const { pastures, livestockTypes, usages } = this.props;
+    const [result] = validateGrazingSchedule(grazingSchedule, pastures, livestockTypes, usages);
     const { message, error } = result || {};
     const hidden = !error;
     return (
@@ -174,7 +175,7 @@ class EditRupSchedule extends Component {
     const {
       schedule,
       scheduleIndex,
-      usage,
+      usages,
       activeScheduleIndex,
       yearOptions,
       pastures,
@@ -184,11 +185,13 @@ class EditRupSchedule extends Component {
     const { isDeleteScheduleModalOpen } = this.state;
     const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
-    const yearUsage = usage.find(u => u.year === year);
+    const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
+    const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
+    const roundedTotalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
     const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) })) || [];
+    const isTotalCrownTotalAUMsError = totalCrownTotalAUMs > authorizedAUMs;
 
     return (
       <li className="rup__schedule">
@@ -237,7 +240,7 @@ class EditRupSchedule extends Component {
           </div>
         </div>
 
-        {this.renderWarningMessage(schedule)}
+        {this.renderWarningMessage(schedule, totalCrownTotalAUMs, authorizedAUMs)}
 
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
@@ -269,7 +272,7 @@ class EditRupSchedule extends Component {
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
             <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
             <div className="rup__schedule__content__AUM-label">Total AUMs</div>
-            <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
+            <div className={classnames('rup__schedule__content__AUM-number', { 'rup__schedule__content__AUM-number--invalid': isTotalCrownTotalAUMsError })}>{roundedTotalCrownTotalAUMs}</div>
           </div>
           <div className="rup__schedule__content__narrative">Schedule Description</div>
           <Form>

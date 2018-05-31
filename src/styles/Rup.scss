@@ -215,6 +215,10 @@ $row-height: 80px;
         border: 1px solid gainsboro;
         padding: 8px 15px;
         border-radius: 3px;
+        &--invalid {
+          border: 1px solid red;
+          color: red;
+        }
       }
       &__narrative {
         font-weight: bold;

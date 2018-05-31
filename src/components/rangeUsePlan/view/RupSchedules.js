@@ -22,8 +22,7 @@ import PlanStatus from '../../../models/PlanStatus';
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   status: PropTypes.shape({}).isRequired,
-  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-  className: PropTypes.string.isRequired,
+  usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -65,9 +64,9 @@ class RupSchedules extends Component {
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
-    const { usage, plan, livestockTypes } = this.props;
+    const { usages, plan, livestockTypes } = this.props;
     const { id, year, grazingScheduleEntries = [] } = schedule;
-    const yearUsage = usage.find(u => u.year === year);
+    const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const pastures = plan && plan.pastures;
     const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
@@ -157,14 +156,14 @@ class RupSchedules extends Component {
     );
   }
   render() {
-    const { className, plan } = this.props;
+    const { plan } = this.props;
     const grazingSchedules = (plan && plan.grazingSchedules) || [];
 
     return (
-      <div className={className}>
+      <div className="rup__schedules__container">
         <div className="rup__title">Schedules</div>
         <div className="rup__divider" />
-        <ul className="rup__schedules">
+        <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
           {this.renderSchedules(grazingSchedules)}
         </ul>
       </div>

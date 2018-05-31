@@ -11,9 +11,8 @@ import { deleteRupSchedule, deleteRupScheduleEntry } from '../../../actions/rang
 
 const propTypes = {
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }),
-  usage: PropTypes.arrayOf(PropTypes.object),
+  usages: PropTypes.arrayOf(PropTypes.object),
   livestockTypes: PropTypes.arrayOf(PropTypes.object),
-  className: PropTypes.string.isRequired,
   handleSchedulesChange: PropTypes.func.isRequired,
   deleteRupSchedule: PropTypes.func.isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
@@ -23,7 +22,7 @@ const propTypes = {
 
 const defaultProps = {
   plan: {},
-  usage: [],
+  usages: [],
   livestockTypes: [],
 };
 
@@ -166,7 +165,7 @@ class EditRupSchedules extends Component {
   renderSchedule = (schedule, scheduleIndex) => {
     const {
       plan,
-      usage,
+      usages,
       livestockTypes,
       deleteRupScheduleEntry,
       isDeletingSchedule,
@@ -183,7 +182,7 @@ class EditRupSchedules extends Component {
         scheduleIndex={scheduleIndex}
         onScheduleClicked={this.onScheduleClicked}
         activeScheduleIndex={activeScheduleIndex}
-        usage={usage}
+        usages={usages}
         livestockTypes={livestockTypes}
         pastures={plan.pastures}
         handleScheduleChange={this.handleScheduleChange}
@@ -196,12 +195,12 @@ class EditRupSchedules extends Component {
     );
   }
   render() {
-    const { className, plan } = this.props;
+    const { plan } = this.props;
     const { yearOptions } = this.state;
     const grazingSchedules = (plan && plan.grazingSchedules) || [];
 
     return (
-      <div className={className} id={GRAZING_SCHEDULE_ELEMENT_ID}>
+      <div className="rup__schedules__container" id={GRAZING_SCHEDULE_ELEMENT_ID}>
         <div className="rup__title--editable">
           <div>Yearly Schedules</div>
           <Dropdown
