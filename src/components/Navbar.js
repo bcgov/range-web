@@ -7,7 +7,7 @@ import * as Routes from '../constants/routes';
 import { LOGO_SRC, SIGN_OUT_ELEMENT_ID } from '../constants/variables';
 import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
 import { logout } from '../actions/authActions';
-import User from '../models/User';
+import { User } from '../models';
 
 const propTypes = {
   logout: PropTypes.func.isRequired,

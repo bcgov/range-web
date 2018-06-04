@@ -12,7 +12,7 @@ import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupSchedules from './view/RupSchedules';
-import PlanStatus from '../../models/PlanStatus';
+import { PlanStatus } from '../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,

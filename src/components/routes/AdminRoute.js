@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { LOGIN } from '../../constants/routes';
 import LandingPage from '../LandingPage';
-import User from '../../models/User';
+import { User } from '../../models';
 
 const propTypes = {
   component: PropTypes.func.isRequired,

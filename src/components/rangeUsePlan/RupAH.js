@@ -15,7 +15,7 @@ import {
   SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
   SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
 } from '../../constants/strings';
-import PlanStatus from '../../models/PlanStatus';
+import { PlanStatus } from '../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,

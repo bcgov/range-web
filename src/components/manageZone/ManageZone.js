@@ -8,7 +8,7 @@ import {
   NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
 import { MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID, MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
-import User from '../../models/User';
+import { User } from '../../models';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,

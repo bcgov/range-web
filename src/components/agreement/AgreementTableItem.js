@@ -6,7 +6,7 @@ import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
 import { PRIMARY_TYPE } from '../../constants/variables';
 import { presentNullValue } from '../../handlers';
-import User from '../../models/User';
+import { User } from '../../models';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,

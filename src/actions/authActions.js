@@ -35,7 +35,7 @@ import {
   getUserProfileFromRemote,
 } from '../handlers/authentication';
 import { USER_NOT_ACTIVE, USER_NOT_REGISTERED } from '../constants/strings';
-import CustomError from '../models/CustomError';
+import { CustomError } from '../models';
 
 export const loginSuccess = data => (
   {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import User from '../../models/User';
+import { User } from '../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,

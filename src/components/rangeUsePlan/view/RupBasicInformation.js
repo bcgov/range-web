@@ -10,7 +10,7 @@ import {
   RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
 } from '../../../constants/strings';
 import { PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
-import User from '../../../models/User';
+import { User } from '../../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,

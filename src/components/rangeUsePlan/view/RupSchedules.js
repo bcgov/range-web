@@ -17,7 +17,7 @@ import {
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
   CROWN_AUMS, NOT_PROVIDED,
 } from '../../../constants/strings';
-import PlanStatus from '../../../models/PlanStatus';
+import { PlanStatus } from '../../../models';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
