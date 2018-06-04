@@ -184,7 +184,7 @@ export class Rup extends Component {
         >
           <Status
             className="rup__status"
-            status={status}
+            status={s}
             user={user}
           />
           <div className="rup__btn-container">

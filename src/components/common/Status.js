@@ -4,10 +4,15 @@ import classnames from 'classnames';
 import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED } from '../../constants/strings';
 import { PENDING, COMPLETED, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
 import User from '../../models/User';
+import PlanStatus from '../../models/PlanStatus';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
-  status: PropTypes.shape({}),
+  status: PropTypes.shape({
+    id: PropTypes.number,
+    code: PropTypes.string,
+    name: PropTypes.string,
+  }),
   className: PropTypes.string,
   style: PropTypes.shape({}),
 };
@@ -19,7 +24,7 @@ const defaultProps = {
 };
 
 const Status = ({
-  status,
+  status: s,
   className,
   style,
   user: u,
@@ -27,8 +32,9 @@ const Status = ({
   let modifier = 'status__icon';
   let statusName = NO_RUP_PROVIDED;
   const user = new User(u);
+  const status = new PlanStatus(s);
 
-  switch (status && status.name) {
+  switch (status.name) {
     case CREATED:
       if (user.isAgreementHolder) {
         statusName = INPUT_REQUIRED;
@@ -39,7 +45,7 @@ const Status = ({
       break;
     case DRAFT:
       if (user.isAgreementHolder) {
-        statusName = status.name;
+        statusName = DRAFT;
       } else {
         statusName = IN_PROGRESS;
       }
@@ -47,18 +53,18 @@ const Status = ({
       break;
     case PENDING:
       if (user.isAgreementHolder) {
-        statusName = REVIEW_REQUIRED;
-      } else {
         statusName = IN_REVIEW;
+      } else {
+        statusName = REVIEW_REQUIRED;
       }
       modifier += '--pending'; // purple
       break;
     case CHANGE_REQUESTED:
-      statusName = REVIEW_REQUIRED;
+      statusName = REVISIONS_REQUESTED;
       modifier += '--change-requested'; // red
       break;
     case COMPLETED:
-      statusName = status.name;
+      statusName = COMPLETED;
       modifier += '--completed'; // green
       break;
     default:

@@ -268,7 +268,7 @@ export class RupAH extends Component {
               <div className="rup__sticky__title">{agreementId}</div>
               <Status
                 className="rup__status"
-                status={status}
+                status={s}
                 user={user}
               />
             </div>
