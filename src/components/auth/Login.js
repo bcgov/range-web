@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 
 import { parseQuery } from '../../handlers';
-import { SSO_AUTH_LOGIN_ENDPOINT } from '../../constants/api';
+import { SSO_LOGIN_ENDPOINT } from '../../constants/api';
 import { LOGIN_LOGO_SRC, LOGIN_BUTTON_ELEMENT_ID } from '../../constants/variables';
 import { login } from '../../actions/authActions';
 
@@ -27,7 +27,7 @@ export class Login extends Component {
   }
 
   onLoginBtnClick = () => {
-    window.open(SSO_AUTH_LOGIN_ENDPOINT, '_self');
+    window.open(SSO_LOGIN_ENDPOINT, '_self');
   }
 
   render() {

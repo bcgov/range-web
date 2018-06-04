@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { logout } from '../../actions/authActions';
-import { RANGE_USE_PLANS } from '../../constants/routes';
 import { COW_PIC_SRC } from '../../constants/variables';
+import { parseQuery } from '../../handlers';
+import { SSO_LOGOUT_ENDPOINT } from '../../constants/api';
 
 const propTypes = {
-  logout: PropTypes.func.isRequired,
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  location: PropTypes.shape({ search: PropTypes.object }).isRequired,
 };
 
 export class Logout extends Component {
   componentDidMount() {
-    this.props.logout();
-
-    this.timer = setTimeout(() => {
-      this.props.history.push(RANGE_USE_PLANS);
-    }, 10000);
+    const { smret } = parseQuery(this.props.location.search);
+    if (smret) {
+      // just returned from SiteMinder, sign out from SSO this time
+      window.open(SSO_LOGOUT_ENDPOINT, '_self');
+    } else {
+      // done signing out close this tab in 10 seconds
+      this.timer = setTimeout(() => {
+        window.close();
+      }, 10000);
+    }
   }
 
   componentWillUnmount() {
@@ -36,12 +38,8 @@ export class Logout extends Component {
           <div className="logout__title">Good bye!</div>
           <div className="logout__content">
             <p>You are successfully signed out!</p>
-            <p>You will be redirected to the My Range Application home page within 10 seconds.</p>
-          </div>
-          <div className="logout__link">
-            <Link to={RANGE_USE_PLANS}>
-              Go to home
-            </Link>
+            {/* <p>You will be redirected to the My Range Application home page within 10 seconds.</p> */}
+            <p>This page will be closed in 10 seconds.</p>
           </div>
         </div>
       </div>
@@ -50,4 +48,4 @@ export class Logout extends Component {
 }
 
 Logout.propTypes = propTypes;
-export default connect(null, { logout })(Logout);
+export default Logout;

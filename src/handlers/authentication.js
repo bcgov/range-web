@@ -24,8 +24,8 @@ import {
   SSO_BASE_URL,
   SSO_LOGIN_REDIRECT_URI,
   SSO_CLIENT_ID,
-  GET_TOKEN,
-  REFRESH_TOKEN,
+  GET_TOKEN_FROM_SSO,
+  REFRESH_TOKEN_FROM_SSO,
   GET_USER_PROFILE_ENDPOINT,
 } from '../constants/api';
 import { saveDataInLocal, getDataFromLocal, stringifyQuery } from '../handlers';
@@ -62,7 +62,7 @@ const refreshAccessToken = (refreshToken, isRetry) => {
   return axios({
     method: 'post',
     baseURL: SSO_BASE_URL,
-    url: REFRESH_TOKEN,
+    url: REFRESH_TOKEN_FROM_SSO,
     data: stringifyQuery(data),
     isRetry,
   });
@@ -79,7 +79,7 @@ export const getTokenFromRemote = (code) => {
   return axios({
     method: 'post',
     baseURL: SSO_BASE_URL,
-    url: GET_TOKEN,
+    url: GET_TOKEN_FROM_SSO,
     data: stringifyQuery(data),
   });
 };

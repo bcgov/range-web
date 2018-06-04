@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { LOGO_SRC, SIGN_OUT_ELEMENT_ID } from '../constants/variables';
-import { SSO_AUTH_LOGOUT_ENDPOINT } from '../constants/api';
+import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
+import { logout } from '../actions/authActions';
 import User from '../models/User';
 
 const propTypes = {
+  logout: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
 };
 
 export class Navbar extends Component {
   onLogoutBtnClick = () => {
-    window.open(SSO_AUTH_LOGOUT_ENDPOINT, '_self');
+    // clear the local storage in the browser
+    this.props.logout();
+
+    // open a new tab for signing out from SiteMinder which is Gov's auth platform
+    // once it returns back, it will sign out from SSO which will happen in Logout.js
+    window.open(SITEMINDER_LOGOUT_ENDPOINT, 'blank');
   }
 
   render() {
@@ -70,4 +78,5 @@ export class Navbar extends Component {
 }
 
 Navbar.propTypes = propTypes;
-export default Navbar;
+// export default Navbar;
+export default connect(null, { logout })(Navbar);

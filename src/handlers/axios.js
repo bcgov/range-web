@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { BASE_URL } from '../constants/api';
+import { API_BASE_URL } from '../constants/api';
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_BASE_URL,
 });
 
 instance.interceptors.response.use(response => (

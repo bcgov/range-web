@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Login } from './Login';
-import { SSO_AUTH_LOGIN_ENDPOINT } from '../../constants/api';
+import { SSO_LOGIN_ENDPOINT } from '../../constants/api';
 
 const props = {};
 const setupProps = () => {
@@ -28,7 +28,7 @@ describe('Login', () => {
     const wrapper = shallow(<Login {...props} />);
 
     wrapper.find('Button').simulate('click', {});
-    expect(global.window.open).toHaveBeenCalledWith(SSO_AUTH_LOGIN_ENDPOINT, '_self');
+    expect(global.window.open).toHaveBeenCalledWith(SSO_LOGIN_ENDPOINT, '_self');
   });
 
   describe('Life cycles', () => {
