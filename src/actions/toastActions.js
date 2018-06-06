@@ -43,7 +43,7 @@ export const closeToastMessage = () => (
 );
 
 let toastTimeout = null;
-const toastMessage = (success, message, timeout = 4000) => (dispatch) => {
+const toastMessage = (success, message, timeout = 5000) => (dispatch) => {
   // unregister the timeout to prevent from closing
   if (toastTimeout) {
     clearTimeout(toastTimeout);

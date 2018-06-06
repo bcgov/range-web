@@ -216,10 +216,10 @@ export const getErrorMessage = (err) => {
       message,
       status,
     } = err;
-    const res = err.response || {};
+    const errorMessage = err.data && err.data.error;
 
-    if (res.data && res.data.error) {
-      return res.data.error;
+    if (errorMessage) {
+      return errorMessage;
     } else if (status) {
       switch (status) {
         case 404:
