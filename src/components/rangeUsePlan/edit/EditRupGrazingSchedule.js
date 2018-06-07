@@ -10,7 +10,7 @@ import {
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
   DELETE_SCHEDULE_FOR_AH_CONTENT, DELETE_SCHEDULE_FOR_AH_HEADER,
 } from '../../../constants/strings';
-import EditRupScheduleEntry from './EditRupScheduleEntry';
+import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import { ConfirmationModal } from '../../common';
 
 const propTypes = {
@@ -152,7 +152,7 @@ class EditRupSchedule extends Component {
     return grazingScheduleEntries.map((entry, entryIndex) => {
       const key = `schedule${scheduleIndex}entry${entry.key || entry.id}`;
       return (
-        <EditRupScheduleEntry
+        <EditRupGrazingScheduleEntry
           key={key}
           year={year}
           entry={entry}

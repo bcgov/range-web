@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import RupSchedules from '../view/RupSchedules';
+import RupGrazingSchedules from '../view/RupGrazingSchedules';
 import { getMockRangeUsePlan } from '../../agreement/test/mockValues';
 
 const mockStatus = { id: 1, name: 'name' };
@@ -17,9 +17,9 @@ beforeEach(() => {
   setupProps();
 });
 
-describe('RupSchedules', () => {
+describe('RupGrazingSchedules', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<RupSchedules {...props} />);
+    const wrapper = shallow(<RupGrazingSchedules {...props} />);
   });
 
   describe('Event handlers', () => {

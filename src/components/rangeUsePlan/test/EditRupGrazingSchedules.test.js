@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { EditRupSchedules } from '../edit/EditRupSchedules';
+import { EditRupGrazingSchedules } from '../edit/EditRupGrazingSchedules';
 import { getMockRangeUsePlan } from '../../agreement/test/mockValues';
 
 const props = {};
@@ -19,9 +19,9 @@ beforeEach(() => {
   setupProps();
 });
 
-describe('EditRupSchedules', () => {
+describe('EditRupGrazingSchedules', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<EditRupSchedules {...props} />);
+    const wrapper = shallow(<EditRupGrazingSchedules {...props} />);
   });
 
   describe('Event handlers', () => {

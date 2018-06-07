@@ -11,7 +11,7 @@ import { COMPLETED, CHANGE_REQUESTED } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
-import RupSchedules from './view/RupSchedules';
+import RupGrazingSchedules from './view/RupGrazingSchedules';
 import { PlanStatus } from '../../models';
 
 const propTypes = {
@@ -222,7 +222,7 @@ export class Rup extends Component {
             plan={plan}
           />
 
-          <RupSchedules
+          <RupGrazingSchedules
             className="rup__schedules"
             plan={plan}
             status={status}
