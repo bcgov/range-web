@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED } from '../../constants/strings';
 import { PENDING, COMPLETED, CREATED, DRAFT, CHANGE_REQUESTED } from '../../constants/variables';
-import { User, PlanStatus } from '../../models';
+import { PlanStatus } from '../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -26,11 +26,10 @@ const Status = ({
   status: s,
   className,
   style,
-  user: u,
+  user,
 }) => {
   let modifier = 'status__icon';
   let statusName = NO_RUP_PROVIDED;
-  const user = new User(u);
   const status = new PlanStatus(s);
 
   switch (status.name) {

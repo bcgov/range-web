@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { User } from '../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -12,8 +11,8 @@ const defaultProps = {
   className: '',
 };
 
-const Avatar = ({ className, user: u }) => {
-  const { initial } = new User(u);
+const Avatar = ({ className, user }) => {
+  const { initial } = user;
 
   return (
     <div className={classnames('avatar', className)}>

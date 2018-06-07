@@ -34,8 +34,8 @@ import {
   onUserProfileChanged,
   getUserProfileFromRemote,
 } from '../handlers/authentication';
-import { USER_NOT_ACTIVE, USER_NOT_REGISTERED } from '../constants/strings';
-import { CustomError } from '../models';
+// import { USER_NOT_ACTIVE, USER_NOT_REGISTERED } from '../constants/strings';
+import { CustomError, User } from '../models';
 
 export const loginSuccess = data => (
   {
@@ -86,17 +86,21 @@ export const login = code => (dispatch) => {
       onAuthenticated(response1);
 
       const response2 = await getUserProfileFromRemote();
-      const user = response2.data;
-      if (user && user.id) {
-        if (user.active) {
-          onUserProfileChanged(user);
-          dispatch(loginSuccess(user));
-        } else {
-          throw new CustomError(USER_NOT_ACTIVE);
-        }
-      } else {
-        throw new CustomError(USER_NOT_REGISTERED);
-      }
+      const user = new User(response2.data);
+      onUserProfileChanged(user);
+      dispatch(loginSuccess(user));
+
+      // in case needed
+      // if (user && user.id) {
+      //   if (user.active) {
+      //     onUserProfileChanged(user);
+      //     dispatch(loginSuccess(user));
+      //   } else {
+      //     throw new CustomError(USER_NOT_ACTIVE);
+      //   }
+      // } else {
+      //   throw new CustomError(USER_NOT_REGISTERED);
+      // }
     } catch (err) {
       dispatch(loginError(err));
       dispatch(toastErrorMessage(err));

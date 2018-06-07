@@ -3,7 +3,6 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { LOGIN } from '../../constants/routes';
 import LandingPage from '../LandingPage';
-import { User } from '../../models';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
@@ -15,11 +14,10 @@ const defaultProps = {
   user: null,
 };
 
-const AdminRoute = ({ component: Component, user: u, ...rest }) => (
+const AdminRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
-        const user = new User(u);
         if (user.isAdmin) {
           return <LandingPage {...props} component={Component} />;
         }

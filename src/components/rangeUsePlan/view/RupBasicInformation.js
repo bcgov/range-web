@@ -13,7 +13,7 @@ import { PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 import { User } from '../../../models';
 
 const propTypes = {
-  user: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   zone: PropTypes.shape({}).isRequired,
@@ -65,9 +65,7 @@ class RupBasicInformation extends Component {
     const districtCode = district && district.code;
 
     const user = new User(zone && zone.user);
-    const contactEmail = user.email;
-    const contactPhoneNumber = user.phone;
-    const contactName = user.fullName;
+    const { email: contactEmail, phone: contactPhoneNumber, fullName: contactName } = user;
 
     const {
       rangeName,
@@ -89,7 +87,7 @@ class RupBasicInformation extends Component {
 
     const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
-    const { isAdmin } = new User(this.props.user);
+    const { isAdmin } = this.props.user;
     const zoneText = isAdmin
       ? (
         <div className="rup__zone-text">
