@@ -18,7 +18,7 @@ const AdminRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
-        if (user.isAdmin) {
+        if (user && user.isAdmin) {
           return <LandingPage {...props} component={Component} />;
         }
         return <Redirect to={LOGIN} />;

@@ -54,7 +54,15 @@ export class Navbar extends Component {
                 Manage Zone
               </NavLink>
             }
-
+            {user.isAdmin &&
+              <NavLink
+                to={Routes.ASSIGN_CLIENT}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                Assign Client
+              </NavLink>
+            }
             <div
               id={SIGN_OUT_ELEMENT_ID}
               className="navbar__link"

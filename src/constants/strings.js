@@ -89,6 +89,8 @@ export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was revi
 export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
 export const SUBMIT_RUP_CHANGE_FOR_AH_HEADER = 'Confirmation: Submit';
 export const SUBMIT_RUP_CHANGE_FOR_AH_CONTENT = 'Are you sure you want to submit the change to the range staff?';
+export const ASSIGN_CLIENT_BANNER_HEADER = 'Assign Client';
+export const ASSIGN_CLIENT_BANNER_CONTENT = 'Follow steps to establish the connection between an user to an existing client.';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';

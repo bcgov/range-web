@@ -40,3 +40,5 @@ export const MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID = 'manage-zone__zone-dropdown
 export const MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID = 'manage-zone__contact-dropdown';
 export const LOGIN_BUTTON_ELEMENT_ID = 'login-button';
 export const SEARCH_TERM = 'searchTerm';
+export const ASSIGN_CLIENT_USERS_DROPDOWN_ELEMENT_ID = 'assign-client__users-dropdown';
+export const ASSIGN_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID = 'assign-client__clients-dropdown';
