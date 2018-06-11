@@ -4,7 +4,7 @@ import { Dropdown, Button, Icon } from 'semantic-ui-react';
 import debounce from 'lodash.debounce';
 import { Banner, ConfirmationModal } from '../common';
 import {
-  ASSIGN_CLIENT_BANNER_CONTENT, ASSIGN_CLIENT_BANNER_HEADER,
+  ASSIGN_CLIENT_BANNER_CONTENT, ASSIGN_CLIENT_BANNER_HEADER, UPDATE_CLIENT_ID_FOR_AH_HEADER, UPDATE_CLIENT_ID_FOR_AH_CONTENT,
   // UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
   // NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
@@ -15,7 +15,10 @@ const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   clients: PropTypes.arrayOf(PropTypes.object).isRequired,
   getClients: PropTypes.func.isRequired,
-  // isAssigning: PropTypes.bool.isRequired,
+  assignClient: PropTypes.func.isRequired,
+  clientAssigned: PropTypes.func.isRequired,
+  isAssigning: PropTypes.bool.isRequired,
+  isLoadingClients: PropTypes.bool.isRequired,
 };
 
 export class AssignClient extends Component {
@@ -54,12 +57,27 @@ export class AssignClient extends Component {
 
   handleSearchChange = (e, { searchQuery }) => {
     if (searchQuery) {
-      this.props.getClients(searchQuery).then(this.setState({ startSearching: true }));
+      const onSuccess = () => {
+        this.setState({ startSearching: true });
+      };
+      this.props.getClients(searchQuery).then(onSuccess);
     }
   }
-  assignUserToClient = () => {
 
+  assignUserToClient = () => {
+    const { userId, clientNumber } = this.state;
+    const { users, clientAssigned, assignClient } = this.props;
+    const onSuccess = (user) => {
+      this.closeUpdateConfirmationModal();
+      clientAssigned(users, userId, user.clientId);
+      this.setState({
+        userId: null,
+        clientNumber: null,
+      });
+    };
+    assignClient(userId, clientNumber).then(onSuccess);
   }
+
   render() {
     const {
       users,
@@ -76,21 +94,21 @@ export class AssignClient extends Component {
 
     const userOptions = users.map((u) => {
       const user = new User(u);
-      const { id, fullName, email } = user;
+      const { id, fullName, email, clientId } = user;
       return {
         value: id,
         text: fullName,
-        description: email,
+        description: clientId,
       };
     });
 
     const clientOptions = clients.map((c) => {
-      const { clientNumber, locationCode, name } = c;
+      const { clientNumber, name } = c;
       return {
         key: clientNumber,
         value: clientNumber,
         text: name,
-        description: locationCode,
+        description: clientNumber,
       };
     });
     const isUpdateBtnEnabled = userId && clientNumber;
@@ -100,8 +118,8 @@ export class AssignClient extends Component {
         <ConfirmationModal
           open={isUpdateModalOpen}
           loading={isAssigning}
-          header={"header"}
-          content={"content"}
+          header={UPDATE_CLIENT_ID_FOR_AH_HEADER}
+          content={UPDATE_CLIENT_ID_FOR_AH_CONTENT}
           onNoClicked={this.closeUpdateConfirmationModal}
           onYesClicked={this.assignUserToClient}
         />

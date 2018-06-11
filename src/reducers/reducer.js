@@ -60,7 +60,8 @@ const appReducer = combineReducers({
   userProfile: createReducer(genericReducer, ReducerTypes.GET_USER_PROFILE, { data: {} }),
   deleteRupSchedule: createReducer(genericReducer, ReducerTypes.DELETE_SCHEUDLE, { data: {} }),
   deleteRupScheduleEntry: createReducer(genericReducer, ReducerTypes.DELETE_SCHEUDLE_ENTRY, { data: {} }),
-  clients: createReducer(genericReducer, ReducerTypes.GET_CLIENTS, { data: [] }),
+  clients: createReducer(genericReducer, ReducerTypes.SEARCH_CLIENTS, { data: [] }),
+  assignClient: createReducer(genericReducer, ReducerTypes.ASSIGN_CLIENT, { data: {} }),
 });
 
 const rootReducer = (state, action) => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AssignClient from './AssignClient';
 import { getUsers } from '../../actions/commonActions';
-import { getClients } from '../../actions/assignClientActions';
+import { getClients, assignClient, clientAssigned } from '../../actions/assignClientActions';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -32,7 +32,7 @@ const mapStateToProps = state => (
     users: state.users.data,
     clients: state.clients.data,
     isLoadingClients: state.clients.isLoading,
-    // isAssigning: state.assignStaffToZone.isLoading,
+    isAssigning: state.assignClient.isLoading,
   }
 );
 
@@ -40,4 +40,6 @@ Base.propTypes = propTypes;
 export default connect(mapStateToProps, {
   getUsers,
   getClients,
+  assignClient,
+  clientAssigned,
 })(Base);

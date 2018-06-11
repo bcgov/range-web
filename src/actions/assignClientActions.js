@@ -22,15 +22,16 @@ import {
   success,
   request,
   error,
+  dataChanged,
 } from '../actions/genericActions';
-import { GET_CLIENTS } from '../constants/reducerTypes';
-import { SEARCH_CLIENTS_ENDPOINT } from '../constants/api';
-// import { ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
-// import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
+import { SEARCH_CLIENTS, ASSIGN_CLIENT, GET_USERS } from '../constants/reducerTypes';
+import { SEARCH_CLIENTS_ENDPOINT, UPDATE_AH_CLIENT_ID_ENDPOINT } from '../constants/api';
+import { ASSIGN_CLIENT_SUCCESS } from '../constants/strings';
+import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
 import axios from '../handlers/axios';
 
 export const getClients = term => (dispatch) => {
-  dispatch(request(GET_CLIENTS));
+  dispatch(request(SEARCH_CLIENTS));
   const makeRequest = async () => {
     try {
       const config = {
@@ -41,14 +42,42 @@ export const getClients = term => (dispatch) => {
       const response = await axios.get(SEARCH_CLIENTS_ENDPOINT, config);
       const clients = response.data;
 
-      dispatch(success(GET_CLIENTS, clients));
+      dispatch(success(SEARCH_CLIENTS, clients));
       return clients;
     } catch (err) {
-      dispatch(error(GET_CLIENTS, err));
+      dispatch(error(SEARCH_CLIENTS, err));
       throw err;
     }
   };
   return makeRequest();
 };
 
-export const s = () => {};
+export const assignClient = (userId, clientNumber) => (dispatch) => {
+  dispatch(request(ASSIGN_CLIENT));
+  const makeRequest = async () => {
+    try {
+      const response = await axios.put(UPDATE_AH_CLIENT_ID_ENDPOINT(userId, clientNumber));
+      const client = response.data;
+
+      dispatch(success(ASSIGN_CLIENT, client));
+      dispatch(toastSuccessMessage(ASSIGN_CLIENT_SUCCESS));
+      return client;
+    } catch (err) {
+      dispatch(error(ASSIGN_CLIENT, err));
+      dispatch(toastErrorMessage(err));
+      throw err;
+    }
+  };
+  return makeRequest();
+};
+
+export const clientAssigned = (users, userId, assignedClientNumber) => (dispatch) => {
+  const newUsers = users.map((u) => {
+    const user = { ...u };
+    if (user.id === userId) {
+      user.clientId = assignedClientNumber;
+    }
+    return user;
+  });
+  dispatch(dataChanged(GET_USERS, newUsers));
+};

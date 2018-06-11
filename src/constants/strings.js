@@ -62,6 +62,7 @@ export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid 
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
 export const USER_NOT_ACTIVE = 'This account is not active yet, please contact the administrator.';
 export const USER_NOT_REGISTERED = 'This account has not been registered.';
+export const ASSIGN_CLIENT_SUCCESS = 'You have successfully assigned the client.';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Confirmation: Completed';
@@ -74,6 +75,8 @@ export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Sch
 export const DELETE_SCHEDULE_FOR_AH_CONTENT = 'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
 export const DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
 export const DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
+export const UPDATE_CLIENT_ID_FOR_AH_HEADER = 'Confirmation: Assign Client';
+export const UPDATE_CLIENT_ID_FOR_AH_CONTENT = 'Are you sure you want to assign this user to the client?';
 
 // banners
 export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the status of the range use plan.';
