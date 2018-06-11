@@ -4,9 +4,10 @@ import { Dropdown, Button, Icon } from 'semantic-ui-react';
 import debounce from 'lodash.debounce';
 import { Banner, ConfirmationModal } from '../common';
 import {
-  ASSIGN_CLIENT_BANNER_CONTENT, ASSIGN_CLIENT_BANNER_HEADER, UPDATE_CLIENT_ID_FOR_AH_HEADER, UPDATE_CLIENT_ID_FOR_AH_CONTENT,
-  // UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
-  // NOT_SELECTED, CONTACT_NO_EXIST,
+  ASSIGN_CLIENT_BANNER_CONTENT,
+  ASSIGN_CLIENT_BANNER_HEADER,
+  UPDATE_CLIENT_ID_FOR_AH_HEADER,
+  UPDATE_CLIENT_ID_FOR_AH_CONTENT,
 } from '../../constants/strings';
 import { ASSIGN_CLIENT_USERS_DROPDOWN_ELEMENT_ID, ASSIGN_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
 import { User } from '../../models';
@@ -21,12 +22,10 @@ const propTypes = {
   isLoadingClients: PropTypes.bool.isRequired,
 };
 
-export class AssignClient extends Component {
+class AssignClient extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // newContactId: null,
-      // currContactName: null,
       userId: null,
       clientNumber: null,
       isUpdateModalOpen: false,

@@ -19,7 +19,6 @@ beforeEach(() => {
 describe('ManageZone', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(<ManageZone {...props} />);
-    
   });
 
   describe('Event handlers', () => {
