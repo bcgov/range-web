@@ -30,6 +30,7 @@ import {
 } from '../constants/api';
 import { saveDataInLocal, getDataFromLocal, stringifyQuery } from '../handlers';
 import { AUTH_KEY, USER_KEY } from '../constants/variables';
+import { User } from '../models';
 
 const getRefreshTokenFromLocal = () => {
   const data = getDataFromLocal(AUTH_KEY);
@@ -101,7 +102,7 @@ export const initializeUser = () => {
 
   const userData = getDataFromLocal(USER_KEY);
   if (userData) {
-    user = { ...userData };
+    user = new User(userData);
   }
   const authData = getDataFromLocal(AUTH_KEY);
   if (authData) {
@@ -140,12 +141,12 @@ export const getUserProfileFromRemote = () => (
 
 /**
  *
- * @param {object} newUserData
- * update the new user data in localStorage
- * after succesfully update user profile
+ * update the new user data in localStorage after succesfully update user profile
+ * @param {User} newUser new user instance
+ *
  */
-export const onUserProfileChanged = (newUserData) => {
-  saveDataInLocal(USER_KEY, newUserData);
+export const onUserProfileChanged = (newUser) => {
+  saveDataInLocal(USER_KEY, newUser);
 };
 
 const isRangeAPIs = (config) => {
@@ -157,12 +158,13 @@ const isRangeAPIs = (config) => {
 
 /**
  *
- * @param {function} logout
  * register an interceptor to refresh the access token when expired
  * case 1: access token is expired
  *  -> get new access token using the refresh token and try making the network again
  * case 2: both access and refresh tokens are expired
  *  -> sign out the user
+ * @param {function} logout the logout action
+ *
  */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {

@@ -10,7 +10,7 @@ import {
   DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD, CROWN_AUMS,
   DELETE_SCHEDULE_FOR_AH_CONTENT, DELETE_SCHEDULE_FOR_AH_HEADER,
 } from '../../../constants/strings';
-import EditRupScheduleEntry from './EditRupScheduleEntry';
+import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import { ConfirmationModal } from '../../common';
 
 const propTypes = {
@@ -152,7 +152,7 @@ class EditRupSchedule extends Component {
     return grazingScheduleEntries.map((entry, entryIndex) => {
       const key = `schedule${scheduleIndex}entry${entry.key || entry.id}`;
       return (
-        <EditRupScheduleEntry
+        <EditRupGrazingScheduleEntry
           key={key}
           year={year}
           entry={entry}
@@ -187,11 +187,11 @@ class EditRupSchedule extends Component {
     const narative = (schedule && schedule.narative) || '';
     const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-    const totalCrownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
-    const roundedTotalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
+    const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
+    const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs);
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
     const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) })) || [];
-    const isTotalCrownTotalAUMsError = totalCrownTotalAUMs > authorizedAUMs;
+    const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs;
 
     return (
       <li className="rup__schedule">
@@ -240,7 +240,7 @@ class EditRupSchedule extends Component {
           </div>
         </div>
 
-        {this.renderWarningMessage(schedule, totalCrownTotalAUMs, authorizedAUMs)}
+        {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
 
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>
@@ -272,7 +272,7 @@ class EditRupSchedule extends Component {
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
             <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
             <div className="rup__schedule__content__AUM-label">Total AUMs</div>
-            <div className={classnames('rup__schedule__content__AUM-number', { 'rup__schedule__content__AUM-number--invalid': isTotalCrownTotalAUMsError })}>{roundedTotalCrownTotalAUMs}</div>
+            <div className={classnames('rup__schedule__content__AUM-number', { 'rup__schedule__content__AUM-number--invalid': isCrownTotalAUMsError })}>{roundedCrownTotalAUMs}</div>
           </div>
           <div className="rup__schedule__content__narrative">Schedule Description</div>
           <Form>

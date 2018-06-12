@@ -69,7 +69,7 @@ class RupSchedules extends Component {
     const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const pastures = plan && plan.pastures;
-    const totalCrownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
+    const crownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
 
     return (
@@ -109,7 +109,7 @@ class RupSchedules extends Component {
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
             <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
             <div className="rup__schedule__content__AUM-label">Total AUMs</div>
-            <div className="rup__schedule__content__AUM-number">{totalCrownTotalAUMs}</div>
+            <div className="rup__schedule__content__AUM-number">{crownTotalAUMs}</div>
           </div>
         </div>
       </li>

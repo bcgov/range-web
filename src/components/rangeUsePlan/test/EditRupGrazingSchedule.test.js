@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import EditRupSchedule from '../edit/EditRupSchedule';
+import EditRupGrazingSchedule from '../edit/EditRupGrazingSchedule';
 
 const props = {};
 const setupProps = () => {
@@ -24,9 +24,9 @@ beforeEach(() => {
   setupProps();
 });
 
-describe('EditRupSchedule', () => {
+describe('EditRupGrazingSchedule', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<EditRupSchedule {...props} />);
+    const wrapper = shallow(<EditRupGrazingSchedule {...props} />);
   });
 
   describe('Event handlers', () => {

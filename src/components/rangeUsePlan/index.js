@@ -9,7 +9,6 @@ import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 import { PLAN_STATUS, LIVESTOCK_TYPE } from '../../constants/variables';
-import { User } from '../../models';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
@@ -44,9 +43,8 @@ class Base extends Component {
       createOrUpdateRupSchedule,
       toastErrorMessage,
       toastSuccessMessage,
-      user: u,
+      user,
     } = this.props;
-    const user = new User(u);
 
     const {
       data: agreement,

@@ -16,6 +16,7 @@ import RangeUsePlan from './rangeUsePlan';
 import RangeUsePlanPDFView from './rangeUsePlan/RupPDFView';
 import Agreement from './agreement';
 import ManageZone from './manageZone';
+import ManageClient from './manageClient';
 
 import { registerAxiosInterceptors } from '../handlers/authentication';
 import { logout } from '../actions/authActions';
@@ -44,6 +45,7 @@ export class App extends Component {
             <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
 
             <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+            <AdminRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
 
             <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
             <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} user={user} />

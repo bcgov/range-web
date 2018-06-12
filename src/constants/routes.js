@@ -7,3 +7,4 @@ export const RANGE_USE_PLANS = '/range-use-plans';
 
 export const MANAGE_ZONE = '/manage-zone';
 export const EXPORT_PDF = '/export-pdf';
+export const MANAGE_CLIENT = '/manage-client';

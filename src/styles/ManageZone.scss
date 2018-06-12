@@ -5,6 +5,7 @@ $field-width: 35%;
 $field-min-width: 160px;
 $content-max-width: 600px;
 
+.assign-client,
 .manage-zone {
   &__content {
     @extend .container;

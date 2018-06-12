@@ -91,7 +91,7 @@ export const getUsers = () => (dispatch) => {
       dispatch(success(GET_USERS, users));
       return users;
     } catch (err) {
-      dispatch(error(GET_USERS), err);
+      dispatch(error(GET_USERS, err));
       throw err;
     }
   };

@@ -5,8 +5,8 @@ import cloneDeep from 'lodash.clonedeep';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
-import RupSchedules from './view/RupSchedules';
-import EditRupSchedules from './edit/EditRupSchedules';
+import RupGrazingSchedules from './view/RupGrazingSchedules';
+import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID } from '../../constants/variables';
 import { handleRupValidation } from '../../handlers/validation';
 import {
@@ -200,7 +200,7 @@ export class RupAH extends Component {
   renderSchedules = (plan, usages = [], status, livestockTypes = [], isEditable) => {
     if (isEditable) {
       return (
-        <EditRupSchedules
+        <EditRupGrazingSchedules
           livestockTypes={livestockTypes}
           plan={plan}
           usages={usages}
@@ -209,7 +209,7 @@ export class RupAH extends Component {
       );
     }
     return (
-      <RupSchedules
+      <RupGrazingSchedules
         livestockTypes={livestockTypes}
         usages={usages}
         plan={plan}

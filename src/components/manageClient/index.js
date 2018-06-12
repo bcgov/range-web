@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ManageZone from './ManageZone';
-import { getUsers, getZones } from '../../actions/commonActions';
-import { assignStaffToZone, staffAssignedToZone } from '../../actions/manageZoneActions';
+import ManageClient from './ManageClient';
+import { getUsers } from '../../actions/commonActions';
+import { getClients, linkClient, clientLinked } from '../../actions/manageClientActions';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  zones: PropTypes.arrayOf(PropTypes.object).isRequired,
+  clients: PropTypes.arrayOf(PropTypes.object).isRequired,
   getUsers: PropTypes.func.isRequired,
-  assignStaffToZone: PropTypes.func.isRequired,
-  staffAssignedToZone: PropTypes.func.isRequired,
-  isAssigning: PropTypes.bool.isRequired,
+  getClients: PropTypes.func.isRequired,
+  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
 };
 
 class Base extends Component {
@@ -21,7 +20,7 @@ class Base extends Component {
 
   render() {
     return (
-      <ManageZone
+      <ManageClient
         {...this.props}
       />
     );
@@ -31,15 +30,16 @@ class Base extends Component {
 const mapStateToProps = state => (
   {
     users: state.users.data,
-    zones: state.zones.data,
-    isAssigning: state.assignStaffToZone.isLoading,
+    clients: state.clients.data,
+    isLoadingClients: state.clients.isLoading,
+    isLinkingClient: state.linkClient.isLoading,
   }
 );
 
 Base.propTypes = propTypes;
 export default connect(mapStateToProps, {
   getUsers,
-  getZones,
-  assignStaffToZone,
-  staffAssignedToZone,
+  getClients,
+  linkClient,
+  clientLinked,
 })(Base);

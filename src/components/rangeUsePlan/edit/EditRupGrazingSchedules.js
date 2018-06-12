@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import cloneDeep from 'lodash.clonedeep';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
-import EditRupSchedule from './EditRupSchedule';
+import EditRupGrazingSchedule from './EditRupGrazingSchedule';
 import { GRAZING_SCHEDULE_ELEMENT_ID } from '../../../constants/variables';
 import { deleteRupSchedule, deleteRupScheduleEntry } from '../../../actions/rangeUsePlanActions';
 
@@ -26,7 +26,7 @@ const defaultProps = {
   livestockTypes: [],
 };
 
-export class EditRupSchedules extends Component {
+export class EditRupGrazingSchedules extends Component {
   constructor(props) {
     super(props);
 
@@ -175,7 +175,7 @@ export class EditRupSchedules extends Component {
     const key = `schedule${schedule.key || schedule.id}`;
 
     return (
-      <EditRupSchedule
+      <EditRupGrazingSchedule
         key={key}
         yearOptions={yearOptions}
         schedule={schedule}
@@ -241,6 +241,6 @@ const mapStateToProps = state => (
   }
 );
 
-EditRupSchedules.propTypes = propTypes;
-EditRupSchedules.defaultProps = defaultProps;
-export default connect(mapStateToProps, { deleteRupSchedule, deleteRupScheduleEntry })(EditRupSchedules);
+EditRupGrazingSchedules.propTypes = propTypes;
+EditRupGrazingSchedules.defaultProps = defaultProps;
+export default connect(mapStateToProps, { deleteRupSchedule, deleteRupScheduleEntry })(EditRupGrazingSchedules);
