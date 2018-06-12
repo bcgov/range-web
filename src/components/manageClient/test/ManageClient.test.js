@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import AssignClient from '../AssignClient';
+import ManageClient from '../ManageClient';
 
 const props = {};
 const setupProps = () => {
   props.users = [];
   props.clients = [];
   props.getClients = jest.fn();
-  props.assignClient = jest.fn(() => Promise.resolve({}));
-  props.clientAssigned = jest.fn();
-  props.isAssigning = false;
+  props.linkClient = jest.fn(() => Promise.resolve({}));
+  props.clientLinked = jest.fn();
+  props.isLinkingClient = false;
   props.isLoadingClients = false;
 };
 
@@ -17,8 +17,8 @@ beforeEach(() => {
   setupProps();
 });
 
-describe('AssignClient', () => {
+describe('ManageClient', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<AssignClient {...props} />);
+    const wrapper = shallow(<ManageClient {...props} />);
   });
 });

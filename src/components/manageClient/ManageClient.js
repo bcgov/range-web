@@ -4,25 +4,25 @@ import { Dropdown, Button, Icon } from 'semantic-ui-react';
 import debounce from 'lodash.debounce';
 import { Banner, ConfirmationModal } from '../common';
 import {
-  ASSIGN_CLIENT_BANNER_CONTENT,
-  ASSIGN_CLIENT_BANNER_HEADER,
+  MANAGE_CLIENT_BANNER_CONTENT,
+  MANAGE_CLIENT_BANNER_HEADER,
   UPDATE_CLIENT_ID_FOR_AH_HEADER,
   UPDATE_CLIENT_ID_FOR_AH_CONTENT,
 } from '../../constants/strings';
-import { ASSIGN_CLIENT_USERS_DROPDOWN_ELEMENT_ID, ASSIGN_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
+import { MANAGE_CLIENT_USERS_DROPDOWN_ELEMENT_ID, MANAGE_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
 import { User } from '../../models';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   clients: PropTypes.arrayOf(PropTypes.object).isRequired,
   getClients: PropTypes.func.isRequired,
-  assignClient: PropTypes.func.isRequired,
-  clientAssigned: PropTypes.func.isRequired,
-  isAssigning: PropTypes.bool.isRequired,
+  linkClient: PropTypes.func.isRequired,
+  clientLinked: PropTypes.func.isRequired,
+  isLinkingClient: PropTypes.bool.isRequired,
   isLoadingClients: PropTypes.bool.isRequired,
 };
 
-class AssignClient extends Component {
+class ManageClient extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,24 +35,15 @@ class AssignClient extends Component {
   }
 
   onUserChanged = (e, { value: userId }) => {
-    this.setState({
-      userId,
-    });
+    this.setState({ userId });
   }
 
   onClientChanged = (e, { value: clientNumber }) => {
-    this.setState({
-      clientNumber,
-    });
+    this.setState({ clientNumber });
   }
 
-  closeUpdateConfirmationModal = () => {
-    this.setState({ isUpdateModalOpen: false });
-  }
-
-  openUpdateConfirmationModal = () => {
-    this.setState({ isUpdateModalOpen: true });
-  }
+  closeUpdateConfirmationModal = () => this.setState({ isUpdateModalOpen: false })
+  openUpdateConfirmationModal = () => this.setState({ isUpdateModalOpen: true })
 
   handleSearchChange = (e, { searchQuery }) => {
     if (searchQuery) {
@@ -63,25 +54,26 @@ class AssignClient extends Component {
     }
   }
 
-  assignUserToClient = () => {
+  linkUserToClient = () => {
     const { userId, clientNumber } = this.state;
-    const { users, clientAssigned, assignClient } = this.props;
+    const { users, clientLinked, linkClient } = this.props;
+
     const onSuccess = (user) => {
+      clientLinked(users, userId, user.clientId);
       this.closeUpdateConfirmationModal();
-      clientAssigned(users, userId, user.clientId);
       this.setState({
         userId: null,
         clientNumber: null,
       });
     };
-    assignClient(userId, clientNumber).then(onSuccess);
+    linkClient(userId, clientNumber).then(onSuccess);
   }
 
   render() {
     const {
       users,
       clients,
-      isAssigning,
+      isLinkingClient,
       isLoadingClients,
     } = this.props;
     const {
@@ -93,11 +85,11 @@ class AssignClient extends Component {
 
     const userOptions = users.map((u) => {
       const user = new User(u);
-      const { id, fullName, email, clientId } = user;
+      const { id, fullName, email } = user;
       return {
         value: id,
         text: fullName,
-        description: clientId,
+        description: email,
       };
     });
 
@@ -110,29 +102,30 @@ class AssignClient extends Component {
         description: clientNumber,
       };
     });
+
     const isUpdateBtnEnabled = userId && clientNumber;
 
     return (
       <div className="assign-client">
         <ConfirmationModal
           open={isUpdateModalOpen}
-          loading={isAssigning}
+          loading={isLinkingClient}
           header={UPDATE_CLIENT_ID_FOR_AH_HEADER}
           content={UPDATE_CLIENT_ID_FOR_AH_CONTENT}
           onNoClicked={this.closeUpdateConfirmationModal}
-          onYesClicked={this.assignUserToClient}
+          onYesClicked={this.linkUserToClient}
         />
 
         <Banner
-          header={ASSIGN_CLIENT_BANNER_HEADER}
-          content={ASSIGN_CLIENT_BANNER_CONTENT}
+          header={MANAGE_CLIENT_BANNER_HEADER}
+          content={MANAGE_CLIENT_BANNER_CONTENT}
         />
 
         <div className="assign-client__content">
           <div className="assign-client__steps">
             <h3>Step 1: Select User</h3>
             <Dropdown
-              id={ASSIGN_CLIENT_USERS_DROPDOWN_ELEMENT_ID}
+              id={MANAGE_CLIENT_USERS_DROPDOWN_ELEMENT_ID}
               placeholder="Select User"
               options={userOptions}
               value={userId}
@@ -144,7 +137,7 @@ class AssignClient extends Component {
 
             <h3>Step 2: Search and Select Corresponding Client</h3>
             <Dropdown
-              id={ASSIGN_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID}
+              id={MANAGE_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID}
               placeholder="Type Client Name"
               options={clientOptions}
               value={clientNumber}
@@ -164,7 +157,7 @@ class AssignClient extends Component {
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Assign User
+                Link User
               </Button>
             </div>
           </div>
@@ -174,5 +167,5 @@ class AssignClient extends Component {
   }
 }
 
-AssignClient.propTypes = propTypes;
-export default AssignClient;
+ManageClient.propTypes = propTypes;
+export default ManageClient;

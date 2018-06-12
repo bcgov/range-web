@@ -62,7 +62,7 @@ export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid 
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
 export const USER_NOT_ACTIVE = 'This account is not active yet, please contact the administrator.';
 export const USER_NOT_REGISTERED = 'This account has not been registered.';
-export const ASSIGN_CLIENT_SUCCESS = 'You have successfully assigned the client.';
+export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Confirmation: Completed';
@@ -75,8 +75,8 @@ export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Sch
 export const DELETE_SCHEDULE_FOR_AH_CONTENT = 'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
 export const DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
 export const DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
-export const UPDATE_CLIENT_ID_FOR_AH_HEADER = 'Confirmation: Assign Client';
-export const UPDATE_CLIENT_ID_FOR_AH_CONTENT = 'Are you sure you want to assign this user to the client?';
+export const UPDATE_CLIENT_ID_FOR_AH_HEADER = 'Confirmation: Link Client';
+export const UPDATE_CLIENT_ID_FOR_AH_CONTENT = 'Are you sure you want to link this user to the client?';
 
 // banners
 export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the status of the range use plan.';
@@ -92,8 +92,8 @@ export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was revi
 export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
 export const SUBMIT_RUP_CHANGE_FOR_AH_HEADER = 'Confirmation: Submit';
 export const SUBMIT_RUP_CHANGE_FOR_AH_CONTENT = 'Are you sure you want to submit the change to the range staff?';
-export const ASSIGN_CLIENT_BANNER_HEADER = 'Assign Client';
-export const ASSIGN_CLIENT_BANNER_CONTENT = 'Follow steps to establish the connection between an user to an existing client.';
+export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
+export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';

@@ -56,11 +56,11 @@ export class Navbar extends Component {
             }
             {user.isAdmin &&
               <NavLink
-                to={Routes.ASSIGN_CLIENT}
+                to={Routes.MANAGE_CLIENT}
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >
-                Assign Client
+                Manage Client
               </NavLink>
             }
             <div

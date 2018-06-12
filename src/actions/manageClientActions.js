@@ -24,9 +24,9 @@ import {
   error,
   dataChanged,
 } from '../actions/genericActions';
-import { SEARCH_CLIENTS, ASSIGN_CLIENT, GET_USERS } from '../constants/reducerTypes';
+import { SEARCH_CLIENTS, LINK_CLIENT, GET_USERS } from '../constants/reducerTypes';
 import { SEARCH_CLIENTS_ENDPOINT, UPDATE_AH_CLIENT_ID_ENDPOINT } from '../constants/api';
-import { ASSIGN_CLIENT_SUCCESS } from '../constants/strings';
+import { LINK_CLIENT_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
 import axios from '../handlers/axios';
 
@@ -52,18 +52,18 @@ export const getClients = term => (dispatch) => {
   return makeRequest();
 };
 
-export const assignClient = (userId, clientNumber) => (dispatch) => {
-  dispatch(request(ASSIGN_CLIENT));
+export const linkClient = (userId, clientNumber) => (dispatch) => {
+  dispatch(request(LINK_CLIENT));
   const makeRequest = async () => {
     try {
       const response = await axios.put(UPDATE_AH_CLIENT_ID_ENDPOINT(userId, clientNumber));
       const client = response.data;
 
-      dispatch(success(ASSIGN_CLIENT, client));
-      dispatch(toastSuccessMessage(ASSIGN_CLIENT_SUCCESS));
+      dispatch(success(LINK_CLIENT, client));
+      dispatch(toastSuccessMessage(LINK_CLIENT_SUCCESS));
       return client;
     } catch (err) {
-      dispatch(error(ASSIGN_CLIENT, err));
+      dispatch(error(LINK_CLIENT, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -71,7 +71,7 @@ export const assignClient = (userId, clientNumber) => (dispatch) => {
   return makeRequest();
 };
 
-export const clientAssigned = (users, userId, assignedClientNumber) => (dispatch) => {
+export const clientLinked = (users, userId, assignedClientNumber) => (dispatch) => {
   const newUsers = users.map((u) => {
     const user = { ...u };
     if (user.id === userId) {

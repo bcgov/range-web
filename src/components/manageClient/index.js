@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AssignClient from './AssignClient';
+import ManageClient from './ManageClient';
 import { getUsers } from '../../actions/commonActions';
-import { getClients, assignClient, clientAssigned } from '../../actions/assignClientActions';
+import { getClients, linkClient, clientLinked } from '../../actions/manageClientActions';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -20,7 +20,7 @@ class Base extends Component {
 
   render() {
     return (
-      <AssignClient
+      <ManageClient
         {...this.props}
       />
     );
@@ -32,7 +32,7 @@ const mapStateToProps = state => (
     users: state.users.data,
     clients: state.clients.data,
     isLoadingClients: state.clients.isLoading,
-    isAssigning: state.assignClient.isLoading,
+    isLinkingClient: state.linkClient.isLoading,
   }
 );
 
@@ -40,6 +40,6 @@ Base.propTypes = propTypes;
 export default connect(mapStateToProps, {
   getUsers,
   getClients,
-  assignClient,
-  clientAssigned,
+  linkClient,
+  clientLinked,
 })(Base);
