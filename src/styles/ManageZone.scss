@@ -5,7 +5,23 @@ $field-width: 35%;
 $field-min-width: 160px;
 $content-max-width: 600px;
 
-.assign-client,
+.manage-client {
+  &__content {
+    @extend .container;
+    display: flex;
+    justify-content: center;
+  }
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    margin-top: $content-margin-top;
+  }
+  &__update-btn {
+    margin-top: 25px;
+  }
+}
 .manage-zone {
   &__content {
     @extend .container;

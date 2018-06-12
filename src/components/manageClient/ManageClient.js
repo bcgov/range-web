@@ -85,11 +85,12 @@ class ManageClient extends Component {
 
     const userOptions = users.map((u) => {
       const user = new User(u);
-      const { id, fullName, email } = user;
+      const { email, clientId } = user;
+      const description = clientId ? `Client #: ${clientId}, Email: ${email}` : `Email: ${email}`;
       return {
-        value: id,
-        text: fullName,
-        description: email,
+        value: user.id,
+        text: user.fullName,
+        description,
       };
     });
 
@@ -99,14 +100,14 @@ class ManageClient extends Component {
         key: clientNumber,
         value: clientNumber,
         text: name,
-        description: clientNumber,
+        description: `Client #: ${clientNumber}`,
       };
     });
 
     const isUpdateBtnEnabled = userId && clientNumber;
 
     return (
-      <div className="assign-client">
+      <div className="manage-client">
         <ConfirmationModal
           open={isUpdateModalOpen}
           loading={isLinkingClient}
@@ -121,8 +122,8 @@ class ManageClient extends Component {
           content={MANAGE_CLIENT_BANNER_CONTENT}
         />
 
-        <div className="assign-client__content">
-          <div className="assign-client__steps">
+        <div className="manage-client__content">
+          <div className="manage-client__steps">
             <h3>Step 1: Select User</h3>
             <Dropdown
               id={MANAGE_CLIENT_USERS_DROPDOWN_ELEMENT_ID}
@@ -151,7 +152,7 @@ class ManageClient extends Component {
               selectOnBlur={false}
             />
 
-            <div className="assign-client__update-btn">
+            <div className="manage-client__update-btn">
               <Button
                 primary
                 onClick={this.openUpdateConfirmationModal}
