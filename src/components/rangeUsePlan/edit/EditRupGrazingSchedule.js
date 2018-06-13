@@ -53,6 +53,7 @@ class EditRupSchedule extends Component {
     grazingScheduleEntries.push({
       key: new Date().getTime(),
       livestockCount: 0,
+      graceDays: 0,
     });
 
     handleScheduleChange(schedule, scheduleIndex);
@@ -252,7 +253,7 @@ class EditRupSchedule extends Component {
                 <Table.HeaderCell><div className="rup__schedule__content__dates">{DATE_IN}</div></Table.HeaderCell>
                 <Table.HeaderCell><div className="rup__schedule__content__dates">{DATE_OUT}</div></Table.HeaderCell>
                 <Table.HeaderCell>{DAYS}</Table.HeaderCell>
-                <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__schedule__content__grace-days">{GRACE_DAYS}</div></Table.HeaderCell>
                 <Table.HeaderCell>{PLD}</Table.HeaderCell>
                 <Table.HeaderCell>{CROWN_AUMS}</Table.HeaderCell>
                 <Table.HeaderCell />

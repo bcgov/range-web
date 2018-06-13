@@ -47,7 +47,7 @@ class RupSchedules extends Component {
             <Icon name="lock" size="big" />
             <div style={{ marginLeft: '10px' }}>
               <div style={{ fontSize: '1.15rem', fontWeight: 'bold' }}> RUP Awaiting Input from Agreement Holder </div>
-              <div style={{ opacity: '0.7' }}> RUP will remain hidden until the agreement holder submits for staff reviews. </div>
+              <div style={{ opacity: '0.7' }}> This section will remain hidden until the agreement holder submits for staff reviews. </div>
             </div>
           </div>
         </div>
@@ -126,11 +126,11 @@ class RupSchedules extends Component {
       livestockCount,
       dateIn,
       dateOut,
+      graceDays,
     } = entry || {};
 
     const days = calcDateDiff(dateOut, dateIn, false);
     const pasture = pastures.find(p => p.id === pastureId);
-    const graceDays = pasture && pasture.graceDays;
     const pldPercent = pasture && pasture.pldPercent;
     const pastureName = pasture && pasture.name;
     const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);

@@ -200,6 +200,9 @@ $row-height: 80px;
       &__dates {
         min-width: 70px;
       }
+      &__grace-days {
+        min-width: 50px;
+      }
       &__AUMs {
         display: flex;
         align-items: center;
@@ -225,7 +228,6 @@ $row-height: 80px;
       }
     }
     &__draft-container {
-      margin-top: 10px;
       height: 100px;
       display: flex;
       justify-content: center;

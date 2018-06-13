@@ -113,9 +113,12 @@ class EditRupScheduleEntry extends Component {
       entry,
       entryIndex,
       handleScheduleEntryChange,
+      pastures,
     } = this.props;
 
     entry.pastureId = pastureId;
+    const { graceDays } = pastures.find(p => p.id === pastureId);
+    entry.graceDays = graceDays;
     handleScheduleEntryChange(entry, entryIndex);
   }
 
@@ -147,11 +150,11 @@ class EditRupScheduleEntry extends Component {
       livestockCount,
       dateIn,
       dateOut,
+      graceDays,
     } = entry || {};
 
     const days = calcDateDiff(dateOut, dateIn, false);
     const pasture = pastures.find(p => p.id === pastureId);
-    const graceDays = pasture && pasture.graceDays;
     const pldPercent = pasture && pasture.pldPercent;
     const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
     const auFactor = livestockType && livestockType.auFactor;
@@ -233,7 +236,16 @@ class EditRupScheduleEntry extends Component {
           </Input>
         </Table.Cell>
         <Table.Cell collapsing>{presentNullValue(days, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(graceDays, false)}</Table.Cell>
+        <Table.Cell collapsing>
+          <Input fluid>
+            <input
+              type="text"
+              onKeyPress={this.handleNumberOnly}
+              value={graceDays}
+              onChange={this.handleNumberInput('graceDays')}
+            />
+          </Input>
+        </Table.Cell>
         <Table.Cell collapsing>{presentNullValue(pldAUMs, false)}</Table.Cell>
         <Table.Cell collapsing>{presentNullValue(crownAUMs, false)}</Table.Cell>
         <Table.Cell collapsing textAlign="center">
