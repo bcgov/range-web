@@ -41,7 +41,12 @@ import {
  * @returns undefined
  */
 export const saveDataInLocal = (key, data) => {
-  localStorage.setItem(key, JSON.stringify(data));
+  try {
+    const serializedData = JSON.stringify(data);
+    localStorage.setItem(key, serializedData);
+  } catch (err) {
+    throw err;
+  }
 
   // const encode = window.btoa(JSON.stringify(data));
   // localStorage.setItem(key, encode);
@@ -54,7 +59,15 @@ export const saveDataInLocal = (key, data) => {
  * @returns {object} the data object
  */
 export const getDataFromLocal = (key) => {
-  return JSON.parse(localStorage.getItem(key));
+  try {
+    const serializedData = localStorage.getItem(key);
+    if (serializedData) {
+      return JSON.parse(serializedData);
+    }
+    return undefined;
+  } catch (err) {
+    return undefined;
+  }
 
   // const localData = localStorage.getItem(key);
   // let decode = null;
