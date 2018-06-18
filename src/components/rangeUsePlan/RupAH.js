@@ -7,7 +7,7 @@ import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID } from '../../constants/variables';
+import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { handleRupValidation } from '../../handlers/validation';
 import {
   SAVE_PLAN_AS_DRAFT_SUCCESS,
@@ -114,33 +114,18 @@ export class RupAH extends Component {
     this.updateRupStatusAndContent(plan, status, onRequested, onSuccess, onFailed);
   }
 
-  closeSubmitConfirmModal = () => this.setState({ isSubmitModalOpen: false })
-  openSubmitConfirmModal = () => {
-    const error = this.validateRup(this.state.plan);
-    if (!error) {
-      this.setState({ isSubmitModalOpen: true });
-    }
-  }
+  getAgreementHolders = (clients = []) => {
+    let primaryAgreementHolder = {};
+    const otherAgreementHolders = [];
+    clients.forEach((client) => {
+      if (client.clientTypeCode === PRIMARY_TYPE) {
+        primaryAgreementHolder = client;
+      } else if (client.clientTypeCode === OTHER_TYPE) {
+        otherAgreementHolders.push(client);
+      }
+    });
 
-  validateRup = (plan) => {
-    const {
-      livestockTypes,
-      agreement,
-    } = this.props;
-    const usages = agreement && agreement.usage;
-    const errors = handleRupValidation(plan, livestockTypes, usages);
-
-    // errors have been found
-    if (errors.length !== 0) {
-      const [error] = errors;
-      document.getElementById(error.elementId).scrollIntoView({
-        behavior: 'smooth',
-      });
-      return error;
-    }
-
-    // no errors found
-    return false;
+    return { primaryAgreementHolder, otherAgreementHolders };
   }
 
   updateRupStatusAndContent = (plan, status, onRequested, onSuccess, onFailed) => {
@@ -176,6 +161,35 @@ export class RupAH extends Component {
         };
         makeRequest();
       }
+    }
+  }
+
+  validateRup = (plan) => {
+    const {
+      livestockTypes,
+      agreement,
+    } = this.props;
+    const usages = agreement && agreement.usage;
+    const errors = handleRupValidation(plan, livestockTypes, usages);
+
+    // errors have been found
+    if (errors.length !== 0) {
+      const [error] = errors;
+      document.getElementById(error.elementId).scrollIntoView({
+        behavior: 'smooth',
+      });
+      return error;
+    }
+
+    // no errors found
+    return false;
+  }
+
+  submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })
+  submitConfirmModalOpen = () => {
+    const error = this.validateRup(this.state.plan);
+    if (!error) {
+      this.setState({ isSubmitModalOpen: true });
     }
   }
 
@@ -239,6 +253,9 @@ export class RupAH extends Component {
     const agreementId = agreement && agreement.id;
     const zone = agreement && agreement.zone;
     const usages = agreement && agreement.usage;
+    const clients = agreement && agreement.clients;
+    const { primaryAgreementHolder } = this.getAgreementHolders(clients);
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     const rupSchedules = this.renderSchedules(plan, usages, status, livestockTypes, isEditable);
 
@@ -248,7 +265,7 @@ export class RupAH extends Component {
           open={isSubmitModalOpen}
           header={SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
           content={SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
-          onNoClicked={this.closeSubmitConfirmModal}
+          onNoClicked={this.submitConfirmModalClose}
           onYesClicked={this.onSubmitClicked}
           loading={isSubmitting}
         />
@@ -266,6 +283,7 @@ export class RupAH extends Component {
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
               <div className="rup__sticky__title">{agreementId}</div>
+              <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
               <Status
                 className="rup__status"
                 status={s}
@@ -283,7 +301,7 @@ export class RupAH extends Component {
               <Button
                 loading={isSubmitting}
                 disabled={!isEditable}
-                onClick={this.openSubmitConfirmModal}
+                onClick={this.submitConfirmModalOpen}
                 style={{ marginLeft: '15px' }}
               >
                 Submit for Review

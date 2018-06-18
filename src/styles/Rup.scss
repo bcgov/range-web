@@ -73,6 +73,7 @@ $row-height: 80px;
       font-weight: 600;
       line-height: 16px;
     }
+    &__primary-agreement-holder,
     &__title {
       display: none;
     }
@@ -82,6 +83,12 @@ $row-height: 80px;
       width: 100%;
     }
     &--fixed &__title {
+      display: inline-block;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
+    &--fixed &__primary-agreement-holder {
       display: inline-block;
       margin-right: 15px;
       padding-right: 15px;
