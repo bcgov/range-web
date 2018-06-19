@@ -1,19 +1,14 @@
-export const AUTH = 'AUTH';
-export const TOAST = 'TOAST';
-export const AGREEMENTS = 'AGREEMENTS';
-export const RANGE_USE_PLAN = 'RANGE_USE_PLAN';
-export const GET_REFERENCES = 'GET_REFERENCES';
-export const CLIENTS = 'CLIENTS';
-export const UPDATE_RUP_STATUS = 'UPDATE_RUP_STATUS';
-export const UPDATE_RUP_ZONE = 'UPDATE_RUP_ZONE';
-export const GET_ZONES = 'GET_ZONES';
-export const GET_PDF = 'GET_PDF';
-export const GET_USERS = 'GET_USERS';
-export const ASSIGN_STAFF_TO_ZONE = 'ASSIGN_STAFF_TO_ZONE';
-export const CREATE_RUP_SCHEDULE = 'CREATE_RUP_SCHEDULE';
-export const UPDATE_RUP_SCHEDULE = 'UPDATE_RUP_SCHEDULE';
-export const GET_USER_PROFILE = 'GET_USER_PROFILE';
-export const DELETE_SCHEUDLE = 'DELETE_SCHEUDLE';
-export const DELETE_SCHEUDLE_ENTRY = 'DELETE_SCHEUDLE_ENTRY';
-export const SEARCH_CLIENTS = 'SEARCH_CLIENTS';
-export const LINK_CLIENT = 'LINK_CLIENT';
+export const AUTHENTICATION = "AUTHENTICATION";
+export const SEARCH_AGREEMENTS = "SEARCH_AGREEMENTS";
+export const AGREEMENTS = "AGREEMENTS";
+
+// export const ALBUMS = "ALBUMS";
+// export const ARTISTS = "ARTISTS";
+// export const LIBRARY = "LIBRARY";
+
+// export const SEARCH_ARTIST = "SEARCH_ARTIST";
+// export const SEARCH_ALBUMS = "SEARCH_ALBUMS";
+// export const FETCH_LIBRARY = "FETCH_LIBRARY";
+
+// export const FETCH_FAVORITE_ALBUM = "FETCH_FAVORITE_ALBUM";
+// export const FETCH_UNFAVORITE_ALBUM = "FETCH_UNFAVORITE_ALBUM";

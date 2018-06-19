@@ -23,7 +23,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import store from './store';
+import configureStore from './configureStore';
 import './semantic/dist/semantic.min.css';
 import './styles/App.css';
 
@@ -36,6 +36,7 @@ import './styles/App.css';
 // console.log(store.getState())
 // )
 
+const store = configureStore();
 ReactDOM.render(
   <Provider store={store}>
     <App />

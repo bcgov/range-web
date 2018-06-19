@@ -1,74 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
+import configureStore from '../configureStore';
+import Home from '../components/Home';
 
-import * as Routes from '../constants/routes';
-import PublicRoute from './routes/PublicRoute';
-import PrivateRoute from './routes/PrivateRoute';
-import AdminRoute from './routes/AdminRoute';
-import Login from './auth/Login';
-import Logout from './auth/Logout';
-
-import Toast from './Toast';
-import PageNotFound from './PageNotFound';
-import RangeUsePlan from './rangeUsePlan';
-import RangeUsePlanPDFView from './rangeUsePlan/RupPDFView';
-import Agreement from './agreement';
-import ManageZone from './manageZone';
-import ManageClient from './manageClient';
-
-import { registerAxiosInterceptors } from '../handlers/authentication';
-import { logout } from '../actions/authActions';
-
-const propTypes = {
-  logout: PropTypes.func.isRequired,
-  user: PropTypes.shape({}),
-};
-
-const defaultProps = {
-  user: null,
-};
-
-export class App extends Component {
-  componentWillMount() {
-    registerAxiosInterceptors(this.props.logout);
-  }
-
+export const store = configureStore();
+/* eslint-disable react/prefer-stateless-function */
+class App extends Component {
   render() {
-    const { user } = this.props;
-
     return (
-      <div>
+      <Provider store={store}>
         <BrowserRouter>
-          <Switch>
-            <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
-
-            <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
-            <AdminRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
-
-            <PrivateRoute path={Routes.RANGE_USE_PLANS} component={Agreement} user={user} />
-            <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} user={user} />
-
-            <Route path={`${Routes.EXPORT_PDF}/:agreementId/:planId`} component={RangeUsePlanPDFView} user={user} />
-            <Route path={Routes.LOGOUT} component={Logout} />
-            <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
-            <Route path="*" component={PageNotFound} />
-          </Switch>
+          <Route path="/" component={Home} />
         </BrowserRouter>
-        <Toast />
-      </div>
+      </Provider>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const { user } = state.auth;
-  return {
-    user,
-  };
-};
-
-App.propTypes = propTypes;
-App.defaultProps = defaultProps;
-export default connect(mapStateToProps, { logout })(App);
+export default App;
