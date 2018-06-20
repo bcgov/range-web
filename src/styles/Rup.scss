@@ -249,6 +249,55 @@ $row-height: 80px;
       align-items: center;
     }
   }
+  &__missues {
+    &__note {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    margin: 10px 0;
+    list-style-type: none;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    &--empty {
+      border: 0px;
+    }
+    li {
+      border-bottom: 1px solid gainsboro;
+    }
+    li:last-child {
+      border-bottom: 0px solid gainsboro;
+    }
+  }
+  &__missue {
+    padding: 10px;
+    
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 100%;
+      &__title {
+        @extend .default-button;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: none;
+      }
+      &__action {
+        margin-left: 10px;
+      }
+    }
+    &__content {
+      margin-top: 15px;
+  
+      &__hidden {
+        display: none;  
+      }
+    }
+  }
 }
 
 .rup-pdf {

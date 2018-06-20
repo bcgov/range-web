@@ -12,6 +12,7 @@ import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
+import RupMinisterIssues from './view/RupMinisterIssues';
 import { PlanStatus } from '../../models';
 
 const propTypes = {
@@ -19,6 +20,7 @@ const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -118,6 +120,7 @@ export class Rup extends Component {
       isUpdatingStatus,
       isDownloadingPDF,
       livestockTypes,
+      ministerIssueTypes,
     } = this.props;
 
     const statusDropdownOptions = [
@@ -223,11 +226,17 @@ export class Rup extends Component {
           />
 
           <RupGrazingSchedules
-            className="rup__schedules"
+            className="rup__schedules__container"
             plan={plan}
             status={status}
             usages={usages}
             livestockTypes={livestockTypes}
+          />
+
+          <RupMinisterIssues
+            className="rup__missues__container"
+            plan={plan}
+            ministerIssueTypes={ministerIssueTypes}
           />
         </div>
       </div>

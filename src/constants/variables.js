@@ -10,14 +10,17 @@ export const DRAFT = 'Draft';
 export const CREATED = 'Created';
 export const CHANGE_REQUESTED = 'Change Requested';
 
+// references
 export const PLAN_STATUS = 'PLAN_STATUS';
 export const LIVESTOCK_TYPE = 'LIVESTOCK_TYPE';
+export const MINISTER_ISSUE_TYPE = 'MINISTER_ISSUE_TYPE';
 
+// image sources
 export const LOGO_SRC = '/logo.png';
 export const COW_PIC_SRC = '/cow.jpg';
 export const LOGIN_LOGO_SRC = '/login_logo.png';
 
-// clients
+// client types
 export const PRIMARY_TYPE = 'A';
 export const OTHER_TYPE = 'B';
 
