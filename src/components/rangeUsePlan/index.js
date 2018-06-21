@@ -66,6 +66,8 @@ class Base extends Component {
           agreement={agreement}
           statuses={statuses}
           livestockTypes={livestockTypes}
+          ministerIssueTypes={ministerIssueTypes}
+          ministerIssueActionTypes={ministerIssueActionTypes}
           createOrUpdateRupSchedule={createOrUpdateRupSchedule}
           updateRupStatus={updateRupStatus}
           toastErrorMessage={toastErrorMessage}
@@ -79,12 +81,12 @@ class Base extends Component {
           agreement={agreement}
           statuses={statuses}
           livestockTypes={livestockTypes}
+          ministerIssueTypes={ministerIssueTypes}
+          ministerIssueActionTypes={ministerIssueActionTypes}
           updateRupStatus={updateRupStatus}
           getRupPDF={getRupPDF}
           isUpdatingStatus={isUpdatingStatus}
           isDownloadingPDF={isDownloadingPDF}
-          ministerIssueTypes={ministerIssueTypes}
-          ministerIssueActionTypes={ministerIssueActionTypes}
         />
       );
     }

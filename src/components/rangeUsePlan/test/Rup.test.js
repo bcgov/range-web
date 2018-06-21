@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Rup } from '../Rup';
+import Rup from '../Rup';
 import { getMockRangeUsePlan } from '../../agreement/test/mockValues';
 import { COMPLETED, CHANGE_REQUESTED, PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
 
@@ -9,13 +9,15 @@ const mockPDFLinkClick = jest.fn();
 
 const props = {};
 const setupProps = () => {
+  props.user = {};
   props.agreement = getMockRangeUsePlan(2);
   props.updateRupStatus = jest.fn(() => Promise.resolve({}));
-  props.statuses = [mockStatus];
-  props.isUpdatingStatus = false;
   props.isDownloadingPDF = false;
+  props.isUpdatingStatus = false;
+  props.statuses = [mockStatus];
   props.livestockTypes = [{}];
-  props.user = {};
+  props.ministerIssueTypes = [{}];
+  props.ministerIssueActionTypes = [{}];
 };
 
 beforeEach(() => {
@@ -27,7 +29,7 @@ Rup.prototype.pdfLink = {
 };
 
 describe('Rup', () => {
-  it('renders without crashing', () => {
+ it('renders without crashing', () => {
     const wrapper = shallow(<Rup {...props} />);
   });
 

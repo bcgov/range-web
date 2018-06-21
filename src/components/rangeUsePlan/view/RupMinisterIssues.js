@@ -91,8 +91,8 @@ class RupMinisterIssues extends Component {
               <div className="rup__missue__header__identified">
                 {/* Identified: {identified ? 'Yes' : 'No'} */}
                 Identified: {identified
-                ? <Icon name="check circle outline" color="green" />
-                : <Icon name="times circle outline" color="red" />}
+                ? <Icon name="check circle" color="green" />
+                : <Icon name="remove circle" color="red" />}
               </div>
               {isThisActive &&
                 <Icon name="chevron up" />

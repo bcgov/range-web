@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react';
 
 import { parseQuery } from '../../handlers';
 import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../../constants/api';
-import { LOGIN_LOGO_SRC, LOGIN_BUTTON_ELEMENT_ID } from '../../constants/variables';
+import { LOGIN_LOGO_SRC, LOGIN_SSO_BUTTON_ELEMENT_ID } from '../../constants/variables';
 import { login } from '../../actions/authActions';
 
 const propTypes = {
@@ -57,7 +57,7 @@ export class Login extends Component {
 
         <div className="login__button">
           <Button
-            id={LOGIN_BUTTON_ELEMENT_ID}
+            id={LOGIN_SSO_BUTTON_ELEMENT_ID}
             loading={loginState.isLoading || false}
             disabled={loginState.isLoading || false}
             primary

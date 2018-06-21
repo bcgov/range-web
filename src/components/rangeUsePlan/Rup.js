@@ -19,15 +19,15 @@ const propTypes = {
   user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
-  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
-  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   ministerIssueActionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export class Rup extends Component {
+class Rup extends Component {
   constructor(props) {
     super(props);
 
@@ -47,9 +47,11 @@ export class Rup extends Component {
 
   componentDidMount() {
     this.stickyHeader = document.getElementById(RUP_STICKY_HEADER_ELEMENT_ID);
-    // requires the absolute offsetTop value
-    this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
-    this.scrollListner = window.addEventListener('scroll', this.handleScroll);
+    if (this.stickyHeader) {
+      // requires the absolute offsetTop value
+      this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
+      this.scrollListner = window.addEventListener('scroll', this.handleScroll);
+    }
   }
 
   componentWillUnmount() {

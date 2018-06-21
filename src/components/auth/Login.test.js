@@ -20,14 +20,13 @@ beforeEach(() => {
 describe('Login', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(<Login {...props} />);
-    
   });
 
   it('opens a new tab when clicking on Login button', () => {
     global.window.open = jest.fn();
     const wrapper = shallow(<Login {...props} />);
 
-    wrapper.find('Button').simulate('click', {});
+    wrapper.find('#login-button').simulate('click', {});
     expect(global.window.open).toHaveBeenCalledWith(SSO_LOGIN_ENDPOINT, '_self');
   });
 
