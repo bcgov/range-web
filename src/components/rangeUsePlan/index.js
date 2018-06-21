@@ -8,7 +8,7 @@ import { Loading } from '../common';
 import { getRangeUsePlan } from '../../actions/agreementActions';
 import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
-import { PLAN_STATUS, LIVESTOCK_TYPE, MINISTER_ISSUE_TYPE } from '../../constants/variables';
+import { PLAN_STATUS, LIVESTOCK_TYPE, MINISTER_ISSUE_TYPE, MINISTER_ISSUE_ACTION_TYPE } from '../../constants/variables';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
@@ -56,6 +56,7 @@ class Base extends Component {
     const statuses = references[PLAN_STATUS];
     const livestockTypes = references[LIVESTOCK_TYPE];
     const ministerIssueTypes = references[MINISTER_ISSUE_TYPE];
+    const ministerIssueActionTypes = references[MINISTER_ISSUE_ACTION_TYPE];
 
     let rup;
     if (user.isAgreementHolder) {
@@ -83,6 +84,7 @@ class Base extends Component {
           isUpdatingStatus={isUpdatingStatus}
           isDownloadingPDF={isDownloadingPDF}
           ministerIssueTypes={ministerIssueTypes}
+          ministerIssueActionTypes={ministerIssueActionTypes}
         />
       );
     }

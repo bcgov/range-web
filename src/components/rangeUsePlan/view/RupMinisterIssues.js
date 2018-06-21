@@ -9,6 +9,7 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
   ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueActionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 class RupMinisterIssues extends Component {
@@ -22,15 +23,35 @@ class RupMinisterIssues extends Component {
     this.setState({ activeMinisterIssueIndex: newIndex });
   }
 
-  renderMinisterIssues = (ministerIssues) => {
+  renderMinisterIssues = (ministerIssues = []) => (
+    ministerIssues.length === 0 ? (
+      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+    ) : (
+      ministerIssues.map(this.renderMinisterIssue)
+    )
+  )
+
+  renderMinisterIssueActions = (ministerIssueActions = []) => (
+    ministerIssueActions.length === 0 ? (
+      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+    ) : (
+      ministerIssueActions.map(this.renderMinisterIssueAction)
+    )
+  );
+
+  renderMinisterIssueAction = (ministerIssueAction) => {
+    const { id, detail, actionTypeId } = ministerIssueAction;
+    const ministerIssueActionType = this.props.ministerIssueActionTypes.find(t => t.id === actionTypeId);
+    const ministerIssueActionTypeName = ministerIssueActionType && ministerIssueActionType.name;
+
     return (
-      ministerIssues.length === 0 ? (
-        <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-      ) : (
-        ministerIssues.map(this.renderMinisterIssue)
-      )
+      <div className="rup__missue__action" key={id}>
+        <div className="rup__missue__action__type">{ministerIssueActionTypeName}</div>
+        <div className="rup__missue__action__detail">{detail}</div>
+      </div>
     );
   }
+
   renderMinisterIssue = (ministerIssue, ministerIssueIndex) => {
     const { plan, ministerIssueTypes } = this.props;
     const pastures = plan && plan.pastures;
@@ -62,12 +83,15 @@ class RupMinisterIssues extends Component {
             onClick={this.onMinisterIssueClicked(ministerIssueIndex)}
           >
             <div>
-              <Icon name="exclamation triangle" style={{ marginRight: '5px' }} />
+              <Icon name="exclamation triangle" style={{ marginRight: '10px' }} />
               Issue Type: {ministerIssueTypeName}
             </div>
-            <div>
+            <div className="rup__missue__header__right">
               <div className="rup__missue__header__identified">
-                Identified: {identified ? 'Yes' : 'No'}
+                {/* Identified: {identified ? 'Yes' : 'No'} */}
+                Identified: {identified
+                ? <Icon name="check circle outline" color="green" />
+                : <Icon name="times circle outline" color="red" />}
               </div>
               {isThisActive &&
                 <Icon name="chevron up" />
@@ -95,6 +119,8 @@ class RupMinisterIssues extends Component {
             label="Objective"
             text={objective}
           />
+          <div className="rup__missue__actions__title">Actions</div>
+          {this.renderMinisterIssueActions(ministerIssueActions)}
         </div>
       </li>
     );

@@ -270,7 +270,7 @@ $row-height: 80px;
     }
   }
   &__missue {
-    padding: 10px;
+    padding: 15px;
     
     &__header {
       display: flex;
@@ -286,10 +286,13 @@ $row-height: 80px;
         width: 100%;
         background: none;
       }
+      &__right {
+        display: flex;
+        justify-content: space-between;
+        min-width: 110px;
+      }
       &__identified {
         font-size: 1rem;
-        display: inline-block;
-        margin-right: 10px;
       }
     }
     &__content {
@@ -297,6 +300,21 @@ $row-height: 80px;
   
       &__hidden {
         display: none;  
+      }
+    }
+    &__actions {
+      &__title {
+        font-size: 1.2rem;
+        color: gray;
+      }
+    }
+    &__action {
+      margin: 10px;
+      &__type {
+        font-weight: bold;
+      }
+      &__detail {
+        opacity: 0.9;
       }
     }
   }

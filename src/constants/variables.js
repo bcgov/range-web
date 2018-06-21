@@ -13,7 +13,11 @@ export const CHANGE_REQUESTED = 'Change Requested';
 // references
 export const PLAN_STATUS = 'PLAN_STATUS';
 export const LIVESTOCK_TYPE = 'LIVESTOCK_TYPE';
+export const LIVESTOCK_IDENTIFIER_TYPE = 'LIVESTOCK_IDENTIFIER_TYPE';
 export const MINISTER_ISSUE_TYPE = 'MINISTER_ISSUE_TYPE';
+export const MINISTER_ISSUE_ACTION_TYPE = 'MINISTER_ISSUE_ACTION_TYPE';
+export const CLIENT_TYPE = 'CLIENT_TYPE';
+export const AGREEMENT_EXEMPTION_STATUS = 'AGREEMENT_EXEMPTION_STATUS';
 
 // image sources
 export const LOGO_SRC = '/logo.png';
