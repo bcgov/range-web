@@ -29,9 +29,7 @@ const Banner = ({
   <div className={classnames('banner', className)} style={style}>
     <div className="banner__container">
       <h1>{header}</h1>
-      <p className="banner__content">
-        {content}
-      </p>
+      <div className="banner__content"> {content} </div>
       <div className={classnames('banner__action', actionClassName)}>
         {children}
       </div>

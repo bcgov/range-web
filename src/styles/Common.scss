@@ -80,11 +80,11 @@
 .banner {
   background: $primary-color;
   color: white;
+  min-height: 150px;
   
   &__container {
     @extend .container;
-    min-height: 150px;
-    padding: 20px 0 10px 0;
+    padding-top: 20px;
   }
 
   &__content {
@@ -94,9 +94,10 @@
   &__action {
     display: flex;
     justify-content: flex-end;
+    margin-top: 12px;
   }
-  &__edit-rup {
-    height: 100px;
+  &__no-default-height {
+    min-height: 0px !important;
   }
 }
 
