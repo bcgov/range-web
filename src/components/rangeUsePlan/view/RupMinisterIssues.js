@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Icon, Dropdown } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
-import {
-  NOT_PROVIDED,
-} from '../../../constants/strings';
+import { NOT_PROVIDED } from '../../../constants/strings';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
@@ -23,6 +21,7 @@ class RupMinisterIssues extends Component {
       === ministerIssueIndex ? -1 : ministerIssueIndex;
     this.setState({ activeMinisterIssueIndex: newIndex });
   }
+
   renderMinisterIssues = (ministerIssues) => {
     return (
       ministerIssues.length === 0 ? (
@@ -33,18 +32,27 @@ class RupMinisterIssues extends Component {
     );
   }
   renderMinisterIssue = (ministerIssue, ministerIssueIndex) => {
+    const { plan, ministerIssueTypes } = this.props;
+    const pastures = plan && plan.pastures;
     const {
       id,
       detail,
       identified,
+      description,
       ministerIssueActions,
       issueTypeId,
       objective,
       pastures: pastureIds,
     } = ministerIssue || {};
-    const ministerIssueType = this.props.ministerIssueTypes.find(i => i.id === issueTypeId);
+    const ministerIssueType = ministerIssueTypes.find(i => i.id === issueTypeId);
     const ministerIssueTypeName = ministerIssueType && ministerIssueType.name;
     const isThisActive = this.state.activeMinisterIssueIndex === ministerIssueIndex;
+    const pastureNames = pastureIds.map((pId) => {
+      const pasture = pastures.find(p => p.id === pId);
+      return pasture.name;
+    });
+    const listOfPastures = pastureNames.length
+      ? pastureNames.join(', ') : NOT_PROVIDED;
 
     return (
       <li key={id} className="rup__missue">
@@ -57,16 +65,36 @@ class RupMinisterIssues extends Component {
               <Icon name="exclamation triangle" style={{ marginRight: '5px' }} />
               Issue Type: {ministerIssueTypeName}
             </div>
-            {isThisActive &&
-              <Icon name="chevron up" />
-            }
-            {!isThisActive &&
-              <Icon name="chevron down" />
-            }
+            <div>
+              <div className="rup__missue__header__identified">
+                Identified: {identified ? 'Yes' : 'No'}
+              </div>
+              {isThisActive &&
+                <Icon name="chevron up" />
+              }
+              {!isThisActive &&
+                <Icon name="chevron down" />
+              }
+            </div>
           </button>
         </div>
         <div className={classnames('rup__missue__content', { 'rup__missue__content__hidden': !isThisActive })} >
-          {detail}
+          <TextField
+            label="Description"
+            text={description}
+          />
+          <TextField
+            label="Details"
+            text={detail}
+          />
+          <TextField
+            label="Pastures"
+            text={listOfPastures}
+          />
+          <TextField
+            label="Objective"
+            text={objective}
+          />
         </div>
       </li>
     );
