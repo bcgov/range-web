@@ -41,7 +41,8 @@ class RupMinisterIssues extends Component {
 
   renderMinisterIssueAction = (ministerIssueAction) => {
     const { id, detail, actionTypeId } = ministerIssueAction;
-    const ministerIssueActionType = this.props.ministerIssueActionTypes.find(t => t.id === actionTypeId);
+    const ministerIssueActionType = this.props.ministerIssueActionTypes
+      .find(t => t.id === actionTypeId);
     const ministerIssueActionTypeName = ministerIssueActionType && ministerIssueActionType.name;
 
     return (

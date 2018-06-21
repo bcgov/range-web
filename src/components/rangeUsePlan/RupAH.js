@@ -271,7 +271,7 @@ export class RupAH extends Component {
         />
 
         <Banner
-          className="banner__edit-rup"
+          className="banner__no-default-height"
           header={agreementId}
           content={status && status.bannerContentForAH}
         />
