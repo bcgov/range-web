@@ -105,20 +105,16 @@ class RupMinisterIssues extends Component {
         </div>
         <div className={classnames('rup__missue__content', { 'rup__missue__content__hidden': !isThisActive })} >
           <TextField
-            label="Description"
-            text={description}
-          />
-          <TextField
             label="Details"
             text={detail}
           />
           <TextField
-            label="Pastures"
-            text={listOfPastures}
-          />
-          <TextField
             label="Objective"
             text={objective}
+          />
+          <TextField
+            label="Pastures"
+            text={listOfPastures}
           />
           <div className="rup__missue__actions__title">Actions</div>
           {this.renderMinisterIssueActions(ministerIssueActions)}
