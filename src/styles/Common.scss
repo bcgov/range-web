@@ -64,7 +64,9 @@
 
 .avatar {
   width: 40px;
+  min-width: 40px;
   height: 40px;
+  min-height: 40px;
   border-radius: 50%;
   background: $primary-light-color;
   display: flex;
@@ -81,10 +83,9 @@
   background: $primary-color;
   color: white;
   min-height: 150px;
-  
+  padding: 10px;
   &__container {
     @extend .container;
-    padding-top: 20px;
   }
 
   &__content {
