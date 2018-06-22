@@ -11,9 +11,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.props.agreements)
-    console.log(this.props.agreementsPagination)
-
     return (
       <div> hello </div>
     );

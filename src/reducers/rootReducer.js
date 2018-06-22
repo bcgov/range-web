@@ -22,6 +22,7 @@ import { combineReducers } from 'redux';
 import * as reducerTypes from '../constants/reducerTypes';
 import agreementReducer, * as fromAgreement from './agreementReducer';
 import networkReducer, * as fromNetwork from './networkReducer';
+import planReducer from './planReducer';
 
 // const createReduce
 // createReducer to allow for reducer reuse
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   [reducerTypes.AGREEMENTS]: agreementReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
+  [reducerTypes.PLAN]: planReducer,
 });
 
 // public selectors

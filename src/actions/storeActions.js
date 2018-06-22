@@ -7,4 +7,9 @@ export const storeAgreement = payload => (
   }
 );
 
-export const s = () => {};
+export const storePlan = payload => (
+  {
+    type: actionTypes.STORE_PLAN,
+    payload,
+  }
+);

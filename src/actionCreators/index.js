@@ -2,7 +2,7 @@
 import { normalize } from 'normalizr';
 import * as schema from './schema';
 import * as api from '../api';
-import { request, success, successPagenated, error, storeAgreement } from '../actions';
+import { request, success, successPagenated, error, storeAgreement, storePlan } from '../actions';
 import { getAgreementsIsFetching } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 
@@ -29,7 +29,8 @@ export const getPlan = () => (dispatch) => {
   return api.fetchPlan().then(
     (response) => {
       dispatch(success(reducerTypes.GET_PLAN), response);
-      console.log(normalize(response.plan, schema.plan));
+      dispatch(storePlan(normalize(response.plan, schema.plan)));
+      dispatch(storePlan(normalize(response.plan, schema.plan)));
     },
     (err) => {
       dispatch(error(reducerTypes.GET_PLAN, err.message));

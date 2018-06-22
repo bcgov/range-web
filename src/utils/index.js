@@ -32,6 +32,7 @@ export * from './format';
 export * from './authentication';
 export * from './localStorage';
 
+export const getObjValues = obj => Object.keys(obj).map(e => obj[e]);
 /**
  * Present user friendly string when getting null or undefined value
  *
