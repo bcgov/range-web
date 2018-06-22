@@ -6,6 +6,7 @@ import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
+import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { handleRupValidation } from '../../handlers/validation';
@@ -22,6 +23,8 @@ const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueActionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   createOrUpdateRupSchedule: PropTypes.func.isRequired,
   updateRupStatus: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
@@ -45,9 +48,11 @@ export class RupAH extends Component {
 
   componentDidMount() {
     this.stickyHeader = document.getElementById(RUP_STICKY_HEADER_ELEMENT_ID);
-    // requires the absolute offsetTop value
-    this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
-    this.scrollListner = window.addEventListener('scroll', this.handleScroll);
+    if (this.stickyHeader) {
+      // requires the absolute offsetTop value
+      this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
+      this.scrollListner = window.addEventListener('scroll', this.handleScroll);
+    }
   }
 
   componentWillUnmount() {
@@ -245,6 +250,8 @@ export class RupAH extends Component {
       user,
       agreement,
       livestockTypes,
+      ministerIssueTypes,
+      ministerIssueActionTypes,
     } = this.props;
 
     const status = new PlanStatus(s);
@@ -271,7 +278,7 @@ export class RupAH extends Component {
         />
 
         <Banner
-          className="banner__edit-rup"
+          className="banner__no-default-height"
           header={agreementId}
           content={status && status.bannerContentForAH}
         />
@@ -325,6 +332,13 @@ export class RupAH extends Component {
           />
 
           {rupSchedules}
+
+          <RupMinisterIssues
+            className="rup__missues__container"
+            plan={plan}
+            ministerIssueTypes={ministerIssueTypes}
+            ministerIssueActionTypes={ministerIssueActionTypes}
+          />
         </div>
       </div>
     );

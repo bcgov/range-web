@@ -64,7 +64,9 @@
 
 .avatar {
   width: 40px;
+  min-width: 40px;
   height: 40px;
+  min-height: 40px;
   border-radius: 50%;
   background: $primary-light-color;
   display: flex;
@@ -80,11 +82,10 @@
 .banner {
   background: $primary-color;
   color: white;
-  
+  min-height: 150px;
+  padding: 10px;
   &__container {
     @extend .container;
-    min-height: 150px;
-    padding: 20px 0 10px 0;
   }
 
   &__content {
@@ -94,9 +95,10 @@
   &__action {
     display: flex;
     justify-content: flex-end;
+    margin-top: 12px;
   }
-  &__edit-rup {
-    height: 100px;
+  &__no-default-height {
+    min-height: 0px !important;
   }
 }
 

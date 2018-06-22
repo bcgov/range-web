@@ -3,28 +3,31 @@ import PropTypes from 'prop-types';
 import { Button, Dropdown } from 'semantic-ui-react';
 import UpdateZoneModal from './UpdateZoneModal';
 import {
-  NO_RUP_PROVIDED, COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
+  COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
-import { COMPLETED, CHANGE_REQUESTED } from '../../constants/variables';
+import { COMPLETED, CHANGE_REQUESTED, RUP_STICKY_HEADER_ELEMENT_ID, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
+import RupMinisterIssues from './view/RupMinisterIssues';
 import { PlanStatus } from '../../models';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   updateRupStatus: PropTypes.func.isRequired,
-  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDownloadingPDF: PropTypes.bool.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ministerIssueActionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export class Rup extends Component {
+class Rup extends Component {
   constructor(props) {
     super(props);
 
@@ -40,6 +43,19 @@ export class Rup extends Component {
       status,
       plan,
     };
+  }
+
+  componentDidMount() {
+    this.stickyHeader = document.getElementById(RUP_STICKY_HEADER_ELEMENT_ID);
+    if (this.stickyHeader) {
+      // requires the absolute offsetTop value
+      this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
+      this.scrollListner = window.addEventListener('scroll', this.handleScroll);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollListner);
   }
 
   onViewPDFClicked = () => {
@@ -65,7 +81,31 @@ export class Rup extends Component {
     this.setState({ zone: newZone });
   }
 
+  getAgreementHolders = (clients = []) => {
+    let primaryAgreementHolder = {};
+    const otherAgreementHolders = [];
+    clients.forEach((client) => {
+      if (client.clientTypeCode === PRIMARY_TYPE) {
+        primaryAgreementHolder = client;
+      } else if (client.clientTypeCode === OTHER_TYPE) {
+        otherAgreementHolders.push(client);
+      }
+    });
+
+    return { primaryAgreementHolder, otherAgreementHolders };
+  }
+
   setPDFRef = (ref) => { this.pdfLink = ref; }
+
+  handleScroll = () => {
+    if (this.stickyHeader) {
+      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
+        this.stickyHeader.classList.add('rup__sticky--fixed');
+      } else {
+        this.stickyHeader.classList.remove('rup__sticky--fixed');
+      }
+    }
+  }
 
   updateStatus = (statusName, closeConfirmModal) => {
     const { agreement, statuses: statusReferences, updateRupStatus } = this.props;
@@ -118,6 +158,8 @@ export class Rup extends Component {
       isUpdatingStatus,
       isDownloadingPDF,
       livestockTypes,
+      ministerIssueTypes,
+      ministerIssueActionTypes,
     } = this.props;
 
     const statusDropdownOptions = [
@@ -138,7 +180,9 @@ export class Rup extends Component {
 
     const agreementId = agreement && agreement.id;
     const usages = agreement && agreement.usage;
-    const rupExist = plan.id;
+    const clients = agreement && agreement.clients;
+    const { primaryAgreementHolder } = this.getAgreementHolders(clients);
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     return (
       <div className="rup">
@@ -178,35 +222,42 @@ export class Rup extends Component {
         />
 
         <Banner
+          className="banner__no-default-height"
           header={agreementId}
-          content={rupExist ? DETAIL_RUP_BANNER_CONTENT : NO_RUP_PROVIDED}
-          actionClassName={rupExist ? 'rup__actions' : 'rup__actions--hidden'}
-        >
-          <Status
-            className="rup__status"
-            status={s}
-            user={user}
-          />
-          <div className="rup__btn-container">
-            <Button
-              onClick={this.onViewPDFClicked}
-              className="rup__btn"
-              loading={isDownloadingPDF}
-            >
-              View PDF
-            </Button>
-            {(status.isPending || status.isCreated) &&
-              <Dropdown
-                className="rup__status-dropdown"
-                text="Update Status"
-                options={statusDropdownOptions}
-                button
-                item
-              />
-            }
-          </div>
-        </Banner>
+          content={DETAIL_RUP_BANNER_CONTENT}
+        />
 
+        <div id={RUP_STICKY_HEADER_ELEMENT_ID} className="rup__sticky">
+          <div className="rup__sticky__container">
+            <div className="rup__sticky__left">
+              <div className="rup__sticky__title">{agreementId}</div>
+              <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
+              <Status
+                className="rup__status"
+                status={s}
+                user={user}
+              />
+            </div>
+            <div className="rup__sticky__btns">
+              <Button
+                onClick={this.onViewPDFClicked}
+                className="rup__btn"
+                loading={isDownloadingPDF}
+              >
+                View PDF
+              </Button>
+              {(status.isPending || status.isCreated) &&
+                <Dropdown
+                  className="rup__status-dropdown"
+                  text="Update Status"
+                  options={statusDropdownOptions}
+                  button
+                  item
+                />
+              }
+            </div>
+          </div>
+        </div>
         <div className="rup__content">
           <RupBasicInformation
             className="rup__basic_information"
@@ -223,11 +274,18 @@ export class Rup extends Component {
           />
 
           <RupGrazingSchedules
-            className="rup__schedules"
+            className="rup__schedules__container"
             plan={plan}
             status={status}
             usages={usages}
             livestockTypes={livestockTypes}
+          />
+
+          <RupMinisterIssues
+            className="rup__missues__container"
+            plan={plan}
+            ministerIssueTypes={ministerIssueTypes}
+            ministerIssueActionTypes={ministerIssueActionTypes}
           />
         </div>
       </div>
