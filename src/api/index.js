@@ -1,9 +1,11 @@
 // import { v4 } from 'node-uuid';
 
 import paginatedFakeAgreements from './fakeAgreements';
+import fakePlanWithAgreement from './fakePlan';
 
 const fakeDatabase = {
   paginatedAgreements: paginatedFakeAgreements,
+  plan: fakePlanWithAgreement,
 };
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -20,7 +22,10 @@ export const fetchAgreements = filter =>
     }
   });
 
-export const s = {};
+export const fetchPlan = () =>
+  delay(500).then(() => {
+    return fakeDatabase.plan;
+  });
 
 // export const addTodo = (text) =>
 //   delay(500).then(() => {

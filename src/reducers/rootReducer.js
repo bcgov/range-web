@@ -35,6 +35,7 @@ const createReducer = (reducer, name) => (state, action) => {
 const rootReducer = combineReducers({
   [reducerTypes.AGREEMENTS]: agreementReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
+  [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
 });
 
 // public selectors

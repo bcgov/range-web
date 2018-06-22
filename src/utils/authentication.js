@@ -28,7 +28,8 @@ import {
   REFRESH_TOKEN_FROM_SSO,
   GET_USER_PROFILE_ENDPOINT,
 } from '../constants/API';
-import { saveDataInLocal, getDataFromLocal, stringifyQuery } from './index';
+import { saveDataInLocal, getDataFromLocal } from './localStorage';
+import { stringifyQuery } from './queryString';
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
 const getRefreshTokenFromLocal = () => {
