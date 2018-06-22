@@ -12,29 +12,13 @@ export const searchAgreements = filter => (dispatch, getState) => {
   }
   dispatch(request(reducerTypes.SEARCH_AGREEMENTS));
 
-  // dispatch({
-  //   type: 'FETCH_TODOS_REQUEST',
-  //   filter,
-  // });
-
   return api.fetchAgreements(filter).then(
     (response) => {
       dispatch(successPagenated(reducerTypes.SEARCH_AGREEMENTS, response));
       dispatch(storeAgreement(normalize(response.agreements, schema.arrayOfAgreements)));
-
-      // dispatch({
-      //   type: 'FETCH_TODOS_SUCCESS',
-      //   filter,
-      //   response: normalize(response, schema.arrayOfTodos),
-      // });
     },
     (err) => {
       dispatch(error(reducerTypes.SEARCH_AGREEMENTS, err.message));
-      // dispatch({
-      //   type: 'FETCH_TODOS_FAILURE',
-      //   filter,
-      //   message: error.message || 'Something went wrong.',
-      // });
     },
   );
 };
