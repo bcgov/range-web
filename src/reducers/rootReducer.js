@@ -38,9 +38,9 @@ const rootReducer = combineReducers({
 });
 
 // public selectors
-export const getAgreements = state => fromAgreement.getAgreements(state);
-export const getAgreementIds = state => fromAgreement.getAgreementIds(state);
-export const getAgreementsPagination = state => fromNetwork.getPagination(state, reducerTypes.SEARCH_AGREEMENTS);
-export const getAgreementsIsFetching = state => fromNetwork.getIsFetching(state, reducerTypes.SEARCH_AGREEMENTS);
+export const getAgreements = state => fromAgreement.getAgreements(state[reducerTypes.AGREEMENTS]);
+export const getAgreementIds = state => fromAgreement.getAgreementIds(state[reducerTypes.AGREEMENTS]);
+export const getAgreementsPagination = state => fromNetwork.getPagination(state[reducerTypes.SEARCH_AGREEMENTS]);
+export const getAgreementsIsFetching = state => fromNetwork.getIsFetching(state[reducerTypes.SEARCH_AGREEMENTS]);
 
 export default rootReducer;

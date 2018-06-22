@@ -61,6 +61,6 @@ const networkReducer = (state = initialState, action) => {
 export default networkReducer;
 
 // private selectors
-export const getIsFetching = (state, reducerName) => state[reducerName].isFetching;
-export const getPagination = (state, reducerName) => state[reducerName].pagination;
-export const getErrorMessage = (state, reducerName) => state[reducerName].error;
+export const getIsFetching = state => state.isFetching;
+export const getPagination = state => state.pagination;
+export const getErrorMessage = state => state.error;

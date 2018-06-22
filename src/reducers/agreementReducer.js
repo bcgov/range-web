@@ -1,6 +1,4 @@
-import { AGREEMENTS } from '../constants/reducerTypes';
 import { STORE_AGREEMENTS, SET_AGREEMENT_FILTER } from '../constants/actionTypes';
-import { mapObject } from '../utils';
 
 const initialState = {
   agreements: {},
@@ -49,9 +47,9 @@ const agreementReducer = (state = initialState, action) => {
 };
 
 // private selectors
-export const getAgreements = state => mapObject(state[AGREEMENTS].agreements);
-export const getAgreementsMap = state => state[AGREEMENTS].agreements;
-export const getAgreementIds = state => state[AGREEMENTS].agreementIds;
-export const getAgreementFilter = state => state[AGREEMENTS].filterBy;
+export const getAgreements = state => state.agreementIds.map(id => state.agreements[id]);
+export const getAgreementsMap = state => state.agreements;
+export const getAgreementIds = state => state.agreementIds;
+export const getAgreementFilter = state => state.filterBy;
 
 export default agreementReducer;
