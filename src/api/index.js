@@ -1,16 +1,14 @@
 // import { v4 } from 'node-uuid';
-
-import paginatedFakeAgreements from './fakeAgreements';
-import fakePlanWithAgreement from './fakePlan';
+import { fakeAgreements, fakePlan } from '../tests/intergration/mockData';
 
 const fakeDatabase = {
-  paginatedAgreements: paginatedFakeAgreements,
-  plan: fakePlanWithAgreement,
+  paginatedAgreements: fakeAgreements,
+  plan: fakePlan,
 };
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-export const fetchAgreements = filter =>
+export const fetchAgreements = filter => (
   delay(500).then(() => {
     switch (filter) {
       case 'all':
@@ -20,12 +18,14 @@ export const fetchAgreements = filter =>
       default:
         throw new Error(`Unknown filter: ${filter}`);
     }
-  });
+  })
+);
 
-export const fetchPlan = () =>
+export const fetchPlan = () => (
   delay(500).then(() => {
     return fakeDatabase.plan;
-  });
+  })
+);
 
 // export const addTodo = (text) =>
 //   delay(500).then(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable quotes, comma-dangle */
 const paginatedFakeAgreements = {
   "perPage": 10,
   "currentPage": 1,

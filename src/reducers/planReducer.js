@@ -25,10 +25,8 @@ const storePlan = (state, action) => {
 
   return {
     plans: {
-      ...state.plan,
-      [planId]: {
-        ...plan,
-      },
+      ...state.plans,
+      ...plan,
     },
     planIds: handlePlanIds(state, planId),
     pastures: {

@@ -1,3 +1,4 @@
+/* eslint-disable quotes, comma-dangle */
 const fakePlanWithAgreement = {
   "forestFileId": "RAN077965",
   "agreementStartDate": "2019-01-01T08:00:00.000Z",

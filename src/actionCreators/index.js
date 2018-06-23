@@ -30,7 +30,6 @@ export const getPlan = () => (dispatch) => {
     (response) => {
       dispatch(success(reducerTypes.GET_PLAN), response);
       dispatch(storePlan(normalize(response.plan, schema.plan)));
-      dispatch(storePlan(normalize(response.plan, schema.plan)));
     },
     (err) => {
       dispatch(error(reducerTypes.GET_PLAN, err.message));
