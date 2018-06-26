@@ -32,6 +32,7 @@ export * from './format';
 export * from './authentication';
 export * from './localStorage';
 export * from './user';
+export * from './planStatus';
 
 export const getObjValues = obj => Object.keys(obj).map(e => obj[e]);
 /**
