@@ -5,12 +5,10 @@ import { Button } from 'semantic-ui-react';
 
 import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/API';
 import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
-import { HOME } from '../constants/routes';
 import { storeAuthData } from '../actions';
 
 const propTypes = {
   storeAuthData: PropTypes.func.isRequired,
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 export class Login extends Component {
@@ -28,8 +26,6 @@ export class Login extends Component {
     const authData = JSON.parse(localStorage.getItem(event.key));
     // store the auth data in Redux
     this.props.storeAuthData(authData);
-    // redirect to /home
-    this.props.history.push(HOME);
   }
 
   openNewTab = link => window.open(link, '_black')
@@ -93,10 +89,10 @@ export class Login extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-  }
-);
+// const mapStateToProps = state => (
+//   {
+//   }
+// );
 
 Login.propTypes = propTypes;
-export default connect(mapStateToProps, { storeAuthData })(Login);
+export default connect(null, { storeAuthData })(Login);

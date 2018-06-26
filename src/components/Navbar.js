@@ -8,11 +8,10 @@ import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
 import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/API';
 import { getUser } from '../reducers/rootReducer';
 import { isUserAdmin, isUserActive } from '../utils';
-import { signOut } from '../actions';
+import { signOut } from '../actionCreators';
 
 const propTypes = {
   user: PropTypes.shape({}),
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   signOut: PropTypes.func.isRequired,
 };
 const defaultProps = {
@@ -22,12 +21,7 @@ const defaultProps = {
 /* eslint-disable jsx-a11y/anchor-is-valid */
 export class Navbar extends Component {
   onLogoutBtnClick = () => {
-    // clear the local storage in the browser
-    localStorage.clear();
-    // remove the auth and user data in Redux
     this.props.signOut();
-    // redirect to the login page
-    this.props.history.push('/login');
 
     // open a new tab for signing out from SiteMinder which is Gov's auth platform
     // once it returns back, it will sign out from SSO which will happen in ReturnPage.js

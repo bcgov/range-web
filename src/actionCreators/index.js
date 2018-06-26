@@ -1,25 +1,25 @@
 // import axios from 'axios';
 import { normalize } from 'normalizr';
-import { axios, saveUserProfileInLocal } from '../utils';
+import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
 import * as schema from './schema';
 import * as api from '../api';
 import {
   request, success, successPagenated, error,
-  storeAgreement, storePlan, storeUser,
+  storeAgreement, storePlan, storeUser, removeAuthDataAndUser,
 } from '../actions';
 import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 
-const createRequestHeader = state => ({
-  headers: {
-    'Authorization': `Bearer ${getToken(state)}`,
-    'content-type': 'application/json',
-  },
-});
+export const signOut = () => (dispatch) => {
+  // clear the local storage in the browser
+  localStorage.clear();
+  dispatch(removeAuthDataAndUser());
+};
 
 export const getUserProfile = () => (dispatch, getState) => {
-  return axios.get(API.GET_USER_PROFILE_ENDPOINT, createRequestHeader(getState())).then(
+  const token = getToken(getState());
+  return axios.get(API.GET_USER_PROFILE_ENDPOINT, createRequestHeader(token)).then(
     (response) => {
       const user = response.data;
       dispatch(storeUser(user));

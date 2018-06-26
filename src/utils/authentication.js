@@ -25,8 +25,7 @@ import {
   SSO_LOGIN_REDIRECT_URI,
   SSO_CLIENT_ID,
   GET_TOKEN_FROM_SSO,
-  // REFRESH_TOKEN_FROM_SSO,
-  // GET_USER_PROFILE_ENDPOINT,
+  REFRESH_TOKEN_FROM_SSO,
 } from '../constants/API';
 import { saveDataInLocal, getDataFromLocal } from './localStorage';
 import { stringifyQuery } from './queryString';
@@ -71,6 +70,25 @@ export const getTokenFromSSO = (code) => {
   });
 };
 
+export const refreshAccessToken = (refreshToken, isRetry) => {
+  const data = {
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+    redirect_uri: SSO_LOGIN_REDIRECT_URI,
+    client_id: SSO_CLIENT_ID,
+  };
+
+  // make an application/x-www-form-urlencoded request with axios
+  // pass isRetry in config so that it only tries to refresh once.
+  return axios({
+    method: 'post',
+    baseURL: SSO_BASE_URL,
+    url: REFRESH_TOKEN_FROM_SSO,
+    data: stringifyQuery(data),
+    isRetry,
+  });
+};
+
 // const getRefreshTokenFromLocal = () => {
 //   const data = getDataFromLocal(LOCAL_STORAGE_KEY.AUTH);
 //   return data && data.refresh_token;
@@ -87,25 +105,6 @@ export const getTokenFromSSO = (code) => {
 //     return (new Date() / 1000) > jstData.exp;
 //   }
 //   return false;
-// };
-
-// const refreshAccessToken = (refreshToken, isRetry) => {
-//   const data = {
-//     refresh_token: refreshToken,
-//     grant_type: 'refresh_token',
-//     redirect_uri: SSO_LOGIN_REDIRECT_URI,
-//     client_id: SSO_CLIENT_ID,
-//   };
-
-//   // make an application/x-www-form-urlencoded request with axios
-//   // pass isRetry in config so that it only tries to refresh once.
-//   return axios({
-//     method: 'post',
-//     baseURL: SSO_BASE_URL,
-//     url: REFRESH_TOKEN_FROM_SSO,
-//     data: stringifyQuery(data),
-//     isRetry,
-//   });
 // };
 
 // const setAxiosAuthHeader = (data) => {

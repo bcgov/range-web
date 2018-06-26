@@ -14,7 +14,7 @@ export const storeUser = user => (
   }
 );
 
-export const signOut = () => (
+export const removeAuthDataAndUser = () => (
   {
     type: actionTypes.SIGN_OUT,
   }
