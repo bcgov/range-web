@@ -15,6 +15,7 @@ const propTypes = {
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 export class AgreementTable extends Component {
@@ -33,10 +34,12 @@ export class AgreementTable extends Component {
 
   renderAgreementTableItem = (agreement, index) => {
     const isActive = this.state.activeIndex === index;
+    const { user, history } = this.props;
 
     return (
       <AgreementTableItem
-        user={this.props.user}
+        user={user}
+        history={history}
         key={index}
         index={index}
         isActive={isActive}

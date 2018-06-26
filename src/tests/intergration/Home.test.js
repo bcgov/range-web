@@ -1,36 +1,68 @@
-// import React from 'react';
-// import axios from 'axios';
-// import MockAdapter from 'axios-mock-adapter';
-// import { Provider } from 'react-redux';
-// import { mount } from 'enzyme';
-// import thunk from 'redux-thunk';
+import React from 'react';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import thunk from 'redux-thunk';
+import { MemoryRouter, Switch, Route, BrowserRouter } from 'react-router-dom';
 
-// import Home from '../../components/home/Home';
-// import { authenticateUser } from '../../actions/authenticateActions';
-// import { configureMockStore, flushAllPromises } from '../helpers/utils';
-// import { mockRequestHeader, mockFetchSavedAlbumsResponse, mockArtistResponse } from './mockData';
-// import * as API from '../../constants/api';
+import Router from '../../components/Router';
+import Home from '../../components/Home';
+import Agreement from '../../components/agreement';
+import { storeAuthData } from '../../actions';
+import { configureMockStore, flushAllPromises } from '../helpers/utils';
+import { mockRequestHeader, mockAgreements } from './mockData';
+import * as API from '../../constants/API';
 
-// let store;
-// const mockAxios = new MockAdapter(axios);
-// const mockToken = "mockToken";
+let store;
+const mockAxios = new MockAdapter(axios);
+const mockToken = 'mockToken';
 
-// beforeEach(() => {
-//   store = configureMockStore([thunk]);
-//   store.dispatch(authenticateUser('mockToken'));
-//   mockAxios.reset();
-// });
+beforeEach(() => {
+  store = configureMockStore([thunk]);
+  store.dispatch(storeAuthData('mockToken'));
+  mockAxios.reset();
+});
 
-// describe('Integration testing', () => {
-//   it('Component initializes properly', async () => {
-//     mockAxios.onGet(API.GET_LIBRARY_LINK(), mockRequestHeader).reply(200, mockFetchSavedAlbumsResponse);
-//     const wrapper = mount(<Provider store={store}><Home /></Provider>);
-//     await flushAllPromises();
-//     // Forces a re-render
-//     wrapper.update();
-
-//     expect(store.getState().LIBRARY.albumIds).toHaveLength(3);
-//   });
+describe('Integration testing', () => {
+  it('Component initializes properly', async () => {
+    const config = {
+      ...mockRequestHeader(mockToken),
+      params: { term: '', page: 1, limit: 10 },
+    };
+    mockAxios.onGet(API.SEARCH_AGREEMENTS_ENDPOINT, config).reply(200, mockAgreements);
+    // const props = {
+    //   location: {
+    //     search: '',
+    //     pathname: '/home',
+    //   },
+    //   history: {
+    //     push: jest.fn(),
+    //   },
+    // };
+    // const wrapper = mount(
+    //   <Provider store={store}>
+    //     <Home />
+    //   </Provider>,
+    // );
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/home']} initialIndex={0}>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/home" component={Home} />
+            </Switch>
+          </BrowserRouter>
+        </MemoryRouter>
+      </Provider>,
+    );
+    await flushAllPromises();
+    // Forces a re-render
+    wrapper.update();
+    console.log(wrapper.props());
+    console.log(store.getState().AGREEMENTS);
+    // expect(store.getState().AGREEMENTS).toHaveLength(10);
+  });
 //   describe('Browse functionalities', () => {
 //     const query = "test";
 //     const filterType = "album";
@@ -118,4 +150,4 @@
 //       expect(wrapper.find('.artist-info')).toHaveLength(1);
 //     });
 //   });
-// });
+});

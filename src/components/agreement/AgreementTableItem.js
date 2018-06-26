@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
 import { CLIENT_TYPE } from '../../constants/variables';
@@ -68,4 +67,4 @@ export class AgreementTableItem extends Component {
 }
 
 AgreementTableItem.propTypes = propTypes;
-export default withRouter(AgreementTableItem);
+export default AgreementTableItem;

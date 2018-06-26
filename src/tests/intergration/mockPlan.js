@@ -1,5 +1,5 @@
 /* eslint-disable quotes, comma-dangle */
-const fakePlanWithAgreement = {
+const mockPlanWithAgreement = {
   "forestFileId": "RAN077965",
   "agreementStartDate": "2019-01-01T08:00:00.000Z",
   "agreementEndDate": "2043-12-31T08:00:00.000Z",
@@ -420,4 +420,4 @@ const fakePlanWithAgreement = {
       ]
   }
 };
-export default fakePlanWithAgreement;
+export default mockPlanWithAgreement;

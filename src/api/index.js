@@ -1,9 +1,9 @@
 // import { v4 } from 'node-uuid';
-import { fakeAgreements, fakePlan } from '../tests/intergration/mockData';
+import { mockAgreements, mockPlan } from '../tests/intergration/mockData';
 
-const fakeDatabase = {
-  paginatedAgreements: fakeAgreements,
-  plan: fakePlan,
+const mockDatabase = {
+  paginatedAgreements: mockAgreements,
+  plan: mockPlan,
 };
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -12,9 +12,9 @@ export const fetchAgreements = filter => (
   delay(500).then(() => {
     switch (filter) {
       case 'all':
-        return fakeDatabase.paginatedAgreements;
+        return mockDatabase.paginatedAgreements;
       // case 'complete':
-      //   return fakeDatabase.paginatedAgreements.agreements.filter(t => !t.draft);
+      //   return mockDatabase.paginatedAgreements.agreements.filter(t => !t.draft);
       default:
         throw new Error(`Unknown filter: ${filter}`);
     }
@@ -23,7 +23,7 @@ export const fetchAgreements = filter => (
 
 export const fetchPlan = () => (
   delay(500).then(() => {
-    return fakeDatabase.plan;
+    return mockDatabase.plan;
   })
 );
 
@@ -34,13 +34,13 @@ export const fetchPlan = () => (
 //       text,
 //       completed: false,
 //     };
-//     fakeDatabase.todos.push(todo);
+//     mockDatabase.todos.push(todo);
 //     return todo;
 //   });
 
 // export const toggleTodo = (id) =>
 //   delay(500).then(() => {
-//     const todo = fakeDatabase.todos.find(t => t.id === id);
+//     const todo = mockDatabase.todos.find(t => t.id === id);
 //     todo.completed = !todo.completed;
 //     return todo;
 //   });

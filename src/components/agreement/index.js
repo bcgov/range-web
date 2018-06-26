@@ -7,9 +7,9 @@ import { searchAgreements } from '../../actionCreators';
 
 const propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  history: PropTypes.shape({}).isRequired,
   searchAgreements: PropTypes.func.isRequired,
 };
-
 class Base extends Component {
   componentDidMount() {
     const { searchAgreements, location } = this.props;
