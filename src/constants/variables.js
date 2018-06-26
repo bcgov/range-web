@@ -39,21 +39,23 @@ export const DATE_FORMAT = {
   CLIENT_SIDE: 'MMMM D, YYYY',
 };
 
-export const ROLE = {
+export const USER_ROLE = {
   ADMINISTRATOR: 'myra_admin',
   RANGE_OFFICER: 'myra_range_officer',
   AGREEMENT_HOLDER: 'myra_client',
 };
 
 export const ELEMENT_ID = {
-  GRAZING_SCHEDULE_ELEMENT_ID: 'rup__grazing-schedule',
-  RUP_ZONE_DROPDOWN_ELEMENT_ID: 'rup__zone-dropdown',
-  RUP_STICKY_HEADER_ELEMENT_ID: 'rup-sticky-header',
-  SIGN_OUT_ELEMENT_ID: 'sign-out',
-  MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID: 'manage-zone__zone-dropdown',
-  MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID: 'manage-zone__contact-dropdown',
-  LOGIN_BUTTON_ELEMENT_ID: 'login-button',
+  GRAZING_SCHEDULE: 'rup__grazing-schedule',
+  RUP_ZONE_DROPDOWN: 'rup__zone-dropdown',
+  RUP_STICKY_HEADER: 'rup-sticky-header',
+  SIGN_OUT: 'sign-out',
+  MANAGE_ZONE_ZONES_DROPDOWN: 'manage-zone__zone-dropdown',
+  MANAGE_ZONE_CONTACTS_DROPDOWN: 'manage-zone__contact-dropdown',
+  LOGIN_BUTTON: 'login-button',
+  LOGIN_IDIR_BUTTON: 'login-idir-button',
+  LOGIN_BCEID_BUTTON: 'login-bceid-button',
   SEARCH_TERM: 'searchTerm',
-  MANAGE_CLIENT_USERS_DROPDOWN_ELEMENT_ID: 'manage-client__users-dropdown',
-  MANAGE_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID: 'manage-client__clients-dropdown',
+  MANAGE_CLIENT_USERS_DROPDOWN: 'manage-client__users-dropdown',
+  MANAGE_CLIENT_CLIENTS_DROPDOWN: 'manage-client__clients-dropdown',
 };

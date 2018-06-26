@@ -25,12 +25,13 @@ import {
   STATUS500,
 } from '../constants/strings';
 
-export { default } from './axios';
+export { default as axios } from './axios';
 export * from './calculation';
 export * from './queryString';
 export * from './format';
 export * from './authentication';
 export * from './localStorage';
+export * from './user';
 
 export const getObjValues = obj => Object.keys(obj).map(e => obj[e]);
 /**

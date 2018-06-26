@@ -1,5 +1,6 @@
-// export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
-// export const REVOKE_AUTHENTICATION = 'REVOKE_AUTHENTICATION';
+export const STORE_SSO_AUTH_DATA = 'STORE_SSO_AUTH_DATA';
+export const STORE_USER = 'STORE_USER';
+export const SIGN_OUT = 'SIGN_OUT';
 
 export const REQUEST = 'REQUEST';
 export const SUCCESS = 'SUCCESS';

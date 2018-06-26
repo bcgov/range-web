@@ -20,8 +20,10 @@
 
 import { combineReducers } from 'redux';
 import * as reducerTypes from '../constants/reducerTypes';
+import { SIGN_OUT } from '../constants/actionTypes';
 import agreementReducer, * as fromAgreement from './agreementReducer';
 import networkReducer, * as fromNetwork from './networkReducer';
+import authReducer, * as fromAuth from './authReducer';
 import planReducer from './planReducer';
 
 // const createReduce
@@ -33,11 +35,12 @@ const createReducer = (reducer, name) => (state, action) => {
   return reducer(state, action);
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   [reducerTypes.AGREEMENTS]: agreementReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
   [reducerTypes.PLAN]: planReducer,
+  [reducerTypes.AUTH]: authReducer,
 });
 
 // public selectors
@@ -45,5 +48,16 @@ export const getAgreements = state => fromAgreement.getAgreements(state[reducerT
 export const getAgreementIds = state => fromAgreement.getAgreementIds(state[reducerTypes.AGREEMENTS]);
 export const getAgreementsPagination = state => fromNetwork.getPagination(state[reducerTypes.SEARCH_AGREEMENTS]);
 export const getAgreementsIsFetching = state => fromNetwork.getIsFetching(state[reducerTypes.SEARCH_AGREEMENTS]);
+export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);
+export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
+export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
 
+const rootReducer = (state, action) => {
+  // reset the state of a Redux store when users sign out
+  if (action.type === SIGN_OUT) {
+    return appReducer(undefined, action);
+  }
+
+  return appReducer(state, action);
+};
 export default rootReducer;

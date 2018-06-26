@@ -1,4 +1,4 @@
-export const AUTHENTICATION = 'AUTHENTICATION';
+export const AUTH = 'AUTH';
 
 export const AGREEMENTS = 'AGREEMENTS';
 export const PLAN = 'PLAN';

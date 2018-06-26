@@ -1,10 +1,35 @@
 // import axios from 'axios';
 import { normalize } from 'normalizr';
+import { axios, saveUserProfileInLocal } from '../utils';
 import * as schema from './schema';
 import * as api from '../api';
-import { request, success, successPagenated, error, storeAgreement, storePlan } from '../actions';
-import { getAgreementsIsFetching } from '../reducers/rootReducer';
+import {
+  request, success, successPagenated, error,
+  storeAgreement, storePlan, storeUser,
+} from '../actions';
+import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
+import * as API from '../constants/API';
+
+const createRequestHeader = state => ({
+  headers: {
+    'Authorization': `Bearer ${getToken(state)}`,
+    'content-type': 'application/json',
+  },
+});
+
+export const getUserProfile = () => (dispatch, getState) => {
+  return axios.get(API.GET_USER_PROFILE_ENDPOINT, createRequestHeader(getState())).then(
+    (response) => {
+      const user = response.data;
+      dispatch(storeUser(user));
+      saveUserProfileInLocal(user);
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
 
 export const searchAgreements = filter => (dispatch, getState) => {
   if (getAgreementsIsFetching(getState(), filter)) {
