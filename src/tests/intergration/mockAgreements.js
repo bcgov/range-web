@@ -1,6 +1,5 @@
 /* eslint-disable quotes, comma-dangle */
 const paginatedMockAgreements = {
-    data: {
         "perPage": 10,
         "currentPage": 1,
         "totalItems": 1513,
@@ -2771,6 +2770,5 @@ const paginatedMockAgreements = {
                 "id": "RAN077046"
             }
         ]
-      }
 };
 export default paginatedMockAgreements;

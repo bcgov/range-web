@@ -1,67 +1,51 @@
 import React from 'react';
-import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
-import { MemoryRouter, Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import Router from '../../components/Router';
+import { axios } from '../../utils';
 import Home from '../../components/Home';
-import Agreement from '../../components/agreement';
-import { storeAuthData } from '../../actions';
+import { storeAuthData, storeUser } from '../../actions';
+import { getAgreements } from '../../reducers/rootReducer';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { mockRequestHeader, mockAgreements } from './mockData';
 import * as API from '../../constants/API';
 
 let store;
 const mockAxios = new MockAdapter(axios);
-const mockToken = 'mockToken';
-
+const mockAuthData = {
+  access_token: 'mockToken',
+};
+const mockUser = {
+  id: 'user_id',
+};
 beforeEach(() => {
   store = configureMockStore([thunk]);
-  store.dispatch(storeAuthData('mockToken'));
+  store.dispatch(storeAuthData(mockAuthData));
+  store.dispatch(storeUser(mockUser));
   mockAxios.reset();
 });
 
+/* eslint-disable function-paren-newline */
 describe('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
-      ...mockRequestHeader(mockToken),
+      ...mockRequestHeader(mockAuthData.access_token),
       params: { term: '', page: 1, limit: 10 },
     };
+
     mockAxios.onGet(API.SEARCH_AGREEMENTS_ENDPOINT, config).reply(200, mockAgreements);
-    // const props = {
-    //   location: {
-    //     search: '',
-    //     pathname: '/home',
-    //   },
-    //   history: {
-    //     push: jest.fn(),
-    //   },
-    // };
-    // const wrapper = mount(
-    //   <Provider store={store}>
-    //     <Home />
-    //   </Provider>,
-    // );
     const wrapper = mount(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/home']} initialIndex={0}>
-          <BrowserRouter>
-            <Switch>
-              <Route path="/home" component={Home} />
-            </Switch>
-          </BrowserRouter>
-        </MemoryRouter>
+        <Home />
       </Provider>,
     );
+
     await flushAllPromises();
     // Forces a re-render
     wrapper.update();
-    console.log(wrapper.props());
-    console.log(store.getState().AGREEMENTS);
-    // expect(store.getState().AGREEMENTS).toHaveLength(10);
+    expect(getAgreements(store.getState())).toHaveLength(10);
   });
 //   describe('Browse functionalities', () => {
 //     const query = "test";
