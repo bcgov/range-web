@@ -8,6 +8,7 @@ const initialState = {
   planIds: [],
   pastures: {},
   grazingSchedules: {},
+  grazingScheduleEntries: {},
   ministerIssues: {},
 };
 
@@ -24,6 +25,12 @@ const mockPlanData = {
     {
       id: 'grazing_schedule_id',
       year: 2018,
+      grazingScheduleEntries: [
+        {
+          id: 'grazing_schedule_entry_id',
+          narative: 'narative',
+        },
+      ],
     },
   ],
   ministerIssues: [
@@ -55,6 +62,13 @@ const mockState = {
     grazing_schedule_id: {
       id: 'grazing_schedule_id',
       year: 2018,
+      grazingScheduleEntries: ['grazing_schedule_entry_id'],
+    },
+  },
+  grazingScheduleEntries: {
+    grazing_schedule_entry_id: {
+      id: 'grazing_schedule_entry_id',
+      narative: 'narative',
     },
   },
   ministerIssues: {

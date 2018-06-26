@@ -316,7 +316,48 @@ const fakePlanWithAgreement = {
               "planId": 1
           }
       ],
-      "grazingSchedules": [],
+      "grazingSchedules": [
+        {
+            "id": 1,
+            "year": 2019,
+            "narative": "This is a narative",
+            "planId": 1,
+            "grazingScheduleEntries": [
+                {
+                    "id": 1,
+                    "graceDays": 0,
+                    "livestockCount": 13,
+                    "dateIn": "2019-03-15T16:52:37.658Z",
+                    "dateOut": "2019-05-17T16:52:37.658Z",
+                    "pastureId": 1,
+                    "livestockTypeId": 1,
+                    "grazingScheduleId": 1,
+                    "livestockType": {
+                        "id": 1,
+                        "name": "Cow with Calf",
+                        "auFactor": 1,
+                        "active": true
+                    }
+                },
+                {
+                    "id": 2,
+                    "graceDays": 0,
+                    "livestockCount": 51,
+                    "dateIn": "2019-03-15T16:52:37.658Z",
+                    "dateOut": "2019-08-17T16:52:37.658Z",
+                    "pastureId": 1,
+                    "livestockTypeId": 2,
+                    "grazingScheduleId": 1,
+                    "livestockType": {
+                        "id": 2,
+                        "name": "Bull",
+                        "auFactor": 1.5,
+                        "active": true
+                    }
+                }
+            ]
+        }
+    ],
       "ministerIssues": [
           {
               "id": 1,

@@ -5,6 +5,7 @@ const initialState = {
   planIds: [],
   pastures: {},
   grazingSchedules: {},
+  grazingScheduleEntries: {},
   ministerIssues: {},
 };
 
@@ -14,6 +15,7 @@ const storePlan = (state, action) => {
     plans: plan,
     pastures,
     grazingSchedules,
+    grazingScheduleEntries,
     ministerIssues,
   } = entities;
   const handlePlanIds = (state, planId) => {
@@ -36,6 +38,10 @@ const storePlan = (state, action) => {
     grazingSchedules: {
       ...state.grazingSchedules,
       ...grazingSchedules,
+    },
+    grazingScheduleEntries: {
+      ...state.grazingScheduleEntries,
+      ...grazingScheduleEntries,
     },
     ministerIssues: {
       ...state.ministerIssues,

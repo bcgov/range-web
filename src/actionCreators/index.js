@@ -31,16 +31,25 @@ export const getUserProfile = () => (dispatch, getState) => {
   );
 };
 
-export const searchAgreements = filter => (dispatch, getState) => {
-  if (getAgreementsIsFetching(getState(), filter)) {
+export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch, getState) => {
+  if (getAgreementsIsFetching(getState())) {
     return Promise.resolve();
   }
-  dispatch(request(reducerTypes.SEARCH_AGREEMENTS));
 
-  return api.fetchAgreements(filter).then(
+  dispatch(request(reducerTypes.SEARCH_AGREEMENTS));
+  const token = getToken(getState());
+  const config = {
+    ...createRequestHeader(token),
+    params: {
+      term,
+      page,
+      limit,
+    },
+  };
+  return axios.get(API.SEARCH_AGREEMENTS_ENDPOINT, config).then(
     (response) => {
-      dispatch(successPagenated(reducerTypes.SEARCH_AGREEMENTS, response));
-      dispatch(storeAgreement(normalize(response.agreements, schema.arrayOfAgreements)));
+      dispatch(successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data));
+      dispatch(storeAgreement(normalize(response.data.agreements, schema.arrayOfAgreements)));
     },
     (err) => {
       dispatch(error(reducerTypes.SEARCH_AGREEMENTS, err.message));

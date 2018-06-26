@@ -4,7 +4,7 @@ import { parseQuery, getTokenFromSSO, saveAuthDataInLocal } from '../utils';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/API';
 
 const propTypes = {
-  location: PropTypes.shape({}),
+  location: PropTypes.shape({ search: PropTypes.string }),
 };
 const defaultProps = {
   location: {},
@@ -32,7 +32,7 @@ class ReturnPage extends Component {
 
   render() {
     return (
-      <div>Return Page</div>
+      <div>Temporary Return Page</div>
     );
   }
 }
