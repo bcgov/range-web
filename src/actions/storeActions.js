@@ -21,13 +21,6 @@ export const storeZones = payload => (
   }
 );
 
-export const updateZone = payload => (
-  {
-    type: actionTypes.UPDATE_ZONE,
-    payload,
-  }
-);
-
 export const storeReferences = payload => (
   {
     type: actionTypes.STORE_REFERENCES,
@@ -38,6 +31,13 @@ export const storeReferences = payload => (
 export const storeUsers = payload => (
   {
     type: actionTypes.STORE_USERS,
+    payload,
+  }
+);
+
+export const storeClients = payload => (
+  {
+    type: actionTypes.STORE_CLIENTS,
     payload,
   }
 );

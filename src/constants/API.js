@@ -40,4 +40,4 @@ export const CREATE_RUP_SCHEDULE = planId => `/plan/${planId}/schedule`;
 export const UPDATE_RUP_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
 export const DELETE_RUP_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
 export const DELETE_RUP_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
-export const UPDATE_AH_CLIENT_ID = (userId, clientId) => `/user/${userId}/client/${clientId}`;
+export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/user/${userId}/client/${clientId}`;

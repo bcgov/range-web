@@ -9,6 +9,7 @@ import ReturnPage from './ReturnPage';
 import LandingPage from './LandingPage';
 import PageNotFound from './PageNotFound';
 import ManageZone from './manageZone';
+import ManageClient from './manageClient';
 import { getAuthData, getUser } from '../reducers/rootReducer';
 import { isUserAdmin } from '../utils';
 
@@ -61,6 +62,7 @@ class Router extends Component {
           <PublicRoute path={Routes.LOGIN} component={Login} auth={auth} />
           <PrivateRoute path={Routes.HOME} component={Home} auth={auth} />
           <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+          <AdminRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
           <Route path="/return-page" component={ReturnPage} />
           <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
           <Route path="*" component={PageNotFound} />

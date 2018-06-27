@@ -1,4 +1,4 @@
-import { STORE_REFERENCES, STORE_ZONES, STORE_USERS, UPDATE_ZONE } from '../constants/actionTypes';
+import * as actionTypes from '../constants/actionTypes';
 
 const initialState = {
   references: {},
@@ -33,6 +33,17 @@ const storeZones = (state, action) => {
   };
 };
 
+const updateUser = (state, action) => {
+  const user = action.payload;
+  return {
+    ...state,
+    users: {
+      ...state.zones,
+      [user.id]: user,
+    },
+  };
+};
+
 const storeUsers = (state, action) => {
   const { entities, result } = action.payload;
   const { users } = entities;
@@ -49,19 +60,21 @@ const storeUsers = (state, action) => {
 
 const commonStoreReducer = (state = initialState, action) => {
   switch (action.type) {
-    case STORE_REFERENCES:
+    case actionTypes.STORE_REFERENCES:
       return {
         ...state,
         references: {
           ...action.payload,
         },
       };
-    case STORE_ZONES:
+    case actionTypes.STORE_ZONES:
       return storeZones(state, action);
-    case UPDATE_ZONE:
+    case actionTypes.UPDATE_ZONE:
       return updateZone(state, action);
-    case STORE_USERS:
+    case actionTypes.STORE_USERS:
       return storeUsers(state, action);
+    case actionTypes.UPDATE_USER:
+      return updateUser(state, action);
     default:
       return state;
   }

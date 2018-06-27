@@ -15,3 +15,5 @@ export const STORE_REFERENCES = 'STORE_REFERENCES';
 export const STORE_ZONES = 'STORE_ZONES';
 export const STORE_USERS = 'STORE_USERS';
 export const UPDATE_ZONE = 'UPDATE_ZONE';
+export const STORE_CLIENTS = 'STORE_CLIENTS';
+export const UPDATE_USER = 'UPDATE_USER';

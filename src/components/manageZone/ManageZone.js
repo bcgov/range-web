@@ -15,10 +15,10 @@ const propTypes = {
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   zonesMap: PropTypes.shape({}).isRequired,
   updateZone: PropTypes.func.isRequired,
-  updateUserIDOfZone: PropTypes.func.isRequired,
+  updateUserIdOfZone: PropTypes.func.isRequired,
   isAssigning: PropTypes.bool.isRequired,
 };
-
+/* eslint-disable arrow-body-style */
 export class ManageZone extends Component {
   state = {
     newContactId: null,
@@ -52,7 +52,7 @@ export class ManageZone extends Component {
 
   assignStaffToZone = () => {
     const { zoneId, newContactId: userId } = this.state;
-    const { zonesMap, updateUserIDOfZone, updateZone } = this.props;
+    const { zonesMap, updateUserIdOfZone, updateZone } = this.props;
 
     const staffAssigned = (assignedUser) => {
       // create a new zone obj with the new assigned user
@@ -73,7 +73,7 @@ export class ManageZone extends Component {
         currContactName: null,
       });
     };
-    updateUserIDOfZone(zoneId, userId).then(staffAssigned);
+    updateUserIdOfZone(zoneId, userId).then(staffAssigned);
   }
 
   render() {
@@ -94,6 +94,7 @@ export class ManageZone extends Component {
     const contactOptions = users.map((user) => {
       return {
         value: user.id,
+        description: user.email,
         text: getUserfullName(user),
       };
     });
@@ -139,18 +140,16 @@ export class ManageZone extends Component {
 
             <h3>Step 2: Assign a new contact</h3>
             <div className="manage-zone__step-two">
-              <div className="manage-zone__dropdown">
-                <Dropdown
-                  id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
-                  placeholder="Contact"
-                  options={contactOptions}
-                  value={newContactId}
-                  onChange={this.onContactChanged}
-                  fluid
-                  search
-                  selection
-                />
-              </div>
+              <Dropdown
+                id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
+                placeholder="Contact"
+                options={contactOptions}
+                value={newContactId}
+                onChange={this.onContactChanged}
+                fluid
+                search
+                selection
+              />
             </div>
 
             <div className="manage-zone__update-btn">

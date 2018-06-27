@@ -6,33 +6,72 @@ import * as api from '../api';
 import {
   request, success, successPagenated, error,
   storeAgreements, storePlan, storeUser, removeAuthDataAndUser,
-  storeZones, storeReferences, storeUsers,
+  storeZones, storeReferences, storeUsers, storeClients,
 } from '../actions';
 import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 
-export const updateUserIDOfZone = (zoneId, userId) => (dispatch, getState) => {
+export const updateClientIdOfUser = (userId, clientNumber) => (dispatch) => {
+  dispatch(request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
+  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber)).then(
+    (response) => {
+      const client = response.data;
+
+      dispatch(success(reducerTypes.UPDATE_CLIENT_ID_OF_USER, client));
+      // dispatch(toastSuccessMessage(LINK_CLIENT_SUCCESS));
+      return client;
+    },
+    (err) => {
+      dispatch(error(reducerTypes.UPDATE_CLIENT_ID_OF_USER, err));
+      // dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const searchClients = term => (dispatch, getState) => {
+  dispatch(request(reducerTypes.SEARCH_CLIENTS));
+  const token = getToken(getState());
+  const config = {
+    ...createRequestHeader(token),
+    params: {
+      term,
+    },
+  };
+  return axios.get(API.SEARCH_CLIENTS, config).then(
+    (response) => {
+      const clients = response.data;
+      dispatch(success(reducerTypes.SEARCH_CLIENTS));
+      dispatch(storeClients(normalize(clients, schema.arrayOfClients)));
+      return clients;
+    },
+    (err) => {
+      dispatch(error(reducerTypes.SEARCH_CLIENTS, err));
+      throw err;
+    },
+  );
+};
+
+export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_USER_ID_OF_ZONE));
   const token = getToken(getState());
-  const makeRequest = async () => {
-    try {
-      const response = await axios.put(
-        API.UPDATE_USER_ID_OF_ZONE(zoneId),
-        { userId },
-        createRequestHeader(token),
-      );
+  return axios.put(
+    API.UPDATE_USER_ID_OF_ZONE(zoneId),
+    { userId },
+    createRequestHeader(token),
+  ).then(
+    (response) => {
       dispatch(success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
       // dispatch(toastSuccessMessage(ASSIGN_STAFF_TO_ZONE_SUCCESS));
       return response.data;
-    } catch (err) {
+    },
+    (err) => {
       dispatch(error(reducerTypes.UPDATE_USER_ID_OF_ZONE, err));
       // dispatch(toastErrorMessage(err));
       throw err;
-    }
-  };
-
-  return makeRequest();
+    },
+  );
 };
 
 export const fetchUsers = () => (dispatch, getState) => {
@@ -41,6 +80,7 @@ export const fetchUsers = () => (dispatch, getState) => {
     (response) => {
       const users = response.data;
       dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
+      return users;
     },
     (err) => {
       throw err;
@@ -54,6 +94,7 @@ export const fetchReferences = () => (dispatch, getState) => {
     (response) => {
       const references = response.data;
       dispatch(storeReferences(references));
+      return references;
     },
     (err) => {
       throw err;
@@ -77,6 +118,7 @@ export const fetchZones = districtId => (dispatch, getState) => {
     (response) => {
       const zones = response.data;
       dispatch(storeZones(normalize(zones, schema.arrayOfZones)));
+      return zones;
     },
     (err) => {
       throw err;
@@ -97,6 +139,7 @@ export const fetchUser = () => (dispatch, getState) => {
       const user = response.data;
       dispatch(storeUser(user));
       saveUserProfileInLocal(user);
+      return user;
     },
     (err) => {
       throw err;
@@ -123,6 +166,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     (response) => {
       dispatch(successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data));
       dispatch(storeAgreements(normalize(response.data.agreements, schema.arrayOfAgreements)));
+      return response.data;
     },
     (err) => {
       dispatch(error(reducerTypes.SEARCH_AGREEMENTS, err.message));
