@@ -5,7 +5,6 @@ import Navbar from './Navbar';
 import { userHaveRole, isUserActive } from '../utils';
 import { fetchUser, fetchReferences, fetchZones } from '../actionCreators';
 import { getUser } from '../reducers/rootReducer';
-// import { getReferences, getZones } from '../actions/commonActions';
 
 const propTypes = {
   component: PropTypes.func.isRequired,

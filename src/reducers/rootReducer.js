@@ -37,12 +37,13 @@ const createReducer = (reducer, name) => (state, action) => {
 };
 
 const appReducer = combineReducers({
+  [reducerTypes.AUTH]: authReducer,
   [reducerTypes.AGREEMENTS]: agreementReducer,
+  [reducerTypes.PLAN]: planReducer,
+  [reducerTypes.COMMON]: commonStoreReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
-  [reducerTypes.PLAN]: planReducer,
-  [reducerTypes.AUTH]: authReducer,
-  [reducerTypes.COMMON]: commonStoreReducer,
+  [reducerTypes.UPDATE_USER_ID_OF_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_USER_ID_OF_ZONE),
 });
 
 // public selectors
@@ -58,6 +59,9 @@ export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);
 export const getReferences = state => fromCommonStore.getReferences(state[reducerTypes.COMMON]);
+export const getUsers = state => fromCommonStore.getUsers(state[reducerTypes.COMMON]);
+export const getUsersMap = state => fromCommonStore.getUsersMap(state[reducerTypes.COMMON]);
+export const getUserIdOfZoneIsUpdating = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_USER_ID_OF_ZONE]);
 
 const rootReducer = (state, action) => {
   // reset the state of a Redux store when users sign out

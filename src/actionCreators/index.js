@@ -5,19 +5,55 @@ import * as schema from './schema';
 import * as api from '../api';
 import {
   request, success, successPagenated, error,
-  storeAgreement, storePlan, storeUser, removeAuthDataAndUser,
-  storeZone, storeReference,
+  storeAgreements, storePlan, storeUser, removeAuthDataAndUser,
+  storeZones, storeReferences, storeUsers,
 } from '../actions';
 import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 
+export const updateUserIDOfZone = (zoneId, userId) => (dispatch, getState) => {
+  dispatch(request(reducerTypes.UPDATE_USER_ID_OF_ZONE));
+  const token = getToken(getState());
+  const makeRequest = async () => {
+    try {
+      const response = await axios.put(
+        API.UPDATE_USER_ID_OF_ZONE(zoneId),
+        { userId },
+        createRequestHeader(token),
+      );
+      dispatch(success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
+      // dispatch(toastSuccessMessage(ASSIGN_STAFF_TO_ZONE_SUCCESS));
+      return response.data;
+    } catch (err) {
+      dispatch(error(reducerTypes.UPDATE_USER_ID_OF_ZONE, err));
+      // dispatch(toastErrorMessage(err));
+      throw err;
+    }
+  };
+
+  return makeRequest();
+};
+
+export const fetchUsers = () => (dispatch, getState) => {
+  const token = getToken(getState());
+  return axios.get(API.GET_USERS, createRequestHeader(token)).then(
+    (response) => {
+      const users = response.data;
+      dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
 export const fetchReferences = () => (dispatch, getState) => {
   const token = getToken(getState());
-  return axios.get(API.GET_REFERENCES_ENDPOINT, createRequestHeader(token)).then(
+  return axios.get(API.GET_REFERENCES, createRequestHeader(token)).then(
     (response) => {
       const references = response.data;
-      dispatch(storeReference(references));
+      dispatch(storeReferences(references));
     },
     (err) => {
       throw err;
@@ -37,10 +73,10 @@ export const fetchZones = districtId => (dispatch, getState) => {
     };
   }
 
-  return axios.get(API.GET_ZONES_ENTPOINT, config).then(
+  return axios.get(API.GET_ZONES, config).then(
     (response) => {
       const zones = response.data;
-      dispatch(storeZone(normalize(zones, schema.arrayOfZones)));
+      dispatch(storeZones(normalize(zones, schema.arrayOfZones)));
     },
     (err) => {
       throw err;
@@ -56,7 +92,7 @@ export const signOut = () => (dispatch) => {
 
 export const fetchUser = () => (dispatch, getState) => {
   const token = getToken(getState());
-  return axios.get(API.GET_USER_PROFILE_ENDPOINT, createRequestHeader(token)).then(
+  return axios.get(API.GET_USER_PROFILE, createRequestHeader(token)).then(
     (response) => {
       const user = response.data;
       dispatch(storeUser(user));
@@ -83,10 +119,10 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
       limit,
     },
   };
-  return axios.get(API.SEARCH_AGREEMENTS_ENDPOINT, config).then(
+  return axios.get(API.SEARCH_AGREEMENTS, config).then(
     (response) => {
       dispatch(successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data));
-      dispatch(storeAgreement(normalize(response.data.agreements, schema.arrayOfAgreements)));
+      dispatch(storeAgreements(normalize(response.data.agreements, schema.arrayOfAgreements)));
     },
     (err) => {
       dispatch(error(reducerTypes.SEARCH_AGREEMENTS, err.message));

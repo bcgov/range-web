@@ -35,14 +35,14 @@ export * from './user';
 export * from './planStatus';
 export * from './client';
 
-export const getObjValues = obj => Object.keys(obj).map(e => obj[e]);
-
-export const createRequestHeader = token => ({
-  headers: {
-    'Authorization': `Bearer ${token}`,
-    'content-type': 'application/json',
-  },
-});
+export const createRequestHeader = token => (
+  {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  }
+);
 /**
  * Present user friendly string when getting null or undefined value
  *

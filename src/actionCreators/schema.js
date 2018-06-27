@@ -20,6 +20,8 @@ export const arrayOfAgreements = new schema.Array(agreement);
 
 export const zone = new schema.Entity('zones');
 export const arrayOfZones = new schema.Array(zone);
+export const user = new schema.Entity('users');
+export const arrayOfUsers = new schema.Array(user);
 
 export const plan = new schema.Entity('plans');
 export const pasture = new schema.Entity('pastures');

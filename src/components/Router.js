@@ -8,22 +8,24 @@ import Login from './Login';
 import ReturnPage from './ReturnPage';
 import LandingPage from './LandingPage';
 import PageNotFound from './PageNotFound';
-import { getAuthData } from '../reducers/rootReducer';
+import ManageZone from './manageZone';
+import { getAuthData, getUser } from '../reducers/rootReducer';
+import { isUserAdmin } from '../utils';
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
-// const AdminRoute = ({ component: Component, ...rest }) => (
-//   <Route
-//     {...rest}
-//     render={(props) => {
-//         if (user && user.isAdmin) {
-//           return <LandingPage {...props} component={Component} />;
-//         }
-//         return <Redirect to={Routes.LOGIN} />;
-//       }
-//     }
-//   />
-// );
+const AdminRoute = ({ component: Component, user, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) => {
+        if (isUserAdmin(user)) {
+          return <LandingPage {...props} component={Component} />;
+        }
+        return <Redirect to={Routes.LOGIN} />;
+      }
+    }
+  />
+);
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
@@ -52,12 +54,13 @@ const PublicRoute = ({ component: Component, auth, ...rest }) => (
 
 class Router extends Component {
   render() {
-    const { auth } = this.props;
+    const { auth, user } = this.props;
     return (
       <BrowserRouter>
         <Switch>
           <PublicRoute path={Routes.LOGIN} component={Login} auth={auth} />
-          <PrivateRoute path="/home" component={Home} auth={auth} />
+          <PrivateRoute path={Routes.HOME} component={Home} auth={auth} />
+          <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
           <Route path="/return-page" component={ReturnPage} />
           <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
           <Route path="*" component={PageNotFound} />
@@ -69,16 +72,19 @@ class Router extends Component {
 
 const propTypes = {
   auth: PropTypes.shape({}),
+  user: PropTypes.shape({}),
 };
 const defaultProps = {
   auth: null,
+  user: null,
 };
 const mapStateToProps = state => (
   {
     auth: getAuthData(state),
+    user: getUser(state),
   }
 );
 
 Router.propTypes = propTypes;
 Router.defaultProps = defaultProps;
-export default connect(mapStateToProps, {})(Router);
+export default connect(mapStateToProps, null)(Router);

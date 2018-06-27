@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants/actionTypes';
 
-export const storeAgreement = payload => (
+export const storeAgreements = payload => (
   {
     type: actionTypes.STORE_AGREEMENTS,
     payload,
@@ -14,16 +14,30 @@ export const storePlan = payload => (
   }
 );
 
-export const storeZone = payload => (
+export const storeZones = payload => (
   {
-    type: actionTypes.STORE_ZONE,
+    type: actionTypes.STORE_ZONES,
     payload,
   }
 );
 
-export const storeReference = payload => (
+export const updateZone = payload => (
   {
-    type: actionTypes.STORE_REFERENCE,
+    type: actionTypes.UPDATE_ZONE,
+    payload,
+  }
+);
+
+export const storeReferences = payload => (
+  {
+    type: actionTypes.STORE_REFERENCES,
+    payload,
+  }
+);
+
+export const storeUsers = payload => (
+  {
+    type: actionTypes.STORE_USERS,
     payload,
   }
 );
