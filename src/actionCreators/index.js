@@ -12,9 +12,10 @@ import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 
-export const updateClientIdOfUser = (userId, clientNumber) => (dispatch) => {
+export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
-  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber)).then(
+  const token = getToken(getState());
+  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber), {}, createRequestHeader(token)).then(
     (response) => {
       const client = response.data;
 

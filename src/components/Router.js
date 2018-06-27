@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import Home from './Home';
@@ -72,14 +71,6 @@ class Router extends Component {
   }
 }
 
-const propTypes = {
-  auth: PropTypes.shape({}),
-  user: PropTypes.shape({}),
-};
-const defaultProps = {
-  auth: null,
-  user: null,
-};
 const mapStateToProps = state => (
   {
     auth: getAuthData(state),
@@ -87,6 +78,4 @@ const mapStateToProps = state => (
   }
 );
 
-Router.propTypes = propTypes;
-Router.defaultProps = defaultProps;
 export default connect(mapStateToProps, null)(Router);

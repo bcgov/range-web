@@ -38,7 +38,7 @@ const updateUser = (state, action) => {
   return {
     ...state,
     users: {
-      ...state.zones,
+      ...state.users,
       [user.id]: user,
     },
   };
