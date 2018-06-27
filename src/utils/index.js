@@ -33,6 +33,7 @@ export * from './authentication';
 export * from './localStorage';
 export * from './user';
 export * from './planStatus';
+export * from './client';
 
 export const getObjValues = obj => Object.keys(obj).map(e => obj[e]);
 

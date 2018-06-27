@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
 import { CLIENT_TYPE } from '../../constants/variables';
-import { presentNullValue, getUserfullName } from '../../utils';
+import { presentNullValue, getUserfullName, getPrimaryAgreementHolder } from '../../utils';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -17,8 +17,8 @@ const propTypes = {
 
 export class AgreementTableItem extends Component {
   onRowClicked = () => {
-    const { agreement = {}, history, index } = this.props;
-    const { id: agreementId, plans } = agreement;
+    const { agreement, history, index } = this.props;
+    const { id: agreementId, plans } = agreement || {};
     if (agreementId && plans && plans.length !== 0) {
       const planId = plans[0].id;
       history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
@@ -28,26 +28,22 @@ export class AgreementTableItem extends Component {
     }
   }
 
-  getPrimaryAgreementHolder = (clients = []) => {
-    let primaryAgreementHolder = {};
-    clients.forEach((client) => {
-      if (client.clientTypeCode === CLIENT_TYPE.PRIMARY) {
-        primaryAgreementHolder = client;
-      }
-    });
-
-    return primaryAgreementHolder;
-  }
-
   render() {
-    const { agreement } = this.props;
-    const { plans, id: agreementId, zone } = agreement || {};
-    const plan = plans[0];
+    const {
+      plans,
+      id: agreementId,
+      zone,
+      clients,
+    } = this.props.agreement || {};
 
+    let plan = {};
+    if (plans && plans.length !== 0) {
+      [plan] = plans;
+    }
+    const { rangeName, status } = plan;
     const user = zone && zone.user;
     const staffFullName = getUserfullName(user);
-    const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
-    const { rangeName, status } = plan || {};
+    const { name: primaryAgreementHolderName } = getPrimaryAgreementHolder(clients);
 
     return (
       <Table.Row

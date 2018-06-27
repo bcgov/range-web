@@ -6,10 +6,47 @@ import * as api from '../api';
 import {
   request, success, successPagenated, error,
   storeAgreement, storePlan, storeUser, removeAuthDataAndUser,
+  storeZone, storeReference,
 } from '../actions';
 import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
+
+export const fetchReferences = () => (dispatch, getState) => {
+  const token = getToken(getState());
+  return axios.get(API.GET_REFERENCES_ENDPOINT, createRequestHeader(token)).then(
+    (response) => {
+      const references = response.data;
+      dispatch(storeReference(references));
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
+export const fetchZones = districtId => (dispatch, getState) => {
+  const token = getToken(getState());
+  const config = {
+    ...createRequestHeader(token),
+  };
+
+  if (districtId) {
+    config.params = {
+      districtId,
+    };
+  }
+
+  return axios.get(API.GET_ZONES_ENTPOINT, config).then(
+    (response) => {
+      const zones = response.data;
+      dispatch(storeZone(normalize(zones, schema.arrayOfZones)));
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
 
 export const signOut = () => (dispatch) => {
   // clear the local storage in the browser
@@ -17,7 +54,7 @@ export const signOut = () => (dispatch) => {
   dispatch(removeAuthDataAndUser());
 };
 
-export const getUserProfile = () => (dispatch, getState) => {
+export const fetchUser = () => (dispatch, getState) => {
   const token = getToken(getState());
   return axios.get(API.GET_USER_PROFILE_ENDPOINT, createRequestHeader(token)).then(
     (response) => {
@@ -57,7 +94,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
   );
 };
 
-export const getPlan = () => (dispatch) => {
+export const fetchPlan = () => (dispatch) => {
   dispatch(request(reducerTypes.GET_PLAN));
 
   return api.fetchPlan().then(

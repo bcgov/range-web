@@ -13,3 +13,17 @@ export const storePlan = payload => (
     payload,
   }
 );
+
+export const storeZone = payload => (
+  {
+    type: actionTypes.STORE_ZONE,
+    payload,
+  }
+);
+
+export const storeReference = payload => (
+  {
+    type: actionTypes.STORE_REFERENCE,
+    payload,
+  }
+);

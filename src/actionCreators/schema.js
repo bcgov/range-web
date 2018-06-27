@@ -18,6 +18,9 @@ import { schema } from 'normalizr';
 export const agreement = new schema.Entity('agreements');
 export const arrayOfAgreements = new schema.Array(agreement);
 
+export const zone = new schema.Entity('zones');
+export const arrayOfZones = new schema.Array(zone);
+
 export const plan = new schema.Entity('plans');
 export const pasture = new schema.Entity('pastures');
 export const ministerIssue = new schema.Entity('ministerIssues');

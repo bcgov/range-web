@@ -25,6 +25,7 @@ import agreementReducer, * as fromAgreement from './agreementReducer';
 import networkReducer, * as fromNetwork from './networkReducer';
 import authReducer, * as fromAuth from './authReducer';
 import planReducer from './planReducer';
+import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 
 // const createReduce
 // createReducer to allow for reducer reuse
@@ -41,6 +42,7 @@ const appReducer = combineReducers({
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
   [reducerTypes.PLAN]: planReducer,
   [reducerTypes.AUTH]: authReducer,
+  [reducerTypes.COMMON]: commonStoreReducer,
 });
 
 // public selectors
@@ -52,6 +54,10 @@ export const getAgreementsIsFetching = state => fromNetwork.getIsFetching(state[
 export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);
 export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
 export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
+
+export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
+export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);
+export const getReferences = state => fromCommonStore.getReferences(state[reducerTypes.COMMON]);
 
 const rootReducer = (state, action) => {
   // reset the state of a Redux store when users sign out

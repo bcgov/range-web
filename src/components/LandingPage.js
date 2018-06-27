@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Navbar from './Navbar';
 import { userHaveRole, isUserActive } from '../utils';
-import { getUserProfile } from '../actionCreators';
+import { fetchUser, fetchReferences, fetchZones } from '../actionCreators';
 import { getUser } from '../reducers/rootReducer';
 // import { getReferences, getZones } from '../actions/commonActions';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
   user: PropTypes.shape({}),
-  getUserProfile: PropTypes.func.isRequired,
-  //   getZones: PropTypes.func.isRequired,
-  //   getReferences: PropTypes.func.isRequired,
+  fetchUser: PropTypes.func.isRequired,
+  fetchZones: PropTypes.func.isRequired,
+  fetchReferences: PropTypes.func.isRequired,
 };
 const defaultProps = {
   user: undefined,
@@ -20,10 +20,10 @@ const defaultProps = {
 
 export class LandingPage extends Component {
   componentDidMount() {
-    // const { getReferences, getZones } = this.props;
-    // getReferences();
-    // getZones();
-    this.props.getUserProfile();
+    const { fetchReferences, fetchZones, fetchUser } = this.props;
+    fetchReferences();
+    fetchZones();
+    fetchUser();
   }
 
   render() {
@@ -33,7 +33,7 @@ export class LandingPage extends Component {
       <div className="main">
         <Navbar {...rest} />
         { !isUserActive(user) &&
-          <div>This account is not active in the server.</div>
+          <div>This account is not active.</div>
         }
         { userHaveRole(user) &&
           <Component {...rest} />
@@ -52,5 +52,8 @@ const mapStateToProps = state => (
 
 LandingPage.propTypes = propTypes;
 LandingPage.defaultProps = defaultProps;
-// export default connect(mapStateToProps, { getReferences, getZones })(LandingPage);
-export default connect(mapStateToProps, { getUserProfile })(LandingPage);
+export default connect(mapStateToProps, {
+  fetchUser,
+  fetchReferences,
+  fetchZones,
+})(LandingPage);
