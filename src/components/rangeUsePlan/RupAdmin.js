@@ -13,13 +13,14 @@ import { getAgreementHolders, isStatusCreated, isStatusPending } from '../../uti
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 // import RupGrazingSchedules from './view/RupGrazingSchedules';
-// import RupMinisterIssues from './view/RupMinisterIssues';
+import RupMinisterIssues from './view/RupMinisterIssues';
 
 const propTypes = {
   references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
+  ministerIssuesMap: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
@@ -121,6 +122,8 @@ class RupAdmin extends Component {
       user,
       plan,
       pasturesMap,
+      ministerIssuesMap,
+      references,
     } = this.props;
     const {
       isCompletedModalOpen,
@@ -246,12 +249,12 @@ class RupAdmin extends Component {
             livestockTypes={livestockTypes}
           /> */}
 
-          {/* <RupMinisterIssues
+          <RupMinisterIssues
             className="rup__missues__container"
-            plan={plan}
-            ministerIssueTypes={ministerIssueTypes}
-            ministerIssueActionTypes={ministerIssueActionTypes}
-          /> */}
+            references={references}
+            pasturesMap={pasturesMap}
+            ministerIssuesMap={ministerIssuesMap}
+          />
         </div>
       </div>
     );

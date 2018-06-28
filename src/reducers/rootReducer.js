@@ -80,6 +80,7 @@ export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[re
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getGrazingScheduleEntriesMap = state => fromPlan.getGrazingScheduleEntriesMap(state[reducerTypes.PLAN]);
+export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
 
 const rootReducer = (state, action) => {
   // reset the state of a Redux store when users sign out

@@ -78,5 +78,6 @@ export const getPlanIds = state => state.planIds;
 export const getPasturesMap = state => state.pastures;
 export const getGrazingSchedulesMap = state => state.grazingSchedules;
 export const getGrazingScheduleEntriesMap = state => state.getGrazingScheduleEntries;
+export const getMinisterIssuesMap = state => state.ministerIssues;
 
 export default planReducer;

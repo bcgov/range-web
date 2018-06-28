@@ -9,7 +9,11 @@ import { Loading } from '../common';
 // import { updatePlanStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
 import { fetchPlan, updatePlanStatus } from '../../actionCreators';
 import { updatePlan } from '../../actions';
-import { getPlansMap, getReferences, getUser, getPlanIsFetching, getPasturesMap } from '../../reducers/rootReducer';
+import {
+  getPlansMap, getReferences, getUser,
+  getPlanIsFetching, getPasturesMap, getGrazingSchedulesMap,
+  getMinisterIssuesMap,
+} from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
 // import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 // import { PLAN_STATUS, LIVESTOCK_TYPE, MINISTER_ISSUE_TYPE, MINISTER_ISSUE_ACTION_TYPE } from '../../constants/variables';
@@ -22,6 +26,7 @@ const propTypes = {
   isFetchingPlan: PropTypes.bool.isRequired,
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
+  ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   // agreementState: PropTypes.shape({}).isRequired,
@@ -59,6 +64,7 @@ class Base extends Component {
       updatePlanStatus,
       updatePlan,
       pasturesMap,
+      ministerIssuesMap,
       // isUpdatingStatus,
       // isDownloadingPDF,
       // updatePlanStatus,
@@ -83,6 +89,7 @@ class Base extends Component {
             user={user}
             plan={plan}
             pasturesMap={pasturesMap}
+            ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
           />
@@ -99,6 +106,7 @@ const mapStateToProps = state => (
   {
     plansMap: getPlansMap(state),
     pasturesMap: getPasturesMap(state),
+    ministerIssuesMap: getMinisterIssuesMap(state),
     isFetchingPlan: getPlanIsFetching(state),
     references: getReferences(state),
     user: getUser(state),
