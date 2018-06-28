@@ -126,7 +126,7 @@ class RupMinisterIssues extends Component {
 
   render() {
     const { ministerIssuesMap, className } = this.props;
-    const ministerIssues = getObjValues(ministerIssuesMap) || [];
+    const ministerIssues = getObjValues(ministerIssuesMap);
 
     return (
       <div className={className}>

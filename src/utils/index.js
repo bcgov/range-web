@@ -47,7 +47,7 @@ export const createRequestHeader = (getState) => {
   };
 };
 
-export const getObjValues = (obj = {}) => Object.keys(obj).map(e => obj[e]);
+export const getObjValues = (obj = {}) => Object.keys(obj).map(e => obj[e]) || [];
 
 /**
  * Present user friendly string when getting null or undefined value

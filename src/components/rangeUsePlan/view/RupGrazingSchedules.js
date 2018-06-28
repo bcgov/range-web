@@ -52,7 +52,12 @@ class RupGrazingSchedules extends Component {
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
-    const { usages, references, pasturesMap, grazingScheduleEntriesMap } = this.props;
+    const {
+      usages,
+      references,
+      pasturesMap,
+      grazingScheduleEntriesMap,
+    } = this.props;
     const grazingScheduleEntries = utils.getObjValues(grazingScheduleEntriesMap);
     const { id, year } = schedule;
     const yearUsage = usages.find(u => u.year === year);
@@ -146,7 +151,7 @@ class RupGrazingSchedules extends Component {
   }
   render() {
     const { grazingSchedulesMap } = this.props;
-    const grazingSchedules = utils.getObjValues(grazingSchedulesMap) || [];
+    const grazingSchedules = utils.getObjValues(grazingSchedulesMap);
 
     return (
       <div className="rup__schedules__container">

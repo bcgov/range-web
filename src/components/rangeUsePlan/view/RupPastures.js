@@ -83,7 +83,7 @@ class RupPastures extends Component {
 
   render() {
     const { pasturesMap, className } = this.props;
-    const pastures = getObjValues(pasturesMap) || [];
+    const pastures = getObjValues(pasturesMap);
 
     return (
       <div className={className}>
