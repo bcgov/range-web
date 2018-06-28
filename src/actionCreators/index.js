@@ -152,15 +152,14 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
   if (getAgreementsIsFetching(getState())) {
     return Promise.resolve();
   }
-
   dispatch(request(reducerTypes.SEARCH_AGREEMENTS));
   const token = getToken(getState());
   const config = {
     ...createRequestHeader(token),
     params: {
       term,
-      page,
-      limit,
+      page: Number(page),
+      limit: Number(limit),
     },
   };
   return axios.get(API.SEARCH_AGREEMENTS, config).then(
@@ -171,6 +170,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     },
     (err) => {
       dispatch(error(reducerTypes.SEARCH_AGREEMENTS, err.message));
+      throw err;
     },
   );
 };

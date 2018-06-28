@@ -41,7 +41,7 @@ describe('Integration testing', () => {
       params: { term: '', page: 1, limit: 10 },
     };
 
-    mockAxios.onGet(API.SEARCH_AGREEMENTS_ENDPOINT, config).reply(200, mockAgreements);
+    mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreements);
 
     const wrapper = mount(
       <Provider store={store}>
@@ -60,12 +60,14 @@ describe('Integration testing', () => {
 
   describe('Browse functionalities', () => {
     it('search agreements by RAN number', async () => {
-      const config = {
+      let config = {
         ...mockRequestHeader(mockAuthData.access_token),
-        params: { term: 'RAN075974', page: '1', limit: 10 },
+        params: { term: '', page: 1, limit: 10 },
       };
+      mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreements);
+      config = { ...config, params: { term: 'RAN075974', page: 1, limit: 10 } };
+      mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreement);
 
-      mockAxios.onGet(API.SEARCH_AGREEMENTS_ENDPOINT, config).reply(200, mockAgreement);
       const wrapper = mount(
         <Provider store={store}>
           <BrowserRouter>
