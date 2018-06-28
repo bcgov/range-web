@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import * as actionTypes from '../constants/actionTypes';
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
 };
 
 const updateZone = (state, action) => {
-  const zone = action.payload;
+  const zone = cloneDeep(action.payload);
   return {
     ...state,
     zones: {
@@ -34,7 +35,7 @@ const storeZones = (state, action) => {
 };
 
 const updateUser = (state, action) => {
-  const user = action.payload;
+  const user = cloneDeep(action.payload);
   return {
     ...state,
     users: {

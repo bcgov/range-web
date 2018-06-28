@@ -31,6 +31,7 @@ export const GET_USERS = '/user';
 export const SEARCH_CLIENTS = '/client/search';
 export const GET_USER_PROFILE = '/user/me';
 
+export const GET_AGREEMENT = agreementId => `/agreement/${agreementId}`;
 export const GET_RUP = planId => `/plan/${planId}`;
 export const UPDATE_USER_ID_OF_ZONE = zoneId => `/zone/${zoneId}/user`;
 export const UPDATE_RUP_STATUS = planId => `/plan/${planId}/status`;

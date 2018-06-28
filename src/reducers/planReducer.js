@@ -1,4 +1,5 @@
-import { STORE_PLAN } from '../constants/actionTypes';
+import { cloneDeep } from 'lodash';
+import { STORE_PLAN, UPDATE_PLAN } from '../constants/actionTypes';
 
 const initialState = {
   plans: {},
@@ -9,10 +10,10 @@ const initialState = {
   ministerIssues: {},
 };
 
-const storePlan = (state, action) => {
+const storePlans = (state, action) => {
   const { entities, result: planId } = action.payload;
   const {
-    plans: plan,
+    plans,
     pastures,
     grazingSchedules,
     grazingScheduleEntries,
@@ -28,7 +29,7 @@ const storePlan = (state, action) => {
   return {
     plans: {
       ...state.plans,
-      ...plan,
+      ...plans,
     },
     planIds: handlePlanIds(state, planId),
     pastures: {
@@ -50,13 +51,32 @@ const storePlan = (state, action) => {
   };
 };
 
+const updatePlan = (state, action) => {
+  const plan = cloneDeep(action.payload);
+  return {
+    ...state,
+    plans: {
+      ...state.plans,
+      [plan.id]: plan,
+    },
+  };
+};
+
 const planReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storePlan(state, action);
+      return storePlans(state, action);
+    case UPDATE_PLAN:
+      return updatePlan(state, action);
     default:
       return state;
   }
 };
+
+export const getPlansMap = state => state.plans;
+export const getPlanIds = state => state.planIds;
+export const getPasturesMap = state => state.pastures;
+export const getGrazingSchedulesMap = state => state.grazingSchedules;
+export const getGrazingScheduleEntriesMap = state => state.getGrazingScheduleEntries;
 
 export default planReducer;

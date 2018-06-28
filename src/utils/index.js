@@ -24,6 +24,7 @@ import {
   STATUS404,
   STATUS500,
 } from '../constants/strings';
+import { getToken } from '../reducers/rootReducer';
 
 export { default as axios } from './axios';
 export * from './calculation';
@@ -35,14 +36,19 @@ export * from './user';
 export * from './planStatus';
 export * from './client';
 
-export const createRequestHeader = token => (
-  {
+export const createRequestHeader = (getState) => {
+  const token = getToken(getState());
+
+  return {
     headers: {
       'Authorization': `Bearer ${token}`,
       'content-type': 'application/json',
     },
-  }
-);
+  };
+};
+
+export const getObjValues = obj => Object.keys(obj).map(e => obj[e]);
+
 /**
  * Present user friendly string when getting null or undefined value
  *

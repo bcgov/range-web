@@ -81,11 +81,10 @@
 .banner {
   background: $primary-color;
   color: white;
-  
+  min-height: 150px;
+  padding: 10px;
   &__container {
     @extend .container;
-    min-height: 150px;
-    padding: 20px 0 10px 0;
   }
 
   &__content {
@@ -95,13 +94,10 @@
   &__action {
     display: flex;
     justify-content: flex-end;
-    margin-top: 10px;
-    &--hidden {
-      display: none;
-    }
+    margin-top: 12px;
   }
-  &__edit-rup {
-    height: 100px;
+  &__no-default-height {
+    min-height: 0px !important;
   }
 }
 

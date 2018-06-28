@@ -1,3 +1,5 @@
+import { getToken } from '../../../reducers/rootReducer';
+
 export { default as mockAgreements } from './mockAgreements';
 export { default as mockPlan } from './mockPlan';
 
@@ -14,9 +16,13 @@ export const mockAgreement = {
   ],
 };
 
-export const mockRequestHeader = token => ({
-  headers: {
-    'Authorization': `Bearer ${token}`,
-    'content-type': 'application/json',
-  },
-});
+export const mockRequestHeader = (getState) => {
+  const token = getToken(getState());
+
+  return {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  };
+};

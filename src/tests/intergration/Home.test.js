@@ -37,7 +37,7 @@ beforeEach(() => {
 describe('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
-      ...mockRequestHeader(mockAuthData.access_token),
+      ...mockRequestHeader(store.getState),
       params: { term: '', page: 1, limit: 10 },
     };
 
@@ -61,7 +61,7 @@ describe('Integration testing', () => {
   describe('Browse functionalities', () => {
     it('search agreements by RAN number', async () => {
       let config = {
-        ...mockRequestHeader(mockAuthData.access_token),
+        ...mockRequestHeader(store.getState),
         params: { term: '', page: 1, limit: 10 },
       };
       mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreements);

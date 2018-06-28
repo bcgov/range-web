@@ -1,13 +1,12 @@
 import { normalize } from 'normalizr';
 import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
 import * as schema from './schema';
-import * as api from '../api';
 import {
   request, success, successPagenated, error,
   storeAgreements, storePlan, storeUser, removeAuthDataAndUser,
   storeZones, storeReferences, storeUsers, storeClients,
 } from '../actions';
-import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
+import { getAgreementsIsFetching } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 
@@ -15,8 +14,7 @@ export * from './planActionCreator';
 
 export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
-  const token = getToken(getState());
-  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber), {}, createRequestHeader(token)).then(
+  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber), {}, createRequestHeader(getState)).then(
     (response) => {
       const client = response.data;
 
@@ -34,9 +32,8 @@ export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getStat
 
 export const searchClients = term => (dispatch, getState) => {
   dispatch(request(reducerTypes.SEARCH_CLIENTS));
-  const token = getToken(getState());
   const config = {
-    ...createRequestHeader(token),
+    ...createRequestHeader(getState),
     params: {
       term,
     },
@@ -57,11 +54,10 @@ export const searchClients = term => (dispatch, getState) => {
 
 export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_USER_ID_OF_ZONE));
-  const token = getToken(getState());
   return axios.put(
     API.UPDATE_USER_ID_OF_ZONE(zoneId),
     { userId },
-    createRequestHeader(token),
+    createRequestHeader(getState),
   ).then(
     (response) => {
       dispatch(success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
@@ -77,8 +73,7 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
 };
 
 export const fetchUsers = () => (dispatch, getState) => {
-  const token = getToken(getState());
-  return axios.get(API.GET_USERS, createRequestHeader(token)).then(
+  return axios.get(API.GET_USERS, createRequestHeader(getState)).then(
     (response) => {
       const users = response.data;
       dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
@@ -91,8 +86,7 @@ export const fetchUsers = () => (dispatch, getState) => {
 };
 
 export const fetchReferences = () => (dispatch, getState) => {
-  const token = getToken(getState());
-  return axios.get(API.GET_REFERENCES, createRequestHeader(token)).then(
+  return axios.get(API.GET_REFERENCES, createRequestHeader(getState)).then(
     (response) => {
       const references = response.data;
       dispatch(storeReferences(references));
@@ -105,9 +99,8 @@ export const fetchReferences = () => (dispatch, getState) => {
 };
 
 export const fetchZones = districtId => (dispatch, getState) => {
-  const token = getToken(getState());
   const config = {
-    ...createRequestHeader(token),
+    ...createRequestHeader(getState),
   };
 
   if (districtId) {
@@ -135,8 +128,7 @@ export const signOut = () => (dispatch) => {
 };
 
 export const fetchUser = () => (dispatch, getState) => {
-  const token = getToken(getState());
-  return axios.get(API.GET_USER_PROFILE, createRequestHeader(token)).then(
+  return axios.get(API.GET_USER_PROFILE, createRequestHeader(getState)).then(
     (response) => {
       const user = response.data;
       dispatch(storeUser(user));
@@ -154,9 +146,8 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     return Promise.resolve();
   }
   dispatch(request(reducerTypes.SEARCH_AGREEMENTS));
-  const token = getToken(getState());
   const config = {
-    ...createRequestHeader(token),
+    ...createRequestHeader(getState),
     params: {
       term,
       page: Number(page),
@@ -172,20 +163,6 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     (err) => {
       dispatch(error(reducerTypes.SEARCH_AGREEMENTS, err.message));
       throw err;
-    },
-  );
-};
-
-export const fetchPlan = () => (dispatch) => {
-  dispatch(request(reducerTypes.GET_PLAN));
-
-  return api.fetchPlan().then(
-    (response) => {
-      dispatch(success(reducerTypes.GET_PLAN), response);
-      dispatch(storePlan(normalize(response.plan, schema.plan)));
-    },
-    (err) => {
-      dispatch(error(reducerTypes.GET_PLAN, err.message));
     },
   );
 };

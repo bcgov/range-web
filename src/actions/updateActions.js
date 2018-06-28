@@ -13,3 +13,10 @@ export const updateUser = payload => (
     payload,
   }
 );
+
+export const updatePlan = payload => (
+  {
+    type: actionTypes.UPDATE_PLAN,
+    payload,
+  }
+);

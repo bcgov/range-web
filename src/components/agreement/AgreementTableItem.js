@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
 import { CLIENT_TYPE } from '../../constants/variables';
-import { presentNullValue, getUserfullName, getPrimaryAgreementHolder } from '../../utils';
+import { presentNullValue, getUserfullName, getAgreementHolders } from '../../utils';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -43,7 +43,8 @@ export class AgreementTableItem extends Component {
     const { rangeName, status } = plan;
     const user = zone && zone.user;
     const staffFullName = getUserfullName(user);
-    const { name: primaryAgreementHolderName } = getPrimaryAgreementHolder(clients);
+    const { primaryAgreementHolder } = getAgreementHolders(clients);
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     return (
       <Table.Row
