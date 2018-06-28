@@ -70,7 +70,7 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => (
  * @param {Array} entries grazing schedule entries
  * @returns {float} the total crown AUMs
  */
-export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes = []) => {
+export const calcCrownTotalAUMs = (entries = [], pasturesMap = {}, livestockTypes = []) => {
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   if (entries.length === 0) {
     return 0;
@@ -85,7 +85,7 @@ export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes =
         dateOut,
       } = entry || {};
       const days = calcDateDiff(dateOut, dateIn, false);
-      const pasture = pastures.find(p => p.id === pastureId);
+      const pasture = pasturesMap[pastureId];
       const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
       const auFactor = livestockType && livestockType.auFactor;
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);

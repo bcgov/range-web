@@ -13,10 +13,10 @@ import {
   getPlansMap, getReferences, getUser,
   getPlanIsFetching, getPasturesMap, getGrazingSchedulesMap,
   getMinisterIssuesMap,
+  getGrazingScheduleEntriesMap,
 } from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
 // import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
-// import { PLAN_STATUS, LIVESTOCK_TYPE, MINISTER_ISSUE_TYPE, MINISTER_ISSUE_ACTION_TYPE } from '../../constants/variables';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -26,6 +26,8 @@ const propTypes = {
   isFetchingPlan: PropTypes.bool.isRequired,
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
+  grazingSchedulesMap: PropTypes.shape({}).isRequired,
+  grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
@@ -65,6 +67,8 @@ class Base extends Component {
       updatePlan,
       pasturesMap,
       ministerIssuesMap,
+      grazingSchedulesMap,
+      grazingScheduleEntriesMap,
       // isUpdatingStatus,
       // isDownloadingPDF,
       // updatePlanStatus,
@@ -89,10 +93,15 @@ class Base extends Component {
             user={user}
             plan={plan}
             pasturesMap={pasturesMap}
+            grazingSchedulesMap={grazingSchedulesMap}
+            grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
           />
+        }
+        { agreement && plan && isUserAgreementHolder(user) &&
+          <div>hello AH</div>
         }
         {/* { error &&
           <Redirect to="/no-range-use-plan-found" />
@@ -106,6 +115,8 @@ const mapStateToProps = state => (
   {
     plansMap: getPlansMap(state),
     pasturesMap: getPasturesMap(state),
+    grazingSchedulesMap: getGrazingSchedulesMap(state),
+    grazingScheduleEntriesMap: getGrazingScheduleEntriesMap(state),
     ministerIssuesMap: getMinisterIssuesMap(state),
     isFetchingPlan: getPlanIsFetching(state),
     references: getReferences(state),

@@ -12,22 +12,23 @@ import { Status, ConfirmationModal, Banner } from '../common';
 import { getAgreementHolders, isStatusCreated, isStatusPending } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
-// import RupGrazingSchedules from './view/RupGrazingSchedules';
+import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 
 const propTypes = {
-  references: PropTypes.shape({}).isRequired,
+  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
   user: PropTypes.shape({}).isRequired,
+  references: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
+  grazingSchedulesMap: PropTypes.shape({}).isRequired,
+  grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
   // getRupPDF: PropTypes.func.isRequired,
-  // createOrUpdateRupSchedule: PropTypes.func.isRequired,
   // toastErrorMessage: PropTypes.func.isRequired,
   // toastSuccessMessage: PropTypes.func.isRequired,
 };
@@ -122,6 +123,8 @@ class RupAdmin extends Component {
       user,
       plan,
       pasturesMap,
+      grazingSchedulesMap,
+      grazingScheduleEntriesMap,
       ministerIssuesMap,
       references,
     } = this.props;
@@ -133,7 +136,7 @@ class RupAdmin extends Component {
     } = this.state;
 
     const { agreementId, status } = plan;
-    const { clients } = agreement;
+    const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
     const statusDropdownOptions = [
@@ -241,13 +244,15 @@ class RupAdmin extends Component {
             pasturesMap={pasturesMap}
           />
 
-          {/* <RupGrazingSchedules
+          <RupGrazingSchedules
             className="rup__schedules__container"
-            plan={plan}
+            references={references}
             status={status}
             usages={usages}
-            livestockTypes={livestockTypes}
-          /> */}
+            pasturesMap={pasturesMap}
+            grazingSchedulesMap={grazingSchedulesMap}
+            grazingScheduleEntriesMap={grazingScheduleEntriesMap}
+          />
 
           <RupMinisterIssues
             className="rup__missues__container"
