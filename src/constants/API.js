@@ -34,7 +34,7 @@ export const GET_USER_PROFILE = '/user/me';
 export const GET_AGREEMENT = agreementId => `/agreement/${agreementId}`;
 export const GET_RUP = planId => `/plan/${planId}`;
 export const UPDATE_USER_ID_OF_ZONE = zoneId => `/zone/${zoneId}/user`;
-export const UPDATE_RUP_STATUS = planId => `/plan/${planId}/status`;
+export const UPDATE_PLAN_STATUS = planId => `/plan/${planId}/status`;
 export const UPDATE_RUP_ZONE = agreementId => `/agreement/${agreementId}/zone`;
 export const GET_RUP_PDF = planId => `/report/${planId}`;
 export const CREATE_RUP_SCHEDULE = planId => `/plan/${planId}/schedule`;

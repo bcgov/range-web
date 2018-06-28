@@ -6,11 +6,11 @@ import RupAdmin from './RupAdmin';
 // import RupAH from './RupAH';
 import { Loading } from '../common';
 // import { getRangeUsePlan } from '../../actions/agreementActions';
-// import { updateRupStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
-import { fetchPlan, updateRupStatus } from '../../actionCreators';
+// import { updatePlanStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
+import { fetchPlan, updatePlanStatus } from '../../actionCreators';
 import { updatePlan } from '../../actions';
 import { getPlansMap, getReferences, getUser, getPlanIsFetching, getPasturesMap } from '../../reducers/rootReducer';
-import { isUserAgreementHolder } from '../../utils';
+import { isUserAgreementHolder, isUserAdmin } from '../../utils';
 // import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 // import { PLAN_STATUS, LIVESTOCK_TYPE, MINISTER_ISSUE_TYPE, MINISTER_ISSUE_ACTION_TYPE } from '../../constants/variables';
 
@@ -22,7 +22,7 @@ const propTypes = {
   isFetchingPlan: PropTypes.bool.isRequired,
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
-  updateRupStatus: PropTypes.func.isRequired,
+  updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   // agreementState: PropTypes.shape({}).isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
@@ -56,12 +56,12 @@ class Base extends Component {
       user,
       isFetchingPlan,
       plansMap,
-      updateRupStatus,
+      updatePlanStatus,
       updatePlan,
       pasturesMap,
       // isUpdatingStatus,
       // isDownloadingPDF,
-      // updateRupStatus,
+      // updatePlanStatus,
       // getRupPDF,
       // createOrUpdateRupSchedule,
       // toastErrorMessage,
@@ -69,59 +69,21 @@ class Base extends Component {
     } = this.props;
     const { agreement, planId } = this.state;
     const plan = plansMap[planId];
-    // console.log(agreement, plan, zone)
-
-    // const statuses = references[PLAN_STATUS];
-    // const livestockTypes = references[LIVESTOCK_TYPE];
-    // const ministerIssueTypes = references[MINISTER_ISSUE_TYPE];
-    // const ministerIssueActionTypes = references[MINISTER_ISSUE_ACTION_TYPE];
-
-    // let rup;
-    // if (isUserAgreementHolder(user)) {
-    //   rup = (
-    //     <RupAH
-    //       user={user}
-    //       agreement={agreement}
-    //       statuses={statuses}
-    //       livestockTypes={livestockTypes}
-    //       ministerIssueTypes={ministerIssueTypes}
-    //       ministerIssueActionTypes={ministerIssueActionTypes}
-    //       createOrUpdateRupSchedule={createOrUpdateRupSchedule}
-    //       updateRupStatus={updateRupStatus}
-    //       toastErrorMessage={toastErrorMessage}
-    //       toastSuccessMessage={toastSuccessMessage}
-    //     />
-    //   );
-    // } else {
-    //   rup = (
-    //     <Rup
-    //       user={user}
-    //       agreement={agreement}
-    //       statuses={statuses}
-    //       livestockTypes={livestockTypes}
-    //       ministerIssueTypes={ministerIssueTypes}
-    //       ministerIssueActionTypes={ministerIssueActionTypes}
-    //       updateRupStatus={updateRupStatus}
-    //       getRupPDF={getRupPDF}
-    //       isUpdatingStatus={isUpdatingStatus}
-    //       isDownloadingPDF={isDownloadingPDF}
-    //     />
-    //   );
-    // }
+    // console.log(agreement, plan)
 
     return (
       <div>
         { isFetchingPlan &&
           <Loading />
         }
-        { plan &&
+        { agreement && plan && isUserAdmin(user) &&
           <RupAdmin
             agreement={agreement}
             references={references}
             user={user}
             plan={plan}
             pasturesMap={pasturesMap}
-            updateRupStatus={updateRupStatus}
+            updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
           />
         }
@@ -143,17 +105,17 @@ const mapStateToProps = state => (
     // agreementState: state.rangeUsePlan,
     // isDownloadingPDF: state.pdf.isLoading,
     // references: state.references.data,
-    // isUpdatingStatus: state.updateRupStatus.isLoading,
+    // isUpdatingStatus: state.updatePlanStatus.isLoading,
   }
 );
 
 Base.propTypes = propTypes;
 export default connect(mapStateToProps, {
   fetchPlan,
-  updateRupStatus,
+  updatePlanStatus,
   updatePlan,
   // getRangeUsePlan,
-  // updateRupStatus,
+  // updatePlanStatus,
   // getRupPDF,
   // createOrUpdateRupSchedule,
   // toastErrorMessage,

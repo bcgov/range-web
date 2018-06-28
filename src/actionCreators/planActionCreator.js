@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 import { success, request, error, storePlan } from '../actions';
-// import { UPDATE_RUP_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
+// import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 // import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
@@ -30,22 +30,22 @@ export const fetchPlan = planId => (dispatch, getState) => {
   return makeRequest();
 };
 
-export const updateRupStatus = (planId, statusId, shouldToast = true) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_RUP_STATUS));
+export const updatePlanStatus = (planId, statusId, shouldToast = true) => (dispatch, getState) => {
+  dispatch(request(reducerTypes.UPDATE_PLAN_STATUS));
   const makeRequest = async () => {
     try {
       const response = await axios.put(
-        API.UPDATE_RUP_STATUS(planId),
+        API.UPDATE_PLAN_STATUS(planId),
         { statusId },
         createRequestHeader(getState),
       );
-      dispatch(success(reducerTypes.UPDATE_RUP_STATUS, response.data));
+      dispatch(success(reducerTypes.UPDATE_PLAN_STATUS, response.data));
       if (shouldToast) {
-        // dispatch(toastSuccessMessage(UPDATE_RUP_STATUS_SUCCESS));
+        // dispatch(toastSuccessMessage(UPDATE_PLAN_STATUS_SUCCESS));
       }
       return response.data;
     } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_RUP_STATUS, err));
+      dispatch(error(reducerTypes.UPDATE_PLAN_STATUS, err));
       // dispatch(toastErrorMessage(err));
       throw err;
     }

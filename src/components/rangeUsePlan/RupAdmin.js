@@ -7,7 +7,7 @@ import {
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
 import { EXPORT_PDF } from '../../constants/routes';
-import { ELEMENT_ID, CLIENT_TYPE, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import { getAgreementHolders, isStatusCreated, isStatusPending } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
@@ -21,7 +21,7 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
-  updateRupStatus: PropTypes.func.isRequired,
+  updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
@@ -34,7 +34,7 @@ const propTypes = {
 class RupAdmin extends Component {
   constructor(props) {
     super(props);
-    const zone = { ...props.agreement.zone };
+    const zone = props.agreement && props.agreement.zone;
     this.state = {
       isCompletedModalOpen: false,
       isPendingModalOpen: false,
@@ -93,7 +93,7 @@ class RupAdmin extends Component {
   updateStatus = (statusName, closeConfirmModal) => {
     const {
       references,
-      updateRupStatus,
+      updatePlanStatus,
       plan,
       updatePlan,
     } = this.props;
@@ -107,7 +107,7 @@ class RupAdmin extends Component {
           status: newStatus,
         });
       };
-      updateRupStatus(plan.id, status.id).then(statusUpdated);
+      updatePlanStatus(plan.id, status.id).then(statusUpdated);
     }
   }
 
