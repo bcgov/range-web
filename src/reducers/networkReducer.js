@@ -4,6 +4,7 @@ const initialState = {
   isFetching: false,
   isSuccessful: false,
   error: null,
+  success: null,
   // requestType: null,
   pagination: {
     perPage: 10,
@@ -21,6 +22,7 @@ const networkReducer = (state = initialState, action) => {
         isFetching: true,
         isSuccessful: false,
         error: null,
+        success: null,
         // requestType: action.type,
       };
     case SUCCESS:
@@ -29,6 +31,7 @@ const networkReducer = (state = initialState, action) => {
         isFetching: false,
         isSuccessful: true,
         error: false,
+        success: action.data,
         // requestType: action.type,
       };
     case ERROR:
@@ -37,6 +40,7 @@ const networkReducer = (state = initialState, action) => {
         isFetching: false,
         isSuccessful: false,
         error: action.errorMessage,
+        success: null,
         // requestType: action.type,
       };
     case SUCCESS_PAGINATED:
@@ -45,6 +49,7 @@ const networkReducer = (state = initialState, action) => {
         isFetching: false,
         isSuccessful: true,
         error: false,
+        success: action.data,
         // requestType: action.type,
         pagination: {
           perPage: action.perPage,

@@ -7,21 +7,23 @@ export const request = reducer => (
   }
 );
 
-export const success = reducer => (
+export const success = (reducer, data) => (
   {
     name: reducer,
     type: actionTypes.SUCCESS,
+    data,
   }
 );
 
-export const successPagenated = (reducer, response) => (
+export const successPagenated = (reducer, data) => (
   {
     name: reducer,
     type: actionTypes.SUCCESS_PAGINATED,
-    perPage: response.perPage,
-    currentPage: response.currentPage,
-    totalItems: response.totalItems,
-    totalPages: response.totalPages,
+    data,
+    perPage: data.perPage,
+    currentPage: data.currentPage,
+    totalItems: data.totalItems,
+    totalPages: data.totalPages,
   }
 );
 

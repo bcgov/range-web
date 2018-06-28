@@ -3,25 +3,6 @@
 
 $row-height: 80px;
 
-.agreement {
-  &__search {
-    width: 200px;
-
-  }
-
-  &__table {
-    @extend .container;
-    margin-top: $content-margin-top;
-
-    &__item {
-      cursor: pointer;
-    }
-  }
-
-  &__pagination {
-    margin-top: 15px;
-  }
-}
 .rup {
   &__cell-6 {
     @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;

@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { normalize } from 'normalizr';
 import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
 import * as schema from './schema';
@@ -11,6 +10,8 @@ import {
 import { getAgreementsIsFetching, getToken } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
+
+export * from './planActionCreator';
 
 export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));

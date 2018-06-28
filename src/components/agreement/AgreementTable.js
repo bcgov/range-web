@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT, RANGE_NAME, STATUS } from '../../constants/strings';
-import { getAgreements, getAgreementsIsFetching, getAgreementsPagination, getUser } from '../../reducers/rootReducer';
+import { getAgreements, getAgreementsIsFetching, getAgreementsPagination, getUser, getAgreementsErrorMessage } from '../../reducers/rootReducer';
 
 const propTypes = {
   agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -13,9 +13,13 @@ const propTypes = {
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
   }).isRequired,
+  errorGettingAgreements: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
   history: PropTypes.shape({}).isRequired,
+};
+const defaultProps = {
+  errorGettingAgreements: null,
 };
 
 export class AgreementTable extends Component {
@@ -50,8 +54,14 @@ export class AgreementTable extends Component {
   }
 
   render() {
-    const { agreements, isFetchingAgreements, agreementPagination } = this.props;
+    const {
+      agreements,
+      isFetchingAgreements,
+      agreementPagination,
+      errorGettingAgreements,
+    } = this.props;
     const { currentPage, totalPages } = agreementPagination;
+
     return (
       <Loading loading={isFetchingAgreements}>
         <Table selectable>
@@ -64,8 +74,16 @@ export class AgreementTable extends Component {
               <Table.HeaderCell>{STATUS}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-
           <Table.Body>
+            { errorGettingAgreements &&
+              <Table.Row>
+                <Table.Cell colSpan="5">
+                  <div className="agreement__error">
+                    Error Occured!
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            }
             {agreements && agreements.map(this.renderAgreementTableItem)}
           </Table.Body>
         </Table>
@@ -92,8 +110,10 @@ const mapStateToProps = state => (
     agreements: getAgreements(state),
     isFetchingAgreements: getAgreementsIsFetching(state),
     agreementPagination: getAgreementsPagination(state),
+    errorGettingAgreements: getAgreementsErrorMessage(state),
     user: getUser(state),
   }
 );
 AgreementTable.propTypes = propTypes;
+AgreementTable.defaultProps = defaultProps;
 export default connect(mapStateToProps, null)(AgreementTable);
