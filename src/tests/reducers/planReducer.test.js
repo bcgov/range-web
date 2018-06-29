@@ -4,14 +4,71 @@ import { storePlan } from '../../actions/storeActions';
 import * as schema from '../../actionCreators/schema';
 
 const initialState = {
-  plans: {},
-  planIds: [],
-  pastures: {},
-  grazingSchedules: {},
-  grazingScheduleEntries: {},
-  ministerIssues: {},
+  plans: {
+    byId: {},
+    allIds: [],
+  },
+  pastures: {
+    byId: {},
+  },
+  grazingSchedules: {
+    byId: {},
+  },
+  grazingScheduleEntries: {
+    byId: {},
+  },
+  ministerIssues: {
+    byId: {},
+  },
 };
 
+const mockState = {
+  plans: {
+    byId: {
+      'plan_id': {
+        id: 'plan_id',
+        rangeName: 'hello',
+        pastures: ['pasture_id'],
+        grazingSchedules: ['grazing_schedule_id'],
+        ministerIssues: ['minister_issue_id'],
+      },
+    },
+    allIds: ['plan_id'],
+  },
+  pastures: {
+    byId: {
+      'pasture_id': {
+        id: 'pasture_id',
+        name: 'Pasture 1',
+      },
+    },
+  },
+  grazingSchedules: {
+    byId: {
+      'grazing_schedule_id': {
+        id: 'grazing_schedule_id',
+        year: 2018,
+        grazingScheduleEntries: ['grazing_schedule_entry_id'],
+      },
+    },
+  },
+  grazingScheduleEntries: {
+    byId: {
+      'grazing_schedule_entry_id': {
+        id: 'grazing_schedule_entry_id',
+        narative: 'narative',
+      },
+    },
+  },
+  ministerIssues: {
+    byId: {
+      'minister_issue_id': {
+        id: 'minister_issue_id',
+        detail: 'detail',
+      },
+    },
+  },
+};
 const mockPlanData = {
   id: 'plan_id',
   rangeName: 'hello',
@@ -40,45 +97,6 @@ const mockPlanData = {
     },
   ],
 };
-
-const mockState = {
-  plans: {
-    plan_id: {
-      id: 'plan_id',
-      rangeName: 'hello',
-      pastures: ['pasture_id'],
-      grazingSchedules: ['grazing_schedule_id'],
-      ministerIssues: ['minister_issue_id'],
-    },
-  },
-  planIds: ['plan_id'],
-  pastures: {
-    pasture_id: {
-      id: 'pasture_id',
-      name: 'Pasture 1',
-    },
-  },
-  grazingSchedules: {
-    grazing_schedule_id: {
-      id: 'grazing_schedule_id',
-      year: 2018,
-      grazingScheduleEntries: ['grazing_schedule_entry_id'],
-    },
-  },
-  grazingScheduleEntries: {
-    grazing_schedule_entry_id: {
-      id: 'grazing_schedule_entry_id',
-      narative: 'narative',
-    },
-  },
-  ministerIssues: {
-    minister_issue_id: {
-      id: 'minister_issue_id',
-      detail: 'detail',
-    },
-  },
-};
-
 describe('Plan reducer', () => {
   it('Initialized with the initial state', () => {
     expect(planReducer(undefined, {})).toEqual(initialState);
