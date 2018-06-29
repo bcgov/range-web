@@ -34,7 +34,6 @@ const propTypes = {
   // agreementState: PropTypes.shape({}).isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
-  // getRupPDF: PropTypes.func.isRequired,
   // createOrUpdateRupSchedule: PropTypes.func.isRequired,
   // toastErrorMessage: PropTypes.func.isRequired,
   // toastSuccessMessage: PropTypes.func.isRequired,

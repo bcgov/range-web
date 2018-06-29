@@ -7,29 +7,29 @@ import {
   ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
   PASTURE_NOTES, NOT_PROVIDED,
 } from '../../../constants/strings';
-import { getObjValues } from '../../../utils';
 
 const propTypes = {
+  plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
 };
 
 class RupPastures extends Component {
   renderPastures = (pasture) => {
-    const options = [
-      {
-        key: 'edit',
-        text: 'Edit',
-        icon: 'edit',
-        onClick: () => console.log('edit'),
-      },
-      {
-        key: 'delete',
-        text: 'Delete',
-        icon: 'delete',
-        onClick: () => console.log('delete'),
-      },
-    ];
+    // const options = [
+    //   {
+    //     key: 'edit',
+    //     text: 'Edit',
+    //     icon: 'edit',
+    //     onClick: () => console.log('edit'),
+    //   },
+    //   {
+    //     key: 'delete',
+    //     text: 'Delete',
+    //     icon: 'delete',
+    //     onClick: () => console.log('delete'),
+    //   },
+    // ];
     const {
       id,
       name,
@@ -82,8 +82,9 @@ class RupPastures extends Component {
   }
 
   render() {
-    const { pasturesMap, className } = this.props;
-    const pastures = getObjValues(pasturesMap);
+    const { plan, pasturesMap, className } = this.props;
+    const pastureIds = plan && plan.pastures;
+    const pastures = pastureIds.map(id => pasturesMap[id]);
 
     return (
       <div className={className}>

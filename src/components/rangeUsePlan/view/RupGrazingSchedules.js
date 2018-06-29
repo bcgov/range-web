@@ -7,11 +7,11 @@ import * as strings from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 
 const propTypes = {
+  plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  // plan: PropTypes.shape({}).isRequired,
   status: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   // livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -150,8 +150,9 @@ class RupGrazingSchedules extends Component {
     );
   }
   render() {
-    const { grazingSchedulesMap } = this.props;
-    const grazingSchedules = utils.getObjValues(grazingSchedulesMap);
+    const { plan, grazingSchedulesMap } = this.props;
+    const grazingScheduleIds = plan && plan.grazingSchedules;
+    const grazingSchedules = grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
       <div className="rup__schedules__container">

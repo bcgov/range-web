@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
-import { CLIENT_TYPE } from '../../constants/variables';
 import { presentNullValue, getUserfullName, getAgreementHolders } from '../../utils';
 
 const propTypes = {

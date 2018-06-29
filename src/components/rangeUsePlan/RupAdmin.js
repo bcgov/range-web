@@ -6,7 +6,6 @@ import {
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
 } from '../../constants/strings';
-import { EXPORT_PDF } from '../../constants/routes';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
 import { getAgreementHolders, isStatusCreated, isStatusPending } from '../../utils';
@@ -14,6 +13,7 @@ import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
+import { EXPORT_PDF } from '../../constants/routes';
 
 const propTypes = {
   agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
@@ -241,6 +241,7 @@ class RupAdmin extends Component {
 
           <RupPastures
             className="rup__pastures"
+            plan={plan}
             pasturesMap={pasturesMap}
           />
 
@@ -249,6 +250,7 @@ class RupAdmin extends Component {
             references={references}
             status={status}
             usages={usages}
+            plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
             grazingScheduleEntriesMap={grazingScheduleEntriesMap}
@@ -257,6 +259,7 @@ class RupAdmin extends Component {
           <RupMinisterIssues
             className="rup__missues__container"
             references={references}
+            plan={plan}
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />

@@ -10,6 +10,7 @@ import PageNotFound from './PageNotFound';
 import ManageZone from './manageZone';
 import ManageClient from './manageClient';
 import RangeUsePlan from './rangeUsePlan';
+import RupPDFView from './rangeUsePlan/RupPDFView';
 import { getAuthData, getUser } from '../reducers/rootReducer';
 import { isUserAdmin } from '../utils';
 
@@ -33,6 +34,10 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
     {...rest}
     render={(props) => { // props = { match:{...}, history:{...}, location:{...} }
         if (auth) {
+          // no need to pass the RupPDFView to LandingPage
+          if (props.match.path === Routes.EXPORT_PDF_WITH_PARAM) {
+            return <Component {...props} />;
+          }
           return <LandingPage {...props} component={Component} />;
         }
         return <Redirect to={Routes.LOGIN} />;
@@ -62,8 +67,10 @@ class Router extends Component {
           <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
           <AdminRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
           <PrivateRoute path={Routes.HOME} component={Home} auth={auth} />
-          <PrivateRoute path={`${Routes.RANGE_USE_PLAN}/:agreementId/:planId`} component={RangeUsePlan} auth={auth} />
+          <PrivateRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} auth={auth} />
+          <PrivateRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={RupPDFView} auth={auth} />
           <PublicRoute path={Routes.LOGIN} component={Login} auth={auth} />
+
           <Route path="/return-page" component={ReturnPage} />
           <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
           <Route path="*" component={PageNotFound} />

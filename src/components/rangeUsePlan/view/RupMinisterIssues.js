@@ -4,10 +4,10 @@ import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
 import { NOT_PROVIDED } from '../../../constants/strings';
-import { getObjValues } from '../../../utils';
 import { REFERENCE_KEY } from '../../../constants/variables';
 
 const propTypes = {
+  plan: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
@@ -125,8 +125,9 @@ class RupMinisterIssues extends Component {
   }
 
   render() {
-    const { ministerIssuesMap, className } = this.props;
-    const ministerIssues = getObjValues(ministerIssuesMap);
+    const { plan, ministerIssuesMap, className } = this.props;
+    const ministerIssueIds = plan && plan.ministerIssues;
+    const ministerIssues = ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
       <div className={className}>
