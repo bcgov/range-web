@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import RupAdmin from './RupAdmin';
+import RupAH from './RupAH';
 // import RupAH from './RupAH';
 import { Loading } from '../common';
 // import { getRangeUsePlan } from '../../actions/agreementActions';
@@ -12,8 +13,7 @@ import { updatePlan } from '../../actions';
 import {
   getPlansMap, getReferences, getUser,
   getPlanIsFetching, getPasturesMap, getGrazingSchedulesMap,
-  getMinisterIssuesMap,
-  getGrazingScheduleEntriesMap,
+  getMinisterIssuesMap, getGrazingScheduleEntriesMap, getPlanErrorMessage,
 } from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
 // import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
@@ -24,6 +24,7 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
+  errorFetchingPlan: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
@@ -38,7 +39,9 @@ const propTypes = {
   // toastErrorMessage: PropTypes.func.isRequired,
   // toastSuccessMessage: PropTypes.func.isRequired,
 };
-
+const defaultProps = {
+  errorFetchingPlan: null,
+};
 class Base extends Component {
   state = {
     agreement: null,
@@ -61,6 +64,7 @@ class Base extends Component {
       references,
       user,
       isFetchingPlan,
+      errorFetchingPlan,
       plansMap,
       updatePlanStatus,
       updatePlan,
@@ -100,11 +104,22 @@ class Base extends Component {
           />
         }
         { agreement && plan && isUserAgreementHolder(user) &&
-          <div>hello AH</div>
+          <RupAH
+            agreement={agreement}
+            references={references}
+            user={user}
+            plan={plan}
+            pasturesMap={pasturesMap}
+            grazingSchedulesMap={grazingSchedulesMap}
+            grazingScheduleEntriesMap={grazingScheduleEntriesMap}
+            ministerIssuesMap={ministerIssuesMap}
+            updatePlanStatus={updatePlanStatus}
+            updatePlan={updatePlan}
+          />
         }
-        {/* { error &&
+        { errorFetchingPlan &&
           <Redirect to="/no-range-use-plan-found" />
-        } */}
+        }
       </div>
     );
   }
@@ -118,6 +133,7 @@ const mapStateToProps = state => (
     grazingScheduleEntriesMap: getGrazingScheduleEntriesMap(state),
     ministerIssuesMap: getMinisterIssuesMap(state),
     isFetchingPlan: getPlanIsFetching(state),
+    errorFetchingPlan: getPlanErrorMessage(state),
     references: getReferences(state),
     user: getUser(state),
     // agreementState: state.rangeUsePlan,
@@ -128,6 +144,7 @@ const mapStateToProps = state => (
 );
 
 Base.propTypes = propTypes;
+Base.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   fetchPlan,
   updatePlanStatus,

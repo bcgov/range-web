@@ -121,12 +121,12 @@ class RupAdmin extends Component {
     const {
       agreement,
       user,
+      references,
       plan,
       pasturesMap,
       grazingSchedulesMap,
       grazingScheduleEntriesMap,
       ministerIssuesMap,
-      references,
     } = this.props;
     const {
       isCompletedModalOpen,
@@ -248,7 +248,6 @@ class RupAdmin extends Component {
           <RupGrazingSchedules
             className="rup__schedules__container"
             references={references}
-            status={status}
             usages={usages}
             plan={plan}
             pasturesMap={pasturesMap}

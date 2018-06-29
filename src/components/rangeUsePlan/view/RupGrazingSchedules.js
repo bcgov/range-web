@@ -12,7 +12,6 @@ const propTypes = {
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  status: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   // livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
@@ -28,7 +27,10 @@ class RupGrazingSchedules extends Component {
   }
 
   renderSchedules = (grazingSchedules) => {
-    if (utils.isStatusDraft(this.props.status)) {
+    const { plan } = this.props;
+    const status = plan && plan.status;
+
+    if (utils.isStatusDraft(status)) {
       return (
         <div className="rup__schedule__draft-container">
           <div className="rup__schedule__in-draft">
