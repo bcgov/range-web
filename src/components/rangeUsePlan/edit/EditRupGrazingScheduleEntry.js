@@ -5,7 +5,7 @@ import Pikaday from 'pikaday';
 import uuid from 'uuid-v4';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
-import { updateGrazingScheduleEntry, addGrazingScheduleEntry } from '../../../actions';
+import { updateGrazingScheduleEntry, addGrazingScheduleEntry, deleteGrazingScheduleEntry } from '../../../actions';
 import { DATE_FORMAT } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
 import { ConfirmationModal } from '../../common';
@@ -20,7 +20,7 @@ const propTypes = {
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingScheduleEntry: PropTypes.func.isRequired,
   addGrazingScheduleEntry: PropTypes.func.isRequired,
-  // handleScheduleEntryDelete: PropTypes.func.isRequired,
+  deleteGrazingScheduleEntry: PropTypes.func.isRequired,
   // isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
@@ -119,6 +119,20 @@ class EditRupScheduleEntry extends Component {
     });
   }
 
+  onDeleteEntryClicked = () => {
+    const {
+      schedule,
+      entry,
+      entryIndex,
+      deleteGrazingScheduleEntry,
+    } = this.props;
+    deleteGrazingScheduleEntry({
+      grazingScheduleId: schedule.id,
+      grazingScheduleEntryId: entry.id,
+      grazingScheduleEntryIndex: entryIndex,
+    });
+  }
+
   render() {
     const {
       entry,
@@ -151,7 +165,7 @@ class EditRupScheduleEntry extends Component {
 
     const entryOptions = [
       { key: `entry${entryIndex}option1`, text: 'Copy', onClick: this.onCopyEntryClicked },
-      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
+      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.onDeleteEntryClicked },
     ];
 
     const isPastureDropdownError = pastureId === undefined;
@@ -251,4 +265,5 @@ EditRupScheduleEntry.propTypes = propTypes;
 export default connect(null, {
   addGrazingScheduleEntry,
   updateGrazingScheduleEntry,
+  deleteGrazingScheduleEntry,
 })(EditRupScheduleEntry);

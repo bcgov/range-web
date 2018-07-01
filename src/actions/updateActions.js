@@ -20,17 +20,3 @@ export const updatePlan = payload => (
     payload,
   }
 );
-
-export const updateGrazingSchedule = payload => (
-  {
-    type: actionTypes.UPDATE_GRAZING_SCHEDULE,
-    payload,
-  }
-);
-
-export const updateGrazingScheduleEntry = payload => (
-  {
-    type: actionTypes.UPDATE_GRAZING_SCHEDULE_ENTRY,
-    payload,
-  }
-);

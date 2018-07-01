@@ -1,4 +1,4 @@
-import { STORE_PLAN, ADD_GRAZING_SCHEDULE, ADD_GRAZING_SCHEDULE_ENTRY, UPDATE_GRAZING_SCHEDULE } from '../constants/actionTypes';
+import * as actionTypes from '../constants/actionTypes';
 
 const storeGrazingSchedules = (state, action) => {
   const { grazingSchedules } = action.payload.entities;
@@ -13,6 +13,7 @@ const storeGrazingSchedules = (state, action) => {
 
 const addGrazingSchedule = (state, action) => {
   const grazingSchedule = action.payload;
+
   return {
     byId: {
       ...state.byId,
@@ -23,6 +24,7 @@ const addGrazingSchedule = (state, action) => {
 
 const updateGrazingSchedule = (state, action) => {
   const grazingSchedule = { ...action.payload };
+
   return {
     byId: {
       ...state.byId,
@@ -39,6 +41,21 @@ const addGrazingScheduleEntry = (state, action) => {
     ...grazingSchedule.grazingScheduleEntries || [],
     grazingScheduleEntry.id,
   ];
+
+  return {
+    byId: {
+      ...state.byId,
+      [grazingScheduleId]: grazingSchedule,
+    },
+  };
+};
+
+const deleteGrazingScheduleEntry = (state, action) => {
+  const { grazingScheduleId, grazingScheduleEntryIndex } = action.payload;
+  const grazingSchedule = { ...state.byId[grazingScheduleId] };
+  // remove the entry with given index
+  delete grazingSchedule.grazingScheduleEntries[grazingScheduleEntryIndex];
+
   return {
     byId: {
       ...state.byId,
@@ -51,14 +68,16 @@ const grazingSchedulesReducer = (state = {
   byId: {},
 }, action) => {
   switch (action.type) {
-    case STORE_PLAN:
+    case actionTypes.STORE_PLAN:
       return storeGrazingSchedules(state, action);
-    case ADD_GRAZING_SCHEDULE:
+    case actionTypes.ADD_GRAZING_SCHEDULE:
       return addGrazingSchedule(state, action);
-    case ADD_GRAZING_SCHEDULE_ENTRY:
-      return addGrazingScheduleEntry(state, action);
-    case UPDATE_GRAZING_SCHEDULE:
+    case actionTypes.UPDATE_GRAZING_SCHEDULE:
       return updateGrazingSchedule(state, action);
+    case actionTypes.ADD_GRAZING_SCHEDULE_ENTRY:
+      return addGrazingScheduleEntry(state, action);
+    case actionTypes.DELETE_GRAZING_SCHEDULE_ENTRY:
+      return deleteGrazingScheduleEntry(state, action);
     default:
       return state;
   }
