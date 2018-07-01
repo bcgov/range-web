@@ -1,4 +1,4 @@
-import { STORE_PLAN, ADD_GRAZING_SCHEDULE, ADD_GRAZING_SCHEDULE_ENTRY } from '../constants/actionTypes';
+import { STORE_PLAN, ADD_GRAZING_SCHEDULE, ADD_GRAZING_SCHEDULE_ENTRY, UPDATE_GRAZING_SCHEDULE } from '../constants/actionTypes';
 
 const storeGrazingSchedules = (state, action) => {
   const { grazingSchedules } = action.payload.entities;
@@ -20,6 +20,10 @@ const addGrazingSchedule = (state, action) => {
     },
   };
 };
+
+const updateGrazingSchedule = (state, action) => (
+  addGrazingSchedule(state, action)
+);
 
 const addGrazingScheduleEntry = (state, action) => {
   const { grazingScheduleId, grazingScheduleEntry } = action.payload;
@@ -46,6 +50,8 @@ const grazingSchedulesReducer = (state = {
       return addGrazingSchedule(state, action);
     case ADD_GRAZING_SCHEDULE_ENTRY:
       return addGrazingScheduleEntry(state, action);
+    case UPDATE_GRAZING_SCHEDULE:
+      return updateGrazingSchedule(state, action);
     default:
       return state;
   }
