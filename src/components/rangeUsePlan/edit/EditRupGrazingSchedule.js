@@ -59,7 +59,6 @@ class EditRupSchedule extends Component {
       livestockTypes,
       isDeletingScheduleEntry,
     } = this.props;
-    const { year } = schedule;
     const pastures = getObjValues(pasturesMap);
     const pastureOptions = pastures.map((pasture) => {
       const { id, name } = pasture || {};
@@ -83,7 +82,7 @@ class EditRupSchedule extends Component {
       return (
         <EditRupGrazingScheduleEntry
           key={entry.id}
-          year={year}
+          schedule={schedule}
           entry={entry}
           entryIndex={entryIndex}
           scheduleIndex={scheduleIndex}

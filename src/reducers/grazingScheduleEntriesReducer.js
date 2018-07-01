@@ -21,9 +21,15 @@ const addGrazingScheduleEntry = (state, action) => {
   };
 };
 
-const updateGrazingScheduleEntry = (state, action) => (
-  addGrazingScheduleEntry(state, action)
-);
+const updateGrazingScheduleEntry = (state, action) => {
+  const { grazingScheduleEntry } = action.payload;
+  return {
+    byId: {
+      ...state.byId,
+      [grazingScheduleEntry.id]: grazingScheduleEntry,
+    },
+  };
+};
 
 const grazingScheduleEntriesReducer = (state = {
   byId: {},

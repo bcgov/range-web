@@ -12,7 +12,7 @@ const storeGrazingSchedules = (state, action) => {
 };
 
 const addGrazingSchedule = (state, action) => {
-  const { grazingSchedule } = action.payload;
+  const grazingSchedule = action.payload;
   return {
     byId: {
       ...state.byId,
@@ -21,13 +21,20 @@ const addGrazingSchedule = (state, action) => {
   };
 };
 
-const updateGrazingSchedule = (state, action) => (
-  addGrazingSchedule(state, action)
-);
+const updateGrazingSchedule = (state, action) => {
+  const grazingSchedule = { ...action.payload };
+  return {
+    byId: {
+      ...state.byId,
+      [grazingSchedule.id]: grazingSchedule,
+    },
+  };
+};
 
 const addGrazingScheduleEntry = (state, action) => {
   const { grazingScheduleId, grazingScheduleEntry } = action.payload;
   const grazingSchedule = { ...state.byId[grazingScheduleId] };
+  // add the new grazing schedule entry id
   grazingSchedule.grazingScheduleEntries = [
     ...grazingSchedule.grazingScheduleEntries || [],
     grazingScheduleEntry.id,
