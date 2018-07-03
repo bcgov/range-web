@@ -27,7 +27,7 @@ import {
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
 } from '../constants/API';
-import { saveDataInLocal, getDataFromLocal } from './localStorage';
+import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './queryString';
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
@@ -38,8 +38,8 @@ import { LOCAL_STORAGE_KEY } from '../constants/variables';
  * it returns either null or an object retrieved from localStorage
  */
 export const getAuthAndUserFromLocal = () => {
-  const user = getDataFromLocal(LOCAL_STORAGE_KEY.USER);
-  const authData = getDataFromLocal(LOCAL_STORAGE_KEY.AUTH);
+  const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER);
+  const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
   return { authData, user };
 };
 
@@ -47,11 +47,11 @@ export const saveAuthDataInLocal = (response) => {
   const data = { ...response.data };
   data.jwtData = jwtDecode(data.access_token);
 
-  saveDataInLocal(LOCAL_STORAGE_KEY.AUTH, data);
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
 };
 
 export const saveUserProfileInLocal = (newUser) => {
-  saveDataInLocal(LOCAL_STORAGE_KEY.USER, newUser);
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser);
 };
 
 export const getTokenFromSSO = (code) => {
@@ -90,12 +90,12 @@ export const refreshAccessToken = (refreshToken, isRetry) => {
 };
 
 // const getRefreshTokenFromLocal = () => {
-//   const data = getDataFromLocal(LOCAL_STORAGE_KEY.AUTH);
+//   const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 //   return data && data.refresh_token;
 // };
 
 // const getJWTDataFromLocal = () => {
-//   const data = getDataFromLocal(LOCAL_STORAGE_KEY.AUTH);
+//   const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 //   return data && data.jwtData;
 // };
 
@@ -124,7 +124,7 @@ export const refreshAccessToken = (refreshToken, isRetry) => {
 //     const { data } = response;
     // data.jwtData = jwtDecode(data.access_token);
 
-//     saveDataInLocal(LOCAL_STORAGE_KEY.AUTH, data);
+//     saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
 //     setAxiosAuthHeader(data);
 //   }
 // };

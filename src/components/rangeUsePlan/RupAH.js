@@ -9,7 +9,7 @@ import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import { ELEMENT_ID } from '../../constants/variables';
-import * as strings from '../../constants/strings';
+// import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
 const propTypes = {
@@ -185,14 +185,6 @@ export class RupAH extends Component {
     // }
   }
 
-  handleSchedulesChange = (schedules) => {
-    // const plan = cloneDeep(this.state.plan);
-    // plan.grazingSchedules = schedules;
-    // this.setState({
-    //   plan,
-    // });
-  }
-
   render() {
     const {
       isSavingAsDraft,
@@ -224,8 +216,8 @@ export class RupAH extends Component {
       <div className="rup">
         {/* <ConfirmationModal
           open={isSubmitModalOpen}
-          header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
-          content={strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
+          header={SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
+          content={SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
           onNoClicked={this.submitConfirmModalClose}
           onYesClicked={this.onSubmitClicked}
           loading={isSubmitting}
@@ -294,7 +286,6 @@ export class RupAH extends Component {
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
               grazingScheduleEntriesMap={grazingScheduleEntriesMap}
-              handleSchedulesChange={this.handleSchedulesChange}
             />
           }
           {!isEditable &&

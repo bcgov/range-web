@@ -1,9 +1,9 @@
 import { normalize } from 'normalizr';
-import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
+import { axios, saveUserProfileInLocal, createRequestHeader, saveReferencesInLocalStorage } from '../utils';
 import * as schema from './schema';
 import {
   request, success, successPagenated, error,
-  storeAgreements, storePlan, storeUser, removeAuthDataAndUser,
+  storeAgreements, storeUser, removeAuthDataAndUser,
   storeZones, storeReferences, storeUsers, storeClients,
 } from '../actions';
 import { getAgreementsIsFetching } from '../reducers/rootReducer';
@@ -12,6 +12,7 @@ import * as API from '../constants/API';
 
 export * from './planActionCreator';
 
+/* eslint-disable arrow-body-style */
 export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
   return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber), {}, createRequestHeader(getState)).then(
@@ -89,6 +90,7 @@ export const fetchReferences = () => (dispatch, getState) => {
   return axios.get(API.GET_REFERENCES, createRequestHeader(getState)).then(
     (response) => {
       const references = response.data;
+      saveReferencesInLocalStorage(references);
       dispatch(storeReferences(references));
       return references;
     },

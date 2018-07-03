@@ -1,8 +1,9 @@
 import { cloneDeep } from 'lodash';
 import * as actionTypes from '../constants/actionTypes';
+import { getReferencesFromLocalStorage } from '../utils';
 
 const initialState = {
-  references: {},
+  references: getReferencesFromLocalStorage(),
   zones: {},
   zoneIds: [],
   users: {},

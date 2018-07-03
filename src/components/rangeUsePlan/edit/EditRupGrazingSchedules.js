@@ -10,7 +10,7 @@ import { deleteRupSchedule, deleteRupScheduleEntry } from '../../../actionCreato
 import * as utils from '../../../utils';
 
 const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
+  plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
@@ -21,11 +21,28 @@ const propTypes = {
 export class EditRupGrazingSchedules extends Component {
   constructor(props) {
     super(props);
-    // const { plan, grazingSchedulesMap } = this.props;
+
     this.state = {
       yearOptions: this.getInitialYearOptions(),
       activeScheduleIndex: 0,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { plan, grazingSchedulesMap } = nextProps;
+    const scheduleChanged = this.props.plan.grazingSchedules !== plan.grazingSchedules;
+    if (scheduleChanged) {
+      const newYearOptions = plan.grazingSchedules.map((id) => {
+        const s = grazingSchedulesMap[id];
+
+        return {
+          key: s.year,
+          text: s.year,
+          value: s.year,
+        };
+      });
+      this.setState({ yearOptions: newYearOptions });
+    }
   }
 
   getInitialYearOptions = () => {
@@ -60,8 +77,21 @@ export class EditRupGrazingSchedules extends Component {
     this.setState({ activeScheduleIndex: newIndex });
   }
 
+  scheduleCopied = (year, newGrazingScheduleId) => {
+    // grazingSchedules.sort((s1, s2) => s1.year > s2.year);
+    // const { grazingSchedules } = this.props.plan;
+    // const activeScheduleIndex = grazingSchedules.findIndex(id => id === newGrazingScheduleId);
+    // console.log(this.props.plan)
+    // // remove this year from the year options
+    this.setState({
+      yearOptions: this.state.yearOptions.filter(o => o.value !== year),
+      // activeScheduleIndex,
+    });
+  }
+
   renderSchedule = (schedule, scheduleIndex) => {
     const {
+      plan,
       usages,
       references,
       pasturesMap,
@@ -71,23 +101,25 @@ export class EditRupGrazingSchedules extends Component {
     const grazingScheduleEntries = utils.getObjValues(grazingScheduleEntriesMap);
     const { id, year } = schedule;
     const yearUsage = usages.find(u => u.year === year);
-    const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+    const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const crownTotalAUMs = utils.calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes);
 
     return (
       <EditRupGrazingSchedule
         key={id}
-        grazingScheduleEntriesMap={grazingScheduleEntriesMap}
         yearOptions={yearOptions}
+        plan={plan}
         schedule={schedule}
         scheduleIndex={scheduleIndex}
+        grazingScheduleEntriesMap={grazingScheduleEntriesMap}
         onScheduleClicked={this.onScheduleClicked}
         activeScheduleIndex={activeScheduleIndex}
         livestockTypes={livestockTypes}
         pasturesMap={pasturesMap}
         authorizedAUMs={authorizedAUMs}
         crownTotalAUMs={crownTotalAUMs}
+        scheduleCopied={this.scheduleCopied}
       />
     );
   }

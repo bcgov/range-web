@@ -5,7 +5,6 @@ import Pikaday from 'pikaday';
 import uuid from 'uuid-v4';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
-import { updateGrazingScheduleEntry, addGrazingScheduleEntry, deleteGrazingScheduleEntry } from '../../../actions';
 import { DATE_FORMAT } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
 import { ConfirmationModal } from '../../common';
@@ -262,8 +261,4 @@ class EditRupScheduleEntry extends Component {
 }
 
 EditRupScheduleEntry.propTypes = propTypes;
-export default connect(null, {
-  addGrazingScheduleEntry,
-  updateGrazingScheduleEntry,
-  deleteGrazingScheduleEntry,
-})(EditRupScheduleEntry);
+export default EditRupScheduleEntry;

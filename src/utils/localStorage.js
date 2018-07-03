@@ -1,3 +1,5 @@
+import { LOCAL_STORAGE_KEY } from '../constants/variables';
+
 /**
  * Save data in local storage
  *
@@ -5,7 +7,7 @@
  * @param {object} data
  * @returns undefined
  */
-export const saveDataInLocal = (key, data) => {
+export const saveDataInLocalStorage = (key, data) => {
   try {
     const serializedData = JSON.stringify(data);
     localStorage.setItem(key, serializedData);
@@ -20,7 +22,7 @@ export const saveDataInLocal = (key, data) => {
  * @param {string} key
  * @returns {object} the data object
  */
-export const getDataFromLocal = (key) => {
+export const getDataFromLocalStorage = (key) => {
   try {
     const serializedData = localStorage.getItem(key);
     if (serializedData) {
@@ -31,3 +33,11 @@ export const getDataFromLocal = (key) => {
     return undefined;
   }
 };
+
+export const saveReferencesInLocalStorage = (data) => {
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.REFERENCE, data);
+};
+
+export const getReferencesFromLocalStorage = () => (
+  getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE) || {}
+);

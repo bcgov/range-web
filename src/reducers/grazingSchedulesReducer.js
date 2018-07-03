@@ -12,7 +12,7 @@ const storeGrazingSchedules = (state, action) => {
 };
 
 const addGrazingSchedule = (state, action) => {
-  const grazingSchedule = action.payload;
+  const { grazingSchedule } = action.payload;
 
   return {
     byId: {
@@ -23,7 +23,7 @@ const addGrazingSchedule = (state, action) => {
 };
 
 const updateGrazingSchedule = (state, action) => {
-  const grazingSchedule = { ...action.payload };
+  const { grazingSchedule } = action.payload;
 
   return {
     byId: {
