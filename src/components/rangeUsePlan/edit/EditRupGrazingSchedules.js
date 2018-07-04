@@ -9,7 +9,7 @@ import EditRupGrazingSchedule from './EditRupGrazingSchedule';
 import { ELEMENT_ID, REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRupSchedule, deleteRupScheduleEntry } from '../../../actionCreators';
 import * as utils from '../../../utils';
-import { addGrazingSchedule, updateGrazingSchedule } from '../../../actions';
+import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
 
 const propTypes = {
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
@@ -19,6 +19,8 @@ const propTypes = {
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   addGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
+  deleteGrazingSchedule: PropTypes.func.isRequired,
+  deleteRupSchedule: PropTypes.func.isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
 };
 
@@ -91,6 +93,45 @@ export class EditRupGrazingSchedules extends Component {
     this.addGrazingScheduleInStore(grazingSchedule);
   }
 
+  handleScheduleDelete = (schedule, scheduleIndex) => {
+    const { plan, deleteGrazingSchedule, deleteRupSchedule } = this.props;
+
+    const planId = plan && plan.id;
+    const { year, id: scheduleId } = schedule;
+    const onDeleted = () => {
+      const option = {
+        key: year,
+        text: year,
+        value: year,
+      };
+      // put the year back to the year option list and sort them
+      const yearOptions = [...this.state.yearOptions];
+      yearOptions.push(option);
+      yearOptions.sort((o1, o2) => o1.value > o2.value);
+
+      this.setState({
+        yearOptions,
+        activeScheduleIndex: 0,
+      });
+      // construct a new list of schedule ids without the deleted one
+      const grazingSchedules = [...plan.grazingSchedules];
+      grazingSchedules.splice(scheduleIndex, 1);
+
+      deleteGrazingSchedule({
+        planId, // for plansReducer
+        grazingSchedules, // for plansReducer
+        grazingScheduleId: scheduleId, // for grazingSchedulesReducer
+      });
+    };
+
+    // delete the schedule saved in server
+    if (planId && scheduleId && !uuid.isUUID(scheduleId)) {
+      deleteRupSchedule(planId, scheduleId).then(onDeleted);
+    } else { // or delete the schedule saved in Redux store
+      onDeleted();
+    }
+  }
+
   addGrazingScheduleInStore = (grazingSchedule) => {
     const { addGrazingSchedule, plan, grazingSchedulesMap } = this.props;
 
@@ -157,8 +198,9 @@ export class EditRupGrazingSchedules extends Component {
         authorizedAUMs={authorizedAUMs}
         crownTotalAUMs={crownTotalAUMs}
         updateGrazingSchedule={updateGrazingSchedule}
-        handleScheduleCopy={this.handleScheduleCopy}
         deleteRupScheduleEntry={deleteRupScheduleEntry}
+        handleScheduleCopy={this.handleScheduleCopy}
+        handleScheduleDelete={this.handleScheduleDelete}
       />
     );
   }
@@ -207,6 +249,7 @@ EditRupGrazingSchedules.propTypes = propTypes;
 export default connect(null, {
   addGrazingSchedule,
   updateGrazingSchedule,
+  deleteGrazingSchedule,
   deleteRupSchedule,
   deleteRupScheduleEntry,
 })(EditRupGrazingSchedules);

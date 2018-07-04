@@ -20,8 +20,9 @@ const propTypes = {
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
-  handleScheduleCopy: PropTypes.func.isRequired,
   deleteRupScheduleEntry: PropTypes.func.isRequired,
+  handleScheduleCopy: PropTypes.func.isRequired,
+  handleScheduleDelete: PropTypes.func.isRequired,
   // isDeletingSchedule: PropTypes.bool.isRequired,
   // isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
@@ -67,10 +68,8 @@ class EditRupSchedule extends Component {
   }
 
   onScheduleDeleteClicked = () => {
-    console.log('called!');
-    this.closeDeleteScheduleConfirmationModal();
-    // const { scheduleIndex, handleScheduleDelete } = this.props;
-    // handleScheduleDelete(scheduleIndex);
+    const { schedule, scheduleIndex, handleScheduleDelete } = this.props;
+    handleScheduleDelete(schedule, scheduleIndex);
   }
 
   handleScheduleEntryChange = (entry, entryIndex) => {
@@ -110,7 +109,7 @@ class EditRupSchedule extends Component {
     };
 
     // delete the entry saved in server
-    if (planId && scheduleId && entryId) {
+    if (planId && scheduleId && entryId && !uuid.isUUID(entryId)) {
       deleteRupScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
     } else { // or delete the entry saved in state
       onDeleted();

@@ -1,4 +1,4 @@
-import { STORE_PLAN, UPDATE_PLAN, ADD_GRAZING_SCHEDULE } from '../constants/actionTypes';
+import { STORE_PLAN, UPDATE_PLAN, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE } from '../constants/actionTypes';
 
 const storePlan = (state, action) => {
   const { entities, result: planId } = action.payload;
@@ -48,6 +48,22 @@ const addGrazingSchedule = (state, action) => {
   };
 };
 
+const deleteGrazingSchedule = (state, action) => {
+  const { planId, grazingSchedules } = action.payload;
+  const plan = {
+    ...state.byId[planId],
+    grazingSchedules,
+  };
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [planId]: plan,
+    },
+  };
+};
+
 const plansReducer = (state = {
   byId: {},
   allIds: [],
@@ -59,6 +75,8 @@ const plansReducer = (state = {
       return updatePlan(state, action);
     case ADD_GRAZING_SCHEDULE:
       return addGrazingSchedule(state, action);
+    case DELETE_GRAZING_SCHEDULE:
+      return deleteGrazingSchedule(state, action);
     default:
       return state;
   }

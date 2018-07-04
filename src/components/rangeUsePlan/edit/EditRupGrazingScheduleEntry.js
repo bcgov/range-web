@@ -41,10 +41,9 @@ class EditRupScheduleEntry extends Component {
       minDate,
       maxDate: dateOut || maxDate,
       defaultDate: dateIn || minDate, // the initial date to view when first opened
-      setDefaultDate: true,
+      setDefaultDate: dateIn !== undefined, // show default date if dateIn was defined
       onSelect: this.handleDateChange('dateIn'),
     });
-    // if (dateIn) this.pikaDayDateIn.setDate(dateIn);
 
     this.pikaDayDateOut = new Pikaday({
       field: this.dateOutRef,
@@ -52,10 +51,9 @@ class EditRupScheduleEntry extends Component {
       minDate: dateIn || minDate,
       maxDate,
       defaultDate: dateOut || minDate,
-      setDefaultDate: true,
+      setDefaultDate: dateOut !== undefined,
       onSelect: this.handleDateChange('dateOut'),
     });
-    // if (dateOut) this.pikaDayDateOut.setDate(dateOut);
   }
 
   setDateInRef = (ref) => { this.dateInRef = ref; }

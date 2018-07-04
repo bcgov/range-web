@@ -24,7 +24,7 @@ export class Login extends Component {
 
   storageEventListener = (event) => {
     const authData = JSON.parse(localStorage.getItem(event.key));
-    // store the auth data in Redux
+    // store the auth data in Redux store
     this.props.storeAuthData(authData);
   }
 

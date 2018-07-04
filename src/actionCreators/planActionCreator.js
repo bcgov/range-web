@@ -140,17 +140,17 @@ export const createOrUpdateRupSchedule = (planId, schedule) => (dispatch) => {
 };
 
 export const deleteRupSchedule = (planId, scheduleId) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.DELETE_SCHEUDLE));
+  dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE));
   const makeRequest = async () => {
     try {
       const { data } = await axios.delete(
         API.DELETE_RUP_SCHEDULE(planId, scheduleId),
         createRequestHeader(getState),
       );
-      dispatch(success(reducerTypes.DELETE_SCHEUDLE, data));
+      dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.DELETE_SCHEUDLE, err));
+      dispatch(error(reducerTypes.DELETE_GRAZING_SCHEUDLE, err));
       // dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -159,17 +159,17 @@ export const deleteRupSchedule = (planId, scheduleId) => (dispatch, getState) =>
 };
 
 export const deleteRupScheduleEntry = (planId, scheduleId, entryId) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.DELETE_SCHEUDLE_ENTRY));
+  dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY));
   const makeRequest = async () => {
     try {
       const { data } = await axios.delete(
         API.DELETE_RUP_SCHEDULE_ENTRY(planId, scheduleId, entryId),
         createRequestHeader(getState),
       );
-      dispatch(success(reducerTypes.DELETE_SCHEUDLE_ENTRY, data));
+      dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.DELETE_SCHEUDLE_ENTRY, err));
+      dispatch(error(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, err));
       // dispatch(toastErrorMessage(err));
       throw err;
     }

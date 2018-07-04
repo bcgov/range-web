@@ -8,7 +8,7 @@ import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
-// import * as strings from '../../constants/strings';
+import { SUBMIT_RUP_CHANGE_FOR_AH_HEADER, SUBMIT_RUP_CHANGE_FOR_AH_CONTENT } from '../../constants/strings';
 import * as utils from '../../utils';
 
 const propTypes = {
@@ -29,8 +29,9 @@ const propTypes = {
 
 export class RupAH extends Component {
   state = {
-    // isSubmitModalOpen: false,
+    isSubmitModalOpen: false,
     isSavingAsDraft: false,
+    isSubmitting: false,
   };
 
   componentDidMount() {
@@ -75,12 +76,8 @@ export class RupAH extends Component {
         updateGrazingSchedule({ grazingSchedule });
         return grazingSchedule.id;
       });
-      // update schedules in Redux
-      updatePlan({
-        ...plan,
-        status,
-        grazingSchedules,
-      });
+      // update schedules in Redux store
+      updatePlan({ ...plan, status, grazingSchedules });
       this.setState({ isSavingAsDraft: false });
       // toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
@@ -92,36 +89,43 @@ export class RupAH extends Component {
   }
 
   onSubmitClicked = () => {
-    // const {
-    //   statuses,
-    //   toastSuccessMessage,
-    // } = this.props;
+    const {
+      plan,
+      references,
+      updatePlan,
+      updateGrazingSchedule,
+      // toastSuccessMessage,
+    } = this.props;
+    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
+    const status = planStatus.find(s => s.name === PLAN_STATUS.PENDING);
 
-    // const { plan } = this.state;
-    // const status = statuses.find(s => s.name === PENDING);
+    const onRequested = () => {
+      this.setState({ isSubmitting: true });
+    };
 
-    // const onRequested = () => {
-    //   this.setState({ isSubmitting: true });
-    // };
-    // const onSuccess = (newSchedules) => {
-    //   // update schedules in the state
-    //   plan.grazingSchedules = newSchedules;
-    //   toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
-    //   this.setState({
-    //     isSubmitting: false,
-    //     isSubmitModalOpen: false,
-    //     status,
-    //     plan,
-    //   });
-    // };
-    // const onFailed = () => {
-    //   this.setState({
-    //     isSubmitting: false,
-    //     isSubmitModalOpen: false,
-    //   });
-    // };
+    const onSuccess = (newSchedules) => {
+      // generate a list of schedule ids
+      const grazingSchedules = newSchedules.map((grazingSchedule) => {
+        updateGrazingSchedule({ grazingSchedule });
+        return grazingSchedule.id;
+      });
+      // update schedules in Redux store
+      updatePlan({ ...plan, status, grazingSchedules });
+      this.setState({
+        isSubmitModalOpen: false,
+        isSubmitting: false,
+      });
+      // toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
+    };
 
-    // this.updateRupStatusAndContent(plan, status, onRequested, onSuccess, onFailed);
+    const onFailed = () => {
+      this.setState({
+        isSubmitting: false,
+        isSubmitModalOpen: false,
+      });
+    };
+
+    this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
   }
 
   updateRupStatusAndContent = (status, onRequested, onSuccess, onFailed) => {
@@ -190,10 +194,10 @@ export class RupAH extends Component {
 
   submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })
   submitConfirmModalOpen = () => {
-    // const error = this.validateRup(this.state.plan);
-    // if (!error) {
+    const error = this.validateRup(this.props.plan);
+    if (!error) {
       this.setState({ isSubmitModalOpen: true });
-    // }
+    }
   }
 
   render() {
@@ -210,7 +214,6 @@ export class RupAH extends Component {
       references,
       pasturesMap,
       grazingSchedulesMap,
-      // grazingScheduleEntriesMap,
       ministerIssuesMap,
     } = this.props;
 
@@ -225,14 +228,14 @@ export class RupAH extends Component {
 
     return (
       <div className="rup">
-        {/* <ConfirmationModal
+        <ConfirmationModal
           open={isSubmitModalOpen}
           header={SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
           content={SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
           onNoClicked={this.submitConfirmModalClose}
           onYesClicked={this.onSubmitClicked}
           loading={isSubmitting}
-        /> */}
+        />
 
         <Banner
           className="banner__no-default-height"

@@ -7,13 +7,6 @@ export const addGrazingSchedule = payload => (
   }
 );
 
-export const addGrazingScheduleEntry = payload => (
-  {
-    type: actionTypes.ADD_GRAZING_SCHEDULE_ENTRY,
-    payload,
-  }
-);
-
 export const updateGrazingSchedule = payload => (
   {
     type: actionTypes.UPDATE_GRAZING_SCHEDULE,
@@ -21,16 +14,9 @@ export const updateGrazingSchedule = payload => (
   }
 );
 
-export const updateGrazingScheduleEntry = payload => (
+export const deleteGrazingSchedule = payload => (
   {
-    type: actionTypes.UPDATE_GRAZING_SCHEDULE_ENTRY,
-    payload,
-  }
-);
-
-export const deleteGrazingScheduleEntry = payload => (
-  {
-    type: actionTypes.DELETE_GRAZING_SCHEDULE_ENTRY,
+    type: actionTypes.DELETE_GRAZING_SCHEDULE,
     payload,
   }
 );

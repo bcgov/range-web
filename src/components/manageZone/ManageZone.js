@@ -61,7 +61,7 @@ export class ManageZone extends Component {
         user: assignedUser,
         userId: assignedUser.id,
       };
-      // then update this zone in Redux
+      // then update this zone in Redux store
       updateZone(zone);
 
       this.closeUpdateConfirmationModal();
