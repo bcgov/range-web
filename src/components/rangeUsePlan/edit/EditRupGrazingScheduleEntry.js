@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Pikaday from 'pikaday';
-import uuid from 'uuid-v4';
+// import uuid from 'uuid-v4';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT } from '../../../constants/variables';
-import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
-import { ConfirmationModal } from '../../common';
+// import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
+// import { ConfirmationModal } from '../../common';
 
 const propTypes = {
   schedule: PropTypes.shape({}).isRequired,
@@ -17,15 +17,19 @@ const propTypes = {
   pastureOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  updateGrazingScheduleEntry: PropTypes.func.isRequired,
-  addGrazingScheduleEntry: PropTypes.func.isRequired,
-  deleteGrazingScheduleEntry: PropTypes.func.isRequired,
+  // updateGrazingScheduleEntry: PropTypes.func.isRequired,
+  // addGrazingScheduleEntry: PropTypes.func.isRequired,
+  // deleteGrazingScheduleEntry: PropTypes.func.isRequired,
+  handleScheduleEntryChange: PropTypes.func.isRequired,
+  handleScheduleEntryCopy: PropTypes.func.isRequired,
+  handleScheduleEntryDelete: PropTypes.func.isRequired,
   // isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
+/* eslint-disable object-curly-newline */
 class EditRupScheduleEntry extends Component {
   state = {
-    isDeleteScheduleEntryModalOpen: false,
+    // isDeleteScheduleEntryModalOpen: false,
   }
 
   componentDidMount() {
@@ -70,7 +74,7 @@ class EditRupScheduleEntry extends Component {
   }
 
   handleDateChange = key => (date) => {
-    const { entry, updateGrazingScheduleEntry } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
     entry[key] = utils.formatDateFromUTC(date);
 
     // prevent users from inputting wrong dates
@@ -79,58 +83,72 @@ class EditRupScheduleEntry extends Component {
     } else if (this.pikaDayDateOut && key === 'dateIn') {
       this.pikaDayDateOut.setMinDate(date);
     }
-    updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    handleScheduleEntryChange(entry, entryIndex);
   }
 
   handleNumberInput = key => (e) => {
     const { value } = e.target;
-    const { entry, updateGrazingScheduleEntry } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
     entry[key] = Number(value);
 
-    updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    handleScheduleEntryChange(entry, entryIndex);
   }
 
   handlePastureDropdown = (e, { value: pastureId }) => {
-    const { entry, updateGrazingScheduleEntry, pasturesMap } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange, pasturesMap } = this.props;
 
     entry.pastureId = pastureId;
     const { graceDays } = pasturesMap[pastureId];
     entry.graceDays = graceDays;
-    updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    handleScheduleEntryChange(entry, entryIndex);
   }
 
   handleLiveStockTypeDropdown = (e, { value: livestockTypeId }) => {
-    const { entry, updateGrazingScheduleEntry } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
 
     entry.livestockTypeId = livestockTypeId;
-    updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
+    handleScheduleEntryChange(entry, entryIndex);
   }
 
   onCopyEntryClicked = () => {
-    const { entry, schedule, addGrazingScheduleEntry } = this.props;
-    const grazingScheduleEntry = {
-      ...entry,
-      id: uuid(),
-    };
-    addGrazingScheduleEntry({
-      grazingScheduleId: schedule.id,
-      grazingScheduleEntry,
-    });
+    const { handleScheduleEntryCopy, entryIndex } = this.props;
+    handleScheduleEntryCopy(entryIndex);
   }
 
   onDeleteEntryClicked = () => {
-    const {
-      schedule,
-      entry,
-      entryIndex,
-      deleteGrazingScheduleEntry,
-    } = this.props;
-    deleteGrazingScheduleEntry({
-      grazingScheduleId: schedule.id,
-      grazingScheduleEntryId: entry.id,
-      grazingScheduleEntryIndex: entryIndex,
-    });
+    const { handleScheduleEntryDelete, entryIndex } = this.props;
+    handleScheduleEntryDelete(entryIndex);
   }
+
+  // onCopyEntryClicked = () => {
+  //   const { entry, schedule, addGrazingScheduleEntry } = this.props;
+  //   const grazingScheduleEntry = {
+  //     ...entry,
+  //     id: uuid(),
+  //   };
+  //   addGrazingScheduleEntry({
+  //     grazingScheduleId: schedule.id,
+  //     grazingScheduleEntry,
+  //   });
+  // }
+
+  // onDeleteEntryClicked = () => {
+  //   const {
+  //     schedule,
+  //     entry,
+  //     entryIndex,
+  //     deleteGrazingScheduleEntry,
+  //   } = this.props;
+  //   deleteGrazingScheduleEntry({
+  //     grazingScheduleId: schedule.id,
+  //     grazingScheduleEntryId: entry.id,
+  //     grazingScheduleEntryIndex: entryIndex,
+  //   });
+  // }
 
   render() {
     const {

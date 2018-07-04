@@ -10,10 +10,6 @@ import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic
 import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal, getObjValues } from '../../../utils';
-import {
-  addGrazingSchedule, updateGrazingSchedule,
-  updateGrazingScheduleEntry, addGrazingScheduleEntry, deleteGrazingScheduleEntry,
-} from '../../../actions';
 // import { ConfirmationModal } from '../../common';
 
 const propTypes = {
@@ -22,7 +18,6 @@ const propTypes = {
   scheduleIndex: PropTypes.number.isRequired,
   onScheduleClicked: PropTypes.func.isRequired,
   activeScheduleIndex: PropTypes.number.isRequired,
-  grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   authorizedAUMs: PropTypes.number.isRequired,
   crownTotalAUMs: PropTypes.number.isRequired,
   yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -30,10 +25,11 @@ const propTypes = {
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   addGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
-  updateGrazingScheduleEntry: PropTypes.func.isRequired,
-  addGrazingScheduleEntry: PropTypes.func.isRequired,
-  deleteGrazingScheduleEntry: PropTypes.func.isRequired,
-  scheduleCopied: PropTypes.func.isRequired,
+  handleScheduleCopy: PropTypes.func.isRequired,
+  // updateGrazingScheduleEntry: PropTypes.func.isRequired,
+  // addGrazingScheduleEntry: PropTypes.func.isRequired,
+  // deleteGrazingScheduleEntry: PropTypes.func.isRequired,
+  // scheduleCopied: PropTypes.func.isRequired,
   // usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   // yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   // pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -81,59 +77,70 @@ class EditRupSchedule extends Component {
     });
   }
 
+  // onNewRowClick = scheduleIndex => () => {
+  //   const { schedule, handleScheduleChange } = this.props;
+  //   const { grazingScheduleEntries } = schedule;
+  //   grazingScheduleEntries.push({
+  //     key: new Date().getTime(),
+  //     livestockCount: 0,
+  //     graceDays: 0,
+  //   });
+
+  //   handleScheduleChange(schedule, scheduleIndex);
+  // }
+
   onScheduleCopyClicked = ({ value: year }) => () => {
-    const {
-      plan,
-      schedule,
-      grazingScheduleEntriesMap,
-      addGrazingSchedule,
-      addGrazingScheduleEntry,
-      scheduleCopied,
-    } = this.props;
-    const newGrazingScheduleId = uuid();
-    const entryIds = schedule.grazingScheduleEntries;
-    const grazingScheduleEntries = entryIds.map((eId) => {
-      const { id, grazingScheduleId, ...entry } = grazingScheduleEntriesMap[eId];
-      const dateIn = entry.dateIn && typeof entry.dateIn === 'string' && `${year}${entry.dateIn.slice(4)}`;
-      const dateOut = entry.dateOut && typeof entry.dateOut === 'string' && `${year}${entry.dateOut.slice(4)}`;
-      const grazingScheduleEntry = {
-        ...entry,
-        id: uuid(),
-        dateIn,
-        dateOut,
-      };
-      // add the each created entry in Redux store
-      addGrazingScheduleEntry({
-        grazingScheduleId: newGrazingScheduleId,
-        grazingScheduleEntry,
-      });
-      return grazingScheduleEntry.id;
-    });
-
-    // create a schedule with newly created grazing schedule entry ids
-    const grazingSchedule = {
-      ...schedule,
-      id: newGrazingScheduleId,
-      year,
-      grazingScheduleEntries,
-    };
-    // and add it in Redux store
-    addGrazingSchedule({
-      planId: plan.id,
-      grazingSchedule,
-    });
-
-    scheduleCopied(year, newGrazingScheduleId);
+    const { handleScheduleCopy, schedule } = this.props;
+    handleScheduleCopy(year, schedule.id);
   }
 
+  handleScheduleEntryChange = (entry, entryIndex) => {
+    const { schedule, updateGrazingSchedule } = this.props;
+    const grazingSchedule = { ...schedule };
+    grazingSchedule.grazingScheduleEntries[entryIndex] = entry;
+
+    updateGrazingSchedule({ grazingSchedule });
+  }
+
+  handleScheduleEntryCopy = (entryIndex) => {
+    const { schedule, updateGrazingSchedule } = this.props;
+
+    const entry = {
+      ...schedule.grazingScheduleEntries[entryIndex],
+      id: uuid(),
+    };
+    const grazingSchedule = { ...schedule };
+    grazingSchedule.grazingScheduleEntries.push(entry);
+    updateGrazingSchedule({ grazingSchedule });
+  }
+
+  handleScheduleEntryDelete = (entryIndex) => {
+    const {
+      schedule,
+      updateGrazingSchedule,
+      // deleteRupScheduleEntry,
+    } = this.props;
+    const grazingSchedule = { ...schedule };
+    const [deletedEntry] = grazingSchedule.grazingScheduleEntries.splice(entryIndex, 1);
+    // const planId = schedule && schedule.planId;
+    // const scheduleId = schedule && schedule.id;
+    // const entryId = deletedEntry && deletedEntry.id;
+    const onDeleted = () => {
+      updateGrazingSchedule({ grazingSchedule });
+    };
+
+    // // delete the entry saved in server
+    // if (planId && scheduleId && entryId) {
+    //   deleteRupScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
+    // } else { // or delete the entry saved in state
+      onDeleted();
+    // }
+  }
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
     const {
       schedule,
       pasturesMap,
       livestockTypes,
-      updateGrazingScheduleEntry,
-      addGrazingScheduleEntry,
-      deleteGrazingScheduleEntry,
       // isDeletingScheduleEntry,
     } = this.props;
     const pastures = getObjValues(pasturesMap);
@@ -166,9 +173,9 @@ class EditRupSchedule extends Component {
           pastureOptions={pastureOptions}
           livestockTypes={livestockTypes}
           livestockTypeOptions={livestockTypeOptions}
-          updateGrazingScheduleEntry={updateGrazingScheduleEntry}
-          addGrazingScheduleEntry={addGrazingScheduleEntry}
-          deleteGrazingScheduleEntry={deleteGrazingScheduleEntry}
+          handleScheduleEntryChange={this.handleScheduleEntryChange}
+          handleScheduleEntryCopy={this.handleScheduleEntryCopy}
+          handleScheduleEntryDelete={this.handleScheduleEntryDelete}
         />
       )
     ));
@@ -178,14 +185,12 @@ class EditRupSchedule extends Component {
       schedule,
       scheduleIndex,
       activeScheduleIndex,
-      grazingScheduleEntriesMap,
       authorizedAUMs,
       crownTotalAUMs,
       yearOptions,
     } = this.props;
     // const { isDeleteScheduleModalOpen } = this.state;
-    const { year, grazingScheduleEntries: ids } = schedule;
-    const grazingScheduleEntries = ids.map(id => grazingScheduleEntriesMap[id]);
+    const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
     const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs);
@@ -279,10 +284,4 @@ class EditRupSchedule extends Component {
 }
 
 EditRupSchedule.propTypes = propTypes;
-export default connect(null, {
-  addGrazingSchedule,
-  updateGrazingSchedule,
-  addGrazingScheduleEntry,
-  updateGrazingScheduleEntry,
-  deleteGrazingScheduleEntry,
-})(EditRupSchedule);
+export default EditRupSchedule;

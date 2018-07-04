@@ -10,7 +10,7 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
+  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   // livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -58,9 +58,9 @@ class RupGrazingSchedules extends Component {
       usages,
       references,
       pasturesMap,
-      grazingScheduleEntriesMap,
+      // grazingScheduleEntriesMap,
     } = this.props;
-    const grazingScheduleEntries = utils.getObjValues(grazingScheduleEntriesMap);
+    const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
     const { id, year } = schedule;
     const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;

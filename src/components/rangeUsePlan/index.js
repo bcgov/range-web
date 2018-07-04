@@ -13,7 +13,7 @@ import { updatePlan } from '../../actions';
 import {
   getPlansMap, getReferences, getUser,
   getPlanIsFetching, getPasturesMap, getGrazingSchedulesMap,
-  getMinisterIssuesMap, getGrazingScheduleEntriesMap, getPlanErrorMessage,
+  getMinisterIssuesMap, getPlanErrorMessage,
 } from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
 // import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
@@ -28,7 +28,7 @@ const propTypes = {
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
+  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
@@ -71,7 +71,7 @@ class Base extends Component {
       pasturesMap,
       ministerIssuesMap,
       grazingSchedulesMap,
-      grazingScheduleEntriesMap,
+      // grazingScheduleEntriesMap,
       // isUpdatingStatus,
       // isDownloadingPDF,
       // updatePlanStatus,
@@ -97,7 +97,7 @@ class Base extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
-            grazingScheduleEntriesMap={grazingScheduleEntriesMap}
+            // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
@@ -111,7 +111,7 @@ class Base extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
-            grazingScheduleEntriesMap={grazingScheduleEntriesMap}
+            // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
@@ -130,7 +130,7 @@ const mapStateToProps = state => (
     plansMap: getPlansMap(state),
     pasturesMap: getPasturesMap(state),
     grazingSchedulesMap: getGrazingSchedulesMap(state),
-    grazingScheduleEntriesMap: getGrazingScheduleEntriesMap(state),
+    // grazingScheduleEntriesMap: getGrazingScheduleEntriesMap(state),
     ministerIssuesMap: getMinisterIssuesMap(state),
     isFetchingPlan: getPlanIsFetching(state),
     errorFetchingPlan: getPlanErrorMessage(state),

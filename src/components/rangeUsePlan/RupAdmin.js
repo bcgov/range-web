@@ -22,7 +22,7 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
+  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
@@ -125,7 +125,7 @@ class RupAdmin extends Component {
       plan,
       pasturesMap,
       grazingSchedulesMap,
-      grazingScheduleEntriesMap,
+      // grazingScheduleEntriesMap,
       ministerIssuesMap,
     } = this.props;
     const {
@@ -252,7 +252,7 @@ class RupAdmin extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
-            grazingScheduleEntriesMap={grazingScheduleEntriesMap}
+            // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
           />
 
           <RupMinisterIssues

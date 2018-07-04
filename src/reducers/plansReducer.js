@@ -33,10 +33,11 @@ const updatePlan = (state, action) => {
 };
 
 const addGrazingSchedule = (state, action) => {
-  const { planId, grazingSchedule } = action.payload;
-  // insert the new schedule id
-  const plan = { ...state.byId[planId] };
-  plan.grazingSchedules = [...plan.grazingSchedules || [], grazingSchedule.id];
+  const { planId, grazingSchedules } = action.payload;
+  const plan = {
+    ...state.byId[planId],
+    grazingSchedules,
+  };
 
   return {
     ...state,

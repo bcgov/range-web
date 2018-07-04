@@ -31,11 +31,11 @@ export const plan = new schema.Entity('plans');
 export const pasture = new schema.Entity('pastures');
 export const ministerIssue = new schema.Entity('ministerIssues');
 export const grazingSchedule = new schema.Entity('grazingSchedules');
-export const grazingScheduleEntry = new schema.Entity('grazingScheduleEntries');
+// export const grazingScheduleEntry = new schema.Entity('grazingScheduleEntries');
 
-grazingSchedule.define({
-  grazingScheduleEntries: [grazingScheduleEntry],
-});
+// grazingSchedule.define({
+//   grazingScheduleEntries: [grazingScheduleEntry],
+// });
 // A plan can have many pastures, so it is defined as an array of pastures
 plan.define({
   pastures: [pasture],
