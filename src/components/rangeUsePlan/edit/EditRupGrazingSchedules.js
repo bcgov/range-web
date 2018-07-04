@@ -19,6 +19,7 @@ const propTypes = {
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   addGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
+  deleteRupScheduleEntry: PropTypes.func.isRequired,
 };
 
 export class EditRupGrazingSchedules extends Component {
@@ -74,7 +75,7 @@ export class EditRupGrazingSchedules extends Component {
 
       return {
         ...entry,
-        id: uuid(),
+        key: uuid(),
         dateIn,
         dateOut,
       };
@@ -133,6 +134,7 @@ export class EditRupGrazingSchedules extends Component {
       references,
       pasturesMap,
       updateGrazingSchedule,
+      deleteRupScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
     const { id, year } = schedule;
@@ -156,6 +158,7 @@ export class EditRupGrazingSchedules extends Component {
         crownTotalAUMs={crownTotalAUMs}
         updateGrazingSchedule={updateGrazingSchedule}
         handleScheduleCopy={this.handleScheduleCopy}
+        deleteRupScheduleEntry={deleteRupScheduleEntry}
       />
     );
   }

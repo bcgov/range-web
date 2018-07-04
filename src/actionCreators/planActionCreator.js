@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr';
+import uuid from 'uuid-v4';
 import { success, request, error, storePlan } from '../actions';
 // import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
 // import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
@@ -94,9 +95,10 @@ const createRupSchedule = (planId, schedule) => (dispatch, getState) => {
   dispatch(request(reducerTypes.CREATE_RUP_SCHEDULE));
   const makeRequest = async () => {
     try {
+      const { id, ...grazingSchedule } = schedule;
       const { data } = await axios.post(
         API.CREATE_RUP_SCHEDULE(planId),
-        { ...schedule, plan_id: planId },
+        { ...grazingSchedule, plan_id: planId },
         createRequestHeader(getState),
       );
       dispatch(success(reducerTypes.CREATE_RUP_SCHEDULE, data));
@@ -131,10 +133,10 @@ const updateRupSchedule = (planId, schedule) => (dispatch, getState) => {
 };
 
 export const createOrUpdateRupSchedule = (planId, schedule) => (dispatch) => {
-  if (schedule.id) {
-    return dispatch(updateRupSchedule(planId, schedule));
+  if (uuid.isUUID(schedule.id)) {
+    return dispatch(createRupSchedule(planId, schedule));
   }
-  return dispatch(createRupSchedule(planId, schedule));
+  return dispatch(updateRupSchedule(planId, schedule));
 };
 
 export const deleteRupSchedule = (planId, scheduleId) => (dispatch, getState) => {

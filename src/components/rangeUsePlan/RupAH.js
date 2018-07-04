@@ -7,7 +7,7 @@ import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import { ELEMENT_ID } from '../../constants/variables';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 // import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
@@ -21,7 +21,8 @@ const propTypes = {
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
-  // createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  updateGrazingSchedule: PropTypes.func.isRequired,
   // toastErrorMessage: PropTypes.func.isRequired,
   // toastSuccessMessage: PropTypes.func.isRequired,
 };
@@ -29,6 +30,7 @@ const propTypes = {
 export class RupAH extends Component {
   state = {
     // isSubmitModalOpen: false,
+    isSavingAsDraft: false,
   };
 
   componentDidMount() {
@@ -55,30 +57,38 @@ export class RupAH extends Component {
   }
 
   onSaveDraftClick = () => {
-    // const {
-    //   statuses,
-    //   toastSuccessMessage,
-    // } = this.props;
-    // const { plan } = this.state;
-    // const status = statuses.find(s => s.name === DRAFT);
-    // const onRequested = () => {
-    //   this.setState({ isSavingAsDraft: true });
-    // };
-    // const onSuccess = (newSchedules) => {
-    //   // update schedules in the state
-    //   plan.grazingSchedules = newSchedules;
-    //   toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
-    //   this.setState({
-    //     isSavingAsDraft: false,
-    //     status,
-    //     plan,
-    //   });
-    // };
-    // const onFailed = () => {
-    //   this.setState({ isSavingAsDraft: false });
-    // };
+    const {
+      plan,
+      references,
+      updatePlan,
+      updateGrazingSchedule,
+      // toastSuccessMessage,
+    } = this.props;
+    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
+    const status = planStatus.find(s => s.name === PLAN_STATUS.DRAFT);
+    const onRequested = () => {
+      this.setState({ isSavingAsDraft: true });
+    };
+    const onSuccess = (newSchedules) => {
+      // generate a list of schedule ids
+      const grazingSchedules = newSchedules.map((grazingSchedule) => {
+        updateGrazingSchedule({ grazingSchedule });
+        return grazingSchedule.id;
+      });
+      // update schedules in Redux
+      updatePlan({
+        ...plan,
+        status,
+        grazingSchedules,
+      });
+      this.setState({ isSavingAsDraft: false });
+      // toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
+    };
+    const onFailed = () => {
+      this.setState({ isSavingAsDraft: false });
+    };
 
-    // this.updateRupStatusAndContent(plan, status, onRequested, onSuccess, onFailed);
+    this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
   }
 
   onSubmitClicked = () => {
@@ -114,61 +124,68 @@ export class RupAH extends Component {
     // this.updateRupStatusAndContent(plan, status, onRequested, onSuccess, onFailed);
   }
 
-  updateRupStatusAndContent = (plan, status, onRequested, onSuccess, onFailed) => {
-    // const {
-    //   createOrUpdateRupSchedule,
-    //   updateRupStatus,
-    //   toastErrorMessage,
-    // } = this.props;
+  updateRupStatusAndContent = (status, onRequested, onSuccess, onFailed) => {
+    const {
+      plan,
+      updatePlanStatus,
+      createOrUpdateRupSchedule,
+      grazingSchedulesMap,
+      // toastErrorMessage,
+    } = this.props;
 
-    // onRequested();
+    onRequested();
 
-    // const error = this.validateRup(plan);
-    // if (error) {
-    //   onFailed();
-    // } else {
-    //   const planId = plan && plan.id;
-    //   const statusId = status && status.id;
-    //   const grazingSchedules = plan && plan.grazingSchedules;
+    const error = this.validateRup(plan);
 
-    //   if (planId && statusId && grazingSchedules) {
-    //     const makeRequest = async () => {
-    //       try {
-    //         await updateRupStatus({ planId, statusId }, false);
-    //         const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
-    //           createOrUpdateRupSchedule(planId, schedule)
-    //         )));
-    //         onSuccess(newSchedules);
-    //       } catch (err) {
-    //         onFailed();
-    //         toastErrorMessage(err);
-    //         throw err;
-    //       }
-    //     };
-    //     makeRequest();
-    //   }
-    // }
+    if (error) {
+      onFailed();
+    } else {
+      const planId = plan && plan.id;
+      const statusId = status && status.id;
+      const grazingSchedules = plan && plan.grazingSchedules
+      && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
+
+      if (planId && statusId && grazingSchedules) {
+        const makeRequest = async () => {
+          try {
+            await updatePlanStatus(planId, statusId, false);
+            const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
+              createOrUpdateRupSchedule(planId, schedule)
+            )));
+            onSuccess(newSchedules);
+          } catch (err) {
+            onFailed();
+            // toastErrorMessage(err);
+            throw err;
+          }
+        };
+        makeRequest();
+      }
+    }
   }
 
   validateRup = (plan) => {
-    // const {
-    //   livestockTypes,
-    //   agreement,
-    // } = this.props;
-    // const usages = agreement && agreement.usage;
-    // const errors = handleRupValidation(plan, livestockTypes, usages);
+    const {
+      references,
+      agreement,
+      pasturesMap,
+      grazingSchedulesMap,
+    } = this.props;
+    const usages = agreement && agreement.usage;
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
+    const errors = utils.handleRupValidation(plan, pasturesMap, grazingSchedulesMap, livestockTypes, usages);
 
-    // // errors have been found
-    // if (errors.length !== 0) {
-    //   const [error] = errors;
-    //   document.getElementById(error.elementId).scrollIntoView({
-    //     behavior: 'smooth',
-    //   });
-    //   return error;
-    // }
+    // errors have been found
+    if (errors.length !== 0) {
+      const [error] = errors;
+      document.getElementById(error.elementId).scrollIntoView({
+        behavior: 'smooth',
+      });
+      return error;
+    }
 
-    // // no errors found
-    // return false;
+    // no errors found
+    return false;
   }
 
   submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })

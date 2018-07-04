@@ -4,8 +4,8 @@ import Pikaday from 'pikaday';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT } from '../../../constants/variables';
-// import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
-// import { ConfirmationModal } from '../../common';
+import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
+import { ConfirmationModal } from '../../common';
 
 const propTypes = {
   schedule: PropTypes.shape({}).isRequired,
@@ -24,7 +24,7 @@ const propTypes = {
 /* eslint-disable object-curly-newline */
 class EditRupScheduleEntry extends Component {
   state = {
-    // isDeleteScheduleEntryModalOpen: false,
+    isDeleteScheduleEntryModalOpen: false,
   }
 
   componentDidMount() {
@@ -115,6 +115,9 @@ class EditRupScheduleEntry extends Component {
     handleScheduleEntryDelete(entryIndex);
   }
 
+  closeDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: false })
+  openDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: true })
+
   render() {
     const {
       entry,
@@ -147,7 +150,7 @@ class EditRupScheduleEntry extends Component {
 
     const entryOptions = [
       { key: `entry${entryIndex}option1`, text: 'Copy', onClick: this.onCopyEntryClicked },
-      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.onDeleteEntryClicked },
+      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
     ];
 
     const isPastureDropdownError = pastureId === undefined;
@@ -158,14 +161,14 @@ class EditRupScheduleEntry extends Component {
 
     return (
       <Table.Row>
-        {/* <ConfirmationModal
+        <ConfirmationModal
           open={this.state.isDeleteScheduleEntryModalOpen}
-          loading={isDeletingScheduleEntry}
+          // loading={isDeletingScheduleEntry}
           header={DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER}
           content={DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT}
           onNoClicked={this.closeDeleteScheduleEntryConfirmationModal}
           onYesClicked={this.onDeleteEntryClicked}
-        /> */}
+        />
 
         <Table.Cell>
           <Dropdown

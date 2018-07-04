@@ -68,17 +68,29 @@ export const handleGrazingScheduleValidation = (schedule = {}, pasturesMap = {},
  * Validate a range use plan
  *
  * @param {Object} plan the range use plan object
+ * @param {Object} pasturesMap
+ * @param {Object} grazingSchedulesMap
  * @param {Array} livestockTypes the array of live stock types
  * @param {Array} usages the array of usages from the agreement
  * @returns {Array} An array of errors
  */
-export const handleRupValidation = (plan = {}, livestockTypes = [], usages = []) => {
-  const grazingSchedules = plan.grazingSchedules || [];
-  const pastures = plan.pastures || [];
+export const handleRupValidation = (
+  plan = {},
+  pasturesMap = {},
+  grazingSchedulesMap = {},
+  livestockTypes = [],
+  usages = [],
+) => {
+  const grazingSchedules = plan.grazingSchedules.map(id => grazingSchedulesMap[id]) || [];
 
   let errors = [];
-  grazingSchedules.forEach((schedule) => {
-    errors = [...errors, ...handleGrazingScheduleValidation(schedule, pastures, livestockTypes, usages)];
+  grazingSchedules.map((schedule) => {
+    errors = [
+      ...errors,
+      ...handleGrazingScheduleValidation(schedule, pasturesMap, livestockTypes, usages),
+    ];
+    return undefined;
   });
+
   return errors;
 };

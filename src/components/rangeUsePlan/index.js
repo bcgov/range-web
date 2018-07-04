@@ -8,13 +8,9 @@ import RupAH from './RupAH';
 import { Loading } from '../common';
 // import { getRangeUsePlan } from '../../actions/agreementActions';
 // import { updatePlanStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
-import { fetchPlan, updatePlanStatus } from '../../actionCreators';
-import { updatePlan } from '../../actions';
-import {
-  getPlansMap, getReferences, getUser,
-  getPlanIsFetching, getPasturesMap, getGrazingSchedulesMap,
-  getMinisterIssuesMap, getPlanErrorMessage,
-} from '../../reducers/rootReducer';
+import { fetchPlan, updatePlanStatus, createOrUpdateRupSchedule } from '../../actionCreators';
+import { updatePlan, updateGrazingSchedule } from '../../actions';
+import * as selectors from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
 // import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 
@@ -32,10 +28,10 @@ const propTypes = {
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
+  createOrUpdateRupSchedule: PropTypes.func.isRequired,
   // agreementState: PropTypes.shape({}).isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
-  // createOrUpdateRupSchedule: PropTypes.func.isRequired,
   // toastErrorMessage: PropTypes.func.isRequired,
   // toastSuccessMessage: PropTypes.func.isRequired,
 };
@@ -71,12 +67,13 @@ class Base extends Component {
       pasturesMap,
       ministerIssuesMap,
       grazingSchedulesMap,
+      createOrUpdateRupSchedule,
+      updateGrazingSchedule,
       // grazingScheduleEntriesMap,
       // isUpdatingStatus,
       // isDownloadingPDF,
       // updatePlanStatus,
       // getRupPDF,
-      // createOrUpdateRupSchedule,
       // toastErrorMessage,
       // toastSuccessMessage,
     } = this.props;
@@ -97,7 +94,6 @@ class Base extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
-            // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
@@ -111,10 +107,11 @@ class Base extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
-            // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
+            updateGrazingSchedule={updateGrazingSchedule}
+            createOrUpdateRupSchedule={createOrUpdateRupSchedule}
           />
         }
         { errorFetchingPlan &&
@@ -127,18 +124,15 @@ class Base extends Component {
 
 const mapStateToProps = state => (
   {
-    plansMap: getPlansMap(state),
-    pasturesMap: getPasturesMap(state),
-    grazingSchedulesMap: getGrazingSchedulesMap(state),
-    // grazingScheduleEntriesMap: getGrazingScheduleEntriesMap(state),
-    ministerIssuesMap: getMinisterIssuesMap(state),
-    isFetchingPlan: getPlanIsFetching(state),
-    errorFetchingPlan: getPlanErrorMessage(state),
-    references: getReferences(state),
-    user: getUser(state),
-    // agreementState: state.rangeUsePlan,
+    plansMap: selectors.getPlansMap(state),
+    pasturesMap: selectors.getPasturesMap(state),
+    grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
+    ministerIssuesMap: selectors.getMinisterIssuesMap(state),
+    isFetchingPlan: selectors.getPlanIsFetching(state),
+    errorFetchingPlan: selectors.getPlanErrorMessage(state),
+    references: selectors.getReferences(state),
+    user: selectors.getUser(state),
     // isDownloadingPDF: state.pdf.isLoading,
-    // references: state.references.data,
     // isUpdatingStatus: state.updatePlanStatus.isLoading,
   }
 );
@@ -149,10 +143,11 @@ export default connect(mapStateToProps, {
   fetchPlan,
   updatePlanStatus,
   updatePlan,
+  updateGrazingSchedule,
+  createOrUpdateRupSchedule,
   // getRangeUsePlan,
   // updatePlanStatus,
   // getRupPDF,
-  // createOrUpdateRupSchedule,
   // toastErrorMessage,
   // toastSuccessMessage,
 })(Base);

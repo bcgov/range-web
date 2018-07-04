@@ -6,7 +6,7 @@ import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic
 import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal, getObjValues, handleGrazingScheduleValidation } from '../../../utils';
-// import { ConfirmationModal } from '../../common';
+import { ConfirmationModal } from '../../common';
 
 const propTypes = {
   schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
@@ -21,14 +21,14 @@ const propTypes = {
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   handleScheduleCopy: PropTypes.func.isRequired,
-  // deleteRupScheduleEntry: PropTypes.func.isRequired,
+  deleteRupScheduleEntry: PropTypes.func.isRequired,
   // isDeletingSchedule: PropTypes.bool.isRequired,
   // isDeletingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 class EditRupSchedule extends Component {
   state = {
-    // isDeleteScheduleModalOpen: false,
+    isDeleteScheduleModalOpen: false,
   }
 
   onScheduleClicked = (e) => {
@@ -53,7 +53,7 @@ class EditRupSchedule extends Component {
     const { schedule, updateGrazingSchedule } = this.props;
     const grazingSchedule = { ...schedule };
     const entry = {
-      id: uuid(),
+      key: uuid(),
       livestockCount: 0,
       graceDays: 0,
     };
@@ -64,6 +64,13 @@ class EditRupSchedule extends Component {
   onScheduleCopyClicked = ({ value: year }) => () => {
     const { handleScheduleCopy, schedule } = this.props;
     handleScheduleCopy(year, schedule.id);
+  }
+
+  onScheduleDeleteClicked = () => {
+    console.log('called!');
+    this.closeDeleteScheduleConfirmationModal();
+    // const { scheduleIndex, handleScheduleDelete } = this.props;
+    // handleScheduleDelete(scheduleIndex);
   }
 
   handleScheduleEntryChange = (entry, entryIndex) => {
@@ -79,8 +86,9 @@ class EditRupSchedule extends Component {
 
     const entry = {
       ...schedule.grazingScheduleEntries[entryIndex],
-      id: uuid(),
+      key: uuid(),
     };
+    delete entry.id;
     const grazingSchedule = { ...schedule };
     grazingSchedule.grazingScheduleEntries.push(entry);
     updateGrazingSchedule({ grazingSchedule });
@@ -90,24 +98,27 @@ class EditRupSchedule extends Component {
     const {
       schedule,
       updateGrazingSchedule,
-      // deleteRupScheduleEntry,
+      deleteRupScheduleEntry,
     } = this.props;
     const grazingSchedule = { ...schedule };
     const [deletedEntry] = grazingSchedule.grazingScheduleEntries.splice(entryIndex, 1);
-    // const planId = schedule && schedule.planId;
-    // const scheduleId = schedule && schedule.id;
-    // const entryId = deletedEntry && deletedEntry.id;
+    const planId = schedule && schedule.planId;
+    const scheduleId = schedule && schedule.id;
+    const entryId = deletedEntry && deletedEntry.id;
     const onDeleted = () => {
       updateGrazingSchedule({ grazingSchedule });
     };
 
-    // // delete the entry saved in server
-    // if (planId && scheduleId && entryId) {
-    //   deleteRupScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
-    // } else { // or delete the entry saved in state
+    // delete the entry saved in server
+    if (planId && scheduleId && entryId) {
+      deleteRupScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
+    } else { // or delete the entry saved in state
       onDeleted();
-    // }
+    }
   }
+
+  closeDeleteScheduleConfirmationModal = () => this.setState({ isDeleteScheduleModalOpen: false })
+  openDeleteScheduleConfirmationModal = () => this.setState({ isDeleteScheduleModalOpen: true })
 
   renderWarningMessage = (grazingSchedule = {}) => {
     const { pasturesMap, livestockTypes, usages } = this.props;
@@ -147,7 +158,7 @@ class EditRupSchedule extends Component {
     return grazingScheduleEntries.map((entry, entryIndex) => (
       (
         <EditRupGrazingScheduleEntry
-          key={entry.id}
+          key={entry.id || entry.key}
           schedule={schedule}
           entry={entry}
           entryIndex={entryIndex}
@@ -163,6 +174,7 @@ class EditRupSchedule extends Component {
       )
     ));
   }
+
   render() {
     const {
       schedule,
@@ -172,7 +184,7 @@ class EditRupSchedule extends Component {
       crownTotalAUMs,
       yearOptions,
     } = this.props;
-    // const { isDeleteScheduleModalOpen } = this.state;
+    const { isDeleteScheduleModalOpen } = this.state;
     const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
@@ -182,6 +194,15 @@ class EditRupSchedule extends Component {
 
     return (
       <li className="rup__schedule">
+        <ConfirmationModal
+          open={isDeleteScheduleModalOpen}
+          // loading={isDeletingSchedule}
+          header={strings.DELETE_SCHEDULE_FOR_AH_HEADER}
+          content={strings.DELETE_SCHEDULE_FOR_AH_CONTENT}
+          onNoClicked={this.closeDeleteScheduleConfirmationModal}
+          onYesClicked={this.onScheduleDeleteClicked}
+        />
+
         <div className="rup__schedule__header">
           <button
             className="rup__schedule__header__title"
