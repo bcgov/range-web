@@ -10,3 +10,11 @@
 .ui.dropdown.error > .menu > .item {
   color: black;
 }
+
+.ui.selection.active.dropdown {
+  box-shadow: none;
+}
+
+.ui.selection.active.dropdown:hover {
+  box-shadow: none;
+}
