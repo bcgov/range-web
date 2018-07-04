@@ -13,11 +13,6 @@ export const fetchPlan = planId => (dispatch, getState) => {
     try {
       const response = await axios.get(API.GET_RUP(planId), createRequestHeader(getState));
       const rangeUsePlan = response.data.plan;
-      // delete response.data.plan;
-      // const agreement = { ...response.data, plans: [rangeUsePlan] };
-      // console.log(normalize(agreement, schema.agreement));
-      // dispatch(storeAgreements())
-      // console.log(normalize(rangeUsePlan, schema.agreement));
 
       dispatch(success(reducerTypes.GET_PLAN, response.data));
       dispatch(storePlan(normalize(rangeUsePlan, schema.plan)));

@@ -79,7 +79,6 @@ export const getPlanIsFetching = state => fromNetwork.getIsFetching(state[reduce
 export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN]);
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
-// export const getGrazingScheduleEntriesMap = state => fromPlan.getGrazingScheduleEntriesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
 
 const rootReducer = (state, action) => {
