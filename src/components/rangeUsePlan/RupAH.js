@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-// import cloneDeep from 'lodash.clonedeep';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
@@ -19,7 +18,6 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
@@ -29,13 +27,9 @@ const propTypes = {
 };
 
 export class RupAH extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSubmitModalOpen: false,
-    };
-  }
+  state = {
+    // isSubmitModalOpen: false,
+  };
 
   componentDidMount() {
     this.stickyHeader = document.getElementById(ELEMENT_ID.RUP_STICKY_HEADER);
@@ -285,7 +279,6 @@ export class RupAH extends Component {
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
-              // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             />
           }
           {!isEditable &&
@@ -296,7 +289,6 @@ export class RupAH extends Component {
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
-              // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
             />
           }
 

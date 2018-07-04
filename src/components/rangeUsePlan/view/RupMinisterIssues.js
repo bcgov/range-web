@@ -126,17 +126,19 @@ class RupMinisterIssues extends Component {
 
   render() {
     const { plan, ministerIssuesMap, className } = this.props;
-    const ministerIssueIds = plan && plan.ministerIssues;
+    const ministerIssueIds = (plan && plan.ministerIssues) || [];
     const ministerIssues = ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
       <div className={className}>
         <div className="rup__title">Minister&apos;s Issues and Actions</div>
         <div className="rup__divider" />
-        <div className="rup__missues__note">
-          Note: Any action that would result in a range development cannot
-          be conducted until an authorization (separate to this RUP) is obtained.
-        </div>
+        { ministerIssues.length !== 0 &&
+          <div className="rup__missues__note">
+            Note: Any action that would result in a range development cannot
+            be conducted until an authorization (separate to this RUP) is obtained.
+          </div>
+        }
         <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
           {this.renderMinisterIssues(ministerIssues)}
         </ul>
