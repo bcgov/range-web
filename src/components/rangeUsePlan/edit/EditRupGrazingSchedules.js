@@ -64,7 +64,7 @@ export class EditRupGrazingSchedules extends Component {
   }
 
   handleScheduleCopy = (year, sId) => {
-    const { plan, grazingSchedulesMap, addGrazingSchedule } = this.props;
+    const { grazingSchedulesMap } = this.props;
     const schedule = grazingSchedulesMap[sId];
     const copiedGrazingScheduleEntries = schedule.grazingScheduleEntries.map((e) => {
       const { id, grazingScheduleId, ...entry } = e;
@@ -86,6 +86,13 @@ export class EditRupGrazingSchedules extends Component {
       year,
       grazingScheduleEntries: copiedGrazingScheduleEntries,
     };
+
+    this.addGrazingScheduleInStore(grazingSchedule);
+  }
+
+  addGrazingScheduleInStore = (grazingSchedule) => {
+    const { addGrazingSchedule, plan, grazingSchedulesMap } = this.props;
+
     // construct a new sorted list of grazing schedules
     const newGrazingSchedules = [
       ...plan.grazingSchedules.map(id => grazingSchedulesMap[id]),
@@ -93,6 +100,7 @@ export class EditRupGrazingSchedules extends Component {
     ];
     newGrazingSchedules.sort((s1, s2) => s1.year > s2.year);
 
+    // pass the copied grazing schedule and new sorted list of schedule ids for the plan reducer
     addGrazingSchedule({
       planId: plan.id,
       grazingSchedules: newGrazingSchedules.map(s => s.id),
@@ -101,18 +109,29 @@ export class EditRupGrazingSchedules extends Component {
 
     // remove this year from the year options and set active to the newly copied schedule
     this.setState({
-      yearOptions: this.state.yearOptions.filter(o => o.value !== year),
-      activeScheduleIndex: newGrazingSchedules.findIndex(s => s.year === year),
+      yearOptions: this.state.yearOptions.filter(o => o.value !== grazingSchedule.year),
+      activeScheduleIndex: newGrazingSchedules.findIndex(s => s.year === grazingSchedule.year),
     });
+  }
+
+  onYearSelected = (e, { value: year }) => {
+    e.preventDefault();
+    // construct a new grazing schedule
+    const grazingSchedule = {
+      id: uuid(),
+      year,
+      narative: '',
+      grazingScheduleEntries: [],
+    };
+
+    this.addGrazingScheduleInStore(grazingSchedule);
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
     const {
-      plan,
       usages,
       references,
       pasturesMap,
-      addGrazingSchedule,
       updateGrazingSchedule,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
@@ -126,16 +145,15 @@ export class EditRupGrazingSchedules extends Component {
       <EditRupGrazingSchedule
         key={id}
         yearOptions={yearOptions}
-        plan={plan}
         schedule={schedule}
         scheduleIndex={scheduleIndex}
         onScheduleClicked={this.onScheduleClicked}
         activeScheduleIndex={activeScheduleIndex}
         livestockTypes={livestockTypes}
         pasturesMap={pasturesMap}
+        usages={usages}
         authorizedAUMs={authorizedAUMs}
         crownTotalAUMs={crownTotalAUMs}
-        addGrazingSchedule={addGrazingSchedule}
         updateGrazingSchedule={updateGrazingSchedule}
         handleScheduleCopy={this.handleScheduleCopy}
       />

@@ -68,6 +68,8 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => (
 /**
  *
  * @param {Array} entries grazing schedule entries
+ * @param {Object} pasturesMap the array of pastures from the plan
+ * @param {Array} livestockTypes the array of live stock types
  * @returns {float} the total crown AUMs
  */
 export const calcCrownTotalAUMs = (entries = [], pasturesMap = {}, livestockTypes = []) => {

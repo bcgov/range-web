@@ -35,6 +35,7 @@ export * from './localStorage';
 export * from './user';
 export * from './planStatus';
 export * from './client';
+export * from './validation';
 
 export const createRequestHeader = (getState) => {
   const token = getToken(getState());

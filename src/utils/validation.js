@@ -23,17 +23,17 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
  * Validate a grazing schedule
  *
  * @param {object} schedule the grazing schedule object
- * @param {Array} pastures the array of pastures from the plan
+ * @param {Object} pasturesMap the array of pastures from the plan
  * @param {Array} livestockTypes the array of live stock types
  * @param {Array} usages the array of usages from the agreement
  * @returns {Array} An array of errors
  */
-export const handleGrazingScheduleValidation = (schedule = {}, pastures = [], livestockTypes = [], usages = []) => {
+export const handleGrazingScheduleValidation = (schedule = {}, pasturesMap = {}, livestockTypes = [], usages = []) => {
   const { year, grazingScheduleEntries: gse } = schedule;
   const grazingScheduleEntries = gse || [];
   const yearUsage = usages.find(u => u.year === year);
-  const authorizedAUMs = yearUsage && yearUsage.authorizedAum; 
-  const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
+  const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+  const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes);
 
   const elementId = ELEMENT_ID.GRAZING_SCHEDULE;
   const errors = [];
@@ -51,6 +51,7 @@ export const handleGrazingScheduleValidation = (schedule = {}, pastures = [], li
     if (result) {
       errors.push({ ...result, elementId });
     }
+    return undefined;
   });
 
   if (crownTotalAUMs > authorizedAUMs) {

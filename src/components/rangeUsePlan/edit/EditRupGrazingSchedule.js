@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
-// import cloneDeep from 'lodash.clonedeep';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
-// import { calcCrownTotalAUMs, roundTo1Decimal } from '../../../handlers';
-// import { handleGrazingScheduleValidation } from '../../../handlers/validation';
 import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import * as strings from '../../../constants/strings';
-import { roundTo1Decimal, getObjValues } from '../../../utils';
+import { roundTo1Decimal, getObjValues, handleGrazingScheduleValidation } from '../../../utils';
 // import { ConfirmationModal } from '../../common';
 
 const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
   schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
   scheduleIndex: PropTypes.number.isRequired,
   onScheduleClicked: PropTypes.func.isRequired,
@@ -23,19 +18,9 @@ const propTypes = {
   yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addGrazingSchedule: PropTypes.func.isRequired,
+  usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   handleScheduleCopy: PropTypes.func.isRequired,
-  // updateGrazingScheduleEntry: PropTypes.func.isRequired,
-  // addGrazingScheduleEntry: PropTypes.func.isRequired,
-  // deleteGrazingScheduleEntry: PropTypes.func.isRequired,
-  // scheduleCopied: PropTypes.func.isRequired,
-  // usages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // handleScheduleChange: PropTypes.func.isRequired,
-  // handleScheduleDelete: PropTypes.func.isRequired,
-  // handleScheduleCopy: PropTypes.func.isRequired,
   // deleteRupScheduleEntry: PropTypes.func.isRequired,
   // isDeletingSchedule: PropTypes.bool.isRequired,
   // isDeletingScheduleEntry: PropTypes.bool.isRequired,
@@ -65,29 +50,16 @@ class EditRupSchedule extends Component {
 
   onNewRowClick = (e) => {
     e.preventDefault();
-    const { schedule, addGrazingScheduleEntry } = this.props;
-    const grazingScheduleEntry = {
+    const { schedule, updateGrazingSchedule } = this.props;
+    const grazingSchedule = { ...schedule };
+    const entry = {
       id: uuid(),
       livestockCount: 0,
       graceDays: 0,
     };
-    addGrazingScheduleEntry({
-      grazingScheduleId: schedule.id,
-      grazingScheduleEntry,
-    });
+    grazingSchedule.grazingScheduleEntries.push(entry);
+    updateGrazingSchedule({ grazingSchedule });
   }
-
-  // onNewRowClick = scheduleIndex => () => {
-  //   const { schedule, handleScheduleChange } = this.props;
-  //   const { grazingScheduleEntries } = schedule;
-  //   grazingScheduleEntries.push({
-  //     key: new Date().getTime(),
-  //     livestockCount: 0,
-  //     graceDays: 0,
-  //   });
-
-  //   handleScheduleChange(schedule, scheduleIndex);
-  // }
 
   onScheduleCopyClicked = ({ value: year }) => () => {
     const { handleScheduleCopy, schedule } = this.props;
@@ -136,6 +108,17 @@ class EditRupSchedule extends Component {
       onDeleted();
     // }
   }
+
+  renderWarningMessage = (grazingSchedule = {}) => {
+    const { pasturesMap, livestockTypes, usages } = this.props;
+    const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usages);
+    const { message, error } = result || {};
+    const hidden = !error;
+    return (
+      <Message style={{ marginTop: '10px' }} hidden={hidden} error content={`Error: ${message}`} />
+    );
+  }
+
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
     const {
       schedule,
@@ -234,6 +217,8 @@ class EditRupSchedule extends Component {
             </Dropdown>
           </div>
         </div>
+
+        {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
 
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table>

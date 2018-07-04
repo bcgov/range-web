@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Pikaday from 'pikaday';
-// import uuid from 'uuid-v4';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT } from '../../../constants/variables';
@@ -17,9 +15,6 @@ const propTypes = {
   pastureOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // updateGrazingScheduleEntry: PropTypes.func.isRequired,
-  // addGrazingScheduleEntry: PropTypes.func.isRequired,
-  // deleteGrazingScheduleEntry: PropTypes.func.isRequired,
   handleScheduleEntryChange: PropTypes.func.isRequired,
   handleScheduleEntryCopy: PropTypes.func.isRequired,
   handleScheduleEntryDelete: PropTypes.func.isRequired,
@@ -83,7 +78,6 @@ class EditRupScheduleEntry extends Component {
     } else if (this.pikaDayDateOut && key === 'dateIn') {
       this.pikaDayDateOut.setMinDate(date);
     }
-    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
     handleScheduleEntryChange(entry, entryIndex);
   }
 
@@ -92,7 +86,6 @@ class EditRupScheduleEntry extends Component {
     const { entry, entryIndex, handleScheduleEntryChange } = this.props;
     entry[key] = Number(value);
 
-    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
     handleScheduleEntryChange(entry, entryIndex);
   }
 
@@ -102,7 +95,6 @@ class EditRupScheduleEntry extends Component {
     entry.pastureId = pastureId;
     const { graceDays } = pasturesMap[pastureId];
     entry.graceDays = graceDays;
-    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
     handleScheduleEntryChange(entry, entryIndex);
   }
 
@@ -110,7 +102,6 @@ class EditRupScheduleEntry extends Component {
     const { entry, entryIndex, handleScheduleEntryChange } = this.props;
 
     entry.livestockTypeId = livestockTypeId;
-    // updateGrazingScheduleEntry({ grazingScheduleEntry: entry });
     handleScheduleEntryChange(entry, entryIndex);
   }
 
@@ -123,32 +114,6 @@ class EditRupScheduleEntry extends Component {
     const { handleScheduleEntryDelete, entryIndex } = this.props;
     handleScheduleEntryDelete(entryIndex);
   }
-
-  // onCopyEntryClicked = () => {
-  //   const { entry, schedule, addGrazingScheduleEntry } = this.props;
-  //   const grazingScheduleEntry = {
-  //     ...entry,
-  //     id: uuid(),
-  //   };
-  //   addGrazingScheduleEntry({
-  //     grazingScheduleId: schedule.id,
-  //     grazingScheduleEntry,
-  //   });
-  // }
-
-  // onDeleteEntryClicked = () => {
-  //   const {
-  //     schedule,
-  //     entry,
-  //     entryIndex,
-  //     deleteGrazingScheduleEntry,
-  //   } = this.props;
-  //   deleteGrazingScheduleEntry({
-  //     grazingScheduleId: schedule.id,
-  //     grazingScheduleEntryId: entry.id,
-  //     grazingScheduleEntryIndex: entryIndex,
-  //   });
-  // }
 
   render() {
     const {
