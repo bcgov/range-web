@@ -7,7 +7,7 @@ import { getToastsMap } from '../reducers/rootReducer';
 import { getObjValues } from '../utils';
 
 const propTypes = {
-  toastsMap: PropTypes.arrayOf(PropTypes.object).isRequired,
+  toastsMap: PropTypes.shape({}).isRequired,
   removeToast: PropTypes.func.isRequired,
 };
 

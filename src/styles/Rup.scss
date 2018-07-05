@@ -39,7 +39,7 @@ $row-height: 80px;
   &__sticky {
     background: $primary-color;
     color: white;
-    z-index: 1;
+    z-index: $rup-sticky-z-index;
 
     &__container {
       @extend .container;
@@ -154,11 +154,8 @@ $row-height: 80px;
     &--empty {
       border: 0px;
     }
-    li {
+    li:not(:last-child) {
       border-bottom: 1px solid gainsboro;
-    }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
     }
   }
 
@@ -225,7 +222,7 @@ $row-height: 80px;
       justify-content: center;
       align-items: center;
       background: #CCCCCC;
-      border-radius: 5px;
+      border-radius: 3px;
     }
     &__in-draft {
       display: flex;

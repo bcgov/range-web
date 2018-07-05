@@ -3,7 +3,7 @@ export const LOCAL_STORAGE_KEY = {
   USER: 'range-web-user',
   REFERENCE: 'range-web-reference',
 };
-
+export const TOAST_TIMEOUT = 6000;
 export const PLAN_STATUS = {
   PENDING: 'Pending',
   COMPLETED: 'Completed',
