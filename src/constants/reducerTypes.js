@@ -1,10 +1,10 @@
 export const AUTH = 'AUTH';
+export const COMMON = 'COMMON';
+export const TOAST = 'TOAST';
 
 export const AGREEMENTS = 'AGREEMENTS';
 export const PLAN = 'PLAN';
 export const CLIENT = 'CLIENT';
-export const COMMON = 'COMMON';
-
 export const SEARCH_AGREEMENTS = 'SEARCH_AGREEMENTS';
 export const UPDATE_USER_ID_OF_ZONE = 'UPDATE_USER_ID_OF_ZONE';
 export const SEARCH_CLIENTS = 'SEARCH_CLIENTS';

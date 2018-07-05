@@ -21,7 +21,7 @@ class PageNotFound extends Component {
 
   render() {
     return (
-      <div className="page-not-found">
+      <section className="page-not-found">
         <div className="page-not-found__container">
           <img
             className="page-not-found__image"
@@ -39,7 +39,7 @@ class PageNotFound extends Component {
             </Link>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

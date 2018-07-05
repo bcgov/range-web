@@ -104,10 +104,11 @@ class RupAdmin extends Component {
     if (status && plan) {
       const statusUpdated = (newStatus) => {
         closeConfirmModal();
-        updatePlan({
+        const newPlan = {
           ...plan,
           status: newStatus,
-        });
+        };
+        updatePlan({ plan: newPlan });
       };
       updatePlanStatus(plan.id, status.id).then(statusUpdated);
     }
@@ -155,7 +156,7 @@ class RupAdmin extends Component {
     ];
 
     return (
-      <div className="rup">
+      <article className="rup">
         <a
           className="rup__pdf-link"
           target="_blank"
@@ -263,7 +264,7 @@ class RupAdmin extends Component {
             ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </div>
+      </article>
     );
   }
 }

@@ -111,7 +111,7 @@ class ManageClient extends Component {
     const isUpdateBtnEnabled = userId && clientNumber;
 
     return (
-      <div className="manage-client">
+      <section className="manage-client">
         <ConfirmationModal
           open={isUpdateModalOpen}
           loading={isUpdatingClientIdOfUser}
@@ -167,7 +167,7 @@ class ManageClient extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

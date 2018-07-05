@@ -22,7 +22,7 @@ const storePlan = (state, action) => {
 };
 
 const updatePlan = (state, action) => {
-  const plan = { ...action.payload };
+  const { plan } = action.payload;
   return {
     ...state,
     byId: {

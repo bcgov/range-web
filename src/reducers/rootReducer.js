@@ -27,8 +27,8 @@ import authReducer, * as fromAuth from './authReducer';
 import planReducer, * as fromPlan from './planReducer';
 import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 import clientReducer, * as fromClient from './clientReducer';
+import toastReducer from './toastReducer';
 
-// const createReduce
 // createReducer to allow for reducer reuse
 const createReducer = (reducer, name) => (state, action) => {
   if (name !== action.name && state !== undefined) {
@@ -39,9 +39,10 @@ const createReducer = (reducer, name) => (state, action) => {
 
 const appReducer = combineReducers({
   [reducerTypes.AUTH]: authReducer,
+  [reducerTypes.TOAST]: toastReducer,
+  [reducerTypes.COMMON]: commonStoreReducer,
   [reducerTypes.AGREEMENTS]: agreementReducer,
   [reducerTypes.PLAN]: planReducer,
-  [reducerTypes.COMMON]: commonStoreReducer,
   [reducerTypes.CLIENT]: clientReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),

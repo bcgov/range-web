@@ -29,7 +29,7 @@ export class LandingPage extends Component {
     const { component: Component, user, ...rest } = this.props;
 
     return (
-      <div className="main">
+      <main>
         <Navbar {...rest} />
         { !isUserActive(user) &&
           <div>This account is not active.</div>
@@ -38,7 +38,7 @@ export class LandingPage extends Component {
           <Component {...rest} />
         }
         <footer />
-      </div>
+      </main>
     );
   }
 }

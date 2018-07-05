@@ -41,7 +41,7 @@ export class Agreement extends Component {
     const { searchTerm } = this.state;
     const { history } = this.props;
     return (
-      <div className="agreement">
+      <section className="agreement">
         <Banner
           header={SELECT_RUP_BANNER_HEADER}
           content={SELECT_RUP_BANNER_CONTENT}
@@ -59,7 +59,7 @@ export class Agreement extends Component {
             handlePaginationChange={this.handlePaginationChange}
           />
         </div>
-      </div>
+      </section>
     );
   }
 }

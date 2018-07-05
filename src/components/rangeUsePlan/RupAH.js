@@ -77,7 +77,8 @@ export class RupAH extends Component {
         return grazingSchedule.id;
       });
       // update schedules in Redux store
-      updatePlan({ ...plan, status, grazingSchedules });
+      const newPlan = { ...plan, status, grazingSchedules };
+      updatePlan({ plan: newPlan });
       this.setState({ isSavingAsDraft: false });
       // toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
@@ -110,7 +111,8 @@ export class RupAH extends Component {
         return grazingSchedule.id;
       });
       // update schedules in Redux store
-      updatePlan({ ...plan, status, grazingSchedules });
+      const newPlan = { ...plan, status, grazingSchedules };
+      updatePlan({ plan: newPlan });
       this.setState({
         isSubmitModalOpen: false,
         isSubmitting: false,
@@ -227,7 +229,7 @@ export class RupAH extends Component {
       || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
 
     return (
-      <div className="rup">
+      <article className="rup">
         <ConfirmationModal
           open={isSubmitModalOpen}
           header={SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
@@ -320,7 +322,7 @@ export class RupAH extends Component {
             ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </div>
+      </article>
     );
   }
 }

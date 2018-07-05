@@ -70,7 +70,7 @@ class RangeUsePlanPDF extends Component {
     );
 
     return (
-      <div className="rup-pdf">
+      <section className="rup-pdf">
         <a
           className="rup__pdf-link"
           href="download"
@@ -106,7 +106,7 @@ class RangeUsePlanPDF extends Component {
             </div>
           </div>
         }
-      </div>
+      </section>
     );
   }
 }

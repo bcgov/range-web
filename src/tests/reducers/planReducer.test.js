@@ -14,9 +14,6 @@ const initialState = {
   grazingSchedules: {
     byId: {},
   },
-  grazingScheduleEntries: {
-    byId: {},
-  },
   ministerIssues: {
     byId: {},
   },
@@ -48,15 +45,12 @@ const mockState = {
       'grazing_schedule_id': {
         id: 'grazing_schedule_id',
         year: 2018,
-        grazingScheduleEntries: ['grazing_schedule_entry_id'],
-      },
-    },
-  },
-  grazingScheduleEntries: {
-    byId: {
-      'grazing_schedule_entry_id': {
-        id: 'grazing_schedule_entry_id',
-        narative: 'narative',
+        grazingScheduleEntries: [
+          {
+            id: 'grazing_schedule_entry_id',
+            narative: 'narative',
+          },
+        ],
       },
     },
   },

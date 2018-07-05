@@ -2,6 +2,9 @@ export const STORE_SSO_AUTH_DATA = 'STORE_SSO_AUTH_DATA';
 export const STORE_USER = 'STORE_USER';
 export const SIGN_OUT = 'SIGN_OUT';
 
+export const ADD_TOAST = 'ADD_TOAST';
+export const REMOVE_TOAST = 'REMOVE_TOAST';
+
 export const REQUEST = 'REQUEST';
 export const SUCCESS = 'SUCCESS';
 export const ERROR = 'ERROR';

@@ -35,7 +35,7 @@ export class Login extends Component {
 
   render() {
     return (
-      <div className="login">
+      <section className="login">
         <img
           className="login__image"
           src={IMAGE_SRC.LOGIN_LOGO}
@@ -84,7 +84,7 @@ export class Login extends Component {
         >
           Is your password expired?
         </a>
-      </div>
+      </section>
     );
   }
 }

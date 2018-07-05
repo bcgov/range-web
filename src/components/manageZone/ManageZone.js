@@ -101,7 +101,7 @@ export class ManageZone extends Component {
     const isUpdateBtnEnabled = newContactId && zoneId;
 
     return (
-      <div className="manage-zone">
+      <section className="manage-zone">
         <ConfirmationModal
           open={isUpdateModalOpen}
           loading={isAssigning}
@@ -163,7 +163,7 @@ export class ManageZone extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

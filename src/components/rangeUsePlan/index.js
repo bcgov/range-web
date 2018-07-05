@@ -81,7 +81,7 @@ class Base extends Component {
     // console.log(agreement, plan)
 
     return (
-      <div>
+      <section>
         { isFetchingPlan &&
           <Loading />
         }
@@ -116,7 +116,7 @@ class Base extends Component {
         { errorFetchingPlan &&
           <Redirect to="/no-range-use-plan-found" />
         }
-      </div>
+      </section>
     );
   }
 }

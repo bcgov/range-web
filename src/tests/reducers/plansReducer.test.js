@@ -67,7 +67,7 @@ describe('Plan reducer', () => {
         },
         allIds: ['plan_id'],
       };
-      expect(plansReducer(mockState, updatePlan(mockUpdatedPlanData))).toEqual(mockStateForUpdatedPlanData);
+      expect(plansReducer(mockState, updatePlan({ plan: mockUpdatedPlanData }))).toEqual(mockStateForUpdatedPlanData);
     });
   });
 
@@ -83,9 +83,9 @@ describe('Plan reducer', () => {
       };
       const payload = {
         planId: 'plan_id',
-        grazingSchedule: {
-          id: 'grazing_schedule_id',
-        },
+        grazingSchedules: [
+          'grazing_schedule_id',
+        ],
       };
       const result = {
         byId: {
@@ -96,24 +96,7 @@ describe('Plan reducer', () => {
         },
         allIds: ['plan_id'],
       };
-      const secondPayload = {
-        planId: 'plan_id',
-        grazingSchedule: {
-          id: 'grazing_schedule_id2',
-        },
-      };
-      const secondResult = {
-        byId: {
-          'plan_id': {
-            id: 'plan_id',
-
-            grazingSchedules: ['grazing_schedule_id', 'grazing_schedule_id2'],
-          },
-        },
-        allIds: ['plan_id'],
-      };
       expect(plansReducer(state, addGrazingSchedule(payload))).toEqual(result);
-      expect(plansReducer(result, addGrazingSchedule(secondPayload))).toEqual(secondResult);
     });
   });
 });
