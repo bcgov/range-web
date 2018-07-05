@@ -8,15 +8,9 @@ const initialState = {
     byId: {},
     allIds: [],
   },
-  pastures: {
-    byId: {},
-  },
-  grazingSchedules: {
-    byId: {},
-  },
-  ministerIssues: {
-    byId: {},
-  },
+  pastures: {},
+  grazingSchedules: {},
+  ministerIssues: {},
 };
 
 const mockState = {
@@ -33,33 +27,27 @@ const mockState = {
     allIds: ['plan_id'],
   },
   pastures: {
-    byId: {
-      'pasture_id': {
-        id: 'pasture_id',
-        name: 'Pasture 1',
-      },
+    'pasture_id': {
+      id: 'pasture_id',
+      name: 'Pasture 1',
     },
   },
   grazingSchedules: {
-    byId: {
-      'grazing_schedule_id': {
-        id: 'grazing_schedule_id',
-        year: 2018,
-        grazingScheduleEntries: [
-          {
-            id: 'grazing_schedule_entry_id',
-            narative: 'narative',
-          },
-        ],
-      },
+    'grazing_schedule_id': {
+      id: 'grazing_schedule_id',
+      year: 2018,
+      grazingScheduleEntries: [
+        {
+          id: 'grazing_schedule_entry_id',
+          narative: 'narative',
+        },
+      ],
     },
   },
   ministerIssues: {
-    byId: {
-      'minister_issue_id': {
-        id: 'minister_issue_id',
-        detail: 'detail',
-      },
+    'minister_issue_id': {
+      id: 'minister_issue_id',
+      detail: 'detail',
     },
   },
 };

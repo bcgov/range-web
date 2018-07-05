@@ -4,10 +4,8 @@ const storeGrazingSchedules = (state, action) => {
   const { grazingSchedules } = action.payload.entities;
 
   return {
-    byId: {
-      ...state.byId,
-      ...grazingSchedules,
-    },
+    ...state,
+    ...grazingSchedules,
   };
 };
 
@@ -15,10 +13,8 @@ const addSchedule = (state, action) => {
   const { grazingSchedule } = action.payload;
 
   return {
-    byId: {
-      ...state.byId,
-      [grazingSchedule.id]: grazingSchedule,
-    },
+    ...state,
+    [grazingSchedule.id]: grazingSchedule,
   };
 };
 
@@ -26,26 +22,20 @@ const updateSchedule = (state, action) => {
   const { grazingSchedule } = action.payload;
 
   return {
-    byId: {
-      ...state.byId,
-      [grazingSchedule.id]: grazingSchedule,
-    },
+    ...state,
+    [grazingSchedule.id]: grazingSchedule,
   };
 };
 
 const deleteSchedule = (state, action) => {
   const { grazingScheduleId } = action.payload;
-  const byId = { ...state.byId };
-  delete byId[grazingScheduleId];
+  const newState = { ...state };
+  delete newState[grazingScheduleId];
 
-  return {
-    byId,
-  };
+  return newState;
 };
 
-const grazingSchedulesReducer = (state = {
-  byId: {},
-}, action) => {
+const grazingSchedulesReducer = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.STORE_PLAN:
       return storeGrazingSchedules(state, action);

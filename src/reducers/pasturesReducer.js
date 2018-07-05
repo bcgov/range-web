@@ -4,16 +4,12 @@ const storePastures = (state, action) => {
   const { pastures } = action.payload.entities;
 
   return {
-    byId: {
-      ...state.byId,
-      ...pastures,
-    },
+    ...state,
+    ...pastures,
   };
 };
 
-const pasturesReducer = (state = {
-  byId: {},
-}, action) => {
+const pasturesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storePastures(state, action);

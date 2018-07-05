@@ -4,15 +4,11 @@ const storeMinisterIssue = (state, action) => {
   const { ministerIssues } = action.payload.entities;
 
   return {
-    byId: {
-      ...state.byId,
-      ...ministerIssues,
-    },
+    ...state,
+    ...ministerIssues,
   };
 };
-const ministerIssuesReducer = (state = {
-  byId: {},
-}, action) => {
+const ministerIssuesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storeMinisterIssue(state, action);
