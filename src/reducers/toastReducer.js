@@ -27,4 +27,6 @@ const toastReducer = (state = {}, action) => {
   }
 };
 
+export const getToastsMap = state => state;
+
 export default toastReducer;

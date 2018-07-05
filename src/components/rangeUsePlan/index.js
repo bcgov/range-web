@@ -4,15 +4,11 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import RupAdmin from './RupAdmin';
 import RupAH from './RupAH';
-// import RupAH from './RupAH';
 import { Loading } from '../common';
-// import { getRangeUsePlan } from '../../actions/agreementActions';
-// import { updatePlanStatus, getRupPDF, createOrUpdateRupSchedule } from '../../actions/rangeUsePlanActions';
-import { fetchPlan, updatePlanStatus, createOrUpdateRupSchedule } from '../../actionCreators';
+import { fetchPlan, updatePlanStatus, createOrUpdateRupSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
 import * as selectors from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
-// import { toastSuccessMessage, toastErrorMessage } from '../../actions/toastActions';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -29,10 +25,10 @@ const propTypes = {
   updatePlan: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  toastSuccessMessage: PropTypes.func.isRequired,
+  toastErrorMessage: PropTypes.func.isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
-  // toastErrorMessage: PropTypes.func.isRequired,
-  // toastSuccessMessage: PropTypes.func.isRequired,
 };
 const defaultProps = {
   errorFetchingPlan: null,
@@ -68,17 +64,14 @@ class Base extends Component {
       grazingSchedulesMap,
       createOrUpdateRupSchedule,
       updateGrazingSchedule,
-      // grazingScheduleEntriesMap,
+      toastSuccessMessage,
+      toastErrorMessage,
       // isUpdatingStatus,
       // isDownloadingPDF,
-      // updatePlanStatus,
       // getRupPDF,
-      // toastErrorMessage,
-      // toastSuccessMessage,
     } = this.props;
     const { agreement, planId } = this.state;
     const plan = plansMap[planId];
-    // console.log(agreement, plan)
 
     return (
       <section>
@@ -111,6 +104,8 @@ class Base extends Component {
             updatePlan={updatePlan}
             updateGrazingSchedule={updateGrazingSchedule}
             createOrUpdateRupSchedule={createOrUpdateRupSchedule}
+            toastSuccessMessage={toastSuccessMessage}
+            toastErrorMessage={toastErrorMessage}
           />
         }
         { errorFetchingPlan &&
@@ -144,9 +139,6 @@ export default connect(mapStateToProps, {
   updatePlan,
   updateGrazingSchedule,
   createOrUpdateRupSchedule,
-  // getRangeUsePlan,
-  // updatePlanStatus,
-  // getRupPDF,
-  // toastErrorMessage,
-  // toastSuccessMessage,
+  toastSuccessMessage,
+  toastErrorMessage,
 })(Base);

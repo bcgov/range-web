@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Navbar from './Navbar';
+import Toast from './Toast';
 import { userHaveRole, isUserActive } from '../utils';
 import { fetchUser, fetchReferences, fetchZones } from '../actionCreators';
 import { getUser } from '../reducers/rootReducer';
@@ -37,6 +38,7 @@ export class LandingPage extends Component {
         { userHaveRole(user) &&
           <Component {...rest} />
         }
+        <Toast />
         <footer />
       </main>
     );

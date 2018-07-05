@@ -1,8 +1,8 @@
 import { normalize } from 'normalizr';
 import uuid from 'uuid-v4';
 import { success, request, error, storePlan } from '../actions';
-// import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
-// import { toastSuccessMessage, toastErrorMessage } from '../actions/toastActions';
+import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
+import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 import * as schema from './schema';
@@ -37,12 +37,14 @@ export const updatePlanStatus = (planId, statusId, shouldToast = true) => (dispa
       );
       dispatch(success(reducerTypes.UPDATE_PLAN_STATUS, response.data));
       if (shouldToast) {
-        // dispatch(toastSuccessMessage(UPDATE_PLAN_STATUS_SUCCESS));
+        dispatch(toastSuccessMessage(UPDATE_PLAN_STATUS_SUCCESS));
       }
       return response.data;
     } catch (err) {
       dispatch(error(reducerTypes.UPDATE_PLAN_STATUS, err));
-      // dispatch(toastErrorMessage(err));
+      if (shouldToast) {
+        dispatch(toastErrorMessage(err));
+      }
       throw err;
     }
   };
@@ -59,11 +61,11 @@ export const updateRupZone = ({ agreementId, zoneId }) => (dispatch, getState) =
         createRequestHeader(getState),
       );
       dispatch(success(reducerTypes.UPDATE_RUP_ZONE, response.data));
-      // dispatch(toastSuccessMessage(UPDATE_RUP_ZONE_SUCCESS));
+      dispatch(toastSuccessMessage(UPDATE_RUP_ZONE_SUCCESS));
       return response.data;
     } catch (err) {
       dispatch(error(reducerTypes.UPDATE_RUP_ZONE, err));
-      // dispatch(toastErrorMessage(err));
+      dispatch(toastErrorMessage(err));
       throw err;
     }
   };
@@ -84,7 +86,7 @@ export const fetchRupPDF = planId => (dispatch, getState) => {
       return data;
     } catch (err) {
       dispatch(error(reducerTypes.GET_RUP_PDF, err));
-      // dispatch(toastErrorMessage(err));
+      dispatch(toastErrorMessage(err));
       throw err;
     }
   };
@@ -105,7 +107,7 @@ const createRupSchedule = (planId, schedule) => (dispatch, getState) => {
       return data;
     } catch (err) {
       dispatch(error(reducerTypes.CREATE_RUP_SCHEDULE, err));
-      // dispatch(toastErrorMessage(err));
+      dispatch(toastErrorMessage(err));
       throw err;
     }
   };
@@ -125,7 +127,7 @@ const updateRupSchedule = (planId, schedule) => (dispatch, getState) => {
       return data;
     } catch (err) {
       dispatch(error(reducerTypes.UPDATE_RUP_SCHEDULE, err));
-      // dispatch(toastErrorMessage(err));
+      dispatch(toastErrorMessage(err));
       throw err;
     }
   };
@@ -151,7 +153,7 @@ export const deleteRupSchedule = (planId, scheduleId) => (dispatch, getState) =>
       return data;
     } catch (err) {
       dispatch(error(reducerTypes.DELETE_GRAZING_SCHEUDLE, err));
-      // dispatch(toastErrorMessage(err));
+      dispatch(toastErrorMessage(err));
       throw err;
     }
   };
@@ -170,7 +172,7 @@ export const deleteRupScheduleEntry = (planId, scheduleId, entryId) => (dispatch
       return data;
     } catch (err) {
       dispatch(error(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, err));
-      // dispatch(toastErrorMessage(err));
+      dispatch(toastErrorMessage(err));
       throw err;
     }
   };

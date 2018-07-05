@@ -27,7 +27,7 @@ import authReducer, * as fromAuth from './authReducer';
 import planReducer, * as fromPlan from './planReducer';
 import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 import clientReducer, * as fromClient from './clientReducer';
-import toastReducer from './toastReducer';
+import toastReducer, * as fromToast from './toastReducer';
 
 // createReducer to allow for reducer reuse
 const createReducer = (reducer, name) => (state, action) => {
@@ -81,6 +81,8 @@ export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[re
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
+
+export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
 
 const rootReducer = (state, action) => {
   // reset the state of a Redux store when users sign out
