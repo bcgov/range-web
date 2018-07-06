@@ -8,6 +8,7 @@ import {
   MANAGE_CLIENT_BANNER_HEADER,
   UPDATE_CLIENT_ID_FOR_AH_HEADER,
   UPDATE_CLIENT_ID_FOR_AH_CONTENT,
+  TYPE_CLIENT_NAME,
 } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getUserfullName } from '../../utils';
@@ -30,7 +31,7 @@ class ManageClient extends Component {
       userId: null,
       clientNumber: null,
       isUpdateModalOpen: false,
-      startSearching: false,
+      searchQuery: '',
     };
     this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000);
   }
@@ -47,12 +48,8 @@ class ManageClient extends Component {
   openUpdateConfirmationModal = () => this.setState({ isUpdateModalOpen: true })
 
   handleSearchChange = (e, { searchQuery }) => {
-    if (searchQuery) {
-      const onSuccess = () => {
-        this.setState({ startSearching: true });
-      };
-      this.props.searchClients(searchQuery).then(onSuccess);
-    }
+    this.setState({ searchQuery });
+    this.props.searchClients(searchQuery);
   }
 
   linkUserToClient = () => {
@@ -84,7 +81,7 @@ class ManageClient extends Component {
     const {
       userId,
       clientNumber,
-      startSearching,
+      searchQuery,
       isUpdateModalOpen,
     } = this.state;
 
@@ -143,7 +140,7 @@ class ManageClient extends Component {
             <h3>Step 2: Search and Select Corresponding Client</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_CLIENTS_DROPDOWN}
-              placeholder="Type Client Name"
+              placeholder={TYPE_CLIENT_NAME}
               options={clientOptions}
               value={clientNumber}
               search
@@ -152,7 +149,7 @@ class ManageClient extends Component {
               onChange={this.onClientChanged}
               onSearchChange={this.searchClientsWithDebounce}
               icon={<Icon name="search" size="small" />}
-              noResultsMessage={startSearching ? 'No results found.' : null}
+              noResultsMessage={searchQuery ? 'No results found.' : TYPE_CLIENT_NAME}
               selectOnBlur={false}
             />
 

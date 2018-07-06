@@ -1,4 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
+import { SEARCH_CLIENTS } from '../constants/reducerTypes';
 
 const initialState = {
   clients: {},
@@ -21,6 +22,11 @@ const storeClients = (state, action) => {
 
 const clientReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.REQUEST:
+      if (action.name === SEARCH_CLIENTS) {
+        return initialState;
+      }
+      return state;
     case actionTypes.STORE_CLIENTS:
       return storeClients(state, action);
     default:

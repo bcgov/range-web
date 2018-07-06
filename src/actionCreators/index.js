@@ -50,7 +50,12 @@ export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getStat
 };
 
 export const searchClients = term => (dispatch, getState) => {
+  if (!term) {
+    return dispatch(actions.storeClients(normalize([], schema.arrayOfClients)));
+  }
+
   dispatch(actions.request(reducerTypes.SEARCH_CLIENTS));
+
   const config = {
     ...createRequestHeader(getState),
     params: {

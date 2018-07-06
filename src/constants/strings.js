@@ -64,6 +64,7 @@ export const USER_NOT_ACTIVE = 'This account is not active yet, please contact t
 export const USER_NOT_REGISTERED = 'This account has not been registered.';
 export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
 export const NO_INTERNET = 'There is no Internet connection.';
+export const TYPE_CLIENT_NAME = 'Type name of the client';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Update Status: Completed';
