@@ -107,12 +107,6 @@ export const refreshAccessToken = (refreshToken, isRetry) => {
 //   return false;
 // };
 
-// const setAxiosAuthHeader = (data) => {
-//   const tokenType = data && data.token_type;
-//   const accessToken = data && data.access_token;
-//   axios.defaults.headers.common.Authorization = tokenType && accessToken && `${tokenType} ${accessToken}`;
-// };
-
 /**
  *
  * @param {object} response

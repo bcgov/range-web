@@ -7,8 +7,8 @@ import RupAH from './RupAH';
 import { Loading } from '../common';
 import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
-import * as selectors from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
+import * as selectors from '../../reducers/rootReducer';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -28,11 +28,12 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
-  // isDownloadingPDF: PropTypes.bool.isRequired,
 };
+
 const defaultProps = {
   errorFetchingPlan: null,
 };
+
 class Base extends Component {
   state = {
     agreement: null,
@@ -67,7 +68,6 @@ class Base extends Component {
       toastSuccessMessage,
       toastErrorMessage,
       isUpdatingStatus,
-      // isDownloadingPDF,
     } = this.props;
     const { agreement, planId } = this.state;
     const plan = plansMap[planId];
@@ -127,7 +127,6 @@ const mapStateToProps = state => (
     references: selectors.getReferences(state),
     user: selectors.getUser(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
-    // isDownloadingPDF: state.pdf.isLoading,
   }
 );
 
