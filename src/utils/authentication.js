@@ -32,10 +32,9 @@ import { stringifyQuery } from './queryString';
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
 /**
- * this method is called immediately at the very beginning in the auth reducer
- * to initialize 'user' object in App.jsx. It checks whether
- * the user signs in previously by looking at localStorage and
- * it returns either null or an object retrieved from localStorage
+ * this method is called immediately at the very beginning in authReducer
+ * to initialize the auth and user objects in Router.js
+ * @returns {object} the object that contains authData and user
  */
 export const getAuthAndUserFromLocal = () => {
   const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER);
@@ -43,6 +42,10 @@ export const getAuthAndUserFromLocal = () => {
   return { authData, user };
 };
 
+/**
+ *
+ * @param {object} response the network response
+ */
 export const saveAuthDataInLocal = (response) => {
   const data = { ...response.data };
   data.jwtData = jwtDecode(data.access_token);
@@ -50,10 +53,18 @@ export const saveAuthDataInLocal = (response) => {
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
 };
 
+/**
+ *
+ * @param {object} newUser the new user object
+ */
 export const saveUserProfileInLocal = (newUser) => {
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser);
 };
 
+/**
+ *
+ * @param {string} code the code received from Single Sign On
+ */
 export const getTokenFromSSO = (code) => {
   const data = {
     code,
@@ -70,7 +81,11 @@ export const getTokenFromSSO = (code) => {
   });
 };
 
-export const refreshAccessToken = (refreshToken, isRetry) => {
+/**
+ *
+ * @param {string} refreshToken the refreshToken saved in localStorage
+ */
+export const refreshAccessToken = (refreshToken) => {
   const data = {
     refresh_token: refreshToken,
     grant_type: 'refresh_token',
@@ -85,51 +100,50 @@ export const refreshAccessToken = (refreshToken, isRetry) => {
     baseURL: SSO_BASE_URL,
     url: REFRESH_TOKEN_FROM_SSO,
     data: stringifyQuery(data),
-    isRetry,
+    isRetry: true,
   });
 };
 
-// const getRefreshTokenFromLocal = () => {
-//   const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-//   return data && data.refresh_token;
-// };
+/**
+ * @returns {string} the refresh token
+ */
+const getRefreshTokenFromLocal = () => {
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  return data && data.refresh_token;
+};
 
-// const getJWTDataFromLocal = () => {
-//   const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-//   return data && data.jwtData;
-// };
-
-// const isTokenExpired = () => {
-//   const jstData = getJWTDataFromLocal();
-//   if (jstData) {
-//     return (new Date() / 1000) > jstData.exp;
-//   }
-//   return false;
-// };
+/**
+ * @returns {object} the parsed data from Json Web Token
+ */
+const getJWTDataFromLocal = () => {
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  return data && data.jwtData;
+};
 
 /**
  *
- * @param {object} response
- * set auth header in Axios and store auth data in localstorage
- * after succesfully authenticate
+ * @returns {boolean}
  */
-// export const onAuthenticated = (response) => {
-//   if (response && response.data) {
-//     const { data } = response;
-    // data.jwtData = jwtDecode(data.access_token);
+const isTokenExpired = () => {
+  const jstData = getJWTDataFromLocal();
 
-//     saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
-//     setAxiosAuthHeader(data);
-//   }
-// };
+  if (jstData) {
+    return (new Date() / 1000) > jstData.exp;
+  }
+  return false;
+};
 
-
-// const isRangeAPIs = (config) => {
-//   if (config && config.baseURL) {
-//     return config.baseURL !== SSO_BASE_URL;
-//   }
-//   return true;
-// };
+/**
+ *
+ * @param {object} config
+ * @returns {boolean}
+ */
+const isRangeAPIs = (config) => {
+  if (config && config.baseURL) {
+    return config.baseURL !== SSO_BASE_URL;
+  }
+  return true;
+};
 
 /**
  *
@@ -138,34 +152,32 @@ export const refreshAccessToken = (refreshToken, isRetry) => {
  *  -> get new access token using the refresh token and try making the network again
  * case 2: both access and refresh tokens are expired
  *  -> sign out the user
- * @param {function} logout the logout action
- *
+ * @param {function} logout the logout action function
+ * @returns {object} the config or err object
  */
-// export const registerAxiosInterceptors = (logout) => {
-//   axios.interceptors.request.use((c) => {
-//     const config = { ...c };
-//     const makeRequest = async () => {
-//       try {
-//         if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
-//           if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
-//           config.isRetry = true;
-//           const refreshToken = getRefreshTokenFromLocal();
-//           const response = await refreshAccessToken(refreshToken, config.isRetry);
-//           onAuthenticated(response);
+export const registerAxiosInterceptors = (logout) => {
+  axios.interceptors.request.use((c) => {
+    const config = { ...c };
+    if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
+      const refreshToken = getRefreshTokenFromLocal();
+      if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
+      return refreshAccessToken(refreshToken).then(
+        (response) => {
+          saveAuthDataInLocal(response);
 
-//           const data = response && response.data;
-//           const tokenType = data && data.token_type;
-//           const accessToken = data && data.access_token;
-//           config.headers.Authorization = tokenType && accessToken && `${tokenType} ${accessToken}`;
-//         }
-//         return config;
-//       } catch (err) {
-//         logout();
-//         if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
-//         throw err;
-//       }
-//     };
-//     // return config;
-//     return makeRequest();
-//   });
-// };
+          const data = response && response.data;
+          const { token_type: type, access_token: token } = data;
+          config.headers.Authorization = type && token && `${type} ${token}`;
+          config.isRetry = true;
+          return config;
+        },
+        (err) => {
+          logout();
+          if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
+          return err;
+        },
+      );
+    }
+    return config;
+  });
+};

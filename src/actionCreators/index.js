@@ -18,17 +18,18 @@
 // Created by Kyubin Han.
 //
 import { normalize } from 'normalizr';
-import { axios, saveUserProfileInLocal, createRequestHeader, saveReferencesInLocalStorage } from '../utils';
 import * as schema from './schema';
 import * as actions from '../actions';
-import { getIsFetchingAgreements } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
+import { getIsFetchingAgreements } from '../reducers/rootReducer';
+import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
+export * from './commonActionCreator';
 
 /* eslint-disable arrow-body-style */
 export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getState) => {
@@ -44,7 +45,7 @@ export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getStat
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_CLIENT_ID_OF_USER, err));
       dispatch(toastErrorMessage(err));
-      throw err;
+      return err;
     },
   );
 };
@@ -71,7 +72,7 @@ export const searchClients = term => (dispatch, getState) => {
     },
     (err) => {
       dispatch(actions.error(reducerTypes.SEARCH_CLIENTS, err));
-      throw err;
+      return err;
     },
   );
 };
@@ -91,57 +92,7 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_USER_ID_OF_ZONE, err));
       dispatch(toastErrorMessage(err));
-      throw err;
-    },
-  );
-};
-
-export const fetchUsers = () => (dispatch, getState) => {
-  return axios.get(API.GET_USERS, createRequestHeader(getState)).then(
-    (response) => {
-      const users = response.data;
-      dispatch(actions.storeUsers(normalize(users, schema.arrayOfUsers)));
-      return users;
-    },
-    (err) => {
-      throw err;
-    },
-  );
-};
-
-export const fetchReferences = () => (dispatch, getState) => {
-  return axios.get(API.GET_REFERENCES, createRequestHeader(getState)).then(
-    (response) => {
-      const references = response.data;
-      saveReferencesInLocalStorage(references);
-      dispatch(actions.storeReferences(references));
-      return references;
-    },
-    (err) => {
-      throw err;
-    },
-  );
-};
-
-export const fetchZones = districtId => (dispatch, getState) => {
-  const config = {
-    ...createRequestHeader(getState),
-  };
-
-  if (districtId) {
-    config.params = {
-      districtId,
-    };
-  }
-
-  return axios.get(API.GET_ZONES, config).then(
-    (response) => {
-      const zones = response.data;
-      dispatch(actions.storeZones(normalize(zones, schema.arrayOfZones)));
-      return zones;
-    },
-    (err) => {
-      throw err;
+      return err;
     },
   );
 };
@@ -161,7 +112,7 @@ export const fetchUser = () => (dispatch, getState) => {
       return user;
     },
     (err) => {
-      throw err;
+      return err;
     },
   );
 };
@@ -189,7 +140,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     },
     (err) => {
       dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err.message));
-      throw err;
+      return err;
     },
   );
 };

@@ -29,7 +29,7 @@ export const formatDateFromUTC = date => (
   moment(date).format(DATE_FORMAT.SERVER_SIDE)
 );
 
-export const getListOfPastureNames = (pastureIds = [], pasturesMap = {}) => {
+export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
   const pastureNames = pastureIds.map((pId) => {
     const pasture = pasturesMap[pId];
     return pasture && pasture.name;
