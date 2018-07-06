@@ -31,6 +31,7 @@
     "no-shadow": "off",
     "quote-props": "off",
     "max-len": "off",
+    "react/sort-comp": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",
     "block-scoped-var": "error",

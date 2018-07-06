@@ -7,17 +7,18 @@ import {
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
   NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
-import { MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID, MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID } from '../../constants/variables';
-import { User } from '../../models';
+import { ELEMENT_ID } from '../../constants/variables';
+import { getUserfullName } from '../../utils';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  staffAssignedToZone: PropTypes.func.isRequired,
-  assignStaffToZone: PropTypes.func.isRequired,
+  zonesMap: PropTypes.shape({}).isRequired,
+  updateZone: PropTypes.func.isRequired,
+  updateUserIdOfZone: PropTypes.func.isRequired,
   isAssigning: PropTypes.bool.isRequired,
 };
-
+/* eslint-disable arrow-body-style */
 export class ManageZone extends Component {
   state = {
     newContactId: null,
@@ -27,9 +28,9 @@ export class ManageZone extends Component {
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
-    const zone = this.props.zones.find(z => z.id === zoneId);
-    const user = new User(zone && zone.user);
-    const currContactName = user.fullName || CONTACT_NO_EXIST;
+    const zone = this.props.zonesMap[zoneId];
+    const user = zone && zone.user;
+    const currContactName = getUserfullName(user) || CONTACT_NO_EXIST;
 
     this.setState({
       zoneId,
@@ -51,19 +52,28 @@ export class ManageZone extends Component {
 
   assignStaffToZone = () => {
     const { zoneId, newContactId: userId } = this.state;
-    const { zones, assignStaffToZone, staffAssignedToZone } = this.props;
+    const { zonesMap, updateUserIdOfZone, updateZone } = this.props;
 
     const staffAssigned = (assignedUser) => {
-      // update zones in Redux state
-      staffAssignedToZone(zones, zoneId, assignedUser);
+      // create a new zone obj with the new assigned user
+      const zone = {
+        ...zonesMap[zoneId],
+        user: assignedUser,
+        userId: assignedUser.id,
+      };
+      // then update this zone in Redux store
+      updateZone(zone);
+
       this.closeUpdateConfirmationModal();
+
+      // refresh the view
       this.setState({
         newContactId: null,
         zoneId: null,
         currContactName: null,
       });
     };
-    assignStaffToZone(zoneId, userId).then(staffAssigned);
+    updateUserIdOfZone(zoneId, userId).then(staffAssigned);
   }
 
   render() {
@@ -76,24 +86,22 @@ export class ManageZone extends Component {
     const { users, zones, isAssigning } = this.props;
 
     const zoneOptions = zones.map((zone) => {
-      const { id, code } = zone;
       return {
-        value: id,
-        text: code,
+        value: zone.id,
+        text: zone.code,
       };
     });
-    const contactOptions = users.map((u) => {
-      const user = new User(u);
-      const { id, fullName } = user;
+    const contactOptions = users.map((user) => {
       return {
-        value: id,
-        text: fullName,
+        value: user.id,
+        description: user.email,
+        text: getUserfullName(user),
       };
     });
     const isUpdateBtnEnabled = newContactId && zoneId;
 
     return (
-      <div className="manage-zone">
+      <section className="manage-zone">
         <ConfirmationModal
           open={isUpdateModalOpen}
           loading={isAssigning}
@@ -114,7 +122,7 @@ export class ManageZone extends Component {
             <div className="manage-zone__step-one">
               <div className="manage-zone__dropdown">
                 <Dropdown
-                  id={MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID}
+                  id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
                   placeholder="Zone"
                   options={zoneOptions}
                   value={zoneId}
@@ -132,18 +140,16 @@ export class ManageZone extends Component {
 
             <h3>Step 2: Assign a new contact</h3>
             <div className="manage-zone__step-two">
-              <div className="manage-zone__dropdown">
-                <Dropdown
-                  id={MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID}
-                  placeholder="Contact"
-                  options={contactOptions}
-                  value={newContactId}
-                  onChange={this.onContactChanged}
-                  fluid
-                  search
-                  selection
-                />
-              </div>
+              <Dropdown
+                id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
+                placeholder="Contact"
+                options={contactOptions}
+                value={newContactId}
+                onChange={this.onContactChanged}
+                fluid
+                search
+                selection
+              />
             </div>
 
             <div className="manage-zone__update-btn">
@@ -157,7 +163,7 @@ export class ManageZone extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

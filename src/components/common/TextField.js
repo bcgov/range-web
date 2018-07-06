@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { presentNullValue } from '../../handlers';
+import { presentNullValue } from '../../utils';
 
 const propTypes = {
   className: PropTypes.string,

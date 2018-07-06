@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { RANGE_USE_PLANS } from '../constants/routes';
-import { COW_PIC_SRC } from '../constants/variables';
+import { HOME } from '../constants/routes';
+import { IMAGE_SRC } from '../constants/variables';
 
 const propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
@@ -11,7 +11,7 @@ const propTypes = {
 class PageNotFound extends Component {
   componentDidMount() {
     this.timer = setTimeout(() => {
-      this.props.history.push(RANGE_USE_PLANS);
+      this.props.history.push(HOME);
     }, 10000);
   }
 
@@ -21,11 +21,11 @@ class PageNotFound extends Component {
 
   render() {
     return (
-      <div className="page-not-found">
+      <section className="page-not-found">
         <div className="page-not-found__container">
           <img
             className="page-not-found__image"
-            src={COW_PIC_SRC}
+            src={IMAGE_SRC.COW_PIC}
             alt="cow-img"
           />
           <div className="page-not-found__title">Page Not Found</div>
@@ -34,12 +34,12 @@ class PageNotFound extends Component {
             <p>You will be redirected to the My Range Application home page within 10 seconds.</p>
           </div>
           <div className="page-not-found__link">
-            <Link to={RANGE_USE_PLANS}>
+            <Link to={HOME}>
               Go to home
             </Link>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

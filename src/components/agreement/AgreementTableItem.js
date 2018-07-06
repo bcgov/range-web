@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
-import { PRIMARY_TYPE } from '../../constants/variables';
-import { presentNullValue } from '../../handlers';
-import { User } from '../../models';
+import { presentNullValue, getUserfullName, getAgreementHolders } from '../../utils';
 
 const propTypes = {
   agreement: PropTypes.shape({}).isRequired,
@@ -19,8 +16,8 @@ const propTypes = {
 
 export class AgreementTableItem extends Component {
   onRowClicked = () => {
-    const { agreement = {}, history, index } = this.props;
-    const { id: agreementId, plans } = agreement;
+    const { agreement, history, index } = this.props;
+    const { id: agreementId, plans } = agreement || {};
     if (agreementId && plans && plans.length !== 0) {
       const planId = plans[0].id;
       history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
@@ -30,26 +27,23 @@ export class AgreementTableItem extends Component {
     }
   }
 
-  getPrimaryAgreementHolder = (clients = []) => {
-    let primaryAgreementHolder = {};
-    clients.forEach((client) => {
-      if (client.clientTypeCode === PRIMARY_TYPE) {
-        primaryAgreementHolder = client;
-      }
-    });
-
-    return primaryAgreementHolder;
-  }
-
   render() {
-    const { agreement } = this.props;
-    const { plans, id: agreementId, zone } = agreement || {};
-    const plan = plans[0];
+    const {
+      plans,
+      id: agreementId,
+      zone,
+      clients,
+    } = this.props.agreement || {};
 
-    const user = new User(zone && zone.user);
-    const staffFullName = user.fullName;
-    const { name: primaryAgreementHolderName } = this.getPrimaryAgreementHolder(agreement.clients);
-    const { rangeName, status } = plan || {};
+    let plan = {};
+    if (plans && plans.length !== 0) {
+      [plan] = plans;
+    }
+    const { rangeName, status } = plan;
+    const user = zone && zone.user;
+    const staffFullName = getUserfullName(user);
+    const { primaryAgreementHolder } = getAgreementHolders(clients);
+    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     return (
       <Table.Row
@@ -69,4 +63,4 @@ export class AgreementTableItem extends Component {
 }
 
 AgreementTableItem.propTypes = propTypes;
-export default withRouter(AgreementTableItem);
+export default AgreementTableItem;

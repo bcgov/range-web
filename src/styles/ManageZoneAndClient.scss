@@ -1,0 +1,67 @@
+@import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
+
+$field-width: 35%;
+$field-min-width: 160px;
+$content-max-width: 600px;
+
+.manage-client {
+  &__content {
+    @extend .container;
+    display: flex;
+    justify-content: center;
+  }
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin-top: $content-margin-top;
+  }
+  &__update-btn {
+    margin-top: 35px;
+  }
+}
+.manage-zone {
+  &__content {
+    @extend .container;
+    display: flex;
+    justify-content: center;
+  }
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: $content-max-width;
+    margin-top: $content-margin-top;
+  }
+
+  &__step-one,
+  &__step-two {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__update-btn {
+    margin-top: 35px;
+  }
+
+  &__dropdown {
+    min-width: $field-min-width;
+    width: $field-width;
+  }
+
+  &__text-field {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+    min-width: $field-min-width;
+    width: $field-width;
+
+    &__title{
+      color: gray;
+      font-size: 0.9rem;
+    }
+  }
+}

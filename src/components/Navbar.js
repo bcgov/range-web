@@ -4,23 +4,28 @@ import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
-import { LOGO_SRC, SIGN_OUT_ELEMENT_ID } from '../constants/variables';
-import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
-import { logout } from '../actions/authActions';
+import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
+import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/API';
+import { getUser } from '../reducers/rootReducer';
+import { isUserAdmin, isUserActive } from '../utils';
+import { signOut } from '../actionCreators';
 
 const propTypes = {
-  logout: PropTypes.func.isRequired,
-  user: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}),
+  signOut: PropTypes.func.isRequired,
+};
+const defaultProps = {
+  user: undefined,
 };
 
+/* eslint-disable jsx-a11y/anchor-is-valid */
 export class Navbar extends Component {
   onLogoutBtnClick = () => {
-    // clear the local storage in the browser
-    this.props.logout();
+    this.props.signOut();
 
     // open a new tab for signing out from SiteMinder which is Gov's auth platform
-    // once it returns back, it will sign out from SSO which will happen in Logout.js
-    window.open(SITEMINDER_LOGOUT_ENDPOINT, 'blank');
+    // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
+    window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
   }
 
   render() {
@@ -30,22 +35,23 @@ export class Navbar extends Component {
       <nav className="navbar">
         <div className="navbar__container">
           <div className="navbar__left">
-            <img className="navbar__logo" src={LOGO_SRC} alt="Logo" />
-            <Link to={Routes.RANGE_USE_PLANS}>
+            <img className="navbar__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
+            <Link to={Routes.HOME}>
               <div className="navbar__title">My Range App</div>
             </Link>
           </div>
 
           <div className="navbar__right">
-            <NavLink
-              to={Routes.RANGE_USE_PLANS}
-              className="navbar__link"
-              activeClassName="navbar__link--active"
-            >
-              Select RUP
-            </NavLink>
-
-            {user.isAdmin &&
+            { isUserActive(user) &&
+              <NavLink
+                to={Routes.HOME}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                Select RUP
+              </NavLink>
+            }
+            { isUserAdmin(user) &&
               <NavLink
                 to={Routes.MANAGE_ZONE}
                 className="navbar__link"
@@ -54,7 +60,7 @@ export class Navbar extends Component {
                 Manage Zone
               </NavLink>
             }
-            {user.isAdmin &&
+            { isUserAdmin(user) &&
               <NavLink
                 to={Routes.MANAGE_CLIENT}
                 className="navbar__link"
@@ -64,7 +70,7 @@ export class Navbar extends Component {
               </NavLink>
             }
             <div
-              id={SIGN_OUT_ELEMENT_ID}
+              id={ELEMENT_ID.SIGN_OUT}
               className="navbar__link"
               role="button"
               tabIndex="0"
@@ -83,6 +89,11 @@ export class Navbar extends Component {
   }
 }
 
+const mapStateToProps = state => (
+  {
+    user: getUser(state),
+  }
+);
 Navbar.propTypes = propTypes;
-// export default Navbar;
-export default connect(null, { logout })(Navbar);
+Navbar.defaultProps = defaultProps;
+export default connect(mapStateToProps, { signOut })(Navbar);

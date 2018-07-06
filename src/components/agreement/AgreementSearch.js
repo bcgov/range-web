@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Input } from 'semantic-ui-react';
-import { SEARCH_TERM } from '../../constants/variables';
+import { ELEMENT_ID } from '../../constants/variables';
 
 const propTypes = {
   handleSearchInput: PropTypes.func.isRequired,
@@ -39,7 +39,7 @@ class AgreementSearch extends Component {
           placeholder={placeholder}
         >
           <input
-            id={SEARCH_TERM}
+            id={ELEMENT_ID.SEARCH_TERM}
             value={searchTerm}
             onChange={this.handleInput}
           />

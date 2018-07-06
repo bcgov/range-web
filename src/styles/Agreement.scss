@@ -1,0 +1,28 @@
+@import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
+
+.agreement {
+  &__search {
+    width: 200px;
+
+  }
+
+  &__table {
+    @extend .container;
+    margin-top: $content-margin-top;
+
+    &__item {
+      cursor: pointer;
+    }
+  }
+
+  &__pagination {
+    margin-top: 15px;
+  }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    color: $error-color;
+  };
+}

@@ -1,43 +1,58 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Message, Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import classnames from 'classnames';
+import { removeToast } from '../actions';
+import { getToastsMap } from '../reducers/rootReducer';
+import { getObjValues } from '../utils';
 
 const propTypes = {
-  close: PropTypes.bool.isRequired,
-  success: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
+  toastsMap: PropTypes.shape({}).isRequired,
+  removeToast: PropTypes.func.isRequired,
 };
 
-const Toast = ({
-  close,
-  success,
-  error,
-  message,
-}) => (
-  <div className="toast">
-    <Message
-      icon
-      hidden={close && !message}
-      success={success}
-      error={error}
-    >
-      <div className="toast__message">
-        <div className="toast__message__icon">
-          <Icon size="large" name={success ? 'check circle' : 'ban'} />
-        </div>
-        <div className="toast__message__content">
-          {message}
-        </div>
-      </div>
-    </Message>
-  </div>
-);
+class Toasts extends Component {
+  removeToast = toast => () => {
+    const { removeToast } = this.props;
 
-const mapStateToProps = state => (
-  { ...state.toast }
-);
+    removeToast({
+      toastId: toast.id,
+    });
+  }
 
-Toast.propTypes = propTypes;
-export default connect(mapStateToProps, null)(Toast);
+  renderToast = (toast) => {
+    const { id, text, success } = toast;
+    const className = classnames('toast', {
+      'toast__success': success,
+      'toast__error': !success,
+    });
+
+    return (
+      <li key={id} className={className}>
+        <p className="toast__content">
+          {text}
+        </p>
+        <button className="toast__dismiss" onClick={this.removeToast(toast)}>
+          x
+        </button>
+      </li>
+    );
+  }
+
+  render() {
+    const toasts = getObjValues(this.props.toastsMap);
+
+    return (
+      <ul className="toasts">
+        {toasts.map(this.renderToast)}
+      </ul>
+    );
+  }
+}
+
+
+const mapStateToProps = state => ({
+  toastsMap: getToastsMap(state),
+});
+Toasts.propTypes = propTypes;
+export default connect(mapStateToProps, { removeToast })(Toasts);

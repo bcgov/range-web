@@ -1,53 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import cloneDeep from 'lodash.clonedeep';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import { DRAFT, PENDING, RUP_STICKY_HEADER_ELEMENT_ID, PRIMARY_TYPE, OTHER_TYPE } from '../../constants/variables';
-import { handleRupValidation } from '../../handlers/validation';
-import {
-  SAVE_PLAN_AS_DRAFT_SUCCESS,
-  SUBMIT_PLAN_SUCCESS,
-  SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
-  SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
-} from '../../constants/strings';
-import { PlanStatus } from '../../models';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
+import * as strings from '../../constants/strings';
+import * as utils from '../../utils';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
   agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
-  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  ministerIssueActionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  createOrUpdateRupSchedule: PropTypes.func.isRequired,
-  updateRupStatus: PropTypes.func.isRequired,
-  toastErrorMessage: PropTypes.func.isRequired,
+  references: PropTypes.shape({}).isRequired,
+  plan: PropTypes.shape({}).isRequired,
+  pasturesMap: PropTypes.shape({}).isRequired,
+  grazingSchedulesMap: PropTypes.shape({}).isRequired,
+  ministerIssuesMap: PropTypes.shape({}).isRequired,
+  updatePlanStatus: PropTypes.func.isRequired,
+  updatePlan: PropTypes.func.isRequired,
+  createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
+  updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
+  toastErrorMessage: PropTypes.func.isRequired,
 };
 
 export class RupAH extends Component {
-  constructor(props) {
-    super(props);
-
-    // store fields that can be updated within this page
-    const { plan } = props.agreement;
-    const { status } = plan || {};
-
-    this.state = {
-      plan,
-      status,
-      isSubmitModalOpen: false,
-    };
-  }
+  state = {
+    isSubmitModalOpen: false,
+    isSavingAsDraft: false,
+    isSubmitting: false,
+  };
 
   componentDidMount() {
-    this.stickyHeader = document.getElementById(RUP_STICKY_HEADER_ELEMENT_ID);
+    this.stickyHeader = document.getElementById(ELEMENT_ID.RUP_STICKY_HEADER);
     if (this.stickyHeader) {
       // requires the absolute offsetTop value
       this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
@@ -59,56 +47,79 @@ export class RupAH extends Component {
     window.removeEventListener('scroll', this.scrollListner);
   }
 
+  handleScroll = () => {
+    if (this.stickyHeader) {
+      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
+        this.stickyHeader.classList.add('rup__sticky--fixed');
+      } else {
+        this.stickyHeader.classList.remove('rup__sticky--fixed');
+      }
+    }
+  }
+
   onSaveDraftClick = () => {
     const {
-      statuses,
+      plan,
+      references,
+      updatePlan,
+      updateGrazingSchedule,
       toastSuccessMessage,
     } = this.props;
-    const { plan } = this.state;
-    const status = statuses.find(s => s.name === DRAFT);
+    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
+    const status = planStatus.find(s => s.name === PLAN_STATUS.DRAFT);
     const onRequested = () => {
       this.setState({ isSavingAsDraft: true });
     };
     const onSuccess = (newSchedules) => {
-      // update schedules in the state
-      plan.grazingSchedules = newSchedules;
-      toastSuccessMessage(SAVE_PLAN_AS_DRAFT_SUCCESS);
-      this.setState({
-        isSavingAsDraft: false,
-        status,
-        plan,
+      // generate a list of schedule ids
+      const grazingSchedules = newSchedules.map((grazingSchedule) => {
+        updateGrazingSchedule({ grazingSchedule });
+        return grazingSchedule.id;
       });
+      // update schedules in Redux store
+      const newPlan = { ...plan, status, grazingSchedules };
+      updatePlan({ plan: newPlan });
+      this.setState({ isSavingAsDraft: false });
+      toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
     const onFailed = () => {
       this.setState({ isSavingAsDraft: false });
     };
 
-    this.updateRupStatusAndContent(plan, status, onRequested, onSuccess, onFailed);
+    this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
   }
 
   onSubmitClicked = () => {
     const {
-      statuses,
+      plan,
+      references,
+      updatePlan,
+      updateGrazingSchedule,
       toastSuccessMessage,
     } = this.props;
-
-    const { plan } = this.state;
-    const status = statuses.find(s => s.name === PENDING);
+    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
+    const status = planStatus.find(s => s.name === PLAN_STATUS.PENDING);
 
     const onRequested = () => {
       this.setState({ isSubmitting: true });
     };
+
     const onSuccess = (newSchedules) => {
-      // update schedules in the state
-      plan.grazingSchedules = newSchedules;
-      toastSuccessMessage(SUBMIT_PLAN_SUCCESS);
-      this.setState({
-        isSubmitting: false,
-        isSubmitModalOpen: false,
-        status,
-        plan,
+      // generate a list of schedule ids
+      const grazingSchedules = newSchedules.map((grazingSchedule) => {
+        updateGrazingSchedule({ grazingSchedule });
+        return grazingSchedule.id;
       });
+      // update schedules in Redux store
+      const newPlan = { ...plan, status, grazingSchedules };
+      updatePlan({ plan: newPlan });
+      this.setState({
+        isSubmitModalOpen: false,
+        isSubmitting: false,
+      });
+      toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
+
     const onFailed = () => {
       this.setState({
         isSubmitting: false,
@@ -116,66 +127,59 @@ export class RupAH extends Component {
       });
     };
 
-    this.updateRupStatusAndContent(plan, status, onRequested, onSuccess, onFailed);
+    this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
   }
 
-  getAgreementHolders = (clients = []) => {
-    let primaryAgreementHolder = {};
-    const otherAgreementHolders = [];
-    clients.forEach((client) => {
-      if (client.clientTypeCode === PRIMARY_TYPE) {
-        primaryAgreementHolder = client;
-      } else if (client.clientTypeCode === OTHER_TYPE) {
-        otherAgreementHolders.push(client);
-      }
-    });
-
-    return { primaryAgreementHolder, otherAgreementHolders };
-  }
-
-  updateRupStatusAndContent = (plan, status, onRequested, onSuccess, onFailed) => {
+  updateRupStatusAndContent = (status, onRequested, onSuccess, onFailed) => {
     const {
-      createOrUpdateRupSchedule,
-      updateRupStatus,
+      plan,
+      updatePlanStatus,
+      createOrUpdateRupGrazingSchedule,
+      grazingSchedulesMap,
       toastErrorMessage,
     } = this.props;
 
     onRequested();
 
     const error = this.validateRup(plan);
+
     if (error) {
       onFailed();
-    } else {
-      const planId = plan && plan.id;
-      const statusId = status && status.id;
-      const grazingSchedules = plan && plan.grazingSchedules;
+      return;
+    }
+    const planId = plan && plan.id;
+    const statusId = status && status.id;
+    const grazingSchedules = plan && plan.grazingSchedules
+    && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
 
-      if (planId && statusId && grazingSchedules) {
-        const makeRequest = async () => {
-          try {
-            await updateRupStatus({ planId, statusId }, false);
-            const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
-              createOrUpdateRupSchedule(planId, schedule)
-            )));
-            onSuccess(newSchedules);
-          } catch (err) {
-            onFailed();
-            toastErrorMessage(err);
-            throw err;
-          }
-        };
-        makeRequest();
-      }
+    if (planId && statusId && grazingSchedules) {
+      const makeRequest = async () => {
+        try {
+          await updatePlanStatus(planId, statusId, false);
+          const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
+            createOrUpdateRupGrazingSchedule(planId, schedule)
+          )));
+          onSuccess(newSchedules);
+        } catch (err) {
+          onFailed();
+          toastErrorMessage(err);
+          throw err;
+        }
+      };
+      makeRequest();
     }
   }
 
   validateRup = (plan) => {
     const {
-      livestockTypes,
+      references,
       agreement,
+      pasturesMap,
+      grazingSchedulesMap,
     } = this.props;
     const usages = agreement && agreement.usage;
-    const errors = handleRupValidation(plan, livestockTypes, usages);
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
+    const errors = utils.handleRupValidation(plan, pasturesMap, grazingSchedulesMap, livestockTypes, usages);
 
     // errors have been found
     if (errors.length !== 0) {
@@ -192,99 +196,57 @@ export class RupAH extends Component {
 
   submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })
   submitConfirmModalOpen = () => {
-    const error = this.validateRup(this.state.plan);
+    const error = this.validateRup(this.props.plan);
     if (!error) {
       this.setState({ isSubmitModalOpen: true });
     }
   }
 
-  handleScroll = () => {
-    if (this.stickyHeader) {
-      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
-        this.stickyHeader.classList.add('rup__sticky--fixed');
-      } else {
-        this.stickyHeader.classList.remove('rup__sticky--fixed');
-      }
-    }
-  }
-
-  handleSchedulesChange = (schedules) => {
-    const plan = cloneDeep(this.state.plan);
-    plan.grazingSchedules = schedules;
-    this.setState({
-      plan,
-    });
-  }
-
-  renderSchedules = (plan, usages = [], status, livestockTypes = [], isEditable) => {
-    if (isEditable) {
-      return (
-        <EditRupGrazingSchedules
-          livestockTypes={livestockTypes}
-          plan={plan}
-          usages={usages}
-          handleSchedulesChange={this.handleSchedulesChange}
-        />
-      );
-    }
-    return (
-      <RupGrazingSchedules
-        livestockTypes={livestockTypes}
-        usages={usages}
-        plan={plan}
-        status={status}
-      />
-    );
-  }
-
   render() {
     const {
-      plan,
-      status: s,
       isSavingAsDraft,
       isSubmitting,
       isSubmitModalOpen,
     } = this.state;
 
     const {
+      plan,
       user,
       agreement,
-      livestockTypes,
-      ministerIssueTypes,
-      ministerIssueActionTypes,
+      references,
+      pasturesMap,
+      grazingSchedulesMap,
+      ministerIssuesMap,
     } = this.props;
 
-    const status = new PlanStatus(s);
-    const isEditable = status.isCreated || status.isInDraft || status.isChangedRequested;
-
-    const agreementId = agreement && agreement.id;
+    const { agreementId, status } = plan;
+    const { clients, usage: usages } = agreement;
     const zone = agreement && agreement.zone;
-    const usages = agreement && agreement.usage;
-    const clients = agreement && agreement.clients;
-    const { primaryAgreementHolder } = this.getAgreementHolders(clients);
+    const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
-    const rupSchedules = this.renderSchedules(plan, usages, status, livestockTypes, isEditable);
+    const isEditable = utils.isStatusCreated(status)
+      || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
 
     return (
-      <div className="rup">
+      <article className="rup">
         <ConfirmationModal
           open={isSubmitModalOpen}
-          header={SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
-          content={SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
+          header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
+          content={strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
           onNoClicked={this.submitConfirmModalClose}
           onYesClicked={this.onSubmitClicked}
           loading={isSubmitting}
         />
 
         <Banner
-          className="banner__no-default-height"
+          noDefaultHeight
           header={agreementId}
-          content={status && status.bannerContentForAH}
+          content={utils.getBannerContentForAH(status)}
         />
 
         <div
-          id={RUP_STICKY_HEADER_ELEMENT_ID}
+          id={ELEMENT_ID.RUP_STICKY_HEADER}
           className="rup__sticky"
         >
           <div className="rup__sticky__container">
@@ -293,7 +255,7 @@ export class RupAH extends Component {
               <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
               <Status
                 className="rup__status"
-                status={s}
+                status={status}
                 user={user}
               />
             </div>
@@ -329,18 +291,38 @@ export class RupAH extends Component {
           <RupPastures
             className="rup__pastures"
             plan={plan}
+            pasturesMap={pasturesMap}
           />
 
-          {rupSchedules}
+          {isEditable &&
+            <EditRupGrazingSchedules
+              references={references}
+              usages={usages}
+              plan={plan}
+              pasturesMap={pasturesMap}
+              grazingSchedulesMap={grazingSchedulesMap}
+            />
+          }
+          {!isEditable &&
+            <RupGrazingSchedules
+              className="rup__schedules__container"
+              references={references}
+              usages={usages}
+              plan={plan}
+              pasturesMap={pasturesMap}
+              grazingSchedulesMap={grazingSchedulesMap}
+            />
+          }
 
           <RupMinisterIssues
             className="rup__missues__container"
+            references={references}
             plan={plan}
-            ministerIssueTypes={ministerIssueTypes}
-            ministerIssueActionTypes={ministerIssueActionTypes}
+            pasturesMap={pasturesMap}
+            ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </div>
+      </article>
     );
   }
 }

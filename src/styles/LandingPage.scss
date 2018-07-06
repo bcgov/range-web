@@ -1,0 +1,125 @@
+@import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
+
+.navbar {
+  background: $primary-color;
+  border-bottom: 2px solid $accent-color;
+
+  &__container {
+    @extend .container;
+    height: $nav-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__link {
+    height: $nav-height;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 0 20px;
+    cursor: pointer;
+    
+    &:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    &--active {
+      background: $primary-light-color;
+    }
+  }
+
+  &__logo {
+    height: 40px;
+  }
+
+  &__title {
+    border-left: 1px solid $accent-color;
+    font-size: 1.2rem;
+    padding-left: 15px;
+    margin-left: 10px;
+    color: white;
+    white-space: nowrap;
+  }
+}
+
+.toasts {
+  bottom: 24px;
+  position: fixed;
+  right: 24px;
+  width: 350px;
+  z-index: $toast-z-index;
+}
+
+.toast {
+  align-items: flex-start;
+  border-radius: 4px;
+  color: #ffffff;
+  display: flex;
+  padding: 16px;
+
+  &:not(:last-child) {
+    margin: 0 0 12px;
+  }
+
+  &__success {
+    background-color: $primary-color;
+  }
+
+  &__error {
+    background-color: $error-color;
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    margin: 0 12px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1rem;
+  }
+
+  &__dismiss {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    flex: 0 0 auto;
+    font: inherit;
+    padding: 0;
+    font-size: 1.3rem;
+  }
+}
+
+.offline {
+  background-color: $error-color;
+  color: white;
+  text-align: center;
+  height: 15px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-not-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 2rem;
+}
+
+footer {
+  height: 20px;
+}

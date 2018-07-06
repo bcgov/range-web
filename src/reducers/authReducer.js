@@ -1,72 +1,37 @@
-//
-// MyRA
-//
-// Copyright © 2018 Province of British Columbia
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// Created by Kyubin Han.
-//
-import {
-  LOGOUT_SUCCESS,
-  LOGIN_ERROR,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  USER_PROFILE_CHANGE,
-} from '../constants/actionTypes';
+import { STORE_SSO_AUTH_DATA, STORE_USER, SIGN_OUT } from '../constants/actionTypes';
+import { getAuthAndUserFromLocal } from '../utils';
 
-import { initializeUser } from '../handlers/authentication';
+const { user, authData } = getAuthAndUserFromLocal();
+const initialState = {
+  authData,
+  user,
+};
 
-const authReducer = (state = {
-  isLoading: false,
-  user: initializeUser(),
-  success: false,
-}, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_REQUEST:
+    case STORE_SSO_AUTH_DATA:
       return {
         ...state,
-        success: false,
-        isLoading: true,
+        authData: action.data,
       };
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        data: action.data,
-        user: action.user,
-      };
-    case LOGIN_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        success: false,
-        error: action.error,
-      };
-    case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        user: null,
-      };
-    case USER_PROFILE_CHANGE:
+    case STORE_USER:
       return {
         ...state,
         user: action.user,
+      };
+    case SIGN_OUT:
+      return {
+        ...state,
+        authData: undefined,
+        user: undefined,
       };
     default:
       return state;
   }
 };
 
+// Private selectors being name exported
+export const getAuthData = state => state.authData;
+export const getToken = state => state.authData && state.authData.access_token;
+export const getUser = state => state.user;
 export default authReducer;

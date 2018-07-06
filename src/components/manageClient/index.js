@@ -2,20 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ManageClient from './ManageClient';
-import { getUsers } from '../../actions/commonActions';
-import { getClients, linkClient, clientLinked } from '../../actions/manageClientActions';
+import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
+import { updateUser } from '../../actions';
+import { getUsers, getClients, getIsFetchingClients, getIsUpdatingUserIdOfZone, getUsersMap } from '../../reducers/rootReducer';
 
 const propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-  getUsers: PropTypes.func.isRequired,
-  getClients: PropTypes.func.isRequired,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  fetchUsers: PropTypes.func.isRequired,
 };
 
 class Base extends Component {
   componentWillMount() {
-    this.props.getUsers();
+    this.props.fetchUsers();
   }
 
   render() {
@@ -29,17 +26,18 @@ class Base extends Component {
 
 const mapStateToProps = state => (
   {
-    users: state.users.data,
-    clients: state.clients.data,
-    isLoadingClients: state.clients.isLoading,
-    isLinkingClient: state.linkClient.isLoading,
+    users: getUsers(state),
+    usersMap: getUsersMap(state),
+    clients: getClients(state),
+    isFetchingClients: getIsFetchingClients(state),
+    isUpdatingClientIdOfUser: getIsUpdatingUserIdOfZone(state),
   }
 );
 
 Base.propTypes = propTypes;
 export default connect(mapStateToProps, {
-  getUsers,
-  getClients,
-  linkClient,
-  clientLinked,
+  fetchUsers,
+  searchClients,
+  updateClientIdOfUser,
+  updateUser,
 })(Base);

@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ManageZone from './ManageZone';
-import { getUsers, getZones } from '../../actions/commonActions';
-import { assignStaffToZone, staffAssignedToZone } from '../../actions/manageZoneActions';
+import { fetchUsers, updateUserIdOfZone } from '../../actionCreators';
+import { updateZone } from '../../actions';
+import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone } from '../../reducers/rootReducer';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  getUsers: PropTypes.func.isRequired,
-  assignStaffToZone: PropTypes.func.isRequired,
-  staffAssignedToZone: PropTypes.func.isRequired,
+  fetchUsers: PropTypes.func.isRequired,
+  updateUserIdOfZone: PropTypes.func.isRequired,
+  updateZone: PropTypes.func.isRequired,
   isAssigning: PropTypes.bool.isRequired,
 };
 
 class Base extends Component {
   componentWillMount() {
-    this.props.getUsers();
+    this.props.fetchUsers();
   }
 
   render() {
@@ -30,16 +31,16 @@ class Base extends Component {
 
 const mapStateToProps = state => (
   {
-    users: state.users.data,
-    zones: state.zones.data,
-    isAssigning: state.assignStaffToZone.isLoading,
+    zones: getZones(state),
+    zonesMap: getZonesMap(state),
+    users: getUsers(state),
+    isAssigning: getIsUpdatingUserIdOfZone(state),
   }
 );
 
 Base.propTypes = propTypes;
 export default connect(mapStateToProps, {
-  getUsers,
-  getZones,
-  assignStaffToZone,
-  staffAssignedToZone,
+  fetchUsers,
+  updateUserIdOfZone,
+  updateZone,
 })(Base);

@@ -4,12 +4,15 @@ import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
 import { NOT_PROVIDED } from '../../../constants/strings';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { getPastureNames } from '../../../utils';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
-  ministerIssueTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  ministerIssueActionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pasturesMap: PropTypes.shape({}).isRequired,
+  ministerIssuesMap: PropTypes.shape({}).isRequired,
+  references: PropTypes.shape({}).isRequired,
 };
 
 class RupMinisterIssues extends Component {
@@ -41,40 +44,34 @@ class RupMinisterIssues extends Component {
 
   renderMinisterIssueAction = (ministerIssueAction) => {
     const { id, detail, actionTypeId } = ministerIssueAction;
-    const ministerIssueActionType = this.props.ministerIssueActionTypes
-      .find(t => t.id === actionTypeId);
-    const ministerIssueActionTypeName = ministerIssueActionType && ministerIssueActionType.name;
+    const miActionTypes = this.props.references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const miActionType = miActionTypes.find(t => t.id === actionTypeId);
+    const miActionTypeName = miActionType && miActionType.name;
 
     return (
       <div className="rup__missue__action" key={id}>
-        <div className="rup__missue__action__type">{ministerIssueActionTypeName}</div>
+        <div className="rup__missue__action__type">{miActionTypeName}</div>
         <div className="rup__missue__action__detail">{detail}</div>
       </div>
     );
   }
 
   renderMinisterIssue = (ministerIssue, ministerIssueIndex) => {
-    const { plan, ministerIssueTypes } = this.props;
-    const pastures = plan && plan.pastures;
+    const { pasturesMap, references } = this.props;
     const {
       id,
       detail,
       identified,
-      description,
       ministerIssueActions,
       issueTypeId,
       objective,
       pastures: pastureIds,
     } = ministerIssue || {};
-    const ministerIssueType = ministerIssueTypes.find(i => i.id === issueTypeId);
+    const miTypes = references[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
+    const ministerIssueType = miTypes.find(i => i.id === issueTypeId);
     const ministerIssueTypeName = ministerIssueType && ministerIssueType.name;
     const isThisActive = this.state.activeMinisterIssueIndex === ministerIssueIndex;
-    const pastureNames = pastureIds.map((pId) => {
-      const pasture = pastures.find(p => p.id === pId);
-      return pasture.name;
-    });
-    const listOfPastures = pastureNames.length
-      ? pastureNames.join(', ') : NOT_PROVIDED;
+    const pastureNames = getPastureNames(pastureIds, pasturesMap);
 
     return (
       <li key={id} className="rup__missue">
@@ -114,7 +111,7 @@ class RupMinisterIssues extends Component {
           />
           <TextField
             label="Pastures"
-            text={listOfPastures}
+            text={pastureNames}
           />
           <div className="rup__missue__actions__title">Actions</div>
           {this.renderMinisterIssueActions(ministerIssueActions)}
@@ -124,17 +121,20 @@ class RupMinisterIssues extends Component {
   }
 
   render() {
-    const { plan, className } = this.props;
-    const ministerIssues = (plan && plan.ministerIssues) || [];
+    const { plan, ministerIssuesMap, className } = this.props;
+    const ministerIssueIds = (plan && plan.ministerIssues) || [];
+    const ministerIssues = ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
       <div className={className}>
         <div className="rup__title">Minister&apos;s Issues and Actions</div>
         <div className="rup__divider" />
-        <div className="rup__missues__note">
-          Note: Any action that would result in a range development cannot
-          be conducted until an authorization (separate to this RUP) is obtained.
-        </div>
+        { ministerIssues.length !== 0 &&
+          <div className="rup__missues__note">
+            Note: Any action that would result in a range development cannot
+            be conducted until an authorization (separate to this RUP) is obtained.
+          </div>
+        }
         <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
           {this.renderMinisterIssues(ministerIssues)}
         </ul>

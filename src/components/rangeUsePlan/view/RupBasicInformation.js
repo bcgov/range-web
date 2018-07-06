@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
-import { formatDateFromServer, presentNullValue } from '../../../handlers';
-import {
-  RANGE_NUMBER, AGREEMENT_DATE, AGREEMENT_TYPE, DISTRICT,
-  ZONE, PLAN_DATE, CONTACT_NAME, CONTACT_EMAIL, CONTACT_PHONE,
-  EXTENDED, EXEMPTION_STATUS, ALTERNATIVE_BUSINESS_NAME,
-  RANGE_NAME, PRIMARY_AGREEMENT_HOLDER, OTHER_AGREEMENT_HOLDER,
-} from '../../../constants/strings';
-import { PRIMARY_TYPE, OTHER_TYPE } from '../../../constants/variables';
-import { User } from '../../../models';
+import { formatDateFromServer, presentNullValue, getAgreementHolders, isUserAdmin } from '../../../utils';
+import * as strings from '../../../constants/strings';
 
 const propTypes = {
   user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
@@ -26,24 +19,10 @@ const defaultProps = {
 };
 
 class RupBasicInformation extends Component {
-  getAgreementHolders = (clients = []) => {
-    let primaryAgreementHolder = {};
-    const otherAgreementHolders = [];
-    clients.forEach((client) => {
-      if (client.clientTypeCode === PRIMARY_TYPE) {
-        primaryAgreementHolder = client;
-      } else if (client.clientTypeCode === OTHER_TYPE) {
-        otherAgreementHolders.push(client);
-      }
-    });
-
-    return { primaryAgreementHolder, otherAgreementHolders };
-  }
-
   renderOtherAgreementHolders = client => (
     <TextField
       key={client.id}
-      label={OTHER_AGREEMENT_HOLDER}
+      label={strings.OTHER_AGREEMENT_HOLDER}
       text={client && client.name}
     />
   )
@@ -55,6 +34,7 @@ class RupBasicInformation extends Component {
       zone,
       onZoneClicked,
       className,
+      user,
     } = this.props;
 
     // variables for textfields
@@ -64,12 +44,12 @@ class RupBasicInformation extends Component {
     } = zone || {};
     const districtCode = district && district.code;
 
-    const user = new User(zone && zone.user);
-    const { email: contactEmail, phone: contactPhoneNumber, fullName: contactName } = user;
+    const staff = zone && zone.user;
+    const { email: contactEmail, phone: contactPhoneNumber, fullName: contactName } = staff;
 
     const {
       rangeName,
-      alternativeBusinessName,
+      altBusinessName,
       planStartDate,
       planEndDate,
       extension,
@@ -85,9 +65,9 @@ class RupBasicInformation extends Component {
 
     const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
 
-    const { primaryAgreementHolder, otherAgreementHolders } = this.getAgreementHolders(clients);
+    const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
-    const { isAdmin } = this.props.user;
+    const isAdmin = isUserAdmin(user);
     const zoneText = isAdmin
       ? (
         <div className="rup__zone-text">
@@ -105,49 +85,49 @@ class RupBasicInformation extends Component {
             <div className="rup__divider" />
             <div className="rup__info-title">Agreement Information</div>
             <TextField
-              label={RANGE_NUMBER}
+              label={strings.RANGE_NUMBER}
               text={id}
             />
             <TextField
-              label={AGREEMENT_TYPE}
+              label={strings.AGREEMENT_TYPE}
               text="Primary"
             />
             <TextField
-              label={AGREEMENT_DATE}
+              label={strings.AGREEMENT_DATE}
               text={`${formatDateFromServer(agreementStartDate)} to ${formatDateFromServer(agreementEndDate)}`}
             />
             <TextField
-              label={RANGE_NAME}
+              label={strings.RANGE_NAME}
               text={rangeName}
             />
             <TextField
-              label={ALTERNATIVE_BUSINESS_NAME}
-              text={alternativeBusinessName}
+              label={strings.ALTERNATIVE_BUSINESS_NAME}
+              text={altBusinessName}
             />
           </div>
           <div className="rup__contact-info rup__cell-6">
             <div className="rup__divider" />
             <div className="rup__info-title">Contact Information</div>
             <TextField
-              label={DISTRICT}
+              label={strings.DISTRICT}
               text={districtCode}
             />
             <TextField
-              label={ZONE}
+              label={strings.ZONE}
               text={zoneText}
               isEditable={isAdmin}
               onClick={onZoneClicked}
             />
             <TextField
-              label={CONTACT_NAME}
+              label={strings.CONTACT_NAME}
               text={contactName}
             />
             <TextField
-              label={CONTACT_PHONE}
+              label={strings.CONTACT_PHONE}
               text={contactPhoneNumber}
             />
             <TextField
-              label={CONTACT_EMAIL}
+              label={strings.CONTACT_EMAIL}
               text={contactEmail}
             />
           </div>
@@ -157,15 +137,15 @@ class RupBasicInformation extends Component {
             <div className="rup__divider" />
             <div className="rup__info-title">Plan Information</div>
             <TextField
-              label={PLAN_DATE}
+              label={strings.PLAN_DATE}
               text={`${formatDateFromServer(planStartDate)} to ${formatDateFromServer(planEndDate)}`}
             />
             <TextField
-              label={EXTENDED}
+              label={strings.EXTENDED}
               text={extension}
             />
             <TextField
-              label={EXEMPTION_STATUS}
+              label={strings.EXEMPTION_STATUS}
               text={exemptionStatusName}
             />
           </div>
@@ -174,7 +154,7 @@ class RupBasicInformation extends Component {
             <div className="rup__divider" />
             <div className="rup__info-title">Agreement Holders</div>
             <TextField
-              label={PRIMARY_AGREEMENT_HOLDER}
+              label={strings.PRIMARY_AGREEMENT_HOLDER}
               text={primaryAgreementHolderName}
             />
             {otherAgreementHolders.map(this.renderOtherAgreementHolders)}

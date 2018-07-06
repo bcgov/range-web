@@ -10,25 +10,26 @@ import {
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
+  pasturesMap: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
 };
 
 class RupPastures extends Component {
   renderPastures = (pasture) => {
-    const options = [
-      {
-        key: 'edit',
-        text: 'Edit',
-        icon: 'edit',
-        onClick: () => console.log('edit'),
-      },
-      {
-        key: 'delete',
-        text: 'Delete',
-        icon: 'delete',
-        onClick: () => console.log('delete'),
-      },
-    ];
+    // const options = [
+    //   {
+    //     key: 'edit',
+    //     text: 'Edit',
+    //     icon: 'edit',
+    //     onClick: () => console.log('edit'),
+    //   },
+    //   {
+    //     key: 'delete',
+    //     text: 'Delete',
+    //     icon: 'delete',
+    //     onClick: () => console.log('delete'),
+    //   },
+    // ];
     const {
       id,
       name,
@@ -81,8 +82,9 @@ class RupPastures extends Component {
   }
 
   render() {
-    const { plan, className } = this.props;
-    const pastures = (plan && plan.pastures) || [];
+    const { plan, pasturesMap, className } = this.props;
+    const pastureIds = plan && plan.pastures;
+    const pastures = pastureIds.map(id => pasturesMap[id]);
 
     return (
       <div className={className}>

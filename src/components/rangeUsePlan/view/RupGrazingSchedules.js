@@ -2,45 +2,35 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Table, Icon } from 'semantic-ui-react';
-import {
-  formatDateFromServer,
-  presentNullValue,
-  calcDateDiff,
-  calcCrownAUMs,
-  calcPldAUMs,
-  calcTotalAUMs,
-  calcCrownTotalAUMs,
-  roundTo1Decimal,
-} from '../../../handlers';
-import {
-  PASTURE, LIVESTOCK_TYPE, DATE_IN, DATE_OUT,
-  DAYS, NUM_OF_ANIMALS, GRACE_DAYS, PLD,
-  CROWN_AUMS, NOT_PROVIDED,
-} from '../../../constants/strings';
-import { PlanStatus } from '../../../models';
+import * as utils from '../../../utils';
+import * as strings from '../../../constants/strings';
+import { REFERENCE_KEY } from '../../../constants/variables';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
-  status: PropTypes.shape({}).isRequired,
+  pasturesMap: PropTypes.shape({}).isRequired,
+  grazingSchedulesMap: PropTypes.shape({}).isRequired,
+  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
+  references: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-class RupSchedules extends Component {
+class RupGrazingSchedules extends Component {
   state = {
     activeScheduleIndex: 0,
   }
 
   onScheduleClicked = scheduleIndex => () => {
     const newIndex = this.state.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
-
     this.setState({ activeScheduleIndex: newIndex });
   }
 
   renderSchedules = (grazingSchedules) => {
-    const status = new PlanStatus(this.props.status);
+    const { plan } = this.props;
+    const status = plan && plan.status;
 
-    if (status.isInDraft) {
+    if (utils.isStatusDraft(status)) {
       return (
         <div className="rup__schedule__draft-container">
           <div className="rup__schedule__in-draft">
@@ -56,7 +46,7 @@ class RupSchedules extends Component {
 
     return (
       grazingSchedules.length === 0 ? (
-        <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+        <div className="rup__section-not-found">{strings.NOT_PROVIDED}</div>
       ) : (
         grazingSchedules.map(this.renderSchedule)
       )
@@ -64,12 +54,18 @@ class RupSchedules extends Component {
   }
 
   renderSchedule = (schedule, scheduleIndex) => {
-    const { usages, plan, livestockTypes } = this.props;
-    const { id, year, grazingScheduleEntries = [] } = schedule;
+    const {
+      usages,
+      references,
+      pasturesMap,
+      // grazingScheduleEntriesMap,
+    } = this.props;
+    const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
+    const { id, year } = schedule;
     const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-    const pastures = plan && plan.pastures;
-    const crownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes));
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
+    const crownTotalAUMs = utils.roundTo1Decimal(utils.calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes));
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
 
     return (
@@ -92,15 +88,15 @@ class RupSchedules extends Component {
           <Table>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>{PASTURE}</Table.HeaderCell>
-                <Table.HeaderCell>{LIVESTOCK_TYPE}</Table.HeaderCell>
-                <Table.HeaderCell>{NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell>{DATE_IN}</Table.HeaderCell>
-                <Table.HeaderCell>{DATE_OUT}</Table.HeaderCell>
-                <Table.HeaderCell>{DAYS}</Table.HeaderCell>
-                <Table.HeaderCell>{GRACE_DAYS}</Table.HeaderCell>
-                <Table.HeaderCell>{PLD}</Table.HeaderCell>
-                <Table.HeaderCell>{CROWN_AUMS}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.DATE_IN}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.DATE_OUT}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.GRACE_DAYS}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
+                <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
               </Table.Row>
               {grazingScheduleEntries.map(this.renderScheduleEntry)}
             </Table.Header>
@@ -117,8 +113,8 @@ class RupSchedules extends Component {
   }
 
   renderScheduleEntry = (entry) => {
-    const { livestockTypes, plan } = this.props;
-    const pastures = plan && plan.pastures;
+    const { references, pasturesMap } = this.props;
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const {
       id,
       pastureId,
@@ -129,35 +125,36 @@ class RupSchedules extends Component {
       graceDays,
     } = entry || {};
 
-    const days = calcDateDiff(dateOut, dateIn, false);
-    const pasture = pastures.find(p => p.id === pastureId);
+    const days = utils.calcDateDiff(dateOut, dateIn, false);
+    const pasture = pasturesMap[pastureId];
     const pldPercent = pasture && pasture.pldPercent;
     const pastureName = pasture && pasture.name;
     const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
     const livestockTypeName = livestockType && livestockType.name;
     const auFactor = livestockType && livestockType.auFactor;
 
-    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pldPercent));
-    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
+    const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor);
+    const pldAUMs = utils.roundTo1Decimal(utils.calcPldAUMs(totalAUMs, pldPercent));
+    const crownAUMs = utils.roundTo1Decimal(utils.calcCrownAUMs(totalAUMs, pldAUMs));
 
     return (
       <Table.Row key={id}>
-        <Table.Cell>{presentNullValue(pastureName, false)}</Table.Cell>
-        <Table.Cell>{presentNullValue(livestockTypeName, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(livestockCount, false)}</Table.Cell>
-        <Table.Cell>{formatDateFromServer(dateIn, false)}</Table.Cell>
-        <Table.Cell>{formatDateFromServer(dateOut, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(days, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell>{utils.presentNullValue(pastureName, false)}</Table.Cell>
+        <Table.Cell>{utils.presentNullValue(livestockTypeName, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(livestockCount, false)}</Table.Cell>
+        <Table.Cell>{utils.formatDateFromServer(dateIn, false)}</Table.Cell>
+        <Table.Cell>{utils.formatDateFromServer(dateOut, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(days, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(graceDays, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(crownAUMs, false)}</Table.Cell>
       </Table.Row>
     );
   }
   render() {
-    const { plan } = this.props;
-    const grazingSchedules = (plan && plan.grazingSchedules) || [];
+    const { plan, grazingSchedulesMap } = this.props;
+    const grazingScheduleIds = plan && plan.grazingSchedules;
+    const grazingSchedules = grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
       <div className="rup__schedules__container">
@@ -171,5 +168,5 @@ class RupSchedules extends Component {
   }
 }
 
-RupSchedules.propTypes = propTypes;
-export default RupSchedules;
+RupGrazingSchedules.propTypes = propTypes;
+export default RupGrazingSchedules;

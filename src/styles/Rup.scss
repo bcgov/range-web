@@ -3,25 +3,6 @@
 
 $row-height: 80px;
 
-.agreement {
-  &__search {
-    width: 200px;
-
-  }
-
-  &__table {
-    @extend .container;
-    margin-top: $content-margin-top;
-
-    &__item {
-      cursor: pointer;
-    }
-  }
-
-  &__pagination {
-    margin-top: 15px;
-  }
-}
 .rup {
   &__cell-6 {
     @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
@@ -58,7 +39,7 @@ $row-height: 80px;
   &__sticky {
     background: $primary-color;
     color: white;
-    z-index: 1;
+    z-index: $rup-sticky-z-index;
 
     &__container {
       @extend .container;
@@ -163,6 +144,7 @@ $row-height: 80px;
       font-size: 1.4rem;
     }
   }
+
   &__schedules {
     margin: 10px 0;
     list-style-type: none;
@@ -172,13 +154,11 @@ $row-height: 80px;
     &--empty {
       border: 0px;
     }
-    li {
+    li:not(:last-child) {
       border-bottom: 1px solid gainsboro;
     }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
-    }
   }
+
   &__schedule {
     padding: 15px;
 
@@ -242,7 +222,7 @@ $row-height: 80px;
       justify-content: center;
       align-items: center;
       background: #CCCCCC;
-      border-radius: 5px;
+      border-radius: 3px;
     }
     &__in-draft {
       display: flex;

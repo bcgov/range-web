@@ -1,51 +1,62 @@
-// local storage keys
-export const REFERENCE_KEY = 'range-web-reference';
-export const AUTH_KEY = 'range-web-auth';
-export const USER_KEY = 'range-web-user';
+export const LOCAL_STORAGE_KEY = {
+  AUTH: 'range-web-auth',
+  USER: 'range-web-user',
+  REFERENCE: 'range-web-reference',
+};
+export const TOAST_TIMEOUT = 6000;
+export const PLAN_STATUS = {
+  PENDING: 'Pending',
+  COMPLETED: 'Completed',
+  DRAFT: 'Draft',
+  CREATED: 'Created',
+  CHANGE_REQUESTED: 'Change Requested',
+};
 
-// range use plan status
-export const PENDING = 'Pending';
-export const COMPLETED = 'Completed';
-export const DRAFT = 'Draft';
-export const CREATED = 'Created';
-export const CHANGE_REQUESTED = 'Change Requested';
+export const REFERENCE_KEY = {
+  AGREEMENT_EXEMPTION_STATUS: 'AGREEMENT_EXEMPTION_STATUS',
+  AGREEMENT_TYPE: 'AGREEMENT_TYPE',
+  PLAN_STATUS: 'PLAN_STATUS',
+  LIVESTOCK_TYPE: 'LIVESTOCK_TYPE',
+  LIVESTOCK_IDENTIFIER_TYPE: 'LIVESTOCK_IDENTIFIER_TYPE',
+  MINISTER_ISSUE_TYPE: 'MINISTER_ISSUE_TYPE',
+  MINISTER_ISSUE_ACTION_TYPE: 'MINISTER_ISSUE_ACTION_TYPE',
+  CLIENT_TYPE: 'CLIENT_TYPE',
+};
 
-// references
-export const PLAN_STATUS = 'PLAN_STATUS';
-export const LIVESTOCK_TYPE = 'LIVESTOCK_TYPE';
-export const LIVESTOCK_IDENTIFIER_TYPE = 'LIVESTOCK_IDENTIFIER_TYPE';
-export const MINISTER_ISSUE_TYPE = 'MINISTER_ISSUE_TYPE';
-export const MINISTER_ISSUE_ACTION_TYPE = 'MINISTER_ISSUE_ACTION_TYPE';
-export const CLIENT_TYPE = 'CLIENT_TYPE';
-export const AGREEMENT_EXEMPTION_STATUS = 'AGREEMENT_EXEMPTION_STATUS';
+export const IMAGE_SRC = {
+  NAV_LOGO: '/logo.png',
+  COW_PIC: '/cow.jpg',
+  LOGIN_LOGO: '/login_logo.png',
+};
 
-// image sources
-export const LOGO_SRC = '/logo.png';
-export const COW_PIC_SRC = '/cow.jpg';
-export const LOGIN_LOGO_SRC = '/login_logo.png';
+export const CLIENT_TYPE = {
+  PRIMARY: 'A',
+  OTHER: 'B',
+};
 
-// client types
-export const PRIMARY_TYPE = 'A';
-export const OTHER_TYPE = 'B';
+export const DATE_FORMAT = {
+  SCHEUDLE_ENTRY: 'MMM D',
+  SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
+  CLIENT_SIDE: 'MMMM D, YYYY',
+};
 
-// date formats
-export const SCHEUDLE_ENTRY_DATE_FORMAT = 'MMM D';
-export const SERVER_SIDE_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-export const CLIENT_SIDE_DATE_FORMAT = 'MMMM D, YYYY';
+export const USER_ROLE = {
+  ADMINISTRATOR: 'myra_admin',
+  RANGE_OFFICER: 'myra_range_officer',
+  AGREEMENT_HOLDER: 'myra_client',
+};
 
-// roles
-export const ADMINISTRATOR = 'myra_admin';
-export const RANGE_OFFICER = 'myra_range_officer';
-export const AGREEMENT_HOLDER = 'myra_client';
-
-// element ids
-export const GRAZING_SCHEDULE_ELEMENT_ID = 'rup__grazing-schedule';
-export const RUP_ZONE_DROPDOWN_ELEMENT_ID = 'rup__zone-dropdown';
-export const RUP_STICKY_HEADER_ELEMENT_ID = 'rup-sticky-header';
-export const SIGN_OUT_ELEMENT_ID = 'sign-out';
-export const MANAGE_ZONE_ZONES_DROPDOWN_ELEMENT_ID = 'manage-zone__zone-dropdown';
-export const MANAGE_ZONE_CONTACTS_DROPDOWN_ELEMENT_ID = 'manage-zone__contact-dropdown';
-export const LOGIN_SSO_BUTTON_ELEMENT_ID = 'login-button';
-export const SEARCH_TERM = 'searchTerm';
-export const MANAGE_CLIENT_USERS_DROPDOWN_ELEMENT_ID = 'manage-client__users-dropdown';
-export const MANAGE_CLIENT_CLIENTS_DROPDOWN_ELEMENT_ID = 'manage-client__clients-dropdown';
+export const ELEMENT_ID = {
+  GRAZING_SCHEDULE: 'rup__grazing-schedule',
+  RUP_ZONE_DROPDOWN: 'rup__zone-dropdown',
+  RUP_STICKY_HEADER: 'rup-sticky-header',
+  SIGN_OUT: 'sign-out',
+  MANAGE_ZONE_ZONES_DROPDOWN: 'manage-zone__zone-dropdown',
+  MANAGE_ZONE_CONTACTS_DROPDOWN: 'manage-zone__contact-dropdown',
+  LOGIN_BUTTON: 'login-button',
+  LOGIN_IDIR_BUTTON: 'login-idir-button',
+  LOGIN_BCEID_BUTTON: 'login-bceid-button',
+  SEARCH_TERM: 'searchTerm',
+  MANAGE_CLIENT_USERS_DROPDOWN: 'manage-client__users-dropdown',
+  MANAGE_CLIENT_CLIENTS_DROPDOWN: 'manage-client__clients-dropdown',
+};

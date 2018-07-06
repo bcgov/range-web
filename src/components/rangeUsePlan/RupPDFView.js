@@ -3,33 +3,41 @@ import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
 import { Document, Page } from 'react-pdf';
 import { connect } from 'react-redux';
-import { downloadPDFBlob } from '../../handlers';
-import { getRupPDF } from '../../actions/rangeUsePlanActions';
+import { downloadPDFBlob } from '../../utils';
+import { fetchRupPDF } from '../../actionCreators';
 import { Loading } from '../common';
 
 const propTypes = {
   match: PropTypes.shape({ params: PropTypes.object }).isRequired,
-  getRupPDF: PropTypes.func.isRequired,
-  isLoadingPDF: PropTypes.bool.isRequired,
+  fetchRupPDF: PropTypes.func.isRequired,
 };
 
 class RangeUsePlanPDF extends Component {
   state = {
     file: null,
     numPages: 1,
+    isFetchingPDF: false,
   }
 
   componentWillMount() {
-    const { getRupPDF, match } = this.props;
+    const { fetchRupPDF, match } = this.props;
     const { planId, agreementId } = match.params;
 
     if (planId && agreementId) {
-      const setPDFFileState = (blob) => {
-        this.setState({
-          file: blob,
-        });
-      };
-      getRupPDF(planId).then(setPDFFileState);
+      this.setState({ isFetchingPDF: true });
+
+      fetchRupPDF(planId).then(
+        (blob) => {
+          this.setState({
+            file: blob,
+            isFetchingPDF: false,
+          });
+        },
+        (err) => {
+          this.setState({ isFetchingPDF: false });
+          throw err;
+        },
+      );
     }
   }
 
@@ -47,7 +55,7 @@ class RangeUsePlanPDF extends Component {
   setDownlaodPDFRef = (ref) => { this.donwloadPDFLink = ref; }
 
   render() {
-    const { file, numPages } = this.state;
+    const { file, numPages, isFetchingPDF } = this.state;
 
     const pages = Array.from(
       new Array(numPages),
@@ -62,7 +70,7 @@ class RangeUsePlanPDF extends Component {
     );
 
     return (
-      <div className="rup-pdf">
+      <section className="rup-pdf">
         <a
           className="rup__pdf-link"
           href="download"
@@ -71,7 +79,7 @@ class RangeUsePlanPDF extends Component {
           link
         </a>
 
-        { this.props.isLoadingPDF &&
+        { isFetchingPDF &&
           <Loading />
         }
 
@@ -98,16 +106,10 @@ class RangeUsePlanPDF extends Component {
             </div>
           </div>
         }
-      </div>
+      </section>
     );
   }
 }
 
-const mapStateToProps = state => (
-  {
-    isLoadingPDF: state.pdf.isLoading,
-  }
-);
-
 RangeUsePlanPDF.propTypes = propTypes;
-export default connect(mapStateToProps, { getRupPDF })(RangeUsePlanPDF);
+export default connect(null, { fetchRupPDF })(RangeUsePlanPDF);

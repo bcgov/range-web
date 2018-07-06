@@ -2,83 +2,62 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Pikaday from 'pikaday';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
-import {
-  presentNullValue,
-  calcDateDiff,
-  calcTotalAUMs,
-  calcCrownAUMs,
-  calcPldAUMs,
-  formatDateFromUTC,
-  roundTo1Decimal,
-} from '../../../handlers';
+import * as utils from '../../../utils';
+import { DATE_FORMAT } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
-
-import { SCHEUDLE_ENTRY_DATE_FORMAT } from '../../../constants/variables';
 import { ConfirmationModal } from '../../common';
 
 const propTypes = {
-  year: PropTypes.number.isRequired,
+  schedule: PropTypes.shape({}).isRequired,
   entry: PropTypes.shape({}).isRequired,
   entryIndex: PropTypes.number.isRequired,
-  pastures: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pasturesMap: PropTypes.shape({}).isRequired,
   pastureOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleScheduleEntryChange: PropTypes.func.isRequired,
   handleScheduleEntryCopy: PropTypes.func.isRequired,
   handleScheduleEntryDelete: PropTypes.func.isRequired,
-  isDeletingScheduleEntry: PropTypes.bool.isRequired,
+  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
 };
 
-class EditRupScheduleEntry extends Component {
+/* eslint-disable object-curly-newline */
+class EditRupGrazingScheduleEntry extends Component {
   state = {
     isDeleteScheduleEntryModalOpen: false,
   }
 
   componentDidMount() {
-    const { entry, year } = this.props;
+    const { entry, schedule } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
-    const dateIn = din ? new Date(din) : null;
-    const dateOut = dout ? new Date(dout) : null;
-    const minDate = new Date(`${year}-01-02`);
-    const maxDate = new Date(`${year + 1}-01-01`);
+    const dateIn = din ? new Date(din) : undefined;
+    const dateOut = dout ? new Date(dout) : undefined;
+    const minDate = new Date(`${schedule.year}-01-02`);
+    const maxDate = new Date(`${schedule.year + 1}-01-01`);
 
     this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,
-      format: SCHEUDLE_ENTRY_DATE_FORMAT,
+      format: DATE_FORMAT.SCHEUDLE_ENTRY,
       minDate,
       maxDate: dateOut || maxDate,
-      defaultDate: minDate, // the initial date to view when first opened
+      defaultDate: dateIn || minDate, // the initial date to view when first opened
+      setDefaultDate: dateIn !== undefined, // show default date if dateIn was defined
       onSelect: this.handleDateChange('dateIn'),
     });
-    if (dateIn) this.pikaDayDateIn.setDate(dateIn);
 
     this.pikaDayDateOut = new Pikaday({
       field: this.dateOutRef,
-      format: SCHEUDLE_ENTRY_DATE_FORMAT,
+      format: DATE_FORMAT.SCHEUDLE_ENTRY,
       minDate: dateIn || minDate,
       maxDate,
-      defaultDate: minDate,
+      defaultDate: dateOut || minDate,
+      setDefaultDate: dateOut !== undefined,
       onSelect: this.handleDateChange('dateOut'),
     });
-    if (dateOut) this.pikaDayDateOut.setDate(dateOut);
-  }
-
-  onCopyEntryClicked = () => {
-    const { handleScheduleEntryCopy, entryIndex } = this.props;
-    handleScheduleEntryCopy(entryIndex);
-  }
-
-  onDeleteEntryClicked = () => {
-    const { handleScheduleEntryDelete, entryIndex } = this.props;
-    handleScheduleEntryDelete(entryIndex);
   }
 
   setDateInRef = (ref) => { this.dateInRef = ref; }
   setDateOutRef = (ref) => { this.dateOutRef = ref; }
-
-  closeDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: false })
-  openDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: true })
 
   handleNumberOnly = (e) => {
     if (!(e.charCode >= 48 && e.charCode <= 57)) {
@@ -89,7 +68,7 @@ class EditRupScheduleEntry extends Component {
 
   handleDateChange = key => (date) => {
     const { entry, entryIndex, handleScheduleEntryChange } = this.props;
-    entry[key] = formatDateFromUTC(date);
+    entry[key] = utils.formatDateFromUTC(date);
 
     // prevent users from inputting wrong dates
     if (this.pikaDayDateIn && key === 'dateOut') {
@@ -109,39 +88,43 @@ class EditRupScheduleEntry extends Component {
   }
 
   handlePastureDropdown = (e, { value: pastureId }) => {
-    const {
-      entry,
-      entryIndex,
-      handleScheduleEntryChange,
-      pastures,
-    } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange, pasturesMap } = this.props;
 
     entry.pastureId = pastureId;
-    const { graceDays } = pastures.find(p => p.id === pastureId);
+    const { graceDays } = pasturesMap[pastureId];
     entry.graceDays = graceDays;
     handleScheduleEntryChange(entry, entryIndex);
   }
 
   handleLiveStockTypeDropdown = (e, { value: livestockTypeId }) => {
-    const {
-      entry,
-      entryIndex,
-      handleScheduleEntryChange,
-    } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
 
     entry.livestockTypeId = livestockTypeId;
     handleScheduleEntryChange(entry, entryIndex);
   }
 
+  onCopyEntryClicked = () => {
+    const { handleScheduleEntryCopy, entryIndex } = this.props;
+    handleScheduleEntryCopy(entryIndex);
+  }
+
+  onDeleteEntryClicked = () => {
+    const { handleScheduleEntryDelete, entryIndex } = this.props;
+    handleScheduleEntryDelete(entryIndex);
+  }
+
+  closeDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: false })
+  openDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: true })
+
   render() {
     const {
       entry,
       entryIndex,
-      pastures,
+      pasturesMap,
       pastureOptions,
       livestockTypes,
       livestockTypeOptions,
-      isDeletingScheduleEntry,
+      isDeletingGrazingScheduleEntry,
     } = this.props;
 
     const {
@@ -153,15 +136,15 @@ class EditRupScheduleEntry extends Component {
       graceDays,
     } = entry || {};
 
-    const days = calcDateDiff(dateOut, dateIn, false);
-    const pasture = pastures.find(p => p.id === pastureId);
+    const days = utils.calcDateDiff(dateOut, dateIn, false);
+    const pasture = pasturesMap[pastureId];
     const pldPercent = pasture && pasture.pldPercent;
     const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
     const auFactor = livestockType && livestockType.auFactor;
 
-    const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-    const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pldPercent));
-    const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
+    const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor);
+    const pldAUMs = utils.roundTo1Decimal(utils.calcPldAUMs(totalAUMs, pldPercent));
+    const crownAUMs = utils.roundTo1Decimal(utils.calcCrownAUMs(totalAUMs, pldAUMs));
 
     const entryOptions = [
       { key: `entry${entryIndex}option1`, text: 'Copy', onClick: this.onCopyEntryClicked },
@@ -178,7 +161,7 @@ class EditRupScheduleEntry extends Component {
       <Table.Row>
         <ConfirmationModal
           open={this.state.isDeleteScheduleEntryModalOpen}
-          loading={isDeletingScheduleEntry}
+          loading={isDeletingGrazingScheduleEntry}
           header={DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER}
           content={DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT}
           onNoClicked={this.closeDeleteScheduleEntryConfirmationModal}
@@ -235,7 +218,7 @@ class EditRupScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(days, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(days, false)}</Table.Cell>
         <Table.Cell collapsing>
           <Input fluid>
             <input
@@ -246,8 +229,8 @@ class EditRupScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell collapsing>{presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.presentNullValue(crownAUMs, false)}</Table.Cell>
         <Table.Cell collapsing textAlign="center">
           <Dropdown
             trigger={<Icon name="ellipsis vertical" />}
@@ -261,5 +244,5 @@ class EditRupScheduleEntry extends Component {
   }
 }
 
-EditRupScheduleEntry.propTypes = propTypes;
-export default EditRupScheduleEntry;
+EditRupGrazingScheduleEntry.propTypes = propTypes;
+export default EditRupGrazingScheduleEntry;
