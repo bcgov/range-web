@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Offline } from 'react-detect-offline';
 import Navbar from './Navbar';
 import Toast from './Toast';
 import { userHaveRole, isUserActive } from '../utils';
 import { fetchUser, fetchReferences, fetchZones } from '../actionCreators';
 import { getUser } from '../reducers/rootReducer';
+import { USER_NOT_ACTIVE, NO_INTERNET } from '../constants/strings';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
@@ -32,8 +34,11 @@ export class LandingPage extends Component {
     return (
       <main>
         <Navbar {...rest} />
+        <Offline>
+          <section className="offline">{NO_INTERNET}</section>
+        </Offline>
         { !isUserActive(user) &&
-          <div>This account is not active.</div>
+          <section>{USER_NOT_ACTIVE}</section>
         }
         { userHaveRole(user) &&
           <Component {...rest} />

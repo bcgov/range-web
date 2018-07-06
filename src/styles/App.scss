@@ -13,6 +13,13 @@ body {
   background: #fdfdfd;
 }
 
+.offline {
+  background-color: $error-color;
+  color: white;
+  text-align: center;
+  height: 20px;
+}
+
 footer {
   height: 20px;
 }
