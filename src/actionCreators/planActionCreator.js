@@ -51,7 +51,7 @@ export const updatePlanStatus = (planId, statusId, shouldToast = true) => (dispa
   return makeRequest();
 };
 
-export const updateRupZone = ({ agreementId, zoneId }) => (dispatch, getState) => {
+export const updateAgreementZone = ({ agreementId, zoneId }) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_RUP_ZONE));
   const makeRequest = async () => {
     try {
@@ -93,7 +93,7 @@ export const fetchRupPDF = planId => (dispatch, getState) => {
   return makeRequest();
 };
 
-const createRupSchedule = (planId, schedule) => (dispatch, getState) => {
+const createRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
   dispatch(request(reducerTypes.CREATE_RUP_SCHEDULE));
   const makeRequest = async () => {
     try {
@@ -114,7 +114,7 @@ const createRupSchedule = (planId, schedule) => (dispatch, getState) => {
   return makeRequest();
 };
 
-const updateRupSchedule = (planId, schedule) => (dispatch, getState) => {
+const updateRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_RUP_SCHEDULE));
   const makeRequest = async () => {
     try {
@@ -134,14 +134,14 @@ const updateRupSchedule = (planId, schedule) => (dispatch, getState) => {
   return makeRequest();
 };
 
-export const createOrUpdateRupSchedule = (planId, schedule) => (dispatch) => {
+export const createOrUpdateRupGrazingSchedule = (planId, schedule) => (dispatch) => {
   if (uuid.isUUID(schedule.id)) {
-    return dispatch(createRupSchedule(planId, schedule));
+    return dispatch(createRupGrazingSchedule(planId, schedule));
   }
-  return dispatch(updateRupSchedule(planId, schedule));
+  return dispatch(updateRupGrazingSchedule(planId, schedule));
 };
 
-export const deleteRupSchedule = (planId, scheduleId) => (dispatch, getState) => {
+export const deleteRupGrazingSchedule = (planId, scheduleId) => (dispatch, getState) => {
   dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE));
   const makeRequest = async () => {
     try {
@@ -160,7 +160,7 @@ export const deleteRupSchedule = (planId, scheduleId) => (dispatch, getState) =>
   return makeRequest();
 };
 
-export const deleteRupScheduleEntry = (planId, scheduleId, entryId) => (dispatch, getState) => {
+export const deleteRupGrazingScheduleEntry = (planId, scheduleId, entryId) => (dispatch, getState) => {
   dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY));
   const makeRequest = async () => {
     try {

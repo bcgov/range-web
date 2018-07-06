@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import RupAdmin from './RupAdmin';
 import RupAH from './RupAH';
 import { Loading } from '../common';
-import { fetchPlan, updatePlanStatus, createOrUpdateRupSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
+import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
 import * as selectors from '../../reducers/rootReducer';
 import { isUserAgreementHolder, isUserAdmin } from '../../utils';
@@ -24,7 +24,7 @@ const propTypes = {
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
-  createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   // isUpdatingStatus: PropTypes.bool.isRequired,
@@ -62,7 +62,7 @@ class Base extends Component {
       pasturesMap,
       ministerIssuesMap,
       grazingSchedulesMap,
-      createOrUpdateRupSchedule,
+      createOrUpdateRupGrazingSchedule,
       updateGrazingSchedule,
       toastSuccessMessage,
       toastErrorMessage,
@@ -103,7 +103,7 @@ class Base extends Component {
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
             updateGrazingSchedule={updateGrazingSchedule}
-            createOrUpdateRupSchedule={createOrUpdateRupSchedule}
+            createOrUpdateRupGrazingSchedule={createOrUpdateRupGrazingSchedule}
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
           />
@@ -138,7 +138,7 @@ export default connect(mapStateToProps, {
   updatePlanStatus,
   updatePlan,
   updateGrazingSchedule,
-  createOrUpdateRupSchedule,
+  createOrUpdateRupGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
 })(Base);

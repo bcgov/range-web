@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown } from 'semantic-ui-react';
-import UpdateZoneModal from './UpdateZoneModal';
+import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
   DETAIL_RUP_BANNER_CONTENT,
@@ -184,7 +184,7 @@ class RupAdmin extends Component {
           // loading={isUpdatingStatus}
         />
 
-        <UpdateZoneModal
+        <UpdateAgreementZoneModal
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           onZoneUpdated={this.onZoneUpdated}

@@ -18,11 +18,11 @@ const propTypes = {
   handleScheduleEntryChange: PropTypes.func.isRequired,
   handleScheduleEntryCopy: PropTypes.func.isRequired,
   handleScheduleEntryDelete: PropTypes.func.isRequired,
-  // isDeletingScheduleEntry: PropTypes.bool.isRequired,
+  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 /* eslint-disable object-curly-newline */
-class EditRupScheduleEntry extends Component {
+class EditRupGrazingScheduleEntry extends Component {
   state = {
     isDeleteScheduleEntryModalOpen: false,
   }
@@ -124,7 +124,7 @@ class EditRupScheduleEntry extends Component {
       pastureOptions,
       livestockTypes,
       livestockTypeOptions,
-      // isDeletingScheduleEntry,
+      isDeletingGrazingScheduleEntry,
     } = this.props;
 
     const {
@@ -161,7 +161,7 @@ class EditRupScheduleEntry extends Component {
       <Table.Row>
         <ConfirmationModal
           open={this.state.isDeleteScheduleEntryModalOpen}
-          // loading={isDeletingScheduleEntry}
+          loading={isDeletingGrazingScheduleEntry}
           header={DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER}
           content={DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT}
           onNoClicked={this.closeDeleteScheduleEntryConfirmationModal}
@@ -244,5 +244,5 @@ class EditRupScheduleEntry extends Component {
   }
 }
 
-EditRupScheduleEntry.propTypes = propTypes;
-export default EditRupScheduleEntry;
+EditRupGrazingScheduleEntry.propTypes = propTypes;
+export default EditRupGrazingScheduleEntry;

@@ -49,6 +49,8 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_USER_ID_OF_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_USER_ID_OF_ZONE),
   [reducerTypes.SEARCH_CLIENTS]: createReducer(networkReducer, reducerTypes.SEARCH_CLIENTS),
   [reducerTypes.UPDATE_PLAN_STATUS]: createReducer(networkReducer, reducerTypes.UPDATE_PLAN_STATUS),
+  [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
+  [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
 });
 
 // public selectors
@@ -81,6 +83,8 @@ export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[re
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
+export const getGrazingScheduleIsDeleting = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE]);
+export const getGrazingScheduleEntryIsDeleting = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]);
 
 export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Header, Button, Dropdown, Modal } from 'semantic-ui-react';
-import { updateRupZone } from '../../actionCreators';
+import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones } from '../../reducers/rootReducer';
 
@@ -11,7 +11,7 @@ const propTypes = {
   closeUpdateZoneModal: PropTypes.func.isRequired,
   onZoneUpdated: PropTypes.func.isRequired,
   currZone: PropTypes.shape({}).isRequired,
-  updateRupZone: PropTypes.func.isRequired,
+  updateAgreementZone: PropTypes.func.isRequired,
   agreementId: PropTypes.string.isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   // isUpdating: PropTypes.bool.isRequired,
@@ -27,12 +27,12 @@ export class UpdateZoneModal extends Component {
   }
 
   onUpdateZoneClicked = () => {
-    const { agreementId, updateRupZone, onZoneUpdated } = this.props;
+    const { agreementId, updateAgreementZone, onZoneUpdated } = this.props;
     const requestData = {
       agreementId,
       zoneId: this.state.newZoneId,
     };
-    updateRupZone(requestData).then((newZone) => {
+    updateAgreementZone(requestData).then((newZone) => {
       onZoneUpdated(newZone);
       this.closeUpdateZoneModal();
     });
@@ -103,10 +103,10 @@ export class UpdateZoneModal extends Component {
 
 const mapStateToProps = state => (
   {
-    // isUpdating: state.updateRupZone.isLoading,
+    // isUpdating: state.updateAgreementZone.isLoading,
     zones: getZones(state),
   }
 );
 
 UpdateZoneModal.propTypes = propTypes;
-export default connect(mapStateToProps, { updateRupZone })(UpdateZoneModal);
+export default connect(mapStateToProps, { updateAgreementZone })(UpdateZoneModal);

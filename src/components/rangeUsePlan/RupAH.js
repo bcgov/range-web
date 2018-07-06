@@ -21,7 +21,7 @@ const propTypes = {
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
-  createOrUpdateRupSchedule: PropTypes.func.isRequired,
+  createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
@@ -134,7 +134,7 @@ export class RupAH extends Component {
     const {
       plan,
       updatePlanStatus,
-      createOrUpdateRupSchedule,
+      createOrUpdateRupGrazingSchedule,
       grazingSchedulesMap,
       toastErrorMessage,
     } = this.props;
@@ -157,7 +157,7 @@ export class RupAH extends Component {
         try {
           await updatePlanStatus(planId, statusId, false);
           const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
-            createOrUpdateRupSchedule(planId, schedule)
+            createOrUpdateRupGrazingSchedule(planId, schedule)
           )));
           onSuccess(newSchedules);
         } catch (err) {

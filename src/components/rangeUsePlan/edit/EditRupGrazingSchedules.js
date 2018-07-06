@@ -7,9 +7,10 @@ import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupGrazingSchedule from './EditRupGrazingSchedule';
 import { ELEMENT_ID, REFERENCE_KEY } from '../../../constants/variables';
-import { deleteRupSchedule, deleteRupScheduleEntry } from '../../../actionCreators';
-import * as utils from '../../../utils';
+import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
+import { getGrazingScheduleIsDeleting, getGrazingScheduleEntryIsDeleting } from '../../../reducers/rootReducer';
+import * as utils from '../../../utils';
 
 const propTypes = {
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
@@ -20,8 +21,10 @@ const propTypes = {
   addGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   deleteGrazingSchedule: PropTypes.func.isRequired,
-  deleteRupSchedule: PropTypes.func.isRequired,
-  deleteRupScheduleEntry: PropTypes.func.isRequired,
+  deleteRupGrazingSchedule: PropTypes.func.isRequired,
+  deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+  isDeletingGrazingSchedule: PropTypes.bool.isRequired,
+  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 export class EditRupGrazingSchedules extends Component {
@@ -94,7 +97,7 @@ export class EditRupGrazingSchedules extends Component {
   }
 
   handleScheduleDelete = (schedule, scheduleIndex) => {
-    const { plan, deleteGrazingSchedule, deleteRupSchedule } = this.props;
+    const { plan, deleteGrazingSchedule, deleteRupGrazingSchedule } = this.props;
 
     const planId = plan && plan.id;
     const { year, id: scheduleId } = schedule;
@@ -126,7 +129,7 @@ export class EditRupGrazingSchedules extends Component {
 
     // delete the schedule saved in server
     if (planId && scheduleId && !uuid.isUUID(scheduleId)) {
-      deleteRupSchedule(planId, scheduleId).then(onDeleted);
+      deleteRupGrazingSchedule(planId, scheduleId).then(onDeleted);
     } else { // or delete the schedule saved in Redux store
       onDeleted();
     }
@@ -175,7 +178,9 @@ export class EditRupGrazingSchedules extends Component {
       references,
       pasturesMap,
       updateGrazingSchedule,
-      deleteRupScheduleEntry,
+      deleteRupGrazingScheduleEntry,
+      isDeletingGrazingSchedule,
+      isDeletingGrazingScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
     const { id, year } = schedule;
@@ -198,9 +203,11 @@ export class EditRupGrazingSchedules extends Component {
         authorizedAUMs={authorizedAUMs}
         crownTotalAUMs={crownTotalAUMs}
         updateGrazingSchedule={updateGrazingSchedule}
-        deleteRupScheduleEntry={deleteRupScheduleEntry}
+        deleteRupGrazingScheduleEntry={deleteRupGrazingScheduleEntry}
         handleScheduleCopy={this.handleScheduleCopy}
         handleScheduleDelete={this.handleScheduleDelete}
+        isDeletingGrazingSchedule={isDeletingGrazingSchedule}
+        isDeletingGrazingScheduleEntry={isDeletingGrazingScheduleEntry}
       />
     );
   }
@@ -245,11 +252,18 @@ export class EditRupGrazingSchedules extends Component {
   }
 }
 
+const mapStateToProps = state => (
+  {
+    isDeletingGrazingSchedule: getGrazingScheduleIsDeleting(state),
+    isDeletingGrazingScheduleEntry: getGrazingScheduleEntryIsDeleting(state),
+  }
+);
+
 EditRupGrazingSchedules.propTypes = propTypes;
-export default connect(null, {
+export default connect(mapStateToProps, {
   addGrazingSchedule,
   updateGrazingSchedule,
   deleteGrazingSchedule,
-  deleteRupSchedule,
-  deleteRupScheduleEntry,
+  deleteRupGrazingSchedule,
+  deleteRupGrazingScheduleEntry,
 })(EditRupGrazingSchedules);

@@ -20,14 +20,14 @@ const propTypes = {
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
-  deleteRupScheduleEntry: PropTypes.func.isRequired,
+  deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
   handleScheduleCopy: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
-  // isDeletingSchedule: PropTypes.bool.isRequired,
-  // isDeletingScheduleEntry: PropTypes.bool.isRequired,
+  isDeletingGrazingSchedule: PropTypes.bool.isRequired,
+  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
 };
 
-class EditRupSchedule extends Component {
+class EditRupGrazingSchedule extends Component {
   state = {
     isDeleteScheduleModalOpen: false,
   }
@@ -97,7 +97,7 @@ class EditRupSchedule extends Component {
     const {
       schedule,
       updateGrazingSchedule,
-      deleteRupScheduleEntry,
+      deleteRupGrazingScheduleEntry,
     } = this.props;
     const grazingSchedule = { ...schedule };
     const [deletedEntry] = grazingSchedule.grazingScheduleEntries.splice(entryIndex, 1);
@@ -110,7 +110,7 @@ class EditRupSchedule extends Component {
 
     // delete the entry saved in server
     if (planId && scheduleId && entryId && !uuid.isUUID(entryId)) {
-      deleteRupScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
+      deleteRupGrazingScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
     } else { // or delete the entry saved in state
       onDeleted();
     }
@@ -134,7 +134,7 @@ class EditRupSchedule extends Component {
       schedule,
       pasturesMap,
       livestockTypes,
-      // isDeletingScheduleEntry,
+      isDeletingGrazingScheduleEntry,
     } = this.props;
     const pastures = getObjValues(pasturesMap);
     const pastureOptions = pastures.map((pasture) => {
@@ -169,6 +169,7 @@ class EditRupSchedule extends Component {
           handleScheduleEntryChange={this.handleScheduleEntryChange}
           handleScheduleEntryCopy={this.handleScheduleEntryCopy}
           handleScheduleEntryDelete={this.handleScheduleEntryDelete}
+          isDeletingGrazingScheduleEntry={isDeletingGrazingScheduleEntry}
         />
       )
     ));
@@ -182,6 +183,7 @@ class EditRupSchedule extends Component {
       authorizedAUMs,
       crownTotalAUMs,
       yearOptions,
+      isDeletingGrazingSchedule,
     } = this.props;
     const { isDeleteScheduleModalOpen } = this.state;
     const { year, grazingScheduleEntries } = schedule;
@@ -195,7 +197,7 @@ class EditRupSchedule extends Component {
       <li className="rup__schedule">
         <ConfirmationModal
           open={isDeleteScheduleModalOpen}
-          // loading={isDeletingSchedule}
+          loading={isDeletingGrazingSchedule}
           header={strings.DELETE_SCHEDULE_FOR_AH_HEADER}
           content={strings.DELETE_SCHEDULE_FOR_AH_CONTENT}
           onNoClicked={this.closeDeleteScheduleConfirmationModal}
@@ -288,5 +290,5 @@ class EditRupSchedule extends Component {
   }
 }
 
-EditRupSchedule.propTypes = propTypes;
-export default EditRupSchedule;
+EditRupGrazingSchedule.propTypes = propTypes;
+export default EditRupGrazingSchedule;
