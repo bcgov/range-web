@@ -63,9 +63,15 @@
 }
 
 .avatar {
+<<<<<<< HEAD
   min-width: 40px;
   max-width: 40px;
+=======
+  width: 40px;
+  min-width: 40px;
+>>>>>>> c50c1e80f99723adb6862969a827e4b3dbe4037c
   height: 40px;
+  min-height: 40px;
   border-radius: 50%;
   background: $primary-light-color;
   display: flex;
