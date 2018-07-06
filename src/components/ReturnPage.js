@@ -32,7 +32,7 @@ class ReturnPage extends Component {
 
   render() {
     return (
-      <section>Temporary Return Page</section>
+      <section>Redirecting...</section>
     );
   }
 }

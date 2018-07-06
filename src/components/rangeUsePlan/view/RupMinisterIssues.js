@@ -5,6 +5,7 @@ import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
+import { getListOfPastureNames } from '../../../utils';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
@@ -70,12 +71,7 @@ class RupMinisterIssues extends Component {
     const ministerIssueType = miTypes.find(i => i.id === issueTypeId);
     const ministerIssueTypeName = ministerIssueType && ministerIssueType.name;
     const isThisActive = this.state.activeMinisterIssueIndex === ministerIssueIndex;
-    const pastureNames = pastureIds.map((pId) => {
-      const pasture = pasturesMap[pId];
-      return pasture && pasture.name;
-    });
-    const listOfPastures = pastureNames.length
-      ? pastureNames.join(', ') : NOT_PROVIDED;
+    const listOfPastures = getListOfPastureNames(pastureIds, pasturesMap);
 
     return (
       <li key={id} className="rup__missue">

@@ -192,7 +192,7 @@ class RupAdmin extends Component {
         />
 
         <Banner
-          className="banner__no-default-height"
+          noDefaultHeight
           header={agreementId}
           content={DETAIL_RUP_BANNER_CONTENT}
         />

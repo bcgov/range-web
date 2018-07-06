@@ -240,7 +240,7 @@ export class RupAH extends Component {
         />
 
         <Banner
-          className="banner__no-default-height"
+          noDefaultHeight
           header={agreementId}
           content={utils.getBannerContentForAH(status)}
         />

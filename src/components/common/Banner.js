@@ -3,33 +3,35 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const propTypes = {
-  className: PropTypes.string,
   actionClassName: PropTypes.string,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   children: PropTypes.node,
   style: PropTypes.shape({}),
+  noDefaultHeight: PropTypes.bool,
 };
 
 const defaultProps = {
-  className: '',
   actionClassName: '',
   children: (<div />),
   style: {},
+  noDefaultHeight: false,
 };
 
 const Banner = ({
-  className,
   actionClassName,
   header,
   content,
   children,
   style,
+  noDefaultHeight,
 }) => (
-  <div className={classnames('banner', className)} style={style}>
-    <div className="banner__container">
-      <h1>{header}</h1>
-      <div className="banner__content">{content}</div>
+  <div className="banner" style={style}>
+    <div className={classnames('banner__container', { 'banner__container--no-default-height': noDefaultHeight })}>
+      <div>
+        <h1 className="banner__header">{header}</h1>
+        <div className="banner__content">{content}</div>
+      </div>
       {children &&
         <div className={classnames('banner__action', actionClassName)}>
           {children}

@@ -38,7 +38,7 @@ export class LandingPage extends Component {
           <section className="offline">{NO_INTERNET}</section>
         </Offline>
         { !isUserActive(user) &&
-          <section>{USER_NOT_ACTIVE}</section>
+          <section className="user-not-active">{USER_NOT_ACTIVE}</section>
         }
         { userHaveRole(user) &&
           <Component {...rest} />

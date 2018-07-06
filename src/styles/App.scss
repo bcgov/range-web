@@ -13,13 +13,6 @@ body {
   background: #fdfdfd;
 }
 
-.offline {
-  background-color: $error-color;
-  color: white;
-  text-align: center;
-  height: 20px;
-}
-
 footer {
   height: 20px;
 }
@@ -29,6 +22,6 @@ footer {
 @import 'styles/Agreement.scss';
 @import 'styles/Rup.scss';
 @import 'styles/ManageZoneAndClient.scss';
-@import 'styles/Navbar.scss';
+@import 'styles/LandingPage.scss';
 @import 'styles/Grid.scss';
 @import 'styles/pikaday.scss';
