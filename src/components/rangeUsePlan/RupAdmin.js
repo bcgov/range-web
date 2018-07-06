@@ -22,11 +22,10 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
-  // isUpdatingStatus: PropTypes.bool.isRequired,
+  isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
   // getRupPDF: PropTypes.func.isRequired,
   // toastErrorMessage: PropTypes.func.isRequired,
@@ -126,8 +125,8 @@ class RupAdmin extends Component {
       plan,
       pasturesMap,
       grazingSchedulesMap,
-      // grazingScheduleEntriesMap,
       ministerIssuesMap,
+      isUpdatingStatus,
     } = this.props;
     const {
       isCompletedModalOpen,
@@ -172,7 +171,7 @@ class RupAdmin extends Component {
           content={COMPLETED_CONFIRMATION_CONTENT}
           onNoClicked={this.closeCompletedConfirmModal}
           onYesClicked={this.handleCompletedClicked}
-          // loading={isUpdatingStatus}
+          loading={isUpdatingStatus}
         />
 
         <ConfirmationModal
@@ -181,7 +180,7 @@ class RupAdmin extends Component {
           content="Are you sure you want to request changes to the agreement holder?"
           onNoClicked={this.closePendingConfirmModal}
           onYesClicked={this.handlePendingClicked}
-          // loading={isUpdatingStatus}
+          loading={isUpdatingStatus}
         />
 
         <UpdateAgreementZoneModal
@@ -213,7 +212,6 @@ class RupAdmin extends Component {
               <Button
                 onClick={this.onViewPDFClicked}
                 className="rup__btn"
-                // loading={isDownloadingPDF}
               >
                 View PDF
               </Button>
@@ -253,7 +251,6 @@ class RupAdmin extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
-            // grazingScheduleEntriesMap={grazingScheduleEntriesMap}
           />
 
           <RupMinisterIssues

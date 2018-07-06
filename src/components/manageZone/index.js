@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ManageZone from './ManageZone';
 import { fetchUsers, updateUserIdOfZone } from '../../actionCreators';
 import { updateZone } from '../../actions';
-import { getZones, getZonesMap, getUsers, getUserIdOfZoneIsUpdating } from '../../reducers/rootReducer';
+import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone } from '../../reducers/rootReducer';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -34,7 +34,7 @@ const mapStateToProps = state => (
     zones: getZones(state),
     zonesMap: getZonesMap(state),
     users: getUsers(state),
-    isAssigning: getUserIdOfZoneIsUpdating(state),
+    isAssigning: getIsUpdatingUserIdOfZone(state),
   }
 );
 

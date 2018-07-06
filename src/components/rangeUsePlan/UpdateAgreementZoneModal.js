@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Header, Button, Dropdown, Modal } from 'semantic-ui-react';
 import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
-import { getZones } from '../../reducers/rootReducer';
+import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
 
 const propTypes = {
   isUpdateZoneModalOpen: PropTypes.bool.isRequired,
@@ -14,7 +14,7 @@ const propTypes = {
   updateAgreementZone: PropTypes.func.isRequired,
   agreementId: PropTypes.string.isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // isUpdating: PropTypes.bool.isRequired,
+  isUpdatingAgreementZone: PropTypes.bool.isRequired,
 };
 
 export class UpdateZoneModal extends Component {
@@ -48,7 +48,7 @@ export class UpdateZoneModal extends Component {
       isUpdateZoneModalOpen,
       zones,
       currZone = {},
-      // isUpdating,
+      isUpdatingAgreementZone,
     } = this.props;
     const { newZoneId } = this.state;
 
@@ -90,7 +90,7 @@ export class UpdateZoneModal extends Component {
             color="green"
             inverted
             disabled={newZoneId === null}
-            // loading={isUpdating}
+            loading={isUpdatingAgreementZone}
             onClick={this.onUpdateZoneClicked}
           >
             Update Zone
@@ -103,7 +103,7 @@ export class UpdateZoneModal extends Component {
 
 const mapStateToProps = state => (
   {
-    // isUpdating: state.updateAgreementZone.isLoading,
+    isUpdatingAgreementZone: getIsUpdatingAgreementZone(state),
     zones: getZones(state),
   }
 );

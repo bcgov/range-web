@@ -21,7 +21,7 @@ import { normalize } from 'normalizr';
 import { axios, saveUserProfileInLocal, createRequestHeader, saveReferencesInLocalStorage } from '../utils';
 import * as schema from './schema';
 import * as actions from '../actions';
-import { getAgreementsIsFetching } from '../reducers/rootReducer';
+import { getIsFetchingAgreements } from '../reducers/rootReducer';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
@@ -162,7 +162,7 @@ export const fetchUser = () => (dispatch, getState) => {
 };
 
 export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch, getState) => {
-  if (getAgreementsIsFetching(getState())) {
+  if (getIsFetchingAgreements(getState())) {
     return Promise.resolve();
   }
   dispatch(actions.request(reducerTypes.SEARCH_AGREEMENTS));

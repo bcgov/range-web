@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
 import uuid from 'uuid-v4';
 import { success, request, error, storePlan } from '../actions';
-import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_RUP_ZONE_SUCCESS } from '../constants/strings';
+import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_AGREEMENT_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
@@ -52,19 +52,19 @@ export const updatePlanStatus = (planId, statusId, shouldToast = true) => (dispa
 };
 
 export const updateAgreementZone = ({ agreementId, zoneId }) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_RUP_ZONE));
+  dispatch(request(reducerTypes.UPDATE_AGREEMENT_ZONE));
   const makeRequest = async () => {
     try {
       const response = await axios.put(
-        API.UPDATE_RUP_ZONE(agreementId),
+        API.UPDATE_AGREEMENT_ZONE(agreementId),
         { zoneId },
         createRequestHeader(getState),
       );
-      dispatch(success(reducerTypes.UPDATE_RUP_ZONE, response.data));
-      dispatch(toastSuccessMessage(UPDATE_RUP_ZONE_SUCCESS));
+      dispatch(success(reducerTypes.UPDATE_AGREEMENT_ZONE, response.data));
+      dispatch(toastSuccessMessage(UPDATE_AGREEMENT_ZONE_SUCCESS));
       return response.data;
     } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_RUP_ZONE, err));
+      dispatch(error(reducerTypes.UPDATE_AGREEMENT_ZONE, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -74,18 +74,18 @@ export const updateAgreementZone = ({ agreementId, zoneId }) => (dispatch, getSt
 };
 
 export const fetchRupPDF = planId => (dispatch, getState) => {
-  dispatch(request(reducerTypes.GET_RUP_PDF));
+  dispatch(request(reducerTypes.GET_PLAN_PDF));
   const makeRequest = async () => {
     try {
       const config = {
         ...createRequestHeader(getState),
         responseType: 'arraybuffer',
       };
-      const { data } = await axios.get(API.GET_RUP_PDF(planId), config);
-      dispatch(success(reducerTypes.GET_RUP_PDF, data));
+      const { data } = await axios.get(API.GET_PLAN_PDF(planId), config);
+      dispatch(success(reducerTypes.GET_PLAN_PDF, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.GET_RUP_PDF, err));
+      dispatch(error(reducerTypes.GET_PLAN_PDF, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }

@@ -9,7 +9,7 @@ import EditRupGrazingSchedule from './EditRupGrazingSchedule';
 import { ELEMENT_ID, REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
-import { getGrazingScheduleIsDeleting, getGrazingScheduleEntryIsDeleting } from '../../../reducers/rootReducer';
+import { getIsDeletingGrazingSchedule, getIsDeletingGrazingScheduleEntry } from '../../../reducers/rootReducer';
 import * as utils from '../../../utils';
 
 const propTypes = {
@@ -254,8 +254,8 @@ export class EditRupGrazingSchedules extends Component {
 
 const mapStateToProps = state => (
   {
-    isDeletingGrazingSchedule: getGrazingScheduleIsDeleting(state),
-    isDeletingGrazingScheduleEntry: getGrazingScheduleEntryIsDeleting(state),
+    isDeletingGrazingSchedule: getIsDeletingGrazingSchedule(state),
+    isDeletingGrazingScheduleEntry: getIsDeletingGrazingScheduleEntry(state),
   }
 );
 

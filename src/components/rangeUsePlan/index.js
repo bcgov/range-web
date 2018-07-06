@@ -27,7 +27,7 @@ const propTypes = {
   createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
-  // isUpdatingStatus: PropTypes.bool.isRequired,
+  isUpdatingStatus: PropTypes.bool.isRequired,
   // isDownloadingPDF: PropTypes.bool.isRequired,
 };
 const defaultProps = {
@@ -66,9 +66,8 @@ class Base extends Component {
       updateGrazingSchedule,
       toastSuccessMessage,
       toastErrorMessage,
-      // isUpdatingStatus,
+      isUpdatingStatus,
       // isDownloadingPDF,
-      // getRupPDF,
     } = this.props;
     const { agreement, planId } = this.state;
     const plan = plansMap[planId];
@@ -89,6 +88,7 @@ class Base extends Component {
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
+            isUpdatingStatus={isUpdatingStatus}
           />
         }
         { agreement && plan && isUserAgreementHolder(user) &&
@@ -122,12 +122,12 @@ const mapStateToProps = state => (
     pasturesMap: selectors.getPasturesMap(state),
     grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
     ministerIssuesMap: selectors.getMinisterIssuesMap(state),
-    isFetchingPlan: selectors.getPlanIsFetching(state),
+    isFetchingPlan: selectors.getIsFetchingPlan(state),
     errorFetchingPlan: selectors.getPlanErrorMessage(state),
     references: selectors.getReferences(state),
     user: selectors.getUser(state),
+    isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
     // isDownloadingPDF: state.pdf.isLoading,
-    // isUpdatingStatus: state.updatePlanStatus.isLoading,
   }
 );
 

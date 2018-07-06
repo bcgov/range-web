@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ManageClient from './ManageClient';
 import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
 import { updateUser } from '../../actions';
-import { getUsers, getClients, getClientsIsFetching, getUserIdOfZoneIsUpdating, getUsersMap } from '../../reducers/rootReducer';
+import { getUsers, getClients, getIsFetchingClients, getIsUpdatingUserIdOfZone, getUsersMap } from '../../reducers/rootReducer';
 
 const propTypes = {
   fetchUsers: PropTypes.func.isRequired,
@@ -29,8 +29,8 @@ const mapStateToProps = state => (
     users: getUsers(state),
     usersMap: getUsersMap(state),
     clients: getClients(state),
-    isFetchingClients: getClientsIsFetching(state),
-    isUpdatingClientIdOfUser: getUserIdOfZoneIsUpdating(state),
+    isFetchingClients: getIsFetchingClients(state),
+    isUpdatingClientIdOfUser: getIsUpdatingUserIdOfZone(state),
   }
 );
 

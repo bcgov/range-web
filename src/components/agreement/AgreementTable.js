@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT, RANGE_NAME, STATUS } from '../../constants/strings';
-import { getAgreements, getAgreementsIsFetching, getAgreementsPagination, getUser, getAgreementsErrorMessage } from '../../reducers/rootReducer';
+import { getAgreements, getIsFetchingAgreements, getAgreementsPagination, getUser, getAgreementsErrorMessage } from '../../reducers/rootReducer';
 
 const propTypes = {
   agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -108,7 +108,7 @@ export class AgreementTable extends Component {
 const mapStateToProps = state => (
   {
     agreements: getAgreements(state),
-    isFetchingAgreements: getAgreementsIsFetching(state),
+    isFetchingAgreements: getIsFetchingAgreements(state),
     agreementPagination: getAgreementsPagination(state),
     errorGettingAgreements: getAgreementsErrorMessage(state),
     user: getUser(state),
