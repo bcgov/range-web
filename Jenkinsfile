@@ -21,10 +21,10 @@ def notifySlack(text, channel, url, attachments, icon) {
 }
 
 // See https://github.com/jenkinsci/kubernetes-plugin
-podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
-    image: '172.50.0.2:5000/range-myra-tools/jenkins-slave-node6:latest',
+    image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:8',
     resourceRequestCpu: '1500m',
     resourceLimitCpu: '2000m',
     resourceRequestMemory: '2Gi',
