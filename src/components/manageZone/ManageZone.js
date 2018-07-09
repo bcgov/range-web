@@ -8,7 +8,7 @@ import {
   NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
-import { getUserfullName } from '../../utils';
+import { getUserFullName } from '../../utils';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -30,7 +30,7 @@ export class ManageZone extends Component {
   onZoneChanged = (e, { value: zoneId }) => {
     const zone = this.props.zonesMap[zoneId];
     const user = zone && zone.user;
-    const currContactName = getUserfullName(user) || CONTACT_NO_EXIST;
+    const currContactName = getUserFullName(user) || CONTACT_NO_EXIST;
 
     this.setState({
       zoneId,
@@ -95,7 +95,7 @@ export class ManageZone extends Component {
       return {
         value: user.id,
         description: user.email,
-        text: getUserfullName(user),
+        text: getUserFullName(user),
       };
     });
     const isUpdateBtnEnabled = newContactId && zoneId;

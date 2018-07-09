@@ -11,7 +11,7 @@ import {
   TYPE_CLIENT_NAME,
 } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
-import { getUserfullName } from '../../utils';
+import { getUserFullName } from '../../utils';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -90,7 +90,7 @@ class ManageClient extends Component {
       const description = clientId ? `Client #: ${clientId}, Email: ${email}` : `Email: ${email}`;
       return {
         value: user.id,
-        text: getUserfullName(user),
+        text: getUserFullName(user),
         description,
       };
     });

@@ -15,31 +15,37 @@ const propTypes = {
 export class Agreement extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchTerm: parseQuery(props.location.search).term || '',
-    };
+
     this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
   }
 
-  handlePaginationChange = (currentPage) => {
-    const { history, location } = this.props;
-    const parsedParams = parseQuery(location.search);
-    parsedParams.page = currentPage;
-    history.push(`${location.pathname}?${stringifyQuery(parsedParams)}`);
+  handlePaginationChange = (page) => {
+    const params = { page };
+    this.reRouteWithParams(params);
   }
 
   handleSearchInput = (term) => {
+    const params = {
+      page: 1, // show new results from page 1
+      term,
+    };
+    this.reRouteWithParams(params);
+  }
+
+  reRouteWithParams = (additionalParams) => {
     const { history, location } = this.props;
     const parsedParams = parseQuery(location.search);
-    // show new results from page 1
-    parsedParams.page = 1;
-    parsedParams.term = term;
-    history.push(`${location.pathname}?${stringifyQuery(parsedParams)}`);
+    const params = {
+      ...parsedParams,
+      ...additionalParams,
+    };
+    history.push(`${location.pathname}?${stringifyQuery(params)}`);
   }
 
   render() {
-    const { searchTerm } = this.state;
-    const { history } = this.props;
+    const { history, location } = this.props;
+    const searchTerm = parseQuery(location.search).term || '';
+
     return (
       <section className="agreement">
         <Banner

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT, RANGE_NAME, STATUS } from '../../constants/strings';
-import { getAgreements, getIsFetchingAgreements, getAgreementsPagination, getUser, getAgreementsErrorMessage } from '../../reducers/rootReducer';
+import { getAgreements, getIsFetchingAgreements, getAgreementsPagination, getUser, getAgreementsErrorMessage, getReferences } from '../../reducers/rootReducer';
+import { RANGE_USE_PLAN } from '../../constants/routes';
 
 const propTypes = {
   agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -16,7 +17,8 @@ const propTypes = {
   errorGettingAgreements: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
-  history: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  references: PropTypes.shape({}).isRequired,
 };
 const defaultProps = {
   errorGettingAgreements: null,
@@ -27,9 +29,12 @@ export class AgreementTable extends Component {
     activeIndex: 0,
   }
 
-  onRowClicked = (index) => {
+  onRowClicked = (index, agreementId, planId) => {
     const newIndex = this.state.activeIndex === index ? -1 : index;
     this.setState({ activeIndex: newIndex });
+
+    // TODO: need to go away eventually
+    this.props.history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
   }
 
   handlePaginationChange = (e, { activePage: currentPage }) => {
@@ -38,16 +43,16 @@ export class AgreementTable extends Component {
 
   renderAgreementTableItem = (agreement, index) => {
     const isActive = this.state.activeIndex === index;
-    const { user, history } = this.props;
+    const { user, references } = this.props;
 
     return (
       <AgreementTableItem
         user={user}
-        history={history}
         key={index}
         index={index}
         isActive={isActive}
         agreement={agreement}
+        references={references}
         onRowClicked={this.onRowClicked}
       />
     );
@@ -112,6 +117,7 @@ const mapStateToProps = state => (
     agreementPagination: getAgreementsPagination(state),
     errorGettingAgreements: getAgreementsErrorMessage(state),
     user: getUser(state),
+    references: getReferences(state),
   }
 );
 AgreementTable.propTypes = propTypes;
