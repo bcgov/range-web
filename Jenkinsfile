@@ -41,7 +41,7 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
   )
 ])
 {
-  node('range-web-node-build') {
+  node('range-web-node8-build') {
     stage('Checkout') {
       echo "Checking out source"
       checkout scm
