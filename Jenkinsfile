@@ -77,17 +77,6 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
       sh "node -v"
     }
 
-    stage('Code Quality') {
-      SONARQUBE_URL = sh (
-          script: 'oc get routes -o wide --no-headers | awk \'/sonarqube/{ print match($0,/edge/) ?  "https://"$2 : "http://"$2 }\'',
-          returnStdout: true
-            ).trim()
-      echo "SONARQUBE_URL: ${SONARQUBE_URL}"
-      dir('sonar-runner') {
-        sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info -Dsonar.projectName=${APP_NAME} -Dsonar.branch=${GIT_BRANCH_NAME} -Dsonar.projectKey=org.sonarqube:${APP_NAME} -Dsonar.sources=.."
-      }
-    }
-
     stage('Test') {
       echo "Testing: ${BUILD_ID}"
 
@@ -122,6 +111,17 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
 
         notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
         sh "exit 1"
+      }
+    }
+
+    stage('Code Quality') {
+      SONARQUBE_URL = sh (
+          script: 'oc get routes -o wide --no-headers | awk \'/sonarqube/{ print match($0,/edge/) ?  "https://"$2 : "http://"$2 }\'',
+          returnStdout: true
+            ).trim()
+      echo "SONARQUBE_URL: ${SONARQUBE_URL}"
+      dir('sonar-runner') {
+        sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info -Dsonar.projectName=${APP_NAME} -Dsonar.branch=${GIT_BRANCH_NAME} -Dsonar.projectKey=org.sonarqube:${APP_NAME} -Dsonar.sources=../build"
       }
     }
 
