@@ -15,13 +15,6 @@ const propTypes = {
 };
 
 export class AgreementTableItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      plan: this.getLatestPlan(this.props.agreement.plans),
-    };
-  }
-
   getLatestPlan = (plans = []) => {
     const planStatus = this.props.references[REFERENCE_KEY.PLAN_STATUS];
     const staffDraftStatus = planStatus.find(s => s.name === PLAN_STATUS.STAFF_DRAFT);
@@ -33,7 +26,7 @@ export class AgreementTableItem extends Component {
 
   onRowClicked = () => {
     const { agreement, index } = this.props;
-    const { plan } = this.state;
+    const plan = this.getLatestPlan(agreement.plans);
 
     if (plan && agreement.id) {
       this.props.onRowClicked(index, agreement.id, plan.id);
@@ -47,8 +40,9 @@ export class AgreementTableItem extends Component {
       id: agreementId,
       zone,
       clients,
+      plans,
     } = this.props.agreement || {};
-    const { plan } = this.state;
+    const plan = this.getLatestPlan(plans);
     const rangeName = plan && plan.rangeName;
     const status = plan && plan.status;
     const user = zone && zone.user;
