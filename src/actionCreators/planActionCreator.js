@@ -16,7 +16,10 @@ export const fetchPlan = planId => (dispatch, getState) => {
       const rangeUsePlan = response.data.plan;
 
       dispatch(success(reducerTypes.GET_PLAN, response.data));
+      // store the plan object
       dispatch(storePlan(normalize(rangeUsePlan, schema.plan)));
+
+      // return the agreement data for view
       return response.data;
     } catch (err) {
       dispatch(error(reducerTypes.GET_PLAN, err));

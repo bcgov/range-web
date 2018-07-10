@@ -10,6 +10,7 @@ export const PLAN_STATUS = {
   DRAFT: 'Draft',
   CREATED: 'Created',
   CHANGE_REQUESTED: 'Change Requested',
+  STAFF_DRAFT: 'Staff Draft',
 };
 
 export const REFERENCE_KEY = {

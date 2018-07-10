@@ -17,13 +17,21 @@ class AgreementSearch extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { searchTerm } = this.props;
+    const termChanged = nextProps.searchTerm !== searchTerm;
+    // change the search term to match with the current queries
+    if (termChanged) {
+      this.setState({ searchTerm: nextProps.searchTerm });
+    }
+  }
+
   handleInput = (e) => {
     const { id, value } = e.target;
     this.setState({
       [id]: value,
-    }, () => {
-      this.props.handleSearchInput(value);
     });
+    this.props.handleSearchInput(value);
   }
 
   render() {

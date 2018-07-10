@@ -1,6 +1,6 @@
 import { USER_ROLE } from '../constants/variables';
 
-export const getUserfullName = user => (
+export const getUserFullName = user => (
   user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`
 );
 

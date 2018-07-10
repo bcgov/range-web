@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Status } from '../common';
-import { presentNullValue, getUserfullName, getAgreementHolders } from '../../utils';
+import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
+import { REFERENCE_KEY, PLAN_STATUS } from '../../constants/variables';
 
 const propTypes = {
-  agreement: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
+  agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
   onRowClicked: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   user: PropTypes.shape({}).isRequired,
+  references: PropTypes.shape({}).isRequired,
   // isActive: PropTypes.bool.isRequired,
 };
 
 export class AgreementTableItem extends Component {
+  getLatestPlan = (plans = []) => {
+    const planStatus = this.props.references[REFERENCE_KEY.PLAN_STATUS];
+    const staffDraftStatus = planStatus.find(s => s.name === PLAN_STATUS.STAFF_DRAFT);
+    if (!staffDraftStatus || plans.length === 0) {
+      return undefined;
+    }
+    return plans.find(plan => plan.status.id !== staffDraftStatus.id);
+  }
+
   onRowClicked = () => {
-    const { agreement, history, index } = this.props;
-    const { id: agreementId, plans } = agreement || {};
-    if (agreementId && plans && plans.length !== 0) {
-      const planId = plans[0].id;
-      history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
-      this.props.onRowClicked(index, agreementId, planId);
+    const { agreement, index } = this.props;
+    const plan = this.getLatestPlan(agreement.plans);
+
+    if (plan && agreement.id) {
+      this.props.onRowClicked(index, agreement.id, plan.id);
     } else {
       alert('No range use plan found!');
     }
@@ -29,19 +37,16 @@ export class AgreementTableItem extends Component {
 
   render() {
     const {
-      plans,
       id: agreementId,
       zone,
       clients,
+      plans,
     } = this.props.agreement || {};
-
-    let plan = {};
-    if (plans && plans.length !== 0) {
-      [plan] = plans;
-    }
-    const { rangeName, status } = plan;
+    const plan = this.getLatestPlan(plans);
+    const rangeName = plan && plan.rangeName;
+    const status = plan && plan.status;
     const user = zone && zone.user;
-    const staffFullName = getUserfullName(user);
+    const staffFullName = getUserFullName(user);
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 

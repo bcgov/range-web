@@ -8,11 +8,11 @@ import _ from 'lodash';
 
 import { axios } from '../../utils';
 import Home from '../../components/Home';
-import { storeAuthData, storeUser } from '../../actions';
+import { storeAuthData, storeUser, storeReferences } from '../../actions';
 import { getAgreements } from '../../reducers/rootReducer';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { ELEMENT_ID } from '../../constants/variables';
-import { mockRequestHeader, mockAgreements, mockAgreement } from './mockData';
+import { mockRequestHeader, mockAgreements, mockAgreement, mockReference } from './mockData';
 import * as API from '../../constants/API';
 
 // mock lodash debounce in jest
@@ -31,6 +31,7 @@ beforeEach(() => {
   store = configureMockStore([thunk]);
   store.dispatch(storeAuthData(mockAuthData));
   store.dispatch(storeUser(mockUser));
+  store.dispatch(storeReferences(mockReference));
   mockAxios.reset();
 });
 /* eslint-disable function-paren-newline */
