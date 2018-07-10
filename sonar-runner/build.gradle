@@ -1,0 +1,50 @@
+// Uses DSL plugins resolution introduced in Gradle 2.1
+plugins {
+  id "java"
+  id "jacoco"
+  id "org.sonarqube" version "2.6.1"
+}
+
+sonarqube {
+    properties {
+        //property "sonar.host.url", "https://sonarqube<your project>.pathfinder.gov.bc.ca"        
+        property "sonar.projectName", "MyRA API"
+        property "sonar.projectKey", "org.sonarqube:bcgov-range-myra-api"
+        property "sonar.projectBaseDir", "../"
+        property "sonar.sources", "./"
+        property "sonar.exclusions", "__tests__/**, node_modules/**"
+        property "sourceEncoding", "UTF-8"
+    }
+}
+
+allprojects {
+  def env = System.getenv()
+  TimeZone.getTimeZone('UTC')
+  Date date= new Date()
+  String newdate=date.format("YYYYMMDD")
+  ext.baseVersion = newdate + "." + env['BUILD_NUMBER']
+  ext.snapshotVersion = false
+
+  group = "org.sonarqube"
+  version = "$baseVersion" + (snapshotVersion ? "-SNAPSHOT" : "")
+}
+
+test {
+  ignoreFailures = true
+}
+
+// dependencies {
+//     testCompile 'junit:junit:4.12'
+// }
+
+repositories {
+  repositories {
+    maven {
+      url "http://repo1.maven.org/maven2/"
+    }
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+}
+
