@@ -41,7 +41,7 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
   )
 ])
 {
-  node('range-web-node-build') {
+  node('range-web-node8-build') {
     stage('Checkout') {
       echo "Checking out source"
       checkout scm
@@ -52,6 +52,13 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
       GIT_COMMIT_AUTHOR = sh (
         script: """git show -s --pretty=%an""",
         returnStdout: true).trim()
+      GIT_BRANCH_NAME = sh (
+        script: """git branch -a -v --no-abbrev --contains ${GIT_COMMIT_SHORT_HASH} | \
+        grep 'remotes' | \
+        awk -F ' ' '{print \$1}' | \
+        awk -F '/' '{print \$3}'""",
+        returnStdout: true).trim()
+      echo "I think my branch is ${GIT_BRANCH_NAME}"
 
       SLACK_TOKEN = sh (
         script: """oc get secret/slack -o template --template="{{.data.token}}" | base64 --decode""",
@@ -104,6 +111,17 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
 
         notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
         sh "exit 1"
+      }
+    }
+
+    stage('Code Quality') {
+      SONARQUBE_URL = sh (
+          script: 'oc get routes -o wide --no-headers | awk \'/sonarqube/{ print match($0,/edge/) ?  "https://"$2 : "http://"$2 }\'',
+          returnStdout: true
+            ).trim()
+      echo "SONARQUBE_URL: ${SONARQUBE_URL}"
+      dir('sonar-runner') {
+        sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info -Dsonar.projectName=${APP_NAME} -Dsonar.branch=${GIT_BRANCH_NAME} -Dsonar.projectKey=org.sonarqube:${APP_NAME} -Dsonar.sources=../build/"
       }
     }
 
