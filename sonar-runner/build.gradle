@@ -12,7 +12,7 @@ sonarqube {
         property "sonar.projectKey", "org.sonarqube:bcgov-range-myra-web"
         property "sonar.projectBaseDir", "../"
         property "sonar.sources", "./"
-        property "sonar.exclusions", "__tests__/**, node_modules/**"
+        property "sonar.exclusions", "__tests__/**, node_modules/**, src/**"
         property "sourceEncoding", "UTF-8"
         // property "sonar.lanuage", "py"
         // property "sonar.tests", "gwells/test*.py"
