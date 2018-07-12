@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/sonar-runner/build
 
 # testing
 /coverage
