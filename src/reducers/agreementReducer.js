@@ -1,11 +1,8 @@
-import { STORE_AGREEMENTS, SET_AGREEMENT_FILTER } from '../constants/actionTypes';
+import { STORE_AGREEMENTS } from '../constants/actionTypes';
 
 const initialState = {
   agreements: {},
   agreementIds: [],
-  filterBy: {
-    status: null,
-  },
 };
 
 const storeAgreement = (state, action) => {
@@ -19,28 +16,13 @@ const storeAgreement = (state, action) => {
     agreementIds: [
       ...result,
     ],
-    filterBy: {
-      artist: null,
-    },
   };
 };
-
-const setAgreementFilter = (state, action) => (
-  {
-    ...state,
-    filterBy: {
-      ...action.payload,
-    },
-  }
-);
-
 
 const agreementReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_AGREEMENTS:
       return storeAgreement(state, action);
-    case SET_AGREEMENT_FILTER:
-      return setAgreementFilter(state, action);
     default:
       return state;
   }
