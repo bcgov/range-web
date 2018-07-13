@@ -24,5 +24,10 @@
     display: flex;
     justify-content: center;
     color: $error-color;
-  };
+  }
+
+  &__empty {
+    display: flex;
+    justify-content: center;
+  }
 }

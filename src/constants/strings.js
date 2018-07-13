@@ -65,6 +65,8 @@ export const USER_NOT_REGISTERED = 'This account has not been registered.';
 export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
 export const NO_INTERNET = 'There is no Internet connection.';
 export const TYPE_CLIENT_NAME = 'Type name of the client';
+export const NO_RESULTS_FOUND = 'No result founds.';
+export const ERROR_OCCUR = 'Error Occured!';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Update Status: Completed';

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
-import { RANGE_NUMBER, AGREEMENT_HOLDER, STAFF_CONTACT, RANGE_NAME, STATUS } from '../../constants/strings';
-import { getAgreements, getIsFetchingAgreements, getAgreementsPagination, getUser, getAgreementsErrorMessage, getReferences } from '../../reducers/rootReducer';
+import * as strings from '../../constants/strings';
+import * as selectors from '../../reducers/rootReducer';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 
 const propTypes = {
@@ -58,6 +58,34 @@ export class AgreementTable extends Component {
     );
   }
 
+  renderAgreements = (agreements, errorGettingAgreements) => {
+    if (errorGettingAgreements) {
+      return (
+        <Table.Row>
+          <Table.Cell colSpan="5">
+            <div className="agreement__error">
+              {strings.ERROR_OCCUR}
+            </div>
+          </Table.Cell>
+        </Table.Row>
+      );
+    }
+
+    if (agreements.length === 0) {
+      return (
+        <Table.Row>
+          <Table.Cell colSpan="5">
+            <div className="agreement__empty">
+              {strings.NO_RESULTS_FOUND}
+            </div>
+          </Table.Cell>
+        </Table.Row>
+      );
+    }
+
+    return agreements.map(this.renderAgreementTableItem);
+  }
+
   render() {
     const {
       agreements,
@@ -65,33 +93,25 @@ export class AgreementTable extends Component {
       agreementPagination,
       errorGettingAgreements,
     } = this.props;
-    const { currentPage, totalPages } = agreementPagination;
+    const { currentPage, totalPages } = agreementPagination || {};
 
     return (
       <Loading loading={isFetchingAgreements}>
         <Table selectable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>{RANGE_NUMBER}</Table.HeaderCell>
-              <Table.HeaderCell>{RANGE_NAME}</Table.HeaderCell>
-              <Table.HeaderCell>{AGREEMENT_HOLDER}</Table.HeaderCell>
-              <Table.HeaderCell>{STAFF_CONTACT}</Table.HeaderCell>
-              <Table.HeaderCell>{STATUS}</Table.HeaderCell>
+              <Table.HeaderCell>{strings.RANGE_NUMBER}</Table.HeaderCell>
+              <Table.HeaderCell>{strings.RANGE_NAME}</Table.HeaderCell>
+              <Table.HeaderCell>{strings.AGREEMENT_HOLDER}</Table.HeaderCell>
+              <Table.HeaderCell>{strings.STAFF_CONTACT}</Table.HeaderCell>
+              <Table.HeaderCell>{strings.STATUS}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            { errorGettingAgreements &&
-              <Table.Row>
-                <Table.Cell colSpan="5">
-                  <div className="agreement__error">
-                    Error Occured!
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            }
-            {agreements && agreements.map(this.renderAgreementTableItem)}
+            {this.renderAgreements(agreements, errorGettingAgreements)}
           </Table.Body>
         </Table>
+
         <div className="agreement__pagination">
           <Pagination
             size="mini"
@@ -110,16 +130,18 @@ export class AgreementTable extends Component {
     );
   }
 }
+
 const mapStateToProps = state => (
   {
-    agreements: getAgreements(state),
-    isFetchingAgreements: getIsFetchingAgreements(state),
-    agreementPagination: getAgreementsPagination(state),
-    errorGettingAgreements: getAgreementsErrorMessage(state),
-    user: getUser(state),
-    references: getReferences(state),
+    agreements: selectors.getAgreements(state),
+    isFetchingAgreements: selectors.getIsFetchingAgreements(state),
+    agreementPagination: selectors.getAgreementsPagination(state),
+    errorGettingAgreements: selectors.getAgreementsErrorMessage(state),
+    user: selectors.getUser(state),
+    references: selectors.getReferences(state),
   }
 );
+
 AgreementTable.propTypes = propTypes;
 AgreementTable.defaultProps = defaultProps;
 export default connect(mapStateToProps, null)(AgreementTable);
