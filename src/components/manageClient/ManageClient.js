@@ -4,11 +4,8 @@ import { Dropdown, Button, Icon } from 'semantic-ui-react';
 import { debounce } from 'lodash';
 import { Banner, ConfirmationModal } from '../common';
 import {
-  MANAGE_CLIENT_BANNER_CONTENT,
-  MANAGE_CLIENT_BANNER_HEADER,
-  UPDATE_CLIENT_ID_FOR_AH_HEADER,
-  UPDATE_CLIENT_ID_FOR_AH_CONTENT,
-  TYPE_CLIENT_NAME,
+  MANAGE_CLIENT_BANNER_CONTENT, MANAGE_CLIENT_BANNER_HEADER,
+  UPDATE_CLIENT_ID_FOR_AH_HEADER, UPDATE_CLIENT_ID_FOR_AH_CONTENT, TYPE_CLIENT_NAME,
 } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
@@ -106,6 +103,12 @@ class ManageClient extends Component {
     });
 
     const isUpdateBtnEnabled = userId && clientNumber;
+    let noResultsMessage = 'No results found.';
+    if (isFetchingClients) {
+      noResultsMessage = 'Fetching clients...';
+    } else if (!searchQuery) {
+      noResultsMessage = TYPE_CLIENT_NAME;
+    }
 
     return (
       <section className="manage-client">
@@ -149,7 +152,7 @@ class ManageClient extends Component {
               onChange={this.onClientChanged}
               onSearchChange={this.searchClientsWithDebounce}
               icon={<Icon name="search" size="small" />}
-              noResultsMessage={searchQuery ? 'No results found.' : TYPE_CLIENT_NAME}
+              noResultsMessage={noResultsMessage}
               selectOnBlur={false}
             />
 
