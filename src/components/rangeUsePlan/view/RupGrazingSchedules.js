@@ -10,10 +10,8 @@ const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  // grazingScheduleEntriesMap: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 class RupGrazingSchedules extends Component {
@@ -26,7 +24,7 @@ class RupGrazingSchedules extends Component {
     this.setState({ activeScheduleIndex: newIndex });
   }
 
-  renderSchedules = (grazingSchedules) => {
+  renderSchedules = (grazingSchedules = []) => {
     const { plan } = this.props;
     const status = plan && plan.status;
 
@@ -43,13 +41,14 @@ class RupGrazingSchedules extends Component {
         </div>
       );
     }
+    if (grazingSchedules.length === 0) {
+      return <div className="rup__section-not-found">{strings.NOT_PROVIDED}</div>;
+    }
 
     return (
-      grazingSchedules.length === 0 ? (
-        <div className="rup__section-not-found">{strings.NOT_PROVIDED}</div>
-      ) : (
-        grazingSchedules.map(this.renderSchedule)
-      )
+      <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
+        {grazingSchedules.map(this.renderSchedule)}
+      </ul>
     );
   }
 
@@ -58,7 +57,6 @@ class RupGrazingSchedules extends Component {
       usages,
       references,
       pasturesMap,
-      // grazingScheduleEntriesMap,
     } = this.props;
     const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
     const { id, year } = schedule;
@@ -160,9 +158,7 @@ class RupGrazingSchedules extends Component {
       <div className="rup__schedules__container">
         <div className="rup__title">Schedules</div>
         <div className="rup__divider" />
-        <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
-          {this.renderSchedules(grazingSchedules)}
-        </ul>
+        {this.renderSchedules(grazingSchedules)}
       </div>
     );
   }
