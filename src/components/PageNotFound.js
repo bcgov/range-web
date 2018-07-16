@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { HOME } from '../constants/routes';
 import { IMAGE_SRC } from '../constants/variables';
 
 const propTypes = {
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+
 };
 
+/* eslint-disable jsx-a11y/anchor-is-valid */
 class PageNotFound extends Component {
+  state = {
+    redirectToHome: false,
+  }
+
   componentDidMount() {
     this.timer = setTimeout(() => {
-      this.props.history.push(HOME);
+      this.setState({ redirectToHome: true });
     }, 10000);
   }
 
@@ -20,6 +24,9 @@ class PageNotFound extends Component {
   }
 
   render() {
+    if (this.state.redirectToHome) {
+      return <Redirect to={{ pathname: HOME }} />;
+    }
     return (
       <section className="page-not-found">
         <div className="page-not-found__container">
