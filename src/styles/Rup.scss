@@ -7,15 +7,12 @@ $row-height: 80px;
   &__cell-6 {
     @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
   }
-
   &__cell-4 {
     @extend .col-md-4, .col-lg-4, .col-sm-4, .col-xs-12;
   }
-
   &__row {
     @extend .row;
   }
-
   &__title {
     font-size: 1.8rem;
     font-weight: bold;
@@ -32,7 +29,6 @@ $row-height: 80px;
       align-items: center;
     }
   }
-
   &__pdf-link {
     display: none
   }
@@ -40,6 +36,7 @@ $row-height: 80px;
     background: $primary-color;
     color: white;
     z-index: $rup-sticky-z-index;
+    min-width: $mobile-width;
 
     &__container {
       @extend .container;
@@ -64,13 +61,15 @@ $row-height: 80px;
       width: 100%;
     }
     &--fixed &__title {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       margin-right: 15px;
       padding-right: 15px;
       border-right: 1px solid $accent-color;
     }
     &--fixed &__primary-agreement-holder {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       margin-right: 15px;
       padding-right: 15px;
       border-right: 1px solid $accent-color;
@@ -92,34 +91,25 @@ $row-height: 80px;
       display: none;  
     }
   }
-
-  &__status-dropdown {
-    margin-left: 15px !important;
-  }
-
   &__divider {
     border-top: 3px solid $accent-color;
     margin-top: 15px;
   }
-  
   &__sub-divider {
     border-top: 1px solid $accent-color;
     margin-top: 5px;
   }
-
   &__section-not-found {
     border-radius: 5px;
     margin: 2px 0 5px 0;
     padding: 8px 0;
     font-size: 1.1rem;
   }
-
   &__info-title {
     font-weight: bold;
     font-size: 1.4rem;
     margin: 10px 0;
   }
-
   &__plan-info,
   &__agreement-info,
   &__contact-info, {
@@ -313,12 +303,10 @@ $row-height: 80px;
     &__download-btn {
       align-self: flex-end;
     }
-    
     &__load {
       margin-top: 1em;
       color: white;
     }
-
     &__document {
       .ReactPDF {
         &__Page {
@@ -330,7 +318,6 @@ $row-height: 80px;
             height: auto !important;
           }
         }
-
         &__message {
           padding: 20px;
           color: black;

@@ -26,10 +26,6 @@ const propTypes = {
   updatePlanStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
-  // isDownloadingPDF: PropTypes.bool.isRequired,
-  // getRupPDF: PropTypes.func.isRequired,
-  // toastErrorMessage: PropTypes.func.isRequired,
-  // toastSuccessMessage: PropTypes.func.isRequired,
 };
 
 class RupAdmin extends Component {
@@ -208,10 +204,10 @@ class RupAdmin extends Component {
                 user={user}
               />
             </div>
-            <div className="rup__sticky__btns">
+            <div>
               <Button
                 onClick={this.onViewPDFClicked}
-                className="rup__btn"
+                style={{ marginRight: '10px' }}
               >
                 View PDF
               </Button>

@@ -21,7 +21,7 @@ export class Agreement extends Component {
 
   handlePaginationChange = (page) => {
     const params = { page };
-    this.reRouteWithParams(params);
+    this.redirectWithParams(params);
   }
 
   handleSearchInput = (term) => {
@@ -29,10 +29,10 @@ export class Agreement extends Component {
       page: 1, // show new results from page 1
       term,
     };
-    this.reRouteWithParams(params);
+    this.redirectWithParams(params);
   }
 
-  reRouteWithParams = (additionalParams) => {
+  redirectWithParams = (additionalParams) => {
     const { history, location } = this.props;
     const parsedParams = parseQuery(location.search);
     const params = {

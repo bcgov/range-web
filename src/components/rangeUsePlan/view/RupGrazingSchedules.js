@@ -83,7 +83,7 @@ class RupGrazingSchedules extends Component {
           </button>
         </div>
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
-          <Table>
+          <Table unstackable>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>

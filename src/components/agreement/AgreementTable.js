@@ -97,7 +97,7 @@ export class AgreementTable extends Component {
 
     return (
       <Loading loading={isFetchingAgreements}>
-        <Table selectable>
+        <Table selectable unstackable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>{strings.RANGE_NUMBER}</Table.HeaderCell>
