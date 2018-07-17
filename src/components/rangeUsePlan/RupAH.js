@@ -19,8 +19,9 @@ const propTypes = {
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updatePlanStatus: PropTypes.func.isRequired,
+  fetchPlan: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
+  updatePlanStatus: PropTypes.func.isRequired,
   createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
@@ -59,26 +60,28 @@ export class RupAH extends Component {
 
   onSaveDraftClick = () => {
     const {
-      plan,
+      // plan,
       references,
-      updatePlan,
-      updateGrazingSchedule,
+      // updatePlan,
+      // updateGrazingSchedule,
       toastSuccessMessage,
+      fetchPlan,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.name === PLAN_STATUS.DRAFT);
     const onRequested = () => {
       this.setState({ isSavingAsDraft: true });
     };
-    const onSuccess = (newSchedules) => {
+    const onSuccess = () => {
+      fetchPlan();
       // generate a list of schedule ids
-      const grazingSchedules = newSchedules.map((grazingSchedule) => {
-        updateGrazingSchedule({ grazingSchedule });
-        return grazingSchedule.id;
-      });
+      // const grazingSchedules = newSchedules.map((grazingSchedule) => {
+      //   updateGrazingSchedule({ grazingSchedule });
+      //   return grazingSchedule.id;
+      // });
       // update schedules in Redux store
-      const newPlan = { ...plan, status, grazingSchedules };
-      updatePlan({ plan: newPlan });
+      // const newPlan = { ...plan, status, grazingSchedules };
+      // updatePlan({ plan: newPlan });
       this.setState({ isSavingAsDraft: false });
       toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
     };

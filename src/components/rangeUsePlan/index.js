@@ -7,7 +7,7 @@ import RupAH from './RupAH';
 import { Loading } from '../common';
 import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
-import { isUserAgreementHolder, isUserAdmin } from '../../utils';
+import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 
 const propTypes = {
@@ -40,6 +40,10 @@ class Base extends Component {
   }
 
   componentDidMount() {
+    this.fetchPlan();
+  }
+
+  fetchPlan = () => {
     const { fetchPlan, match } = this.props;
     const { planId } = match.params;
     fetchPlan(planId).then((data) => {
@@ -77,7 +81,7 @@ class Base extends Component {
         { isFetchingPlan &&
           <Loading />
         }
-        { agreement && plan && isUserAdmin(user) &&
+        { agreement && plan && (isUserAdmin(user) || isUserRangeOfficer(user)) &&
           <RupAdmin
             agreement={agreement}
             references={references}
@@ -100,8 +104,9 @@ class Base extends Component {
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
             ministerIssuesMap={ministerIssuesMap}
-            updatePlanStatus={updatePlanStatus}
+            fetchPlan={this.fetchPlan}
             updatePlan={updatePlan}
+            updatePlanStatus={updatePlanStatus}
             updateGrazingSchedule={updateGrazingSchedule}
             createOrUpdateRupGrazingSchedule={createOrUpdateRupGrazingSchedule}
             toastSuccessMessage={toastSuccessMessage}

@@ -37,6 +37,8 @@ $row-height: 80px;
     color: white;
     z-index: $rup-sticky-z-index;
     min-width: $mobile-width;
+    min-height: 55px;
+    display: flex;
 
     &__container {
       @extend .container;
@@ -213,6 +215,7 @@ $row-height: 80px;
       align-items: center;
       background: #CCCCCC;
       border-radius: 3px;
+      margin-top: 10px;
     }
     &__in-draft {
       display: flex;
