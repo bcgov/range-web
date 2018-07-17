@@ -8,7 +8,7 @@ import {
 } from '../../constants/strings';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
-import { getAgreementHolders, isStatusCreated, isStatusPending } from '../../utils';
+import { getAgreementHolders, isStatusCreated, isStatusPending, isStatusDraft } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
@@ -34,7 +34,7 @@ class RupAdmin extends Component {
     const zone = props.agreement && props.agreement.zone;
     this.state = {
       isCompletedModalOpen: false,
-      isPendingModalOpen: false,
+      isChangeRequestModalOpen: false,
       isUpdateZoneModalOpen: false,
       zone,
     };
@@ -76,16 +76,16 @@ class RupAdmin extends Component {
   closeModal = property => this.setState({ [property]: false })
   openCompletedConfirmModal = () => this.openModal('isCompletedModalOpen')
   closeCompletedConfirmModal = () => this.closeModal('isCompletedModalOpen')
-  openPendingConfirmModal = () => this.openModal('isPendingModalOpen')
-  closePendingConfirmModal = () => this.closeModal('isPendingModalOpen')
+  openChangeRequestConfirmModal = () => this.openModal('isChangeRequestModalOpen')
+  closeChangeRequestConfirmModal = () => this.closeModal('isChangeRequestModalOpen')
   openUpdateZoneModal = () => this.openModal('isUpdateZoneModalOpen')
   closeUpdateZoneModal = () => this.closeModal('isUpdateZoneModalOpen')
 
   handleCompletedClicked = () => {
     this.updateStatus(PLAN_STATUS.COMPLETED, this.closeCompletedConfirmModal);
   }
-  handlePendingClicked = () => {
-    this.updateStatus(PLAN_STATUS.PENDING, this.closePendingConfirmModal);
+  handleChangeRequestClicked = () => {
+    this.updateStatus(PLAN_STATUS.CHANGE_REQUESTED, this.closeChangeRequestConfirmModal);
   }
   updateStatus = (statusName, closeConfirmModal) => {
     const {
@@ -126,7 +126,7 @@ class RupAdmin extends Component {
     } = this.props;
     const {
       isCompletedModalOpen,
-      isPendingModalOpen,
+      isChangeRequestModalOpen,
       isUpdateZoneModalOpen,
       zone,
     } = this.state;
@@ -146,7 +146,7 @@ class RupAdmin extends Component {
         key: PLAN_STATUS.CHANGE_REQUESTED,
         text: PLAN_STATUS.CHANGE_REQUESTED,
         value: 2,
-        onClick: this.openPendingConfirmModal,
+        onClick: this.openChangeRequestConfirmModal,
       },
     ];
 
@@ -171,11 +171,11 @@ class RupAdmin extends Component {
         />
 
         <ConfirmationModal
-          open={isPendingModalOpen}
+          open={isChangeRequestModalOpen}
           header="Confirmation: Request Change"
           content="Are you sure you want to request changes to the agreement holder?"
-          onNoClicked={this.closePendingConfirmModal}
-          onYesClicked={this.handlePendingClicked}
+          onNoClicked={this.closeChangeRequestConfirmModal}
+          onYesClicked={this.handleChangeRequestClicked}
           loading={isUpdatingStatus}
         />
 
@@ -205,12 +205,14 @@ class RupAdmin extends Component {
               />
             </div>
             <div>
-              <Button
-                onClick={this.onViewPDFClicked}
-                style={{ marginRight: '10px' }}
-              >
-                View PDF
-              </Button>
+              {!isStatusDraft(status) &&
+                <Button
+                  onClick={this.onViewPDFClicked}
+                  style={{ marginRight: '10px' }}
+                >
+                  View PDF
+                </Button>
+              }
               {(isStatusPending(status) || isStatusCreated(status)) &&
                 <Dropdown
                   className="rup__status-dropdown"
