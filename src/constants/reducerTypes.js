@@ -9,6 +9,7 @@ export const SEARCH_AGREEMENTS = 'SEARCH_AGREEMENTS';
 export const UPDATE_USER_ID_OF_ZONE = 'UPDATE_USER_ID_OF_ZONE';
 export const SEARCH_CLIENTS = 'SEARCH_CLIENTS';
 export const UPDATE_CLIENT_ID_OF_USER = 'UPDATE_CLIENT_ID_OF_USER';
+export const GET_USER = 'GET_USER';
 
 export const GET_PLAN = 'GET_PLAN';
 export const GET_PLAN_PDF = 'GET_PLAN_PDF';

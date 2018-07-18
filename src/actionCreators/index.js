@@ -104,14 +104,17 @@ export const signOut = () => (dispatch) => {
 };
 
 export const fetchUser = () => (dispatch, getState) => {
+  dispatch(actions.request(reducerTypes.GET_USER));
   return axios.get(API.GET_USER_PROFILE, createRequestHeader(getState)).then(
     (response) => {
       const user = response.data;
+      dispatch(actions.success(reducerTypes.GET_USER, user));
       dispatch(actions.storeUser(user));
       saveUserProfileInLocal(user);
       return user;
     },
     (err) => {
+      dispatch(actions.error(reducerTypes.GET_USER));
       return err;
     },
   );
