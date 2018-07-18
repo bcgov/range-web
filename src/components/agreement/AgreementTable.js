@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, Form as Loading, Pagination, Icon } from 'semantic-ui-react';
+import { Table, Form, Pagination, Icon } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
@@ -96,7 +96,7 @@ export class AgreementTable extends Component {
     const { currentPage, totalPages } = agreementPagination || {};
 
     return (
-      <Loading loading={isFetchingAgreements}>
+      <Form loading={isFetchingAgreements}>
         <Table selectable unstackable>
           <Table.Header>
             <Table.Row>
@@ -126,7 +126,7 @@ export class AgreementTable extends Component {
             nextItem={{ content: <Icon name="angle right" />, icon: true }}
           />
         </div>
-      </Loading>
+      </Form>
     );
   }
 }
