@@ -32,14 +32,14 @@ export class Agreement extends Component {
     this.redirectWithParams(params);
   }
 
-  redirectWithParams = (additionalParams) => {
+  redirectWithParams = (params) => {
     const { history, location } = this.props;
     const parsedParams = parseQuery(location.search);
-    const params = {
+    const merged = {
       ...parsedParams,
-      ...additionalParams,
+      ...params,
     };
-    history.push(`${location.pathname}?${stringifyQuery(params)}`);
+    history.push(`${location.pathname}?${stringifyQuery(merged)}`);
   }
 
   render() {

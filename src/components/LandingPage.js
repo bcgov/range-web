@@ -48,12 +48,12 @@ export class LandingPage extends Component {
       return <Loading message={LOADING_USER} />;
     }
 
-    if (!isUserActive(user)) {
-      return <section className="user-error">{USER_NOT_ACTIVE}</section>;
-    }
-
     if (!userHaveRole(user)) {
       return <section className="user-error">{USER_NO_ROLE}</section>;
+    }
+
+    if (!isUserActive(user)) {
+      return <section className="user-error">{USER_NOT_ACTIVE}</section>;
     }
 
     return <Component {...rest} />;
