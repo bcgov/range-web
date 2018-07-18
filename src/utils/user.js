@@ -7,27 +7,28 @@ export const getUserFullName = user => (
 export const isUserActive = user => user && user.active;
 
 export const isUserAdmin = user => (
-  user.roles && (user.roles.indexOf(USER_ROLE.ADMINISTRATOR) >= 0)
+  user && user.roles && (user.roles.indexOf(USER_ROLE.ADMINISTRATOR) >= 0)
 );
 
 export const isUserRangeOfficer = user => (
-  user.roles && (user.roles.indexOf(USER_ROLE.RANGE_OFFICER) >= 0)
+  user && user.roles && (user.roles.indexOf(USER_ROLE.RANGE_OFFICER) >= 0)
 );
 
 export const isUserAgreementHolder = user => (
-  user.roles && (user.roles.indexOf(USER_ROLE.AGREEMENT_HOLDER) >= 0)
+  user && user.roles && (user.roles.indexOf(USER_ROLE.AGREEMENT_HOLDER) >= 0)
 );
 
 export const userHaveRole = user => (
-  isUserAdmin(user) || isUserRangeOfficer(user) || isUserAgreementHolder(user)
+  (isUserAdmin(user) || isUserRangeOfficer(user) || isUserAgreementHolder(user))
 );
 
 export const getUserInitial = (user) => {
-  let initial = 'NP';
-  const { familyName, givenName } = user || {};
+  const familyName = user && user.familyName;
+  const givenName = user && user.givenName;
+
   if (familyName && givenName && typeof familyName === 'string' && typeof givenName === 'string') {
-    initial = givenName.charAt(0) + familyName.charAt(0);
+    return givenName.charAt(0) + familyName.charAt(0);
   }
 
-  return initial;
+  return 'NP';
 };

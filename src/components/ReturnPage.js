@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { parseQuery, getTokenFromSSO, saveAuthDataInLocal } from '../utils';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/API';
+import { REDIRECTING } from '../constants/strings';
 
 const propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }),
@@ -32,7 +33,7 @@ class ReturnPage extends Component {
 
   render() {
     return (
-      <section>Redirecting...</section>
+      <section>{REDIRECTING}</section>
     );
   }
 }
