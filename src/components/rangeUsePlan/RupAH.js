@@ -68,7 +68,7 @@ export class RupAH extends Component {
       fetchPlan,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
-    const status = planStatus.find(s => s.name === PLAN_STATUS.DRAFT);
+    const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
     const onRequested = () => {
       this.setState({ isSavingAsDraft: true });
     };
@@ -101,7 +101,7 @@ export class RupAH extends Component {
       toastSuccessMessage,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
-    const status = planStatus.find(s => s.name === PLAN_STATUS.PENDING);
+    const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
 
     const onRequested = () => {
       this.setState({ isSubmitting: true });

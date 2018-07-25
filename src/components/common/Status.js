@@ -31,7 +31,7 @@ const Status = ({
   let modifier = 'status__icon';
   let statusName = NO_RUP_PROVIDED;
 
-  switch (status.name) {
+  switch (status.code) {
     case PLAN_STATUS.CREATED:
       if (isUserAgreementHolder(user)) {
         statusName = INPUT_REQUIRED;
