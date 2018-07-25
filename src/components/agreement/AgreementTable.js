@@ -58,7 +58,7 @@ export class AgreementTable extends Component {
     );
   }
 
-  renderAgreements = (agreements, errorGettingAgreements) => {
+  renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
     if (errorGettingAgreements) {
       return (
         <Table.Row>
@@ -71,7 +71,7 @@ export class AgreementTable extends Component {
       );
     }
 
-    if (agreements.length === 0) {
+    if (!isFetchingAgreements && agreements.length === 0) {
       return (
         <Table.Row>
           <Table.Cell colSpan="5">
@@ -108,7 +108,7 @@ export class AgreementTable extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {this.renderAgreements(agreements, errorGettingAgreements)}
+            {this.renderAgreements(agreements, errorGettingAgreements, isFetchingAgreements)}
           </Table.Body>
         </Table>
 

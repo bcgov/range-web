@@ -22,7 +22,7 @@ import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
-import { getIsFetchingAgreements, getUser } from '../reducers/rootReducer';
+import { getIsFetchingAgreements } from '../reducers/rootReducer';
 import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
@@ -104,10 +104,6 @@ export const signOut = () => (dispatch) => {
 };
 
 export const fetchUser = () => (dispatch, getState) => {
-  const user = getUser(getState());
-  if (user) {
-    return user;
-  }
   dispatch(actions.request(reducerTypes.GET_USER));
   return axios.get(API.GET_USER_PROFILE, createRequestHeader(getState)).then(
     (response) => {
@@ -119,6 +115,7 @@ export const fetchUser = () => (dispatch, getState) => {
     },
     (err) => {
       dispatch(actions.error(reducerTypes.GET_USER));
+      dispatch(toastErrorMessage(err));
       return err;
     },
   );
