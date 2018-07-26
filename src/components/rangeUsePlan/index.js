@@ -35,28 +35,18 @@ const defaultProps = {
 };
 
 class Base extends Component {
-  state = {
-    agreement: null,
-  }
-
   componentDidMount() {
     this.fetchPlan();
   }
 
   fetchPlan = () => {
     const { fetchPlan, match } = this.props;
-    const { planId } = match.params;
-    fetchPlan(planId).then((data) => {
-      const { plan, ...agreement } = data;
-      this.setState({
-        agreement,
-        planId,
-      });
-    });
+    fetchPlan(match.params.planId);
   }
 
   render() {
     const {
+      match,
       references,
       user,
       isFetchingPlan,
@@ -73,14 +63,20 @@ class Base extends Component {
       toastErrorMessage,
       isUpdatingStatus,
     } = this.props;
-    const { agreement, planId } = this.state;
-    const plan = plansMap[planId];
+
+    const plan = plansMap[match.params.planId];
+    const agreement = plan && plan.agreement;
+
+    if (isFetchingPlan) {
+      return <Loading />;
+    }
+
+    if (errorFetchingPlan) {
+      return <Redirect to="/no-range-use-plan-found" />;
+    }
 
     return (
       <section>
-        { isFetchingPlan &&
-          <Loading />
-        }
         { agreement && plan && isUserAdmin(user) &&
           <RupStaff
             agreement={agreement}
@@ -95,6 +91,7 @@ class Base extends Component {
             isUpdatingStatus={isUpdatingStatus}
           />
         }
+
         { agreement && plan && isUserRangeOfficer(user) &&
           <RupStaff
             agreement={agreement}
@@ -109,6 +106,7 @@ class Base extends Component {
             isUpdatingStatus={isUpdatingStatus}
           />
         }
+
         { agreement && plan && isUserAgreementHolder(user) &&
           <RupAH
             agreement={agreement}
@@ -126,9 +124,6 @@ class Base extends Component {
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
           />
-        }
-        { errorFetchingPlan &&
-          <Redirect to="/no-range-use-plan-found" />
         }
       </section>
     );
