@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import RupAdmin from './RupAdmin';
+import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
 import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
@@ -35,28 +35,18 @@ const defaultProps = {
 };
 
 class Base extends Component {
-  state = {
-    agreement: null,
-  }
-
   componentDidMount() {
     this.fetchPlan();
   }
 
   fetchPlan = () => {
     const { fetchPlan, match } = this.props;
-    const { planId } = match.params;
-    fetchPlan(planId).then((data) => {
-      const { plan, ...agreement } = data;
-      this.setState({
-        agreement,
-        planId,
-      });
-    });
+    fetchPlan(match.params.planId);
   }
 
   render() {
     const {
+      match,
       references,
       user,
       isFetchingPlan,
@@ -73,16 +63,22 @@ class Base extends Component {
       toastErrorMessage,
       isUpdatingStatus,
     } = this.props;
-    const { agreement, planId } = this.state;
-    const plan = plansMap[planId];
+
+    const plan = plansMap[match.params.planId];
+    const agreement = plan && plan.agreement;
+
+    if (isFetchingPlan) {
+      return <Loading />;
+    }
+
+    if (errorFetchingPlan) {
+      return <Redirect to="/no-range-use-plan-found" />;
+    }
 
     return (
       <section>
-        { isFetchingPlan &&
-          <Loading />
-        }
-        { agreement && plan && (isUserAdmin(user) || isUserRangeOfficer(user)) &&
-          <RupAdmin
+        { agreement && plan && isUserAdmin(user) &&
+          <RupStaff
             agreement={agreement}
             references={references}
             user={user}
@@ -95,6 +91,22 @@ class Base extends Component {
             isUpdatingStatus={isUpdatingStatus}
           />
         }
+
+        { agreement && plan && isUserRangeOfficer(user) &&
+          <RupStaff
+            agreement={agreement}
+            references={references}
+            user={user}
+            plan={plan}
+            pasturesMap={pasturesMap}
+            grazingSchedulesMap={grazingSchedulesMap}
+            ministerIssuesMap={ministerIssuesMap}
+            updatePlanStatus={updatePlanStatus}
+            updatePlan={updatePlan}
+            isUpdatingStatus={isUpdatingStatus}
+          />
+        }
+
         { agreement && plan && isUserAgreementHolder(user) &&
           <RupAH
             agreement={agreement}
@@ -112,9 +124,6 @@ class Base extends Component {
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
           />
-        }
-        { errorFetchingPlan &&
-          <Redirect to="/no-range-use-plan-found" />
         }
       </section>
     );

@@ -28,7 +28,7 @@ const propTypes = {
   isUpdatingStatus: PropTypes.bool.isRequired,
 };
 
-class RupAdmin extends Component {
+class RupStaff extends Component {
   constructor(props) {
     super(props);
     const zone = props.agreement && props.agreement.zone;
@@ -138,13 +138,13 @@ class RupAdmin extends Component {
     const statusDropdownOptions = [
       {
         key: PLAN_STATUS.COMPLETED,
-        text: PLAN_STATUS.COMPLETED,
+        text: 'Completed',
         value: 1,
         onClick: this.openCompletedConfirmModal,
       },
       {
         key: PLAN_STATUS.CHANGE_REQUESTED,
-        text: PLAN_STATUS.CHANGE_REQUESTED,
+        text: 'Request Change',
         value: 2,
         onClick: this.openChangeRequestConfirmModal,
       },
@@ -264,5 +264,5 @@ class RupAdmin extends Component {
   }
 }
 
-RupAdmin.propTypes = propTypes;
-export default RupAdmin;
+RupStaff.propTypes = propTypes;
+export default RupStaff;

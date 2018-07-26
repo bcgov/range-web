@@ -5,12 +5,18 @@ export const LOCAL_STORAGE_KEY = {
 };
 export const TOAST_TIMEOUT = 9000;
 export const PLAN_STATUS = {
-  PENDING: 'Pending',
-  COMPLETED: 'Completed',
-  DRAFT: 'Draft',
-  CREATED: 'Created',
-  CHANGE_REQUESTED: 'Change Requested',
-  STAFF_DRAFT: 'Staff Draft',
+  PENDING: 'P',
+  COMPLETED: 'O',
+  DRAFT: 'D',
+  CREATED: 'C',
+  CHANGE_REQUESTED: 'R',
+  STAFF_DRAFT: 'SD',
+  WRONGLY_MADE_WITHOUT_EFFECT: 'WM',
+  STANDS_WRONGLY_MADE: 'SW',
+  STANDS: 'S',
+  NOT_APPROVED_FURTHER_WORK_REQUIRED: 'NF',
+  NOT_APPROVED: 'NA',
+  APPROVED: 'A',
 };
 
 export const REFERENCE_KEY = {

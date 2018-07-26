@@ -17,7 +17,7 @@ const propTypes = {
 export class AgreementTableItem extends Component {
   getLatestPlan = (plans = []) => {
     const planStatus = this.props.references[REFERENCE_KEY.PLAN_STATUS];
-    const staffDraftStatus = planStatus.find(s => s.name === PLAN_STATUS.STAFF_DRAFT);
+    const staffDraftStatus = planStatus.find(s => s.code === PLAN_STATUS.STAFF_DRAFT);
     if (!staffDraftStatus || plans.length === 0) {
       return undefined;
     }
