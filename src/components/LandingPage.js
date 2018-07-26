@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import Toast from './Toast';
 import { Loading } from './common';
 import { userHaveRole, isUserActive, registerAxiosInterceptors } from '../utils';
-import { fetchReferences, fetchZones, signOut } from '../actionCreators';
+import { fetchReferences, fetchZones, signOut, fetchUser } from '../actionCreators';
 import { getUser, getIsFetchingUser } from '../reducers/rootReducer';
 import { USER_NOT_ACTIVE, USER_NO_ROLE, LOADING_USER } from '../constants/strings';
 
@@ -17,6 +17,7 @@ const propTypes = {
   isFetchingUser: PropTypes.bool.isRequired,
   fetchZones: PropTypes.func.isRequired,
   fetchReferences: PropTypes.func.isRequired,
+  fetchUser: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -29,9 +30,10 @@ export class LandingPage extends Component {
   }
 
   componentDidMount() {
-    const { fetchReferences, fetchZones } = this.props;
+    const { fetchReferences, fetchZones, fetchUser } = this.props;
     fetchReferences();
     fetchZones();
+    fetchUser();
   }
 
   renderComponent() {
@@ -43,7 +45,7 @@ export class LandingPage extends Component {
     } = this.props;
 
     if (isFetchingUser) {
-      return <Loading message={LOADING_USER} />;
+      return <Loading />;
     }
 
     if (!userHaveRole(user)) {
@@ -96,4 +98,5 @@ export default connect(mapStateToProps, {
   signOut,
   fetchReferences,
   fetchZones,
+  fetchUser,
 })(LandingPage);
