@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import RupAdmin from './RupAdmin';
+import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
 import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
@@ -81,8 +81,22 @@ class Base extends Component {
         { isFetchingPlan &&
           <Loading />
         }
-        { agreement && plan && (isUserAdmin(user) || isUserRangeOfficer(user)) &&
-          <RupAdmin
+        { agreement && plan && isUserAdmin(user) &&
+          <RupStaff
+            agreement={agreement}
+            references={references}
+            user={user}
+            plan={plan}
+            pasturesMap={pasturesMap}
+            grazingSchedulesMap={grazingSchedulesMap}
+            ministerIssuesMap={ministerIssuesMap}
+            updatePlanStatus={updatePlanStatus}
+            updatePlan={updatePlan}
+            isUpdatingStatus={isUpdatingStatus}
+          />
+        }
+        { agreement && plan && isUserRangeOfficer(user) &&
+          <RupStaff
             agreement={agreement}
             references={references}
             user={user}

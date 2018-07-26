@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
-import { formatDateFromServer, presentNullValue, getAgreementHolders, isUserAdmin } from '../../../utils';
+import { formatDateFromServer, getAgreementHolders, isUserAdmin } from '../../../utils';
 import * as strings from '../../../constants/strings';
 
 const propTypes = {
@@ -68,14 +67,6 @@ class RupBasicInformation extends Component {
     const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(clients);
     const { name: primaryAgreementHolderName } = primaryAgreementHolder;
     const isAdmin = isUserAdmin(user);
-    const zoneText = isAdmin
-      ? (
-        <div className="rup__zone-text">
-          {presentNullValue(zoneCode)}
-          <Icon className="rup__zone-text__icon" name="pencil" />
-        </div>
-      )
-      : presentNullValue(zoneCode);
 
     return (
       <div className={className}>
@@ -114,7 +105,7 @@ class RupBasicInformation extends Component {
             />
             <TextField
               label={strings.ZONE}
-              text={zoneText}
+              text={zoneCode}
               isEditable={isAdmin}
               onClick={onZoneClicked}
             />

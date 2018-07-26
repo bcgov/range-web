@@ -8,7 +8,7 @@ import { Loading } from './common';
 import { userHaveRole, isUserActive, registerAxiosInterceptors } from '../utils';
 import { fetchReferences, fetchZones, signOut, fetchUser } from '../actionCreators';
 import { getUser, getIsFetchingUser } from '../reducers/rootReducer';
-import { USER_NOT_ACTIVE, USER_NO_ROLE, LOADING_USER } from '../constants/strings';
+import { USER_NOT_ACTIVE, USER_NO_ROLE } from '../constants/strings';
 
 const propTypes = {
   component: PropTypes.func.isRequired,
