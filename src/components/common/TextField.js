@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
 import classnames from 'classnames';
 import { presentNullValue } from '../../utils';
 
@@ -24,8 +25,8 @@ const TextField = ({
   className,
   label,
   text: rawText,
-  isLabelHidden = false,
-  isEditable = false,
+  isLabelHidden,
+  isEditable,
   onClick,
 }) => {
   const text = presentNullValue(rawText);
@@ -35,15 +36,18 @@ const TextField = ({
       <div className={classnames('text-field__label', { 'text-field__label--hidden': isLabelHidden })}>
         {label}
       </div>
-      <div
-        role="button"
-        aria-pressed
-        tabIndex={isEditable ? '0' : null}
-        onClick={onClick}
-        className={classnames('text-field__text', { 'text-field__text--editable': isEditable })}
-      >
-        {text}
-      </div>
+
+      { isEditable &&
+        <button className="text-field__button" onClick={onClick}>
+          {text} <Icon name="pencil" />
+        </button>
+      }
+
+      { !isEditable &&
+        <div className="text-field__text">
+          {text}
+        </div>
+      }
     </div>
   );
 };
