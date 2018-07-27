@@ -12,6 +12,7 @@ const propTypes = {
 };
 class Base extends Component {
   componentDidMount() {
+    // initial search with the given query
     const { searchAgreements, location } = this.props;
     const parsedParams = parseQuery(location.search);
     searchAgreements({ ...parsedParams });
@@ -20,6 +21,7 @@ class Base extends Component {
   componentWillReceiveProps(nextProps) {
     const { searchAgreements, location } = this.props;
     const locationChanged = nextProps.location !== location;
+    // search new agreements when the query changes
     if (locationChanged) {
       const parsedParams = parseQuery(nextProps.location.search);
       searchAgreements({ ...parsedParams });

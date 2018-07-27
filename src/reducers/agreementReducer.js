@@ -5,11 +5,10 @@ const initialState = {
   agreementIds: [],
 };
 
-const storeAgreement = (state, action) => {
+const storeAgreements = (state, action) => {
   const { entities, result } = action.payload;
   const { agreements } = entities;
   return {
-    ...state,
     agreements: {
       ...agreements,
     },
@@ -22,7 +21,7 @@ const storeAgreement = (state, action) => {
 const agreementReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_AGREEMENTS:
-      return storeAgreement(state, action);
+      return storeAgreements(state, action);
     default:
       return state;
   }

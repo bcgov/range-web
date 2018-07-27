@@ -1,68 +1,99 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
+import classnames from 'classnames';
+import { Icon } from 'semantic-ui-react';
 import { Status } from '../common';
 import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
-import { REFERENCE_KEY, PLAN_STATUS } from '../../constants/variables';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
-  onRowClicked: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
   user: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  // isActive: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  onRowClicked: PropTypes.func.isRequired,
+  fetchAgreement: PropTypes.func.isRequired,
 };
 
 export class AgreementTableItem extends Component {
-  getLatestPlan = (plans = []) => {
-    const planStatus = this.props.references[REFERENCE_KEY.PLAN_STATUS];
-    const staffDraftStatus = planStatus.find(s => s.code === PLAN_STATUS.STAFF_DRAFT);
-    if (!staffDraftStatus || plans.length === 0) {
-      return undefined;
-    }
-    return plans.find(plan => plan.status.id !== staffDraftStatus.id);
+  state = {
+    wholePlans: [],
   }
 
   onRowClicked = () => {
-    const { agreement, index } = this.props;
-    const plan = this.getLatestPlan(agreement.plans);
+    const {
+      agreement,
+      index,
+      activeIndex,
+      onRowClicked,
+      fetchAgreement,
+    } = this.props;
+    const [plan] = agreement.plans;
 
-    if (plan && agreement.id) {
-      this.props.onRowClicked(index, agreement.id, plan.id);
+    if (plan && agreement) {
+      onRowClicked(index);
+
+      if (activeIndex !== index) {
+        this.setState({ wholePlans: [] });
+        // fetch agreements when this row becomes active
+        fetchAgreement(agreement.id).then((agreement) => {
+          this.setState({ wholePlans: agreement.plans });
+        });
+      }
     } else {
       alert('No range use plan found!');
     }
   }
 
   render() {
+    const { wholePlans } = this.state;
+    const {
+      agreement,
+      activeIndex,
+      index,
+      user,
+    } = this.props;
     const {
       id: agreementId,
       zone,
       clients,
       plans,
-    } = this.props.agreement || {};
-    const plan = this.getLatestPlan(plans);
+    } = agreement || {};
+
+    const [plan] = plans;
     const rangeName = plan && plan.rangeName;
     const status = plan && plan.status;
-    const user = zone && zone.user;
-    const staffFullName = getUserFullName(user);
+    const staff = zone && zone.user;
+    const staffFullName = getUserFullName(staff);
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+    const isActive = activeIndex === index;
 
     return (
-      <Table.Row
-        className="agreement__table__item"
-        onClick={this.onRowClicked}
-      >
-        <Table.Cell>{agreementId}</Table.Cell>
-        <Table.Cell>{presentNullValue(rangeName)}</Table.Cell>
-        <Table.Cell>{presentNullValue(primaryAgreementHolderName)}</Table.Cell>
-        <Table.Cell>{presentNullValue(staffFullName)}</Table.Cell>
-        <Table.Cell>
-          <Status user={this.props.user} status={status} />
-        </Table.Cell>
-      </Table.Row>
+      <div className={classnames('agreement__table__row', { 'agreement__table__row--active': isActive })}>
+        <button
+          className="agreement__table__accordian"
+          onClick={this.onRowClicked}
+        >
+          <div className="agreement__table__accordian__cell">{agreementId}</div>
+          <div className="agreement__table__accordian__cell">{presentNullValue(rangeName)}</div>
+          <div className="agreement__table__accordian__cell">{presentNullValue(primaryAgreementHolderName)}</div>
+          <div className="agreement__table__accordian__cell">{presentNullValue(staffFullName)}</div>
+          <div className="agreement__table__accordian__cell">
+            <Status user={user} status={status} />
+          </div>
+          <div className="agreement__table__accordian__cell">
+            { isActive &&
+              <Icon name="times circle outline" />
+            }
+            { !isActive &&
+              <Icon name="plus circle" />
+            }
+          </div>
+        </button>
+        <div className={classnames('agreement__table__panel', { 'agreement__table__panel--active': isActive })}>
+          {wholePlans.map(plan => <pre key={plan.id}>{JSON.stringify(plan)}</pre>)}
+        </div>
+      </div>
     );
   }
 }

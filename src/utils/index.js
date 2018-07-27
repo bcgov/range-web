@@ -37,7 +37,7 @@ export * from './planStatus';
 export * from './client';
 export * from './validation';
 
-export const createRequestHeader = (getState) => {
+export const createConfigWithHeader = (getState) => {
   const token = getToken(getState());
 
   return {

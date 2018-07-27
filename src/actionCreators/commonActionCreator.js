@@ -1,12 +1,12 @@
 import { normalize } from 'normalizr';
-import { axios, createRequestHeader, saveReferencesInLocalStorage } from '../utils';
+import { axios, createConfigWithHeader, saveReferencesInLocalStorage } from '../utils';
 import * as API from '../constants/API';
 import { storeUsers, storeReferences, storeZones } from '../actions';
 import * as schema from './schema';
 
 /* eslint-disable arrow-body-style */
 export const fetchUsers = () => (dispatch, getState) => {
-  return axios.get(API.GET_USERS, createRequestHeader(getState)).then(
+  return axios.get(API.GET_USERS, createConfigWithHeader(getState)).then(
     (response) => {
       const users = response.data;
       dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
@@ -19,7 +19,7 @@ export const fetchUsers = () => (dispatch, getState) => {
 };
 
 export const fetchReferences = () => (dispatch, getState) => {
-  return axios.get(API.GET_REFERENCES, createRequestHeader(getState)).then(
+  return axios.get(API.GET_REFERENCES, createConfigWithHeader(getState)).then(
     (response) => {
       const references = response.data;
       saveReferencesInLocalStorage(references);
@@ -34,7 +34,7 @@ export const fetchReferences = () => (dispatch, getState) => {
 
 export const fetchZones = districtId => (dispatch, getState) => {
   const config = {
-    ...createRequestHeader(getState),
+    ...createConfigWithHeader(getState),
   };
 
   if (districtId) {

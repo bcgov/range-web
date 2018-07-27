@@ -53,6 +53,7 @@ const appReducer = combineReducers({
   [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
   [reducerTypes.GET_USER]: createReducer(networkReducer, reducerTypes.GET_USER),
+  [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
 });
 
 // public selectors

@@ -15,8 +15,15 @@ const propTypes = {
 export class Agreement extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      activeIndex: -1,
+    };
     this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
+  }
+
+  handleActiveIndexChange = (index) => {
+    const newIndex = this.state.activeIndex === index ? -1 : index;
+    this.setState({ activeIndex: newIndex });
   }
 
   handlePaginationChange = (page) => {
@@ -39,12 +46,16 @@ export class Agreement extends Component {
       ...parsedParams,
       ...params,
     };
+    // clear active Index
+    this.setState({ activeIndex: -1 });
+    // redirect with new query
     history.push(`${location.pathname}?${stringifyQuery(merged)}`);
   }
 
   render() {
     const { history, location } = this.props;
     const searchTerm = parseQuery(location.search).term || '';
+    const { activeIndex } = this.state;
 
     return (
       <section className="agreement">
@@ -59,10 +70,12 @@ export class Agreement extends Component {
           />
         </Banner>
 
-        <div className="agreement__table">
+        <div className="agreement__table-container">
           <AgreementTable
             history={history}
+            activeIndex={activeIndex}
             handlePaginationChange={this.handlePaginationChange}
+            handleActiveIndexChange={this.handleActiveIndexChange}
           />
         </div>
       </section>
