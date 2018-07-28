@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Pagination, Icon } from 'semantic-ui-react';
+import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchAgreement } from '../../actionCreators';
+import { Loading } from '../common';
 
 const propTypes = {
   agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -20,6 +21,8 @@ const propTypes = {
   fetchAgreement: PropTypes.func.isRequired,
   activeIndex: PropTypes.number.isRequired,
   handleActiveIndexChange: PropTypes.func.isRequired,
+  references: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 const defaultProps = {
   errorGettingAgreements: null,
@@ -27,12 +30,6 @@ const defaultProps = {
 
 export class AgreementTable extends Component {
   onRowClicked = (index) => {
-    // const { activeIndex, fetchAgreement, handleActiveIndexChange } = this.props;
-
-    // if (activeIndex !== index) {
-    //   fetchAgreement(agreementId);
-    // }
-
     this.props.handleActiveIndexChange(index);
 
     // TODO: need to go away eventually
@@ -46,8 +43,8 @@ export class AgreementTable extends Component {
   renderNewAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
     if (errorGettingAgreements) {
       return (
-        <div className="agreement__table__accordian">
-          <div className="agreement__message agreement__message--error">
+        <div className="agrm__table__accordian">
+          <div className="agrm__message agrm__message--error">
             {strings.ERROR_OCCUR}
           </div>
         </div>
@@ -56,8 +53,8 @@ export class AgreementTable extends Component {
 
     if (!isFetchingAgreements && agreements.length === 0) {
       return (
-        <div className="agreement__table__accordian">
-          <div className="agreement__message">
+        <div className="agrm__table__accordian">
+          <div className="agrm__message">
             {strings.ERROR_OCCUR}
           </div>
         </div>
@@ -68,7 +65,13 @@ export class AgreementTable extends Component {
   }
 
   renderNewAgreementTableItem = (agreement, index) => {
-    const { user, activeIndex, fetchAgreement } = this.props;
+    const {
+      user,
+      activeIndex,
+      fetchAgreement,
+      references,
+      history,
+    } = this.props;
 
     return (
       <AgreementTableItem
@@ -78,7 +81,9 @@ export class AgreementTable extends Component {
         activeIndex={activeIndex}
         agreement={agreement}
         fetchAgreement={fetchAgreement}
+        references={references}
         onRowClicked={this.onRowClicked}
+        history={history}
       />
     );
   }
@@ -93,15 +98,17 @@ export class AgreementTable extends Component {
     const { currentPage, totalPages } = agreementPagination || {};
 
     return (
-      <Form loading={isFetchingAgreements}>
-        <div className="agreement__table">
-          <div className="agreement__table__header-row">
-            <div className="agreement__table__header-row__cell">{strings.RANGE_NUMBER}</div>
-            <div className="agreement__table__header-row__cell">{strings.RANGE_NAME}</div>
-            <div className="agreement__table__header-row__cell">{strings.AGREEMENT_HOLDER}</div>
-            <div className="agreement__table__header-row__cell">{strings.STAFF_CONTACT}</div>
-            <div className="agreement__table__header-row__cell">{strings.STATUS}</div>
-            <div className="agreement__table__header-row__cell">
+      <Segment basic>
+        <Loading active={isFetchingAgreements} />
+
+        <div className="agrm__table">
+          <div className="agrm__table__header-row">
+            <div className="agrm__table__header-row__cell">{strings.RANGE_NUMBER}</div>
+            <div className="agrm__table__header-row__cell">{strings.RANGE_NAME}</div>
+            <div className="agrm__table__header-row__cell">{strings.AGREEMENT_HOLDER}</div>
+            <div className="agrm__table__header-row__cell">{strings.STAFF_CONTACT}</div>
+            <div className="agrm__table__header-row__cell">{strings.STATUS}</div>
+            <div className="agrm__table__header-row__cell">
               <Icon name="plus circle" />
             </div>
           </div>
@@ -109,7 +116,7 @@ export class AgreementTable extends Component {
           {this.renderNewAgreements(agreements, errorGettingAgreements, isFetchingAgreements)}
         </div>
 
-        <div className="agreement__pagination">
+        <div className="agrm__pagination">
           <Pagination
             size="mini"
             siblingRange="2"
@@ -123,7 +130,7 @@ export class AgreementTable extends Component {
             nextItem={{ content: <Icon name="angle right" />, icon: true }}
           />
         </div>
-      </Form>
+      </Segment>
     );
   }
 }

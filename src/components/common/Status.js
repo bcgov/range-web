@@ -64,6 +64,32 @@ const Status = ({
       statusName = PLAN_STATUS.COMPLETED;
       modifier += '--completed'; // green
       break;
+
+    case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
+      statusName = status.name;
+      modifier += '--black';
+      break;
+    case PLAN_STATUS.STANDS_WRONGLY_MADE:
+      statusName = status.name;
+      modifier += '--black';
+      break;
+    case PLAN_STATUS.STANDS:
+      statusName = status.name;
+      modifier += '--black';
+      break;
+    case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
+      statusName = status.name;
+      modifier += '--black';
+      break;
+    case PLAN_STATUS.NOT_APPROVED:
+      statusName = status.name;
+      modifier += '--black';
+      break;
+    case PLAN_STATUS.APPROVED:
+      statusName = status.name;
+      modifier += '--black';
+      break;
+
     default:
       modifier += '--not-provided';
       break;

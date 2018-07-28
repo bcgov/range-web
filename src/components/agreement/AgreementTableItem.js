@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
-import { Status } from '../common';
+import { Icon, Button, Segment } from 'semantic-ui-react';
+import { Status, Loading } from '../common';
 import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
+import { RANGE_USE_PLAN } from '../../constants/routes';
+import { REFERENCE_KEY } from '../../constants/variables';
+import { TYPE, STATUS } from '../../constants/strings';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
@@ -12,11 +15,14 @@ const propTypes = {
   activeIndex: PropTypes.number.isRequired,
   onRowClicked: PropTypes.func.isRequired,
   fetchAgreement: PropTypes.func.isRequired,
+  references: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 export class AgreementTableItem extends Component {
   state = {
     wholePlans: [],
+    isFetchingWholePlans: false,
   }
 
   onRowClicked = () => {
@@ -33,15 +39,68 @@ export class AgreementTableItem extends Component {
       onRowClicked(index);
 
       if (activeIndex !== index) {
-        this.setState({ wholePlans: [] });
+        this.setState({ wholePlans: [], isFetchingWholePlans: true });
         // fetch agreements when this row becomes active
-        fetchAgreement(agreement.id).then((agreement) => {
-          this.setState({ wholePlans: agreement.plans });
-        });
+        fetchAgreement(agreement.id).then(
+          (agreement) => {
+            this.setState({ wholePlans: agreement.plans, isFetchingWholePlans: false });
+          },
+          () => {
+            this.setState({ isFetchingWholePlans: false });
+          },
+        );
       }
     } else {
       alert('No range use plan found!');
     }
+  }
+
+  renderPlanTable = (wholePlans) => {
+    const { isFetchingWholePlans } = this.state;
+    return (
+      <Segment basic>
+        <Loading active={isFetchingWholePlans} />
+
+        <div className="agrm__ptable">
+          <div className="agrm__ptable__header-row">
+            <div className="agrm__ptable__header-row__cell">{TYPE}</div>
+            <div className="agrm__ptable__header-row__cell">{STATUS}</div>
+            <div className="agrm__ptable__header-row__cell">
+              <Button>View</Button>
+            </div>
+          </div>
+
+          {wholePlans.map(this.renderPlan)}
+        </div>
+      </Segment>
+    );
+  }
+
+  renderPlan = (plan = {}) => {
+    const { references, user } = this.props;
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    const amendmentType = amendmentTypes.find(at => at.id === plan.amendmentTypeId);
+    const amendment = amendmentType ? amendmentType.description : 'Initial Plan';
+
+    return (
+      <div key={plan.id} className="agrm__ptable__row">
+        <div className="agrm__ptable__row__cell">
+          {amendment}
+        </div>
+        <div className="agrm__ptable__row__cell">
+          <Status user={user} status={plan.status} />
+        </div>
+        <div className="agrm__ptable__row__cell">
+          <Button onClick={this.onViewClicked(plan)}>View</Button>
+        </div>
+      </div>
+    );
+  }
+
+  onViewClicked = plan => (e) => {
+    e.preventDefault();
+    const { history, agreement } = this.props;
+    history.push(`${RANGE_USE_PLAN}/${agreement.id}/${plan.id}`);
   }
 
   render() {
@@ -69,19 +128,19 @@ export class AgreementTableItem extends Component {
     const isActive = activeIndex === index;
 
     return (
-      <div className={classnames('agreement__table__row', { 'agreement__table__row--active': isActive })}>
+      <div className={classnames('agrm__table__row', { 'agrm__table__row--active': isActive })}>
         <button
-          className="agreement__table__accordian"
+          className="agrm__table__accordian"
           onClick={this.onRowClicked}
         >
-          <div className="agreement__table__accordian__cell">{agreementId}</div>
-          <div className="agreement__table__accordian__cell">{presentNullValue(rangeName)}</div>
-          <div className="agreement__table__accordian__cell">{presentNullValue(primaryAgreementHolderName)}</div>
-          <div className="agreement__table__accordian__cell">{presentNullValue(staffFullName)}</div>
-          <div className="agreement__table__accordian__cell">
+          <div className="agrm__table__accordian__cell">{agreementId}</div>
+          <div className="agrm__table__accordian__cell">{presentNullValue(rangeName)}</div>
+          <div className="agrm__table__accordian__cell">{presentNullValue(primaryAgreementHolderName)}</div>
+          <div className="agrm__table__accordian__cell">{presentNullValue(staffFullName)}</div>
+          <div className="agrm__table__accordian__cell">
             <Status user={user} status={status} />
           </div>
-          <div className="agreement__table__accordian__cell">
+          <div className="agrm__table__accordian__cell">
             { isActive &&
               <Icon name="times circle outline" />
             }
@@ -90,8 +149,8 @@ export class AgreementTableItem extends Component {
             }
           </div>
         </button>
-        <div className={classnames('agreement__table__panel', { 'agreement__table__panel--active': isActive })}>
-          {wholePlans.map(plan => <pre key={plan.id}>{JSON.stringify(plan)}</pre>)}
+        <div className={classnames('agrm__table__panel', { 'agrm__table__panel--active': isActive })}>
+          {this.renderPlanTable(wholePlans)}
         </div>
       </div>
     );

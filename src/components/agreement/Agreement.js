@@ -70,7 +70,7 @@ export class Agreement extends Component {
           />
         </Banner>
 
-        <div className="agreement__table-container">
+        <div className="agrm__table-container">
           <AgreementTable
             history={history}
             activeIndex={activeIndex}
