@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { Redirect } from 'react-router-dom';
 import { Icon, Button, Segment } from 'semantic-ui-react';
 import { Status, Loading } from '../common';
 import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
@@ -16,13 +17,13 @@ const propTypes = {
   onRowClicked: PropTypes.func.isRequired,
   fetchAgreement: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 export class AgreementTableItem extends Component {
   state = {
     wholePlans: [],
     isFetchingWholePlans: false,
+    redirectTo: null,
   }
 
   onRowClicked = () => {
@@ -99,12 +100,12 @@ export class AgreementTableItem extends Component {
 
   onViewClicked = plan => (e) => {
     e.preventDefault();
-    const { history, agreement } = this.props;
-    history.push(`${RANGE_USE_PLAN}/${agreement.id}/${plan.id}`);
+    const { agreement } = this.props;
+    this.setState({ redirectTo: `${RANGE_USE_PLAN}/${agreement.id}/${plan.id}` });
   }
 
   render() {
-    const { wholePlans } = this.state;
+    const { wholePlans, redirectTo } = this.state;
     const {
       agreement,
       activeIndex,
@@ -126,6 +127,10 @@ export class AgreementTableItem extends Component {
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
     const isActive = activeIndex === index;
+
+    if (redirectTo) {
+      return <Redirect push to={redirectTo} />;
+    }
 
     return (
       <div className={classnames('agrm__table__row', { 'agrm__table__row--active': isActive })}>

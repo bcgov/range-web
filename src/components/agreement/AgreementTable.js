@@ -22,7 +22,6 @@ const propTypes = {
   activeIndex: PropTypes.number.isRequired,
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
 };
 const defaultProps = {
   errorGettingAgreements: null,
@@ -31,9 +30,6 @@ const defaultProps = {
 export class AgreementTable extends Component {
   onRowClicked = (index) => {
     this.props.handleActiveIndexChange(index);
-
-    // TODO: need to go away eventually
-    // this.props.history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
   }
 
   handlePaginationChange = (e, { activePage: currentPage }) => {
@@ -70,7 +66,6 @@ export class AgreementTable extends Component {
       activeIndex,
       fetchAgreement,
       references,
-      history,
     } = this.props;
 
     return (
@@ -83,7 +78,6 @@ export class AgreementTable extends Component {
         fetchAgreement={fetchAgreement}
         references={references}
         onRowClicked={this.onRowClicked}
-        history={history}
       />
     );
   }
