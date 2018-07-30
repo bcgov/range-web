@@ -49,7 +49,7 @@ export class AgreementTable extends Component {
       return (
         <div className="agrm__table__accordian">
           <div className="agrm__message">
-            {strings.ERROR_OCCUR}
+            {strings.NO_RESULTS_FOUND}
           </div>
         </div>
       );

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Redirect } from 'react-router-dom';
-import { Icon, Button, Segment } from 'semantic-ui-react';
-import { Status, Loading } from '../common';
+import { Icon, Button } from 'semantic-ui-react';
+import { Status } from '../common';
 import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { REFERENCE_KEY } from '../../constants/variables';
@@ -17,7 +17,7 @@ const propTypes = {
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+  // isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
 };
 
@@ -43,25 +43,21 @@ export class AgreementTableItem extends Component {
   }
 
   renderPlanTable = () => {
-    const { agreementsMapWithAllPlan, agreement, isFetchingAgreementWithAllPlan } = this.props;
+    const { agreementsMapWithAllPlan, agreement } = this.props;
     const { plans } = agreementsMapWithAllPlan[agreement.id] || {};
 
     return (
-      <Segment basic>
-        <Loading active={isFetchingAgreementWithAllPlan} />
-
-        <div className="agrm__ptable">
-          <div className="agrm__ptable__header-row">
-            <div className="agrm__ptable__header-row__cell">{TYPE}</div>
-            <div className="agrm__ptable__header-row__cell">{STATUS}</div>
-            <div className="agrm__ptable__header-row__cell">
-              <Button disabled>View</Button>
-            </div>
+      <div className="agrm__ptable">
+        <div className="agrm__ptable__header-row">
+          <div className="agrm__ptable__header-row__cell">{TYPE}</div>
+          <div className="agrm__ptable__header-row__cell">{STATUS}</div>
+          <div className="agrm__ptable__header-row__cell">
+            <Button disabled>View</Button>
           </div>
-
-          {plans && plans.map(this.renderPlan)}
         </div>
-      </Segment>
+
+        {plans && plans.map(this.renderPlan)}
+      </div>
     );
   }
 
