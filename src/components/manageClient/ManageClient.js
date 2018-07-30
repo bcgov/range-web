@@ -159,7 +159,7 @@ class ManageClient extends Component {
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Link User
+                Link
               </Button>
             </div>
           </div>

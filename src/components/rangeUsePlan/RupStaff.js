@@ -144,7 +144,7 @@ class RupStaff extends Component {
       },
       {
         key: PLAN_STATUS.CHANGE_REQUESTED,
-        text: 'Request Change',
+        text: 'Change Request',
         value: 2,
         onClick: this.openChangeRequestConfirmModal,
       },
@@ -172,7 +172,7 @@ class RupStaff extends Component {
 
         <ConfirmationModal
           open={isChangeRequestModalOpen}
-          header="Confirmation: Request Change"
+          header="Confirmation: Change Request"
           content="Are you sure you want to request changes to the agreement holder?"
           onNoClicked={this.closeChangeRequestConfirmModal}
           onYesClicked={this.handleChangeRequestClicked}
