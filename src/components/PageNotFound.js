@@ -25,7 +25,7 @@ class PageNotFound extends Component {
 
   render() {
     if (this.state.redirectToHome) {
-      return <Redirect to={{ pathname: HOME }} />;
+      return <Redirect push to={HOME} />;
     }
     return (
       <section className="page-not-found">

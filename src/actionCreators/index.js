@@ -23,7 +23,7 @@ import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 import { getIsFetchingAgreements } from '../reducers/rootReducer';
-import { axios, saveUserProfileInLocal, createRequestHeader } from '../utils';
+import { axios, saveUserProfileInLocal, createConfigWithHeader } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
 
@@ -32,12 +32,28 @@ export * from './toastActionCreator';
 export * from './commonActionCreator';
 
 /* eslint-disable arrow-body-style */
+export const fetchAgreement = agreementId => (dispatch, getState) => {
+  dispatch(actions.request(reducerTypes.GET_AGREEMENT));
+  return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
+    (response) => {
+      const agreement = response.data;
+      dispatch(actions.success(reducerTypes.GET_AGREEMENT, agreement));
+      dispatch(actions.storeAgreementWithAllPlans(normalize(agreement, schema.agreement)));
+
+      return agreement;
+    },
+    (err) => {
+      dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
+      return err;
+    },
+  );
+};
+
 export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
-  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber), {}, createRequestHeader(getState)).then(
+  return axios.put(API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber), {}, createConfigWithHeader(getState)).then(
     (response) => {
       const client = response.data;
-
       dispatch(actions.success(reducerTypes.UPDATE_CLIENT_ID_OF_USER, client));
       dispatch(toastSuccessMessage(LINK_CLIENT_SUCCESS));
       return client;
@@ -58,7 +74,7 @@ export const searchClients = term => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.SEARCH_CLIENTS));
 
   const config = {
-    ...createRequestHeader(getState),
+    ...createConfigWithHeader(getState),
     params: {
       term,
     },
@@ -82,7 +98,7 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
   return axios.put(
     API.UPDATE_USER_ID_OF_ZONE(zoneId),
     { userId },
-    createRequestHeader(getState),
+    createConfigWithHeader(getState),
   ).then(
     (response) => {
       dispatch(actions.success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
@@ -105,7 +121,7 @@ export const signOut = () => (dispatch) => {
 
 export const fetchUser = () => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.GET_USER));
-  return axios.get(API.GET_USER_PROFILE, createRequestHeader(getState)).then(
+  return axios.get(API.GET_USER_PROFILE, createConfigWithHeader(getState)).then(
     (response) => {
       const user = response.data;
       dispatch(actions.success(reducerTypes.GET_USER, user));
@@ -128,7 +144,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
   dispatch(actions.request(reducerTypes.SEARCH_AGREEMENTS));
 
   const config = {
-    ...createRequestHeader(getState),
+    ...createConfigWithHeader(getState),
     params: {
       term,
       page: Number(page),

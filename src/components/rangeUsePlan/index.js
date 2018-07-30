@@ -72,7 +72,7 @@ class Base extends Component {
     }
 
     if (errorFetchingPlan) {
-      return <Redirect to="/no-range-use-plan-found" />;
+      return <Redirect push to="/no-range-use-plan-found" />;
     }
 
     return (

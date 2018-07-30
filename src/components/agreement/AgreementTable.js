@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, Form, Pagination, Icon } from 'semantic-ui-react';
+import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
-import { RANGE_USE_PLAN } from '../../constants/routes';
+import { toastErrorMessage } from '../../actionCreators';
+import { Loading } from '../common';
 
 const propTypes = {
   agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -17,73 +18,71 @@ const propTypes = {
   errorGettingAgreements: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
+  agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
+  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+  toastErrorMessage: PropTypes.func.isRequired,
 };
 const defaultProps = {
   errorGettingAgreements: null,
 };
 
 export class AgreementTable extends Component {
-  state = {
-    activeIndex: 0,
-  }
-
-  onRowClicked = (index, agreementId, planId) => {
-    const newIndex = this.state.activeIndex === index ? -1 : index;
-    this.setState({ activeIndex: newIndex });
-
-    // TODO: need to go away eventually
-    this.props.history.push(`${RANGE_USE_PLAN}/${agreementId}/${planId}`);
-  }
-
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
 
+  renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
+    if (errorGettingAgreements) {
+      return (
+        <div className="agrm__table__accordian">
+          <div className="agrm__message agrm__message--error">
+            {strings.ERROR_OCCUR}
+          </div>
+        </div>
+      );
+    }
+
+    if (!isFetchingAgreements && agreements.length === 0) {
+      return (
+        <div className="agrm__table__accordian">
+          <div className="agrm__message">
+            {strings.ERROR_OCCUR}
+          </div>
+        </div>
+      );
+    }
+
+    return agreements.map(this.renderAgreementTableItem);
+  }
+
   renderAgreementTableItem = (agreement, index) => {
-    const isActive = this.state.activeIndex === index;
-    const { user, references } = this.props;
+    const {
+      user,
+      activeIndex,
+      references,
+      agreementsMapWithAllPlan,
+      isFetchingAgreementWithAllPlan,
+      handleActiveIndexChange,
+      toastErrorMessage,
+    } = this.props;
 
     return (
       <AgreementTableItem
         user={user}
         key={index}
         index={index}
-        isActive={isActive}
+        isActive={activeIndex === index}
         agreement={agreement}
         references={references}
-        onRowClicked={this.onRowClicked}
+        agreementsMapWithAllPlan={agreementsMapWithAllPlan}
+        isFetchingAgreementWithAllPlan={isFetchingAgreementWithAllPlan}
+        handleActiveIndexChange={handleActiveIndexChange}
+        toastErrorMessage={toastErrorMessage}
       />
     );
-  }
-
-  renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
-    if (errorGettingAgreements) {
-      return (
-        <Table.Row>
-          <Table.Cell colSpan="5">
-            <div className="agreement__error">
-              {strings.ERROR_OCCUR}
-            </div>
-          </Table.Cell>
-        </Table.Row>
-      );
-    }
-
-    if (!isFetchingAgreements && agreements.length === 0) {
-      return (
-        <Table.Row>
-          <Table.Cell colSpan="5">
-            <div className="agreement__empty">
-              {strings.NO_RESULTS_FOUND}
-            </div>
-          </Table.Cell>
-        </Table.Row>
-      );
-    }
-
-    return agreements.map(this.renderAgreementTableItem);
   }
 
   render() {
@@ -96,23 +95,25 @@ export class AgreementTable extends Component {
     const { currentPage, totalPages } = agreementPagination || {};
 
     return (
-      <Form loading={isFetchingAgreements}>
-        <Table selectable unstackable>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>{strings.RANGE_NUMBER}</Table.HeaderCell>
-              <Table.HeaderCell>{strings.RANGE_NAME}</Table.HeaderCell>
-              <Table.HeaderCell>{strings.AGREEMENT_HOLDER}</Table.HeaderCell>
-              <Table.HeaderCell>{strings.STAFF_CONTACT}</Table.HeaderCell>
-              <Table.HeaderCell>{strings.STATUS}</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {this.renderAgreements(agreements, errorGettingAgreements, isFetchingAgreements)}
-          </Table.Body>
-        </Table>
+      <Segment basic>
+        <Loading active={isFetchingAgreements} />
 
-        <div className="agreement__pagination">
+        <div className="agrm__table">
+          <div className="agrm__table__header-row">
+            <div className="agrm__table__header-row__cell">{strings.RANGE_NUMBER}</div>
+            <div className="agrm__table__header-row__cell">{strings.RANGE_NAME}</div>
+            <div className="agrm__table__header-row__cell">{strings.AGREEMENT_HOLDER}</div>
+            <div className="agrm__table__header-row__cell">{strings.STAFF_CONTACT}</div>
+            <div className="agrm__table__header-row__cell">{strings.STATUS}</div>
+            <div className="agrm__table__header-row__cell">
+              <Icon name="plus circle" />
+            </div>
+          </div>
+
+          {this.renderAgreements(agreements, errorGettingAgreements, isFetchingAgreements)}
+        </div>
+
+        <div className="agrm__pagination">
           <Pagination
             size="mini"
             siblingRange="2"
@@ -126,7 +127,7 @@ export class AgreementTable extends Component {
             nextItem={{ content: <Icon name="angle right" />, icon: true }}
           />
         </div>
-      </Form>
+      </Segment>
     );
   }
 }
@@ -139,9 +140,11 @@ const mapStateToProps = state => (
     errorGettingAgreements: selectors.getAgreementsErrorMessage(state),
     user: selectors.getUser(state),
     references: selectors.getReferences(state),
+    agreementsMapWithAllPlan: selectors.getAgreementsMapWithAllPlan(state),
+    isFetchingAgreementWithAllPlan: selectors.getIsFetchingAgreementWithAllPlan(state),
   }
 );
 
 AgreementTable.propTypes = propTypes;
 AgreementTable.defaultProps = defaultProps;
-export default connect(mapStateToProps, null)(AgreementTable);
+export default connect(mapStateToProps, { toastErrorMessage })(AgreementTable);
