@@ -74,7 +74,7 @@
           flex: none;
           flex-basis: auto;
           color: white;
-          padding: 0 13px;
+          padding: 0 10px;
         }
       }
     }
@@ -112,13 +112,13 @@
         &:nth-of-type(6) {
           flex: none;
           flex-basis: auto;
-          padding: 0 13px;
+          padding: 0 10px;
         }
       }
     }
 
     &__panel {
-      padding: 0 15px 15px 15px;
+      padding: 0 12px 12px 12px;
       display: none;
       overflow: hidden;
       &--active {
