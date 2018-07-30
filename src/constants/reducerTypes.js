@@ -4,6 +4,7 @@ export const TOAST = 'TOAST';
 
 export const GET_AGREEMENT = 'GET_AGREEMENT';
 export const AGREEMENTS = 'AGREEMENTS';
+export const AGREEMENTS_WITH_ALL_PLANS = 'AGREEMENTS_WITH_ALL_PLANS';
 export const PLAN = 'PLAN';
 export const CLIENT = 'CLIENT';
 export const SEARCH_AGREEMENTS = 'SEARCH_AGREEMENTS';

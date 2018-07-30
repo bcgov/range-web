@@ -13,16 +13,16 @@ const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
   user: PropTypes.shape({}).isRequired,
   index: PropTypes.number.isRequired,
-  activeIndex: PropTypes.number.isRequired,
-  onRowClicked: PropTypes.func.isRequired,
-  fetchAgreement: PropTypes.func.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
+  agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
+  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+  toastErrorMessage: PropTypes.func.isRequired,
 };
 
 export class AgreementTableItem extends Component {
   state = {
-    wholePlans: [],
-    isFetchingWholePlans: false,
     redirectTo: null,
   }
 
@@ -30,48 +30,36 @@ export class AgreementTableItem extends Component {
     const {
       agreement,
       index,
-      activeIndex,
-      onRowClicked,
-      fetchAgreement,
+      handleActiveIndexChange,
+      toastErrorMessage,
     } = this.props;
     const [plan] = agreement.plans;
 
     if (plan && agreement) {
-      onRowClicked(index);
-
-      if (activeIndex !== index) {
-        this.setState({ wholePlans: [], isFetchingWholePlans: true });
-        // fetch agreements when this row becomes active
-        fetchAgreement(agreement.id).then(
-          (agreement) => {
-            this.setState({ wholePlans: agreement.plans, isFetchingWholePlans: false });
-          },
-          () => {
-            this.setState({ isFetchingWholePlans: false });
-          },
-        );
-      }
+      handleActiveIndexChange(index, agreement.id);
     } else {
-      alert('No range use plan found!');
+      toastErrorMessage('No range use plan found!');
     }
   }
 
-  renderPlanTable = (wholePlans) => {
-    const { isFetchingWholePlans } = this.state;
+  renderPlanTable = () => {
+    const { agreementsMapWithAllPlan, agreement, isFetchingAgreementWithAllPlan } = this.props;
+    const { plans } = agreementsMapWithAllPlan[agreement.id] || {};
+
     return (
       <Segment basic>
-        <Loading active={isFetchingWholePlans} />
+        <Loading active={isFetchingAgreementWithAllPlan} />
 
         <div className="agrm__ptable">
           <div className="agrm__ptable__header-row">
             <div className="agrm__ptable__header-row__cell">{TYPE}</div>
             <div className="agrm__ptable__header-row__cell">{STATUS}</div>
             <div className="agrm__ptable__header-row__cell">
-              <Button>View</Button>
+              <Button disabled>View</Button>
             </div>
           </div>
 
-          {wholePlans.map(this.renderPlan)}
+          {plans && plans.map(this.renderPlan)}
         </div>
       </Segment>
     );
@@ -105,11 +93,10 @@ export class AgreementTableItem extends Component {
   }
 
   render() {
-    const { wholePlans, redirectTo } = this.state;
+    const { redirectTo } = this.state;
     const {
       agreement,
-      activeIndex,
-      index,
+      isActive,
       user,
     } = this.props;
     const {
@@ -119,14 +106,14 @@ export class AgreementTableItem extends Component {
       plans,
     } = agreement || {};
 
-    const [plan] = plans;
-    const rangeName = plan && plan.rangeName;
-    const status = plan && plan.status;
+    // the most recent plan without Wrongly made without effect
+    const [mostCurrPlan] = plans;
+    const rangeName = mostCurrPlan && mostCurrPlan.rangeName;
+    const status = mostCurrPlan && mostCurrPlan.status;
     const staff = zone && zone.user;
     const staffFullName = getUserFullName(staff);
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-    const isActive = activeIndex === index;
 
     if (redirectTo) {
       return <Redirect push to={redirectTo} />;
@@ -155,7 +142,7 @@ export class AgreementTableItem extends Component {
           </div>
         </button>
         <div className={classnames('agrm__table__panel', { 'agrm__table__panel--active': isActive })}>
-          {this.renderPlanTable(wholePlans)}
+          {this.renderPlanTable()}
         </div>
       </div>
     );

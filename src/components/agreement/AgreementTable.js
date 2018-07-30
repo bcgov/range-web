@@ -5,7 +5,7 @@ import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchAgreement } from '../../actionCreators';
+import { toastErrorMessage } from '../../actionCreators';
 import { Loading } from '../common';
 
 const propTypes = {
@@ -18,25 +18,23 @@ const propTypes = {
   errorGettingAgreements: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
-  fetchAgreement: PropTypes.func.isRequired,
   activeIndex: PropTypes.number.isRequired,
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
+  agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
+  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+  toastErrorMessage: PropTypes.func.isRequired,
 };
 const defaultProps = {
   errorGettingAgreements: null,
 };
 
 export class AgreementTable extends Component {
-  onRowClicked = (index) => {
-    this.props.handleActiveIndexChange(index);
-  }
-
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
 
-  renderNewAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
+  renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
     if (errorGettingAgreements) {
       return (
         <div className="agrm__table__accordian">
@@ -57,15 +55,18 @@ export class AgreementTable extends Component {
       );
     }
 
-    return agreements.map(this.renderNewAgreementTableItem);
+    return agreements.map(this.renderAgreementTableItem);
   }
 
-  renderNewAgreementTableItem = (agreement, index) => {
+  renderAgreementTableItem = (agreement, index) => {
     const {
       user,
       activeIndex,
-      fetchAgreement,
       references,
+      agreementsMapWithAllPlan,
+      isFetchingAgreementWithAllPlan,
+      handleActiveIndexChange,
+      toastErrorMessage,
     } = this.props;
 
     return (
@@ -73,11 +74,13 @@ export class AgreementTable extends Component {
         user={user}
         key={index}
         index={index}
-        activeIndex={activeIndex}
+        isActive={activeIndex === index}
         agreement={agreement}
-        fetchAgreement={fetchAgreement}
         references={references}
-        onRowClicked={this.onRowClicked}
+        agreementsMapWithAllPlan={agreementsMapWithAllPlan}
+        isFetchingAgreementWithAllPlan={isFetchingAgreementWithAllPlan}
+        handleActiveIndexChange={handleActiveIndexChange}
+        toastErrorMessage={toastErrorMessage}
       />
     );
   }
@@ -107,7 +110,7 @@ export class AgreementTable extends Component {
             </div>
           </div>
 
-          {this.renderNewAgreements(agreements, errorGettingAgreements, isFetchingAgreements)}
+          {this.renderAgreements(agreements, errorGettingAgreements, isFetchingAgreements)}
         </div>
 
         <div className="agrm__pagination">
@@ -137,9 +140,11 @@ const mapStateToProps = state => (
     errorGettingAgreements: selectors.getAgreementsErrorMessage(state),
     user: selectors.getUser(state),
     references: selectors.getReferences(state),
+    agreementsMapWithAllPlan: selectors.getAgreementsMapWithAllPlan(state),
+    isFetchingAgreementWithAllPlan: selectors.getIsFetchingAgreementWithAllPlan(state),
   }
 );
 
 AgreementTable.propTypes = propTypes;
 AgreementTable.defaultProps = defaultProps;
-export default connect(mapStateToProps, { fetchAgreement })(AgreementTable);
+export default connect(mapStateToProps, { toastErrorMessage })(AgreementTable);

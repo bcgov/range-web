@@ -38,6 +38,8 @@ export const fetchAgreement = agreementId => (dispatch, getState) => {
     (response) => {
       const agreement = response.data;
       dispatch(actions.success(reducerTypes.GET_AGREEMENT, agreement));
+      dispatch(actions.storeAgreementWithAllPlans(normalize(agreement, schema.agreement)));
+
       return agreement;
     },
     (err) => {

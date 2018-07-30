@@ -41,3 +41,10 @@ export const storeClients = payload => (
     payload,
   }
 );
+
+export const storeAgreementWithAllPlans = payload => (
+  {
+    type: actionTypes.STORE_AGREEMENT_WITH_ALL_PLANS,
+    payload,
+  }
+);

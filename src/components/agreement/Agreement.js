@@ -15,26 +15,32 @@ const propTypes = {
 export class Agreement extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeIndex: -1,
-    };
     this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
   }
 
-  handleActiveIndexChange = (index) => {
-    const newIndex = this.state.activeIndex === index ? -1 : index;
-    this.setState({ activeIndex: newIndex });
+  handleActiveIndexChange = (index, agreementId) => {
+    const parsedParams = parseQuery(this.props.location.search);
+    const newIndex = Number(parsedParams.row) === index ? -1 : index;
+
+    const params = { row: newIndex, aId: agreementId };
+    this.redirectWithParams(params);
   }
 
   handlePaginationChange = (page) => {
-    const params = { page };
+    const params = {
+      page,
+      row: null, // clear the active row
+      aId: null, // and the corresponding agreementId
+    };
     this.redirectWithParams(params);
   }
 
   handleSearchInput = (term) => {
     const params = {
-      page: 1, // show new results from page 1
       term,
+      page: 1, // show new results from page 1
+      row: null, // clear the active row
+      aId: null, // and the corresponding agreementId
     };
     this.redirectWithParams(params);
   }
@@ -46,16 +52,16 @@ export class Agreement extends Component {
       ...parsedParams,
       ...params,
     };
-    // clear active Index
-    this.setState({ activeIndex: -1 });
+
     // redirect with new query
     history.push(`${location.pathname}?${stringifyQuery(merged)}`);
   }
 
   render() {
     const { history, location } = this.props;
-    const searchTerm = parseQuery(location.search).term || '';
-    const { activeIndex } = this.state;
+    const params = parseQuery(location.search);
+    const searchTerm = params.term || '';
+    const activeIndex = Number(params.row);
 
     return (
       <section className="agreement">
@@ -64,7 +70,7 @@ export class Agreement extends Component {
           content={SELECT_RUP_BANNER_CONTENT}
         >
           <AgreementSearch
-            placeholder="Enter Search Term"
+            placeholder="Enter RAN, agreement holder's name, or staff contact"
             handleSearchInput={this.searchAgreementsWithDebounce}
             searchTerm={searchTerm}
           />

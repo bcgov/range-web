@@ -60,18 +60,20 @@
 }
 
 .toast {
-  height: 70px;
-  border-radius: 4px;
+  min-height: 65px;
+  border-radius: 5px;
   color: black;
   display: flex;
   align-items: stretch;
+  border: 1px solid rgba(34,36,38,.1);
 
   &:not(:last-child) {
     margin: 0 0 12px;
   }
 
   &__icon {
-    width: 75px;
+    min-width: 50px;
+    max-width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,21 +88,21 @@
   }
 
   &__content {
-    background-color: whitesmoke;
-    flex: 1 1 auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 1.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 15px;
+    flex: 1;
+    background-color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1rem;
+    padding: 15px;
   }
 
   &__dismiss {
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: whitesmoke;
+    background: white;
     border: 0;
     color: inherit;
     cursor: pointer;

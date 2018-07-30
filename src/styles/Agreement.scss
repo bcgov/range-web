@@ -3,7 +3,7 @@
 
 .agrm {
   &__search {
-    width: 250px;
+    width: 400px;
   }
   &__table-container {
     @extend .container;
@@ -19,16 +19,18 @@
       min-height: 40px;
       font-size: 1.1rem;
       width: 100%;
+      padding: 0 10px;
 
       &__cell {
         flex: 1;
-        padding: 0 10px;
+        padding-right: 10px;
 
         &:nth-of-type(3) {
           flex: none;
           flex-basis: auto;
           color: white;
           z-index: -1;
+          padding-right: 0px;
         }
       }
     }
@@ -37,16 +39,19 @@
       padding: 0;
       min-height: 45px;
       align-items: center;
-      border-bottom: 1px solid rgba(34,36,38,.1);
+      padding: 5px 10px;
 
+      &:not(:last-child) {
+        border-bottom: 1px solid rgba(34,36,38,.1);
+      }
       &__cell {
         flex: 1;
-        padding: 0px 10px;
+        padding-right: 10px;
 
         &:nth-of-type(3) {
           flex: none;
           flex-basis: auto;
-          padding: 10px;
+          padding-right: 0px;
         }
       }
     }
@@ -61,20 +66,23 @@
       font-size: 1.1rem;
       width: 100%;
       outline: none;
+      padding: 0 10px;
 
       &__cell {
         flex: 1;
-        padding: 0 10px;
         font-weight: bold;
-
+        padding-right: 10px;
+        &:nth-of-type(1) {
+          flex: 0.7;
+        }
         &:nth-of-type(3) {
-          flex: 2;
+          flex: 1.8;
         }
         &:nth-of-type(6) {
           flex: none;
           flex-basis: auto;
+          padding-right: 0px;
           color: white;
-          padding: 0 10px;
         }
       }
     }
@@ -98,21 +106,25 @@
       border: none;
       outline: none;
       transition: 0.4s;
+      padding: 0 10px;
 
       &:hover {
         background-color: #eee;
       }
       &__cell {
         flex: 1;
-        padding: 0px 10px;
+        padding-right: 10px;
 
+        &:nth-of-type(1) {
+          flex: 0.7;
+        }
         &:nth-of-type(3) {
-          flex: 2;
+          flex: 1.8;
         }
         &:nth-of-type(6) {
           flex: none;
           flex-basis: auto;
-          padding: 0 10px;
+          padding-right: 0px;
         }
       }
     }
