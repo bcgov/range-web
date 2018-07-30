@@ -38,7 +38,7 @@ const Status = ({
       } else {
         statusName = SENT_FOR_INPUT;
       }
-      modifier += '--created'; // orange
+      modifier += '--orange'; // orange
       break;
     case PLAN_STATUS.DRAFT:
       if (isUserAgreementHolder(user)) {
@@ -46,7 +46,7 @@ const Status = ({
       } else {
         statusName = IN_PROGRESS;
       }
-      modifier += '--draft'; // gray
+      modifier += '--gray'; // gray
       break;
     case PLAN_STATUS.PENDING:
       if (isUserAgreementHolder(user)) {
@@ -54,40 +54,40 @@ const Status = ({
       } else {
         statusName = REVIEW_REQUIRED;
       }
-      modifier += '--pending'; // purple
+      modifier += '--purple'; // purple
       break;
     case PLAN_STATUS.CHANGE_REQUESTED:
       statusName = REVISIONS_REQUESTED;
-      modifier += '--change-requested'; // red
+      modifier += '--red'; // red
       break;
     case PLAN_STATUS.COMPLETED:
       statusName = PLAN_STATUS.COMPLETED;
-      modifier += '--completed'; // green
+      modifier += '--green'; // green
       break;
 
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
       statusName = status.name;
-      modifier += '--black';
+      modifier += '--red';
       break;
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
       statusName = status.name;
-      modifier += '--black';
+      modifier += '--orange';
       break;
     case PLAN_STATUS.STANDS:
       statusName = status.name;
-      modifier += '--black';
+      modifier += '--green';
       break;
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
       statusName = status.name;
-      modifier += '--black';
+      modifier += '--orange';
       break;
     case PLAN_STATUS.NOT_APPROVED:
       statusName = status.name;
-      modifier += '--black';
+      modifier += '--red';
       break;
     case PLAN_STATUS.APPROVED:
       statusName = status.name;
-      modifier += '--black';
+      modifier += '--green';
       break;
 
     default:

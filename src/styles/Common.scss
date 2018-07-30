@@ -16,19 +16,19 @@
     display: inline-block;
     margin-right: 7px;
 
-    &--created {
+    &--orange {
       background: orange;
     } 
-    &--pending {
+    &--purple {
       background: purple;
     }
-    &--draft {
+    &--gray {
       background: gray;
     }
-    &--completed {
+    &--green {
       background: green;
     }
-    &--change-requested {
+    &--red {
       background: red;
     }
     &--black {
