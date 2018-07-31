@@ -7,10 +7,12 @@ import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT }
 import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
 import { storeAuthData } from '../actions';
 import { fetchUser } from '../actionCreators';
+import { getIsFetchingUser } from '../reducers/rootReducer';
 
 const propTypes = {
   storeAuthData: PropTypes.func.isRequired,
   fetchUser: PropTypes.func.isRequired,
+  isFetchingUser: PropTypes.bool.isRequired,
 };
 
 export class Login extends Component {
@@ -40,6 +42,8 @@ export class Login extends Component {
   onBceidLoginBtnClick = () => this.openNewTab(SSO_BCEID_LOGIN_ENDPOINT)
 
   render() {
+    const { isFetchingUser } = this.props;
+
     return (
       <section className="login">
         <img
@@ -57,6 +61,7 @@ export class Login extends Component {
             id={ELEMENT_ID.LOGIN_BUTTON}
             primary
             fluid
+            loading={isFetchingUser}
             onClick={this.onLoginBtnClick}
           >
             Login
@@ -67,6 +72,7 @@ export class Login extends Component {
             style={{ marginTop: '15px' }}
             primary
             fluid
+            loading={isFetchingUser}
             onClick={this.onIdirLoginBtnClick}
           >
             Login as Range Staff
@@ -77,6 +83,7 @@ export class Login extends Component {
             style={{ marginTop: '15px' }}
             primary
             fluid
+            loading={isFetchingUser}
             onClick={this.onBceidLoginBtnClick}
           >
             Login as Agreement Holder
@@ -95,10 +102,11 @@ export class Login extends Component {
   }
 }
 
-// const mapStateToProps = state => (
-//   {
-//   }
-// );
+const mapStateToProps = state => (
+  {
+    isFetchingUser: getIsFetchingUser(state),
+  }
+);
 
 Login.propTypes = propTypes;
-export default connect(null, { storeAuthData, fetchUser })(Login);
+export default connect(mapStateToProps, { storeAuthData, fetchUser })(Login);

@@ -130,7 +130,7 @@ export const fetchUser = () => (dispatch, getState) => {
       return user;
     },
     (err) => {
-      dispatch(actions.error(reducerTypes.GET_USER));
+      dispatch(actions.error(reducerTypes.GET_USER, err));
       dispatch(toastErrorMessage(err));
       return err;
     },
@@ -159,7 +159,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
       return response.data;
     },
     (err) => {
-      dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err.message));
+      dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err));
       return err;
     },
   );

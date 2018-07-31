@@ -91,6 +91,11 @@ export const getErrorMessage = (err) => {
     }
   }
 
+  const message = err && err.message;
+  if (message) {
+    return `${UNEXPECTED_ERROR} (${message})`;
+  }
+
   return UNEXPECTED_ERROR;
 };
 

@@ -16,7 +16,7 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
-  errorFetchingPlan: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  errorFetchingPlan: PropTypes.shape({}),
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,

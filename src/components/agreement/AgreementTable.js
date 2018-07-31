@@ -15,7 +15,7 @@ const propTypes = {
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
   }).isRequired,
-  errorGettingAgreements: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  errorGettingAgreements: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
   handlePaginationChange: PropTypes.func.isRequired,
   activeIndex: PropTypes.number.isRequired,
@@ -37,7 +37,7 @@ export class AgreementTable extends Component {
   renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
     if (errorGettingAgreements) {
       return (
-        <div className="agrm__table__accordian">
+        <div className="agrm__table__row">
           <div className="agrm__message agrm__message--error">
             {strings.ERROR_OCCUR}
           </div>
@@ -47,7 +47,7 @@ export class AgreementTable extends Component {
 
     if (!isFetchingAgreements && agreements.length === 0) {
       return (
-        <div className="agrm__table__accordian">
+        <div className="agrm__table__row">
           <div className="agrm__message">
             {strings.NO_RESULTS_FOUND}
           </div>

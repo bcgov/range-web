@@ -148,8 +148,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid rgba(34,36,38,.1);
-    min-height: inherit;
+    min-height: 45px;
 
     &--error {
       color: $error-color;
