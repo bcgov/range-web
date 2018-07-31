@@ -22,7 +22,6 @@ const networkReducer = (state = initialState, action) => {
         isSuccessful: false,
         error: null,
         success: null,
-        // requestType: action.type,
       };
     case SUCCESS:
       return {
@@ -31,7 +30,6 @@ const networkReducer = (state = initialState, action) => {
         isSuccessful: true,
         error: null,
         success: action.data,
-        // requestType: action.type,
       };
     case ERROR:
       return {
@@ -40,7 +38,6 @@ const networkReducer = (state = initialState, action) => {
         isSuccessful: false,
         error: action.errorMessage,
         success: null,
-        // requestType: action.type,
       };
     case SUCCESS_PAGINATED:
       return {
@@ -49,7 +46,6 @@ const networkReducer = (state = initialState, action) => {
         isSuccessful: true,
         error: null,
         success: action.data,
-        // requestType: action.type,
         pagination: {
           perPage: action.perPage,
           currentPage: action.currentPage,
