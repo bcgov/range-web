@@ -5,14 +5,14 @@ import { Redirect } from 'react-router-dom';
 import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
-import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
+import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createRUP } from '../../actionCreators';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
-  fetchPlan: PropTypes.func.isRequired,
+  fetchRUP: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
@@ -21,13 +21,14 @@ const propTypes = {
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updatePlanStatus: PropTypes.func.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  createRUP: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -40,8 +41,8 @@ class Base extends Component {
   }
 
   fetchPlan = () => {
-    const { fetchPlan, match } = this.props;
-    fetchPlan(match.params.planId);
+    const { fetchRUP, match } = this.props;
+    fetchRUP(match.params.planId);
   }
 
   render() {
@@ -52,7 +53,7 @@ class Base extends Component {
       isFetchingPlan,
       errorFetchingPlan,
       plansMap,
-      updatePlanStatus,
+      updateRUPStatus,
       updatePlan,
       pasturesMap,
       ministerIssuesMap,
@@ -62,6 +63,7 @@ class Base extends Component {
       toastSuccessMessage,
       toastErrorMessage,
       isUpdatingStatus,
+      createRUP,
     } = this.props;
 
     const plan = plansMap[match.params.planId];
@@ -86,7 +88,7 @@ class Base extends Component {
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
             ministerIssuesMap={ministerIssuesMap}
-            updatePlanStatus={updatePlanStatus}
+            updateRUPStatus={updateRUPStatus}
             updatePlan={updatePlan}
             isUpdatingStatus={isUpdatingStatus}
           />
@@ -101,7 +103,7 @@ class Base extends Component {
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
             ministerIssuesMap={ministerIssuesMap}
-            updatePlanStatus={updatePlanStatus}
+            updateRUPStatus={updateRUPStatus}
             updatePlan={updatePlan}
             isUpdatingStatus={isUpdatingStatus}
           />
@@ -118,11 +120,12 @@ class Base extends Component {
             ministerIssuesMap={ministerIssuesMap}
             fetchPlan={this.fetchPlan}
             updatePlan={updatePlan}
-            updatePlanStatus={updatePlanStatus}
+            updateRUPStatus={updateRUPStatus}
             updateGrazingSchedule={updateGrazingSchedule}
             createOrUpdateRupGrazingSchedule={createOrUpdateRupGrazingSchedule}
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
+            createRUP={createRUP}
           />
         }
       </section>
@@ -147,11 +150,12 @@ const mapStateToProps = state => (
 Base.propTypes = propTypes;
 Base.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
-  fetchPlan,
-  updatePlanStatus,
+  fetchRUP,
+  updateRUPStatus,
   updatePlan,
   updateGrazingSchedule,
   createOrUpdateRupGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
+  createRUP,
 })(Base);

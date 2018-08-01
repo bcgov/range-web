@@ -21,11 +21,12 @@ const propTypes = {
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   fetchPlan: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
-  updatePlanStatus: PropTypes.func.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
   createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
+  createRUP: PropTypes.func.isRequired,
 };
 
 export class RupAH extends Component {
@@ -136,7 +137,7 @@ export class RupAH extends Component {
   updateRupStatusAndContent = (status, onRequested, onSuccess, onFailed) => {
     const {
       plan,
-      updatePlanStatus,
+      updateRUPStatus,
       createOrUpdateRupGrazingSchedule,
       grazingSchedulesMap,
       toastErrorMessage,
@@ -158,7 +159,7 @@ export class RupAH extends Component {
     if (planId && statusId && grazingSchedules) {
       const makeRequest = async () => {
         try {
-          await updatePlanStatus(planId, statusId, false);
+          await updateRUPStatus(planId, statusId, false);
           const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
             createOrUpdateRupGrazingSchedule(planId, schedule)
           )));
@@ -174,20 +175,24 @@ export class RupAH extends Component {
   }
 
   onAmendPlanClicked = () => {
-    const { plan, references } = this.props;
+    const { plan, references, createRUP } = this.props;
 
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
+    const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
 
     const newPlan = {
       rangeName: plan.rangeName,
-      statusId: planStatuses.find(s => s.code === PLAN_STATUS.CREATED),
+      statusId: createdStatus.id,
       agreementId: plan.agreementId,
       planStartDate: plan.planStartDate,
       planEndDate: plan.planEndDate,
-      uploaded: false,
-      amendmentTypeId: amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL),
+      uploaded: false, // still need to create things like pastures and schedules
+      amendmentTypeId: initialAmendment.id,
     };
+
+    createRUP(newPlan).then(console.log);
   }
 
   validateRup = (plan) => {

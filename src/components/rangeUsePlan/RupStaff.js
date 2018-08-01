@@ -23,7 +23,7 @@ const propTypes = {
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updatePlanStatus: PropTypes.func.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
 };
@@ -87,15 +87,15 @@ class RupStaff extends Component {
   handleChangeRequestClicked = () => {
     this.updateStatus(PLAN_STATUS.CHANGE_REQUESTED, this.closeChangeRequestConfirmModal);
   }
-  updateStatus = (statusName, closeConfirmModal) => {
+  updateStatus = (statusCode, closeConfirmModal) => {
     const {
       references,
-      updatePlanStatus,
+      updateRUPStatus,
       plan,
       updatePlan,
     } = this.props;
-    const arrOfPlanStatus = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = arrOfPlanStatus.find(s => s.name === statusName);
+    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
+    const status = planStatuses.find(s => s.code === statusCode);
     if (status && plan) {
       const statusUpdated = (newStatus) => {
         closeConfirmModal();
@@ -105,7 +105,7 @@ class RupStaff extends Component {
         };
         updatePlan({ plan: newPlan });
       };
-      updatePlanStatus(plan.id, status.id).then(statusUpdated);
+      updateRUPStatus(plan.id, status.id).then(statusUpdated);
     }
   }
 

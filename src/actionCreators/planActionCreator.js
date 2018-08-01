@@ -8,7 +8,31 @@ import * as API from '../constants/API';
 import * as schema from './schema';
 import { axios, createConfigWithHeader } from '../utils';
 
-export const fetchPlan = planId => (dispatch, getState) => {
+/* eslint-disable arrow-body-style */
+export const createRUP = plan => (dispatch, getState) => {
+  // dispatch(actions.request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
+  return axios.post(
+    API.CREATE_RUP,
+    plan,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      const plan = response.data;
+      // dispatch(actions.success(reducerTypes., plan));
+      // dispatch(toastSuccessMessage());
+      return plan;
+    },
+    (err) => {
+      // dispatch(actions.error(reducerTypes., err));
+      dispatch(toastErrorMessage(err));
+      return err;
+    },
+  );
+};
+
+// export const createGrazingScheduleEntry =
+
+export const fetchRUP = planId => (dispatch, getState) => {
   dispatch(request(reducerTypes.GET_PLAN));
   const makeRequest = async () => {
     try {
@@ -33,7 +57,7 @@ export const fetchPlan = planId => (dispatch, getState) => {
   return makeRequest();
 };
 
-export const updatePlanStatus = (planId, statusId, shouldToast = true) => (dispatch, getState) => {
+export const updateRUPStatus = (planId, statusId, shouldToast = true) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_PLAN_STATUS));
   const makeRequest = async () => {
     try {
@@ -101,19 +125,19 @@ export const fetchRupPDF = planId => (dispatch, getState) => {
 };
 
 const createRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.CREATE_RUP_SCHEDULE));
+  dispatch(request(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE));
   const makeRequest = async () => {
     try {
       const { id, ...grazingSchedule } = schedule;
       const { data } = await axios.post(
-        API.CREATE_RUP_SCHEDULE(planId),
+        API.CREATE_RUP_GRAZING_SCHEDULE(planId),
         { ...grazingSchedule, plan_id: planId },
         createConfigWithHeader(getState),
       );
-      dispatch(success(reducerTypes.CREATE_RUP_SCHEDULE, data));
+      dispatch(success(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.CREATE_RUP_SCHEDULE, err));
+      dispatch(error(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -122,18 +146,18 @@ const createRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
 };
 
 const updateRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_RUP_SCHEDULE));
+  dispatch(request(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE));
   const makeRequest = async () => {
     try {
       const { data } = await axios.put(
-        API.UPDATE_RUP_SCHEDULE(planId, schedule.id),
+        API.UPDATE_RUP_GRAZING_SCHEDULE(planId, schedule.id),
         { ...schedule },
         createConfigWithHeader(getState),
       );
-      dispatch(success(reducerTypes.UPDATE_RUP_SCHEDULE, data));
+      dispatch(success(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_RUP_SCHEDULE, err));
+      dispatch(error(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -153,7 +177,7 @@ export const deleteRupGrazingSchedule = (planId, scheduleId) => (dispatch, getSt
   const makeRequest = async () => {
     try {
       const { data } = await axios.delete(
-        API.DELETE_RUP_SCHEDULE(planId, scheduleId),
+        API.DELETE_RUP_GRAZING_SCHEDULE(planId, scheduleId),
         createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE, data));
@@ -172,7 +196,7 @@ export const deleteRupGrazingScheduleEntry = (planId, scheduleId, entryId) => (d
   const makeRequest = async () => {
     try {
       const { data } = await axios.delete(
-        API.DELETE_RUP_SCHEDULE_ENTRY(planId, scheduleId, entryId),
+        API.DELETE_RUP_GRAZING_SCHEDULE_ENTRY(planId, scheduleId, entryId),
         createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, data));

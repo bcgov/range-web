@@ -30,15 +30,21 @@ export const GET_ZONES = '/zone';
 export const GET_USERS = '/user';
 export const SEARCH_CLIENTS = '/client/search';
 export const GET_USER_PROFILE = '/user/me';
+export const CREATE_RUP = '/plan';
 
 export const GET_AGREEMENT = agreementId => `/agreement/${agreementId}`;
 export const GET_RUP = planId => `/plan/${planId}`;
+export const GET_PLAN_PDF = planId => `/report/${planId}`;
+
 export const UPDATE_USER_ID_OF_ZONE = zoneId => `/zone/${zoneId}/user`;
+export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/user/${userId}/client/${clientId}`;
 export const UPDATE_PLAN_STATUS = planId => `/plan/${planId}/status`;
 export const UPDATE_AGREEMENT_ZONE = agreementId => `/agreement/${agreementId}/zone`;
-export const GET_PLAN_PDF = planId => `/report/${planId}`;
-export const CREATE_RUP_SCHEDULE = planId => `/plan/${planId}/schedule`;
-export const UPDATE_RUP_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
-export const DELETE_RUP_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
-export const DELETE_RUP_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
-export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/user/${userId}/client/${clientId}`;
+
+export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/plan/${planId}/schedule`;
+export const UPDATE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
+export const DELETE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
+
+export const CREATE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}/entry`;
+// export const UPDATE_RUP_GRAZING_SCHEDULE_ENTRY
+export const DELETE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
