@@ -154,16 +154,16 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
       }
     }
 
-    stage('Approval') {
-      timeout(time: 1, unit: 'DAYS') {
-        input message: "Deploy to test?", submitter: 'authenticated'
-      }
-      node ('master') {
+    node ('master') {
+      stage('Approval') {
+        timeout(time: 4, unit: 'HOURS') {
+          input message: "Deploy to test?", submitter: 'authenticated'
+        }
         stage('Promotion') {
           openshiftTag destStream: CADDY_IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[1], srcStream: CADDY_IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
           notifySlack("Promotion Completed\n Build #${BUILD_ID} was promoted to test.", "#range-web-caddy", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], OPENSHIFT_ICO)
         }
       }
-    }   
+    } 
   }
 }
