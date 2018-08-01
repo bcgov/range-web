@@ -7,7 +7,7 @@ import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
@@ -173,6 +173,23 @@ export class RupAH extends Component {
     }
   }
 
+  onAmendPlanClicked = () => {
+    const { plan, references } = this.props;
+
+    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+
+    const newPlan = {
+      rangeName: plan.rangeName,
+      statusId: planStatuses.find(s => s.code === PLAN_STATUS.CREATED),
+      agreementId: plan.agreementId,
+      planStartDate: plan.planStartDate,
+      planEndDate: plan.planEndDate,
+      uploaded: false,
+      amendmentTypeId: amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL),
+    };
+  }
+
   validateRup = (plan) => {
     const {
       references,
@@ -222,7 +239,7 @@ export class RupAH extends Component {
       ministerIssuesMap,
     } = this.props;
 
-    const { agreementId, status } = plan;
+    const { agreementId, status, amendmentTypeId } = plan;
     const { clients, usage: usages } = agreement;
     const zone = agreement && agreement.zone;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
@@ -230,6 +247,14 @@ export class RupAH extends Component {
 
     const isEditable = utils.isStatusCreated(status)
       || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
+    const isAmendable = utils.isStatusApproved(status);
+
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    let header = agreementId;
+    if (amendmentTypeId && amendmentTypes) {
+      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+      header = `${agreementId} - ${amendmentType.description}`;
+    }
 
     return (
       <article className="rup">
@@ -244,7 +269,7 @@ export class RupAH extends Component {
 
         <Banner
           noDefaultHeight
-          header={agreementId}
+          header={header}
           content={utils.getBannerContentForAH(status)}
         />
 
@@ -254,7 +279,7 @@ export class RupAH extends Component {
         >
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
-              <div className="rup__sticky__title">{agreementId}</div>
+              <div className="rup__sticky__title">{header}</div>
               <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
               <Status
                 className="rup__status"
@@ -263,21 +288,37 @@ export class RupAH extends Component {
               />
             </div>
             <div className="rup__sticky__btns">
-              <Button
-                loading={isSavingAsDraft}
-                disabled={!isEditable}
-                onClick={this.onSaveDraftClick}
+              {/* <Button
+                onClick={this.onViewPDFClicked}
+                style={{ marginRight: '10px' }}
               >
-                Save Draft
-              </Button>
-              <Button
-                loading={isSubmitting}
-                disabled={!isEditable}
-                onClick={this.submitConfirmModalOpen}
-                style={{ marginLeft: '15px' }}
-              >
-                Submit for Review
-              </Button>
+                View PDF
+              </Button> */}
+              { isEditable &&
+                <div>
+                  <Button
+                    loading={isSavingAsDraft}
+                    onClick={this.onSaveDraftClick}
+                  >
+                    Save Draft
+                  </Button>
+                  <Button
+                    loading={isSubmitting}
+                    onClick={this.submitConfirmModalOpen}
+                    style={{ marginLeft: '15px' }}
+                  >
+                    Submit for Review
+                  </Button>
+                </div>
+              }
+              { isAmendable &&
+                <Button
+                  // loading={isSubmitting}
+                  onClick={this.onAmendPlanClicked}
+                >
+                  Amend Plan
+                </Button>
+              }
             </div>
           </div>
         </div>

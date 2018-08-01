@@ -3,7 +3,9 @@ export const LOCAL_STORAGE_KEY = {
   USER: 'range-web-user',
   REFERENCE: 'range-web-reference',
 };
+
 export const TOAST_TIMEOUT = 9000;
+
 export const PLAN_STATUS = {
   PENDING: 'P',
   COMPLETED: 'O',
@@ -17,6 +19,12 @@ export const PLAN_STATUS = {
   NOT_APPROVED_FURTHER_WORK_REQUIRED: 'NF',
   NOT_APPROVED: 'NA',
   APPROVED: 'A',
+};
+
+export const AMENDMENT_TYPE = {
+  MINOR: 'MNA',
+  MANDATORY: 'MA',
+  INITIAL: 'A',
 };
 
 export const REFERENCE_KEY = {

@@ -130,7 +130,7 @@ export class AgreementTableItem extends Component {
           </div>
           <div className="agrm__table__accordian__cell">
             { isActive &&
-              <Icon name="minus square outline" />
+              <Icon name="minus square" />
             }
             { !isActive &&
               <Icon name="plus square" />

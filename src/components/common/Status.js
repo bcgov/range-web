@@ -61,10 +61,11 @@ const Status = ({
       modifier += '--red'; // red
       break;
     case PLAN_STATUS.COMPLETED:
-      statusName = PLAN_STATUS.COMPLETED;
+      statusName = status.name;
       modifier += '--green'; // green
       break;
 
+    // Amendment Statuses
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
       statusName = status.name;
       modifier += '--red';
@@ -94,6 +95,7 @@ const Status = ({
       modifier += '--not-provided';
       break;
   }
+
   return (
     <div className={classnames('status', className)} style={style}>
       <span className={classnames('status__icon', modifier)} />
