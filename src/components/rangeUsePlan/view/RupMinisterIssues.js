@@ -30,7 +30,9 @@ class RupMinisterIssues extends Component {
     ministerIssues.length === 0 ? (
       <div className="rup__section-not-found">{NOT_PROVIDED}</div>
     ) : (
-      ministerIssues.map(this.renderMinisterIssue)
+      <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
+        {ministerIssues.map(this.renderMinisterIssue)}
+      </ul>
     )
   )
 
@@ -135,9 +137,7 @@ class RupMinisterIssues extends Component {
             be conducted until an authorization (separate to this RUP) is obtained.
           </div>
         }
-        <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
-          {this.renderMinisterIssues(ministerIssues)}
-        </ul>
+        {this.renderMinisterIssues(ministerIssues)}
       </div>
     );
   }

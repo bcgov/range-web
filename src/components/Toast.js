@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { Icon } from 'semantic-ui-react';
 import { removeToast } from '../actions';
 import { getToastsMap } from '../reducers/rootReducer';
 import { getObjValues } from '../utils';
@@ -22,20 +23,28 @@ class Toasts extends Component {
 
   renderToast = (toast) => {
     const { id, text, success } = toast;
-    const className = classnames('toast', {
-      'toast__success': success,
-      'toast__error': !success,
+    const iconClassName = classnames('toast__icon', {
+      'toast__icon__success': success,
+      'toast__icon__error': !success,
     });
 
     return (
-      <li key={id} className={className}>
-        <p className="toast__content">
+      <div key={id} className="toast">
+        <div className={iconClassName}>
+          {success &&
+            <Icon name="check circle" size="large" />
+          }
+          {!success &&
+            <Icon name="times" size="large" />
+          }
+        </div>
+        <div className="toast__content">
           {text}
-        </p>
+        </div>
         <button className="toast__dismiss" onClick={this.removeToast(toast)}>
-          x
+          <Icon name="times" size="small" />
         </button>
-      </li>
+      </div>
     );
   }
 
@@ -43,9 +52,9 @@ class Toasts extends Component {
     const toasts = getObjValues(this.props.toastsMap);
 
     return (
-      <ul className="toasts">
+      <div className="toasts">
         {toasts.map(this.renderToast)}
-      </ul>
+      </div>
     );
   }
 }

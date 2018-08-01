@@ -8,23 +8,23 @@ import {
 } from '../constants/strings';
 
 export const isStatusCreated = status => (
-  status && status.name === PLAN_STATUS.CREATED
+  status && status.code === PLAN_STATUS.CREATED
 );
 
 export const isStatusDraft = status => (
-  status && status.name === PLAN_STATUS.DRAFT
+  status && status.code === PLAN_STATUS.DRAFT
 );
 
 export const isStatusCompleted = status => (
-  status && status.name === PLAN_STATUS.COMPLETED
+  status && status.code === PLAN_STATUS.COMPLETED
 );
 
 export const isStatusChangedRequested = status => (
-  status && status.name === PLAN_STATUS.CHANGE_REQUESTED
+  status && status.code === PLAN_STATUS.CHANGE_REQUESTED
 );
 
 export const isStatusPending = status => (
-  status && status.name === PLAN_STATUS.PENDING
+  status && status.code === PLAN_STATUS.PENDING
 );
 
 export const getBannerContentForAH = (status) => {

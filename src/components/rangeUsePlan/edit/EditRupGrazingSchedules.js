@@ -238,15 +238,15 @@ export class EditRupGrazingSchedules extends Component {
           />
         </div>
         <div className="rup__divider" />
-        <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
-          {
-            grazingSchedules.length === 0 ? (
-              <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-            ) : (
-              grazingSchedules.map(this.renderSchedule)
-            )
-          }
-        </ul>
+        {
+          grazingSchedules.length === 0 ? (
+            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+          ) : (
+            <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
+              {grazingSchedules.map(this.renderSchedule)}
+            </ul>
+          )
+        }
       </div>
     );
   }

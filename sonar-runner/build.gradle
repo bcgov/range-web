@@ -8,12 +8,18 @@ plugins {
 sonarqube {
     properties {
         //property "sonar.host.url", "https://sonarqube<your project>.pathfinder.gov.bc.ca"        
-        property "sonar.projectName", "MyRA API"
-        property "sonar.projectKey", "org.sonarqube:bcgov-range-myra-api"
+        property "sonar.projectName", "MyRA WEB"
+        property "sonar.projectKey", "org.sonarqube:bcgov-range-myra-web"
         property "sonar.projectBaseDir", "../"
         property "sonar.sources", "./"
-        property "sonar.exclusions", "node_modules/**"
+        property "sonar.exclusions", "__tests__/**, node_modules/**, src/**"
         property "sourceEncoding", "UTF-8"
+        // property "sonar.lanuage", "py"
+        // property "sonar.tests", "gwells/test*.py"
+        // property "sonar.python.xunit.reportPath","nosetests.xml"
+        // property "sonar.python.coverage.reportPath","coverage.xml"
+        // property "sonar.python.coveragePlugin","cobertura"
+        // property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
     }
 }
 

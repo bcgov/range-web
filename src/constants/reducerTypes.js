@@ -2,13 +2,16 @@ export const AUTH = 'AUTH';
 export const COMMON = 'COMMON';
 export const TOAST = 'TOAST';
 
+export const GET_AGREEMENT = 'GET_AGREEMENT';
 export const AGREEMENTS = 'AGREEMENTS';
+export const AGREEMENTS_WITH_ALL_PLANS = 'AGREEMENTS_WITH_ALL_PLANS';
 export const PLAN = 'PLAN';
 export const CLIENT = 'CLIENT';
 export const SEARCH_AGREEMENTS = 'SEARCH_AGREEMENTS';
 export const UPDATE_USER_ID_OF_ZONE = 'UPDATE_USER_ID_OF_ZONE';
 export const SEARCH_CLIENTS = 'SEARCH_CLIENTS';
 export const UPDATE_CLIENT_ID_OF_USER = 'UPDATE_CLIENT_ID_OF_USER';
+export const GET_USER = 'GET_USER';
 
 export const GET_PLAN = 'GET_PLAN';
 export const GET_PLAN_PDF = 'GET_PLAN_PDF';

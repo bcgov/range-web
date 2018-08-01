@@ -68,7 +68,11 @@ export class UpdateZoneModal extends Component {
       });
 
     return (
-      <Modal open={isUpdateZoneModalOpen} onClose={this.closeUpdateZoneModal}>
+      <Modal
+        dimmer="blurring"
+        open={isUpdateZoneModalOpen}
+        onClose={this.closeUpdateZoneModal}
+      >
         <Modal.Header>Update Zone</Modal.Header>
         <Modal.Content>
           <Header>Pick a new zone within the district</Header>

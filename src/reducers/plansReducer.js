@@ -1,5 +1,10 @@
 import { STORE_PLAN, UPDATE_PLAN, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE } from '../constants/actionTypes';
 
+const initialState = {
+  byId: {},
+  allIds: [],
+};
+
 const storePlan = (state, action) => {
   const { entities, result: planId } = action.payload;
   const {
@@ -64,10 +69,7 @@ const deleteGrazingSchedule = (state, action) => {
   };
 };
 
-const plansReducer = (state = {
-  byId: {},
-  allIds: [],
-}, action) => {
+const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storePlan(state, action);

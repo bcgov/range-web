@@ -11,46 +11,47 @@ import ManageZone from './manageZone';
 import ManageClient from './manageClient';
 import RangeUsePlan from './rangeUsePlan';
 import RupPDFView from './rangeUsePlan/RupPDFView';
-import { getAuthData, getUser } from '../reducers/rootReducer';
+import { getUser } from '../reducers/rootReducer';
 import { isUserAdmin } from '../utils';
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
-const AdminRoute = ({ component: Component, user, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-        if (isUserAdmin(user)) {
-          return <LandingPage {...props} component={Component} />;
-        }
-        return <Redirect to={Routes.LOGIN} />;
-      }
-    }
-  />
-);
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+const PrivateRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
     render={(props) => { // props = { match:{...}, history:{...}, location:{...} }
-        if (auth) {
+        if (user) {
+          const { path } = props.match;
+
+          // Admin Routes
+          if (path === Routes.MANAGE_CLIENT || path === Routes.MANAGE_ZONE) {
+            if (isUserAdmin(user)) {
+              return <LandingPage {...props} component={Component} />;
+            }
+            return <Redirect to={Routes.LOGIN} />;
+          }
+
           // no need to pass the RupPDFView to LandingPage
-          if (props.match.path === Routes.EXPORT_PDF_WITH_PARAM) {
+          if (path === Routes.EXPORT_PDF_WITH_PARAM) {
             return <Component {...props} />;
           }
+
           return <LandingPage {...props} component={Component} />;
         }
+
+        // user is undefined redirect to the login page
         return <Redirect to={Routes.LOGIN} />;
       }
     }
   />
 );
 
-const PublicRoute = ({ component: Component, auth, ...rest }) => (
+const PublicRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
-      if (auth) {
+      if (user) {
         return <Redirect to={Routes.HOME} />;
       }
       return <Component {...props} />;
@@ -60,16 +61,17 @@ const PublicRoute = ({ component: Component, auth, ...rest }) => (
 
 class Router extends Component {
   render() {
-    const { auth, user } = this.props;
+    const { user } = this.props;
     return (
       <BrowserRouter>
         <Switch>
-          <AdminRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
-          <AdminRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
-          <PrivateRoute path={Routes.HOME} component={Home} auth={auth} />
-          <PrivateRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} auth={auth} />
-          <PrivateRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={RupPDFView} auth={auth} />
-          <PublicRoute path={Routes.LOGIN} component={Login} auth={auth} />
+          <PrivateRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+          <PrivateRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
+
+          <PrivateRoute path={Routes.HOME} component={Home} user={user} />
+          <PrivateRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} user={user} />
+          <PrivateRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={RupPDFView} user={user} />
+          <PublicRoute path={Routes.LOGIN} component={Login} user={user} />
 
           <Route path="/return-page" component={ReturnPage} />
           <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
@@ -82,7 +84,6 @@ class Router extends Component {
 
 const mapStateToProps = state => (
   {
-    auth: getAuthData(state),
     user: getUser(state),
   }
 );

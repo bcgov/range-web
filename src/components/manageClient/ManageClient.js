@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, Button, Icon } from 'semantic-ui-react';
 import { debounce } from 'lodash';
 import { Banner, ConfirmationModal } from '../common';
-import {
-  MANAGE_CLIENT_BANNER_CONTENT,
-  MANAGE_CLIENT_BANNER_HEADER,
-  UPDATE_CLIENT_ID_FOR_AH_HEADER,
-  UPDATE_CLIENT_ID_FOR_AH_CONTENT,
-  TYPE_CLIENT_NAME,
-} from '../../constants/strings';
+import * as strings from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
 
@@ -106,21 +100,27 @@ class ManageClient extends Component {
     });
 
     const isUpdateBtnEnabled = userId && clientNumber;
+    let noResultsMessage = strings.NO_RESULTS_FOUND;
+    if (isFetchingClients) {
+      noResultsMessage = 'Fetching clients...';
+    } else if (!searchQuery) {
+      noResultsMessage = strings.TYPE_CLIENT_NAME;
+    }
 
     return (
       <section className="manage-client">
         <ConfirmationModal
           open={isUpdateModalOpen}
           loading={isUpdatingClientIdOfUser}
-          header={UPDATE_CLIENT_ID_FOR_AH_HEADER}
-          content={UPDATE_CLIENT_ID_FOR_AH_CONTENT}
+          header={strings.UPDATE_CLIENT_ID_FOR_AH_HEADER}
+          content={strings.UPDATE_CLIENT_ID_FOR_AH_CONTENT}
           onNoClicked={this.closeUpdateConfirmationModal}
           onYesClicked={this.linkUserToClient}
         />
 
         <Banner
-          header={MANAGE_CLIENT_BANNER_HEADER}
-          content={MANAGE_CLIENT_BANNER_CONTENT}
+          header={strings.MANAGE_CLIENT_BANNER_HEADER}
+          content={strings.MANAGE_CLIENT_BANNER_CONTENT}
         />
 
         <div className="manage-client__content">
@@ -140,7 +140,7 @@ class ManageClient extends Component {
             <h3>Step 2: Search and Select Corresponding Client</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_CLIENTS_DROPDOWN}
-              placeholder={TYPE_CLIENT_NAME}
+              placeholder={strings.TYPE_CLIENT_NAME}
               options={clientOptions}
               value={clientNumber}
               search
@@ -149,7 +149,7 @@ class ManageClient extends Component {
               onChange={this.onClientChanged}
               onSearchChange={this.searchClientsWithDebounce}
               icon={<Icon name="search" size="small" />}
-              noResultsMessage={searchQuery ? 'No results found.' : TYPE_CLIENT_NAME}
+              noResultsMessage={noResultsMessage}
               selectOnBlur={false}
             />
 
@@ -159,7 +159,7 @@ class ManageClient extends Component {
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Link User
+                Link
               </Button>
             </div>
           </div>

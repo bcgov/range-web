@@ -3,14 +3,20 @@ export const LOCAL_STORAGE_KEY = {
   USER: 'range-web-user',
   REFERENCE: 'range-web-reference',
 };
-export const TOAST_TIMEOUT = 6000;
+export const TOAST_TIMEOUT = 9000;
 export const PLAN_STATUS = {
-  PENDING: 'Pending',
-  COMPLETED: 'Completed',
-  DRAFT: 'Draft',
-  CREATED: 'Created',
-  CHANGE_REQUESTED: 'Change Requested',
-  STAFF_DRAFT: 'Staff Draft',
+  PENDING: 'P',
+  COMPLETED: 'O',
+  DRAFT: 'D',
+  CREATED: 'C',
+  CHANGE_REQUESTED: 'R',
+  STAFF_DRAFT: 'SD',
+  WRONGLY_MADE_WITHOUT_EFFECT: 'WM',
+  STANDS_WRONGLY_MADE: 'SW',
+  STANDS: 'S',
+  NOT_APPROVED_FURTHER_WORK_REQUIRED: 'NF',
+  NOT_APPROVED: 'NA',
+  APPROVED: 'A',
 };
 
 export const REFERENCE_KEY = {
@@ -22,6 +28,7 @@ export const REFERENCE_KEY = {
   MINISTER_ISSUE_TYPE: 'MINISTER_ISSUE_TYPE',
   MINISTER_ISSUE_ACTION_TYPE: 'MINISTER_ISSUE_ACTION_TYPE',
   CLIENT_TYPE: 'CLIENT_TYPE',
+  AMENDMENT_TYPE: 'AMENDMENT_TYPE',
 };
 
 export const IMAGE_SRC = {

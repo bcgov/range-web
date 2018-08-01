@@ -16,20 +16,23 @@
     display: inline-block;
     margin-right: 7px;
 
-    &--created {
+    &--orange {
       background: orange;
     } 
-    &--pending {
+    &--purple {
       background: purple;
     }
-    &--draft {
+    &--gray {
       background: gray;
     }
-    &--completed {
+    &--green {
       background: green;
     }
-    &--change-requested {
+    &--red {
       background: red;
+    }
+    &--black {
+      background: black;
     }
     &--not-provided {
       display: none;
@@ -48,17 +51,21 @@
       display: none;
     }
   }
-
+  &__button {
+    @extend .default-button;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    margin: 2px 0 5px 0;
+    padding: 8px !important;
+    background: #eeeeee;
+  }
   &__text {
     border-radius: 5px;
     margin: 2px 0 5px 0;
     padding: 8px 0;
     font-size: 1.1rem;
-    
-    &--editable {
-      background: #eeeeee;
-      padding: 8px;    
-    }
   }
 }
 

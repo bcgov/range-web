@@ -28,6 +28,7 @@ import planReducer, * as fromPlan from './planReducer';
 import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 import clientReducer, * as fromClient from './clientReducer';
 import toastReducer, * as fromToast from './toastReducer';
+import agreementWithALLPlansReducer, * as fromAgreementWithAllPlans from './agreementWithALLPlansReducer';
 
 // createReducer to allow for reducer reuse
 const createReducer = (reducer, name) => (state, action) => {
@@ -42,6 +43,7 @@ const appReducer = combineReducers({
   [reducerTypes.TOAST]: toastReducer,
   [reducerTypes.COMMON]: commonStoreReducer,
   [reducerTypes.AGREEMENTS]: agreementReducer,
+  [reducerTypes.AGREEMENTS_WITH_ALL_PLANS]: agreementWithALLPlansReducer,
   [reducerTypes.PLAN]: planReducer,
   [reducerTypes.CLIENT]: clientReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
@@ -52,6 +54,8 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_PLAN_STATUS]: createReducer(networkReducer, reducerTypes.UPDATE_PLAN_STATUS),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
+  [reducerTypes.GET_USER]: createReducer(networkReducer, reducerTypes.GET_USER),
+  [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
 });
 
 // public selectors
@@ -63,9 +67,13 @@ export const getIsFetchingAgreements = state => fromNetwork.getIsFetching(state[
 export const getAgreementsErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.SEARCH_AGREEMENTS]);
 export const getIsUpdatingAgreementZone = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_AGREEMENT_ZONE]);
 
+export const getAgreementsMapWithAllPlan = state => fromAgreementWithAllPlans.getAgreementsMap(state[reducerTypes.AGREEMENTS_WITH_ALL_PLANS]);
+export const getIsFetchingAgreementWithAllPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_AGREEMENT]);
+
 export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);
 export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
 export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
+export const getIsFetchingUser = state => fromNetwork.getIsFetching(state[reducerTypes.GET_USER]);
 
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);

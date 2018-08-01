@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import RupAdmin from './RupAdmin';
+import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
 import { fetchPlan, updatePlanStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage } from '../../actionCreators';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
-import { isUserAgreementHolder, isUserAdmin } from '../../utils';
+import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 
 const propTypes = {
@@ -16,7 +16,7 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
-  errorFetchingPlan: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  errorFetchingPlan: PropTypes.shape({}),
   plansMap: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
@@ -35,24 +35,18 @@ const defaultProps = {
 };
 
 class Base extends Component {
-  state = {
-    agreement: null,
+  componentDidMount() {
+    this.fetchPlan();
   }
 
-  componentDidMount() {
+  fetchPlan = () => {
     const { fetchPlan, match } = this.props;
-    const { planId } = match.params;
-    fetchPlan(planId).then((data) => {
-      const { plan, ...agreement } = data;
-      this.setState({
-        agreement,
-        planId,
-      });
-    });
+    fetchPlan(match.params.planId);
   }
 
   render() {
     const {
+      match,
       references,
       user,
       isFetchingPlan,
@@ -69,16 +63,22 @@ class Base extends Component {
       toastErrorMessage,
       isUpdatingStatus,
     } = this.props;
-    const { agreement, planId } = this.state;
-    const plan = plansMap[planId];
+
+    const plan = plansMap[match.params.planId];
+    const agreement = plan && plan.agreement;
+
+    if (isFetchingPlan) {
+      return <Loading />;
+    }
+
+    if (errorFetchingPlan) {
+      return <Redirect push to="/no-range-use-plan-found" />;
+    }
 
     return (
       <section>
-        { isFetchingPlan &&
-          <Loading />
-        }
         { agreement && plan && isUserAdmin(user) &&
-          <RupAdmin
+          <RupStaff
             agreement={agreement}
             references={references}
             user={user}
@@ -91,8 +91,9 @@ class Base extends Component {
             isUpdatingStatus={isUpdatingStatus}
           />
         }
-        { agreement && plan && isUserAgreementHolder(user) &&
-          <RupAH
+
+        { agreement && plan && isUserRangeOfficer(user) &&
+          <RupStaff
             agreement={agreement}
             references={references}
             user={user}
@@ -102,14 +103,27 @@ class Base extends Component {
             ministerIssuesMap={ministerIssuesMap}
             updatePlanStatus={updatePlanStatus}
             updatePlan={updatePlan}
+            isUpdatingStatus={isUpdatingStatus}
+          />
+        }
+
+        { agreement && plan && isUserAgreementHolder(user) &&
+          <RupAH
+            agreement={agreement}
+            references={references}
+            user={user}
+            plan={plan}
+            pasturesMap={pasturesMap}
+            grazingSchedulesMap={grazingSchedulesMap}
+            ministerIssuesMap={ministerIssuesMap}
+            fetchPlan={this.fetchPlan}
+            updatePlan={updatePlan}
+            updatePlanStatus={updatePlanStatus}
             updateGrazingSchedule={updateGrazingSchedule}
             createOrUpdateRupGrazingSchedule={createOrUpdateRupGrazingSchedule}
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
           />
-        }
-        { errorFetchingPlan &&
-          <Redirect to="/no-range-use-plan-found" />
         }
       </section>
     );

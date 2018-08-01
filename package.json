@@ -28,7 +28,7 @@
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.78.2",
+    "semantic-ui-react": "^0.82.0",
     "uuid-v4": "^0.1.0"
   },
   "devDependencies": {

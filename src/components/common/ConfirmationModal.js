@@ -23,13 +23,18 @@ const ConfirmationModal = ({
   onYesClicked,
   loading,
 }) => (
-  <Modal open={open} basic size="small" onClose={onNoClicked}>
+  <Modal
+    dimmer="blurring"
+    size="small"
+    open={open}
+    onClose={onNoClicked}
+  >
     <Header as="h2"content={header} />
     <Modal.Content>
       <div className="confirmation-modal__content">{content}</div>
     </Modal.Content>
     <Modal.Actions>
-      <Button basic color="red" inverted onClick={onNoClicked}>
+      <Button color="red" inverted onClick={onNoClicked}>
         <Icon name="remove" />
         No
       </Button>

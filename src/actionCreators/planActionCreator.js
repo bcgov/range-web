@@ -6,18 +6,22 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 import * as schema from './schema';
-import { axios, createRequestHeader } from '../utils';
+import { axios, createConfigWithHeader } from '../utils';
 
 export const fetchPlan = planId => (dispatch, getState) => {
   dispatch(request(reducerTypes.GET_PLAN));
   const makeRequest = async () => {
     try {
-      const response = await axios.get(API.GET_RUP(planId), createRequestHeader(getState));
-      const rangeUsePlan = response.data.plan;
+      const response = await axios.get(API.GET_RUP(planId), createConfigWithHeader(getState));
+      const { plan, ...agreement } = response.data;
+      const planWithAgreement = {
+        ...plan,
+        agreement,
+      };
 
       dispatch(success(reducerTypes.GET_PLAN, response.data));
       // store the plan object
-      dispatch(storePlan(normalize(rangeUsePlan, schema.plan)));
+      dispatch(storePlan(normalize(planWithAgreement, schema.plan)));
 
       // return the agreement data for view
       return response.data;
@@ -36,7 +40,7 @@ export const updatePlanStatus = (planId, statusId, shouldToast = true) => (dispa
       const response = await axios.put(
         API.UPDATE_PLAN_STATUS(planId),
         { statusId },
-        createRequestHeader(getState),
+        createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.UPDATE_PLAN_STATUS, response.data));
       if (shouldToast) {
@@ -61,7 +65,7 @@ export const updateAgreementZone = ({ agreementId, zoneId }) => (dispatch, getSt
       const response = await axios.put(
         API.UPDATE_AGREEMENT_ZONE(agreementId),
         { zoneId },
-        createRequestHeader(getState),
+        createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.UPDATE_AGREEMENT_ZONE, response.data));
       dispatch(toastSuccessMessage(UPDATE_AGREEMENT_ZONE_SUCCESS));
@@ -81,7 +85,7 @@ export const fetchRupPDF = planId => (dispatch, getState) => {
   const makeRequest = async () => {
     try {
       const config = {
-        ...createRequestHeader(getState),
+        ...createConfigWithHeader(getState),
         responseType: 'arraybuffer',
       };
       const { data } = await axios.get(API.GET_PLAN_PDF(planId), config);
@@ -104,7 +108,7 @@ const createRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
       const { data } = await axios.post(
         API.CREATE_RUP_SCHEDULE(planId),
         { ...grazingSchedule, plan_id: planId },
-        createRequestHeader(getState),
+        createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.CREATE_RUP_SCHEDULE, data));
       return data;
@@ -124,7 +128,7 @@ const updateRupGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
       const { data } = await axios.put(
         API.UPDATE_RUP_SCHEDULE(planId, schedule.id),
         { ...schedule },
-        createRequestHeader(getState),
+        createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.UPDATE_RUP_SCHEDULE, data));
       return data;
@@ -150,7 +154,7 @@ export const deleteRupGrazingSchedule = (planId, scheduleId) => (dispatch, getSt
     try {
       const { data } = await axios.delete(
         API.DELETE_RUP_SCHEDULE(planId, scheduleId),
-        createRequestHeader(getState),
+        createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE, data));
       return data;
@@ -169,7 +173,7 @@ export const deleteRupGrazingScheduleEntry = (planId, scheduleId, entryId) => (d
     try {
       const { data } = await axios.delete(
         API.DELETE_RUP_SCHEDULE_ENTRY(planId, scheduleId, entryId),
-        createRequestHeader(getState),
+        createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, data));
       return data;

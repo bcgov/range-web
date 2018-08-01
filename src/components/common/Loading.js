@@ -5,19 +5,21 @@ import { Loader, Dimmer } from 'semantic-ui-react';
 const propTypes = {
   inverted: PropTypes.bool,
   active: PropTypes.bool,
+  message: PropTypes.string,
 };
 
 const defaultProps = {
   inverted: true,
   active: true,
+  message: '',
 };
 
-const Loading = ({ active, inverted }) => (
+const Loading = ({ active, inverted, message }) => (
   <Dimmer
     active={active}
     inverted={inverted}
   >
-    <Loader size="large" />
+    <Loader size="large">{message}</Loader>
   </Dimmer>
 );
 

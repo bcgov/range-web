@@ -37,7 +37,7 @@ export * from './planStatus';
 export * from './client';
 export * from './validation';
 
-export const createRequestHeader = (getState) => {
+export const createConfigWithHeader = (getState) => {
   const token = getToken(getState());
 
   return {
@@ -89,6 +89,11 @@ export const getErrorMessage = (err) => {
           break;
       }
     }
+  }
+
+  const message = err && err.message;
+  if (message) {
+    return `${UNEXPECTED_ERROR} (${message})`;
   }
 
   return UNEXPECTED_ERROR;

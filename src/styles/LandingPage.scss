@@ -52,51 +52,65 @@
 }
 
 .toasts {
-  bottom: 24px;
+  top: 30px;
   position: fixed;
-  right: 24px;
-  width: 350px;
+  right: 30px;
+  width: 400px;
   z-index: $toast-z-index;
 }
 
 .toast {
-  align-items: flex-start;
-  border-radius: 4px;
-  color: #ffffff;
+  min-height: 65px;
+  border-radius: 5px;
+  color: black;
   display: flex;
-  padding: 16px;
+  align-items: stretch;
+  border: 1px solid rgba(34,36,38,.1);
 
   &:not(:last-child) {
     margin: 0 0 12px;
   }
 
-  &__success {
-    background-color: $primary-color;
-  }
-
-  &__error {
-    background-color: $error-color;
+  &__icon {
+    min-width: 50px;
+    max-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    &__success {
+      background-color: green;
+    }
+  
+    &__error {
+      background-color: $error-color;
+    }
   }
 
   &__content {
-    flex: 1 1 auto;
-    margin: 0 12px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background-color: white;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1.1rem;
+    padding: 15px;
   }
 
   &__dismiss {
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: transparent;
+    background: white;
     border: 0;
     color: inherit;
     cursor: pointer;
     display: block;
+    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     font: inherit;
-    padding: 0;
+    padding: 10px;
     font-size: 1.3rem;
   }
 }
@@ -112,12 +126,12 @@
   justify-content: center;
 }
 
-.user-not-active {
+.user-error {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 footer {
