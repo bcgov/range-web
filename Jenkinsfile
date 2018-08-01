@@ -21,7 +21,7 @@ def notifySlack(text, channel, url, attachments, icon) {
 }
 
 // See https://github.com/jenkinsci/kubernetes-plugin
-podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
     image: 'docker-registry.default.svc:5000/openshift/jenkins-slave-nodejs:8',
@@ -41,7 +41,7 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
   )
 ])
 {
-  node('range-web-node8-build') {
+  node('range-web-node-build') {
     stage('Checkout') {
       echo "Checking out source"
       checkout scm
