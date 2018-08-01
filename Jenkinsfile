@@ -128,9 +128,9 @@ podTemplate(label: 'range-web-node-build', name: 'range-web-node-build', service
     stage('Build Image') {
       echo "Build: ${BUILD_ID}"
       // run the oc build to package the artifacts into a docker image
-      openshiftBuild bldCfg: APP_NAME, showBuildLogs: 'true', verbose: 'true'
+      openshiftBuild bldCfg: APP_NAME, showBuildLogs: 'true', verbose: 'false'
 
-      openshiftBuild bldCfg: CADDY_BUILD_CONFIG, showBuildLogs: 'true', verbose: 'true'
+      openshiftBuild bldCfg: CADDY_BUILD_CONFIG, showBuildLogs: 'true', verbose: 'false'
 
       // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
       // Tag the images for deployment based on the image's hash
