@@ -24,7 +24,7 @@ def notifySlack(text, channel, url, attachments, icon) {
 podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
-    image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:8',
+    image: 'docker-registry.default.svc:5000/openshift/jenkins-slave-nodejs:8',
     resourceRequestCpu: '1500m',
     resourceLimitCpu: '2000m',
     resourceRequestMemory: '2Gi',
@@ -96,6 +96,17 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
       }
     }
 
+    // stage('Code Quality') {
+    //   SONARQUBE_URL = sh (
+    //       script: 'oc get routes -o wide --no-headers | awk \'/sonarqube/{ print match($0,/edge/) ?  "https://"$2 : "http://"$2 }\'',
+    //       returnStdout: true
+    //         ).trim()
+    //   echo "SONARQUBE_URL: ${SONARQUBE_URL}"
+    //   dir('sonar-runner') {
+    //     sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info -Dsonar.projectName=${APP_NAME} -Dsonar.branch=${GIT_BRANCH_NAME} -Dsonar.projectKey=org.sonarqube:${APP_NAME} -Dsonar.sources=.."
+    //   }
+    // }
+
     stage('Build Artifacts') {
       echo "Build Artifacts: ${BUILD_ID}"
       try {
@@ -111,17 +122,6 @@ podTemplate(label: 'range-web-node8-build', name: 'range-web-node8-build', servi
 
         notifySlack("${APP_NAME}, Build #${BUILD_ID}", "#rangedevteam", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
         sh "exit 1"
-      }
-    }
-
-    stage('Code Quality') {
-      SONARQUBE_URL = sh (
-          script: 'oc get routes -o wide --no-headers | awk \'/sonarqube/{ print match($0,/edge/) ?  "https://"$2 : "http://"$2 }\'',
-          returnStdout: true
-            ).trim()
-      echo "SONARQUBE_URL: ${SONARQUBE_URL}"
-      dir('sonar-runner') {
-        sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info -Dsonar.projectName=${APP_NAME} -Dsonar.branch=${GIT_BRANCH_NAME} -Dsonar.projectKey=org.sonarqube:${APP_NAME} -Dsonar.sources=../build/"
       }
     }
 
