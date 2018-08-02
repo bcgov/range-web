@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
@@ -9,15 +9,15 @@ import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
-import { RANGE_USE_PLAN } from '../../constants/routes';
+import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
 const propTypes = {
+  agreement: PropTypes.shape({ plan: PropTypes.object }),
+  plan: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
-  agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   references: PropTypes.shape({}).isRequired,
-  plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
@@ -30,6 +30,18 @@ const propTypes = {
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
+};
+const defaultProps = {
+  agreement: {
+    zone: {},
+    usage: [],
+  },
+  plan: {
+    agreementId: '',
+    pastures: [],
+    grazingSchedules: [],
+    ministerIssues: [],
+  },
 };
 
 export class RupAH extends Component {
@@ -227,6 +239,15 @@ export class RupAH extends Component {
     return false;
   }
 
+  onViewPDFClicked = () => {
+    const { id, agreementId } = this.props.plan || {};
+    if (id && agreementId) {
+      this.pdfLink.click();
+    }
+  }
+
+  setPDFRef = (ref) => { this.pdfLink = ref; }
+
   submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })
   submitConfirmModalOpen = () => {
     const error = this.validateRup(this.props.plan);
@@ -276,7 +297,16 @@ export class RupAH extends Component {
     }
 
     return (
-      <article className="rup">
+      <section className="rup">
+        <a
+          className="rup__pdf-link"
+          target="_blank"
+          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
+          ref={this.setPDFRef}
+        >
+          pdf link
+        </a>
+
         <ConfirmationModal
           open={isSubmitModalOpen}
           header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
@@ -298,7 +328,7 @@ export class RupAH extends Component {
         >
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
-              <div className="rup__sticky__title">{header}</div>
+              <div className="rup__sticky__title">{agreementId}</div>
               <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
               <Status
                 className="rup__status"
@@ -307,28 +337,28 @@ export class RupAH extends Component {
               />
             </div>
             <div className="rup__sticky__btns">
-              {/* <Button
+              <Button
                 onClick={this.onViewPDFClicked}
                 style={{ marginRight: '10px' }}
               >
                 View PDF
-              </Button> */}
+              </Button>
               { isEditable &&
-                <div>
+                <Fragment>
                   <Button
                     loading={isSavingAsDraft}
                     onClick={this.onSaveDraftClick}
+                    style={{ marginRight: '10px' }}
                   >
                     Save Draft
                   </Button>
                   <Button
                     loading={isSubmitting}
                     onClick={this.submitConfirmModalOpen}
-                    style={{ marginLeft: '15px' }}
                   >
                     Submit for Review
                   </Button>
-                </div>
+                </Fragment>
               }
               { isAmendable &&
                 <Button
@@ -385,10 +415,11 @@ export class RupAH extends Component {
             ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </article>
+      </section>
     );
   }
 }
 
 RupAH.propTypes = propTypes;
+RupAH.defaultProps = defaultProps;
 export default RupAH;

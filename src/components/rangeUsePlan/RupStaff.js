@@ -16,16 +16,28 @@ import RupMinisterIssues from './view/RupMinisterIssues';
 import { EXPORT_PDF } from '../../constants/routes';
 
 const propTypes = {
-  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
+  agreement: PropTypes.shape({ zone: PropTypes.object }),
+  plan: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updateRUPStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+};
+const defaultProps = {
+  agreement: {
+    zone: {},
+    usage: [],
+  },
+  plan: {
+    agreementId: '',
+    pastures: [],
+    grazingSchedules: [],
+    ministerIssues: [],
+  },
 };
 
 class RupStaff extends Component {
@@ -158,7 +170,7 @@ class RupStaff extends Component {
     }
 
     return (
-      <article className="rup">
+      <section className="rup">
         <a
           className="rup__pdf-link"
           target="_blank"
@@ -203,7 +215,7 @@ class RupStaff extends Component {
         <div id={ELEMENT_ID.RUP_STICKY_HEADER} className="rup__sticky">
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
-              <div className="rup__sticky__title">{header}</div>
+              <div className="rup__sticky__title">{agreementId}</div>
               <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
               <Status
                 className="rup__status"
@@ -211,7 +223,7 @@ class RupStaff extends Component {
                 user={user}
               />
             </div>
-            <div>
+            <div className="rup__sticky__btns">
               {!isStatusDraft(status) &&
                 <Button
                   onClick={this.onViewPDFClicked}
@@ -266,10 +278,11 @@ class RupStaff extends Component {
             ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </article>
+      </section>
     );
   }
 }
 
 RupStaff.propTypes = propTypes;
+RupStaff.defaultProps = defaultProps;
 export default RupStaff;

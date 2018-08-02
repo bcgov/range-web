@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED } from '../../constants/strings';
+import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED, DRAFT } from '../../constants/strings';
 import { PLAN_STATUS } from '../../constants/variables';
 import { isUserAgreementHolder } from '../../utils';
 
@@ -42,7 +42,7 @@ const Status = ({
       break;
     case PLAN_STATUS.DRAFT:
       if (isUserAgreementHolder(user)) {
-        statusName = PLAN_STATUS.DRAFT;
+        statusName = DRAFT;
       } else {
         statusName = IN_PROGRESS;
       }
