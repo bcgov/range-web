@@ -21,14 +21,12 @@ export const updateRUP = (planId, body) => (dispatch, getState) => {
       return plan;
     },
     (err) => {
-      dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
 
 export const createRUP = plan => (dispatch, getState) => {
-  // dispatch(actions.request(reducerTypes.UPDATE_CLIENT_ID_OF_USER));
   return axios.post(
     API.CREATE_RUP,
     plan,
@@ -36,14 +34,10 @@ export const createRUP = plan => (dispatch, getState) => {
   ).then(
     (response) => {
       const plan = response.data;
-      // dispatch(actions.success(reducerTypes., plan));
-      // dispatch(toastSuccessMessage());
       return plan;
     },
     (err) => {
-      // dispatch(actions.error(reducerTypes., err));
-      dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
@@ -56,14 +50,10 @@ export const createRUPPasture = (planId, pasture) => (dispatch, getState) => {
   ).then(
     (response) => {
       const pasture = response.data;
-      // dispatch(actions.success(reducerTypes., pasture));
-      // dispatch(toastSuccessMessage());
       return pasture;
     },
     (err) => {
-      // dispatch(actions.error(reducerTypes., err));
-      dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
@@ -75,10 +65,11 @@ export const createRUPGrazingScheduleEntry = (planId, grazingScheduleId, entry) 
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      return response.data;
+      const newEntry = response.data;
+      return newEntry;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };
@@ -91,32 +82,69 @@ export const createRUPGrazingSchedule = (planId, schedule) => (dispatch, getStat
         { ...schedule, grazingScheduleEntries: [], plan_id: planId },
         createConfigWithHeader(getState),
       );
-      const gses = await Promise.all(schedule.grazingScheduleEntries
+      const newGses = await Promise.all(schedule.grazingScheduleEntries
         .map(gse => dispatch(createRUPGrazingScheduleEntry(planId, newSchedule.id, gse))));
 
       return {
         ...newSchedule,
-        grazingScheduleEntries: gses,
+        grazingScheduleEntries: newGses,
       };
     } catch (err) {
-      return err;
+      throw err;
     }
   };
   return makeRequest();
 };
 
-// export const createRUPMinisterIssue = (planId, issue) => (dispatch, getState) => {
+export const createRUPMinisterIssueAction = (planId, issueId, action) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_MINISTER_ISSUE_ACTION(planId, issueId),
+    { ...action },
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      const newAction = response.data;
+      return newAction;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
 
-// }
+export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, getState) => {
+  const makeRequest = async () => {
+    try {
+      const { data: newIssue } = await axios.post(
+        API.CREATE_RUP_MINISTER_ISSUE(planId),
+        { ...issue },
+        createConfigWithHeader(getState),
+      );
+      const newActions = await Promise.all(issue.ministerIssueActions
+        .map(mia => dispatch(createRUPMinisterIssueAction(planId, newIssue.id, mia))));
+
+      return {
+        ...newIssue,
+        ministerIssueActions: newActions,
+      };
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  return makeRequest();
+};
 
 export const createAmendment = plan => (dispatch, getState) => {
+  dispatch(request(reducerTypes.CREATE_AMENDMENT));
+
   const makeRequest = async () => {
     try {
       const pasturesMap = getPasturesMap(getState());
       const grazingSchedulesMap = getGrazingSchedulesMap(getState());
       const ministerIssuesMap = getMinisterIssuesMap(getState());
 
-      // copy and create new entities without ids
+      // copy and create one-to-many relationship entities without ids
       const pastures = plan.pastures.map((pId) => {
         const { id, planId, ...pasture } = pasturesMap[pId];
         return pasture;
@@ -132,26 +160,32 @@ export const createAmendment = plan => (dispatch, getState) => {
           grazingScheduleEntries: newGrazingScheduleEntries,
         };
       });
-      // const ministerIssues = plan.ministerIssues.map((miId) => {
-      //   const { id, planId, ...ministerIssue } = ministerIssuesMap[miId];
-      //   return ministerIssue;
-      // });
+      const ministerIssues = plan.ministerIssues.map((miId) => {
+        const { id, planId, ...ministerIssue } = ministerIssuesMap[miId];
+        return ministerIssue;
+      });
 
+      // make network calls
       const amendment = await dispatch(createRUP(plan));
       const newPastures = await Promise.all(pastures.map(np => dispatch(createRUPPasture(amendment.id, np))));
       const newGrazingSchedules = await Promise.all(grazingSchedules.map(ngs => dispatch(createRUPGrazingSchedule(amendment.id, ngs))));
-      // await Promise.all(ministerIssues.map(p => dispatch(createPasture(amendment.id, p))));
+      const newMinisterIssues = await Promise.all(ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendment.id, mi))));
 
       // successfully finish uploading!
       await dispatch(updateRUP(amendment.id, { uploaded: true }));
 
-      return {
+      const newAmendmnet = {
         ...amendment,
         pastures: newPastures,
         grazingSchedules: newGrazingSchedules,
+        ministerIssues: newMinisterIssues,
       };
+
+      dispatch(success(reducerTypes.CREATE_AMENDMENT), newAmendmnet);
+      return newAmendmnet;
     } catch (err) {
-      return err;
+      dispatch(error(reducerTypes.CREATE_AMENDMENT), err);
+      throw err;
     }
   };
   return makeRequest();

@@ -29,7 +29,7 @@ const PrivateRoute = ({ component: Component, user, ...rest }) => (
             if (isUserAdmin(user)) {
               return <LandingPage {...props} component={Component} />;
             }
-            return <Redirect to={Routes.LOGIN} />;
+            return <Redirect push to={Routes.LOGIN} />;
           }
 
           // no need to pass the RupPDFView to LandingPage
@@ -41,7 +41,7 @@ const PrivateRoute = ({ component: Component, user, ...rest }) => (
         }
 
         // user is undefined redirect to the login page
-        return <Redirect to={Routes.LOGIN} />;
+        return <Redirect push to={Routes.LOGIN} />;
       }
     }
   />
@@ -52,7 +52,7 @@ const PublicRoute = ({ component: Component, user, ...rest }) => (
     {...rest}
     render={(props) => {
       if (user) {
-        return <Redirect to={Routes.HOME} />;
+        return <Redirect push to={Routes.HOME} />;
       }
       return <Component {...props} />;
     }}

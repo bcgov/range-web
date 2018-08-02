@@ -82,10 +82,14 @@ export class AgreementTableItem extends Component {
     );
   }
 
-  onViewClicked = plan => (e) => {
-    e.preventDefault();
+  onViewClicked = plan => () => {
     const { agreement } = this.props;
-    this.setState({ redirectTo: `${RANGE_USE_PLAN}/${agreement.id}/${plan.id}` });
+    this.setState({
+      redirectTo: {
+        push: true, // redirecting will push a new entry onto the history
+        to: `${RANGE_USE_PLAN}/${agreement.id}/${plan.id}`,
+      },
+    });
   }
 
   render() {
@@ -112,7 +116,7 @@ export class AgreementTableItem extends Component {
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     if (redirectTo) {
-      return <Redirect push to={redirectTo} />;
+      return <Redirect {...redirectTo} />;
     }
 
     return (

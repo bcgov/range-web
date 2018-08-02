@@ -12,6 +12,7 @@ import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSucce
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
   fetchRUP: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
@@ -29,6 +30,7 @@ const propTypes = {
   toastErrorMessage: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
   createAmendment: PropTypes.func.isRequired,
+  isCreatingAmendment: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -37,11 +39,22 @@ const defaultProps = {
 
 class Base extends Component {
   componentDidMount() {
-    this.fetchPlan();
+    // initial fetch for a plan
+    this.fetchPlan(this.props.match);
   }
 
-  fetchPlan = () => {
-    const { fetchRUP, match } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const { location } = this.props;
+    const locationChanged = nextProps.location !== location;
+
+    // triggered by creating amendment
+    if (locationChanged) {
+      this.fetchPlan(nextProps.match);
+    }
+  }
+
+  fetchPlan = (match) => {
+    const { fetchRUP } = this.props;
     fetchRUP(match.params.planId);
   }
 
@@ -64,6 +77,7 @@ class Base extends Component {
       toastErrorMessage,
       isUpdatingStatus,
       createAmendment,
+      isCreatingAmendment,
     } = this.props;
 
     const plan = plansMap[match.params.planId];
@@ -74,7 +88,7 @@ class Base extends Component {
     }
 
     if (errorFetchingPlan) {
-      return <Redirect push to="/no-range-use-plan-found" />;
+      return <Redirect push to="/no-rup-found-from-server" />;
     }
 
     return (
@@ -126,6 +140,7 @@ class Base extends Component {
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
             createAmendment={createAmendment}
+            isCreatingAmendment={isCreatingAmendment}
           />
         }
       </section>
@@ -144,6 +159,7 @@ const mapStateToProps = state => (
     references: selectors.getReferences(state),
     user: selectors.getUser(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
+    isCreatingAmendment: selectors.getIsCreatingAmendment(state),
   }
 );
 

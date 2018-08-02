@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
@@ -8,6 +9,7 @@ import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
+import { RANGE_USE_PLAN } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
@@ -27,6 +29,7 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
+  isCreatingAmendment: PropTypes.bool.isRequired,
 };
 
 export class RupAH extends Component {
@@ -34,6 +37,7 @@ export class RupAH extends Component {
     isSubmitModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
+    redirectTo: null,
   };
 
   componentDidMount() {
@@ -117,18 +121,12 @@ export class RupAH extends Component {
       // update schedules in Redux store
       const newPlan = { ...plan, status, grazingSchedules };
       updatePlan({ plan: newPlan });
-      this.setState({
-        isSubmitModalOpen: false,
-        isSubmitting: false,
-      });
+      this.setState({ isSubmitModalOpen: false, isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
 
     const onFailed = () => {
-      this.setState({
-        isSubmitting: false,
-        isSubmitModalOpen: false,
-      });
+      this.setState({ isSubmitting: false, isSubmitModalOpen: false });
     };
 
     this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
@@ -177,6 +175,7 @@ export class RupAH extends Component {
   onAmendPlanClicked = () => {
     const {
       plan,
+      agreement,
       references,
       createAmendment,
     } = this.props;
@@ -194,7 +193,14 @@ export class RupAH extends Component {
     };
     delete newPlan.id;
 
-    createAmendment(newPlan).then(console.log);
+    createAmendment(newPlan).then((amendment) => {
+      this.setState({
+        redirectTo: {
+          push: false, // replace the current entry in history
+          to: `${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`,
+        },
+      });
+    });
   }
 
   validateRup = (plan) => {
@@ -234,6 +240,7 @@ export class RupAH extends Component {
       isSavingAsDraft,
       isSubmitting,
       isSubmitModalOpen,
+      redirectTo,
     } = this.state;
 
     const {
@@ -244,6 +251,7 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
+      isCreatingAmendment,
     } = this.props;
 
     const { agreementId, status, amendmentTypeId } = plan;
@@ -257,10 +265,14 @@ export class RupAH extends Component {
     const isAmendable = utils.isStatusApproved(status);
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    let header = agreementId;
+    let header = `${agreementId} - Range Use Plan`;
     if (amendmentTypeId && amendmentTypes) {
       const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
       header = `${agreementId} - ${amendmentType.description}`;
+    }
+
+    if (redirectTo) {
+      return <Redirect {...redirectTo} />;
     }
 
     return (
@@ -320,7 +332,7 @@ export class RupAH extends Component {
               }
               { isAmendable &&
                 <Button
-                  // loading={isSubmitting}
+                  loading={isCreatingAmendment}
                   onClick={this.onAmendPlanClicked}
                 >
                   Amend Plan

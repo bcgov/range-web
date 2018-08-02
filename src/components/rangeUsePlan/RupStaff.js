@@ -131,7 +131,7 @@ class RupStaff extends Component {
       zone,
     } = this.state;
 
-    const { agreementId, status } = plan;
+    const { agreementId, status, amendmentTypeId } = plan;
     const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
@@ -149,6 +149,13 @@ class RupStaff extends Component {
         onClick: this.openChangeRequestConfirmModal,
       },
     ];
+
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    let header = `${agreementId} - Range Use Plan`;
+    if (amendmentTypeId && amendmentTypes) {
+      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+      header = `${agreementId} - ${amendmentType.description}`;
+    }
 
     return (
       <article className="rup">
@@ -189,14 +196,14 @@ class RupStaff extends Component {
 
         <Banner
           noDefaultHeight
-          header={agreementId}
+          header={header}
           content={DETAIL_RUP_BANNER_CONTENT}
         />
 
         <div id={ELEMENT_ID.RUP_STICKY_HEADER} className="rup__sticky">
           <div className="rup__sticky__container">
             <div className="rup__sticky__left">
-              <div className="rup__sticky__title">{agreementId}</div>
+              <div className="rup__sticky__title">{header}</div>
               <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
               <Status
                 className="rup__status"
