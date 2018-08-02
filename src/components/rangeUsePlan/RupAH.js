@@ -26,7 +26,7 @@ const propTypes = {
   updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
-  createRUP: PropTypes.func.isRequired,
+  createAmendment: PropTypes.func.isRequired,
 };
 
 export class RupAH extends Component {
@@ -175,7 +175,11 @@ export class RupAH extends Component {
   }
 
   onAmendPlanClicked = () => {
-    const { plan, references, createRUP } = this.props;
+    const {
+      plan,
+      references,
+      createAmendment,
+    } = this.props;
 
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
@@ -183,16 +187,14 @@ export class RupAH extends Component {
     const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
 
     const newPlan = {
-      rangeName: plan.rangeName,
+      ...plan,
       statusId: createdStatus.id,
-      agreementId: plan.agreementId,
-      planStartDate: plan.planStartDate,
-      planEndDate: plan.planEndDate,
       uploaded: false, // still need to create things like pastures and schedules
       amendmentTypeId: initialAmendment.id,
     };
+    delete newPlan.id;
 
-    createRUP(newPlan).then(console.log);
+    createAmendment(newPlan).then(console.log);
   }
 
   validateRup = (plan) => {

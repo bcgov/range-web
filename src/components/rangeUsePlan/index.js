@@ -8,7 +8,7 @@ import { Loading } from '../common';
 import { updatePlan, updateGrazingSchedule } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createRUP } from '../../actionCreators';
+import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -28,7 +28,7 @@ const propTypes = {
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
-  createRUP: PropTypes.func.isRequired,
+  createAmendment: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -63,7 +63,7 @@ class Base extends Component {
       toastSuccessMessage,
       toastErrorMessage,
       isUpdatingStatus,
-      createRUP,
+      createAmendment,
     } = this.props;
 
     const plan = plansMap[match.params.planId];
@@ -125,7 +125,7 @@ class Base extends Component {
             createOrUpdateRupGrazingSchedule={createOrUpdateRupGrazingSchedule}
             toastSuccessMessage={toastSuccessMessage}
             toastErrorMessage={toastErrorMessage}
-            createRUP={createRUP}
+            createAmendment={createAmendment}
           />
         }
       </section>
@@ -157,5 +157,5 @@ export default connect(mapStateToProps, {
   createOrUpdateRupGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
-  createRUP,
+  createAmendment,
 })(Base);
