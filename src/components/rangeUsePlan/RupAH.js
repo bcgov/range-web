@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
 import { Status, ConfirmationModal, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
@@ -30,6 +29,7 @@ const propTypes = {
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 const defaultProps = {
   agreement: {
@@ -49,7 +49,6 @@ export class RupAH extends Component {
     isSubmitModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
-    redirectTo: null,
   };
 
   componentDidMount() {
@@ -190,6 +189,7 @@ export class RupAH extends Component {
       agreement,
       references,
       createAmendment,
+      history,
     } = this.props;
 
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
@@ -206,12 +206,7 @@ export class RupAH extends Component {
     delete newPlan.id;
 
     createAmendment(newPlan).then((amendment) => {
-      this.setState({
-        redirectTo: {
-          push: false, // replace the current entry in history
-          to: `${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`,
-        },
-      });
+      history.push(`${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`);
     });
   }
 
@@ -261,7 +256,6 @@ export class RupAH extends Component {
       isSavingAsDraft,
       isSubmitting,
       isSubmitModalOpen,
-      redirectTo,
     } = this.state;
 
     const {
@@ -290,10 +284,6 @@ export class RupAH extends Component {
     if (amendmentTypeId && amendmentTypes) {
       const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
       header = `${agreementId} - ${amendmentType.description}`;
-    }
-
-    if (redirectTo) {
-      return <Redirect {...redirectTo} />;
     }
 
     return (

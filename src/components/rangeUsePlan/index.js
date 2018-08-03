@@ -14,23 +14,10 @@ const propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
   fetchRUP: PropTypes.func.isRequired,
-  references: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
   errorFetchingPlan: PropTypes.shape({}),
   plansMap: PropTypes.shape({}).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updateRUPStatus: PropTypes.func.isRequired,
-  updatePlan: PropTypes.func.isRequired,
-  updateGrazingSchedule: PropTypes.func.isRequired,
-  createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
-  toastSuccessMessage: PropTypes.func.isRequired,
-  toastErrorMessage: PropTypes.func.isRequired,
-  isUpdatingStatus: PropTypes.bool.isRequired,
-  createAmendment: PropTypes.func.isRequired,
-  isCreatingAmendment: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -56,9 +43,10 @@ class Base extends Component {
   fetchPlan = (planId) => {
     const { fetchRUP, match } = this.props;
     if (planId) {
-      return fetchRUP(planId);
+      fetchRUP(planId);
+      return;
     }
-    return fetchRUP(match.params.planId);
+    fetchRUP(match.params.planId);
   }
 
   render() {
