@@ -13,12 +13,12 @@ const propTypes = {
 };
 class Base extends Component {
   componentDidMount() {
-    // initial search with the given query
+    // initial search for agreements with the given query
     const { searchAgreements, fetchAgreement, location } = this.props;
     const params = parseQuery(location.search);
     searchAgreements({ ...params });
 
-    // initial fetching for an agreement with all plans
+    // initial fetching an agreement with all plans for the active row
     if ((params.row >= 0) && params.aId) {
       fetchAgreement(params.aId);
     }

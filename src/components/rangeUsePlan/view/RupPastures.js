@@ -83,7 +83,7 @@ class RupPastures extends Component {
 
   render() {
     const { plan, pasturesMap, className } = this.props;
-    const pastureIds = plan && plan.pastures;
+    const pastureIds = (plan && plan.pastures) || [];
     const pastures = pastureIds.map(id => pasturesMap[id]);
 
     return (

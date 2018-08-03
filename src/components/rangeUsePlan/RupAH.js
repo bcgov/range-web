@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { Status, ConfirmationModal, Banner } from '../common';
@@ -7,25 +7,41 @@ import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
+import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
 const propTypes = {
+  agreement: PropTypes.shape({ plan: PropTypes.object }),
+  plan: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
-  agreement: PropTypes.shape({ plan: PropTypes.object }).isRequired,
   references: PropTypes.shape({}).isRequired,
-  plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   fetchPlan: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
-  updatePlanStatus: PropTypes.func.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
   createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
+  createAmendment: PropTypes.func.isRequired,
+  isCreatingAmendment: PropTypes.bool.isRequired,
+  history: PropTypes.shape({}).isRequired,
+};
+const defaultProps = {
+  agreement: {
+    zone: {},
+    usage: [],
+  },
+  plan: {
+    agreementId: '',
+    pastures: [],
+    grazingSchedules: [],
+    ministerIssues: [],
+  },
 };
 
 export class RupAH extends Component {
@@ -116,18 +132,12 @@ export class RupAH extends Component {
       // update schedules in Redux store
       const newPlan = { ...plan, status, grazingSchedules };
       updatePlan({ plan: newPlan });
-      this.setState({
-        isSubmitModalOpen: false,
-        isSubmitting: false,
-      });
+      this.setState({ isSubmitModalOpen: false, isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
 
     const onFailed = () => {
-      this.setState({
-        isSubmitting: false,
-        isSubmitModalOpen: false,
-      });
+      this.setState({ isSubmitting: false, isSubmitModalOpen: false });
     };
 
     this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
@@ -136,7 +146,7 @@ export class RupAH extends Component {
   updateRupStatusAndContent = (status, onRequested, onSuccess, onFailed) => {
     const {
       plan,
-      updatePlanStatus,
+      updateRUPStatus,
       createOrUpdateRupGrazingSchedule,
       grazingSchedulesMap,
       toastErrorMessage,
@@ -158,7 +168,7 @@ export class RupAH extends Component {
     if (planId && statusId && grazingSchedules) {
       const makeRequest = async () => {
         try {
-          await updatePlanStatus(planId, statusId, false);
+          await updateRUPStatus(planId, statusId, false);
           const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
             createOrUpdateRupGrazingSchedule(planId, schedule)
           )));
@@ -171,6 +181,33 @@ export class RupAH extends Component {
       };
       makeRequest();
     }
+  }
+
+  onAmendPlanClicked = () => {
+    const {
+      plan,
+      agreement,
+      references,
+      createAmendment,
+      history,
+    } = this.props;
+
+    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
+    const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
+
+    const newPlan = {
+      ...plan,
+      statusId: createdStatus.id,
+      uploaded: false, // still need to create things like pastures and schedules
+      amendmentTypeId: initialAmendment.id,
+    };
+    delete newPlan.id;
+
+    createAmendment(newPlan).then((amendment) => {
+      history.push(`${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`);
+    });
   }
 
   validateRup = (plan) => {
@@ -197,6 +234,15 @@ export class RupAH extends Component {
     return false;
   }
 
+  onViewPDFClicked = () => {
+    const { id, agreementId } = this.props.plan || {};
+    if (id && agreementId) {
+      this.pdfLink.click();
+    }
+  }
+
+  setPDFRef = (ref) => { this.pdfLink = ref; }
+
   submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })
   submitConfirmModalOpen = () => {
     const error = this.validateRup(this.props.plan);
@@ -220,9 +266,10 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
+      isCreatingAmendment,
     } = this.props;
 
-    const { agreementId, status } = plan;
+    const { agreementId, status, amendmentTypeId } = plan;
     const { clients, usage: usages } = agreement;
     const zone = agreement && agreement.zone;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
@@ -230,9 +277,26 @@ export class RupAH extends Component {
 
     const isEditable = utils.isStatusCreated(status)
       || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
+    const isAmendable = utils.isStatusApproved(status);
+
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    let header = `${agreementId} - Range Use Plan`;
+    if (amendmentTypeId && amendmentTypes) {
+      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+      header = `${agreementId} - ${amendmentType.description}`;
+    }
 
     return (
-      <article className="rup">
+      <section className="rup">
+        <a
+          className="rup__pdf-link"
+          target="_blank"
+          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
+          ref={this.setPDFRef}
+        >
+          pdf link
+        </a>
+
         <ConfirmationModal
           open={isSubmitModalOpen}
           header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
@@ -244,7 +308,7 @@ export class RupAH extends Component {
 
         <Banner
           noDefaultHeight
-          header={agreementId}
+          header={header}
           content={utils.getBannerContentForAH(status)}
         />
 
@@ -264,20 +328,36 @@ export class RupAH extends Component {
             </div>
             <div className="rup__sticky__btns">
               <Button
-                loading={isSavingAsDraft}
-                disabled={!isEditable}
-                onClick={this.onSaveDraftClick}
+                onClick={this.onViewPDFClicked}
+                style={{ marginRight: '10px' }}
               >
-                Save Draft
+                View PDF
               </Button>
-              <Button
-                loading={isSubmitting}
-                disabled={!isEditable}
-                onClick={this.submitConfirmModalOpen}
-                style={{ marginLeft: '15px' }}
-              >
-                Submit for Review
-              </Button>
+              { isEditable &&
+                <Fragment>
+                  <Button
+                    loading={isSavingAsDraft}
+                    onClick={this.onSaveDraftClick}
+                    style={{ marginRight: '10px' }}
+                  >
+                    Save Draft
+                  </Button>
+                  <Button
+                    loading={isSubmitting}
+                    onClick={this.submitConfirmModalOpen}
+                  >
+                    Submit for Review
+                  </Button>
+                </Fragment>
+              }
+              { isAmendable &&
+                <Button
+                  loading={isCreatingAmendment}
+                  onClick={this.onAmendPlanClicked}
+                >
+                  Amend Plan
+                </Button>
+              }
             </div>
           </div>
         </div>
@@ -325,10 +405,11 @@ export class RupAH extends Component {
             ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </article>
+      </section>
     );
   }
 }
 
 RupAH.propTypes = propTypes;
+RupAH.defaultProps = defaultProps;
 export default RupAH;

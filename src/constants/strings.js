@@ -94,13 +94,19 @@ export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder\'s name, or staff contact in the search box to search for a specific range use plan.';
 export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
+export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
+export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
 export const RUP_CREATED_FOR_AH_CONTENT = 'Please confirm your range use plan.';
 export const RUP_IN_DRAFT_FOR_AH_CONTENT = 'Please finalize your changes and submit for Range staff review.';
 export const RUP_PENDING_FOR_AH_CONTENT = 'Your range use plan is currently being reviewed by range staff.';
 export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
-export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
-export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
-export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
+export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your initial RUP was reviewed by the district manager and has been approved.';
+export const RUP_APPROVED_FOR_AH_CONTENT = 'Your plan or amendment was reviewed by the district manager and has been approved. If you wish to submit an amendment please use the “Amend Plan” option to the right.';
+export const RUP_NOT_APPROVED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager. For more information follow up with your Range staff contact.';
+export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager because further work is required. Please complete the requested revisions and resubmit.';
+export const RUP_STANDS_FOR_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved.';
+export const RUP_STANDS_WRONGLY_MADE_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
+export const RUP_WRONGLY_MADE_WITHOUT_EFFECT = 'Your Minor amendment was reviewed by Range staff and was deemed wrongly made. For more information follow up with your Range staff contact.';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';
@@ -109,3 +115,4 @@ export const IN_REVIEW = 'In Review';
 export const REVISIONS_REQUESTED = 'Revisions Requested';
 export const SENT_FOR_INPUT = 'Sent for Input';
 export const IN_PROGRESS = 'In Progress';
+export const DRAFT = 'Draft';
