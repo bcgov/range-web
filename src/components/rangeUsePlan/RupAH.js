@@ -7,6 +7,7 @@ import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
+import AmendmentSubmissionModal from './AmendmentSubmissionModal';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
@@ -46,7 +47,8 @@ const defaultProps = {
 
 export class RupAH extends Component {
   state = {
-    isSubmitModalOpen: false,
+    isSubmitPlanModalOpen: false,
+    isSubmitAmendmentModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
@@ -86,7 +88,7 @@ export class RupAH extends Component {
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
     const onRequested = () => {
-      this.setState({ isSavingAsDraft: true });
+      this.setState({ isSavingAsDraft: false });
     };
     const onSuccess = () => {
       fetchPlan();
@@ -129,15 +131,15 @@ export class RupAH extends Component {
         updateGrazingSchedule({ grazingSchedule });
         return grazingSchedule.id;
       });
-      // update schedules in Redux store
+      // update the status and schedules of the plan in Redux store
       const newPlan = { ...plan, status, grazingSchedules };
       updatePlan({ plan: newPlan });
-      this.setState({ isSubmitModalOpen: false, isSubmitting: false });
+      this.setState({ isSubmitPlanModalOpen: false, isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
 
     const onFailed = () => {
-      this.setState({ isSubmitting: false, isSubmitModalOpen: false });
+      this.setState({ isSubmitting: false, isSubmitPlanModalOpen: false });
     };
 
     this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
@@ -243,19 +245,28 @@ export class RupAH extends Component {
 
   setPDFRef = (ref) => { this.pdfLink = ref; }
 
-  submitConfirmModalClose = () => this.setState({ isSubmitModalOpen: false })
-  submitConfirmModalOpen = () => {
-    const error = this.validateRup(this.props.plan);
+  closeSubmitConfirmModal = () => this.setState({ isSubmitPlanModalOpen: false })
+  openSubmitConfirmModal = () => {
+    const { plan } = this.props;
+    const error = this.validateRup(plan);
     if (!error) {
-      this.setState({ isSubmitModalOpen: true });
+      if (plan.amendmentTypeId) {
+        this.openSubmitAmendmentModal();
+        return;
+      }
+      this.setState({ isSubmitPlanModalOpen: true });
     }
   }
+
+  openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
+  closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
 
   render() {
     const {
       isSavingAsDraft,
       isSubmitting,
-      isSubmitModalOpen,
+      isSubmitPlanModalOpen,
+      isSubmitAmendmentModalOpen,
     } = this.state;
 
     const {
@@ -298,12 +309,18 @@ export class RupAH extends Component {
         </a>
 
         <ConfirmationModal
-          open={isSubmitModalOpen}
+          open={isSubmitPlanModalOpen}
           header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
           content={strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
-          onNoClicked={this.submitConfirmModalClose}
+          onNoClicked={this.closeSubmitConfirmModal}
           onYesClicked={this.onSubmitClicked}
           loading={isSubmitting}
+        />
+
+        <AmendmentSubmissionModal
+          open={isSubmitAmendmentModalOpen}
+          onClose={this.closeSubmitAmendmentModal}
+          plan={plan}
         />
 
         <Banner
@@ -344,7 +361,7 @@ export class RupAH extends Component {
                   </Button>
                   <Button
                     loading={isSubmitting}
-                    onClick={this.submitConfirmModalOpen}
+                    onClick={this.openSubmitConfirmModal}
                   >
                     Submit for Review
                   </Button>

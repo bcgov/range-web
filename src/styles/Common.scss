@@ -163,3 +163,26 @@
     }
   }
 }
+
+.multi-form {
+  &__tab {
+    display: none;
+
+    &--active {
+      display: block;
+    }
+    &__title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+  }
+  &__btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  &__btn {
+    min-width: 120px;
+  }
+}
