@@ -227,7 +227,6 @@ class RupStaff extends Component {
               {!isStatusDraft(status) &&
                 <Button
                   onClick={this.onViewPDFClicked}
-                  style={{ marginRight: '10px' }}
                 >
                   View PDF
                 </Button>
@@ -237,6 +236,7 @@ class RupStaff extends Component {
                   className="rup__status-dropdown"
                   text="Update Status"
                   options={statusDropdownOptions}
+                  style={{ marginLeft: '10px' }}
                   button
                   item
                 />

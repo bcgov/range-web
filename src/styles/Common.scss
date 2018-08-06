@@ -89,10 +89,10 @@
 .banner {
   background: $primary-color;
   color: white;
-  padding: 10px 10px 0 10px;
 
   &__container {
     @extend .container;
+    padding-top: 10px;
     min-height: 130px;
     display: flex;
     flex-direction: column;

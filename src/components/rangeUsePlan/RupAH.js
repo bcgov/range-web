@@ -346,7 +346,6 @@ export class RupAH extends Component {
             <div className="rup__sticky__btns">
               <Button
                 onClick={this.onViewPDFClicked}
-                style={{ marginRight: '10px' }}
               >
                 View PDF
               </Button>
@@ -355,13 +354,14 @@ export class RupAH extends Component {
                   <Button
                     loading={isSavingAsDraft}
                     onClick={this.onSaveDraftClick}
-                    style={{ marginRight: '10px' }}
+                    style={{ marginLeft: '10px' }}
                   >
                     Save Draft
                   </Button>
                   <Button
                     loading={isSubmitting}
                     onClick={this.openSubmitConfirmModal}
+                    style={{ marginLeft: '10px' }}
                   >
                     Submit for Review
                   </Button>
@@ -371,7 +371,8 @@ export class RupAH extends Component {
                 <Button
                   loading={isCreatingAmendment}
                   onClick={this.onAmendPlanClicked}
-                >
+                  style={{ marginLeft: '10px' }}
+                  >
                   Amend Plan
                 </Button>
               }

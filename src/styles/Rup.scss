@@ -16,7 +16,6 @@ $row-height: 80px;
   &__title {
     font-size: 1.8rem;
     font-weight: bold;
-    margin-top: 20px;
     color: $primary-color;
 
     &--editable {
@@ -42,6 +41,7 @@ $row-height: 80px;
 
     &__container {
       @extend .container;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -80,7 +80,7 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 102px;
+    padding-top: 60px;
   }
   &__content {
     @extend .container;
@@ -214,8 +214,8 @@ $row-height: 80px;
       justify-content: center;
       align-items: center;
       background: #CCCCCC;
-      border-radius: 3px;
-      margin-top: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
     }
     &__in-draft {
       display: flex;
