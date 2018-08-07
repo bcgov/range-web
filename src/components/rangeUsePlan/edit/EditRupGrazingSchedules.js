@@ -174,6 +174,7 @@ export class EditRupGrazingSchedules extends Component {
 
   renderSchedule = (schedule, scheduleIndex) => {
     const {
+      plan,
       usages,
       references,
       pasturesMap,
@@ -188,7 +189,7 @@ export class EditRupGrazingSchedules extends Component {
     const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const crownTotalAUMs = utils.calcCrownTotalAUMs(schedule.grazingScheduleEntries, pasturesMap, livestockTypes);
-
+    const pastures = (plan && plan.pastures) || [];
     return (
       <EditRupGrazingSchedule
         key={id}
@@ -198,6 +199,7 @@ export class EditRupGrazingSchedules extends Component {
         onScheduleClicked={this.onScheduleClicked}
         activeScheduleIndex={activeScheduleIndex}
         livestockTypes={livestockTypes}
+        pastures={pastures}
         pasturesMap={pasturesMap}
         usages={usages}
         authorizedAUMs={authorizedAUMs}

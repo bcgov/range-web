@@ -18,7 +18,8 @@ export const updateRUP = (planId, body) => (dispatch, getState) => {
   ).then(
     (response) => {
       const updatedPlan = response.data;
-      return updatedPlan;
+      const { entities: { plans: plan } } = normalize(updatedPlan, schema.plan);
+      return plan[planId];
     },
     (err) => {
       throw err;

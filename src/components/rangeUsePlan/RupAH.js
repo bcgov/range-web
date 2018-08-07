@@ -18,19 +18,19 @@ const propTypes = {
   plan: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  fetchPlan: PropTypes.func.isRequired,
-  updatePlan: PropTypes.func.isRequired,
   updateRUPStatus: PropTypes.func.isRequired,
   createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
-  updateGrazingSchedule: PropTypes.func.isRequired,
   toastSuccessMessage: PropTypes.func.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
-  history: PropTypes.shape({}).isRequired,
+  // fetchPlan: PropTypes.func.isRequired,
+  // updatePlan: PropTypes.func.isRequired,
+  // updateGrazingSchedule: PropTypes.func.isRequired,
 };
 const defaultProps = {
   agreement: {
@@ -79,11 +79,11 @@ export class RupAH extends Component {
   onSaveDraftClick = () => {
     const {
       // plan,
-      references,
       // updatePlan,
       // updateGrazingSchedule,
+      // fetchPlan,
+      references,
       toastSuccessMessage,
-      fetchPlan,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
@@ -91,7 +91,7 @@ export class RupAH extends Component {
       this.setState({ isSavingAsDraft: false });
     };
     const onSuccess = () => {
-      fetchPlan();
+      // fetchPlan();
       // generate a list of schedule ids
       // const grazingSchedules = newSchedules.map((grazingSchedule) => {
       //   updateGrazingSchedule({ grazingSchedule });
@@ -103,19 +103,20 @@ export class RupAH extends Component {
       this.setState({ isSavingAsDraft: false });
       toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
-    const onFailed = () => {
+    const onError = () => {
       this.setState({ isSavingAsDraft: false });
     };
 
-    this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
+    this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
   onSubmitClicked = () => {
     const {
-      plan,
+      // plan,
+      // updatePlan,
+      // updateGrazingSchedule,
+      // fetchPlan,
       references,
-      updatePlan,
-      updateGrazingSchedule,
       toastSuccessMessage,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
@@ -125,27 +126,28 @@ export class RupAH extends Component {
       this.setState({ isSubmitting: true });
     };
 
-    const onSuccess = (newSchedules) => {
-      // generate a list of schedule ids
-      const grazingSchedules = newSchedules.map((grazingSchedule) => {
-        updateGrazingSchedule({ grazingSchedule });
-        return grazingSchedule.id;
-      });
-      // update the status and schedules of the plan in Redux store
-      const newPlan = { ...plan, status, grazingSchedules };
-      updatePlan({ plan: newPlan });
+    const onSuccess = () => {
+      // fetchPlan();
+      // // generate a list of schedule ids
+      // const grazingSchedules = newSchedules.map((grazingSchedule) => {
+      //   updateGrazingSchedule({ grazingSchedule });
+      //   return grazingSchedule.id;
+      // });
+      // // update the status and schedules of the plan in Redux store
+      // const newPlan = { ...plan, status, grazingSchedules };
+      // updatePlan({ plan: newPlan });
       this.setState({ isSubmitPlanModalOpen: false, isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
 
-    const onFailed = () => {
+    const onError = () => {
       this.setState({ isSubmitting: false, isSubmitPlanModalOpen: false });
     };
 
-    this.updateRupStatusAndContent(status, onRequested, onSuccess, onFailed);
+    this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
-  updateRupStatusAndContent = (status, onRequested, onSuccess, onFailed) => {
+  updateRupStatusAndContent = async (status, onRequested, onSuccess, onError) => {
     const {
       plan,
       updateRUPStatus,
@@ -159,7 +161,7 @@ export class RupAH extends Component {
     const error = this.validateRup(plan);
 
     if (error) {
-      onFailed();
+      onError();
       return;
     }
     const planId = plan && plan.id;
@@ -167,21 +169,16 @@ export class RupAH extends Component {
     const grazingSchedules = plan && plan.grazingSchedules
     && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
 
-    if (planId && statusId && grazingSchedules) {
-      const makeRequest = async () => {
-        try {
-          await updateRUPStatus(planId, statusId, false);
-          const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
-            createOrUpdateRupGrazingSchedule(planId, schedule)
-          )));
-          onSuccess(newSchedules);
-        } catch (err) {
-          onFailed();
-          toastErrorMessage(err);
-          throw err;
-        }
-      };
-      makeRequest();
+    try {
+      await updateRUPStatus(planId, statusId, false);
+      const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
+        createOrUpdateRupGrazingSchedule(planId, schedule)
+      )));
+      onSuccess(newSchedules);
+    } catch (err) {
+      onError();
+      toastErrorMessage(err);
+      throw err;
     }
   }
 
@@ -321,6 +318,7 @@ export class RupAH extends Component {
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}
           plan={plan}
+          updateRupStatusAndContent={this.updateRupStatusAndContent}
         />
 
         <Banner

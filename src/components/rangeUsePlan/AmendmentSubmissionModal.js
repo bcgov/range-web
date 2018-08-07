@@ -15,6 +15,7 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   updateRUP: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
+  updateRupStatusAndContent: PropTypes.func.isRequired,
 };
 
 /* eslint-disable arrow-body-style */
@@ -30,6 +31,7 @@ class AmendmentSubmissionModal extends Component {
       amendmentType: null,
       isAgreed: false,
       readyToGoNext: false,
+      isSubmitting: false,
     };
   }
 
@@ -51,22 +53,31 @@ class AmendmentSubmissionModal extends Component {
       references,
       updateRUP,
       updatePlan,
+      updateRupStatusAndContent,
     } = this.props;
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+
     if (this.state.amendmentType === AMENDMENT_TYPE.MINOR) {
       const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
-      const onSuccess = (updatedPlan) => {
-        this.onClose();
-        updatePlan({ plan: { ...plan, ...updatedPlan } });
+      const onRequest = () => {
+        this.setState({ isSubmitting: true });
       };
-
-      // update status id and amendment type of the plan at the same time
-      updateRUP(plan.id, {
-        status_id: stands.id,
-        amendmentTypeId: minor.id,
-      }).then(onSuccess);
+      const onSuccess = () => {
+        // update amendment type of the plan
+        updateRUP(plan.id, {
+          amendmentTypeId: minor.id,
+        }).then((updatedPlan) => {
+          this.onClose();
+          updatePlan({ plan: { ...plan, ...updatedPlan } });
+          this.setState({ isSubmitting: false });
+        });
+      };
+      const onError = () => {
+        this.setState({ isSubmitting: false });
+      };
+      updateRupStatusAndContent(stands, onRequest, onSuccess, onError);
     }
   }
 
@@ -100,7 +111,7 @@ class AmendmentSubmissionModal extends Component {
   }
 
   renderBtnsWithSubmit = () => {
-    const { isAgreed } = this.state;
+    const { isAgreed, isSubmitting } = this.state;
 
     return (
       <div className="multi-form__btns">
@@ -114,6 +125,7 @@ class AmendmentSubmissionModal extends Component {
           className="multi-form__btn"
           onClick={this.onSubmitClicked}
           disabled={!isAgreed}
+          loading={isSubmitting}
         >
           Submit Amendment
         </Button>

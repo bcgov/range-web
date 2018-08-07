@@ -79,11 +79,11 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 60px;
+    padding-top: 56px;
   }
   &__content {
     @extend .container;
-    margin-top: $content-margin-top;
+    padding-top: $content-margin-top;
   }
   &__actions {
     justify-content: space-between;
@@ -172,10 +172,10 @@ $row-height: 80px;
         justify-content: space-between;
         width: 100%;
         background: none;
-        padding: 15px 0px 15px 15px !important;
+        padding: 15px !important;
       }
       &__action {
-        margin: 0 10px;
+        margin-right: 10px;
       }
     }
     &__content {
