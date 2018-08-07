@@ -15,9 +15,9 @@ export const SITEMINDER_LOGOUT_ENDPOINT = `https://logontest.gov.bc.ca/clp-cgi/l
 export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 
-const DEV_API_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
+// const DEV_API_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
 // const DEV_API_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api/v1';
-// export const DEV_API_BASE_URL = 'http://localhost:8000/api/v1';
+export const DEV_API_BASE_URL = 'http://localhost:8000/api/v1';
 // const DEV_API_BASE_URL = 'http://10.10.10.191:8000/api/v1';
 
 export const API_BASE_URL = (process.env.NODE_ENV === 'production')

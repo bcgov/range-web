@@ -21,11 +21,10 @@ $row-height: 80px;
     &--editable {
       font-size: 1.8rem;
       font-weight: bold;
-      margin-top: 20px;
       color: $primary-color;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
     }
   }
   &__pdf-link {
@@ -123,10 +122,15 @@ $row-height: 80px;
     justify-content: space-between;
     cursor: pointer;
   }
-
+  &__basic_information {
+    margin-bottom: 15px;
+  }
+  &__pastures {
+    &__container {
+      margin-bottom: 15px;
+    }
+  }
   &__pasture {
-    margin: 5px 0;
-
     &__header {
       display: flex;
       justify-content: space-between;
@@ -138,7 +142,7 @@ $row-height: 80px;
   }
 
   &__schedules {
-    margin: 10px 0;
+    margin-top: 10px;
     list-style-type: none;
     padding: 0;
     border-radius: 5px;
@@ -148,6 +152,9 @@ $row-height: 80px;
     }
     li:not(:last-child) {
       border-bottom: 1px solid gainsboro;
+    }
+    &__container {
+      margin-bottom: 15px;
     }
   }
 
@@ -224,6 +231,9 @@ $row-height: 80px;
   }
 
   &__missues {
+    &__container {
+      margin-bottom: 15px;
+    }
     &__note {
       margin-top: 10px;
       font-size: 1.1rem;

@@ -214,8 +214,8 @@ export class EditRupGrazingSchedules extends Component {
   render() {
     const { yearOptions } = this.state;
     const { plan, grazingSchedulesMap } = this.props;
-    const { grazingSchedules: grazingScheduleIds } = plan;
-    const grazingSchedules = grazingScheduleIds.map(id => grazingSchedulesMap[id]);
+    const grazingScheduleIds = plan && plan.grazingSchedules;
+    const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
       <div className="rup__schedules__container" id={ELEMENT_ID.GRAZING_SCHEDULE}>

@@ -256,7 +256,7 @@ class RupStaff extends Component {
           />
 
           <RupPastures
-            className="rup__pastures"
+            className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />

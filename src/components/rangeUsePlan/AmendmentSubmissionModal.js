@@ -58,12 +58,11 @@ class AmendmentSubmissionModal extends Component {
       const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
       const onSuccess = (updatedPlan) => {
-        console.log(updatedPlan);
-        
-        // this.onClose();
-        // updatePlan({ plan: { ...plan, ...updatedPlan } });
+        this.onClose();
+        updatePlan({ plan: { ...plan, ...updatedPlan } });
       };
 
+      // update status id and amendment type of the plan at the same time
       updateRUP(plan.id, {
         status_id: stands.id,
         amendmentTypeId: minor.id,

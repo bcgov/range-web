@@ -372,7 +372,7 @@ export class RupAH extends Component {
                   loading={isCreatingAmendment}
                   onClick={this.onAmendPlanClicked}
                   style={{ marginLeft: '10px' }}
-                  >
+                >
                   Amend Plan
                 </Button>
               }
@@ -390,7 +390,7 @@ export class RupAH extends Component {
           />
 
           <RupPastures
-            className="rup__pastures"
+            className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />
