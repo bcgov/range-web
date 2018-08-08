@@ -15,7 +15,7 @@ const propTypes = {
 };
 
 class RupPastures extends Component {
-  renderPastures = (pasture) => {
+  renderPasture = (pasture) => {
     // const options = [
     //   {
     //     key: 'edit',
@@ -90,13 +90,15 @@ class RupPastures extends Component {
       <div className={className}>
         <div className="rup__title">Pastures</div>
         <div className="rup__divider" />
-        {
-          pastures.length === 0 ? (
-            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-          ) : (
-            pastures.map(this.renderPastures)
-          )
-        }
+        <div className="rup__pastures">
+          {
+            pastures.length === 0 ? (
+              <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+            ) : (
+              pastures.map(this.renderPasture)
+            )
+          }
+        </div>
       </div>
     );
   }

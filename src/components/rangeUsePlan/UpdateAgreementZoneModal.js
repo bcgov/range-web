@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown, Modal } from 'semantic-ui-react';
+import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
@@ -72,6 +72,7 @@ export class UpdateZoneModal extends Component {
         dimmer="blurring"
         open={isUpdateZoneModalOpen}
         onClose={this.closeUpdateZoneModal}
+        closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Header>Update Zone</Modal.Header>
         <Modal.Content>
