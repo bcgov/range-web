@@ -28,8 +28,8 @@ const propTypes = {
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
+  updatePlan: PropTypes.func.isRequired,
   // fetchPlan: PropTypes.func.isRequired,
-  // updatePlan: PropTypes.func.isRequired,
   // updateGrazingSchedule: PropTypes.func.isRequired,
 };
 const defaultProps = {
@@ -78,8 +78,8 @@ export class RupAH extends Component {
 
   onSaveDraftClick = () => {
     const {
-      // plan,
-      // updatePlan,
+      plan,
+      updatePlan,
       // updateGrazingSchedule,
       // fetchPlan,
       references,
@@ -98,8 +98,8 @@ export class RupAH extends Component {
       //   return grazingSchedule.id;
       // });
       // update schedules in Redux store
-      // const newPlan = { ...plan, status, grazingSchedules };
-      // updatePlan({ plan: newPlan });
+      const newPlan = { ...plan, status };
+      updatePlan({ plan: newPlan });
       this.setState({ isSavingAsDraft: false });
       toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
@@ -112,8 +112,8 @@ export class RupAH extends Component {
 
   onSubmitClicked = () => {
     const {
-      // plan,
-      // updatePlan,
+      plan,
+      updatePlan,
       // updateGrazingSchedule,
       // fetchPlan,
       references,
@@ -134,8 +134,8 @@ export class RupAH extends Component {
       //   return grazingSchedule.id;
       // });
       // // update the status and schedules of the plan in Redux store
-      // const newPlan = { ...plan, status, grazingSchedules };
-      // updatePlan({ plan: newPlan });
+      const newPlan = { ...plan, status };
+      updatePlan({ plan: newPlan });
       this.setState({ isSubmitPlanModalOpen: false, isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };

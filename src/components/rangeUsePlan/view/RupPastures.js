@@ -80,25 +80,29 @@ class RupPastures extends Component {
       </div>
     );
   }
+  renderPastures = (pastures = []) =>
+    (
+      <div className="rup__pastures">
+        {
+          pastures.length === 0 ? (
+            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+          ) : (
+            pastures.map(this.renderPasture)
+          )
+        }
+      </div>
+    )
 
   render() {
     const { plan, pasturesMap, className } = this.props;
-    const pastureIds = (plan && plan.pastures) || [];
-    const pastures = pastureIds.map(id => pasturesMap[id]);
+    const pastureIds = plan && plan.pastures;
+    const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
 
     return (
       <div className={className}>
         <div className="rup__title">Pastures</div>
         <div className="rup__divider" />
-        <div className="rup__pastures">
-          {
-            pastures.length === 0 ? (
-              <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-            ) : (
-              pastures.map(this.renderPasture)
-            )
-          }
-        </div>
+        {this.renderPastures(pastures)}
       </div>
     );
   }
