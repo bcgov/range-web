@@ -171,19 +171,21 @@ class AmendmentSubmissionModal extends Component {
               </Form.Field>
               {this.renderBtnsWithNext()}
             </div>
-            <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
-              <div className="multi-form__tab__title">{index}. Confirm Your Submission and eSignature</div>
-              <div style={{ marginBottom: '20px' }}>
-                You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
+            { amendmentType === AMENDMENT_TYPE.MINOR &&
+              <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
+                <div className="multi-form__tab__title">{index}. Confirm Your Submission and eSignature</div>
+                <div style={{ marginBottom: '20px' }}>
+                  You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
+                </div>
+                <Form.Field>
+                  <Checkbox
+                    label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
+                    onChange={this.handleAgreeCheckBoxChange}
+                  />
+                </Form.Field>
+                {this.renderBtnsWithSubmit()}
               </div>
-              <Form.Field>
-                <Checkbox
-                  label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
-                  onChange={this.handleAgreeCheckBoxChange}
-                />
-              </Form.Field>
-              {this.renderBtnsWithSubmit()}
-            </div>
+            }
           </Form>
         </Modal.Content>
       </Modal>
