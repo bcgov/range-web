@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
@@ -69,7 +69,7 @@ class AmendmentSubmissionModal extends Component {
         updateRUP(plan.id, {
           amendmentTypeId: minor.id,
         }).then((updatedPlan) => {
-          this.onClose();
+          this.onNextClicked();
           updatePlan({ plan: { ...plan, ...updatedPlan } });
           this.setState({ isSubmitting: false });
         });
@@ -172,19 +172,37 @@ class AmendmentSubmissionModal extends Component {
               {this.renderBtnsWithNext()}
             </div>
             { amendmentType === AMENDMENT_TYPE.MINOR &&
-              <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
-                <div className="multi-form__tab__title">{index}. Confirm Your Submission and eSignature</div>
-                <div style={{ marginBottom: '20px' }}>
-                  You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
+              <Fragment>
+                <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
+                  <div className="multi-form__tab__title">{index}. Confirm Your Submission and eSignature</div>
+                  <div style={{ marginBottom: '20px' }}>
+                    You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
+                  </div>
+                  <Form.Field>
+                    <Checkbox
+                      label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
+                      onChange={this.handleAgreeCheckBoxChange}
+                    />
+                  </Form.Field>
+                  {this.renderBtnsWithSubmit()}
                 </div>
-                <Form.Field>
-                  <Checkbox
-                    label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
-                    onChange={this.handleAgreeCheckBoxChange}
-                  />
-                </Form.Field>
-                {this.renderBtnsWithSubmit()}
-              </div>
+
+                <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
+                  <div className="amendment__submission__last-tab">
+                    <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
+                    <div className="amendment__submission__last-tab__title">Your Minor Amendment has been applied to your range use plan.</div>
+                    <div style={{ marginBottom: '20px' }}>
+                      Your minor amendment has been applied to your active range use plan. No further action is required unless Range Staff finds errors in your submission.
+                    </div>
+                    <Button
+                      className="multi-form__btn"
+                      onClick={this.onClose}
+                    >
+                      Finish
+                    </Button>
+                  </div>
+                </div>
+              </Fragment>
             }
           </Form>
         </Modal.Content>

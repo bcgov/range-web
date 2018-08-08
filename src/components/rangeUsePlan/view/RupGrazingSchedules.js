@@ -149,6 +149,7 @@ class RupGrazingSchedules extends Component {
       </Table.Row>
     );
   }
+
   render() {
     const { plan, grazingSchedulesMap } = this.props;
     const grazingScheduleIds = plan && plan.grazingSchedules;

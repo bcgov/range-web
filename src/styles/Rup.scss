@@ -178,6 +178,9 @@ $row-height: 80px;
         margin-right: 10px;
       }
     }
+    &__warning-message {
+      padding: 0px 15px 10px 15px;
+    }
     &__content {
       padding: 0px 15px 15px 15px;
       &__hidden {
@@ -331,6 +334,22 @@ $row-height: 80px;
           padding: 20px;
           color: black;
         }
+      }
+    }
+  }
+}
+
+.amendment {
+  &__submission {
+    &__last-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
       }
     }
   }

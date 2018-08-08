@@ -126,7 +126,7 @@ class EditRupGrazingSchedule extends Component {
     const { message, error } = result || {};
     const hidden = !error;
     return (
-      <Message error style={{ marginBottom: '10px' }} hidden={hidden} content={`Error: ${message}`} />
+      <Message error hidden={hidden} content={`Error: ${message}`} />
     );
   }
 
@@ -239,11 +239,11 @@ class EditRupGrazingSchedule extends Component {
             </Dropdown>
           </div>
         </div>
-
+        <div className="rup__schedule__warning-message">
+          {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
+        </div>
 
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
-          {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
-
           <Table unstackable>
             <Table.Header>
               <Table.Row>
