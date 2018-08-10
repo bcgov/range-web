@@ -5,6 +5,7 @@ export const AGREEMENT_HOLDER = 'Agreement Holder';
 export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
+export const SUBMITTED = 'Submitted';
 
 // Range use plan basic information
 export const PLAN_START = 'Plan Start Date';

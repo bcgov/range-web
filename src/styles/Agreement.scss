@@ -1,7 +1,7 @@
 @import 'styles/mixins.scss';
 @import 'styles/Grid.scss';
 
-$first_plan_table_cell_rate: 0.6;
+$plan_table_date_cell_rate: 0.6;
 $third_agrm_table_cell_rate: 1.8;
 
 .agrm {
@@ -31,9 +31,12 @@ $third_agrm_table_cell_rate: 1.8;
         padding-right: 10px;
 
         &:nth-of-type(1) {
-          flex: $first_plan_table_cell_rate;
+          flex: $plan_table_date_cell_rate;
         }
-        &:nth-of-type(4) {
+        &:nth-of-type(2) {
+          flex: $plan_table_date_cell_rate;
+        }
+        &:nth-of-type(5) {
           flex: none;
           flex-basis: auto;
           color: white;
@@ -57,9 +60,12 @@ $third_agrm_table_cell_rate: 1.8;
         padding-right: 10px;
 
         &:nth-of-type(1) {
-          flex: $first_plan_table_cell_rate;
+          flex: $plan_table_date_cell_rate;
         }
-        &:nth-of-type(4) {
+        &:nth-of-type(2) {
+          flex: $plan_table_date_cell_rate;
+        }
+        &:nth-of-type(5) {
           flex: none;
           flex-basis: auto;
           padding-right: 0px;

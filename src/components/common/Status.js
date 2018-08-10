@@ -48,6 +48,10 @@ const Status = ({
       }
       modifier += '--gray'; // gray
       break;
+    case PLAN_STATUS.STAFF_DRAFT:
+      statusName = 'Staff Draft';
+      modifier += '--gray'; // gray
+      break;
     case PLAN_STATUS.PENDING:
       if (isUserAgreementHolder(user)) {
         statusName = IN_REVIEW;

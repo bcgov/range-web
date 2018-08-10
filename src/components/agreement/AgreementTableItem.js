@@ -7,7 +7,7 @@ import { Status } from '../common';
 import { presentNullValue, getUserFullName, getAgreementHolders, formatDateFromServer } from '../../utils';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { REFERENCE_KEY } from '../../constants/variables';
-import { TYPE, STATUS, EFFECTIVE_DATE } from '../../constants/strings';
+import { TYPE, STATUS, EFFECTIVE_DATE, SUBMITTED } from '../../constants/strings';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
@@ -50,6 +50,7 @@ export class AgreementTableItem extends Component {
       <div className="agrm__ptable">
         <div className="agrm__ptable__header-row">
           <div className="agrm__ptable__header-row__cell">{EFFECTIVE_DATE}</div>
+          <div className="agrm__ptable__header-row__cell">{SUBMITTED}</div>
           <div className="agrm__ptable__header-row__cell">{TYPE}</div>
           <div className="agrm__ptable__header-row__cell">{STATUS}</div>
           <div className="agrm__ptable__header-row__cell">
@@ -68,10 +69,15 @@ export class AgreementTableItem extends Component {
     const amendmentType = amendmentTypes.find(at => at.id === plan.amendmentTypeId);
     const amendment = amendmentType ? amendmentType.description : 'Initial Plan';
     const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
+    const submittedAt = formatDateFromServer(plan.submittedAt, true, '-');
+
     return (
       <div key={plan.id} className="agrm__ptable__row">
         <div className="agrm__ptable__row__cell">
           {effectiveAt}
+        </div>
+        <div className="agrm__ptable__row__cell">
+          {submittedAt}
         </div>
         <div className="agrm__ptable__row__cell">
           {amendment}
