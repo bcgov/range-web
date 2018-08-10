@@ -9,14 +9,14 @@ import { NOT_PROVIDED } from '../constants/strings';
  * @param {boolean} isYearIncluded The boolean to specify whether the year is needed
  * @returns {string} a formatted string or 'Not provided'
  */
-export const formatDateFromServer = (isoFormatDate, isYearIncluded = true) => {
+export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notProvided = NOT_PROVIDED) => {
   if (isoFormatDate) {
     if (isYearIncluded) {
       return moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE).format(DATE_FORMAT.CLIENT_SIDE);
     }
     return moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE).format(DATE_FORMAT.SCHEUDLE_ENTRY);
   }
-  return NOT_PROVIDED;
+  return notProvided;
 };
 
 /**

@@ -4,10 +4,10 @@ import classnames from 'classnames';
 import { Redirect } from 'react-router-dom';
 import { Icon, Button } from 'semantic-ui-react';
 import { Status } from '../common';
-import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
+import { presentNullValue, getUserFullName, getAgreementHolders, formatDateFromServer } from '../../utils';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { REFERENCE_KEY } from '../../constants/variables';
-import { TYPE, STATUS } from '../../constants/strings';
+import { TYPE, STATUS, EFFECTIVE_DATE } from '../../constants/strings';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
@@ -49,6 +49,7 @@ export class AgreementTableItem extends Component {
     return (
       <div className="agrm__ptable">
         <div className="agrm__ptable__header-row">
+          <div className="agrm__ptable__header-row__cell">{EFFECTIVE_DATE}</div>
           <div className="agrm__ptable__header-row__cell">{TYPE}</div>
           <div className="agrm__ptable__header-row__cell">{STATUS}</div>
           <div className="agrm__ptable__header-row__cell">
@@ -56,19 +57,22 @@ export class AgreementTableItem extends Component {
           </div>
         </div>
 
-        {plans && plans.map(this.renderPlan)}
+        {plans && plans.map(this.renderPlanTableItem)}
       </div>
     );
   }
 
-  renderPlan = (plan = {}) => {
+  renderPlanTableItem = (plan = {}) => {
     const { references, user } = this.props;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const amendmentType = amendmentTypes.find(at => at.id === plan.amendmentTypeId);
     const amendment = amendmentType ? amendmentType.description : 'Initial Plan';
-
+    const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
     return (
       <div key={plan.id} className="agrm__ptable__row">
+        <div className="agrm__ptable__row__cell">
+          {effectiveAt}
+        </div>
         <div className="agrm__ptable__row__cell">
           {amendment}
         </div>
