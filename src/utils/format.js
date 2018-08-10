@@ -11,10 +11,12 @@ import { NOT_PROVIDED } from '../constants/strings';
  */
 export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notProvided = NOT_PROVIDED) => {
   if (isoFormatDate) {
+    const m = moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE);
+
     if (isYearIncluded) {
-      return moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE).format(DATE_FORMAT.CLIENT_SIDE);
+      return m.format(DATE_FORMAT.CLIENT_SIDE);
     }
-    return moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE).format(DATE_FORMAT.SCHEUDLE_ENTRY);
+    return m.format(DATE_FORMAT.CLIENT_SIDE_WITHOUT_YEAR);
   }
   return notProvided;
 };
