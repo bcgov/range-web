@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Redirect } from 'react-router-dom';
 import { Icon, Button } from 'semantic-ui-react';
 import { Status } from '../common';
-import { presentNullValue, getUserFullName, getAgreementHolders, formatDateFromServer, isStatusAmongApprovedStatuses } from '../../utils';
-import { RANGE_USE_PLAN } from '../../constants/routes';
-import { REFERENCE_KEY } from '../../constants/variables';
+import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
 import { TYPE, STATUS, EFFECTIVE_DATE, SUBMITTED } from '../../constants/strings';
+import PlanTable from './PlanTable';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
@@ -22,10 +20,6 @@ const propTypes = {
 };
 
 export class AgreementTableItem extends Component {
-  state = {
-    redirectTo: null,
-  }
-
   onRowClicked = () => {
     const {
       agreement,
@@ -62,70 +56,13 @@ export class AgreementTableItem extends Component {
     );
   }
 
-  renderPlanTableItems = (plans = []) => {
-    let approvedFound = false;
-    return plans.map((p) => {
-      const plan = { ...p };
-      const isApproved = isStatusAmongApprovedStatuses(plan.status);
-
-      if (!approvedFound && isApproved) {
-        approvedFound = true;
-        plan.recentApproved = true;
-      }
-      return this.renderPlanTableItem(plan);
-    });
-  }
-
-  renderPlanTableItem = (plan = {}) => {
-    const { references, user } = this.props;
-    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const amendmentType = amendmentTypes.find(at => at.id === plan.amendmentTypeId);
-    const amendment = amendmentType ? amendmentType.description : 'Initial Plan';
-    const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
-    const submittedAt = formatDateFromServer(plan.submittedAt, true, '-');
-    const { id, recentApproved } = plan;
-
-    return (
-      <div key={id} className="agrm__ptable__row">
-        <div className="agrm__ptable__row__cell">
-          {recentApproved
-            ? <Icon name="star" size="small" style={{ marginRight: '5px' }} />
-            : ''
-          }
-          {effectiveAt}
-        </div>
-        <div className="agrm__ptable__row__cell">
-          {submittedAt}
-        </div>
-        <div className="agrm__ptable__row__cell">
-          {amendment}
-        </div>
-        <div className="agrm__ptable__row__cell">
-          <Status user={user} status={plan.status} />
-        </div>
-        <div className="agrm__ptable__row__cell">
-          <Button onClick={this.onViewClicked(plan)}>View</Button>
-        </div>
-      </div>
-    );
-  }
-
-  onViewClicked = plan => () => {
-    const { agreement } = this.props;
-    this.setState({
-      redirectTo: {
-        push: true, // redirecting will push a new entry onto the history
-        to: `${RANGE_USE_PLAN}/${agreement.id}/${plan.id}`,
-      },
-    });
-  }
-
   render() {
-    const { redirectTo } = this.state;
     const {
       agreement,
       isActive,
       user,
+      agreementsMapWithAllPlan,
+      references,
     } = this.props;
     const {
       id: agreementId,
@@ -142,10 +79,6 @@ export class AgreementTableItem extends Component {
     const staffFullName = getUserFullName(staff);
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-
-    if (redirectTo) {
-      return <Redirect {...redirectTo} />;
-    }
 
     return (
       <div className={classnames('agrm__table__row', { 'agrm__table__row--active': isActive })}>
@@ -170,7 +103,12 @@ export class AgreementTableItem extends Component {
           </div>
         </button>
         <div className={classnames('agrm__table__panel', { 'agrm__table__panel--active': isActive })}>
-          {this.renderPlanTable()}
+          <PlanTable
+            agreement={agreement}
+            agreementsMapWithAllPlan={agreementsMapWithAllPlan}
+            references={references}
+            user={user}
+          />
         </div>
       </div>
     );

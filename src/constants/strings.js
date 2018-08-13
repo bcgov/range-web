@@ -13,6 +13,7 @@ export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
 export const SUBMIT_FOR_REVIEW = 'Submit for Review';
 export const AMEND_PLAN = 'Amend Plan';
+export const VIEW = 'View';
 
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';

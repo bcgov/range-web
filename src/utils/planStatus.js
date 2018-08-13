@@ -69,35 +69,25 @@ export const isStatusAmongApprovedStatuses = status => (
 export const getBannerContentForAH = (status) => {
   if (isStatusCreated(status)) {
     return RUP_CREATED_FOR_AH_CONTENT;
-  }
-  if (isStatusDraft(status)) {
+  } else if (isStatusDraft(status)) {
     return RUP_IN_DRAFT_FOR_AH_CONTENT;
-  }
-  if (isStatusPending(status)) {
+  } else if (isStatusPending(status)) {
     return RUP_PENDING_FOR_AH_CONTENT;
-  }
-  if (isStatusChangedRequested(status)) {
+  } else if (isStatusChangedRequested(status)) {
     return RUP_CHANGE_REQUESTED_FOR_AH_CONTENT;
-  }
-  if (isStatusCompleted(status)) {
+  } else if (isStatusCompleted(status)) {
     return RUP_COMPLETE_FOR_AH_CONTENT;
-  }
-  if (isStatusApproved(status)) {
+  } else if (isStatusApproved(status)) {
     return RUP_APPROVED_FOR_AH_CONTENT;
-  }
-  if (isStatusNotApproved(status)) {
+  } else if (isStatusNotApproved(status)) {
     return RUP_NOT_APPROVED_FOR_AH_CONTENT;
-  }
-  if (isStatusNotApprovedFWR(status)) {
+  } else if (isStatusNotApprovedFWR(status)) {
     return RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT;
-  }
-  if (isStatusStands(status)) {
+  } else if (isStatusStands(status)) {
     return RUP_STANDS_FOR_AH_CONTENT;
-  }
-  if (isStatusStandsWM(status)) {
+  } else if (isStatusStandsWM(status)) {
     return RUP_STANDS_WRONGLY_MADE_AH_CONTENT;
-  }
-  if (isStatusWronglyMakeWE(status)) {
+  } else if (isStatusWronglyMakeWE(status)) {
     return RUP_WRONGLY_MADE_WITHOUT_EFFECT;
   }
   return 'View Range Use Plan.';

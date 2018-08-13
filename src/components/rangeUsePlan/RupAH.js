@@ -8,7 +8,7 @@ import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './AmendmentSubmissionModal';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
@@ -80,8 +80,6 @@ export class RupAH extends Component {
     const {
       plan,
       updatePlan,
-      // updateGrazingSchedule,
-      // fetchPlan,
       references,
       toastSuccessMessage,
     } = this.props;
@@ -91,12 +89,6 @@ export class RupAH extends Component {
       this.setState({ isSavingAsDraft: false });
     };
     const onSuccess = () => {
-      // fetchPlan();
-      // generate a list of schedule ids
-      // const grazingSchedules = newSchedules.map((grazingSchedule) => {
-      //   updateGrazingSchedule({ grazingSchedule });
-      //   return grazingSchedule.id;
-      // });
       // update schedules in Redux store
       const newPlan = { ...plan, status };
       updatePlan({ plan: newPlan });
@@ -114,8 +106,6 @@ export class RupAH extends Component {
     const {
       plan,
       updatePlan,
-      // updateGrazingSchedule,
-      // fetchPlan,
       references,
       toastSuccessMessage,
     } = this.props;
@@ -127,13 +117,7 @@ export class RupAH extends Component {
     };
 
     const onSuccess = () => {
-      // fetchPlan();
-      // // generate a list of schedule ids
-      // const grazingSchedules = newSchedules.map((grazingSchedule) => {
-      //   updateGrazingSchedule({ grazingSchedule });
-      //   return grazingSchedule.id;
-      // });
-      // // update the status and schedules of the plan in Redux store
+      // update the status and schedules of the plan in Redux store
       const newPlan = { ...plan, status };
       updatePlan({ plan: newPlan });
       this.setState({ isSubmitPlanModalOpen: false, isSubmitting: false });
@@ -186,25 +170,11 @@ export class RupAH extends Component {
     const {
       plan,
       agreement,
-      references,
       createAmendment,
       history,
     } = this.props;
 
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
-    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
-    const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
-
-    const newPlan = {
-      ...plan,
-      statusId: createdStatus.id,
-      uploaded: false, // still need to create things like pastures and schedules
-      amendmentTypeId: initialAmendment.id,
-    };
-    delete newPlan.id;
-
-    createAmendment(newPlan).then((amendment) => {
+    createAmendment(plan).then((amendment) => {
       history.push(`${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`);
     });
   }
