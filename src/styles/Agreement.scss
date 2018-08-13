@@ -1,6 +1,9 @@
 @import 'styles/mixins.scss';
 @import 'styles/Grid.scss';
 
+$plan_table_date_cell_rate: 0.6;
+$third_agrm_table_cell_rate: 1.8;
+
 .agrm {
   &__search {
     width: 400px;
@@ -19,14 +22,23 @@
       align-items: center;
       min-height: 40px;
       font-size: 1.1rem;
+      font-weight: bold;
       width: 100%;
       padding: 0 10px;
-
+      
       &__cell {
         flex: 1;
         padding-right: 10px;
+        display: flex;
+        align-items: center;
 
-        &:nth-of-type(3) {
+        &:nth-of-type(1) {
+          flex: $plan_table_date_cell_rate;
+        }
+        &:nth-of-type(2) {
+          flex: $plan_table_date_cell_rate;
+        }
+        &:nth-of-type(5) {
           flex: none;
           flex-basis: auto;
           color: white;
@@ -48,8 +60,16 @@
       &__cell {
         flex: 1;
         padding-right: 10px;
+        display: flex;
+        align-items: center;
 
-        &:nth-of-type(3) {
+        &:nth-of-type(1) {
+          flex: $plan_table_date_cell_rate;
+        }
+        &:nth-of-type(2) {
+          flex: $plan_table_date_cell_rate;
+        }
+        &:nth-of-type(5) {
           flex: none;
           flex-basis: auto;
           padding-right: 0px;
@@ -64,20 +84,18 @@
       align-items: center;
       padding: 0;
       min-height: 50px;
-      font-size: 1.1rem;
       width: 100%;
       outline: none;
       padding: 0 10px;
+      font-size: 1.2rem;
 
       &__cell {
         flex: 1;
         font-weight: bold;
         padding-right: 10px;
-        &:nth-of-type(1) {
-          flex: 0.7;
-        }
+
         &:nth-of-type(3) {
-          flex: 1.8;
+          flex: $third_agrm_table_cell_rate;
         }
         &:nth-of-type(6) {
           flex: none;
@@ -116,11 +134,8 @@
         flex: 1;
         padding-right: 10px;
 
-        &:nth-of-type(1) {
-          flex: 0.7;
-        }
         &:nth-of-type(3) {
-          flex: 1.8;
+          flex: $third_agrm_table_cell_rate;
         }
         &:nth-of-type(6) {
           flex: none;

@@ -37,7 +37,7 @@ class EditRupGrazingScheduleEntry extends Component {
 
     this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,
-      format: DATE_FORMAT.SCHEUDLE_ENTRY,
+      format: DATE_FORMAT.CLIENT_SIDE_WITHOUT_YEAR,
       minDate,
       maxDate: dateOut || maxDate,
       defaultDate: dateIn || minDate, // the initial date to view when first opened
@@ -47,7 +47,7 @@ class EditRupGrazingScheduleEntry extends Component {
 
     this.pikaDayDateOut = new Pikaday({
       field: this.dateOutRef,
-      format: DATE_FORMAT.SCHEUDLE_ENTRY,
+      format: DATE_FORMAT.CLIENT_SIDE_WITHOUT_YEAR,
       minDate: dateIn || minDate,
       maxDate,
       defaultDate: dateOut || minDate,

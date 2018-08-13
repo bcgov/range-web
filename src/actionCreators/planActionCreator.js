@@ -7,7 +7,8 @@ import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 import * as schema from './schema';
 import { axios, createConfigWithHeader } from '../utils';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences } from '../reducers/rootReducer';
+import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 
 /* eslint-disable arrow-body-style */
 export const updateRUP = (planId, body) => (dispatch, getState) => {
@@ -147,11 +148,27 @@ export const createAmendment = plan => (dispatch, getState) => {
 
   const makeRequest = async () => {
     try {
-      const amendment = await dispatch(createRUP(plan));
-
+      const references = getReferences(getState());
       const pasturesMap = getPasturesMap(getState());
       const grazingSchedulesMap = getGrazingSchedulesMap(getState());
       const ministerIssuesMap = getMinisterIssuesMap(getState());
+
+      const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
+      const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+      const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
+      const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
+
+      /* create new plan */
+      const newPlan = {
+        ...plan,
+        statusId: createdStatus.id,
+        uploaded: false, // still need to create things like pastures and schedules
+        amendmentTypeId: initialAmendment.id,
+        effectiveAt: null,
+        submittedAt: null,
+      };
+      delete newPlan.id;
+      const amendment = await dispatch(createRUP(newPlan));
 
       /* create new pastures */
       const pastures = plan.pastures.map((pId) => {

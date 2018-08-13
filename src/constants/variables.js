@@ -21,6 +21,10 @@ export const PLAN_STATUS = {
   APPROVED: 'A',
 };
 
+export const APPROVED_PLAN_STATUSES = [
+  PLAN_STATUS.APPROVED, PLAN_STATUS.STANDS, PLAN_STATUS.STANDS_WRONGLY_MADE,
+];
+
 export const AMENDMENT_TYPE = {
   MINOR: 'MNA',
   MANDATORY: 'MA',
@@ -51,9 +55,9 @@ export const CLIENT_TYPE = {
 };
 
 export const DATE_FORMAT = {
-  SCHEUDLE_ENTRY: 'MMM D',
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   CLIENT_SIDE: 'MMMM D, YYYY',
+  CLIENT_SIDE_WITHOUT_YEAR: 'MMM D',
 };
 
 export const USER_ROLE = {
