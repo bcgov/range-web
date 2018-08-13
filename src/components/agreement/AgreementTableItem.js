@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Redirect } from 'react-router-dom';
 import { Icon, Button } from 'semantic-ui-react';
 import { Status } from '../common';
-import { presentNullValue, getUserFullName, getAgreementHolders, formatDateFromServer } from '../../utils';
+import { presentNullValue, getUserFullName, getAgreementHolders, formatDateFromServer, isStatusAmongApprovedStatuses } from '../../utils';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { TYPE, STATUS, EFFECTIVE_DATE, SUBMITTED } from '../../constants/strings';
@@ -57,10 +57,23 @@ export class AgreementTableItem extends Component {
             <Button disabled>View</Button>
           </div>
         </div>
-
-        {plans && plans.map(this.renderPlanTableItem)}
+        {this.renderPlanTableItems(plans)}
       </div>
     );
+  }
+
+  renderPlanTableItems = (plans = []) => {
+    let approvedFound = false;
+    return plans.map((p) => {
+      const plan = { ...p };
+      const isApproved = isStatusAmongApprovedStatuses(plan.status);
+
+      if (!approvedFound && isApproved) {
+        approvedFound = true;
+        plan.recentApproved = true;
+      }
+      return this.renderPlanTableItem(plan);
+    });
   }
 
   renderPlanTableItem = (plan = {}) => {
@@ -70,10 +83,15 @@ export class AgreementTableItem extends Component {
     const amendment = amendmentType ? amendmentType.description : 'Initial Plan';
     const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
     const submittedAt = formatDateFromServer(plan.submittedAt, true, '-');
+    const { id, recentApproved } = plan;
 
     return (
-      <div key={plan.id} className="agrm__ptable__row">
+      <div key={id} className="agrm__ptable__row">
         <div className="agrm__ptable__row__cell">
+          {recentApproved
+            ? <Icon name="star" size="small" style={{ marginRight: '5px' }} />
+            : ''
+          }
           {effectiveAt}
         </div>
         <div className="agrm__ptable__row__cell">

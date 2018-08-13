@@ -4,7 +4,7 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT,
+  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF, UPDATE_STATUS,
 } from '../../constants/strings';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
@@ -76,13 +76,9 @@ class RupStaff extends Component {
   }
 
   onViewPDFClicked = () => {
-    const { id, agreementId } = this.props.plan || {};
-    if (id && agreementId) {
-      this.pdfLink.click();
-    }
+    const { id: planId, agreementId } = this.props.plan || {};
+    window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
-
-  setPDFRef = (ref) => { this.pdfLink = ref; }
 
   openModal = property => this.setState({ [property]: true })
   closeModal = property => this.setState({ [property]: false })
@@ -171,15 +167,6 @@ class RupStaff extends Component {
 
     return (
       <section className="rup">
-        <a
-          className="rup__pdf-link"
-          target="_blank"
-          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
-          ref={this.setPDFRef}
-        >
-          pdf link
-        </a>
-
         <ConfirmationModal
           open={isCompletedModalOpen}
           header={COMPLETED_CONFIRMATION_HEADER}
@@ -228,13 +215,13 @@ class RupStaff extends Component {
                 <Button
                   onClick={this.onViewPDFClicked}
                 >
-                  View PDF
+                  {PREVIEW_PDF}
                 </Button>
               }
               {(isStatusPending(status) || isStatusCreated(status)) &&
                 <Dropdown
                   className="rup__status-dropdown"
-                  text="Update Status"
+                  text={UPDATE_STATUS}
                   options={statusDropdownOptions}
                   style={{ marginLeft: '10px' }}
                   button

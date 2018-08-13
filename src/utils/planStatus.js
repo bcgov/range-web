@@ -1,4 +1,4 @@
-import { PLAN_STATUS } from '../constants/variables';
+import { PLAN_STATUS, APPROVED_PLAN_STATUSES } from '../constants/variables';
 import {
   RUP_CHANGE_REQUESTED_FOR_AH_CONTENT,
   RUP_COMPLETE_FOR_AH_CONTENT,
@@ -59,6 +59,11 @@ export const isStatusStandsWM = status => (
 
 export const isStatusWronglyMakeWE = status => (
   status && status.code === PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT
+);
+
+export const isStatusAmongApprovedStatuses = status => (
+  status && status.code &&
+  (APPROVED_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
 );
 
 export const getBannerContentForAH = (status) => {

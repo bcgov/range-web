@@ -234,13 +234,9 @@ export class RupAH extends Component {
   }
 
   onViewPDFClicked = () => {
-    const { id, agreementId } = this.props.plan || {};
-    if (id && agreementId) {
-      this.pdfLink.click();
-    }
+    const { id: planId, agreementId } = this.props.plan || {};
+    window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
-
-  setPDFRef = (ref) => { this.pdfLink = ref; }
 
   closeSubmitConfirmModal = () => this.setState({ isSubmitPlanModalOpen: false })
   openSubmitConfirmModal = () => {
@@ -296,15 +292,6 @@ export class RupAH extends Component {
 
     return (
       <section className="rup">
-        <a
-          className="rup__pdf-link"
-          target="_blank"
-          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
-          ref={this.setPDFRef}
-        >
-          pdf link
-        </a>
-
         <ConfirmationModal
           open={isSubmitPlanModalOpen}
           header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
@@ -345,7 +332,7 @@ export class RupAH extends Component {
               <Button
                 onClick={this.onViewPDFClicked}
               >
-                View PDF
+                {strings.PREVIEW_PDF}
               </Button>
               { isEditable &&
                 <Fragment>
@@ -354,14 +341,14 @@ export class RupAH extends Component {
                     onClick={this.onSaveDraftClick}
                     style={{ marginLeft: '10px' }}
                   >
-                    Save Draft
+                    {strings.SAVE_DRAFT}
                   </Button>
                   <Button
                     loading={isSubmitting}
                     onClick={this.openSubmitConfirmModal}
                     style={{ marginLeft: '10px' }}
                   >
-                    Submit for Review
+                    {strings.SUBMIT_FOR_REVIEW}
                   </Button>
                 </Fragment>
               }
@@ -371,7 +358,7 @@ export class RupAH extends Component {
                   onClick={this.onAmendPlanClicked}
                   style={{ marginLeft: '10px' }}
                 >
-                  Amend Plan
+                  {strings.AMEND_PLAN}
                 </Button>
               }
             </div>

@@ -7,7 +7,14 @@ export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
 export const SUBMITTED = 'Submitted';
 
-// Range use plan basic information
+// RUP View
+export const PREVIEW_PDF = 'Preview PDF';
+export const UPDATE_STATUS = 'Update Status';
+export const SAVE_DRAFT = 'Save Draft';
+export const SUBMIT_FOR_REVIEW = 'Submit for Review';
+export const AMEND_PLAN = 'Amend Plan';
+
+// RUP basic information
 export const PLAN_START = 'Plan Start Date';
 export const PLAN_END = 'Plan End Date';
 export const AGREEMENT_START = 'Agreement Start Date';
@@ -32,13 +39,13 @@ export const PLAN_DATE = 'Plan Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
-// Range use plan pastures
+// RUP pastures
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
 export const GRACE_DAYS = 'Grace Days';
 export const PASTURE_NOTES = 'Pasture Notes';
 
-// Range use plan schedules
+// RUP schedules
 export const PASTURE = 'Pasture';
 export const LIVESTOCK_TYPE = 'Livestock Type';
 export const NUM_OF_ANIMALS = '# of Animals';

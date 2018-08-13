@@ -29,6 +29,8 @@ $third_agrm_table_cell_rate: 1.8;
       &__cell {
         flex: 1;
         padding-right: 10px;
+        display: flex;
+        align-items: center;
 
         &:nth-of-type(1) {
           flex: $plan_table_date_cell_rate;
@@ -58,6 +60,8 @@ $third_agrm_table_cell_rate: 1.8;
       &__cell {
         flex: 1;
         padding-right: 10px;
+        display: flex;
+        align-items: center;
 
         &:nth-of-type(1) {
           flex: $plan_table_date_cell_rate;
