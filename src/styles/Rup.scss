@@ -16,21 +16,16 @@ $row-height: 80px;
   &__title {
     font-size: 1.8rem;
     font-weight: bold;
-    margin-top: 20px;
     color: $primary-color;
 
     &--editable {
       font-size: 1.8rem;
       font-weight: bold;
-      margin-top: 20px;
       color: $primary-color;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
     }
-  }
-  &__pdf-link {
-    display: none
   }
   &__sticky {
     background: $primary-color;
@@ -42,6 +37,7 @@ $row-height: 80px;
 
     &__container {
       @extend .container;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -80,11 +76,11 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 102px;
+    padding-top: 56px;
   }
   &__content {
     @extend .container;
-    margin-top: $content-margin-top;
+    padding-top: $content-margin-top;
   }
   &__actions {
     justify-content: space-between;
@@ -123,10 +119,15 @@ $row-height: 80px;
     justify-content: space-between;
     cursor: pointer;
   }
-
+  &__basic_information {
+    margin-bottom: 15px;
+  }
+  &__pastures {
+    &__container {
+      margin-bottom: 15px;
+    }
+  }
   &__pasture {
-    margin: 5px 0;
-
     &__header {
       display: flex;
       justify-content: space-between;
@@ -138,7 +139,7 @@ $row-height: 80px;
   }
 
   &__schedules {
-    margin: 10px 0;
+    margin-top: 10px;
     list-style-type: none;
     padding: 0;
     border-radius: 5px;
@@ -149,11 +150,12 @@ $row-height: 80px;
     li:not(:last-child) {
       border-bottom: 1px solid gainsboro;
     }
+    &__container {
+      margin-bottom: 15px;
+    }
   }
 
   &__schedule {
-    padding: 15px;
-
     &__header {
       display: flex;
       justify-content: space-between;
@@ -167,14 +169,17 @@ $row-height: 80px;
         justify-content: space-between;
         width: 100%;
         background: none;
+        padding: 15px !important;
       }
       &__action {
-        margin-left: 10px;
+        margin-right: 10px;
       }
     }
+    &__warning-message {
+      padding: 0px 15px 10px 15px;
+    }
     &__content {
-      margin-top: 15px;
-
+      padding: 0px 15px 15px 15px;
       &__hidden {
         display: none;  
       }
@@ -214,8 +219,8 @@ $row-height: 80px;
       justify-content: center;
       align-items: center;
       background: #CCCCCC;
-      border-radius: 3px;
-      margin-top: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
     }
     &__in-draft {
       display: flex;
@@ -224,6 +229,9 @@ $row-height: 80px;
   }
 
   &__missues {
+    &__container {
+      margin-bottom: 15px;
+    }
     &__note {
       margin-top: 10px;
       font-size: 1.1rem;
@@ -244,8 +252,6 @@ $row-height: 80px;
     }
   }
   &__missue {
-    padding: 15px;
-    
     &__header {
       display: flex;
       justify-content: space-between;
@@ -253,25 +259,25 @@ $row-height: 80px;
       font-weight: bold;
       font-size: 1.2rem;
       width: 100%;
+
       &__title {
         @extend .default-button;
         display: flex;
         justify-content: space-between;
         width: 100%;
         background: none;
+        padding: 15px !important;
       }
       &__right {
         display: flex;
-        justify-content: space-between;
-        min-width: 110px;
       }
       &__identified {
         font-size: 1rem;
       }
     }
     &__content {
-      margin-top: 15px;
-  
+      padding: 0px 15px 15px 15px;
+
       &__hidden {
         display: none;  
       }
@@ -325,6 +331,22 @@ $row-height: 80px;
           padding: 20px;
           color: black;
         }
+      }
+    }
+  }
+}
+
+.amendment {
+  &__submission {
+    &__last-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
       }
     }
   }

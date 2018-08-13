@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 
 const propTypes = {
   open: PropTypes.bool.isRequired,
@@ -28,8 +28,9 @@ const ConfirmationModal = ({
     size="small"
     open={open}
     onClose={onNoClicked}
+    closeIcon={<Icon name="close" color="black" />}
   >
-    <Header as="h2"content={header} />
+    <Modal.Header as="h2" content={header} />
     <Modal.Content>
       <div className="confirmation-modal__content">{content}</div>
     </Modal.Content>

@@ -3,7 +3,9 @@ export const LOCAL_STORAGE_KEY = {
   USER: 'range-web-user',
   REFERENCE: 'range-web-reference',
 };
+
 export const TOAST_TIMEOUT = 9000;
+
 export const PLAN_STATUS = {
   PENDING: 'P',
   COMPLETED: 'O',
@@ -17,6 +19,16 @@ export const PLAN_STATUS = {
   NOT_APPROVED_FURTHER_WORK_REQUIRED: 'NF',
   NOT_APPROVED: 'NA',
   APPROVED: 'A',
+};
+
+export const APPROVED_PLAN_STATUSES = [
+  PLAN_STATUS.APPROVED, PLAN_STATUS.STANDS, PLAN_STATUS.STANDS_WRONGLY_MADE,
+];
+
+export const AMENDMENT_TYPE = {
+  MINOR: 'MNA',
+  MANDATORY: 'MA',
+  INITIAL: 'A',
 };
 
 export const REFERENCE_KEY = {
@@ -43,9 +55,9 @@ export const CLIENT_TYPE = {
 };
 
 export const DATE_FORMAT = {
-  SCHEUDLE_ENTRY: 'MMM D',
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   CLIENT_SIDE: 'MMMM D, YYYY',
+  CLIENT_SIDE_WITHOUT_YEAR: 'MMM D',
 };
 
 export const USER_ROLE = {

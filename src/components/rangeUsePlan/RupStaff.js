@@ -4,7 +4,7 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT,
+  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF, UPDATE_STATUS,
 } from '../../constants/strings';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
@@ -16,16 +16,28 @@ import RupMinisterIssues from './view/RupMinisterIssues';
 import { EXPORT_PDF } from '../../constants/routes';
 
 const propTypes = {
-  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
+  agreement: PropTypes.shape({ zone: PropTypes.object }),
+  plan: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  plan: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updatePlanStatus: PropTypes.func.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+};
+const defaultProps = {
+  agreement: {
+    zone: {},
+    usage: [],
+  },
+  plan: {
+    agreementId: '',
+    pastures: [],
+    grazingSchedules: [],
+    ministerIssues: [],
+  },
 };
 
 class RupStaff extends Component {
@@ -64,13 +76,9 @@ class RupStaff extends Component {
   }
 
   onViewPDFClicked = () => {
-    const { id, agreementId } = this.props.plan || {};
-    if (id && agreementId) {
-      this.pdfLink.click();
-    }
+    const { id: planId, agreementId } = this.props.plan || {};
+    window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
-
-  setPDFRef = (ref) => { this.pdfLink = ref; }
 
   openModal = property => this.setState({ [property]: true })
   closeModal = property => this.setState({ [property]: false })
@@ -87,15 +95,15 @@ class RupStaff extends Component {
   handleChangeRequestClicked = () => {
     this.updateStatus(PLAN_STATUS.CHANGE_REQUESTED, this.closeChangeRequestConfirmModal);
   }
-  updateStatus = (statusName, closeConfirmModal) => {
+  updateStatus = (statusCode, closeConfirmModal) => {
     const {
       references,
-      updatePlanStatus,
+      updateRUPStatus,
       plan,
       updatePlan,
     } = this.props;
-    const arrOfPlanStatus = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = arrOfPlanStatus.find(s => s.name === statusName);
+    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
+    const status = planStatuses.find(s => s.code === statusCode);
     if (status && plan) {
       const statusUpdated = (newStatus) => {
         closeConfirmModal();
@@ -105,7 +113,7 @@ class RupStaff extends Component {
         };
         updatePlan({ plan: newPlan });
       };
-      updatePlanStatus(plan.id, status.id).then(statusUpdated);
+      updateRUPStatus(plan.id, status.id).then(statusUpdated);
     }
   }
 
@@ -131,7 +139,7 @@ class RupStaff extends Component {
       zone,
     } = this.state;
 
-    const { agreementId, status } = plan;
+    const { agreementId, status, amendmentTypeId } = plan;
     const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
@@ -150,17 +158,15 @@ class RupStaff extends Component {
       },
     ];
 
-    return (
-      <article className="rup">
-        <a
-          className="rup__pdf-link"
-          target="_blank"
-          href={`${EXPORT_PDF}/${agreementId}/${plan.id}`}
-          ref={this.setPDFRef}
-        >
-          pdf link
-        </a>
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    let header = `${agreementId} - Range Use Plan`;
+    if (amendmentTypeId && amendmentTypes) {
+      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+      header = `${agreementId} - ${amendmentType.description}`;
+    }
 
+    return (
+      <section className="rup">
         <ConfirmationModal
           open={isCompletedModalOpen}
           header={COMPLETED_CONFIRMATION_HEADER}
@@ -189,7 +195,7 @@ class RupStaff extends Component {
 
         <Banner
           noDefaultHeight
-          header={agreementId}
+          header={header}
           content={DETAIL_RUP_BANNER_CONTENT}
         />
 
@@ -204,20 +210,20 @@ class RupStaff extends Component {
                 user={user}
               />
             </div>
-            <div>
+            <div className="rup__sticky__btns">
               {!isStatusDraft(status) &&
                 <Button
                   onClick={this.onViewPDFClicked}
-                  style={{ marginRight: '10px' }}
                 >
-                  View PDF
+                  {PREVIEW_PDF}
                 </Button>
               }
               {(isStatusPending(status) || isStatusCreated(status)) &&
                 <Dropdown
                   className="rup__status-dropdown"
-                  text="Update Status"
+                  text={UPDATE_STATUS}
                   options={statusDropdownOptions}
+                  style={{ marginLeft: '10px' }}
                   button
                   item
                 />
@@ -237,7 +243,7 @@ class RupStaff extends Component {
           />
 
           <RupPastures
-            className="rup__pastures"
+            className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />
@@ -259,10 +265,11 @@ class RupStaff extends Component {
             ministerIssuesMap={ministerIssuesMap}
           />
         </div>
-      </article>
+      </section>
     );
   }
 }
 
 RupStaff.propTypes = propTypes;
+RupStaff.defaultProps = defaultProps;
 export default RupStaff;

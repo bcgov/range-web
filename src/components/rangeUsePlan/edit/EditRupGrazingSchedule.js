@@ -5,7 +5,7 @@ import uuid from 'uuid-v4';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
 import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import * as strings from '../../../constants/strings';
-import { roundTo1Decimal, getObjValues, handleGrazingScheduleValidation } from '../../../utils';
+import { roundTo1Decimal, handleGrazingScheduleValidation } from '../../../utils';
 import { ConfirmationModal } from '../../common';
 
 const propTypes = {
@@ -16,6 +16,7 @@ const propTypes = {
   authorizedAUMs: PropTypes.number.isRequired,
   crownTotalAUMs: PropTypes.number.isRequired,
   yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pastures: PropTypes.arrayOf(PropTypes.number).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -125,19 +126,20 @@ class EditRupGrazingSchedule extends Component {
     const { message, error } = result || {};
     const hidden = !error;
     return (
-      <Message style={{ marginTop: '10px' }} hidden={hidden} error content={`Error: ${message}`} />
+      <Message error hidden={hidden} content={`Error: ${message}`} />
     );
   }
 
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
     const {
       schedule,
+      pastures,
       pasturesMap,
       livestockTypes,
       isDeletingGrazingScheduleEntry,
     } = this.props;
-    const pastures = getObjValues(pasturesMap);
-    const pastureOptions = pastures.map((pasture) => {
+    const pastureOptions = pastures.map((pId) => {
+      const pasture = pasturesMap[pId];
       const { id, name } = pasture || {};
       return {
         key: id,
@@ -210,11 +212,9 @@ class EditRupGrazingSchedule extends Component {
             onClick={this.onScheduleClicked}
           >
             <div>{year} Grazing Schedule</div>
-            {isScheduleActive &&
-              <Icon name="chevron up" />
-            }
-            {!isScheduleActive &&
-              <Icon name="chevron down" />
+            { isScheduleActive
+              ? <Icon name="chevron up" />
+              : <Icon name="chevron down" />
             }
           </button>
           <div className="rup__schedule__header__action">
@@ -239,8 +239,9 @@ class EditRupGrazingSchedule extends Component {
             </Dropdown>
           </div>
         </div>
-
-        {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
+        <div className="rup__schedule__warning-message">
+          {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
+        </div>
 
         <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
           <Table unstackable>

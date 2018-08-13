@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
@@ -30,9 +30,15 @@ class RupMinisterIssues extends Component {
     ministerIssues.length === 0 ? (
       <div className="rup__section-not-found">{NOT_PROVIDED}</div>
     ) : (
-      <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
-        {ministerIssues.map(this.renderMinisterIssue)}
-      </ul>
+      <Fragment>
+        <div className="rup__missues__note">
+          Note: Any action that would result in a range development cannot
+          be conducted until an authorization (separate to this RUP) is obtained.
+        </div>
+        <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
+          {ministerIssues.map(this.renderMinisterIssue)}
+        </ul>
+      </Fragment>
     )
   )
 
@@ -89,15 +95,14 @@ class RupMinisterIssues extends Component {
             <div className="rup__missue__header__right">
               <div className="rup__missue__header__identified">
                 {/* Identified: {identified ? 'Yes' : 'No'} */}
-                Identified: {identified
-                ? <Icon name="check circle" color="green" />
-                : <Icon name="remove circle" color="red" />}
+                  Identified: {identified
+                  ? <Icon name="check circle" color="green" />
+                  : <Icon name="remove circle" color="red" />
+                }
               </div>
-              {isThisActive &&
-                <Icon name="chevron up" />
-              }
-              {!isThisActive &&
-                <Icon name="chevron down" />
+              { isThisActive
+                ? <Icon style={{ marginLeft: '10px' }} name="chevron up" />
+                : <Icon style={{ marginLeft: '10px' }} name="chevron down" />
               }
             </div>
           </button>
@@ -124,19 +129,13 @@ class RupMinisterIssues extends Component {
 
   render() {
     const { plan, ministerIssuesMap, className } = this.props;
-    const ministerIssueIds = (plan && plan.ministerIssues) || [];
-    const ministerIssues = ministerIssueIds.map(id => ministerIssuesMap[id]);
+    const ministerIssueIds = plan && plan.ministerIssues;
+    const ministerIssues = ministerIssueIds && ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
       <div className={className}>
         <div className="rup__title">Minister&apos;s Issues and Actions</div>
         <div className="rup__divider" />
-        { ministerIssues.length !== 0 &&
-          <div className="rup__missues__note">
-            Note: Any action that would result in a range development cannot
-            be conducted until an authorization (separate to this RUP) is obtained.
-          </div>
-        }
         {this.renderMinisterIssues(ministerIssues)}
       </div>
     );

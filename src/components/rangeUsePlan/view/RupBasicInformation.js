@@ -5,10 +5,10 @@ import { formatDateFromServer, getAgreementHolders, isUserAdmin } from '../../..
 import * as strings from '../../../constants/strings';
 
 const propTypes = {
-  user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
-  agreement: PropTypes.shape({}).isRequired,
   plan: PropTypes.shape({}).isRequired,
   zone: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
+  agreement: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
   onZoneClicked: PropTypes.func,
 };
@@ -37,14 +37,13 @@ class RupBasicInformation extends Component {
     } = this.props;
 
     // variables for textfields
-    const {
-      code: zoneCode,
-      district,
-    } = zone || {};
+    const { code: zoneCode, district } = zone;
     const districtCode = district && district.code;
 
     const staff = zone && zone.user;
-    const { email: contactEmail, phone: contactPhoneNumber, fullName: contactName } = staff;
+    const contactEmail = staff && staff.email;
+    const contactPhoneNumber = staff && staff.phone;
+    const contactName = staff && staff.fullName;
 
     const {
       rangeName,

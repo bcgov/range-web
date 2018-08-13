@@ -9,3 +9,11 @@
   display: flex !important;
   opacity: @visibleOpacity;
 }
+
+/* added by Kyubin */
+.blurring.dimmable>.dimmer {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.ui.dimmer {
+  background-color: rgba(255,255,255,.85);
+}

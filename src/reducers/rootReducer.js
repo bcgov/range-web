@@ -56,6 +56,7 @@ const appReducer = combineReducers({
   [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
   [reducerTypes.GET_USER]: createReducer(networkReducer, reducerTypes.GET_USER),
   [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
+  [reducerTypes.CREATE_AMENDMENT]: createReducer(networkReducer, reducerTypes.CREATE_AMENDMENT),
 });
 
 // public selectors
@@ -69,6 +70,7 @@ export const getIsUpdatingAgreementZone = state => fromNetwork.getIsFetching(sta
 
 export const getAgreementsMapWithAllPlan = state => fromAgreementWithAllPlans.getAgreementsMap(state[reducerTypes.AGREEMENTS_WITH_ALL_PLANS]);
 export const getIsFetchingAgreementWithAllPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_AGREEMENT]);
+export const getIsCreatingAmendment = state => fromNetwork.getIsFetching(state[reducerTypes.CREATE_AMENDMENT]);
 
 export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);
 export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);

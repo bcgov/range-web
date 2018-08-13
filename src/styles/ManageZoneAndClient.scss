@@ -8,14 +8,11 @@ $content-max-width: 600px;
 .manage-client {
   &__content {
     @extend .container;
-    display: flex;
-    justify-content: center;
   }
   &__steps {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 600px;
+    max-width: $content-max-width;
     margin-top: $content-margin-top;
   }
   &__update-btn {
@@ -25,13 +22,10 @@ $content-max-width: 600px;
 .manage-zone {
   &__content {
     @extend .container;
-    display: flex;
-    justify-content: center;
   }
   &__steps {
     display: flex;
     flex-direction: column;
-    width: 80%;
     max-width: $content-max-width;
     margin-top: $content-margin-top;
   }

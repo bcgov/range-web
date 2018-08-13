@@ -4,8 +4,18 @@ export const RANGE_NAME = 'Range Name';
 export const AGREEMENT_HOLDER = 'Agreement Holder';
 export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
+export const EFFECTIVE_DATE = 'Effective Date';
+export const SUBMITTED = 'Submitted';
 
-// Range use plan basic information
+// RUP View
+export const PREVIEW_PDF = 'Preview PDF';
+export const UPDATE_STATUS = 'Update Status';
+export const SAVE_DRAFT = 'Save Draft';
+export const SUBMIT_FOR_REVIEW = 'Submit for Review';
+export const AMEND_PLAN = 'Amend Plan';
+export const VIEW = 'View';
+
+// RUP basic information
 export const PLAN_START = 'Plan Start Date';
 export const PLAN_END = 'Plan End Date';
 export const AGREEMENT_START = 'Agreement Start Date';
@@ -30,13 +40,13 @@ export const PLAN_DATE = 'Plan Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
-// Range use plan pastures
+// RUP pastures
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
 export const GRACE_DAYS = 'Grace Days';
 export const PASTURE_NOTES = 'Pasture Notes';
 
-// Range use plan schedules
+// RUP schedules
 export const PASTURE = 'Pasture';
 export const LIVESTOCK_TYPE = 'Livestock Type';
 export const NUM_OF_ANIMALS = '# of Animals';
@@ -94,13 +104,19 @@ export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder\'s name, or staff contact in the search box to search for a specific range use plan.';
 export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
+export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
+export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
 export const RUP_CREATED_FOR_AH_CONTENT = 'Please confirm your range use plan.';
 export const RUP_IN_DRAFT_FOR_AH_CONTENT = 'Please finalize your changes and submit for Range staff review.';
 export const RUP_PENDING_FOR_AH_CONTENT = 'Your range use plan is currently being reviewed by range staff.';
 export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
-export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your range use plan is approved by Range staff.';
-export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
-export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
+export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your initial RUP was reviewed by the district manager and has been approved.';
+export const RUP_APPROVED_FOR_AH_CONTENT = 'Your plan or amendment was reviewed by the district manager and has been approved. If you wish to submit an amendment please use the “Amend Plan” option to the right.';
+export const RUP_NOT_APPROVED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager. For more information follow up with your Range staff contact.';
+export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager because further work is required. Please complete the requested revisions and resubmit.';
+export const RUP_STANDS_FOR_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved.';
+export const RUP_STANDS_WRONGLY_MADE_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
+export const RUP_WRONGLY_MADE_WITHOUT_EFFECT = 'Your Minor amendment was reviewed by Range staff and was deemed wrongly made. For more information follow up with your Range staff contact.';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';
@@ -109,3 +125,4 @@ export const IN_REVIEW = 'In Review';
 export const REVISIONS_REQUESTED = 'Revisions Requested';
 export const SENT_FOR_INPUT = 'Sent for Input';
 export const IN_PROGRESS = 'In Progress';
+export const DRAFT = 'Draft';
