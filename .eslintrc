@@ -1,11 +1,11 @@
 {
+  "extends": "react-app",
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
     "jest": true
   },
-  "extends": "airbnb",
   "parserOptions": {
     "sourceType": "module"
   },
@@ -27,6 +27,7 @@
     ],
     "indent": "off",
     "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/href-no-hash": "off",
     "import/no-named-as-default": "off",
     "no-shadow": "off",
     "quote-props": "off",
