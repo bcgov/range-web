@@ -49,7 +49,9 @@
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "GENERATE_SOURCEMAP=false react-scripts build",
     "build": "npm-run-all build-css build-js",
-    "test": "CI=true react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom",
+    "test:ci": "CI=true react-scripts test --env=jsdom",
+    "test:lint": "eslint src/",
     "test:watch": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
