@@ -8,7 +8,7 @@ def PIRATE_ICO = 'http://icons.iconarchive.com/icons/aha-soft/torrent/64/pirate-
 def JENKINS_ICO = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
 def OPENSHIFT_ICO = 'https://commons.wikimedia.org/wiki/File:OpenShift-LogoType.svg'
 def GIT_BRANCH_NAME = ("${env.JOB_BASE_NAME}".contains("master")) ? "master" : "develop"
-def SLACK_CHANNEL = '#devhubx'
+def SLACK_CHANNEL = '#rangedevteam'
 
 def notifySlack(text, channel, url, attachments, icon) {
   def slackURL = url
