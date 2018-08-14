@@ -187,7 +187,7 @@ podTemplate(label: "${APP_NAME}-node-build", name: "${APP_NAME}-node-build", ser
       }
     }
 
-    if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
+    // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
       stage('Image Build') {
         try {
           echo "Build: ${BUILD_ID}"
@@ -237,7 +237,7 @@ podTemplate(label: "${APP_NAME}-node-build", name: "${APP_NAME}-node-build", ser
           sh "exit 1002"
         }
       }
-    }
+    // }
 
     // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
       stage('Test Approval') {
