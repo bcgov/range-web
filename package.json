@@ -46,7 +46,6 @@
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "CI=true react-scripts test --env=jsdom",
-    "test:lint": "eslint src/",
     "test:watch": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
