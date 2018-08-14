@@ -245,13 +245,12 @@ export class RupAH extends Component {
 
     const { agreementId, status, amendmentTypeId } = plan;
     const { clients, usage: usages } = agreement;
-    const zone = agreement && agreement.zone;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     const isEditable = utils.isStatusCreated(status)
       || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
-    const isAmendable = utils.isStatusApproved(status);
+    const isAmendable = utils.isStatusAmongApprovedStatuses(status);
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     let header = `${agreementId} - Range Use Plan`;
@@ -340,7 +339,6 @@ export class RupAH extends Component {
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
-            zone={zone}
             user={user}
           />
 
@@ -350,24 +348,23 @@ export class RupAH extends Component {
             pasturesMap={pasturesMap}
           />
 
-          {isEditable &&
-            <EditRupGrazingSchedules
-              references={references}
-              usages={usages}
-              plan={plan}
-              pasturesMap={pasturesMap}
-              grazingSchedulesMap={grazingSchedulesMap}
-            />
-          }
-          {!isEditable &&
-            <RupGrazingSchedules
-              className="rup__schedules__container"
-              references={references}
-              usages={usages}
-              plan={plan}
-              pasturesMap={pasturesMap}
-              grazingSchedulesMap={grazingSchedulesMap}
-            />
+          {isEditable
+            ? <EditRupGrazingSchedules
+                className="rup__schedules__container"
+                references={references}
+                usages={usages}
+                plan={plan}
+                pasturesMap={pasturesMap}
+                grazingSchedulesMap={grazingSchedulesMap}
+              />
+            : <RupGrazingSchedules
+                className="rup__schedules__container"
+                references={references}
+                usages={usages}
+                plan={plan}
+                pasturesMap={pasturesMap}
+                grazingSchedulesMap={grazingSchedulesMap}
+              />
           }
 
           <RupMinisterIssues

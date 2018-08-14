@@ -11,7 +11,7 @@ const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
   user: PropTypes.shape({}).isRequired,
   index: PropTypes.number.isRequired,
-  activeIndex: PropTypes.bool.isRequired,
+  activeIndex: PropTypes.number.isRequired,
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,

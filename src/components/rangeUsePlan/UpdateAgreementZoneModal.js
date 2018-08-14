@@ -7,12 +7,11 @@ import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
 
 const propTypes = {
+  agreement: PropTypes.shape({ zone: PropTypes.object }),
   isUpdateZoneModalOpen: PropTypes.bool.isRequired,
   closeUpdateZoneModal: PropTypes.func.isRequired,
   onZoneUpdated: PropTypes.func.isRequired,
-  currZone: PropTypes.shape({}).isRequired,
   updateAgreementZone: PropTypes.func.isRequired,
-  agreementId: PropTypes.string.isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   isUpdatingAgreementZone: PropTypes.bool.isRequired,
 };
@@ -27,9 +26,9 @@ export class UpdateZoneModal extends Component {
   }
 
   onUpdateZoneClicked = () => {
-    const { agreementId, updateAgreementZone, onZoneUpdated } = this.props;
+    const { agreement, updateAgreementZone, onZoneUpdated } = this.props;
     const requestData = {
-      agreementId,
+      agreementId: agreement.id,
       zoneId: this.state.newZoneId,
     };
     updateAgreementZone(requestData).then((newZone) => {
@@ -47,11 +46,12 @@ export class UpdateZoneModal extends Component {
     const {
       isUpdateZoneModalOpen,
       zones,
-      currZone = {},
       isUpdatingAgreementZone,
+      agreement,
     } = this.props;
     const { newZoneId } = this.state;
 
+    const currZone = agreement && agreement.zone;
     const currDistrictId = currZone.district && currZone.district.id;
     const currZoneCode = currZone.code;
     const zoneOptions = zones

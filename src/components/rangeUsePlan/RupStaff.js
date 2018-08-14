@@ -43,12 +43,10 @@ const defaultProps = {
 class RupStaff extends Component {
   constructor(props) {
     super(props);
-    const zone = props.agreement && props.agreement.zone;
     this.state = {
       isCompletedModalOpen: false,
       isChangeRequestModalOpen: false,
       isUpdateZoneModalOpen: false,
-      zone,
     };
   }
 
@@ -118,7 +116,13 @@ class RupStaff extends Component {
   }
 
   onZoneUpdated = (newZone) => {
-    this.setState({ zone: newZone });
+    const { plan, updatePlan } = this.props;
+    const newAgreement = { ...plan.agreement, zone: newZone };
+    const newPlan = {
+      ...plan,
+      agreement: newAgreement,
+    };
+    updatePlan({ plan: newPlan });
   }
 
   render() {
@@ -136,7 +140,6 @@ class RupStaff extends Component {
       isCompletedModalOpen,
       isChangeRequestModalOpen,
       isUpdateZoneModalOpen,
-      zone,
     } = this.state;
 
     const { agreementId, status, amendmentTypeId } = plan;
@@ -189,8 +192,7 @@ class RupStaff extends Component {
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           onZoneUpdated={this.onZoneUpdated}
-          agreementId={agreementId}
-          currZone={zone}
+          agreement={agreement}
         />
 
         <Banner
@@ -237,7 +239,6 @@ class RupStaff extends Component {
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
-            zone={zone}
             user={user}
             onZoneClicked={this.openUpdateZoneModal}
           />

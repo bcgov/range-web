@@ -6,7 +6,6 @@ import * as strings from '../../../constants/strings';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
-  zone: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
   agreement: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
@@ -30,14 +29,15 @@ class RupBasicInformation extends Component {
     const {
       agreement,
       plan,
-      zone,
       onZoneClicked,
       className,
       user,
     } = this.props;
 
     // variables for textfields
-    const { code: zoneCode, district } = zone;
+    const zone = agreement && agreement.zone;
+    const zoneCode = zone && zone.code;
+    const district = zone && zone.district;
     const districtCode = district && district.code;
 
     const staff = zone && zone.user;
@@ -57,14 +57,13 @@ class RupBasicInformation extends Component {
       id,
       agreementStartDate,
       agreementEndDate,
-      agreementExemptionStatus,
+      agreementExemptionStatus: aes,
       clients,
     } = agreement || {};
 
-    const exemptionStatusName = agreementExemptionStatus && agreementExemptionStatus.description;
-
-    const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(clients);
-    const { name: primaryAgreementHolderName } = primaryAgreementHolder;
+    const exemptionStatusName = aes && aes.description;
+    const { primaryAgreementHolder: pah, otherAgreementHolders } = getAgreementHolders(clients);
+    const primaryAgreementHolderName = pah && pah.name;
     const isAdmin = isUserAdmin(user);
 
     return (
