@@ -107,9 +107,13 @@ $third_agrm_table_cell_rate: 1.8;
     }
     &__row {
       border-bottom: 1px solid rgba(34,36,38,.1);
+
       &--active {
         background-color: #eee;
         border-radius: 5px;
+      }
+      &--not-active {
+        opacity: 0.4;
       }
     }
     &__accordian {
