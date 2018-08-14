@@ -7,8 +7,8 @@ def TAG_NAMES = ['dev', 'test', 'prod']
 def PIRATE_ICO = 'http://icons.iconarchive.com/icons/aha-soft/torrent/64/pirate-icon.png'
 def JENKINS_ICO = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
 def OPENSHIFT_ICO = 'https://commons.wikimedia.org/wiki/File:OpenShift-LogoType.svg'
-def GIT_BRANCH_NAME = ("${env.JOB_BASE_NAME}".contains("master")) ? "master" : "develop"
-def SLACK_CHANNEL = '#rangedevteam'
+def GIT_BRANCH_NAME = ("${env.JOB_BASE_NAME}".contains("master")) ? "master" : "dev"
+def SLACK_CHANNEL = '#rangedevteamx'
 
 def notifySlack(text, channel, url, attachments, icon) {
   def slackURL = url
@@ -219,7 +219,7 @@ podTemplate(label: "${APP_NAME}-node-build", name: "${APP_NAME}-node-build", ser
           def action = [: ]
           action.type = "button"
           action.text = "Promote Image? :rocket:"
-          action.url = "https://jenkins-devhub-tools.pathfinder.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-develop-pipeline/${BUILD_ID}/input"
+          action.url = "https://jenkins-devhub-tools.pathfinder.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-${GIT_BRANCH_NAME}-pipeline/${BUILD_ID}/input"
           attachment.actions = [action]
           attachment.text = message
 
@@ -267,7 +267,7 @@ podTemplate(label: "${APP_NAME}-node-build", name: "${APP_NAME}-node-build", ser
             def action = [: ]
             action.type = "button"
             action.text = "Promote Image? :rocket:"
-            action.url = "https://jenkins-devhub-tools.pathfinder.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-develop-pipeline/${BUILD_ID}/input"
+            action.url = "https://jenkins-devhub-tools.pathfinder.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-${GIT_BRANCH_NAME}-pipeline/${BUILD_ID}/input"
             attachment.actions = [action]
             attachment.text = message
 
