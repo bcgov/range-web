@@ -115,24 +115,6 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         }
 
         //
-        // Check code quality with a LINTer
-        //
-
-        // try {
-        //   echo "Checking code quality with LINTer"
-        //   sh "npm run test:lint"
-        // } catch (error) {
-        //   def attachment = [:]
-        //   attachment.fallback = 'See build log for more details'
-        //   attachment.title = "API Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
-        //   attachment.color = '#FFA500' // Orange
-        //   attachment.text = "There LINTer code quality check failed.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-        //   // attachment.title_link = "${env.BUILD_URL}"
-
-        //   notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
-        // }
-
-        //
         // Run a security check on our packages
         //
 

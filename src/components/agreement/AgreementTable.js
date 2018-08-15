@@ -74,7 +74,7 @@ export class AgreementTable extends Component {
         user={user}
         key={index}
         index={index}
-        isActive={activeIndex === index}
+        activeIndex={activeIndex}
         agreement={agreement}
         references={references}
         agreementsMapWithAllPlan={agreementsMapWithAllPlan}

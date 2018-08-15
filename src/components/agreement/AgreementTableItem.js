@@ -11,7 +11,7 @@ const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
   user: PropTypes.shape({}).isRequired,
   index: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  activeIndex: PropTypes.bool.isRequired,
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
@@ -58,8 +58,9 @@ export class AgreementTableItem extends Component {
 
   render() {
     const {
+      index: currIndex,
+      activeIndex,
       agreement,
-      isActive,
       user,
       agreementsMapWithAllPlan,
       references,
@@ -79,9 +80,14 @@ export class AgreementTableItem extends Component {
     const staffFullName = getUserFullName(staff);
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+    const isActive = activeIndex === currIndex;
+    const className = classnames('agrm__table__row', {
+      'agrm__table__row--active': isActive,
+      'agrm__table__row--not-active': (activeIndex >= 0 && !isActive),
+    });
 
     return (
-      <div className={classnames('agrm__table__row', { 'agrm__table__row--active': isActive })}>
+      <div className={className}>
         <button
           className="agrm__table__accordian"
           onClick={this.onRowClicked}
