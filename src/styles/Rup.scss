@@ -13,6 +13,9 @@ $row-height: 80px;
   &__row {
     @extend .row;
   }
+  &__pdf-link {
+    display: none;
+  }
   &__title {
     font-size: 1.8rem;
     font-weight: bold;

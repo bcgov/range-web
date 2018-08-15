@@ -248,8 +248,7 @@ export class RupAH extends Component {
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
-    const isEditable = utils.isStatusCreated(status)
-      || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
+    const isEditable = utils.isStatusAllowingRevisionForAH(status);
     const isAmendable = utils.isStatusAmongApprovedStatuses(status);
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
@@ -274,6 +273,7 @@ export class RupAH extends Component {
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}
           plan={plan}
+          clients={clients}
           updateRupStatusAndContent={this.updateRupStatusAndContent}
         />
 
