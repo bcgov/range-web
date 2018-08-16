@@ -12,6 +12,7 @@ import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variable
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
+import { isPlanAmendment } from '../../utils';
 
 const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }),
@@ -213,7 +214,7 @@ export class RupAH extends Component {
     const { plan } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
-      if (plan.amendmentTypeId) {
+      if (isPlanAmendment(plan)) {
         this.openSubmitAmendmentModal();
         return;
       }

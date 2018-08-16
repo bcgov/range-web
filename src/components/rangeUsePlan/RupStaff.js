@@ -4,11 +4,11 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
   COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF, UPDATE_STATUS,
+  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF, UPDATE_STATUS, CHANGE_REQUEST_CONFIRMATION_HEADER, CHANGE_REQUEST_CONFIRMATION_CONTENT,
 } from '../../constants/strings';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
 import { Status, ConfirmationModal, Banner } from '../common';
-import { getAgreementHolders, isStatusCreated, isStatusPending, isStatusDraft } from '../../utils';
+import { getAgreementHolders, isStatusCreated, isStatusPending, isStatusDraft, isStatusStands, isPlanAmendment } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
@@ -93,6 +93,7 @@ class RupStaff extends Component {
   handleChangeRequestClicked = () => {
     this.updateStatus(PLAN_STATUS.CHANGE_REQUESTED, this.closeChangeRequestConfirmModal);
   }
+
   updateStatus = (statusCode, closeConfirmModal) => {
     const {
       references,
@@ -115,14 +116,81 @@ class RupStaff extends Component {
     }
   }
 
-  onZoneUpdated = (newZone) => {
-    const { plan, updatePlan } = this.props;
-    const newAgreement = { ...plan.agreement, zone: newZone };
-    const newPlan = {
-      ...plan,
-      agreement: newAgreement,
-    };
-    updatePlan({ plan: newPlan });
+  renderConfirmationModal = (isUpdatingStatus) => {
+    const {
+      isCompletedModalOpen,
+      isChangeRequestModalOpen,
+    } = this.state;
+
+    let open = false; let header = ''; let content = ''; let onNoClicked, onYesClicked;
+    if (isCompletedModalOpen) {
+      open = true;
+      header = COMPLETED_CONFIRMATION_HEADER;
+      content = COMPLETED_CONFIRMATION_CONTENT;
+      onNoClicked = this.closeCompletedConfirmModal;
+      onYesClicked = this.handleCompletedClicked;
+    } else if (isChangeRequestModalOpen) {
+      open = true;
+      header = CHANGE_REQUEST_CONFIRMATION_HEADER;
+      content = CHANGE_REQUEST_CONFIRMATION_CONTENT;
+      onNoClicked = this.closeChangeRequestConfirmModal;
+      onYesClicked = this.handleChangeRequestClicked;
+    }
+
+    return (
+      <ConfirmationModal
+        open={open}
+        header={header}
+        content={content}
+        onNoClicked={onNoClicked}
+        onYesClicked={onYesClicked}
+        loading={isUpdatingStatus}
+      />
+    );
+  }
+
+  renderUpdateStatusOptions = (plan, status) => {
+    let statusDropdownOptions = [];
+    if (isPlanAmendment(plan)) {
+      if (isStatusStands(status)) {
+        statusDropdownOptions = [
+          {
+            key: PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT,
+            text: 'Wrongly Made - Without Effect',
+          },
+          {
+            key: PLAN_STATUS.STANDS_WRONGLY_MADE,
+            text: 'Stands - Wrongly Made',
+          },
+        ];
+      }
+    } else { // for initial plan
+      if (isStatusPending(status) || isStatusCreated(status)) {
+        statusDropdownOptions = [
+          {
+            key: PLAN_STATUS.COMPLETED,
+            text: 'Completed',
+            onClick: this.openCompletedConfirmModal,
+          },
+          {
+            key: PLAN_STATUS.CHANGE_REQUESTED,
+            text: 'Change Request',
+            onClick: this.openChangeRequestConfirmModal,
+          },
+        ];
+      }
+    }
+
+    return (
+      <Dropdown
+        text={UPDATE_STATUS}
+        options={statusDropdownOptions}
+        disabled={statusDropdownOptions.length === 0}
+        style={{ marginLeft: '10px' }}
+        button
+        item
+      />
+    );
   }
 
   render() {
@@ -137,8 +205,6 @@ class RupStaff extends Component {
       isUpdatingStatus,
     } = this.props;
     const {
-      isCompletedModalOpen,
-      isChangeRequestModalOpen,
       isUpdateZoneModalOpen,
     } = this.state;
 
@@ -146,20 +212,6 @@ class RupStaff extends Component {
     const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-    const statusDropdownOptions = [
-      {
-        key: PLAN_STATUS.COMPLETED,
-        text: 'Completed',
-        value: 1,
-        onClick: this.openCompletedConfirmModal,
-      },
-      {
-        key: PLAN_STATUS.CHANGE_REQUESTED,
-        text: 'Change Request',
-        value: 2,
-        onClick: this.openChangeRequestConfirmModal,
-      },
-    ];
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     let header = `${agreementId} - Range Use Plan`;
@@ -170,28 +222,12 @@ class RupStaff extends Component {
 
     return (
       <section className="rup">
-        <ConfirmationModal
-          open={isCompletedModalOpen}
-          header={COMPLETED_CONFIRMATION_HEADER}
-          content={COMPLETED_CONFIRMATION_CONTENT}
-          onNoClicked={this.closeCompletedConfirmModal}
-          onYesClicked={this.handleCompletedClicked}
-          loading={isUpdatingStatus}
-        />
-
-        <ConfirmationModal
-          open={isChangeRequestModalOpen}
-          header="Confirmation: Change Request"
-          content="Are you sure you want to request changes to the agreement holder?"
-          onNoClicked={this.closeChangeRequestConfirmModal}
-          onYesClicked={this.handleChangeRequestClicked}
-          loading={isUpdatingStatus}
-        />
+        {this.renderConfirmationModal(isUpdatingStatus)}
 
         <UpdateAgreementZoneModal
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
-          onZoneUpdated={this.onZoneUpdated}
+          plan={plan}
           agreement={agreement}
         />
 
@@ -220,16 +256,7 @@ class RupStaff extends Component {
                   {PREVIEW_PDF}
                 </Button>
               }
-              {(isStatusPending(status) || isStatusCreated(status)) &&
-                <Dropdown
-                  className="rup__status-dropdown"
-                  text={UPDATE_STATUS}
-                  options={statusDropdownOptions}
-                  style={{ marginLeft: '10px' }}
-                  button
-                  item
-                />
-              }
+              {this.renderUpdateStatusOptions(plan, status)}
             </div>
           </div>
         </div>

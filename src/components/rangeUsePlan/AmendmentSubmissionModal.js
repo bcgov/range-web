@@ -138,6 +138,8 @@ class AmendmentSubmissionModal extends Component {
 
   renderTheRestOfTabsForMinorAmendment = (activeTab, index) => {
     const { clients } = this.props;
+
+    // when there is only one primary agreement holder
     if (clients.length === 1) {
       return (
         <Fragment>

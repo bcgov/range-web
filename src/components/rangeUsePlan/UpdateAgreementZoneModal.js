@@ -5,15 +5,17 @@ import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
+import { updatePlan } from '../../actions';
 
 const propTypes = {
-  agreement: PropTypes.shape({ zone: PropTypes.object }),
+  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
+  plan: PropTypes.shape({}).isRequired,
   isUpdateZoneModalOpen: PropTypes.bool.isRequired,
   closeUpdateZoneModal: PropTypes.func.isRequired,
-  onZoneUpdated: PropTypes.func.isRequired,
   updateAgreementZone: PropTypes.func.isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   isUpdatingAgreementZone: PropTypes.bool.isRequired,
+  updatePlan: PropTypes.func.isRequired,
 };
 
 export class UpdateZoneModal extends Component {
@@ -26,10 +28,18 @@ export class UpdateZoneModal extends Component {
   }
 
   onUpdateZoneClicked = () => {
-    const { agreement, updateAgreementZone, onZoneUpdated } = this.props;
+    const { agreement, updateAgreementZone, updatePlan, plan } = this.props;
     const requestData = {
       agreementId: agreement.id,
       zoneId: this.state.newZoneId,
+    };
+    const onZoneUpdated = (newZone) => {
+      const newAgreement = { ...plan.agreement, zone: newZone };
+      const newPlan = {
+        ...plan,
+        agreement: newAgreement,
+      };
+      updatePlan({ plan: newPlan });
     };
     updateAgreementZone(requestData).then((newZone) => {
       onZoneUpdated(newZone);
@@ -114,4 +124,4 @@ const mapStateToProps = state => (
 );
 
 UpdateZoneModal.propTypes = propTypes;
-export default connect(mapStateToProps, { updateAgreementZone })(UpdateZoneModal);
+export default connect(mapStateToProps, { updateAgreementZone, updatePlan })(UpdateZoneModal);

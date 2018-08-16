@@ -6,13 +6,15 @@ const propTypes = {
   open: PropTypes.bool.isRequired,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  onNoClicked: PropTypes.func.isRequired,
-  onYesClicked: PropTypes.func.isRequired,
+  onNoClicked: PropTypes.func,
+  onYesClicked: PropTypes.func,
   loading: PropTypes.bool,
 };
 
 const defaultProps = {
   loading: false,
+  onNoClicked: () => {},
+  onYesClicked: () => {},
 };
 
 const ConfirmationModal = ({
