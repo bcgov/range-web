@@ -5,6 +5,9 @@ export const SIGN_OUT = 'SIGN_OUT';
 export const ADD_TOAST = 'ADD_TOAST';
 export const REMOVE_TOAST = 'REMOVE_TOAST';
 
+export const OPEN_CONFIRMATION_MODAL = 'OPEN_CONFIRMATION_MODAL';
+export const CLOSE_CONFIRMATION_MODAL = 'CLOSE_CONFIRMATION_MODAL';
+
 export const REQUEST = 'REQUEST';
 export const SUCCESS = 'SUCCESS';
 export const ERROR = 'ERROR';
