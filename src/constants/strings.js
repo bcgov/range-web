@@ -86,6 +86,13 @@ export const COMPLETED_CONFIRMATION_HEADER = 'Update Status: Completed';
 export const COMPLETED_CONFIRMATION_CONTENT = 'COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. If you change status to COMPLETE you will no longer be able to make edits to this RUP. Would you like to switch this RUP to complete?';
 export const PENDING_CONFIRMATION_HEADER = 'Update Status: Pending';
 export const PENDING_CONFIRMATION_CONTENT = 'PENDING indicates that a RUP is in edit mode. It is used during initial creation if the decision maker has requested edits before approving. Do not switch the status to PENDING unless the decision maker has requested specific edits. Would you like to switch this RUP to Pending?';
+export const CHANGE_REQUEST_CONFIRMATION_HEADER = 'Update Status: Change Request';
+export const CHANGE_REQUEST_CONFIRMATION_CONTENT = 'Are you sure you want to request changes to the agreement holder?';
+export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_HEADER = 'Update Status: Wrongly Made - Without Effect';
+export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const STANDS_WRONGLY_MADE_CONFIRMATION_HEADER = 'Update Status: Stands - Wrongly Made';
+export const STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+
 export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
 export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';
 export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule';

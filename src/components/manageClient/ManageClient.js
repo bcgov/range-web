@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Button, Icon } from 'semantic-ui-react';
 import { debounce } from 'lodash';
-import { Banner, ConfirmationModal } from '../common';
+import { Banner } from '../common';
 import * as strings from '../../constants/strings';
-import { ELEMENT_ID } from '../../constants/variables';
+import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
 
 const propTypes = {
@@ -16,6 +16,8 @@ const propTypes = {
   updateUser: PropTypes.func.isRequired,
   isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
   isFetchingClients: PropTypes.bool.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
 };
 
 class ManageClient extends Component {
@@ -24,7 +26,6 @@ class ManageClient extends Component {
     this.state = {
       userId: null,
       clientNumber: null,
-      isUpdateModalOpen: false,
       searchQuery: '',
     };
     this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000);
@@ -38,8 +39,16 @@ class ManageClient extends Component {
     this.setState({ clientNumber });
   }
 
-  closeUpdateConfirmationModal = () => this.setState({ isUpdateModalOpen: false })
-  openUpdateConfirmationModal = () => this.setState({ isUpdateModalOpen: true })
+  openUpdateConfirmationModal = () => {
+    this.props.openConfirmationModal({
+      modal: {
+        id: CONFIRMATION_MODAL_ID.MANAGE_CLIENT,
+        header: strings.MANAGE_CLIENT_BANNER_HEADER,
+        content: strings.MANAGE_CLIENT_BANNER_CONTENT,
+        onYesBtnClicked: this.linkUserToClient,
+      }
+    });
+  }
 
   handleSearchChange = (e, { searchQuery }) => {
     this.setState({ searchQuery });
@@ -48,15 +57,17 @@ class ManageClient extends Component {
 
   linkUserToClient = () => {
     const { userId, clientNumber } = this.state;
-    const { usersMap, updateUser, updateClientIdOfUser } = this.props;
+    const { usersMap, updateUser, updateClientIdOfUser, closeConfirmationModal } = this.props;
 
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_CLIENT });
     const onSuccess = (newUser) => {
       const user = {
         ...usersMap[userId],
         clientId: newUser.clientId,
       };
+
       updateUser(user);
-      this.closeUpdateConfirmationModal();
+
       this.setState({
         userId: null,
         clientNumber: null,
@@ -69,14 +80,12 @@ class ManageClient extends Component {
     const {
       users,
       clients,
-      isUpdatingClientIdOfUser,
       isFetchingClients,
     } = this.props;
     const {
       userId,
       clientNumber,
       searchQuery,
-      isUpdateModalOpen,
     } = this.state;
 
     const userOptions = users.map((user) => {
@@ -109,15 +118,6 @@ class ManageClient extends Component {
 
     return (
       <section className="manage-client">
-        <ConfirmationModal
-          open={isUpdateModalOpen}
-          loading={isUpdatingClientIdOfUser}
-          header={strings.UPDATE_CLIENT_ID_FOR_AH_HEADER}
-          content={strings.UPDATE_CLIENT_ID_FOR_AH_CONTENT}
-          onNoClicked={this.closeUpdateConfirmationModal}
-          onYesClicked={this.linkUserToClient}
-        />
-
         <Banner
           header={strings.MANAGE_CLIENT_BANNER_HEADER}
           content={strings.MANAGE_CLIENT_BANNER_CONTENT}

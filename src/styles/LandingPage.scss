@@ -137,3 +137,9 @@
 footer {
   height: 20px;
 }
+
+.confirmation-modal {
+  &__content {
+    font-size: 1.2rem;
+  }
+}

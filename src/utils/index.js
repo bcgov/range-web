@@ -36,6 +36,7 @@ export * from './user';
 export * from './planStatus';
 export * from './client';
 export * from './validation';
+export * from './plan';
 
 export const createConfigWithHeader = (getState) => {
   const token = getToken(getState());

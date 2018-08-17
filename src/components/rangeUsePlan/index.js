@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
-import { updatePlan, updateGrazingSchedule } from '../../actions';
+import { updatePlan, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
@@ -124,4 +124,6 @@ export default connect(mapStateToProps, {
   toastSuccessMessage,
   toastErrorMessage,
   createAmendment,
+  openConfirmationModal,
+  closeConfirmationModal,
 })(Base);

@@ -29,6 +29,7 @@ import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 import clientReducer, * as fromClient from './clientReducer';
 import toastReducer, * as fromToast from './toastReducer';
 import agreementWithALLPlansReducer, * as fromAgreementWithAllPlans from './agreementWithALLPlansReducer';
+import confirmationModalReducer, * as fromConfirmationModal from './confirmationModalReducer';
 
 // createReducer to allow for reducer reuse
 const createReducer = (reducer, name) => (state, action) => {
@@ -46,6 +47,7 @@ const appReducer = combineReducers({
   [reducerTypes.AGREEMENTS_WITH_ALL_PLANS]: agreementWithALLPlansReducer,
   [reducerTypes.PLAN]: planReducer,
   [reducerTypes.CLIENT]: clientReducer,
+  [reducerTypes.CONFIRMATION]: confirmationModalReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
   [reducerTypes.UPDATE_USER_ID_OF_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_USER_ID_OF_ZONE),
@@ -101,6 +103,7 @@ export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetch
 export const getIsUpdatingPlanStatus = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_PLAN_STATUS]);
 
 export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
+export const getConfirmationModalsMap = state => fromConfirmationModal.getConfirmationModalsMap(state[reducerTypes.CONFIRMATION]);
 
 const rootReducer = (state, action) => {
   // reset the state of a Redux store when users sign out

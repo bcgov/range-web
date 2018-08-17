@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ManageZone from './ManageZone';
 import { fetchUsers, updateUserIdOfZone } from '../../actionCreators';
-import { updateZone } from '../../actions';
+import { updateZone, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone } from '../../reducers/rootReducer';
 
 const propTypes = {
@@ -43,4 +43,6 @@ export default connect(mapStateToProps, {
   fetchUsers,
   updateUserIdOfZone,
   updateZone,
+  openConfirmationModal,
+  closeConfirmationModal,
 })(Base);

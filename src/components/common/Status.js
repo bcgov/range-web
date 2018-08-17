@@ -76,7 +76,7 @@ const Status = ({
       break;
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
       statusName = status.name;
-      modifier += '--orange';
+      modifier += '--green';
       break;
     case PLAN_STATUS.STANDS:
       statusName = status.name;

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
-  COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF, UPDATE_STATUS,
+  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
-import { Status, ConfirmationModal, Banner } from '../common';
-import { getAgreementHolders, isStatusCreated, isStatusPending, isStatusDraft } from '../../utils';
+import { ELEMENT_ID, REFERENCE_KEY } from '../../constants/variables';
+import { Status, Banner } from '../common';
+import { getAgreementHolders, isStatusDraft } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
+import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 
 const propTypes = {
@@ -26,6 +26,8 @@ const propTypes = {
   updateRUPStatus: PropTypes.func.isRequired,
   updatePlan: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
 };
 const defaultProps = {
   agreement: {
@@ -41,13 +43,8 @@ const defaultProps = {
 };
 
 class RupStaff extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isCompletedModalOpen: false,
-      isChangeRequestModalOpen: false,
-      isUpdateZoneModalOpen: false,
-    };
+  state = {
+    isUpdateZoneModalOpen: false,
   }
 
   componentDidMount() {
@@ -78,52 +75,8 @@ class RupStaff extends Component {
     window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
 
-  openModal = property => this.setState({ [property]: true })
-  closeModal = property => this.setState({ [property]: false })
-  openCompletedConfirmModal = () => this.openModal('isCompletedModalOpen')
-  closeCompletedConfirmModal = () => this.closeModal('isCompletedModalOpen')
-  openChangeRequestConfirmModal = () => this.openModal('isChangeRequestModalOpen')
-  closeChangeRequestConfirmModal = () => this.closeModal('isChangeRequestModalOpen')
-  openUpdateZoneModal = () => this.openModal('isUpdateZoneModalOpen')
-  closeUpdateZoneModal = () => this.closeModal('isUpdateZoneModalOpen')
-
-  handleCompletedClicked = () => {
-    this.updateStatus(PLAN_STATUS.COMPLETED, this.closeCompletedConfirmModal);
-  }
-  handleChangeRequestClicked = () => {
-    this.updateStatus(PLAN_STATUS.CHANGE_REQUESTED, this.closeChangeRequestConfirmModal);
-  }
-  updateStatus = (statusCode, closeConfirmModal) => {
-    const {
-      references,
-      updateRUPStatus,
-      plan,
-      updatePlan,
-    } = this.props;
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = planStatuses.find(s => s.code === statusCode);
-    if (status && plan) {
-      const statusUpdated = (newStatus) => {
-        closeConfirmModal();
-        const newPlan = {
-          ...plan,
-          status: newStatus,
-        };
-        updatePlan({ plan: newPlan });
-      };
-      updateRUPStatus(plan.id, status.id).then(statusUpdated);
-    }
-  }
-
-  onZoneUpdated = (newZone) => {
-    const { plan, updatePlan } = this.props;
-    const newAgreement = { ...plan.agreement, zone: newZone };
-    const newPlan = {
-      ...plan,
-      agreement: newAgreement,
-    };
-    updatePlan({ plan: newPlan });
-  }
+  openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
+  closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
 
   render() {
     const {
@@ -134,11 +87,8 @@ class RupStaff extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
-      isUpdatingStatus,
     } = this.props;
     const {
-      isCompletedModalOpen,
-      isChangeRequestModalOpen,
       isUpdateZoneModalOpen,
     } = this.state;
 
@@ -146,20 +96,6 @@ class RupStaff extends Component {
     const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
-    const statusDropdownOptions = [
-      {
-        key: PLAN_STATUS.COMPLETED,
-        text: 'Completed',
-        value: 1,
-        onClick: this.openCompletedConfirmModal,
-      },
-      {
-        key: PLAN_STATUS.CHANGE_REQUESTED,
-        text: 'Change Request',
-        value: 2,
-        onClick: this.openChangeRequestConfirmModal,
-      },
-    ];
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     let header = `${agreementId} - Range Use Plan`;
@@ -170,28 +106,10 @@ class RupStaff extends Component {
 
     return (
       <section className="rup">
-        <ConfirmationModal
-          open={isCompletedModalOpen}
-          header={COMPLETED_CONFIRMATION_HEADER}
-          content={COMPLETED_CONFIRMATION_CONTENT}
-          onNoClicked={this.closeCompletedConfirmModal}
-          onYesClicked={this.handleCompletedClicked}
-          loading={isUpdatingStatus}
-        />
-
-        <ConfirmationModal
-          open={isChangeRequestModalOpen}
-          header="Confirmation: Change Request"
-          content="Are you sure you want to request changes to the agreement holder?"
-          onNoClicked={this.closeChangeRequestConfirmModal}
-          onYesClicked={this.handleChangeRequestClicked}
-          loading={isUpdatingStatus}
-        />
-
         <UpdateAgreementZoneModal
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
-          onZoneUpdated={this.onZoneUpdated}
+          plan={plan}
           agreement={agreement}
         />
 
@@ -220,16 +138,9 @@ class RupStaff extends Component {
                   {PREVIEW_PDF}
                 </Button>
               }
-              {(isStatusPending(status) || isStatusCreated(status)) &&
-                <Dropdown
-                  className="rup__status-dropdown"
-                  text={UPDATE_STATUS}
-                  options={statusDropdownOptions}
-                  style={{ marginLeft: '10px' }}
-                  button
-                  item
-                />
-              }
+              <UpdateStatusDropdown
+                plan={plan}
+              />
             </div>
           </div>
         </div>
