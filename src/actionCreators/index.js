@@ -101,7 +101,7 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      // dispatch(actions.success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
+      dispatch(actions.success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
       dispatch(toastSuccessMessage(ASSIGN_STAFF_TO_ZONE_SUCCESS));
       return response.data;
     },
