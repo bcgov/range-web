@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { Status, ConfirmationModal, Banner } from '../common';
+import { Status, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './AmendmentSubmissionModal';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
+import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
@@ -30,8 +30,8 @@ const propTypes = {
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
   updatePlan: PropTypes.func.isRequired,
-  // fetchPlan: PropTypes.func.isRequired,
-  // updateGrazingSchedule: PropTypes.func.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
 };
 const defaultProps = {
   agreement: {
@@ -48,7 +48,6 @@ const defaultProps = {
 
 export class RupAH extends Component {
   state = {
-    isSubmitPlanModalOpen: false,
     isSubmitAmendmentModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
@@ -109,6 +108,7 @@ export class RupAH extends Component {
       updatePlan,
       references,
       toastSuccessMessage,
+      closeConfirmationModal,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
@@ -121,14 +121,14 @@ export class RupAH extends Component {
       // update the status and schedules of the plan in Redux store
       const newPlan = { ...plan, status };
       updatePlan({ plan: newPlan });
-      this.setState({ isSubmitPlanModalOpen: false, isSubmitting: false });
+      this.setState({ isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
 
     const onError = () => {
-      this.setState({ isSubmitting: false, isSubmitPlanModalOpen: false });
+      this.setState({ isSubmitting: false });
     };
-
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.SUBMIT_PLAN });
     this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
@@ -209,16 +209,22 @@ export class RupAH extends Component {
     window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
 
-  closeSubmitConfirmModal = () => this.setState({ isSubmitPlanModalOpen: false })
   openSubmitConfirmModal = () => {
-    const { plan } = this.props;
+    const { plan, openConfirmationModal } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
       if (isPlanAmendment(plan)) {
         this.openSubmitAmendmentModal();
         return;
       }
-      this.setState({ isSubmitPlanModalOpen: true });
+      openConfirmationModal({
+        modal: {
+          id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
+          header: strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
+          content: strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
+          onYesBtnClicked: this.onSubmitClicked,
+        },
+      });
     }
   }
 
@@ -229,7 +235,6 @@ export class RupAH extends Component {
     const {
       isSavingAsDraft,
       isSubmitting,
-      isSubmitPlanModalOpen,
       isSubmitAmendmentModalOpen,
     } = this.state;
 
@@ -261,15 +266,6 @@ export class RupAH extends Component {
 
     return (
       <section className="rup">
-        <ConfirmationModal
-          open={isSubmitPlanModalOpen}
-          header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
-          content={strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
-          onNoClicked={this.closeSubmitConfirmModal}
-          onYesClicked={this.onSubmitClicked}
-          loading={isSubmitting}
-        />
-
         <AmendmentSubmissionModal
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
-  COMPLETED_CONFIRMATION_CONTENT, COMPLETED_CONFIRMATION_HEADER,
-  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF, UPDATE_STATUS, CHANGE_REQUEST_CONFIRMATION_HEADER, CHANGE_REQUEST_CONFIRMATION_CONTENT,
+  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
+import { ELEMENT_ID, REFERENCE_KEY } from '../../constants/variables';
 import { Status, Banner } from '../common';
-import { getAgreementHolders, isStatusCreated, isStatusPending, isStatusDraft, isStatusStands, isPlanAmendment } from '../../utils';
+import { getAgreementHolders, isStatusDraft } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
@@ -44,13 +43,8 @@ const defaultProps = {
 };
 
 class RupStaff extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isCompletedModalOpen: false,
-      isChangeRequestModalOpen: false,
-      isUpdateZoneModalOpen: false,
-    };
+  state = {
+    isUpdateZoneModalOpen: false,
   }
 
   componentDidMount() {
