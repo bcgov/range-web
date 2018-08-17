@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import Pikaday from 'pikaday';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
-import { DATE_FORMAT } from '../../../constants/variables';
+import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
-import { ConfirmationModal } from '../../common';
 
 const propTypes = {
   schedule: PropTypes.shape({}).isRequired,
@@ -18,15 +17,12 @@ const propTypes = {
   handleScheduleEntryChange: PropTypes.func.isRequired,
   handleScheduleEntryCopy: PropTypes.func.isRequired,
   handleScheduleEntryDelete: PropTypes.func.isRequired,
-  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
 };
 
 /* eslint-disable object-curly-newline */
 class EditRupGrazingScheduleEntry extends Component {
-  state = {
-    isDeleteScheduleEntryModalOpen: false,
-  }
-
   componentDidMount() {
     const { entry, schedule } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
@@ -109,12 +105,21 @@ class EditRupGrazingScheduleEntry extends Component {
   }
 
   onDeleteEntryClicked = () => {
-    const { handleScheduleEntryDelete, entryIndex } = this.props;
+    const { handleScheduleEntryDelete, entryIndex, closeConfirmationModal } = this.props;
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY });
     handleScheduleEntryDelete(entryIndex);
   }
 
-  closeDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: false })
-  openDeleteScheduleEntryConfirmationModal = () => this.setState({ isDeleteScheduleEntryModalOpen: true })
+  openDeleteScheduleEntryConfirmationModal = () => {
+    this.props.openConfirmationModal({
+      modal: {
+        id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY,
+        header: DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER,
+        content: DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT,
+        onYesBtnClicked: this.onDeleteEntryClicked,
+      },
+    });
+  }
 
   render() {
     const {
@@ -124,7 +129,6 @@ class EditRupGrazingScheduleEntry extends Component {
       pastureOptions,
       livestockTypes,
       livestockTypeOptions,
-      isDeletingGrazingScheduleEntry,
     } = this.props;
 
     const {
@@ -159,15 +163,6 @@ class EditRupGrazingScheduleEntry extends Component {
 
     return (
       <Table.Row>
-        <ConfirmationModal
-          open={this.state.isDeleteScheduleEntryModalOpen}
-          loading={isDeletingGrazingScheduleEntry}
-          header={DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER}
-          content={DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT}
-          onNoClicked={this.closeDeleteScheduleEntryConfirmationModal}
-          onYesClicked={this.onDeleteEntryClicked}
-        />
-
         <Table.Cell>
           <Dropdown
             value={pastureId}
