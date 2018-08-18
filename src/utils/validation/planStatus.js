@@ -1,17 +1,4 @@
-import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES } from '../constants/variables';
-import {
-  RUP_CHANGE_REQUESTED_FOR_AH_CONTENT,
-  RUP_COMPLETE_FOR_AH_CONTENT,
-  RUP_CREATED_FOR_AH_CONTENT,
-  RUP_IN_DRAFT_FOR_AH_CONTENT,
-  RUP_PENDING_FOR_AH_CONTENT,
-  RUP_APPROVED_FOR_AH_CONTENT,
-  RUP_NOT_APPROVED_FOR_AH_CONTENT,
-  RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT,
-  RUP_STANDS_FOR_AH_CONTENT,
-  RUP_STANDS_WRONGLY_MADE_AH_CONTENT,
-  RUP_WRONGLY_MADE_WITHOUT_EFFECT,
-} from '../constants/strings';
+import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES } from '../../constants/variables';
 
 export const isStatusCreated = status => (
   status && status.code === PLAN_STATUS.CREATED
@@ -70,40 +57,3 @@ export const isStatusAllowingRevisionForAH = status => (
   status && status.code &&
   (EDITABLE_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
 );
-
-export const getBannerContentForAH = (status) => {
-  if (isStatusCreated(status)) {
-    return RUP_CREATED_FOR_AH_CONTENT;
-  }
-  if (isStatusDraft(status)) {
-    return RUP_IN_DRAFT_FOR_AH_CONTENT;
-  }
-  if (isStatusPending(status)) {
-    return RUP_PENDING_FOR_AH_CONTENT;
-  }
-  if (isStatusChangedRequested(status)) {
-    return RUP_CHANGE_REQUESTED_FOR_AH_CONTENT;
-  }
-  if (isStatusCompleted(status)) {
-    return RUP_COMPLETE_FOR_AH_CONTENT;
-  }
-  if (isStatusApproved(status)) {
-    return RUP_APPROVED_FOR_AH_CONTENT;
-  }
-  if (isStatusNotApproved(status)) {
-    return RUP_NOT_APPROVED_FOR_AH_CONTENT;
-  }
-  if (isStatusNotApprovedFWR(status)) {
-    return RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT;
-  }
-  if (isStatusStands(status)) {
-    return RUP_STANDS_FOR_AH_CONTENT;
-  }
-  if (isStatusStandsWM(status)) {
-    return RUP_STANDS_WRONGLY_MADE_AH_CONTENT;
-  }
-  if (isStatusWronglyMakeWE(status)) {
-    return RUP_WRONGLY_MADE_WITHOUT_EFFECT;
-  }
-  return 'View Range Use Plan.';
-};

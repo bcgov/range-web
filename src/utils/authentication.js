@@ -28,7 +28,7 @@ import {
   REFRESH_TOKEN_FROM_SSO,
 } from '../constants/API';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
-import { stringifyQuery } from './queryString';
+import { stringifyQuery } from './index';
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
 /**

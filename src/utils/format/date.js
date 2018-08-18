@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { DATE_FORMAT } from '../constants/variables';
-import { NOT_PROVIDED } from '../constants/strings';
+import { DATE_FORMAT } from '../../constants/variables';
+import { NOT_PROVIDED } from '../../constants/strings';
 
 /**
  * Present the date time in a more readable way
@@ -30,20 +30,3 @@ export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notPr
 export const formatDateFromUTC = date => (
   moment(date).format(DATE_FORMAT.SERVER_SIDE)
 );
-
-export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
-  const pastureNames = pastureIds.map((pId) => {
-    const pasture = pasturesMap[pId];
-    return pasture && pasture.name;
-  });
-  const { length } = pastureNames;
-  switch (length) {
-    case 0:
-      return NOT_PROVIDED;
-    case 1:
-    case 2:
-      return pastureNames.join(' and ');
-    default:
-      return `${pastureNames.slice(0, length - 1).join(', ')}, and ${pastureNames[length - 1]}`;
-  }
-};

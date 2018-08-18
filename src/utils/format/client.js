@@ -1,4 +1,4 @@
-import { CLIENT_TYPE } from '../constants/variables';
+import { CLIENT_TYPE } from '../../constants/variables';
 
 /* eslint-disable import/prefer-default-export */
 export const getAgreementHolders = (clients = []) => {

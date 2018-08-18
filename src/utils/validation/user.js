@@ -1,8 +1,4 @@
-import { USER_ROLE } from '../constants/variables';
-
-export const getUserFullName = user => (
-  user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`
-);
+import { USER_ROLE } from '../../constants/variables';
 
 export const isUserActive = user => user && user.active;
 
@@ -21,14 +17,3 @@ export const isUserAgreementHolder = user => (
 export const userHaveRole = user => (
   (isUserAdmin(user) || isUserRangeOfficer(user) || isUserAgreementHolder(user))
 );
-
-export const getUserInitial = (user) => {
-  const familyName = user && user.familyName;
-  const givenName = user && user.givenName;
-
-  if (familyName && givenName && typeof familyName === 'string' && typeof givenName === 'string') {
-    return givenName.charAt(0) + familyName.charAt(0);
-  }
-
-  return 'NP';
-};
