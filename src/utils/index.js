@@ -32,6 +32,7 @@ export * from './format';
 export * from './validation';
 export * from './authentication';
 export * from './localStorage';
+export * from './helper';
 
 export const createConfigWithHeader = (getState) => {
   const token = getToken(getState());

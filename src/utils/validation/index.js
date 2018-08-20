@@ -1,40 +1,4 @@
-import { handleGrazingScheduleValidation } from './grazingSchedule';
-
 export * from './grazingSchedule';
 export * from './planStatus';
 export * from './user';
-
-/**
- * Validate a range use plan
- *
- * @param {Object} plan the range use plan object
- * @param {Object} pasturesMap
- * @param {Object} grazingSchedulesMap
- * @param {Array} livestockTypes the array of live stock types
- * @param {Array} usages the array of usages from the agreement
- * @returns {Array} An array of errors
- */
-export const handleRupValidation = (
-  plan = {},
-  pasturesMap = {},
-  grazingSchedulesMap = {},
-  livestockTypes = [],
-  usages = [],
-) => {
-  const grazingSchedules = plan.grazingSchedules.map(id => grazingSchedulesMap[id]) || [];
-
-  let errors = [];
-  grazingSchedules.map((schedule) => {
-    errors = [
-      ...errors,
-      ...handleGrazingScheduleValidation(schedule, pasturesMap, livestockTypes, usages),
-    ];
-    return undefined;
-  });
-
-  return errors;
-};
-
-export const isPlanAmendment = (plan) => (
-  plan && plan.amendmentTypeId
-);
+export * from './plan';
