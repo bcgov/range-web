@@ -5,7 +5,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated } from '../../utils';
 import { PLAN_STATUS, CONFIRMATION_MODAL_ID, REFERENCE_KEY } from '../../constants/variables';
 import { getReferences } from '../../reducers/rootReducer';
-import { openConfirmationModal, closeConfirmationModal, updatePlan } from '../../actions';
+import { openConfirmationModal, closeConfirmationModal, planUpdated } from '../../actions';
 import { updateRUPStatus } from '../../actionCreators';
 import * as strings from '../../constants/strings';
 
@@ -14,7 +14,7 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,
-  updatePlan: PropTypes.func.isRequired,
+  planUpdated: PropTypes.func.isRequired,
 };
 
 class UpdateStatusDropdown extends Component {
@@ -67,7 +67,7 @@ class UpdateStatusDropdown extends Component {
       plan,
       references,
       updateRUPStatus,
-      updatePlan,
+      planUpdated,
       closeConfirmationModal,
     } = this.props;
 
@@ -81,7 +81,7 @@ class UpdateStatusDropdown extends Component {
           ...plan,
           status: newStatus,
         };
-        updatePlan({ plan: newPlan });
+        planUpdated({ plan: newPlan });
       };
       updateRUPStatus(plan.id, status.id).then(statusUpdated);
     }
@@ -145,7 +145,7 @@ const mapStateToProps = state => (
 
 UpdateStatusDropdown.propTypes = propTypes;
 export default connect(mapStateToProps, {
-  updatePlan,
+  planUpdated,
   openConfirmationModal,
   closeConfirmationModal,
   updateRUPStatus,

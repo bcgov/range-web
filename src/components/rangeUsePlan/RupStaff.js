@@ -24,7 +24,7 @@ const propTypes = {
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   updateRUPStatus: PropTypes.func.isRequired,
-  updatePlan: PropTypes.func.isRequired,
+  planUpdated: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,

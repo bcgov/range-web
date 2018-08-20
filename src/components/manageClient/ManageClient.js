@@ -13,7 +13,7 @@ const propTypes = {
   clients: PropTypes.arrayOf(PropTypes.object).isRequired,
   searchClients: PropTypes.func.isRequired,
   updateClientIdOfUser: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
+  userUpdated: PropTypes.func.isRequired,
   isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
   isFetchingClients: PropTypes.bool.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ class ManageClient extends Component {
 
   linkUserToClient = () => {
     const { userId, clientNumber } = this.state;
-    const { usersMap, updateUser, updateClientIdOfUser, closeConfirmationModal } = this.props;
+    const { usersMap, userUpdated, updateClientIdOfUser, closeConfirmationModal } = this.props;
 
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_CLIENT });
     const onSuccess = (newUser) => {
@@ -66,7 +66,7 @@ class ManageClient extends Component {
         clientId: newUser.clientId,
       };
 
-      updateUser(user);
+      userUpdated(user);
 
       this.setState({
         userId: null,

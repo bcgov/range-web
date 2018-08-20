@@ -6,7 +6,7 @@ import { Button, Checkbox, Modal, Icon, Form, Radio } from 'semantic-ui-react';
 import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS } from '../../constants/variables';
 import { getReferences } from '../../reducers/rootReducer';
 import { updateRUP } from '../../actionCreators/planActionCreator';
-import { updatePlan } from '../../actions';
+import { planUpdated } from '../../actions';
 
 const propTypes = {
   open: PropTypes.bool.isRequired,
@@ -15,7 +15,7 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   clients: PropTypes.arrayOf(PropTypes.object),
   updateRUP: PropTypes.func.isRequired,
-  updatePlan: PropTypes.func.isRequired,
+  planUpdated: PropTypes.func.isRequired,
   updateRupStatusAndContent: PropTypes.func.isRequired,
 };
 const defaultProps = {
@@ -55,7 +55,7 @@ class AmendmentSubmissionModal extends Component {
       plan,
       references,
       updateRUP,
-      updatePlan,
+      planUpdated,
       updateRupStatusAndContent,
     } = this.props;
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
@@ -73,7 +73,7 @@ class AmendmentSubmissionModal extends Component {
           amendmentTypeId: minor.id,
         }).then((updatedPlan) => {
           this.onNextClicked();
-          updatePlan({ plan: { ...plan, ...updatedPlan } });
+          planUpdated({ plan: { ...plan, ...updatedPlan } });
           this.setState({ isSubmitting: false });
         });
       };
@@ -244,5 +244,5 @@ AmendmentSubmissionModal.propTypes = propTypes;
 AmendmentSubmissionModal.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   updateRUP,
-  updatePlan,
+  planUpdated,
 })(AmendmentSubmissionModal);

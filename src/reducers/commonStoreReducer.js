@@ -71,11 +71,11 @@ const commonStoreReducer = (state = initialState, action) => {
       };
     case actionTypes.STORE_ZONES:
       return storeZones(state, action);
-    case actionTypes.UPDATE_ZONE:
+    case actionTypes.ZONE_UPDATED:
       return updateZone(state, action);
     case actionTypes.STORE_USERS:
       return storeUsers(state, action);
-    case actionTypes.UPDATE_USER:
+    case actionTypes.USER_UPDATED:
       return updateUser(state, action);
     default:
       return state;

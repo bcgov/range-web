@@ -29,7 +29,7 @@ const propTypes = {
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
-  updatePlan: PropTypes.func.isRequired,
+  planUpdated: PropTypes.func.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,
 };
@@ -79,7 +79,7 @@ export class RupAH extends Component {
   onSaveDraftClick = () => {
     const {
       plan,
-      updatePlan,
+      planUpdated,
       references,
       toastSuccessMessage,
     } = this.props;
@@ -91,7 +91,7 @@ export class RupAH extends Component {
     const onSuccess = () => {
       // update schedules in Redux store
       const newPlan = { ...plan, status };
-      updatePlan({ plan: newPlan });
+      planUpdated({ plan: newPlan });
       this.setState({ isSavingAsDraft: false });
       toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
@@ -105,7 +105,7 @@ export class RupAH extends Component {
   onSubmitClicked = () => {
     const {
       plan,
-      updatePlan,
+      planUpdated,
       references,
       toastSuccessMessage,
       closeConfirmationModal,
@@ -120,7 +120,7 @@ export class RupAH extends Component {
     const onSuccess = () => {
       // update the status and schedules of the plan in Redux store
       const newPlan = { ...plan, status };
-      updatePlan({ plan: newPlan });
+      planUpdated({ plan: newPlan });
       this.setState({ isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };

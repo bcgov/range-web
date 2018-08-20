@@ -14,7 +14,7 @@ const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   zonesMap: PropTypes.shape({}).isRequired,
-  updateZone: PropTypes.func.isRequired,
+  zoneUpdated: PropTypes.func.isRequired,
   updateUserIdOfZone: PropTypes.func.isRequired,
   isAssigning: PropTypes.bool.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
@@ -47,7 +47,7 @@ export class ManageZone extends Component {
     const {
       zonesMap,
       updateUserIdOfZone,
-      updateZone,
+      zoneUpdated,
       closeConfirmationModal,
     } = this.props;
 
@@ -62,7 +62,7 @@ export class ManageZone extends Component {
       };
 
       // then update this zone in Redux store
-      updateZone(zone);
+      zoneUpdated(zone);
 
       // refresh the view
       this.setState({
