@@ -92,6 +92,8 @@ export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_HEADER = 'Update Status: W
 export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 export const STANDS_WRONGLY_MADE_CONFIRMATION_HEADER = 'Update Status: Stands - Wrongly Made';
 export const STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const APPROVED_CONFIRMATION_HEADER = 'Update Status: Approved';
+export const APPROVED_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 
 export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
 export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
-import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated } from '../../utils';
+import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted } from '../../utils';
 import { PLAN_STATUS, CONFIRMATION_MODAL_ID, REFERENCE_KEY } from '../../constants/variables';
 import { getReferences } from '../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, planUpdated } from '../../actions';
@@ -58,6 +58,17 @@ class UpdateStatusDropdown extends Component {
         header: strings.STANDS_WRONGLY_MADE_CONFIRMATION_HEADER,
         content: strings.STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT,
         onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.STANDS_WRONGLY_MADE),
+      },
+    });
+  }
+
+  openApprovedConfirmModal = () => {
+    this.props.openConfirmationModal({
+      modal: {
+        id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
+        header: strings.APPROVED_CONFIRMATION_HEADER,
+        content: strings.APPROVED_CONFIRMATION_CONTENT,
+        onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.APPROVED),
       },
     });
   }
@@ -121,6 +132,15 @@ class UpdateStatusDropdown extends Component {
             onClick: this.openChangeRequestConfirmModal,
           },
         ];
+      }
+      if (isStatusCompleted(status)) {
+        statusDropdownOptions = [
+          {
+            key: PLAN_STATUS.APPROVED,
+            text: 'Approved',
+            onClick: this.openApprovedConfirmModal,
+          },
+        ]
       }
     }
     return (
