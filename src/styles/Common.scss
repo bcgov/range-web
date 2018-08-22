@@ -1,0 +1,182 @@
+@import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
+
+.status {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  &__icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+
+    &--orange {
+      background: orange;
+    } 
+    &--purple {
+      background: purple;
+    }
+    &--gray {
+      background: gray;
+    }
+    &--green {
+      background: green;
+    }
+    &--red {
+      background: red;
+    }
+    &--black {
+      background: black;
+    }
+    &--not-provided {
+      display: none;
+    }
+  }
+}
+
+.text-field {
+  margin: 3px 0;
+
+  &__label {
+    font-size: 1.2rem;
+    color: gray;
+
+    &--hidden {
+      display: none;
+    }
+  }
+  &__button {
+    @extend .default-button;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    margin: 2px 0 5px 0;
+    padding: 8px !important;
+    background: #eeeeee;
+  }
+  &__text {
+    border-radius: 5px;
+    margin: 2px 0 5px 0;
+    padding: 8px 0;
+    font-size: 1.1rem;
+  }
+}
+
+.avatar {
+  min-width: 40px;
+  max-width: 40px;
+  height: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  background: $primary-light-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // cursor: pointer;
+
+  &__initial {
+    color: white;
+  }
+}
+
+.banner {
+  background: $primary-color;
+  color: white;
+
+  &__container {
+    @extend .container;
+    padding-top: 10px;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &--no-default-height {
+      min-height: 0px !important;
+    }
+  }
+
+  &__content {
+    font-size: 1.2rem;
+  }
+
+  &__action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+}
+
+.page-not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__image {
+    margin-left: 30px;
+    width: 150px;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 3rem;
+    margin: 10px 0 30px 0;
+  }
+
+  &__content {
+    font-size: 1.3rem;
+    text-align: center;
+    line-height: 140%;
+    p {
+      margin: 0;
+    }
+  }
+
+  &__link {
+    margin: 10px auto;
+    width: fit-content;
+    font-size: 1.3rem;
+
+    &--boldered {
+      border: 1px solid  
+    }
+  }
+}
+
+.multi-form {
+  &__tab {
+    display: none;
+
+    &--active {
+      display: block;
+    }
+    &__title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+  }
+  &__btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+  }
+  &__btn {
+    min-width: 120px;
+  }
+}

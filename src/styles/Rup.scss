@@ -1,0 +1,356 @@
+@import 'styles/mixins.scss';
+@import 'styles/Grid.scss';
+
+$row-height: 80px;
+
+.rup {
+  &__cell-6 {
+    @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
+  }
+  &__cell-4 {
+    @extend .col-md-4, .col-lg-4, .col-sm-4, .col-xs-12;
+  }
+  &__row {
+    @extend .row;
+  }
+  &__pdf-link {
+    display: none;
+  }
+  &__title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: $primary-color;
+
+    &--editable {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: $primary-color;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+  &__sticky {
+    background: $primary-color;
+    color: white;
+    z-index: $rup-sticky-z-index;
+    min-width: $mobile-width;
+    min-height: 55px;
+    display: flex;
+
+    &__container {
+      @extend .container;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+    &__left {
+      display: flex;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 16px;
+    }
+    &__primary-agreement-holder,
+    &__title {
+      display: none;
+    }
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+    &--fixed &__title {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
+    &--fixed &__primary-agreement-holder {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
+    }
+  }
+  /* Add some top padding to the page content to prevent sudden quick movement 
+  (as the header gets a new position at the top of the page (position:fixed and top:0) */
+  &__sticky--fixed + &__content {
+    padding-top: 56px;
+  }
+  &__content {
+    @extend .container;
+    padding-top: $content-margin-top;
+  }
+  &__actions {
+    justify-content: space-between;
+    
+    &--hidden {
+      display: none;  
+    }
+  }
+  &__divider {
+    border-top: 3px solid $accent-color;
+    margin-top: 15px;
+  }
+  &__sub-divider {
+    border-top: 1px solid $accent-color;
+    margin-top: 5px;
+  }
+  &__section-not-found {
+    border-radius: 5px;
+    margin: 2px 0 5px 0;
+    padding: 8px 0;
+    font-size: 1.1rem;
+  }
+  &__info-title {
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 10px 0;
+  }
+  &__plan-info,
+  &__agreement-info,
+  &__contact-info, {
+    display: flex;
+    flex-direction: column;
+  }
+  &__zone-text {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  &__basic_information {
+    margin-bottom: 15px;
+  }
+  &__pastures {
+    &__container {
+      margin-bottom: 15px;
+    }
+  }
+  &__pasture {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+  }
+
+  &__schedules {
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    &--empty {
+      border: 0px;
+    }
+    li:not(:last-child) {
+      border-bottom: 1px solid gainsboro;
+    }
+    &__container {
+      margin-bottom: 15px;
+    }
+  }
+
+  &__schedule {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 100%;
+      &__title {
+        @extend .default-button;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: none;
+        padding: 15px !important;
+      }
+      &__action {
+        margin-right: 10px;
+      }
+    }
+    &__warning-message {
+      padding: 0px 15px 10px 15px;
+    }
+    &__content {
+      padding: 0px 15px 15px 15px;
+      &__hidden {
+        display: none;  
+      }
+      &__dates {
+        min-width: 70px;
+      }
+      &__grace-days {
+        min-width: 50px;
+      }
+      &__AUMs {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.1rem;
+        text-align: right;
+      }
+      &__AUM-label {
+        font-weight: bold;
+        margin: 0 10px;
+      }
+      &__AUM-number {
+        border: 1px solid gainsboro;
+        padding: 8px 15px;
+        border-radius: 3px;
+        &--invalid {
+          @extend .error;
+        }
+      }
+      &__narrative {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+    &__draft-container {
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__missues {
+    &__container {
+      margin-bottom: 15px;
+    }
+    &__note {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    margin: 10px 0;
+    list-style-type: none;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    &--empty {
+      border: 0px;
+    }
+    li {
+      border-bottom: 1px solid gainsboro;
+    }
+    li:last-child {
+      border-bottom: 0px solid gainsboro;
+    }
+  }
+  &__missue {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 100%;
+
+      &__title {
+        @extend .default-button;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: none;
+        padding: 15px !important;
+      }
+      &__right {
+        display: flex;
+      }
+      &__identified {
+        font-size: 1rem;
+      }
+    }
+    &__content {
+      padding: 0px 15px 15px 15px;
+
+      &__hidden {
+        display: none;  
+      }
+    }
+    &__actions {
+      &__title {
+        font-size: 1.2rem;
+        color: gray;
+      }
+    }
+    &__action {
+      margin: 10px;
+      &__type {
+        font-weight: bold;
+      }
+      &__detail {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+.rup-pdf {
+  display: flex;
+  justify-content: center;
+  
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+
+    &__download-btn {
+      align-self: flex-end;
+    }
+    &__load {
+      margin-top: 1em;
+      color: white;
+    }
+    &__document {
+      .ReactPDF {
+        &__Page {
+          box-shadow: 0 0 30px rgba(0, 0, 0, .3);
+          margin: 10px 0;
+
+          canvas {
+            max-width: 100%;
+            height: auto !important;
+          }
+        }
+        &__message {
+          padding: 20px;
+          color: black;
+        }
+      }
+    }
+  }
+}
+
+.amendment {
+  &__submission {
+    &__last-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

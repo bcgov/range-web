@@ -1,0 +1,76 @@
+$mobile-width: 500px;
+$tablet-width: 768px;
+$large-width: 1024px;
+$desktop-width: 75em;
+$x-large-width: 90em;
+
+$sidebar-width: 220px;
+$nav-height: 50px;
+$content-margin-top: 20px;
+
+$light-gray-color: rgba(34,36,38,1);
+$primary-color: #003366;
+$primary-light-color : #5475A7;
+$accent-color: #FCBA19;
+$error-color: #9f3a38;
+
+$rup-sticky-z-index: 1;
+$toast-z-index: 10;
+
+.default-button {
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.error {
+  background-color: #fff6f6;
+  border-color: #e0b4b4;
+  color: $error-color;
+  box-shadow: none;
+}
+
+@mixin mobile {
+  @media (max-width: #{$mobile-width}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (max-width: #{$large-width}) {
+    @content;
+  }
+}
+
+@mixin only-large {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@mixin desktop-width {
+  @media (max-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@mixin x-large {
+  @media (min-width: #{$x-large-width}) {
+    @content;
+  }
+}
