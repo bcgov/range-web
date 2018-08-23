@@ -23,6 +23,7 @@ const DEV_API_BASE_URL = 'http://localhost:8000/api/v1';
 export const API_BASE_URL = (process.env.NODE_ENV === 'production')
   ? `${window.location.origin}/api/v1`
   : DEV_API_BASE_URL;
+// export const API_BASE_URL = 'http://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
 
 export const SEARCH_AGREEMENTS = 'agreement/search';
 export const GET_AGREEMENT = agreementId => `/agreement/${agreementId}`;

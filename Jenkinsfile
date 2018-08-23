@@ -69,26 +69,6 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
     }
 
     stage('Test') {
-
-        //
-        // Check the code builds
-        //
-
-        try {
-          echo "Checking Build"
-          sh "npm run build"
-        } catch (error) {
-          def attachment = [:]
-          attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
-          attachment.color = '#CD0000' // Red
-          attachment.text = "The code does not build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-          // attachment.title_link = "${env.BUILD_URL}"
-
-          notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
-          sh "exit 1001"
-        }
-
         //
         // Run our code quality tests
         //
