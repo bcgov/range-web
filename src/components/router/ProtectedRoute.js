@@ -4,7 +4,7 @@ import LandingPage from '../LandingPage';
 import { MANAGE_CLIENT, MANAGE_ZONE, LOGIN, EXPORT_PDF_WITH_PARAM } from '../../constants/routes';
 import { isUserAdmin } from '../../utils';
 
-const PrivateRoute = ({ component: Component, user, ...rest }) => (
+const ProtectedRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
     render={(props) => { // props = { match:{...}, history:{...}, location:{...} }
@@ -34,4 +34,4 @@ const PrivateRoute = ({ component: Component, user, ...rest }) => (
   />
 );
 
-export default PrivateRoute;
+export default ProtectedRoute;
