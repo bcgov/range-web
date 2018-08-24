@@ -352,5 +352,11 @@ $row-height: 80px;
         margin-bottom: 10px;
       }
     }
+    &__radio {
+      margin-right: 10px;
+    }
+    &__radio-field {
+      display: flex;
+    }
   }
 }

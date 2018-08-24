@@ -15,7 +15,6 @@ import {
   copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
  } from '../utils';
 
-/* eslint-disable arrow-body-style */
 export const updateRUP = (planId, body) => (dispatch, getState) => {
   return axios.put(
     API.UPDATE_RUP(planId),
