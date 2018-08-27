@@ -7,7 +7,7 @@ import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import AmendmentSubmissionModal from './AmendmentSubmissionModal';
+import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
@@ -99,7 +99,7 @@ export class RupAH extends Component {
       this.setState({ isSavingAsDraft: false });
     };
 
-    this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
+    this.updateStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
   onSubmitClicked = () => {
@@ -129,10 +129,10 @@ export class RupAH extends Component {
       this.setState({ isSubmitting: false });
     };
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.SUBMIT_PLAN });
-    this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
+    this.updateStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
-  updateRupStatusAndContent = async (status, onRequested, onSuccess, onError) => {
+  updateStatusAndContent = async (status, onRequested, onSuccess, onError) => {
     const {
       plan,
       updateRUPStatus,
@@ -161,7 +161,7 @@ export class RupAH extends Component {
       )));
       onSuccess(newSchedules);
     } catch (err) {
-      onError();
+      onError(err);
       toastErrorMessage(err);
       throw err;
     }
@@ -271,7 +271,7 @@ export class RupAH extends Component {
           onClose={this.closeSubmitAmendmentModal}
           plan={plan}
           clients={clients}
-          updateRupStatusAndContent={this.updateRupStatusAndContent}
+          updateStatusAndContent={this.updateStatusAndContent}
         />
 
         <Banner

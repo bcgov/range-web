@@ -140,7 +140,7 @@ class UpdateStatusDropdown extends Component {
             text: 'Approved',
             onClick: this.openApprovedConfirmModal,
           },
-        ]
+        ];
       }
     }
     return (

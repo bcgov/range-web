@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED, DRAFT } from '../../constants/strings';
+import { NO_RUP_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED, DRAFT, NOT_PROVIDED } from '../../constants/strings';
 import { PLAN_STATUS } from '../../constants/variables';
 import { isUserAgreementHolder } from '../../utils';
 
@@ -29,7 +29,7 @@ const Status = ({
   user,
 }) => {
   let modifier = 'status__icon';
-  let statusName = NO_RUP_PROVIDED;
+  let statusName = status ? 'Unknown Status' : NOT_PROVIDED;
 
   switch (status.code) {
     case PLAN_STATUS.CREATED:
@@ -46,11 +46,11 @@ const Status = ({
       } else {
         statusName = IN_PROGRESS;
       }
-      modifier += '--gray'; // gray
+      modifier += '--gray';
       break;
     case PLAN_STATUS.STAFF_DRAFT:
       statusName = 'Staff Draft';
-      modifier += '--gray'; // gray
+      modifier += '--gray';
       break;
     case PLAN_STATUS.PENDING:
       if (isUserAgreementHolder(user)) {
@@ -58,15 +58,15 @@ const Status = ({
       } else {
         statusName = REVIEW_REQUIRED;
       }
-      modifier += '--purple'; // purple
+      modifier += '--purple';
       break;
     case PLAN_STATUS.CHANGE_REQUESTED:
       statusName = REVISIONS_REQUESTED;
-      modifier += '--red'; // red
+      modifier += '--red';
       break;
     case PLAN_STATUS.COMPLETED:
       statusName = status.name;
-      modifier += '--green'; // green
+      modifier += '--green';
       break;
 
     // Amendment Statuses
@@ -82,6 +82,7 @@ const Status = ({
       statusName = status.name;
       modifier += '--green';
       break;
+
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
       statusName = status.name;
       modifier += '--orange';
@@ -93,6 +94,23 @@ const Status = ({
     case PLAN_STATUS.APPROVED:
       statusName = status.name;
       modifier += '--green';
+      break;
+
+    case PLAN_STATUS.SUBMITTED_FOR_REVIEW:
+      statusName = status.name;
+      modifier += '--purple';
+      break;
+    case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
+      statusName = status.name;
+      modifier += '--purple';
+      break;
+    case PLAN_STATUS.RECOMMEND_READY:
+      statusName = status.name;
+      modifier += '--green';
+      break;
+    case PLAN_STATUS.RECOMMEND_NOT_READY:
+      statusName = status.name;
+      modifier += '--red';
       break;
 
     default:
