@@ -7,8 +7,8 @@ import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS } from '../../../constants/v
 import { getReferences } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
-import MinorAmendmentTabs from './MinorAmendmentTabs';
-import MandatoryAmendmentTabs from './MandatoryAmendmentTabs';
+import MinorSubmissionTabs from './MinorSubmissionTabs';
+import MandatoySubmissionTabs from './MandatoySubmissionTabs';
 
 const propTypes = {
   open: PropTypes.bool.isRequired,
@@ -34,7 +34,7 @@ class AmendmentSubmissionModal extends Component {
     return {
       activeTab: 0,
       amendmentType: null,
-      mandatoryPlanStatusCode: null,
+      mandatorySubmissionType: null,
       isAgreed: false,
       readyToGoNext: false,
       isSubmitting: false,
@@ -62,7 +62,7 @@ class AmendmentSubmissionModal extends Component {
 
   onSubmitClicked = () => {
     const { plan, references } = this.props;
-    const { amendmentType, mandatoryPlanStatusCode } = this.state;
+    const { amendmentType, mandatorySubmissionType } = this.state;
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
@@ -72,7 +72,7 @@ class AmendmentSubmissionModal extends Component {
       const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       this.submitAmendment(plan, stands, minor);
     } else if (amendmentType === AMENDMENT_TYPE.MANDATORY) {
-      const planStatus = planStatuses.find(s => s.code === mandatoryPlanStatusCode);
+      const planStatus = planStatuses.find(s => s.code === mandatorySubmissionType);
       this.submitAmendment(plan, planStatus, mandatory);
     }
   }
@@ -112,18 +112,18 @@ class AmendmentSubmissionModal extends Component {
     this.setState({ isAgreed: checked, readyToGoNext: true });
   }
 
-  handleMandatoryPlanStatusCodeChange = (e, { value: mandatoryPlanStatusCode }) => {
-    this.setState({ mandatoryPlanStatusCode, readyToGoNext: true });
+  handleMandatorySubmissionTypeChange = (e, { value: mandatorySubmissionType }) => {
+    this.setState({ mandatorySubmissionType, readyToGoNext: true });
   }
 
   render() {
     const {
       activeTab, amendmentType, readyToGoNext, isAgreed,
-      isSubmitting, mandatoryPlanStatusCode,
+      isSubmitting, mandatorySubmissionType,
     } = this.state;
     const { open, clients } = this.props;
     const index = activeTab + 1;
-
+    
     return (
       <Modal
         dimmer="blurring"
@@ -176,30 +176,31 @@ class AmendmentSubmissionModal extends Component {
             </div>
           </Form>  
           { amendmentType === AMENDMENT_TYPE.MINOR &&
-            <MinorAmendmentTabs
+            <MinorSubmissionTabs
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
               isSubmitting={isSubmitting}
               handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
               onClose={this.onClose}
+              onBackClicked={this.onBackClicked}
               onSubmitClicked={this.onSubmitClicked}
             />
           }
           { amendmentType === AMENDMENT_TYPE.MANDATORY &&
-            <MandatoryAmendmentTabs
+            <MandatoySubmissionTabs
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
               isSubmitting={isSubmitting}
               readyToGoNext={readyToGoNext}
-              mandatoryPlanStatusCode={mandatoryPlanStatusCode}
+              mandatorySubmissionType={mandatorySubmissionType}
               onClose={this.onClose}
               onSubmitClicked={this.onSubmitClicked}
               onBackClicked={this.onBackClicked}
               onNextClicked={this.onNextClicked}
               handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
-              handleMandatoryPlanStatusCodeChange={this.handleMandatoryPlanStatusCodeChange}
+              handleMandatorySubmissionTypeChange={this.handleMandatorySubmissionTypeChange}
             />
           }
         </Modal.Content>

@@ -46,7 +46,7 @@ const Status = ({
       } else {
         statusName = IN_PROGRESS;
       }
-      modifier += '--gray'; // gray
+      modifier += '--gray';
       break;
     case PLAN_STATUS.STAFF_DRAFT:
       statusName = 'Staff Draft';
@@ -82,6 +82,7 @@ const Status = ({
       statusName = status.name;
       modifier += '--green';
       break;
+
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
       statusName = status.name;
       modifier += '--orange';
@@ -95,13 +96,21 @@ const Status = ({
       modifier += '--green';
       break;
 
-    case PLAN_STATUS.RECOMMEND_READY:
+    case PLAN_STATUS.SUBMITTED_FOR_REVIEW:
       statusName = status.name;
       modifier += '--purple';
       break;
-    case PLAN_STATUS.RECOMMEND_NOT_READY:
+    case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
       statusName = status.name;
       modifier += '--purple';
+      break;
+    case PLAN_STATUS.RECOMMEND_READY:
+      statusName = status.name;
+      modifier += '--green';
+      break;
+    case PLAN_STATUS.RECOMMEND_NOT_READY:
+      statusName = status.name;
+      modifier += '--red';
       break;
 
     default:

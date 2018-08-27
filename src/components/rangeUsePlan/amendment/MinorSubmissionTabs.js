@@ -10,6 +10,7 @@ const propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onBackClicked: PropTypes.func.isRequired,
   onSubmitClicked: PropTypes.func.isRequired,
 };
 const defaultProps = {
@@ -21,7 +22,7 @@ class MinorAmendmentTabs extends Component {
     const {
       clients, activeTab, isAgreed,
       isSubmitting, handleAgreeCheckBoxChange, onClose,
-      onSubmitClicked,
+      onSubmitClicked, onBackClicked,
     } = this.props;
     const index = activeTab + 1;
 
@@ -44,9 +45,9 @@ class MinorAmendmentTabs extends Component {
               <div className="multi-form__btns">
                 <Button
                   className="multi-form__btn"
-                  onClick={onClose}
+                  onClick={onBackClicked}
                 >
-                  Cancel
+                  Back
                 </Button>
                 <Button
                   className="multi-form__btn"

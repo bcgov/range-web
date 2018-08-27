@@ -12,7 +12,7 @@ const propTypes = {
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmitClicked: PropTypes.func.isRequired,
-  handleMandatoryPlanStatusCodeChange: PropTypes.func.isRequired,
+  handleMandatorySubmissionTypeChange: PropTypes.func.isRequired,
 };
 const defaultProps = {
   clients: [],
@@ -26,13 +26,13 @@ class MandatoryAmendmentTabs extends Component {
       isAgreed,
       isSubmitting,
       readyToGoNext,
-      mandatoryPlanStatusCode,
+      mandatorySubmissionType,
       onClose,
       onSubmitClicked,
       onBackClicked,
       onNextClicked,
       handleAgreeCheckBoxChange,
-      handleMandatoryPlanStatusCodeChange,
+      handleMandatorySubmissionTypeChange,
     } = this.props;
     const index = activeTab + 1;
 
@@ -49,9 +49,9 @@ class MandatoryAmendmentTabs extends Component {
                   className="amendment__submission__radio"
                   label=""
                   name="radioGroup"
-                  value={PLAN_STATUS.RECOMMEND_NOT_READY}
-                  checked={mandatoryPlanStatusCode === PLAN_STATUS.RECOMMEND_NOT_READY}
-                  onChange={handleMandatoryPlanStatusCodeChange}
+                  value={PLAN_STATUS.SUBMITTED_FOR_REVIEW}
+                  checked={mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_REVIEW}
+                  onChange={handleMandatorySubmissionTypeChange}
                 />
                 <div>
                   <b>Submit for Staff Review: </b>
@@ -63,9 +63,9 @@ class MandatoryAmendmentTabs extends Component {
                   className="amendment__submission__radio"
                   label=""
                   name="radioGroup"
-                  value={PLAN_STATUS.RECOMMEND_READY}
-                  checked={mandatoryPlanStatusCode === PLAN_STATUS.RECOMMEND_READY}
-                  onChange={handleMandatoryPlanStatusCodeChange}
+                  value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
+                  checked={mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
+                  onChange={handleMandatorySubmissionTypeChange}
                 />
                 <div>
                   <b>Submit for Final Decision: </b>
@@ -89,13 +89,13 @@ class MandatoryAmendmentTabs extends Component {
               </div>
             </Form>
           </div>
-          <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
-            <Form>
+          { mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION &&
+            <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
               <div className="multi-form__tab__title">
-                {index}. Submit Your Admendment for Review
+                {index}. Confirm Your Submission and eSignature
               </div>
               <div style={{ marginBottom: '20px' }}>
-                You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
+                You are about to submit your Mandatory Amendment for your RUP.
               </div>
               <Form.Field>
                 <Checkbox
@@ -116,11 +116,38 @@ class MandatoryAmendmentTabs extends Component {
                   loading={isSubmitting}
                   disabled={!isAgreed}
                 >
-                  Submit For Review
+                  Submit Amendment
                 </Button>
               </div>
-            </Form>
-          </div>
+            </div>
+          }
+          { mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_REVIEW &&
+            <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
+              <Form>
+                <div className="multi-form__tab__title">
+                  {index}. Submit Your Admendment for Review
+                </div>
+                <div style={{ marginBottom: '20px' }}>
+                  You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
+                </div>
+                <div className="multi-form__btns">
+                  <Button
+                    className="multi-form__btn"
+                    onClick={onBackClicked}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    className="multi-form__btn"
+                    onClick={onSubmitClicked}
+                    loading={isSubmitting}
+                  >
+                    Submit For Review
+                  </Button>
+                </div>
+              </Form>
+            </div>
+          }
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
             <div className="amendment__submission__last-tab">
               <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
