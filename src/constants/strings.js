@@ -94,6 +94,10 @@ export const STANDS_WRONGLY_MADE_CONFIRMATION_HEADER = 'Update Status: Stands - 
 export const STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 export const APPROVED_CONFIRMATION_HEADER = 'Update Status: Approved';
 export const APPROVED_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_READY_CONFIRMATION_HEADER = 'Update Status: Recommend Ready';
+export const RECOMMEND_READY_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_NOT_READY_CONFIRMATION_HEADER = 'Update Status: Recommend Not Ready';
+export const RECOMMEND_NOT_READY_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 
 export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
 export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';

@@ -48,6 +48,18 @@ export const isStatusWronglyMakeWE = status => (
   status && status.code === PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT
 );
 
+export const isStatusSubmittedForReview = status => (
+  status && status.code === PLAN_STATUS.SUBMITTED_FOR_REVIEW
+);
+
+export const isStatusSubmittedForFD = status => (
+  status && status.code === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION
+);
+
+export const isStatusReadyForFD = status => (
+  status && status.code === PLAN_STATUS.READY_FOR_FINAL_DECISION
+);
+
 export const isStatusAmongApprovedStatuses = status => (
   status && status.code &&
   (APPROVED_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)

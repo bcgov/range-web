@@ -1,6 +1,5 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-
 /*
   Code Splitting with React Router
   https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html

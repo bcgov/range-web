@@ -12,7 +12,7 @@ import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '.
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
-import { isPlanAmendment } from '../../utils';
+import { isPlanAmendment, getRUPViewHeader } from '../../utils';
 
 const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }),
@@ -250,7 +250,7 @@ export class RupAH extends Component {
       isCreatingAmendment,
     } = this.props;
 
-    const { agreementId, status, amendmentTypeId } = plan;
+    const { agreementId, status } = plan;
     const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
@@ -259,11 +259,7 @@ export class RupAH extends Component {
     const isAmendable = utils.isStatusAmongApprovedStatuses(status);
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    let header = `${agreementId} - Range Use Plan`;
-    if (amendmentTypeId && amendmentTypes) {
-      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
-      header = `${agreementId} - ${amendmentType.description}`;
-    }
+    const header = getRUPViewHeader(plan, amendmentTypes);
 
     return (
       <section className="rup">

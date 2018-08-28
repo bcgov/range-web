@@ -38,7 +38,7 @@ const Status = ({
       } else {
         statusName = SENT_FOR_INPUT;
       }
-      modifier += '--orange'; // orange
+      modifier += '--orange';
       break;
     case PLAN_STATUS.DRAFT:
       if (isUserAgreementHolder(user)) {
@@ -69,7 +69,6 @@ const Status = ({
       modifier += '--green';
       break;
 
-    // Amendment Statuses
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
       statusName = status.name;
       modifier += '--red';

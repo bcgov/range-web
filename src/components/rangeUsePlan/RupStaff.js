@@ -7,7 +7,7 @@ import {
 } from '../../constants/strings';
 import { ELEMENT_ID, REFERENCE_KEY } from '../../constants/variables';
 import { Status, Banner } from '../common';
-import { getAgreementHolders, isStatusDraft } from '../../utils';
+import { getAgreementHolders, isStatusDraft, getRUPViewHeader } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
@@ -92,17 +92,13 @@ class RupStaff extends Component {
       isUpdateZoneModalOpen,
     } = this.state;
 
-    const { agreementId, status, amendmentTypeId } = plan;
+    const { agreementId, status } = plan;
     const { clients, usage: usages } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    let header = `${agreementId} - Range Use Plan`;
-    if (amendmentTypeId && amendmentTypes) {
-      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
-      header = `${agreementId} - ${amendmentType.description}`;
-    }
+    const header = getRUPViewHeader(plan, amendmentTypes);
 
     return (
       <section className="rup">
