@@ -151,7 +151,7 @@ class UpdateStatusDropdown extends Component {
       if (isStatusStands(status)) {
         return [wronglyMadeWithoutEffect, standsWronglyMade];
       } else if (isStatusSubmittedForReview(status)) {
-
+        return [changeRequested];
       } else if (isStatusSubmittedForFD(status)) {
         return [recommendReady, recommendNotReady];
       }
@@ -163,6 +163,7 @@ class UpdateStatusDropdown extends Component {
         return [approved];
       }
     }
+
     return [];
   }
 

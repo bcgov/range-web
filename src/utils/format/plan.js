@@ -38,16 +38,19 @@ export const getBannerContentForAH = (status) => {
   return 'View Range Use Plan.';
 };
 
-export const getRUPViewHeader = (plan = {}, amendmentTypes) => {
-  const { agreementId, amendmentTypeId } = plan;
-  if (agreementId) {
-    let header = `${agreementId} - Range Use Plan`;
-    if (amendmentTypeId) {
-      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
-      header = `${agreementId} - ${amendmentType.description}`;
-    }
-    return header;
+const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
+  if (amendmentTypeId && amendmentTypes) {
+    const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+    return amendmentType.description;
   }
-
-  return 'Range Use Plan';
+  return '';
 };
+
+export const getPlanTypeDescription = (plan = {}, amendmentTypes) => {
+  const { agreementId, amendmentTypeId } = plan;
+  if (agreementId && amendmentTypeId) {
+    return getAmendmentTypeDescription(amendmentTypeId, amendmentTypes);
+  }
+  return 'Initial RUP';
+};
+

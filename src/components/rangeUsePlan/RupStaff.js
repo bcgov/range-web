@@ -5,13 +5,14 @@ import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
   DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
-import { ELEMENT_ID, REFERENCE_KEY } from '../../constants/variables';
+import { REFERENCE_KEY } from '../../constants/variables';
 import { Status, Banner } from '../common';
-import { getAgreementHolders, isStatusDraft, getRUPViewHeader } from '../../utils';
+import { getAgreementHolders, isStatusDraft, getPlanTypeDescription, isStatusIndicatingStaffFeedbackNeeded } from '../../utils';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
+import RupStickyHeader from './RupStickyHeader';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 
@@ -47,29 +48,6 @@ class RupStaff extends Component {
     isUpdateZoneModalOpen: false,
   }
 
-  componentDidMount() {
-    this.stickyHeader = document.getElementById(ELEMENT_ID.RUP_STICKY_HEADER);
-    if (this.stickyHeader) {
-      // requires the absolute offsetTop value
-      this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
-      this.scrollListner = window.addEventListener('scroll', this.handleScroll);
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.scrollListner);
-  }
-
-  handleScroll = () => {
-    if (this.stickyHeader) {
-      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
-        this.stickyHeader.classList.add('rup__sticky--fixed');
-      } else {
-        this.stickyHeader.classList.remove('rup__sticky--fixed');
-      }
-    }
-  }
-
   onViewPDFClicked = () => {
     const { id: planId, agreementId } = this.props.plan || {};
     window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
@@ -98,7 +76,7 @@ class RupStaff extends Component {
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const header = getRUPViewHeader(plan, amendmentTypes);
+    const planTypeDescription = getPlanTypeDescription(plan, amendmentTypes);
 
     return (
       <section className="rup">
@@ -110,36 +88,49 @@ class RupStaff extends Component {
         />
 
         <Banner
-          noDefaultHeight
-          header={header}
+          header={planTypeDescription}
           content={DETAIL_RUP_BANNER_CONTENT}
+          noDefaultHeight
         />
 
-        <div id={ELEMENT_ID.RUP_STICKY_HEADER} className="rup__sticky">
-          <div className="rup__sticky__container">
-            <div className="rup__sticky__left">
-              <div className="rup__sticky__title">{agreementId}</div>
-              <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
-              <Status
-                className="rup__status"
-                status={status}
-                user={user}
-              />
-            </div>
-            <div className="rup__sticky__btns">
-              {!isStatusDraft(status) &&
-                <Button
-                  onClick={this.onViewPDFClicked}
-                >
-                  {PREVIEW_PDF}
-                </Button>
-              }
-              <UpdateStatusDropdown
-                plan={plan}
-              />
+        <RupStickyHeader>
+          <div className="rup__actions__background">
+            <div className="rup__actions__container">
+              <div className="rup__actions__left">
+                <div className="rup__actions__title">{agreementId}</div>
+                <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
+                <Status
+                  className="rup__status"
+                  status={status}
+                  user={user}
+                />
+              </div>
+              <div className="rup__actions__btns">
+                {!isStatusDraft(status) &&
+                  <Button
+                    onClick={this.onViewPDFClicked}
+                  >
+                    {PREVIEW_PDF}
+                  </Button>
+                }
+                <UpdateStatusDropdown
+                  plan={plan}
+                />
+              </div>
             </div>
           </div>
-        </div>
+
+          {isStatusIndicatingStaffFeedbackNeeded(status) &&
+            <div className="rup__feedback-alert__background">
+              <div className="rup__feedback-alert__container">
+                <div className="rup__feedback-alert__title">
+                  Provide input for {planTypeDescription} Submission
+                </div>
+                Review the Range Use Plan and provide for feedback
+              </div>
+            </div>
+          }
+        </RupStickyHeader>
 
         <div className="rup__content">
           <RupBasicInformation

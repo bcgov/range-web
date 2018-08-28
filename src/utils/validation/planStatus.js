@@ -1,4 +1,4 @@
-import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES } from '../../constants/variables';
+import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES } from '../../constants/variables';
 
 export const isStatusCreated = status => (
   status && status.code === PLAN_STATUS.CREATED
@@ -68,4 +68,9 @@ export const isStatusAmongApprovedStatuses = status => (
 export const isStatusAllowingRevisionForAH = status => (
   status && status.code &&
   (EDITABLE_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
+);
+
+export const isStatusIndicatingStaffFeedbackNeeded = status => (
+  status && status.code &&
+  (FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
 );

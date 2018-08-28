@@ -31,13 +31,39 @@ $row-height: 80px;
     }
   }
   &__sticky {
-    background: $primary-color;
-    color: white;
     z-index: $rup-sticky-z-index;
     min-width: $mobile-width;
     min-height: 55px;
-    display: flex;
 
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+  }
+  /* Add some top padding to the page content to prevent sudden quick movement 
+  (as the header gets a new position at the top of the page (position:fixed and top:0) */
+  &__sticky--fixed + &__content {
+    padding-top: 56px;
+  }
+  &__sticky--fixed &__actions__title {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid $accent-color;
+  }
+  &__sticky--fixed &__actions__primary-agreement-holder {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid $accent-color;
+  }
+  &__actions {
+    &__background {
+      background: $primary-color;
+    }
     &__container {
       @extend .container;
       width: 100%;
@@ -51,46 +77,29 @@ $row-height: 80px;
       font-size: 1.1rem;
       font-weight: 600;
       line-height: 16px;
+      color: white;
     }
     &__primary-agreement-holder,
     &__title {
       display: none;
     }
-    &--fixed {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-    &--fixed &__title {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
-    }
-    &--fixed &__primary-agreement-holder {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
-    }
   }
-  /* Add some top padding to the page content to prevent sudden quick movement 
-  (as the header gets a new position at the top of the page (position:fixed and top:0) */
-  &__sticky--fixed + &__content {
-    padding-top: 56px;
+  &__feedback-alert {
+    &__background {
+      background-color: $accent-color;
+    }
+    &__container {
+      @extend .container;
+      padding: 10px 0;
+    }
+    &__title {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
   }
   &__content {
     @extend .container;
     padding-top: $content-margin-top;
-  }
-  &__actions {
-    justify-content: space-between;
-    
-    &--hidden {
-      display: none;  
-    }
   }
   &__divider {
     border-top: 3px solid $accent-color;

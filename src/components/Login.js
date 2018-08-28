@@ -16,7 +16,8 @@ const propTypes = {
 };
 
 export class Login extends Component {
-  // Sets up localstorage listener for cross-tab communication since spotify authentication requires the user to be redirected
+  // Sets up localstorage listener for cross-tab communication
+  // since the authentication requires the user to be redirected
   // to another page and then redirected back to a return URL with the token.
   componentDidMount() {
     window.addEventListener('storage', this.storageEventListener);
