@@ -15,42 +15,18 @@ const LoadingComponent = ({isLoading, error}) => {
   }
 };
 
-export const Home = Loadable({
-  loader: () => import('../Home'),
-  loading: LoadingComponent,
-});
+const AsyncComponent = (component) => {
+  return Loadable({
+    loader: component,
+    loading: LoadingComponent,
+  });
+};
 
-export const Login = Loadable({
-  loader: () => import('../Login'),
-  loading: LoadingComponent,
-});
-
-export const ReturnPage = Loadable({
-  loader: () => import('../ReturnPage'),
-  loading: LoadingComponent,
-});
-
-export const PageNotFound = Loadable({
-  loader: () => import('../PageNotFound'),
-  loading: LoadingComponent,
-});
-
-export const ManageZone = Loadable({
-  loader: () => import('../manageZone'),
-  loading: LoadingComponent,
-});
-
-export const ManageClient = Loadable({
-  loader: () => import('../manageClient'),
-  loading: LoadingComponent,
-});
-
-export const RangeUsePlan = Loadable({
-  loader: () => import('../rangeUsePlan'),
-  loading: LoadingComponent,
-});
-
-export const RupPDFView = Loadable({
-  loader: () => import('../rangeUsePlan/RupPDFView'),
-  loading: LoadingComponent,
-});
+export const Home = AsyncComponent(() => import('../Home'));
+export const Login = AsyncComponent(() => import('../Login'));
+export const ReturnPage = AsyncComponent(() => import('../ReturnPage'));
+export const PageNotFound = AsyncComponent(() => import('../PageNotFound'));
+export const ManageZone = AsyncComponent(() => import('../manageZone'));
+export const ManageClient = AsyncComponent(() => import('../manageClient'));
+export const RangeUsePlan = AsyncComponent(() => import('../rangeUsePlan'));
+export const RupPDFView = AsyncComponent(() => import('../rangeUsePlan/RupPDFView'));
