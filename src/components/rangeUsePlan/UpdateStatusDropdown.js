@@ -18,58 +18,54 @@ const propTypes = {
 };
 
 class UpdateStatusDropdown extends Component {
-  openCompletedConfirmModal = () => {
+  openConfirmationModalForUpdatingPlanStatus = ({ header, content, statusCode }) => {
     this.props.openConfirmationModal({
       modal: {
         id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
-        header: strings.COMPLETED_CONFIRMATION_HEADER,
-        content: strings.COMPLETED_CONFIRMATION_CONTENT,
-        onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.COMPLETED),
+        header,
+        content,
+        onYesBtnClicked: () => this.updateStatus(statusCode),
       },
+    });
+  }
+
+  openCompletedConfirmModal = () => {
+    this.openConfirmationModalForUpdatingPlanStatus({
+      header: strings.COMPLETED_CONFIRMATION_HEADER,
+      content: strings.COMPLETED_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.COMPLETED,
     });
   }
 
   openChangeRequestConfirmModal = () => {
-    this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
-        header: strings.CHANGE_REQUEST_CONFIRMATION_HEADER,
-        content: strings.CHANGE_REQUEST_CONFIRMATION_CONTENT,
-        onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.CHANGE_REQUESTED),
-      },
+    this.openConfirmationModalForUpdatingPlanStatus({
+      header: strings.CHANGE_REQUEST_CONFIRMATION_HEADER,
+      content: strings.CHANGE_REQUEST_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.CHANGE_REQUESTED,
     });
   }
 
   openWMWEConfirmModal = () => {
-    this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
-        header: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_HEADER,
-        content: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_CONTENT,
-        onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT),
-      },
+    this.openConfirmationModalForUpdatingPlanStatus({
+      header: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_HEADER,
+      content: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT,
     });
   }
 
   openSWMConfirmModal = () => {
-    this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
-        header: strings.STANDS_WRONGLY_MADE_CONFIRMATION_HEADER,
-        content: strings.STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT,
-        onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.STANDS_WRONGLY_MADE),
-      },
+    this.openConfirmationModalForUpdatingPlanStatus({
+      header: strings.STANDS_WRONGLY_MADE_CONFIRMATION_HEADER,
+      content: strings.STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.STANDS_WRONGLY_MADE,
     });
   }
 
   openApprovedConfirmModal = () => {
-    this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
-        header: strings.APPROVED_CONFIRMATION_HEADER,
-        content: strings.APPROVED_CONFIRMATION_CONTENT,
-        onYesBtnClicked: () => this.updateStatus(PLAN_STATUS.APPROVED),
-      },
+    this.openConfirmationModalForUpdatingPlanStatus({
+      header: strings.APPROVED_CONFIRMATION_HEADER,
+      content: strings.APPROVED_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.APPROVED,
     });
   }
 

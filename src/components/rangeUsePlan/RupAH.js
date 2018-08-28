@@ -149,10 +149,11 @@ export class RupAH extends Component {
       onError();
       return;
     }
+
     const planId = plan && plan.id;
     const statusId = status && status.id;
     const grazingSchedules = plan && plan.grazingSchedules
-    && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
+      && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
 
     try {
       await updateRUPStatus(planId, statusId, false);
