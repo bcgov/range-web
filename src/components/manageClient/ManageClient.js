@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Button, Icon } from 'semantic-ui-react';
-import { debounce } from 'lodash';
+import debounce from 'lodash.debounce';
 import { Banner } from '../common';
 import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
