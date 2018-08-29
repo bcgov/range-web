@@ -62,9 +62,6 @@ export class AgreementTableItem extends Component {
       activeIndex,
       agreement,
       user,
-      agreementsMapWithAllPlan,
-      isFetchingAgreementWithAllPlan,
-      references,
     } = this.props;
     const {
       id: agreementId,

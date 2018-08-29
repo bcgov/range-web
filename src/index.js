@@ -24,8 +24,8 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './configureStore';
-import './semantic/semantic.min.css';
 import './styles/App.css';
+import('./semantic/semantic.min.css');
 
 const store = configureStore();
 ReactDOM.render(
