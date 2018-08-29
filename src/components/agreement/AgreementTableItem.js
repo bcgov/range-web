@@ -15,7 +15,7 @@ const propTypes = {
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-  // isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
 };
 
@@ -63,6 +63,7 @@ export class AgreementTableItem extends Component {
       agreement,
       user,
       agreementsMapWithAllPlan,
+      isFetchingAgreementWithAllPlan,
       references,
     } = this.props;
     const {
@@ -111,9 +112,6 @@ export class AgreementTableItem extends Component {
         <div className={classnames('agrm__table__panel', { 'agrm__table__panel--active': isActive })}>
           <PlanTable
             agreement={agreement}
-            agreementsMapWithAllPlan={agreementsMapWithAllPlan}
-            references={references}
-            user={user}
           />
         </div>
       </div>
