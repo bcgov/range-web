@@ -1,6 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-
+import { Loading } from '../common';
 /*
   Code Splitting with React Router
   https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html
@@ -8,7 +8,8 @@ import Loadable from 'react-loadable';
 
 const LoadingComponent = ({isLoading, error}) => {
   if (isLoading) { // Handle the loading state
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    return <Loading />;
   } else if (error) {  // Handle the error state
     return <div>Sorry, there was a problem loading the page.</div>;
   } else {
