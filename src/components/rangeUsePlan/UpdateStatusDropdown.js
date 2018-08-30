@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
-import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview } from '../../utils';
+import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
 import { PLAN_STATUS, CONFIRMATION_MODAL_ID, REFERENCE_KEY } from '../../constants/variables';
 import { getReferences } from '../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, planUpdated } from '../../actions';
@@ -66,6 +66,22 @@ class UpdateStatusDropdown extends Component {
       header: strings.APPROVED_CONFIRMATION_HEADER,
       content: strings.APPROVED_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.APPROVED,
+    });
+  }
+
+  openNotApprovedConfirmModal = () => {
+    this.openConfirmModalForUpdatingPlanStatus({
+      header: strings.NOT_APPROVED_CONFIRMATION_HEADER,
+      content: strings.NOT_APPROVED_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.NOT_APPROVED,
+    });
+  }
+
+  openNotApprovedFWRConfirmModal = () => {
+    this.openConfirmModalForUpdatingPlanStatus({
+      header: strings.NOT_APPROVED_FWR_CONFIRMATION_HEADER,
+      content: strings.NOT_APPROVED_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
     });
   }
 
@@ -136,6 +152,16 @@ class UpdateStatusDropdown extends Component {
       text: 'Approved',
       onClick: this.openApprovedConfirmModal,
     };
+    const notApproved = {
+      key: PLAN_STATUS.NOT_APPROVED,
+      text: 'Not Approved',
+      onClick: this.openNotApprovedConfirmModal,
+    };
+    const notApprovedFWR = {
+      key: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
+      text: 'Not Approved - Further Work Required',
+      onClick: this.openNotApprovedFWRConfirmModal,
+    };
     const wronglyMadeWithoutEffect = {
       key: PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT,
       text: 'Wrongly Made - Without Effect',
@@ -154,6 +180,8 @@ class UpdateStatusDropdown extends Component {
         return [changeRequested];
       } else if (isStatusSubmittedForFD(status)) {
         return [recommendReady, recommendNotReady];
+      } else if (isStatusRecommendReady(status)) {
+        return [approved, notApproved, notApprovedFWR];
       }
     } else { // for initial plan
       if (isStatusPending(status) || isStatusCreated(status)) {

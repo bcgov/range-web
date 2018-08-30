@@ -60,6 +60,14 @@ export const isStatusReadyForFD = status => (
   status && status.code === PLAN_STATUS.READY_FOR_FINAL_DECISION
 );
 
+export const isStatusRecommendReady = status => (
+  status && status.code === PLAN_STATUS.RECOMMEND_READY
+);
+
+export const isStatusRecommendNotReady = status => (
+  status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY
+);
+
 export const isStatusAmongApprovedStatuses = status => (
   status && status.code &&
   (APPROVED_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)

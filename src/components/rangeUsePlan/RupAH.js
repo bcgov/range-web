@@ -64,7 +64,7 @@ export class RupAH extends Component {
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
     const onRequested = () => {
-      this.setState({ isSavingAsDraft: false });
+      this.setState({ isSavingAsDraft: true });
     };
     const onSuccess = () => {
       // update schedules in Redux store
