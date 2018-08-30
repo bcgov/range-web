@@ -47,6 +47,16 @@ $third_agrm_table_cell_rate: 1.8;
         }
       }
     }
+    &__message {
+      display: flex;
+      min-height: 40px;
+      justify-content: center;
+      align-items: center;
+
+      &--error {
+        color: $error-color;
+      }
+    }
     &__row {
       display: flex;
       padding: 0;

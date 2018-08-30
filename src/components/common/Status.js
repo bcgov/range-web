@@ -84,7 +84,7 @@ const Status = ({
 
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
       statusName = status.name;
-      modifier += '--orange';
+      modifier += '--red';
       break;
     case PLAN_STATUS.NOT_APPROVED:
       statusName = status.name;
@@ -110,6 +110,10 @@ const Status = ({
     case PLAN_STATUS.RECOMMEND_NOT_READY:
       statusName = status.name;
       modifier += '--red';
+      break;
+    case PLAN_STATUS.READY_FOR_FINAL_DECISION:
+      statusName = status.name;
+      modifier += '--purple';
       break;
 
     default:

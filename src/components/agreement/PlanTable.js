@@ -6,9 +6,9 @@ import { Icon, Button, Segment } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { formatDateFromServer, isStatusAmongApprovedStatuses } from '../../utils';
 import { Status, Loading } from '../common';
-import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW } from '../../constants/strings';
+import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
 import { RANGE_USE_PLAN } from '../../constants/routes';
-import { getIsFetchingAgreements, getUser, getReferences, getIsFetchingAgreementWithAllPlan, getAgreementsMapWithAllPlan } from '../../reducers/rootReducer';
+import { getIsFetchingAgreements, getUser, getReferences, getIsFetchingAgreementWithAllPlan, getAgreementsMapWithAllPlan, getAgreementsMapWithAllPlanErrorMessage } from '../../reducers/rootReducer';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
@@ -67,7 +67,23 @@ class PlanTable extends Component {
   }
 
   renderPlanTableItems = (plans = []) => {
+    const { errorGettingAgreementWithAllPlan, isFetchingAgreementWithAllPlan } = this.props;
     let approvedFound = false;
+    if (errorGettingAgreementWithAllPlan) {
+      return (
+        <div className="agrm__ptable__message agrm__ptable__message--error">
+          {ERROR_OCCUR}
+        </div>
+      );
+    }
+    if (!isFetchingAgreementWithAllPlan && plans.length === 0) {
+      return (
+        <div className="agrm__ptable__message">
+          {NO_RESULTS_FOUND}
+        </div>
+      );
+    }
+
     return plans.map((p) => {
       const plan = { ...p };
 
@@ -121,6 +137,7 @@ const mapStateToProps = state => (
     references: getReferences(state),
     isFetchingAgreementWithAllPlan: getIsFetchingAgreementWithAllPlan(state),
     agreementsMapWithAllPlan: getAgreementsMapWithAllPlan(state),
+    errorGettingAgreementWithAllPlan: getAgreementsMapWithAllPlanErrorMessage(state),
   }
 );
 PlanTable.propTypes = propTypes;

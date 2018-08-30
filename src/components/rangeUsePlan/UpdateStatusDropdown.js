@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
 import { PLAN_STATUS, CONFIRMATION_MODAL_ID, REFERENCE_KEY } from '../../constants/variables';
-import { getReferences } from '../../reducers/rootReducer';
+import { getReferences, getIsUpdatingPlanStatus } from '../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, planUpdated } from '../../actions';
 import { updateRUPStatus } from '../../actionCreators';
 import * as strings from '../../constants/strings';
@@ -15,6 +15,7 @@ const propTypes = {
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,
   planUpdated: PropTypes.func.isRequired,
+  isUpdatingStatus: PropTypes.bool.isRequired,
 };
 
 class UpdateStatusDropdown extends Component {
@@ -196,7 +197,7 @@ class UpdateStatusDropdown extends Component {
   }
 
   render() {
-    const { plan } = this.props;
+    const { plan, isUpdatingStatus } = this.props;
     const status = plan && plan.status;
 
     let statusDropdownOptions = this.getStatusDropdownOptions(plan, status);
@@ -207,6 +208,7 @@ class UpdateStatusDropdown extends Component {
         options={statusDropdownOptions}
         disabled={statusDropdownOptions.length === 0}
         style={{ marginLeft: '10px' }}
+        loading={isUpdatingStatus}
         button
         item
       />
@@ -218,6 +220,7 @@ class UpdateStatusDropdown extends Component {
 const mapStateToProps = state => (
   {
     references: getReferences(state),
+    isUpdatingStatus: getIsUpdatingPlanStatus(state),
   }
 );
 

@@ -16,6 +16,13 @@ $row-height: 80px;
   &__pdf-link {
     display: none;
   }
+  &__fetching-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    @extend .error;
+  }
   &__title {
     font-size: 1.8rem;
     font-weight: bold;

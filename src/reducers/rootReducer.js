@@ -72,6 +72,7 @@ export const getIsUpdatingAgreementZone = state => fromNetwork.getIsFetching(sta
 
 export const getAgreementsMapWithAllPlan = state => fromAgreementWithAllPlans.getAgreementsMap(state[reducerTypes.AGREEMENTS_WITH_ALL_PLANS]);
 export const getIsFetchingAgreementWithAllPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_AGREEMENT]);
+export const getAgreementsMapWithAllPlanErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_AGREEMENT]);
 export const getIsCreatingAmendment = state => fromNetwork.getIsFetching(state[reducerTypes.CREATE_AMENDMENT]);
 
 export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);

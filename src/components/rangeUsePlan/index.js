@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
@@ -9,6 +8,7 @@ import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirm
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
+import { Button } from 'semantic-ui-react';
 
 const propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
@@ -61,13 +61,21 @@ class Base extends Component {
     const plan = plansMap[match.params.planId];
     const agreement = plan && plan.agreement;
 
-    if (errorFetchingPlan) {
-      return <Redirect push to="/no-rup-found-from-server" />;
-    }
-
     return (
       <Fragment>
         <Loading active={isFetchingPlan} />
+        { errorFetchingPlan &&
+          <div className="rup__fetching-error">
+            Error occured while fetching
+            <Button
+              style={{ marginLeft: '10px' }}
+              size="mini"
+              onClick={this.fetchPlan}
+            >
+              Retry
+            </Button>
+          </div>
+        }
 
         { isUserAdmin(user) &&
           <RupStaff
