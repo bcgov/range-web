@@ -160,7 +160,7 @@ class UpdateStatusDropdown extends Component {
     };
     const notApprovedFWR = {
       key: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
-      text: 'Not Approved - Further Work Required',
+      text: 'Not Approved - Further...',
       onClick: this.openNotApprovedFWRConfirmModal,
     };
     const wronglyMadeWithoutEffect = {
