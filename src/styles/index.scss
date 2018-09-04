@@ -1,0 +1,22 @@
+@import './mixins.scss';
+@import './Common.scss';
+@import './Login.scss';
+@import './Agreement.scss';
+@import './Rup.scss';
+@import './ManageZoneAndClient.scss';
+@import './LandingPage.scss';
+@import './Grid.scss';
+@import './pikaday.scss';
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: $mobile-width;
+  overflow-x: auto;
+  background: #fdfdfd;
+}
