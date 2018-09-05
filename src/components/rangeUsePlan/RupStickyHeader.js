@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ELEMENT_ID } from '../../constants/variables';
 
 class RupStickyHeader extends Component {
+  static propTypes = {
+    children: PropTypes.func.isRequired,
+  }
+
   componentDidMount() {
     this.stickyHeader = document.getElementById(ELEMENT_ID.RUP_STICKY_HEADER);
     if (this.stickyHeader) {

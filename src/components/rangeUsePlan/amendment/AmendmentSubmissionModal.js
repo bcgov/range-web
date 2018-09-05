@@ -30,16 +30,16 @@ class AmendmentSubmissionModal extends Component {
     this.state = this.getInitialState();
   }
 
-  getInitialState = () => {
-    return {
+  getInitialState = () => (
+    {
       activeTab: 0,
       amendmentType: null,
       mandatorySubmissionType: null,
       isAgreed: false,
       readyToGoNext: false,
       isSubmitting: false,
-    };
-  }
+    }
+  )
 
   onClose = () => {
     this.setState(this.getInitialState());
@@ -47,17 +47,16 @@ class AmendmentSubmissionModal extends Component {
   }
 
   onNextClicked = () => {
-    this.setState({
-      readyToGoNext: false,
-      activeTab: this.state.activeTab + 1,
-    });
+    this.setState(prevState => ({
+      activeTab: prevState.activeTab + 1,
+    }));
   }
 
   onBackClicked = () => {
-    this.setState({
+    this.setState(prevState => ({
       readyToGoNext: true,
-      activeTab: this.state.activeTab - 1,
-    });
+      activeTab: prevState.activeTab - 1,
+    }));
   }
 
   onSubmitClicked = () => {
@@ -97,7 +96,7 @@ class AmendmentSubmissionModal extends Component {
         this.setState({ isSubmitting: false });
       });
     };
-    const onError = (err) => {
+    const onError = () => {
       this.onClose();
     };
 
@@ -123,7 +122,7 @@ class AmendmentSubmissionModal extends Component {
     } = this.state;
     const { open, clients } = this.props;
     const index = activeTab + 1;
-    
+
     return (
       <Modal
         dimmer="blurring"
@@ -135,7 +134,9 @@ class AmendmentSubmissionModal extends Component {
         <Modal.Content>
           <Form>
             <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 0 })}>
-              <div className="multi-form__tab__title">{index}. Ready to Submit? Choose Your Amendment Type</div>
+              <div className="multi-form__tab__title">
+                {`${index}. Ready to Submit? Choose Your Amendment Type`}
+              </div>
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
@@ -145,7 +146,10 @@ class AmendmentSubmissionModal extends Component {
                   checked={amendmentType === AMENDMENT_TYPE.MINOR}
                   onChange={this.handleAmendmentTypeChange}
                 />
-                <div><b>Minor Amendment: </b>Short Description of what a minor amendment is. Provide clarification of what constitutes a minor amendment.</div>
+                <div>
+                  <b>Minor Amendment: </b>
+                  Short Description of what a minor amendment is. Provide clarification of what constitutes a minor amendment.
+                </div>
               </Form.Field>
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
@@ -156,7 +160,10 @@ class AmendmentSubmissionModal extends Component {
                   checked={amendmentType === AMENDMENT_TYPE.MANDATORY}
                   onChange={this.handleAmendmentTypeChange}
                 />
-                <div><b>Mandatory Amendment: </b>Short Description of what a mandatory amendment is. Provide clarification of what constitutes a mandatory amendment.</div>
+                <div>
+                  <b>Mandatory Amendment: </b>
+                  Short Description of what a mandatory amendment is. Provide clarification of what constitutes a mandatory amendment.
+                </div>
               </Form.Field>
               <div className="multi-form__btns">
                 <Button
@@ -174,7 +181,7 @@ class AmendmentSubmissionModal extends Component {
                 </Button>
               </div>
             </div>
-          </Form>  
+          </Form>
           { amendmentType === AMENDMENT_TYPE.MINOR &&
             <MinorSubmissionTabs
               clients={clients}

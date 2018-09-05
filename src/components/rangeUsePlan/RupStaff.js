@@ -24,11 +24,6 @@ const propTypes = {
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updateRUPStatus: PropTypes.func.isRequired,
-  planUpdated: PropTypes.func.isRequired,
-  isUpdatingStatus: PropTypes.bool.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
 };
 const defaultProps = {
   agreement: {
@@ -124,7 +119,7 @@ class RupStaff extends Component {
             <div className="rup__feedback-alert__background">
               <div className="rup__feedback-alert__container">
                 <div className="rup__feedback-alert__title">
-                  Provide input for {planTypeDescription} Submission
+                  {`Provide input for ${planTypeDescription} Submission`}
                 </div>
                 Review the Range Use Plan and provide for feedback
               </div>

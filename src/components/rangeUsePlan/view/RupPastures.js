@@ -44,7 +44,7 @@ class RupPastures extends Component {
       <div className="rup__pasture" key={id}>
         <div className="rup__pasture__header">
           <div>
-            Pasture: {name}
+            {`Pasture: ${name}`}
           </div>
           {/* <Dropdown
             trigger={<Icon name="ellipsis vertical" />}
@@ -80,18 +80,17 @@ class RupPastures extends Component {
       </div>
     );
   }
-  renderPastures = (pastures = []) =>
-    (
-      <div className="rup__pastures">
-        {
-          pastures.length === 0 ? (
-            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-          ) : (
-            pastures.map(this.renderPasture)
-          )
-        }
-      </div>
-    )
+  renderPastures = (pastures = []) => (
+    <div className="rup__pastures">
+      {
+        pastures.length === 0 ? (
+          <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+        ) : (
+          pastures.map(this.renderPasture)
+        )
+      }
+    </div>
+  )
 
   render() {
     const { plan, pasturesMap, className } = this.props;

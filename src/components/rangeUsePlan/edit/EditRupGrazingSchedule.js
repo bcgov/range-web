@@ -28,6 +28,8 @@ const propTypes = {
   handleScheduleCopy: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
   deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
 };
 
 class EditRupGrazingSchedule extends Component {
@@ -209,7 +211,7 @@ class EditRupGrazingSchedule extends Component {
             className="rup__schedule__header__title"
             onClick={this.onScheduleClicked}
           >
-            <div>{year} Grazing Schedule</div>
+            <div>{`${year} Grazing Schedule`}</div>
             { isScheduleActive
               ? <Icon name="chevron up" />
               : <Icon name="chevron down" />
@@ -241,7 +243,7 @@ class EditRupGrazingSchedule extends Component {
           {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
         </div>
 
-        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
+        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>
             <Table.Header>
               <Table.Row>
@@ -265,7 +267,8 @@ class EditRupGrazingSchedule extends Component {
             basic
             onClick={this.onNewRowClick}
           >
-            <Icon name="add" /> Add row
+            <Icon name="add" />
+            Add row
           </Button>
           <div className="rup__schedule__content__AUMs">
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>

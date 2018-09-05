@@ -16,6 +16,7 @@ const propTypes = {
   closeConfirmationModal: PropTypes.func.isRequired,
   planUpdated: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
 };
 
 class UpdateStatusDropdown extends Component {
@@ -173,35 +174,35 @@ class UpdateStatusDropdown extends Component {
       text: 'Stands - Wrongly Made',
       onClick: this.openSWMConfirmModal,
     };
-
+    let options = [];
     if (isPlanAmendment(plan)) { // for Amendment
       if (isStatusStands(status)) {
-        return [wronglyMadeWithoutEffect, standsWronglyMade];
+        options = [wronglyMadeWithoutEffect, standsWronglyMade];
       } else if (isStatusSubmittedForReview(status)) {
-        return [changeRequested];
+        options = [changeRequested];
       } else if (isStatusSubmittedForFD(status)) {
-        return [recommendReady, recommendNotReady];
+        options = [recommendReady, recommendNotReady];
       } else if (isStatusRecommendReady(status)) {
-        return [approved, notApproved, notApprovedFWR];
+        options = [approved, notApproved, notApprovedFWR];
       }
     } else { // for initial plan
       if (isStatusPending(status) || isStatusCreated(status)) {
-        return [completed, changeRequested];
+        options = [completed, changeRequested];
       }
       if (isStatusCompleted(status)) {
-        return [approved];
+        options = [approved];
       }
     }
 
-    return [];
+    return options;
   }
 
   render() {
     const { plan, isUpdatingStatus } = this.props;
     const status = plan && plan.status;
 
-    let statusDropdownOptions = this.getStatusDropdownOptions(plan, status);
-    
+    const statusDropdownOptions = this.getStatusDropdownOptions(plan, status);
+
     return (
       <Dropdown
         text={strings.UPDATE_STATUS}

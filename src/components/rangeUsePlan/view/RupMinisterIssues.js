@@ -21,9 +21,12 @@ class RupMinisterIssues extends Component {
   }
 
   onMinisterIssueClicked = ministerIssueIndex => () => {
-    const newIndex = this.state.activeMinisterIssueIndex
-      === ministerIssueIndex ? -1 : ministerIssueIndex;
-    this.setState({ activeMinisterIssueIndex: newIndex });
+    this.setState((prevState) => {
+      const newIndex = prevState.activeMinisterIssueIndex === ministerIssueIndex ? -1 : ministerIssueIndex;
+      return {
+        activeMinisterIssueIndex: newIndex,
+      };
+    });
   }
 
   renderMinisterIssues = (ministerIssues = []) => (
@@ -90,12 +93,12 @@ class RupMinisterIssues extends Component {
           >
             <div>
               <Icon name="exclamation triangle" style={{ marginRight: '10px' }} />
-              Issue Type: {ministerIssueTypeName}
+              {`Issue Type ${ministerIssueTypeName}`}
             </div>
             <div className="rup__missue__header__right">
               <div className="rup__missue__header__identified">
-                {/* Identified: {identified ? 'Yes' : 'No'} */}
-                  Identified: {identified
+                Identified:
+                {identified
                   ? <Icon name="check circle" color="green" />
                   : <Icon name="remove circle" color="red" />
                 }
@@ -107,7 +110,7 @@ class RupMinisterIssues extends Component {
             </div>
           </button>
         </div>
-        <div className={classnames('rup__missue__content', { 'rup__missue__content__hidden': !isThisActive })} >
+        <div className={classnames('rup__missue__content', { 'rup__missue__content__hidden': !isThisActive })}>
           <TextField
             label="Details"
             text={detail}

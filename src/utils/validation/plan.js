@@ -31,6 +31,6 @@ export const handleRupValidation = (
   return errors;
 };
 
-export const isPlanAmendment = (plan) => (
+export const isPlanAmendment = plan => (
   plan && plan.amendmentTypeId
 );
