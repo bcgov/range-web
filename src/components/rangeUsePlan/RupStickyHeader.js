@@ -4,7 +4,14 @@ import { ELEMENT_ID } from '../../constants/variables';
 
 class RupStickyHeader extends Component {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  }
+
+  static defaultProps = {
+    children: null,
   }
 
   componentDidMount() {
