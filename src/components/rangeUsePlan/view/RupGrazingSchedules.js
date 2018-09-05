@@ -78,8 +78,7 @@ class RupGrazingSchedules extends Component {
             onClick={this.onScheduleClicked(scheduleIndex)}
           >
             <div>
-              {year}
-              Grazing Schedule
+              {`${year} Grazing Schedule`}
             </div>
             {isScheduleActive &&
               <Icon name="chevron up" />

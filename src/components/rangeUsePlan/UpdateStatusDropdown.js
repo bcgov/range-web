@@ -174,6 +174,7 @@ class UpdateStatusDropdown extends Component {
       text: 'Stands - Wrongly Made',
       onClick: this.openSWMConfirmModal,
     };
+
     let options = [];
     if (isPlanAmendment(plan)) { // for Amendment
       if (isStatusStands(status)) {
@@ -185,11 +186,10 @@ class UpdateStatusDropdown extends Component {
       } else if (isStatusRecommendReady(status)) {
         options = [approved, notApproved, notApprovedFWR];
       }
-    } else { // for initial plan
+    } else if (!isPlanAmendment(plan)) { // for initial plan
       if (isStatusPending(status) || isStatusCreated(status)) {
         options = [completed, changeRequested];
-      }
-      if (isStatusCompleted(status)) {
+      } else if (isStatusCompleted(status)) {
         options = [approved];
       }
     }

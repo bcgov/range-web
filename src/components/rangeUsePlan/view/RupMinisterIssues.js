@@ -97,7 +97,7 @@ class RupMinisterIssues extends Component {
             </div>
             <div className="rup__missue__header__right">
               <div className="rup__missue__header__identified">
-                Identified:
+                Identified:&nbsp;
                 {identified
                   ? <Icon name="check circle" color="green" />
                   : <Icon name="remove circle" color="red" />
