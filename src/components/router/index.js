@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
@@ -8,6 +9,10 @@ import * as Routes from '../../constants/routes';
 import * as AsyncComponents from './AsyncComponent';
 
 class Router extends Component {
+  static propTypes = {
+    user: PropTypes.shape({}).isRequired,
+  }
+
   render() {
     const { user } = this.props;
     return (

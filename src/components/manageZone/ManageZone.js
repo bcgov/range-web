@@ -16,7 +16,6 @@ const propTypes = {
   zonesMap: PropTypes.shape({}).isRequired,
   zoneUpdated: PropTypes.func.isRequired,
   updateUserIdOfZone: PropTypes.func.isRequired,
-  isAssigning: PropTypes.bool.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,
 };
@@ -94,19 +93,19 @@ export class ManageZone extends Component {
     } = this.state;
     const { users, zones } = this.props;
 
-    const zoneOptions = zones.map((zone) => {
-      return {
+    const zoneOptions = zones.map(zone => (
+      {
         value: zone.id,
         text: zone.code,
-      };
-    });
-    const contactOptions = users.map((user) => {
-      return {
+      }
+    ));
+    const contactOptions = users.map(user => (
+      {
         value: user.id,
         description: user.email,
         text: getUserFullName(user),
-      };
-    });
+      }
+    ));
     const isUpdateBtnEnabled = newContactId && zoneId;
 
     return (

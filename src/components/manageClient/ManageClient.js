@@ -14,7 +14,6 @@ const propTypes = {
   searchClients: PropTypes.func.isRequired,
   updateClientIdOfUser: PropTypes.func.isRequired,
   userUpdated: PropTypes.func.isRequired,
-  isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
   isFetchingClients: PropTypes.bool.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,
@@ -46,7 +45,7 @@ class ManageClient extends Component {
         header: strings.MANAGE_CLIENT_BANNER_HEADER,
         content: strings.MANAGE_CLIENT_BANNER_CONTENT,
         onYesBtnClicked: this.linkUserToClient,
-      }
+      },
     });
   }
 
