@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -47,7 +48,73 @@ export class Login extends Component {
 
     return (
       <section className="login">
-        <img
+        <article className="login__header">
+          <img className="login__header__logo" src={IMAGE_SRC.LOGIN_LOGO} alt="Logo" />
+          <div className="login__header__title">MyRangeBC</div>
+        </article>
+        <article className="login__paragraph1">
+          <div className="login__signin__container">
+            <div className="login__signin__title">Sign In</div>
+            <div className="login__signin__text1">to continue to MyRangeBC</div>
+            <div className="login__signin__text2">We use the BCeID for authentication.</div>
+            <a
+              className="login__signin__text3"
+              href=""
+              target="_blank"
+            >
+              Learn more about BCeID here.
+            </a>
+            <Button
+              id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
+              className="login__signin__button"
+              primary
+              fluid
+              loading={isFetchingUser}
+              style={{ height: '50px' }}
+              onClick={this.onBceidLoginBtnClick}
+            >
+              Login as Agreement Holder
+            </Button>
+            <div className="login__signin__link-container">
+              <a
+                href={SSO_IDIR_LOGIN_ENDPOINT}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Range Staff Login
+              </a>
+              |
+              <a
+                href={SSO_LOGIN_ENDPOINT}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Admin Login
+              </a>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph2">
+          <div className="login__paragraph2__title">What is MyRangeBC?</div>
+          <div className="login__paragraph2__text">
+            We are making it easier for you to submit and amend Range Use Plans. This new service will enable you to submit your plan electronically, save drafts and print versions.
+            Your Range Officer is also getting new tools to allow so that together we can manage the land with greater accuracy.
+          </div>
+        </article>
+        <article className="login__paragraph3">
+          <div className="container">
+            <div className="login__text-cell">
+              <div>New simplified Range Use Plan across BC.</div>
+              <div>
+                There is now a common Range Use Plan across BC.
+                This common plan will enable greater efficiencies in service delivery.
+              </div>
+            </div>
+            <div className="login__image-cell">
+            </div>
+          </div>
+        </article>
+        {/* <img
           className="login__image"
           src={IMAGE_SRC.LOGIN_LOGO}
           alt="login-img"
@@ -97,7 +164,7 @@ export class Login extends Component {
           rel="noopener noreferrer"
         >
           Is your password expired?
-        </a>
+        </a> */}
       </section>
     );
   }

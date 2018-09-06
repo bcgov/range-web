@@ -43,7 +43,7 @@ export class Navbar extends Component {
           <div className="navbar__left">
             <img className="navbar__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
             <Link to={Routes.HOME}>
-              <div className="navbar__title">My Range App</div>
+              <div className="navbar__title">MyRangeBC</div>
             </Link>
           </div>
 
