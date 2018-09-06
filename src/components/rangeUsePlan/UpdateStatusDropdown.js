@@ -161,7 +161,7 @@ class UpdateStatusDropdown extends Component {
     };
     const notApprovedFWR = {
       key: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
-      text: 'Not Approved - Further...',
+      text: 'Not Approved - Further Work Required',
       onClick: this.openNotApprovedFWRConfirmModal,
     };
     const wronglyMadeWithoutEffect = {
@@ -205,10 +205,10 @@ class UpdateStatusDropdown extends Component {
 
     return (
       <Dropdown
+        className="rup__update-status-dropdown"
         text={strings.UPDATE_STATUS}
         options={statusDropdownOptions}
         disabled={statusDropdownOptions.length === 0}
-        style={{ marginLeft: '10px' }}
         loading={isUpdatingStatus}
         button
         item

@@ -1,0 +1,17 @@
+.rup {
+  &__pastures {
+    &__container {
+      margin-bottom: 15px;
+    }
+  }
+  &__pasture {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+  }
+}
