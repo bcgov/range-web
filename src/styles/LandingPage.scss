@@ -46,6 +46,23 @@
     color: white;
     white-space: nowrap;
   }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 0 20px;
+
+    > .menu.transition.visible {
+      margin-top: 15px;
+
+      > .item {
+        height: 45px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 }
 
 .offline {
