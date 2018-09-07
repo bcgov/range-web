@@ -87,7 +87,7 @@ export class Navbar extends Component {
               Sign Out
             </div> */}
 
-            <Dropdown className="navbar__menu" text="Menu">
+            <Dropdown className="navbar__menu" text="Menus">
               <Dropdown.Menu>
                 { isUserAdmin(user) &&
                   <Fragment>
@@ -104,6 +104,7 @@ export class Navbar extends Component {
                 <Dropdown.Item
                   id={ELEMENT_ID.SIGN_OUT}
                   text="Sign Out"
+                  icon="sign-out"
                   onClick={this.onLogoutBtnClick}
                 />
               </Dropdown.Menu>

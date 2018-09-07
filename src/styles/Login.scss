@@ -19,7 +19,7 @@
       width: 136px;
       color: #FFFFFF;
       font-family: "Adobe Garamond Pro";
-      font-size: 27px;
+      font-size: 25px;
       line-height: 27px;
     }
   }
@@ -28,11 +28,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    @include mobile {
+      max-width: 100%;
+      margin: 10px 0;
+    }
   }
   &__title-spacer {
     width: 200px;
-    border-top: 3px solid #e7e7e7;
     margin-bottom: 15px;
+    border: 2px solid #e7e7e7;
   }
   &__line {
     box-sizing: border-box;
@@ -42,7 +47,8 @@
     margin: 0px 10px;
   }
   &__paragraph1 {
-    background-image: url('~/signin_background.jpg'); 
+    background: url('~/signin_background.jpg') no-repeat;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,7 +72,7 @@
       font-size: 1.2rem;
       line-height: 25px;
       text-align: center;
-      padding: 10px;
+      padding: 20px;
     }
   }
   &__paragraph3,
@@ -78,6 +84,7 @@
     &__content {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
     &__title {
       font-size: 2rem;
@@ -93,6 +100,7 @@
       max-width: 100%;
       height: auto;
       display: block;
+      border-radius: 5px;
     }
   }
   &__footer {
@@ -121,7 +129,7 @@
     &__text1 {
       font-size: 1.1rem;
       text-align: center;
-      margin-top: 10px;
+      margin-top: 5px;
     }
     &__text2 {
       font-size: 1.1rem;

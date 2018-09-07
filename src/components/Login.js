@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -59,8 +58,9 @@ export class Login extends Component {
             <div className="login__signin__text2">We use the BCeID for authentication.</div>
             <a
               className="login__signin__text3"
-              href=""
+              href="https://portal.nrs.gov.bc.ca/web/client/bceid"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Learn more about BCeID here.
             </a>
@@ -76,11 +76,19 @@ export class Login extends Component {
               Login as Agreement Holder
             </Button>
             <div className="login__signin__link-container">
-              <div onClick={this.onIdirLoginBtnClick}>
+              <div
+                role="button"
+                tabIndex="0"
+                onClick={this.onIdirLoginBtnClick}
+              >
                 Range Staff Login
               </div>
               <div className="login__line" />
-              <div onClick={this.onLoginBtnClick}>
+              <div
+                role="button"
+                tabIndex="0"
+                onClick={this.onLoginBtnClick}
+              >
                 Admin Login
               </div>
             </div>
@@ -107,7 +115,11 @@ export class Login extends Component {
                 </div>
               </div>
               <div className="login__paragraph-cell">
-                <img className="login__paragraph3__image" src={IMAGE_SRC.LOGIN_PARAGRAPH3} alt=""/>
+                <img
+                  className="login__paragraph3__image"
+                  src={IMAGE_SRC.LOGIN_PARAGRAPH3}
+                  alt="paragraph3_image"
+                />
               </div>
             </div>
           </div>
@@ -116,7 +128,11 @@ export class Login extends Component {
           <div className="container">
             <div className="login__paragraph4__content">
               <div className="login__paragraph-cell">
-                <img className="login__paragraph4__image" src={IMAGE_SRC.LOGIN_PARAGRAPH4} alt=""/>
+                <img
+                  className="login__paragraph4__image"
+                  src={IMAGE_SRC.LOGIN_PARAGRAPH4}
+                  alt="paragraph4_image"
+                />
               </div>
               <div className="login__paragraph-cell">
                 <hr className="login__title-spacer" />
@@ -143,7 +159,11 @@ export class Login extends Component {
                 </div>
               </div>
               <div className="login__paragraph-cell">
-                <img className="login__paragraph5__image" src={IMAGE_SRC.LOGIN_PARAGRAPH5} alt=""/>
+                <img
+                  className="login__paragraph5__image"
+                  src={IMAGE_SRC.LOGIN_PARAGRAPH5}
+                  alt="paragraph5_image"
+                />
               </div>
             </div>
           </div>
