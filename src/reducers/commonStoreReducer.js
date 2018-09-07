@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import * as actionTypes from '../constants/actionTypes';
 import { getReferencesFromLocalStorage } from '../utils';
 
@@ -11,7 +10,7 @@ const initialState = {
 };
 
 const updateZone = (state, action) => {
-  const zone = cloneDeep(action.payload);
+  const zone = { ...action.payload };
   return {
     ...state,
     zones: {
@@ -36,7 +35,7 @@ const storeZones = (state, action) => {
 };
 
 const updateUser = (state, action) => {
-  const user = cloneDeep(action.payload);
+  const user = { ...action.payload };
   return {
     ...state,
     users: {
@@ -71,11 +70,11 @@ const commonStoreReducer = (state = initialState, action) => {
       };
     case actionTypes.STORE_ZONES:
       return storeZones(state, action);
-    case actionTypes.UPDATE_ZONE:
+    case actionTypes.ZONE_UPDATED:
       return updateZone(state, action);
     case actionTypes.STORE_USERS:
       return storeUsers(state, action);
-    case actionTypes.UPDATE_USER:
+    case actionTypes.USER_UPDATED:
       return updateUser(state, action);
     default:
       return state;

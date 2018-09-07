@@ -6,11 +6,15 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/API';
 import * as schema from './schema';
-import { axios, createConfigWithHeader } from '../utils';
 import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
+import {
+  axios,
+  createConfigWithHeader, copyPlanToCreateAmendment,
+  copyPasturesToCreateAmendment, normalizePasturesWithCopiedId,
+  copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
+ } from '../utils';
 
-/* eslint-disable arrow-body-style */
 export const updateRUP = (planId, body) => (dispatch, getState) => {
   return axios.put(
     API.UPDATE_RUP(planId),
@@ -158,71 +162,26 @@ export const createAmendment = plan => (dispatch, getState) => {
       const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
       const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
 
-      /* create new plan */
-      const newPlan = {
-        ...plan,
-        statusId: createdStatus.id,
-        uploaded: false, // still need to create things like pastures and schedules
-        amendmentTypeId: initialAmendment.id,
-        effectiveAt: null,
-        submittedAt: null,
-      };
-      delete newPlan.id;
+      const newPlan = copyPlanToCreateAmendment(plan, createdStatus.id, initialAmendment.id);
       const amendment = await dispatch(createRUP(newPlan));
 
-      /* create new pastures */
-      const pastures = plan.pastures.map((pId) => {
-        const { id: copiedId, planId, ...pasture } = pasturesMap[pId];
-        // copiedId will be used to find the relationship between
-        // the copied pasture and the field that has a referece to the pasture id
-        // such as grazing schedule entries and minister issues
-        return { ...pasture, copiedId };
-      });
+      const pastures = copyPasturesToCreateAmendment(plan, pasturesMap);
       const newPastures = await Promise.all(pastures.map(np => dispatch(createRUPPasture(amendment.id, np))));
 
       // create a normalized pasture map with the copied id as a property
-      const newPastureIdsMap = {};
-      newPastures.map((np) => {
-        newPastureIdsMap[np.copiedId] = np.id;
-        return null;
-      });
+      const newPastureIdsMap = normalizePasturesWithCopiedId(newPastures);
 
-      /* create new grazing schedules */
-      const grazingSchedules = plan.grazingSchedules.map((gsId) => {
-        const {
-          id,
-          planId,
-          grazingScheduleEntries,
-          ...grazingSchedule
-        } = grazingSchedulesMap[gsId];
-        const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
-          const { id, pastureId: copiedPastureId, ...newGrazingScheduleEntry } = gse;
-          // replace pastureId with the new created pastureId
-          const pastureId = newPastureIdsMap[copiedPastureId];
-          return { ...newGrazingScheduleEntry, pastureId };
-        });
-        return {
-          ...grazingSchedule,
-          grazingScheduleEntries: newGrazingScheduleEntries,
-        };
-      });
+      const grazingSchedules = copyGrazingSchedulesToCreateAmendment(
+        plan, grazingSchedulesMap, newPastureIdsMap,
+      );
       const newGrazingSchedules = await Promise.all(grazingSchedules.map(ngs => dispatch(createRUPGrazingSchedule(amendment.id, ngs))));
 
-      /* create new minister issues */
-      const ministerIssues = plan.ministerIssues.map((miId) => {
-        const {
-          id,
-          planId,
-          pastures: copiedPastureIds,
-          ...ministerIssue
-        } = ministerIssuesMap[miId];
-        // replace pastures(array of ids) with the new created pasture ids
-        const pastures = copiedPastureIds.map(cId => newPastureIdsMap[cId]);
-        return { ...ministerIssue, pastures };
-      });
+      const ministerIssues = copyMinisterIssuesToCreateAmendment(
+        plan, ministerIssuesMap, newPastureIdsMap,
+      );
       const newMinisterIssues = await Promise.all(ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendment.id, mi))));
 
-      // successfully finish uploading!
+      // successfully finish uploading so make this amendment appear!
       await dispatch(updateRUP(amendment.id, { uploaded: true }));
 
       const newAmendment = {

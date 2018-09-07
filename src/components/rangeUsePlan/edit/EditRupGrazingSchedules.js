@@ -7,9 +7,8 @@ import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupGrazingSchedule from './EditRupGrazingSchedule';
 import { ELEMENT_ID, REFERENCE_KEY } from '../../../constants/variables';
-import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
+import { deleteRupGrazingSchedule } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
-import { getIsDeletingGrazingSchedule, getIsDeletingGrazingScheduleEntry } from '../../../reducers/rootReducer';
 import * as utils from '../../../utils';
 
 const propTypes = {
@@ -19,12 +18,8 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   addGrazingSchedule: PropTypes.func.isRequired,
-  updateGrazingSchedule: PropTypes.func.isRequired,
   deleteGrazingSchedule: PropTypes.func.isRequired,
   deleteRupGrazingSchedule: PropTypes.func.isRequired,
-  deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
-  isDeletingGrazingSchedule: PropTypes.bool.isRequired,
-  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
 };
 
 export class EditRupGrazingSchedules extends Component {
@@ -64,9 +59,12 @@ export class EditRupGrazingSchedules extends Component {
   }
 
   onScheduleClicked = (scheduleIndex) => {
-    const newIndex = this.state.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
-
-    this.setState({ activeScheduleIndex: newIndex });
+    this.setState((prevState) => {
+      const newIndex = prevState.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+      return {
+        activeScheduleIndex: newIndex,
+      };
+    });
   }
 
   handleScheduleCopy = (year, sId) => {
@@ -108,7 +106,8 @@ export class EditRupGrazingSchedules extends Component {
         value: year,
       };
       // put the year back to the year option list and sort them
-      const yearOptions = [...this.state.yearOptions];
+      const { yearOptions: currYearOptions } = this.state;
+      const yearOptions = [...currYearOptions];
       yearOptions.push(option);
       yearOptions.sort((o1, o2) => o1.value > o2.value);
 
@@ -137,6 +136,7 @@ export class EditRupGrazingSchedules extends Component {
 
   addGrazingScheduleInStore = (grazingSchedule) => {
     const { addGrazingSchedule, plan, grazingSchedulesMap } = this.props;
+    const { yearOptions: currYearOptions } = this.state;
 
     // construct a new sorted list of grazing schedules
     const newGrazingSchedules = [
@@ -154,7 +154,7 @@ export class EditRupGrazingSchedules extends Component {
 
     // remove this year from the year options and set active to the newly copied schedule
     this.setState({
-      yearOptions: this.state.yearOptions.filter(o => o.value !== grazingSchedule.year),
+      yearOptions: currYearOptions.filter(o => o.value !== grazingSchedule.year),
       activeScheduleIndex: newGrazingSchedules.findIndex(s => s.year === grazingSchedule.year),
     });
   }
@@ -178,10 +178,6 @@ export class EditRupGrazingSchedules extends Component {
       usages,
       references,
       pasturesMap,
-      updateGrazingSchedule,
-      deleteRupGrazingScheduleEntry,
-      isDeletingGrazingSchedule,
-      isDeletingGrazingScheduleEntry,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
     const { id, year } = schedule;
@@ -200,16 +196,11 @@ export class EditRupGrazingSchedules extends Component {
         activeScheduleIndex={activeScheduleIndex}
         livestockTypes={livestockTypes}
         pastures={pastures}
-        pasturesMap={pasturesMap}
         usages={usages}
         authorizedAUMs={authorizedAUMs}
         crownTotalAUMs={crownTotalAUMs}
-        updateGrazingSchedule={updateGrazingSchedule}
-        deleteRupGrazingScheduleEntry={deleteRupGrazingScheduleEntry}
         handleScheduleCopy={this.handleScheduleCopy}
         handleScheduleDelete={this.handleScheduleDelete}
-        isDeletingGrazingSchedule={isDeletingGrazingSchedule}
-        isDeletingGrazingScheduleEntry={isDeletingGrazingScheduleEntry}
       />
     );
   }
@@ -254,18 +245,10 @@ export class EditRupGrazingSchedules extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    isDeletingGrazingSchedule: getIsDeletingGrazingSchedule(state),
-    isDeletingGrazingScheduleEntry: getIsDeletingGrazingScheduleEntry(state),
-  }
-);
-
 EditRupGrazingSchedules.propTypes = propTypes;
-export default connect(mapStateToProps, {
+export default connect(null, {
   addGrazingSchedule,
   updateGrazingSchedule,
   deleteGrazingSchedule,
   deleteRupGrazingSchedule,
-  deleteRupGrazingScheduleEntry,
 })(EditRupGrazingSchedules);

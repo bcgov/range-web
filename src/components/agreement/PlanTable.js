@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon, Button, Segment } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { formatDateFromServer, isStatusAmongApprovedStatuses } from '../../utils';
-import { Status } from '../common';
-import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW } from '../../constants/strings';
+import { Status, Loading } from '../common';
+import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
 import { RANGE_USE_PLAN } from '../../constants/routes';
+import { getIsFetchingAgreements, getUser, getReferences, getIsFetchingAgreementWithAllPlan, getAgreementsMapWithAllPlan, getAgreementsMapWithAllPlanErrorMessage } from '../../reducers/rootReducer';
 
 const propTypes = {
   agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
+  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
 };
 
 class PlanTable extends Component {
@@ -42,9 +45,8 @@ class PlanTable extends Component {
     return (
       <div key={id} className="agrm__ptable__row">
         <div className="agrm__ptable__row__cell">
-          {recentApproved
-            ? <Icon name="star" size="small" style={{ marginRight: '5px' }} />
-            : ''
+          {recentApproved &&
+            <Icon name="star" size="small" style={{ marginRight: '5px' }} />
           }
           {effectiveAt}
         </div>
@@ -65,7 +67,23 @@ class PlanTable extends Component {
   }
 
   renderPlanTableItems = (plans = []) => {
+    const { errorGettingAgreementWithAllPlan, isFetchingAgreementWithAllPlan } = this.props;
     let approvedFound = false;
+    if (errorGettingAgreementWithAllPlan) {
+      return (
+        <div className="agrm__ptable__message agrm__ptable__message--error">
+          {ERROR_OCCUR}
+        </div>
+      );
+    }
+    if (!isFetchingAgreementWithAllPlan && plans.length === 0) {
+      return (
+        <div className="agrm__ptable__message">
+          {NO_RESULTS_FOUND}
+        </div>
+      );
+    }
+
     return plans.map((p) => {
       const plan = { ...p };
 
@@ -79,28 +97,48 @@ class PlanTable extends Component {
 
   render() {
     const { redirectTo } = this.state;
-    const { agreementsMapWithAllPlan, agreement } = this.props;
+    const {
+      agreementsMapWithAllPlan,
+      agreement,
+      isFetchingAgreementWithAllPlan,
+      isFetchingAgreements,
+    } = this.props;
     const { plans } = agreementsMapWithAllPlan[agreement.id] || {};
+    const isOnlyFetchingAgreementWithAllPlan = isFetchingAgreementWithAllPlan && !isFetchingAgreements;
 
     if (redirectTo) {
       return <Redirect {...redirectTo} />;
     }
     return (
-      <div className="agrm__ptable">
-        <div className="agrm__ptable__header-row">
-          <div className="agrm__ptable__header-row__cell">{EFFECTIVE_DATE}</div>
-          <div className="agrm__ptable__header-row__cell">{SUBMITTED}</div>
-          <div className="agrm__ptable__header-row__cell">{TYPE}</div>
-          <div className="agrm__ptable__header-row__cell">{STATUS}</div>
-          <div className="agrm__ptable__header-row__cell">
-            <Button disabled>{VIEW}</Button>
+      <Segment basic>
+        <Loading active={isOnlyFetchingAgreementWithAllPlan} />
+
+        <div className="agrm__ptable">
+          <div className="agrm__ptable__header-row">
+            <div className="agrm__ptable__header-row__cell">{EFFECTIVE_DATE}</div>
+            <div className="agrm__ptable__header-row__cell">{SUBMITTED}</div>
+            <div className="agrm__ptable__header-row__cell">{TYPE}</div>
+            <div className="agrm__ptable__header-row__cell">{STATUS}</div>
+            <div className="agrm__ptable__header-row__cell">
+              <Button disabled>{VIEW}</Button>
+            </div>
           </div>
+          {this.renderPlanTableItems(plans)}
         </div>
-        {this.renderPlanTableItems(plans)}
-      </div>
+      </Segment>
     );
   }
 }
 
+const mapStateToProps = state => (
+  {
+    isFetchingAgreements: getIsFetchingAgreements(state),
+    user: getUser(state),
+    references: getReferences(state),
+    isFetchingAgreementWithAllPlan: getIsFetchingAgreementWithAllPlan(state),
+    agreementsMapWithAllPlan: getAgreementsMapWithAllPlan(state),
+    errorGettingAgreementWithAllPlan: getAgreementsMapWithAllPlanErrorMessage(state),
+  }
+);
 PlanTable.propTypes = propTypes;
-export default PlanTable;
+export default connect(mapStateToProps, null)(PlanTable);

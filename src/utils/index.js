@@ -28,14 +28,11 @@ import { getToken } from '../reducers/rootReducer';
 
 export { default as axios } from './axios';
 export * from './calculation';
-export * from './queryString';
 export * from './format';
+export * from './validation';
 export * from './authentication';
 export * from './localStorage';
-export * from './user';
-export * from './planStatus';
-export * from './client';
-export * from './validation';
+export * from './helper';
 
 export const createConfigWithHeader = (getState) => {
   const token = getToken(getState());

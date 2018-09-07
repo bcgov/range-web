@@ -1,14 +1,15 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { Status, ConfirmationModal, Banner } from '../common';
+import { Status, Banner } from '../common';
 import RupBasicInformation from './view/RupBasicInformation';
 import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
-import AmendmentSubmissionModal from './AmendmentSubmissionModal';
-import { ELEMENT_ID, PLAN_STATUS, REFERENCE_KEY } from '../../constants/variables';
+import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
+import RupStickyHeader from './RupStickyHeader';
+import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
@@ -28,9 +29,9 @@ const propTypes = {
   toastErrorMessage: PropTypes.func.isRequired,
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
-  updatePlan: PropTypes.func.isRequired,
-  // fetchPlan: PropTypes.func.isRequired,
-  // updateGrazingSchedule: PropTypes.func.isRequired,
+  planUpdated: PropTypes.func.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
 };
 const defaultProps = {
   agreement: {
@@ -47,51 +48,27 @@ const defaultProps = {
 
 export class RupAH extends Component {
   state = {
-    isSubmitPlanModalOpen: false,
     isSubmitAmendmentModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
 
-  componentDidMount() {
-    this.stickyHeader = document.getElementById(ELEMENT_ID.RUP_STICKY_HEADER);
-    if (this.stickyHeader) {
-      // requires the absolute offsetTop value
-      this.stickyHeaderOffsetTop = this.stickyHeader.offsetTop;
-      this.scrollListner = window.addEventListener('scroll', this.handleScroll);
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.scrollListner);
-  }
-
-  handleScroll = () => {
-    if (this.stickyHeader) {
-      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
-        this.stickyHeader.classList.add('rup__sticky--fixed');
-      } else {
-        this.stickyHeader.classList.remove('rup__sticky--fixed');
-      }
-    }
-  }
-
   onSaveDraftClick = () => {
     const {
       plan,
-      updatePlan,
+      planUpdated,
       references,
       toastSuccessMessage,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
     const onRequested = () => {
-      this.setState({ isSavingAsDraft: false });
+      this.setState({ isSavingAsDraft: true });
     };
     const onSuccess = () => {
       // update schedules in Redux store
       const newPlan = { ...plan, status };
-      updatePlan({ plan: newPlan });
+      planUpdated({ plan: newPlan });
       this.setState({ isSavingAsDraft: false });
       toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
     };
@@ -99,15 +76,16 @@ export class RupAH extends Component {
       this.setState({ isSavingAsDraft: false });
     };
 
-    this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
+    this.updateStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
   onSubmitClicked = () => {
     const {
       plan,
-      updatePlan,
+      planUpdated,
       references,
       toastSuccessMessage,
+      closeConfirmationModal,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
@@ -119,19 +97,19 @@ export class RupAH extends Component {
     const onSuccess = () => {
       // update the status and schedules of the plan in Redux store
       const newPlan = { ...plan, status };
-      updatePlan({ plan: newPlan });
-      this.setState({ isSubmitPlanModalOpen: false, isSubmitting: false });
+      planUpdated({ plan: newPlan });
+      this.setState({ isSubmitting: false });
       toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
     };
 
     const onError = () => {
-      this.setState({ isSubmitting: false, isSubmitPlanModalOpen: false });
+      this.setState({ isSubmitting: false });
     };
-
-    this.updateRupStatusAndContent(status, onRequested, onSuccess, onError);
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.SUBMIT_PLAN });
+    this.updateStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
-  updateRupStatusAndContent = async (status, onRequested, onSuccess, onError) => {
+  updateStatusAndContent = async (status, onRequested, onSuccess, onError) => {
     const {
       plan,
       updateRUPStatus,
@@ -148,10 +126,11 @@ export class RupAH extends Component {
       onError();
       return;
     }
+
     const planId = plan && plan.id;
     const statusId = status && status.id;
     const grazingSchedules = plan && plan.grazingSchedules
-    && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
+      && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
 
     try {
       await updateRUPStatus(planId, statusId, false);
@@ -160,7 +139,7 @@ export class RupAH extends Component {
       )));
       onSuccess(newSchedules);
     } catch (err) {
-      onError();
+      onError(err);
       toastErrorMessage(err);
       throw err;
     }
@@ -208,27 +187,77 @@ export class RupAH extends Component {
     window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
 
-  closeSubmitConfirmModal = () => this.setState({ isSubmitPlanModalOpen: false })
   openSubmitConfirmModal = () => {
-    const { plan } = this.props;
+    const { plan, openConfirmationModal } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
-      if (plan.amendmentTypeId) {
+      if (utils.isPlanAmendment(plan)) {
         this.openSubmitAmendmentModal();
         return;
       }
-      this.setState({ isSubmitPlanModalOpen: true });
+      openConfirmationModal({
+        modal: {
+          id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
+          header: strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
+          content: strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
+          onYesBtnClicked: this.onSubmitClicked,
+        },
+      });
     }
   }
 
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
 
+  renderActionBtns = (isEditable, isAmendable) => {
+    const { isSavingAsDraft, isSubmitting } = this.state;
+    const { isCreatingAmendment } = this.props;
+    const previewPDF = (
+      <Button key="previewPDFBtn" onClick={this.onViewPDFClicked}>
+        {strings.PREVIEW_PDF}
+      </Button>
+    );
+    const saveDraft = (
+      <Button
+        key="saveDraftBtn"
+        loading={isSavingAsDraft}
+        onClick={this.onSaveDraftClick}
+        style={{ marginLeft: '10px' }}
+      >
+        {strings.SAVE_DRAFT}
+      </Button>
+    );
+    const submit = (
+      <Button
+        key="submitBtn"
+        loading={isSubmitting}
+        onClick={this.openSubmitConfirmModal}
+        style={{ marginLeft: '10px' }}
+      >
+        {strings.SUBMIT_FOR_REVIEW}
+      </Button>
+    );
+    const amend = (
+      <Button
+        key="amendBtn"
+        loading={isCreatingAmendment}
+        onClick={this.onAmendPlanClicked}
+        style={{ marginLeft: '10px' }}
+      >
+        {strings.AMEND_PLAN}
+      </Button>
+    );
+
+    if (isEditable) {
+      return [previewPDF, saveDraft, submit];
+    } else if (isAmendable) {
+      return [previewPDF, amend];
+    }
+    return previewPDF;
+  }
+
   render() {
     const {
-      isSavingAsDraft,
-      isSubmitting,
-      isSubmitPlanModalOpen,
       isSubmitAmendmentModalOpen,
     } = this.state;
 
@@ -240,42 +269,27 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
-      isCreatingAmendment,
     } = this.props;
 
-    const { agreementId, status, amendmentTypeId } = plan;
+    const { agreementId, status } = plan;
     const { clients, usage: usages } = agreement;
-    const zone = agreement && agreement.zone;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
-    const isEditable = utils.isStatusCreated(status)
-      || utils.isStatusDraft(status) || utils.isStatusChangedRequested(status);
-    const isAmendable = utils.isStatusApproved(status);
+    const isEditable = utils.isStatusAllowingRevisionForAH(status);
+    const isAmendable = utils.isStatusAmongApprovedStatuses(status);
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    let header = `${agreementId} - Range Use Plan`;
-    if (amendmentTypeId && amendmentTypes) {
-      const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
-      header = `${agreementId} - ${amendmentType.description}`;
-    }
+    const header = utils.getPlanTypeDescription(plan, amendmentTypes);
 
     return (
       <section className="rup">
-        <ConfirmationModal
-          open={isSubmitPlanModalOpen}
-          header={strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER}
-          content={strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT}
-          onNoClicked={this.closeSubmitConfirmModal}
-          onYesClicked={this.onSubmitClicked}
-          loading={isSubmitting}
-        />
-
         <AmendmentSubmissionModal
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}
           plan={plan}
-          updateRupStatusAndContent={this.updateRupStatusAndContent}
+          clients={clients}
+          updateStatusAndContent={this.updateStatusAndContent}
         />
 
         <Banner
@@ -284,63 +298,30 @@ export class RupAH extends Component {
           content={utils.getBannerContentForAH(status)}
         />
 
-        <div
-          id={ELEMENT_ID.RUP_STICKY_HEADER}
-          className="rup__sticky"
-        >
-          <div className="rup__sticky__container">
-            <div className="rup__sticky__left">
-              <div className="rup__sticky__title">{agreementId}</div>
-              <div className="rup__sticky__primary-agreement-holder">{primaryAgreementHolderName}</div>
-              <Status
-                className="rup__status"
-                status={status}
-                user={user}
-              />
-            </div>
-            <div className="rup__sticky__btns">
-              <Button
-                onClick={this.onViewPDFClicked}
-              >
-                {strings.PREVIEW_PDF}
-              </Button>
-              { isEditable &&
-                <Fragment>
-                  <Button
-                    loading={isSavingAsDraft}
-                    onClick={this.onSaveDraftClick}
-                    style={{ marginLeft: '10px' }}
-                  >
-                    {strings.SAVE_DRAFT}
-                  </Button>
-                  <Button
-                    loading={isSubmitting}
-                    onClick={this.openSubmitConfirmModal}
-                    style={{ marginLeft: '10px' }}
-                  >
-                    {strings.SUBMIT_FOR_REVIEW}
-                  </Button>
-                </Fragment>
-              }
-              { isAmendable &&
-                <Button
-                  loading={isCreatingAmendment}
-                  onClick={this.onAmendPlanClicked}
-                  style={{ marginLeft: '10px' }}
-                >
-                  {strings.AMEND_PLAN}
-                </Button>
-              }
+        <RupStickyHeader>
+          <div className="rup__actions__background">
+            <div className="rup__actions__container">
+              <div className="rup__actions__left">
+                <div className="rup__actions__title">{agreementId}</div>
+                <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
+                <Status
+                  className="rup__status"
+                  status={status}
+                  user={user}
+                />
+              </div>
+              <div className="rup__actions__btns">
+                {this.renderActionBtns(isEditable, isAmendable)}
+              </div>
             </div>
           </div>
-        </div>
+        </RupStickyHeader>
 
         <div className="rup__content">
           <RupBasicInformation
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
-            zone={zone}
             user={user}
           />
 
@@ -350,17 +331,16 @@ export class RupAH extends Component {
             pasturesMap={pasturesMap}
           />
 
-          {isEditable &&
+          {isEditable ?
             <EditRupGrazingSchedules
+              className="rup__schedules__container"
               references={references}
               usages={usages}
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
             />
-          }
-          {!isEditable &&
-            <RupGrazingSchedules
+            : <RupGrazingSchedules
               className="rup__schedules__container"
               references={references}
               usages={usages}

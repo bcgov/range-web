@@ -1,11 +1,11 @@
 {
+  "extends": "airbnb",
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
     "jest": true
   },
-  "extends": "airbnb",
   "parserOptions": {
     "sourceType": "module"
   },
@@ -25,13 +25,26 @@
       "error",
       "always"
     ],
-    "indent": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
     "import/no-named-as-default": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-cycle": "off",
+    "import/prefer-default-export": "off",
+    "react/sort-comp": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/button-has-type": "off",
+    "react/prefer-stateless-function": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "object-curly-newline": "off",
+    "indent": "off",
     "no-shadow": "off",
     "quote-props": "off",
     "max-len": "off",
-    "react/sort-comp": "off",
+    "operator-linebreak": "off",
+    "lines-between-class-members": "off",
+    "no-else-return": "off",
+    "arrow-body-style": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",
     "block-scoped-var": "error",

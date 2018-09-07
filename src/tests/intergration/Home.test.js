@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import _ from 'lodash';
-
 import { axios } from '../../utils';
 import Home from '../../components/Home';
 import { storeAuthData, storeUser, storeReferences } from '../../actions';
@@ -15,8 +13,7 @@ import { ELEMENT_ID } from '../../constants/variables';
 import { mockRequestHeader, mockAgreements, mockAgreement, mockReference } from './mockData';
 import * as API from '../../constants/API';
 
-// mock lodash debounce in jest
-_.debounce = jest.fn(fn => fn);
+jest.mock('lodash.debounce');
 
 let store;
 const mockAxios = new MockAdapter(axios);

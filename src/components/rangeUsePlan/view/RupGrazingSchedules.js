@@ -20,8 +20,12 @@ class RupGrazingSchedules extends Component {
   }
 
   onScheduleClicked = scheduleIndex => () => {
-    const newIndex = this.state.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
-    this.setState({ activeScheduleIndex: newIndex });
+    this.setState((prevState) => {
+      const newIndex = prevState.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+      return {
+        activeScheduleIndex: newIndex,
+      };
+    });
   }
 
   renderSchedules = (grazingSchedules = []) => {
@@ -73,7 +77,9 @@ class RupGrazingSchedules extends Component {
             className="rup__schedule__header__title"
             onClick={this.onScheduleClicked(scheduleIndex)}
           >
-            <div>{year} Grazing Schedule</div>
+            <div>
+              {`${year} Grazing Schedule`}
+            </div>
             {isScheduleActive &&
               <Icon name="chevron up" />
             }
@@ -82,7 +88,7 @@ class RupGrazingSchedules extends Component {
             }
           </button>
         </div>
-        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
+        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>
             <Table.Header>
               <Table.Row>

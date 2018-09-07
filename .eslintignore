@@ -1,0 +1,8 @@
+/config
+/node_modules
+/openshift
+/public
+/build
+/scripts
+/semantic
+/src/semantic

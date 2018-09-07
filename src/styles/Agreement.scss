@@ -1,6 +1,3 @@
-@import 'styles/mixins.scss';
-@import 'styles/Grid.scss';
-
 $plan_table_date_cell_rate: 0.6;
 $third_agrm_table_cell_rate: 1.8;
 
@@ -45,6 +42,16 @@ $third_agrm_table_cell_rate: 1.8;
           z-index: -1;
           padding-right: 0px;
         }
+      }
+    }
+    &__message {
+      display: flex;
+      min-height: 40px;
+      justify-content: center;
+      align-items: center;
+
+      &--error {
+        color: $error-color;
       }
     }
     &__row {

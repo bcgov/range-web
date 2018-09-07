@@ -1,6 +1,3 @@
-@import 'styles/mixins.scss';
-@import 'styles/Grid.scss';
-
 $row-height: 80px;
 
 .rup {
@@ -12,6 +9,16 @@ $row-height: 80px;
   }
   &__row {
     @extend .row;
+  }
+  &__pdf-link {
+    display: none;
+  }
+  &__fetching-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    @extend .error;
   }
   &__title {
     font-size: 1.8rem;
@@ -28,13 +35,39 @@ $row-height: 80px;
     }
   }
   &__sticky {
-    background: $primary-color;
-    color: white;
     z-index: $rup-sticky-z-index;
     min-width: $mobile-width;
     min-height: 55px;
-    display: flex;
 
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+  }
+  /* Add some top padding to the page content to prevent sudden quick movement 
+  (as the header gets a new position at the top of the page (position:fixed and top:0) */
+  &__sticky--fixed + &__content {
+    padding-top: 56px;
+  }
+  &__sticky--fixed &__actions__title {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid $accent-color;
+  }
+  &__sticky--fixed &__actions__primary-agreement-holder {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid $accent-color;
+  }
+  &__actions {
+    &__background {
+      background: $primary-color;
+    }
     &__container {
       @extend .container;
       width: 100%;
@@ -48,46 +81,29 @@ $row-height: 80px;
       font-size: 1.1rem;
       font-weight: 600;
       line-height: 16px;
+      color: white;
     }
     &__primary-agreement-holder,
     &__title {
       display: none;
     }
-    &--fixed {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-    &--fixed &__title {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
-    }
-    &--fixed &__primary-agreement-holder {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
-    }
   }
-  /* Add some top padding to the page content to prevent sudden quick movement 
-  (as the header gets a new position at the top of the page (position:fixed and top:0) */
-  &__sticky--fixed + &__content {
-    padding-top: 56px;
+  &__feedback-alert {
+    &__background {
+      background-color: $accent-color;
+    }
+    &__container {
+      @extend .container;
+      padding: 10px 0;
+    }
+    &__title {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
   }
   &__content {
     @extend .container;
     padding-top: $content-margin-top;
-  }
-  &__actions {
-    justify-content: space-between;
-    
-    &--hidden {
-      display: none;  
-    }
   }
   &__divider {
     border-top: 3px solid $accent-color;
@@ -122,179 +138,15 @@ $row-height: 80px;
   &__basic_information {
     margin-bottom: 15px;
   }
-  &__pastures {
-    &__container {
-      margin-bottom: 15px;
-    }
-  }
-  &__pasture {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 40px;
-      font-weight: bold;
-      font-size: 1.4rem;
-    }
-  }
+  &__update-status-dropdown {
+    margin-left: 10px !important;
 
-  &__schedules {
-    margin-top: 10px;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    &--empty {
-      border: 0px;
-    }
-    li:not(:last-child) {
-      border-bottom: 1px solid gainsboro;
-    }
-    &__container {
-      margin-bottom: 15px;
-    }
-  }
-
-  &__schedule {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__action {
-        margin-right: 10px;
-      }
-    }
-    &__warning-message {
-      padding: 0px 15px 10px 15px;
-    }
-    &__content {
-      padding: 0px 15px 15px 15px;
-      &__hidden {
-        display: none;  
-      }
-      &__dates {
-        min-width: 70px;
-      }
-      &__grace-days {
-        min-width: 50px;
-      }
-      &__AUMs {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        font-size: 1.1rem;
-        text-align: right;
-      }
-      &__AUM-label {
-        font-weight: bold;
-        margin: 0 10px;
-      }
-      &__AUM-number {
-        border: 1px solid gainsboro;
-        padding: 8px 15px;
-        border-radius: 3px;
-        &--invalid {
-          @extend .error;
-        }
-      }
-      &__narrative {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-    }
-    &__draft-container {
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #CCCCCC;
-      border-radius: 5px;
-      margin: 10px 0;
-    }
-    &__in-draft {
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  &__missues {
-    &__container {
-      margin-bottom: 15px;
-    }
-    &__note {
-      margin-top: 10px;
-      font-size: 1.1rem;
-    }
-    margin: 10px 0;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    &--empty {
-      border: 0px;
-    }
-    li {
-      border-bottom: 1px solid gainsboro;
-    }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
-    }
-  }
-  &__missue {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__right {
-        display: flex;
-      }
-      &__identified {
-        font-size: 1rem;
-      }
-    }
-    &__content {
-      padding: 0px 15px 15px 15px;
-
-      &__hidden {
-        display: none;  
-      }
-    }
-    &__actions {
-      &__title {
-        font-size: 1.2rem;
-        color: gray;
-      }
-    }
-    &__action {
-      margin: 10px;
-      &__type {
-        font-weight: bold;
-      }
-      &__detail {
-        opacity: 0.9;
+    > .menu {
+      left: inherit !important;
+      right: 0 !important;
+      
+      > .item {
+        text-align: right !important;
       }
     }
   }
@@ -319,7 +171,7 @@ $row-height: 80px;
     &__document {
       .ReactPDF {
         &__Page {
-          box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+          box-shadow: 0 0 30px rgba(0, 0, 0, .3);
           margin: 10px 0;
 
           canvas {
@@ -348,6 +200,12 @@ $row-height: 80px;
         font-weight: bold;
         margin-bottom: 10px;
       }
+    }
+    &__radio {
+      margin-right: 10px;
+    }
+    &__radio-field {
+      display: flex;
     }
   }
 }

@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Button } from 'semantic-ui-react';
-import { Banner, ConfirmationModal } from '../common';
+import { Banner } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
   NOT_SELECTED, CONTACT_NO_EXIST,
 } from '../../constants/strings';
-import { ELEMENT_ID } from '../../constants/variables';
+import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   zonesMap: PropTypes.shape({}).isRequired,
-  updateZone: PropTypes.func.isRequired,
+  zoneUpdated: PropTypes.func.isRequired,
   updateUserIdOfZone: PropTypes.func.isRequired,
-  isAssigning: PropTypes.bool.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
 };
-/* eslint-disable arrow-body-style */
 export class ManageZone extends Component {
   state = {
     newContactId: null,
     currContactName: null,
     zoneId: null,
-    isUpdateModalOpen: false,
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
@@ -42,17 +41,16 @@ export class ManageZone extends Component {
     this.setState({ newContactId });
   }
 
-  closeUpdateConfirmationModal = () => {
-    this.setState({ isUpdateModalOpen: false });
-  }
-
-  openUpdateConfirmationModal = () => {
-    this.setState({ isUpdateModalOpen: true });
-  }
-
   assignStaffToZone = () => {
     const { zoneId, newContactId: userId } = this.state;
-    const { zonesMap, updateUserIdOfZone, updateZone } = this.props;
+    const {
+      zonesMap,
+      updateUserIdOfZone,
+      zoneUpdated,
+      closeConfirmationModal,
+    } = this.props;
+
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_ZONE });
 
     const staffAssigned = (assignedUser) => {
       // create a new zone obj with the new assigned user
@@ -61,10 +59,9 @@ export class ManageZone extends Component {
         user: assignedUser,
         userId: assignedUser.id,
       };
-      // then update this zone in Redux store
-      updateZone(zone);
 
-      this.closeUpdateConfirmationModal();
+      // then update this zone in Redux store
+      zoneUpdated(zone);
 
       // refresh the view
       this.setState({
@@ -73,44 +70,46 @@ export class ManageZone extends Component {
         currContactName: null,
       });
     };
+
     updateUserIdOfZone(zoneId, userId).then(staffAssigned);
+  }
+
+  openUpdateConfirmationModal = () => {
+    this.props.openConfirmationModal({
+      modal: {
+        id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
+        header: UPDATE_CONTACT_CONFIRMATION_HEADER,
+        content: UPDATE_CONTACT_CONFIRMATION_CONTENT,
+        onYesBtnClicked: this.assignStaffToZone,
+      },
+    });
   }
 
   render() {
     const {
       zoneId,
-      isUpdateModalOpen,
       currContactName,
       newContactId,
     } = this.state;
-    const { users, zones, isAssigning } = this.props;
+    const { users, zones } = this.props;
 
-    const zoneOptions = zones.map((zone) => {
-      return {
+    const zoneOptions = zones.map(zone => (
+      {
         value: zone.id,
         text: zone.code,
-      };
-    });
-    const contactOptions = users.map((user) => {
-      return {
+      }
+    ));
+    const contactOptions = users.map(user => (
+      {
         value: user.id,
         description: user.email,
         text: getUserFullName(user),
-      };
-    });
+      }
+    ));
     const isUpdateBtnEnabled = newContactId && zoneId;
 
     return (
       <section className="manage-zone">
-        <ConfirmationModal
-          open={isUpdateModalOpen}
-          loading={isAssigning}
-          header={UPDATE_CONTACT_CONFIRMATION_HEADER}
-          content={UPDATE_CONTACT_CONFIRMATION_CONTENT}
-          onNoClicked={this.closeUpdateConfirmationModal}
-          onYesClicked={this.assignStaffToZone}
-        />
-
         <Banner
           header={MANAGE_ZONE_BANNER_HEADER}
           content={MANAGE_ZONE_BANNER_CONTENT}

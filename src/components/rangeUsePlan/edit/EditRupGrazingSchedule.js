@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
 import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal, handleGrazingScheduleValidation } from '../../../utils';
-import { ConfirmationModal } from '../../common';
+import { getPasturesMap } from '../../../reducers/rootReducer';
+import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } from '../../../actions';
+import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
+import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 
 const propTypes = {
   schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
@@ -21,18 +25,14 @@ const propTypes = {
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
-  deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
   handleScheduleCopy: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
-  isDeletingGrazingSchedule: PropTypes.bool.isRequired,
-  isDeletingGrazingScheduleEntry: PropTypes.bool.isRequired,
+  deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
 };
 
 class EditRupGrazingSchedule extends Component {
-  state = {
-    isDeleteScheduleModalOpen: false,
-  }
-
   onScheduleClicked = (e) => {
     e.preventDefault();
     const { scheduleIndex, onScheduleClicked } = this.props;
@@ -69,7 +69,8 @@ class EditRupGrazingSchedule extends Component {
   }
 
   onScheduleDeleteClicked = () => {
-    const { schedule, scheduleIndex, handleScheduleDelete } = this.props;
+    const { schedule, scheduleIndex, handleScheduleDelete, closeConfirmationModal } = this.props;
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE });
     handleScheduleDelete(schedule, scheduleIndex);
   }
 
@@ -117,16 +118,29 @@ class EditRupGrazingSchedule extends Component {
     }
   }
 
-  closeDeleteScheduleConfirmationModal = () => this.setState({ isDeleteScheduleModalOpen: false })
-  openDeleteScheduleConfirmationModal = () => this.setState({ isDeleteScheduleModalOpen: true })
+  openDeleteScheduleConfirmationModal = () => {
+    this.props.openConfirmationModal({
+      modal: {
+        id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE,
+        header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
+        content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
+        onYesBtnClicked: this.onScheduleDeleteClicked,
+      },
+    });
+  }
 
   renderWarningMessage = (grazingSchedule = {}) => {
     const { pasturesMap, livestockTypes, usages } = this.props;
     const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usages);
     const { message, error } = result || {};
-    const hidden = !error;
+    if (!error) {
+      return <Fragment />;
+    }
+
     return (
-      <Message error hidden={hidden} content={`Error: ${message}`} />
+      <div className="rup__schedule__warning-message">
+        <Message error content={<div>{`Error: ${message}`}</div>} />
+      </div>
     );
   }
 
@@ -136,7 +150,8 @@ class EditRupGrazingSchedule extends Component {
       pastures,
       pasturesMap,
       livestockTypes,
-      isDeletingGrazingScheduleEntry,
+      openConfirmationModal,
+      closeConfirmationModal,
     } = this.props;
     const pastureOptions = pastures.map((pId) => {
       const pasture = pasturesMap[pId];
@@ -171,7 +186,8 @@ class EditRupGrazingSchedule extends Component {
           handleScheduleEntryChange={this.handleScheduleEntryChange}
           handleScheduleEntryCopy={this.handleScheduleEntryCopy}
           handleScheduleEntryDelete={this.handleScheduleEntryDelete}
-          isDeletingGrazingScheduleEntry={isDeletingGrazingScheduleEntry}
+          openConfirmationModal={openConfirmationModal}
+          closeConfirmationModal={closeConfirmationModal}
         />
       )
     ));
@@ -185,9 +201,7 @@ class EditRupGrazingSchedule extends Component {
       authorizedAUMs,
       crownTotalAUMs,
       yearOptions,
-      isDeletingGrazingSchedule,
     } = this.props;
-    const { isDeleteScheduleModalOpen } = this.state;
     const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
     const isScheduleActive = activeScheduleIndex === scheduleIndex;
@@ -197,21 +211,12 @@ class EditRupGrazingSchedule extends Component {
 
     return (
       <li className="rup__schedule">
-        <ConfirmationModal
-          open={isDeleteScheduleModalOpen}
-          loading={isDeletingGrazingSchedule}
-          header={strings.DELETE_SCHEDULE_FOR_AH_HEADER}
-          content={strings.DELETE_SCHEDULE_FOR_AH_CONTENT}
-          onNoClicked={this.closeDeleteScheduleConfirmationModal}
-          onYesClicked={this.onScheduleDeleteClicked}
-        />
-
         <div className="rup__schedule__header">
           <button
             className="rup__schedule__header__title"
             onClick={this.onScheduleClicked}
           >
-            <div>{year} Grazing Schedule</div>
+            <div>{`${year} Grazing Schedule`}</div>
             { isScheduleActive
               ? <Icon name="chevron up" />
               : <Icon name="chevron down" />
@@ -239,11 +244,10 @@ class EditRupGrazingSchedule extends Component {
             </Dropdown>
           </div>
         </div>
-        <div className="rup__schedule__warning-message">
-          {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
-        </div>
 
-        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
+        {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
+
+        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>
             <Table.Header>
               <Table.Row>
@@ -267,7 +271,8 @@ class EditRupGrazingSchedule extends Component {
             basic
             onClick={this.onNewRowClick}
           >
-            <Icon name="add" /> Add row
+            <Icon name="add" />
+            Add row
           </Button>
           <div className="rup__schedule__content__AUMs">
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
@@ -291,5 +296,17 @@ class EditRupGrazingSchedule extends Component {
   }
 }
 
+const mapStateToProps = state => (
+  {
+    pasturesMap: getPasturesMap(state),
+  }
+);
+
 EditRupGrazingSchedule.propTypes = propTypes;
-export default EditRupGrazingSchedule;
+export default connect(mapStateToProps, {
+  updateGrazingSchedule,
+  openConfirmationModal,
+  closeConfirmationModal,
+  deleteRupGrazingSchedule,
+  deleteRupGrazingScheduleEntry,
+})(EditRupGrazingSchedule);

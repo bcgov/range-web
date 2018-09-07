@@ -1,4 +1,4 @@
-import { STORE_PLAN, UPDATE_PLAN, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE } from '../constants/actionTypes';
+import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE } from '../constants/actionTypes';
 
 const initialState = {
   byId: {},
@@ -73,7 +73,7 @@ const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storePlan(state, action);
-    case UPDATE_PLAN:
+    case PLAN_UPDATED:
       return updatePlan(state, action);
     case ADD_GRAZING_SCHEDULE:
       return addGrazingSchedule(state, action);

@@ -5,16 +5,17 @@ import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
+import { planUpdated } from '../../actions';
 
 const propTypes = {
+  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
+  plan: PropTypes.shape({}).isRequired,
   isUpdateZoneModalOpen: PropTypes.bool.isRequired,
   closeUpdateZoneModal: PropTypes.func.isRequired,
-  onZoneUpdated: PropTypes.func.isRequired,
-  currZone: PropTypes.shape({}).isRequired,
   updateAgreementZone: PropTypes.func.isRequired,
-  agreementId: PropTypes.string.isRequired,
   zones: PropTypes.arrayOf(PropTypes.object).isRequired,
   isUpdatingAgreementZone: PropTypes.bool.isRequired,
+  planUpdated: PropTypes.func.isRequired,
 };
 
 export class UpdateZoneModal extends Component {
@@ -27,10 +28,18 @@ export class UpdateZoneModal extends Component {
   }
 
   onUpdateZoneClicked = () => {
-    const { agreementId, updateAgreementZone, onZoneUpdated } = this.props;
+    const { agreement, updateAgreementZone, planUpdated, plan } = this.props;
     const requestData = {
-      agreementId,
+      agreementId: agreement.id,
       zoneId: this.state.newZoneId,
+    };
+    const onZoneUpdated = (newZone) => {
+      const newAgreement = { ...plan.agreement, zone: newZone };
+      const newPlan = {
+        ...plan,
+        agreement: newAgreement,
+      };
+      planUpdated({ plan: newPlan });
     };
     updateAgreementZone(requestData).then((newZone) => {
       onZoneUpdated(newZone);
@@ -47,11 +56,12 @@ export class UpdateZoneModal extends Component {
     const {
       isUpdateZoneModalOpen,
       zones,
-      currZone = {},
       isUpdatingAgreementZone,
+      agreement,
     } = this.props;
     const { newZoneId } = this.state;
 
+    const currZone = agreement && agreement.zone;
     const currDistrictId = currZone.district && currZone.district.id;
     const currZoneCode = currZone.code;
     const zoneOptions = zones
@@ -114,4 +124,4 @@ const mapStateToProps = state => (
 );
 
 UpdateZoneModal.propTypes = propTypes;
-export default connect(mapStateToProps, { updateAgreementZone })(UpdateZoneModal);
+export default connect(mapStateToProps, { updateAgreementZone, planUpdated })(UpdateZoneModal);

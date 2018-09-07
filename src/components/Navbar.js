@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
+import { Dropdown } from 'semantic-ui-react';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
@@ -10,16 +11,21 @@ import { getUser } from '../reducers/rootReducer';
 import { isUserAdmin, isUserActive } from '../utils';
 import { signOut } from '../actionCreators';
 
-const propTypes = {
-  user: PropTypes.shape({}),
-  signOut: PropTypes.func.isRequired,
-};
-const defaultProps = {
-  user: undefined,
-};
-
-/* eslint-disable jsx-a11y/anchor-is-valid */
 export class Navbar extends Component {
+  static propTypes = {
+    user: PropTypes.shape({}),
+    signOut: PropTypes.func.isRequired,
+    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  }
+
+  static defaultProps = {
+    user: undefined,
+  }
+
+  onNavigate = route => () => {
+    this.props.history.push(route);
+  }
+
   onLogoutBtnClick = () => {
     this.props.signOut();
 
@@ -37,7 +43,7 @@ export class Navbar extends Component {
           <div className="navbar__left">
             <img className="navbar__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
             <Link to={Routes.HOME}>
-              <div className="navbar__title">My Range App</div>
+              <div className="navbar__title">MyRangeBC</div>
             </Link>
           </div>
 
@@ -51,7 +57,8 @@ export class Navbar extends Component {
                 Select RUP
               </NavLink>
             }
-            { isUserAdmin(user) &&
+
+            {/* { isUserAdmin(user) &&
               <NavLink
                 to={Routes.MANAGE_ZONE}
                 className="navbar__link"
@@ -69,6 +76,7 @@ export class Navbar extends Component {
                 Manage Client
               </NavLink>
             }
+
             <div
               id={ELEMENT_ID.SIGN_OUT}
               className="navbar__link"
@@ -77,7 +85,30 @@ export class Navbar extends Component {
               onClick={this.onLogoutBtnClick}
             >
               Sign Out
-            </div>
+            </div> */}
+
+            <Dropdown className="navbar__menu" text="Menus">
+              <Dropdown.Menu>
+                { isUserAdmin(user) &&
+                  <Fragment>
+                    <Dropdown.Item
+                      text="Manage Zone"
+                      onClick={this.onNavigate(Routes.MANAGE_ZONE)}
+                    />
+                    <Dropdown.Item
+                      text="Manage Client"
+                      onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
+                    />
+                  </Fragment>
+                }
+                <Dropdown.Item
+                  id={ELEMENT_ID.SIGN_OUT}
+                  text="Sign Out"
+                  icon="sign-out"
+                  onClick={this.onLogoutBtnClick}
+                />
+              </Dropdown.Menu>
+            </Dropdown>
 
             <Avatar
               user={user}
@@ -94,6 +125,4 @@ const mapStateToProps = state => (
     user: getUser(state),
   }
 );
-Navbar.propTypes = propTypes;
-Navbar.defaultProps = defaultProps;
 export default connect(mapStateToProps, { signOut })(Navbar);

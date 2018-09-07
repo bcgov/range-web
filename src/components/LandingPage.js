@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import { Offline } from 'react-detect-offline';
 import Navbar from './Navbar';
-import Toast from './Toast';
+import Toasts from './Toasts';
+import ConfirmationModals from './ConfirmationModals';
 import { Loading } from './common';
 import { userHaveRole, isUserActive, registerAxiosInterceptors } from '../utils';
 import { fetchReferences, fetchZones, signOut, fetchUser } from '../actionCreators';
@@ -64,6 +65,7 @@ export class LandingPage extends Component {
       component: Component,
       user,
       isFetchingUser,
+      confirmationModalsMap,
       ...rest
     } = this.props;
 
@@ -77,8 +79,8 @@ export class LandingPage extends Component {
 
         {this.renderComponent()}
 
-        <Toast />
-
+        <ConfirmationModals />
+        <Toasts />
         <footer />
       </main>
     );

@@ -28,7 +28,7 @@ import {
   REFRESH_TOKEN_FROM_SSO,
 } from '../constants/API';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
-import { stringifyQuery } from './queryString';
+import { stringifyQuery } from './index';
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
 /**
@@ -155,6 +155,7 @@ const isRangeAPIs = (config) => {
  * @param {function} logout the logout action function
  * @returns {object} the config or err object
  */
+/* eslint-disable no-console */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
     const config = { ...c };
