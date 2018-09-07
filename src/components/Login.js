@@ -76,21 +76,13 @@ export class Login extends Component {
               Login as Agreement Holder
             </Button>
             <div className="login__signin__link-container">
-              <a
-                href={SSO_IDIR_LOGIN_ENDPOINT}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <div onClick={this.onIdirLoginBtnClick}>
                 Range Staff Login
-              </a>
-              |
-              <a
-                href={SSO_LOGIN_ENDPOINT}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              </div>
+              <div className="login__line" />
+              <div onClick={this.onLoginBtnClick}>
                 Admin Login
-              </a>
+              </div>
             </div>
           </div>
         </article>
@@ -103,14 +95,69 @@ export class Login extends Component {
         </article>
         <article className="login__paragraph3">
           <div className="container">
-            <div className="login__text-cell">
-              <div>New simplified Range Use Plan across BC.</div>
-              <div>
-                There is now a common Range Use Plan across BC.
-                This common plan will enable greater efficiencies in service delivery.
+            <div className="login__paragraph4__content">
+              <div className="login__paragraph-cell">
+                <hr className="login__title-spacer" />
+                <div className="login__paragraph3__title">
+                  New simplified Range Use Plan across BC.
+                </div>
+                <div className="login__paragraph3__text">
+                  There is now a common Range Use Plan across BC.
+                  This common plan will enable greater efficiencies in service delivery.
+                </div>
+              </div>
+              <div className="login__paragraph-cell">
+                <img className="login__paragraph3__image" src={IMAGE_SRC.LOGIN_PARAGRAPH3} alt=""/>
               </div>
             </div>
-            <div className="login__image-cell">
+          </div>
+        </article>
+        <article className="login__paragraph4">
+          <div className="container">
+            <div className="login__paragraph4__content">
+              <div className="login__paragraph-cell">
+                <img className="login__paragraph4__image" src={IMAGE_SRC.LOGIN_PARAGRAPH4} alt=""/>
+              </div>
+              <div className="login__paragraph-cell">
+                <hr className="login__title-spacer" />
+                <div className="login__paragraph4__title">
+                  Submit your Range Use Plan faster then ever.
+                </div>
+                <div className="login__paragraph4__text">
+                  No more mail or paper. When you submit a Range Use Plan for review or amendment your Range Staff Officer can review it and you will know its status.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph5">
+          <div className="container">
+            <div className="login__paragraph5__content">
+              <div className="login__paragraph-cell">
+                <hr className="login__title-spacer" />
+                <div className="login__paragraph5__title">
+                  Easier login with BCeID
+                </div>
+                <div className="login__paragraph5__text">
+                  With your BCeID you can view all of your Range Use Plans and amendments. We have included ways to save time in drafting your work
+                </div>
+              </div>
+              <div className="login__paragraph-cell">
+                <img className="login__paragraph5__image" src={IMAGE_SRC.LOGIN_PARAGRAPH5} alt=""/>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph6">
+          <div className="container">
+            <div className="login__footer">
+              Copyright
+              <div className="login__line" />
+              Accessability
+              <div className="login__line" />
+              Privacy
+              <div className="login__line" />
+              Disclaimer
             </div>
           </div>
         </article>

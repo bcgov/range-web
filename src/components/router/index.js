@@ -10,7 +10,11 @@ import * as AsyncComponents from './AsyncComponent';
 
 class Router extends Component {
   static propTypes = {
-    user: PropTypes.shape({}).isRequired,
+    user: PropTypes.shape({}),
+  }
+
+  static defaultProps = {
+    user: undefined,
   }
 
   render() {
