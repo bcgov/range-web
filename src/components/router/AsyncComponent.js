@@ -6,23 +6,23 @@ import { Loading } from '../common';
   https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html
 */
 
-const LoadingComponent = ({isLoading, error}) => {
+const LoadingComponent = ({ isLoading, error }) => {
+  let component;
   if (isLoading) { // Handle the loading state
-    // return <div>Loading...</div>;
-    return <Loading />;
-  } else if (error) {  // Handle the error state
-    return <div>Sorry, there was a problem loading the page.</div>;
-  } else {
-    return null;
+    component = <Loading />;
+  } else if (error) { // Handle the error state
+    component = (<div>Sorry, there was a problem loading the page.</div>);
   }
+
+  return component;
 };
 
-const AsyncComponent = (component) => {
-  return Loadable({
+const AsyncComponent = component => (
+  Loadable({
     loader: component,
     loading: LoadingComponent,
-  });
-};
+  })
+);
 
 export const Home = AsyncComponent(() => import('../Home'));
 export const Login = AsyncComponent(() => import('../Login'));

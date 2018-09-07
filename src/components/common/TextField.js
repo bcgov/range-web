@@ -39,7 +39,8 @@ const TextField = ({
 
       { isEditable &&
         <button className="text-field__button" onClick={onClick}>
-          {text} <Icon name="pencil" />
+          {text}
+          <Icon name="pencil" />
         </button>
       }
 

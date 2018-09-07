@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -28,6 +28,8 @@ const propTypes = {
   handleScheduleCopy: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
   deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+  closeConfirmationModal: PropTypes.func.isRequired,
+  openConfirmationModal: PropTypes.func.isRequired,
 };
 
 class EditRupGrazingSchedule extends Component {
@@ -131,9 +133,14 @@ class EditRupGrazingSchedule extends Component {
     const { pasturesMap, livestockTypes, usages } = this.props;
     const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usages);
     const { message, error } = result || {};
-    const hidden = !error;
+    if (!error) {
+      return <Fragment />;
+    }
+
     return (
-      <Message error hidden={hidden} content={`Error: ${message}`} />
+      <div className="rup__schedule__warning-message">
+        <Message error content={<div>{`Error: ${message}`}</div>} />
+      </div>
     );
   }
 
@@ -209,7 +216,7 @@ class EditRupGrazingSchedule extends Component {
             className="rup__schedule__header__title"
             onClick={this.onScheduleClicked}
           >
-            <div>{year} Grazing Schedule</div>
+            <div>{`${year} Grazing Schedule`}</div>
             { isScheduleActive
               ? <Icon name="chevron up" />
               : <Icon name="chevron down" />
@@ -237,11 +244,10 @@ class EditRupGrazingSchedule extends Component {
             </Dropdown>
           </div>
         </div>
-        <div className="rup__schedule__warning-message">
-          {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
-        </div>
 
-        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })} >
+        {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
+
+        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>
             <Table.Header>
               <Table.Row>
@@ -265,7 +271,8 @@ class EditRupGrazingSchedule extends Component {
             basic
             onClick={this.onNewRowClick}
           >
-            <Icon name="add" /> Add row
+            <Icon name="add" />
+            Add row
           </Button>
           <div className="rup__schedule__content__AUMs">
             <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>

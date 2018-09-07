@@ -2,11 +2,15 @@
 @import './Common.scss';
 @import './Login.scss';
 @import './Agreement.scss';
-@import './Rup.scss';
 @import './ManageZoneAndClient.scss';
 @import './LandingPage.scss';
-@import './Grid.scss';
 @import './pikaday.scss';
+@import './Toast.scss';
+@import './Rup.scss';
+@import './RupGrazingSchedule.scss';
+@import './RupMinisterIssue.scss';
+@import './RupPasture.scss';
+@import './Grid.scss';
 
 * {
   margin: 0;
@@ -16,7 +20,7 @@
 body {
   margin: 0;
   padding: 0;
-  min-width: $mobile-width;
+  min-width: $mobile-width !important;
   overflow-x: auto;
   background: #fdfdfd;
 }

@@ -32,7 +32,9 @@ class MinorAmendmentTabs extends Component {
         <Fragment>
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
             <Form>
-              <div className="multi-form__tab__title">{index}. Confirm Your Submission and eSignature</div>
+              <div className="multi-form__tab__title">
+                {`${index}. Confirm Your Submission and eSignature`}
+              </div>
               <div style={{ marginBottom: '20px' }}>
                 You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
               </div>
@@ -79,7 +81,7 @@ class MinorAmendmentTabs extends Component {
       );
     }
     // show different steps in case when there are multiple clients
-    return (<div></div>);
+    return <div />;
   }
 }
 

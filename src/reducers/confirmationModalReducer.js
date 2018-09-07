@@ -4,7 +4,7 @@ const openModal = (state, action) => {
   const { modal } = action.payload;
   return {
     ...state,
-    [modal.id]: modal
+    [modal.id]: modal,
   };
 };
 

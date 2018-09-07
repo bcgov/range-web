@@ -6,6 +6,7 @@ export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
     return pasture && pasture.name;
   });
   const { length } = pastureNames;
+
   switch (length) {
     case 0:
       return NOT_PROVIDED;

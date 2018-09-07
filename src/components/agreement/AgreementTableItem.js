@@ -15,7 +15,6 @@ const propTypes = {
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
   toastErrorMessage: PropTypes.func.isRequired,
 };
 

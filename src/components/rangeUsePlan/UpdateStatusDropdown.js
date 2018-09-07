@@ -16,6 +16,7 @@ const propTypes = {
   closeConfirmationModal: PropTypes.func.isRequired,
   planUpdated: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
+  updateRUPStatus: PropTypes.func.isRequired,
 };
 
 class UpdateStatusDropdown extends Component {
@@ -160,7 +161,7 @@ class UpdateStatusDropdown extends Component {
     };
     const notApprovedFWR = {
       key: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
-      text: 'Not Approved - Further...',
+      text: 'Not Approved - Further Work Required',
       onClick: this.openNotApprovedFWRConfirmModal,
     };
     const wronglyMadeWithoutEffect = {
@@ -174,40 +175,40 @@ class UpdateStatusDropdown extends Component {
       onClick: this.openSWMConfirmModal,
     };
 
+    let options = [];
     if (isPlanAmendment(plan)) { // for Amendment
       if (isStatusStands(status)) {
-        return [wronglyMadeWithoutEffect, standsWronglyMade];
+        options = [wronglyMadeWithoutEffect, standsWronglyMade];
       } else if (isStatusSubmittedForReview(status)) {
-        return [changeRequested];
+        options = [changeRequested];
       } else if (isStatusSubmittedForFD(status)) {
-        return [recommendReady, recommendNotReady];
+        options = [recommendReady, recommendNotReady];
       } else if (isStatusRecommendReady(status)) {
-        return [approved, notApproved, notApprovedFWR];
+        options = [approved, notApproved, notApprovedFWR];
       }
-    } else { // for initial plan
+    } else if (!isPlanAmendment(plan)) { // for initial plan
       if (isStatusPending(status) || isStatusCreated(status)) {
-        return [completed, changeRequested];
-      }
-      if (isStatusCompleted(status)) {
-        return [approved];
+        options = [completed, changeRequested];
+      } else if (isStatusCompleted(status)) {
+        options = [approved];
       }
     }
 
-    return [];
+    return options;
   }
 
   render() {
     const { plan, isUpdatingStatus } = this.props;
     const status = plan && plan.status;
 
-    let statusDropdownOptions = this.getStatusDropdownOptions(plan, status);
-    
+    const statusDropdownOptions = this.getStatusDropdownOptions(plan, status);
+
     return (
       <Dropdown
+        className="rup__update-status-dropdown"
         text={strings.UPDATE_STATUS}
         options={statusDropdownOptions}
         disabled={statusDropdownOptions.length === 0}
-        style={{ marginLeft: '10px' }}
         loading={isUpdatingStatus}
         button
         item

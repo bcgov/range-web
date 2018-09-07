@@ -155,6 +155,7 @@ const isRangeAPIs = (config) => {
  * @param {function} logout the logout action function
  * @returns {object} the config or err object
  */
+/* eslint-disable no-console */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
     const config = { ...c };

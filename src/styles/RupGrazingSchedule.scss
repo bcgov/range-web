@@ -1,0 +1,91 @@
+.rup {
+  &__schedules {
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    &--empty {
+      border: 0px;
+    }
+    li:not(:last-child) {
+      border-bottom: 1px solid gainsboro;
+    }
+    &__container {
+      margin-bottom: 15px;
+    }
+  }
+
+  &__schedule {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 100%;
+      &__title {
+        @extend .default-button;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: none;
+        padding: 15px !important;
+      }
+      &__action {
+        margin-right: 10px;
+      }
+    }
+    &__warning-message {
+      padding: 0px 15px 10px 15px;
+    }
+    &__content {
+      padding: 0px 15px 15px 15px;
+      &__hidden {
+        display: none;  
+      }
+      &__dates {
+        min-width: 70px;
+      }
+      &__grace-days {
+        min-width: 50px;
+      }
+      &__AUMs {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.1rem;
+        text-align: right;
+      }
+      &__AUM-label {
+        font-weight: bold;
+        margin: 0 10px;
+      }
+      &__AUM-number {
+        border: 1px solid gainsboro;
+        padding: 8px 15px;
+        border-radius: 3px;
+        &--invalid {
+          @extend .error;
+        }
+      }
+      &__narrative {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+    &__draft-container {
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

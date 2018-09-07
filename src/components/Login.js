@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -47,7 +48,120 @@ export class Login extends Component {
 
     return (
       <section className="login">
-        <img
+        <article className="login__header">
+          <img className="login__header__logo" src={IMAGE_SRC.LOGIN_LOGO} alt="Logo" />
+          <div className="login__header__title">MyRangeBC</div>
+        </article>
+        <article className="login__paragraph1">
+          <div className="login__signin__container">
+            <div className="login__signin__title">Sign In</div>
+            <div className="login__signin__text1">to continue to MyRangeBC</div>
+            <div className="login__signin__text2">We use the BCeID for authentication.</div>
+            <a
+              className="login__signin__text3"
+              href=""
+              target="_blank"
+            >
+              Learn more about BCeID here.
+            </a>
+            <Button
+              id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
+              className="login__signin__button"
+              primary
+              fluid
+              loading={isFetchingUser}
+              style={{ height: '50px' }}
+              onClick={this.onBceidLoginBtnClick}
+            >
+              Login as Agreement Holder
+            </Button>
+            <div className="login__signin__link-container">
+              <div onClick={this.onIdirLoginBtnClick}>
+                Range Staff Login
+              </div>
+              <div className="login__line" />
+              <div onClick={this.onLoginBtnClick}>
+                Admin Login
+              </div>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph2">
+          <div className="login__paragraph2__title">What is MyRangeBC?</div>
+          <div className="login__paragraph2__text">
+            We are making it easier for you to submit and amend Range Use Plans. This new service will enable you to submit your plan electronically, save drafts and print versions.
+            Your Range Officer is also getting new tools to allow so that together we can manage the land with greater accuracy.
+          </div>
+        </article>
+        <article className="login__paragraph3">
+          <div className="container">
+            <div className="login__paragraph4__content">
+              <div className="login__paragraph-cell">
+                <hr className="login__title-spacer" />
+                <div className="login__paragraph3__title">
+                  New simplified Range Use Plan across BC.
+                </div>
+                <div className="login__paragraph3__text">
+                  There is now a common Range Use Plan across BC.
+                  This common plan will enable greater efficiencies in service delivery.
+                </div>
+              </div>
+              <div className="login__paragraph-cell">
+                <img className="login__paragraph3__image" src={IMAGE_SRC.LOGIN_PARAGRAPH3} alt=""/>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph4">
+          <div className="container">
+            <div className="login__paragraph4__content">
+              <div className="login__paragraph-cell">
+                <img className="login__paragraph4__image" src={IMAGE_SRC.LOGIN_PARAGRAPH4} alt=""/>
+              </div>
+              <div className="login__paragraph-cell">
+                <hr className="login__title-spacer" />
+                <div className="login__paragraph4__title">
+                  Submit your Range Use Plan faster then ever.
+                </div>
+                <div className="login__paragraph4__text">
+                  No more mail or paper. When you submit a Range Use Plan for review or amendment your Range Staff Officer can review it and you will know its status.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph5">
+          <div className="container">
+            <div className="login__paragraph5__content">
+              <div className="login__paragraph-cell">
+                <hr className="login__title-spacer" />
+                <div className="login__paragraph5__title">
+                  Easier login with BCeID
+                </div>
+                <div className="login__paragraph5__text">
+                  With your BCeID you can view all of your Range Use Plans and amendments. We have included ways to save time in drafting your work
+                </div>
+              </div>
+              <div className="login__paragraph-cell">
+                <img className="login__paragraph5__image" src={IMAGE_SRC.LOGIN_PARAGRAPH5} alt=""/>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article className="login__paragraph6">
+          <div className="container">
+            <div className="login__footer">
+              Copyright
+              <div className="login__line" />
+              Accessability
+              <div className="login__line" />
+              Privacy
+              <div className="login__line" />
+              Disclaimer
+            </div>
+          </div>
+        </article>
+        {/* <img
           className="login__image"
           src={IMAGE_SRC.LOGIN_LOGO}
           alt="login-img"
@@ -97,7 +211,7 @@ export class Login extends Component {
           rel="noopener noreferrer"
         >
           Is your password expired?
-        </a>
+        </a> */}
       </section>
     );
   }

@@ -18,7 +18,6 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   usages: PropTypes.arrayOf(PropTypes.object).isRequired,
   addGrazingSchedule: PropTypes.func.isRequired,
-  updateGrazingSchedule: PropTypes.func.isRequired,
   deleteGrazingSchedule: PropTypes.func.isRequired,
   deleteRupGrazingSchedule: PropTypes.func.isRequired,
 };
@@ -60,9 +59,12 @@ export class EditRupGrazingSchedules extends Component {
   }
 
   onScheduleClicked = (scheduleIndex) => {
-    const newIndex = this.state.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
-
-    this.setState({ activeScheduleIndex: newIndex });
+    this.setState((prevState) => {
+      const newIndex = prevState.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
+      return {
+        activeScheduleIndex: newIndex,
+      };
+    });
   }
 
   handleScheduleCopy = (year, sId) => {
@@ -104,7 +106,8 @@ export class EditRupGrazingSchedules extends Component {
         value: year,
       };
       // put the year back to the year option list and sort them
-      const yearOptions = [...this.state.yearOptions];
+      const { yearOptions: currYearOptions } = this.state;
+      const yearOptions = [...currYearOptions];
       yearOptions.push(option);
       yearOptions.sort((o1, o2) => o1.value > o2.value);
 
@@ -133,6 +136,7 @@ export class EditRupGrazingSchedules extends Component {
 
   addGrazingScheduleInStore = (grazingSchedule) => {
     const { addGrazingSchedule, plan, grazingSchedulesMap } = this.props;
+    const { yearOptions: currYearOptions } = this.state;
 
     // construct a new sorted list of grazing schedules
     const newGrazingSchedules = [
@@ -150,7 +154,7 @@ export class EditRupGrazingSchedules extends Component {
 
     // remove this year from the year options and set active to the newly copied schedule
     this.setState({
-      yearOptions: this.state.yearOptions.filter(o => o.value !== grazingSchedule.year),
+      yearOptions: currYearOptions.filter(o => o.value !== grazingSchedule.year),
       activeScheduleIndex: newGrazingSchedules.findIndex(s => s.year === grazingSchedule.year),
     });
   }

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'semantic-ui-react';
 import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
@@ -8,7 +9,6 @@ import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirm
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
-import { Button } from 'semantic-ui-react';
 
 const propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,

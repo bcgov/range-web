@@ -9,9 +9,13 @@ const propTypes = {
   activeTab: PropTypes.number.isRequired,
   isAgreed: PropTypes.bool.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
+  readyToGoNext: PropTypes.bool.isRequired,
+  mandatorySubmissionType: PropTypes.string.isRequired,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmitClicked: PropTypes.func.isRequired,
+  onBackClicked: PropTypes.func.isRequired,
+  onNextClicked: PropTypes.func.isRequired,
   handleMandatorySubmissionTypeChange: PropTypes.func.isRequired,
 };
 const defaultProps = {
@@ -42,7 +46,7 @@ class MandatoryAmendmentTabs extends Component {
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
             <Form>
               <div className="multi-form__tab__title">
-                {index}. Ready to Submit? Choose Your Submission Type
+                {`${index}. Ready to Submit? Choose Your Submission Type`}
               </div>
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
@@ -92,7 +96,7 @@ class MandatoryAmendmentTabs extends Component {
           { mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION &&
             <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
               <div className="multi-form__tab__title">
-                {index}. Confirm Your Submission and eSignature
+                {`${index}. Confirm Your Submission and eSignature`}
               </div>
               <div style={{ marginBottom: '20px' }}>
                 You are about to submit your Mandatory Amendment for your RUP.
@@ -125,7 +129,7 @@ class MandatoryAmendmentTabs extends Component {
             <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
               <Form>
                 <div className="multi-form__tab__title">
-                  {index}. Submit Your Admendment for Review
+                  {`${index}. Submit Your Admendment for Review`}
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                   You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
@@ -167,7 +171,7 @@ class MandatoryAmendmentTabs extends Component {
       );
     }
     return (
-      <div></div>
+      <div />
     );
   }
 }

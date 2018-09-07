@@ -32,7 +32,7 @@ const Banner = ({
         <h1 className="banner__header">{header}</h1>
         <div className="banner__content">{content}</div>
       </div>
-      {children &&
+      { children &&
         <div className={classnames('banner__action', actionClassName)}>
           {children}
         </div>
