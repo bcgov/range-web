@@ -69,6 +69,10 @@ export const IMAGE_SRC = {
   NAV_LOGO: '/logo.png',
   COW_PIC: '/cow.jpg',
   LOGIN_LOGO: '/login_logo.png',
+  SIGNIN_BACKGROUND: '/signin_background.jpg',
+  LOGIN_PARAGRAPH3: '/login_paragraph3.jpg',
+  LOGIN_PARAGRAPH4: '/login_paragraph4.jpg',
+  LOGIN_PARAGRAPH5: '/login_paragraph5.jpg',
 };
 
 export const CLIENT_TYPE = {
