@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Offline } from 'react-detect-offline';
 import Navbar from './Navbar';
 import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
@@ -73,14 +72,12 @@ export class LandingPage extends Component {
       <main>
         <Navbar {...rest} />
 
-        {/* <Offline>
-          <section className="offline">{NO_INTERNET}</section>
-        </Offline> */}
-
         {this.renderComponent()}
 
         <ConfirmationModals />
+
         <Toasts />
+
         <footer />
       </main>
     );

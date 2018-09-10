@@ -172,11 +172,11 @@ export const detectIE = () => {
     return parseInt(userAgent.substring(rv + 3, userAgent.indexOf('.', rv)), 10);
   }
 
-  const edge = userAgent.indexOf('Edge/');
-  if (edge > 0) {
-    // Edge (IE 12+) => return version number
-    return parseInt(userAgent.substring(edge + 5, userAgent.indexOf('.', edge)), 10);
-  }
+  // const edge = userAgent.indexOf('Edge/');
+  // if (edge > 0) {
+  //   // Edge (IE 12+) => return version number
+  //   return parseInt(userAgent.substring(edge + 5, userAgent.indexOf('.', edge)), 10);
+  // }
 
   // other browser
   return false;
