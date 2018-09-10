@@ -66,7 +66,7 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  NAV_LOGO: '/logo.png',
+  NAV_LOGO: '/navbar_logo.png',
   COW_PIC: '/cow.jpg',
   LOGIN_LOGO: '/login_logo.png',
   SIGNIN_BACKGROUND: '/signin_background.jpg',
