@@ -24,11 +24,12 @@ root/
   .eslintrc           // Displaying Lint Output in the Editor
   LICENSE
   README.md
-  coverage/           // Test coverage
-  node_modules/       // Dependencies
   package.json
   semantic.json       // Semantic UI configuration for paths
+  coverage/           // Test coverage
   public/
+  scripts/            // scripts for npm
+  config/             // App configurations including Webpack
   src/
     actionCreators/   // Redux actions with Redux Thunk
     actions/          // Redux actions
@@ -101,11 +102,11 @@ Create React App (from 1.0 onwards) allows us to dynamically import parts of our
 * Integration with Sass 
   - Whlie running the app creating `src/App.scss` file results in generating `src/App.css` automatically.
 
-* [Semantic UI](https://react.semantic-ui.com/usage)
-  * Semantic UI includes Gulp build tools so your project can preserve its own theme changes(`/semantic`), allowing you to customise the style variables. Detailed documentation on theming in Semantic UI is provided [here](http://learnsemantic.com/developing/customizing.html).
+* Semantic UI
+  * [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so your project can preserve its own theme changes(`/semantic`), allowing you to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
 
 ## Create React App
-  This project is based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). Check out their documentation for any references and other awesome features.
+  The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). Then was ejected to add more plugins in Webpack such as compression-webpack-plugin and sass-loader. 
 
 ## License
 
