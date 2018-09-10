@@ -23,19 +23,7 @@
     height: 60px;
 
     &__logo {
-      height: 40px;
-    }
-    &__title {
-      display: flex;
-      align-items: center;
-      border-left: 1px solid $accent-color;
-      padding-left: 10px;
-      margin-left: 7px;
-      height: 35px;
-      color: #FFFFFF;
-      font-family: "Adobe Garamond Pro";
-      font-size: 25px;
-      line-height: 27px;
+      height: 60px;
     }
   }
   &__paragraph-cell {

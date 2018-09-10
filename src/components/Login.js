@@ -68,8 +68,7 @@ export class Login extends Component {
           </article>
         }
         <article className="login__header">
-          <img className="login__header__logo" src={IMAGE_SRC.LOGIN_LOGO} alt="Logo" />
-          <div className="login__header__title">{APP_NAME}</div>
+          <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
         </article>
         <article className="login__paragraph1">
           <Segment basic>
