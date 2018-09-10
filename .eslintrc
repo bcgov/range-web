@@ -34,6 +34,7 @@
     "react/jsx-wrap-multilines": "off",
     "react/button-has-type": "off",
     "react/prefer-stateless-function": "off",
+    "react/jsx-one-expression-per-line": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/href-no-hash": "off",
     "object-curly-newline": "off",

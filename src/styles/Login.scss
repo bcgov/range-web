@@ -1,22 +1,37 @@
-// $form-min-width: 250px;
 .login {
+  font-family: Lato;
+
+  &__no-support-browser {
+    background: $accent-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px 0;
+
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+  }
   &__header {
     display: flex;
     justify-content: center;
     align-items: center;
     background: $primary-color;
     height: 60px;
-    font-family: Lato;
 
     &__logo {
       height: 40px;
     }
     &__title {
+      display: flex;
+      align-items: center;
       border-left: 1px solid $accent-color;
-      padding-left: 15px;
-      margin-left: 10px;
-      height: 27px;
-      width: 136px;
+      padding-left: 10px;
+      margin-left: 7px;
+      height: 35px;
       color: #FFFFFF;
       font-family: "Adobe Garamond Pro";
       font-size: 25px;
@@ -52,6 +67,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 50px 0;
   }
   &__paragraph2 {
     display: flex;
@@ -114,7 +130,6 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 100px 0;
       padding: 30px;
       min-width: 400px;
       background: white;
@@ -154,49 +169,3 @@
     }
   }
 }
-// .login {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   min-height: 100vh;
-
-//   &__image {
-//     width: 200px;
-//   }
-
-//   &__title {
-//     opacity: 0.9;	
-//     color: $primary-color;	
-//     font-family: "Open Sans",open-sans,sans-serif;
-//     font-size: 60px;	
-//     font-weight: 300;	
-//     line-height: 60px;
-//     margin: 50px 0;
-//     text-align: center;
-//   }
-
-//   &__header {
-//     color: #000000;
-//     font-family: "Open Sans",open-sans,sans-serif;
-//     font-size: 30px;
-//     font-weight: bold;
-//     line-height: 40px;
-//     margin-bottom: 30px;
-//   }
-
-//   &__form {
-//     min-width: $form-min-width;        
-//     margin-bottom: 15px;
-//   }
-
-//   &__button {
-//     min-width: $form-min-width;    
-//   }
-
-//   &__change-link {
-//     display: block;
-//     margin-top: 10px;
-//     font-size: 1.1rem;
-//   }
-// }

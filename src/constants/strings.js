@@ -1,3 +1,5 @@
+export const APP_NAME = 'MyRange BC';
+
 // tenure agreement table header labels
 export const RANGE_NUMBER = 'RAN Number';
 export const RANGE_NAME = 'Range Name';

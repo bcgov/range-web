@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
-
+import { Button, Segment } from 'semantic-ui-react';
+import { Loading } from './common';
 import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/API';
 import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
 import { storeAuthData } from '../actions';
 import { fetchUser } from '../actionCreators';
 import { getIsFetchingUser } from '../reducers/rootReducer';
+import { APP_NAME } from '../constants/strings';
+import { detectIE } from '../utils';
 
 const propTypes = {
   storeAuthData: PropTypes.func.isRequired,
@@ -44,58 +46,78 @@ export class Login extends Component {
 
   render() {
     const { isFetchingUser } = this.props;
+    const isIE = detectIE();
 
     return (
       <section className="login">
+        {isIE &&
+          <article className="login__no-support-browser">
+            <div className="login__no-support-browser__title">
+              Your internet browser is not supported.
+            </div>
+            <div>
+              <div>
+                Please visit {APP_NAME} using a supported browser:
+                <a href="https://www.google.com/chrome" target="_blank" rel="noopener noreferrer"> Google Chrome,</a>
+                <a href="https://www.mozilla.org/en-US/firefox/new" target="_blank" rel="noopener noreferrer"> Firefox,</a>
+                <a href="https://support.apple.com/en-ca/safari" target="_blank" rel="noopener noreferrer"> Safari </a>
+                (Mac only).
+              </div>
+              If you choose to continue with this browser the application may not work as intended.
+            </div>
+          </article>
+        }
         <article className="login__header">
           <img className="login__header__logo" src={IMAGE_SRC.LOGIN_LOGO} alt="Logo" />
-          <div className="login__header__title">MyRangeBC</div>
+          <div className="login__header__title">{APP_NAME}</div>
         </article>
         <article className="login__paragraph1">
-          <div className="login__signin__container">
-            <div className="login__signin__title">Sign In</div>
-            <div className="login__signin__text1">to continue to MyRangeBC</div>
-            <div className="login__signin__text2">We use the BCeID for authentication.</div>
-            <a
-              className="login__signin__text3"
-              href="https://portal.nrs.gov.bc.ca/web/client/bceid"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more about BCeID here.
-            </a>
-            <Button
-              id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
-              className="login__signin__button"
-              primary
-              fluid
-              loading={isFetchingUser}
-              style={{ height: '50px' }}
-              onClick={this.onBceidLoginBtnClick}
-            >
-              Login as Agreement Holder
-            </Button>
-            <div className="login__signin__link-container">
-              <div
-                role="button"
-                tabIndex="0"
-                onClick={this.onIdirLoginBtnClick}
+          <Segment basic>
+            <Loading active={isFetchingUser} />
+            <div className="login__signin__container">
+              <div className="login__signin__title">Sign In</div>
+              <div className="login__signin__text1">to continue to {APP_NAME}</div>
+              <div className="login__signin__text2">We use the BCeID for authentication.</div>
+              <a
+                className="login__signin__text3"
+                href="https://portal.nrs.gov.bc.ca/web/client/bceid"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Range Staff Login
-              </div>
-              <div className="login__line" />
-              <div
-                role="button"
-                tabIndex="0"
-                onClick={this.onLoginBtnClick}
+                Learn more about BCeID here.
+              </a>
+              <Button
+                id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
+                className="login__signin__button"
+                primary
+                fluid
+                style={{ height: '50px' }}
+                onClick={this.onBceidLoginBtnClick}
               >
-                Admin Login
+                Login as Agreement Holder
+              </Button>
+              <div className="login__signin__link-container">
+                <div
+                  role="button"
+                  tabIndex="0"
+                  onClick={this.onIdirLoginBtnClick}
+                >
+                  Range Staff Login
+                </div>
+                <div className="login__line" />
+                <div
+                  role="button"
+                  tabIndex="0"
+                  onClick={this.onLoginBtnClick}
+                >
+                  Admin Login
+                </div>
               </div>
             </div>
-          </div>
+          </Segment>
         </article>
         <article className="login__paragraph2">
-          <div className="login__paragraph2__title">What is MyRangeBC?</div>
+          <div className="login__paragraph2__title">What is {APP_NAME}?</div>
           <div className="login__paragraph2__text">
             We are making it easier for you to submit and amend Range Use Plans. This new service will enable you to submit your plan electronically, save drafts and print versions.
             Your Range Officer is also getting new tools to allow so that together we can manage the land with greater accuracy.
@@ -181,57 +203,6 @@ export class Login extends Component {
             </div>
           </div>
         </article>
-        {/* <img
-          className="login__image"
-          src={IMAGE_SRC.LOGIN_LOGO}
-          alt="login-img"
-        />
-
-        <div className="login__title">
-          My Range Application
-        </div>
-
-        <div className="login__button">
-          <Button
-            id={ELEMENT_ID.LOGIN_BUTTON}
-            primary
-            fluid
-            loading={isFetchingUser}
-            onClick={this.onLoginBtnClick}
-          >
-            Login
-          </Button>
-
-          <Button
-            id={ELEMENT_ID.LOGIN_IDIR_BUTTON}
-            style={{ marginTop: '15px' }}
-            primary
-            fluid
-            loading={isFetchingUser}
-            onClick={this.onIdirLoginBtnClick}
-          >
-            Login as Range Staff
-          </Button>
-
-          <Button
-            id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
-            style={{ marginTop: '15px' }}
-            primary
-            fluid
-            loading={isFetchingUser}
-            onClick={this.onBceidLoginBtnClick}
-          >
-            Login as Agreement Holder
-          </Button>
-        </div>
-        <a
-          className="login__change-link"
-          href="https://summer.gov.bc.ca"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Is your password expired?
-        </a> */}
       </section>
     );
   }
