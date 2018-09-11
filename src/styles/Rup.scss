@@ -50,20 +50,6 @@ $row-height: 80px;
   &__sticky--fixed + &__content {
     padding-top: 56px;
   }
-  &__sticky--fixed &__actions__title {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    padding-right: 15px;
-    border-right: 1px solid $accent-color;
-  }
-  &__sticky--fixed &__actions__primary-agreement-holder {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    padding-right: 15px;
-    border-right: 1px solid $accent-color;
-  }
   &__actions {
     &__background {
       background: $primary-color;
@@ -83,9 +69,13 @@ $row-height: 80px;
       line-height: 16px;
       color: white;
     }
-    &__primary-agreement-holder,
-    &__title {
-      display: none;
+    &__title,
+    &__primary-agreement-holder {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      padding-right: 15px;
+      border-right: 1px solid $accent-color;
     }
   }
   &__feedback-alert {
