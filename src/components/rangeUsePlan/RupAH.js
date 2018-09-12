@@ -234,7 +234,7 @@ export class RupAH extends Component {
         onClick={this.openSubmitConfirmModal}
         style={{ marginLeft: '10px' }}
       >
-        {strings.SUBMIT_FOR_REVIEW}
+        {strings.SUBMIT}
       </Button>
     );
     const amend = (

@@ -13,7 +13,7 @@ export const SUBMITTED = 'Submitted';
 export const PREVIEW_PDF = 'Preview PDF';
 export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
-export const SUBMIT_FOR_REVIEW = 'Submit for Review';
+export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';
 export const VIEW = 'View';
 
