@@ -1,7 +1,10 @@
-export const SSO_BASE_URL = 'https://sso-dev.pathfinder.gov.bc.ca';
-export const SSO_REALM_NAME = 'range';
-export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/range/protocol/openid-connect`;
-export const SSO_CLIENT_ID = 'myrangebc';
+export const SSO_BASE_URL = 'https://dev-sso.pathfinder.gov.bc.ca';
+export const SSO_REALM_NAME = 'mobile';
+export const SSO_CLIENT_ID = 'range-test';
+// export const SSO_BASE_URL = 'https://sso-dev.pathfinder.gov.bc.ca';
+// export const SSO_REALM_NAME = 'range';
+// export const SSO_CLIENT_ID = 'myrangebc';
+export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
 export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=login`;
 export const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}`;
 export const SSO_IDIR_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=idir`;
@@ -18,7 +21,9 @@ export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/o
 // const DEV_API_BASE_URL = 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api/v1';
 // const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
 // const DEV_API_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api/v1';
-const DEV_API_BASE_URL = 'http://localhost:8000/api/v1';
+// const DEV_API_BASE_URL = 'http://localhost:8000/api/v1';
+const DEV_API_BASE_URL = 'http://10.10.10.190:8000/api/v1';
+
 
 export const API_BASE_URL = (process.env.NODE_ENV === 'production')
   ? `${window.location.origin}/api/v1`
