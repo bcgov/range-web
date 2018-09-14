@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '../../common';
-import { formatDateFromServer, getAgreementHolders, isUserAdmin } from '../../../utils';
+import { formatDateFromServer, getAgreementHolders, isUserAdmin, getUserFullName } from '../../../utils';
 import * as strings from '../../../constants/strings';
 
 const propTypes = {
@@ -42,8 +42,8 @@ class RupBasicInformation extends Component {
 
     const staff = zone && zone.user;
     const contactEmail = staff && staff.email;
-    const contactPhoneNumber = staff && staff.phone;
-    const contactName = staff && staff.fullName;
+    const contactPhoneNumber = staff && staff.phoneNumber;
+    const contactName = getUserFullName(staff);
 
     const {
       rangeName,
