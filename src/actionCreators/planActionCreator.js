@@ -207,11 +207,7 @@ export const fetchRUP = planId => (dispatch, getState) => {
   const makeRequest = async () => {
     try {
       const response = await axios.get(API.GET_RUP(planId), createConfigWithHeader(getState));
-      const { plan, ...agreement } = response.data;
-      const planWithAgreement = {
-        ...plan,
-        agreement,
-      };
+      const planWithAgreement = response.data;
 
       dispatch(success(reducerTypes.GET_PLAN, response.data));
       // store the plan object
