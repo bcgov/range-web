@@ -9,6 +9,7 @@ import RupMinisterIssues from './view/RupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import RupStickyHeader from './RupStickyHeader';
+import RupBackBtn from './RupBackBtn';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
@@ -301,6 +302,9 @@ export class RupAH extends Component {
         <RupStickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
+              <RupBackBtn
+                className="rup__back-btn"
+              />
               <div className="rup__actions__left">
                 <div className="rup__actions__title">{agreementId}</div>
                 <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>

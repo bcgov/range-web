@@ -13,6 +13,7 @@ import RupPastures from './view/RupPastures';
 import RupGrazingSchedules from './view/RupGrazingSchedules';
 import RupMinisterIssues from './view/RupMinisterIssues';
 import RupStickyHeader from './RupStickyHeader';
+import RupBackBtn from './RupBackBtn';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 
@@ -91,6 +92,9 @@ class RupStaff extends Component {
         <RupStickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
+              <RupBackBtn
+                className="rup__back-btn"
+              />
               <div className="rup__actions__left">
                 <div className="rup__actions__title">{agreementId}</div>
                 <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>

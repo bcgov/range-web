@@ -95,6 +95,12 @@ $row-height: 80px;
     @extend .container;
     padding-top: $content-margin-top;
   }
+  &__back-btn {
+    position: absolute;
+    margin-left: -38px;
+    color: white;
+    cursor: pointer;
+  }
   &__divider {
     border-top: 3px solid $accent-color;
     margin-top: 15px;
