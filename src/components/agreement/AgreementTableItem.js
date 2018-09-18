@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon, Button } from 'semantic-ui-react';
 import { Status } from '../common';
-import { presentNullValue, getUserFullName, getAgreementHolders } from '../../utils';
+import { handleNullValue, getUserFullName, getAgreementHolders } from '../../utils';
 import { TYPE, STATUS, EFFECTIVE_DATE, SUBMITTED } from '../../constants/strings';
 import PlanTable from './PlanTable';
 
@@ -90,9 +90,9 @@ export class AgreementTableItem extends Component {
           onClick={this.onRowClicked}
         >
           <div className="agrm__table__accordian__cell">{agreementId}</div>
-          <div className="agrm__table__accordian__cell">{presentNullValue(rangeName)}</div>
-          <div className="agrm__table__accordian__cell">{presentNullValue(primaryAgreementHolderName)}</div>
-          <div className="agrm__table__accordian__cell">{presentNullValue(staffFullName)}</div>
+          <div className="agrm__table__accordian__cell">{handleNullValue(rangeName)}</div>
+          <div className="agrm__table__accordian__cell">{handleNullValue(primaryAgreementHolderName)}</div>
+          <div className="agrm__table__accordian__cell">{handleNullValue(staffFullName)}</div>
           <div className="agrm__table__accordian__cell">
             <Status user={user} status={status} />
           </div>

@@ -61,6 +61,11 @@
     }
     &__action {
       margin: 10px;
+
+      &__not-found {
+        margin-top: 5px;
+        font-size: 1.1rem;
+      }
       &__type {
         font-weight: bold;
       }

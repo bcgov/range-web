@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import classnames from 'classnames';
-import { presentNullValue } from '../../utils';
+import { handleNullValue } from '../../utils';
 
 const propTypes = {
   className: PropTypes.string,
@@ -29,7 +29,7 @@ const TextField = ({
   isEditable,
   onClick,
 }) => {
-  const text = presentNullValue(rawText);
+  const text = handleNullValue(rawText);
 
   return (
     <div className={classnames('text-field', className)}>

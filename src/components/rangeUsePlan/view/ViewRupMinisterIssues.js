@@ -47,7 +47,7 @@ class ViewRupMinisterIssues extends Component {
 
   renderMinisterIssueActions = (ministerIssueActions = []) => (
     ministerIssueActions.length === 0 ? (
-      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      <div className="rup__missue__action__not-found">{NOT_PROVIDED}</div>
     ) : (
       ministerIssueActions.map(this.renderMinisterIssueAction)
     )

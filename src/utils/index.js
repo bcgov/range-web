@@ -55,7 +55,7 @@ export const createEmptyArray = (length = 0) => [...Array(length)];
  * @param {boolean} fullText default is true
  * @returns {string} the value or 'Not provided' or 'N/P'
  */
-export const presentNullValue = (value, fullText = true) => {
+export const handleNullValue = (value, fullText = true) => {
   if (value || value === 0) {
     return value;
   }

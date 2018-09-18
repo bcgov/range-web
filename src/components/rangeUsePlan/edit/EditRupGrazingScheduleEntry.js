@@ -213,7 +213,7 @@ class EditRupGrazingScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(days, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
         <Table.Cell collapsing>
           <Input fluid>
             <input
@@ -224,8 +224,8 @@ class EditRupGrazingScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false)}</Table.Cell>
         <Table.Cell collapsing textAlign="center">
           <Dropdown
             trigger={<Icon name="ellipsis vertical" />}

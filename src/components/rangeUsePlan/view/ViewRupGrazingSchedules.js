@@ -63,7 +63,7 @@ class ViewRupGrazingSchedules extends Component {
       pasturesMap,
     } = this.props;
     const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
-    const { id, year } = schedule;
+    const { id, year, narative } = schedule;
     const yearUsage = usages.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
@@ -111,6 +111,10 @@ class ViewRupGrazingSchedules extends Component {
             <div className="rup__grazing-schedule__content__AUM-label">Total AUMs</div>
             <div className="rup__grazing-schedule__content__AUM-number">{crownTotalAUMs}</div>
           </div>
+          <div>
+            <div className="rup__grazing-schedule__content__narative__title">Schedule Description</div>
+            {utils.handleNullValue(narative)}
+          </div>
         </div>
       </li>
     );
@@ -143,15 +147,15 @@ class ViewRupGrazingSchedules extends Component {
 
     return (
       <Table.Row key={id}>
-        <Table.Cell>{utils.presentNullValue(pastureName, false)}</Table.Cell>
-        <Table.Cell>{utils.presentNullValue(livestockTypeName, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(livestockCount, false)}</Table.Cell>
+        <Table.Cell>{utils.handleNullValue(pastureName, false)}</Table.Cell>
+        <Table.Cell>{utils.handleNullValue(livestockTypeName, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(livestockCount, false)}</Table.Cell>
         <Table.Cell>{utils.formatDateFromServer(dateIn, false)}</Table.Cell>
         <Table.Cell>{utils.formatDateFromServer(dateOut, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(days, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(graceDays, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.presentNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(graceDays, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false)}</Table.Cell>
       </Table.Row>
     );
   }

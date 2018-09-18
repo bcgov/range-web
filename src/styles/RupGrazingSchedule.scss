@@ -69,9 +69,10 @@
           @extend .error;
         }
       }
-      &__narrative {
-        font-weight: bold;
-        margin-bottom: 5px;
+      &__narative {
+        &__title {
+          font-weight: bold;
+        }
       }
     }
     &__draft-container {
