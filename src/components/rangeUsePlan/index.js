@@ -63,7 +63,7 @@ class Base extends Component {
 
     return (
       <Fragment>
-        <Loading active={isFetchingPlan} />
+        <Loading active={isFetchingPlan} onlySpinner />
         { errorFetchingPlan &&
           <div className="rup__fetching-error">
             Error occured while fetching
