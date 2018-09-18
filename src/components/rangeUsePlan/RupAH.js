@@ -34,6 +34,7 @@ export class RupAH extends Component {
     planUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
+    isFetchingPlan: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     agreement: {
@@ -272,6 +273,7 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
+      isFetchingPlan,
     } = this.props;
 
     const { agreementId, status } = plan;
@@ -283,7 +285,7 @@ export class RupAH extends Component {
     const isAmendable = utils.isStatusAmongApprovedStatuses(status);
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const header = utils.getPlanTypeDescription(plan, amendmentTypes);
+    const header = utils.getPlanTypeDescription(isFetchingPlan, plan, amendmentTypes);
 
     return (
       <section className="rup">
