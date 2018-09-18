@@ -147,7 +147,7 @@ class RupStaff extends Component {
           />
 
           <ViewRupGrazingSchedules
-            className="rup__schedules__container"
+            className="rup__grazing-schedules__container"
             references={references}
             usages={usages}
             plan={plan}

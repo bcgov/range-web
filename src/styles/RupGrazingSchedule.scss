@@ -1,5 +1,5 @@
 .rup {
-  &__schedules {
+  &__grazing-schedules {
     margin-top: 10px;
     list-style-type: none;
     padding: 0;
@@ -16,7 +16,7 @@
     }
   }
 
-  &__schedule {
+  &__grazing-schedule {
     &__header {
       display: flex;
       justify-content: space-between;

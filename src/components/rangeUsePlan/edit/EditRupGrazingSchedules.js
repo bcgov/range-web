@@ -211,7 +211,7 @@ export class EditRupGrazingSchedules extends Component {
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div className="rup__schedules__container" id={ELEMENT_ID.GRAZING_SCHEDULE}>
+      <div className="rup__grazing-schedules__container" id={ELEMENT_ID.GRAZING_SCHEDULE}>
         <div className="rup__title--editable">
           <div>Yearly Schedules</div>
           <Dropdown
@@ -235,7 +235,7 @@ export class EditRupGrazingSchedules extends Component {
           grazingSchedules.length === 0 ? (
             <div className="rup__section-not-found">{NOT_PROVIDED}</div>
           ) : (
-            <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
+            <ul className={classnames('rup__grazing-schedules', { 'rup__grazing-schedules--empty': grazingSchedules.length === 0 })}>
               {grazingSchedules.map(this.renderSchedule)}
             </ul>
           )

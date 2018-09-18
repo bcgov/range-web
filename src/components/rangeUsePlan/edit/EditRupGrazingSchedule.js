@@ -138,7 +138,7 @@ class EditRupGrazingSchedule extends Component {
     }
 
     return (
-      <div className="rup__schedule__warning-message">
+      <div className="rup__grazing-schedule__warning-message">
         <Message error content={<div>{`Error: ${message}`}</div>} />
       </div>
     );
@@ -210,10 +210,10 @@ class EditRupGrazingSchedule extends Component {
     const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs;
 
     return (
-      <li className="rup__schedule">
-        <div className="rup__schedule__header">
+      <li className="rup__grazing-schedule">
+        <div className="rup__grazing-schedule__header">
           <button
-            className="rup__schedule__header__title"
+            className="rup__grazing-schedule__header__title"
             onClick={this.onScheduleClicked}
           >
             <div>{`${year} Grazing Schedule`}</div>
@@ -222,7 +222,7 @@ class EditRupGrazingSchedule extends Component {
               : <Icon name="chevron down" />
             }
           </button>
-          <div className="rup__schedule__header__action">
+          <div className="rup__grazing-schedule__header__action">
             <Dropdown
               trigger={<Icon name="ellipsis vertical" />}
               icon={null}
@@ -247,17 +247,17 @@ class EditRupGrazingSchedule extends Component {
 
         {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
 
-        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })}>
+        <div className={classnames('rup__grazing-schedule__content', { 'rup__grazing-schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
                 <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
                 <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__schedule__content__dates">{strings.DATE_IN}</div></Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__schedule__content__dates">{strings.DATE_OUT}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__grazing-schedule__content__dates">{strings.DATE_IN}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__grazing-schedule__content__dates">{strings.DATE_OUT}</div></Table.HeaderCell>
                 <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__schedule__content__grace-days">{strings.GRACE_DAYS}</div></Table.HeaderCell>
+                <Table.HeaderCell><div className="rup__grazing-schedule__content__grace-days">{strings.GRACE_DAYS}</div></Table.HeaderCell>
                 <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
                 <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
                 <Table.HeaderCell />
@@ -274,15 +274,15 @@ class EditRupGrazingSchedule extends Component {
             <Icon name="add" />
             Add row
           </Button>
-          <div className="rup__schedule__content__AUMs">
-            <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
-            <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
-            <div className="rup__schedule__content__AUM-label">Total AUMs</div>
-            <div className={classnames('rup__schedule__content__AUM-number', { 'rup__schedule__content__AUM-number--invalid': isCrownTotalAUMsError })}>
+          <div className="rup__grazing-schedule__content__AUMs">
+            <div className="rup__grazing-schedule__content__AUM-label">Authorized AUMs</div>
+            <div className="rup__grazing-schedule__content__AUM-number">{authorizedAUMs}</div>
+            <div className="rup__grazing-schedule__content__AUM-label">Total AUMs</div>
+            <div className={classnames('rup__grazing-schedule__content__AUM-number', { 'rup__grazing-schedule__content__AUM-number--invalid': isCrownTotalAUMsError })}>
               {roundedCrownTotalAUMs}
             </div>
           </div>
-          <div className="rup__schedule__content__narrative">Schedule Description</div>
+          <div className="rup__grazing-schedule__content__narrative">Schedule Description</div>
           <Form>
             <TextArea
               rows={2}

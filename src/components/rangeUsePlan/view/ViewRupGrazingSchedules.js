@@ -34,8 +34,8 @@ class ViewRupGrazingSchedules extends Component {
 
     if (utils.isStatusDraft(status)) {
       return (
-        <div className="rup__schedule__draft-container">
-          <div className="rup__schedule__in-draft">
+        <div className="rup__grazing-schedule__draft-container">
+          <div className="rup__grazing-schedule__in-draft">
             <Icon name="lock" size="big" />
             <div style={{ marginLeft: '10px' }}>
               <div style={{ fontSize: '1.15rem', fontWeight: 'bold' }}> RUP Awaiting Input from Agreement Holder </div>
@@ -50,7 +50,7 @@ class ViewRupGrazingSchedules extends Component {
     }
 
     return (
-      <ul className={classnames('rup__schedules', { 'rup__schedules--empty': grazingSchedules.length === 0 })}>
+      <ul className={classnames('rup__grazing-schedules', { 'rup__grazing-schedules--empty': grazingSchedules.length === 0 })}>
         {grazingSchedules.map(this.renderSchedule)}
       </ul>
     );
@@ -71,10 +71,10 @@ class ViewRupGrazingSchedules extends Component {
     const isScheduleActive = this.state.activeScheduleIndex === scheduleIndex;
 
     return (
-      <li key={id} className="rup__schedule">
-        <div className="rup__schedule__header">
+      <li key={id} className="rup__grazing-schedule">
+        <div className="rup__grazing-schedule__header">
           <button
-            className="rup__schedule__header__title"
+            className="rup__grazing-schedule__header__title"
             onClick={this.onScheduleClicked(scheduleIndex)}
           >
             <div>
@@ -88,7 +88,7 @@ class ViewRupGrazingSchedules extends Component {
             }
           </button>
         </div>
-        <div className={classnames('rup__schedule__content', { 'rup__schedule__content__hidden': !isScheduleActive })}>
+        <div className={classnames('rup__grazing-schedule__content', { 'rup__grazing-schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>
             <Table.Header>
               <Table.Row>
@@ -105,11 +105,11 @@ class ViewRupGrazingSchedules extends Component {
               {grazingScheduleEntries.map(this.renderScheduleEntry)}
             </Table.Header>
           </Table>
-          <div className="rup__schedule__content__AUMs" style={{ marginTop: '10px' }}>
-            <div className="rup__schedule__content__AUM-label">Authorized AUMs</div>
-            <div className="rup__schedule__content__AUM-number">{authorizedAUMs}</div>
-            <div className="rup__schedule__content__AUM-label">Total AUMs</div>
-            <div className="rup__schedule__content__AUM-number">{crownTotalAUMs}</div>
+          <div className="rup__grazing-schedule__content__AUMs" style={{ marginTop: '10px' }}>
+            <div className="rup__grazing-schedule__content__AUM-label">Authorized AUMs</div>
+            <div className="rup__grazing-schedule__content__AUM-number">{authorizedAUMs}</div>
+            <div className="rup__grazing-schedule__content__AUM-label">Total AUMs</div>
+            <div className="rup__grazing-schedule__content__AUM-number">{crownTotalAUMs}</div>
           </div>
         </div>
       </li>
@@ -162,7 +162,7 @@ class ViewRupGrazingSchedules extends Component {
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div className="rup__schedules__container">
+      <div className="rup__grazing-schedules__container">
         <div className="rup__title">Schedules</div>
         <div className="rup__divider" />
         {this.renderSchedules(grazingSchedules)}

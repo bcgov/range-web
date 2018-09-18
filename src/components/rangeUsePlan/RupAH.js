@@ -339,7 +339,7 @@ export class RupAH extends Component {
 
           {isEditable ?
             <EditRupGrazingSchedules
-              className="rup__schedules__container"
+              className="rup__grazing-schedules__container"
               references={references}
               usages={usages}
               plan={plan}
@@ -347,7 +347,7 @@ export class RupAH extends Component {
               grazingSchedulesMap={grazingSchedulesMap}
             />
             : <ViewRupGrazingSchedules
-              className="rup__schedules__container"
+              className="rup__grazing-schedules__container"
               references={references}
               usages={usages}
               plan={plan}
