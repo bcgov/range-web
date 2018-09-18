@@ -8,38 +8,38 @@ import {
 import { REFERENCE_KEY } from '../../constants/variables';
 import { Status, Banner } from '../common';
 import { getAgreementHolders, isStatusDraft, getPlanTypeDescription, isStatusIndicatingStaffFeedbackNeeded } from '../../utils';
-import RupBasicInformation from './view/RupBasicInformation';
-import RupPastures from './view/RupPastures';
-import RupGrazingSchedules from './view/RupGrazingSchedules';
-import RupMinisterIssues from './view/RupMinisterIssues';
+import ViewRupBasicInformation from './view/ViewRupBasicInformation';
+import ViewRupPastures from './view/ViewRupPastures';
+import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
+import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import RupStickyHeader from './RupStickyHeader';
 import RupBackBtn from './RupBackBtn';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 
-const propTypes = {
-  agreement: PropTypes.shape({ zone: PropTypes.object }),
-  plan: PropTypes.shape({}),
-  user: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  ministerIssuesMap: PropTypes.shape({}).isRequired,
-};
-const defaultProps = {
-  agreement: {
-    zone: {},
-    usage: [],
-  },
-  plan: {
-    agreementId: '',
-    pastures: [],
-    grazingSchedules: [],
-    ministerIssues: [],
-  },
-};
-
 class RupStaff extends Component {
+  static propTypes = {
+    agreement: PropTypes.shape({ zone: PropTypes.object }),
+    plan: PropTypes.shape({}),
+    user: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    grazingSchedulesMap: PropTypes.shape({}).isRequired,
+    ministerIssuesMap: PropTypes.shape({}).isRequired,
+  };
+  static defaultProps = {
+    agreement: {
+      zone: {},
+      usage: [],
+    },
+    plan: {
+      agreementId: '',
+      pastures: [],
+      grazingSchedules: [],
+      ministerIssues: [],
+    },
+  };
+
   state = {
     isUpdateZoneModalOpen: false,
   }
@@ -132,7 +132,7 @@ class RupStaff extends Component {
         </RupStickyHeader>
 
         <div className="rup__content">
-          <RupBasicInformation
+          <ViewRupBasicInformation
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
@@ -140,13 +140,13 @@ class RupStaff extends Component {
             onZoneClicked={this.openUpdateZoneModal}
           />
 
-          <RupPastures
+          <ViewRupPastures
             className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />
 
-          <RupGrazingSchedules
+          <ViewRupGrazingSchedules
             className="rup__schedules__container"
             references={references}
             usages={usages}
@@ -155,7 +155,7 @@ class RupStaff extends Component {
             grazingSchedulesMap={grazingSchedulesMap}
           />
 
-          <RupMinisterIssues
+          <ViewRupMinisterIssues
             className="rup__missues__container"
             references={references}
             plan={plan}
@@ -168,6 +168,4 @@ class RupStaff extends Component {
   }
 }
 
-RupStaff.propTypes = propTypes;
-RupStaff.defaultProps = defaultProps;
 export default RupStaff;

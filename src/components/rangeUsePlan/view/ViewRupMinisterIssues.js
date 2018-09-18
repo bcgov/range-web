@@ -7,15 +7,15 @@ import { NOT_PROVIDED } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { getPastureNames } from '../../../utils';
 
-const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  className: PropTypes.string.isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  ministerIssuesMap: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-};
+class ViewRupMinisterIssues extends Component {
+  static propTypes = {
+    plan: PropTypes.shape({}).isRequired,
+    className: PropTypes.string.isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    ministerIssuesMap: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+  };
 
-class RupMinisterIssues extends Component {
   state = {
     activeMinisterIssueIndex: 0,
   }
@@ -145,5 +145,4 @@ class RupMinisterIssues extends Component {
   }
 }
 
-RupMinisterIssues.propTypes = propTypes;
-export default RupMinisterIssues;
+export default ViewRupMinisterIssues;

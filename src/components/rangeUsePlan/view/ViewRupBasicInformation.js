@@ -4,19 +4,18 @@ import { TextField } from '../../common';
 import { formatDateFromServer, getAgreementHolders, isUserAdmin, getUserFullName } from '../../../utils';
 import * as strings from '../../../constants/strings';
 
-const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
-  agreement: PropTypes.shape({}).isRequired,
-  className: PropTypes.string.isRequired,
-  onZoneClicked: PropTypes.func,
-};
+class ViewRupBasicInformation extends Component {
+  static propTypes = {
+    plan: PropTypes.shape({}).isRequired,
+    user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
+    agreement: PropTypes.shape({}).isRequired,
+    className: PropTypes.string.isRequired,
+    onZoneClicked: PropTypes.func,
+  }
+  static defaultProps = {
+    onZoneClicked: () => {},
+  }
 
-const defaultProps = {
-  onZoneClicked: () => {},
-};
-
-class RupBasicInformation extends Component {
   renderOtherAgreementHolders = client => (
     <TextField
       key={client.id}
@@ -154,6 +153,4 @@ class RupBasicInformation extends Component {
   }
 }
 
-RupBasicInformation.propTypes = propTypes;
-RupBasicInformation.defaultProps = defaultProps;
-export default RupBasicInformation;
+export default ViewRupBasicInformation;

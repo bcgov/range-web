@@ -6,15 +6,15 @@ import * as utils from '../../../utils';
 import * as strings from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 
-const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  usages: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+class ViewRupGrazingSchedules extends Component {
+  static propTypes = {
+    plan: PropTypes.shape({}).isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    grazingSchedulesMap: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    usages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  };
 
-class RupGrazingSchedules extends Component {
   state = {
     activeScheduleIndex: 0,
   }
@@ -171,5 +171,4 @@ class RupGrazingSchedules extends Component {
   }
 }
 
-RupGrazingSchedules.propTypes = propTypes;
-export default RupGrazingSchedules;
+export default ViewRupGrazingSchedules;

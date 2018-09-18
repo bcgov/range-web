@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { Status, Banner } from '../common';
-import RupBasicInformation from './view/ViewBasicInformation';
-import RupPastures from './view/ViewPastures';
-import RupGrazingSchedules from './view/ViewGrazingSchedules';
-import RupMinisterIssues from './view/ViewMinisterIssues';
+import ViewRupBasicInformation from './view/ViewRupBasicInformation';
+import ViewRupPastures from './view/ViewRupPastures';
+import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
+import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import RupStickyHeader from './RupStickyHeader';
@@ -15,39 +15,39 @@ import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
-const propTypes = {
-  agreement: PropTypes.shape({ plan: PropTypes.object }),
-  plan: PropTypes.shape({}),
-  user: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  ministerIssuesMap: PropTypes.shape({}).isRequired,
-  updateRUPStatus: PropTypes.func.isRequired,
-  createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
-  toastSuccessMessage: PropTypes.func.isRequired,
-  toastErrorMessage: PropTypes.func.isRequired,
-  createAmendment: PropTypes.func.isRequired,
-  isCreatingAmendment: PropTypes.bool.isRequired,
-  planUpdated: PropTypes.func.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
-const defaultProps = {
-  agreement: {
-    zone: {},
-    usage: [],
-  },
-  plan: {
-    agreementId: '',
-    pastures: [],
-    grazingSchedules: [],
-    ministerIssues: [],
-  },
-};
-
 export class RupAH extends Component {
+  static propTypes = {
+    agreement: PropTypes.shape({ plan: PropTypes.object }),
+    plan: PropTypes.shape({}),
+    user: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    history: PropTypes.shape({}).isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    grazingSchedulesMap: PropTypes.shape({}).isRequired,
+    ministerIssuesMap: PropTypes.shape({}).isRequired,
+    updateRUPStatus: PropTypes.func.isRequired,
+    createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
+    toastSuccessMessage: PropTypes.func.isRequired,
+    toastErrorMessage: PropTypes.func.isRequired,
+    createAmendment: PropTypes.func.isRequired,
+    isCreatingAmendment: PropTypes.bool.isRequired,
+    planUpdated: PropTypes.func.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    agreement: {
+      zone: {},
+      usage: [],
+    },
+    plan: {
+      agreementId: '',
+      pastures: [],
+      grazingSchedules: [],
+      ministerIssues: [],
+    },
+  };
+
   state = {
     isSubmitAmendmentModalOpen: false,
     isSavingAsDraft: false,
@@ -324,14 +324,14 @@ export class RupAH extends Component {
         </RupStickyHeader>
 
         <div className="rup__content">
-          <RupBasicInformation
+          <ViewRupBasicInformation
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
             user={user}
           />
 
-          <RupPastures
+          <ViewRupPastures
             className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
@@ -346,7 +346,7 @@ export class RupAH extends Component {
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
             />
-            : <RupGrazingSchedules
+            : <ViewRupGrazingSchedules
               className="rup__schedules__container"
               references={references}
               usages={usages}
@@ -356,7 +356,7 @@ export class RupAH extends Component {
             />
           }
 
-          <RupMinisterIssues
+          <ViewRupMinisterIssues
             className="rup__missues__container"
             references={references}
             plan={plan}
@@ -369,6 +369,4 @@ export class RupAH extends Component {
   }
 }
 
-RupAH.propTypes = propTypes;
-RupAH.defaultProps = defaultProps;
 export default RupAH;

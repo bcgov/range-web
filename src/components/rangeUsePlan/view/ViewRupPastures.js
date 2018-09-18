@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import { Icon, Dropdown } from 'semantic-ui-react';
 import { TextField } from '../../common';
-
 import {
   ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
   PASTURE_NOTES, NOT_PROVIDED,
 } from '../../../constants/strings';
 
-const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  className: PropTypes.string.isRequired,
-};
+class ViewRupPastures extends Component {
+  static propTypes = {
+    plan: PropTypes.shape({}).isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    className: PropTypes.string.isRequired,
+  };
 
-class RupPastures extends Component {
   renderPasture = (pasture) => {
     // const options = [
     //   {
@@ -107,5 +106,4 @@ class RupPastures extends Component {
   }
 }
 
-RupPastures.propTypes = propTypes;
-export default RupPastures;
+export default ViewRupPastures;
