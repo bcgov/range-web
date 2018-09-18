@@ -152,9 +152,11 @@ export class RupAH extends Component {
       agreement,
       createAmendment,
       history,
+      toastSuccessMessage,
     } = this.props;
 
     createAmendment(plan).then((amendment) => {
+      toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS);
       history.push(`${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`);
     });
   }

@@ -82,6 +82,7 @@ export const TYPE_CLIENT_NAME = 'Type name of the client';
 export const NO_RESULTS_FOUND = 'No result founds.';
 export const ERROR_OCCUR = 'Error Occured!';
 export const REDIRECTING = 'Please wait while redirecting...';
+export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Update Status: Completed';
