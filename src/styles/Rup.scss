@@ -10,9 +10,6 @@ $row-height: 80px;
   &__row {
     @extend .row;
   }
-  &__pdf-link {
-    display: none;
-  }
   &__fetching-error {
     display: flex;
     align-items: center;
@@ -48,7 +45,7 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 56px;
+    padding-top: 75px;
   }
   &__actions {
     &__background {
@@ -151,34 +148,37 @@ $row-height: 80px;
 .rup-pdf {
   display: flex;
   justify-content: center;
-  
-  &__container {
+
+  &__link {
+    display: none;
+  }
+  &__content {
     display: flex;
     flex-direction: column;
     margin: 10px 0;
-
-    &__download-btn {
-      align-self: flex-end;
+  }
+  &__preview {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 20px;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
     }
-    &__load {
-      margin-top: 1em;
-      color: white;
-    }
-    &__document {
-      .ReactPDF {
-        &__Page {
-          box-shadow: 0 0 30px rgba(0, 0, 0, .3);
-          margin: 10px 0;
+    .ReactPDF {
+      &__Page {
+        box-shadow: 0 0 30px rgba(0, 0, 0, .3);
+        margin: 10px 0;
 
-          canvas {
-            max-width: 100%;
-            height: auto !important;
-          }
+        canvas {
+          max-width: 100%;
+          height: auto !important;
         }
-        &__message {
-          padding: 20px;
-          color: black;
-        }
+      }
+      &__message {
+        padding: 20px;
+        color: black;
       }
     }
   }

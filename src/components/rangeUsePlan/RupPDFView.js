@@ -72,7 +72,7 @@ class RangeUsePlanPDF extends Component {
     return (
       <section className="rup-pdf">
         <a
-          className="rup__pdf-link"
+          className="rup-pdf__link"
           href="download"
           ref={this.setDownlaodPDFRef}
         >
@@ -84,18 +84,20 @@ class RangeUsePlanPDF extends Component {
         }
 
         { file &&
-          <div className="rup-pdf__container">
-            <div className="rup-pdf__container__download-btn">
+          <div className="rup-pdf__content">
+            <div className="rup-pdf__preview__header">
+              <div>
+                <div style={{ fontWeight: 'bold' }}>Previewing PDF</div>
+                To print this PDF download it to your computer prior to printing.
+              </div>
               <Button
-                primary
-                basic
                 onClick={this.onDownloadClicked}
               >
                 <Icon name="print" />
                 Download PDF
               </Button>
             </div>
-            <div className="rup-pdf__container__document">
+            <div className="rup-pdf__preview">
               <Document
                 file={file}
                 loading={<Loading />}
