@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
@@ -13,6 +13,7 @@ import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSucce
 const propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  history: PropTypes.shape({}).isRequired,
   fetchRUP: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
@@ -56,26 +57,33 @@ class Base extends Component {
       isFetchingPlan,
       errorFetchingPlan,
       plansMap,
+      history,
     } = this.props;
 
     const plan = plansMap[match.params.planId];
     const agreement = plan && plan.agreement;
 
+    if (errorFetchingPlan) {
+      return (
+        <div className="rup__fetching-error">
+          <Icon name="warning circle" size="big" color="red" />
+          <div>
+            <span className="rup__fetching-error__message">
+              Error occured while fetching the range use plan.
+            </span>
+          </div>
+          <div>
+            <Button onClick={history.goBack}>Go Back</Button>
+            <span className="rup__fetching-error__or-message">or</span>
+            <Button onClick={() => this.fetchPlan()}>Retry</Button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <Fragment>
         <Loading active={isFetchingPlan} onlySpinner />
-        { errorFetchingPlan &&
-          <div className="rup__fetching-error">
-            Error occured while fetching
-            <Button
-              style={{ marginLeft: '10px' }}
-              size="mini"
-              onClick={this.fetchPlan}
-            >
-              Retry
-            </Button>
-          </div>
-        }
 
         { isUserAdmin(user) &&
           <RupStaff

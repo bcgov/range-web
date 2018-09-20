@@ -13,8 +13,9 @@ const propTypes = {
 };
 class Base extends Component {
   componentDidMount() {
-    // initial search for agreements with the given query
     const { searchAgreements, fetchAgreement, location } = this.props;
+
+    // initial search for agreements with the given query
     const params = parseQuery(location.search);
     searchAgreements({ ...params });
 

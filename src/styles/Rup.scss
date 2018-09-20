@@ -14,8 +14,19 @@ $row-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    @extend .error;
+    height: calc(100vh - 90px);
+    font-size: 1.5rem;
+    flex-direction: column;
+
+    > div {
+      margin: 10px 0;
+    }
+    &__message {
+      margin: 0px 10px 0 5px;
+    }
+    &__or-message {
+      margin: 0px 10px 0 10px;
+    }
   }
   &__title {
     font-size: 1.8rem;
@@ -45,7 +56,7 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 75px;
+    padding-top: 54px;
   }
   &__actions {
     &__background {
