@@ -26,7 +26,6 @@ class RupStaff extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
-    isFetchingPlan: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     agreement: {
@@ -62,7 +61,6 @@ class RupStaff extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
-      isFetchingPlan,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
@@ -74,7 +72,7 @@ class RupStaff extends Component {
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const planTypeDescription = getPlanTypeDescription(isFetchingPlan, plan, amendmentTypes);
+    const planTypeDescription = getPlanTypeDescription(plan, amendmentTypes);
 
     return (
       <section className="rup">

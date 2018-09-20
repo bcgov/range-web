@@ -9,9 +9,9 @@ const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   return '';
 };
 
-export const getPlanTypeDescription = (isFetchingPlan, plan, amendmentTypes) => {
-  const { agreementId, amendmentTypeId } = plan || {};
-  if (isFetchingPlan) return '';
+export const getPlanTypeDescription = (plan = {}, amendmentTypes) => {
+  const { agreementId, amendmentTypeId } = plan;
+  if (!plan.id) return '';
   if (agreementId && amendmentTypeId) {
     return getAmendmentTypeDescription(amendmentTypeId, amendmentTypes);
   }
