@@ -2,85 +2,53 @@ import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Checkbox, Icon, Form } from 'semantic-ui-react';
+import { isClientTheUser } from '../../../utils';
 
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   clients: PropTypes.arrayOf(PropTypes.object),
   activeTab: PropTypes.number.isRequired,
   isAgreed: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onBackClicked: PropTypes.func.isRequired,
-  onSubmitClicked: PropTypes.func.isRequired,
   onNextClicked: PropTypes.func.isRequired,
+  // isSubmitting: PropTypes.bool.isRequired,
+  // onSubmitClicked: PropTypes.func.isRequired,
 };
 const defaultProps = {
   clients: [],
 };
 
-class MinorAmendmentTabs extends Component {
+class MinorTabsForMultiple extends Component {
+  renderAgreementHolder = (client) => {
+    const { user } = this.props;
+
+    return (
+      <div key={client.id} className="amendment__submission__ah-list">
+        <Icon name="user outline" />
+        <span className="amendment__submission__ah-list__client-name">{client.name}</span>
+        {isClientTheUser(client, user) &&
+          <span>&nbsp;me&nbsp;</span>
+        }
+      </div>
+    );
+  }
+
   render() {
     const {
-      clients, activeTab, isAgreed,
-      isSubmitting, handleAgreeCheckBoxChange, onClose,
-      onSubmitClicked, onBackClicked, onNextClicked,
+      clients,
+      activeTab,
+      isAgreed,
+      handleAgreeCheckBoxChange,
+      onClose,
+      onBackClicked,
+      onNextClicked,
+      // isSubmitting,
+      // onSubmitClicked,
     } = this.props;
     const index = activeTab + 1;
 
-    // when there is only one primary agreement holder
-    if (clients.length === 1) {
-      return (
-        <Fragment>
-          <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
-            <Form>
-              <div className="multi-form__tab__title">
-                {`${index}. Confirm Your Submission and eSignature`}
-              </div>
-              <div style={{ marginBottom: '20px' }}>
-                You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
-              </div>
-              <Form.Field>
-                <Checkbox
-                  label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
-                  onChange={handleAgreeCheckBoxChange}
-                />
-              </Form.Field>
-              <div className="multi-form__btns">
-                <Button
-                  className="multi-form__btn"
-                  onClick={onBackClicked}
-                >
-                  Back
-                </Button>
-                <Button
-                  className="multi-form__btn"
-                  onClick={onSubmitClicked}
-                  disabled={!isAgreed}
-                  loading={isSubmitting}
-                >
-                  Submit Amendment
-                </Button>
-              </div>
-            </Form>
-          </div>
-          <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
-            <div className="amendment__submission__last-tab">
-              <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
-              <div className="amendment__submission__last-tab__title">Your Minor Amendment has been applied to your range use plan.</div>
-              <div style={{ marginBottom: '20px' }}>
-                Your minor amendment has been applied to your active range use plan. No further action is required unless Range Staff finds errors in your submission.
-              </div>
-              <Button
-                className="multi-form__btn"
-                onClick={onClose}
-              >
-                Finish
-              </Button>
-            </div>
-          </div>
-        </Fragment>
-      );
-    }
     // show different steps in case when there are multiple clients
     return (
       <Fragment>
@@ -115,6 +83,7 @@ class MinorAmendmentTabs extends Component {
             </Button>
           </div>
         </div>
+
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
           <div className="multi-form__tab__title">
             {`${index}. Request eSignatures to Submit Minor Amendment`}
@@ -128,8 +97,7 @@ class MinorAmendmentTabs extends Component {
           <div className="amendment__submission__ah-list__header">
             Agreement holders needed to confirm submission:
           </div>
-          <Icon name="user outline" />
-          <span className="amendment__submission__ah-list__name">hello</span>
+          {clients.map(this.renderAgreementHolder)}
           <div className="multi-form__btns">
             <Button
               className="multi-form__btn"
@@ -145,6 +113,7 @@ class MinorAmendmentTabs extends Component {
             </Button>
           </div>
         </div>
+
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
           <div className="amendment__submission__last-tab">
             <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
@@ -167,6 +136,6 @@ class MinorAmendmentTabs extends Component {
   }
 }
 
-MinorAmendmentTabs.propTypes = propTypes;
-MinorAmendmentTabs.defaultProps = defaultProps;
-export default MinorAmendmentTabs;
+MinorTabsForMultiple.propTypes = propTypes;
+MinorTabsForMultiple.defaultProps = defaultProps;
+export default MinorTabsForMultiple;

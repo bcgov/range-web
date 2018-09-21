@@ -19,13 +19,15 @@
       display: flex;
     }
     &__ah-list {
+      margin: 5px 0;
+
       &__header {
         font-size: 1.1rem;
         color: #999999;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
       }
-      &__name {
-        margin-left: 10px;
+      &__client-name {
+        margin-left: 7px;
       }
     }
   }

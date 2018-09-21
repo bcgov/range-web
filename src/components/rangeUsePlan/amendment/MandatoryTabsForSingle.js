@@ -25,7 +25,7 @@ const defaultProps = {
   mandatorySubmissionType: null,
 };
 
-class MandatoryAmendmentTabs extends Component {
+class MandatoryTabsForSingle extends Component {
   render() {
     const {
       clients,
@@ -181,6 +181,6 @@ class MandatoryAmendmentTabs extends Component {
   }
 }
 
-MandatoryAmendmentTabs.propTypes = propTypes;
-MandatoryAmendmentTabs.defaultProps = defaultProps;
-export default MandatoryAmendmentTabs;
+MandatoryTabsForSingle.propTypes = propTypes;
+MandatoryTabsForSingle.defaultProps = defaultProps;
+export default MandatoryTabsForSingle;

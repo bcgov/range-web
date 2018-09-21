@@ -14,3 +14,15 @@ export const getAgreementHolders = (clients = []) => {
 
   return { primaryAgreementHolder, otherAgreementHolders };
 };
+
+export const isSingleClient = (clients = []) => {
+  return clients.length === 1;
+};
+
+export const isClientTheUser = (client, user) => {
+  if (client && user) {
+    return user.clientId === client.id;
+  }
+
+  return false;
+};

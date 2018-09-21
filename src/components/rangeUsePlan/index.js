@@ -62,6 +62,7 @@ class Base extends Component {
 
     const plan = plansMap[match.params.planId];
     const agreement = plan && plan.agreement;
+    const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan;
 
     if (errorFetchingPlan) {
       return (
@@ -83,7 +84,7 @@ class Base extends Component {
 
     return (
       <Fragment>
-        <Loading active={!plan && isFetchingPlan} onlySpinner />
+        <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
         { isUserAdmin(user) &&
           <RupStaff

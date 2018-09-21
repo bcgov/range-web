@@ -4,15 +4,18 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Modal, Icon, Form, Radio } from 'semantic-ui-react';
 import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables';
-import { getReferences } from '../../../reducers/rootReducer';
+import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
-import MinorSubmissionTabs from './MinorSubmissionTabs';
-import MandatoySubmissionTabs from './MandatoySubmissionTabs';
+import MinorTabsForSingle from './MinorTabsForSingle';
+import MinorTabsForMultiple from './MinorTabsForMultiple';
+import MandatoryTabsForSingle from './MandatoryTabsForSingle';
+import { isSingleClient } from '../../../utils';
 
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 const propTypes = {
+  user: PropTypes.shape({}).isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   plan: PropTypes.shape({}).isRequired,
@@ -62,19 +65,31 @@ class AmendmentSubmissionModal extends Component {
   }
 
   onSubmitClicked = () => {
-    const { plan, references } = this.props;
+    const { plan, references, clients } = this.props;
     const { amendmentType, mandatorySubmissionType } = this.state;
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
     const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
 
-    if (amendmentType === AMENDMENT_TYPE.MINOR) {
+    if (amendmentType === AMENDMENT_TYPE.MINOR && isSingleClient(clients)) {
       const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       this.submitAmendment(plan, stands, minor);
-    } else if (amendmentType === AMENDMENT_TYPE.MANDATORY) {
+      return;
+    }
+
+    if (amendmentType === AMENDMENT_TYPE.MINOR && !isSingleClient(clients)) {
+      return;
+    }
+
+    if (amendmentType === AMENDMENT_TYPE.MANDATORY && isSingleClient(clients)) {
       const planStatus = planStatuses.find(s => s.code === mandatorySubmissionType);
       this.submitAmendment(plan, planStatus, mandatory);
+      return;
+    }
+
+    if (amendmentType === AMENDMENT_TYPE.MANDATORY && !isSingleClient(clients)) {
+      // do something
     }
   }
 
@@ -122,8 +137,9 @@ class AmendmentSubmissionModal extends Component {
       activeTab, amendmentType, readyToGoNext, isAgreed,
       isSubmitting, mandatorySubmissionType,
     } = this.state;
-    const { open, clients } = this.props;
+    const { open, clients, user } = this.props;
     const index = activeTab + 1;
+    const isThereSingleAH = isSingleClient(clients);
 
     return (
       <Modal
@@ -186,8 +202,9 @@ class AmendmentSubmissionModal extends Component {
               </div>
             </div>
           </Form>
-          { amendmentType === AMENDMENT_TYPE.MINOR &&
-            <MinorSubmissionTabs
+
+          {(amendmentType === AMENDMENT_TYPE.MINOR) && isThereSingleAH &&
+            <MinorTabsForSingle
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
@@ -200,8 +217,25 @@ class AmendmentSubmissionModal extends Component {
               onSubmitClicked={this.onSubmitClicked}
             />
           }
-          { amendmentType === AMENDMENT_TYPE.MANDATORY &&
-            <MandatoySubmissionTabs
+
+          {(amendmentType === AMENDMENT_TYPE.MINOR) && !isThereSingleAH &&
+            <MinorTabsForMultiple
+              user={user}
+              clients={clients}
+              activeTab={activeTab}
+              isAgreed={isAgreed}
+              isSubmitting={isSubmitting}
+              readyToGoNext={readyToGoNext}
+              handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
+              onClose={this.onClose}
+              onBackClicked={this.onBackClicked}
+              onNextClicked={this.onNextClicked}
+              onSubmitClicked={this.onSubmitClicked}
+            />
+          }
+
+          {(amendmentType === AMENDMENT_TYPE.MANDATORY) && isThereSingleAH &&
+            <MandatoryTabsForSingle
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
@@ -224,6 +258,7 @@ class AmendmentSubmissionModal extends Component {
 
 const mapStateToProps = state => (
   {
+    user: getUser(state),
     references: getReferences(state),
   }
 );
