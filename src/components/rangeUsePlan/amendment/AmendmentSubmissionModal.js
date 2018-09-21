@@ -10,6 +10,8 @@ import { planUpdated } from '../../../actions';
 import MinorSubmissionTabs from './MinorSubmissionTabs';
 import MandatoySubmissionTabs from './MandatoySubmissionTabs';
 
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 const propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -140,30 +142,32 @@ class AmendmentSubmissionModal extends Component {
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
-                  label=""
+                  label={
+                    <label>
+                      <b>Minor Amendment: </b>
+                      Otherwise conforms to this Act, the regulations and the standards, and does not materially affect the likelihood of achieving the intended results specified in the plan.
+                    </label>
+                  }
                   name="radioGroup"
                   value={AMENDMENT_TYPE.MINOR}
                   checked={amendmentType === AMENDMENT_TYPE.MINOR}
                   onChange={this.handleAmendmentTypeChange}
                 />
-                <div>
-                  <b>Minor Amendment: </b>
-                  Short Description of what a minor amendment is. Provide clarification of what constitutes a minor amendment.
-                </div>
               </Form.Field>
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
-                  label=""
+                  label={
+                    <label>
+                      <b>Mandatory Amendment: </b>
+                      Does not meet the minor amendment criteria, or has been required by the decision makers.
+                    </label>
+                  }
                   name="radioGroup"
                   value={AMENDMENT_TYPE.MANDATORY}
                   checked={amendmentType === AMENDMENT_TYPE.MANDATORY}
                   onChange={this.handleAmendmentTypeChange}
                 />
-                <div>
-                  <b>Mandatory Amendment: </b>
-                  Short Description of what a mandatory amendment is. Provide clarification of what constitutes a mandatory amendment.
-                </div>
               </Form.Field>
               <div className="multi-form__btns">
                 <Button
@@ -188,9 +192,11 @@ class AmendmentSubmissionModal extends Component {
               activeTab={activeTab}
               isAgreed={isAgreed}
               isSubmitting={isSubmitting}
+              readyToGoNext={readyToGoNext}
               handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
               onClose={this.onClose}
               onBackClicked={this.onBackClicked}
+              onNextClicked={this.onNextClicked}
               onSubmitClicked={this.onSubmitClicked}
             />
           }

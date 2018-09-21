@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import { Button, Radio, Form, Icon, Checkbox } from 'semantic-ui-react';
 import { PLAN_STATUS } from '../../../constants/variables';
 
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 const propTypes = {
   clients: PropTypes.arrayOf(PropTypes.object),
   activeTab: PropTypes.number.isRequired,
   isAgreed: PropTypes.bool.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   readyToGoNext: PropTypes.bool.isRequired,
-  mandatorySubmissionType: PropTypes.string.isRequired,
+  mandatorySubmissionType: PropTypes.string,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmitClicked: PropTypes.func.isRequired,
@@ -20,6 +22,7 @@ const propTypes = {
 };
 const defaultProps = {
   clients: [],
+  mandatorySubmissionType: null,
 };
 
 class MandatoryAmendmentTabs extends Component {
@@ -51,30 +54,32 @@ class MandatoryAmendmentTabs extends Component {
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
-                  label=""
+                  label={
+                    <label>
+                      <b>Submit for Staff Review: </b>
+                      Short Description that informs the user that their submission will be reviewed by range staff before they submit for final approval.
+                    </label>
+                  }
                   name="radioGroup"
                   value={PLAN_STATUS.SUBMITTED_FOR_REVIEW}
                   checked={mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_REVIEW}
                   onChange={handleMandatorySubmissionTypeChange}
                 />
-                <div>
-                  <b>Submit for Staff Review: </b>
-                  Short Description that informs the user that their submission will be reviewed by range staff before they submit for final approval.
-                </div>
               </Form.Field>
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
-                  label=""
+                  label={
+                    <label>
+                      <b>Submit for Final Decision: </b>
+                      Short Description that informs the user that they will be submitting for Final approval and that all Agreement holders will have to review the submission before it is sent to range staff.
+                    </label>
+                  }
                   name="radioGroup"
                   value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
                   checked={mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
                   onChange={handleMandatorySubmissionTypeChange}
                 />
-                <div>
-                  <b>Submit for Final Decision: </b>
-                  Short Description that informs the user that they will be submitting for Final approval and that all Agreement holders will have to review the submission before it is sent to range staff.
-                </div>
               </Form.Field>
               <div className="multi-form__btns">
                 <Button

@@ -8,6 +8,8 @@ export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) 
     submittedAt: null,
   };
   delete copied.id;
+  delete copied.createdAt;
+  delete copied.updatedAt;
 
   return copied;
 };

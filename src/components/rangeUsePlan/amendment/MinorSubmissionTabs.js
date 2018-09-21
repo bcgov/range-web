@@ -12,6 +12,7 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   onBackClicked: PropTypes.func.isRequired,
   onSubmitClicked: PropTypes.func.isRequired,
+  onNextClicked: PropTypes.func.isRequired,
 };
 const defaultProps = {
   clients: [],
@@ -22,7 +23,7 @@ class MinorAmendmentTabs extends Component {
     const {
       clients, activeTab, isAgreed,
       isSubmitting, handleAgreeCheckBoxChange, onClose,
-      onSubmitClicked, onBackClicked,
+      onSubmitClicked, onBackClicked, onNextClicked,
     } = this.props;
     const index = activeTab + 1;
 
@@ -81,7 +82,88 @@ class MinorAmendmentTabs extends Component {
       );
     }
     // show different steps in case when there are multiple clients
-    return <div />;
+    return (
+      <Fragment>
+        <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
+          <Form>
+            <div className="multi-form__tab__title">
+              {`${index}. Confirm Your Submission and eSignature`}
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              You are about to submit a minor amendment for your Range Use Plan. Your RUP will be updated immediately following submission and collection of other agreement holder signatures as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.
+            </div>
+            <Form.Field>
+              <Checkbox
+                label="I understand that this submission constitues a legal document and eSignature."
+                onChange={handleAgreeCheckBoxChange}
+              />
+            </Form.Field>
+          </Form>
+          <div className="multi-form__btns">
+            <Button
+              className="multi-form__btn"
+              onClick={onBackClicked}
+            >
+              Back
+            </Button>
+            <Button
+              className="multi-form__btn"
+              onClick={onNextClicked}
+              disabled={!isAgreed}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+        <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
+          <div className="multi-form__tab__title">
+            {`${index}. Request eSignatures to Submit Minor Amendment`}
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            You’re ready to submit your Minor Amendment to your range use plan. The other agreement holders below will be notified to confirm the submission and provide eSignatures.
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            Once all agreement holders have confirmed the submission and provided their eSignatures your RUP will be updated as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.
+          </div>
+          <div className="amendment__submission__ah-list__header">
+            Agreement holders needed to confirm submission:
+          </div>
+          <Icon name="user outline" />
+          <span className="amendment__submission__ah-list__name">hello</span>
+          <div className="multi-form__btns">
+            <Button
+              className="multi-form__btn"
+              onClick={onBackClicked}
+            >
+              Back
+            </Button>
+            <Button
+              className="multi-form__btn"
+              onClick={onNextClicked}
+            >
+              Request eSignatures and Submit
+            </Button>
+          </div>
+        </div>
+        <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
+          <div className="amendment__submission__last-tab">
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
+            <div className="amendment__submission__last-tab__title">
+              Your minor amendment has been sent for eSignatures and Submission
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              Your amendment has been sent to agreement holders for confirmation. Once all agreement holders have confirmed the submission and provided their eSignature your amendmentwill take effect immediatly. No further action is required unless range staff find errors in your submission.
+            </div>
+            <Button
+              className="multi-form__btn"
+              onClick={onClose}
+            >
+              Finish
+            </Button>
+          </div>
+        </div>
+      </Fragment>
+    );
   }
 }
 

@@ -1,0 +1,32 @@
+.amendment {
+  &__submission {
+    &__last-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+    }
+    &__radio {
+      margin-right: 10px;
+    }
+    &__radio-field {
+      display: flex;
+    }
+    &__ah-list {
+      &__header {
+        font-size: 1.1rem;
+        color: #999999;
+        margin-bottom: 5px;
+      }
+      &__name {
+        margin-left: 10px;
+      }
+    }
+  }
+}
