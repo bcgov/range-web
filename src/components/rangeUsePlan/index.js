@@ -83,7 +83,7 @@ class Base extends Component {
 
     return (
       <Fragment>
-        <Loading active={isFetchingPlan} onlySpinner />
+        <Loading active={!plan && isFetchingPlan} onlySpinner />
 
         { isUserAdmin(user) &&
           <RupStaff
