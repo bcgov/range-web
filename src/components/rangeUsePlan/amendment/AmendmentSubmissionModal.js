@@ -10,7 +10,7 @@ import { planUpdated } from '../../../actions';
 import MinorTabsForSingle from './MinorTabsForSingle';
 import MinorTabsForMultiple from './MinorTabsForMultiple';
 import MandatoryTabsForSingle from './MandatoryTabsForSingle';
-import { isSingleClient } from '../../../utils';
+import { isSingleClient, isMinorAmendment, isMandatoryAmendment } from '../../../utils';
 
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -72,23 +72,25 @@ class AmendmentSubmissionModal extends Component {
     const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
     const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
 
-    if (amendmentType === AMENDMENT_TYPE.MINOR && isSingleClient(clients)) {
+    if (isMinorAmendment(amendmentType) && isSingleClient(clients)) {
       const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       this.submitAmendment(plan, stands, minor);
       return;
     }
 
-    if (amendmentType === AMENDMENT_TYPE.MINOR && !isSingleClient(clients)) {
+    if (isMinorAmendment(amendmentType) && !isSingleClient(clients)) {
+      const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
+      this.submitAmendment(plan, confirmationAwaiting, minor);
       return;
     }
 
-    if (amendmentType === AMENDMENT_TYPE.MANDATORY && isSingleClient(clients)) {
+    if (isMandatoryAmendment(amendmentType) && isSingleClient(clients)) {
       const planStatus = planStatuses.find(s => s.code === mandatorySubmissionType);
       this.submitAmendment(plan, planStatus, mandatory);
       return;
     }
 
-    if (amendmentType === AMENDMENT_TYPE.MANDATORY && !isSingleClient(clients)) {
+    if (isMandatoryAmendment(amendmentType) && !isSingleClient(clients)) {
       // do something
     }
   }

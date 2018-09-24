@@ -146,3 +146,4 @@ export const REVISIONS_REQUESTED = 'Revisions Requested';
 export const SENT_FOR_INPUT = 'Sent for Input';
 export const IN_PROGRESS = 'In Progress';
 export const DRAFT = 'Draft';
+export const UNKNOWN_STATUS = 'Unknown Status';

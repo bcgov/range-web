@@ -13,6 +13,7 @@ const propTypes = {
   onSubmitClicked: PropTypes.func.isRequired,
 };
 
+// display submission tabs when there is only one primary agreement holder
 class MinorTabsForSingle extends Component {
   render() {
     const {
@@ -26,7 +27,6 @@ class MinorTabsForSingle extends Component {
     } = this.props;
     const index = activeTab + 1;
 
-    // when there is only one primary agreement holder
     return (
       <Fragment>
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>

@@ -13,13 +13,14 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   onBackClicked: PropTypes.func.isRequired,
   onNextClicked: PropTypes.func.isRequired,
-  // isSubmitting: PropTypes.bool.isRequired,
-  // onSubmitClicked: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  onSubmitClicked: PropTypes.func.isRequired,
 };
 const defaultProps = {
   clients: [],
 };
 
+// display submission steps when there are multiple clients
 class MinorTabsForMultiple extends Component {
   renderAgreementHolder = (client) => {
     const { user } = this.props;
@@ -44,12 +45,11 @@ class MinorTabsForMultiple extends Component {
       onClose,
       onBackClicked,
       onNextClicked,
-      // isSubmitting,
-      // onSubmitClicked,
+      isSubmitting,
+      onSubmitClicked,
     } = this.props;
     const index = activeTab + 1;
 
-    // show different steps in case when there are multiple clients
     return (
       <Fragment>
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
@@ -107,7 +107,8 @@ class MinorTabsForMultiple extends Component {
             </Button>
             <Button
               className="multi-form__btn"
-              onClick={onNextClicked}
+              onClick={onSubmitClicked}
+              loading={isSubmitting}
             >
               Request eSignatures and Submit
             </Button>
