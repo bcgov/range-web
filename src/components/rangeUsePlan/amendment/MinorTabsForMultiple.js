@@ -29,7 +29,7 @@ class MinorTabsForMultiple extends Component {
         <Icon name="user outline" />
         <span className="amendment__submission__ah-list__client-name">{client.name}</span>
         {isClientTheUser(client, user) &&
-          <span>&nbsp;me&nbsp;</span>
+          <Icon name="check circle outline" />
         }
       </div>
     );
