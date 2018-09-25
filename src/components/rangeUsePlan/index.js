@@ -9,6 +9,7 @@ import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirm
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
+import { DETAIL_RUP_TITLE } from '../../constants/strings';
 
 const propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
@@ -26,6 +27,10 @@ const defaultProps = {
 };
 
 class Base extends Component {
+  componentWillMount() {
+    document.title = DETAIL_RUP_TITLE;
+  }
+
   componentDidMount() {
     // initial fetch for a plan
     this.fetchPlan();
@@ -48,6 +53,10 @@ class Base extends Component {
       return;
     }
     fetchRUP(match.params.planId);
+  }
+
+  onRetryClicked = () => {
+    this.fetchPlan();
   }
 
   render() {
@@ -76,7 +85,7 @@ class Base extends Component {
           <div>
             <Button onClick={history.goBack}>Go Back</Button>
             <span className="rup__fetching-error__or-message">or</span>
-            <Button onClick={() => this.fetchPlan()}>Retry</Button>
+            <Button onClick={this.onRetryClicked}>Retry</Button>
           </div>
         </div>
       );

@@ -8,7 +8,7 @@ import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
 import { storeAuthData } from '../actions';
 import { fetchUser } from '../actionCreators';
 import { getIsFetchingUser } from '../reducers/rootReducer';
-import { APP_NAME } from '../constants/strings';
+import { APP_NAME, LOGIN_TITLE } from '../constants/strings';
 import { detectIE } from '../utils';
 
 const propTypes = {
@@ -18,10 +18,14 @@ const propTypes = {
 };
 
 export class Login extends Component {
-  // Sets up localstorage listener for cross-tab communication
-  // since the authentication requires the user to be redirected
-  // to another page and then redirected back to a return URL with the token.
+  componentWillMount() {
+    document.title = LOGIN_TITLE;
+  }
+
   componentDidMount() {
+    // Sets up localstorage listener for cross-tab communication
+    // since the authentication requires the user to be redirected
+    // to another page and then redirected back to a return URL with the token.
     window.addEventListener('storage', this.storageEventListener);
   }
 

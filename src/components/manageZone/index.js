@@ -5,6 +5,7 @@ import ManageZone from './ManageZone';
 import { fetchUsers, updateUserIdOfZone } from '../../actionCreators';
 import { zoneUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone } from '../../reducers/rootReducer';
+import { MANAGE_ZONE_TITLE } from '../../constants/strings';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -17,6 +18,8 @@ const propTypes = {
 
 class Base extends Component {
   componentWillMount() {
+    document.title = MANAGE_ZONE_TITLE;
+
     this.props.fetchUsers();
   }
 
