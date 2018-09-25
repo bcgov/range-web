@@ -121,6 +121,7 @@ const mapStateToProps = state => (
     pasturesMap: selectors.getPasturesMap(state),
     grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
     ministerIssuesMap: selectors.getMinisterIssuesMap(state),
+    confirmationsMap: selectors.getConfirmationsMap(state),
     isFetchingPlan: selectors.getIsFetchingPlan(state),
     errorFetchingPlan: selectors.getPlanErrorMessage(state),
     references: selectors.getReferences(state),

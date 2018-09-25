@@ -7,7 +7,7 @@ import { handleGrazingScheduleValidation } from './grazingSchedule';
  * @param {Object} pasturesMap
  * @param {Object} grazingSchedulesMap
  * @param {Array} livestockTypes the array of live stock types
- * @param {Array} usages the array of usages from the agreement
+ * @param {Array} usage the array of usage from the agreement
  * @returns {Array} An array of errors
  */
 export const handleRupValidation = (
@@ -15,7 +15,7 @@ export const handleRupValidation = (
   pasturesMap = {},
   grazingSchedulesMap = {},
   livestockTypes = [],
-  usages = [],
+  usage = [],
 ) => {
   const grazingSchedules = plan.grazingSchedules.map(id => grazingSchedulesMap[id]) || [];
 
@@ -23,7 +23,7 @@ export const handleRupValidation = (
   grazingSchedules.map((schedule) => {
     errors = [
       ...errors,
-      ...handleGrazingScheduleValidation(schedule, pasturesMap, livestockTypes, usages),
+      ...handleGrazingScheduleValidation(schedule, pasturesMap, livestockTypes, usage),
     ];
     return undefined;
   });

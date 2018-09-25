@@ -109,6 +109,7 @@ export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[re
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
+export const getConfirmationsMap = state => fromPlan.getConfirmationsMap(state[reducerTypes.PLAN]);
 
 export const getIsDeletingGrazingSchedule = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE]);
 export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]);

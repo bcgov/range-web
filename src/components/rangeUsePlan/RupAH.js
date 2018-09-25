@@ -25,6 +25,7 @@ export class RupAH extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
+    confirmationsMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
@@ -168,9 +169,9 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
     } = this.props;
-    const usages = agreement && agreement.usage;
+    const usage = agreement && agreement.usage;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
-    const errors = utils.handleRupValidation(plan, pasturesMap, grazingSchedulesMap, livestockTypes, usages);
+    const errors = utils.handleRupValidation(plan, pasturesMap, grazingSchedulesMap, livestockTypes, usage);
 
     // errors have been found
     if (errors.length !== 0) {
@@ -212,7 +213,7 @@ export class RupAH extends Component {
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
 
-  renderActionBtns = (isEditable, isAmendable) => {
+  renderActionBtns = (canEdit, canAmend, canConfirm) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
     const { isCreatingAmendment } = this.props;
     const previewPDF = (
@@ -250,11 +251,20 @@ export class RupAH extends Component {
         {strings.AMEND_PLAN}
       </Button>
     );
-
-    if (isEditable) {
+    const confirmSubmission = (
+      <Button
+        key="confirmSubmissionBtn"
+        style={{ marginLeft: '10px' }}
+      >
+        {strings.CONFIRM_SUBMISSION}
+      </Button>
+    );
+    if (canEdit) {
       return [previewPDF, saveDraft, submit];
-    } else if (isAmendable) {
+    } else if (canAmend) {
       return [previewPDF, amend];
+    } else if (canConfirm) {
+      return [previewPDF, confirmSubmission];
     }
     return previewPDF;
   }
@@ -272,16 +282,17 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
+      confirmationsMap,
     } = this.props;
 
-    const { agreementId, status } = plan;
-    const { clients, usage: usages } = agreement;
+    const { agreementId, status, confirmations } = plan;
+    const { clients, usage } = agreement;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
-    const isEditable = utils.isStatusAllowingRevisionForAH(status);
-    const isAmendable = utils.isStatusAmongApprovedStatuses(status);
-
+    const canEdit = utils.isStatusAllowingRevisionForAH(status);
+    const canAmend = utils.isStatusAmongApprovedStatuses(status);
+    const canConfirm = utils.canUserSubmitConfirmation(status, user, confirmations, confirmationsMap);
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const header = utils.getPlanTypeDescription(plan, amendmentTypes);
 
@@ -317,7 +328,7 @@ export class RupAH extends Component {
                 />
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(isEditable, isAmendable)}
+                {this.renderActionBtns(canEdit, canAmend, canConfirm)}
               </div>
             </div>
           </div>
@@ -337,11 +348,11 @@ export class RupAH extends Component {
             pasturesMap={pasturesMap}
           />
 
-          {isEditable ?
+          {canEdit ?
             <EditRupGrazingSchedules
               className="rup__grazing-schedules__container"
               references={references}
-              usages={usages}
+              usage={usage}
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
@@ -349,7 +360,7 @@ export class RupAH extends Component {
             : <ViewRupGrazingSchedules
               className="rup__grazing-schedules__container"
               references={references}
-              usages={usages}
+              usage={usage}
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
