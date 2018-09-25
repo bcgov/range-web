@@ -11,6 +11,7 @@ const initialState = {
   pastures: {},
   grazingSchedules: {},
   ministerIssues: {},
+  confirmations: {},
 };
 
 const mockState = {
@@ -22,6 +23,7 @@ const mockState = {
         pastures: ['pasture_id'],
         grazingSchedules: ['grazing_schedule_id'],
         ministerIssues: ['minister_issue_id'],
+        confirmations: ['confirmation_id'],
       },
     },
     allIds: ['plan_id'],
@@ -50,6 +52,12 @@ const mockState = {
       detail: 'detail',
     },
   },
+  confirmations: {
+    'confirmation_id': {
+      id: 'confirmation_id',
+      clientId: '00000000',
+    },
+  },
 };
 const mockPlanData = {
   id: 'plan_id',
@@ -76,6 +84,12 @@ const mockPlanData = {
     {
       id: 'minister_issue_id',
       detail: 'detail',
+    },
+  ],
+  confirmations: [
+    {
+      id: 'confirmation_id',
+      clientId: '00000000',
     },
   ],
 };

@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 // import { Button, Radio, Form, Icon, Checkbox } from 'semantic-ui-react';
 // import { PLAN_STATUS } from '../../../constants/variables';
 
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 const propTypes = {
   // clients: PropTypes.arrayOf(PropTypes.object),
   // activeTab: PropTypes.number.isRequired,

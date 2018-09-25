@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Segment } from 'semantic-ui-react';
 import { Loading } from './common';
-import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/API';
+import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/api';
 import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
 import { storeAuthData } from '../actions';
 import { fetchUser } from '../actionCreators';

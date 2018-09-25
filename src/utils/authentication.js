@@ -26,7 +26,7 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
-} from '../constants/API';
+} from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
@@ -160,8 +160,9 @@ export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
     const config = { ...c };
     if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
-      const refreshToken = getRefreshTokenFromLocal();
       if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
+
+      const refreshToken = getRefreshTokenFromLocal();
       return refreshAccessToken(refreshToken).then(
         (response) => {
           saveAuthDataInLocal(response);
@@ -173,8 +174,9 @@ export const registerAxiosInterceptors = (logout) => {
           return config;
         },
         (err) => {
-          logout();
           if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
+
+          logout();
           return err;
         },
       );

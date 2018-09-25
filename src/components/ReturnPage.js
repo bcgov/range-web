@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { parseQuery, getTokenFromSSO, saveAuthDataInLocal } from '../utils';
-import { SSO_LOGOUT_ENDPOINT } from '../constants/API';
+import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 import { REDIRECTING } from '../constants/strings';
 
 const propTypes = {

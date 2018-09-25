@@ -4,7 +4,7 @@ import { success, request, error, storePlan } from '../actions';
 import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_AGREEMENT_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
-import * as API from '../constants/API';
+import * as API from '../constants/api';
 import * as schema from './schema';
 import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';

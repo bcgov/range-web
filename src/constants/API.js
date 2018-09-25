@@ -2,6 +2,7 @@
 // export const SSO_BASE_URL = 'https://dev-sso.pathfinder.gov.bc.ca';
 // export const SSO_REALM_NAME = 'mobile';
 // export const SSO_CLIENT_ID = 'range-test';
+
 export const SSO_BASE_URL = 'https://sso-dev.pathfinder.gov.bc.ca';
 export const SSO_REALM_NAME = 'range';
 export const SSO_CLIENT_ID = 'myrangebc';

@@ -82,7 +82,8 @@
     "axios-mock-adapter": "^1.15.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "jest": "20.0.4",
+    "jest": "^21.2.1",
+    "jest-localstorage-mock": "^2.2.0",
     "puppeteer": "^1.5.0"
   },
   "scripts": {
@@ -102,6 +103,7 @@
       "!src/registerServiceWorker.js"
     ],
     "setupFiles": [
+      "jest-localstorage-mock",
       "<rootDir>/config/polyfills.js",
       "<rootDir>/config/setupTests.js"
     ],

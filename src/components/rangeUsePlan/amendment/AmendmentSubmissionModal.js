@@ -12,8 +12,7 @@ import MinorTabsForMultiple from './MinorTabsForMultiple';
 import MandatoryTabsForSingle from './MandatoryTabsForSingle';
 import { isSingleClient, isMinorAmendment, isMandatoryAmendment } from '../../../utils';
 
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
   open: PropTypes.bool.isRequired,
