@@ -25,13 +25,13 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
  * @param {object} schedule the grazing schedule object
  * @param {Object} pasturesMap the array of pastures from the plan
  * @param {Array} livestockTypes the array of live stock types
- * @param {Array} usages the array of usages from the agreement
+ * @param {Array} usage the array of usage from the agreement
  * @returns {Array} An array of errors
  */
-export const handleGrazingScheduleValidation = (schedule = {}, pasturesMap = {}, livestockTypes = [], usages = []) => {
+export const handleGrazingScheduleValidation = (schedule = {}, pasturesMap = {}, livestockTypes = [], usage = []) => {
   const { year, grazingScheduleEntries: gse } = schedule;
   const grazingScheduleEntries = gse || [];
-  const yearUsage = usages.find(u => u.year === year);
+  const yearUsage = usage.find(u => u.year === year);
   const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
   const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes);
 

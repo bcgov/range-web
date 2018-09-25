@@ -67,7 +67,7 @@ class RupStaff extends Component {
     } = this.state;
 
     const { agreementId, status } = plan;
-    const { clients, usage: usages } = agreement;
+    const { clients, usage } = agreement;
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
@@ -149,7 +149,7 @@ class RupStaff extends Component {
           <ViewRupGrazingSchedules
             className="rup__grazing-schedules__container"
             references={references}
-            usages={usages}
+            usage={usage}
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}

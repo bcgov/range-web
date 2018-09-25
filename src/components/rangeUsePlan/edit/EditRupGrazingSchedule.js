@@ -23,7 +23,7 @@ const propTypes = {
   pastures: PropTypes.arrayOf(PropTypes.number).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateGrazingSchedule: PropTypes.func.isRequired,
   handleScheduleCopy: PropTypes.func.isRequired,
   handleScheduleDelete: PropTypes.func.isRequired,
@@ -130,8 +130,8 @@ class EditRupGrazingSchedule extends Component {
   }
 
   renderWarningMessage = (grazingSchedule = {}) => {
-    const { pasturesMap, livestockTypes, usages } = this.props;
-    const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usages);
+    const { pasturesMap, livestockTypes, usage } = this.props;
+    const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usage);
     const { message, error } = result || {};
     if (!error) {
       return <Fragment />;

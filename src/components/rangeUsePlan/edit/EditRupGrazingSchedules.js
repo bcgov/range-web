@@ -16,7 +16,7 @@ const propTypes = {
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  usages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
   addGrazingSchedule: PropTypes.func.isRequired,
   deleteGrazingSchedule: PropTypes.func.isRequired,
   deleteRupGrazingSchedule: PropTypes.func.isRequired,
@@ -175,13 +175,13 @@ export class EditRupGrazingSchedules extends Component {
   renderSchedule = (schedule, scheduleIndex) => {
     const {
       plan,
-      usages,
+      usage,
       references,
       pasturesMap,
     } = this.props;
     const { yearOptions, activeScheduleIndex } = this.state;
     const { id, year } = schedule;
-    const yearUsage = usages.find(u => u.year === year);
+    const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const crownTotalAUMs = utils.calcCrownTotalAUMs(schedule.grazingScheduleEntries, pasturesMap, livestockTypes);
@@ -196,7 +196,7 @@ export class EditRupGrazingSchedules extends Component {
         activeScheduleIndex={activeScheduleIndex}
         livestockTypes={livestockTypes}
         pastures={pastures}
-        usages={usages}
+        usage={usage}
         authorizedAUMs={authorizedAUMs}
         crownTotalAUMs={crownTotalAUMs}
         handleScheduleCopy={this.handleScheduleCopy}
