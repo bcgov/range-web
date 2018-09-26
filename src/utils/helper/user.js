@@ -4,6 +4,10 @@ export const getUserFullName = user => (
   user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`
 );
 
+export const getUserEmail = user => (
+  user && user.email
+);
+
 export const getUserInitial = (user) => {
   const familyName = user && user.familyName;
   const givenName = user && user.givenName;

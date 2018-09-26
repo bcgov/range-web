@@ -63,7 +63,7 @@ class MinorTabsForSingle extends Component {
         </div>
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
           <div className="amendment__submission__last-tab">
-            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
             <div className="amendment__submission__last-tab__title">Your Minor Amendment has been applied to your range use plan.</div>
             <div style={{ marginBottom: '20px' }}>
               Your minor amendment has been applied to your active range use plan. No further action is required unless Range Staff finds errors in your submission.

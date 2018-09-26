@@ -26,3 +26,11 @@ export const isClientTheUser = (client, user) => {
 
   return false;
 };
+
+export const findConfirmationWithClientId = (clientId, confirmations, confirmationsMap) => {
+  if (clientId && confirmations && confirmationsMap) {
+    return confirmations.map(cId => confirmationsMap[cId])
+      .find(confirmation => confirmation.clientId === clientId);
+  }
+  return undefined;
+};

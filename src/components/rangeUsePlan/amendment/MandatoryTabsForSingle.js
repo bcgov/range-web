@@ -154,7 +154,7 @@ class MandatoryTabsForSingle extends Component {
         }
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
           <div className="amendment__submission__last-tab">
-            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
             <div className="amendment__submission__last-tab__title">Your mandatory amendment has been sent for range staff review.</div>
             <div style={{ marginBottom: '20px' }}>
               Your mandatory amendment has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!

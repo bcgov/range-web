@@ -13,22 +13,23 @@ import MandatoryTabsForSingle from './MandatoryTabsForSingle';
 import { isSingleClient, isMinorAmendment, isMandatoryAmendment } from '../../../utils';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
-const propTypes = {
-  user: PropTypes.shape({}).isRequired,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  plan: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  clients: PropTypes.arrayOf(PropTypes.object),
-  updateRUP: PropTypes.func.isRequired,
-  planUpdated: PropTypes.func.isRequired,
-  updateStatusAndContent: PropTypes.func.isRequired,
-};
-const defaultProps = {
-  clients: [],
-};
 
 class AmendmentSubmissionModal extends Component {
+  static propTypes = {
+    user: PropTypes.shape({}).isRequired,
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    plan: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object),
+    updateRUP: PropTypes.func.isRequired,
+    planUpdated: PropTypes.func.isRequired,
+    updateStatusAndContent: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    clients: [],
+  };
+
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
@@ -264,8 +265,6 @@ const mapStateToProps = state => (
   }
 );
 
-AmendmentSubmissionModal.propTypes = propTypes;
-AmendmentSubmissionModal.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   updateRUP,
   planUpdated,

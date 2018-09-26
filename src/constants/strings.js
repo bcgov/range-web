@@ -3,7 +3,7 @@ export const APP_NAME = 'MyRange BC';
 // page titles
 const createTitle = title => `${title} | MyRangeBC`;
 export const LOGIN_TITLE = createTitle('Sign in');
-export const DETAIL_RUP_TITLE = createTitle('Detail RUP');
+export const DETAIL_RUP_TITLE = createTitle('View RUP');
 export const SELECT_RUP_TITLE = createTitle('Select RUP');
 export const MANAGE_CLIENT_TITLE = createTitle('Manage Client');
 export const MANAGE_ZONE_TITLE = createTitle('Manage Zone');

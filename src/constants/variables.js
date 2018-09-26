@@ -45,6 +45,11 @@ export const AMENDMENT_TYPE = {
   INITIAL: 'A',
 };
 
+export const CONFIRMATION_OPTION = {
+  CONFIRM: 'Confirm',
+  REQUEST: 'Request clarification or changes',
+};
+
 export const CONFIRMATION_MODAL_ID = {
   MANAGE_ZONE: 'MANAGE_ZONE',
   MANAGE_CLIENT: 'MANAGE_CLIENT',

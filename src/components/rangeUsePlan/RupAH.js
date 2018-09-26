@@ -8,6 +8,7 @@ import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
+import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import RupStickyHeader from './RupStickyHeader';
 import RupBackBtn from './RupBackBtn';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
@@ -51,6 +52,7 @@ export class RupAH extends Component {
 
   state = {
     isSubmitAmendmentModalOpen: false,
+    isConfirmAmendmentModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
@@ -212,6 +214,8 @@ export class RupAH extends Component {
 
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
+  openConfirmAmendmentModal = () => this.setState({ isConfirmAmendmentModalOpen: true })
+  closeConfirmAmendmentModal = () => this.setState({ isConfirmAmendmentModalOpen: false })
 
   renderActionBtns = (canEdit, canAmend, canConfirm) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
@@ -255,6 +259,7 @@ export class RupAH extends Component {
       <Button
         key="confirmSubmissionBtn"
         style={{ marginLeft: '10px' }}
+        onClick={this.openConfirmAmendmentModal}
       >
         {strings.CONFIRM_SUBMISSION}
       </Button>
@@ -272,6 +277,7 @@ export class RupAH extends Component {
   render() {
     const {
       isSubmitAmendmentModalOpen,
+      isConfirmAmendmentModalOpen,
     } = this.state;
 
     const {
@@ -306,6 +312,12 @@ export class RupAH extends Component {
           updateStatusAndContent={this.updateStatusAndContent}
         />
 
+        <AmendmentConfirmationModal
+          open={isConfirmAmendmentModalOpen}
+          onClose={this.closeConfirmAmendmentModal}
+          plan={plan}
+          clients={clients}
+        />
         <Banner
           noDefaultHeight
           header={header}

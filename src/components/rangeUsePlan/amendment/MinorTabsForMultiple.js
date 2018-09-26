@@ -28,10 +28,12 @@ class MinorTabsForMultiple extends Component {
     return (
       <div key={client.id} className="amendment__submission__ah-list">
         <Icon name="user outline" />
-        <span className="amendment__submission__ah-list__client-name">{client.name}</span>
-        {isClientTheUser(client, user) &&
-          <Icon name="check circle outline" />
-        }
+        <span className={classnames('amendment__submission__ah-list__cname', {
+          'amendment__submission__ah-list__cname--bold': isClientTheUser(client, user),
+        })}
+        >
+          {client.name}
+        </span>
       </div>
     );
   }
@@ -117,7 +119,7 @@ class MinorTabsForMultiple extends Component {
 
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
           <div className="amendment__submission__last-tab">
-            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
             <div className="amendment__submission__last-tab__title">
               Your minor amendment has been sent for eSignatures and Submission
             </div>
