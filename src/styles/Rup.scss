@@ -99,6 +99,25 @@ $row-height: 80px;
       font-size: 1.2rem;
     }
   }
+  &__notification-container {
+    @extend .container;
+  }
+  &__confirmations-notification {
+    padding: 15px;
+    background-color: lightgray;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+  }
   &__content {
     @extend .container;
     padding-top: $content-margin-top;

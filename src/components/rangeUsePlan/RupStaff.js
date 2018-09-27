@@ -37,6 +37,7 @@ class RupStaff extends Component {
       pastures: [],
       grazingSchedules: [],
       ministerIssues: [],
+      confirmations: [],
     },
   };
 

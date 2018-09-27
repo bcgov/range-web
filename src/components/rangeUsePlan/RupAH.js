@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { Status, Banner } from '../common';
 import ViewRupBasicInformation from './view/ViewRupBasicInformation';
 import ViewRupPastures from './view/ViewRupPastures';
@@ -47,6 +47,7 @@ export class RupAH extends Component {
       pastures: [],
       grazingSchedules: [],
       ministerIssues: [],
+      confirmations: [],
     },
   };
 
@@ -274,6 +275,31 @@ export class RupAH extends Component {
     return previewPDF;
   }
 
+  renderNotifications = () => {
+    const { plan, confirmationsMap } = this.props;
+    const { confirmations, status } = plan;
+    let numberOfConfirmed = 0;
+    confirmations.forEach((cId) => {
+      if (confirmationsMap[cId].confirmed) numberOfConfirmed += 1;
+    });
+
+    return (
+      <Fragment>
+        {utils.isStatusAwaitingConfirmation(status) &&
+          <div className="rup__notification-container">
+            <div className="rup__confirmations-notification">
+              <div className="rup__confirmations-notification__left">
+                <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
+                {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
+              </div>
+              <Button>View Submission Status</Button>
+            </div>
+          </div>
+        }
+      </Fragment>
+    );
+  }
+
   render() {
     const {
       isSubmitAmendmentModalOpen,
@@ -345,6 +371,8 @@ export class RupAH extends Component {
             </div>
           </div>
         </RupStickyHeader>
+
+        {this.renderNotifications(plan, confirmationsMap)}
 
         <div className="rup__content">
           <ViewRupBasicInformation
