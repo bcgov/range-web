@@ -20,3 +20,10 @@ export const planUpdated = payload => (
     payload,
   }
 );
+
+export const confirmationUpdated = payload => (
+  {
+    type: actionTypes.CONFIRMATION_UPDATED,
+    payload,
+  }
+);

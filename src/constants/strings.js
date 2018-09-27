@@ -26,6 +26,7 @@ export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';
 export const CONFIRM_SUBMISSION = 'Confirm Submission';
 export const VIEW = 'View';
+export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';

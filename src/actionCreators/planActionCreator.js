@@ -15,6 +15,33 @@ import {
   copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
  } from '../utils';
 
+export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispatch, getState) => {
+  const { id: planId, amendmentTypeId } = plan;
+  const references = getReferences(getState());
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  const isMinorAmendment = amendmentType.code === AMENDMENT_TYPE.MINOR;
+  const config = {
+    ...createConfigWithHeader(getState),
+    params: {
+      isMinorAmendment,
+    },
+  };
+
+  return axios.put(
+    API.UPDATE_CONFIRMATION(planId, confirmationId),
+    { confirmed },
+    config,
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
 export const updateRUP = (planId, body) => (dispatch, getState) => {
   return axios.put(
     API.UPDATE_RUP(planId),

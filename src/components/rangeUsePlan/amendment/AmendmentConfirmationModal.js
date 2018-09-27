@@ -6,8 +6,9 @@ import { Button, Modal, Icon, Form, Radio, Checkbox } from 'semantic-ui-react';
 import { getUser, getReferences, getConfirmationsMap } from '../../../reducers/rootReducer';
 import { CONFIRMATION_OPTION, REFERENCE_KEY } from '../../../constants/variables';
 import { getPlanTypeDescription, getUserFullName, getUserEmail, isClientTheUser, findConfirmationWithClientId, formatDateFromServer } from '../../../utils';
-// import { updateRUP } from '../../../actionCreators/planActionCreator';
-// import { planUpdated } from '../../../actions';
+import { AWAITING_CONFIRMATION } from '../../../constants/strings';
+import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
+import { planUpdated, confirmationUpdated } from '../../../actions';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -20,8 +21,9 @@ class AmendmentConfirmationModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     references: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
-    // updateRUP: PropTypes.func.isRequired,
-    // planUpdated: PropTypes.func.isRequired,
+    updateRUPConfirmation: PropTypes.func.isRequired,
+    confirmationUpdated: PropTypes.func.isRequired,
+    planUpdated: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -62,10 +64,41 @@ class AmendmentConfirmationModal extends Component {
   }
 
   onConfirmChoiceClicked = () => {
+    const {
+      updateRUPConfirmation, plan, confirmationsMap,
+      user, confirmationUpdated, planUpdated, references,
+    } = this.props;
     if (this.state.confirmationOption === CONFIRMATION_OPTION.CONFIRM) {
-      // make a network call
+      const onRequest = () => this.setState({ isConfirmating: true });
+      const onSuccess = (result) => {
+        const { allConfirmed, plan: updatedPlan, confirmation } = result;
+        const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
+        const status = planStatuses.find(status => status.id === updatedPlan.statusId);
+
+        if (allConfirmed) {
+          planUpdated({ plan: { ...plan, ...updatedPlan, status } });
+        }
+        confirmationUpdated({ confirmation });
+        this.setState({ isConfirmating: false });
+        this.onNextClicked();
+      };
+      const onError = (err) => {
+        this.setState({ isConfirmating: false });
+        throw err;
+      };
+      const confirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
+
+      onRequest();
+      updateRUPConfirmation(plan, confirmation.id, true).then(
+        (result) => {
+          onSuccess(result);
+        }, (err) => {
+          onError(err);
+        },
+      );
+    } else {
+      this.onNextClicked();
     }
-    this.onNextClicked();
   }
 
   handleSubmissionChoiceChange = (e, { value: confirmationOption }) => {
@@ -79,6 +112,26 @@ class AmendmentConfirmationModal extends Component {
     this.setState({ isAgreed: checked, readyToGoNext: true });
   }
 
+  renderAgreementHolder = (client, confirmation, user) => {
+    const { confirmed, updatedAt } = confirmation || {};
+    const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : AWAITING_CONFIRMATION;
+
+    return (
+      <div key={client.id} className="amendment__confirmation__ah-list">
+        <div>
+          <Icon name="user outline" />
+          <span className={classnames('amendment__confirmation__ah-list__cname', {
+            'amendment__confirmation__ah-list__cname--bold': isClientTheUser(client, user),
+          })}
+          >
+            {client.name}
+          </span>
+        </div>
+        <div>{confirmationDate}</div>
+      </div>
+    );
+  }
+
   renderAgreementHolders = (clients) => {
     const confirmedList = [
       <div key="confirmed1" className="amendment__confirmation__paragraph-title">
@@ -90,36 +143,29 @@ class AmendmentConfirmationModal extends Component {
       </div>,
     ];
     const notConfirmedList = [
-      <div key="notConfirmed1" className="amendment__confirmation__paragraph-title">
+      <div key="notConfirmed" className="amendment__confirmation__paragraph-title">
         Agreement holders who have not yet confirmed the submission
       </div>,
     ];
-
+    const allConfimed = [
+      <div key="allConfirmed" className="amendment__confirmation__paragraph-title">
+        All agreement holders have confirmed this submission
+      </div>,
+    ];
     const { user, confirmationsMap, plan } = this.props;
+
     clients.map((client) => {
       const confirmation = findConfirmationWithClientId(client.id, plan.confirmations, confirmationsMap);
-      const { confirmed, updatedAt } = confirmation || {};
-      const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : 'Awiting Confirmation';
-      const view = (
-        <div key={client.id} className="amendment__confirmation__ah-list">
-          <div>
-            <Icon name="user outline" />
-            <span className={classnames('amendment__confirmation__ah-list__cname', {
-              'amendment__confirmation__ah-list__cname--bold': isClientTheUser(client, user),
-            })}
-            >
-              {client.name}
-            </span>
-          </div>
-          <div>{confirmationDate}</div>
-        </div>
-      );
-      if (confirmed) {
+      const view = this.renderAgreementHolder(client, confirmation, user);
+      if (confirmation && confirmation.confirmed) {
         return confirmedList.push(view);
       }
       return notConfirmedList.push(view);
     });
 
+    if (notConfirmedList.length === 1) {
+      return confirmedList.concat(allConfimed);
+    }
     return confirmedList.concat(notConfirmedList);
   }
 
@@ -128,7 +174,7 @@ class AmendmentConfirmationModal extends Component {
       activeTab,
       readyToGoNext,
       isAgreed,
-      // isConfirmating,
+      isConfirmating,
       confirmationOption,
     } = this.state;
     const { open, user, plan, references, clients } = this.props;
@@ -202,6 +248,7 @@ class AmendmentConfirmationModal extends Component {
                 <Button
                   className="multi-form__btn"
                   disabled={isConfirmBtnDisabled}
+                  loading={isConfirmating}
                   onClick={this.onConfirmChoiceClicked}
                 >
                   Confirm Choice
@@ -269,4 +316,8 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, null)(AmendmentConfirmationModal);
+export default connect(mapStateToProps, {
+  updateRUPConfirmation,
+  planUpdated,
+  confirmationUpdated,
+})(AmendmentConfirmationModal);

@@ -49,6 +49,7 @@ export const GET_RUP = planId => `/plan/${planId}`;
 export const GET_PLAN_PDF = planId => `/report/${planId}`;
 export const UPDATE_PLAN_STATUS = planId => `/plan/${planId}/status`;
 export const UPDATE_RUP = planId => `/plan/${planId}`;
+export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/plan/${planId}/confirmation/${confirmationId}`;
 
 export const CREATE_RUP_PASTURE = planId => `/plan/${planId}/pasture`;
 export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/plan/${planId}/schedule`;
