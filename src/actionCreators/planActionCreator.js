@@ -42,14 +42,14 @@ export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispa
   );
 };
 
-export const updateRUP = (plan, body) => (dispatch, getState) => {
+export const updateRUP = (planId, body) => (dispatch, getState) => {
   return axios.put(
-    API.UPDATE_RUP(plan.id),
+    API.UPDATE_RUP(planId),
     body,
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      const updatedPlan = { ...plan, ...response.data };
+      const updatedPlan = response.data;
       dispatch(storePlan(normalize(updatedPlan, schema.plan)));
       return updatedPlan;
     },
@@ -209,7 +209,7 @@ export const createAmendment = plan => (dispatch, getState) => {
       const newMinisterIssues = await Promise.all(ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendment.id, mi))));
 
       // successfully finish uploading so make this amendment appear!
-      await dispatch(updateRUP(amendment, { uploaded: true }));
+      await dispatch(updateRUP(amendment.id, { uploaded: true }));
 
       const newAmendment = {
         ...amendment,

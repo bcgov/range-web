@@ -23,7 +23,6 @@ class AmendmentSubmissionModal extends Component {
     references: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object),
     updateRUP: PropTypes.func.isRequired,
-    // planUpdated: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -98,7 +97,6 @@ class AmendmentSubmissionModal extends Component {
   submitAmendment = (plan, planStatus, amendmentType) => {
     const {
       updateRUP,
-      // planUpdated,
       updateStatusAndContent,
     } = this.props;
 
@@ -107,11 +105,10 @@ class AmendmentSubmissionModal extends Component {
     };
     const onSuccess = () => {
       // update amendment type of the plan
-      updateRUP(plan, {
+      updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id,
       }).then(() => {
         this.onNextClicked();
-        // planUpdated({ plan: { ...plan, ...updatedPlan } });
         this.setState({ isSubmitting: false });
       });
     };
