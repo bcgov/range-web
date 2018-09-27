@@ -94,7 +94,7 @@ class MinorTabsForMultiple extends Component {
             You’re ready to submit your Minor Amendment to your range use plan. The other agreement holders below will be notified to confirm the submission and provide eSignatures.
           </div>
           <div style={{ marginBottom: '20px' }}>
-            Once all agreement holders have confirmed the submission and provided their eSignatures your RUP will be updated as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.
+            Once all agreement holders have confirmed the submission and provided their eSignatures, your RUP will be updated as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.
           </div>
           <div className="amendment__submission__ah-list__header">
             Agreement holders needed to confirm submission:

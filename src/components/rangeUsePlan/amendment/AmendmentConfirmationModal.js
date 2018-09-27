@@ -149,7 +149,7 @@ class AmendmentConfirmationModal extends Component {
     ];
     const allConfimed = [
       <div key="allConfirmed" className="amendment__confirmation__paragraph-title">
-        All agreement holders have confirmed this submission
+        All agreement holders have confirmed this submission. It has now been submitted to Range Staff.
       </div>,
     ];
     const { user, confirmationsMap, plan } = this.props;
