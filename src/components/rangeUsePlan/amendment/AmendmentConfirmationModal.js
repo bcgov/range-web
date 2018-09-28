@@ -169,14 +169,12 @@ class AmendmentConfirmationModal extends Component {
                   onChange={this.handleSubmissionChoiceChange}
                 />
               </Form.Field>
-              <div style={{ width: '100%' }}>
-                <ConfirmationList
-                  user={user}
-                  clients={clients}
-                  plan={plan}
-                  confirmationsMap={confirmationsMap}
-                />
-              </div>
+              <ConfirmationList
+                user={user}
+                clients={clients}
+                plan={plan}
+                confirmationsMap={confirmationsMap}
+              />
               <Form.Field>
                 <Checkbox
                   label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
@@ -212,14 +210,12 @@ class AmendmentConfirmationModal extends Component {
                 <div className="amendment__submission__last-tab__title">
                   Your {amendmentTypeDescription} confirmation has been saved
                 </div>
-                <div style={{ width: '100%' }}>
-                  <ConfirmationList
-                    user={user}
-                    clients={clients}
-                    plan={plan}
-                    confirmationsMap={confirmationsMap}
-                  />
-                </div>
+                <ConfirmationList
+                  user={user}
+                  clients={clients}
+                  plan={plan}
+                  confirmationsMap={confirmationsMap}
+                />
                 <Button style={{ marginTop: '15px' }} onClick={this.onClose}>Finish</Button>
               </div>
             </div>

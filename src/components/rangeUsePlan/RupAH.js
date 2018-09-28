@@ -320,6 +320,7 @@ export class RupAH extends Component {
           plan={plan}
           clients={clients}
         />
+
         <Banner
           noDefaultHeight
           header={header}
@@ -351,6 +352,7 @@ export class RupAH extends Component {
         <div className="rup__content">
           <RupNotifications
             plan={plan}
+            user={user}
             confirmationsMap={confirmationsMap}
           />
 

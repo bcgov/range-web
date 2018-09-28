@@ -29,7 +29,7 @@ class RupStickyHeader extends Component {
 
   handleScroll = () => {
     if (this.stickyHeader) {
-      if (window.pageYOffset >= this.stickyHeaderOffsetTop) {
+      if (window.pageYOffset > this.stickyHeaderOffsetTop) {
         this.stickyHeader.classList.add('rup__sticky--fixed');
       } else {
         this.stickyHeader.classList.remove('rup__sticky--fixed');

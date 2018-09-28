@@ -67,7 +67,11 @@ class ConfirmationList extends Component {
     if (notConfirmedList.length === 1) {
       return confirmedList.concat(allConfimed);
     }
-    return confirmedList.concat(notConfirmedList);
+    return (
+      <div style={{ width: '100%' }}>
+        {confirmedList.concat(notConfirmedList)}
+      </div>
+    );
   }
 }
 

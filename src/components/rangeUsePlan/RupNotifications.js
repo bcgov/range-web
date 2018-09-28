@@ -1,34 +1,79 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Modal } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation } from '../../utils';
+import ConfirmationList from './amendment/ConfirmationList';
 
 class RupNotifications extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
+    user: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
   };
 
+  state = {
+    confirmationStatusModalOpen: false,
+  }
+
+  openConfirmationStatusModal = () => this.setState({ confirmationStatusModalOpen: true })
+  closeConfirmationStatusModal = () => this.setState({ confirmationStatusModalOpen: false })
+
   render() {
-    const { plan, confirmationsMap } = this.props;
-    const { confirmations, status } = plan;
+    const { confirmationStatusModalOpen } = this.state;
+    const { plan, confirmationsMap, user } = this.props;
+    const { confirmations, status, agreement } = plan;
+    const clients = (agreement && agreement.clients) || [];
+
     let numberOfConfirmed = 0;
     confirmations.forEach((cId) => {
       if (confirmationsMap[cId].confirmed) numberOfConfirmed += 1;
     });
 
     return (
-      <Fragment>
+      <div className="rup__notifications">
         {isStatusAwaitingConfirmation(status) &&
-          <div className="rup__confirmations-notification">
-            <div className="rup__confirmations-notification__left">
-              <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
-              {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
+          <Fragment>
+            <Modal
+              dimmer="blurring"
+              size="tiny"
+              open={confirmationStatusModalOpen}
+              onClose={this.closeConfirmationStatusModal}
+              closeIcon={<Icon name="close" color="black" />}
+            >
+              <Modal.Content>
+                <div className="rup__confirmations-notification__modal">
+                  <Icon name="clock outline" size="huge" />
+                  <span className="rup__confirmations-notification__modal__title">
+                    Current Submission status
+                  </span>
+                  <span>
+                    There are still agreement holders who have not yet confirmed their confirmation choice.
+                  </span>
+                  <ConfirmationList
+                    user={user}
+                    clients={clients}
+                    plan={plan}
+                    confirmationsMap={confirmationsMap}
+                  />
+                  <span>
+                    This amendment will not be submitted until all agreement holders have confirmed and eSigned.
+                  </span>
+                  <Button onClick={this.closeConfirmationStatusModal}>Close</Button>
+                </div>
+              </Modal.Content>
+            </Modal>
+            <div className="rup__confirmations-notification">
+              <div className="rup__confirmations-notification__left">
+                <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
+                {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
+              </div>
+              <Button onClick={this.openConfirmationStatusModal}>
+                View Submission Status
+              </Button>
             </div>
-            <Button>View Submission Status</Button>
-          </div>
+          </Fragment>
         }
-      </Fragment>
+      </div>
     );
   }
 }
