@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Checkbox, Icon, Form } from 'semantic-ui-react';
-import { isClientTheUser } from '../../../utils';
+import { isClientCurrentUser } from '../../../utils';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -29,7 +29,7 @@ class MinorTabsForMultiple extends Component {
       <div key={client.id} className="amendment__submission__ah-list">
         <Icon name="user outline" />
         <span className={classnames('amendment__submission__ah-list__cname', {
-          'amendment__submission__ah-list__cname--bold': isClientTheUser(client, user),
+          'amendment__submission__ah-list__cname--bold': isClientCurrentUser(client, user),
         })}
         >
           {client.name}

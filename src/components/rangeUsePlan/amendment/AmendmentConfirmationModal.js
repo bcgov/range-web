@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { Button, Modal, Icon, Form, Radio, Checkbox } from 'semantic-ui-react';
 import { getUser, getReferences, getConfirmationsMap } from '../../../reducers/rootReducer';
 import { CONFIRMATION_OPTION, REFERENCE_KEY } from '../../../constants/variables';
-import { getPlanTypeDescription, getUserFullName, getUserEmail, isClientTheUser, findConfirmationWithClientId, formatDateFromServer } from '../../../utils';
-import { AWAITING_CONFIRMATION } from '../../../constants/strings';
+import { getPlanTypeDescription, getUserFullName, getUserEmail, findConfirmationWithClientId } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
+import ConfirmationList from './ConfirmationList';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -112,63 +112,6 @@ class AmendmentConfirmationModal extends Component {
     this.setState({ isAgreed: checked, readyToGoNext: true });
   }
 
-  renderAgreementHolder = (client, confirmation, user) => {
-    const { confirmed, updatedAt } = confirmation || {};
-    const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : AWAITING_CONFIRMATION;
-
-    return (
-      <div key={client.id} className="amendment__confirmation__ah-list">
-        <div>
-          <Icon name="user outline" />
-          <span className={classnames('amendment__confirmation__ah-list__cname', {
-            'amendment__confirmation__ah-list__cname--bold': isClientTheUser(client, user),
-          })}
-          >
-            {client.name}
-          </span>
-        </div>
-        <div>{confirmationDate}</div>
-      </div>
-    );
-  }
-
-  renderAgreementHolders = (clients) => {
-    const confirmedList = [
-      <div key="confirmed1" className="amendment__confirmation__paragraph-title">
-        Agreement holders who have confirmed the submission
-      </div>,
-      <div key="confirmed2" className="amendment__confirmation__ah-list__columns">
-        <span>Name</span>
-        <span>Confirmation Date</span>
-      </div>,
-    ];
-    const notConfirmedList = [
-      <div key="notConfirmed" className="amendment__confirmation__paragraph-title">
-        Agreement holders who have not yet confirmed the submission
-      </div>,
-    ];
-    const allConfimed = [
-      <div key="allConfirmed" className="amendment__confirmation__paragraph-title">
-        All agreement holders have confirmed this submission. It has now been submitted to Range Staff.
-      </div>,
-    ];
-    const { user, confirmationsMap, plan } = this.props;
-
-    clients.map((client) => {
-      const confirmation = findConfirmationWithClientId(client.id, plan.confirmations, confirmationsMap);
-      const view = this.renderAgreementHolder(client, confirmation, user);
-      if (confirmation && confirmation.confirmed) {
-        return confirmedList.push(view);
-      }
-      return notConfirmedList.push(view);
-    });
-
-    if (notConfirmedList.length === 1) {
-      return confirmedList.concat(allConfimed);
-    }
-    return confirmedList.concat(notConfirmedList);
-  }
-
   render() {
     const {
       activeTab,
@@ -177,7 +120,7 @@ class AmendmentConfirmationModal extends Component {
       isConfirmating,
       confirmationOption,
     } = this.state;
-    const { open, user, plan, references, clients } = this.props;
+    const { open, user, plan, references, clients, confirmationsMap } = this.props;
     const index = activeTab + 1;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const amendmentTypeDescription = getPlanTypeDescription(plan, amendmentTypes);
@@ -227,7 +170,12 @@ class AmendmentConfirmationModal extends Component {
                 />
               </Form.Field>
               <div style={{ width: '100%' }}>
-                {this.renderAgreementHolders(clients)}
+                <ConfirmationList
+                  user={user}
+                  clients={clients}
+                  plan={plan}
+                  confirmationsMap={confirmationsMap}
+                />
               </div>
               <Form.Field>
                 <Checkbox
@@ -265,7 +213,12 @@ class AmendmentConfirmationModal extends Component {
                   Your {amendmentTypeDescription} confirmation has been saved
                 </div>
                 <div style={{ width: '100%' }}>
-                  {this.renderAgreementHolders(clients)}
+                  <ConfirmationList
+                    user={user}
+                    clients={clients}
+                    plan={plan}
+                    confirmationsMap={confirmationsMap}
+                  />
                 </div>
                 <Button style={{ marginTop: '15px' }} onClick={this.onClose}>Finish</Button>
               </div>

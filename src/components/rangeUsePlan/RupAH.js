@@ -286,14 +286,12 @@ export class RupAH extends Component {
     return (
       <Fragment>
         {utils.isStatusAwaitingConfirmation(status) &&
-          <div className="rup__notification-container">
-            <div className="rup__confirmations-notification">
-              <div className="rup__confirmations-notification__left">
-                <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
-                {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
-              </div>
-              <Button>View Submission Status</Button>
+          <div className="rup__confirmations-notification">
+            <div className="rup__confirmations-notification__left">
+              <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
+              {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
             </div>
+            <Button>View Submission Status</Button>
           </div>
         }
       </Fragment>
@@ -372,9 +370,9 @@ export class RupAH extends Component {
           </div>
         </RupStickyHeader>
 
-        {this.renderNotifications(plan, confirmationsMap)}
-
         <div className="rup__content">
+          {this.renderNotifications(plan, confirmationsMap)}
+
           <ViewRupBasicInformation
             className="rup__basic_information"
             agreement={agreement}

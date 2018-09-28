@@ -19,7 +19,7 @@ export const isSingleClient = (clients = []) => {
   return clients.length === 1;
 };
 
-export const isClientTheUser = (client, user) => {
+export const isClientCurrentUser = (client, user) => {
   if (client && user) {
     return user.clientId === client.id;
   }

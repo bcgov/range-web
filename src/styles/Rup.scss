@@ -56,7 +56,7 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 54px;
+    padding-top: 40px;
   }
   &__actions {
     &__background {
@@ -99,14 +99,11 @@ $row-height: 80px;
       font-size: 1.2rem;
     }
   }
-  &__notification-container {
-    @extend .container;
-  }
   &__confirmations-notification {
-    padding: 15px;
+    padding: 10px;
     background-color: lightgray;
     border-radius: 5px;
-    margin-top: 15px;
+    margin-bottom: 15px;
     font-size: 1.2rem;
     font-weight: bold;
     display: flex;
