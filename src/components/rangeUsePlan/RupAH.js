@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { Status, Banner } from '../common';
 import ViewRupBasicInformation from './view/ViewRupBasicInformation';
 import ViewRupPastures from './view/ViewRupPastures';
@@ -11,6 +11,7 @@ import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import RupStickyHeader from './RupStickyHeader';
 import RupBackBtn from './RupBackBtn';
+import RupNotifications from './RupNotifications';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
@@ -275,29 +276,6 @@ export class RupAH extends Component {
     return previewPDF;
   }
 
-  renderNotifications = () => {
-    const { plan, confirmationsMap } = this.props;
-    const { confirmations, status } = plan;
-    let numberOfConfirmed = 0;
-    confirmations.forEach((cId) => {
-      if (confirmationsMap[cId].confirmed) numberOfConfirmed += 1;
-    });
-
-    return (
-      <Fragment>
-        {utils.isStatusAwaitingConfirmation(status) &&
-          <div className="rup__confirmations-notification">
-            <div className="rup__confirmations-notification__left">
-              <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
-              {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
-            </div>
-            <Button>View Submission Status</Button>
-          </div>
-        }
-      </Fragment>
-    );
-  }
-
   render() {
     const {
       isSubmitAmendmentModalOpen,
@@ -371,7 +349,10 @@ export class RupAH extends Component {
         </RupStickyHeader>
 
         <div className="rup__content">
-          {this.renderNotifications(plan, confirmationsMap)}
+          <RupNotifications
+            plan={plan}
+            confirmationsMap={confirmationsMap}
+          />
 
           <ViewRupBasicInformation
             className="rup__basic_information"
