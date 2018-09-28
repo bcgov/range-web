@@ -4,27 +4,31 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Modal, Icon, Form, Radio } from 'semantic-ui-react';
 import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables';
-import { getReferences } from '../../../reducers/rootReducer';
+import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
-import MinorSubmissionTabs from './MinorSubmissionTabs';
-import MandatoySubmissionTabs from './MandatoySubmissionTabs';
+import MinorTabsForSingle from './MinorTabsForSingle';
+import MinorTabsForMultiple from './MinorTabsForMultiple';
+import MandatoryTabsForSingle from './MandatoryTabsForSingle';
+import { isSingleClient, isMinorAmendment, isMandatoryAmendment } from '../../../utils';
 
-const propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  plan: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  clients: PropTypes.arrayOf(PropTypes.object),
-  updateRUP: PropTypes.func.isRequired,
-  planUpdated: PropTypes.func.isRequired,
-  updateStatusAndContent: PropTypes.func.isRequired,
-};
-const defaultProps = {
-  clients: [],
-};
+/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
 class AmendmentSubmissionModal extends Component {
+  static propTypes = {
+    user: PropTypes.shape({}).isRequired,
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    plan: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object),
+    updateRUP: PropTypes.func.isRequired,
+    updateStatusAndContent: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    clients: [],
+  };
+
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
@@ -60,26 +64,39 @@ class AmendmentSubmissionModal extends Component {
   }
 
   onSubmitClicked = () => {
-    const { plan, references } = this.props;
+    const { plan, references, clients } = this.props;
     const { amendmentType, mandatorySubmissionType } = this.state;
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
     const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
 
-    if (amendmentType === AMENDMENT_TYPE.MINOR) {
+    if (isMinorAmendment(amendmentType) && isSingleClient(clients)) {
       const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       this.submitAmendment(plan, stands, minor);
-    } else if (amendmentType === AMENDMENT_TYPE.MANDATORY) {
+      return;
+    }
+
+    if (isMinorAmendment(amendmentType) && !isSingleClient(clients)) {
+      const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
+      this.submitAmendment(plan, confirmationAwaiting, minor);
+      return;
+    }
+
+    if (isMandatoryAmendment(amendmentType) && isSingleClient(clients)) {
       const planStatus = planStatuses.find(s => s.code === mandatorySubmissionType);
       this.submitAmendment(plan, planStatus, mandatory);
+      return;
+    }
+
+    if (isMandatoryAmendment(amendmentType) && !isSingleClient(clients)) {
+      // do something
     }
   }
 
   submitAmendment = (plan, planStatus, amendmentType) => {
     const {
       updateRUP,
-      planUpdated,
       updateStatusAndContent,
     } = this.props;
 
@@ -90,9 +107,8 @@ class AmendmentSubmissionModal extends Component {
       // update amendment type of the plan
       updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id,
-      }).then((updatedPlan) => {
+      }).then(() => {
         this.onNextClicked();
-        planUpdated({ plan: { ...plan, ...updatedPlan } });
         this.setState({ isSubmitting: false });
       });
     };
@@ -120,8 +136,9 @@ class AmendmentSubmissionModal extends Component {
       activeTab, amendmentType, readyToGoNext, isAgreed,
       isSubmitting, mandatorySubmissionType,
     } = this.state;
-    const { open, clients } = this.props;
+    const { open, clients, user } = this.props;
     const index = activeTab + 1;
+    const isThereSingleAH = isSingleClient(clients);
 
     return (
       <Modal
@@ -140,30 +157,32 @@ class AmendmentSubmissionModal extends Component {
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
-                  label=""
+                  label={
+                    <label>
+                      <b>Minor Amendment: </b>
+                      Otherwise conforms to this Act, the regulations and the standards, and does not materially affect the likelihood of achieving the intended results specified in the plan.
+                    </label>
+                  }
                   name="radioGroup"
                   value={AMENDMENT_TYPE.MINOR}
                   checked={amendmentType === AMENDMENT_TYPE.MINOR}
                   onChange={this.handleAmendmentTypeChange}
                 />
-                <div>
-                  <b>Minor Amendment: </b>
-                  Short Description of what a minor amendment is. Provide clarification of what constitutes a minor amendment.
-                </div>
               </Form.Field>
               <Form.Field className="amendment__submission__radio-field">
                 <Radio
                   className="amendment__submission__radio"
-                  label=""
+                  label={
+                    <label>
+                      <b>Mandatory Amendment: </b>
+                      Does not meet the minor amendment criteria, or has been required by the decision makers.
+                    </label>
+                  }
                   name="radioGroup"
                   value={AMENDMENT_TYPE.MANDATORY}
                   checked={amendmentType === AMENDMENT_TYPE.MANDATORY}
                   onChange={this.handleAmendmentTypeChange}
                 />
-                <div>
-                  <b>Mandatory Amendment: </b>
-                  Short Description of what a mandatory amendment is. Provide clarification of what constitutes a mandatory amendment.
-                </div>
               </Form.Field>
               <div className="multi-form__btns">
                 <Button
@@ -182,20 +201,40 @@ class AmendmentSubmissionModal extends Component {
               </div>
             </div>
           </Form>
-          { amendmentType === AMENDMENT_TYPE.MINOR &&
-            <MinorSubmissionTabs
+
+          {(amendmentType === AMENDMENT_TYPE.MINOR) && isThereSingleAH &&
+            <MinorTabsForSingle
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
               isSubmitting={isSubmitting}
+              readyToGoNext={readyToGoNext}
               handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
               onClose={this.onClose}
               onBackClicked={this.onBackClicked}
+              onNextClicked={this.onNextClicked}
               onSubmitClicked={this.onSubmitClicked}
             />
           }
-          { amendmentType === AMENDMENT_TYPE.MANDATORY &&
-            <MandatoySubmissionTabs
+
+          {(amendmentType === AMENDMENT_TYPE.MINOR) && !isThereSingleAH &&
+            <MinorTabsForMultiple
+              user={user}
+              clients={clients}
+              activeTab={activeTab}
+              isAgreed={isAgreed}
+              isSubmitting={isSubmitting}
+              readyToGoNext={readyToGoNext}
+              handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
+              onClose={this.onClose}
+              onBackClicked={this.onBackClicked}
+              onNextClicked={this.onNextClicked}
+              onSubmitClicked={this.onSubmitClicked}
+            />
+          }
+
+          {(amendmentType === AMENDMENT_TYPE.MANDATORY) && isThereSingleAH &&
+            <MandatoryTabsForSingle
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
@@ -218,12 +257,11 @@ class AmendmentSubmissionModal extends Component {
 
 const mapStateToProps = state => (
   {
+    user: getUser(state),
     references: getReferences(state),
   }
 );
 
-AmendmentSubmissionModal.propTypes = propTypes;
-AmendmentSubmissionModal.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   updateRUP,
   planUpdated,

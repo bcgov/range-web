@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { parseQuery } from '../../utils';
 import Agreement from './Agreement';
 import { searchAgreements, fetchAgreement } from '../../actionCreators';
+import { SELECT_RUP_TITLE } from '../../constants/strings';
 
 const propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
@@ -12,9 +13,14 @@ const propTypes = {
   fetchAgreement: PropTypes.func.isRequired,
 };
 class Base extends Component {
+  componentWillMount() {
+    document.title = SELECT_RUP_TITLE;
+  }
+
   componentDidMount() {
-    // initial search for agreements with the given query
     const { searchAgreements, fetchAgreement, location } = this.props;
+
+    // initial search for agreements with the given query
     const params = parseQuery(location.search);
     searchAgreements({ ...params });
 

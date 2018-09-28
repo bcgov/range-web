@@ -1,0 +1,85 @@
+.amendment {
+  &__confirmation {
+    &__paragraph-title {
+      font-size: 1.1rem;
+      margin-top: 15px;
+      color: #999999;
+    }
+    &__ah-list {
+      margin: 5px 0;
+      display: flex;
+
+      > div {
+        flex: 1;
+      }
+      &__header {
+        font-size: 1.1rem;
+        color: #999999;
+        margin-bottom: 7px;
+      }
+      &__columns {
+        display: flex;
+        margin-top: 5px;
+        font-weight: bold;
+
+        > span {
+          flex: 1;
+        }
+      }
+      &__cname {
+        margin: 0 7px;
+
+        &--bold {
+          font-weight: bold;
+        }
+      }
+    }
+    &__request {
+      &__header {
+        color: rgba(51,51,51,0.5);
+        font-family: "Helvetica Neue";
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        font-weight: bold;
+        line-height: 25px;
+        text-align: center;
+      }
+    }
+  }
+  &__submission {
+    &__last-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+    }
+    &__radio {
+      margin-right: 10px;
+    }
+    &__radio-field {
+      display: flex;
+    }
+    &__ah-list {
+      margin: 10px 0;
+
+      &__header {
+        font-size: 1.1rem;
+        color: #999999;
+        margin-bottom: 7px;
+      }
+      &__cname {
+        margin: 0 7px;
+
+        &--bold {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

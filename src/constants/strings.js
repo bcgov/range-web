@@ -1,5 +1,14 @@
 export const APP_NAME = 'MyRange BC';
 
+// page titles
+const createTitle = title => `${title} | MyRangeBC`;
+export const LOGIN_TITLE = createTitle('Sign in');
+export const DETAIL_RUP_TITLE = createTitle('View RUP');
+export const SELECT_RUP_TITLE = createTitle('Select RUP');
+export const MANAGE_CLIENT_TITLE = createTitle('Manage Client');
+export const MANAGE_ZONE_TITLE = createTitle('Manage Zone');
+export const PAGE_NOT_FOUND_TITLE = createTitle('Page Not Found');
+
 // tenure agreement table header labels
 export const RANGE_NUMBER = 'RAN Number';
 export const RANGE_NAME = 'Range Name';
@@ -15,7 +24,9 @@ export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
 export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';
+export const CONFIRM_SUBMISSION = 'Confirm Submission';
 export const VIEW = 'View';
+export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';
@@ -46,7 +57,7 @@ export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
 export const GRACE_DAYS = 'Grace Days';
-export const PASTURE_NOTES = 'Pasture Notes';
+export const PASTURE_NOTES = 'Pasture Notes (non legal content)';
 
 // RUP schedules
 export const PASTURE = 'Pasture';
@@ -146,3 +157,4 @@ export const REVISIONS_REQUESTED = 'Revisions Requested';
 export const SENT_FOR_INPUT = 'Sent for Input';
 export const IN_PROGRESS = 'In Progress';
 export const DRAFT = 'Draft';
+export const UNKNOWN_STATUS = 'Unknown Status';

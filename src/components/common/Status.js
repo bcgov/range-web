@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NOT_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED, DRAFT } from '../../constants/strings';
+import { NOT_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED, DRAFT, UNKNOWN_STATUS } from '../../constants/strings';
 import { PLAN_STATUS } from '../../constants/variables';
 import { isUserAgreementHolder } from '../../utils';
 
@@ -29,7 +29,7 @@ const Status = ({
   user,
 }) => {
   let modifier = 'status__icon';
-  let statusName = status.code ? 'Unknown Status' : NOT_PROVIDED;
+  let statusName = status.code ? UNKNOWN_STATUS : NOT_PROVIDED;
 
   switch (status.code) {
     case PLAN_STATUS.CREATED:
@@ -114,6 +114,10 @@ const Status = ({
     case PLAN_STATUS.READY_FOR_FINAL_DECISION:
       statusName = status.name;
       modifier += '--purple';
+      break;
+    case PLAN_STATUS.AWAITING_CONFIRMATION:
+      statusName = status.name;
+      modifier += '--orange';
       break;
 
     default:

@@ -24,6 +24,7 @@ export const PLAN_STATUS = {
   RECOMMEND_READY: 'RR',
   RECOMMEND_NOT_READY: 'RNR',
   READY_FOR_FINAL_DECISION: 'RFD',
+  AWAITING_CONFIRMATION: 'AC',
 };
 
 export const APPROVED_PLAN_STATUSES = [
@@ -42,6 +43,11 @@ export const AMENDMENT_TYPE = {
   MINOR: 'MNA',
   MANDATORY: 'MA',
   INITIAL: 'A',
+};
+
+export const CONFIRMATION_OPTION = {
+  CONFIRM: 'Confirm',
+  REQUEST: 'Request clarification or changes',
 };
 
 export const CONFIRMATION_MODAL_ID = {

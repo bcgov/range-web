@@ -9,9 +9,9 @@ const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   return '';
 };
 
-export const getPlanTypeDescription = (isFetchingPlan, plan, amendmentTypes) => {
-  const { agreementId, amendmentTypeId } = plan || {};
-  if (isFetchingPlan) return '';
+export const getPlanTypeDescription = (plan = {}, amendmentTypes) => {
+  const { agreementId, amendmentTypeId } = plan;
+  if (!plan.id) return '';
   if (agreementId && amendmentTypeId) {
     return getAmendmentTypeDescription(amendmentTypeId, amendmentTypes);
   }
@@ -86,6 +86,10 @@ export const isStatusRecommendNotReady = status => (
   status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY
 );
 
+export const isStatusAwaitingConfirmation = status => (
+  status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION
+);
+
 export const isStatusAmongApprovedStatuses = status => (
   status && status.code &&
   (APPROVED_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
@@ -100,6 +104,23 @@ export const isStatusIndicatingStaffFeedbackNeeded = status => (
   status && status.code &&
   (FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
 );
+
+export const canUserSubmitConfirmation = (status, user, confirmations = [], confirmationsMap = {}) => {
+  if (isStatusAwaitingConfirmation(status) && user) {
+    let isConfirmed = false;
+    confirmations.map((cId) => {
+      const confirmation = confirmationsMap[cId];
+      if (user.clientId && (user.clientId === confirmation.clientId)) {
+        isConfirmed = confirmation.confirmed;
+      }
+      return undefined;
+    });
+
+    // users who haven't confirmed yet can submit the confirmation
+    return !isConfirmed;
+  }
+  return false;
+};
 
 export const getBannerContentForAH = (status) => {
   if (isStatusCreated(status)) {

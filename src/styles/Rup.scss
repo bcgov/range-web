@@ -14,8 +14,19 @@ $row-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    @extend .error;
+    height: calc(100vh - 90px);
+    font-size: 1.5rem;
+    flex-direction: column;
+
+    > div {
+      margin: 10px 0;
+    }
+    &__message {
+      margin: 0px 10px 0 5px;
+    }
+    &__or-message {
+      margin: 0px 10px 0 10px;
+    }
   }
   &__title {
     font-size: 1.8rem;
@@ -45,7 +56,7 @@ $row-height: 80px;
   /* Add some top padding to the page content to prevent sudden quick movement 
   (as the header gets a new position at the top of the page (position:fixed and top:0) */
   &__sticky--fixed + &__content {
-    padding-top: 75px;
+    padding-top: 40px;
   }
   &__actions {
     &__background {
@@ -86,6 +97,36 @@ $row-height: 80px;
     &__title {
       font-weight: bold;
       font-size: 1.2rem;
+    }
+  }
+  &__confirmations-notification {
+    padding: 10px;
+    background-color: lightgray;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+    &__modal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      > button,
+      > span {
+        margin-top: 10px !important;
+      }
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
     }
   }
   &__content {
@@ -139,7 +180,7 @@ $row-height: 80px;
       right: 0 !important;
       
       > .item {
-        text-align: right !important;
+        text-align: center !important;
       }
     }
   }
@@ -180,28 +221,6 @@ $row-height: 80px;
         padding: 20px;
         color: black;
       }
-    }
-  }
-}
-
-.amendment {
-  &__submission {
-    &__last-tab {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      &__title {
-        font-size: 1.3rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-    }
-    &__radio {
-      margin-right: 10px;
-    }
-    &__radio-field {
-      display: flex;
     }
   }
 }

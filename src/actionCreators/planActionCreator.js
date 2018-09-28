@@ -4,7 +4,7 @@ import { success, request, error, storePlan } from '../actions';
 import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_AGREEMENT_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
-import * as API from '../constants/API';
+import * as API from '../constants/api';
 import * as schema from './schema';
 import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
@@ -15,6 +15,33 @@ import {
   copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
  } from '../utils';
 
+export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispatch, getState) => {
+  const { id: planId, amendmentTypeId } = plan;
+  const references = getReferences(getState());
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  const isMinorAmendment = amendmentType.code === AMENDMENT_TYPE.MINOR;
+  const config = {
+    ...createConfigWithHeader(getState),
+    params: {
+      isMinorAmendment,
+    },
+  };
+
+  return axios.put(
+    API.UPDATE_CONFIRMATION(planId, confirmationId),
+    { confirmed },
+    config,
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
 export const updateRUP = (planId, body) => (dispatch, getState) => {
   return axios.put(
     API.UPDATE_RUP(planId),
@@ -23,8 +50,8 @@ export const updateRUP = (planId, body) => (dispatch, getState) => {
   ).then(
     (response) => {
       const updatedPlan = response.data;
-      const { entities: { plans: plan } } = normalize(updatedPlan, schema.plan);
-      return plan[planId];
+      dispatch(storePlan(normalize(updatedPlan, schema.plan)));
+      return updatedPlan;
     },
     (err) => {
       throw err;

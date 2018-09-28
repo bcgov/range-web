@@ -8,8 +8,10 @@ import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
+import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import RupStickyHeader from './RupStickyHeader';
 import RupBackBtn from './RupBackBtn';
+import RupNotifications from './RupNotifications';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
@@ -25,6 +27,7 @@ export class RupAH extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
+    confirmationsMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
@@ -34,7 +37,6 @@ export class RupAH extends Component {
     planUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
-    isFetchingPlan: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     agreement: {
@@ -46,11 +48,13 @@ export class RupAH extends Component {
       pastures: [],
       grazingSchedules: [],
       ministerIssues: [],
+      confirmations: [],
     },
   };
 
   state = {
     isSubmitAmendmentModalOpen: false,
+    isConfirmAmendmentModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
@@ -169,9 +173,9 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
     } = this.props;
-    const usages = agreement && agreement.usage;
+    const usage = agreement && agreement.usage;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
-    const errors = utils.handleRupValidation(plan, pasturesMap, grazingSchedulesMap, livestockTypes, usages);
+    const errors = utils.handleRupValidation(plan, pasturesMap, grazingSchedulesMap, livestockTypes, usage);
 
     // errors have been found
     if (errors.length !== 0) {
@@ -212,8 +216,10 @@ export class RupAH extends Component {
 
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
+  openConfirmAmendmentModal = () => this.setState({ isConfirmAmendmentModalOpen: true })
+  closeConfirmAmendmentModal = () => this.setState({ isConfirmAmendmentModalOpen: false })
 
-  renderActionBtns = (isEditable, isAmendable) => {
+  renderActionBtns = (canEdit, canAmend, canConfirm) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
     const { isCreatingAmendment } = this.props;
     const previewPDF = (
@@ -251,11 +257,21 @@ export class RupAH extends Component {
         {strings.AMEND_PLAN}
       </Button>
     );
-
-    if (isEditable) {
+    const confirmSubmission = (
+      <Button
+        key="confirmSubmissionBtn"
+        style={{ marginLeft: '10px' }}
+        onClick={this.openConfirmAmendmentModal}
+      >
+        {strings.CONFIRM_SUBMISSION}
+      </Button>
+    );
+    if (canEdit) {
       return [previewPDF, saveDraft, submit];
-    } else if (isAmendable) {
+    } else if (canAmend) {
       return [previewPDF, amend];
+    } else if (canConfirm) {
+      return [previewPDF, confirmSubmission];
     }
     return previewPDF;
   }
@@ -263,6 +279,7 @@ export class RupAH extends Component {
   render() {
     const {
       isSubmitAmendmentModalOpen,
+      isConfirmAmendmentModalOpen,
     } = this.state;
 
     const {
@@ -273,19 +290,19 @@ export class RupAH extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
-      isFetchingPlan,
+      confirmationsMap,
     } = this.props;
 
-    const { agreementId, status } = plan;
-    const { clients, usage: usages } = agreement;
+    const { agreementId, status, confirmations } = plan;
+    const { clients, usage } = agreement;
     const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
-    const isEditable = utils.isStatusAllowingRevisionForAH(status);
-    const isAmendable = utils.isStatusAmongApprovedStatuses(status);
-
+    const canEdit = utils.isStatusAllowingRevisionForAH(status);
+    const canAmend = utils.isStatusAmongApprovedStatuses(status);
+    const canConfirm = utils.canUserSubmitConfirmation(status, user, confirmations, confirmationsMap);
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const header = utils.getPlanTypeDescription(isFetchingPlan, plan, amendmentTypes);
+    const header = utils.getPlanTypeDescription(plan, amendmentTypes);
 
     return (
       <section className="rup">
@@ -295,6 +312,13 @@ export class RupAH extends Component {
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
+        />
+
+        <AmendmentConfirmationModal
+          open={isConfirmAmendmentModalOpen}
+          onClose={this.closeConfirmAmendmentModal}
+          plan={plan}
+          clients={clients}
         />
 
         <Banner
@@ -319,13 +343,19 @@ export class RupAH extends Component {
                 />
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(isEditable, isAmendable)}
+                {this.renderActionBtns(canEdit, canAmend, canConfirm)}
               </div>
             </div>
           </div>
         </RupStickyHeader>
 
         <div className="rup__content">
+          <RupNotifications
+            plan={plan}
+            user={user}
+            confirmationsMap={confirmationsMap}
+          />
+
           <ViewRupBasicInformation
             className="rup__basic_information"
             agreement={agreement}
@@ -339,11 +369,11 @@ export class RupAH extends Component {
             pasturesMap={pasturesMap}
           />
 
-          {isEditable ?
+          {canEdit ?
             <EditRupGrazingSchedules
               className="rup__grazing-schedules__container"
               references={references}
-              usages={usages}
+              usage={usage}
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
@@ -351,7 +381,7 @@ export class RupAH extends Component {
             : <ViewRupGrazingSchedules
               className="rup__grazing-schedules__container"
               references={references}
-              usages={usages}
+              usage={usage}
               plan={plan}
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}

@@ -5,6 +5,7 @@ import ManageClient from './ManageClient';
 import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
 import { userUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { getUsers, getClients, getIsFetchingClients, getIsUpdatingUserIdOfZone, getUsersMap } from '../../reducers/rootReducer';
+import { MANAGE_CLIENT_TITLE } from '../../constants/strings';
 
 const propTypes = {
   fetchUsers: PropTypes.func.isRequired,
@@ -12,6 +13,8 @@ const propTypes = {
 
 class Base extends Component {
   componentWillMount() {
+    document.title = MANAGE_CLIENT_TITLE;
+
     this.props.fetchUsers();
   }
 

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Segment } from 'semantic-ui-react';
 import { Loading } from './common';
-import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/API';
+import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/api';
 import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
 import { storeAuthData } from '../actions';
 import { fetchUser } from '../actionCreators';
 import { getIsFetchingUser } from '../reducers/rootReducer';
-import { APP_NAME } from '../constants/strings';
+import { APP_NAME, LOGIN_TITLE } from '../constants/strings';
 import { detectIE } from '../utils';
 
 const propTypes = {
@@ -18,10 +18,14 @@ const propTypes = {
 };
 
 export class Login extends Component {
-  // Sets up localstorage listener for cross-tab communication
-  // since the authentication requires the user to be redirected
-  // to another page and then redirected back to a return URL with the token.
+  componentWillMount() {
+    document.title = LOGIN_TITLE;
+  }
+
   componentDidMount() {
+    // Sets up localstorage listener for cross-tab communication
+    // since the authentication requires the user to be redirected
+    // to another page and then redirected back to a return URL with the token.
     window.addEventListener('storage', this.storageEventListener);
   }
 

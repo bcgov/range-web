@@ -35,21 +35,21 @@
     "react/button-has-type": "off",
     "react/prefer-stateless-function": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/href-no-hash": "off",
+    "no-shadow": "off",
+    "no-else-return": "off",
+    "no-unused-expressions": "warn",
+    "no-useless-concat": "warn",
     "object-curly-newline": "off",
     "indent": "off",
-    "no-shadow": "off",
     "quote-props": "off",
     "max-len": "off",
     "operator-linebreak": "off",
     "lines-between-class-members": "off",
-    "no-else-return": "off",
     "arrow-body-style": "off",
-    "no-unused-expressions": "warn",
-    "no-useless-concat": "warn",
     "block-scoped-var": "error",
-    "consistent-return": "error",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "consistent-return": "error"
   }
 }

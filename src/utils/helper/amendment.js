@@ -1,3 +1,5 @@
+import { AMENDMENT_TYPE } from '../../constants/variables';
+
 export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) => {
   const copied = {
     ...plan,
@@ -8,6 +10,8 @@ export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) 
     submittedAt: null,
   };
   delete copied.id;
+  delete copied.createdAt;
+  delete copied.updatedAt;
 
   return copied;
 };
@@ -74,3 +78,11 @@ export const copyMinisterIssuesToCreateAmendment = (
     return { ...ministerIssue, pastures };
   });
 };
+
+export const isMinorAmendment = amendmentType => (
+  amendmentType === AMENDMENT_TYPE.MINOR
+);
+
+export const isMandatoryAmendment = amendmentType => (
+  amendmentType === AMENDMENT_TYPE.MANDATORY
+);

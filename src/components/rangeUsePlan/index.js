@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import RupStaff from './RupStaff';
 import RupAH from './RupAH';
 import { Loading } from '../common';
@@ -9,10 +9,12 @@ import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirm
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
+import { DETAIL_RUP_TITLE } from '../../constants/strings';
 
 const propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  history: PropTypes.shape({}).isRequired,
   fetchRUP: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
@@ -25,6 +27,10 @@ const defaultProps = {
 };
 
 class Base extends Component {
+  componentWillMount() {
+    document.title = DETAIL_RUP_TITLE;
+  }
+
   componentDidMount() {
     // initial fetch for a plan
     this.fetchPlan();
@@ -49,6 +55,10 @@ class Base extends Component {
     fetchRUP(match.params.planId);
   }
 
+  onRetryClicked = () => {
+    this.fetchPlan();
+  }
+
   render() {
     const {
       match,
@@ -56,26 +66,34 @@ class Base extends Component {
       isFetchingPlan,
       errorFetchingPlan,
       plansMap,
+      history,
     } = this.props;
 
     const plan = plansMap[match.params.planId];
     const agreement = plan && plan.agreement;
+    const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan;
+
+    if (errorFetchingPlan) {
+      return (
+        <div className="rup__fetching-error">
+          <Icon name="warning circle" size="big" color="red" />
+          <div>
+            <span className="rup__fetching-error__message">
+              Error occured while fetching the range use plan.
+            </span>
+          </div>
+          <div>
+            <Button onClick={history.goBack}>Go Back</Button>
+            <span className="rup__fetching-error__or-message">or</span>
+            <Button onClick={this.onRetryClicked}>Retry</Button>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <Fragment>
-        <Loading active={isFetchingPlan} onlySpinner />
-        { errorFetchingPlan &&
-          <div className="rup__fetching-error">
-            Error occured while fetching
-            <Button
-              style={{ marginLeft: '10px' }}
-              size="mini"
-              onClick={this.fetchPlan}
-            >
-              Retry
-            </Button>
-          </div>
-        }
+        <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
         { isUserAdmin(user) &&
           <RupStaff
@@ -112,6 +130,7 @@ const mapStateToProps = state => (
     pasturesMap: selectors.getPasturesMap(state),
     grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
     ministerIssuesMap: selectors.getMinisterIssuesMap(state),
+    confirmationsMap: selectors.getConfirmationsMap(state),
     isFetchingPlan: selectors.getIsFetchingPlan(state),
     errorFetchingPlan: selectors.getPlanErrorMessage(state),
     references: selectors.getReferences(state),

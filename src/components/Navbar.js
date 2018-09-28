@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
-import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/API';
+import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
 import { getUser } from '../reducers/rootReducer';
 import { isUserAdmin, isUserActive } from '../utils';
 import { signOut } from '../actionCreators';

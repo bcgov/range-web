@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 import { axios, createConfigWithHeader, saveReferencesInLocalStorage } from '../utils';
-import * as API from '../constants/API';
+import * as API from '../constants/api';
 import { storeUsers, storeReferences, storeZones } from '../actions';
 import * as schema from './schema';
 

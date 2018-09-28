@@ -21,7 +21,7 @@ import { normalize } from 'normalizr';
 import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
-import * as API from '../constants/API';
+import * as API from '../constants/api';
 import { getIsFetchingAgreements } from '../reducers/rootReducer';
 import { axios, saveUserProfileInLocal, createConfigWithHeader } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';

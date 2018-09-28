@@ -12,7 +12,7 @@ class ViewRupGrazingSchedules extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
-    usages: PropTypes.arrayOf(PropTypes.object).isRequired,
+    usage: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   state = {
@@ -58,13 +58,13 @@ class ViewRupGrazingSchedules extends Component {
 
   renderSchedule = (schedule, scheduleIndex) => {
     const {
-      usages,
+      usage,
       references,
       pasturesMap,
     } = this.props;
     const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
     const { id, year, narative } = schedule;
-    const yearUsage = usages.find(u => u.year === year);
+    const yearUsage = usage.find(u => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const crownTotalAUMs = utils.roundTo1Decimal(utils.calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes));

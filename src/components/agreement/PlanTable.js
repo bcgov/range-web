@@ -46,7 +46,7 @@ class PlanTable extends Component {
       <div key={id} className="agrm__ptable__row">
         <div className="agrm__ptable__row__cell">
           {recentApproved &&
-            <Icon name="star" size="small" style={{ marginRight: '5px' }} />
+            <Icon name="star" size="small" style={{ marginRight: '7px' }} />
           }
           {effectiveAt}
         </div>

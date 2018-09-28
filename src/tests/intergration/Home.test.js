@@ -11,7 +11,7 @@ import { getAgreements } from '../../reducers/rootReducer';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { ELEMENT_ID } from '../../constants/variables';
 import { mockRequestHeader, mockAgreements, mockAgreement, mockReference } from './mockData';
-import * as API from '../../constants/API';
+import * as API from '../../constants/api';
 
 jest.mock('lodash.debounce');
 
