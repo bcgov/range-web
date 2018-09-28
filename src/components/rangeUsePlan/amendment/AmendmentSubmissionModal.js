@@ -54,6 +54,7 @@ class AmendmentSubmissionModal extends Component {
   onNextClicked = () => {
     this.setState(prevState => ({
       activeTab: prevState.activeTab + 1,
+      readyToGoNext: false,
     }));
   }
 
@@ -62,6 +63,18 @@ class AmendmentSubmissionModal extends Component {
       readyToGoNext: true,
       activeTab: prevState.activeTab - 1,
     }));
+  }
+
+  handleAmendmentTypeChange = (e, { value: amendmentType }) => {
+    this.setState({ amendmentType, readyToGoNext: true });
+  }
+
+  handleAgreeCheckBoxChange = (e, { checked }) => {
+    this.setState({ isAgreed: checked, readyToGoNext: true });
+  }
+
+  handleMandatoryStatusCodeChange = (e, { value: mandatoryStatusCode }) => {
+    this.setState({ mandatoryStatusCode, readyToGoNext: true });
   }
 
   onSubmitClicked = () => {
@@ -122,18 +135,6 @@ class AmendmentSubmissionModal extends Component {
     };
 
     updateStatusAndContent(planStatus, onRequest, onSuccess, onError);
-  }
-
-  handleAmendmentTypeChange = (e, { value: amendmentType }) => {
-    this.setState({ amendmentType, readyToGoNext: true });
-  }
-
-  handleAgreeCheckBoxChange = (e, { checked }) => {
-    this.setState({ isAgreed: checked, readyToGoNext: true });
-  }
-
-  handleMandatoryStatusCodeChange = (e, { value: mandatoryStatusCode }) => {
-    this.setState({ mandatoryStatusCode, readyToGoNext: true });
   }
 
   render() {
@@ -256,6 +257,7 @@ class AmendmentSubmissionModal extends Component {
           }
           {(amendmentType === AMENDMENT_TYPE.MANDATORY) && !isThereSingleAH &&
             <MandatoryTabsForMultiple
+              user={user}
               clients={clients}
               activeTab={activeTab}
               isAgreed={isAgreed}
