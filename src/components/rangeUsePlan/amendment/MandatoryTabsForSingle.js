@@ -10,16 +10,16 @@ const propTypes = {
   isAgreed: PropTypes.bool.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   readyToGoNext: PropTypes.bool.isRequired,
-  mandatorySubmissionType: PropTypes.string,
+  mandatoryStatusCode: PropTypes.string,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmitClicked: PropTypes.func.isRequired,
   onBackClicked: PropTypes.func.isRequired,
   onNextClicked: PropTypes.func.isRequired,
-  handleMandatorySubmissionTypeChange: PropTypes.func.isRequired,
+  handleMandatoryStatusCodeChange: PropTypes.func.isRequired,
 };
 const defaultProps = {
-  mandatorySubmissionType: null,
+  mandatoryStatusCode: null,
 };
 
 class MandatoryTabsForSingle extends Component {
@@ -29,13 +29,13 @@ class MandatoryTabsForSingle extends Component {
       isAgreed,
       isSubmitting,
       readyToGoNext,
-      mandatorySubmissionType,
+      mandatoryStatusCode,
       onClose,
       onSubmitClicked,
       onBackClicked,
       onNextClicked,
       handleAgreeCheckBoxChange,
-      handleMandatorySubmissionTypeChange,
+      handleMandatoryStatusCodeChange,
     } = this.props;
     const index = activeTab + 1;
 
@@ -57,8 +57,8 @@ class MandatoryTabsForSingle extends Component {
                 }
                 name="radioGroup"
                 value={PLAN_STATUS.SUBMITTED_FOR_REVIEW}
-                checked={mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_REVIEW}
-                onChange={handleMandatorySubmissionTypeChange}
+                checked={mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW}
+                onChange={handleMandatoryStatusCodeChange}
               />
             </Form.Field>
             <Form.Field className="amendment__submission__radio-field">
@@ -72,8 +72,8 @@ class MandatoryTabsForSingle extends Component {
                 }
                 name="radioGroup"
                 value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
-                checked={mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
-                onChange={handleMandatorySubmissionTypeChange}
+                checked={mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
+                onChange={handleMandatoryStatusCodeChange}
               />
             </Form.Field>
             <div className="multi-form__btns">
@@ -93,7 +93,8 @@ class MandatoryTabsForSingle extends Component {
             </div>
           </Form>
         </div>
-        { mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION &&
+
+        { mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION &&
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
             <div className="multi-form__tab__title">
               {`${index}. Confirm Your Submission and eSignature`}
@@ -125,7 +126,8 @@ class MandatoryTabsForSingle extends Component {
             </div>
           </div>
         }
-        { mandatorySubmissionType === PLAN_STATUS.SUBMITTED_FOR_REVIEW &&
+
+        { mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW &&
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
             <Form>
               <div className="multi-form__tab__title">
@@ -152,6 +154,7 @@ class MandatoryTabsForSingle extends Component {
             </Form>
           </div>
         }
+
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
           <div className="amendment__submission__last-tab">
             <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />

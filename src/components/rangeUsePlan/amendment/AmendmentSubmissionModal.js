@@ -11,6 +11,7 @@ import MinorTabsForSingle from './MinorTabsForSingle';
 import MinorTabsForMultiple from './MinorTabsForMultiple';
 import MandatoryTabsForSingle from './MandatoryTabsForSingle';
 import { isSingleClient, isMinorAmendment, isMandatoryAmendment } from '../../../utils';
+import MandatoryTabsForMultiple from './MandatoryTabsForMultiple';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -38,7 +39,7 @@ class AmendmentSubmissionModal extends Component {
     {
       activeTab: 0,
       amendmentType: null,
-      mandatorySubmissionType: null,
+      mandatoryStatusCode: null,
       isAgreed: false,
       readyToGoNext: false,
       isSubmitting: false,
@@ -65,32 +66,36 @@ class AmendmentSubmissionModal extends Component {
 
   onSubmitClicked = () => {
     const { plan, references, clients } = this.props;
-    const { amendmentType, mandatorySubmissionType } = this.state;
+    const { amendmentType, mandatoryStatusCode } = this.state;
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
     const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
+    const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
+    const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
+    const mandatoryStatus = planStatuses.find(s => s.code === mandatoryStatusCode);
 
     if (isMinorAmendment(amendmentType) && isSingleClient(clients)) {
-      const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
       this.submitAmendment(plan, stands, minor);
       return;
     }
 
     if (isMinorAmendment(amendmentType) && !isSingleClient(clients)) {
-      const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
       this.submitAmendment(plan, confirmationAwaiting, minor);
       return;
     }
 
     if (isMandatoryAmendment(amendmentType) && isSingleClient(clients)) {
-      const planStatus = planStatuses.find(s => s.code === mandatorySubmissionType);
-      this.submitAmendment(plan, planStatus, mandatory);
+      this.submitAmendment(plan, mandatoryStatus, mandatory);
       return;
     }
 
     if (isMandatoryAmendment(amendmentType) && !isSingleClient(clients)) {
-      // do something
+      if (mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION) {
+        this.submitAmendment(plan, confirmationAwaiting, mandatory);
+        return;
+      }
+      this.submitAmendment(plan, mandatoryStatus, mandatory);
     }
   }
 
@@ -127,14 +132,14 @@ class AmendmentSubmissionModal extends Component {
     this.setState({ isAgreed: checked, readyToGoNext: true });
   }
 
-  handleMandatorySubmissionTypeChange = (e, { value: mandatorySubmissionType }) => {
-    this.setState({ mandatorySubmissionType, readyToGoNext: true });
+  handleMandatoryStatusCodeChange = (e, { value: mandatoryStatusCode }) => {
+    this.setState({ mandatoryStatusCode, readyToGoNext: true });
   }
 
   render() {
     const {
       activeTab, amendmentType, readyToGoNext, isAgreed,
-      isSubmitting, mandatorySubmissionType,
+      isSubmitting, mandatoryStatusCode,
     } = this.state;
     const { open, clients, user } = this.props;
     const index = activeTab + 1;
@@ -240,13 +245,29 @@ class AmendmentSubmissionModal extends Component {
               isAgreed={isAgreed}
               isSubmitting={isSubmitting}
               readyToGoNext={readyToGoNext}
-              mandatorySubmissionType={mandatorySubmissionType}
+              mandatoryStatusCode={mandatoryStatusCode}
               onClose={this.onClose}
               onSubmitClicked={this.onSubmitClicked}
               onBackClicked={this.onBackClicked}
               onNextClicked={this.onNextClicked}
               handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
-              handleMandatorySubmissionTypeChange={this.handleMandatorySubmissionTypeChange}
+              handleMandatoryStatusCodeChange={this.handleMandatoryStatusCodeChange}
+            />
+          }
+          {(amendmentType === AMENDMENT_TYPE.MANDATORY) && !isThereSingleAH &&
+            <MandatoryTabsForMultiple
+              clients={clients}
+              activeTab={activeTab}
+              isAgreed={isAgreed}
+              isSubmitting={isSubmitting}
+              readyToGoNext={readyToGoNext}
+              mandatoryStatusCode={mandatoryStatusCode}
+              onClose={this.onClose}
+              onSubmitClicked={this.onSubmitClicked}
+              onBackClicked={this.onBackClicked}
+              onNextClicked={this.onNextClicked}
+              handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
+              handleMandatoryStatusCodeChange={this.handleMandatoryStatusCodeChange}
             />
           }
         </Modal.Content>

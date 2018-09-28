@@ -64,12 +64,16 @@ class ConfirmationList extends Component {
       return notConfirmedList.push(view);
     });
 
+    let confirmationList;
     if (notConfirmedList.length === 1) {
-      return confirmedList.concat(allConfimed);
+      confirmationList = confirmedList.concat(allConfimed);
+    } else {
+      confirmationList = confirmedList.concat(notConfirmedList);
     }
+
     return (
       <div style={{ width: '100%' }}>
-        {confirmedList.concat(notConfirmedList)}
+        {confirmationList}
       </div>
     );
   }
