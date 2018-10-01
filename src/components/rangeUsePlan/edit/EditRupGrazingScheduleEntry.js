@@ -197,7 +197,7 @@ class EditRupGrazingScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell>
+        <Table.Cell collapsing>
           <Input fluid error={isDateInError}>
             <input
               type="text"
@@ -205,7 +205,7 @@ class EditRupGrazingScheduleEntry extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell>
+        <Table.Cell collapsing>
           <Input fluid error={isDateOutError}>
             <input
               type="text"
