@@ -70,7 +70,7 @@ export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
 
 export const CONTACT_NO_EXIST = 'Contact doesn\'t exist';
-
+export const ACTION_NOTE = 'Note: If an action involves a range development or removal of timber (ex. off-stream watering or fence) a separate authorization is required. Please contact a range staff member if you are considering such an action.';
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';

@@ -3,15 +3,12 @@
     &__container {
       margin-bottom: 15px;
     }
-    &__note {
-      margin-top: 10px;
-      font-size: 1.1rem;
-    }
     margin: 10px 0;
     list-style-type: none;
     padding: 0;
     border-radius: 5px;
     border: 1px solid gainsboro;
+
     &--empty {
       border: 0px;
     }
@@ -62,6 +59,10 @@
     &__action {
       margin: 10px;
 
+      &__note {
+        margin-top: 3px;
+        font-size: 1.05rem;
+      }
       &__not-found {
         margin-top: 5px;
         font-size: 1.1rem;

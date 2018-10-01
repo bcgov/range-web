@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { TextField } from '../../common';
-import { NOT_PROVIDED } from '../../../constants/strings';
+import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { getPastureNames } from '../../../utils';
 
@@ -33,15 +33,9 @@ class ViewRupMinisterIssues extends Component {
     ministerIssues.length === 0 ? (
       <div className="rup__section-not-found">{NOT_PROVIDED}</div>
     ) : (
-      <Fragment>
-        <div className="rup__missues__note">
-          Note: Any action that would result in a range development cannot
-          be conducted until an authorization (separate to this RUP) is obtained.
-        </div>
-        <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
-          {ministerIssues.map(this.renderMinisterIssue)}
-        </ul>
-      </Fragment>
+      <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
+        {ministerIssues.map(this.renderMinisterIssue)}
+      </ul>
     )
   )
 
@@ -49,7 +43,10 @@ class ViewRupMinisterIssues extends Component {
     ministerIssueActions.length === 0 ? (
       <div className="rup__missue__action__not-found">{NOT_PROVIDED}</div>
     ) : (
-      ministerIssueActions.map(this.renderMinisterIssueAction)
+      <Fragment>
+        <div className="rup__missue__action__note">{ACTION_NOTE}</div>
+        {ministerIssueActions.map(this.renderMinisterIssueAction)}
+      </Fragment>
     )
   );
 
@@ -93,11 +90,11 @@ class ViewRupMinisterIssues extends Component {
           >
             <div>
               <Icon name="exclamation triangle" style={{ marginRight: '10px' }} />
-              {`Issue Type ${ministerIssueTypeName}`}
+              {`Issue Type: ${ministerIssueTypeName}`}
             </div>
             <div className="rup__missue__header__right">
               <div className="rup__missue__header__identified">
-                Identified:&nbsp;
+                {'Identified: '}
                 {identified
                   ? <Icon name="check circle" color="green" />
                   : <Icon name="remove circle" color="red" />
@@ -137,7 +134,7 @@ class ViewRupMinisterIssues extends Component {
 
     return (
       <div className={className}>
-        <div className="rup__title">Minister&apos;s Issues and Actions</div>
+        <div className="rup__title">{'Minister\'s Issues and Actions'}</div>
         <div className="rup__divider" />
         {this.renderMinisterIssues(ministerIssues)}
       </div>
