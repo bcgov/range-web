@@ -12,7 +12,6 @@ import ViewRupBasicInformation from './view/ViewRupBasicInformation';
 import ViewRupPastures from './view/ViewRupPastures';
 import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
-import RupStickyHeader from './RupStickyHeader';
 import RupBackBtn from './RupBackBtn';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
@@ -90,7 +89,7 @@ class RupStaff extends Component {
           noDefaultHeight
         />
 
-        <RupStickyHeader>
+        <div className="rup__sticky">
           <div className="rup__actions__background">
             <div className="rup__actions__container">
               <RupBackBtn
@@ -130,7 +129,7 @@ class RupStaff extends Component {
               </div>
             </div>
           }
-        </RupStickyHeader>
+        </div>
 
         <div className="rup__content">
           <ViewRupBasicInformation

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import RupStaff from './RupStaff';
-import RupAH from './RupAH';
+import RupAgreementHolder from './RupAgreementHolder';
 import { Loading } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
@@ -112,7 +112,7 @@ class Base extends Component {
         }
 
         { isUserAgreementHolder(user) &&
-          <RupAH
+          <RupAgreementHolder
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}

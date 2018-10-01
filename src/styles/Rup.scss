@@ -43,20 +43,8 @@ $row-height: 80px;
     }
   }
   &__sticky {
-    z-index: $rup-sticky-z-index;
-    min-width: $mobile-width;
-    min-height: 55px;
-
-    &--fixed {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-  }
-  /* Add some top padding to the page content to prevent sudden quick movement 
-  (as the header gets a new position at the top of the page (position:fixed and top:0) */
-  &__sticky--fixed + &__content {
-    padding-top: 40px;
+    position: sticky;
+    top: 0;
   }
   &__actions {
     &__background {

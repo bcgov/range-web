@@ -101,7 +101,6 @@ export const USER_ROLE = {
 export const ELEMENT_ID = {
   GRAZING_SCHEDULE: 'rup__grazing-schedule',
   RUP_ZONE_DROPDOWN: 'rup__zone-dropdown',
-  RUP_STICKY_HEADER: 'rup-sticky-header',
   SIGN_OUT: 'sign-out',
   MANAGE_ZONE_ZONES_DROPDOWN: 'manage-zone__zone-dropdown',
   MANAGE_ZONE_CONTACTS_DROPDOWN: 'manage-zone__contact-dropdown',

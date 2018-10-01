@@ -9,7 +9,6 @@ import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
-import RupStickyHeader from './RupStickyHeader';
 import RupBackBtn from './RupBackBtn';
 import RupNotifications from './RupNotifications';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
@@ -327,7 +326,7 @@ export class RupAH extends Component {
           content={utils.getBannerContentForAH(status)}
         />
 
-        <RupStickyHeader>
+        <div className="rup__sticky">
           <div className="rup__actions__background">
             <div className="rup__actions__container">
               <RupBackBtn
@@ -347,7 +346,7 @@ export class RupAH extends Component {
               </div>
             </div>
           </div>
-        </RupStickyHeader>
+        </div>
 
         <div className="rup__content">
           <RupNotifications
