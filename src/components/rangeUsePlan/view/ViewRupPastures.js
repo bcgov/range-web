@@ -9,6 +9,7 @@ import {
 
 class ViewRupPastures extends Component {
   static propTypes = {
+    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     className: PropTypes.string.isRequired,
@@ -92,12 +93,12 @@ class ViewRupPastures extends Component {
   )
 
   render() {
-    const { plan, pasturesMap, className } = this.props;
+    const { elementId, plan, pasturesMap, className } = this.props;
     const pastureIds = plan && plan.pastures;
     const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
 
     return (
-      <div className={className}>
+      <div id={elementId} className={className}>
         <div className="rup__title">Pastures</div>
         <div className="rup__divider" />
         {this.renderPastures(pastures)}

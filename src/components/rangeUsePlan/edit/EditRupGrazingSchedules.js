@@ -6,12 +6,13 @@ import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import EditRupGrazingSchedule from './EditRupGrazingSchedule';
-import { ELEMENT_ID, REFERENCE_KEY } from '../../../constants/variables';
+import { REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRupGrazingSchedule } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
 import * as utils from '../../../utils';
 
 const propTypes = {
+  elementId: PropTypes.string.isRequired,
   plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
@@ -206,12 +207,12 @@ export class EditRupGrazingSchedules extends Component {
   }
   render() {
     const { yearOptions } = this.state;
-    const { plan, grazingSchedulesMap } = this.props;
+    const { elementId, plan, grazingSchedulesMap } = this.props;
     const grazingScheduleIds = plan && plan.grazingSchedules;
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div className="rup__grazing-schedules__container" id={ELEMENT_ID.GRAZING_SCHEDULE}>
+      <div id={elementId} className="rup__grazing-schedules__container">
         <div className="rup__title--editable">
           <div>Yearly Schedules</div>
           <Dropdown

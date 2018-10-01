@@ -6,6 +6,7 @@ import * as strings from '../../../constants/strings';
 
 class ViewRupBasicInformation extends Component {
   static propTypes = {
+    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
     agreement: PropTypes.shape({}).isRequired,
@@ -26,6 +27,7 @@ class ViewRupBasicInformation extends Component {
 
   render() {
     const {
+      elementId,
       agreement,
       plan,
       onZoneClicked,
@@ -53,7 +55,7 @@ class ViewRupBasicInformation extends Component {
     } = plan || {};
 
     const {
-      id,
+      id: agreementId,
       agreementStartDate,
       agreementEndDate,
       agreementExemptionStatus: aes,
@@ -66,7 +68,7 @@ class ViewRupBasicInformation extends Component {
     const isAdmin = isUserAdmin(user);
 
     return (
-      <div className={className}>
+      <div id={elementId} className={className}>
         <div className="rup__title">Basic Information</div>
         <div className="rup__row">
           <div className="rup__agreement-info rup__cell-6">
@@ -74,7 +76,7 @@ class ViewRupBasicInformation extends Component {
             <div className="rup__info-title">Agreement Information</div>
             <TextField
               label={strings.RANGE_NUMBER}
-              text={id}
+              text={agreementId}
             />
             <TextField
               label={strings.AGREEMENT_TYPE}

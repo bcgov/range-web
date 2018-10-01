@@ -9,6 +9,7 @@ import { getPastureNames } from '../../../utils';
 
 class ViewRupMinisterIssues extends Component {
   static propTypes = {
+    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     className: PropTypes.string.isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
@@ -128,12 +129,12 @@ class ViewRupMinisterIssues extends Component {
   }
 
   render() {
-    const { plan, ministerIssuesMap, className } = this.props;
+    const { elementId, plan, ministerIssuesMap, className } = this.props;
     const ministerIssueIds = plan && plan.ministerIssues;
     const ministerIssues = ministerIssueIds && ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
-      <div className={className}>
+      <div id={elementId} className={className}>
         <div className="rup__title">{'Minister\'s Issues and Actions'}</div>
         <div className="rup__divider" />
         {this.renderMinisterIssues(ministerIssues)}

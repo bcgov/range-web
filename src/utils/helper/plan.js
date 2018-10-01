@@ -18,6 +18,12 @@ export const getPlanTypeDescription = (plan = {}, amendmentTypes) => {
   return 'Initial RUP';
 };
 
+export const scrollIntoView = (elementId) => {
+  document.getElementById(elementId).scrollIntoView({
+    behavior: 'smooth',
+  });
+};
+
 export const isStatusCreated = status => (
   status && status.code === PLAN_STATUS.CREATED
 );

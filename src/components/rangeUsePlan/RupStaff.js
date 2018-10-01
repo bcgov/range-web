@@ -5,7 +5,7 @@ import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
 import {
   DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
-import { REFERENCE_KEY } from '../../constants/variables';
+import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
 import { getAgreementHolders, isStatusDraft, getPlanTypeDescription, isStatusIndicatingStaffFeedbackNeeded } from '../../utils';
 import ViewRupBasicInformation from './view/ViewRupBasicInformation';
@@ -13,6 +13,7 @@ import ViewRupPastures from './view/ViewRupPastures';
 import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import RupBackBtn from './RupBackBtn';
+import RupContent from './RupContent';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 
@@ -131,8 +132,9 @@ class RupStaff extends Component {
           }
         </div>
 
-        <div className="rup__content">
+        <RupContent>
           <ViewRupBasicInformation
+            elementId={ELEMENT_ID.BASIC_INFORMATION}
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
@@ -141,12 +143,14 @@ class RupStaff extends Component {
           />
 
           <ViewRupPastures
+            elementId={ELEMENT_ID.PASTURES}
             className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />
 
           <ViewRupGrazingSchedules
+            elementId={ELEMENT_ID.GRAZING_SCHEDULE}
             className="rup__grazing-schedules__container"
             references={references}
             usage={usage}
@@ -156,13 +160,14 @@ class RupStaff extends Component {
           />
 
           <ViewRupMinisterIssues
+            elementId={ELEMENT_ID.MINISTER_ISSUES}
             className="rup__missues__container"
             references={references}
             plan={plan}
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />
-        </div>
+        </RupContent>
       </section>
     );
   }

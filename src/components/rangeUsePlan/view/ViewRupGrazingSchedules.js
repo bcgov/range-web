@@ -8,6 +8,7 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 
 class ViewRupGrazingSchedules extends Component {
   static propTypes = {
+    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
@@ -161,12 +162,12 @@ class ViewRupGrazingSchedules extends Component {
   }
 
   render() {
-    const { plan, grazingSchedulesMap } = this.props;
+    const { elementId, plan, grazingSchedulesMap } = this.props;
     const grazingScheduleIds = plan && plan.grazingSchedules;
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div className="rup__grazing-schedules__container">
+      <div id={elementId} className="rup__grazing-schedules__container">
         <div className="rup__title">Schedules</div>
         <div className="rup__divider" />
         {this.renderSchedules(grazingSchedules)}

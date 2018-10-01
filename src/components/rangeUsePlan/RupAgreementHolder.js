@@ -11,10 +11,11 @@ import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import RupBackBtn from './RupBackBtn';
 import RupNotifications from './RupNotifications';
-import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../constants/variables';
+import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
+import RupContent from './RupContent';
 
 export class RupAH extends Component {
   static propTypes = {
@@ -179,9 +180,7 @@ export class RupAH extends Component {
     // errors have been found
     if (errors.length !== 0) {
       const [error] = errors;
-      document.getElementById(error.elementId).scrollIntoView({
-        behavior: 'smooth',
-      });
+      utils.scrollIntoView(error.elementId);
       return error;
     }
 
@@ -348,7 +347,7 @@ export class RupAH extends Component {
           </div>
         </div>
 
-        <div className="rup__content">
+        <RupContent>
           <RupNotifications
             plan={plan}
             user={user}
@@ -356,6 +355,7 @@ export class RupAH extends Component {
           />
 
           <ViewRupBasicInformation
+            elementId={ELEMENT_ID.BASIC_INFORMATION}
             className="rup__basic_information"
             agreement={agreement}
             plan={plan}
@@ -363,6 +363,7 @@ export class RupAH extends Component {
           />
 
           <ViewRupPastures
+            elementId={ELEMENT_ID.PASTURES}
             className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
@@ -370,6 +371,7 @@ export class RupAH extends Component {
 
           {canEdit ?
             <EditRupGrazingSchedules
+              elementId={ELEMENT_ID.GRAZING_SCHEDULE}
               className="rup__grazing-schedules__container"
               references={references}
               usage={usage}
@@ -378,6 +380,7 @@ export class RupAH extends Component {
               grazingSchedulesMap={grazingSchedulesMap}
             />
             : <ViewRupGrazingSchedules
+              elementId={ELEMENT_ID.GRAZING_SCHEDULE}
               className="rup__grazing-schedules__container"
               references={references}
               usage={usage}
@@ -388,13 +391,14 @@ export class RupAH extends Component {
           }
 
           <ViewRupMinisterIssues
+            elementId={ELEMENT_ID.MINISTER_ISSUES}
             className="rup__missues__container"
             references={references}
             plan={plan}
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />
-        </div>
+        </RupContent>
       </section>
     );
   }
