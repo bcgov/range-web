@@ -43,6 +43,59 @@ class MandatoryTabsForMultiple extends Component {
     );
   }
 
+  renderTabsWhenSubmittedForReview = () => {
+    const { activeTab, onBackClicked, onSubmitClicked, isSubmitting, onClose } = this.props;
+    const index = activeTab + 1;
+
+    return (
+      <Fragment>
+        <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
+          <Form>
+            <div className="multi-form__tab__title">
+              {`${index}. Submit Your Admendment for Review`}
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
+            </div>
+            <div className="multi-form__btns">
+              <Button
+                className="multi-form__btn"
+                onClick={onBackClicked}
+              >
+                Back
+              </Button>
+              <Button
+                className="multi-form__btn"
+                onClick={onSubmitClicked}
+                loading={isSubmitting}
+              >
+                Submit For Review
+              </Button>
+            </div>
+          </Form>
+        </div>
+
+        <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
+          <div className="amendment__submission__last-tab">
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
+            <div className="amendment__submission__last-tab__title">
+              Your mandatory amendment has been sent for range staff review
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              Your mandatory amendment has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!
+            </div>
+            <Button
+              className="multi-form__btn"
+              onClick={onClose}
+            >
+              Finish
+            </Button>
+          </div>
+        </div>
+      </Fragment>
+    );
+  }
+
   render() {
     const {
       clients,
@@ -114,53 +167,8 @@ class MandatoryTabsForMultiple extends Component {
             </div>
           </Form>
         </div>
-
         { mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW &&
-          <Fragment>
-            <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
-              <Form>
-                <div className="multi-form__tab__title">
-                  {`${index}. Submit Your Admendment for Review`}
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                  You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
-                </div>
-                <div className="multi-form__btns">
-                  <Button
-                    className="multi-form__btn"
-                    onClick={onBackClicked}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    className="multi-form__btn"
-                    onClick={onSubmitClicked}
-                    loading={isSubmitting}
-                  >
-                    Submit For Review
-                  </Button>
-                </div>
-              </Form>
-            </div>
-
-            <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
-              <div className="amendment__submission__last-tab">
-                <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
-                <div className="amendment__submission__last-tab__title">
-                  Your mandatory amendment has been sent for range staff review
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                  Your mandatory amendment has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!
-                </div>
-                <Button
-                  className="multi-form__btn"
-                  onClick={onClose}
-                >
-                  Finish
-                </Button>
-              </div>
-            </div>
-          </Fragment>
+          this.renderTabsWhenSubmittedForReview()
         }
 
         { mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION &&

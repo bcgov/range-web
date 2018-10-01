@@ -49,14 +49,13 @@
   }
 
   &__menu {
-    display: flex;
+    display: flex !important;
     align-items: center;
+    height: 50px;
     color: white;
     padding: 0 20px;
 
     > .menu.transition.visible {
-      margin-top: 15px;
-
       > .item {
         height: 45px;
         display: flex;

@@ -86,7 +86,6 @@ export class Navbar extends Component {
             >
               Sign Out
             </div> */}
-
             <Dropdown className="navbar__menu" text="Menu">
               <Dropdown.Menu>
                 { isUserAdmin(user) &&
