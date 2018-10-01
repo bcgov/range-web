@@ -7,7 +7,7 @@ import {
 } from '../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
-import { getAgreementHolders, isStatusDraft, getPlanTypeDescription, isStatusIndicatingStaffFeedbackNeeded } from '../../utils';
+import { getAgreementHolders, isStatusDraft, getPlanTypeDescription } from '../../utils';
 import ViewRupBasicInformation from './view/ViewRupBasicInformation';
 import ViewRupPastures from './view/ViewRupPastures';
 import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
@@ -16,6 +16,7 @@ import RupBackBtn from './RupBackBtn';
 import RupContent from './RupContent';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
+import RupNotifications from './RupNotifications';
 
 class RupStaff extends Component {
   static propTypes = {
@@ -119,20 +120,15 @@ class RupStaff extends Component {
               </div>
             </div>
           </div>
-
-          {isStatusIndicatingStaffFeedbackNeeded(status) &&
-            <div className="rup__feedback-alert__background">
-              <div className="rup__feedback-alert__container">
-                <div className="rup__feedback-alert__title">
-                  {`Provide input for ${planTypeDescription} Submission`}
-                </div>
-                Review the Range Use Plan and provide for feedback
-              </div>
-            </div>
-          }
         </div>
 
         <RupContent>
+          <RupNotifications
+            plan={plan}
+            user={user}
+            planTypeDescription={planTypeDescription}
+          />
+
           <ViewRupBasicInformation
             elementId={ELEMENT_ID.BASIC_INFORMATION}
             className="rup__basic_information"

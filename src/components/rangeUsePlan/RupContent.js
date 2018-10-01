@@ -1,7 +1,7 @@
-/* eslint-disable */
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ELEMENT_ID } from '../../constants/variables';
+
 class RupContent extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -9,6 +9,10 @@ class RupContent extends Component {
 
   renderChild = (child, index) => {
     const { props } = child;
+    /*
+      setup a reference point for each content
+      that's little bit above of the content due to the sticky header
+    */
     return (
       <div key={index} className="rup__content">
         <div id={props.elementId} className="rup__content__ref" />
@@ -22,7 +26,7 @@ class RupContent extends Component {
 
     return (
       <div className="rup__contents__container">
-        <div className="rup__tabs">
+        <div className="rup__contents__tabs">
           <a href={`#${ELEMENT_ID.BASIC_INFORMATION}`}>
             Basic Information
           </a>

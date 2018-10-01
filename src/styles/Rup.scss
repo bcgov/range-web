@@ -77,14 +77,12 @@ $tab-min-width: 155px;
       border-right: 1px solid $accent-color;
     }
   }
-  &__feedback-alert {
-    &__background {
-      background-color: $accent-color;
-    }
-    &__container {
-      @extend .container;
-      padding: 10px 0;
-    }
+  &__feedback-notification {
+    background-color: $accent-color;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+
     &__title {
       font-weight: bold;
       font-size: 1.2rem;
@@ -120,30 +118,6 @@ $tab-min-width: 155px;
       }
     }
   }
-  &__tabs {
-    position: sticky;
-    top: $sticky-height;
-    margin-right: 20px;
-    align-self: flex-start; /* <-- this is the fix */
-    font-size: 1.2rem;
-    white-space: nowrap;
-
-    > a {
-      display: block;
-      padding: $content-margin-top;
-      padding-left: 0;
-      border-bottom: 1px solid lightgray;
-      color: black;
-      text-decoration: none;
-      min-width: $tab-min-width;
-    }
-    > a:hover {
-      font-weight: bold;
-      text-decoration: none; 
-      color: initial;
-      cursor: pointer;
-    }
-  }
   &__contents {
     width: 100%;
     padding-top: $content-margin-top;
@@ -151,6 +125,30 @@ $tab-min-width: 155px;
     &__container {
       @extend .container;
       display: flex;
+    }
+    &__tabs {
+      position: sticky;
+      top: $sticky-height;
+      margin-right: 20px;
+      align-self: flex-start; /* <-- this is the fix */
+      font-size: 1.2rem;
+      white-space: nowrap;
+  
+      > a {
+        display: block;
+        padding: $content-margin-top;
+        padding-left: 0;
+        border-bottom: 1px solid lightgray;
+        color: black;
+        text-decoration: none;
+        min-width: $tab-min-width;
+      }
+      > a:hover {
+        font-weight: bold;
+        text-decoration: none; 
+        color: initial;
+        cursor: pointer;
+      }
     }
   }
   &__content {

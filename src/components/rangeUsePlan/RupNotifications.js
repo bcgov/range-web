@@ -1,15 +1,21 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'semantic-ui-react';
-import { isStatusAwaitingConfirmation } from '../../utils';
+import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded } from '../../utils';
 import ConfirmationList from './amendment/ConfirmationList';
 
 class RupNotifications extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({}).isRequired,
-    confirmationsMap: PropTypes.shape({}).isRequired,
+    confirmationsMap: PropTypes.shape({}),
+    planTypeDescription: PropTypes.string,
   };
+
+  static defaultProps = {
+    confirmationsMap: {},
+    planTypeDescription: '',
+  }
 
   state = {
     confirmationStatusModalOpen: false,
@@ -20,17 +26,28 @@ class RupNotifications extends Component {
 
   render() {
     const { confirmationStatusModalOpen } = this.state;
-    const { plan, confirmationsMap, user } = this.props;
+    const { plan, confirmationsMap, user, planTypeDescription } = this.props;
     const { confirmations, status, agreement } = plan;
     const clients = (agreement && agreement.clients) || [];
 
     let numberOfConfirmed = 0;
     confirmations.forEach((cId) => {
-      if (confirmationsMap[cId].confirmed) numberOfConfirmed += 1;
+      if (confirmationsMap[cId] && confirmationsMap[cId].confirmed) {
+        numberOfConfirmed += 1;
+      }
     });
 
     return (
       <div className="rup__notifications">
+        {isStatusIndicatingStaffFeedbackNeeded(status) &&
+          <div className="rup__feedback-notification">
+            <div className="rup__feedback-notification__title">
+              {`Provide input for ${planTypeDescription} Submission`}
+            </div>
+            Review the Range Use Plan and provide for feedback
+          </div>
+        }
+
         {isStatusAwaitingConfirmation(status) &&
           <Fragment>
             <Modal
