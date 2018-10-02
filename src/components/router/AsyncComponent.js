@@ -17,12 +17,12 @@ const LoadingComponent = ({ isLoading, error }) => {
       <div className="page-error">
         <Icon name="warning circle" size="big" color="red" />
         <div>
-          <span className="rup__fetching-error__message">
+          <span className="page-error__message">
             Sorry, there was a problem loading the page.
           </span>
         </div>
         <div>
-          <Button onClick={window.location.reload}>Refresh</Button>
+          <Button onClick={() => window.location.reload(true)}>Refresh</Button>
         </div>
       </div>
     );
