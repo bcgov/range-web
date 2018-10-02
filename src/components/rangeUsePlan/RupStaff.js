@@ -27,7 +27,7 @@ class RupStaff extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
-    isFetchingPlan: PropTypes.bool.isRequired,
+    confirmationsMap: PropTypes.shape({}).isRequired,
   };
   static defaultProps = {
     agreement: {
@@ -64,7 +64,7 @@ class RupStaff extends Component {
       pasturesMap,
       grazingSchedulesMap,
       ministerIssuesMap,
-      isFetchingPlan,
+      confirmationsMap,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
@@ -93,43 +93,42 @@ class RupStaff extends Component {
           noDefaultHeight
         />
 
-        {!isFetchingPlan &&
-          <div className="rup__sticky">
-            <div className="rup__actions__background">
-              <div className="rup__actions__container">
-                <RupBackBtn
-                  className="rup__back-btn"
+        <div className="rup__sticky">
+          <div className="rup__actions__background">
+            <div className="rup__actions__container">
+              <RupBackBtn
+                className="rup__back-btn"
+              />
+              <div className="rup__actions__left">
+                <div className="rup__actions__title">{agreementId}</div>
+                <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
+                <Status
+                  className="rup__status"
+                  status={status}
+                  user={user}
                 />
-                <div className="rup__actions__left">
-                  <div className="rup__actions__title">{agreementId}</div>
-                  <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
-                  <Status
-                    className="rup__status"
-                    status={status}
-                    user={user}
-                  />
-                </div>
-                <div className="rup__actions__btns">
-                  {!isStatusDraft(status) &&
-                    <Button
-                      onClick={this.onViewPDFClicked}
-                    >
-                      {PREVIEW_PDF}
-                    </Button>
-                  }
-                  <UpdateStatusDropdown
-                    plan={plan}
-                  />
-                </div>
+              </div>
+              <div className="rup__actions__btns">
+                {!isStatusDraft(status) &&
+                  <Button
+                    onClick={this.onViewPDFClicked}
+                  >
+                    {PREVIEW_PDF}
+                  </Button>
+                }
+                <UpdateStatusDropdown
+                  plan={plan}
+                />
               </div>
             </div>
           </div>
-        }
+        </div>
 
         <RupContent>
           <RupNotifications
             plan={plan}
             user={user}
+            confirmationsMap={confirmationsMap}
             planTypeDescription={planTypeDescription}
           />
 

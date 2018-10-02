@@ -20,7 +20,7 @@ const Loading = ({ active, inverted, message, onlySpinner }) => {
   if (onlySpinner) {
     return (
       <div className="loading-spinner__container">
-        <Loader active={active} size="large">{message}</Loader>
+        <Loader active={active} size="large" content={message} />
       </div>
     );
   }
@@ -29,7 +29,7 @@ const Loading = ({ active, inverted, message, onlySpinner }) => {
       active={active}
       inverted={inverted}
     >
-      <Loader size="large">{message}</Loader>
+      <Loader size="large" content={message} />
     </Dimmer>
   );
 };
