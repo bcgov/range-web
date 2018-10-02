@@ -116,6 +116,8 @@ export const RECOMMEND_READY_CONFIRMATION_HEADER = 'Update Status: Recommend Rea
 export const RECOMMEND_READY_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 export const RECOMMEND_NOT_READY_CONFIRMATION_HEADER = 'Update Status: Recommend Not Ready';
 export const RECOMMEND_NOT_READY_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_FOR_SUBMISSION_CONFIRMATION_HEADER = 'Update Status: Recommend For Submission';
+export const RECOMMEND_FOR_SUBMISSION_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 
 export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
 export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';

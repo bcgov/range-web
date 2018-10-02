@@ -102,7 +102,13 @@ class UpdateStatusDropdown extends Component {
       statusCode: PLAN_STATUS.RECOMMEND_NOT_READY,
     });
   }
-
+  openRFSConfirmModal = () => {
+    this.openConfirmModalForUpdatingPlanStatus({
+      header: strings.RECOMMEND_FOR_SUBMISSION_CONFIRMATION_HEADER,
+      content: strings.RECOMMEND_FOR_SUBMISSION_CONFIRMATION_CONTENT,
+      statusCode: PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
+    });
+  }
   updateStatus = (statusCode) => {
     const {
       plan,
@@ -149,6 +155,11 @@ class UpdateStatusDropdown extends Component {
       text: 'Recommend Not Ready',
       onClick: this.openRecommendNotReadyConfirmModal,
     };
+    const recommendForSubmission = {
+      key: PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
+      text: 'Recommend For Submission',
+      onClick: this.openRFSConfirmModal,
+    };
     const approved = {
       key: PLAN_STATUS.APPROVED,
       text: 'Approved',
@@ -180,7 +191,7 @@ class UpdateStatusDropdown extends Component {
       if (isStatusStands(status)) {
         options = [wronglyMadeWithoutEffect, standsWronglyMade];
       } else if (isStatusSubmittedForReview(status)) {
-        options = [changeRequested];
+        options = [changeRequested, recommendForSubmission];
       } else if (isStatusSubmittedForFD(status)) {
         options = [recommendReady, recommendNotReady];
       } else if (isStatusRecommendReady(status)) {

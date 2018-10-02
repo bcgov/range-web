@@ -96,6 +96,10 @@ export const isStatusAwaitingConfirmation = status => (
   status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION
 );
 
+export const isStatusReadyForSubmission = status => (
+  status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION
+);
+
 export const isStatusAmongApprovedStatuses = status => (
   status && status.code &&
   (APPROVED_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)

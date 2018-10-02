@@ -111,6 +111,10 @@ const Status = ({
       statusName = status.name;
       modifier += '--red';
       break;
+    case PLAN_STATUS.RECOMMEND_FOR_SUBMISSION:
+      statusName = status.name;
+      modifier += '--purple';
+      break;
     case PLAN_STATUS.READY_FOR_FINAL_DECISION:
       statusName = status.name;
       modifier += '--purple';

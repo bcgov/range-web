@@ -217,7 +217,7 @@ export class RupAH extends Component {
   openConfirmAmendmentModal = () => this.setState({ isConfirmAmendmentModalOpen: true })
   closeConfirmAmendmentModal = () => this.setState({ isConfirmAmendmentModalOpen: false })
 
-  renderActionBtns = (canEdit, canAmend, canConfirm) => {
+  renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
     const { isCreatingAmendment } = this.props;
     const previewPDF = (
@@ -266,10 +266,15 @@ export class RupAH extends Component {
     );
     if (canEdit) {
       return [previewPDF, saveDraft, submit];
-    } else if (canAmend) {
+    }
+    if (canAmend) {
       return [previewPDF, amend];
-    } else if (canConfirm) {
+    }
+    if (canConfirm) {
       return [previewPDF, confirmSubmission];
+    }
+    if (canSubmit) {
+      return [previewPDF, submit];
     }
     return previewPDF;
   }
@@ -299,6 +304,7 @@ export class RupAH extends Component {
     const canEdit = utils.isStatusAllowingRevisionForAH(status);
     const canAmend = utils.isStatusAmongApprovedStatuses(status);
     const canConfirm = utils.canUserSubmitConfirmation(status, user, confirmations, confirmationsMap);
+    const canSubmit = utils.isStatusReadyForSubmission(status);
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const header = utils.getPlanTypeDescription(plan, amendmentTypes);
 
@@ -341,7 +347,7 @@ export class RupAH extends Component {
                 />
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(canEdit, canAmend, canConfirm)}
+                {this.renderActionBtns(canEdit, canAmend, canConfirm, canSubmit)}
               </div>
             </div>
           </div>
