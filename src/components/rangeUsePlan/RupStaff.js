@@ -13,7 +13,7 @@ import ViewRupPastures from './view/ViewRupPastures';
 import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import RupBackBtn from './RupBackBtn';
-import RupContent from './RupContent';
+import RupContents from './RupContents';
 import UpdateStatusDropdown from './UpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 import RupNotifications from './RupNotifications';
@@ -124,7 +124,7 @@ class RupStaff extends Component {
           </div>
         </div>
 
-        <RupContent>
+        <RupContents>
           <RupNotifications
             plan={plan}
             user={user}
@@ -166,7 +166,7 @@ class RupStaff extends Component {
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />
-        </RupContent>
+        </RupContents>
       </section>
     );
   }

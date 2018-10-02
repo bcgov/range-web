@@ -11,11 +11,11 @@ import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import RupBackBtn from './RupBackBtn';
 import RupNotifications from './RupNotifications';
+import RupContents from './RupContents';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
-import RupContent from './RupContent';
 
 export class RupAH extends Component {
   static propTypes = {
@@ -353,7 +353,7 @@ export class RupAH extends Component {
           </div>
         </div>
 
-        <RupContent>
+        <RupContents>
           <RupNotifications
             plan={plan}
             user={user}
@@ -404,7 +404,7 @@ export class RupAH extends Component {
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />
-        </RupContent>
+        </RupContents>
       </section>
     );
   }

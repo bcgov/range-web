@@ -81,6 +81,14 @@ export const IMAGE_SRC = {
   LOGIN_PARAGRAPH3: '/login_paragraph3.jpg',
   LOGIN_PARAGRAPH4: '/login_paragraph4.jpg',
   LOGIN_PARAGRAPH5: '/login_paragraph5.jpg',
+  BASIC_INFORMATION_ICON: '/icon_basicinformation.png',
+  PASTURES_ICON: '/icon_pastures.png',
+  SCHEDULES_ICON: '/icon_schedules.png',
+  MINISTER_ISSUES_ICON: '/icon_ministersissues.png',
+  ADDITIONAL_REQS_ICON: 'icon_additionalreqs.png',
+  INVASIVE_PLANTS_ICON: 'icon_invasiveplants.png',
+  MANAGEMENT_ICON: 'icon_management.png',
+  MAP_ICON: 'icon_map.png',
 };
 
 export const CLIENT_TYPE = {

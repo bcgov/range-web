@@ -1,5 +1,5 @@
 $sticky-height: 55px;
-$tab-min-width: 155px;
+$tab-min-width: 180px;
 
 .rup {
   &__cell-6 {
@@ -133,21 +133,41 @@ $tab-min-width: 155px;
       align-self: flex-start; /* <-- this is the fix */
       font-size: 1.2rem;
       white-space: nowrap;
-  
+
       > a {
-        display: block;
+        display: flex;
         padding: $content-margin-top;
         padding-left: 0;
         border-bottom: 1px solid lightgray;
         color: black;
         text-decoration: none;
         min-width: $tab-min-width;
+
+        > img {
+          width: 20px;
+          height: 20px;
+          margin-right: 5px;
+        }
       }
       > a:hover {
         font-weight: bold;
         text-decoration: none; 
         color: initial;
         cursor: pointer;
+      }
+
+      @include large {
+        > a {
+          min-width: 0;
+          padding-right: 0;
+
+          > img {
+            margin: 0 15px;
+          }
+          > span {
+            display: none;
+          }
+        }
       }
     }
   }
