@@ -90,6 +90,7 @@ export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH
 export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
 export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
 export const getIsFetchingUser = state => fromNetwork.getIsFetching(state[reducerTypes.GET_USER]);
+export const getUserErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_USER]);
 
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);

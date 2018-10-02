@@ -141,7 +141,11 @@
     }
     &__text3 {
       font-size: 1.1rem;
-      margin-bottom: 25px;
+    }
+    &__error {
+      margin-top: 15px;
+      width: 100%;
+      text-align: center;
     }
     &__link-container {
       align-self: stretch;

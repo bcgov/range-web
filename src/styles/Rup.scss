@@ -39,7 +39,7 @@ $sticky-height: 55px;
       color: $primary-color;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
     }
   }
   &__sticky {
@@ -128,19 +128,19 @@ $sticky-height: 55px;
     &__tabs {
       position: sticky;
       top: $sticky-height;
-      margin-top: 5px;
       margin-right: 15px;
       align-self: flex-start; /* <-- this is the fix */
       font-size: 1.2rem;
     }
     &__tab {
       display: flex;
-      padding: 15px;
+      padding: $content-margin-top 0;
       padding-left: 10px;
+      padding-right: 15px;
       border-bottom: 1px solid lightgray;
       color: black;
       text-decoration: none;
-      min-width: 190px;
+      min-width: 195px;
 
       > img {
         width: 20px;

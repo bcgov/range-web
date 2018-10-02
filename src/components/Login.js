@@ -1,23 +1,29 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Segment } from 'semantic-ui-react';
+import { Button, Segment, Message, Icon } from 'semantic-ui-react';
 import { Loading } from './common';
 import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/api';
 import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
 import { storeAuthData } from '../actions';
 import { fetchUser } from '../actionCreators';
-import { getIsFetchingUser } from '../reducers/rootReducer';
+import { getIsFetchingUser, getUserErrorMessage } from '../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../constants/strings';
 import { detectIE } from '../utils';
 
-const propTypes = {
-  storeAuthData: PropTypes.func.isRequired,
-  fetchUser: PropTypes.func.isRequired,
-  isFetchingUser: PropTypes.bool.isRequired,
-};
-
 export class Login extends Component {
+  static propTypes = {
+    storeAuthData: PropTypes.func.isRequired,
+    fetchUser: PropTypes.func.isRequired,
+    isFetchingUser: PropTypes.bool.isRequired,
+    errorFetchingUser: PropTypes.string,
+  };
+
+  static defaultProps = {
+    errorFetchingUser: null,
+  }
+
   componentWillMount() {
     document.title = LOGIN_TITLE;
   }
@@ -49,7 +55,7 @@ export class Login extends Component {
   onBceidLoginBtnClick = () => this.openNewTab(SSO_BCEID_LOGIN_ENDPOINT)
 
   render() {
-    const { isFetchingUser } = this.props;
+    const { isFetchingUser, errorFetchingUser } = this.props;
     const isIE = detectIE();
 
     return (
@@ -90,12 +96,22 @@ export class Login extends Component {
               >
                 Learn more about BCeID here.
               </a>
+              {errorFetchingUser &&
+                <div className="login__signin__error">
+                  <Message error>
+                    <Message.Content>
+                      <Icon name='warning' />
+                      Error occured while signing in
+                    </Message.Content>
+                  </Message>
+                </div>
+              }
               <Button
                 id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
                 className="login__signin__button"
                 primary
                 fluid
-                style={{ height: '50px' }}
+                style={{ height: '50px', marginTop: '15px' }}
                 onClick={this.onBceidLoginBtnClick}
               >
                 Login as Agreement Holder
@@ -215,8 +231,8 @@ export class Login extends Component {
 const mapStateToProps = state => (
   {
     isFetchingUser: getIsFetchingUser(state),
+    errorFetchingUser: getUserErrorMessage(state),
   }
 );
 
-Login.propTypes = propTypes;
 export default connect(mapStateToProps, { storeAuthData, fetchUser })(Login);
