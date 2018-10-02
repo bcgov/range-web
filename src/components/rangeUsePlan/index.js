@@ -36,27 +36,9 @@ class Base extends Component {
     this.fetchPlan();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { location } = this.props;
-    const locationChanged = nextProps.location !== location;
-
-    // triggered by creating amendment
-    if (locationChanged) {
-      this.fetchPlan(nextProps.match.params.planId);
-    }
-  }
-
-  fetchPlan = (planId) => {
+  fetchPlan = () => {
     const { fetchRUP, match } = this.props;
-    if (planId) {
-      fetchRUP(planId);
-      return;
-    }
     fetchRUP(match.params.planId);
-  }
-
-  onRetryClicked = () => {
-    this.fetchPlan();
   }
 
   render() {
@@ -86,7 +68,7 @@ class Base extends Component {
           <div>
             <Button onClick={history.goBack}>Go Back</Button>
             <span className="rup__fetching-error__or-message">or</span>
-            <Button onClick={this.onRetryClicked}>Retry</Button>
+            <Button onClick={this.fetchPlan}>Retry</Button>
           </div>
         </div>
       );

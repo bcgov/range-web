@@ -1,10 +1,10 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
 import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION } from '../../constants/strings';
+
 class RupContents extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -26,7 +26,7 @@ class RupContents extends Component {
   }
 
   render() {
-    const { children, location, history } = this.props;
+    const { children, location } = this.props;
     const { hash } = location;
 
     return (
