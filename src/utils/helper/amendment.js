@@ -79,10 +79,12 @@ export const copyMinisterIssuesToCreateAmendment = (
   });
 };
 
-export const isMinorAmendment = amendmentType => (
-  amendmentType === AMENDMENT_TYPE.MINOR
-);
+export const isSubmittedAsMinor = (amendmentTypeId, amendmentTypes) => {
+  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  return amendmentType && (amendmentType.code === AMENDMENT_TYPE.MINOR);
+};
 
-export const isMandatoryAmendment = amendmentType => (
-  amendmentType === AMENDMENT_TYPE.MANDATORY
-);
+export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
+  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  return amendmentType && (amendmentType.code === AMENDMENT_TYPE.MANDATORY);
+};
