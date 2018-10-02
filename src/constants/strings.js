@@ -28,6 +28,12 @@ export const CONFIRM_SUBMISSION = 'Confirm Submission';
 export const VIEW = 'View';
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
+// RUP tabs
+export const BASIC_INFORMATION = 'Basic Information';
+export const PASTURES = 'Pastures';
+export const SCHEDULES = 'Schedules';
+export const MINISTER_ISSUES = 'Minister\'s Issues';
+
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';
 export const PLAN_END = 'Plan End Date';

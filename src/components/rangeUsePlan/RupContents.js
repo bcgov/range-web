@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
+import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION } from '../../constants/strings';
 
 class RupContents extends Component {
   static propTypes = {
@@ -29,19 +30,19 @@ class RupContents extends Component {
         <div className="rup__contents__tabs">
           <a href={`#${ELEMENT_ID.BASIC_INFORMATION}`}>
             <img src={IMAGE_SRC.BASIC_INFORMATION_ICON} alt="icon" />
-            <span>Basic Information</span>
+            <span>{BASIC_INFORMATION}</span>
           </a>
           <a href={`#${ELEMENT_ID.PASTURES}`}>
             <img src={IMAGE_SRC.PASTURES_ICON} alt="icon" />
-            <span>Pastures</span>
+            <span>{PASTURES}</span>
           </a>
           <a href={`#${ELEMENT_ID.GRAZING_SCHEDULE}`}>
             <img src={IMAGE_SRC.SCHEDULES_ICON} alt="icon" />
-            <span>Schedules</span>
+            <span>{SCHEDULES}</span>
           </a>
           <a href={`#${ELEMENT_ID.MINISTER_ISSUES}`}>
             <img src={IMAGE_SRC.MINISTER_ISSUES_ICON} alt="icon" />
-            <span>Minister Issues</span>
+            <span>{MINISTER_ISSUES}</span>
           </a>
         </div>
         <div className="rup__contents">
