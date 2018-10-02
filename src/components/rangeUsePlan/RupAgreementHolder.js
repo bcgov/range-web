@@ -37,6 +37,7 @@ export class RupAH extends Component {
     planUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
+    isFetchingPlan: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     agreement: {
@@ -294,6 +295,7 @@ export class RupAH extends Component {
       grazingSchedulesMap,
       ministerIssuesMap,
       confirmationsMap,
+      isFetchingPlan,
     } = this.props;
 
     const { agreementId, status, confirmations } = plan;
@@ -331,27 +333,29 @@ export class RupAH extends Component {
           content={utils.getBannerContentForAH(status)}
         />
 
-        <div className="rup__sticky">
-          <div className="rup__actions__background">
-            <div className="rup__actions__container">
-              <RupBackBtn
-                className="rup__back-btn"
-              />
-              <div className="rup__actions__left">
-                <div className="rup__actions__title">{agreementId}</div>
-                <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
-                <Status
-                  className="rup__status"
-                  status={status}
-                  user={user}
+        {!isFetchingPlan &&
+          <div className="rup__sticky">
+            <div className="rup__actions__background">
+              <div className="rup__actions__container">
+                <RupBackBtn
+                  className="rup__back-btn"
                 />
-              </div>
-              <div className="rup__actions__btns">
-                {this.renderActionBtns(canEdit, canAmend, canConfirm, canSubmit)}
+                <div className="rup__actions__left">
+                  <div className="rup__actions__title">{agreementId}</div>
+                  <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
+                  <Status
+                    className="rup__status"
+                    status={status}
+                    user={user}
+                  />
+                </div>
+                <div className="rup__actions__btns">
+                  {this.renderActionBtns(canEdit, canAmend, canConfirm, canSubmit)}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        }
 
         <RupContent>
           <RupNotifications
