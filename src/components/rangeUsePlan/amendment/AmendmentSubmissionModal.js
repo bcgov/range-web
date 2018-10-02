@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Modal, Icon, Form, Radio } from 'semantic-ui-react';
-import { AMENDMENT_TYPE, REFERENCE_KEY } from '../../../constants/variables';
+import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import MinorTabsForSingle from './MinorTabsForSingle';
 import MinorTabsForMultiple from './MinorTabsForMultiple';
 import MandatoryTabsForSingle from './MandatoryTabsForSingle';
-import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory } from '../../../utils';
+import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment } from '../../../utils';
 import MandatoryTabsForMultiple from './MandatoryTabsForMultiple';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
@@ -38,7 +38,7 @@ class AmendmentSubmissionModal extends Component {
   getInitialState = () => (
     {
       activeTab: 0,
-      amendmentType: null,
+      amendmentTypeCode: null,
       mandatoryStatusCode: null,
       isAgreed: false,
       readyToGoNext: false,
@@ -65,8 +65,8 @@ class AmendmentSubmissionModal extends Component {
     }));
   }
 
-  handleAmendmentTypeChange = (e, { value: amendmentType }) => {
-    this.setState({ amendmentType, readyToGoNext: true });
+  handleAmendmentTypeChange = (e, { value: amendmentTypeCode }) => {
+    this.setState({ amendmentTypeCode, readyToGoNext: true });
   }
 
   handleAgreeCheckBoxChange = (e, { checked }) => {
@@ -78,40 +78,41 @@ class AmendmentSubmissionModal extends Component {
   }
 
   onSubmitClicked = () => {
-    // const { plan, references, clients } = this.props;
-    // const { mandatoryStatusCode } = this.state;
-    // const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
-    // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    // const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
-    // const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
-    // const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
-    // const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
-    // const mandatoryStatus = planStatuses.find(s => s.code === mandatoryStatusCode);
-    // const isMinor = isMinorAmendment(plan.amendmentTypeId, amendmentTypes);
-    // const isMandatory = isMandatoryAmendment(plan.amendmentTypeId, amendmentTypes);
+    const { plan, references, clients } = this.props;
+    const { mandatoryStatusCode, amendmentTypeCode } = this.state;
+    const { amendmentTypeId } = plan;
+    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
+    const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
+    const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
+    const mandatoryStatus = planStatuses.find(s => s.code === mandatoryStatusCode);
+    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
 
-    // if (isMinor && isSingleClient(clients)) {
-    //   this.submitAmendment(plan, stands, minor);
-    //   return;
-    // }
+    if (isMinor && isSingleClient(clients)) {
+      const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
+      this.submitAmendment(plan, stands, minor);
+      return;
+    }
 
-    // if (isMinor && !isSingleClient(clients)) {
-    //   this.submitAmendment(plan, confirmationAwaiting, minor);
-    //   return;
-    // }
+    if (isMinor && !isSingleClient(clients)) {
+      this.submitAmendment(plan, confirmationAwaiting, minor);
+      return;
+    }
 
-    // if (isMandatory && isSingleClient(clients)) {
-    //   this.submitAmendment(plan, mandatoryStatus, mandatory);
-    //   return;
-    // }
+    if (isMandatory && isSingleClient(clients)) {
+      this.submitAmendment(plan, mandatoryStatus, mandatory);
+      return;
+    }
 
-    // if (isMandatory && !isSingleClient(clients)) {
-    //   if (mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION) {
-    //     this.submitAmendment(plan, confirmationAwaiting, mandatory);
-    //     return;
-    //   }
-    //   this.submitAmendment(plan, mandatoryStatus, mandatory);
-    // }
+    if (isMandatory && !isSingleClient(clients)) {
+      if (mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION) {
+        this.submitAmendment(plan, confirmationAwaiting, mandatory);
+        return;
+      }
+      this.submitAmendment(plan, mandatoryStatus, mandatory);
+    }
   }
 
   submitAmendment = (plan, planStatus, amendmentType) => {
@@ -142,7 +143,7 @@ class AmendmentSubmissionModal extends Component {
   render() {
     const {
       activeTab, readyToGoNext, isAgreed,
-      isSubmitting, mandatoryStatusCode, amendmentType,
+      isSubmitting, mandatoryStatusCode, amendmentTypeCode,
     } = this.state;
     const { open, clients, user, plan, references } = this.props;
     const { amendmentTypeId } = plan;
@@ -152,8 +153,8 @@ class AmendmentSubmissionModal extends Component {
     const isSubmittedAsMinorAmendment = isSubmittedAsMinor(amendmentTypeId, amendmentTypes);
     const isSubmittedAsMandatoryAmendment = isSubmittedAsMandatory(amendmentTypeId, amendmentTypes);
     const isAmendmentTypeDecided = isSubmittedAsMinorAmendment || isSubmittedAsMandatoryAmendment;
-    const isMinor = isSubmittedAsMinorAmendment || amendmentType === AMENDMENT_TYPE.MINOR;
-    const isMandatory = isSubmittedAsMandatoryAmendment || amendmentType === AMENDMENT_TYPE.MANDATORY;
+    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
 
     return (
       <Modal

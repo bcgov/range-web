@@ -1,6 +1,8 @@
 import React from 'react';
 import Loadable from 'react-loadable';
+import { Button, Icon } from 'semantic-ui-react';
 import { Loading } from '../common';
+
 /*
   Code Splitting with React Router
   https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html
@@ -11,15 +13,27 @@ const LoadingComponent = ({ isLoading, error }) => {
   if (isLoading) { // Handle the loading state
     component = <Loading />;
   } else if (error) { // Handle the error state
-    component = (<div>Sorry, there was a problem loading the page.</div>);
+    component = (
+      <div className="page-error">
+        <Icon name="warning circle" size="big" color="red" />
+        <div>
+          <span className="rup__fetching-error__message">
+            Sorry, there was a problem loading the page.
+          </span>
+        </div>
+        <div>
+          <Button onClick={window.location.reload}>Refresh</Button>
+        </div>
+      </div>
+    );
   }
 
   return component;
 };
 
-const AsyncComponent = component => (
+const AsyncComponent = Component => (
   Loadable({
-    loader: component,
+    loader: Component,
     loading: LoadingComponent,
   })
 );

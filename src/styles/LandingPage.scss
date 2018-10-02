@@ -84,6 +84,19 @@
   font-size: 1.5rem;
 }
 
+.page-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  flex-direction: column;
+
+  > div {
+    margin: 10px 0;
+  }
+}
+
 footer {
   height: 20px;
 }

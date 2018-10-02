@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'semantic-ui-react';
-import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded } from '../../utils';
+import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
 import ConfirmationList from './amendment/ConfirmationList';
 
 class RupNotifications extends Component {
@@ -39,7 +39,7 @@ class RupNotifications extends Component {
 
     return (
       <div className="rup__notifications">
-        {isStatusIndicatingStaffFeedbackNeeded(status) &&
+        {isUserStaff(user) && isStatusIndicatingStaffFeedbackNeeded(status) &&
           <div className="rup__feedback-notification">
             <div className="rup__feedback-notification__title">
               {`Provide input for ${planTypeDescription} Submission`}

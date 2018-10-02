@@ -88,3 +88,13 @@ export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
   const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
   return amendmentType && (amendmentType.code === AMENDMENT_TYPE.MANDATORY);
 };
+
+export const isMinorAmendment = (amendmentTypeId, amendmentTypes, amendmentTypeCode) => (
+  isSubmittedAsMinor(amendmentTypeId, amendmentTypes)
+    || amendmentTypeCode === AMENDMENT_TYPE.MINOR
+);
+
+export const isMandatoryAmendment = (amendmentTypeId, amendmentTypes, amendmentTypeCode) => (
+  isSubmittedAsMandatory(amendmentTypeId, amendmentTypes)
+    || amendmentTypeCode === AMENDMENT_TYPE.MANDATORY
+);

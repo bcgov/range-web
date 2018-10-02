@@ -29,6 +29,10 @@ export const isUserRangeOfficer = user => (
   user && user.roles && (user.roles.indexOf(USER_ROLE.RANGE_OFFICER) >= 0)
 );
 
+export const isUserStaff = user => (
+  isUserAdmin(user) || isUserRangeOfficer(user)
+);
+
 export const isUserAgreementHolder = user => (
   user && user.roles && (user.roles.indexOf(USER_ROLE.AGREEMENT_HOLDER) >= 0)
 );
