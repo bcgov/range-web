@@ -1,5 +1,6 @@
 import * as strings from '../../constants/strings';
 import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES } from '../../constants/variables';
+import { isAmendment } from './amendment';
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -134,36 +135,39 @@ export const canUserSubmitConfirmation = (status, user, confirmations = [], conf
   return false;
 };
 
-export const getBannerContentForAH = (status) => {
+export const getBannerContentForAH = (plan) => {
+  const { status, amendmentTypeId } = plan;
+
   if (isStatusCreated(status)) {
-    return strings.RUP_CREATED_FOR_AH_CONTENT;
+    if (isAmendment(amendmentTypeId)) return strings.AMENDMENT_CREATED_BANNER_FOR_AH;
+    return strings.RUP_CREATED_BANNER_FOR_AH;
   }
   if (isStatusDraft(status)) {
-    return strings.RUP_IN_DRAFT_FOR_AH_CONTENT;
+    return strings.RUP_IN_DRAFT_BANNER_FOR_AH;
   }
   if (isStatusPending(status)) {
-    return strings.RUP_PENDING_FOR_AH_CONTENT;
+    return strings.RUP_PENDING_BANNER_FOR_AH;
   }
   if (isStatusChangedRequested(status)) {
-    return strings.RUP_CHANGE_REQUESTED_FOR_AH_CONTENT;
+    return strings.RUP_CHANGE_REQUESTED_BANNER_FOR_AH;
   }
   if (isStatusCompleted(status)) {
-    return strings.RUP_COMPLETE_FOR_AH_CONTENT;
+    return strings.RUP_COMPLETE_BANNER_FOR_AH;
   }
   if (isStatusApproved(status)) {
-    return strings.RUP_APPROVED_FOR_AH_CONTENT;
+    return strings.RUP_APPROVED_BANNER_FOR_AH;
   }
   if (isStatusNotApproved(status)) {
-    return strings.RUP_NOT_APPROVED_FOR_AH_CONTENT;
+    return strings.RUP_NOT_APPROVED_BANNER_FOR_AH;
   }
   if (isStatusNotApprovedFWR(status)) {
-    return strings.RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT;
+    return strings.RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_BANNER_FOR_AH;
   }
   if (isStatusStands(status)) {
-    return strings.RUP_STANDS_FOR_AH_CONTENT;
+    return strings.RUP_STANDS_BANNER_FOR_AH;
   }
   if (isStatusStandsWM(status)) {
-    return strings.RUP_STANDS_WRONGLY_MADE_AH_CONTENT;
+    return strings.RUP_STANDS_WRONGLY__BANNER_FOR_AH;
   }
   if (isStatusWronglyMakeWE(status)) {
     return strings.RUP_WRONGLY_MADE_WITHOUT_EFFECT;

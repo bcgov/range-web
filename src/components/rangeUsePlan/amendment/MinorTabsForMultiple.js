@@ -57,10 +57,13 @@ class MinorTabsForMultiple extends Component {
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
           <Form>
             <div className="multi-form__tab__title">
-              {`${index}. Confirm Your Submission and eSignature`}
+              {`${index}. Finalize and Sign Your Submission and eSignature`}
+            </div>
+            <div style={{ marginBottom: '10px' }}>
+              You are about to finalize and sign a minor amendment to your RUP. No approval is required for minor amendments. Your RUP will be automatically updated when all agreement holders have reviewed and signed the amendment. This amendment may be reviewed by range staff for consistency with minor amendment requirements.
             </div>
             <div style={{ marginBottom: '20px' }}>
-              You are about to submit a minor amendment for your Range Use Plan. Your RUP will be updated immediately following submission and collection of other agreement holder signatures as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.
+              You will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.
             </div>
             <Form.Field>
               <Checkbox
@@ -88,7 +91,7 @@ class MinorTabsForMultiple extends Component {
 
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
           <div className="multi-form__tab__title">
-            {`${index}. Request eSignatures to Submit Minor Amendment`}
+            {`${index}. Confirm Signature and Submit`}
           </div>
           <div style={{ marginBottom: '20px' }}>
             You’re ready to submit your Minor Amendment to your range use plan. The other agreement holders below will be notified to confirm the submission and provide eSignatures.
@@ -97,7 +100,7 @@ class MinorTabsForMultiple extends Component {
             Once all agreement holders have confirmed the submission and provided their eSignatures, your RUP will be updated as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.
           </div>
           <div className="amendment__submission__ah-list__header">
-            Agreement holders needed to confirm submission:
+            All other agreement holders required to sign this amendment are listed below.
           </div>
           {clients.map(this.renderAgreementHolder)}
           <div className="multi-form__btns">
@@ -112,7 +115,7 @@ class MinorTabsForMultiple extends Component {
               onClick={onSubmitClicked}
               loading={isSubmitting}
             >
-              Request eSignatures and Submit
+              Confirm Signature
             </Button>
           </div>
         </div>
@@ -121,10 +124,13 @@ class MinorTabsForMultiple extends Component {
           <div className="amendment__submission__last-tab">
             <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
             <div className="amendment__submission__last-tab__title">
-              Your minor amendment has been sent for eSignatures and Submission
+            You have successfully signed this minor amendment and submitted it to other agreement holders for signature
+            </div>
+            <div style={{ marginBottom: '10px' }}>
+              No approval is required for minor amendments. Your RUP will be automatically updated when all agreement holders have reviewed and signed the amendment. This amendment may be reviewed by range staff for consistency with minor amendment requirements.
             </div>
             <div style={{ marginBottom: '20px' }}>
-              Your amendment has been sent to agreement holders for confirmation. Once all agreement holders have confirmed the submission and provided their eSignature your amendmentwill take effect immediatly. No further action is required unless range staff find errors in your submission.
+              You only will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.
             </div>
             <Button
               className="multi-form__btn"

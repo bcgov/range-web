@@ -328,7 +328,7 @@ export class RupAH extends Component {
         <Banner
           noDefaultHeight
           header={header}
-          content={utils.getBannerContentForAH(status)}
+          content={utils.getBannerContentForAH(plan)}
         />
 
         <div className="rup__sticky">

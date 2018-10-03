@@ -145,16 +145,17 @@ export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
 export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
 export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
-export const RUP_CREATED_FOR_AH_CONTENT = 'Please confirm your range use plan.';
-export const RUP_IN_DRAFT_FOR_AH_CONTENT = 'Please finalize your changes and submit for Range staff review.';
-export const RUP_PENDING_FOR_AH_CONTENT = 'Your range use plan is currently being reviewed by range staff.';
-export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
-export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your initial RUP was reviewed by the district manager and has been approved.';
-export const RUP_APPROVED_FOR_AH_CONTENT = 'Your plan or amendment was reviewed by the district manager and has been approved. If you wish to submit an amendment please use the “Amend Plan” option to the right.';
-export const RUP_NOT_APPROVED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager. For more information follow up with your Range staff contact.';
-export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager because further work is required. Please complete the requested revisions and resubmit.';
-export const RUP_STANDS_FOR_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved.';
-export const RUP_STANDS_WRONGLY_MADE_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
+export const RUP_CREATED_BANNER_FOR_AH = 'Please confirm your range use plan.';
+export const AMENDMENT_CREATED_BANNER_FOR_AH = 'Make proposed changes in the copy of the RUP below. Contact other agreement holders (if there are any) to discuss the proposal. Click “Save draft” if you need to continue your amendment at another time. Click “Submit” when you have made all of the desired changes.';
+export const RUP_IN_DRAFT_BANNER_FOR_AH = 'Please finalize your changes and submit for Range staff review.';
+export const RUP_PENDING_BANNER_FOR_AH = 'Your range use plan is currently being reviewed by range staff.';
+export const RUP_CHANGE_REQUESTED_BANNER_FOR_AH = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
+export const RUP_COMPLETE_BANNER_FOR_AH = 'Your initial RUP was reviewed by the district manager and has been approved.';
+export const RUP_APPROVED_BANNER_FOR_AH = 'Your plan or amendment was reviewed by the district manager and has been approved. If you wish to submit an amendment please use the “Amend Plan” option to the right.';
+export const RUP_NOT_APPROVED_BANNER_FOR_AH = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager. For more information follow up with your Range staff contact.';
+export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_BANNER_FOR_AH = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager because further work is required. Please complete the requested revisions and resubmit.';
+export const RUP_STANDS_BANNER_FOR_AH = 'Your Minor amendment was reviewed by Range staff and was approved.';
+export const RUP_STANDS_WRONGLY__BANNER_FOR_AH = 'Your Minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
 export const RUP_WRONGLY_MADE_WITHOUT_EFFECT = 'Your Minor amendment was reviewed by Range staff and was deemed wrongly made. For more information follow up with your Range staff contact.';
 
 // statuses of range use plan in user perspective
