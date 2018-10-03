@@ -17,7 +17,7 @@ export class Login extends Component {
     storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
     isFetchingUser: PropTypes.bool.isRequired,
-    errorFetchingUser: PropTypes.string,
+    errorFetchingUser: PropTypes.shape({}),
   };
 
   static defaultProps = {
@@ -101,7 +101,7 @@ export class Login extends Component {
                   <Message error>
                     <Message.Content>
                       <Icon name='warning' />
-                      Error occured while signing in
+                      Error occured while signing in or your session has expired.
                     </Message.Content>
                   </Message>
                 </div>
