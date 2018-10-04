@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
-import ConfirmationList from './amendment/ConfirmationList';
+import AgreementHolderConfirmations from './amendment/AgreementHolderConfirmations';
 
 class RupNotifications extends Component {
   static propTypes = {
@@ -66,7 +66,7 @@ class RupNotifications extends Component {
                   <span>
                     There are still agreement holders who have not yet confirmed their confirmation choice.
                   </span>
-                  <ConfirmationList
+                  <AgreementHolderConfirmations
                     user={user}
                     clients={clients}
                     plan={plan}
