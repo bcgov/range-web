@@ -87,9 +87,10 @@ class AmendmentConfirmationModal extends Component {
         throw err;
       };
       const confirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
+      const confirmed = true;
 
       onRequest();
-      updateRUPConfirmation(plan, confirmation.id, true).then(
+      updateRUPConfirmation(plan, confirmation.id, confirmed).then(
         (result) => {
           onSuccess(result);
         }, (err) => {

@@ -109,4 +109,20 @@ footer {
   &__content {
     font-size: 1.2rem;
   }
+  &__note {
+    margin-top: 10px;
+    color: #999999;
+
+    > form {
+      margin: 5px 0;
+    }
+    &__text-length {
+      text-align: end;
+    }
+  }
+  &__btns {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
 }

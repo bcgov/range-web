@@ -5,6 +5,7 @@ export const LOCAL_STORAGE_KEY = {
 };
 
 export const TOAST_TIMEOUT = 9000;
+export const NUMBER_OF_LIMIT_FOR_NOTE = 140;
 
 export const PLAN_STATUS = {
   PENDING: 'P',

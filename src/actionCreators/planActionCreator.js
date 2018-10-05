@@ -6,7 +6,7 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import * as schema from './schema';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
   axios,
@@ -14,6 +14,31 @@ import {
   copyPasturesToCreateAmendment, normalizePasturesWithCopiedId,
   copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
  } from '../utils';
+
+export const createRUPStatusHistory = (plan, newStatus, note) => (dispatch, getState) => {
+  const { id: planId, statusId: fromPlanStatusId } = plan;
+  const user = getUser(getState());
+
+  return axios.post(
+    API.CREATE_RUP_STATUS_HISTORY(planId),
+    {
+      userId: user.id,
+      fromPlanStatusId,
+      toPlanStatusId: newStatus.id,
+      note,
+    },
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      const statusHistory = response.data;
+      return statusHistory;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
 
 export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispatch, getState) => {
   const { id: planId, amendmentTypeId } = plan;
