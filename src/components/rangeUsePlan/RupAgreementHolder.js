@@ -156,7 +156,6 @@ export class RupAH extends Component {
   onAmendPlanClicked = () => {
     const {
       plan,
-      agreement,
       createAmendment,
       history,
       toastSuccessMessage,
@@ -164,7 +163,7 @@ export class RupAH extends Component {
 
     createAmendment(plan).then((amendment) => {
       toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS);
-      history.push(`${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`);
+      history.push(`${RANGE_USE_PLAN}/${amendment.id}`);
     });
   }
 
