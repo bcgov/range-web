@@ -30,3 +30,7 @@ export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notPr
 export const formatDateFromUTC = date => (
   moment(date).format(DATE_FORMAT.SERVER_SIDE)
 );
+
+export const formatDateToNow = date => (
+  moment(date).fromNow()
+);
