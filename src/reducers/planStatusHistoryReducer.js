@@ -1,29 +1,29 @@
-// import { STORE_PLAN, CONFIRMATION_UPDATED } from '../constants/actionTypes';
+import { STORE_PLAN, ADD_PLAN_STATUS_HISTORY_RECORD } from '../constants/actionTypes';
 
-// const storeConfirmations = (state, action) => {
-//   const { confirmations } = action.payload.entities;
+const storeStatusHistory = (state, action) => {
+  const { planStatusHistory } = action.payload.entities;
 
-//   return {
-//     ...state,
-//     ...confirmations,
-//   };
-// };
+  return {
+    ...state,
+    ...planStatusHistory,
+  };
+};
 
-// const updateConfirmation = (state, action) => {
-//   const { confirmation } = action.payload;
+const addStatusHistoryRecord = (state, action) => {
+  const { record } = action.payload;
 
-//   return {
-//     ...state,
-//     [confirmation.id]: confirmation,
-//   };
-// };
+  return {
+    ...state,
+    [record.id]: record,
+  };
+};
 
 const planStatusHistoryReducer = (state = {}, action) => {
   switch (action.type) {
-//     case STORE_PLAN:
-//       return storeConfirmations(state, action);
-//     case CONFIRMATION_UPDATED:
-//       return updateConfirmation(state, action);
+    case STORE_PLAN:
+      return storeStatusHistory(state, action);
+    case ADD_PLAN_STATUS_HISTORY_RECORD:
+      return addStatusHistoryRecord(state, action);
     default:
       return state;
   }

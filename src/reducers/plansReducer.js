@@ -1,4 +1,4 @@
-import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE } from '../constants/actionTypes';
+import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE, ADD_PLAN_STATUS_HISTORY_RECORD } from '../constants/actionTypes';
 
 const initialState = {
   byId: {},
@@ -69,6 +69,22 @@ const deleteGrazingSchedule = (state, action) => {
   };
 };
 
+const addPlanStatusHistoryRecord = (state, action) => {
+  const { planId, planStatusHistory } = action.payload;
+  const plan = {
+    ...state.byId[planId],
+    planStatusHistory,
+  };
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [planId]: plan,
+    },
+  };
+};
+
 const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAN:
@@ -79,6 +95,8 @@ const plansReducer = (state = initialState, action) => {
       return addGrazingSchedule(state, action);
     case DELETE_GRAZING_SCHEDULE:
       return deleteGrazingSchedule(state, action);
+    case ADD_PLAN_STATUS_HISTORY_RECORD:
+      return addPlanStatusHistoryRecord(state, action);
     default:
       return state;
   }

@@ -15,12 +15,12 @@ import {
   copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
  } from '../utils';
 
-export const createRUPStatusHistory = (plan, newStatus, note) => (dispatch, getState) => {
+export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch, getState) => {
   const { id: planId, statusId: fromPlanStatusId } = plan;
   const user = getUser(getState());
 
   return axios.post(
-    API.CREATE_RUP_STATUS_HISTORY(planId),
+    API.CREATE_RUP_STATUS_HISTORY_RECORD(planId),
     {
       userId: user.id,
       fromPlanStatusId,
@@ -30,8 +30,8 @@ export const createRUPStatusHistory = (plan, newStatus, note) => (dispatch, getS
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      const statusHistory = response.data;
-      return statusHistory;
+      const record = response.data;
+      return record;
     },
     (err) => {
       dispatch(toastErrorMessage(err));

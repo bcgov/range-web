@@ -4,6 +4,7 @@ import pasturesReducer from './pasturesReducer';
 import grazingSchedulesReducer from './grazingSchedulesReducer';
 import ministerIssuesReducer from './ministerIssuesReducer';
 import confirmationsReducer from './confirmationsReducer';
+import planStatusHistoryReducer from './planStatusHistoryReducer';
 
 // private selectors
 export const getPlansMap = state => state.plans.byId;
@@ -12,6 +13,7 @@ export const getPasturesMap = state => state.pastures;
 export const getGrazingSchedulesMap = state => state.grazingSchedules;
 export const getMinisterIssuesMap = state => state.ministerIssues;
 export const getConfirmationsMap = state => state.confirmations;
+export const getPlanStatusHistoryMap = state => state.planStatusHistory;
 
 export default combineReducers({
   plans: plansReducer,
@@ -19,4 +21,5 @@ export default combineReducers({
   grazingSchedules: grazingSchedulesReducer,
   ministerIssues: ministerIssuesReducer,
   confirmations: confirmationsReducer,
+  planStatusHistory: planStatusHistoryReducer,
 });
