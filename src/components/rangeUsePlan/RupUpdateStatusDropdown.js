@@ -8,7 +8,7 @@ import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from
 import { planUpdated, addPlanStatusHistoryRecord } from '../../actions';
 import { updateRUPStatus, createRUPStatusHistoryRecord } from '../../actionCreators';
 import * as strings from '../../constants/strings';
-import UpdateStatusModal from './UpdateStatusModal';
+import RupUpdateStatusModal from './RupUpdateStatusModal';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
@@ -21,7 +21,7 @@ const propTypes = {
   createRUPStatusHistoryRecord: PropTypes.func.isRequired,
 };
 
-class UpdateStatusDropdown extends Component {
+class RupUpdateStatusDropdown extends Component {
   state = {
     updateStatusModalOpen: false,
     modal: null,
@@ -69,6 +69,7 @@ class UpdateStatusDropdown extends Component {
       header: strings.STANDS_WRONGLY_MADE_CONFIRMATION_HEADER,
       content: strings.STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.STANDS_WRONGLY_MADE,
+      requireNote: true,
     });
   }
 
@@ -93,6 +94,7 @@ class UpdateStatusDropdown extends Component {
       header: strings.NOT_APPROVED_FWR_CONFIRMATION_HEADER,
       content: strings.NOT_APPROVED_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
+      requireNote: true,
     });
   }
 
@@ -109,6 +111,7 @@ class UpdateStatusDropdown extends Component {
       header: strings.RECOMMEND_NOT_READY_CONFIRMATION_HEADER,
       content: strings.RECOMMEND_NOT_READY_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.RECOMMEND_NOT_READY,
+      requireNote: true,
     });
   }
 
@@ -212,7 +215,7 @@ class UpdateStatusDropdown extends Component {
           button
           item
         />
-        <UpdateStatusModal
+        <RupUpdateStatusModal
           open={updateStatusModalOpen}
           onClose={this.closeUpdateStatusModalOpen}
           {...this.props}
@@ -232,10 +235,10 @@ const mapStateToProps = state => (
   }
 );
 
-UpdateStatusDropdown.propTypes = propTypes;
+RupUpdateStatusDropdown.propTypes = propTypes;
 export default connect(mapStateToProps, {
   planUpdated,
   addPlanStatusHistoryRecord,
   updateRUPStatus,
   createRUPStatusHistoryRecord,
-})(UpdateStatusDropdown);
+})(RupUpdateStatusDropdown);

@@ -123,6 +123,9 @@ $sticky-height: 55px;
     border-radius: 5px;
     background-color: #F7F7F7;
     padding: 10px;
+
+    max-height: 120px;
+    overflow: auto;
     
     &__record {
       &:not(:last-child) {
@@ -130,6 +133,10 @@ $sticky-height: 55px;
       }
       &__header {
         font-weight: bold;
+
+        > i {
+          margin-right: 5px !important;
+        }
       }
       &__timestamp {
         display: inline;
@@ -141,7 +148,7 @@ $sticky-height: 55px;
         display: flex;
 
         > i {
-          margin: 0 7px !important;
+          margin: 2px 7px 0 7px !important;
         }
       }
     }
@@ -256,6 +263,27 @@ $sticky-height: 55px;
       > .item {
         text-align: center !important;
       }
+    }
+  }
+  &__update-status-modal {
+    &__content {
+      font-size: 1.2rem;
+    }
+    &__note {
+      margin-top: 10px;
+      color: #999999;
+  
+      > form {
+        margin: 5px 0;
+      }
+      &__text-length {
+        text-align: end;
+      }
+    }
+    &__btns {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

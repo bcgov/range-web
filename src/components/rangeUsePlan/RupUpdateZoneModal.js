@@ -18,7 +18,7 @@ const propTypes = {
   planUpdated: PropTypes.func.isRequired,
 };
 
-export class UpdateZoneModal extends Component {
+export class RupUpdateZoneModal extends Component {
   state = {
     newZoneId: null,
   }
@@ -123,5 +123,8 @@ const mapStateToProps = state => (
   }
 );
 
-UpdateZoneModal.propTypes = propTypes;
-export default connect(mapStateToProps, { updateAgreementZone, planUpdated })(UpdateZoneModal);
+RupUpdateZoneModal.propTypes = propTypes;
+export default connect(mapStateToProps, {
+  updateAgreementZone,
+  planUpdated,
+})(RupUpdateZoneModal);

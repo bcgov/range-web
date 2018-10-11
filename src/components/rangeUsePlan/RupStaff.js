@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
+import RupUpdateZoneModal from './RupUpdateZoneModal';
 import {
   DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
@@ -14,7 +14,7 @@ import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import RupBackBtn from './RupBackBtn';
 import RupContents from './RupContents';
-import UpdateStatusDropdown from './UpdateStatusDropdown';
+import RupUpdateStatusDropdown from './RupUpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 import RupNotifications from './RupNotifications';
 
@@ -81,7 +81,7 @@ class RupStaff extends Component {
 
     return (
       <section className="rup">
-        <UpdateAgreementZoneModal
+        <RupUpdateZoneModal
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           plan={plan}
@@ -117,7 +117,7 @@ class RupStaff extends Component {
                     {PREVIEW_PDF}
                   </Button>
                 }
-                <UpdateStatusDropdown
+                <RupUpdateStatusDropdown
                   plan={plan}
                 />
               </div>

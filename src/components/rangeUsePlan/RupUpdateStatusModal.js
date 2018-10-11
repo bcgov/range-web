@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
 
-class UpdateStatusModal extends Component {
+class RupUpdateStatusModal extends Component {
   static propTypes = {
     header: PropTypes.string,
     content: PropTypes.string,
@@ -96,9 +96,9 @@ class UpdateStatusModal extends Component {
       >
         <Modal.Header as="h2" content={header} />
         <Modal.Content>
-          <div className="confirmation-modal__content">{content}</div>
+          <div className="rup__update-status-modal__content">{content}</div>
           {requireNote &&
-            <div className="confirmation-modal__note">
+            <div className="rup__update-status-modal__note">
               Add Note ({NUMBER_OF_LIMIT_FOR_NOTE} characters).
               <Form>
                 <TextArea
@@ -107,12 +107,12 @@ class UpdateStatusModal extends Component {
                   value={note}
                 />
               </Form>
-              <div className="confirmation-modal__note__text-length">
+              <div className="rup__update-status-modal__note__text-length">
                 {lengthOfNote}
               </div>
             </div>
           }
-          <div className="confirmation-modal__btns">
+          <div className="rup__update-status-modal__btns">
             <Button
               color="red"
               inverted
@@ -138,4 +138,4 @@ class UpdateStatusModal extends Component {
   }
 }
 
-export default UpdateStatusModal;
+export default RupUpdateStatusModal;

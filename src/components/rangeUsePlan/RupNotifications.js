@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'semantic-ui-react';
-import { Status } from '../common';
-import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff, getUserFullName, formatDateToNow } from '../../utils';
+import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
 import AgreementHolderConfirmations from './amendment/AgreementHolderConfirmations';
-import { REFERENCE_KEY } from '../../constants/variables';
+import RupPlanStatusHistory from './RupPlanStatusHistory';
 
 class RupNotifications extends Component {
   static propTypes = {
@@ -27,39 +26,6 @@ class RupNotifications extends Component {
   openConfirmationStatusModal = () => this.setState({ confirmationStatusModalOpen: true })
   closeConfirmationStatusModal = () => this.setState({ confirmationStatusModalOpen: false })
 
-  renderStatusHistory = (planStatusHistory) => {
-    const { planStatusHistoryMap, references, user: appUser } = this.props;
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
-
-    return (
-      <div className="rup__history">
-        {planStatusHistory.map((pshId) => {
-          const record = planStatusHistoryMap[pshId];
-          const { id, user, createdAt, fromPlanStatusId, toPlanStatusId } = record || {};
-          const from = planStatuses.find(s => s.id === fromPlanStatusId);
-          const to = planStatuses.find(s => s.id === toPlanStatusId);
-
-          return (
-            <div key={id} className="rup__history__record">
-              <div className="rup__history__record__header">
-                <Icon name="user circle" style={{ marginRight: '5px' }} />
-                {getUserFullName(user)}
-                <div className="rup__history__record__timestamp">
-                  {formatDateToNow(createdAt)}
-                </div>
-              </div>
-              <div className="rup__history__record__statuses">
-                <Status status={from} user={appUser} />
-                <Icon name="long arrow alternate right" size="large" />
-                <Status status={to} user={appUser} />
-              </div>
-              {record.note}
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
   render() {
     const { confirmationStatusModalOpen } = this.state;
     const {
@@ -67,6 +33,8 @@ class RupNotifications extends Component {
       confirmationsMap,
       user,
       planTypeDescription,
+      references,
+      planStatusHistoryMap,
     } = this.props;
     const { confirmations, status, agreement, planStatusHistory } = plan;
     const clients = (agreement && agreement.clients) || [];
@@ -80,10 +48,6 @@ class RupNotifications extends Component {
 
     return (
       <div className="rup__notifications">
-        {planStatusHistory.length !== 0 &&
-          this.renderStatusHistory(planStatusHistory)
-        }
-
         {isUserStaff(user) && isStatusIndicatingStaffFeedbackNeeded(status) &&
           <div className="rup__feedback-notification">
             <div className="rup__feedback-notification__title">
@@ -91,6 +55,15 @@ class RupNotifications extends Component {
             </div>
             Review the Range Use Plan and provide for feedback
           </div>
+        }
+
+        {planStatusHistory.length !== 0 &&
+          <RupPlanStatusHistory
+            planStatusHistory={planStatusHistory}
+            planStatusHistoryMap={planStatusHistoryMap}
+            user={user}
+            references={references}
+          />
         }
 
         {isStatusAwaitingConfirmation(status) &&
