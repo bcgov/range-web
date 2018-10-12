@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NOT_PROVIDED, REVIEW_REQUIRED, IN_REVIEW, SENT_FOR_INPUT, INPUT_REQUIRED, IN_PROGRESS, REVISIONS_REQUESTED, DRAFT, UNKNOWN_STATUS } from '../../constants/strings';
 import { PLAN_STATUS } from '../../constants/variables';
-import { isUserAgreementHolder } from '../../utils';
+import { UNKNOWN_STATUS, NOT_PROVIDED, REVISIONS_REQUESTED } from '../../constants/strings';
+// import { isUserAgreementHolder } from '../../utils';
 
 const propTypes = {
-  user: PropTypes.shape({}).isRequired,
+  // user: PropTypes.shape({}).isRequired,
   status: PropTypes.shape({
     id: PropTypes.number,
     code: PropTypes.string,
@@ -26,26 +26,28 @@ const Status = ({
   status,
   className,
   style,
-  user,
+  // user,
 }) => {
   let modifier = 'status__icon';
   let statusName = status.code ? UNKNOWN_STATUS : NOT_PROVIDED;
 
   switch (status.code) {
     case PLAN_STATUS.CREATED:
-      if (isUserAgreementHolder(user)) {
-        statusName = INPUT_REQUIRED;
-      } else {
-        statusName = SENT_FOR_INPUT;
-      }
+      // if (isUserAgreementHolder(user)) {
+      //   statusName = INPUT_REQUIRED;
+      // } else {
+      //   statusName = SENT_FOR_INPUT;
+      // }
+      statusName = status.name;
       modifier += '--orange';
       break;
     case PLAN_STATUS.DRAFT:
-      if (isUserAgreementHolder(user)) {
-        statusName = DRAFT;
-      } else {
-        statusName = IN_PROGRESS;
-      }
+      // if (isUserAgreementHolder(user)) {
+      //   statusName = DRAFT;
+      // } else {
+      //   statusName = IN_PROGRESS;
+      // }
+      statusName = status.name;
       modifier += '--gray';
       break;
     case PLAN_STATUS.STAFF_DRAFT:
@@ -53,11 +55,12 @@ const Status = ({
       modifier += '--gray';
       break;
     case PLAN_STATUS.PENDING:
-      if (isUserAgreementHolder(user)) {
-        statusName = IN_REVIEW;
-      } else {
-        statusName = REVIEW_REQUIRED;
-      }
+      // if (isUserAgreementHolder(user)) {
+      //   statusName = IN_REVIEW;
+      // } else {
+      //   statusName = REVIEW_REQUIRED;
+      // }
+      statusName = status.name;
       modifier += '--purple';
       break;
     case PLAN_STATUS.CHANGE_REQUESTED:
