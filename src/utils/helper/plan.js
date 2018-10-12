@@ -1,5 +1,5 @@
 import * as strings from '../../constants/strings';
-import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES } from '../../constants/variables';
+import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES } from '../../constants/variables';
 import { isAmendment } from './amendment';
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
@@ -116,6 +116,10 @@ export const isStatusAllowingRevisionForAH = status => (
 export const isStatusIndicatingStaffFeedbackNeeded = status => (
   status && status.code &&
   (FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
+);
+
+export const isStatusCodeRequireNote = statusCode => (
+  (REQUIRE_NOTES_PLAN_STATUSES.findIndex(code => code === statusCode) >= 0)
 );
 
 export const canUserSubmitConfirmation = (status, user, confirmations = [], confirmationsMap = {}) => {

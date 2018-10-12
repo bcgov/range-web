@@ -31,7 +31,8 @@ export const plan = new schema.Entity('plans');
 export const pasture = new schema.Entity('pastures');
 export const ministerIssue = new schema.Entity('ministerIssues');
 export const grazingSchedule = new schema.Entity('grazingSchedules');
-export const confirmations = new schema.Entity('confirmations');
+export const confirmation = new schema.Entity('confirmations');
+export const planStatusHistory = new schema.Entity('planStatusHistory');
 // export const grazingScheduleEntry = new schema.Entity('grazingScheduleEntries');
 
 // grazingSchedule.define({
@@ -42,5 +43,6 @@ plan.define({
   pastures: [pasture],
   ministerIssues: [ministerIssue],
   grazingSchedules: [grazingSchedule],
-  confirmations: [confirmations],
+  confirmations: [confirmation],
+  planStatusHistory: [planStatusHistory],
 });

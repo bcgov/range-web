@@ -2,18 +2,20 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
-import ConfirmationList from './amendment/ConfirmationList';
+import AgreementHolderConfirmations from './amendment/AgreementHolderConfirmations';
+import RupPlanStatusHistory from './RupPlanStatusHistory';
 
 class RupNotifications extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({}).isRequired,
-    confirmationsMap: PropTypes.shape({}),
+    references: PropTypes.shape({}).isRequired,
+    confirmationsMap: PropTypes.shape({}).isRequired,
+    planStatusHistoryMap: PropTypes.shape({}).isRequired,
     planTypeDescription: PropTypes.string,
   };
 
   static defaultProps = {
-    confirmationsMap: {},
     planTypeDescription: '',
   }
 
@@ -26,8 +28,15 @@ class RupNotifications extends Component {
 
   render() {
     const { confirmationStatusModalOpen } = this.state;
-    const { plan, confirmationsMap, user, planTypeDescription } = this.props;
-    const { confirmations, status, agreement } = plan;
+    const {
+      plan,
+      confirmationsMap,
+      user,
+      planTypeDescription,
+      references,
+      planStatusHistoryMap,
+    } = this.props;
+    const { confirmations, status, agreement, planStatusHistory } = plan;
     const clients = (agreement && agreement.clients) || [];
 
     let numberOfConfirmed = 0;
@@ -48,6 +57,15 @@ class RupNotifications extends Component {
           </div>
         }
 
+        {planStatusHistory.length !== 0 &&
+          <RupPlanStatusHistory
+            planStatusHistory={planStatusHistory}
+            planStatusHistoryMap={planStatusHistoryMap}
+            user={user}
+            references={references}
+          />
+        }
+
         {isStatusAwaitingConfirmation(status) &&
           <Fragment>
             <Modal
@@ -66,7 +84,7 @@ class RupNotifications extends Component {
                   <span>
                     There are still agreement holders who have not yet confirmed their confirmation choice.
                   </span>
-                  <ConfirmationList
+                  <AgreementHolderConfirmations
                     user={user}
                     clients={clients}
                     plan={plan}

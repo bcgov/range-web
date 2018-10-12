@@ -51,6 +51,7 @@ export const UPDATE_PLAN_STATUS = planId => `/plan/${planId}/status`;
 export const UPDATE_RUP = planId => `/plan/${planId}`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/plan/${planId}/confirmation/${confirmationId}`;
 
+export const CREATE_RUP_STATUS_HISTORY_RECORD = planId => `/plan/${planId}/status-history`;
 export const CREATE_RUP_PASTURE = planId => `/plan/${planId}/pasture`;
 export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/plan/${planId}/schedule`;
 export const UPDATE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;

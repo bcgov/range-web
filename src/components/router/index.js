@@ -19,6 +19,7 @@ class Router extends Component {
 
   render() {
     const { user } = this.props;
+
     return (
       <BrowserRouter>
         <Switch>

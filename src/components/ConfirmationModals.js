@@ -30,7 +30,7 @@ class ConfirmationModals extends Component {
       <Modal
         key={id}
         dimmer="blurring"
-        size="small"
+        size="tiny"
         open
         onClose={this.closeConfirmationModal(modal)}
         closeIcon={<Icon name="close" color="black" />}
@@ -38,25 +38,26 @@ class ConfirmationModals extends Component {
         <Modal.Header as="h2" content={header} />
         <Modal.Content>
           <div className="confirmation-modal__content">{content}</div>
+          <div className="confirmation-modal__btns">
+            <Button
+              color="red"
+              inverted
+              onClick={this.closeConfirmationModal(modal)}
+            >
+              <Icon name="remove" />
+              No
+            </Button>
+            <Button
+              color="green"
+              style={{ marginLeft: '10px' }}
+              inverted
+              onClick={onYesBtnClicked}
+            >
+              <Icon name="checkmark" />
+              Yes
+            </Button>
+          </div>
         </Modal.Content>
-        <Modal.Actions>
-          <Button
-            color="red"
-            inverted
-            onClick={this.closeConfirmationModal(modal)}
-          >
-            <Icon name="remove" />
-            No
-          </Button>
-          <Button
-            color="green"
-            inverted
-            onClick={onYesBtnClicked}
-          >
-            <Icon name="checkmark" />
-            Yes
-          </Button>
-        </Modal.Actions>
       </Modal>
     );
   }

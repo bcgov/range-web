@@ -24,11 +24,10 @@ class PlanTable extends Component {
   }
 
   onViewClicked = plan => () => {
-    const { agreement } = this.props;
     this.setState({
       redirectTo: {
         push: true, // redirecting will push a new entry onto the history
-        to: `${RANGE_USE_PLAN}/${agreement.id}/${plan.id}`,
+        to: `${RANGE_USE_PLAN}/${plan.id}`,
       },
     });
   }

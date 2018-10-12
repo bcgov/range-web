@@ -1,34 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
-import { PLAN_STATUS, CONFIRMATION_MODAL_ID, REFERENCE_KEY } from '../../constants/variables';
-import { getReferences, getIsUpdatingPlanStatus } from '../../reducers/rootReducer';
-import { openConfirmationModal, closeConfirmationModal, planUpdated } from '../../actions';
-import { updateRUPStatus } from '../../actionCreators';
+import { PLAN_STATUS } from '../../constants/variables';
+import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
+import { planUpdated, addPlanStatusHistoryRecord } from '../../actions';
+import { updateRUPStatus, createRUPStatusHistoryRecord } from '../../actionCreators';
 import * as strings from '../../constants/strings';
+import RupUpdateStatusModal from './RupUpdateStatusModal';
 
 const propTypes = {
   plan: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
+  confirmationModalsMap: PropTypes.shape({}).isRequired,
   planUpdated: PropTypes.func.isRequired,
+  addPlanStatusHistoryRecord: PropTypes.func.isRequired,
   isUpdatingStatus: PropTypes.bool.isRequired,
   updateRUPStatus: PropTypes.func.isRequired,
+  createRUPStatusHistoryRecord: PropTypes.func.isRequired,
 };
 
-class UpdateStatusDropdown extends Component {
-  openConfirmModalForUpdatingPlanStatus = ({ header, content, statusCode }) => {
-    this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS,
-        header,
-        content,
-        onYesBtnClicked: () => this.updateStatus(statusCode),
-      },
+class RupUpdateStatusDropdown extends Component {
+  state = {
+    updateStatusModalOpen: false,
+    modal: null,
+  }
+
+  closeUpdateStatusModalOpen = () => this.setState({ updateStatusModalOpen: false });
+  openUpdateStatusModalOpen = (modal) => {
+    this.setState({
+      updateStatusModalOpen: true,
+      modal,
     });
+  }
+
+  openConfirmModalForUpdatingPlanStatus = (modal) => {
+    this.openUpdateStatusModalOpen(modal);
   }
 
   openCompletedConfirmModal = () => {
@@ -102,36 +110,13 @@ class UpdateStatusDropdown extends Component {
       statusCode: PLAN_STATUS.RECOMMEND_NOT_READY,
     });
   }
+
   openRFSConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
       header: strings.RECOMMEND_FOR_SUBMISSION_CONFIRMATION_HEADER,
       content: strings.RECOMMEND_FOR_SUBMISSION_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
     });
-  }
-  updateStatus = (statusCode) => {
-    const {
-      plan,
-      references,
-      updateRUPStatus,
-      planUpdated,
-      closeConfirmationModal,
-    } = this.props;
-
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.UPDATE_PLAN_STATUS });
-
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = planStatuses.find(s => s.code === statusCode);
-    if (status && plan) {
-      const statusUpdated = (newStatus) => {
-        const newPlan = {
-          ...plan,
-          status: newStatus,
-        };
-        planUpdated({ plan: newPlan });
-      };
-      updateRUPStatus(plan.id, status.id).then(statusUpdated);
-    }
   }
 
   getStatusDropdownOptions = (plan, status) => {
@@ -209,21 +194,30 @@ class UpdateStatusDropdown extends Component {
   }
 
   render() {
+    const { modal, updateStatusModalOpen } = this.state;
     const { plan, isUpdatingStatus } = this.props;
     const status = plan && plan.status;
 
     const statusDropdownOptions = this.getStatusDropdownOptions(plan, status);
 
     return (
-      <Dropdown
-        className="rup__update-status-dropdown"
-        text={strings.UPDATE_STATUS}
-        options={statusDropdownOptions}
-        disabled={statusDropdownOptions.length === 0}
-        loading={isUpdatingStatus}
-        button
-        item
-      />
+      <Fragment>
+        <Dropdown
+          className="rup__update-status-dropdown"
+          text={strings.UPDATE_STATUS}
+          options={statusDropdownOptions}
+          disabled={statusDropdownOptions.length === 0}
+          loading={isUpdatingStatus}
+          button
+          item
+        />
+        <RupUpdateStatusModal
+          open={updateStatusModalOpen}
+          onClose={this.closeUpdateStatusModalOpen}
+          {...this.props}
+          {...modal}
+        />
+      </Fragment>
     );
   }
 }
@@ -233,13 +227,14 @@ const mapStateToProps = state => (
   {
     references: getReferences(state),
     isUpdatingStatus: getIsUpdatingPlanStatus(state),
+    confirmationModalsMap: getConfirmationModalsMap(state),
   }
 );
 
-UpdateStatusDropdown.propTypes = propTypes;
+RupUpdateStatusDropdown.propTypes = propTypes;
 export default connect(mapStateToProps, {
   planUpdated,
-  openConfirmationModal,
-  closeConfirmationModal,
+  addPlanStatusHistoryRecord,
   updateRUPStatus,
-})(UpdateStatusDropdown);
+  createRUPStatusHistoryRecord,
+})(RupUpdateStatusDropdown);

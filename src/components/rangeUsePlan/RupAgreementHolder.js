@@ -28,6 +28,7 @@ export class RupAH extends Component {
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
+    planStatusHistoryMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
@@ -49,6 +50,7 @@ export class RupAH extends Component {
       grazingSchedules: [],
       ministerIssues: [],
       confirmations: [],
+      planStatusHistory: [],
     },
   };
 
@@ -143,7 +145,7 @@ export class RupAH extends Component {
       const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
         createOrUpdateRupGrazingSchedule(planId, schedule)
       )));
-      onSuccess(newSchedules);
+      await onSuccess(newSchedules);
     } catch (err) {
       onError(err);
       toastErrorMessage(err);
@@ -154,7 +156,6 @@ export class RupAH extends Component {
   onAmendPlanClicked = () => {
     const {
       plan,
-      agreement,
       createAmendment,
       history,
       toastSuccessMessage,
@@ -162,7 +163,7 @@ export class RupAH extends Component {
 
     createAmendment(plan).then((amendment) => {
       toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS);
-      history.push(`${RANGE_USE_PLAN}/${agreement.id}/${amendment.id}`);
+      history.push(`${RANGE_USE_PLAN}/${amendment.id}`);
     });
   }
 
@@ -294,12 +295,11 @@ export class RupAH extends Component {
       grazingSchedulesMap,
       ministerIssuesMap,
       confirmationsMap,
+      planStatusHistoryMap,
     } = this.props;
 
-    const { agreementId, status, confirmations } = plan;
+    const { agreementId, status, confirmations, rangeName } = plan;
     const { clients, usage } = agreement;
-    const { primaryAgreementHolder } = utils.getAgreementHolders(clients);
-    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
 
     const canEdit = utils.isStatusAllowingRevisionForAH(status);
     const canAmend = utils.isStatusAmongApprovedStatuses(status);
@@ -339,7 +339,7 @@ export class RupAH extends Component {
               />
               <div className="rup__actions__left">
                 <div className="rup__actions__title">{agreementId}</div>
-                <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
+                <div className="rup__actions__primary-agreement-holder">{rangeName}</div>
                 <Status
                   className="rup__status"
                   status={status}
@@ -357,7 +357,9 @@ export class RupAH extends Component {
           <RupNotifications
             plan={plan}
             user={user}
+            references={references}
             confirmationsMap={confirmationsMap}
+            planStatusHistoryMap={planStatusHistoryMap}
           />
 
           <ViewRupBasicInformation

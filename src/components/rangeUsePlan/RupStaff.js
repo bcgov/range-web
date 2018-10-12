@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import UpdateAgreementZoneModal from './UpdateAgreementZoneModal';
+import RupUpdateZoneModal from './RupUpdateZoneModal';
 import {
   DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
-import { getAgreementHolders, isStatusDraft, getPlanTypeDescription } from '../../utils';
+import { isStatusDraft, getPlanTypeDescription } from '../../utils';
 import ViewRupBasicInformation from './view/ViewRupBasicInformation';
 import ViewRupPastures from './view/ViewRupPastures';
 import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
 import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import RupBackBtn from './RupBackBtn';
 import RupContents from './RupContents';
-import UpdateStatusDropdown from './UpdateStatusDropdown';
+import RupUpdateStatusDropdown from './RupUpdateStatusDropdown';
 import { EXPORT_PDF } from '../../constants/routes';
 import RupNotifications from './RupNotifications';
 
@@ -28,6 +28,7 @@ class RupStaff extends Component {
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
+    planStatusHistoryMap: PropTypes.shape({}).isRequired,
   };
   static defaultProps = {
     agreement: {
@@ -40,6 +41,7 @@ class RupStaff extends Component {
       grazingSchedules: [],
       ministerIssues: [],
       confirmations: [],
+      planStatusHistory: [],
     },
   };
 
@@ -65,22 +67,21 @@ class RupStaff extends Component {
       grazingSchedulesMap,
       ministerIssuesMap,
       confirmationsMap,
+      planStatusHistoryMap,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
     } = this.state;
 
-    const { agreementId, status } = plan;
-    const { clients, usage } = agreement;
-    const { primaryAgreementHolder } = getAgreementHolders(clients);
-    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+    const { agreementId, status, rangeName } = plan;
+    const { usage } = agreement;
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const planTypeDescription = getPlanTypeDescription(plan, amendmentTypes);
 
     return (
       <section className="rup">
-        <UpdateAgreementZoneModal
+        <RupUpdateZoneModal
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           plan={plan}
@@ -101,7 +102,7 @@ class RupStaff extends Component {
               />
               <div className="rup__actions__left">
                 <div className="rup__actions__title">{agreementId}</div>
-                <div className="rup__actions__primary-agreement-holder">{primaryAgreementHolderName}</div>
+                <div className="rup__actions__primary-agreement-holder">{rangeName}</div>
                 <Status
                   className="rup__status"
                   status={status}
@@ -116,7 +117,7 @@ class RupStaff extends Component {
                     {PREVIEW_PDF}
                   </Button>
                 }
-                <UpdateStatusDropdown
+                <RupUpdateStatusDropdown
                   plan={plan}
                 />
               </div>
@@ -128,7 +129,9 @@ class RupStaff extends Component {
           <RupNotifications
             plan={plan}
             user={user}
+            references={references}
             confirmationsMap={confirmationsMap}
+            planStatusHistoryMap={planStatusHistoryMap}
             planTypeDescription={planTypeDescription}
           />
 

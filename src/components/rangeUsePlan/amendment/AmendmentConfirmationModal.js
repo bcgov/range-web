@@ -8,7 +8,7 @@ import { CONFIRMATION_OPTION, REFERENCE_KEY } from '../../../constants/variables
 import { getPlanTypeDescription, getUserFullName, getUserEmail, findConfirmationWithClientId } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
-import ConfirmationList from './ConfirmationList';
+import AgreementHolderConfirmations from './AgreementHolderConfirmations';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -87,9 +87,10 @@ class AmendmentConfirmationModal extends Component {
         throw err;
       };
       const confirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
+      const confirmed = true;
 
       onRequest();
-      updateRUPConfirmation(plan, confirmation.id, true).then(
+      updateRUPConfirmation(plan, confirmation.id, confirmed).then(
         (result) => {
           onSuccess(result);
         }, (err) => {
@@ -169,7 +170,7 @@ class AmendmentConfirmationModal extends Component {
                   onChange={this.handleSubmissionChoiceChange}
                 />
               </Form.Field>
-              <ConfirmationList
+              <AgreementHolderConfirmations
                 user={user}
                 clients={clients}
                 plan={plan}
@@ -210,7 +211,7 @@ class AmendmentConfirmationModal extends Component {
                 <div className="amendment__submission__last-tab__title">
                   Your {amendmentTypeDescription} confirmation has been saved
                 </div>
-                <ConfirmationList
+                <AgreementHolderConfirmations
                   user={user}
                   clients={clients}
                   plan={plan}
