@@ -139,6 +139,14 @@ export const canUserSubmitConfirmation = (status, user, confirmations = [], conf
   return false;
 };
 
+export const canUserEditThisPlan = (plan, user) => {
+  if (plan && plan.creatorId && user && user.id) {
+    return (plan.creatorId === user.id);
+  }
+
+  return false;
+};
+
 export const getBannerContentForAH = (plan) => {
   const { status, amendmentTypeId } = plan;
 
