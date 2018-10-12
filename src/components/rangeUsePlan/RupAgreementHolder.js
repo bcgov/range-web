@@ -145,7 +145,7 @@ export class RupAH extends Component {
       const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
         createOrUpdateRupGrazingSchedule(planId, schedule)
       )));
-      onSuccess(newSchedules);
+      await onSuccess(newSchedules);
     } catch (err) {
       onError(err);
       toastErrorMessage(err);

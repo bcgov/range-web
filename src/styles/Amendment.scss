@@ -80,5 +80,19 @@
         }
       }
     }
+    &__note {
+      margin-top: 25px;
+      color: #999999;
+
+      &__title {
+        margin: 5px 0;
+        font-size: 0.9rem;
+      }
+      &__text-length {
+        text-align: end;
+        margin-top: 5px;
+        font-size: 0.9rem;
+      }
+    }
   }
 }

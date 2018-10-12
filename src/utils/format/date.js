@@ -31,6 +31,12 @@ export const formatDateFromUTC = date => (
   moment(date).format(DATE_FORMAT.SERVER_SIDE)
 );
 
-export const formatDateToNow = date => (
-  moment(date).fromNow()
-);
+export const formatDateToNow = (date) => {
+  if (!date) return NOT_PROVIDED;
+
+  const fromNow = moment(date).fromNow();
+  const absolute = moment(date, DATE_FORMAT.SERVER_SIDE)
+    .format(DATE_FORMAT.CLIENT_SIDE_WITH_HOURS);
+
+  return `${fromNow}, ${absolute}`;
+};

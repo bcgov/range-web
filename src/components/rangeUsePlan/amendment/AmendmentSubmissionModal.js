@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, Modal, Icon, Form, Radio } from 'semantic-ui-react';
-import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables';
+import { Button, Modal, Icon, Form, Radio, TextArea } from 'semantic-ui-react';
+import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
-import { updateRUP } from '../../../actionCreators/planActionCreator';
+import { updateRUP, createRUPStatusHistoryRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import MinorTabsForSingle from './MinorTabsForSingle';
 import MinorTabsForMultiple from './MinorTabsForMultiple';
@@ -25,6 +25,7 @@ class AmendmentSubmissionModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     updateRUP: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
+    createRUPStatusHistoryRecord: PropTypes.func.isRequired,
   };
   static defaultProps = {
     clients: [],
@@ -43,6 +44,7 @@ class AmendmentSubmissionModal extends Component {
       isAgreed: false,
       readyToGoNext: false,
       isSubmitting: false,
+      note: '',
     }
   )
 
@@ -63,6 +65,12 @@ class AmendmentSubmissionModal extends Component {
       readyToGoNext: true,
       activeTab: prevState.activeTab - 1,
     }));
+  }
+
+  onNoteChange = (e, { value: note }) => {
+    if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
+      this.setState({ note });
+    }
   }
 
   handleAmendmentTypeChange = (e, { value: amendmentTypeCode }) => {
@@ -119,14 +127,19 @@ class AmendmentSubmissionModal extends Component {
     const {
       updateRUP,
       updateStatusAndContent,
+      createRUPStatusHistoryRecord,
     } = this.props;
+    const { note } = this.state;
 
     const onRequest = () => {
       this.setState({ isSubmitting: true });
     };
-    const onSuccess = () => {
+    const onSuccess = async () => {
       // update amendment type of the plan
-      updateRUP(plan.id, {
+      if (note) {
+        await createRUPStatusHistoryRecord(plan, planStatus, note);
+      }
+      await updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id,
       }).then(() => {
         this.onNextClicked();
@@ -142,7 +155,7 @@ class AmendmentSubmissionModal extends Component {
 
   render() {
     const {
-      activeTab, readyToGoNext, isAgreed,
+      activeTab, readyToGoNext, isAgreed, note,
       isSubmitting, mandatoryStatusCode, amendmentTypeCode,
     } = this.state;
     const { open, clients, user, plan, references } = this.props;
@@ -155,6 +168,9 @@ class AmendmentSubmissionModal extends Component {
     const isAmendmentTypeDecided = isSubmittedAsMinorAmendment || isSubmittedAsMandatoryAmendment;
     const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
     const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const lengthOfNote = note
+      ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
+      : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`;
 
     return (
       <Modal
@@ -202,6 +218,20 @@ class AmendmentSubmissionModal extends Component {
                   disabled={isAmendmentTypeDecided}
                 />
               </Form.Field>
+              <div className="amendment__submission__note">
+                <div className="amendment__submission__note__title">
+                  Add Description (140 characters). Will be visible to Range Staff and other Agreement Holders.
+                </div>
+                <TextArea
+                  placeholder="Summarize what the proposed amendment includes.
+                  Ex. “change to grazing schedule to address mid season drought.”"
+                  onChange={this.onNoteChange}
+                  value={note}
+                />
+                <div className="amendment__submission__note__text-length">
+                  {lengthOfNote}
+                </div>
+              </div>
               <div className="multi-form__btns">
                 <Button
                   className="multi-form__btn"
@@ -300,4 +330,5 @@ const mapStateToProps = state => (
 export default connect(mapStateToProps, {
   updateRUP,
   planUpdated,
+  createRUPStatusHistoryRecord,
 })(AmendmentSubmissionModal);

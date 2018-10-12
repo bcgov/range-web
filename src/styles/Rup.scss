@@ -124,12 +124,12 @@ $sticky-height: 55px;
     background-color: #F7F7F7;
     padding: 10px;
 
-    max-height: 120px;
+    max-height: 130px;
     overflow: auto;
     
     &__record {
       &:not(:last-child) {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
       &__header {
         font-weight: bold;

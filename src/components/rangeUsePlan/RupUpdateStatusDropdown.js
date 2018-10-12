@@ -52,7 +52,6 @@ class RupUpdateStatusDropdown extends Component {
       header: strings.CHANGE_REQUEST_CONFIRMATION_HEADER,
       content: strings.CHANGE_REQUEST_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.CHANGE_REQUESTED,
-      requireNote: true,
     });
   }
 
@@ -69,7 +68,6 @@ class RupUpdateStatusDropdown extends Component {
       header: strings.STANDS_WRONGLY_MADE_CONFIRMATION_HEADER,
       content: strings.STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.STANDS_WRONGLY_MADE,
-      requireNote: true,
     });
   }
 
@@ -94,7 +92,6 @@ class RupUpdateStatusDropdown extends Component {
       header: strings.NOT_APPROVED_FWR_CONFIRMATION_HEADER,
       content: strings.NOT_APPROVED_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
-      requireNote: true,
     });
   }
 
@@ -111,7 +108,6 @@ class RupUpdateStatusDropdown extends Component {
       header: strings.RECOMMEND_NOT_READY_CONFIRMATION_HEADER,
       content: strings.RECOMMEND_NOT_READY_CONFIRMATION_CONTENT,
       statusCode: PLAN_STATUS.RECOMMEND_NOT_READY,
-      requireNote: true,
     });
   }
 

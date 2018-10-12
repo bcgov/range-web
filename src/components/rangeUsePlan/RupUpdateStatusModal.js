@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
+import { isStatusCodeRequireNote } from '../../utils';
 
 class RupUpdateStatusModal extends Component {
   static propTypes = {
     header: PropTypes.string,
     content: PropTypes.string,
-    requireNote: PropTypes.bool,
     statusCode: PropTypes.string,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -17,7 +17,6 @@ class RupUpdateStatusModal extends Component {
   static defaultProps = {
     header: '',
     content: '',
-    requireNote: false,
     statusCode: '',
   }
   state = {
@@ -31,11 +30,11 @@ class RupUpdateStatusModal extends Component {
   }
 
   onSubmit = () => {
-    const { statusCode, requireNote } = this.props;
-    this.updateStatus(statusCode, requireNote);
+    const { statusCode } = this.props;
+    this.updateStatus(statusCode);
   }
 
-  updateStatus = async (statusCode, requireNote) => {
+  updateStatus = async (statusCode) => {
     const {
       plan,
       references,
@@ -46,6 +45,7 @@ class RupUpdateStatusModal extends Component {
       onClose,
     } = this.props;
     const { note } = this.state;
+    const requireNote = isStatusCodeRequireNote(statusCode);
 
     onClose();
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
@@ -78,13 +78,14 @@ class RupUpdateStatusModal extends Component {
     const {
       header,
       content,
-      requireNote,
       onClose,
       open,
+      statusCode,
     } = this.props;
     const lengthOfNote = note
       ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
       : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`;
+    const requireNote = isStatusCodeRequireNote(statusCode);
 
     return (
       <Modal
