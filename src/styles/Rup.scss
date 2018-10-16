@@ -44,6 +44,7 @@ $sticky-height: 55px;
   }
   &__sticky {
     z-index: 1;
+    min-width: $tablet-width;
 
     &--fixed {
       position: fixed;
@@ -52,7 +53,9 @@ $sticky-height: 55px;
     }
   }
   &__sticky--fixed + &__contents__container {
-    padding-top: 50px;
+    > .rup__contents {
+      padding-top: 75px;
+    }
   }
   &__actions {
     &__background {

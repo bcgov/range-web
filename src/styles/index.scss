@@ -1,4 +1,5 @@
 @import './mixins.scss';
+@import './Normalize.scss';
 @import './Common.scss';
 @import './Login.scss';
 @import './Agreement.scss';
@@ -13,15 +14,7 @@
 @import './RupPasture.scss';
 @import './Grid.scss';
 
-* {
-  margin: 0;
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
-  padding: 0;
-  min-width: $mobile-width !important;
-  overflow-x: auto;
-  background: #fdfdfd;
+  overflow-x: auto !important;
+  min-width: $tablet-width !important;
 }
