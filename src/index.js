@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 
-// asynchronously load css files
-import('./styles/index.scss');
+// asynchronously load semantic-ui styling
 import('./semantic/semantic.min.css');
 
 import React from 'react';
@@ -10,6 +9,7 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './configureStore';
+import './styles/index.scss';
 
 const store = configureStore();
 
