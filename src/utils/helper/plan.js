@@ -1,6 +1,7 @@
 import * as strings from '../../constants/strings';
 import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES } from '../../constants/variables';
 import { isAmendment } from './amendment';
+import { isPlanAmendment } from '../validation';
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -139,9 +140,15 @@ export const canUserSubmitConfirmation = (status, user, confirmations = [], conf
   return false;
 };
 
-export const canUserEditThisPlan = (plan, user) => {
-  if (plan && plan.creatorId && user && user.id) {
-    return (plan.creatorId === user.id);
+export const canUserEditThisPlan = (plan = {}, user = {}) => {
+  const { status, creatorId } = plan;
+  if (isPlanAmendment(plan)) {
+    if (status && creatorId && user.id) {
+      return isStatusAllowingRevisionForAH(status)
+        && (creatorId === user.id);
+    }
+  } else { // initial plan
+    return isStatusAllowingRevisionForAH(status);
   }
 
   return false;

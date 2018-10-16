@@ -301,7 +301,7 @@ export class RupAH extends Component {
     const { agreementId, status, confirmations, rangeName } = plan;
     const { clients, usage } = agreement;
 
-    const canEdit = utils.isStatusAllowingRevisionForAH(status) && utils.canUserEditThisPlan(plan, user);
+    const canEdit = utils.canUserEditThisPlan(plan, user);
     const canAmend = utils.isStatusAmongApprovedStatuses(status);
     const canConfirm = utils.canUserSubmitConfirmation(status, user, confirmations, confirmationsMap);
     const canSubmit = utils.isStatusReadyForSubmission(status);
