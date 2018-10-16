@@ -15,6 +15,7 @@ import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
 import RupBackBtn from './RupBackBtn';
 import RupContents from './RupContents';
 import RupUpdateStatusDropdown from './RupUpdateStatusDropdown';
+import RupStickyHeader from './RupStickyHeader';
 import { EXPORT_PDF } from '../../constants/routes';
 import RupNotifications from './RupNotifications';
 
@@ -94,7 +95,7 @@ class RupStaff extends Component {
           noDefaultHeight
         />
 
-        <div className="rup__sticky">
+        <RupStickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
               <RupBackBtn
@@ -123,7 +124,7 @@ class RupStaff extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </RupStickyHeader>
 
         <RupContents>
           <RupNotifications

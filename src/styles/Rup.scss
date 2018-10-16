@@ -43,10 +43,16 @@ $sticky-height: 55px;
     }
   }
   &__sticky {
-    position: sticky;
-    top: 0;
     z-index: 1;
-    max-height: 55px;
+
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+  }
+  &__sticky--fixed + &__contents__container {
+    padding-top: 50px;
   }
   &__actions {
     &__background {

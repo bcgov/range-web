@@ -116,6 +116,7 @@ export const USER_ROLE = {
 };
 
 export const ELEMENT_ID = {
+  RUP_STICKY_HEADER: 'rup__sticky-header',
   BASIC_INFORMATION: 'rup__basic-information',
   PASTURES: 'rup__pastures',
   GRAZING_SCHEDULE: 'rup__grazing-schedule',

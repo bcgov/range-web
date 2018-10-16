@@ -12,6 +12,7 @@ import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import RupBackBtn from './RupBackBtn';
 import RupNotifications from './RupNotifications';
 import RupContents from './RupContents';
+import RupStickyHeader from './RupStickyHeader';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
@@ -331,7 +332,7 @@ export class RupAH extends Component {
           content={utils.getBannerContentForAH(plan)}
         />
 
-        <div className="rup__sticky">
+        <RupStickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
               <RupBackBtn
@@ -351,7 +352,7 @@ export class RupAH extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </RupStickyHeader>
 
         <RupContents>
           <RupNotifications
