@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     color: white;
-    padding: 0 20px;
+    padding: 0 15px;
     cursor: pointer;
     
     &:hover {
@@ -47,13 +47,38 @@
     color: white;
     white-space: nowrap;
   }
+  &__avatar {
+    display: flex !important;
+    align-items: center;
+    height: 50px;
+    margin-left: 15px;
 
+    > .menu.transition.visible {
+      margin-left: -37px;
+
+      > div {
+        max-width: 115px;
+        white-space: normal;
+        text-transform: unset;
+        font-size: 1rem;
+      }
+      > .header {
+        padding: 0 15px;
+      }
+      > .divider {
+        margin: unset;
+      }
+      > .item {
+        padding: 15px !important;
+      }
+    }
+  }
   &__menu {
     display: flex !important;
     align-items: center;
     height: 50px;
     color: white;
-    padding: 0 20px;
+    padding: 0 15px;
 
     > .menu.transition.visible {
       > .item {

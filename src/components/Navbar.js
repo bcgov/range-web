@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import * as Routes from '../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
 import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
 import { getUser } from '../reducers/rootReducer';
-import { isUserAdmin, isUserActive } from '../utils';
+import { isUserAdmin, isUserActive, getUserFullName } from '../utils';
 import { signOut } from '../actionCreators';
 
 export class Navbar extends Component {
@@ -57,8 +57,7 @@ export class Navbar extends Component {
                 Select RUP
               </NavLink>
             }
-
-            {/* { isUserAdmin(user) &&
+            { isUserAdmin(user) &&
               <NavLink
                 to={Routes.MANAGE_ZONE}
                 className="navbar__link"
@@ -76,30 +75,37 @@ export class Navbar extends Component {
                 Manage Client
               </NavLink>
             }
-
-            <div
-              id={ELEMENT_ID.SIGN_OUT}
-              className="navbar__link"
-              role="button"
-              tabIndex="0"
-              onClick={this.onLogoutBtnClick}
+            {/* { isUserAdmin(user) &&
+              <Dropdown className="navbar__menu" text="Menu">
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    text="Manage Zone"
+                    onClick={this.onNavigate(Routes.MANAGE_ZONE)}
+                  />
+                  <Dropdown.Item
+                    text="Manage Client"
+                    onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
+                  />
+                </Dropdown.Menu>
+              </Dropdown>
+            } */}
+            <Dropdown
+              className="navbar__avatar"
+              pointing="top"
+              icon={null}
+              trigger={
+                <Avatar
+                  user={user}
+                />
+              }
             >
-              Sign Out
-            </div> */}
-            <Dropdown className="navbar__menu" text="Menu">
               <Dropdown.Menu>
-                { isUserAdmin(user) &&
-                  <Fragment>
-                    <Dropdown.Item
-                      text="Manage Zone"
-                      onClick={this.onNavigate(Routes.MANAGE_ZONE)}
-                    />
-                    <Dropdown.Item
-                      text="Manage Client"
-                      onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
-                    />
-                  </Fragment>
-                }
+                <Dropdown.Header
+                  content={
+                    <span>Hello, <div>{getUserFullName(user)}</div></span>
+                  }
+                />
+                <Dropdown.Divider />
                 <Dropdown.Item
                   id={ELEMENT_ID.SIGN_OUT}
                   text="Sign Out"
@@ -108,10 +114,6 @@ export class Navbar extends Component {
                 />
               </Dropdown.Menu>
             </Dropdown>
-
-            <Avatar
-              user={user}
-            />
           </div>
         </div>
       </nav>

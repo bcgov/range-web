@@ -12,7 +12,7 @@ export const PAGE_NOT_FOUND_TITLE = createTitle('Page Not Found');
 // tenure agreement table header labels
 export const RANGE_NUMBER = 'RAN Number';
 export const RANGE_NAME = 'Range Name';
-export const AGREEMENT_HOLDER = 'Agreement Holder';
+export const AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
