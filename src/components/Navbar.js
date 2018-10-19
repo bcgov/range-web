@@ -8,7 +8,7 @@ import * as Routes from '../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
 import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
 import { getUser } from '../reducers/rootReducer';
-import { isUserAdmin, isUserActive, getUserFullName } from '../utils';
+import { isUserAdmin, isUserActive } from '../utils';
 import { signOut } from '../actionCreators';
 
 export class Navbar extends Component {
@@ -100,12 +100,12 @@ export class Navbar extends Component {
               }
             >
               <Dropdown.Menu>
-                <Dropdown.Header
+                {/* <Dropdown.Header
                   content={
                     <span>Hello, <div>{getUserFullName(user)}</div></span>
                   }
                 />
-                <Dropdown.Divider />
+                <Dropdown.Divider /> */}
                 <Dropdown.Item
                   id={ELEMENT_ID.SIGN_OUT}
                   text="Sign Out"

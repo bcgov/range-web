@@ -124,7 +124,6 @@ export class Login extends Component {
                 >
                   Range Staff Login
                 </div>
-                <div className="login__line" />
                 <div
                   role="button"
                   tabIndex="0"

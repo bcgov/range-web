@@ -20,17 +20,27 @@
     height: $nav-height;
     display: flex;
     align-items: center;
-    color: white;
+    color: lightgray;
     padding: 0 15px;
     cursor: pointer;
-    
+    position: relative;
+
     &:hover {
       color: white;
-      text-decoration: underline;
     }
-
     &--active {
-      background: $primary-light-color;
+      color: white;
+    }
+    &--active::after {
+      content: '';
+      position: absolute;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $accent-color;
+      transform: rotate(180deg);
+      clear: both;
+      top: 3.1em;
+      left: 42%;
     }
   }
 
@@ -51,23 +61,15 @@
     display: flex !important;
     align-items: center;
     height: 50px;
-    margin-left: 15px;
 
+    > .menu.transition.visible:after {
+      right: 13%;
+      left: unset !important;
+    }
     > .menu.transition.visible {
-      margin-left: -37px;
+      right: 0;
+      left: unset;
 
-      > div {
-        max-width: 115px;
-        white-space: normal;
-        text-transform: unset;
-        font-size: 1rem;
-      }
-      > .header {
-        padding: 0 15px;
-      }
-      > .divider {
-        margin: unset;
-      }
       > .item {
         padding: 15px !important;
       }

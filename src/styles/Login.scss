@@ -42,13 +42,6 @@
     margin-bottom: 15px;
     border: 2px solid #e7e7e7;
   }
-  &__line {
-    box-sizing: border-box;
-    height: 20px;
-    width: 2px;
-    border-right: 1px solid #CCCCCC;
-    margin: 0px 10px;
-  }
   &__paragraph1 {
     background: url('~/signin_background.jpg') no-repeat;
     background-size: cover;
@@ -157,6 +150,12 @@
       > div {
         display: inline;
         cursor: pointer;
+      }
+
+      > div:first-child {
+        padding-right: 15px;
+        border-right: 1px solid #CCCCCC;
+        margin-right: 15px;
       }
     }
   }
