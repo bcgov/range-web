@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     color: lightgray;
-    padding: 0 15px;
+    padding: 0 10px;
     cursor: pointer;
     position: relative;
 
@@ -61,6 +61,7 @@
     display: flex !important;
     align-items: center;
     height: 50px;
+    margin-left: 10px;
 
     > .menu.transition.visible:after {
       right: 13%;
