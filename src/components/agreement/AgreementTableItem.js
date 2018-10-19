@@ -15,7 +15,6 @@ const propTypes = {
   handleActiveIndexChange: PropTypes.func.isRequired,
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-  toastErrorMessage: PropTypes.func.isRequired,
 };
 
 export class AgreementTableItem extends Component {
@@ -24,14 +23,10 @@ export class AgreementTableItem extends Component {
       agreement,
       index,
       handleActiveIndexChange,
-      toastErrorMessage,
     } = this.props;
-    const [plan] = agreement.plans;
 
-    if (plan && agreement) {
+    if (agreement) {
       handleActiveIndexChange(index, agreement.id);
-    } else {
-      toastErrorMessage('No range use plan found!');
     }
   }
 

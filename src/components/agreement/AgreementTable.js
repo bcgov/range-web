@@ -5,7 +5,6 @@ import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableItem from './AgreementTableItem';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
-import { toastErrorMessage } from '../../actionCreators';
 import { Loading } from '../common';
 
 const propTypes = {
@@ -23,7 +22,6 @@ const propTypes = {
   references: PropTypes.shape({}).isRequired,
   agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
   isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
-  toastErrorMessage: PropTypes.func.isRequired,
 };
 const defaultProps = {
   errorGettingAgreements: null,
@@ -66,7 +64,6 @@ export class AgreementTable extends Component {
       agreementsMapWithAllPlan,
       isFetchingAgreementWithAllPlan,
       handleActiveIndexChange,
-      toastErrorMessage,
     } = this.props;
 
     return (
@@ -80,7 +77,6 @@ export class AgreementTable extends Component {
         agreementsMapWithAllPlan={agreementsMapWithAllPlan}
         isFetchingAgreementWithAllPlan={isFetchingAgreementWithAllPlan}
         handleActiveIndexChange={handleActiveIndexChange}
-        toastErrorMessage={toastErrorMessage}
       />
     );
   }
@@ -147,4 +143,4 @@ const mapStateToProps = state => (
 
 AgreementTable.propTypes = propTypes;
 AgreementTable.defaultProps = defaultProps;
-export default connect(mapStateToProps, { toastErrorMessage })(AgreementTable);
+export default connect(mapStateToProps, null)(AgreementTable);
