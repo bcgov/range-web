@@ -124,6 +124,7 @@ export class Login extends Component {
                 >
                   Range Staff Login
                 </div>
+                <div className="login__signin__divider" />
                 <div
                   role="button"
                   tabIndex="0"

@@ -140,6 +140,11 @@
       width: 100%;
       text-align: center;
     }
+    &__divider {
+      width: 1px;
+      border-right: 1px solid #CCCCCC;
+      margin: 0 15px;
+    }
     &__link-container {
       align-self: stretch;
       text-align: right;
@@ -150,12 +155,6 @@
       > div {
         display: inline;
         cursor: pointer;
-      }
-
-      > div:first-child {
-        padding-right: 15px;
-        border-right: 1px solid #CCCCCC;
-        margin-right: 15px;
       }
     }
   }
