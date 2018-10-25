@@ -105,6 +105,12 @@
     justify-content: flex-end;
     padding: 15px 0px;
   }
+  &__divider {
+    width: 1px;
+    border-right: 1px solid #CCCCCC;
+    margin: 0 15px 0 11px;
+    padding: 2px;
+  }
   &__signin {
     &__container {
       display: flex;
@@ -139,12 +145,6 @@
       margin-top: 15px;
       width: 100%;
       text-align: center;
-    }
-    &__divider {
-      width: 1px;
-      border-right: 1px solid #CCCCCC;
-      margin: 0 15px 0 11px;
-      padding: 2px;
     }
     &__link-container {
       align-self: stretch;
