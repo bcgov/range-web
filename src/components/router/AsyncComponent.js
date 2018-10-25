@@ -22,7 +22,7 @@ const LoadingComponent = ({ isLoading, error }) => {
           </span>
         </div>
         <div>
-          <Button onClick={() => window.location.reload(true)}>Refresh</Button>
+          <Button onClick={() => window.location.reload(true)}>Reload</Button>
         </div>
       </div>
     );

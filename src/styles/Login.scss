@@ -143,7 +143,8 @@
     &__divider {
       width: 1px;
       border-right: 1px solid #CCCCCC;
-      margin: 0 15px;
+      margin: 0 15px 0 11px;
+      padding: 2px;
     }
     &__link-container {
       align-self: stretch;
