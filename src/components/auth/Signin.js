@@ -39,11 +39,11 @@ class Signin extends Component {
           >
             Learn more about BCeID here.
           </a>
-          {errorFetchingUser &&
+          {(errorFetchingUser || true) &&
             <div className="signin__error">
               <Message error>
                 <Message.Content>
-                  <Icon name="warning" />
+                  <Icon name="warning sign" style={{ marginRight: '5px' }} />
                   Error occured while signing in.
                 </Message.Content>
               </Message>

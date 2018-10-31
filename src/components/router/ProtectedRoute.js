@@ -14,7 +14,7 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => (
           // Admin Routes
           if (path === MANAGE_CLIENT || path === MANAGE_ZONE) {
             if (isUserAdmin(user)) {
-              return <MainPage {...props} component={Component} />;
+              return <MainPage {...props} component={Component} user={user} />;
             }
             return <Redirect push to={LOGIN} />;
           }
@@ -24,7 +24,7 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => (
             return <Component {...props} />;
           }
 
-          return <MainPage {...props} component={Component} />;
+          return <MainPage {...props} component={Component} user={user} />;
         }
 
         // user is undefined redirect to the login page

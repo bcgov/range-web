@@ -16,7 +16,6 @@ const propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
   history: PropTypes.shape({}).isRequired,
   fetchRUP: PropTypes.func.isRequired,
-  user: PropTypes.shape({}).isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
   errorFetchingPlan: PropTypes.shape({}),
   plansMap: PropTypes.shape({}).isRequired,
@@ -118,7 +117,6 @@ const mapStateToProps = state => (
     isFetchingPlan: selectors.getIsFetchingPlan(state),
     errorFetchingPlan: selectors.getPlanErrorMessage(state),
     references: selectors.getReferences(state),
-    user: selectors.getUser(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
     isCreatingAmendment: selectors.getIsCreatingAmendment(state),
   }

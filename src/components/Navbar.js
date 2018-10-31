@@ -7,20 +7,15 @@ import { Avatar } from './common';
 import * as Routes from '../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../constants/variables';
 import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
-import { getUser } from '../reducers/rootReducer';
 import { isUserAdmin, isUserActive } from '../utils';
 import { signOut } from '../actionCreators';
 import { SELECT_RUP, MANAGE_ZONES, MANAGE_CLIENTS } from '../constants/strings';
 
 export class Navbar extends Component {
   static propTypes = {
-    user: PropTypes.shape({}),
+    user: PropTypes.shape({}).isRequired,
     signOut: PropTypes.func.isRequired,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-  }
-
-  static defaultProps = {
-    user: undefined,
   }
 
   onNavigate = route => () => {
@@ -122,9 +117,4 @@ export class Navbar extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    user: getUser(state),
-  }
-);
-export default connect(mapStateToProps, { signOut })(Navbar);
+export default connect(null, { signOut })(Navbar);
