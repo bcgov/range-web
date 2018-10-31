@@ -38,8 +38,8 @@ const AsyncComponent = Component => (
   })
 );
 
-export const Home = AsyncComponent(() => import('../Home'));
-export const Login = AsyncComponent(() => import('../Login'));
+export const Agreement = AsyncComponent(() => import('../agreement'));
+export const Login = AsyncComponent(() => import('../LoginPage'));
 export const ReturnPage = AsyncComponent(() => import('../ReturnPage'));
 export const PageNotFound = AsyncComponent(() => import('../PageNotFound'));
 export const ManageZone = AsyncComponent(() => import('../manageZone'));

@@ -12,7 +12,7 @@ import { getIsFetchingUser, getUserErrorMessage } from '../reducers/rootReducer'
 import { APP_NAME, LOGIN_TITLE } from '../constants/strings';
 import { detectIE } from '../utils';
 
-export class Login extends Component {
+export class LoginPage extends Component {
   static propTypes = {
     storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
@@ -213,13 +213,13 @@ export class Login extends Component {
         <article className="login__paragraph6">
           <div className="container">
             <div className="login__footer">
-              Copyright
+              <span>Copyright</span>
               <div className="login__divider" />
-              Accessability
+              <span>Accessability</span>
               <div className="login__divider" />
-              Privacy
+              <span>Privacy</span>
               <div className="login__divider" />
-              Disclaimer
+              <span>Disclaimer</span>
             </div>
           </div>
         </article>
@@ -235,4 +235,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, { storeAuthData, fetchUser })(Login);
+export default connect(mapStateToProps, { storeAuthData, fetchUser })(LoginPage);

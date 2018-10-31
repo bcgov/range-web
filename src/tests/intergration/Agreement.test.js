@@ -3,9 +3,9 @@ import MockAdapter from 'axios-mock-adapter';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, withRouter } from 'react-router-dom';
 import { axios } from '../../utils';
-import Home from '../../components/Home';
+import Agreement from '../../components/agreement';
 import { storeAuthData, storeUser, storeReferences } from '../../actions';
 import { getAgreements } from '../../reducers/rootReducer';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
@@ -41,15 +41,15 @@ describe('Integration testing', () => {
 
     mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreements);
 
+    const AgreementWithRouter = withRouter(Agreement);
     const wrapper = mount(
       <Provider store={store}>
-        <BrowserRouter>
-          <MemoryRouter initialEntries={['/home']}>
-            <Home />
-          </MemoryRouter>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={['/home']}>
+          <AgreementWithRouter />
+        </MemoryRouter>
       </Provider>,
     );
+
     await flushAllPromises();
     // Forces a re-render
     wrapper.update();
@@ -66,15 +66,15 @@ describe('Integration testing', () => {
       config = { ...config, params: { term: 'RAN075974', page: 1, limit: 10 } };
       mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreement);
 
+      const AgreementWithRouter = withRouter(Agreement);
       const wrapper = mount(
         <Provider store={store}>
-          <BrowserRouter>
-            <MemoryRouter initialEntries={['/home']}>
-              <Home />
-            </MemoryRouter>
-          </BrowserRouter>
+          <MemoryRouter initialEntries={['/home']}>
+            <AgreementWithRouter />
+          </MemoryRouter>
         </Provider>,
       );
+
       await flushAllPromises();
       wrapper.update();
 
