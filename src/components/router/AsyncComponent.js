@@ -39,7 +39,7 @@ const AsyncComponent = Component => (
 );
 
 export const Agreement = AsyncComponent(() => import('../agreement'));
-export const Login = AsyncComponent(() => import('../LoginPage'));
+export const Login = AsyncComponent(() => import('../auth/LoginPage'));
 export const ReturnPage = AsyncComponent(() => import('../ReturnPage'));
 export const PageNotFound = AsyncComponent(() => import('../PageNotFound'));
 export const ManageZone = AsyncComponent(() => import('../manageZone'));

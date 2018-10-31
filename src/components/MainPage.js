@@ -24,7 +24,7 @@ const defaultProps = {
   user: undefined,
 };
 
-export class LandingPage extends Component {
+export class MainPage extends Component {
   componentWillMount() {
     registerAxiosInterceptors(this.props.signOut);
   }
@@ -91,11 +91,11 @@ const mapStateToProps = state => (
   }
 );
 
-LandingPage.propTypes = propTypes;
-LandingPage.defaultProps = defaultProps;
+MainPage.propTypes = propTypes;
+MainPage.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   signOut,
   fetchReferences,
   fetchZones,
   fetchUser,
-})(LandingPage);
+})(MainPage);

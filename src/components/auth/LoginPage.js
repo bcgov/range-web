@@ -1,28 +1,19 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Segment, Message, Icon } from 'semantic-ui-react';
-import { Loading } from './common';
-import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../constants/api';
-import { ELEMENT_ID, IMAGE_SRC } from '../constants/variables';
-import { storeAuthData } from '../actions';
-import { fetchUser } from '../actionCreators';
-import { getIsFetchingUser, getUserErrorMessage } from '../reducers/rootReducer';
-import { APP_NAME, LOGIN_TITLE } from '../constants/strings';
-import { detectIE } from '../utils';
+import { IMAGE_SRC } from '../../constants/variables';
+import { storeAuthData } from '../../actions';
+import { fetchUser } from '../../actionCreators';
+import { getIsFetchingUser, getUserErrorMessage } from '../../reducers/rootReducer';
+import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
+import { detectIE } from '../../utils';
+import Signin from './Signin';
 
 export class LoginPage extends Component {
   static propTypes = {
     storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
-    isFetchingUser: PropTypes.bool.isRequired,
-    errorFetchingUser: PropTypes.shape({}),
   };
-
-  static defaultProps = {
-    errorFetchingUser: null,
-  }
 
   componentWillMount() {
     document.title = LOGIN_TITLE;
@@ -49,13 +40,7 @@ export class LoginPage extends Component {
     fetchUser();
   }
 
-  openNewTab = link => window.open(link, '_black')
-  onLoginBtnClick = () => this.openNewTab(SSO_LOGIN_ENDPOINT)
-  onIdirLoginBtnClick = () => this.openNewTab(SSO_IDIR_LOGIN_ENDPOINT)
-  onBceidLoginBtnClick = () => this.openNewTab(SSO_BCEID_LOGIN_ENDPOINT)
-
   render() {
-    const { isFetchingUser, errorFetchingUser } = this.props;
     const isIE = detectIE();
 
     return (
@@ -82,59 +67,9 @@ export class LoginPage extends Component {
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
         </article>
         <article className="login__paragraph1">
-          <Segment basic>
-            <Loading active={isFetchingUser} />
-            <div className="login__signin__container">
-              <div className="login__signin__title">Sign In</div>
-              <div className="login__signin__text1">to continue to {APP_NAME}</div>
-              <div className="login__signin__text2">We use the BCeID for authentication.</div>
-              <a
-                className="login__signin__text3"
-                href="https://portal.nrs.gov.bc.ca/web/client/bceid"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn more about BCeID here.
-              </a>
-              {errorFetchingUser &&
-                <div className="login__signin__error">
-                  <Message error>
-                    <Message.Content>
-                      <Icon name='warning' />
-                      Error occured while signing in or your session has expired.
-                    </Message.Content>
-                  </Message>
-                </div>
-              }
-              <Button
-                id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
-                className="login__signin__button"
-                primary
-                fluid
-                style={{ height: '50px', marginTop: '15px' }}
-                onClick={this.onBceidLoginBtnClick}
-              >
-                Login as Agreement Holder
-              </Button>
-              <div className="login__signin__link-container">
-                <div
-                  role="button"
-                  tabIndex="0"
-                  onClick={this.onIdirLoginBtnClick}
-                >
-                  Range Staff Login
-                </div>
-                <div className="login__divider" />
-                <div
-                  role="button"
-                  tabIndex="0"
-                  onClick={this.onLoginBtnClick}
-                >
-                  Admin Login
-                </div>
-              </div>
-            </div>
-          </Segment>
+          <Signin
+            {...this.props}
+          />
         </article>
         <article className="login__paragraph2">
           <div className="login__paragraph2__title">What is {APP_NAME}?</div>

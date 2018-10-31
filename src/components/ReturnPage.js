@@ -4,14 +4,15 @@ import { parseQuery, getTokenFromSSO, saveAuthDataInLocal } from '../utils';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 import { REDIRECTING } from '../constants/strings';
 
-const propTypes = {
-  location: PropTypes.shape({ search: PropTypes.string }),
-};
-const defaultProps = {
-  location: {},
-};
-
 class ReturnPage extends Component {
+  static propTypes = {
+    location: PropTypes.shape({ search: PropTypes.string }),
+  };
+
+  static defaultProps = {
+    location: {},
+  }
+
   componentDidMount() {
     const { location } = this.props;
     // grab the code from the redirect url
@@ -37,6 +38,5 @@ class ReturnPage extends Component {
     );
   }
 }
-ReturnPage.propTypes = propTypes;
-ReturnPage.defaultProps = defaultProps;
+
 export default ReturnPage;
