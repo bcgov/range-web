@@ -5,9 +5,13 @@ const createTitle = title => `${title} | MyRangeBC`;
 export const LOGIN_TITLE = createTitle('Sign in');
 export const DETAIL_RUP_TITLE = createTitle('View RUP');
 export const SELECT_RUP_TITLE = createTitle('Select RUP');
-export const MANAGE_CLIENT_TITLE = createTitle('Manage Client');
-export const MANAGE_ZONE_TITLE = createTitle('Manage Zone');
+export const MANAGE_CLIENT_TITLE = createTitle('Manage Clients');
+export const MANAGE_ZONE_TITLE = createTitle('Manage Zones');
 export const PAGE_NOT_FOUND_TITLE = createTitle('Page Not Found');
+
+export const SELECT_RUP = 'Select RUP';
+export const MANAGE_ZONES = 'Manage Zones';
+export const MANAGE_CLIENTS = 'Manage Clients';
 
 // tenure agreement table header labels
 export const RANGE_NUMBER = 'RAN Number';
@@ -141,9 +145,9 @@ export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the s
 export const DETAIL_RUP_EDIT_BANNER_CONTENT = 'Please finalize your changes and submit for final approval.';
 export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder\'s name, or staff contact in the search box to search for a specific range use plan.';
-export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
+export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zones';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
-export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
+export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Clients';
 export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
 export const RUP_CREATED_BANNER_FOR_AH = 'Please confirm your range use plan.';
 export const AMENDMENT_CREATED_BANNER_FOR_AH = 'Make proposed changes in the copy of the RUP below. Contact other agreement holders (if there are any) to discuss the proposal. Click “Save draft” if you need to continue your amendment at another time. Click “Submit” when you have made all of the desired changes.';

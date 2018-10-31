@@ -10,6 +10,7 @@ import { SITEMINDER_LOGOUT_ENDPOINT } from '../constants/api';
 import { getUser } from '../reducers/rootReducer';
 import { isUserAdmin, isUserActive } from '../utils';
 import { signOut } from '../actionCreators';
+import { SELECT_RUP, MANAGE_ZONES, MANAGE_CLIENTS } from '../constants/strings';
 
 export class Navbar extends Component {
   static propTypes = {
@@ -54,7 +55,7 @@ export class Navbar extends Component {
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >
-                Select RUP
+                {SELECT_RUP}
               </NavLink>
             }
             { isUserAdmin(user) &&
@@ -63,7 +64,7 @@ export class Navbar extends Component {
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >
-                Manage Zone
+                {MANAGE_ZONES}
               </NavLink>
             }
             { isUserAdmin(user) &&
@@ -72,7 +73,7 @@ export class Navbar extends Component {
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >
-                Manage Client
+                {MANAGE_CLIENTS}
               </NavLink>
             }
             {/* { isUserAdmin(user) &&

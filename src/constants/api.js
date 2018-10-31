@@ -20,44 +20,44 @@ export const SITEMINDER_LOGOUT_ENDPOINT = `https://logontest.gov.bc.ca/clp-cgi/l
 export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 
-// const DEV_API_BASE_URL = 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api/v1';
-// const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api/v1';
-// const DEV_API_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api/v1';
-const DEV_API_BASE_URL = 'http://localhost:8000/api/v1';
-// const DEV_API_BASE_URL = 'http://10.10.10.190:8000/api/v1';
+// const DEV_API_BASE_URL = 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api';
+// const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
+// const DEV_API_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api';
+const DEV_API_BASE_URL = 'http://localhost:8000/api';
+// const DEV_API_BASE_URL = 'http://10.10.10.190:8000/api';
 
 
 export const API_BASE_URL = (process.env.NODE_ENV === 'production')
-  ? `${window.location.origin}/api/v1`
+  ? `${window.location.origin}/api`
   : DEV_API_BASE_URL;
 
-export const SEARCH_AGREEMENTS = 'agreement/search';
-export const GET_AGREEMENT = agreementId => `/agreement/${agreementId}`;
-export const UPDATE_AGREEMENT_ZONE = agreementId => `/agreement/${agreementId}/zone`;
+export const SEARCH_AGREEMENTS = '/v1/agreement/search';
+export const GET_AGREEMENT = agreementId => `/v1/agreement/${agreementId}`;
+export const UPDATE_AGREEMENT_ZONE = agreementId => `/v1/agreement/${agreementId}/zone`;
 
-export const GET_REFERENCES = '/reference';
-export const GET_ZONES = '/zone';
-export const GET_USERS = '/user';
-export const SEARCH_CLIENTS = '/client/search';
-export const GET_USER_PROFILE = '/user/me';
+export const GET_REFERENCES = '/v1/reference';
+export const GET_ZONES = '/v1/zone';
+export const GET_USERS = '/v1/user';
+export const SEARCH_CLIENTS = '/v1/client/search';
+export const GET_USER_PROFILE = '/v1/user/me';
 
-export const UPDATE_USER_ID_OF_ZONE = zoneId => `/zone/${zoneId}/user`;
-export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/user/${userId}/client/${clientId}`;
+export const UPDATE_USER_ID_OF_ZONE = zoneId => `/v1/zone/${zoneId}/user`;
+export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/v1/user/${userId}/client/${clientId}`;
 
-export const CREATE_RUP = '/plan';
-export const GET_RUP = planId => `/plan/${planId}`;
-export const GET_PLAN_PDF = planId => `/report/${planId}`;
-export const UPDATE_PLAN_STATUS = planId => `/plan/${planId}/status`;
-export const UPDATE_RUP = planId => `/plan/${planId}`;
-export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/plan/${planId}/confirmation/${confirmationId}`;
+export const CREATE_RUP = '/v1/plan';
+export const GET_RUP = planId => `/v1/plan/${planId}`;
+export const GET_PLAN_PDF = planId => `/v1/report/${planId}`;
+export const UPDATE_PLAN_STATUS = planId => `/v1/plan/${planId}/status`;
+export const UPDATE_RUP = planId => `/v1/plan/${planId}`;
+export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/v1/plan/${planId}/confirmation/${confirmationId}`;
 
-export const CREATE_RUP_STATUS_HISTORY_RECORD = planId => `/plan/${planId}/status-history`;
-export const CREATE_RUP_PASTURE = planId => `/plan/${planId}/pasture`;
-export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/plan/${planId}/schedule`;
-export const UPDATE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
-export const DELETE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}`;
-export const CREATE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId) => `/plan/${planId}/schedule/${scheduleId}/entry`;
+export const CREATE_RUP_STATUS_HISTORY_RECORD = planId => `/v1/plan/${planId}/status-history`;
+export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`;
+export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/v1/plan/${planId}/schedule`;
+export const UPDATE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
+export const DELETE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
+export const CREATE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry`;
 // export const UPDATE_RUP_GRAZING_SCHEDULE_ENTRY
-export const DELETE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
-export const CREATE_RUP_MINISTER_ISSUE = planId => `/plan/${planId}/issue`;
-export const CREATE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId) => `plan/${planId}/issue/${issueId}/action`;
+export const DELETE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
+export const CREATE_RUP_MINISTER_ISSUE = planId => `/v1/plan/${planId}/issue`;
+export const CREATE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId) => `/v1/plan/${planId}/issue/${issueId}/action`;
