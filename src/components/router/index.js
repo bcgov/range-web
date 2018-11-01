@@ -28,7 +28,7 @@ class Router extends Component {
 
           <ProtectedRoute path={Routes.HOME} component={AsyncComponents.Agreement} user={user} />
           <ProtectedRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={AsyncComponents.RangeUsePlan} user={user} />
-          <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={AsyncComponents.RupPDFView} user={user} />
+          <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={AsyncComponents.PDFView} user={user} />
 
           <PublicRoute path={Routes.LOGIN} component={AsyncComponents.Login} user={user} />
 

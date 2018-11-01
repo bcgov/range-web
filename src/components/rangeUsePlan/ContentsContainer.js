@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
 import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION } from '../../constants/strings';
 
-class RupContents extends Component {
+class ContentsContainer extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({}).isRequired,
@@ -69,4 +69,4 @@ class RupContents extends Component {
   }
 }
 
-export default withRouter(RupContents);
+export default withRouter(ContentsContainer);

@@ -4,7 +4,7 @@ import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
 import { isStatusCodeRequireNote } from '../../utils';
 
-class RupUpdateStatusModal extends Component {
+class UpdateStatusModal extends Component {
   static propTypes = {
     header: PropTypes.string,
     content: PropTypes.string,
@@ -14,11 +14,13 @@ class RupUpdateStatusModal extends Component {
     planUpdated: PropTypes.func.isRequired,
     addPlanStatusHistoryRecord: PropTypes.func.isRequired,
   }
+
   static defaultProps = {
     header: '',
     content: '',
     statusCode: '',
   }
+
   state = {
     note: '',
   }
@@ -139,4 +141,4 @@ class RupUpdateStatusModal extends Component {
   }
 }
 
-export default RupUpdateStatusModal;
+export default UpdateStatusModal;

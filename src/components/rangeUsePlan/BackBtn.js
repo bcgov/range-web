@@ -12,7 +12,7 @@ const defaultProps = {
   className: '',
 };
 
-const RupBackBtn = ({ className, history }) => (
+const BackBtn = ({ className, history }) => (
   (
     <div
       className={className}
@@ -25,6 +25,6 @@ const RupBackBtn = ({ className, history }) => (
   )
 );
 
-RupBackBtn.propTypes = propTypes;
-RupBackBtn.defaultProps = defaultProps;
-export default withRouter(RupBackBtn);
+BackBtn.propTypes = propTypes;
+BackBtn.defaultProps = defaultProps;
+export default withRouter(BackBtn);

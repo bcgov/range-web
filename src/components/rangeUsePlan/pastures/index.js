@@ -7,7 +7,7 @@ import {
   PASTURE_NOTES, NOT_PROVIDED,
 } from '../../../constants/strings';
 
-class ViewRupPastures extends Component {
+class Pastures extends Component {
   static propTypes = {
     elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
@@ -107,4 +107,4 @@ class ViewRupPastures extends Component {
   }
 }
 
-export default ViewRupPastures;
+export default Pastures;

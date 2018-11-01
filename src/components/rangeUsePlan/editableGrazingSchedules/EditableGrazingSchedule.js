@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
 import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
-import EditRupGrazingScheduleEntry from './EditRupGrazingScheduleEntry';
+import EditableGrazingScheduleEntry from './EditableGrazingScheduleEntry';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal, handleGrazingScheduleValidation } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
@@ -12,27 +12,27 @@ import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } 
 import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 
-const propTypes = {
-  schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
-  scheduleIndex: PropTypes.number.isRequired,
-  onScheduleClicked: PropTypes.func.isRequired,
-  activeScheduleIndex: PropTypes.number.isRequired,
-  authorizedAUMs: PropTypes.number.isRequired,
-  crownTotalAUMs: PropTypes.number.isRequired,
-  yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pastures: PropTypes.arrayOf(PropTypes.number).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-  updateGrazingSchedule: PropTypes.func.isRequired,
-  handleScheduleCopy: PropTypes.func.isRequired,
-  handleScheduleDelete: PropTypes.func.isRequired,
-  deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-};
+class EditableGrazingSchedule extends Component {
+  static propTypes = {
+    schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
+    scheduleIndex: PropTypes.number.isRequired,
+    onScheduleClicked: PropTypes.func.isRequired,
+    activeScheduleIndex: PropTypes.number.isRequired,
+    authorizedAUMs: PropTypes.number.isRequired,
+    crownTotalAUMs: PropTypes.number.isRequired,
+    yearOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    pastures: PropTypes.arrayOf(PropTypes.number).isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    usage: PropTypes.arrayOf(PropTypes.object).isRequired,
+    updateGrazingSchedule: PropTypes.func.isRequired,
+    handleScheduleCopy: PropTypes.func.isRequired,
+    handleScheduleDelete: PropTypes.func.isRequired,
+    deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+  };
 
-class EditRupGrazingSchedule extends Component {
   onScheduleClicked = (e) => {
     e.preventDefault();
     const { scheduleIndex, onScheduleClicked } = this.props;
@@ -173,7 +173,7 @@ class EditRupGrazingSchedule extends Component {
 
     return grazingScheduleEntries.map((entry, entryIndex) => (
       (
-        <EditRupGrazingScheduleEntry
+        <EditableGrazingScheduleEntry
           key={entry.id || entry.key}
           schedule={schedule}
           entry={entry}
@@ -302,11 +302,10 @@ const mapStateToProps = state => (
   }
 );
 
-EditRupGrazingSchedule.propTypes = propTypes;
 export default connect(mapStateToProps, {
   updateGrazingSchedule,
   openConfirmationModal,
   closeConfirmationModal,
   deleteRupGrazingSchedule,
   deleteRupGrazingScheduleEntry,
-})(EditRupGrazingSchedule);
+})(EditableGrazingSchedule);

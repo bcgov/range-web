@@ -4,7 +4,7 @@ import { TextField } from '../../common';
 import { formatDateFromServer, getAgreementHolders, isUserAdmin, getUserFullName } from '../../../utils';
 import * as strings from '../../../constants/strings';
 
-class ViewRupBasicInformation extends Component {
+class BasicInformation extends Component {
   static propTypes = {
     elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
@@ -155,4 +155,4 @@ class ViewRupBasicInformation extends Component {
   }
 }
 
-export default ViewRupBasicInformation;
+export default BasicInformation;

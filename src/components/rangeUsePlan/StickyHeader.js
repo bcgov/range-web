@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ELEMENT_ID } from '../../constants/variables';
 
 // create a sticky header for dynamic contents
-class RupStickyHeader extends Component {
+class StickyHeader extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -44,4 +44,4 @@ class RupStickyHeader extends Component {
   }
 }
 
-export default RupStickyHeader;
+export default StickyHeader;

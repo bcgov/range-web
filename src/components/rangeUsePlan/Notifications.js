@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
-import AgreementHolderConfirmations from './amendment/AgreementHolderConfirmations';
-import RupPlanStatusHistory from './RupPlanStatusHistory';
+import AHConfirmationList from './amendment/AHConfirmationList';
+import PlanStatusHistory from './StatusHistory';
 
-class RupNotifications extends Component {
+class Notifications extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({}).isRequired,
@@ -58,7 +58,7 @@ class RupNotifications extends Component {
         }
 
         {planStatusHistory.length !== 0 &&
-          <RupPlanStatusHistory
+          <PlanStatusHistory
             planStatusHistory={planStatusHistory}
             planStatusHistoryMap={planStatusHistoryMap}
             user={user}
@@ -84,7 +84,7 @@ class RupNotifications extends Component {
                   <span>
                     There are still agreement holders who have not yet confirmed their confirmation choice.
                   </span>
-                  <AgreementHolderConfirmations
+                  <AHConfirmationList
                     user={user}
                     clients={clients}
                     plan={plan}
@@ -113,4 +113,4 @@ class RupNotifications extends Component {
   }
 }
 
-export default RupNotifications;
+export default Notifications;

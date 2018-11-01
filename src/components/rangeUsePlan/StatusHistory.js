@@ -5,7 +5,7 @@ import { Status } from '../common';
 import { getUserFullName, formatDateToNow } from '../../utils';
 import { REFERENCE_KEY } from '../../constants/variables';
 
-class RupPlanStatusHistory extends Component {
+class StatusHistory extends Component {
   static propTypes = {
     planStatusHistory: PropTypes.arrayOf(PropTypes.number).isRequired,
     planStatusHistoryMap: PropTypes.shape({}).isRequired,
@@ -48,4 +48,4 @@ class RupPlanStatusHistory extends Component {
   }
 }
 
-export default RupPlanStatusHistory;
+export default StatusHistory;

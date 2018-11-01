@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import RupStaff from './RupStaff';
-import RupAgreementHolder from './RupAgreementHolder';
+import StaffPage from './StaffPage';
+import AHPage from './AHPage';
 import { Loading } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
@@ -11,21 +11,21 @@ import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
 
-const propTypes = {
-  match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  fetchRUP: PropTypes.func.isRequired,
-  isFetchingPlan: PropTypes.bool.isRequired,
-  errorFetchingPlan: PropTypes.shape({}),
-  plansMap: PropTypes.shape({}).isRequired,
-};
-
-const defaultProps = {
-  errorFetchingPlan: null,
-};
-
 class Base extends Component {
+  static propTypes = {
+    match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
+    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+    history: PropTypes.shape({}).isRequired,
+    fetchRUP: PropTypes.func.isRequired,
+    isFetchingPlan: PropTypes.bool.isRequired,
+    errorFetchingPlan: PropTypes.shape({}),
+    plansMap: PropTypes.shape({}).isRequired,
+  };
+
+  static defaultProps = {
+    errorFetchingPlan: null,
+  };
+
   componentWillMount() {
     document.title = DETAIL_RUP_TITLE;
   }
@@ -78,7 +78,7 @@ class Base extends Component {
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
         {isUserAdmin(user) &&
-          <RupStaff
+          <StaffPage
             agreement={agreement}
             plan={plan}
             {...this.props}
@@ -86,7 +86,7 @@ class Base extends Component {
         }
 
         {isUserRangeOfficer(user) &&
-          <RupStaff
+          <StaffPage
             agreement={agreement}
             plan={plan}
             {...this.props}
@@ -94,7 +94,7 @@ class Base extends Component {
         }
 
         {isUserAgreementHolder(user) &&
-          <RupAgreementHolder
+          <AHPage
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
@@ -122,8 +122,6 @@ const mapStateToProps = state => (
   }
 );
 
-Base.propTypes = propTypes;
-Base.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   fetchRUP,
   updateRUPStatus,

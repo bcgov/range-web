@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import RupUpdateZoneModal from './RupUpdateZoneModal';
+import UpdateZoneModal from './UpdateZoneModal';
 import {
   DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
 } from '../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
 import { isStatusDraft, getPlanTypeDescription } from '../../utils';
-import ViewRupBasicInformation from './view/ViewRupBasicInformation';
-import ViewRupPastures from './view/ViewRupPastures';
-import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
-import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
-import RupBackBtn from './RupBackBtn';
-import RupContents from './RupContents';
-import RupUpdateStatusDropdown from './RupUpdateStatusDropdown';
-import RupStickyHeader from './RupStickyHeader';
+import BasicInformation from './basicInformation';
+import Pastures from './pastures';
+import GrazingSchedules from './grazingSchedules';
+import MinisterIssues from './ministerIssues';
+import BackBtn from './BackBtn';
+import ContentsContainer from './ContentsContainer';
+import UpdateStatusDropdown from './UpdateStatusDropdown';
+import StickyHeader from './StickyHeader';
 import { EXPORT_PDF } from '../../constants/routes';
-import RupNotifications from './RupNotifications';
+import Notifications from './Notifications';
 
-class RupStaff extends Component {
+class StaffPage extends Component {
   static propTypes = {
     agreement: PropTypes.shape({ zone: PropTypes.object }),
     plan: PropTypes.shape({}),
@@ -82,7 +82,7 @@ class RupStaff extends Component {
 
     return (
       <section className="rup">
-        <RupUpdateZoneModal
+        <UpdateZoneModal
           isUpdateZoneModalOpen={isUpdateZoneModalOpen}
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           plan={plan}
@@ -95,10 +95,10 @@ class RupStaff extends Component {
           noDefaultHeight
         />
 
-        <RupStickyHeader>
+        <StickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
-              <RupBackBtn
+              <BackBtn
                 className="rup__back-btn"
               />
               <div className="rup__actions__left">
@@ -118,16 +118,16 @@ class RupStaff extends Component {
                     {PREVIEW_PDF}
                   </Button>
                 }
-                <RupUpdateStatusDropdown
+                <UpdateStatusDropdown
                   plan={plan}
                 />
               </div>
             </div>
           </div>
-        </RupStickyHeader>
+        </StickyHeader>
 
-        <RupContents>
-          <RupNotifications
+        <ContentsContainer>
+          <Notifications
             plan={plan}
             user={user}
             references={references}
@@ -136,7 +136,7 @@ class RupStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
-          <ViewRupBasicInformation
+          <BasicInformation
             elementId={ELEMENT_ID.BASIC_INFORMATION}
             className="rup__basic_information"
             agreement={agreement}
@@ -145,14 +145,14 @@ class RupStaff extends Component {
             onZoneClicked={this.openUpdateZoneModal}
           />
 
-          <ViewRupPastures
+          <Pastures
             elementId={ELEMENT_ID.PASTURES}
             className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />
 
-          <ViewRupGrazingSchedules
+          <GrazingSchedules
             elementId={ELEMENT_ID.GRAZING_SCHEDULE}
             className="rup__grazing-schedules__container"
             references={references}
@@ -162,7 +162,7 @@ class RupStaff extends Component {
             grazingSchedulesMap={grazingSchedulesMap}
           />
 
-          <ViewRupMinisterIssues
+          <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
             className="rup__missues__container"
             references={references}
@@ -170,10 +170,10 @@ class RupStaff extends Component {
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />
-        </RupContents>
+        </ContentsContainer>
       </section>
     );
   }
 }
 
-export default RupStaff;
+export default StaffPage;

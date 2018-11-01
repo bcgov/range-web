@@ -6,7 +6,7 @@ import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT }
 import { ELEMENT_ID } from '../../constants/variables';
 import { APP_NAME } from '../../constants/strings';
 
-class Signin extends Component {
+class SignInBox extends Component {
   static propTypes = {
     isFetchingUser: PropTypes.bool.isRequired,
     errorFetchingUser: PropTypes.shape({}),
@@ -39,7 +39,7 @@ class Signin extends Component {
           >
             Learn more about BCeID here.
           </a>
-          {(errorFetchingUser || true) &&
+          {errorFetchingUser &&
             <div className="signin__error">
               <Message error>
                 <Message.Content>
@@ -82,4 +82,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default SignInBox;

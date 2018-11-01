@@ -6,23 +6,23 @@ import * as utils from '../../../utils';
 import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
 
-const propTypes = {
-  schedule: PropTypes.shape({}).isRequired,
-  entry: PropTypes.shape({}).isRequired,
-  entryIndex: PropTypes.number.isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  pastureOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleScheduleEntryChange: PropTypes.func.isRequired,
-  handleScheduleEntryCopy: PropTypes.func.isRequired,
-  handleScheduleEntryDelete: PropTypes.func.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
-
 /* eslint-disable object-curly-newline */
-class EditRupGrazingScheduleEntry extends Component {
+class EditableGrazingScheduleEntry extends Component {
+  static propTypes = {
+    schedule: PropTypes.shape({}).isRequired,
+    entry: PropTypes.shape({}).isRequired,
+    entryIndex: PropTypes.number.isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    pastureOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    livestockTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    handleScheduleEntryChange: PropTypes.func.isRequired,
+    handleScheduleEntryCopy: PropTypes.func.isRequired,
+    handleScheduleEntryDelete: PropTypes.func.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     const { entry, schedule } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
@@ -239,5 +239,4 @@ class EditRupGrazingScheduleEntry extends Component {
   }
 }
 
-EditRupGrazingScheduleEntry.propTypes = propTypes;
-export default EditRupGrazingScheduleEntry;
+export default EditableGrazingScheduleEntry;

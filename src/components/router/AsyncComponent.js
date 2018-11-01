@@ -45,4 +45,4 @@ export const PageNotFound = AsyncComponent(() => import('../PageNotFound'));
 export const ManageZone = AsyncComponent(() => import('../manageZone'));
 export const ManageClient = AsyncComponent(() => import('../manageClient'));
 export const RangeUsePlan = AsyncComponent(() => import('../rangeUsePlan'));
-export const RupPDFView = AsyncComponent(() => import('../rangeUsePlan/RupPDFView'));
+export const PDFView = AsyncComponent(() => import('../rangeUsePlan/PDFView'));

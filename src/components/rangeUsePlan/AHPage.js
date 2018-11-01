@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { Status, Banner } from '../common';
-import ViewRupBasicInformation from './view/ViewRupBasicInformation';
-import ViewRupPastures from './view/ViewRupPastures';
-import ViewRupGrazingSchedules from './view/ViewRupGrazingSchedules';
-import ViewRupMinisterIssues from './view/ViewRupMinisterIssues';
-import EditRupGrazingSchedules from './edit/EditRupGrazingSchedules';
+import ContentsContainer from './ContentsContainer';
+import BasicInformation from './basicInformation';
+import Pastures from './pastures';
+import GrazingSchedules from './grazingSchedules';
+import EditableGrazingSchedules from './editableGrazingSchedules';
+import MinisterIssues from './ministerIssues';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
-import RupBackBtn from './RupBackBtn';
-import RupNotifications from './RupNotifications';
-import RupContents from './RupContents';
-import RupStickyHeader from './RupStickyHeader';
+import BackBtn from './BackBtn';
+import Notifications from './Notifications';
+import StickyHeader from './StickyHeader';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
-export class RupAH extends Component {
+export class AHPage extends Component {
   static propTypes = {
     agreement: PropTypes.shape({ plan: PropTypes.object }),
     plan: PropTypes.shape({}),
@@ -332,10 +332,10 @@ export class RupAH extends Component {
           content={utils.getBannerContentForAH(plan)}
         />
 
-        <RupStickyHeader>
+        <StickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
-              <RupBackBtn
+              <BackBtn
                 className="rup__back-btn"
               />
               <div className="rup__actions__left">
@@ -352,10 +352,10 @@ export class RupAH extends Component {
               </div>
             </div>
           </div>
-        </RupStickyHeader>
+        </StickyHeader>
 
-        <RupContents>
-          <RupNotifications
+        <ContentsContainer>
+          <Notifications
             plan={plan}
             user={user}
             references={references}
@@ -363,7 +363,7 @@ export class RupAH extends Component {
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
-          <ViewRupBasicInformation
+          <BasicInformation
             elementId={ELEMENT_ID.BASIC_INFORMATION}
             className="rup__basic_information"
             agreement={agreement}
@@ -371,7 +371,7 @@ export class RupAH extends Component {
             user={user}
           />
 
-          <ViewRupPastures
+          <Pastures
             elementId={ELEMENT_ID.PASTURES}
             className="rup__pastures__container"
             plan={plan}
@@ -379,7 +379,7 @@ export class RupAH extends Component {
           />
 
           {canEdit ?
-            <EditRupGrazingSchedules
+            <EditableGrazingSchedules
               elementId={ELEMENT_ID.GRAZING_SCHEDULE}
               className="rup__grazing-schedules__container"
               references={references}
@@ -388,7 +388,7 @@ export class RupAH extends Component {
               pasturesMap={pasturesMap}
               grazingSchedulesMap={grazingSchedulesMap}
             />
-            : <ViewRupGrazingSchedules
+            : <GrazingSchedules
               elementId={ELEMENT_ID.GRAZING_SCHEDULE}
               className="rup__grazing-schedules__container"
               references={references}
@@ -399,7 +399,7 @@ export class RupAH extends Component {
             />
           }
 
-          <ViewRupMinisterIssues
+          <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
             className="rup__missues__container"
             references={references}
@@ -407,10 +407,10 @@ export class RupAH extends Component {
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
           />
-        </RupContents>
+        </ContentsContainer>
       </section>
     );
   }
 }
 
-export default RupAH;
+export default AHPage;

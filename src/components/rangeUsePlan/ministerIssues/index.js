@@ -7,7 +7,7 @@ import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { getPastureNames } from '../../../utils';
 
-class ViewRupMinisterIssues extends Component {
+class MinisterIssues extends Component {
   static propTypes = {
     elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
@@ -143,4 +143,4 @@ class ViewRupMinisterIssues extends Component {
   }
 }
 
-export default ViewRupMinisterIssues;
+export default MinisterIssues;

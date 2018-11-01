@@ -6,7 +6,7 @@ import * as utils from '../../../utils';
 import * as strings from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 
-class ViewRupGrazingSchedules extends Component {
+class GrazingSchedules extends Component {
   static propTypes = {
     elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
@@ -176,4 +176,4 @@ class ViewRupGrazingSchedules extends Component {
   }
 }
 
-export default ViewRupGrazingSchedules;
+export default GrazingSchedules;

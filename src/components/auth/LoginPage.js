@@ -7,7 +7,7 @@ import { fetchUser } from '../../actionCreators';
 import { getIsFetchingUser, getUserErrorMessage } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
 import { detectIE } from '../../utils';
-import Signin from './Signin';
+import SignInBox from './SignInBox';
 
 export class LoginPage extends Component {
   static propTypes = {
@@ -67,7 +67,7 @@ export class LoginPage extends Component {
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
         </article>
         <article className="login__paragraph1">
-          <Signin
+          <SignInBox
             {...this.props}
           />
         </article>

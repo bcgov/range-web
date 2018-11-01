@@ -5,25 +5,24 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
-import EditRupGrazingSchedule from './EditRupGrazingSchedule';
+import EditableGrazingSchedule from './EditableGrazingSchedule';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRupGrazingSchedule } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
 import * as utils from '../../../utils';
 
-const propTypes = {
-  elementId: PropTypes.string.isRequired,
-  plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addGrazingSchedule: PropTypes.func.isRequired,
-  deleteGrazingSchedule: PropTypes.func.isRequired,
-  deleteRupGrazingSchedule: PropTypes.func.isRequired,
-};
-
-export class EditRupGrazingSchedules extends Component {
+export class EditableGrazingSchedules extends Component {
+  static propTypes = {
+    elementId: PropTypes.string.isRequired,
+    plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
+    pasturesMap: PropTypes.shape({}).isRequired,
+    grazingSchedulesMap: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    usage: PropTypes.arrayOf(PropTypes.object).isRequired,
+    addGrazingSchedule: PropTypes.func.isRequired,
+    deleteGrazingSchedule: PropTypes.func.isRequired,
+    deleteRupGrazingSchedule: PropTypes.func.isRequired,
+  };
   constructor(props) {
     super(props);
 
@@ -188,7 +187,7 @@ export class EditRupGrazingSchedules extends Component {
     const crownTotalAUMs = utils.calcCrownTotalAUMs(schedule.grazingScheduleEntries, pasturesMap, livestockTypes);
     const pastures = (plan && plan.pastures) || [];
     return (
-      <EditRupGrazingSchedule
+      <EditableGrazingSchedule
         key={id}
         yearOptions={yearOptions}
         schedule={schedule}
@@ -246,10 +245,9 @@ export class EditRupGrazingSchedules extends Component {
   }
 }
 
-EditRupGrazingSchedules.propTypes = propTypes;
 export default connect(null, {
   addGrazingSchedule,
   updateGrazingSchedule,
   deleteGrazingSchedule,
   deleteRupGrazingSchedule,
-})(EditRupGrazingSchedules);
+})(EditableGrazingSchedules);

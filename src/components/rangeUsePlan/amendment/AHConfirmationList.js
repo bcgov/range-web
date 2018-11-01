@@ -5,7 +5,7 @@ import { Icon } from 'semantic-ui-react';
 import { findConfirmationWithClientId, formatDateFromServer, isClientCurrentUser } from '../../../utils';
 import { AWAITING_CONFIRMATION } from '../../../constants/strings';
 
-class ConfirmationList extends Component {
+class AHConfirmationList extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -79,4 +79,4 @@ class ConfirmationList extends Component {
   }
 }
 
-export default ConfirmationList;
+export default AHConfirmationList;

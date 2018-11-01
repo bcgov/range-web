@@ -8,7 +8,7 @@ import { CONFIRMATION_OPTION, REFERENCE_KEY } from '../../../constants/variables
 import { getPlanTypeDescription, getUserFullName, getUserEmail, findConfirmationWithClientId } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
-import AgreementHolderConfirmations from './AgreementHolderConfirmations';
+import AHConfirmationList from './AHConfirmationList';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -170,7 +170,7 @@ class AmendmentConfirmationModal extends Component {
                   onChange={this.handleSubmissionChoiceChange}
                 />
               </Form.Field>
-              <AgreementHolderConfirmations
+              <AHConfirmationList
                 user={user}
                 clients={clients}
                 plan={plan}
@@ -211,7 +211,7 @@ class AmendmentConfirmationModal extends Component {
                 <div className="amendment__submission__last-tab__title">
                   Your {amendmentTypeDescription} confirmation has been saved
                 </div>
-                <AgreementHolderConfirmations
+                <AHConfirmationList
                   user={user}
                   clients={clients}
                   plan={plan}

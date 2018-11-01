@@ -7,18 +7,18 @@ import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
 import { planUpdated } from '../../actions';
 
-const propTypes = {
-  agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
-  plan: PropTypes.shape({}).isRequired,
-  isUpdateZoneModalOpen: PropTypes.bool.isRequired,
-  closeUpdateZoneModal: PropTypes.func.isRequired,
-  updateAgreementZone: PropTypes.func.isRequired,
-  zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isUpdatingAgreementZone: PropTypes.bool.isRequired,
-  planUpdated: PropTypes.func.isRequired,
-};
+export class UpdateZoneModal extends Component {
+  static propTypes = {
+    agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,
+    plan: PropTypes.shape({}).isRequired,
+    isUpdateZoneModalOpen: PropTypes.bool.isRequired,
+    closeUpdateZoneModal: PropTypes.func.isRequired,
+    updateAgreementZone: PropTypes.func.isRequired,
+    zones: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isUpdatingAgreementZone: PropTypes.bool.isRequired,
+    planUpdated: PropTypes.func.isRequired,
+  };
 
-export class RupUpdateZoneModal extends Component {
   state = {
     newZoneId: null,
   }
@@ -123,8 +123,7 @@ const mapStateToProps = state => (
   }
 );
 
-RupUpdateZoneModal.propTypes = propTypes;
 export default connect(mapStateToProps, {
   updateAgreementZone,
   planUpdated,
-})(RupUpdateZoneModal);
+})(UpdateZoneModal);

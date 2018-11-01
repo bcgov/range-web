@@ -19,7 +19,7 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => (
             return <Redirect push to={LOGIN} />;
           }
 
-          // no need to pass the RupPDFView to MainPage
+          // no need to pass the PDFView to MainPage
           if (path === EXPORT_PDF_WITH_PARAM) {
             return <Component {...props} />;
           }

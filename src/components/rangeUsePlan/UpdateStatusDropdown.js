@@ -8,20 +8,20 @@ import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from
 import { planUpdated, addPlanStatusHistoryRecord } from '../../actions';
 import { updateRUPStatus, createRUPStatusHistoryRecord } from '../../actionCreators';
 import * as strings from '../../constants/strings';
-import RupUpdateStatusModal from './RupUpdateStatusModal';
+import UpdateStatusModal from './UpdateStatusModal';
 
-const propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  confirmationModalsMap: PropTypes.shape({}).isRequired,
-  planUpdated: PropTypes.func.isRequired,
-  addPlanStatusHistoryRecord: PropTypes.func.isRequired,
-  isUpdatingStatus: PropTypes.bool.isRequired,
-  updateRUPStatus: PropTypes.func.isRequired,
-  createRUPStatusHistoryRecord: PropTypes.func.isRequired,
-};
+class UpdateStatusDropdown extends Component {
+  static propTypes = {
+    plan: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
+    confirmationModalsMap: PropTypes.shape({}).isRequired,
+    planUpdated: PropTypes.func.isRequired,
+    addPlanStatusHistoryRecord: PropTypes.func.isRequired,
+    isUpdatingStatus: PropTypes.bool.isRequired,
+    updateRUPStatus: PropTypes.func.isRequired,
+    createRUPStatusHistoryRecord: PropTypes.func.isRequired,
+  };
 
-class RupUpdateStatusDropdown extends Component {
   state = {
     updateStatusModalOpen: false,
     modal: null,
@@ -211,7 +211,7 @@ class RupUpdateStatusDropdown extends Component {
           button
           item
         />
-        <RupUpdateStatusModal
+        <UpdateStatusModal
           open={updateStatusModalOpen}
           onClose={this.closeUpdateStatusModalOpen}
           {...this.props}
@@ -231,10 +231,9 @@ const mapStateToProps = state => (
   }
 );
 
-RupUpdateStatusDropdown.propTypes = propTypes;
 export default connect(mapStateToProps, {
   planUpdated,
   addPlanStatusHistoryRecord,
   updateRUPStatus,
   createRUPStatusHistoryRecord,
-})(RupUpdateStatusDropdown);
+})(UpdateStatusDropdown);
