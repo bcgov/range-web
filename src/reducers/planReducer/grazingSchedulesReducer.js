@@ -1,4 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
+import * as actionTypes from '../../constants/actionTypes';
 
 const storeGrazingSchedules = (state, action) => {
   const { grazingSchedules } = action.payload.entities;

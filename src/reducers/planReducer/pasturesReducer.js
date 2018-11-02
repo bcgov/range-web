@@ -1,4 +1,4 @@
-import { STORE_PLAN } from '../constants/actionTypes';
+import { STORE_PLAN } from '../../constants/actionTypes';
 
 const storePastures = (state, action) => {
   const { pastures } = action.payload.entities;

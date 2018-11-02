@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import plansReducer from '../../reducers/plansReducer';
+import plansReducer from '../../reducers/planReducer/plansReducer';
 import { storePlan, planUpdated, addGrazingSchedule } from '../../actions';
 import * as schema from '../../actionCreators/schema';
 

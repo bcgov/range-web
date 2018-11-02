@@ -1,4 +1,4 @@
-import { STORE_PLAN, CONFIRMATION_UPDATED } from '../constants/actionTypes';
+import { STORE_PLAN, CONFIRMATION_UPDATED } from '../../constants/actionTypes';
 
 const storeConfirmations = (state, action) => {
   const { confirmations } = action.payload.entities;

@@ -1,4 +1,4 @@
-import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE, ADD_PLAN_STATUS_HISTORY_RECORD } from '../constants/actionTypes';
+import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE, ADD_PLAN_STATUS_HISTORY_RECORD } from '../../constants/actionTypes';
 
 const initialState = {
   byId: {},
