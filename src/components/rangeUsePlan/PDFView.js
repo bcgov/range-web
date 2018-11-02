@@ -6,7 +6,7 @@ import { Document, Page } from 'react-pdf';
 import { connect } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
-import { Loading } from '../common';
+import { Loading, ErrorPage } from '../common';
 import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFError } from '../../reducers/rootReducer';
 
 class PDFView extends Component {
@@ -78,10 +78,11 @@ class PDFView extends Component {
         { isFetchingPDF &&
           <Loading />
         }
+
         { errorFetchingPDF &&
-          <div>
-            Error Occur!!
-          </div>
+          <ErrorPage
+            message="Error occured while fetching pdf."
+          />
         }
 
         { planPDFBlob &&

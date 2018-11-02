@@ -1,7 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import { Button, Icon } from 'semantic-ui-react';
-import { Loading } from '../common';
+import { Loading, ErrorPage } from '../common';
 
 /*
   Code Splitting with React Router
@@ -13,19 +12,7 @@ const LoadingComponent = ({ isLoading, error }) => {
   if (isLoading) { // Handle the loading state
     component = <Loading />;
   } else if (error) { // Handle the error state
-    component = (
-      <div className="page-error">
-        <Icon name="warning circle" size="big" color="red" />
-        <div>
-          <span className="page-error__message">
-            Sorry, there was a problem loading the page.
-          </span>
-        </div>
-        <div>
-          <Button onClick={() => window.location.reload(true)}>Reload</Button>
-        </div>
-      </div>
-    );
+    component = <ErrorPage message="Sorry, there was a problem loading the page." />;
   }
 
   return component;
