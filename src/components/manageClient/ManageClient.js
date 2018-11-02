@@ -7,18 +7,6 @@ import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
 
-const propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usersMap: PropTypes.shape({}).isRequired,
-  clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-  searchClients: PropTypes.func.isRequired,
-  updateClientIdOfUser: PropTypes.func.isRequired,
-  userUpdated: PropTypes.func.isRequired,
-  isFetchingClients: PropTypes.bool.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
-
 class ManageClient extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +17,18 @@ class ManageClient extends Component {
     };
     this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000);
   }
+
+  static propTypes = {
+    users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    usersMap: PropTypes.shape({}).isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
+    searchClients: PropTypes.func.isRequired,
+    updateClientIdOfUser: PropTypes.func.isRequired,
+    userUpdated: PropTypes.func.isRequired,
+    isFetchingClients: PropTypes.bool.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
 
   onUserChanged = (e, { value: userId }) => {
     this.setState({ userId });
@@ -168,5 +168,4 @@ class ManageClient extends Component {
   }
 }
 
-ManageClient.propTypes = propTypes;
 export default ManageClient;

@@ -10,16 +10,17 @@ import {
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
 
-const propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  zonesMap: PropTypes.shape({}).isRequired,
-  zoneUpdated: PropTypes.func.isRequired,
-  updateUserIdOfZone: PropTypes.func.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
 export class ManageZone extends Component {
+  static propTypes = {
+    users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    zones: PropTypes.arrayOf(PropTypes.object).isRequired,
+    zonesMap: PropTypes.shape({}).isRequired,
+    zoneUpdated: PropTypes.func.isRequired,
+    updateUserIdOfZone: PropTypes.func.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
+
   state = {
     newContactId: null,
     currContactName: null,
@@ -167,5 +168,4 @@ export class ManageZone extends Component {
   }
 }
 
-ManageZone.propTypes = propTypes;
 export default ManageZone;

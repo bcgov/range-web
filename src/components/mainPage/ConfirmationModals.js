@@ -6,12 +6,12 @@ import { closeConfirmationModal } from '../../actions';
 import { getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
 
-const propTypes = {
-  confirmationModalsMap: PropTypes.shape({}).isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
-
 class ConfirmationModals extends Component {
+  static propTypes = {
+    confirmationModalsMap: PropTypes.shape({}).isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
+
   closeConfirmationModal = modal => () => {
     this.props.closeConfirmationModal({
       modalId: modal.id,
@@ -77,5 +77,4 @@ class ConfirmationModals extends Component {
 const mapStateToProps = state => ({
   confirmationModalsMap: getConfirmationModalsMap(state),
 });
-ConfirmationModals.propTypes = propTypes;
 export default connect(mapStateToProps, { closeConfirmationModal })(ConfirmationModals);

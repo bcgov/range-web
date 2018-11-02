@@ -45,6 +45,16 @@ export const getAuthAndUserFromLocal = () => {
 /**
  *
  * @param {object} response the network response
+ * the response looks like this
+  {
+    access_token: "characters"
+    expires_in: 1800
+    not-before-policy: 0
+    refresh_expires_in: 3600
+    refresh_token: "characters"
+    session_state: "characters-characters-characters"
+    token_type: "bearer"
+  }
  */
 export const saveAuthDataInLocal = (response) => {
   const data = { ...response.data };

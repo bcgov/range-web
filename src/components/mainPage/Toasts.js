@@ -7,12 +7,12 @@ import { removeToast } from '../../actions';
 import { getToastsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
 
-const propTypes = {
-  toastsMap: PropTypes.shape({}).isRequired,
-  removeToast: PropTypes.func.isRequired,
-};
-
 class Toasts extends Component {
+  static propTypes = {
+    toastsMap: PropTypes.shape({}).isRequired,
+    removeToast: PropTypes.func.isRequired,
+  };
+
   removeToast = toast => () => {
     const { removeToast } = this.props;
 
@@ -63,5 +63,4 @@ class Toasts extends Component {
 const mapStateToProps = state => ({
   toastsMap: getToastsMap(state),
 });
-Toasts.propTypes = propTypes;
 export default connect(mapStateToProps, { removeToast })(Toasts);
