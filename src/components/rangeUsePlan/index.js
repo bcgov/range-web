@@ -115,7 +115,7 @@ const mapStateToProps = state => (
     confirmationsMap: selectors.getConfirmationsMap(state),
     planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
     isFetchingPlan: selectors.getIsFetchingPlan(state),
-    errorFetchingPlan: selectors.getPlanErrorMessage(state),
+    errorFetchingPlan: selectors.getPlanError(state),
     references: selectors.getReferences(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
     isCreatingAmendment: selectors.getIsCreatingAmendment(state),

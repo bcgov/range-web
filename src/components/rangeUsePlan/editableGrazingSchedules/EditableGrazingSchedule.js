@@ -139,7 +139,15 @@ class EditableGrazingSchedule extends Component {
 
     return (
       <div className="rup__grazing-schedule__warning-message">
-        <Message error content={<div>{`Error: ${message}`}</div>} />
+        <Message
+          error
+          content={
+            <div>
+              <Icon name="warning sign" style={{ marginRight: '5px' }} />
+              {message}
+            </div>
+          }
+        />
       </div>
     );
   }

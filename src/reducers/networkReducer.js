@@ -64,3 +64,4 @@ export default networkReducer;
 export const getIsFetching = state => state.isFetching;
 export const getPagination = state => state.pagination;
 export const getErrorMessage = state => state.error;
+export const getData = state => state.success;

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
@@ -6,17 +7,24 @@ import { connect } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
 import { Loading } from '../common';
+import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFError } from '../../reducers/rootReducer';
 
-const propTypes = {
-  match: PropTypes.shape({ params: PropTypes.object }).isRequired,
-  fetchRupPDF: PropTypes.func.isRequired,
-};
+class PDFView extends Component {
+  static propTypes = {
+    match: PropTypes.shape({ params: PropTypes.object }).isRequired,
+    fetchRupPDF: PropTypes.func.isRequired,
+    isFetchingPDF: PropTypes.bool.isRequired,
+    errorFetchingPDF: PropTypes.shape({}),
+    planPDFBlob: PropTypes.shape({}),
+  };
 
-class RangeUsePlanPDF extends Component {
+  static defaultProps = {
+    planPDFBlob: null,
+    errorFetchingPDF: null,
+  }
+
   state = {
-    file: null,
     numPages: 1,
-    isFetchingPDF: false,
   }
 
   componentWillMount() {
@@ -24,26 +32,14 @@ class RangeUsePlanPDF extends Component {
     const { planId, agreementId } = match.params;
 
     if (planId && agreementId) {
-      this.setState({ isFetchingPDF: true });
-
-      fetchRupPDF(planId).then(
-        (blob) => {
-          this.setState({
-            file: blob,
-            isFetchingPDF: false,
-          });
-        },
-        (err) => {
-          this.setState({ isFetchingPDF: false });
-          throw err;
-        },
-      );
+      fetchRupPDF(planId);
     }
   }
 
   onDownloadClicked = () => {
-    const { agreementId } = this.props.match.params;
-    downloadPDFBlob(this.state.file, this.donwloadPDFLink, `${agreementId}.pdf`);
+    const { match, planPDFBlob } = this.props;
+    const { agreementId } = match.params;
+    downloadPDFBlob(planPDFBlob, this.donwloadPDFLink, `${agreementId}.pdf`);
   }
 
   onLoadSuccess = ({ numPages }) => {
@@ -55,8 +51,8 @@ class RangeUsePlanPDF extends Component {
   setDownlaodPDFRef = (ref) => { this.donwloadPDFLink = ref; }
 
   render() {
-    const { file, numPages, isFetchingPDF } = this.state;
-
+    const { numPages } = this.state;
+    const { planPDFBlob, isFetchingPDF, errorFetchingPDF } = this.props;
     const pages = Array.from(
       new Array(numPages),
       (el, index) => (
@@ -82,8 +78,13 @@ class RangeUsePlanPDF extends Component {
         { isFetchingPDF &&
           <Loading />
         }
+        { errorFetchingPDF &&
+          <div>
+            Error Occur!!
+          </div>
+        }
 
-        { file &&
+        { planPDFBlob &&
           <div className="rup-pdf__content">
             <div className="rup-pdf__preview__header">
               <div>
@@ -99,7 +100,7 @@ class RangeUsePlanPDF extends Component {
             </div>
             <div className="rup-pdf__preview">
               <Document
-                file={file}
+                file={planPDFBlob}
                 loading={<Loading />}
                 onLoadSuccess={this.onLoadSuccess}
               >
@@ -113,5 +114,12 @@ class RangeUsePlanPDF extends Component {
   }
 }
 
-RangeUsePlanPDF.propTypes = propTypes;
-export default connect(null, { fetchRupPDF })(RangeUsePlanPDF);
+const mapStateToProps = state => (
+  {
+    planPDFBlob: getPlanPDF(state),
+    isFetchingPDF: getIsFetchingPlanPDF(state),
+    errorFetchingPDF: getPlanPDFError(state),
+  }
+);
+
+export default connect(mapStateToProps, { fetchRupPDF })(PDFView);

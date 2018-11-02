@@ -100,6 +100,8 @@ export const getErrorMessage = (err) => {
 /**
  * Download a pdf file through an a tag using a built-in browser feature
  *
+ * https://blog.jayway.com/2017/07/13/open-pdf-downloaded-api-javascript/
+ *
  * @param {response.data} blob The binary array buffer from API
  * @param {object} ref The React reference of an a tag
  * @returns undefined

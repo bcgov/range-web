@@ -50,6 +50,7 @@ const appReducer = combineReducers({
   [reducerTypes.CONFIRMATION]: confirmationModalReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
+  [reducerTypes.GET_PLAN_PDF]: createReducer(networkReducer, reducerTypes.GET_PLAN_PDF),
   [reducerTypes.UPDATE_USER_ID_OF_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_USER_ID_OF_ZONE),
   [reducerTypes.UPDATE_AGREEMENT_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_AGREEMENT_ZONE),
   [reducerTypes.SEARCH_CLIENTS]: createReducer(networkReducer, reducerTypes.SEARCH_CLIENTS),
@@ -106,7 +107,12 @@ export const getIsFetchingClients = state => fromNetwork.getIsFetching(state[red
 export const getPlansMap = state => fromPlan.getPlansMap(state[reducerTypes.PLAN]);
 export const getPlanIds = state => fromPlan.getPlanIds(state[reducerTypes.PLAN]);
 export const getIsFetchingPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_PLAN]);
-export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN]);
+export const getPlanError = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN]);
+
+export const getIsFetchingPlanPDF = state => fromNetwork.getIsFetching(state[reducerTypes.GET_PLAN_PDF]);
+export const getPlanPDFError = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN_PDF]);
+export const getPlanPDF = state => fromNetwork.getData(state[reducerTypes.GET_PLAN_PDF]);
+
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
