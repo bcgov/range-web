@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Icon, Button } from 'semantic-ui-react';
-import { closeConfirmationModal } from '../actions';
-import { getConfirmationModalsMap } from '../reducers/rootReducer';
-import { getObjValues } from '../utils';
+import { closeConfirmationModal } from '../../actions';
+import { getConfirmationModalsMap } from '../../reducers/rootReducer';
+import { getObjValues } from '../../utils';
 
 const propTypes = {
   confirmationModalsMap: PropTypes.shape({}).isRequired,

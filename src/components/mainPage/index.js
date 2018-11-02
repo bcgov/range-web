@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import Navbar from './Navbar';
 import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
-import { DoesUserHaveRole, isUserActive, registerAxiosInterceptors } from '../utils';
-import { fetchReferences, fetchZones, signOut } from '../actionCreators';
-import { USER_NOT_ACTIVE, USER_NO_ROLE } from '../constants/strings';
+import { DoesUserHaveRole, isUserActive, registerAxiosInterceptors } from '../../utils';
+import { fetchReferences, fetchZones, signOut } from '../../actionCreators';
+import { USER_NOT_ACTIVE, USER_NO_ROLE } from '../../constants/strings';
 
 export class MainPage extends Component {
   static propTypes = {

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
-import { removeToast } from '../actions';
-import { getToastsMap } from '../reducers/rootReducer';
-import { getObjValues } from '../utils';
+import { removeToast } from '../../actions';
+import { getToastsMap } from '../../reducers/rootReducer';
+import { getObjValues } from '../../utils';
 
 const propTypes = {
   toastsMap: PropTypes.shape({}).isRequired,
