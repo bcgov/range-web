@@ -239,7 +239,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
 
           stage('Prod Approval') {
             timeout(time: 4, unit: 'HOURS') {
-              input message: "Promote this image to prod?", submitter: 'jleach-admin'
+              input message: "Promote this image to prod?", submitter: 'authenticated'
             }
 
             stage('Promotion') {

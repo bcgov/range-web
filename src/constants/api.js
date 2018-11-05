@@ -1,10 +1,6 @@
-// old sso sandbox
-// export const SSO_BASE_URL = 'https://dev-sso.pathfinder.gov.bc.ca';
-// export const SSO_REALM_NAME = 'mobile';
-// export const SSO_CLIENT_ID = 'range-test';
-
 export const SSO_BASE_URL = (process.env.NODE_ENV === 'production')
-  ? '{{.Env.SSO_BASE_URL}}' // caddy will put this when serving the content
+  // Caddy will replace this with the environment variable when serving the content
+  ? '{{.Env.SSO_BASE_URL}}'
   : 'https://sso-dev.pathfinder.gov.bc.ca';
 
 export const SSO_REALM_NAME = 'range';
