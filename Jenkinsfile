@@ -206,7 +206,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
       stage('Test Approval') {
         node('master') {
           timeout(time: 4, unit: 'HOURS') {
-            input message: "Promote this image to test?", submitter: 'jleach-admin'
+            input message: "Promote this image to test?", submitter: 'authenticated'
           }
 
           stage('Promotion') {
