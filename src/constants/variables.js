@@ -1,3 +1,5 @@
+export const isBundled = process.env.NODE_ENV === 'production';
+
 export const LOCAL_STORAGE_KEY = {
   AUTH: 'range-web-auth',
   USER: 'range-web-user',

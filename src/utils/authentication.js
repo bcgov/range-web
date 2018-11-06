@@ -29,7 +29,7 @@ import {
 } from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
-import { LOCAL_STORAGE_KEY } from '../constants/variables';
+import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
 
 /**
  * this method is called immediately at the very beginning in authReducer
@@ -170,7 +170,7 @@ export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
     const config = { ...c };
     if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
-      if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
+      if (!isBundled) console.log('Access token is expired. Trying to refresh it');
 
       const refreshToken = getRefreshTokenFromLocal();
       return refreshAccessToken(refreshToken).then(
@@ -184,7 +184,7 @@ export const registerAxiosInterceptors = (logout) => {
           return config;
         },
         (err) => {
-          if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
+          if (!isBundled) console.log('Refresh token is also expired. Signing out.');
 
           logout();
           return err;
