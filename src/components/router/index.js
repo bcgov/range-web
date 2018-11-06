@@ -6,7 +6,10 @@ import PublicRoute from './PublicRoute';
 import ProtectedRoute from './ProtectedRoute';
 import { getUser } from '../../reducers/rootReducer';
 import * as Routes from '../../constants/routes';
-import * as AsyncComponents from './AsyncComponent';
+import {
+  ManageZone, ManageClient, SelectRangeUsePlan, RangeUsePlan,
+  PDFView, LoginPage, ReturnPage, PageNotFound,
+} from './LoadableComponent';
 
 class Router extends Component {
   static propTypes = {
@@ -14,7 +17,7 @@ class Router extends Component {
   }
 
   static defaultProps = {
-    user: undefined,
+    user: null,
   }
 
   render() {
@@ -23,18 +26,20 @@ class Router extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <ProtectedRoute path={Routes.MANAGE_ZONE} component={AsyncComponents.ManageZone} user={user} />
-          <ProtectedRoute path={Routes.MANAGE_CLIENT} component={AsyncComponents.ManageClient} user={user} />
+          {/* Admin Routes */}
+          <ProtectedRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
+          <ProtectedRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
+          {/* Admin Routes End */}
 
-          <ProtectedRoute path={Routes.HOME} component={AsyncComponents.Agreement} user={user} />
-          <ProtectedRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={AsyncComponents.RangeUsePlan} user={user} />
-          <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={AsyncComponents.PDFView} user={user} />
+          <ProtectedRoute path={Routes.HOME} component={SelectRangeUsePlan} user={user} />
+          <ProtectedRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} user={user} />
+          <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={PDFView} user={user} />
 
-          <PublicRoute path={Routes.LOGIN} component={AsyncComponents.Login} user={user} />
+          <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
-          <Route path="/return-page" component={AsyncComponents.ReturnPage} />
+          <Route path="/return-page" component={ReturnPage} />
           <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
-          <Route component={AsyncComponents.PageNotFound} />
+          <Route component={PageNotFound} />
         </Switch>
       </BrowserRouter>
     );
