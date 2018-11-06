@@ -1,20 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Icon, Dropdown } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 // import { TextField } from '../../common';
 
 class UsageTableRow extends Component {
   static propTypes = {
-    className: PropTypes.string.isRequired,
-  };
+    singleUsage: PropTypes.shape({}).isRequired,
+  }
 
   render() {
-    const { className } = this.props;
+    const { singleUsage } = this.props;
+    const {
+      year,
+      authorizedAum,
+      temporaryIncrease,
+      totalAnnualUse,
+      totalNonUse,
+    } = singleUsage;
 
     return (
-      <div className={className}>
-        usage row
-      </div>
+      <Table.Row>
+        <Table.Cell>
+          {year}
+        </Table.Cell>
+        <Table.Cell>
+          {authorizedAum}
+        </Table.Cell>
+        <Table.Cell>
+          {temporaryIncrease}
+        </Table.Cell>
+        <Table.Cell>
+          {totalNonUse}
+        </Table.Cell>
+        <Table.Cell>
+          {totalAnnualUse}
+        </Table.Cell>
+      </Table.Row>
     );
   }
 }

@@ -18,6 +18,7 @@ import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
+// Agreement Holder page
 export class AHPage extends Component {
   static propTypes = {
     agreement: PropTypes.shape({ plan: PropTypes.object }),

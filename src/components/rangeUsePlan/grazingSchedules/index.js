@@ -168,7 +168,7 @@ class GrazingSchedules extends Component {
 
     return (
       <div id={elementId} className="rup__grazing-schedules__container">
-        <div className="rup__title">Schedules</div>
+        <div className="rup__content-title">Schedules</div>
         <div className="rup__divider" />
         {this.renderSchedules(grazingSchedules)}
       </div>
