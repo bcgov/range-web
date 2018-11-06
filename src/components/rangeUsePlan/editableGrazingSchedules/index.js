@@ -212,7 +212,7 @@ export class EditableGrazingSchedules extends Component {
 
     return (
       <div id={elementId} className="rup__grazing-schedules__container">
-        <div className="rup__title--editable">
+        <div className="rup__content-title--editable">
           <div>Yearly Schedules</div>
           <Dropdown
             className="icon"
