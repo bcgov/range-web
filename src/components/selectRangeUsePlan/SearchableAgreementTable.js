@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import AgreementTable from './AgreementTable';
-import AgreementSearch from './AgreementSearch';
+import AgreementSearch from './SearchBar';
 import { Banner } from '../common';
 import { parseQuery, stringifyQuery } from '../../utils';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
 
-const propTypes = {
-  history: PropTypes.shape({}).isRequired,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-};
-
-export class Agreement extends Component {
+export class SearchableAgreementTable extends Component {
   constructor(props) {
     super(props);
     this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
+  }
+
+  static propTypes = {
+    history: PropTypes.shape({}).isRequired,
+    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
   }
 
   handleActiveIndexChange = (index, agreementId) => {
@@ -89,5 +89,4 @@ export class Agreement extends Component {
   }
 }
 
-Agreement.propTypes = propTypes;
-export default Agreement;
+export default SearchableAgreementTable;

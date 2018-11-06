@@ -18,7 +18,9 @@ import UpdateStatusDropdown from './UpdateStatusDropdown';
 import StickyHeader from './StickyHeader';
 import { EXPORT_PDF } from '../../constants/routes';
 import Notifications from './Notifications';
+import UsageTable from './usage';
 
+// Range Staff Page
 class StaffPage extends Component {
   static propTypes = {
     agreement: PropTypes.shape({ zone: PropTypes.object }),
@@ -31,6 +33,7 @@ class StaffPage extends Component {
     confirmationsMap: PropTypes.shape({}).isRequired,
     planStatusHistoryMap: PropTypes.shape({}).isRequired,
   };
+
   static defaultProps = {
     agreement: {
       zone: {},
@@ -143,6 +146,12 @@ class StaffPage extends Component {
             plan={plan}
             user={user}
             onZoneClicked={this.openUpdateZoneModal}
+          />
+
+          <UsageTable
+            className="rup__usage__table"
+            usage={usage}
+            plan={plan}
           />
 
           <Pastures

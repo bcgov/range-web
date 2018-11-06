@@ -80,6 +80,7 @@ class Pastures extends Component {
       </div>
     );
   }
+
   renderPastures = (pastures = []) => (
     <div className="rup__pastures">
       {
@@ -99,7 +100,7 @@ class Pastures extends Component {
 
     return (
       <div id={elementId} className={className}>
-        <div className="rup__title">Pastures</div>
+        <div className="rup__content-title">Pastures</div>
         <div className="rup__divider" />
         {this.renderPastures(pastures)}
       </div>

@@ -28,7 +28,7 @@ $sticky-height: 55px;
       margin: 0px 10px 0 10px;
     }
   }
-  &__title {
+  &__content-title {
     font-size: 1.8rem;
     font-weight: bold;
     color: $primary-color;
@@ -261,6 +261,9 @@ $sticky-height: 55px;
   }
   &__basic_information {
     margin-bottom: 15px;
+  }
+  &__usage__table {
+    margin-bottom: 20px;
   }
   &__update-status-dropdown {
     margin-left: 10px !important;

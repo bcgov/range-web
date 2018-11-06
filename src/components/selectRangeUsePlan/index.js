@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parseQuery } from '../../utils';
-import Agreement from './Agreement';
+import SearchableAgreementTable from './SearchableAgreementTable';
 import { searchAgreements, fetchAgreement } from '../../actionCreators';
 import { SELECT_RUP_TITLE } from '../../constants/strings';
 
-const propTypes = {
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  searchAgreements: PropTypes.func.isRequired,
-  fetchAgreement: PropTypes.func.isRequired,
-};
 class Base extends Component {
+  static propTypes = {
+    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+    history: PropTypes.shape({}).isRequired,
+    searchAgreements: PropTypes.func.isRequired,
+    fetchAgreement: PropTypes.func.isRequired,
+  }
+
   componentWillMount() {
     document.title = SELECT_RUP_TITLE;
   }
@@ -58,7 +59,7 @@ class Base extends Component {
 
   render() {
     return (
-      <Agreement
+      <SearchableAgreementTable
         {...this.props}
       />
     );
@@ -66,5 +67,4 @@ class Base extends Component {
 }
 
 
-Base.propTypes = propTypes;
 export default connect(null, { searchAgreements, fetchAgreement })(Base);

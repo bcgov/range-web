@@ -69,7 +69,7 @@ class BasicInformation extends Component {
 
     return (
       <div id={elementId} className={className}>
-        <div className="rup__title">Basic Information</div>
+        <div className="rup__content-title">Basic Information</div>
         <div className="rup__row">
           <div className="rup__agreement-info rup__cell-6">
             <div className="rup__divider" />

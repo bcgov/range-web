@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { Status } from '../common';
 import { handleNullValue, getUserFullName, getAgreementHolders } from '../../utils';
-import { TYPE, STATUS, EFFECTIVE_DATE, SUBMITTED } from '../../constants/strings';
 import PlanTable from './PlanTable';
 
-const propTypes = {
-  agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
-  user: PropTypes.shape({}).isRequired,
-  index: PropTypes.number.isRequired,
-  activeIndex: PropTypes.number.isRequired,
-  handleActiveIndexChange: PropTypes.func.isRequired,
-  references: PropTypes.shape({}).isRequired,
-  agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-};
+export class AgreementTableRow extends Component {
+  static propTypes = {
+    agreement: PropTypes.shape({ plans: PropTypes.array }).isRequired,
+    user: PropTypes.shape({}).isRequired,
+    index: PropTypes.number.isRequired,
+    activeIndex: PropTypes.number.isRequired,
+    handleActiveIndexChange: PropTypes.func.isRequired,
+    references: PropTypes.shape({}).isRequired,
+    agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
+  }
 
-export class AgreementTableItem extends Component {
   onRowClicked = () => {
     const {
       agreement,
@@ -28,26 +27,6 @@ export class AgreementTableItem extends Component {
     if (agreement) {
       handleActiveIndexChange(index, agreement.id);
     }
-  }
-
-  renderPlanTable = () => {
-    const { agreementsMapWithAllPlan, agreement } = this.props;
-    const { plans } = agreementsMapWithAllPlan[agreement.id] || {};
-
-    return (
-      <div className="agrm__ptable">
-        <div className="agrm__ptable__header-row">
-          <div className="agrm__ptable__header-row__cell">{EFFECTIVE_DATE}</div>
-          <div className="agrm__ptable__header-row__cell">{SUBMITTED}</div>
-          <div className="agrm__ptable__header-row__cell">{TYPE}</div>
-          <div className="agrm__ptable__header-row__cell">{STATUS}</div>
-          <div className="agrm__ptable__header-row__cell">
-            <Button disabled>View</Button>
-          </div>
-        </div>
-        {this.renderPlanTableItems(plans)}
-      </div>
-    );
   }
 
   render() {
@@ -110,5 +89,4 @@ export class AgreementTableItem extends Component {
   }
 }
 
-AgreementTableItem.propTypes = propTypes;
-export default AgreementTableItem;
+export default AgreementTableRow;

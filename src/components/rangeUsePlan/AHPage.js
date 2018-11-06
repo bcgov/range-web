@@ -13,11 +13,13 @@ import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import BackBtn from './BackBtn';
 import Notifications from './Notifications';
 import StickyHeader from './StickyHeader';
+import UsageTable from './usage';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import * as utils from '../../utils';
 
+// Agreement Holder page
 export class AHPage extends Component {
   static propTypes = {
     agreement: PropTypes.shape({ plan: PropTypes.object }),
@@ -40,6 +42,7 @@ export class AHPage extends Component {
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     agreement: {
       zone: {},
@@ -369,6 +372,12 @@ export class AHPage extends Component {
             agreement={agreement}
             plan={plan}
             user={user}
+          />
+
+          <UsageTable
+            className="rup__usage__table"
+            usage={usage}
+            plan={plan}
           />
 
           <Pastures

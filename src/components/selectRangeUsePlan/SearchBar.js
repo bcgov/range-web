@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Icon, Input } from 'semantic-ui-react';
 import { ELEMENT_ID } from '../../constants/variables';
 
-const propTypes = {
-  handleSearchInput: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  searchTerm: PropTypes.string.isRequired,
-};
-
-class AgreementSearch extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchTerm: props.searchTerm,
     };
+  }
+
+  static propTypes = {
+    handleSearchInput: PropTypes.func.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string.isRequired,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,5 +57,5 @@ class AgreementSearch extends Component {
     );
   }
 }
-AgreementSearch.propTypes = propTypes;
-export default AgreementSearch;
+
+export default SearchBar;

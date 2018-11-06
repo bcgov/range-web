@@ -135,7 +135,7 @@ class MinisterIssues extends Component {
 
     return (
       <div id={elementId} className={className}>
-        <div className="rup__title">{'Minister\'s Issues and Actions'}</div>
+        <div className="rup__content-title">{'Minister\'s Issues and Actions'}</div>
         <div className="rup__divider" />
         {this.renderMinisterIssues(ministerIssues)}
       </div>

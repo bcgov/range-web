@@ -1,6 +1,7 @@
-export const SSO_BASE_URL = (process.env.NODE_ENV === 'production')
-  // Caddy will replace this with the environment variable when serving the content
-  ? '{{.Env.SSO_BASE_URL}}'
+import { isBundled } from './variables';
+
+export const SSO_BASE_URL = isBundled
+  ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable when serving the content
   : 'https://sso-dev.pathfinder.gov.bc.ca';
 
 export const SSO_REALM_NAME = 'range';

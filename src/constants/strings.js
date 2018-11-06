@@ -63,6 +63,13 @@ export const PLAN_DATE = 'Plan Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
+// RUP Usage
+export const YEAR = 'Year';
+export const AUTH_AUMS = 'Auth AUMs';
+export const TEMP_INCREASE = 'Temp Increase';
+export const BILLABLE_NON_USE = 'Non-Use';
+export const TOTAL_ANNUAL_USE = 'Total Annual';
+
 // RUP pastures
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
@@ -84,7 +91,7 @@ export const ACTION_NOTE = 'Note: If an action involves a range development or r
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
-export const STATUS500 = 'Internal server error occurred, please contact the administrator.';
+export const STATUS500 = 'Internal server error occurred, please contact the administrator(MyRangeBC@gov.bc.ca).';
 export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
 export const UPDATE_AGREEMENT_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
@@ -93,8 +100,8 @@ export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range us
 export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
-export const USER_NOT_ACTIVE = 'This account is not active yet, please contact the administrator.';
-export const USER_NO_ROLE = 'This account has not been assigned a role, please contact the administrator.';
+export const USER_NOT_ACTIVE = 'This account is not active yet, please contact the administrator(MyRangeBC@gov.bc.ca).';
+export const USER_NO_ROLE = 'This account has not been assigned a role, please contact the administrator(MyRangeBC@gov.bc.ca).';
 export const USER_NOT_REGISTERED = 'This account has not been registered.';
 export const LOADING_USER = 'Loading User Information';
 export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
