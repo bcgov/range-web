@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parseQuery } from '../../utils';
-import Agreement from './Agreement';
+import SearchableAgreementTable from './SearchableAgreementTable';
 import { searchAgreements, fetchAgreement } from '../../actionCreators';
 import { SELECT_RUP_TITLE } from '../../constants/strings';
 
@@ -58,7 +58,7 @@ class Base extends Component {
 
   render() {
     return (
-      <Agreement
+      <SearchableAgreementTable
         {...this.props}
       />
     );

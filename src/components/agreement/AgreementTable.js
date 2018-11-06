@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Pagination, Icon, Segment } from 'semantic-ui-react';
-import AgreementTableItem from './AgreementTableItem';
+import AgreementTableItem from './AgreementTableRow';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
 import { Loading } from '../common';
