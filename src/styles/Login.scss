@@ -31,16 +31,20 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    height: fit-content;
 
+    > i {
+      color: white;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      display: none !important;
+    }
     @include mobile {
       max-width: 100%;
       margin: 10px 0;
     }
-  }
-  &__title-spacer {
-    width: 200px;
-    margin: 0 0 12px 0;
-    border: 2px solid #e7e7e7;
   }
   &__paragraph1 {
     background: url('~/signin_background.jpg') no-repeat;
@@ -49,6 +53,7 @@
     justify-content: center;
     align-items: center;
     padding: 50px 0;
+    min-height: 500px;
   }
   &__paragraph2 {
     display: flex;
@@ -62,14 +67,13 @@
       font-size: 2.3rem;
       color: $primary-color;
       line-height: initial;
-      margin-bottom: 10px;
     }
     &__text {
       max-width: 600px;
       font-size: 1.2rem;
       line-height: 25px;
       text-align: center;
-      padding: 20px;
+      padding: 10px;
     }
   }
   &__paragraph3,
@@ -81,6 +85,7 @@
     &__content {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
     }
     &__title {
@@ -98,6 +103,10 @@
       height: auto;
       display: block;
       border-radius: 5px;
+    }
+    &__register-btn {
+      align-self: flex-start;
+      margin-top: 10px !important;
     }
   }
   &__footer {

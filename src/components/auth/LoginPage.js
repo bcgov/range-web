@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Button, Icon } from 'semantic-ui-react';
 import { IMAGE_SRC } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
 import { fetchUser } from '../../actionCreators';
@@ -40,6 +41,10 @@ export class LoginPage extends Component {
     fetchUser();
   }
 
+  registerBtnClicked = () => {
+    window.open('https://www.bceid.ca/register/', '_blank');
+  }
+
   render() {
     const isIE = detectIE();
 
@@ -74,21 +79,18 @@ export class LoginPage extends Component {
         <article className="login__paragraph2">
           <div className="login__paragraph2__title">What is {APP_NAME}?</div>
           <div className="login__paragraph2__text">
-            We are making it easier for you to submit and amend Range Use Plans. This new service will enable you to submit your plan electronically, save drafts and print versions.
-            Your Range Officer is also getting new tools to allow so that together we can manage the land with greater accuracy.
+            MyRangeBC is the new home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
           </div>
         </article>
         <article className="login__paragraph3">
           <div className="container">
             <div className="login__paragraph4__content">
               <div className="login__paragraph-cell">
-                <hr className="login__title-spacer" />
                 <div className="login__paragraph3__title">
-                  New simplified Range Use Plan across BC.
+                  Simplified electronic Range Use Plan across BC
                 </div>
                 <div className="login__paragraph3__text">
-                  There is now a common Range Use Plan across BC.
-                  This common plan will enable greater efficiencies in service delivery.
+                  After February 15, 2018 all new Range Use Plans will be submitted electronically using the new standard content requirements. Plans can be submitted, viewed, amended and printed from this site.
                 </div>
               </div>
               <div className="login__paragraph-cell">
@@ -97,6 +99,7 @@ export class LoginPage extends Component {
                   src={IMAGE_SRC.LOGIN_PARAGRAPH3}
                   alt="paragraph3_image"
                 />
+                <Icon name="camera" />
               </div>
             </div>
           </div>
@@ -110,14 +113,14 @@ export class LoginPage extends Component {
                   src={IMAGE_SRC.LOGIN_PARAGRAPH4}
                   alt="paragraph4_image"
                 />
+                <Icon name="camera" />
               </div>
               <div className="login__paragraph-cell">
-                <hr className="login__title-spacer" />
                 <div className="login__paragraph4__title">
-                  Submit your Range Use Plan faster then ever.
+                  Submit your Range Use Plan faster than ever
                 </div>
                 <div className="login__paragraph4__text">
-                  No more mail or paper. When you submit a Range Use Plan for review or amendment your Range Staff Officer can review it and you will know its status.
+                  Electronic submission of new plans and amendments allows range staff and agreement holders to share content immediately. Agreement holders will be able to check the status of submissions at any time and contact the identified staff member to discuss their grazing or hay cutting operations.
                 </div>
               </div>
             </div>
@@ -127,13 +130,21 @@ export class LoginPage extends Component {
           <div className="container">
             <div className="login__paragraph5__content">
               <div className="login__paragraph-cell">
-                <hr className="login__title-spacer" />
                 <div className="login__paragraph5__title">
                   Easier login with BCeID
                 </div>
                 <div className="login__paragraph5__text">
-                  With your BCeID you can view all of your Range Use Plans and amendments. We have included ways to save time in drafting your work
+                  MyRangeBC uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
                 </div>
+                <Button
+                  className="login__paragraph5__register-btn"
+                  primary
+                  basic
+                  compact
+                  onClick={this.registerBtnClicked}
+                >
+                  Register Now
+                </Button>
               </div>
               <div className="login__paragraph-cell">
                 <img
@@ -141,6 +152,7 @@ export class LoginPage extends Component {
                   src={IMAGE_SRC.LOGIN_PARAGRAPH5}
                   alt="paragraph5_image"
                 />
+                <Icon name="camera" />
               </div>
             </div>
           </div>
