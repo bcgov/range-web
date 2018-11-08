@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
-import EditableGrazingSchedule from './EditableGrazingSchedule';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRupGrazingSchedule } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
 import * as utils from '../../../utils';
+import EditableGrazingScheduleBox from './EditableGrazingScheduleBox';
 
 export class EditableGrazingSchedules extends Component {
   static propTypes = {
@@ -187,7 +187,7 @@ export class EditableGrazingSchedules extends Component {
     const crownTotalAUMs = utils.calcCrownTotalAUMs(schedule.grazingScheduleEntries, pasturesMap, livestockTypes);
     const pastures = (plan && plan.pastures) || [];
     return (
-      <EditableGrazingSchedule
+      <EditableGrazingScheduleBox
         key={id}
         yearOptions={yearOptions}
         schedule={schedule}

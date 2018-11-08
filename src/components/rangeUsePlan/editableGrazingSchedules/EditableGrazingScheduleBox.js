@@ -13,8 +13,7 @@ import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } 
 import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 
-
-class EditableGrazingSchedule extends Component {
+class EditableGrazingScheduleBox extends Component {
   static propTypes = {
     schedule: PropTypes.shape({ grazingScheduleEntries: PropTypes.array }).isRequired,
     scheduleIndex: PropTypes.number.isRequired,
@@ -304,4 +303,4 @@ export default connect(mapStateToProps, {
   closeConfirmationModal,
   deleteRupGrazingSchedule,
   deleteRupGrazingScheduleEntry,
-})(EditableGrazingSchedule);
+})(EditableGrazingScheduleBox);

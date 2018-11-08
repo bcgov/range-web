@@ -7,7 +7,7 @@ import * as strings from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
 
-class GrazingSchedule extends Component {
+class GrazingScheduleBox extends Component {
   static propTypes = {
     schedule: PropTypes.shape({}).isRequired,
     scheduleIndex: PropTypes.number.isRequired,
@@ -97,4 +97,4 @@ class GrazingSchedule extends Component {
   }
 }
 
-export default GrazingSchedule;
+export default GrazingScheduleBox;

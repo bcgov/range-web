@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import * as strings from '../../../constants/strings';
-import GrazingSchedule from './GrazingSchedule';
+import GrazingScheduleBox from './GrazingScheduleBox';
 
 class GrazingSchedules extends Component {
   static propTypes = {
@@ -59,7 +59,7 @@ class GrazingSchedules extends Component {
 
   renderSchedule = (schedule, scheduleIndex) => {
     return (
-      <GrazingSchedule
+      <GrazingScheduleBox
         key={schedule.id}
         schedule={schedule}
         scheduleIndex={scheduleIndex}
