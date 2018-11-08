@@ -5,7 +5,7 @@ import { Banner } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
-  NOT_SELECTED, CONTACT_NO_EXIST,
+  NO_DESCRIPTION, NOT_ASSIGNED,
 } from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getUserFullName } from '../../utils';
@@ -23,18 +23,12 @@ export class ManageZone extends Component {
 
   state = {
     newContactId: null,
-    currContactName: null,
     zoneId: null,
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
-    const zone = this.props.zonesMap[zoneId];
-    const user = zone && zone.user;
-    const currContactName = getUserFullName(user) || CONTACT_NO_EXIST;
-
     this.setState({
       zoneId,
-      currContactName,
     });
   }
 
@@ -68,7 +62,6 @@ export class ManageZone extends Component {
       this.setState({
         newContactId: null,
         zoneId: null,
-        currContactName: null,
       });
     };
 
@@ -89,17 +82,25 @@ export class ManageZone extends Component {
   render() {
     const {
       zoneId,
-      currContactName,
       newContactId,
     } = this.state;
     const { users, zones } = this.props;
 
-    const zoneOptions = zones.map(zone => (
-      {
+    const zoneOptions = zones.map((zone) => {
+      const option = {
         value: zone.id,
-        text: zone.code,
+        text: `${zone.code}(${NO_DESCRIPTION})`,
+        description: NOT_ASSIGNED,
+      };
+      if (zone.description !== 'Please update contact and description') {
+        option.text = `${zone.code}(${zone.description})`;
       }
-    ));
+      if (zone.user) {
+        option.description = getUserFullName(zone.user);
+      }
+
+      return option;
+    });
     const contactOptions = users.map(user => (
       {
         value: user.id,
@@ -120,22 +121,16 @@ export class ManageZone extends Component {
           <div className="manage-zone__steps">
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
-              <div className="manage-zone__dropdown">
-                <Dropdown
-                  id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
-                  placeholder="Zone"
-                  options={zoneOptions}
-                  value={zoneId}
-                  onChange={this.onZoneChanged}
-                  fluid
-                  search
-                  selection
-                />
-              </div>
-              <div className="manage-zone__text-field">
-                <div className="manage-zone__text-field__title">Assigned Zone Contact</div>
-                <div className="manage-zone__text-field__content">{currContactName || NOT_SELECTED}</div>
-              </div>
+              <Dropdown
+                id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
+                placeholder="Zone"
+                options={zoneOptions}
+                value={zoneId}
+                onChange={this.onZoneChanged}
+                fluid
+                search
+                selection
+              />
             </div>
 
             <h3>Step 2: Assign a new contact</h3>

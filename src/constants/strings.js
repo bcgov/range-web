@@ -86,8 +86,14 @@ export const DAYS = 'Days';
 export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
 
+// RUP minister issues
 export const CONTACT_NO_EXIST = 'Contact doesn\'t exist';
 export const ACTION_NOTE = 'Note: If an action involves a range development or removal of timber (ex. off-stream watering or fence) a separate authorization is required. Please contact a range staff member if you are considering such an action.';
+
+// Manage Zone
+export const NO_DESCRIPTION = 'No description available';
+export const NOT_ASSIGNED = 'Not assigned';
+
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
