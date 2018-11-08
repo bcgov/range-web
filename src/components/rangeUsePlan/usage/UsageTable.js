@@ -36,6 +36,7 @@ class UsageTable extends Component {
         style={{ marginTop: '10px' }}
         celled
         compact
+        striped
       >
         <Table.Header>
           <Table.Row>
