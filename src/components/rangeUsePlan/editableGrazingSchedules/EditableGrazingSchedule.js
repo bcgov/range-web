@@ -1,16 +1,18 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
-import { Table, Button, Icon, TextArea, Form, Dropdown, Message } from 'semantic-ui-react';
-import EditableGrazingScheduleEntry from './EditableGrazingScheduleEntry';
+import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
+import EditableGrazingScheduleEntryRow from './EditableGrazingScheduleEntryRow';
+import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
-import { roundTo1Decimal, handleGrazingScheduleValidation } from '../../../utils';
+import { roundTo1Decimal } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } from '../../../actions';
 import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+
 
 class EditableGrazingSchedule extends Component {
   static propTypes = {
@@ -129,29 +131,6 @@ class EditableGrazingSchedule extends Component {
     });
   }
 
-  renderWarningMessage = (grazingSchedule = {}) => {
-    const { pasturesMap, livestockTypes, usage } = this.props;
-    const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usage);
-    const { message, error } = result || {};
-    if (!error) {
-      return <Fragment />;
-    }
-
-    return (
-      <div className="rup__grazing-schedule__warning-message">
-        <Message
-          error
-          content={
-            <div>
-              <Icon name="warning sign" style={{ marginRight: '5px' }} />
-              {message}
-            </div>
-          }
-        />
-      </div>
-    );
-  }
-
   renderScheduleEntries = (grazingScheduleEntries = [], scheduleIndex) => {
     const {
       schedule,
@@ -161,6 +140,7 @@ class EditableGrazingSchedule extends Component {
       openConfirmationModal,
       closeConfirmationModal,
     } = this.props;
+
     const pastureOptions = pastures.map((pId) => {
       const pasture = pasturesMap[pId];
       const { id, name } = pasture || {};
@@ -181,7 +161,7 @@ class EditableGrazingSchedule extends Component {
 
     return grazingScheduleEntries.map((entry, entryIndex) => (
       (
-        <EditableGrazingScheduleEntry
+        <EditableGrazingScheduleEntryRow
           key={entry.id || entry.key}
           schedule={schedule}
           entry={entry}
@@ -209,6 +189,9 @@ class EditableGrazingSchedule extends Component {
       authorizedAUMs,
       crownTotalAUMs,
       yearOptions,
+      usage,
+      livestockTypes,
+      pasturesMap,
     } = this.props;
     const { year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
@@ -253,7 +236,12 @@ class EditableGrazingSchedule extends Component {
           </div>
         </div>
 
-        {this.renderWarningMessage(schedule, crownTotalAUMs, authorizedAUMs)}
+        <WarningMessage
+          grazingSchedule={schedule}
+          usage={usage}
+          livestockTypes={livestockTypes}
+          pasturesMap={pasturesMap}
+        />
 
         <div className={classnames('rup__grazing-schedule__content', { 'rup__grazing-schedule__content__hidden': !isScheduleActive })}>
           <Table unstackable>

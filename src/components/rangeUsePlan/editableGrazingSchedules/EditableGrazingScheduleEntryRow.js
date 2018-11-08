@@ -7,7 +7,7 @@ import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables
 import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
 
 /* eslint-disable object-curly-newline */
-class EditableGrazingScheduleEntry extends Component {
+class EditableGrazingScheduleEntryRow extends Component {
   static propTypes = {
     schedule: PropTypes.shape({}).isRequired,
     entry: PropTypes.shape({}).isRequired,
@@ -239,4 +239,4 @@ class EditableGrazingScheduleEntry extends Component {
   }
 }
 
-export default EditableGrazingScheduleEntry;
+export default EditableGrazingScheduleEntryRow;
