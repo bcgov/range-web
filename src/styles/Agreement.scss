@@ -185,7 +185,9 @@ $third_agrm_table_cell_rate: 1.9;
     min-height: 45px;
 
     &--error {
+      min-height: 60px;
       color: $error-color;
+      font-size: 1.2rem;
     }
   }
 }

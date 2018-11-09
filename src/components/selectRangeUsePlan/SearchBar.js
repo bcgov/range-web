@@ -30,8 +30,9 @@ class SearchBar extends Component {
     const { id, value } = e.target;
     this.setState({
       [id]: value,
+    }, () => {
+      this.props.handleSearchInput(value);
     });
-    this.props.handleSearchInput(value);
   }
 
   render() {

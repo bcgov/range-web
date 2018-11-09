@@ -1,43 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Pagination, Icon, Segment } from 'semantic-ui-react';
-import AgreementTableItem from './AgreementTableRow';
+import { Pagination, Icon, Segment, Button } from 'semantic-ui-react';
+import AgreementTableRow from './AgreementTableRow';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
 import { Loading } from '../common';
 
-const propTypes = {
-  agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isFetchingAgreements: PropTypes.bool.isRequired,
-  agreementPagination: PropTypes.shape({
-    currentPage: PropTypes.number,
-    totalPages: PropTypes.number,
-  }).isRequired,
-  errorGettingAgreements: PropTypes.shape({}),
-  user: PropTypes.shape({}).isRequired,
-  handlePaginationChange: PropTypes.func.isRequired,
-  activeIndex: PropTypes.number.isRequired,
-  handleActiveIndexChange: PropTypes.func.isRequired,
-  references: PropTypes.shape({}).isRequired,
-  agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-  isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
-};
-const defaultProps = {
-  errorGettingAgreements: null,
-};
-
 export class AgreementTable extends Component {
+  static propTypes = {
+    agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isFetchingAgreements: PropTypes.bool.isRequired,
+    agreementPagination: PropTypes.shape({
+      currentPage: PropTypes.number,
+      totalPages: PropTypes.number,
+    }).isRequired,
+    errorGettingAgreements: PropTypes.shape({}),
+    user: PropTypes.shape({}).isRequired,
+    handlePaginationChange: PropTypes.func.isRequired,
+    activeIndex: PropTypes.number.isRequired,
+    handleActiveIndexChange: PropTypes.func.isRequired,
+    references: PropTypes.shape({}).isRequired,
+    agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
+    isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    errorGettingAgreements: null,
+  }
+
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
-
   renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
     if (errorGettingAgreements) {
       return (
         <div className="agrm__table__row">
           <div className="agrm__message agrm__message--error">
             {strings.ERROR_OCCUR}
+            <Button
+              onClick={() => window.location.reload(true)}
+              style={{ marginLeft: '10px' }}
+            >
+              Retry
+            </Button>
           </div>
         </div>
       );
@@ -53,10 +59,10 @@ export class AgreementTable extends Component {
       );
     }
 
-    return agreements.map(this.renderAgreementTableItem);
+    return agreements.map(this.renderAgreementTableRow);
   }
 
-  renderAgreementTableItem = (agreement, index) => {
+  renderAgreementTableRow = (agreement, index) => {
     const {
       user,
       activeIndex,
@@ -67,7 +73,7 @@ export class AgreementTable extends Component {
     } = this.props;
 
     return (
-      <AgreementTableItem
+      <AgreementTableRow
         user={user}
         key={index}
         index={index}
@@ -141,6 +147,4 @@ const mapStateToProps = state => (
   }
 );
 
-AgreementTable.propTypes = propTypes;
-AgreementTable.defaultProps = defaultProps;
 export default connect(mapStateToProps, null)(AgreementTable);

@@ -13,7 +13,7 @@ export const SELECT_RUP = 'Select RUP';
 export const MANAGE_ZONES = 'Manage Zones';
 export const MANAGE_CLIENTS = 'Manage Clients';
 
-// tenure agreement table header labels
+// Agreement Table
 export const RANGE_NUMBER = 'RAN Number';
 export const RANGE_NAME = 'Range Name';
 export const AGREEMENT_HOLDER = 'Primary Agreement Holder';
@@ -21,6 +21,8 @@ export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
 export const SUBMITTED = 'Submitted';
+export const AGREEMENT_SEARCH_PLACEHOLDER = 'Enter RAN, agreement holder\'s name, or staff contact';
+export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View
 export const PREVIEW_PDF = 'Preview PDF';

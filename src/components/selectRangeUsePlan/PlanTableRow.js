@@ -5,7 +5,7 @@ import { Icon, Button } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { formatDateFromServer } from '../../utils';
 import { Status } from '../common';
-import { VIEW } from '../../constants/strings';
+import { VIEW, INITIAL_PLAN } from '../../constants/strings';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 
 class PlanTableRow extends Component {
@@ -33,7 +33,7 @@ class PlanTableRow extends Component {
     const { redirectTo } = this.state;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const amendmentType = amendmentTypes.find(at => at.id === plan.amendmentTypeId);
-    const amendment = amendmentType ? amendmentType.description : 'Initial Plan';
+    const amendment = amendmentType ? amendmentType.description : INITIAL_PLAN;
     const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
     const submittedAt = formatDateFromServer(plan.submittedAt, true, '-');
     const { id, recentApproved } = plan;

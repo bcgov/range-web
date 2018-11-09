@@ -5,12 +5,13 @@ import AgreementTable from './AgreementTable';
 import AgreementSearch from './SearchBar';
 import { Banner } from '../common';
 import { parseQuery, stringifyQuery } from '../../utils';
-import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER } from '../../constants/strings';
+import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER, AGREEMENT_SEARCH_PLACEHOLDER } from '../../constants/strings';
+import { SEARCH_DEBOUNCE_DELAY } from '../../constants/variables';
 
 export class SearchableAgreementTable extends Component {
   constructor(props) {
     super(props);
-    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, 1000);
+    this.searchAgreementsWithDebounce = debounce(this.handleSearchInput, SEARCH_DEBOUNCE_DELAY);
   }
 
   static propTypes = {
@@ -70,7 +71,7 @@ export class SearchableAgreementTable extends Component {
           content={SELECT_RUP_BANNER_CONTENT}
         >
           <AgreementSearch
-            placeholder="Enter RAN, agreement holder's name, or staff contact"
+            placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
             handleSearchInput={this.searchAgreementsWithDebounce}
             searchTerm={searchTerm}
           />

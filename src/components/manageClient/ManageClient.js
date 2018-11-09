@@ -89,7 +89,7 @@ class ManageClient extends Component {
 
     const userOptions = users.map((user) => {
       const { email, clientId } = user;
-      const description = clientId ? `Client #: ${clientId}, Email: ${email}` : `Email: ${email}`;
+      const description = clientId ? `Client #: ${clientId}, Email: ${email}` : `${email}`;
       return {
         value: user.id,
         text: getUserFullName(user),
