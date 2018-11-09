@@ -162,7 +162,7 @@ export class LoginPage extends Component {
             <div className="login__footer">
               <span>Copyright</span>
               <div className="login__divider" />
-              <span>Accessability</span>
+              <span>Accessibility</span>
               <div className="login__divider" />
               <span>Privacy</span>
               <div className="login__divider" />

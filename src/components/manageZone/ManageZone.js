@@ -87,15 +87,25 @@ export class ManageZone extends Component {
     const { users, zones } = this.props;
 
     const zoneOptions = zones.map((zone) => {
-      const { id: zoneId, code: zoneCode, user: staff, description } = zone;
+      const {
+        id: zoneId,
+        code: zoneCode,
+        user: staff,
+        description: zoneDescription,
+        district,
+      } = zone;
       const option = {
         value: zoneId,
-        text: `${zoneCode} (${description})`,
+        text: zoneCode,
         description: NOT_ASSIGNED,
       };
-      if (description === 'Please update contact and description'
-        || description === 'Please update contact') {
-        option.text = `${zoneCode} (${NO_DESCRIPTION})`;
+      let description = zoneDescription;
+      if (zoneDescription === 'Please update contact and description' || zoneDescription === 'Please update contact') {
+        description = NO_DESCRIPTION;
+      }
+      option.text += `(${description})`;
+      if (district) {
+        option.text += ` - ${district.code}`;
       }
       if (staff) {
         option.description = getUserFullName(staff);
