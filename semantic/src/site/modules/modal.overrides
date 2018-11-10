@@ -2,6 +2,7 @@
          Site Overrides
 *******************************/
 
+/* added by Kyubin */
 .ui.modal > .close {
   right: 0;
   top: 0;

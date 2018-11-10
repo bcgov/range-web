@@ -142,6 +142,7 @@ export class ManageZone extends Component {
                 fluid
                 search
                 selection
+                clearable
               />
             </div>
 
@@ -156,6 +157,7 @@ export class ManageZone extends Component {
                 fluid
                 search
                 selection
+                clearable
               />
             </div>
 

@@ -1,7 +1,7 @@
 import { STORE_SSO_AUTH_DATA, STORE_USER, SIGN_OUT } from '../constants/actionTypes';
 import { getAuthAndUserFromLocal } from '../utils';
 
-const { user, authData } = getAuthAndUserFromLocal();
+const { user, authData } = getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {};
 const initialState = {
   authData,
   user,

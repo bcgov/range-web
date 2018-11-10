@@ -95,6 +95,7 @@ export class UpdateZoneModal extends Component {
             fluid
             search
             selection
+            clearable
           />
         </Modal.Content>
         <Modal.Actions>

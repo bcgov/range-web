@@ -134,6 +134,7 @@ class ManageClient extends Component {
               search
               selection
               selectOnBlur={false}
+              clearable
             />
 
             <h3>Step 2: Search and Select Corresponding Client</h3>
@@ -150,6 +151,7 @@ class ManageClient extends Component {
               icon={<Icon name="search" size="small" />}
               noResultsMessage={noResultsMessage}
               selectOnBlur={false}
+              clearable
             />
 
             <div className="manage-client__update-btn">

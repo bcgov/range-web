@@ -2,7 +2,7 @@ import * as actionTypes from '../constants/actionTypes';
 import { getReferencesFromLocalStorage } from '../utils';
 
 const initialState = {
-  references: getReferencesFromLocalStorage(),
+  references: getReferencesFromLocalStorage ? getReferencesFromLocalStorage() : {},
   zones: {},
   zoneIds: [],
   users: {},
