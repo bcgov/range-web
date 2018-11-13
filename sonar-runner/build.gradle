@@ -8,7 +8,7 @@ plugins {
 sonarqube {
     properties {
         //property "sonar.host.url", "https://sonarqube<your project>.pathfinder.gov.bc.ca"        
-        property "sonar.projectName", "MyRA WEB"
+        property "sonar.projectName", "range-web"
         property "sonar.projectKey", "org.sonarqube:bcgov-range-myra-web"
         property "sonar.projectBaseDir", "../"
         property "sonar.sources", "./"

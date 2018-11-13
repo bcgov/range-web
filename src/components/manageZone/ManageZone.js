@@ -103,7 +103,7 @@ export class ManageZone extends Component {
       if (zoneDescription === 'Please update contact and description' || zoneDescription === 'Please update contact') {
         description = NO_DESCRIPTION;
       }
-      option.text += `(${description})`;
+      option.text += ` (${description})`;
       if (district) {
         option.text += ` - ${district.code}`;
       }
@@ -135,7 +135,7 @@ export class ManageZone extends Component {
             <div className="manage-zone__step-one">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
-                placeholder="Zone"
+                placeholder="Zone (Description) - District"
                 options={zoneOptions}
                 value={zoneId}
                 onChange={this.onZoneChanged}
@@ -143,6 +143,7 @@ export class ManageZone extends Component {
                 search
                 selection
                 clearable
+                selectOnBlur={false}
               />
             </div>
 
@@ -158,6 +159,7 @@ export class ManageZone extends Component {
                 search
                 selection
                 clearable
+                selectOnBlur={false}
               />
             </div>
 
