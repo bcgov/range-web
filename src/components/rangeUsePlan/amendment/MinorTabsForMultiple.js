@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, Icon, Form } from 'semantic-ui-react';
+import { Button, Icon, Form } from 'semantic-ui-react';
 import { isClientCurrentUser } from '../../../utils';
 
 const propTypes = {
@@ -65,13 +65,11 @@ class MinorTabsForMultiple extends Component {
             <div style={{ marginBottom: '20px' }}>
               You will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.
             </div>
-            <Form.Field>
-              <Checkbox
-                label="I understand that this submission constitues a legal document and eSignature."
-                onChange={handleAgreeCheckBoxChange}
-                required
-              />
-            </Form.Field>
+            <Form.Checkbox
+              label="I understand that this submission constitues a legal document and eSignature."
+              onChange={handleAgreeCheckBoxChange}
+              required
+            />
           </Form>
           <div className="multi-form__btns">
             <Button

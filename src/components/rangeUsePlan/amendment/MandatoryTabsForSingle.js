@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, Radio, Form, Icon, Checkbox } from 'semantic-ui-react';
+import { Button, Radio, Form, Icon } from 'semantic-ui-react';
 import { PLAN_STATUS } from '../../../constants/variables';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
@@ -96,35 +96,35 @@ class MandatoryTabsForSingle extends Component {
 
         { mandatoryStatusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION &&
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
-            <div className="multi-form__tab__title">
-              {`${index}. Confirm Your Submission and eSignature`}
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              You are about to submit your Mandatory Amendment for your RUP.
-            </div>
-            <Form.Field>
-              <Checkbox
+            <Form>
+              <div className="multi-form__tab__title">
+                {`${index}. Confirm Your Submission and eSignature`}
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                You are about to submit your Mandatory Amendment for your RUP.
+              </div>
+              <Form.Checkbox
                 label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
                 onChange={handleAgreeCheckBoxChange}
                 required
               />
-            </Form.Field>
-            <div className="multi-form__btns">
-              <Button
-                className="multi-form__btn"
-                onClick={onBackClicked}
-              >
-                Back
-              </Button>
-              <Button
-                className="multi-form__btn"
-                onClick={onSubmitClicked}
-                loading={isSubmitting}
-                disabled={!isAgreed}
-              >
-                Submit Amendment
-              </Button>
-            </div>
+              <div className="multi-form__btns">
+                <Button
+                  className="multi-form__btn"
+                  onClick={onBackClicked}
+                >
+                  Back
+                </Button>
+                <Button
+                  className="multi-form__btn"
+                  onClick={onSubmitClicked}
+                  loading={isSubmitting}
+                  disabled={!isAgreed}
+                >
+                  Submit Amendment
+                </Button>
+              </div>
+            </Form>
           </div>
         }
 
