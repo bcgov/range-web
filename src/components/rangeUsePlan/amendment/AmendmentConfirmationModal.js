@@ -183,6 +183,7 @@ class AmendmentConfirmationModal extends Component {
                   style={{ marginTop: '20px' }}
                   disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}
                   onChange={this.handleAgreeCheckBoxChange}
+                  required
                 />
               </Form.Field>
               <div className="multi-form__btns">

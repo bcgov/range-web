@@ -19,6 +19,7 @@ import StickyHeader from './StickyHeader';
 import { EXPORT_PDF } from '../../constants/routes';
 import Notifications from './Notifications';
 import UsageTable from './usage';
+import InvasivePlantChecklist from './invasivePlantChecklist';
 
 // Range Staff Page
 class StaffPage extends Component {
@@ -178,6 +179,12 @@ class StaffPage extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
+          />
+
+          <InvasivePlantChecklist
+            elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
+            className="rup__ip-checklist__container"
+            plan={plan}
           />
         </ContentsContainer>
       </section>

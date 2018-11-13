@@ -185,6 +185,7 @@ class MandatoryTabsForMultiple extends Component {
                   <Checkbox
                     label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff"
                     onChange={handleAgreeCheckBoxChange}
+                    required
                   />
                 </Form.Field>
               </Form>

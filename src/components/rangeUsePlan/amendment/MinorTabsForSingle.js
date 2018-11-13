@@ -41,6 +41,7 @@ class MinorTabsForSingle extends Component {
               <Checkbox
                 label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
                 onChange={handleAgreeCheckBoxChange}
+                required
               />
             </Form.Field>
             <div className="multi-form__btns">

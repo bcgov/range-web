@@ -69,6 +69,7 @@ class MinorTabsForMultiple extends Component {
               <Checkbox
                 label="I understand that this submission constitues a legal document and eSignature."
                 onChange={handleAgreeCheckBoxChange}
+                required
               />
             </Form.Field>
           </Form>

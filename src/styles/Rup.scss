@@ -265,6 +265,22 @@ $sticky-height: 55px;
   &__usage__table {
     margin-bottom: 20px;
   }
+  &__ip-checklist {
+    &__header {
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+    &__form {
+      margin: 10px;
+
+      .disabled.inline.field {
+        opacity: 1 !important;
+      }
+      &__textarea {
+        margin-left: 25px;
+      }
+    }
+  }
   &__update-status-dropdown {
     margin-left: 10px !important;
 
