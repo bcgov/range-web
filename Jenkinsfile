@@ -95,24 +95,6 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         }
 
         //
-        // Run a security check on our packages
-        //
-
-        try {
-          echo "Checking dependencies for security issues"
-          sh "npx nsp check"
-        } catch (error) {
-          // def output = readFile('nsp-report.txt').trim()
-          def attachment = [:]
-          attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
-          attachment.color = '#FFA500' // Orange
-          attachment.text = "There are security warnings related to some packages.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-
-          notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], PIRATE_ICO)
-        }
-
-        //
         // Run our unit tests et al.
         //
 
