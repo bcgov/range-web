@@ -27,7 +27,7 @@ def notifySlack(text, channel, url, attachments, icon) {
 podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
-    image: 'docker-registry.default.svc:5000/openshift/jenkins-slave-nodejs:8',
+    image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:10',
     resourceRequestCpu: '1500m',
     resourceLimitCpu: '2000m',
     resourceRequestMemory: '1Gi',
