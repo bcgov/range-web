@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, Icon, Form } from 'semantic-ui-react';
+import { Button, Icon, Form } from 'semantic-ui-react';
 
 const propTypes = {
   activeTab: PropTypes.number.isRequired,
@@ -37,12 +37,11 @@ class MinorTabsForSingle extends Component {
             <div style={{ marginBottom: '20px' }}>
               You are about to submit your Minor Amendment for your RUP. Minor Amendments to your range plan take effect immediately once submitted.
             </div>
-            <Form.Field>
-              <Checkbox
-                label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
-                onChange={handleAgreeCheckBoxChange}
-              />
-            </Form.Field>
+            <Form.Checkbox
+              label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
+              onChange={handleAgreeCheckBoxChange}
+              required
+            />
             <div className="multi-form__btns">
               <Button
                 className="multi-form__btn"

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, Radio, Form, Icon, Checkbox } from 'semantic-ui-react';
+import { Button, Radio, Form, Icon } from 'semantic-ui-react';
 import { PLAN_STATUS } from '../../../constants/variables';
 import { isClientCurrentUser } from '../../../utils';
 
@@ -181,12 +181,11 @@ class MandatoryTabsForMultiple extends Component {
                 <div style={{ marginBottom: '20px' }}>
                   You’re ready to submit mandatory amendment. Once submitted and confirmed by all agreement holders it willl then be sent to range staff for final decision. You will be notified once the submission has been reviewed.
                 </div>
-                <Form.Field>
-                  <Checkbox
-                    label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff"
-                    onChange={handleAgreeCheckBoxChange}
-                  />
-                </Form.Field>
+                <Form.Checkbox
+                  label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff"
+                  onChange={handleAgreeCheckBoxChange}
+                  required
+                />
               </Form>
               <div className="multi-form__btns">
                 <Button

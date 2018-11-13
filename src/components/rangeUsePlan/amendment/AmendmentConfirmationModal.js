@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, Modal, Icon, Form, Radio, Checkbox } from 'semantic-ui-react';
+import { Button, Modal, Icon, Form, Radio } from 'semantic-ui-react';
 import { getUser, getReferences, getConfirmationsMap } from '../../../reducers/rootReducer';
 import { CONFIRMATION_OPTION, REFERENCE_KEY } from '../../../constants/variables';
 import { getPlanTypeDescription, getUserFullName, getUserEmail, findConfirmationWithClientId } from '../../../utils';
@@ -176,15 +176,14 @@ class AmendmentConfirmationModal extends Component {
                 plan={plan}
                 confirmationsMap={confirmationsMap}
               />
-              <Form.Field>
-                <Checkbox
-                  label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
-                  checked={isAgreed}
-                  style={{ marginTop: '20px' }}
-                  disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}
-                  onChange={this.handleAgreeCheckBoxChange}
-                />
-              </Form.Field>
+              <Form.Checkbox
+                label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
+                checked={isAgreed}
+                style={{ marginTop: '20px' }}
+                disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}
+                onChange={this.handleAgreeCheckBoxChange}
+                required
+              />
               <div className="multi-form__btns">
                 <Button
                   className="multi-form__btn"
