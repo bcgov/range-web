@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
-import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION } from '../../constants/strings';
+import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANT } from '../../constants/strings';
 
 class ContentsContainer extends Component {
   static propTypes = {
@@ -59,6 +59,13 @@ class ContentsContainer extends Component {
           >
             <img src={IMAGE_SRC.MINISTER_ISSUES_ICON} alt="icon" />
             <span>{MINISTER_ISSUES}</span>
+          </a>
+          <a
+            href={`#${ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}`}
+            className={classnames('rup__contents__tab', { 'rup__contents__tab--active': hash === `#${ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}` })}
+          >
+            <img src={IMAGE_SRC.INVASIVE_PLANTS_ICON} alt="icon" />
+            <span>{INVASIVE_PLANT}</span>
           </a>
         </div>
         <div className="rup__contents">

@@ -94,10 +94,10 @@ export const IMAGE_SRC = {
   PASTURES_ICON: '/icon_pastures.png',
   SCHEDULES_ICON: '/icon_schedules.png',
   MINISTER_ISSUES_ICON: '/icon_ministersissues.png',
-  ADDITIONAL_REQS_ICON: 'icon_additionalreqs.png',
-  INVASIVE_PLANTS_ICON: 'icon_invasiveplants.png',
-  MANAGEMENT_ICON: 'icon_management.png',
-  MAP_ICON: 'icon_map.png',
+  ADDITIONAL_REQS_ICON: '/icon_additionalreqs.png',
+  INVASIVE_PLANTS_ICON: '/icon_invasiveplants.png',
+  MANAGEMENT_ICON: '/icon_management.png',
+  MAP_ICON: '/icon_map.png',
 };
 
 export const CLIENT_TYPE = {

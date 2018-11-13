@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import UpdateZoneModal from './UpdateZoneModal';
-import {
-  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
-} from '../../constants/strings';
+import { DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF } from '../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
 import { isStatusDraft, getPlanTypeDescription } from '../../utils';

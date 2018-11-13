@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
+import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
+import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
+import * as strings from '../../constants/strings';
+import * as utils from '../../utils';
 import { Status, Banner } from '../common';
 import ContentsContainer from './ContentsContainer';
 import BasicInformation from './basicInformation';
@@ -14,10 +18,7 @@ import BackBtn from './BackBtn';
 import Notifications from './Notifications';
 import StickyHeader from './StickyHeader';
 import UsageTable from './usage';
-import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
-import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
-import * as strings from '../../constants/strings';
-import * as utils from '../../utils';
+import InvasivePlantChecklist from './invasivePlantChecklist';
 
 // Agreement Holder page
 export class AHPage extends Component {
@@ -416,6 +417,12 @@ export class AHPage extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
+          />
+
+          <InvasivePlantChecklist
+            elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
+            className="rup__ip-checklist__container"
+            plan={plan}
           />
         </ContentsContainer>
       </section>
