@@ -55,6 +55,7 @@ export class AHPage extends Component {
       ministerIssues: [],
       confirmations: [],
       planStatusHistory: [],
+      invasivePlantChecklist: {},
     },
   };
 

@@ -47,6 +47,7 @@ class StaffPage extends Component {
       ministerIssues: [],
       confirmations: [],
       planStatusHistory: [],
+      invasivePlantChecklist: {},
     },
   };
 

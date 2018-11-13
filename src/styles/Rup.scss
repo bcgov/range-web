@@ -200,7 +200,7 @@ $sticky-height: 55px;
         border-left: 4px solid $accent-color;
         cursor: pointer;
       }
-      @include large {
+      @include desktop-width {
         min-width: 55px;
         padding-right: 0;
         padding-left: 0;
@@ -275,6 +275,10 @@ $sticky-height: 55px;
 
       .disabled.inline.field {
         opacity: 1 !important;
+
+        label {
+          opacity: 0.7;
+        }
       }
       &__textarea {
         margin-left: 25px;
