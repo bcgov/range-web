@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import UpdateZoneModal from './UpdateZoneModal';
-import {
-  DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF,
-} from '../../constants/strings';
+import { DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF } from '../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
 import { isStatusDraft, getPlanTypeDescription } from '../../utils';
@@ -19,6 +17,7 @@ import StickyHeader from './StickyHeader';
 import { EXPORT_PDF } from '../../constants/routes';
 import Notifications from './Notifications';
 import UsageTable from './usage';
+import InvasivePlantChecklist from './invasivePlantChecklist';
 
 // Range Staff Page
 class StaffPage extends Component {
@@ -46,6 +45,7 @@ class StaffPage extends Component {
       ministerIssues: [],
       confirmations: [],
       planStatusHistory: [],
+      invasivePlantChecklist: {},
     },
   };
 
@@ -178,6 +178,12 @@ class StaffPage extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             ministerIssuesMap={ministerIssuesMap}
+          />
+
+          <InvasivePlantChecklist
+            elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
+            className="rup__ip-checklist__container"
+            plan={plan}
           />
         </ContentsContainer>
       </section>

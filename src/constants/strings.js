@@ -39,6 +39,7 @@ export const BASIC_INFORMATION = 'Basic Information';
 export const PASTURES = 'Pastures';
 export const SCHEDULES = 'Schedules';
 export const MINISTER_ISSUES = 'Minister\'s Issues';
+export const INVASIVE_PLANT = 'Invasive Plant';
 
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';
