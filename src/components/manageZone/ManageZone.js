@@ -146,7 +146,7 @@ export class ManageZone extends Component {
               />
             </div>
 
-            <h3>Step 2: Assign a new contact</h3>
+            <h3>Step 2: Assign a new staff</h3>
             <div className="manage-zone__step-two">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}

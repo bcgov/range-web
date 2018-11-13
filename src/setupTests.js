@@ -4,11 +4,3 @@ import 'jest-localstorage-mock';
 
 // set up adapter
 configure({ adapter: new Adapter() });
-
-// const localStorageMock = {
-//   getItem: jest.fn(),
-//   setItem: jest.fn(),
-//   clear: jest.fn(),
-// };
-
-// global.localStorage = localStorageMock;
