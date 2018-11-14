@@ -89,7 +89,7 @@ class ManageClient extends Component {
 
     const userOptions = users.map((user) => {
       const { email, clientId } = user;
-      const description = clientId ? `Client #: ${clientId}, Email: ${email}` : `${email}`;
+      const description = clientId ? `Client #: ${clientId}, ${email}` : `${email}`;
       return {
         value: user.id,
         text: getUserFullName(user),
@@ -127,7 +127,7 @@ class ManageClient extends Component {
             <h3>Step 1: Select User</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_USERS_DROPDOWN}
-              placeholder="Select User"
+              placeholder="Username"
               options={userOptions}
               value={userId}
               onChange={this.onUserChanged}

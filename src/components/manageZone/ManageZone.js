@@ -151,7 +151,7 @@ export class ManageZone extends Component {
             <div className="manage-zone__step-two">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
-                placeholder="Contact"
+                placeholder="Username"
                 options={contactOptions}
                 value={newContactId}
                 onChange={this.onContactChanged}

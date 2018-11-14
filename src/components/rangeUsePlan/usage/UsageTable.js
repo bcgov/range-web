@@ -16,9 +16,20 @@ class UsageTable extends Component {
     const planStartYear = new Date(planStartDate).getFullYear();
     const planEndYear = new Date(planEndDate).getFullYear();
 
-    return usage
-      .filter(su => (su.year >= planStartYear && su.year <= planEndYear))
-      .map(this.renderRow);
+    const filteredUsage = usage
+      .filter(u => (u.year >= planStartYear && u.year <= planEndYear));
+
+    if (filteredUsage.length === 0) {
+      return (
+        <Table.Row>
+          <Table.Cell colSpan="5" textAlign="center">
+            No usage available for this period {`(${planStartYear} ~ ${planEndYear})`}
+          </Table.Cell>
+        </Table.Row>
+      );
+    }
+
+    return filteredUsage.map(this.renderRow);
   }
 
   renderRow = singleUsage => (

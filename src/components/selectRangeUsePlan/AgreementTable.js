@@ -32,6 +32,7 @@ export class AgreementTable extends Component {
   handlePaginationChange = (e, { activePage: currentPage }) => {
     this.props.handlePaginationChange(currentPage);
   }
+
   renderAgreements = (agreements, errorGettingAgreements, isFetchingAgreements) => {
     if (errorGettingAgreements) {
       return (

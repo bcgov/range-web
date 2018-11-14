@@ -60,13 +60,14 @@ class InvasivePlantChecklist extends Component {
                 disabled
                 checked={otherChecked}
               />
-              <div className="rup__ip-checklist__form__textarea">
-                <Form.TextArea
-                  placeholder="This is a custom action specified by the agreement holder that has changed in this amendment"
-                  value={other}
-                  disabled
-                />
-              </div>
+              {otherChecked &&
+                <div className="rup__ip-checklist__form__textarea">
+                  <Form.TextArea
+                    value={other}
+                    disabled
+                  />
+                </div>
+              }
             </Form.Group>
           </Form>
         </div>
