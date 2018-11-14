@@ -83,21 +83,21 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  NAV_LOGO: '/navbar_logo.png',
-  COW_PIC: '/cow.jpg',
-  LOGIN_LOGO: '/login_logo.png',
-  SIGNIN_BACKGROUND: '/signin_background.jpg',
-  LOGIN_PARAGRAPH3: '/login_paragraph3.jpg',
-  LOGIN_PARAGRAPH4: '/login_paragraph4.jpg',
-  LOGIN_PARAGRAPH5: '/login_paragraph5.jpg',
-  BASIC_INFORMATION_ICON: '/icon_basicinformation.png',
-  PASTURES_ICON: '/icon_pastures.png',
-  SCHEDULES_ICON: '/icon_schedules.png',
-  MINISTER_ISSUES_ICON: '/icon_ministersissues.png',
-  ADDITIONAL_REQS_ICON: '/icon_additionalreqs.png',
-  INVASIVE_PLANTS_ICON: '/icon_invasiveplants.png',
-  MANAGEMENT_ICON: '/icon_management.png',
-  MAP_ICON: '/icon_map.png',
+  NAV_LOGO: '/images/navbar_logo.png',
+  COW_PIC: '/images/cow.jpg',
+  LOGIN_LOGO: '/images/login_logo.png',
+  SIGNIN_BACKGROUND: '/images/signin_background.jpg',
+  LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',
+  LOGIN_PARAGRAPH4: '/images/login_paragraph4.jpg',
+  LOGIN_PARAGRAPH5: '/images/login_paragraph5.jpg',
+  BASIC_INFORMATION_ICON: '/images/icon_basicinformation.png',
+  PASTURES_ICON: '/images/icon_pastures.png',
+  SCHEDULES_ICON: '/images/icon_schedules.png',
+  MINISTER_ISSUES_ICON: '/images/icon_ministersissues.png',
+  ADDITIONAL_REQS_ICON: '/images/icon_additionalreqs.png',
+  INVASIVE_PLANTS_ICON: '/images/icon_invasiveplants.png',
+  MANAGEMENT_ICON: '/images/icon_management.png',
+  MAP_ICON: '/images/icon_map.png',
 };
 
 export const CLIENT_TYPE = {

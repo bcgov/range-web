@@ -48,6 +48,7 @@ class UsageTable extends Component {
         celled
         compact
         striped
+        unstackable
       >
         <Table.Header>
           <Table.Row>
