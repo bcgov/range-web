@@ -206,7 +206,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
             def attachment = [: ]
             def message = "This image can be promoted to the *prod* environment."
             message = message + "\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-            attachment.title = "Production Promotion ${BUILD_ID} OK! :heart: :tada:"
+            attachment.title = "Test Promotion ${BUILD_ID} OK! :heart: :tada:"
             attachment.fallback = 'See build log for more details'
             attachment.color = '#00FF00' // Lime Green
             def action = [: ]

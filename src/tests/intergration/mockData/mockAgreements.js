@@ -2581,7 +2581,28 @@ const paginatedMockAgreements = {
                         "agreementId": "RAN077031"
                     }
                 ],
-                "plans": [],
+                "plans": [
+                    {
+                        agreementId: "RAN077031",
+                        altBusinessName: null,
+                        amendmentTypeId: null,
+                        createdAt: "2018-11-14T17:46:18.101Z",
+                        creator: { id: 2, username: "rangeadmin", clientId: null, givenName: "Range", familyName: "Admin" },
+                        creatorId: 2,
+                        effectiveAt: null,
+                        extension: null,
+                        id: 1,
+                        notes: null,
+                        planEndDate: "2022-12-30T08:00:00.000Z",
+                        planStartDate: "2019-01-21T08:00:00.000Z",
+                        rangeName: "Kyub's Range",
+                        status: { id: 1, code: "C", name: "Created", active: true },
+                        statusId: 1,
+                        submittedAt: null,
+                        updatedAt: "2018-11-14T17:46:18.101Z",
+                        uploaded: true,
+                    },
+                ],
                 "livestockIdentifiers": [],
                 "id": "RAN077031"
             },
