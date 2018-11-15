@@ -56,7 +56,7 @@ class InvasivePlantChecklist extends Component {
               />
               <Form.Checkbox
                 inline
-                label="Other: (Please Describe)"
+                label="Other"
                 disabled
                 checked={otherChecked}
               />

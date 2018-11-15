@@ -14,7 +14,7 @@ import { DETAIL_RUP_TITLE } from '../../constants/strings';
 class Base extends Component {
   static propTypes = {
     match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
-    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+    user: PropTypes.shape({}).isRequired,
     history: PropTypes.shape({}).isRequired,
     fetchRUP: PropTypes.func.isRequired,
     isFetchingPlan: PropTypes.bool.isRequired,

@@ -170,12 +170,12 @@ export const fetchRUP = planId => (dispatch, getState) => {
       const response = await axios.get(API.GET_RUP(planId), createConfigWithHeader(getState));
       const planWithAgreement = response.data;
 
-      dispatch(success(reducerTypes.GET_PLAN, response.data));
+      dispatch(success(reducerTypes.GET_PLAN, planWithAgreement));
       // store the plan object
       dispatch(storePlan(normalize(planWithAgreement, schema.plan)));
 
       // return the agreement data for view
-      return response.data;
+      return planWithAgreement;
     } catch (err) {
       dispatch(error(reducerTypes.GET_PLAN, err));
       throw err;

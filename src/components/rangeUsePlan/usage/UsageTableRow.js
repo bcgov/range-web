@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-// import { TextField } from '../../common';
 
 class UsageTableRow extends Component {
   static propTypes = {
