@@ -5,25 +5,56 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import * as schema from './schema';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
   axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment, normalizePasturesWithOldId,
-  copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment, copyInvasivePlantChecklistToCreateAmendment,
+  copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment, copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment, copyAdditionalRequirementsToCreateAmendment,
 } from '../utils';
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture } from './pastureActionCreator';
 import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
 
-export const createRUPInvasivePlantChecklist = (planId, newInvasivePlantChecklist) => (dispatch, getState) => {
+export const createRUPAdditionalRequirement = (planId, requirement) => (dispatch, getState) => {
   return axios.post(
-    API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
-    { ...newInvasivePlantChecklist },
+    API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
+    requirement,
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      const checklist = response.data;
-      return checklist;
+      return response.data;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const createRUPManagementConsideration = (planId, consideration) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
+    consideration,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const createRUPInvasivePlantChecklist = (planId, newInvasivePlantChecklist) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
+    newInvasivePlantChecklist,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
     },
     (err) => {
       dispatch(toastErrorMessage(err));
@@ -47,8 +78,7 @@ export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      const record = response.data;
-      return record;
+      return response.data;
     },
     (err) => {
       dispatch(toastErrorMessage(err));
@@ -126,6 +156,8 @@ export const createAmendment = plan => (dispatch, getState) => {
       const pasturesMap = getPasturesMap(getState());
       const grazingSchedulesMap = getGrazingSchedulesMap(getState());
       const ministerIssuesMap = getMinisterIssuesMap(getState());
+      const additionalRequirementsMap = getAdditionalRequirementsMap(getState());
+      const managementConsiderationsMap = getManagementConsiderationsMap(getState());
 
       const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
       const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
@@ -134,10 +166,11 @@ export const createAmendment = plan => (dispatch, getState) => {
 
       const newPlan = copyPlanToCreateAmendment(plan, createdStatus.id, initialAmendment.id);
       const amendment = await dispatch(createRUP(newPlan));
+      const { id: amendmentId } = amendment;
 
       const pastures = copyPasturesToCreateAmendment(plan, pasturesMap);
       const newPastures = await Promise.all(
-        pastures.map(p => dispatch(createRUPPasture(amendment.id, p))),
+        pastures.map(p => dispatch(createRUPPasture(amendmentId, p))),
       );
 
       // create a normalized pasture ids map with the old id as a key
@@ -147,21 +180,31 @@ export const createAmendment = plan => (dispatch, getState) => {
         plan, grazingSchedulesMap, newPastureIdsMap,
       );
       const newGrazingSchedules = await Promise.all(
-        grazingSchedules.map(gs => dispatch(createRUPGrazingSchedule(amendment.id, gs))),
+        grazingSchedules.map(gs => dispatch(createRUPGrazingSchedule(amendmentId, gs))),
       );
 
       const ministerIssues = copyMinisterIssuesToCreateAmendment(
         plan, ministerIssuesMap, newPastureIdsMap,
       );
       const newMinisterIssues = await Promise.all(
-        ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendment.id, mi))),
+        ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendmentId, mi))),
       );
 
       const invasivePlantChecklist = copyInvasivePlantChecklistToCreateAmendment(plan);
-      const newInvasivePlantCheckList = await dispatch(createRUPInvasivePlantChecklist(amendment.id, invasivePlantChecklist));
+      const newInvasivePlantCheckList = await dispatch(createRUPInvasivePlantChecklist(amendmentId, invasivePlantChecklist));
+
+      const managementConsiderations = copyManagementConsiderationsToCreateAmendment(plan, managementConsiderationsMap);
+      const newManagementConsiderations = await Promise.all(
+        managementConsiderations.map(mc => dispatch(createRUPManagementConsideration(amendmentId, mc))),
+      );
+
+      const additionalRequirements = copyAdditionalRequirementsToCreateAmendment(plan, additionalRequirementsMap);
+      const newAdditionalRequirements = await Promise.all(
+        additionalRequirements.map(ar => dispatch(createRUPAdditionalRequirement(amendmentId, ar))),
+      );
 
       // successfully finish uploading so make this amendment visible!
-      await dispatch(updateRUP(amendment.id, { uploaded: true }));
+      await dispatch(updateRUP(amendmentId, { uploaded: true }));
 
       const newAmendment = {
         ...amendment,
@@ -169,16 +212,19 @@ export const createAmendment = plan => (dispatch, getState) => {
         grazingSchedules: newGrazingSchedules,
         ministerIssues: newMinisterIssues,
         invasivePlantChecklist: newInvasivePlantCheckList,
+        managementConsiderations: newManagementConsiderations,
+        additionalRequirements: newAdditionalRequirements,
       };
 
-      dispatch(success(reducerTypes.CREATE_AMENDMENT), newAmendment);
+      dispatch(success(reducerTypes.CREATE_AMENDMENT, newAmendment));
       return newAmendment;
     } catch (err) {
-      dispatch(error(reducerTypes.CREATE_AMENDMENT), err);
+      dispatch(error(reducerTypes.CREATE_AMENDMENT, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
   };
+
   return makeRequest();
 };
 

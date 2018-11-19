@@ -17,6 +17,7 @@ export const getMinisterIssuesMap = state => state.ministerIssues;
 export const getConfirmationsMap = state => state.confirmations;
 export const getPlanStatusHistoryMap = state => state.planStatusHistory;
 export const getAdditionalRequirementsMap = state => state.additionalRequirements;
+export const getManagementConsiderationsMap = state => state.managementConsiderations;
 
 export default combineReducers({
   plans: plansReducer,

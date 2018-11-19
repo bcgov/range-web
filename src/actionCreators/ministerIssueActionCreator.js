@@ -4,12 +4,11 @@ import { axios, createConfigWithHeader } from '../utils';
 export const createRUPMinisterIssueAction = (planId, issueId, action) => (dispatch, getState) => {
   return axios.post(
     API.CREATE_RUP_MINISTER_ISSUE_ACTION(planId, issueId),
-    { ...action },
+    action,
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      const newAction = response.data;
-      return newAction;
+      return response.data;
     },
     (err) => {
       throw err;
@@ -22,7 +21,7 @@ export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, ge
     try {
       const { data: newIssue } = await axios.post(
         API.CREATE_RUP_MINISTER_ISSUE(planId),
-        { ...issue },
+        issue,
         createConfigWithHeader(getState),
       );
       const newActions = await Promise.all(issue.ministerIssueActions

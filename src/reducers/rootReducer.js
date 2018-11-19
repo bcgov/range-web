@@ -118,6 +118,8 @@ export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(s
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
 export const getConfirmationsMap = state => fromPlan.getConfirmationsMap(state[reducerTypes.PLAN]);
 export const getPlanStatusHistoryMap = state => fromPlan.getPlanStatusHistoryMap(state[reducerTypes.PLAN]);
+export const getAdditionalRequirementsMap = state => fromPlan.getAdditionalRequirementsMap(state[reducerTypes.PLAN]);
+export const getManagementConsiderationsMap = state => fromPlan.getManagementConsiderationsMap(state[reducerTypes.PLAN]);
 
 export const getIsDeletingGrazingSchedule = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE]);
 export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]);

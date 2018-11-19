@@ -115,8 +115,34 @@ const mockPlanWithAgreement = {
         "revegetate": false,
         "other": "Other requirement example entered here"
     },
-    "additionalRequirements": [],
-    "managementConsiderations": [],
+    "additionalRequirements": [
+        {
+            "id": 2,
+            "detail": "This is the detail",
+            "url": "www.google.com",
+            "categoryId": 1,
+            "planId": 4,
+            "category": {
+                "id": 1,
+                "name": "Notice or Order",
+                "active": true
+            }
+        }
+    ],
+    "managementConsiderations": [
+        {
+            "id": 2,
+            "detail": "This is the detail for a consideration",
+            "url": "www.google.com",
+            "considerationTypeId": 1,
+            "planId": 4,
+            "considerationType": {
+                "id": 1,
+                "name": "Concern",
+                "active": true
+            }
+        }
+    ],
     "agreement": {
         "forestFileId": "RAN073906",
         "agreementStartDate": "1999-01-01T08:00:00.000Z",

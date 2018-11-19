@@ -86,6 +86,38 @@ export const copyInvasivePlantChecklistToCreateAmendment = (plan) => {
   return invasivePlantChecklist;
 };
 
+export const copyManagementConsiderationsToCreateAmendment = (
+  plan,
+  managementConsiderationsMap,
+) => {
+  return plan.managementConsiderations.map((mcId) => {
+    const {
+      id,
+      planId,
+      considerationType,
+      ...managementConsideration
+    } = managementConsiderationsMap[mcId];
+
+    return managementConsideration;
+  });
+};
+
+export const copyAdditionalRequirementsToCreateAmendment = (
+  plan,
+  additionalRequirementsMap,
+) => {
+  return plan.additionalRequirements.map((arId) => {
+    const {
+      id,
+      planId,
+      category,
+      ...additionalRequirement
+    } = additionalRequirementsMap[arId];
+
+    return additionalRequirement;
+  });
+};
+
 export const isAmendment = amendmentTypeId => (
   amendmentTypeId > 0
 );
