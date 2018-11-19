@@ -29,8 +29,10 @@ export const arrayOfClients = new schema.Array(client);
 
 export const plan = new schema.Entity('plans');
 export const pasture = new schema.Entity('pastures');
-export const ministerIssue = new schema.Entity('ministerIssues');
 export const grazingSchedule = new schema.Entity('grazingSchedules');
+export const ministerIssue = new schema.Entity('ministerIssues');
+export const additionalRequirements = new schema.Entity('additionalRequirements');
+export const managementConsiderations = new schema.Entity('managementConsiderations');
 export const confirmation = new schema.Entity('confirmations');
 export const planStatusHistory = new schema.Entity('planStatusHistory');
 // export const grazingScheduleEntry = new schema.Entity('grazingScheduleEntries');
@@ -38,6 +40,7 @@ export const planStatusHistory = new schema.Entity('planStatusHistory');
 // grazingSchedule.define({
 //   grazingScheduleEntries: [grazingScheduleEntry],
 // });
+
 // A plan can have many pastures, so it is defined as an array of pastures
 plan.define({
   pastures: [pasture],
@@ -45,4 +48,6 @@ plan.define({
   grazingSchedules: [grazingSchedule],
   confirmations: [confirmation],
   planStatusHistory: [planStatusHistory],
+  additionalRequirements: [additionalRequirements],
+  managementConsiderations: [managementConsiderations],
 });

@@ -13,32 +13,36 @@ const initialState = {
   ministerIssues: {},
   confirmations: {},
   planStatusHistory: {},
+  managementConsiderations: {},
+  additionalRequirements: {},
 };
 
 const mockState = {
   plans: {
     byId: {
-      'plan_id': {
-        id: 'plan_id',
+      'planId': {
+        id: 'planId',
         rangeName: 'hello',
-        pastures: ['pasture_id'],
-        grazingSchedules: ['grazing_schedule_id'],
-        ministerIssues: ['minister_issue_id'],
-        confirmations: ['confirmation_id'],
-        planStatusHistory: ['plan_status_history_id'],
+        pastures: ['pastureId'],
+        grazingSchedules: ['grazingScheduleId'],
+        ministerIssues: ['ministerIssueId'],
+        confirmations: ['confirmationId'],
+        planStatusHistory: ['planStatusHistoryId'],
+        managementConsiderations: ['managementConsiderationId'],
+        additionalRequirements: ['additionalRequirementId'],
       },
     },
-    allIds: ['plan_id'],
+    allIds: ['planId'],
   },
   pastures: {
-    'pasture_id': {
-      id: 'pasture_id',
+    'pastureId': {
+      id: 'pastureId',
       name: 'Pasture 1',
     },
   },
   grazingSchedules: {
-    'grazing_schedule_id': {
-      id: 'grazing_schedule_id',
+    'grazingScheduleId': {
+      id: 'grazingScheduleId',
       year: 2018,
       grazingScheduleEntries: [
         {
@@ -49,36 +53,48 @@ const mockState = {
     },
   },
   ministerIssues: {
-    'minister_issue_id': {
-      id: 'minister_issue_id',
+    'ministerIssueId': {
+      id: 'ministerIssueId',
       detail: 'detail',
     },
   },
   confirmations: {
-    'confirmation_id': {
-      id: 'confirmation_id',
+    'confirmationId': {
+      id: 'confirmationId',
       clientId: '00000000',
     },
   },
   planStatusHistory: {
-    'plan_status_history_id': {
-      id: 'plan_status_history_id',
+    'planStatusHistoryId': {
+      id: 'planStatusHistoryId',
       note: 'note',
+    },
+  },
+  managementConsiderations: {
+    'managementConsiderationId': {
+      id: 'managementConsiderationId',
+      detail: 'detail',
+    },
+  },
+  additionalRequirements: {
+    'additionalRequirementId': {
+      id: 'additionalRequirementId',
+      detail: 'detail',
     },
   },
 };
 const mockPlanData = {
-  id: 'plan_id',
+  id: 'planId',
   rangeName: 'hello',
   pastures: [
     {
-      id: 'pasture_id',
+      id: 'pastureId',
       name: 'Pasture 1',
     },
   ],
   grazingSchedules: [
     {
-      id: 'grazing_schedule_id',
+      id: 'grazingScheduleId',
       year: 2018,
       grazingScheduleEntries: [
         {
@@ -90,20 +106,32 @@ const mockPlanData = {
   ],
   ministerIssues: [
     {
-      id: 'minister_issue_id',
+      id: 'ministerIssueId',
       detail: 'detail',
     },
   ],
   confirmations: [
     {
-      id: 'confirmation_id',
+      id: 'confirmationId',
       clientId: '00000000',
     },
   ],
   planStatusHistory: [
     {
-      id: 'plan_status_history_id',
+      id: 'planStatusHistoryId',
       note: 'note',
+    },
+  ],
+  managementConsiderations: [
+    {
+      id: 'managementConsiderationId',
+      detail: 'detail',
+    },
+  ],
+  additionalRequirements: [
+    {
+      id: 'additionalRequirementId',
+      detail: 'detail',
     },
   ],
 };
