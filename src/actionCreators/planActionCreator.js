@@ -8,14 +8,29 @@ import * as schema from './schema';
 import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
-  axios,
-  createConfigWithHeader, copyPlanToCreateAmendment,
-  copyPasturesToCreateAmendment, normalizePasturesWithCopiedId,
-  copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
- } from '../utils';
+  axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment, normalizePasturesWithOldId,
+  copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment, copyInvasivePlantChecklistToCreateAmendment,
+} from '../utils';
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture } from './pastureActionCreator';
 import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
+
+export const createRUPInvasivePlantChecklist = (planId, newInvasivePlantChecklist) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
+    { ...newInvasivePlantChecklist },
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      const checklist = response.data;
+      return checklist;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
 
 export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch, getState) => {
   const { id: planId, statusId: fromPlanStatusId } = plan;
@@ -125,8 +140,8 @@ export const createAmendment = plan => (dispatch, getState) => {
         pastures.map(p => dispatch(createRUPPasture(amendment.id, p))),
       );
 
-      // create a normalized pasture map with the copied id as a property
-      const newPastureIdsMap = normalizePasturesWithCopiedId(newPastures);
+      // create a normalized pasture ids map with the old id as a key
+      const newPastureIdsMap = normalizePasturesWithOldId(newPastures);
 
       const grazingSchedules = copyGrazingSchedulesToCreateAmendment(
         plan, grazingSchedulesMap, newPastureIdsMap,
@@ -142,6 +157,9 @@ export const createAmendment = plan => (dispatch, getState) => {
         ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendment.id, mi))),
       );
 
+      const invasivePlantChecklist = copyInvasivePlantChecklistToCreateAmendment(plan);
+      const newInvasivePlantCheckList = await dispatch(createRUPInvasivePlantChecklist(amendment.id, invasivePlantChecklist));
+
       // successfully finish uploading so make this amendment visible!
       await dispatch(updateRUP(amendment.id, { uploaded: true }));
 
@@ -150,6 +168,7 @@ export const createAmendment = plan => (dispatch, getState) => {
         pastures: newPastures,
         grazingSchedules: newGrazingSchedules,
         ministerIssues: newMinisterIssues,
+        invasivePlantChecklist: newInvasivePlantCheckList,
       };
 
       dispatch(success(reducerTypes.CREATE_AMENDMENT), newAmendment);

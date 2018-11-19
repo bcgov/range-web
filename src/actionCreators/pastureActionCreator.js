@@ -9,11 +9,11 @@ export const createRUPPasture = (planId, pasture) => (dispatch, getState) => {
   ).then(
     (response) => {
       const newPasture = response.data;
-      const { copiedId } = pasture;
+      const { oldId } = pasture;
 
-      // this is when creating amendment to keep track of the copied id
-      if (copiedId) {
-        return { ...newPasture, copiedId };
+      // this is when creating amendment to keep track of the old ids
+      if (oldId) {
+        return { ...newPasture, oldId };
       }
       return newPasture;
     },

@@ -5,7 +5,7 @@ export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) 
     ...plan,
     statusId,
     amendmentTypeId,
-    uploaded: false, // still need to create things like pastures and schedules
+    uploaded: false, // set it to false because it still need to create more contents
     effectiveAt: null,
     submittedAt: null,
   };
@@ -18,18 +18,18 @@ export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) 
 
 export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
   return plan.pastures.map((pId) => {
-    const { id: copiedId, planId, ...pasture } = pasturesMap[pId] || {};
-    // copiedId will be used to find the relationship between
-    // the copied pasture and the field that has a referece to the pasture id
+    const { id: oldId, planId, ...pasture } = pasturesMap[pId] || {};
+    // oldId will be used to match the relationships between
+    // copied pastures and other contents referecing to those pastures
     // such as grazing schedule entries and minister issues
-    return { ...pasture, copiedId };
+    return { ...pasture, oldId };
   });
 };
 
-export const normalizePasturesWithCopiedId = (pastures) => {
+export const normalizePasturesWithOldId = (pastures) => {
   const pastureIdsMap = {};
   pastures.map((p) => {
-    pastureIdsMap[p.copiedId] = p.id;
+    pastureIdsMap[p.oldId] = p.id;
     return null;
   });
   return pastureIdsMap;
@@ -48,9 +48,9 @@ export const copyGrazingSchedulesToCreateAmendment = (
       ...grazingSchedule
     } = grazingSchedulesMap[gsId];
     const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
-      const { id, pastureId: copiedPastureId, ...newGrazingScheduleEntry } = gse;
+      const { id, pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse;
       // replace the original pastureId with the newly created pastureId
-      const pastureId = newPastureIdsMap[copiedPastureId];
+      const pastureId = newPastureIdsMap[oldPastureId];
       return { ...newGrazingScheduleEntry, pastureId };
     });
 
@@ -70,13 +70,20 @@ export const copyMinisterIssuesToCreateAmendment = (
     const {
       id,
       planId,
-      pastures: copiedPastureIds,
+      pastures: oldPastureIds,
       ...ministerIssue
     } = ministerIssuesMap[miId];
-    // replace the pastures(array of ids) with the newly created pasture ids
-    const pastures = copiedPastureIds.map(cpId => newPastureIdsMap[cpId]);
+    // replace the pasture ids with the newly created pasture ids
+    const pastures = oldPastureIds.map(opId => newPastureIdsMap[opId]);
     return { ...ministerIssue, pastures };
   });
+};
+
+export const copyInvasivePlantChecklistToCreateAmendment = (plan) => {
+  if (!plan || !plan.invasivePlantChecklist) return null;
+
+  const { id, planId, ...invasivePlantChecklist } = plan.invasivePlantChecklist;
+  return invasivePlantChecklist;
 };
 
 export const isAmendment = amendmentTypeId => (
