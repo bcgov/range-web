@@ -1,5 +1,21 @@
 import { AMENDMENT_TYPE } from '../../constants/variables';
 
+export const copyPlantCommunitiesToCreateAmendment = (plantCommunities, newPastureIdsMap) => {
+  return plantCommunities.map((pc) => {
+    const {
+      id,
+      pastureId: pId,
+      ...plantCommunity } = pc;
+    // get the newly created pasture id
+    const newPastureId = newPastureIdsMap[pId];
+
+    return {
+      ...plantCommunity,
+      pastureId: newPastureId,
+    };
+  });
+};
+
 export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) => {
   const copied = {
     ...plan,
@@ -17,13 +33,27 @@ export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) 
 };
 
 export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
-  return plan.pastures.map((pId) => {
+  // extract all plantCommunities from pastures
+  let plantCommunities = [];
+
+  const pastures = plan.pastures.map((pId) => {
     const { id: oldId, planId, ...pasture } = pasturesMap[pId] || {};
+
+    const { plantCommunities: pcs } = pasture;
+    if (pcs && pcs.length) {
+      plantCommunities = [...plantCommunities, ...pcs];
+    }
+
     // oldId will be used to match the relationships between
     // copied pastures and other contents referecing to those pastures
     // such as grazing schedule entries and minister issues
     return { ...pasture, oldId };
   });
+
+  return {
+    pastures,
+    plantCommunities,
+  };
 };
 
 export const normalizePasturesWithOldId = (pastures) => {

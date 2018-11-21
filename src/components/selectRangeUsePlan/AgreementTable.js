@@ -42,6 +42,8 @@ export class AgreementTable extends Component {
             <Button
               onClick={() => window.location.reload(true)}
               style={{ marginLeft: '10px' }}
+              basic
+              color="grey"
             >
               Retry
             </Button>

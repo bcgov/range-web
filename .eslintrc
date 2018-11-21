@@ -42,6 +42,7 @@
     "no-else-return": "off",
     "no-unused-expressions": "warn",
     "no-useless-concat": "warn",
+    "no-param-reassign": "warn",
     "object-curly-newline": "off",
     "indent": "off",
     "quote-props": "off",

@@ -8,11 +8,14 @@ import * as schema from './schema';
 import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
-  axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment, normalizePasturesWithOldId,
-  copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment, copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment, copyAdditionalRequirementsToCreateAmendment,
+  axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment,
+  normalizePasturesWithOldId, copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
+  copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment,
+  copyAdditionalRequirementsToCreateAmendment,
+  copyPlantCommunitiesToCreateAmendment,
 } from '../utils';
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
-import { createRUPPasture } from './pastureActionCreator';
+import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
 import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
 
 export const createRUPAdditionalRequirement = (planId, requirement) => (dispatch, getState) => {
@@ -168,13 +171,18 @@ export const createAmendment = plan => (dispatch, getState) => {
       const amendment = await dispatch(createRUP(newPlan));
       const { id: amendmentId } = amendment;
 
-      const pastures = copyPasturesToCreateAmendment(plan, pasturesMap);
+      const { pastures, plantCommunities: pcs } = copyPasturesToCreateAmendment(plan, pasturesMap);
       const newPastures = await Promise.all(
         pastures.map(p => dispatch(createRUPPasture(amendmentId, p))),
       );
 
-      // create a normalized pasture ids map with the old id as a key
+      // create a normalized pasture ids map with the old pasture id as a key
       const newPastureIdsMap = normalizePasturesWithOldId(newPastures);
+
+      const plantCommunities = copyPlantCommunitiesToCreateAmendment(pcs, newPastureIdsMap);
+      const newPlantCommunities = await Promise.all(
+        plantCommunities.map(pc => dispatch(createRUPPlantCommunityAndOthers(amendmentId, pc.pastureId, pc))),
+      );
 
       const grazingSchedules = copyGrazingSchedulesToCreateAmendment(
         plan, grazingSchedulesMap, newPastureIdsMap,
@@ -214,6 +222,7 @@ export const createAmendment = plan => (dispatch, getState) => {
         invasivePlantChecklist: newInvasivePlantCheckList,
         managementConsiderations: newManagementConsiderations,
         additionalRequirements: newAdditionalRequirements,
+        plantCommunities: newPlantCommunities,
       };
 
       dispatch(success(reducerTypes.CREATE_AMENDMENT, newAmendment));
