@@ -32,7 +32,9 @@ class PDFView extends Component {
     const { planId, agreementId } = match.params;
 
     if (planId && agreementId) {
-      fetchRupPDF(planId);
+      fetchRupPDF(planId).then(() => {
+        this.onDownloadClicked();
+      });
     }
   }
 
@@ -64,7 +66,7 @@ class PDFView extends Component {
         />
       ),
     );
-
+        
     return (
       <section className="rup-pdf">
         <a
@@ -84,8 +86,19 @@ class PDFView extends Component {
             message="Error occured while fetching pdf."
           />
         }
-
         { planPDFBlob &&
+          <div>
+            If your download does not begin, please click the button to try again.
+            <Button
+              style={{ marginLeft: '10px' }}
+              onClick={this.onDownloadClicked}
+            >
+              <Icon name="print" />
+              Download PDF
+            </Button>
+          </div>
+        }
+        {/* { planPDFBlob &&
           <div className="rup-pdf__content">
             <div className="rup-pdf__preview__header">
               <div>
@@ -102,14 +115,13 @@ class PDFView extends Component {
             <div className="rup-pdf__preview">
               <Document
                 file={planPDFBlob}
-                loading={<Loading />}
+                // loading={<Loading />}
                 onLoadSuccess={this.onLoadSuccess}
               >
                 {pages}
               </Document>
             </div>
-          </div>
-        }
+          </div> */}
       </section>
     );
   }
