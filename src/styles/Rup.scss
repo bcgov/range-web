@@ -327,7 +327,7 @@ $sticky-height: 55px;
 .rup-pdf {
   display: flex;
   justify-content: center;
-
+  
   &__link {
     display: none;
   }
@@ -335,6 +335,7 @@ $sticky-height: 55px;
     display: flex;
     flex-direction: column;
     margin: 10px 0;
+    min-width: 70%;
   }
   &__preview {
     &__header {

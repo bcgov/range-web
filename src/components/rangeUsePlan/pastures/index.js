@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Icon, Dropdown } from 'semantic-ui-react';
-import { TextField } from '../../common';
-import {
-  ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
-  PASTURE_NOTES, NOT_PROVIDED,
-} from '../../../constants/strings';
+import classnames from 'classnames';
+import { NOT_PROVIDED } from '../../../constants/strings';
+import PastureBox from './PastureBox';
 
 class Pastures extends Component {
   static propTypes = {
@@ -15,83 +12,43 @@ class Pastures extends Component {
     className: PropTypes.string.isRequired,
   };
 
-  renderPasture = (pasture) => {
-    // const options = [
-    //   {
-    //     key: 'edit',
-    //     text: 'Edit',
-    //     icon: 'edit',
-    //     onClick: () => console.log('edit'),
-    //   },
-    //   {
-    //     key: 'delete',
-    //     text: 'Delete',
-    //     icon: 'delete',
-    //     onClick: () => console.log('delete'),
-    //   },
-    // ];
-    const {
-      id,
-      name,
-      allowableAum,
-      pldPercent,
-      graceDays,
-      notes,
-    } = pasture || {};
-    const pld = pldPercent && Math.floor(pldPercent * 100);
+  state = {
+    activePastureIndex: 0,
+  }
 
+  onPastureClicked = pastureIndex => () => {
+    this.setState((prevState) => {
+      const newIndex = prevState.activePastureIndex === pastureIndex ? -1 : pastureIndex;
+      return {
+        activePastureIndex: newIndex,
+      };
+    });
+  }
+
+
+  renderPasture = (pasture, pastureIndex) => {
     return (
-      <div className="rup__pasture" key={id}>
-        <div className="rup__pasture__header">
-          <div>
-            {`Pasture: ${name}`}
-          </div>
-          {/* <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={options}
-            icon={null}
-            pointing="top right"
-          /> */}
-        </div>
-        <div className="rup__row">
-          <div className="rup__cell-4">
-            <TextField
-              label={ALLOWABLE_AUMS}
-              text={allowableAum}
-            />
-          </div>
-          <div className="rup__cell-4">
-            <TextField
-              label={PRIVATE_LAND_DEDUCTION}
-              text={pld}
-            />
-          </div>
-          <div className="rup__cell-4">
-            <TextField
-              label={GRACE_DAYS}
-              text={graceDays}
-            />
-          </div>
-        </div>
-        <TextField
-          label={PASTURE_NOTES}
-          text={notes}
-        />
-      </div>
+      <PastureBox
+        key={pasture.id}
+        pasture={pasture}
+        pastureIndex={pastureIndex}
+        activePastureIndex={this.state.activePastureIndex}
+        onPastureClicked={this.onPastureClicked}
+      />
     );
   }
 
-  renderPastures = (pastures = []) => (
-    <div className="rup__pastures">
-      {
-        pastures.length === 0 ? (
-          <div className="rup__section-not-found">{NOT_PROVIDED}</div>
-        ) : (
-          pastures.map(this.renderPasture)
-        )
-      }
-    </div>
-  )
+  renderPastures = (pastures = []) => {
+    const isPastureEmpty = pastures.length === 0;
+
+    return isPastureEmpty ? (
+      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+    ) : (
+      <ul className={classnames('rup__pastures', { 'rup__pastures--empty': isPastureEmpty })}>
+        {pastures.map(this.renderPasture)}
+      </ul>
+    );
+  }
 
   render() {
     const { elementId, plan, pasturesMap, className } = this.props;

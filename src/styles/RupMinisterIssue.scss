@@ -1,14 +1,14 @@
 .rup {
   &__missues {
-    &__container {
-      margin-bottom: 20px;
-    }
     margin: 10px 0;
     list-style-type: none;
     padding: 0;
     border-radius: 5px;
     border: 1px solid gainsboro;
 
+    &__container {
+      margin-bottom: 20px;
+    }
     &--empty {
       border: 0px;
     }
