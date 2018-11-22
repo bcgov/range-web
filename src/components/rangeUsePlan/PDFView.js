@@ -1,8 +1,7 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
-import { Document, Page } from 'react-pdf';
+// import { Document, Page } from 'react-pdf';
 import { connect } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
@@ -24,7 +23,7 @@ class PDFView extends Component {
   }
 
   state = {
-    numPages: 1,
+    // numPages: 1,
   }
 
   componentWillMount() {
@@ -44,29 +43,29 @@ class PDFView extends Component {
     downloadPDFBlob(planPDFBlob, this.donwloadPDFLink, `${agreementId}.pdf`);
   }
 
-  onLoadSuccess = ({ numPages }) => {
-    this.setState({
-      numPages,
-    });
-  }
+  // onLoadSuccess = ({ numPages }) => {
+  //   this.setState({
+  //     numPages,
+  //   });
+  // }
 
   setDownlaodPDFRef = (ref) => { this.donwloadPDFLink = ref; }
 
   render() {
-    const { numPages } = this.state;
+    // const { numPages } = this.state;
     const { planPDFBlob, isFetchingPDF, errorFetchingPDF } = this.props;
-    const pages = Array.from(
-      new Array(numPages),
-      (el, index) => (
-        <Page
-          key={`page_${index + 1}`}
-          pageIndex={index + 1}
-          pageNumber={index + 1}
-          scale={1.2}
-        />
-      ),
-    );
-        
+    // const pages = Array.from(
+    //   new Array(numPages),
+    //   (el, index) => (
+    //     <Page
+    //       key={`page_${index + 1}`}
+    //       pageIndex={index + 1}
+    //       pageNumber={index + 1}
+    //       scale={1.2}
+    //     />
+    //   ),
+    // );
+
     return (
       <section className="rup-pdf">
         <a
