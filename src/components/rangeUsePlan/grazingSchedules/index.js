@@ -51,7 +51,7 @@ class GrazingSchedules extends Component {
     }
 
     return (
-      <ul className={classnames('rup__grazing-schedules', { 'rup__grazing-schedules--empty': grazingSchedules.length === 0 })}>
+      <ul className={classnames('collaspible-boxes', { 'collaspible-boxes--empty': grazingSchedules.length === 0 })}>
         {grazingSchedules.map(this.renderSchedule)}
       </ul>
     );
@@ -76,7 +76,7 @@ class GrazingSchedules extends Component {
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div id={elementId} className="rup__grazing-schedules__container">
+      <div id={elementId} className="rup__grazing-schedules">
         <div className="rup__content-title">Schedules</div>
         <div className="rup__divider" />
         {this.renderSchedules(grazingSchedules)}

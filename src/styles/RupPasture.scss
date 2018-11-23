@@ -1,57 +1,5 @@
 .rup {
   &__pastures {
-    margin: 10px 0;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-
-    &__container {
-      margin-bottom: 20px;
-    }
-    &--empty {
-      border: 0px;
-    }
-    li {
-      border-bottom: 1px solid gainsboro;
-    }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
-    }
-  }
-  &__pasture {
-    &__header {
-      // display: flex;
-      // justify-content: space-between;
-      // align-items: center;
-      // height: 40px;
-      // font-weight: bold;
-      // font-size: 1.4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__right {
-        display: flex;
-      }
-    }
-    &__content {
-      padding: 0px 15px 15px 15px;
-
-      &__hidden {
-        display: none;  
-      }
-    }
+    margin-bottom: 30px;
   }
 }

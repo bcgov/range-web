@@ -384,7 +384,6 @@ export class AHPage extends Component {
 
           <Pastures
             elementId={ELEMENT_ID.PASTURES}
-            className="rup__pastures__container"
             plan={plan}
             pasturesMap={pasturesMap}
           />
@@ -401,7 +400,6 @@ export class AHPage extends Component {
             />
             : <GrazingSchedules
               elementId={ELEMENT_ID.GRAZING_SCHEDULE}
-              className="rup__grazing-schedules__container"
               references={references}
               usage={usage}
               plan={plan}

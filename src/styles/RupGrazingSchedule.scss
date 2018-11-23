@@ -1,19 +1,6 @@
 .rup {
   &__grazing-schedules {
-    margin-top: 10px;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    &--empty {
-      border: 0px;
-    }
-    li:not(:last-child) {
-      border-bottom: 1px solid gainsboro;
-    }
-    &__container {
-      margin-bottom: 20px;
-    }
+    margin-bottom: 30px;
   }
 
   &__grazing-schedule {
@@ -24,6 +11,7 @@
       font-weight: bold;
       font-size: 1.2rem;
       width: 100%;
+
       &__title {
         @extend .default-button;
         display: flex;

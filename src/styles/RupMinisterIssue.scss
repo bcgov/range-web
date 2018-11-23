@@ -1,22 +1,12 @@
 .rup {
   &__missues {
-    margin: 10px 0;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
+    @extend .collaspible-boxes;
 
     &__container {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
     &--empty {
-      border: 0px;
-    }
-    li {
-      border-bottom: 1px solid gainsboro;
-    }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
+      @extend .collaspible-boxes--empty;
     }
   }
   &__missue {
