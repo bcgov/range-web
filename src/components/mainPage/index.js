@@ -45,7 +45,8 @@ export class MainPage extends Component {
         { !userHaveRole &&
           <section className="user-error">{USER_NO_ROLE}</section>
         }
-        { !userActive &&
+
+        { userHaveRole && !userActive &&
           <section className="user-error">{USER_NOT_ACTIVE}</section>
         }
 

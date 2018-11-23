@@ -1,5 +1,5 @@
 import * as strings from '../../constants/strings';
-import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES } from '../../constants/variables';
+import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES, NOT_DOWNLOADABLE_PLAN_STATUSES } from '../../constants/variables';
 import { isAmendment } from './amendment';
 import { isPlanAmendment } from '../validation';
 
@@ -104,23 +104,28 @@ export const isStatusReadyForSubmission = status => (
   status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION
 );
 
-export const isStatusAmongApprovedStatuses = status => (
+export const cannotDownloadPDF = status => (
   status && status.code &&
-  (APPROVED_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
+    NOT_DOWNLOADABLE_PLAN_STATUSES.includes(status.code)
 );
 
-export const isStatusAllowingRevisionForAH = status => (
+export const isStatusAmongApprovedStatuses = status => (
   status && status.code &&
-  (EDITABLE_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
+    APPROVED_PLAN_STATUSES.includes(status.code)
+);
+
+export const canAllowRevisionForAH = status => (
+  status && status.code &&
+    EDITABLE_PLAN_STATUSES.includes(status.code)
 );
 
 export const isStatusIndicatingStaffFeedbackNeeded = status => (
   status && status.code &&
-  (FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.findIndex(code => code === status.code) >= 0)
+    FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code)
 );
 
-export const isStatusCodeRequireNote = statusCode => (
-  (REQUIRE_NOTES_PLAN_STATUSES.findIndex(code => code === statusCode) >= 0)
+export const isNoteRequired = statusCode => (
+  REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode)
 );
 
 export const canUserSubmitConfirmation = (status, user, confirmations = [], confirmationsMap = {}) => {
@@ -144,11 +149,11 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   const { status, creatorId } = plan;
   if (isPlanAmendment(plan)) {
     if (status && creatorId && user.id) {
-      return isStatusAllowingRevisionForAH(status)
+      return canAllowRevisionForAH(status)
         && (creatorId === user.id);
     }
   } else { // initial plan
-    return isStatusAllowingRevisionForAH(status);
+    return canAllowRevisionForAH(status);
   }
 
   return false;

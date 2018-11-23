@@ -25,7 +25,8 @@ export const AGREEMENT_SEARCH_PLACEHOLDER = 'Enter RAN, agreement holder\'s name
 export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View
-export const PREVIEW_PDF = 'Download PDF';
+export const PREVIEW_PDF = 'Preview PDF';
+export const DOWNLOAD_PDF = 'Download PDF';
 export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
 export const SUBMIT = 'Submit';

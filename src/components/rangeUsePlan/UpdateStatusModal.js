@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
-import { isStatusCodeRequireNote } from '../../utils';
+import { isNoteRequired } from '../../utils';
 
 class UpdateStatusModal extends Component {
   static propTypes = {
@@ -47,7 +47,7 @@ class UpdateStatusModal extends Component {
       onClose,
     } = this.props;
     const { note } = this.state;
-    const requireNote = isStatusCodeRequireNote(statusCode);
+    const requireNote = isNoteRequired(statusCode);
 
     onClose();
     const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
@@ -87,7 +87,7 @@ class UpdateStatusModal extends Component {
     const lengthOfNote = note
       ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
       : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`;
-    const requireNote = isStatusCodeRequireNote(statusCode);
+    const requireNote = isNoteRequired(statusCode);
 
     return (
       <Modal

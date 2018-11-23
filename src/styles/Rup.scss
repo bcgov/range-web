@@ -325,11 +325,22 @@ $sticky-height: 55px;
 }
 
 .rup-pdf {
+  padding: 10px;
   display: flex;
   justify-content: center;
   
   &__link {
     display: none;
+  }
+  &__close-btn {
+    @extend .default-button;
+    color: #4183c4;
+    background: transparent;
+
+    &__container {
+      display: flex;
+      justify-content: center;
+    }
   }
   &__content {
     display: flex;

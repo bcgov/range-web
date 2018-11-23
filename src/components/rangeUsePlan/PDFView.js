@@ -85,6 +85,7 @@ class PDFView extends Component {
             message="Error occured while fetching pdf."
           />
         }
+
         { planPDFBlob &&
           <div>
             If your download does not begin, please click the button to try again.
@@ -95,6 +96,14 @@ class PDFView extends Component {
               <Icon name="print" />
               Download PDF
             </Button>
+            <div className="rup-pdf__close-btn__container">
+              <button
+                className="rup-pdf__close-btn"
+                onClick={() => window.close()}
+              >
+                Close window
+              </button>
+            </div>
           </div>
         }
         {/* { planPDFBlob &&

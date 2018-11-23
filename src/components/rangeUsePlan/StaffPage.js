@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import UpdateZoneModal from './UpdateZoneModal';
-import { DETAIL_RUP_BANNER_CONTENT, PREVIEW_PDF } from '../../constants/strings';
+import { DETAIL_RUP_BANNER_CONTENT, DOWNLOAD_PDF } from '../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
 import { Status, Banner } from '../common';
-import { isStatusDraft, getPlanTypeDescription } from '../../utils';
+import { getPlanTypeDescription, cannotDownloadPDF } from '../../utils';
 import BasicInformation from './basicInformation';
 import Pastures from './pastures';
 import GrazingSchedules from './grazingSchedules';
@@ -114,13 +114,12 @@ class StaffPage extends Component {
                 />
               </div>
               <div className="rup__actions__btns">
-                {!isStatusDraft(status) &&
-                  <Button
-                    onClick={this.onViewPDFClicked}
-                  >
-                    {PREVIEW_PDF}
-                  </Button>
-                }
+                <Button
+                  disabled={cannotDownloadPDF(status)}
+                  onClick={this.onViewPDFClicked}
+                >
+                  {DOWNLOAD_PDF}
+                </Button>
                 <UpdateStatusDropdown
                   plan={plan}
                 />

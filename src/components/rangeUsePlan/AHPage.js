@@ -229,7 +229,7 @@ export class AHPage extends Component {
     const { isCreatingAmendment } = this.props;
     const previewPDF = (
       <Button key="previewPDFBtn" onClick={this.onViewPDFClicked}>
-        {strings.PREVIEW_PDF}
+        {strings.DOWNLOAD_PDF}
       </Button>
     );
     const saveDraft = (
