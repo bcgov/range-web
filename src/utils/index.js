@@ -121,8 +121,7 @@ export const downloadPDFBlob = (blob, ref, fileName) => {
   // For other browsers:
   // Create a link pointing to the ObjectURL containing the blob.
   const data = window.URL.createObjectURL(newBlob);
-  const pdfLink = document.createElement('a');
-  // const pdfLink = ref;
+  const pdfLink = ref;
 
   pdfLink.href = data;
   pdfLink.download = fileName;
