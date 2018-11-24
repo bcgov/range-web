@@ -6,6 +6,8 @@ import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
 import { planUpdated } from '../../actions';
+import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
+import { getUserFullName } from '../../utils';
 
 export class UpdateZoneModal extends Component {
   static propTypes = {
@@ -67,14 +69,27 @@ export class UpdateZoneModal extends Component {
     const zoneOptions = zones
       .filter(zone => (zone.districtId === currDistrictId) && (zone.code !== currZoneCode))
       .map((z) => {
-        const { id, code, description } = z;
-        const zone = {
-          key: id,
-          text: code,
-          value: id,
-          description,
+        const {
+          id: zoneId,
+          code: zoneCode,
+          user: staff,
+          description: zoneDescription,
+        } = z;
+        const option = {
+          value: zoneId,
+          text: zoneCode,
+          description: NOT_ASSIGNED,
         };
-        return zone;
+        let description = zoneDescription;
+        if (zoneDescription === 'Please update contact and description' || zoneDescription === 'Please update contact') {
+          description = NO_DESCRIPTION;
+        }
+        option.text += ` (${description})`;
+        if (staff) {
+          option.description = getUserFullName(staff);
+        }
+
+        return option;
       });
 
     return (
@@ -89,9 +104,10 @@ export class UpdateZoneModal extends Component {
           <Header>Pick a new zone within the district</Header>
           <Dropdown
             id={ELEMENT_ID.RUP_ZONE_DROPDOWN}
-            placeholder="Zone"
+            placeholder="Zone (Description)"
             options={zoneOptions}
             onChange={this.onZoneChanged}
+            selectOnBlur={false}
             fluid
             search
             selection

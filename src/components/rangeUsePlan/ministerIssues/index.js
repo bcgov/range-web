@@ -8,7 +8,6 @@ class MinisterIssues extends Component {
   static propTypes = {
     elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
-    className: PropTypes.string.isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
@@ -27,15 +26,20 @@ class MinisterIssues extends Component {
     });
   }
 
-  renderMinisterIssues = (ministerIssues = []) => (
-    ministerIssues.length === 0 ? (
+  renderMinisterIssues = (ministerIssues = []) => {
+    const isEmpty = ministerIssues.length === 0;
+    return isEmpty ? (
       <div className="rup__section-not-found">{NOT_PROVIDED}</div>
     ) : (
-      <ul className={classnames('rup__missues', { 'rup__missues--empty': ministerIssues.length === 0 })}>
+      <ul className={classnames(
+        'collaspible-boxes',
+        { 'collaspible-boxes--empty': isEmpty },
+        )}
+      >
         {ministerIssues.map(this.renderMinisterIssue)}
       </ul>
-    )
-  )
+    );
+  }
 
   renderMinisterIssue = (ministerIssue, ministerIssueIndex) => {
     return (
@@ -51,12 +55,12 @@ class MinisterIssues extends Component {
   }
 
   render() {
-    const { elementId, plan, ministerIssuesMap, className } = this.props;
+    const { elementId, plan, ministerIssuesMap } = this.props;
     const ministerIssueIds = plan && plan.ministerIssues;
     const ministerIssues = ministerIssueIds && ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
-      <div id={elementId} className={className}>
+      <div id={elementId} className="rup__missues">
         <div className="rup__content-title">{'Minister\'s Issues and Actions'}</div>
         <div className="rup__divider" />
         {this.renderMinisterIssues(ministerIssues)}

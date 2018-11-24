@@ -1,66 +1,45 @@
 .rup {
   &__grazing-schedules {
     margin-bottom: 30px;
+    
+    & .ui.right.pointing.dropdown>.menu {
+      top: -10px !important;
+      right: 15px !important; 
+    }
   }
 
   &__grazing-schedule {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__action {
-        margin-right: 10px;
-      }
-    }
     &__warning-message {
       padding: 0px 15px 10px 15px;
     }
-    &__content {
-      padding: 0px 15px 15px 15px;
-      &__hidden {
-        display: none;  
+    &__dates {
+      min-width: 75px;
+    }
+    &__grace-days {
+      min-width: 50px;
+    }
+    &__AUMs {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 1.1rem;
+      text-align: right;
+    }
+    &__AUM-label {
+      font-weight: bold;
+      margin: 0 10px;
+    }
+    &__AUM-number {
+      border: 1px solid gainsboro;
+      padding: 8px 15px;
+      border-radius: 3px;
+      &--invalid {
+        @extend .error;
       }
-      &__dates {
-        min-width: 75px;
-      }
-      &__grace-days {
-        min-width: 50px;
-      }
-      &__AUMs {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        font-size: 1.1rem;
-        text-align: right;
-      }
-      &__AUM-label {
+    }
+    &__narative {
+      &__title {
         font-weight: bold;
-        margin: 0 10px;
-      }
-      &__AUM-number {
-        border: 1px solid gainsboro;
-        padding: 8px 15px;
-        border-radius: 3px;
-        &--invalid {
-          @extend .error;
-        }
-      }
-      &__narative {
-        &__title {
-          font-weight: bold;
-        }
       }
     }
     &__draft-container {
@@ -70,7 +49,7 @@
       align-items: center;
       background: #CCCCCC;
       border-radius: 5px;
-      margin: 10px 0;
+      margin-top: 10px;
     }
     &__in-draft {
       display: flex;

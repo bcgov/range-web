@@ -313,6 +313,14 @@ export class AHPage extends Component {
     const canSubmit = utils.isStatusReadyForSubmission(status);
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const header = utils.getPlanTypeDescription(plan, amendmentTypes);
+    const grazingScheduleProps = {
+      elementId: ELEMENT_ID.GRAZING_SCHEDULE,
+      references,
+      usage,
+      plan,
+      pasturesMap,
+      grazingSchedulesMap,
+    };
 
     return (
       <section className="rup">
@@ -370,14 +378,12 @@ export class AHPage extends Component {
 
           <BasicInformation
             elementId={ELEMENT_ID.BASIC_INFORMATION}
-            className="rup__basic_information"
             agreement={agreement}
             plan={plan}
             user={user}
           />
 
           <UsageTable
-            className="rup__usage__table"
             usage={usage}
             plan={plan}
           />
@@ -390,27 +396,15 @@ export class AHPage extends Component {
 
           {canEdit ?
             <EditableGrazingSchedules
-              elementId={ELEMENT_ID.GRAZING_SCHEDULE}
-              className="rup__grazing-schedules__container"
-              references={references}
-              usage={usage}
-              plan={plan}
-              pasturesMap={pasturesMap}
-              grazingSchedulesMap={grazingSchedulesMap}
+              {...grazingScheduleProps}
             />
             : <GrazingSchedules
-              elementId={ELEMENT_ID.GRAZING_SCHEDULE}
-              references={references}
-              usage={usage}
-              plan={plan}
-              pasturesMap={pasturesMap}
-              grazingSchedulesMap={grazingSchedulesMap}
+              {...grazingScheduleProps}
             />
           }
 
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
-            className="rup__missues__container"
             references={references}
             plan={plan}
             pasturesMap={pasturesMap}
@@ -419,7 +413,6 @@ export class AHPage extends Component {
 
           <InvasivePlantChecklist
             elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-            className="rup__ip-checklist__container"
             plan={plan}
           />
         </ContentsContainer>

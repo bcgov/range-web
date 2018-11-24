@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
 import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
+import { CollapsibleBox } from '../../common';
 import EditableGrazingScheduleEntryRow from './EditableGrazingScheduleEntryRow';
 import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
@@ -33,12 +34,6 @@ class EditableGrazingScheduleBox extends Component {
     closeConfirmationModal: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
   };
-
-  onScheduleClicked = (e) => {
-    e.preventDefault();
-    const { scheduleIndex, onScheduleClicked } = this.props;
-    onScheduleClicked(scheduleIndex);
-  }
 
   onNarativeChanged = (e, { value }) => {
     e.preventDefault();
@@ -184,6 +179,7 @@ class EditableGrazingScheduleBox extends Component {
     const {
       schedule,
       scheduleIndex,
+      onScheduleClicked,
       activeScheduleIndex,
       authorizedAUMs,
       crownTotalAUMs,
@@ -192,101 +188,95 @@ class EditableGrazingScheduleBox extends Component {
       livestockTypes,
       pasturesMap,
     } = this.props;
-    const { year, grazingScheduleEntries } = schedule;
+    const { id, year, grazingScheduleEntries } = schedule;
     const narative = (schedule && schedule.narative) || '';
-    const isScheduleActive = activeScheduleIndex === scheduleIndex;
     const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs);
     const copyOptions = yearOptions.map(o => ({ ...o, onClick: this.onScheduleCopyClicked(o) })) || [];
     const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs;
 
     return (
-      <li className="rup__grazing-schedule">
-        <div className="rup__grazing-schedule__header">
-          <button
-            className="rup__grazing-schedule__header__title"
-            onClick={this.onScheduleClicked}
+      <CollapsibleBox
+        key={id}
+        contentIndex={scheduleIndex}
+        activeContentIndex={activeScheduleIndex}
+        onContentClicked={onScheduleClicked}
+        header={`${year} Grazing Schedule`}
+        headerRight={
+          <Dropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            icon={null}
+            pointing="right"
+            loading={false}
+            disabled={false}
           >
-            <div>{`${year} Grazing Schedule`}</div>
-            { isScheduleActive
-              ? <Icon name="chevron up" />
-              : <Icon name="chevron down" />
-            }
-          </button>
-          <div className="rup__grazing-schedule__header__action">
-            <Dropdown
-              trigger={<Icon name="ellipsis vertical" />}
-              icon={null}
-              pointing="right"
-              loading={false}
-              disabled={false}
+            <Dropdown.Menu>
+              <Dropdown
+                header="Years"
+                text="Copy"
+                pointing="left"
+                className="link item"
+                options={copyOptions}
+                disabled={copyOptions.length === 0}
+              />
+              <Dropdown.Item onClick={this.openDeleteScheduleConfirmationModal}>Delete</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        }
+        message={
+          <WarningMessage
+            grazingSchedule={schedule}
+            usage={usage}
+            livestockTypes={livestockTypes}
+            pasturesMap={pasturesMap}
+          />
+        }
+        collapsibleContent={
+          <Fragment>
+            <Table unstackable>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
+                  <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
+                  <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__dates">{strings.DATE_IN}</div></Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__dates">{strings.DATE_OUT}</div></Table.HeaderCell>
+                  <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__grace-days">{strings.GRACE_DAYS}</div></Table.HeaderCell>
+                  <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
+                  <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
+                  <Table.HeaderCell />
+                </Table.Row>
+                {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
+              </Table.Header>
+            </Table>
+            <Button
+              style={{ margin: '10px 0' }}
+              icon
+              basic
+              onClick={this.onNewRowClick}
             >
-              <Dropdown.Menu>
-                <Dropdown
-                  header="Years"
-                  text="Copy"
-                  pointing="left"
-                  className="link item"
-                  options={copyOptions}
-                  disabled={copyOptions.length === 0}
-                />
-                <Dropdown.Item onClick={this.openDeleteScheduleConfirmationModal}>Delete</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        </div>
-
-        <WarningMessage
-          grazingSchedule={schedule}
-          usage={usage}
-          livestockTypes={livestockTypes}
-          pasturesMap={pasturesMap}
-        />
-
-        <div className={classnames('rup__grazing-schedule__content', { 'rup__grazing-schedule__content__hidden': !isScheduleActive })}>
-          <Table unstackable>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
-                <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
-                <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__grazing-schedule__content__dates">{strings.DATE_IN}</div></Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__grazing-schedule__content__dates">{strings.DATE_OUT}</div></Table.HeaderCell>
-                <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
-                <Table.HeaderCell><div className="rup__grazing-schedule__content__grace-days">{strings.GRACE_DAYS}</div></Table.HeaderCell>
-                <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
-                <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
-                <Table.HeaderCell />
-              </Table.Row>
-              {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
-            </Table.Header>
-          </Table>
-          <Button
-            style={{ margin: '10px 0' }}
-            icon
-            basic
-            onClick={this.onNewRowClick}
-          >
-            <Icon name="add" />
-            Add row
-          </Button>
-          <div className="rup__grazing-schedule__content__AUMs">
-            <div className="rup__grazing-schedule__content__AUM-label">Authorized AUMs</div>
-            <div className="rup__grazing-schedule__content__AUM-number">{authorizedAUMs}</div>
-            <div className="rup__grazing-schedule__content__AUM-label">Total AUMs</div>
-            <div className={classnames('rup__grazing-schedule__content__AUM-number', { 'rup__grazing-schedule__content__AUM-number--invalid': isCrownTotalAUMsError })}>
-              {roundedCrownTotalAUMs}
+              <Icon name="add" />
+              Add row
+            </Button>
+            <div className="rup__grazing-schedule__AUMs">
+              <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
+              <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
+              <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
+              <div className={classnames('rup__grazing-schedule__AUM-number', { 'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError })}>
+                {roundedCrownTotalAUMs}
+              </div>
             </div>
-          </div>
-          <div className="rup__grazing-schedule__content__narrative">Schedule Description</div>
-          <Form>
-            <TextArea
-              rows={2}
-              onChange={this.onNarativeChanged}
-              value={narative}
-            />
-          </Form>
-        </div>
-      </li>
+            <div className="rup__grazing-schedule__narrative">Schedule Description</div>
+            <Form>
+              <TextArea
+                rows={2}
+                onChange={this.onNarativeChanged}
+                value={narative}
+              />
+            </Form>
+          </Fragment>
+        }
+      />
     );
   }
 }

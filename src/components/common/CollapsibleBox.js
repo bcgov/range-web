@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 
-class CollaspibleBox extends Component {
+class CollapsibleBox extends Component {
   static propTypes = {
     header: PropTypes.node.isRequired,
-    content: PropTypes.node.isRequired,
+    headerRight: PropTypes.node,
+    message: PropTypes.node,
+    collapsibleContent: PropTypes.node.isRequired,
     contentIndex: PropTypes.number.isRequired,
     activeContentIndex: PropTypes.number.isRequired,
     onContentClicked: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    headerRight: null,
+    message: null,
   }
 
   render() {
@@ -18,7 +25,9 @@ class CollaspibleBox extends Component {
       activeContentIndex,
       onContentClicked,
       header,
-      content,
+      headerRight,
+      message,
+      collapsibleContent,
     } = this.props;
     const isActive = activeContentIndex === contentIndex;
 
@@ -31,6 +40,7 @@ class CollaspibleBox extends Component {
           >
             {header}
             <div className="collaspible-box__header__right">
+              {headerRight}
               { isActive
                 ? <Icon style={{ marginLeft: '10px' }} name="chevron up" />
                 : <Icon style={{ marginLeft: '10px' }} name="chevron down" />
@@ -38,16 +48,17 @@ class CollaspibleBox extends Component {
             </div>
           </button>
         </div>
+        {message}
         <div
           className={classnames('collaspible-box__content', {
             'collaspible-box__content__hidden': !isActive,
           })}
         >
-          {content}
+          {collapsibleContent}
         </div>
       </li>
     );
   }
 }
 
-export default CollaspibleBox;
+export default CollapsibleBox;

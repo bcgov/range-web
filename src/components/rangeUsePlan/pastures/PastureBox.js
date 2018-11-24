@@ -40,7 +40,7 @@ class PastureBox extends Component {
         activeContentIndex={activePastureIndex}
         onContentClicked={onPastureClicked}
         header={`Pasture: ${name}`}
-        content={
+        collapsibleContent={
           <Fragment>
             <div className="rup__row">
               <div className="rup__cell-4">

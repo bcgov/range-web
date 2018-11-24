@@ -52,7 +52,7 @@ class GrazingScheduleBox extends Component {
         activeContentIndex={activeScheduleIndex}
         onContentClicked={onScheduleClicked}
         header={`${year} Grazing Schedule`}
-        content={
+        collapsibleContent={
           <Fragment>
             <Table unstackable>
               <Table.Header>
@@ -70,14 +70,14 @@ class GrazingScheduleBox extends Component {
                 {grazingScheduleEntries.map(this.renderScheduleEntry)}
               </Table.Header>
             </Table>
-            <div className="rup__grazing-schedule__content__AUMs" style={{ marginTop: '10px' }}>
-              <div className="rup__grazing-schedule__content__AUM-label">Authorized AUMs</div>
-              <div className="rup__grazing-schedule__content__AUM-number">{authorizedAUMs}</div>
-              <div className="rup__grazing-schedule__content__AUM-label">Total AUMs</div>
-              <div className="rup__grazing-schedule__content__AUM-number">{crownTotalAUMs}</div>
+            <div className="rup__grazing-schedule__AUMs" style={{ marginTop: '10px' }}>
+              <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
+              <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
+              <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
+              <div className="rup__grazing-schedule__AUM-number">{crownTotalAUMs}</div>
             </div>
             <div>
-              <div className="rup__grazing-schedule__content__narative__title">Schedule Description</div>
+              <div className="rup__grazing-schedule__narative__title">Schedule Description</div>
               {handleNullValue(narative)}
             </div>
           </Fragment>

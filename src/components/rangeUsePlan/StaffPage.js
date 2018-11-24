@@ -140,7 +140,6 @@ class StaffPage extends Component {
 
           <BasicInformation
             elementId={ELEMENT_ID.BASIC_INFORMATION}
-            className="rup__basic_information"
             agreement={agreement}
             plan={plan}
             user={user}
@@ -148,7 +147,6 @@ class StaffPage extends Component {
           />
 
           <UsageTable
-            className="rup__usage__table"
             usage={usage}
             plan={plan}
           />
@@ -170,7 +168,6 @@ class StaffPage extends Component {
 
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
-            className="rup__missues__container"
             references={references}
             plan={plan}
             pasturesMap={pasturesMap}
