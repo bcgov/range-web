@@ -114,6 +114,7 @@ export const getPlanPDFError = state => fromNetwork.getErrorMessage(state[reduce
 export const getPlanPDF = state => fromNetwork.getData(state[reducerTypes.GET_PLAN_PDF]);
 
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
+export const getPlantCommunitiesMap = state => fromPlan.getPlantCommunitiesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
 export const getConfirmationsMap = state => fromPlan.getConfirmationsMap(state[reducerTypes.PLAN]);
