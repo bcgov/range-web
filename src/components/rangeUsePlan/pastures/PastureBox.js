@@ -5,6 +5,7 @@ import {
   ALLOWABLE_AUMS, PRIVATE_LAND_DEDUCTION, GRACE_DAYS,
   PASTURE_NOTES,
 } from '../../../constants/strings';
+import PlantCommunities from '../plantCommunities';
 
 class PastureBox extends Component {
   static propTypes = {
@@ -65,6 +66,10 @@ class PastureBox extends Component {
             <TextField
               label={PASTURE_NOTES}
               text={notes}
+            />
+
+            <PlantCommunities
+              pasture={pasture}
             />
           </Fragment>
         }

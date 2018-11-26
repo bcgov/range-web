@@ -1,0 +1,25 @@
+.rup {
+  &__plant-communities {
+    &__title {
+      font-size: 1.2rem;
+      margin: 10px 0px;
+    }
+  }
+
+  &__plant-communitiy {
+    &__box {
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid gainsboro;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
+}
