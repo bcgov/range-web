@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
@@ -39,52 +39,52 @@ export class Navbar extends Component {
           <div className="navbar__left">
             <Link to={Routes.HOME}>
               <img className="navbar__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
-              {/* <div className="navbar__title">MyRangeBC</div> */}
             </Link>
           </div>
 
           <div className="navbar__right">
             { isUserActive(user) &&
-              <NavLink
-                to={Routes.HOME}
-                className="navbar__link"
-                activeClassName="navbar__link--active"
-              >
-                {SELECT_RUP}
-              </NavLink>
+              <Fragment>
+                <NavLink
+                  to={Routes.HOME}
+                  className="navbar__link"
+                  activeClassName="navbar__link--active"
+                >
+                  {SELECT_RUP}
+                </NavLink>
+                { isUserAdmin(user) &&
+                  <Fragment>
+                    <NavLink
+                      to={Routes.MANAGE_ZONE}
+                      className="navbar__link"
+                      activeClassName="navbar__link--active"
+                    >
+                      {MANAGE_ZONES}
+                    </NavLink>
+                    <NavLink
+                      to={Routes.MANAGE_CLIENT}
+                      className="navbar__link"
+                      activeClassName="navbar__link--active"
+                    >
+                      {MANAGE_CLIENTS}
+                    </NavLink>
+                    {/* <Dropdown className="navbar__menu" text="Menu">
+                      <Dropdown.Menu>
+                        <Dropdown.Item
+                          text="Manage Zone"
+                          onClick={this.onNavigate(Routes.MANAGE_ZONE)}
+                        />
+                        <Dropdown.Item
+                          text="Manage Client"
+                          onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
+                        />
+                      </Dropdown.Menu>
+                    </Dropdown> */}
+                  </Fragment>
+                }
+              </Fragment>
             }
-            { isUserAdmin(user) &&
-              <NavLink
-                to={Routes.MANAGE_ZONE}
-                className="navbar__link"
-                activeClassName="navbar__link--active"
-              >
-                {MANAGE_ZONES}
-              </NavLink>
-            }
-            { isUserAdmin(user) &&
-              <NavLink
-                to={Routes.MANAGE_CLIENT}
-                className="navbar__link"
-                activeClassName="navbar__link--active"
-              >
-                {MANAGE_CLIENTS}
-              </NavLink>
-            }
-            {/* { isUserAdmin(user) &&
-              <Dropdown className="navbar__menu" text="Menu">
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    text="Manage Zone"
-                    onClick={this.onNavigate(Routes.MANAGE_ZONE)}
-                  />
-                  <Dropdown.Item
-                    text="Manage Client"
-                    onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
-                  />
-                </Dropdown.Menu>
-              </Dropdown>
-            } */}
+
             <Dropdown
               className="navbar__avatar"
               pointing="top"
@@ -96,12 +96,6 @@ export class Navbar extends Component {
               }
             >
               <Dropdown.Menu>
-                {/* <Dropdown.Header
-                  content={
-                    <span>Hello, <div>{getUserFullName(user)}</div></span>
-                  }
-                />
-                <Dropdown.Divider /> */}
                 <Dropdown.Item
                   id={ELEMENT_ID.SIGN_OUT}
                   text="Sign Out"

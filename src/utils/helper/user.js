@@ -8,9 +8,19 @@ export const getUserEmail = user => (
   user && user.email
 );
 
+const getUserFamilyName = user => (
+  user && user.familyName &&
+    (user.familyName.toUpperCase() + user.familyName.slice(1))
+);
+
+const getUserGivenName = user => (
+  user && user.givenName &&
+    (user.givenName.toUpperCase() + user.givenName.slice(1))
+);
+
 export const getUserInitial = (user) => {
-  const familyName = user && user.familyName;
-  const givenName = user && user.givenName;
+  const familyName = getUserFamilyName(user);
+  const givenName = getUserGivenName(user);
 
   if (familyName && givenName && typeof familyName === 'string' && typeof givenName === 'string') {
     return givenName.charAt(0) + familyName.charAt(0);
