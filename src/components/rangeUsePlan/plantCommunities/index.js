@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPlantCommunitiesMap } from '../../../reducers/rootReducer';
-import PlantCommunityBox from './PlantCommunityBox';
+import PlantCommunityBox from './PlantCommunityModal';
 import { NOT_PROVIDED } from '../../../constants/strings';
 
 class PlantCommunities extends Component {

@@ -10,7 +10,7 @@
   &__plant-community {
     &__box {
       font-weight: bold;
-      padding: 10px;
+      padding: 12px;
       border-radius: 5px;
       border: 1px solid gainsboro;
       margin-bottom: 10px;
@@ -30,7 +30,7 @@
     &__modal {
       &__header {
         font-weight: bold;
-        font-size: 1.5rem;
+        font-size: 1.7rem;
       }
       &__pasture {
         color: gray;
@@ -38,7 +38,7 @@
       }
       &__content-title {
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         margin-top: 20px;
       }
       &__label {
@@ -48,6 +48,69 @@
       }
       &__text {
         margin-top: 3px;
+      }
+    }
+    &__actions {
+      margin-top: 5px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid gainsboro;
+
+      &__title {
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+    }
+    &__action {
+      &__header {
+        display: flex;
+        margin-top: 5px;
+        color: gray;
+        font-size: 1.1rem;
+        margin-bottom: -10px;
+
+        div {
+          &:nth-of-type(1) {
+            flex: 0.7;
+          }
+          &:nth-of-type(2) {
+            flex: 1.2;
+          }
+        }
+      }
+      &__row {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid gainsboro;
+
+        &:last-child {
+          border-bottom: 0px;
+          padding-bottom: 0px;
+        }
+        div {
+          &:nth-of-type(1) {
+            flex: 0.7;
+          }
+          &:nth-of-type(2) {
+            flex: 1.2;
+          }
+        }
+      }
+    }
+    &__rr {
+      margin-top: 5px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid gainsboro;
+
+      &__title {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      &__label {
+        color: gray;
+        margin-top: 10px;
+        font-size: 1.1rem;
       }
     }
   }

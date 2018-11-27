@@ -60,6 +60,30 @@ export const AMENDMENT_TYPE = {
   INITIAL: 'A',
 };
 
+export const CLIENT_TYPE = {
+  PRIMARY: 'A',
+  OTHER: 'B',
+};
+
+export const DATE_FORMAT = {
+  SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
+  CLIENT_SIDE: 'MMMM D, YYYY',
+  CLIENT_SIDE_WITH_HOURS: 'MMM D, YYYY (HH:mm a)',
+  CLIENT_SIDE_WITHOUT_YEAR: 'MMM D',
+};
+
+export const USER_ROLE = {
+  ADMINISTRATOR: 'myra_admin',
+  RANGE_OFFICER: 'myra_range_officer',
+  AGREEMENT_HOLDER: 'myra_client',
+};
+
+export const PURPOSE_OF_ACTION = {
+  ESTABLISH: 'establish',
+  MAINTAIN: 'maintain',
+  NONE: 'none',
+};
+
 export const CONFIRMATION_OPTION = {
   CONFIRM: 'Confirm',
   REQUEST: 'Request clarification or changes',
@@ -102,24 +126,6 @@ export const IMAGE_SRC = {
   INVASIVE_PLANTS_ICON: '/images/icon_invasiveplants.png',
   MANAGEMENT_ICON: '/images/icon_management.png',
   MAP_ICON: '/images/icon_map.png',
-};
-
-export const CLIENT_TYPE = {
-  PRIMARY: 'A',
-  OTHER: 'B',
-};
-
-export const DATE_FORMAT = {
-  SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
-  CLIENT_SIDE: 'MMMM D, YYYY',
-  CLIENT_SIDE_WITH_HOURS: 'MMM D, YYYY (HH:mm a)',
-  CLIENT_SIDE_WITHOUT_YEAR: 'MMM D',
-};
-
-export const USER_ROLE = {
-  ADMINISTRATOR: 'myra_admin',
-  RANGE_OFFICER: 'myra_range_officer',
-  AGREEMENT_HOLDER: 'myra_client',
 };
 
 export const ELEMENT_ID = {

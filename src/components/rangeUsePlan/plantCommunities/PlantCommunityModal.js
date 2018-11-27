@@ -1,23 +1,60 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Modal, Checkbox } from 'semantic-ui-react';
-import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNITY_URL, PURPOSE_OF_ACTIONS } from '../../../constants/strings';
+import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNITY_URL, PURPOSE_OF_ACTION } from '../../../constants/strings';
+import { PURPOSE_OF_ACTION as PurposeOfAction } from '../../../constants/variables';
 import { handleNullValue } from '../../../utils';
+import PlantCommunityActionsBox from './PlantCommunityActionsBox';
+import MonitoringAreasBox from './MonitoringAreasBox';
+import RangeReadinessBox from './RangeReadinessBox';
 
-class PlantCommunityBox extends Component {
+class PlantCommunityModal extends Component {
   static propTypes = {
     plantCommunity: PropTypes.shape({}).isRequired,
     pasture: PropTypes.shape({}).isRequired,
   }
 
+  renderPlantCommunityActions = (modalClass, purposeOfAction, plantCommunityActions = []) => {
+    if (
+      purposeOfAction === PurposeOfAction.NONE ||
+      plantCommunityActions.length === 0
+    ) return <Fragment />;
+
+    return (
+      <Fragment>
+        <div className={`${modalClass}__content-title`}>
+          Pasture Actions
+        </div>
+        <PlantCommunityActionsBox
+          plantCommunityActions={plantCommunityActions}
+        />
+      </Fragment>
+    );
+  }
+
+  renderMonitoringAreas = (modalClass, monitoringAreas = []) => {
+    if (monitoringAreas.length === 0) return <Fragment />;
+
+    return (
+      <Fragment>
+        <div className={`${modalClass}__content-title`}>
+          Monitoring Areas
+        </div>
+        <MonitoringAreasBox
+          monitoringAreas={monitoringAreas}
+        />
+      </Fragment>
+    );
+  }
+
   render() {
     const { plantCommunity, pasture } = this.props;
     const {
-      rangeReadinessDay,
-      rangeReadinessMonth,
-      rangeReadinessNote,
-      purposeOfAction,
       name,
+      monitoringAreas,
+      indicatorPlants,
+      plantCommunityActions,
+      purposeOfAction,
       aspect,
       elevation,
       url,
@@ -75,11 +112,24 @@ class PlantCommunityBox extends Component {
           <div className={`${modalClass}__text`}>{handleNullValue(notes)}</div>
           <div className={`${modalClass}__label`}>{COMMUNITY_URL}</div>
           <div className={`${modalClass}__text`}>{handleNullValue(url)}</div>
-          <div className={`${modalClass}__label`}>{PURPOSE_OF_ACTIONS}</div>
+          <div className={`${modalClass}__label`}>{PURPOSE_OF_ACTION}</div>
+          <div className={`${modalClass}__text`}>{handleNullValue(purposeOfAction)}</div>
+
+          {this.renderPlantCommunityActions(modalClass, purposeOfAction, plantCommunityActions)}
+
+          {/* {this.renderMonitoringAreas(modalClass, monitoringAreas)} */}
+
+          <div className={`${modalClass}__content-title`}>
+            Criteria
+          </div>
+          <RangeReadinessBox
+            plantCommunity={plantCommunity}
+          />
+
         </Modal.Content>
       </Modal>
     );
   }
 }
 
-export default PlantCommunityBox;
+export default PlantCommunityModal;

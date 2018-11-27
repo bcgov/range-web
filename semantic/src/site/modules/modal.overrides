@@ -4,9 +4,10 @@
 
 /* added by Kyubin */
 .ui.modal > .close {
-  right: 0;
-  top: 0;
-  color: black;
+  right: 1px;
+  top: 1px;
+  color: #000;
+  font-size: 1.7rem;
 }
 
 .ui.active.modal {

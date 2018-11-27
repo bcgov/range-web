@@ -86,7 +86,7 @@ export const ELEVATION = 'Elevation';
 export const APPROVED_BY_MINISTER = 'Approved by minister';
 export const PLANT_COMMUNITY_NOTES = 'Plant Community Notes';
 export const COMMUNITY_URL = 'Community URL';
-export const PURPOSE_OF_ACTIONS = 'Purpose of Actions';
+export const PURPOSE_OF_ACTION = 'Purpose of Action';
 
 // RUP schedules
 export const PASTURE = 'Pasture';
