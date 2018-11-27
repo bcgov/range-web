@@ -80,6 +80,14 @@ export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
 export const GRACE_DAYS = 'Grace Days';
 export const PASTURE_NOTES = 'Pasture Notes (non legal content)';
 
+// RUP Plant Communities
+export const ASPECT = 'Aspect';
+export const ELEVATION = 'Elevation';
+export const APPROVED_BY_MINISTER = 'Approved by minister';
+export const PLANT_COMMUNITY_NOTES = 'Plant Community Notes';
+export const COMMUNITY_URL = 'Community URL';
+export const PURPOSE_OF_ACTIONS = 'Purpose of Actions';
+
 // RUP schedules
 export const PASTURE = 'Pasture';
 export const LIVESTOCK_TYPE = 'Livestock Type';

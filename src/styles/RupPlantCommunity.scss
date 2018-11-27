@@ -2,11 +2,12 @@
   &__plant-communities {
     &__title {
       font-size: 1.2rem;
+      color: gray;
       margin: 10px 0px;
     }
   }
 
-  &__plant-communitiy {
+  &__plant-community {
     &__box {
       font-weight: bold;
       padding: 10px;
@@ -15,10 +16,38 @@
       margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       cursor: pointer;
 
       &:last-child {
         margin-bottom: 0px;
+      }
+      &__right {
+        display: flex;
+        font-weight: initial;
+      }
+    }
+    &__modal {
+      &__header {
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+      &__pasture {
+        color: gray;
+        font-size: 1.1rem;
+      }
+      &__content-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-top: 20px;
+      }
+      &__label {
+        color: gray;
+        margin-top: 10px;
+        font-size: 1.1rem;
+      }
+      &__text {
+        margin-top: 3px;
       }
     }
   }

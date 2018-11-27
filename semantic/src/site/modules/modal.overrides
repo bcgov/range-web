@@ -6,6 +6,7 @@
 .ui.modal > .close {
   right: 0;
   top: 0;
+  color: black;
 }
 
 .ui.active.modal {

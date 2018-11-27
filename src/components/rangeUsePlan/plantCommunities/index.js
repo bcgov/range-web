@@ -12,10 +12,13 @@ class PlantCommunities extends Component {
   }
 
   renderPlantCommunity = (plantCommunity) => {
+    const { pasture } = this.props;
+
     return (
       <PlantCommunityBox
         key={plantCommunity.id}
         plantCommunity={plantCommunity}
+        pasture={pasture}
       />
     );
   }
