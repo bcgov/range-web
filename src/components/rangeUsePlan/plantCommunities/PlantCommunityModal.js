@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon, Modal, Checkbox } from 'semantic-ui-react';
 import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNITY_URL, PURPOSE_OF_ACTION } from '../../../constants/strings';
 import { PURPOSE_OF_ACTION as PurposeOfAction } from '../../../constants/variables';
-import { handleNullValue } from '../../../utils';
+import { handleNullValue, capitalize } from '../../../utils';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
 import MonitoringAreasBox from './MonitoringAreasBox';
 import RangeReadinessBox from './RangeReadinessBox';
@@ -52,9 +52,8 @@ class PlantCommunityModal extends Component {
     const {
       name,
       monitoringAreas,
-      indicatorPlants,
       plantCommunityActions,
-      purposeOfAction,
+      purposeOfAction: poa,
       aspect,
       elevation,
       url,
@@ -66,6 +65,7 @@ class PlantCommunityModal extends Component {
     const pastureName = pasture && pasture.name;
     const modalClass = 'rup__plant-community__modal';
     const elevationName = elevation && elevation.name;
+    const purposeOfAction = capitalize(poa);
     console.log(plantCommunity);
 
     return (
@@ -105,7 +105,9 @@ class PlantCommunityModal extends Component {
             </div>
             <div className="rup__cell-4">
               <div className={`${modalClass}__label`}>{APPROVED_BY_MINISTER}</div>
-              <div className={`${modalClass}__text`}><Checkbox checked={approved} toggle /></div>
+              <div className={`${modalClass}__text`}>
+                <Checkbox checked={approved} toggle />
+              </div>
             </div>
           </div>
           <div className={`${modalClass}__label`}>{PLANT_COMMUNITY_NOTES}</div>
@@ -122,6 +124,7 @@ class PlantCommunityModal extends Component {
           <div className={`${modalClass}__content-title`}>
             Criteria
           </div>
+
           <RangeReadinessBox
             plantCommunity={plantCommunity}
           />

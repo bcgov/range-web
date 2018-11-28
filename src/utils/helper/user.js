@@ -1,4 +1,5 @@
 import { USER_ROLE } from '../../constants/variables';
+import { capitalize } from '../index';
 
 export const getUserFullName = user => (
   user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`
@@ -9,13 +10,11 @@ export const getUserEmail = user => (
 );
 
 const getUserFamilyName = user => (
-  user && user.familyName &&
-    (user.familyName.toUpperCase() + user.familyName.slice(1))
+  user && user.familyName && capitalize(user.familyName)
 );
 
 const getUserGivenName = user => (
-  user && user.givenName &&
-    (user.givenName.toUpperCase() + user.givenName.slice(1))
+  user && user.givenName && capitalize(user.givenName)
 );
 
 export const getUserInitial = (user) => {

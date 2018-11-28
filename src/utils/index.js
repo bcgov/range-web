@@ -47,6 +47,7 @@ export const createConfigWithHeader = (getState) => {
 
 export const getObjValues = (obj = {}) => Object.keys(obj).map(e => obj[e]) || [];
 export const createEmptyArray = (length = 0) => [...Array(length)];
+export const capitalize = str => (str.charAt(0).toUpperCase() + str.slice(1));
 
 /**
  * Present user friendly string when getting null or undefined value

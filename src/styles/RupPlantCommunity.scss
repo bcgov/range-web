@@ -67,7 +67,7 @@
         margin-top: 5px;
         color: gray;
         font-size: 1.1rem;
-        margin-bottom: -10px;
+        margin-bottom: -7px;
 
         div {
           &:nth-of-type(1) {
@@ -111,6 +111,34 @@
         color: gray;
         margin-top: 10px;
         font-size: 1.1rem;
+      }
+    }
+    &__i-plants {
+      &__not-provided {
+        margin-top: 7px;
+      }
+    }
+    &__i-plant {
+      &__header {
+        display: flex;
+        margin-bottom: -7px;
+
+        div {
+          flex: 1;
+        }
+      }
+      &__row {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid gainsboro;
+
+        &:last-child {
+          border-bottom: 0px;
+          padding-bottom: 0px;
+        }
+        div {
+          flex: 1;
+        }
       }
     }
   }

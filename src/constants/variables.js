@@ -84,6 +84,12 @@ export const PURPOSE_OF_ACTION = {
   NONE: 'none',
 };
 
+export const PLANT_CRITERIA = {
+  RANGE_READINESS: 'rangereadiness',
+  STUBBLE_HEIGHT: 'stubbleheight',
+  SHRUBUSE: 'shrubuse',
+};
+
 export const CONFIRMATION_OPTION = {
   CONFIRM: 'Confirm',
   REQUEST: 'Request clarification or changes',
