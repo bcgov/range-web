@@ -2,4 +2,13 @@
   &__pastures {
     margin-bottom: 30px;
   }
+  &__pasture {
+    &__title {
+      display: flex;
+
+      > img {
+        margin-right: 7px;
+      }
+    }
+  }
 }

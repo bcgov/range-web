@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Modal, Checkbox } from 'semantic-ui-react';
 import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNITY_URL, PURPOSE_OF_ACTION } from '../../../constants/strings';
-import { PURPOSE_OF_ACTION as PurposeOfAction } from '../../../constants/variables';
+import { PURPOSE_OF_ACTION as PurposeOfAction, IMAGE_SRC } from '../../../constants/variables';
 import { handleNullValue, capitalize } from '../../../utils';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
 import MonitoringAreasBox from './MonitoringAreasBox';
@@ -75,7 +75,10 @@ class PlantCommunityModal extends Component {
         closeIcon
         trigger={
           <div className={`${pcClass}__box`}>
-            <div>Plant Community: {communityTypeName}</div>
+            <div className={`${pcClass}__box__left`}>
+              <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
+              Plant Community: {communityTypeName}
+            </div>
             <div className={`${pcClass}__box__right`}>
               <div>
                 {'Minister approval for inclusion obtained: '}
@@ -90,7 +93,10 @@ class PlantCommunityModal extends Component {
         }
       >
         <Modal.Content>
-          <div className={`${pcClass}__modal__header`}>Plant Community: {communityTypeName}</div>
+          <div className={`${pcClass}__modal__header`}>
+            <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
+            Plant Community: {communityTypeName}
+          </div>
           <div className={`${pcClass}__modal__pasture`}>Pasture: {pastureName}</div>
           <div className={`${pcClass}__modal__content-title`}>
             Basic Plant Community Information
@@ -139,7 +145,10 @@ class PlantCommunityModal extends Component {
           />
 
           <div className={`${pcClass}__oma`}>
-            <div className={`${pcClass}__oma__title`}>Other Monitoring Activity</div>
+            <div className={`${pcClass}__oma__title`}>
+              <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+              Other Monitoring Activity
+            </div>
             <div>Plant community composition and structure are important habitat elements in all NGPN parks, and knowing the status and trends of plant communities helps in determining the health of the parks&apos; ecosystems. In addition to providing information about the vegetation in the parks, data from this monitoring will help characterize park-wide ecosystem responses to other environmental drivers, including weather and climate, land cover changes, invasive/exotic plants, and habitat conditions for species of interest (i.e., prairie dogs, bison, deer, etc.).</div>
           </div>
 

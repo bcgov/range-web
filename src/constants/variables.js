@@ -132,6 +132,10 @@ export const IMAGE_SRC = {
   INVASIVE_PLANTS_ICON: '/images/icon_invasiveplants.svg',
   MANAGEMENT_ICON: '/images/icon_management.svg',
   MAP_ICON: '/images/icon_map.svg',
+  PLANT_COMMUNITY_ACTIONS_ICON: '/images/icon_plantcommunityaction.svg',
+  INFO_ICON: '/images/icon_info.svg',
+  PASTURE_ICON: '/images/icon_pasture.svg',
+  PLANT_COMMUNITY_ICON: '/images/icon_plantcommunity.svg',
 };
 
 export const ELEMENT_ID = {

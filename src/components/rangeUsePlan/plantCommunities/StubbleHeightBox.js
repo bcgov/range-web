@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../constants/variables';
+import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
 
 class StubbleHeightBox extends Component {
   static propTypes = {
@@ -15,7 +15,10 @@ class StubbleHeightBox extends Component {
 
     return (
       <div className={`${stubbleHeight}`}>
-        <div className={`${stubbleHeight}__title`}>Stubble Height</div>
+        <div className={`${stubbleHeight}__title`}>
+          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+          Stubble Height
+        </div>
         <div>
           Livestock must be removed on the first to occur of the date in the plan (ex. schedule), stubble height criteria or average browse criteria.
         </div>

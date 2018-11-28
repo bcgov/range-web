@@ -22,6 +22,13 @@
       &:last-child {
         margin-bottom: 0px;
       }
+      &__left {
+        display: flex;
+
+        > img {
+          margin-right: 7px;
+        }
+      }
       &__right {
         display: flex;
         font-weight: initial;
@@ -30,7 +37,12 @@
     &__modal {
       &__header {
         font-weight: bold;
-        font-size: 1.7rem;
+        font-size: 1.8rem;
+        display: flex;
+
+        > img {
+          margin-right: 7px;
+        }
       }
       &__pasture {
         color: gray;
@@ -59,6 +71,11 @@
       &__title {
         font-weight: bold;
         font-size: 1.2rem;
+        display: flex;
+
+        > img {
+          margin-right: 7px;
+        }
       }
     }
     &__action {
@@ -109,7 +126,12 @@
       &__title {
         font-size: 1.2rem;
         font-weight: bold;
-        margin-bottom: 5px; 
+        margin-bottom: 5px;
+        display: flex;
+
+        > img {
+          margin-right: 7px;
+        }
       }
       &__label {
         color: gray;

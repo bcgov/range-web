@@ -6,6 +6,7 @@ import {
   PASTURE_NOTES,
 } from '../../../constants/strings';
 import PlantCommunities from '../plantCommunities';
+import { IMAGE_SRC } from '../../../constants/variables';
 
 class PastureBox extends Component {
   static propTypes = {
@@ -40,7 +41,12 @@ class PastureBox extends Component {
         contentIndex={pastureIndex}
         activeContentIndex={activePastureIndex}
         onContentClicked={onPastureClicked}
-        header={`Pasture: ${name}`}
+        header={
+          <div className="rup__pasture__title">
+            <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+            Pasture: {name}
+          </div>
+        }
         collapsibleContent={
           <Fragment>
             <div className="rup__row">

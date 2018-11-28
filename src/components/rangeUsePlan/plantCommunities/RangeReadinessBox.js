@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { handleNullValue, getRangeReadinessMonthAndDate } from '../../../utils';
 import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../constants/variables';
+import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
 
 class RangeReadinessBox extends Component {
   static propTypes = {
@@ -22,7 +22,10 @@ class RangeReadinessBox extends Component {
 
     return (
       <div className={`${readiness}`}>
-        <div className={`${readiness}__title`}>Range Readiness</div>
+        <div className={`${readiness}__title`}>
+          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+          Range Readiness
+        </div>
         <div>
           If more than one readiness criteria is provided, all such criteria must be met before grazing may accur.
         </div>

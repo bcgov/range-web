@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../constants/variables';
+import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
 
 class ShrubUseBox extends Component {
   static propTypes = {
@@ -15,7 +15,10 @@ class ShrubUseBox extends Component {
 
     return (
       <div className={`${shrubUse}`}>
-        <div className={`${shrubUse}__title`}>Shrub Use</div>
+        <div className={`${shrubUse}__title`}>
+          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+          Shrub Use
+        </div>
         <div>
           Livestock must be removed from the pasture on the first to occur of the date in the plan (ex. schedule), stubble height criteria for any plant community in the pasture or average browse criteria.
         </div>
