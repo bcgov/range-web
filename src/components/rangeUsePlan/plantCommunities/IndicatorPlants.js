@@ -23,15 +23,16 @@ class IndicatorPlants extends Component {
 
   render() {
     const { indicatorPlants = [], criteria } = this.props;
-    if (indicatorPlants.length === 0) {
+    const filtered = indicatorPlants
+      .filter(ip => ip.criteria === criteria);
+
+    if (filtered.length === 0) {
       return (
         <div className="rup__plant-community__i-plants__not-provided">
           {NOT_PROVIDED}
         </div>
       );
     }
-    const filtered = indicatorPlants
-      .filter(ip => ip.criteria === criteria);
 
     return (
       <div className="rup__plant-community__i-plants">

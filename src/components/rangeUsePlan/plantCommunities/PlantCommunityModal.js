@@ -7,6 +7,8 @@ import { handleNullValue, capitalize } from '../../../utils';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
 import MonitoringAreasBox from './MonitoringAreasBox';
 import RangeReadinessBox from './RangeReadinessBox';
+import StubbleHeightBox from './StubbleHeightBox';
+import ShrubUseBox from './ShrubUseBox';
 
 class PlantCommunityModal extends Component {
   static propTypes = {
@@ -129,6 +131,13 @@ class PlantCommunityModal extends Component {
             plantCommunity={plantCommunity}
           />
 
+          <StubbleHeightBox
+            plantCommunity={plantCommunity}
+          />
+
+          <ShrubUseBox
+            plantCommunity={plantCommunity}
+          />
         </Modal.Content>
       </Modal>
     );
