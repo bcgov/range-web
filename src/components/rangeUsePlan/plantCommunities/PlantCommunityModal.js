@@ -16,7 +16,7 @@ class PlantCommunityModal extends Component {
     pasture: PropTypes.shape({}).isRequired,
   }
 
-  renderPlantCommunityActions = (modalClass, purposeOfAction, plantCommunityActions = []) => {
+  renderPlantCommunityActions = (pcClass, purposeOfAction, plantCommunityActions = []) => {
     if (
       purposeOfAction === PurposeOfAction.NONE ||
       plantCommunityActions.length === 0
@@ -24,7 +24,7 @@ class PlantCommunityModal extends Component {
 
     return (
       <Fragment>
-        <div className={`${modalClass}__content-title`}>
+        <div className={`${pcClass}__modal__content-title`}>
           Pasture Actions
         </div>
         <PlantCommunityActionsBox
@@ -34,12 +34,12 @@ class PlantCommunityModal extends Component {
     );
   }
 
-  renderMonitoringAreas = (modalClass, monitoringAreas = []) => {
+  renderMonitoringAreas = (pcClass, monitoringAreas = []) => {
     if (monitoringAreas.length === 0) return <Fragment />;
 
     return (
       <Fragment>
-        <div className={`${modalClass}__content-title`}>
+        <div className={`${pcClass}__modal__content-title`}>
           Monitoring Areas
         </div>
         <MonitoringAreasBox
@@ -53,7 +53,6 @@ class PlantCommunityModal extends Component {
     const { plantCommunity, pasture } = this.props;
     const {
       name,
-      monitoringAreas,
       plantCommunityActions,
       purposeOfAction: poa,
       aspect,
@@ -62,22 +61,22 @@ class PlantCommunityModal extends Component {
       approved,
       notes,
       communityType,
+      // monitoringAreas,
     } = plantCommunity;
-    const communityTypeName = communityType && communityType.name;
+    const communityTypeName = (communityType && communityType.name) || name;
     const pastureName = pasture && pasture.name;
-    const modalClass = 'rup__plant-community__modal';
+    const pcClass = 'rup__plant-community';
     const elevationName = elevation && elevation.name;
     const purposeOfAction = capitalize(poa);
-    console.log(plantCommunity);
 
     return (
       <Modal
         dimmer="blurring"
         closeIcon
         trigger={
-          <div className="rup__plant-community__box">
+          <div className={`${pcClass}__box`}>
             <div>Plant Community: {communityTypeName}</div>
-            <div className="rup__plant-community__box__right">
+            <div className={`${pcClass}__box__right`}>
               <div>
                 {'Minister approval for inclusion obtained: '}
                 { approved
@@ -91,39 +90,39 @@ class PlantCommunityModal extends Component {
         }
       >
         <Modal.Content>
-          <div className={`${modalClass}__header`}>Plant Community: {communityTypeName}</div>
-          <div className={`${modalClass}__pasture`}>Pasture: {pastureName}</div>
-          <div className={`${modalClass}__content-title`}>
+          <div className={`${pcClass}__modal__header`}>Plant Community: {communityTypeName}</div>
+          <div className={`${pcClass}__modal__pasture`}>Pasture: {pastureName}</div>
+          <div className={`${pcClass}__modal__content-title`}>
             Basic Plant Community Information
           </div>
           <div className="rup__row">
             <div className="rup__cell-4">
-              <div className={`${modalClass}__label`}>{ASPECT}</div>
-              <div className={`${modalClass}__text`}>{handleNullValue(aspect)}</div>
+              <div className={`${pcClass}__modal__label`}>{ASPECT}</div>
+              <div className={`${pcClass}__modal__text`}>{handleNullValue(aspect)}</div>
             </div>
             <div className="rup__cell-4">
-              <div className={`${modalClass}__label`}>{ELEVATION}</div>
-              <div className={`${modalClass}__text`}>{handleNullValue(elevationName)}</div>
+              <div className={`${pcClass}__modal__label`}>{ELEVATION}</div>
+              <div className={`${pcClass}__modal__text`}>{handleNullValue(elevationName)}</div>
             </div>
             <div className="rup__cell-4">
-              <div className={`${modalClass}__label`}>{APPROVED_BY_MINISTER}</div>
-              <div className={`${modalClass}__text`}>
+              <div className={`${pcClass}__modal__label`}>{APPROVED_BY_MINISTER}</div>
+              <div className={`${pcClass}__modal__text`}>
                 <Checkbox checked={approved} toggle />
               </div>
             </div>
           </div>
-          <div className={`${modalClass}__label`}>{PLANT_COMMUNITY_NOTES}</div>
-          <div className={`${modalClass}__text`}>{handleNullValue(notes)}</div>
-          <div className={`${modalClass}__label`}>{COMMUNITY_URL}</div>
-          <div className={`${modalClass}__text`}>{handleNullValue(url)}</div>
-          <div className={`${modalClass}__label`}>{PURPOSE_OF_ACTION}</div>
-          <div className={`${modalClass}__text`}>{handleNullValue(purposeOfAction)}</div>
+          <div className={`${pcClass}__modal__label`}>{PLANT_COMMUNITY_NOTES}</div>
+          <div className={`${pcClass}__modal__text`}>{handleNullValue(notes)}</div>
+          <div className={`${pcClass}__modal__label`}>{COMMUNITY_URL}</div>
+          <div className={`${pcClass}__modal__text`}>{handleNullValue(url)}</div>
+          <div className={`${pcClass}__modal__label`}>{PURPOSE_OF_ACTION}</div>
+          <div className={`${pcClass}__modal__text`}>{handleNullValue(purposeOfAction)}</div>
 
-          {this.renderPlantCommunityActions(modalClass, purposeOfAction, plantCommunityActions)}
+          {this.renderPlantCommunityActions(pcClass, purposeOfAction, plantCommunityActions)}
 
-          {/* {this.renderMonitoringAreas(modalClass, monitoringAreas)} */}
+          {/* {this.renderMonitoringAreas(pcClass,__modal monitoringAreas)} */}
 
-          <div className={`${modalClass}__content-title`}>
+          <div className={`${pcClass}__modal__content-title`}>
             Criteria
           </div>
 
@@ -138,6 +137,12 @@ class PlantCommunityModal extends Component {
           <ShrubUseBox
             plantCommunity={plantCommunity}
           />
+
+          <div className={`${pcClass}__oma`}>
+            <div className={`${pcClass}__oma__title`}>Other Monitoring Activity</div>
+            <div>Plant community composition and structure are important habitat elements in all NGPN parks, and knowing the status and trends of plant communities helps in determining the health of the parks&apos; ecosystems. In addition to providing information about the vegetation in the parks, data from this monitoring will help characterize park-wide ecosystem responses to other environmental drivers, including weather and climate, land cover changes, invasive/exotic plants, and habitat conditions for species of interest (i.e., prairie dogs, bison, deer, etc.).</div>
+          </div>
+
         </Modal.Content>
       </Modal>
     );

@@ -124,14 +124,14 @@ export const IMAGE_SRC = {
   LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',
   LOGIN_PARAGRAPH4: '/images/login_paragraph4.jpg',
   LOGIN_PARAGRAPH5: '/images/login_paragraph5.jpg',
-  BASIC_INFORMATION_ICON: '/images/icon_basicinformation.png',
-  PASTURES_ICON: '/images/icon_pastures.png',
-  SCHEDULES_ICON: '/images/icon_schedules.png',
-  MINISTER_ISSUES_ICON: '/images/icon_ministersissues.png',
-  ADDITIONAL_REQS_ICON: '/images/icon_additionalreqs.png',
-  INVASIVE_PLANTS_ICON: '/images/icon_invasiveplants.png',
-  MANAGEMENT_ICON: '/images/icon_management.png',
-  MAP_ICON: '/images/icon_map.png',
+  BASIC_INFORMATION_ICON: '/images/icon_basicinformation.svg',
+  PASTURES_ICON: '/images/icon_pastures.svg',
+  SCHEDULES_ICON: '/images/icon_schedules.svg',
+  MINISTER_ISSUES_ICON: '/images/icon_ministersissues.svg',
+  ADDITIONAL_REQS_ICON: '/images/icon_additionalreqs.svg',
+  INVASIVE_PLANTS_ICON: '/images/icon_invasiveplants.svg',
+  MANAGEMENT_ICON: '/images/icon_management.svg',
+  MAP_ICON: '/images/icon_map.svg',
 };
 
 export const ELEMENT_ID = {
