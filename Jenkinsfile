@@ -114,23 +114,23 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         }
     }
 
-    stage('Build Artifacts') {
-      echo "Build Artifacts: ${BUILD_ID}"
-      try {
-        // Run our unit tests et al.
-        sh "npm run build"
-      } catch (error) {
-        def attachment = [: ]
-        attachment.fallback = 'See build log for more details'
-        attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
-        attachment.color = '#CD0000' // Red
-        attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-        // attachment.title_link = "${env.BUILD_URL}"
+    // stage('Build Artifacts') {
+    //   echo "Build Artifacts: ${BUILD_ID}"
+    //   try {
+    //     // Run our unit tests et al.
+    //     sh "npm run build"
+    //   } catch (error) {
+    //     def attachment = [: ]
+    //     attachment.fallback = 'See build log for more details'
+    //     attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
+    //     attachment.color = '#CD0000' // Red
+    //     attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+    //     // attachment.title_link = "${env.BUILD_URL}"
 
-        notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
-        sh "exit 1"
-      }
-    }
+    //     notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+    //     sh "exit 1"
+    //   }
+    // }
 
     // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
       stage('Image Build') {

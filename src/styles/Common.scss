@@ -248,10 +248,7 @@
     padding: 0px 15px 15px 15px;
 
     &__hidden {
-      // display: none;
-      opacity: 0;
-      height: 0;
-      padding: 0;
+      display: none;
     }
   }
 }
