@@ -186,6 +186,7 @@
     transform: translate(-50%, -50%);
   }
 }
+
 .error-page {
   display: flex;
   align-items: center;
@@ -200,5 +201,57 @@
 
   &__message {
     margin: 0px 10px 0 5px;
+  }
+}
+
+.collaspible-boxes {
+  margin: 10px 0 0 0;
+  list-style-type: none;
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+  
+  li {
+    border-bottom: 1px solid gainsboro;
+  }
+  li:last-child {
+    border-bottom: 0px solid gainsboro;
+  }
+
+  &--empty {
+    border: 0px;
+  }
+}
+
+.collaspible-box {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 100%;
+
+    &__title {
+      @extend .default-button;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      padding: 15px !important;
+    }
+    &__right {
+      display: flex;
+    }
+  }
+  &__content {
+    padding: 0px 15px 15px 15px;
+
+    &__hidden {
+      // display: none;
+      opacity: 0;
+      height: 0;
+      padding: 0;
+    }
   }
 }

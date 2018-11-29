@@ -10,7 +10,6 @@ class BasicInformation extends Component {
     plan: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
     agreement: PropTypes.shape({}).isRequired,
-    className: PropTypes.string.isRequired,
     onZoneClicked: PropTypes.func,
   }
   static defaultProps = {
@@ -31,7 +30,6 @@ class BasicInformation extends Component {
       agreement,
       plan,
       onZoneClicked,
-      className,
       user,
     } = this.props;
 
@@ -68,7 +66,7 @@ class BasicInformation extends Component {
     const isAdmin = isUserAdmin(user);
 
     return (
-      <div id={elementId} className={className}>
+      <div id={elementId} className="rup__basic_information">
         <div className="rup__content-title">Basic Information</div>
         <div className="rup__row">
           <div className="rup__agreement-info rup__cell-6">

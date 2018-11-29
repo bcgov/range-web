@@ -1,4 +1,5 @@
 $sticky-height: 55px;
+$common-margin-bottom: 30px;
 
 .rup {
   &__cell-6 {
@@ -264,12 +265,14 @@ $sticky-height: 55px;
     cursor: pointer;
   }
   &__basic_information {
-    margin-bottom: 15px;
+    margin-bottom: calc(#{$common-margin-bottom} - 10px);
   }
   &__usage__table {
-    margin-bottom: 20px;
+    margin-bottom: $common-margin-bottom;
   }
   &__ip-checklist {
+    margin-bottom: $common-margin-bottom;
+
     &__header {
       font-size: 1.1rem;
       margin-top: 5px;

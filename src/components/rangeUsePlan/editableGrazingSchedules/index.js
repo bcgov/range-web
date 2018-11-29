@@ -58,7 +58,7 @@ export class EditableGrazingSchedules extends Component {
     return [];
   }
 
-  onScheduleClicked = (scheduleIndex) => {
+  onScheduleClicked = scheduleIndex => () => {
     this.setState((prevState) => {
       const newIndex = prevState.activeScheduleIndex === scheduleIndex ? -1 : scheduleIndex;
       return {
@@ -209,9 +209,10 @@ export class EditableGrazingSchedules extends Component {
     const { elementId, plan, grazingSchedulesMap } = this.props;
     const grazingScheduleIds = plan && plan.grazingSchedules;
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
+    const isEmpty = grazingSchedules.length === 0;
 
     return (
-      <div id={elementId} className="rup__grazing-schedules__container">
+      <div id={elementId} className="rup__grazing-schedules">
         <div className="rup__content-title--editable">
           <div>Yearly Schedules</div>
           <Dropdown
@@ -232,10 +233,15 @@ export class EditableGrazingSchedules extends Component {
         </div>
         <div className="rup__divider" />
         {
-          grazingSchedules.length === 0 ? (
+          isEmpty ? (
             <div className="rup__section-not-found">{NOT_PROVIDED}</div>
           ) : (
-            <ul className={classnames('rup__grazing-schedules', { 'rup__grazing-schedules--empty': grazingSchedules.length === 0 })}>
+            <ul
+              className={classnames(
+                'collaspible-boxes',
+                { 'collaspible-boxes--empty': isEmpty },
+              )}
+            >
               {grazingSchedules.map(this.renderSchedule)}
             </ul>
           )

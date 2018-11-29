@@ -47,6 +47,7 @@ export const createConfigWithHeader = (getState) => {
 
 export const getObjValues = (obj = {}) => Object.keys(obj).map(e => obj[e]) || [];
 export const createEmptyArray = (length = 0) => [...Array(length)];
+export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice(1));
 
 /**
  * Present user friendly string when getting null or undefined value
@@ -121,8 +122,7 @@ export const downloadPDFBlob = (blob, ref, fileName) => {
   // For other browsers:
   // Create a link pointing to the ObjectURL containing the blob.
   const data = window.URL.createObjectURL(newBlob);
-  const pdfLink = document.createElement('a');
-  // const pdfLink = ref;
+  const pdfLink = ref;
 
   pdfLink.href = data;
   pdfLink.download = fileName;

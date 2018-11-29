@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
-import * as utils from '../../../utils';
+import { isStatusDraft } from '../../../utils';
 import * as strings from '../../../constants/strings';
 import GrazingScheduleBox from './GrazingScheduleBox';
 
@@ -32,8 +32,9 @@ class GrazingSchedules extends Component {
   renderSchedules = (grazingSchedules = []) => {
     const { plan } = this.props;
     const status = plan && plan.status;
+    const isEmpty = grazingSchedules.length === 0;
 
-    if (utils.isStatusDraft(status)) {
+    if (isStatusDraft(status)) {
       return (
         <div className="rup__grazing-schedule__draft-container">
           <div className="rup__grazing-schedule__in-draft">
@@ -46,12 +47,18 @@ class GrazingSchedules extends Component {
         </div>
       );
     }
-    if (grazingSchedules.length === 0) {
+
+    if (isEmpty) {
       return <div className="rup__section-not-found">{strings.NOT_PROVIDED}</div>;
     }
 
     return (
-      <ul className={classnames('rup__grazing-schedules', { 'rup__grazing-schedules--empty': grazingSchedules.length === 0 })}>
+      <ul
+        className={classnames(
+          'collaspible-boxes',
+          { 'collaspible-boxes--empty': isEmpty },
+        )}
+      >
         {grazingSchedules.map(this.renderSchedule)}
       </ul>
     );
@@ -76,7 +83,7 @@ class GrazingSchedules extends Component {
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div id={elementId} className="rup__grazing-schedules__container">
+      <div id={elementId} className="rup__grazing-schedules">
         <div className="rup__content-title">Schedules</div>
         <div className="rup__divider" />
         {this.renderSchedules(grazingSchedules)}

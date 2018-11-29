@@ -9,7 +9,6 @@ class Pastures extends Component {
     elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
-    className: PropTypes.string.isRequired,
   };
 
   state = {
@@ -39,24 +38,29 @@ class Pastures extends Component {
   }
 
   renderPastures = (pastures = []) => {
-    const isPastureEmpty = pastures.length === 0;
+    const isEmpty = pastures.length === 0;
 
-    return isPastureEmpty ? (
+    return isEmpty ? (
       <div className="rup__section-not-found">{NOT_PROVIDED}</div>
     ) : (
-      <ul className={classnames('rup__pastures', { 'rup__pastures--empty': isPastureEmpty })}>
+      <ul
+        className={classnames(
+          'collaspible-boxes',
+          { 'collaspible-boxes--empty': isEmpty },
+        )}
+      >
         {pastures.map(this.renderPasture)}
       </ul>
     );
   }
 
   render() {
-    const { elementId, plan, pasturesMap, className } = this.props;
+    const { elementId, plan, pasturesMap } = this.props;
     const pastureIds = plan && plan.pastures;
     const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
 
     return (
-      <div id={elementId} className={className}>
+      <div id={elementId} className="rup__pastures">
         <div className="rup__content-title">Pastures</div>
         <div className="rup__divider" />
         {this.renderPastures(pastures)}

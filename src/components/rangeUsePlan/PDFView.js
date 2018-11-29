@@ -52,8 +52,8 @@ class PDFView extends Component {
   setDownlaodPDFRef = (ref) => { this.donwloadPDFLink = ref; }
 
   render() {
-    // const { numPages } = this.state;
     const { planPDFBlob, isFetchingPDF, errorFetchingPDF } = this.props;
+    // const { numPages } = this.state;
     // const pages = Array.from(
     //   new Array(numPages),
     //   (el, index) => (
@@ -106,7 +106,9 @@ class PDFView extends Component {
             </div>
           </div>
         }
-        {/* { planPDFBlob &&
+
+        {/* Compatibility issue with the most recent React version I think...
+        { planPDFBlob &&
           <div className="rup-pdf__content">
             <div className="rup-pdf__preview__header">
               <div>

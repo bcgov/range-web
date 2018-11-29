@@ -11,7 +11,6 @@ import { USER_NOT_ACTIVE, USER_NO_ROLE } from '../../constants/strings';
 export class MainPage extends Component {
   static propTypes = {
     component: PropTypes.func.isRequired,
-    user: PropTypes.shape({}).isRequired,
     signOut: PropTypes.func.isRequired,
     fetchZones: PropTypes.func.isRequired,
     fetchReferences: PropTypes.func.isRequired,
@@ -30,17 +29,17 @@ export class MainPage extends Component {
   render() {
     const {
       component: Component,
-      user,
       confirmationModalsMap,
       ...rest
     } = this.props;
+    const { user } = rest;
     const userActive = isUserActive(user);
     const userHaveRole = DoesUserHaveRole(user);
     const userActiveAndHaveRole = userActive && userHaveRole;
 
     return (
       <main>
-        <Navbar {...rest} user={user} />
+        <Navbar {...rest} />
 
         { !userHaveRole &&
           <section className="user-error">{USER_NO_ROLE}</section>
@@ -51,7 +50,7 @@ export class MainPage extends Component {
         }
 
         { userActiveAndHaveRole &&
-          <Component {...rest} user={user} />
+          <Component {...rest} />
         }
 
         <ConfirmationModals />

@@ -5,11 +5,10 @@ import { Form } from 'semantic-ui-react';
 class InvasivePlantChecklist extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
-    className: PropTypes.string.isRequired,
   };
 
   render() {
-    const { className, plan } = this.props;
+    const { plan } = this.props;
     const { invasivePlantChecklist } = plan;
     const {
       equipmentAndVehiclesParking = false,
@@ -21,7 +20,7 @@ class InvasivePlantChecklist extends Component {
     const otherChecked = typeof other === 'string';
 
     return (
-      <div className={className}>
+      <div className="rup__ip-checklist">
         <div className="rup__content-title">Invasive Plants</div>
         <div className="rup__divider" />
         <div className="rup__ip-checklist__header">
