@@ -9,6 +9,15 @@
   }
 
   &__grazing-schedule {
+    &__title {
+      display: flex;
+      align-items: center;
+
+      > img {
+        margin-right: 7px;
+        height: 18px;
+      }
+    }
     &__warning-message {
       padding: 0px 15px 10px 15px;
     }

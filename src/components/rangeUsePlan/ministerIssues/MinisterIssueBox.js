@@ -48,7 +48,12 @@ class MinisterIssueBox extends Component {
         contentIndex={ministerIssueIndex}
         activeContentIndex={activeMinisterIssueIndex}
         onContentClicked={onMinisterIssueClicked}
-        header={`Issue Type: ${ministerIssueTypeName}`}
+        header={
+          <div>
+            <Icon name="warning sign" style={{ marginRight: '7px' }} />
+            Issue Type: {ministerIssueTypeName}
+          </div>
+        }
         headerRight={
           <div className="rup__missue__identified">
             {'Identified: '}

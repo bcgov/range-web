@@ -12,7 +12,7 @@ import { roundTo1Decimal } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } from '../../../actions';
 import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
-import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+import { CONFIRMATION_MODAL_ID, IMAGE_SRC } from '../../../constants/variables';
 
 class EditableGrazingScheduleBox extends Component {
   static propTypes = {
@@ -200,7 +200,12 @@ class EditableGrazingScheduleBox extends Component {
         contentIndex={scheduleIndex}
         activeContentIndex={activeScheduleIndex}
         onContentClicked={onScheduleClicked}
-        header={`${year} Grazing Schedule`}
+        header={
+          <div className="rup__grazing-schedule__title">
+            <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
+            {year} Grazing Schedule
+          </div>
+        }
         headerRight={
           <Dropdown
             trigger={<Icon name="ellipsis vertical" />}

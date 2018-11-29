@@ -5,9 +5,11 @@
   &__pasture {
     &__title {
       display: flex;
+      align-items: center;
 
       > img {
         margin-right: 7px;
+        height: 18px;
       }
     }
   }

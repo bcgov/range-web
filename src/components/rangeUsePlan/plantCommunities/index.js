@@ -27,7 +27,7 @@ class PlantCommunities extends Component {
     const isEmpty = plantCommunities.length === 0;
 
     return isEmpty ? (
-      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      <div className="rup__plant-communities__not-provided">{NOT_PROVIDED}</div>
     ) : (
       plantCommunities.map(this.renderPlantCommunity)
     );
@@ -44,7 +44,7 @@ class PlantCommunities extends Component {
           Plant Communities
         </div>
 
-        {plantCommunities.map(this.renderPlantCommunity)}
+        {this.renderPlantCommunities(plantCommunities)}
       </div>
     );
   }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { roundTo1Decimal, calcCrownTotalAUMs, handleNullValue } from '../../../utils';
 import * as strings from '../../../constants/strings';
-import { REFERENCE_KEY } from '../../../constants/variables';
+import { REFERENCE_KEY, IMAGE_SRC } from '../../../constants/variables';
 import { CollapsibleBox } from '../../common';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
 
@@ -51,7 +51,12 @@ class GrazingScheduleBox extends Component {
         contentIndex={scheduleIndex}
         activeContentIndex={activeScheduleIndex}
         onContentClicked={onScheduleClicked}
-        header={`${year} Grazing Schedule`}
+        header={
+          <div className="rup__grazing-schedule__title">
+            <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
+            {year} Grazing Schedule
+          </div>
+        }
         collapsibleContent={
           <Fragment>
             <Table unstackable>

@@ -5,6 +5,9 @@
       color: gray;
       margin: 10px 0px;
     }
+    &__not-provided {
+      margin-top: -5px;
+    }
   }
 
   &__plant-community {
@@ -24,9 +27,11 @@
       }
       &__left {
         display: flex;
+        align-items: center;
 
         > img {
           margin-right: 7px;
+          height: 15px;
         }
       }
       &__right {
