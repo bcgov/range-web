@@ -1,0 +1,50 @@
+.rup-pdf {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  
+  &__link {
+    display: none;
+  }
+  &__close-btn {
+    @extend .default-button;
+    color: #4183c4;
+    background: transparent;
+
+    &__container {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    min-width: 70%;
+  }
+  &__preview {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 20px;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+    }
+    .ReactPDF {
+      &__Page {
+        box-shadow: 0 0 30px rgba(0, 0, 0, .3);
+        margin: 10px 0;
+
+        canvas {
+          max-width: 100%;
+          height: auto !important;
+        }
+      }
+      &__message {
+        padding: 20px;
+        color: black;
+      }
+    }
+  }
+}

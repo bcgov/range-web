@@ -19,6 +19,7 @@ import Notifications from './Notifications';
 import StickyHeader from './StickyHeader';
 import UsageTable from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
+import AdditionalRequirements from './additionalRequirements';
 
 // Agreement Holder page
 export class AHPage extends Component {
@@ -33,6 +34,8 @@ export class AHPage extends Component {
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
     planStatusHistoryMap: PropTypes.shape({}).isRequired,
+    additionalRequirementsMap: PropTypes.shape({}).isRequired,
+    managementConsiderationsMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
@@ -57,6 +60,8 @@ export class AHPage extends Component {
       confirmations: [],
       planStatusHistory: [],
       invasivePlantChecklist: {},
+      managementConsiderations: [],
+      additionalRequirements: [],
     },
   };
 
@@ -302,6 +307,7 @@ export class AHPage extends Component {
       ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
+      additionalRequirementsMap,
     } = this.props;
 
     const { agreementId, status, confirmations, rangeName } = plan;
@@ -414,6 +420,12 @@ export class AHPage extends Component {
           <InvasivePlantChecklist
             elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
             plan={plan}
+          />
+
+          <AdditionalRequirements
+            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
+            plan={plan}
+            additionalRequirementsMap={additionalRequirementsMap}
           />
         </ContentsContainer>
       </section>

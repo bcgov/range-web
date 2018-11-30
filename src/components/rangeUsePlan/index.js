@@ -77,7 +77,7 @@ class Base extends Component {
       <Fragment>
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-        {isUserAdmin(user) &&
+        {plan && isUserAdmin(user) &&
           <StaffPage
             agreement={agreement}
             plan={plan}
@@ -85,7 +85,7 @@ class Base extends Component {
           />
         }
 
-        {isUserRangeOfficer(user) &&
+        {plan && isUserRangeOfficer(user) &&
           <StaffPage
             agreement={agreement}
             plan={plan}
@@ -93,7 +93,7 @@ class Base extends Component {
           />
         }
 
-        {isUserAgreementHolder(user) &&
+        {plan && isUserAgreementHolder(user) &&
           <AHPage
             agreement={agreement}
             plan={plan}
@@ -114,6 +114,8 @@ const mapStateToProps = state => (
     ministerIssuesMap: selectors.getMinisterIssuesMap(state),
     confirmationsMap: selectors.getConfirmationsMap(state),
     planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
+    additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
+    managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),
     isFetchingPlan: selectors.getIsFetchingPlan(state),
     errorFetchingPlan: selectors.getPlanError(state),
     references: selectors.getReferences(state),

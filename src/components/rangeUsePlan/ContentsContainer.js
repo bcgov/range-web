@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { ELEMENT_ID, IMAGE_SRC, STICKY_HEADER_HEIGHT, CONTENT_MARGIN_TOP, CONTENT_MARGIN_BOTTOM } from '../../constants/variables';
-import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANTS } from '../../constants/strings';
+import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANTS, ADDITIONAL_REQUIREMENTS } from '../../constants/strings';
 
 class ContentsContainer extends Component {
   static propTypes = {
@@ -32,6 +32,12 @@ class ContentsContainer extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
+
+    // manually click on the active tab once DOMs are rendered
+    const activeTab = document.querySelector('.rup__contents__tab--active');
+    if (activeTab) {
+      activeTab.click();
+    }
   }
 
   componentWillUnmount() {
@@ -62,7 +68,7 @@ class ContentsContainer extends Component {
       tab.classList.remove('rup__contents__tab--active');
 
       // set active to the tab that's related to the current content
-      if (displayedContentId && `#${displayedContentId}` === tab.hash) {
+      if (displayedContentId && (`#${displayedContentId}` === tab.hash)) {
         tab.classList.add('rup__contents__tab--active');
       }
     });
@@ -109,6 +115,13 @@ class ContentsContainer extends Component {
           >
             <img src={IMAGE_SRC.INVASIVE_PLANTS_ICON} alt="icon" />
             <span>{INVASIVE_PLANTS}</span>
+          </a>
+          <a
+            href={`#${ELEMENT_ID.ADDITIONAL_REQUIREMENTS}`}
+            className={classnames('rup__contents__tab', { 'rup__contents__tab--active': hash === `#${ELEMENT_ID.ADDITIONAL_REQUIREMENTS}` })}
+          >
+            <img src={IMAGE_SRC.ADDITIONAL_REQS_ICON} alt="icon" />
+            <span>{ADDITIONAL_REQUIREMENTS}</span>
           </a>
         </div>
         <div className="rup__contents">

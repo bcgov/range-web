@@ -8,13 +8,12 @@ class PlantCommunityActionRow extends Component {
   }
 
   render() {
-    const actionClass = 'rup__plant-community__action';
     const { plantCommunityAction } = this.props;
     const { actionType, details } = plantCommunityAction;
     const actionTypeName = actionType && actionType.name;
 
     return (
-      <div className={`${actionClass}__row`}>
+      <div className="rup__plant-community__action__row">
         <div>
           {handleNullValue(actionTypeName)}
         </div>

@@ -60,7 +60,7 @@ class Pastures extends Component {
     const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
 
     return (
-      <div id={elementId} className="rup__pastures">
+      <div id={elementId} className="rup__additional-requirements">
         <div className="rup__content-title">Pastures</div>
         <div className="rup__divider" />
         {this.renderPastures(pastures)}
