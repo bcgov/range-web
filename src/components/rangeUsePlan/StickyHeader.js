@@ -25,10 +25,10 @@ class StickyHeader extends Component {
 
   handleScroll = () => {
     const header = document.getElementById(ELEMENT_ID.RUP_STICKY_HEADER);
-    if (!this.sticky) {
-      this.sticky = header.offsetTop;
+    if (!this.stickyOffsetTop) {
+      this.stickyOffsetTop = header.offsetTop;
     }
-    if (window.pageYOffset > this.sticky) {
+    if (window.pageYOffset > this.stickyOffsetTop) {
       header.classList.add('rup__sticky--fixed');
     } else {
       header.classList.remove('rup__sticky--fixed');

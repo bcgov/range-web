@@ -2,27 +2,69 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
-import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
+import { ELEMENT_ID, IMAGE_SRC, STICKY_HEADER_HEIGHT, CONTENT_MARGIN_TOP, CONTENT_MARGIN_BOTTOM } from '../../constants/variables';
 import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANTS } from '../../constants/strings';
 
 class ContentsContainer extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({}).isRequired,
-  };
+  }
 
   renderChild = (child, index) => {
-    const { props } = child;
+    const { props: ChildProps } = child;
+    const { elementId, ...rest } = ChildProps;
+    const Child = {
+      ...child,
+      props: rest,
+    };
     /*
       setup a reference point for each content
       that's little bit above of the content due to the sticky header
     */
     return (
       <div key={index} className="rup__content">
-        <div id={props.elementId} className="rup__content__ref" />
-        {child}
+        <div id={elementId} className="rup__content__ref" />
+        {Child}
       </div>
     );
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const { pageYOffset } = window;
+    const refContents = document.querySelectorAll('.rup__content__ref');
+
+    let displayedContentId;
+    // find the id of the current content that's being displayed in the screen
+    refContents.forEach((ref) => {
+      const { offsetTop: ost, offsetHeight } = ref.parentElement;
+
+      // reevalulate offsetTop due to the position of the reference <a> tag
+      const offsetTop = ost - (STICKY_HEADER_HEIGHT + CONTENT_MARGIN_TOP);
+      const offsetBottom = offsetTop + offsetHeight + CONTENT_MARGIN_BOTTOM;
+      if (pageYOffset >= offsetTop && pageYOffset <= offsetBottom) {
+        displayedContentId = ref.id;
+      }
+    });
+
+    const tabs = document.querySelectorAll('.rup__contents__tab');
+    tabs.forEach((tab) => {
+      // clean up the previous active class in all tabs
+      tab.classList.remove('rup__contents__tab--active');
+
+      // set active to the tab that's related to the current content
+      if (displayedContentId && `#${displayedContentId}` === tab.hash) {
+        tab.classList.add('rup__contents__tab--active');
+      }
+    });
   }
 
   render() {
