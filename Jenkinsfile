@@ -155,7 +155,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
           echo "Applying tag ${TAG_NAMES[0]} to image ${IMAGE_HASH}"
 
           def attachment = [: ]
-          def message = "Another huge sucess; A freshly minted build is being deployed and will be available shortly."
+          def message = "Another huge sucess; A freshly minted build is being deployed on dev environment and will be available shortly."
           message = message + "\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
           message = message + "\nThis image can be promoted to the *test* environment"
           attachment.title = "Web Build ${BUILD_ID} OK! :heart: :tada:"
