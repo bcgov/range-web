@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
-import { ELEMENT_ID, IMAGE_SRC, STICKY_HEADER_HEIGHT, CONTENT_MARGIN_TOP, CONTENT_MARGIN_BOTTOM } from '../../constants/variables';
-import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANTS, ADDITIONAL_REQUIREMENTS } from '../../constants/strings';
+import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
+import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANTS, ADDITIONAL_REQUIREMENTS, MANAGEMENT_CONSIDERATIONS } from '../../constants/strings';
 
 class ContentsContainer extends Component {
   static propTypes = {
@@ -45,33 +45,33 @@ class ContentsContainer extends Component {
   }
 
   handleScroll = () => {
-    /* change the active tab on scroll */
-    const { pageYOffset } = window;
-    const refContents = document.querySelectorAll('.rup__content__ref');
+    // /* change the active tab on scroll buggy right now*/
+    // const { pageYOffset } = window;
+    // const refContents = document.querySelectorAll('.rup__content__ref');
 
-    let displayedContentId;
-    // find the id of the current content that's being displayed in the screen
-    refContents.forEach((ref) => {
-      const { offsetTop: ost, offsetHeight } = ref.parentElement;
+    // let displayedContentId;
+    // // find the id of the current content that's being displayed in the screen
+    // refContents.forEach((ref) => {
+    //   const { offsetTop: ost, offsetHeight } = ref.parentElement;
 
-      // reevalulate offsetTop due to the position of the reference <a> tag
-      const offsetTop = ost - (STICKY_HEADER_HEIGHT + CONTENT_MARGIN_TOP);
-      const offsetBottom = offsetTop + offsetHeight + CONTENT_MARGIN_BOTTOM;
-      if (pageYOffset >= offsetTop && pageYOffset <= offsetBottom) {
-        displayedContentId = ref.id;
-      }
-    });
+    //   // reevalulate offsetTop due to the position of the reference <a> tag
+    //   const offsetTop = ost - (STICKY_HEADER_HEIGHT + CONTENT_MARGIN_TOP);
+    //   const offsetBottom = offsetTop + offsetHeight + CONTENT_MARGIN_BOTTOM;
+    //   if (pageYOffset >= offsetTop && pageYOffset <= offsetBottom) {
+    //     displayedContentId = ref.id;
+    //   }
+    // });
 
-    const tabs = document.querySelectorAll('.rup__contents__tab');
-    tabs.forEach((tab) => {
-      // clean up the previous active class in all tabs
-      tab.classList.remove('rup__contents__tab--active');
+    // const tabs = document.querySelectorAll('.rup__contents__tab');
+    // tabs.forEach((tab) => {
+    //   // clean up the previous active class in all tabs
+    //   tab.classList.remove('rup__contents__tab--active');
 
-      // set active to the tab that's related to the current content
-      if (displayedContentId && (`#${displayedContentId}` === tab.hash)) {
-        tab.classList.add('rup__contents__tab--active');
-      }
-    });
+    //   // set active to the tab that's related to the current content
+    //   if (displayedContentId && (`#${displayedContentId}` === tab.hash)) {
+    //     tab.classList.add('rup__contents__tab--active');
+    //   }
+    // });
   }
 
   render() {
@@ -122,6 +122,13 @@ class ContentsContainer extends Component {
           >
             <img src={IMAGE_SRC.ADDITIONAL_REQS_ICON} alt="icon" />
             <span>{ADDITIONAL_REQUIREMENTS}</span>
+          </a>
+          <a
+            href={`#${ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}`}
+            className={classnames('rup__contents__tab', { 'rup__contents__tab--active': hash === `#${ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}` })}
+          >
+            <img src={IMAGE_SRC.MANAGEMENT_ICON} alt="icon" />
+            <span>{MANAGEMENT_CONSIDERATIONS}</span>
           </a>
         </div>
         <div className="rup__contents">

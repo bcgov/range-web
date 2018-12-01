@@ -149,6 +149,7 @@ export const ELEMENT_ID = {
   MINISTER_ISSUES: 'rup__minister-issues',
   INVASIVE_PLANT_CHECKLIST: 'rup__ip-checklist',
   ADDITIONAL_REQUIREMENTS: 'rup__additional-requirements',
+  MANAGEMENT_CONSIDERATIONS: 'rup__management-considerations',
   RUP_ZONE_DROPDOWN: 'rup__zone-dropdown',
   SIGN_OUT: 'sign-out',
   MANAGE_ZONE_ZONES_DROPDOWN: 'manage-zone__zone-dropdown',

@@ -20,6 +20,7 @@ import StickyHeader from './StickyHeader';
 import UsageTable from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
 import AdditionalRequirements from './additionalRequirements';
+import ManagementConsiderations from './managementConsiderations';
 
 // Agreement Holder page
 export class AHPage extends Component {
@@ -308,6 +309,7 @@ export class AHPage extends Component {
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
+      managementConsiderationsMap,
     } = this.props;
 
     const { agreementId, status, confirmations, rangeName } = plan;
@@ -426,6 +428,12 @@ export class AHPage extends Component {
             elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
             plan={plan}
             additionalRequirementsMap={additionalRequirementsMap}
+          />
+
+          <ManagementConsiderations
+            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
+            plan={plan}
+            managementConsiderationsMap={managementConsiderationsMap}
           />
         </ContentsContainer>
       </section>

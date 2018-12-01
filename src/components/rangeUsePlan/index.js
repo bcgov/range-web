@@ -78,9 +78,15 @@ class Base extends Component {
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
         {plan && isUserAdmin(user) &&
-          <StaffPage
+          // <StaffPage
+          //   agreement={agreement}
+          //   plan={plan}
+          //   {...this.props}
+          // />
+          <AHPage
             agreement={agreement}
             plan={plan}
+            fetchPlan={this.fetchPlan}
             {...this.props}
           />
         }

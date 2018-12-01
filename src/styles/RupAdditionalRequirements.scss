@@ -1,4 +1,5 @@
 .rup {
+  &__management-considerations,
   &__additional-requirements {
     margin-bottom: $common-margin-bottom;
 
@@ -13,6 +14,7 @@
       border-radius: 5px;
     }
   }
+  &__management-consideration,
   &__additional-requirement {
     &__header {
       display: flex;

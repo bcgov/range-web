@@ -19,6 +19,7 @@ import Notifications from './Notifications';
 import UsageTable from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
 import AdditionalRequirements from './additionalRequirements';
+import ManagementConsiderations from './managementConsiderations';
 
 // Range Staff Page
 class StaffPage extends Component {
@@ -78,6 +79,7 @@ class StaffPage extends Component {
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
+      managementConsiderationsMap,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
@@ -189,6 +191,12 @@ class StaffPage extends Component {
             elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
             plan={plan}
             additionalRequirementsMap={additionalRequirementsMap}
+          />
+
+          <ManagementConsiderations
+            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
+            plan={plan}
+            managementConsiderationsMap={managementConsiderationsMap}
           />
         </ContentsContainer>
       </section>
