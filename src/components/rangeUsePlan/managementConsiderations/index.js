@@ -22,7 +22,7 @@ class PlantCommunityActionsBox extends Component {
     const isEmpty = managementConsiderations.length === 0;
 
     return isEmpty ? (
-      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      <div className="rup__management-considerations__no-content">No management considerations provided</div>
     ) : (
       managementConsiderations.map(this.renderAdditionalRequirement)
     );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NOT_PROVIDED } from '../../../constants/strings';
 import MinisterIssueBox from './MinisterIssueBox';
 
 class MinisterIssues extends Component {
@@ -29,7 +28,7 @@ class MinisterIssues extends Component {
   renderMinisterIssues = (ministerIssues = []) => {
     const isEmpty = ministerIssues.length === 0;
     return isEmpty ? (
-      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      <div className="rup__section-not-found">None identified</div>
     ) : (
       <ul className={classnames(
         'collaspible-boxes',

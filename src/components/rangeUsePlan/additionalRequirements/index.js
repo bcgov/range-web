@@ -22,7 +22,7 @@ class PlantCommunityActionsBox extends Component {
     const isEmpty = additionalRequirements.length === 0;
 
     return isEmpty ? (
-      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      <div className="rup__additional-requirements__no-content">No additional requirements provided</div>
     ) : (
       additionalRequirements.map(this.renderAdditionalRequirement)
     );

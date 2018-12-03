@@ -13,6 +13,10 @@
       border: 1px solid gainsboro;
       border-radius: 5px;
     }
+    &__no-content {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
   }
   &__management-consideration,
   &__additional-requirement {
