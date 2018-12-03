@@ -18,6 +18,8 @@ import { EXPORT_PDF } from '../../constants/routes';
 import Notifications from './Notifications';
 import UsageTable from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
+import AdditionalRequirements from './additionalRequirements';
+import ManagementConsiderations from './managementConsiderations';
 
 // Range Staff Page
 class StaffPage extends Component {
@@ -31,6 +33,8 @@ class StaffPage extends Component {
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
     planStatusHistoryMap: PropTypes.shape({}).isRequired,
+    additionalRequirementsMap: PropTypes.shape({}).isRequired,
+    managementConsiderationsMap: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -46,6 +50,8 @@ class StaffPage extends Component {
       confirmations: [],
       planStatusHistory: [],
       invasivePlantChecklist: {},
+      managementConsiderations: [],
+      additionalRequirements: [],
     },
   };
 
@@ -72,6 +78,8 @@ class StaffPage extends Component {
       ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
+      additionalRequirementsMap,
+      managementConsiderationsMap,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
@@ -176,8 +184,19 @@ class StaffPage extends Component {
 
           <InvasivePlantChecklist
             elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-            className="rup__ip-checklist__container"
             plan={plan}
+          />
+
+          <AdditionalRequirements
+            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
+            plan={plan}
+            additionalRequirementsMap={additionalRequirementsMap}
+          />
+
+          <ManagementConsiderations
+            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
+            plan={plan}
+            managementConsiderationsMap={managementConsiderationsMap}
           />
         </ContentsContainer>
       </section>

@@ -19,6 +19,8 @@ import Notifications from './Notifications';
 import StickyHeader from './StickyHeader';
 import UsageTable from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
+import AdditionalRequirements from './additionalRequirements';
+import ManagementConsiderations from './managementConsiderations';
 
 // Agreement Holder page
 export class AHPage extends Component {
@@ -33,6 +35,8 @@ export class AHPage extends Component {
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     confirmationsMap: PropTypes.shape({}).isRequired,
     planStatusHistoryMap: PropTypes.shape({}).isRequired,
+    additionalRequirementsMap: PropTypes.shape({}).isRequired,
+    managementConsiderationsMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
@@ -57,6 +61,8 @@ export class AHPage extends Component {
       confirmations: [],
       planStatusHistory: [],
       invasivePlantChecklist: {},
+      managementConsiderations: [],
+      additionalRequirements: [],
     },
   };
 
@@ -302,6 +308,8 @@ export class AHPage extends Component {
       ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
+      additionalRequirementsMap,
+      managementConsiderationsMap,
     } = this.props;
 
     const { agreementId, status, confirmations, rangeName } = plan;
@@ -414,6 +422,18 @@ export class AHPage extends Component {
           <InvasivePlantChecklist
             elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
             plan={plan}
+          />
+
+          <AdditionalRequirements
+            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
+            plan={plan}
+            additionalRequirementsMap={additionalRequirementsMap}
+          />
+
+          <ManagementConsiderations
+            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
+            plan={plan}
+            managementConsiderationsMap={managementConsiderationsMap}
           />
         </ContentsContainer>
       </section>

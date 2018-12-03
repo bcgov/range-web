@@ -13,7 +13,6 @@ import EditableGrazingScheduleBox from './EditableGrazingScheduleBox';
 
 export class EditableGrazingSchedules extends Component {
   static propTypes = {
-    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({ grazingSchedules: PropTypes.array }).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
@@ -206,13 +205,13 @@ export class EditableGrazingSchedules extends Component {
   }
   render() {
     const { yearOptions } = this.state;
-    const { elementId, plan, grazingSchedulesMap } = this.props;
+    const { plan, grazingSchedulesMap } = this.props;
     const grazingScheduleIds = plan && plan.grazingSchedules;
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
     const isEmpty = grazingSchedules.length === 0;
 
     return (
-      <div id={elementId} className="rup__grazing-schedules">
+      <div className="rup__grazing-schedules">
         <div className="rup__content-title--editable">
           <div>Yearly Schedules</div>
           <Dropdown
