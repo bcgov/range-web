@@ -48,7 +48,7 @@ class ContentsContainer extends Component {
   }
 
   handleScroll = () => {
-    /* change the active tab on scroll buggy */
+    /* change the active tab on scroll */
     const { pageYOffset } = window;
     const references = document.querySelectorAll('.rup__content__ref');
 

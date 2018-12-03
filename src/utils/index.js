@@ -56,10 +56,15 @@ export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice
  * @param {boolean} fullText default is true
  * @returns {string} the value or 'Not provided' or 'N/P'
  */
-export const handleNullValue = (value, fullText = true) => {
+export const handleNullValue = (value, fullText = true, notProvided) => {
   if (value || value === 0) {
     return value;
   }
+
+  if (notProvided) {
+    return notProvided;
+  }
+
   return fullText ? NOT_PROVIDED : NP;
 };
 

@@ -44,7 +44,7 @@ class GrazingScheduleEntryRow extends Component {
         <Table.Cell>{utils.formatDateFromServer(dateIn, false)}</Table.Cell>
         <Table.Cell>{utils.formatDateFromServer(dateOut, false)}</Table.Cell>
         <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.handleNullValue(graceDays, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(graceDays || 0, false)}</Table.Cell>
         <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false)}</Table.Cell>
         <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false)}</Table.Cell>
       </Table.Row>
