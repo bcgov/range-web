@@ -64,7 +64,7 @@ export class AgreementTableRow extends Component {
           onClick={this.onRowClicked}
         >
           <div className="agrm__table__accordian__cell">{agreementId}</div>
-          <div className="agrm__table__accordian__cell">{handleNullValue(rangeName)}</div>
+          <div className="agrm__table__accordian__cell">{handleNullValue(rangeName, false, '-')}</div>
           <div className="agrm__table__accordian__cell">{handleNullValue(primaryAgreementHolderName)}</div>
           <div className="agrm__table__accordian__cell">{handleNullValue(staffFullName)}</div>
           <div className="agrm__table__accordian__cell">

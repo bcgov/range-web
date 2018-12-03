@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { PLAN_STATUS } from '../../constants/variables';
-import { UNKNOWN_STATUS, NOT_PROVIDED, REVISIONS_REQUESTED } from '../../constants/strings';
+import { UNKNOWN_STATUS, REVISIONS_REQUESTED, NO_PLAN } from '../../constants/strings';
 // import { isUserAgreementHolder } from '../../utils';
 
 const propTypes = {
@@ -29,7 +29,7 @@ const Status = ({
   // user,
 }) => {
   let modifier = 'status__icon';
-  let statusName = status.code ? UNKNOWN_STATUS : NOT_PROVIDED;
+  let statusName = status.code ? UNKNOWN_STATUS : NO_PLAN;
 
   switch (status.code) {
     case PLAN_STATUS.CREATED:
