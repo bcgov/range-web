@@ -18,30 +18,27 @@ class RangeReadinessBox extends Component {
       indicatorPlants,
     } = plantCommunity;
     const readinessMonthAndDate = getRangeReadinessMonthAndDate(month, day);
-    const readiness = 'rup__plant-community__rr';
 
     return (
-      <div className={`${readiness}`}>
-        <div className={`${readiness}__title`}>
+      <div className="rup__plant-community__rr">
+        <div className="rup__plant-community__rr__title">
           <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
           Range Readiness
         </div>
         <div>
           If more than one readiness criteria is provided, all such criteria must be met before grazing may accur.
         </div>
-        <div className={`${readiness}__label`}>
+
+        <div className="rup__plant-community__rr__label">
           Readiness Date
         </div>
         <div>{handleNullValue(readinessMonthAndDate)}</div>
-        <div className={`${readiness}__label`}>
-          Notes
-        </div>
-        <div>{handleNullValue(rangeReadinessNote)}</div>
+
         <div className="rup__plant-community__i-plant__header">
-          <div className={`${readiness}__label`}>
+          <div className="rup__plant-community__rr__label">
             Indicator Plant
           </div>
-          <div className={`${readiness}__label`}>
+          <div className="rup__plant-community__rr__label">
             Criteria (Leaf Stage)
           </div>
         </div>
@@ -50,6 +47,11 @@ class RangeReadinessBox extends Component {
           indicatorPlants={indicatorPlants}
           criteria={PLANT_CRITERIA.RANGE_READINESS}
         />
+
+        <div className="rup__plant-community__rr__label">
+          Other
+        </div>
+        <div>{handleNullValue(rangeReadinessNote)}</div>
       </div>
     );
   }

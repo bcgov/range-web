@@ -21,7 +21,7 @@ class AdditionalRequirementRow extends Component {
           {handleNullValue(detail)}
           <div className="rup__additional-requirement__url">
             <span className="rup__additional-requirement__url__label">
-              URL:
+              Url:
             </span>
             {handleNullValue(url)}
           </div>

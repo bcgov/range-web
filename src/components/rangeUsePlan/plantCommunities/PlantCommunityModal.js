@@ -144,14 +144,6 @@ class PlantCommunityModal extends Component {
             plantCommunity={plantCommunity}
           />
 
-          <div className={`${pcClass}__oma`}>
-            <div className={`${pcClass}__oma__title`}>
-              <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
-              Other Monitoring Activity
-            </div>
-            <div>Plant community composition and structure are important habitat elements in all NGPN parks, and knowing the status and trends of plant communities helps in determining the health of the parks&apos; ecosystems. In addition to providing information about the vegetation in the parks, data from this monitoring will help characterize park-wide ecosystem responses to other environmental drivers, including weather and climate, land cover changes, invasive/exotic plants, and habitat conditions for species of interest (i.e., prairie dogs, bison, deer, etc.).</div>
-          </div>
-
         </Modal.Content>
       </Modal>
     );

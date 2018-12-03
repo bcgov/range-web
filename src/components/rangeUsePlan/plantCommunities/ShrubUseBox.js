@@ -11,22 +11,21 @@ class ShrubUseBox extends Component {
   render() {
     const { plantCommunity } = this.props;
     const { indicatorPlants } = plantCommunity;
-    const shrubUse = 'rup__plant-community__su';
 
     return (
-      <div className={`${shrubUse}`}>
-        <div className={`${shrubUse}__title`}>
+      <div className="rup__plant-community__su">
+        <div className="rup__plant-community__su__title">
           <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
           Shrub Use
         </div>
         <div>
-          Livestock must be removed from the pasture on the first to occur of the date in the plan (ex. schedule), stubble height criteria for any plant community in the pasture or average browse criteria.
+          Unless otherwise indicated the allowable browse level is 25% of current annual growth.
         </div>
         <div className="rup__plant-community__i-plant__header">
-          <div className={`${shrubUse}__label`}>
+          <div className="rup__plant-community__su__label">
             Indicator Plant
           </div>
-          <div className={`${shrubUse}__label`}>
+          <div className="rup__plant-community__su__label">
             % of Current Annual Growth
           </div>
         </div>

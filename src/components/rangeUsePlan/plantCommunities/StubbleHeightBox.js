@@ -11,22 +11,18 @@ class StubbleHeightBox extends Component {
   render() {
     const { plantCommunity } = this.props;
     const { indicatorPlants } = plantCommunity;
-    const stubbleHeight = 'rup__plant-community__sh';
 
     return (
-      <div className={`${stubbleHeight}`}>
-        <div className={`${stubbleHeight}__title`}>
+      <div className="rup__plant-community__sh">
+        <div className="rup__plant-community__sh__title">
           <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
           Stubble Height
         </div>
-        <div>
-          Livestock must be removed on the first to occur of the date in the plan (ex. schedule), stubble height criteria or average browse criteria.
-        </div>
         <div className="rup__plant-community__i-plant__header">
-          <div className={`${stubbleHeight}__label`}>
+          <div className="rup__plant-community__sh__label">
             Indicator Plant
           </div>
-          <div className={`${stubbleHeight}__label`}>
+          <div className="rup__plant-community__sh__label">
             Height After Grazing (cm)
           </div>
         </div>

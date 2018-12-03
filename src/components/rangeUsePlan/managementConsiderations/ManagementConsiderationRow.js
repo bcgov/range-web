@@ -21,7 +21,7 @@ class ManagementConsiderationRow extends Component {
           {handleNullValue(detail)}
           <div className="rup__management-consideration__url">
             <span className="rup__management-consideration__url__label">
-              URL:
+              Url:
             </span>
             {handleNullValue(url)}
           </div>

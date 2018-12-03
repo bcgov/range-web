@@ -121,7 +121,6 @@
         }
       }
     }
-    &__oma,
     &__sh,
     &__su,
     &__rr {
@@ -148,6 +147,11 @@
     }
     &__rr {
       margin-top: 5px;
+    }
+    &__sh {
+      &__label {
+        margin-top: 0;
+      }
     }
     &__i-plants {
       &__not-provided {
