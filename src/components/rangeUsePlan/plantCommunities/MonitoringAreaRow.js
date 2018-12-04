@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { handleNullValue } from '../../../utils';
+import { getMonitoringAreaPurposes } from '../../../utils';
 
 class MonitoringAreaRow extends Component {
   static propTypes = {
@@ -8,7 +8,7 @@ class MonitoringAreaRow extends Component {
   }
 
   render() {
-    const maClass = 'rup__plant-community__monitoring-area';
+    const maClass = 'rup__plant-community__m-area';
     const { monitoringArea } = this.props;
     const {
       latitude,
@@ -16,15 +16,33 @@ class MonitoringAreaRow extends Component {
       longitude,
       name,
       otherPurpose,
-      purposeTypeIds,
       purposes,
       rangelandHealth,
-      transectAzimuth,
     } = monitoringArea;
+    console.log(monitoringArea);
 
+    const rangelandHealthName = rangelandHealth && rangelandHealth.name;
+    const purposeNames = getMonitoringAreaPurposes(purposes, otherPurpose);
     return (
       <div className={`${maClass}__row`}>
-        monitoring area
+        <div>
+          Monitoring Area: {name}
+        </div>
+        <div>
+          Location: {location}
+        </div>
+        <div>
+          Rangeland Health: {rangelandHealthName}
+        </div>
+        <div>
+          Purposes: {purposeNames}
+        </div>
+        <div>
+          Latitude: {latitude}
+        </div>
+        <div>
+          Longitude: {longitude}
+        </div>
       </div>
     );
   }

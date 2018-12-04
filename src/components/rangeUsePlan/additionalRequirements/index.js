@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NOT_PROVIDED } from '../../../constants/strings';
 import AdditionalRequirementRow from './AdditionalRequirementRow';
 
 class PlantCommunityActionsBox extends Component {
@@ -39,7 +38,7 @@ class PlantCommunityActionsBox extends Component {
         <div className="rup__content-title">Additional Requirements</div>
         <div className="rup__divider" />
         <div className="rup__additional-requirements__note">
-          Other direction or agreements with which this Range Use Plan must be consistent
+          Other direction or agreements with which this Range Use Plan must be consistent.
         </div>
         <div className="rup__additional-requirements__box">
           <div className="rup__additional-requirement__header">

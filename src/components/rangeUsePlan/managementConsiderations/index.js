@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NOT_PROVIDED } from '../../../constants/strings';
 import ManagementConsiderationRow from './ManagementConsiderationRow';
 
 class PlantCommunityActionsBox extends Component {
@@ -39,7 +38,7 @@ class PlantCommunityActionsBox extends Component {
         <div className="rup__content-title">Management Considerations</div>
         <div className="rup__divider" />
         <div className="rup__management-considerations__note">
-          This content is not part of the legal Range Use Plan and is available for information purposes
+          Content in this section is non-legal and is intended to provide additional information about management within the agreement area.
         </div>
         <div className="rup__management-considerations__box">
           <div className="rup__additional-requirement__header">

@@ -181,5 +181,15 @@
         }
       }
     }
+    &__m-areas {
+
+    }
+    &__m-area {
+      &__label {
+        color: gray;
+        margin-top: 10px;
+        font-size: 1.1rem;
+      }
+    }
   }
 }
