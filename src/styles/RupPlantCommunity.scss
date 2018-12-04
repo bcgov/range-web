@@ -44,6 +44,7 @@
         font-weight: bold;
         font-size: 1.8rem;
         display: flex;
+        color: $primary-color;
 
         > img {
           margin-right: 7px;
@@ -181,10 +182,23 @@
         }
       }
     }
-    &__m-areas {
-
-    }
     &__m-area {
+      &__box {
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 2px solid gainsboro;
+        padding: 10px;
+      }
+      &__header {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: -5px;
+        display: flex;
+
+        > img {
+          margin-right: 7px;
+        }
+      }
       &__label {
         color: gray;
         margin-top: 10px;

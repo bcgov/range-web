@@ -35,8 +35,6 @@ class PlantCommunityModal extends Component {
   }
 
   renderMonitoringAreas = (pcClass, monitoringAreas = []) => {
-    if (monitoringAreas.length === 0) return <Fragment />;
-
     return (
       <Fragment>
         <div className={`${pcClass}__modal__content-title`}>

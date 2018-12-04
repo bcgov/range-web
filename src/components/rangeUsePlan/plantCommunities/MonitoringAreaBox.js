@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getMonitoringAreaPurposes, handleNullValue } from '../../../utils';
+import { IMAGE_SRC } from '../../../constants/variables';
 
-class MonitoringAreaRow extends Component {
+class MonitoringAreaBox extends Component {
   static propTypes = {
     monitoringArea: PropTypes.shape({}).isRequired,
   }
@@ -18,14 +19,14 @@ class MonitoringAreaRow extends Component {
       purposes,
       rangelandHealth,
     } = monitoringArea;
-    // console.log(monitoringArea);
 
     const rangelandHealthName = rangelandHealth && rangelandHealth.name;
     const purposeNames = getMonitoringAreaPurposes(purposes, otherPurpose);
 
     return (
-      <div className="rup__plant-community__m-area__row">
-        <div>
+      <div className="rup__plant-community__m-area__box">
+        <div className="rup__plant-community__m-area__header">
+          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
           Monitoring Area: {name}
         </div>
         <div className="rup__row">
@@ -75,4 +76,4 @@ class MonitoringAreaRow extends Component {
   }
 }
 
-export default MonitoringAreaRow;
+export default MonitoringAreaBox;

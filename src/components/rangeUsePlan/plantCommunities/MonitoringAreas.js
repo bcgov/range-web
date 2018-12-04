@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MonitoringAreaRow from './MonitoringAreaRow';
+import MonitoringAreaRow from './MonitoringAreaBox';
 
 class MonitoringAreas extends Component {
   static propTypes = {
@@ -21,6 +21,9 @@ class MonitoringAreas extends Component {
 
     return (
       <div className="rup__plant-community__m-areas">
+        {monitoringAreas.length === 0 &&
+          <div>No monitoring area</div>
+        }
         {monitoringAreas.map(this.renderMonitoringArea)}
       </div>
     );
