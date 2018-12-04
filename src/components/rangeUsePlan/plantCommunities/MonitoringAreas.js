@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MonitoringAreaRow from './MonitoringAreaRow';
+import MonitoringAreaRow from './MonitoringAreaBox';
 
-class MonitoringAreasBox extends Component {
+class MonitoringAreas extends Component {
   static propTypes = {
     monitoringAreas: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
@@ -20,11 +20,14 @@ class MonitoringAreasBox extends Component {
     const { monitoringAreas } = this.props;
 
     return (
-      <div className="rup__plant-community__monitoring-areas">
+      <div className="rup__plant-community__m-areas">
+        {monitoringAreas.length === 0 &&
+          <div>No monitoring area</div>
+        }
         {monitoringAreas.map(this.renderMonitoringArea)}
       </div>
     );
   }
 }
 
-export default MonitoringAreasBox;
+export default MonitoringAreas;

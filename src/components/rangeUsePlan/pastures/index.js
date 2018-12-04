@@ -37,6 +37,31 @@ class Pastures extends Component {
     );
   }
 
+  // onPastureClicked = pastureIndex => () => {
+  //   const { location, redirectWithParams } = this.props;
+  //   const parsedParams = parseQuery(location.search);
+  //   const { pasture: currIndex } = parsedParams;
+  //   const newIndex = Number(currIndex) === pastureIndex ? -1 : pastureIndex;
+
+  //   redirectWithParams({ pasture: newIndex });
+  // }
+
+  // renderPasture = (pasture, pastureIndex) => {
+  //   const parsedParams = parseQuery(this.props.location.search);
+  //   const { pasture: index = 0 } = parsedParams;
+  //   const activePastureIndex = Number(index);
+
+  //   return (
+  //     <PastureBox
+  //       key={pasture.id}
+  //       pasture={pasture}
+  //       pastureIndex={pastureIndex}
+  //       activePastureIndex={activePastureIndex}
+  //       onPastureClicked={this.onPastureClicked}
+  //     />
+  //   );
+  // }
+
   renderPastures = (pastures = []) => {
     const isEmpty = pastures.length === 0;
 
@@ -60,7 +85,7 @@ class Pastures extends Component {
     const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
 
     return (
-      <div id={elementId} className="rup__additional-requirements">
+      <div id={elementId} className="rup__pastures">
         <div className="rup__content-title">Pastures</div>
         <div className="rup__divider" />
         {this.renderPastures(pastures)}

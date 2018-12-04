@@ -1,4 +1,3 @@
-import moment from 'moment';
 import * as strings from '../../constants/strings';
 import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES, NOT_DOWNLOADABLE_PLAN_STATUSES } from '../../constants/variables';
 import { isAmendment } from './amendment';
@@ -198,13 +197,4 @@ export const getBannerContentForAH = (plan) => {
     return strings.RUP_WRONGLY_MADE_WITHOUT_EFFECT;
   }
   return 'View Range Use Plan.';
-};
-
-export const getRangeReadinessMonthAndDate = (month, day) => {
-  let readinessMonthAndDate;
-  if (month && day) {
-    const currYear = new Date().getFullYear();
-    readinessMonthAndDate = moment(`${currYear} ${month} ${day}`).format('MMMM D');
-  }
-  return readinessMonthAndDate;
 };

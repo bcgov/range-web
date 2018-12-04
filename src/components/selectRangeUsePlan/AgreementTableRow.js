@@ -23,8 +23,9 @@ export class AgreementTableRow extends Component {
       index,
       handleActiveIndexChange,
     } = this.props;
+    const [mostCurrPlan] = agreement.plans;
 
-    if (agreement) {
+    if (mostCurrPlan && agreement) {
       handleActiveIndexChange(index, agreement.id);
     }
   }
@@ -75,7 +76,7 @@ export class AgreementTableRow extends Component {
               <Icon name="minus square" />
             }
             { !isActive &&
-              <Icon name="plus square" />
+              <Icon name="plus square" disabled={mostCurrPlan === undefined} />
             }
           </div>
         </button>

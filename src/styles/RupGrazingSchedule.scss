@@ -1,6 +1,6 @@
 .rup {
   &__grazing-schedules {
-    margin-bottom: 30px;
+    margin-bottom: $common-margin-bottom;
     
     & .ui.right.pointing.dropdown>.menu {
       top: -10px !important;

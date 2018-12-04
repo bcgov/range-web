@@ -5,7 +5,7 @@ import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNI
 import { PURPOSE_OF_ACTION as PurposeOfAction, IMAGE_SRC } from '../../../constants/variables';
 import { handleNullValue, capitalize } from '../../../utils';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
-import MonitoringAreasBox from './MonitoringAreasBox';
+import MonitoringAreas from './MonitoringAreas';
 import RangeReadinessBox from './RangeReadinessBox';
 import StubbleHeightBox from './StubbleHeightBox';
 import ShrubUseBox from './ShrubUseBox';
@@ -35,14 +35,12 @@ class PlantCommunityModal extends Component {
   }
 
   renderMonitoringAreas = (pcClass, monitoringAreas = []) => {
-    if (monitoringAreas.length === 0) return <Fragment />;
-
     return (
       <Fragment>
         <div className={`${pcClass}__modal__content-title`}>
           Monitoring Areas
         </div>
-        <MonitoringAreasBox
+        <MonitoringAreas
           monitoringAreas={monitoringAreas}
         />
       </Fragment>
@@ -61,7 +59,7 @@ class PlantCommunityModal extends Component {
       approved,
       notes,
       communityType,
-      // monitoringAreas,
+      monitoringAreas,
     } = plantCommunity;
     const communityTypeName = (communityType && communityType.name) || name;
     const pastureName = pasture && pasture.name;
@@ -126,8 +124,6 @@ class PlantCommunityModal extends Component {
 
           {this.renderPlantCommunityActions(pcClass, purposeOfAction, plantCommunityActions)}
 
-          {/* {this.renderMonitoringAreas(pcClass,__modal monitoringAreas)} */}
-
           <div className={`${pcClass}__modal__content-title`}>
             Criteria
           </div>
@@ -144,6 +140,7 @@ class PlantCommunityModal extends Component {
             plantCommunity={plantCommunity}
           />
 
+          {this.renderMonitoringAreas(pcClass, monitoringAreas)}
         </Modal.Content>
       </Modal>
     );
