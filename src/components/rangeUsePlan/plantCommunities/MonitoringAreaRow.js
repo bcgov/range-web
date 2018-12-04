@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getMonitoringAreaPurposes } from '../../../utils';
+import { getMonitoringAreaPurposes, handleNullValue } from '../../../utils';
 
 class MonitoringAreaRow extends Component {
   static propTypes = {
@@ -8,7 +8,6 @@ class MonitoringAreaRow extends Component {
   }
 
   render() {
-    const maClass = 'rup__plant-community__m-area';
     const { monitoringArea } = this.props;
     const {
       latitude,
@@ -19,29 +18,57 @@ class MonitoringAreaRow extends Component {
       purposes,
       rangelandHealth,
     } = monitoringArea;
-    console.log(monitoringArea);
+    // console.log(monitoringArea);
 
     const rangelandHealthName = rangelandHealth && rangelandHealth.name;
     const purposeNames = getMonitoringAreaPurposes(purposes, otherPurpose);
+
     return (
-      <div className={`${maClass}__row`}>
+      <div className="rup__plant-community__m-area__row">
         <div>
           Monitoring Area: {name}
         </div>
-        <div>
-          Location: {location}
+        <div className="rup__row">
+          <div className="rup__cell-6">
+            <div className="rup__plant-community__m-area__label">
+              Location
+            </div>
+            <div>
+              {handleNullValue(location)}
+            </div>
+          </div>
+          <div className="rup__cell-6">
+            <div className="rup__plant-community__m-area__label">
+              Rangeland Health
+            </div>
+            <div>
+              {handleNullValue(rangelandHealthName)}
+            </div>
+          </div>
+        </div>
+        <div className="rup__plant-community__m-area__label">
+          Purposes
         </div>
         <div>
-          Rangeland Health: {rangelandHealthName}
+          {handleNullValue(purposeNames)}
         </div>
-        <div>
-          Purposes: {purposeNames}
-        </div>
-        <div>
-          Latitude: {latitude}
-        </div>
-        <div>
-          Longitude: {longitude}
+        <div className="rup__row">
+          <div className="rup__cell-6">
+            <div className="rup__plant-community__m-area__label">
+              Latitude
+            </div>
+            <div>
+              {handleNullValue(latitude)}
+            </div>
+          </div>
+          <div className="rup__cell-6">
+            <div className="rup__plant-community__m-area__label">
+              Longitude
+            </div>
+            <div>
+              {handleNullValue(longitude)}
+            </div>
+          </div>
         </div>
       </div>
     );
