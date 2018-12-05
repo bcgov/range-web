@@ -26,7 +26,7 @@ class RangeReadinessBox extends Component {
           Range Readiness
         </div>
         <div>
-          If more than one readiness criteria is provided, all such criteria must be met before grazing may accur.
+          If more than one readiness criteria is provided, all such criteria must be met before grazing may occur.
         </div>
 
         <div className="rup__plant-community__rr__label">

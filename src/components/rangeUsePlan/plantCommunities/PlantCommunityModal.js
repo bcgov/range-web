@@ -25,7 +25,7 @@ class PlantCommunityModal extends Component {
     return (
       <Fragment>
         <div className={`${pcClass}__modal__content-title`}>
-          Pasture Actions
+          Plant Community Actions
         </div>
         <PlantCommunityActionsBox
           plantCommunityActions={plantCommunityActions}

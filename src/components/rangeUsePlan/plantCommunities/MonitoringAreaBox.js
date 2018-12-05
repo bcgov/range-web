@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
 import { getMonitoringAreaPurposes, handleNullValue } from '../../../utils';
 import { IMAGE_SRC } from '../../../constants/variables';
 
@@ -26,7 +27,7 @@ class MonitoringAreaBox extends Component {
     return (
       <div className="rup__plant-community__m-area__box">
         <div className="rup__plant-community__m-area__header">
-          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+          <Icon name="map marker alternate" />
           Monitoring Area: {name}
         </div>
         <div className="rup__row">
