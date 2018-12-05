@@ -10,7 +10,7 @@ import RangeReadinessBox from './RangeReadinessBox';
 import StubbleHeightBox from './StubbleHeightBox';
 import ShrubUseBox from './ShrubUseBox';
 
-class PlantCommunityModal extends Component {
+class PlantCommunityBoxModal extends Component {
   static propTypes = {
     plantCommunity: PropTypes.shape({}).isRequired,
     pasture: PropTypes.shape({}).isRequired,
@@ -147,4 +147,4 @@ class PlantCommunityModal extends Component {
   }
 }
 
-export default PlantCommunityModal;
+export default PlantCommunityBoxModal;
