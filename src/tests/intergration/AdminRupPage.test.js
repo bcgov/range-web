@@ -9,7 +9,7 @@ import { axios } from '../../utils';
 import RangeUsePlan from '../../components/rangeUsePlan';
 import { storeAuthData, storeReferences } from '../../actions';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
-import { mockRequestHeader, mockPlan, mockReference } from './mockData';
+import { requestMockHeader, mockPlan, mockReference, mockAuthData } from './mockData';
 import * as API from '../../constants/api';
 import * as schema from '../../actionCreators/schema';
 import { getPlansMap } from '../../reducers/rootReducer';
@@ -17,9 +17,6 @@ import { USER_ROLE } from '../../constants/variables';
 
 let store;
 const mockAxios = new MockAdapter(axios);
-const mockAuthData = {
-  access_token: 'mockToken',
-};
 const mockAdminUser = {
   id: 1,
   roles: [USER_ROLE.ADMINISTRATOR],
@@ -35,7 +32,7 @@ beforeEach(() => {
 describe('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
-      ...mockRequestHeader(store.getState),
+      ...requestMockHeader(store.getState),
     };
 
     // can't inject match object with MemoryRouter to read planId

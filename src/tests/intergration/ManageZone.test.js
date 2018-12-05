@@ -9,15 +9,12 @@ import { axios, getContactOption, getZoneOption } from '../../utils';
 import ManageZone from '../../components/manageZone';
 import { storeAuthData, storeReferences, storeZones } from '../../actions';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
-import { mockRequestHeader, mockUsers, mockReference, mockZones } from './mockData';
+import { requestMockHeader, mockUsers, mockReference, mockZones, mockAuthData } from './mockData';
 import * as API from '../../constants/api';
 import * as schema from '../../actionCreators/schema';
 
 let store;
 const mockAxios = new MockAdapter(axios);
-const mockAuthData = {
-  access_token: 'mockToken',
-};
 
 beforeEach(() => {
   store = configureMockStore([thunk]);
@@ -30,7 +27,7 @@ beforeEach(() => {
 describe('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
-      ...mockRequestHeader(store.getState),
+      ...requestMockHeader(store.getState),
     };
 
     mockAxios.onGet(API.GET_USERS, config).reply(200, mockUsers);
@@ -54,7 +51,7 @@ describe('Integration testing', () => {
 
   it('Select each option in two dropdowns and see if the update button is enabled', async () => {
     const config = {
-      ...mockRequestHeader(store.getState),
+      ...requestMockHeader(store.getState),
     };
     const mockContact = mockUsers[3];
     const mockZone = mockZones[12];

@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 import { Banner } from '../common';
 import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
-import { getUserFullName } from '../../utils';
+import { getClientOption, getUserOption } from '../../utils';
 
 class ManageClient extends Component {
   constructor(props) {
@@ -87,27 +87,11 @@ class ManageClient extends Component {
       searchQuery,
     } = this.state;
 
-    const userOptions = users.map((user) => {
-      const { email, clientId } = user;
-      const description = clientId ? `Client #: ${clientId}, ${email}` : `${email}`;
-      return {
-        value: user.id,
-        text: getUserFullName(user),
-        description,
-      };
-    });
-
-    const clientOptions = clients.map((c) => {
-      const { clientNumber, name } = c;
-      return {
-        key: clientNumber,
-        value: clientNumber,
-        text: name,
-        description: `Client #: ${clientNumber}`,
-      };
-    });
+    const userOptions = users.map(user => getUserOption(user));
+    const clientOptions = clients.map(client => getClientOption(client));
 
     const isUpdateBtnEnabled = userId && clientNumber;
+
     let noResultsMessage = strings.NO_RESULTS_FOUND;
     if (isFetchingClients) {
       noResultsMessage = 'Fetching clients...';

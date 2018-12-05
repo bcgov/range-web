@@ -10,16 +10,13 @@ import { storeAuthData, storeUser, storeReferences } from '../../actions';
 import { getAgreements } from '../../reducers/rootReducer';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { ELEMENT_ID } from '../../constants/variables';
-import { mockRequestHeader, mockAgreements, mockAgreement, mockReference } from './mockData';
+import { requestMockHeader, mockAgreements, mockAgreementPagination, mockReference, mockAuthData } from './mockData';
 import * as API from '../../constants/api';
 
 jest.mock('lodash.debounce');
 
 let store;
 const mockAxios = new MockAdapter(axios);
-const mockAuthData = {
-  access_token: 'mockToken',
-};
 const mockUser = {
   id: 'user_id',
 };
@@ -35,7 +32,7 @@ beforeEach(() => {
 describe('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
-      ...mockRequestHeader(store.getState),
+      ...requestMockHeader(store.getState),
       params: { term: '', page: 1, limit: 10 },
     };
 
@@ -59,12 +56,12 @@ describe('Integration testing', () => {
   describe('Browse functionalities', () => {
     it('search agreements by RAN number', async () => {
       let config = {
-        ...mockRequestHeader(store.getState),
+        ...requestMockHeader(store.getState),
         params: { term: '', page: 1, limit: 10 },
       };
       mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreements);
       config = { ...config, params: { term: 'RAN075974', page: 1, limit: 10 } };
-      mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreement);
+      mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreementPagination);
 
       const SelectRangeUsePlanWithRouter = withRouter(SelectRangeUsePlan);
       const wrapper = mount(

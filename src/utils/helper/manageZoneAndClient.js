@@ -19,9 +19,8 @@ export const getZoneOption = (zone) => {
     description = NO_DESCRIPTION;
   }
   option.text += ` (${description})`;
-  if (district) {
-    option.text += ` - ${district.code}`;
-  }
+  option.text += ` - ${district.code}`;
+
   if (staff) {
     option.description = getUserFullName(staff);
   }
@@ -36,3 +35,25 @@ export const getContactOption = user => (
     text: getUserFullName(user),
   }
 );
+
+export const getClientOption = (client) => {
+  const { clientNumber, name } = client;
+
+  return {
+    key: clientNumber,
+    value: clientNumber,
+    text: name,
+    description: `Client #: ${clientNumber}`,
+  };
+};
+
+export const getUserOption = (user) => {
+  const { email, clientId } = user;
+  const description = clientId ? `Client #: ${clientId}, ${email}` : `${email}`;
+
+  return {
+    value: user.id,
+    text: getUserFullName(user),
+    description,
+  };
+};
