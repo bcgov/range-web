@@ -5,10 +5,9 @@ import { Banner } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
   UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
-  NO_DESCRIPTION, NOT_ASSIGNED,
 } from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
-import { getUserFullName } from '../../utils';
+import { getZoneOption, getContactOption } from '../../utils';
 
 export class ManageZone extends Component {
   static propTypes = {
@@ -86,40 +85,8 @@ export class ManageZone extends Component {
     } = this.state;
     const { users, zones } = this.props;
 
-    const zoneOptions = zones.map((zone) => {
-      const {
-        id: zoneId,
-        code: zoneCode,
-        user: staff,
-        description: zoneDescription,
-        district,
-      } = zone;
-      const option = {
-        value: zoneId,
-        text: zoneCode,
-        description: NOT_ASSIGNED,
-      };
-      let description = zoneDescription;
-      if (zoneDescription === 'Please update contact and description' || zoneDescription === 'Please update contact') {
-        description = NO_DESCRIPTION;
-      }
-      option.text += ` (${description})`;
-      if (district) {
-        option.text += ` - ${district.code}`;
-      }
-      if (staff) {
-        option.description = getUserFullName(staff);
-      }
-
-      return option;
-    });
-    const contactOptions = users.map(user => (
-      {
-        value: user.id,
-        description: user.email,
-        text: getUserFullName(user),
-      }
-    ));
+    const zoneOptions = zones.map(zone => getZoneOption(zone));
+    const contactOptions = users.map(user => getContactOption(user));
     const isUpdateBtnEnabled = newContactId && zoneId;
 
     return (

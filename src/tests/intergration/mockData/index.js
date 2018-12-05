@@ -3,6 +3,8 @@ import { getToken } from '../../../reducers/rootReducer';
 export { default as mockAgreements } from './mockAgreements';
 export { default as mockPlan } from './mockPlan';
 export { default as mockReference } from './mockReference';
+export { default as mockUsers } from './mockUsers';
+export { default as mockZones } from './mockZones';
 
 export const mockAgreement = {
   perPage: 10,

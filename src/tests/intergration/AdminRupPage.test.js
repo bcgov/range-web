@@ -24,6 +24,7 @@ const mockAdminUser = {
   id: 1,
   roles: [USER_ROLE.ADMINISTRATOR],
 };
+
 beforeEach(() => {
   store = configureMockStore([thunk]);
   store.dispatch(storeAuthData(mockAuthData));
