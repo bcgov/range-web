@@ -1,0 +1,224 @@
+.login {
+  font-family: Lato;
+
+  &__no-support-browser {
+    background: $accent-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px 0;
+
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+  }
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $primary-color;
+    height: 60px;
+
+    &__logo {
+      height: 60px;
+    }
+  }
+  &__paragraph-cell {
+    max-width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    height: fit-content;
+
+    > i {
+      color: white;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      display: none !important;
+    }
+    @include mobile {
+      max-width: 100%;
+      margin: 10px 0;
+    }
+  }
+  &__paragraph1 {
+    background: url('~/images/signin_background.jpg') no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    min-height: 600px;
+  }
+  &__paragraph2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    box-shadow: 0 2px 20px 0 rgba(35,64,117,0.1);
+
+    &__title {
+      font-size: 2.3rem;
+      color: $primary-color;
+      line-height: initial;
+    }
+    &__text {
+      max-width: 600px;
+      font-size: 1.2rem;
+      line-height: 25px;
+      text-align: center;
+      padding: 10px;
+    }
+  }
+  &__paragraph3,
+  &__paragraph4,
+  &__paragraph5 {
+    padding: 50px 0;
+    box-shadow: 0 2px 20px 0 rgba(35,64,117,0.1);
+
+    &__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    &__title {
+      font-size: 2rem;
+      color: $primary-color;
+      line-height: initial;
+      margin-bottom: 10px;
+    }
+    &__text {
+      font-size: 1.2rem;
+      line-height: 20px;
+    }
+    &__image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 5px;
+    }
+    &__register-btn {
+      align-self: flex-start;
+      margin-top: 10px !important;
+    }
+  }
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0px;
+  }
+  &__divider {
+    border-right: 1px solid #ccc;
+    margin: 0 15px 0 11px;
+    padding: 0 2px;
+  }
+  &__signin {
+    &__container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      min-width: 400px;
+      background: white;
+      border-radius: 5px;
+      font-family: Lato;
+    }
+    &__title {
+      font-size: 2.3rem;
+      line-height: initial;
+      color: #234075;
+    }
+    &__text1 {
+      font-size: 1.1rem;
+      text-align: center;
+      margin-top: 5px;
+    }
+    &__text2 {
+      font-size: 1.1rem;
+      text-align: center;
+      margin-top: 20px;
+    }
+    &__text3 {
+      font-size: 1.1rem;
+    }
+    &__error {
+      margin-top: 15px;
+      width: 100%;
+      text-align: center;
+    }
+    &__link-container {
+      align-self: stretch;
+      text-align: right;
+      margin-top: 25px;
+      border-top: 1px solid lightgray;
+      padding-top: 15px;
+
+      > div {
+        display: inline;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.signin {
+  &__divider {
+    border-right: 1px solid #ccc;
+    margin: 0 15px 0 11px;
+    padding: 0 2px;
+  }
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    min-width: 400px;
+    background: white;
+    border-radius: 5px;
+    font-family: Lato;
+  }
+  &__title {
+    font-size: 2.3rem;
+    line-height: initial;
+    color: #234075;
+  }
+  &__text1 {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 5px;
+  }
+  &__text2 {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 20px;
+  }
+  &__text3 {
+    font-size: 1.1rem;
+  }
+  &__error {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+  }
+  &__link-container {
+    align-self: stretch;
+    text-align: right;
+    margin-top: 25px;
+    border-top: 1px solid lightgray;
+    padding-top: 15px;
+
+    > div {
+      display: inline;
+      cursor: pointer;
+    }
+  }
+}

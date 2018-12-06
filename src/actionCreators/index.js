@@ -21,7 +21,7 @@ import { normalize } from 'normalizr';
 import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
-import * as API from '../constants/API';
+import * as API from '../constants/api';
 import { getIsFetchingAgreements } from '../reducers/rootReducer';
 import { axios, saveUserProfileInLocal, createConfigWithHeader } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
@@ -30,6 +30,9 @@ import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/
 export * from './planActionCreator';
 export * from './toastActionCreator';
 export * from './commonActionCreator';
+export * from './grazingScheduleActionCreator';
+export * from './pastureActionCreator';
+export * from './ministerIssueActionCreator';
 
 /* eslint-disable arrow-body-style */
 export const fetchAgreement = agreementId => (dispatch, getState) => {

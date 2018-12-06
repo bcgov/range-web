@@ -6,22 +6,33 @@ const propTypes = {
   inverted: PropTypes.bool,
   active: PropTypes.bool,
   message: PropTypes.string,
+  onlySpinner: PropTypes.bool,
 };
 
 const defaultProps = {
   inverted: true,
   active: true,
   message: '',
+  onlySpinner: false,
 };
 
-const Loading = ({ active, inverted, message }) => (
-  <Dimmer
-    active={active}
-    inverted={inverted}
-  >
-    <Loader size="large">{message}</Loader>
-  </Dimmer>
-);
+const Loading = ({ active, inverted, message, onlySpinner }) => {
+  if (onlySpinner) {
+    return (
+      <div className="loading-spinner__container">
+        <Loader active={active} size="large" content={message} />
+      </div>
+    );
+  }
+  return (
+    <Dimmer
+      active={active}
+      inverted={inverted}
+    >
+      <Loader size="large" content={message} />
+    </Dimmer>
+  );
+};
 
 Loading.propTypes = propTypes;
 Loading.defaultProps = defaultProps;

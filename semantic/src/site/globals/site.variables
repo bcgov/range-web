@@ -1,0 +1,9 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+/* added by Kyubin */
+@primaryColor        : #003366;
+@secondaryColor      : @grey;
+@accentColor         : #FCBA19;
+@primaryLightColor   : #5475A7;

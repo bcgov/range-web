@@ -1,0 +1,71 @@
+.rup {
+  &__management-considerations,
+  &__additional-requirements {
+    margin-bottom: $common-margin-bottom;
+
+    &__note {
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+    &__box {
+      margin-top: 10px;
+      padding: 3px 10px 10px 10px;
+      border: 1px solid gainsboro;
+      border-radius: 5px;
+    }
+    &__no-content {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+  }
+  &__management-consideration,
+  &__additional-requirement {
+    &__header {
+      display: flex;
+      margin-top: 5px;
+      color: gray;
+      font-size: 1.2rem;
+      margin-bottom: -5px;
+
+      div {
+        &:nth-of-type(1) {
+          padding-right: 10px;
+          flex: 0.4;
+        }
+        &:nth-of-type(2) {
+          flex: 1;
+        }
+      }
+    }
+    &__row {
+      display: flex;
+      padding: 10px 0;
+      border-bottom: 1px solid gainsboro;
+
+      &:last-child {
+        padding-bottom: 0px;
+        border-bottom: 0px;
+      }
+      div {
+        &:nth-of-type(1) {
+          padding-right: 10px;
+          flex: 0.4;
+        }
+        &:nth-of-type(2) {
+          flex: 1;
+        }
+      }
+    }
+    &__url {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+
+      &__label {
+        color: gray;
+        font-size: 1.1rem;
+        margin-right: 5px;
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-# About My Range Application (MyRA) for Web
+# About My Range Application (MyRangeBC) for Web
 
 The Range Mobile Pathfinder project is developing a suite of applications to support the sustainable management of cattle range on crown lands in British Columbia. [Learn more about the Range Program](https://www.for.gov.bc.ca/hra/)
 
@@ -10,38 +10,37 @@ An Agile Scrum team is developing the Alpha product to test basic fuctions after
 
 For the Alpha Release, the **web application** documented here will allow Range Branch Staff to view Range Use Plans that have been created in the iOS application. It will also enable users to assign staff to a set of agreements they are responsible for managing.
 
-### Related MyRA Documentation
+### Related MyRangeBc Documentation
 
-- [MyRA iOS application Github Repository](https://github.com/bcgov/range-ios)
-- [MyRA Web application Github Repository](https://github.com/bcgov/range-web)
-- [MyRa API Github Repository](https://github.com/bcgov/range-api)
+- [MyRangeBC iOS application Github Repository](https://github.com/bcgov/range-ios)
+- [MyRangeBC Web application Github Repository](https://github.com/bcgov/range-web)
+- [MyRangeBC API Github Repository](https://github.com/bcgov/range-api)
 - [Our current Sprint Backlog is visible on Trello](https://trello.com/b/YxiYOPGU)
 - [See the database Schema on Schema-Spy](http://schema-spy-range-myra-dev.pathfinder.gov.bc.ca/)
 
 ## Folder Structure
 ```
 root/
-  .eslintrc         // Displaying Lint Output in the Editor
+  .eslintrc           // Displaying Lint Output in the Editor
   LICENSE
   README.md
-  coverage/         // Test coverage
-  node_modules/     // Dependencies
   package.json
-  semantic.json     // Semantic UI setting
+  semantic.json       // Semantic UI configuration for paths
+  coverage/           // Test coverage
   public/
-    index.html
-    favicon.ico
+  scripts/            // scripts for npm
+  config/             // App configurations including Webpack
   src/
-    actions/        // Redux actions
-    components/     
-    handlers/       // Utils
-    reducers/       // Redux reducers
-    semantic/       // Semantic UI styling definitions and overrides
-    store/          // Redux middlewares
+    actionCreators/   // Redux actions with Redux Thunk
+    actions/          // Redux actions
+    components/       // React components
+    constants/        // variables, strings, etc...
+    reducers/         // Redux reducers
+    semantic/         // Semantic UI custum styling definitions and overrides
     styles/         
+    tests/            // Integration testing
+    utils/            // helper functions
     index.js
-    setupTests.js   // Setup for Jest
-    registerServiceWorker.js
 ```
 
 For the project to build, **these files must exist with exact filenames**:
@@ -55,13 +54,10 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test:watch`
+### `npm test`
 Launches the test runner in the interactive watch mode.<br>
 
 ### `npm test -- --coverage`
@@ -70,27 +66,14 @@ Launches the test runner with a coverage report.<br>
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
+Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
+The build is minified and the filenames include the hashes.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Routing & Code Splitting
+This project takes advantage of [React Router: Declarative Routing With React.js](https://github.com/ReactTraining/react-router) for routing. This helps authentication with different roles, code splitting, dynamic route matching and so on.
 
-## Routing
-This project uses [React Router v4](https://github.com/ReactTraining/react-router) with `browserHistory` (which uses the HTML5 [`pushState` history API](https://developer.mozilla.org/en-US/docs/Web/API/History_API#Adding_and_modifying_history_entries) under the hood).
-
-```
-components/
-  routes/
-    PrivateRoute.js   
-    PublicRoute.js
-```
-
-**If we have a logged-in user,** 
-
-* PrivateRoute.js - display the component, otherwise redirect to login page.
-
-* PublicRoute.js - redirect to the home page, otherwise, display the component.
+Create React App (from 1.0 onwards) allows us to dynamically import parts of our app using the `import()` proposal. Related reference can be found [here](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html).
 
 ## Styling
 * Post-Processing CSS
@@ -112,14 +95,12 @@ components/
   ```
 
 * Integration with Sass 
-  - Whlie running the app creating `src/App.scss` file results in generating `src/App.css` automatically.
 
 * Semantic UI
-  * Dependencies - [Getting Started](http://learnsemantic.com/guide/expert.html)
-  * Custum Theming - [Semantic UI Theming](https://semantic-ui.com/usage/theming.html#override-files)
+  * [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so the project can preserve its own theme changes(`/semantic`), allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
 
 ## Create React App
-  This project is based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). Check out their documentation for any references and other awesome features.
+  The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). Then was ejected to add more plugins in Webpack such as compression-webpack-plugin and sass-loader. 
 
 ## License
 

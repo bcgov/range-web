@@ -2,83 +2,20 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "range-web",
+    "name": "range-myra-web-deployment",
     "creationTimestamp": null
   },
   "labels": {
-    "template":"caddy-dc"
+    "template": "range-myra-web-deployment"
   },
-  "parameters": [
-    {
-      "name": "BUILD_PROJECT",
-      "displayName": "Build Project",
-      "description": "The openshift project where builds and target images are stored.",
-      "required": true,
-      "value": "range-myra-tools"
-    },{
-      "name": "APP_NAME",
-      "displayName": "Name",
-      "description": "Application name used for griuping objects in the openshift console. You should keep this as default unless your know what your doing.",
-      "required": true,
-      "value": "range-myra-web-caddy"
-    },{
-      "name": "NAME",
-      "displayName": "Name",
-      "description": "The name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing.",
-      "required": true,
-      "value": "range-myra-web"
-    },{
-      "name": "NAME_SUFFIX",
-      "displayName": "Name",
-      "description": "The suffix for all created objects",
-      "required": false,
-      "value": ""
-    },{
-      "name": "IMAGE_TAG",
-      "displayName": "Name",
-      "description": "The suffix for all created objects",
-      "required": false,
-      "value": "test"
-    },{
-      "name": "ROUTE_NAME",
-      "displayName": "Application Route",
-      "description": "The name of the default route use to access this service.",
-      "required": true,
-      "value": "web"
-    },{
-      "name": "VOLUMN_NAME",
-      "displayName": "The volumn name for caddyfile",
-      "description": "The volumn name for caddyfile",
-      "value": "web-caddy-config-sffrf",
-      "required": true
-    },{
-      "name": "CADDY_CONFIGMAP_NAME",
-      "displayName": "name of the config map for caddyfile",
-      "description": "name of the config map for caddyfile",
-      "value": "web-caddy-config",
-      "required": true
-    },{
-      "name": "API_NAME",
-      "displayName": "Name",
-      "description": "The name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing.",
-      "required": true,
-      "value": "range-myra-api"
-    },
-    {
-      "name": "APP_URL",
-      "displayName": "Application URL",
-      "description": "The fully qualified external URL to access this service.",
-      "value": "web-range-myra-test.pathfinder.gov.bc.ca"
-    }
-  ],
   "objects": [
     {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-caddy${NAME_SUFFIX}",
+        "name": "${NAME}",
         "labels": {
-          "app": "${APP_NAME}"
+          "app": "${NAME}"
         }
       },
       "spec": {
@@ -91,7 +28,7 @@
           }
         ],
         "selector": {
-          "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
+          "deploymentconfig": "${NAME}"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"
@@ -104,9 +41,9 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-caddy${NAME_SUFFIX}",
+        "name": "${NAME}",
         "labels": {
-          "app": "${APP_NAME}"
+          "app": "${NAME}"
         }
       },
       "spec": {
@@ -130,39 +67,35 @@
             "type": "ImageChange",
             "imageChangeParams": {
               "automatic": true,
-              "containerNames": [
-                "${NAME}-caddy${NAME_SUFFIX}"
-              ],
+              "containerNames": ["${NAME}-caddy"],
               "from": {
                 "kind": "ImageStreamTag",
-                "namespace": "${BUILD_PROJECT}",
-                "name": "${NAME}-caddy${NAME_SUFFIX}:${IMAGE_TAG}"
+                "namespace": "${SOURCE_IMAGE_NAMESPACE}",
+                "name": "${NAME}-caddy:${IMAGE_TAG}"
               }
             }
           }
         ],
-        "replicas": 1,
+        "replicas": "${WEB_REPLICA_COUNT}",
         "test": false,
         "selector": {
-          "app": "${APP_NAME}",
-          "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
+          "app": "${NAME}",
+          "deploymentconfig": "${NAME}-caddy"
         },
         "template": {
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "app": "${APP_NAME}",
-              "deploymentconfig": "${NAME}-caddy${NAME_SUFFIX}"
+              "app": "${NAME}",
+              "deploymentconfig": "${NAME}-caddy"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "${NAME}-caddy${NAME_SUFFIX}",
-                "image": "${NAME}-caddy${NAME_SUFFIX}@${IMAGE_TAG}",
-                "args": [
-                  "/tmp/scripts/run"
-                ],
+                "name": "${NAME}-caddy",
+                "image": "${NAME}-caddy@${IMAGE_TAG}",
+                "args": ["/tmp/scripts/run"],
                 "ports": [
                   {
                     "containerPort": 2015,
@@ -188,7 +121,7 @@
                 "name": "${VOLUMN_NAME}",
                 "configMap": {
                   "defaultMode": "420",
-                  "name": "${CADDY_CONFIGMAP_NAME}"
+                  "name": "${NAME}-caddy"
                 }
               }
             ],
@@ -207,13 +140,13 @@
       "metadata": {
         "name": "${ROUTE_NAME}",
         "labels": {
-          "app": "${NAME}-caddy${NAME_SUFFIX}"
+          "app": "${NAME}"
         }
       },
       "spec": {
         "to": {
           "kind": "Service",
-          "name": "${NAME}-caddy${NAME_SUFFIX}",
+          "name": "${NAME}",
           "weight": 100
         },
         "port": {
@@ -231,18 +164,17 @@
       "metadata": {
         "name": "${ROUTE_NAME}-api",
         "labels": {
-          "app": "${NAME}-caddy${NAME_SUFFIX}"
+          "app": "${NAME}"
         }
       },
       "spec": {
-        "host": "${APP_URL}",
         "path": "/api",
         "port": {
           "targetPort": "8080-tcp"
         },
         "to": {
           "kind": "Service",
-          "name": "${API_NAME}",
+          "name": "${API_SERVICE_NAME}",
           "weight": 100
         },
         "tls": {
@@ -255,14 +187,65 @@
       "kind": "ConfigMap",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${CADDY_CONFIGMAP_NAME}",
+        "name": "${NAME}-caddy",
         "labels": {
-          "app": "${APP_NAME}"
+          "app": "${NAME}-caddy"
         }
       },
       "data": {
         "Caddyfile": "0.0.0.0:2015\nroot /var/www/html\nlog stdout\nerrors stdout\nrewrite {\n  if    {path} not_match ^\\/0.0.0.0\n  to    {path} {path}/ /?_url={uri}\n}"
       }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SOURCE_IMAGE_NAMESPACE",
+      "displayName": "Build Project",
+      "description": "The openshift project where builds and target images are stored.",
+      "required": true,
+      "value": "range-myra-tools"
+    },
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing.",
+      "required": true,
+      "value": "range-myra-web"
+    },
+    {
+      "name": "IMAGE_TAG",
+      "displayName": "Name",
+      "description": "The suffix for all created objects",
+      "required": false,
+      "value": "latest"
+    },
+    {
+      "name": "ROUTE_NAME",
+      "displayName": "Application Route",
+      "description": "The name of the default route use to access this service.",
+      "required": true,
+      "value": "web"
+    },
+    {
+      "name": "WEB_REPLICA_COUNT",
+      "displayName": "Replica pod count",
+      "required": true,
+      "description": "Minimum number of pods that need to be running.",
+      "value": "1"
+    },
+    {
+      "name": "VOLUMN_NAME",
+      "displayName": "The volumn name for caddyfile",
+      "description": "The volumn name for caddyfile",
+      "value": "web-caddy-config",
+      "required": true
+    },
+    {
+      "name": "API_SERVICE_NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing.",
+      "required": true,
+      "value": "range-myra-api"
     }
   ]
 }

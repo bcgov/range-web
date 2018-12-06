@@ -26,10 +26,10 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
-} from '../constants/API';
+} from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
-import { LOCAL_STORAGE_KEY } from '../constants/variables';
+import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
 
 /**
  * this method is called immediately at the very beginning in authReducer
@@ -45,6 +45,16 @@ export const getAuthAndUserFromLocal = () => {
 /**
  *
  * @param {object} response the network response
+ * the response looks like this
+  {
+    access_token: "characters"
+    expires_in: 1800
+    not-before-policy: 0
+    refresh_expires_in: 3600
+    refresh_token: "characters"
+    session_state: "characters-characters-characters"
+    token_type: "bearer"
+  }
  */
 export const saveAuthDataInLocal = (response) => {
   const data = { ...response.data };
@@ -155,12 +165,14 @@ const isRangeAPIs = (config) => {
  * @param {function} logout the logout action function
  * @returns {object} the config or err object
  */
+/* eslint-disable no-console */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
     const config = { ...c };
     if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
+      if (!isBundled) console.log('Access token is expired. Trying to refresh it');
+
       const refreshToken = getRefreshTokenFromLocal();
-      if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
       return refreshAccessToken(refreshToken).then(
         (response) => {
           saveAuthDataInLocal(response);
@@ -172,8 +184,9 @@ export const registerAxiosInterceptors = (logout) => {
           return config;
         },
         (err) => {
+          if (!isBundled) console.log('Refresh token is also expired. Signing out.');
+
           logout();
-          if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
           return err;
         },
       );

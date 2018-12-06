@@ -1,16 +1,122 @@
 import { normalize } from 'normalizr';
-import uuid from 'uuid-v4';
 import { success, request, error, storePlan } from '../actions';
 import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_AGREEMENT_ZONE_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
-import * as API from '../constants/API';
+import * as API from '../constants/api';
 import * as schema from './schema';
-import { axios, createConfigWithHeader } from '../utils';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
+import {
+  axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment,
+  normalizePasturesWithOldId, copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
+  copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment,
+  copyAdditionalRequirementsToCreateAmendment,
+  copyPlantCommunitiesToCreateAmendment,
+} from '../utils';
+import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
+import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
+import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
 
-/* eslint-disable arrow-body-style */
+export const createRUPAdditionalRequirement = (planId, requirement) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
+    requirement,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const createRUPManagementConsideration = (planId, consideration) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
+    consideration,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const createRUPInvasivePlantChecklist = (planId, newInvasivePlantChecklist) => (dispatch, getState) => {
+  return axios.post(
+    API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
+    newInvasivePlantChecklist,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch, getState) => {
+  const { id: planId, statusId: fromPlanStatusId } = plan;
+  const user = getUser(getState());
+
+  return axios.post(
+    API.CREATE_RUP_STATUS_HISTORY_RECORD(planId),
+    {
+      userId: user.id,
+      fromPlanStatusId,
+      toPlanStatusId: newStatus.id,
+      note,
+    },
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispatch, getState) => {
+  const { id: planId, amendmentTypeId } = plan;
+  const references = getReferences(getState());
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  const isMinorAmendment = amendmentType.code === AMENDMENT_TYPE.MINOR;
+  const config = {
+    ...createConfigWithHeader(getState),
+    params: {
+      isMinorAmendment,
+    },
+  };
+
+  return axios.put(
+    API.UPDATE_CONFIRMATION(planId, confirmationId),
+    { confirmed },
+    config,
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
 export const updateRUP = (planId, body) => (dispatch, getState) => {
   return axios.put(
     API.UPDATE_RUP(planId),
@@ -19,8 +125,8 @@ export const updateRUP = (planId, body) => (dispatch, getState) => {
   ).then(
     (response) => {
       const updatedPlan = response.data;
-      const { entities: { plans: plan } } = normalize(updatedPlan, schema.plan);
-      return plan[planId];
+      dispatch(storePlan(normalize(updatedPlan, schema.plan)));
+      return updatedPlan;
     },
     (err) => {
       throw err;
@@ -44,105 +150,6 @@ export const createRUP = plan => (dispatch, getState) => {
   );
 };
 
-export const createRUPPasture = (planId, pasture) => (dispatch, getState) => {
-  return axios.post(
-    API.CREATE_RUP_PASTURE(planId),
-    pasture,
-    createConfigWithHeader(getState),
-  ).then(
-    (response) => {
-      const newPasture = response.data;
-      const { copiedId } = pasture;
-
-      // this is when creating amendment to keep track of the copied id
-      if (copiedId) {
-        return { ...newPasture, copiedId };
-      }
-      return newPasture;
-    },
-    (err) => {
-      throw err;
-    },
-  );
-};
-
-export const createRUPGrazingScheduleEntry = (planId, grazingScheduleId, entry) => (dispatch, getState) => {
-  return axios.post(
-    API.CREATE_RUP_GRAZING_SCHEDULE_ENTRY(planId, grazingScheduleId),
-    { ...entry, plan_id: planId },
-    createConfigWithHeader(getState),
-  ).then(
-    (response) => {
-      const newEntry = response.data;
-      return newEntry;
-    },
-    (err) => {
-      throw err;
-    },
-  );
-};
-
-export const createRUPGrazingSchedule = (planId, schedule) => (dispatch, getState) => {
-  const makeRequest = async () => {
-    try {
-      const { data: newSchedule } = await axios.post(
-        API.CREATE_RUP_GRAZING_SCHEDULE(planId),
-        { ...schedule, grazingScheduleEntries: [], plan_id: planId },
-        createConfigWithHeader(getState),
-      );
-      const newGses = await Promise.all(schedule.grazingScheduleEntries
-        .map(gse => dispatch(createRUPGrazingScheduleEntry(planId, newSchedule.id, gse))));
-
-      return {
-        ...newSchedule,
-        grazingScheduleEntries: newGses,
-      };
-    } catch (err) {
-      throw err;
-    }
-  };
-  return makeRequest();
-};
-
-export const createRUPMinisterIssueAction = (planId, issueId, action) => (dispatch, getState) => {
-  return axios.post(
-    API.CREATE_RUP_MINISTER_ISSUE_ACTION(planId, issueId),
-    { ...action },
-    createConfigWithHeader(getState),
-  ).then(
-    (response) => {
-      const newAction = response.data;
-      return newAction;
-    },
-    (err) => {
-      throw err;
-    },
-  );
-};
-
-export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, getState) => {
-  const makeRequest = async () => {
-    try {
-      const { data: newIssue } = await axios.post(
-        API.CREATE_RUP_MINISTER_ISSUE(planId),
-        { ...issue },
-        createConfigWithHeader(getState),
-      );
-      const newActions = await Promise.all(issue.ministerIssueActions
-        .map(mia => dispatch(createRUPMinisterIssueAction(planId, newIssue.id, mia))));
-
-      return {
-        ...newIssue,
-        ministerIssueActions: newActions,
-      };
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  return makeRequest();
-};
-
 export const createAmendment = plan => (dispatch, getState) => {
   dispatch(request(reducerTypes.CREATE_AMENDMENT));
 
@@ -152,94 +159,81 @@ export const createAmendment = plan => (dispatch, getState) => {
       const pasturesMap = getPasturesMap(getState());
       const grazingSchedulesMap = getGrazingSchedulesMap(getState());
       const ministerIssuesMap = getMinisterIssuesMap(getState());
+      const additionalRequirementsMap = getAdditionalRequirementsMap(getState());
+      const managementConsiderationsMap = getManagementConsiderationsMap(getState());
 
       const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
       const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
       const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
       const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
 
-      /* create new plan */
-      const newPlan = {
-        ...plan,
-        statusId: createdStatus.id,
-        uploaded: false, // still need to create things like pastures and schedules
-        amendmentTypeId: initialAmendment.id,
-        effectiveAt: null,
-        submittedAt: null,
-      };
-      delete newPlan.id;
+      const newPlan = copyPlanToCreateAmendment(plan, createdStatus.id, initialAmendment.id);
       const amendment = await dispatch(createRUP(newPlan));
+      const { id: amendmentId } = amendment;
 
-      /* create new pastures */
-      const pastures = plan.pastures.map((pId) => {
-        const { id: copiedId, planId, ...pasture } = pasturesMap[pId];
-        // copiedId will be used to find the relationship between
-        // the copied pasture and the field that has a referece to the pasture id
-        // such as grazing schedule entries and minister issues
-        return { ...pasture, copiedId };
-      });
-      const newPastures = await Promise.all(pastures.map(np => dispatch(createRUPPasture(amendment.id, np))));
+      const { pastures, plantCommunities: pcs } = copyPasturesToCreateAmendment(plan, pasturesMap);
+      const newPastures = await Promise.all(
+        pastures.map(p => dispatch(createRUPPasture(amendmentId, p))),
+      );
 
-      // create a normalized pasture map with the copied id as a property
-      const newPastureIdsMap = {};
-      newPastures.map((np) => {
-        newPastureIdsMap[np.copiedId] = np.id;
-        return null;
-      });
+      // create a normalized pasture ids map with the old pasture id as a key
+      const newPastureIdsMap = normalizePasturesWithOldId(newPastures);
 
-      /* create new grazing schedules */
-      const grazingSchedules = plan.grazingSchedules.map((gsId) => {
-        const {
-          id,
-          planId,
-          grazingScheduleEntries,
-          ...grazingSchedule
-        } = grazingSchedulesMap[gsId];
-        const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
-          const { id, pastureId: copiedPastureId, ...newGrazingScheduleEntry } = gse;
-          // replace pastureId with the new created pastureId
-          const pastureId = newPastureIdsMap[copiedPastureId];
-          return { ...newGrazingScheduleEntry, pastureId };
-        });
-        return {
-          ...grazingSchedule,
-          grazingScheduleEntries: newGrazingScheduleEntries,
-        };
-      });
-      const newGrazingSchedules = await Promise.all(grazingSchedules.map(ngs => dispatch(createRUPGrazingSchedule(amendment.id, ngs))));
+      const plantCommunities = copyPlantCommunitiesToCreateAmendment(pcs, newPastureIdsMap);
+      const newPlantCommunities = await Promise.all(
+        plantCommunities.map(pc => dispatch(createRUPPlantCommunityAndOthers(amendmentId, pc.pastureId, pc))),
+      );
 
-      /* create new minister issues */
-      const ministerIssues = plan.ministerIssues.map((miId) => {
-        const {
-          id,
-          planId,
-          pastures: copiedPastureIds,
-          ...ministerIssue
-        } = ministerIssuesMap[miId];
-        // replace pastures(array of ids) with the new created pasture ids
-        const pastures = copiedPastureIds.map(cId => newPastureIdsMap[cId]);
-        return { ...ministerIssue, pastures };
-      });
-      const newMinisterIssues = await Promise.all(ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendment.id, mi))));
+      const grazingSchedules = copyGrazingSchedulesToCreateAmendment(
+        plan, grazingSchedulesMap, newPastureIdsMap,
+      );
+      const newGrazingSchedules = await Promise.all(
+        grazingSchedules.map(gs => dispatch(createRUPGrazingSchedule(amendmentId, gs))),
+      );
 
-      // successfully finish uploading!
-      await dispatch(updateRUP(amendment.id, { uploaded: true }));
+      const ministerIssues = copyMinisterIssuesToCreateAmendment(
+        plan, ministerIssuesMap, newPastureIdsMap,
+      );
+      const newMinisterIssues = await Promise.all(
+        ministerIssues.map(mi => dispatch(createRUPMinisterIssueAndActions(amendmentId, mi))),
+      );
+
+      const invasivePlantChecklist = copyInvasivePlantChecklistToCreateAmendment(plan);
+      const newInvasivePlantCheckList = await dispatch(createRUPInvasivePlantChecklist(amendmentId, invasivePlantChecklist));
+
+      const managementConsiderations = copyManagementConsiderationsToCreateAmendment(plan, managementConsiderationsMap);
+      const newManagementConsiderations = await Promise.all(
+        managementConsiderations.map(mc => dispatch(createRUPManagementConsideration(amendmentId, mc))),
+      );
+
+      const additionalRequirements = copyAdditionalRequirementsToCreateAmendment(plan, additionalRequirementsMap);
+      const newAdditionalRequirements = await Promise.all(
+        additionalRequirements.map(ar => dispatch(createRUPAdditionalRequirement(amendmentId, ar))),
+      );
+
+      // successfully finish uploading so make this amendment visible!
+      await dispatch(updateRUP(amendmentId, { uploaded: true }));
 
       const newAmendment = {
         ...amendment,
         pastures: newPastures,
         grazingSchedules: newGrazingSchedules,
         ministerIssues: newMinisterIssues,
+        invasivePlantChecklist: newInvasivePlantCheckList,
+        managementConsiderations: newManagementConsiderations,
+        additionalRequirements: newAdditionalRequirements,
+        plantCommunities: newPlantCommunities,
       };
 
-      dispatch(success(reducerTypes.CREATE_AMENDMENT), newAmendment);
+      dispatch(success(reducerTypes.CREATE_AMENDMENT, newAmendment));
       return newAmendment;
     } catch (err) {
-      dispatch(error(reducerTypes.CREATE_AMENDMENT), err);
+      dispatch(error(reducerTypes.CREATE_AMENDMENT, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
   };
+
   return makeRequest();
 };
 
@@ -248,18 +242,14 @@ export const fetchRUP = planId => (dispatch, getState) => {
   const makeRequest = async () => {
     try {
       const response = await axios.get(API.GET_RUP(planId), createConfigWithHeader(getState));
-      const { plan, ...agreement } = response.data;
-      const planWithAgreement = {
-        ...plan,
-        agreement,
-      };
+      const planWithAgreement = response.data;
 
-      dispatch(success(reducerTypes.GET_PLAN, response.data));
+      dispatch(success(reducerTypes.GET_PLAN, planWithAgreement));
       // store the plan object
       dispatch(storePlan(normalize(planWithAgreement, schema.plan)));
 
       // return the agreement data for view
-      return response.data;
+      return planWithAgreement;
     } catch (err) {
       dispatch(error(reducerTypes.GET_PLAN, err));
       throw err;
@@ -328,92 +318,6 @@ export const fetchRupPDF = planId => (dispatch, getState) => {
       return data;
     } catch (err) {
       dispatch(error(reducerTypes.GET_PLAN_PDF, err));
-      dispatch(toastErrorMessage(err));
-      throw err;
-    }
-  };
-  return makeRequest();
-};
-
-const createRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE));
-  const makeRequest = async () => {
-    try {
-      const { id, ...grazingSchedule } = schedule;
-      const { data } = await axios.post(
-        API.CREATE_RUP_GRAZING_SCHEDULE(planId),
-        { ...grazingSchedule, plan_id: planId },
-        createConfigWithHeader(getState),
-      );
-      dispatch(success(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, data));
-      return data;
-    } catch (err) {
-      dispatch(error(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, err));
-      dispatch(toastErrorMessage(err));
-      throw err;
-    }
-  };
-  return makeRequest();
-};
-
-const updateRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE));
-  const makeRequest = async () => {
-    try {
-      const { data } = await axios.put(
-        API.UPDATE_RUP_GRAZING_SCHEDULE(planId, schedule.id),
-        { ...schedule },
-        createConfigWithHeader(getState),
-      );
-      dispatch(success(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, data));
-      return data;
-    } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, err));
-      dispatch(toastErrorMessage(err));
-      throw err;
-    }
-  };
-  return makeRequest();
-};
-
-export const createOrUpdateRupGrazingSchedule = (planId, schedule) => (dispatch) => {
-  if (uuid.isUUID(schedule.id)) {
-    return dispatch(createRupGrazingScheduleAndEntries(planId, schedule));
-  }
-  return dispatch(updateRupGrazingScheduleAndEntries(planId, schedule));
-};
-
-export const deleteRupGrazingSchedule = (planId, scheduleId) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE));
-  const makeRequest = async () => {
-    try {
-      const { data } = await axios.delete(
-        API.DELETE_RUP_GRAZING_SCHEDULE(planId, scheduleId),
-        createConfigWithHeader(getState),
-      );
-      dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE, data));
-      return data;
-    } catch (err) {
-      dispatch(error(reducerTypes.DELETE_GRAZING_SCHEUDLE, err));
-      dispatch(toastErrorMessage(err));
-      throw err;
-    }
-  };
-  return makeRequest();
-};
-
-export const deleteRupGrazingScheduleEntry = (planId, scheduleId, entryId) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY));
-  const makeRequest = async () => {
-    try {
-      const { data } = await axios.delete(
-        API.DELETE_RUP_GRAZING_SCHEDULE_ENTRY(planId, scheduleId, entryId),
-        createConfigWithHeader(getState),
-      );
-      dispatch(success(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, data));
-      return data;
-    } catch (err) {
-      dispatch(error(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }

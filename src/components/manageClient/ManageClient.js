@@ -1,24 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Button, Icon } from 'semantic-ui-react';
-import { debounce } from 'lodash';
+import debounce from 'lodash.debounce';
 import { Banner } from '../common';
 import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
-import { getUserFullName } from '../../utils';
-
-const propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usersMap: PropTypes.shape({}).isRequired,
-  clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-  searchClients: PropTypes.func.isRequired,
-  updateClientIdOfUser: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
-  isFetchingClients: PropTypes.bool.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
+import { getClientOption, getUserOption } from '../../utils';
 
 class ManageClient extends Component {
   constructor(props) {
@@ -30,6 +17,18 @@ class ManageClient extends Component {
     };
     this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000);
   }
+
+  static propTypes = {
+    users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    usersMap: PropTypes.shape({}).isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
+    searchClients: PropTypes.func.isRequired,
+    updateClientIdOfUser: PropTypes.func.isRequired,
+    userUpdated: PropTypes.func.isRequired,
+    isFetchingClients: PropTypes.bool.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
 
   onUserChanged = (e, { value: userId }) => {
     this.setState({ userId });
@@ -46,7 +45,7 @@ class ManageClient extends Component {
         header: strings.MANAGE_CLIENT_BANNER_HEADER,
         content: strings.MANAGE_CLIENT_BANNER_CONTENT,
         onYesBtnClicked: this.linkUserToClient,
-      }
+      },
     });
   }
 
@@ -57,7 +56,7 @@ class ManageClient extends Component {
 
   linkUserToClient = () => {
     const { userId, clientNumber } = this.state;
-    const { usersMap, updateUser, updateClientIdOfUser, closeConfirmationModal } = this.props;
+    const { usersMap, userUpdated, updateClientIdOfUser, closeConfirmationModal } = this.props;
 
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_CLIENT });
     const onSuccess = (newUser) => {
@@ -66,7 +65,7 @@ class ManageClient extends Component {
         clientId: newUser.clientId,
       };
 
-      updateUser(user);
+      userUpdated(user);
 
       this.setState({
         userId: null,
@@ -88,27 +87,11 @@ class ManageClient extends Component {
       searchQuery,
     } = this.state;
 
-    const userOptions = users.map((user) => {
-      const { email, clientId } = user;
-      const description = clientId ? `Client #: ${clientId}, Email: ${email}` : `Email: ${email}`;
-      return {
-        value: user.id,
-        text: getUserFullName(user),
-        description,
-      };
-    });
-
-    const clientOptions = clients.map((c) => {
-      const { clientNumber, name } = c;
-      return {
-        key: clientNumber,
-        value: clientNumber,
-        text: name,
-        description: `Client #: ${clientNumber}`,
-      };
-    });
+    const userOptions = users.map(user => getUserOption(user));
+    const clientOptions = clients.map(client => getClientOption(client));
 
     const isUpdateBtnEnabled = userId && clientNumber;
+
     let noResultsMessage = strings.NO_RESULTS_FOUND;
     if (isFetchingClients) {
       noResultsMessage = 'Fetching clients...';
@@ -128,13 +111,14 @@ class ManageClient extends Component {
             <h3>Step 1: Select User</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_USERS_DROPDOWN}
-              placeholder="Select User"
+              placeholder="Username"
               options={userOptions}
               value={userId}
               onChange={this.onUserChanged}
               search
               selection
               selectOnBlur={false}
+              clearable
             />
 
             <h3>Step 2: Search and Select Corresponding Client</h3>
@@ -151,6 +135,7 @@ class ManageClient extends Component {
               icon={<Icon name="search" size="small" />}
               noResultsMessage={noResultsMessage}
               selectOnBlur={false}
+              clearable
             />
 
             <div className="manage-client__update-btn">
@@ -169,5 +154,4 @@ class ManageClient extends Component {
   }
 }
 
-ManageClient.propTypes = propTypes;
 export default ManageClient;

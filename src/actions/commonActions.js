@@ -27,4 +27,3 @@ export const closeConfirmationModal = payload => (
     payload,
   }
 );
-

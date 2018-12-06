@@ -1,7 +1,5 @@
-@import 'styles/mixins.scss';
-@import 'styles/Grid.scss';
-
-$row-height: 80px;
+$sticky-height: 55px;
+$common-margin-bottom: 40px; // edit CONTENT_MARGIN_BOTTOM in variable.js when changing this value
 
 .rup {
   &__cell-6 {
@@ -13,10 +11,31 @@ $row-height: 80px;
   &__row {
     @extend .row;
   }
-  &__pdf-link {
-    display: none;
+  &__basic_information {
+    margin-bottom: calc(#{$common-margin-bottom} - 10px);
   }
-  &__title {
+  &__usage__table {
+    margin-bottom: $common-margin-bottom;
+  }
+  &__fetching-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 90px);
+    font-size: 1.5rem;
+    flex-direction: column;
+
+    > div {
+      margin: 10px 0;
+    }
+    &__message {
+      margin: 0px 10px 0 5px;
+    }
+    &__or-message {
+      margin: 0px 10px 0 10px;
+    }
+  }
+  &__content-title {
     font-size: 1.8rem;
     font-weight: bold;
     color: $primary-color;
@@ -27,17 +46,28 @@ $row-height: 80px;
       color: $primary-color;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
     }
   }
   &__sticky {
-    background: $primary-color;
-    color: white;
-    z-index: $rup-sticky-z-index;
-    min-width: $mobile-width;
-    min-height: 55px;
-    display: flex;
+    z-index: 1;
+    min-width: $tablet-width;
 
+    &--fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+  }
+  &__sticky--fixed + &__contents__container {
+    > .rup__contents {
+      padding-top: 75px;
+    }
+  }
+  &__actions {
+    &__background {
+      background: $primary-color;
+    }
     &__container {
       @extend .container;
       width: 100%;
@@ -51,24 +81,10 @@ $row-height: 80px;
       font-size: 1.1rem;
       font-weight: 600;
       line-height: 16px;
+      color: white;
     }
-    &__primary-agreement-holder,
-    &__title {
-      display: none;
-    }
-    &--fixed {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-    &--fixed &__title {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
-    }
-    &--fixed &__primary-agreement-holder {
+    &__title,
+    &__primary-agreement-holder {
       display: flex;
       align-items: center;
       margin-right: 15px;
@@ -76,21 +92,111 @@ $row-height: 80px;
       border-right: 1px solid $accent-color;
     }
   }
-  /* Add some top padding to the page content to prevent sudden quick movement 
-  (as the header gets a new position at the top of the page (position:fixed and top:0) */
-  &__sticky--fixed + &__content {
-    padding-top: 56px;
+  &__history {
+    margin-bottom: 20px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    background-color: #F7F7F7;
+    padding: 10px;
+
+    max-height: 130px;
+    overflow: auto;
+    
+    &__record {
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      &__header {
+        font-weight: bold;
+
+        > i {
+          margin-right: 5px !important;
+        }
+      }
+      &__timestamp {
+        display: inline;
+        font-weight: normal;
+        color: darkgray;
+        margin-left: 7px;
+      }
+      &__statuses {
+        display: flex;
+
+        > i {
+          margin: 2px 7px 0 7px !important;
+        }
+      }
+    }
+  }
+  &__contents {
+    width: 100%;
+    padding-top: $content-margin-top;
+
+    &__container {
+      @extend .container;
+      display: flex;
+    }
+    &__tabs {
+      position: sticky;
+      top: $sticky-height;
+      margin-right: 15px;
+      align-self: flex-start; /* <-- this is the fix */
+      font-size: 1.2rem;
+    }
+    &__tab {
+      display: flex;
+      padding: $content-margin-top 0;
+      padding-left: 10px;
+      border-bottom: 1px solid lightgray;
+      color: black;
+      text-decoration: none;
+      min-width: 210px;
+
+      > img {
+        width: 20px;
+        height: 20px;
+        margin-right: 7px;
+      }
+      &:hover {
+        font-weight: bold;
+        color: $primary-color;
+        text-decoration: none; 
+      }
+      &--active {
+        font-weight: bold;
+        text-decoration: none; 
+        color: $primary-color;
+        border-left: 4px solid $accent-color;
+        cursor: pointer;
+      }
+      @include desktop-width {
+        min-width: 55px;
+        padding-right: 0;
+        padding-left: 0;
+        justify-content: center;
+
+        > img {
+          margin: 0 15px;
+        }
+        > span {
+          display: none;
+        }
+      }
+    }
   }
   &__content {
-    @extend .container;
-    padding-top: $content-margin-top;
-  }
-  &__actions {
-    justify-content: space-between;
-    
-    &--hidden {
-      display: none;  
+    position: relative;
+
+    &__ref {
+      position: absolute;
+      top: calc(-#{$sticky-height} + -#{$content-margin-top});
     }
+  }
+  &__back-btn {
+    position: absolute;
+    margin-left: -38px;
+    color: white;
+    cursor: pointer;
   }
   &__divider {
     border-top: 3px solid $accent-color;
@@ -122,235 +228,37 @@ $row-height: 80px;
     justify-content: space-between;
     cursor: pointer;
   }
-  &__basic_information {
-    margin-bottom: 15px;
-  }
-  &__pastures {
-    &__container {
-      margin-bottom: 15px;
-    }
-  }
-  &__pasture {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 40px;
-      font-weight: bold;
-      font-size: 1.4rem;
-    }
-  }
+  &__update-status-dropdown {
+    margin-left: 10px !important;
 
-  &__schedules {
-    margin-top: 10px;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    &--empty {
-      border: 0px;
-    }
-    li:not(:last-child) {
-      border-bottom: 1px solid gainsboro;
-    }
-    &__container {
-      margin-bottom: 15px;
-    }
-  }
-
-  &__schedule {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__action {
-        margin-right: 10px;
+    > .menu {
+      left: inherit !important;
+      right: 0 !important;
+      
+      > .item {
+        text-align: center !important;
       }
     }
-    &__warning-message {
-      padding: 0px 15px 10px 15px;
-    }
+  }
+  &__update-status-modal {
     &__content {
-      padding: 0px 15px 15px 15px;
-      &__hidden {
-        display: none;  
-      }
-      &__dates {
-        min-width: 70px;
-      }
-      &__grace-days {
-        min-width: 50px;
-      }
-      &__AUMs {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        font-size: 1.1rem;
-        text-align: right;
-      }
-      &__AUM-label {
-        font-weight: bold;
-        margin: 0 10px;
-      }
-      &__AUM-number {
-        border: 1px solid gainsboro;
-        padding: 8px 15px;
-        border-radius: 3px;
-        &--invalid {
-          @extend .error;
-        }
-      }
-      &__narrative {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-    }
-    &__draft-container {
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #CCCCCC;
-      border-radius: 5px;
-      margin: 10px 0;
-    }
-    &__in-draft {
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  &__missues {
-    &__container {
-      margin-bottom: 15px;
+      font-size: 1.2rem;
     }
     &__note {
       margin-top: 10px;
-      font-size: 1.1rem;
-    }
-    margin: 10px 0;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    &--empty {
-      border: 0px;
-    }
-    li {
-      border-bottom: 1px solid gainsboro;
-    }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
-    }
-  }
-  &__missue {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__right {
-        display: flex;
-      }
-      &__identified {
-        font-size: 1rem;
-      }
-    }
-    &__content {
-      padding: 0px 15px 15px 15px;
-
-      &__hidden {
-        display: none;  
-      }
-    }
-    &__actions {
-      &__title {
-        font-size: 1.2rem;
-        color: gray;
-      }
-    }
-    &__action {
-      margin: 10px;
-      &__type {
-        font-weight: bold;
-      }
-      &__detail {
-        opacity: 0.9;
-      }
-    }
-  }
-}
-
-.rup-pdf {
-  display: flex;
-  justify-content: center;
+      color: #999999;
   
-  &__container {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-
-    &__download-btn {
-      align-self: flex-end;
-    }
-    &__load {
-      margin-top: 1em;
-      color: white;
-    }
-    &__document {
-      .ReactPDF {
-        &__Page {
-          box-shadow: 0 0 30px rgba(0, 0, 0, .3);
-          margin: 10px 0;
-
-          canvas {
-            max-width: 100%;
-            height: auto !important;
-          }
-        }
-        &__message {
-          padding: 20px;
-          color: black;
-        }
+      > form {
+        margin: 5px 0;
+      }
+      &__text-length {
+        text-align: end;
       }
     }
-  }
-}
-
-.amendment {
-  &__submission {
-    &__last-tab {
+    &__btns {
+      margin-top: 20px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      &__title {
-        font-size: 1.3rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
+      justify-content: flex-end;
     }
   }
 }

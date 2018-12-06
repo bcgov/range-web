@@ -1,19 +1,48 @@
-// tenure agreement table header labels
+export const APP_NAME = 'MyRange BC';
+
+// page titles
+const createTitle = title => `${title} | MyRangeBC`;
+export const LOGIN_TITLE = createTitle('Sign in');
+export const DETAIL_RUP_TITLE = createTitle('View RUP');
+export const SELECT_RUP_TITLE = createTitle('Select RUP');
+export const MANAGE_CLIENT_TITLE = createTitle('Manage Clients');
+export const MANAGE_ZONE_TITLE = createTitle('Manage Zones');
+export const PAGE_NOT_FOUND_TITLE = createTitle('Page Not Found');
+
+export const SELECT_RUP = 'Select RUP';
+export const MANAGE_ZONES = 'Manage Zones';
+export const MANAGE_CLIENTS = 'Manage Clients';
+
+// Agreement Table
 export const RANGE_NUMBER = 'RAN Number';
 export const RANGE_NAME = 'Range Name';
-export const AGREEMENT_HOLDER = 'Agreement Holder';
+export const AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
 export const SUBMITTED = 'Submitted';
+export const AGREEMENT_SEARCH_PLACEHOLDER = 'Enter RAN, agreement holder\'s name, or staff contact';
+export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View
 export const PREVIEW_PDF = 'Preview PDF';
+export const DOWNLOAD_PDF = 'Download PDF';
 export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
-export const SUBMIT_FOR_REVIEW = 'Submit for Review';
+export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';
+export const CONFIRM_SUBMISSION = 'Confirm Submission';
 export const VIEW = 'View';
+export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
+
+// RUP tabs
+export const BASIC_INFORMATION = 'Basic Information';
+export const PASTURES = 'Pastures';
+export const SCHEDULES = 'Schedules';
+export const MINISTER_ISSUES = 'Minister\'s Issues';
+export const INVASIVE_PLANTS = 'Invasive Plants';
+export const ADDITIONAL_REQUIREMENTS = 'Additional Requirements';
+export const MANAGEMENT_CONSIDERATIONS = 'Management Considerations';
 
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';
@@ -29,6 +58,7 @@ export const AGREEMENT_HOLDERS = 'Agreement Holders';
 export const TYPE = 'Type';
 export const NOT_PROVIDED = 'Not provided';
 export const NP = 'N/P';
+export const NO_PLAN = 'No Plan';
 export const NOT_SELECTED = 'Not selected';
 export const NO_RUP_PROVIDED = 'No RUP found';
 export const CONTACT_NAME = 'Contact Name';
@@ -40,11 +70,26 @@ export const PLAN_DATE = 'Plan Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
+// RUP Usage
+export const YEAR = 'Year';
+export const AUTH_AUMS = 'Auth AUMs';
+export const TEMP_INCREASE = 'Temp Increase';
+export const BILLABLE_NON_USE = 'Non-Use';
+export const TOTAL_ANNUAL_USE = 'Total Annual';
+
 // RUP pastures
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)';
 export const GRACE_DAYS = 'Grace Days';
-export const PASTURE_NOTES = 'Pasture Notes';
+export const PASTURE_NOTES = 'Pasture Notes (non legal content)';
+
+// RUP Plant Communities
+export const ASPECT = 'Aspect';
+export const ELEVATION = 'Elevation';
+export const APPROVED_BY_MINISTER = 'Approved by minister';
+export const PLANT_COMMUNITY_NOTES = 'Plant Community Notes';
+export const COMMUNITY_URL = 'Community URL';
+export const PURPOSE_OF_ACTION = 'Purpose of Action';
 
 // RUP schedules
 export const PASTURE = 'Pasture';
@@ -56,12 +101,18 @@ export const DAYS = 'Days';
 export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
 
+// RUP minister issues
 export const CONTACT_NO_EXIST = 'Contact doesn\'t exist';
+export const ACTION_NOTE = 'Note: If an action involves a range development or removal of timber (ex. off-stream watering or fence) a separate authorization is required. Please contact a range staff member if you are considering such an action.';
+
+// Manage Zone
+export const NO_DESCRIPTION = 'No description available';
+export const NOT_ASSIGNED = 'Not assigned';
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
-export const STATUS500 = 'Internal server error occurred, please contact the administrator.';
+export const STATUS500 = 'Internal server error occurred, please contact the administrator(MyRangeBC@gov.bc.ca).';
 export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
 export const UPDATE_AGREEMENT_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
@@ -70,8 +121,8 @@ export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range us
 export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
-export const USER_NOT_ACTIVE = 'This account is not active yet, please contact the administrator.';
-export const USER_NO_ROLE = 'This account has not been assigned a role, please contact the administrator.';
+export const USER_NOT_ACTIVE = 'This account is not active yet. Please contact the administrator(MyRangeBC@gov.bc.ca).';
+export const USER_NO_ROLE = 'This account has not been assigned a role, please contact the administrator(MyRangeBC@gov.bc.ca).';
 export const USER_NOT_REGISTERED = 'This account has not been registered.';
 export const LOADING_USER = 'Loading User Information';
 export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
@@ -80,6 +131,7 @@ export const TYPE_CLIENT_NAME = 'Type name of the client';
 export const NO_RESULTS_FOUND = 'No result founds.';
 export const ERROR_OCCUR = 'Error Occured!';
 export const REDIRECTING = 'Please wait while redirecting...';
+export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 
 // modals
 export const COMPLETED_CONFIRMATION_HEADER = 'Update Status: Completed';
@@ -92,6 +144,18 @@ export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_HEADER = 'Update Status: W
 export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 export const STANDS_WRONGLY_MADE_CONFIRMATION_HEADER = 'Update Status: Stands - Wrongly Made';
 export const STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const APPROVED_CONFIRMATION_HEADER = 'Update Status: Approved';
+export const APPROVED_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const NOT_APPROVED_CONFIRMATION_HEADER = 'Update Status: Not Approved';
+export const NOT_APPROVED_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const NOT_APPROVED_FWR_CONFIRMATION_HEADER = 'Update Status: Not Approved - Further Work Required';
+export const NOT_APPROVED_FWR_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_READY_CONFIRMATION_HEADER = 'Update Status: Recommend Ready';
+export const RECOMMEND_READY_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_NOT_READY_CONFIRMATION_HEADER = 'Update Status: Recommend Not Ready';
+export const RECOMMEND_NOT_READY_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_FOR_SUBMISSION_CONFIRMATION_HEADER = 'Update Status: Recommend For Submission';
+export const RECOMMEND_FOR_SUBMISSION_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 
 export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
 export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';
@@ -106,24 +170,25 @@ export const SUBMIT_RUP_CHANGE_FOR_AH_CONTENT = 'Once submitted you can no longe
 
 // banners
 export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the status of the range use plan.';
-export const DETAIL_RUP_EDIT_BANNER_CONTENT = 'Please finalize your changes and submit for final approval';
+export const DETAIL_RUP_EDIT_BANNER_CONTENT = 'Please finalize your changes and submit for final approval.';
 export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT = 'View details of each range use plan. Enter RAN number, agreement holder\'s name, or staff contact in the search box to search for a specific range use plan.';
-export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zone';
+export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zones';
 export const MANAGE_ZONE_BANNER_CONTENT = 'Follow steps to assign a zone from the current staff to other staff.';
-export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Client';
+export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Clients';
 export const MANAGE_CLIENT_BANNER_CONTENT = 'Follow the steps below to link the user to their client number.';
-export const RUP_CREATED_FOR_AH_CONTENT = 'Please confirm your range use plan.';
-export const RUP_IN_DRAFT_FOR_AH_CONTENT = 'Please finalize your changes and submit for Range staff review.';
-export const RUP_PENDING_FOR_AH_CONTENT = 'Your range use plan is currently being reviewed by range staff.';
-export const RUP_CHANGE_REQUESTED_FOR_AH_CONTENT = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
-export const RUP_COMPLETE_FOR_AH_CONTENT = 'Your initial RUP was reviewed by the district manager and has been approved.';
-export const RUP_APPROVED_FOR_AH_CONTENT = 'Your plan or amendment was reviewed by the district manager and has been approved. If you wish to submit an amendment please use the “Amend Plan” option to the right.';
-export const RUP_NOT_APPROVED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager. For more information follow up with your Range staff contact.';
-export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_FOR_AH_CONTENT = 'Your mandatory amendment was reviewed by Range staff and was not approved by the district manager because further work is required. Please complete the requested revisions and resubmit.';
-export const RUP_STANDS_FOR_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved.';
-export const RUP_STANDS_WRONGLY_MADE_AH_CONTENT = 'Your Minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
-export const RUP_WRONGLY_MADE_WITHOUT_EFFECT = 'Your Minor amendment was reviewed by Range staff and was deemed wrongly made. For more information follow up with your Range staff contact.';
+export const RUP_CREATED_BANNER_FOR_AH = 'Please confirm your range use plan.';
+export const AMENDMENT_CREATED_BANNER_FOR_AH = 'Make proposed changes in the copy of the RUP below. Contact other agreement holders (if there are any) to discuss the proposal. Click “Save draft” if you need to continue your amendment at another time. Click “Submit” when you have made all of the desired changes.';
+export const RUP_IN_DRAFT_BANNER_FOR_AH = 'Please finalize your changes and submit for Range staff review.';
+export const RUP_PENDING_BANNER_FOR_AH = 'Your range use plan is currently being reviewed by range staff.';
+export const RUP_CHANGE_REQUESTED_BANNER_FOR_AH = 'Your range use plan was reviewed by Range staff and requires revisions. Please make changes and resubmit.';
+export const RUP_COMPLETE_BANNER_FOR_AH = 'Your initial RUP was reviewed by the district manager and has been approved.';
+export const RUP_APPROVED_BANNER_FOR_AH = 'Your plan or amendment was reviewed by the district manager and has been approved. If you wish to submit an amendment please use the “Amend Plan” option to the right.';
+export const RUP_NOT_APPROVED_BANNER_FOR_AH = 'Your plan or amendment was reviewed by Range staff and was not approved by the district manager. For more information follow up with your Range staff contact.';
+export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_BANNER_FOR_AH = 'Your plan or amendment was reviewed by Range staff and was not approved by the district manager because further work is required. Please complete the requested revisions and resubmit.';
+export const RUP_STANDS_BANNER_FOR_AH = 'Your minor amendment was reviewed by Range staff and was approved.';
+export const RUP_STANDS_WRONGLY__BANNER_FOR_AH = 'Your minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
+export const RUP_WRONGLY_MADE_WITHOUT_EFFECT = 'Your minor amendment was reviewed by Range staff and was deemed wrongly made. For more information follow up with your Range staff contact.';
 
 // statuses of range use plan in user perspective
 export const INPUT_REQUIRED = 'Input Required';
@@ -133,3 +198,4 @@ export const REVISIONS_REQUESTED = 'Revisions Requested';
 export const SENT_FOR_INPUT = 'Sent for Input';
 export const IN_PROGRESS = 'In Progress';
 export const DRAFT = 'Draft';
+export const UNKNOWN_STATUS = 'Unknown Status';

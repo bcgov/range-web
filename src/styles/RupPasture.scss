@@ -1,0 +1,16 @@
+.rup {
+  &__pastures {
+    margin-bottom: $common-margin-bottom;
+  }
+  &__pasture {
+    &__title {
+      display: flex;
+      align-items: center;
+
+      > img {
+        margin-right: 7px;
+        height: 18px;
+      }
+    }
+  }
+}

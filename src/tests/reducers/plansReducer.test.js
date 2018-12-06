@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
-import plansReducer from '../../reducers/plansReducer';
-import { storePlan, updatePlan, addGrazingSchedule } from '../../actions';
+import plansReducer from '../../reducers/planReducer/plansReducer';
+import { storePlan, planUpdated, addGrazingSchedule } from '../../actions';
 import * as schema from '../../actionCreators/schema';
 
 const initialState = {
@@ -46,7 +46,7 @@ describe('Plan reducer', () => {
     });
   });
 
-  describe('Handles `UPDATE_PLAN`', () => {
+  describe('Handles `PLAN_UPDATED`', () => {
     it('Correctly store a plan with initial state and update the plan', () => {
       const mockUpdatedPlanData = {
         id: 'plan_id',
@@ -67,7 +67,7 @@ describe('Plan reducer', () => {
         },
         allIds: ['plan_id'],
       };
-      expect(plansReducer(mockState, updatePlan({ plan: mockUpdatedPlanData }))).toEqual(mockStateForUpdatedPlanData);
+      expect(plansReducer(mockState, planUpdated({ plan: mockUpdatedPlanData }))).toEqual(mockStateForUpdatedPlanData);
     });
   });
 

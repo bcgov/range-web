@@ -50,6 +50,7 @@ const appReducer = combineReducers({
   [reducerTypes.CONFIRMATION]: confirmationModalReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
+  [reducerTypes.GET_PLAN_PDF]: createReducer(networkReducer, reducerTypes.GET_PLAN_PDF),
   [reducerTypes.UPDATE_USER_ID_OF_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_USER_ID_OF_ZONE),
   [reducerTypes.UPDATE_AGREEMENT_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_AGREEMENT_ZONE),
   [reducerTypes.SEARCH_CLIENTS]: createReducer(networkReducer, reducerTypes.SEARCH_CLIENTS),
@@ -60,6 +61,17 @@ const appReducer = combineReducers({
   [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
   [reducerTypes.CREATE_AMENDMENT]: createReducer(networkReducer, reducerTypes.CREATE_AMENDMENT),
 });
+
+const rootReducer = (state, action) => {
+  // reset the state of a Redux store when users sign out
+  if (action.type === SIGN_OUT) {
+    return appReducer(undefined, action);
+  }
+
+  return appReducer(state, action);
+};
+
+export default rootReducer;
 
 // public selectors
 export const getAgreements = state => fromAgreement.getAgreements(state[reducerTypes.AGREEMENTS]);
@@ -72,12 +84,14 @@ export const getIsUpdatingAgreementZone = state => fromNetwork.getIsFetching(sta
 
 export const getAgreementsMapWithAllPlan = state => fromAgreementWithAllPlans.getAgreementsMap(state[reducerTypes.AGREEMENTS_WITH_ALL_PLANS]);
 export const getIsFetchingAgreementWithAllPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_AGREEMENT]);
+export const getAgreementsMapWithAllPlanErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_AGREEMENT]);
 export const getIsCreatingAmendment = state => fromNetwork.getIsFetching(state[reducerTypes.CREATE_AMENDMENT]);
 
 export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);
 export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
 export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
 export const getIsFetchingUser = state => fromNetwork.getIsFetching(state[reducerTypes.GET_USER]);
+export const getUserErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_USER]);
 
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);
@@ -93,10 +107,20 @@ export const getIsFetchingClients = state => fromNetwork.getIsFetching(state[red
 export const getPlansMap = state => fromPlan.getPlansMap(state[reducerTypes.PLAN]);
 export const getPlanIds = state => fromPlan.getPlanIds(state[reducerTypes.PLAN]);
 export const getIsFetchingPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_PLAN]);
-export const getPlanErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN]);
+export const getPlanError = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN]);
+
+export const getIsFetchingPlanPDF = state => fromNetwork.getIsFetching(state[reducerTypes.GET_PLAN_PDF]);
+export const getPlanPDFError = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN_PDF]);
+export const getPlanPDF = state => fromNetwork.getData(state[reducerTypes.GET_PLAN_PDF]);
+
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
+export const getPlantCommunitiesMap = state => fromPlan.getPlantCommunitiesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
+export const getConfirmationsMap = state => fromPlan.getConfirmationsMap(state[reducerTypes.PLAN]);
+export const getPlanStatusHistoryMap = state => fromPlan.getPlanStatusHistoryMap(state[reducerTypes.PLAN]);
+export const getAdditionalRequirementsMap = state => fromPlan.getAdditionalRequirementsMap(state[reducerTypes.PLAN]);
+export const getManagementConsiderationsMap = state => fromPlan.getManagementConsiderationsMap(state[reducerTypes.PLAN]);
 
 export const getIsDeletingGrazingSchedule = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE]);
 export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]);
@@ -104,14 +128,3 @@ export const getIsUpdatingPlanStatus = state => fromNetwork.getIsFetching(state[
 
 export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
 export const getConfirmationModalsMap = state => fromConfirmationModal.getConfirmationModalsMap(state[reducerTypes.CONFIRMATION]);
-
-const rootReducer = (state, action) => {
-  // reset the state of a Redux store when users sign out
-  if (action.type === SIGN_OUT) {
-    return appReducer(undefined, action);
-  }
-
-  return appReducer(state, action);
-};
-
-export default rootReducer;

@@ -19,8 +19,9 @@
 //
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+// import { hot } from 'react-hot-loader';
 import configureStore from '../configureStore';
-import Router from './Router';
+import Router from './router';
 
 const store = configureStore();
 
@@ -35,4 +36,5 @@ class App extends Component {
   }
 }
 
+// export default hot(module)(App);
 export default App;

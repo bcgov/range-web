@@ -1,51 +1,42 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import RupStaff from './RupStaff';
-import RupAH from './RupAH';
+import { Button, Icon } from 'semantic-ui-react';
+import StaffPage from './StaffPage';
+import AHPage from './AHPage';
 import { Loading } from '../common';
-import { updatePlan, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
+import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
-
-const propTypes = {
-  match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-  fetchRUP: PropTypes.func.isRequired,
-  user: PropTypes.shape({}).isRequired,
-  isFetchingPlan: PropTypes.bool.isRequired,
-  errorFetchingPlan: PropTypes.shape({}),
-  plansMap: PropTypes.shape({}).isRequired,
-};
-
-const defaultProps = {
-  errorFetchingPlan: null,
-};
+import { DETAIL_RUP_TITLE } from '../../constants/strings';
 
 class Base extends Component {
+  static propTypes = {
+    match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
+    user: PropTypes.shape({}).isRequired,
+    history: PropTypes.shape({}).isRequired,
+    fetchRUP: PropTypes.func.isRequired,
+    isFetchingPlan: PropTypes.bool.isRequired,
+    errorFetchingPlan: PropTypes.shape({}),
+    plansMap: PropTypes.shape({}).isRequired,
+  };
+
+  static defaultProps = {
+    errorFetchingPlan: null,
+  };
+
+  componentWillMount() {
+    document.title = DETAIL_RUP_TITLE;
+  }
+
   componentDidMount() {
     // initial fetch for a plan
     this.fetchPlan();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { location } = this.props;
-    const locationChanged = nextProps.location !== location;
-
-    // triggered by creating amendment
-    if (locationChanged) {
-      this.fetchPlan(nextProps.match.params.planId);
-    }
-  }
-
-  fetchPlan = (planId) => {
+  fetchPlan = () => {
     const { fetchRUP, match } = this.props;
-    if (planId) {
-      fetchRUP(planId);
-      return;
-    }
     fetchRUP(match.params.planId);
   }
 
@@ -56,37 +47,54 @@ class Base extends Component {
       isFetchingPlan,
       errorFetchingPlan,
       plansMap,
+      history,
     } = this.props;
 
     const plan = plansMap[match.params.planId];
     const agreement = plan && plan.agreement;
+    const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan;
+    // const doneFetching = !isFetchingPlanForTheFirstTime;
 
     if (errorFetchingPlan) {
-      return <Redirect push to="/no-rup-found-from-server" />;
+      return (
+        <div className="rup__fetching-error">
+          <Icon name="warning circle" size="big" color="red" />
+          <div>
+            <span className="rup__fetching-error__message">
+              Error occured while fetching the range use plan.
+            </span>
+          </div>
+          <div>
+            <Button onClick={history.goBack}>Go Back</Button>
+            <span className="rup__fetching-error__or-message">or</span>
+            <Button onClick={this.fetchPlan}>Retry</Button>
+          </div>
+        </div>
+      );
     }
 
     return (
       <Fragment>
-        <Loading active={isFetchingPlan} />
+        <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-        { isUserAdmin(user) &&
-          <RupStaff
+        {plan && isUserAdmin(user) &&
+          <StaffPage
             agreement={agreement}
             plan={plan}
             {...this.props}
           />
         }
 
-        { isUserRangeOfficer(user) &&
-          <RupStaff
+        {plan && isUserRangeOfficer(user) &&
+          <StaffPage
             agreement={agreement}
             plan={plan}
             {...this.props}
           />
         }
 
-        { isUserAgreementHolder(user) &&
-          <RupAH
+        {plan && isUserAgreementHolder(user) &&
+          <AHPage
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
@@ -104,21 +112,22 @@ const mapStateToProps = state => (
     pasturesMap: selectors.getPasturesMap(state),
     grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
     ministerIssuesMap: selectors.getMinisterIssuesMap(state),
+    confirmationsMap: selectors.getConfirmationsMap(state),
+    planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
+    additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
+    managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),
     isFetchingPlan: selectors.getIsFetchingPlan(state),
-    errorFetchingPlan: selectors.getPlanErrorMessage(state),
+    errorFetchingPlan: selectors.getPlanError(state),
     references: selectors.getReferences(state),
-    user: selectors.getUser(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
     isCreatingAmendment: selectors.getIsCreatingAmendment(state),
   }
 );
 
-Base.propTypes = propTypes;
-Base.defaultProps = defaultProps;
 export default connect(mapStateToProps, {
   fetchRUP,
   updateRUPStatus,
-  updatePlan,
+  planUpdated,
   updateGrazingSchedule,
   createOrUpdateRupGrazingSchedule,
   toastSuccessMessage,

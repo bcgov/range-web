@@ -48,3 +48,10 @@ export const storeAgreementWithAllPlans = payload => (
     payload,
   }
 );
+
+export const addPlanStatusHistoryRecord = payload => (
+  {
+    type: actionTypes.ADD_PLAN_STATUS_HISTORY_RECORD,
+    payload,
+  }
+);

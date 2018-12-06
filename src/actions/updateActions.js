@@ -1,22 +1,29 @@
 import * as actionTypes from '../constants/actionTypes';
 
-export const updateZone = payload => (
+export const zoneUpdated = payload => (
   {
-    type: actionTypes.UPDATE_ZONE,
+    type: actionTypes.ZONE_UPDATED,
     payload,
   }
 );
 
-export const updateUser = payload => (
+export const userUpdated = payload => (
   {
-    type: actionTypes.UPDATE_USER,
+    type: actionTypes.USER_UPDATED,
     payload,
   }
 );
 
-export const updatePlan = payload => (
+export const planUpdated = payload => (
   {
-    type: actionTypes.UPDATE_PLAN,
+    type: actionTypes.PLAN_UPDATED,
+    payload,
+  }
+);
+
+export const confirmationUpdated = payload => (
+  {
+    type: actionTypes.CONFIRMATION_UPDATED,
     payload,
   }
 );

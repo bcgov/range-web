@@ -1,0 +1,128 @@
+.navbar {
+  background: $primary-color;
+  border-bottom: 2px solid $accent-color;
+
+  &__container {
+    @extend .container;
+    height: $nav-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__link {
+    height: $nav-height;
+    display: flex;
+    align-items: center;
+    color: lightgray;
+    padding: 0 10px;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      color: white;
+    }
+    &--active {
+      color: white;
+    }
+    &--active::after {
+      content: '';
+      position: absolute;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $accent-color;
+      transform: rotate(180deg);
+      clear: both;
+      top: 3.1em;
+      left: 42%;
+    }
+  }
+
+  &__logo {
+    height: 55px;
+    margin-left: -10px;
+  }
+
+  &__title {
+    border-left: 1px solid $accent-color;
+    font-size: 1.2rem;
+    padding-left: 15px;
+    margin-left: 10px;
+    color: white;
+    white-space: nowrap;
+  }
+  &__avatar {
+    display: flex !important;
+    align-items: center;
+    height: 50px;
+    margin-left: 10px;
+
+    > .menu.transition.visible:after {
+      right: 13%;
+      left: unset !important;
+    }
+    > .menu.transition.visible {
+      right: 0;
+      left: unset;
+
+      > .item {
+        padding: 15px !important;
+      }
+    }
+  }
+  &__menu {
+    display: flex !important;
+    align-items: center;
+    height: 50px;
+    color: white;
+    padding: 0 15px;
+
+    > .menu.transition.visible {
+      > .item {
+        height: 45px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.offline {
+  background-color: $error-color;
+  color: white;
+  text-align: center;
+  height: 15px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.5rem;
+}
+
+footer {
+  height: 40px;
+}
+
+.confirmation-modal {
+  &__content {
+    font-size: 1.2rem;
+  }
+  &__btns {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

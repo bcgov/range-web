@@ -1,0 +1,68 @@
+.rup {
+  &__grazing-schedules {
+    margin-bottom: $common-margin-bottom;
+    
+    & .ui.right.pointing.dropdown>.menu {
+      top: -10px !important;
+      right: 15px !important; 
+    }
+  }
+
+  &__grazing-schedule {
+    &__title {
+      display: flex;
+      align-items: center;
+
+      > img {
+        margin-right: 7px;
+        height: 18px;
+      }
+    }
+    &__warning-message {
+      padding: 0px 15px 10px 15px;
+    }
+    &__dates {
+      min-width: 75px;
+    }
+    &__grace-days {
+      min-width: 50px;
+    }
+    &__AUMs {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 1.1rem;
+      text-align: right;
+    }
+    &__AUM-label {
+      font-weight: bold;
+      margin: 0 10px;
+    }
+    &__AUM-number {
+      border: 1px solid gainsboro;
+      padding: 8px 15px;
+      border-radius: 3px;
+      &--invalid {
+        @extend .error;
+      }
+    }
+    &__narative {
+      &__title {
+        font-weight: bold;
+      }
+    }
+    &__draft-container {
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #CCCCCC;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    &__in-draft {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
