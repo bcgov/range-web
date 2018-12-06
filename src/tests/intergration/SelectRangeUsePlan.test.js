@@ -28,7 +28,7 @@ beforeEach(() => {
   store.dispatch(storeReferences(mockReference));
   mockAxios.reset();
 });
-/* eslint-disable function-paren-newline */
+
 describe('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
@@ -48,13 +48,13 @@ describe('Integration testing', () => {
     );
 
     await flushAllPromises();
-    // Forces a re-render
     wrapper.update();
+
     expect(getAgreements(store.getState())).toHaveLength(10);
   });
 
   describe('Browse functionalities', () => {
-    it('search agreements by RAN number', async () => {
+    it('search agreements by RAN075974', async () => {
       let config = {
         ...requestMockHeader(store.getState),
         params: { term: '', page: 1, limit: 10 },
@@ -71,13 +71,17 @@ describe('Integration testing', () => {
           </MemoryRouter>
         </Provider>,
       );
-
       await flushAllPromises();
       wrapper.update();
 
-      wrapper.find(`#${ELEMENT_ID.SEARCH_TERM}`).simulate('change', { target: { id: ELEMENT_ID.SEARCH_TERM, value: 'RAN075974' } });
+      expect(getAgreements(store.getState())).toHaveLength(10);
+
+      wrapper.find(`#${ELEMENT_ID.SEARCH_TERM}`).simulate('change', {
+        target: { id: ELEMENT_ID.SEARCH_TERM, value: 'RAN075974' },
+      });
       await flushAllPromises();
       wrapper.update();
+
       expect(getAgreements(store.getState())).toHaveLength(1);
     });
   });

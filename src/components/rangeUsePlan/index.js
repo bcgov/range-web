@@ -16,6 +16,7 @@ class Base extends Component {
     match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
     user: PropTypes.shape({}).isRequired,
     history: PropTypes.shape({}).isRequired,
+    location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
     fetchRUP: PropTypes.func.isRequired,
     isFetchingPlan: PropTypes.bool.isRequired,
     errorFetchingPlan: PropTypes.shape({}),
@@ -35,14 +36,19 @@ class Base extends Component {
     this.fetchPlan();
   }
 
+  getPlanId = () => {
+    const { match, location } = this.props;
+    // the second part is being used for testing
+    return match.params.planId || location.pathname.charAt('/range-use-plan/'.length);
+  }
+
   fetchPlan = () => {
-    const { fetchRUP, match } = this.props;
-    fetchRUP(match.params.planId);
+    const planId = this.getPlanId();
+    this.props.fetchRUP(planId);
   }
 
   render() {
     const {
-      match,
       user,
       isFetchingPlan,
       errorFetchingPlan,
@@ -50,7 +56,8 @@ class Base extends Component {
       history,
     } = this.props;
 
-    const plan = plansMap[match.params.planId];
+    const planId = this.getPlanId();
+    const plan = plansMap[planId];
     const agreement = plan && plan.agreement;
     const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan;
     // const doneFetching = !isFetchingPlanForTheFirstTime;

@@ -1,71 +1,374 @@
 /* eslint-disable quotes, comma-dangle */
 const mockPlanWithAgreement = {
-    "id": 4,
-    "rangeName": "Bad Range",
-    "planStartDate": "2000-02-25T08:00:00.000Z",
-    "planEndDate": "2001-04-12T07:00:00.000Z",
+    "id": 1,
+    "rangeName": "Crown",
+    "planStartDate": "2019-01-01T08:00:00.000Z",
+    "planEndDate": "2019-12-31T08:00:00.000Z",
     "notes": null,
     "altBusinessName": null,
-    "agreementId": "RAN073906",
-    "statusId": 6,
+    "agreementId": "RAN074308",
+    "statusId": 1,
     "uploaded": true,
     "amendmentTypeId": null,
-    "createdAt": "2018-11-14T20:58:24.912Z",
-    "updatedAt": "2018-11-14T20:58:26.223Z",
+    "createdAt": "2018-11-22T00:39:55.309Z",
+    "updatedAt": "2018-11-22T00:39:56.120Z",
     "effectiveAt": null,
     "submittedAt": null,
-    "creatorId": 1,
+    "creatorId": 15,
     "status": {
-        "id": 6,
-        "code": "SD",
-        "name": "Staff Draft",
+        "id": 1,
+        "code": "C",
+        "name": "Created",
         "active": true
     },
     "extension": null,
     "creator": {
-        "id": 1,
-        "username": "rangestaff",
+        "id": 15,
+        "username": "idir\\maschuff",
         "clientId": null,
-        "givenName": "Range",
-        "familyName": "Staff",
-        "email": "amir+1@freshworks.io",
-        "phoneNumber": null,
+        "givenName": "Marc",
+        "familyName": "Schuffert",
+        "email": "marc.schuffert@gov.bc.ca",
+        "phoneNumber": "250-847-6329",
         "active": true,
-        "lastLoginAt": "2018-11-14T20:58:29.865Z",
-        "roles": []
+        "lastLoginAt": "2018-12-03T21:51:24.751Z"
     },
     "pastures": [
         {
-            "id": 1,
-            "name": "crown",
-            "allowableAum": null,
-            "graceDays": 3,
-            "pldPercent": null,
-            "notes": null,
-            "planId": 4,
+            "id": 44,
+            "name": "Kyub's Pasture",
+            "allowableAum": 150,
+            "graceDays": 5,
+            "pldPercent": 0.6,
+            "notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "planId": 1,
             "plantCommunities": []
+        },
+        {
+            "id": 1,
+            "name": "Zobnik",
+            "allowableAum": 25,
+            "graceDays": 3,
+            "pldPercent": 0.65,
+            "notes": null,
+            "planId": 1,
+            "plantCommunities": [
+                {
+                    "id": 10,
+                    "communityTypeId": 1,
+                    "elevationId": null,
+                    "pastureId": 1,
+                    "purposeOfAction": "none",
+                    "name": null,
+                    "aspect": null,
+                    "url": null,
+                    "notes": "Ths is a note!",
+                    "rangeReadinessDay": 1,
+                    "rangeReadinessMonth": 6,
+                    "rangeReadinessNote": null,
+                    "approved": false,
+                    "elevation": null,
+                    "communityType": {
+                        "id": 1,
+                        "name": "Alkali saltgrass",
+                        "active": true
+                    },
+                    "indicatorPlants": [],
+                    "monitoringAreas": [],
+                    "plantCommunityActions": []
+                },
+                {
+                    "id": 14,
+                    "communityTypeId": 3,
+                    "elevationId": 1,
+                    "pastureId": 1,
+                    "purposeOfAction": "maintain",
+                    "name": null,
+                    "aspect": "Aspect",
+                    "url": null,
+                    "notes": "Mid seral pinegrass",
+                    "rangeReadinessDay": 4,
+                    "rangeReadinessMonth": 1,
+                    "rangeReadinessNote": "This is a range readiness note",
+                    "approved": true,
+                    "elevation": {
+                        "id": 1,
+                        "name": "<500",
+                        "active": true
+                    },
+                    "communityType": {
+                        "id": 3,
+                        "name": "Barclay willow",
+                        "active": true
+                    },
+                    "indicatorPlants": [
+                        {
+                            "id": 30,
+                            "plantSpeciesId": 1,
+                            "plantCommunityId": 14,
+                            "criteria": "rangereadiness",
+                            "value": 1,
+                            "name": null,
+                            "plantSpecies": {
+                                "id": 1,
+                                "name": "Bentgrass",
+                                "leafStage": null,
+                                "stubbleHeight": null,
+                                "annualGrowth": null,
+                                "active": true,
+                                "isShrubUse": false
+                            }
+                        },
+                        {
+                            "id": 31,
+                            "plantSpeciesId": 4,
+                            "plantCommunityId": 14,
+                            "criteria": "rangereadiness",
+                            "value": 10,
+                            "name": null,
+                            "plantSpecies": {
+                                "id": 4,
+                                "name": "Bluegrass, Canada",
+                                "leafStage": 2.5,
+                                "stubbleHeight": 8,
+                                "annualGrowth": null,
+                                "active": true,
+                                "isShrubUse": false
+                            }
+                        },
+                        {
+                            "id": 36,
+                            "plantSpeciesId": 4,
+                            "plantCommunityId": 14,
+                            "criteria": "stubbleheight",
+                            "value": 14,
+                            "name": null,
+                            "plantSpecies": {
+                                "id": 4,
+                                "name": "Bluegrass, Canada",
+                                "leafStage": 2.5,
+                                "stubbleHeight": 8,
+                                "annualGrowth": null,
+                                "active": true,
+                                "isShrubUse": false
+                            }
+                        },
+                        {
+                            "id": 40,
+                            "plantSpeciesId": 15,
+                            "plantCommunityId": 14,
+                            "criteria": "shrubuse",
+                            "value": 10,
+                            "name": null,
+                            "plantSpecies": {
+                                "id": 15,
+                                "name": "Fescue, Altai",
+                                "leafStage": 4.5,
+                                "stubbleHeight": 17,
+                                "annualGrowth": null,
+                                "active": true,
+                                "isShrubUse": false
+                            }
+                        },
+                        {
+                            "id": 41,
+                            "plantSpeciesId": 13,
+                            "plantCommunityId": 14,
+                            "criteria": "shrubuse",
+                            "value": 2,
+                            "name": null,
+                            "plantSpecies": {
+                                "id": 13,
+                                "name": "Brome, Smooth",
+                                "leafStage": 3,
+                                "stubbleHeight": 10,
+                                "annualGrowth": null,
+                                "active": true,
+                                "isShrubUse": false
+                            }
+                        }
+                    ],
+                    "plantCommunityActions": [
+                        {
+                            "id": 4,
+                            "plantCommunityId": 14,
+                            "actionTypeId": 1,
+                            "name": null,
+                            "details": "Ride at least once a week to check on location of livestock Ride at least once a week to check on location of livestock Ride at least once a week to check on location of livestock",
+                            "noGrazeStartDay": null,
+                            "noGrazeStartMonth": null,
+                            "noGrazeEndDay": null,
+                            "noGrazeEndMonth": null,
+                            "actionType": {
+                                "id": 1,
+                                "name": "Herding",
+                                "active": true
+                            }
+                        },
+                        {
+                            "id": 5,
+                            "plantCommunityId": 14,
+                            "actionTypeId": 2,
+                            "name": null,
+                            "details": "Ride at least once a week to check on location of livestock Ride at least once a week to check on location of livestock Ride at least once a week to check on location of livestock",
+                            "noGrazeStartDay": null,
+                            "noGrazeStartMonth": null,
+                            "noGrazeEndDay": null,
+                            "noGrazeEndMonth": null,
+                            "actionType": {
+                                "id": 2,
+                                "name": "Livestock Variables",
+                                "active": true
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "plantCommunityId": 14,
+                            "actionTypeId": 3,
+                            "name": null,
+                            "details": "Ride at least once a week to check on location of livestock Ride at least once a week to check on location of livestock Ride at least once a week to check on location of livestock",
+                            "noGrazeStartDay": null,
+                            "noGrazeStartMonth": null,
+                            "noGrazeEndDay": null,
+                            "noGrazeEndMonth": null,
+                            "actionType": {
+                                "id": 3,
+                                "name": "Salting",
+                                "active": true
+                            }
+                        }
+                    ],
+                    "monitoringAreas": [
+                        {
+                            "id": 9,
+                            "rangelandHealthId": 1,
+                            "plantCommunityId": 14,
+                            "name": "Kyub's monitoring area",
+                            "otherPurpose": "This is the other purpose :)",
+                            "location": null,
+                            "transectAzimuth": null,
+                            "latitude": null,
+                            "longitude": null,
+                            "rangelandHealth": {
+                                "id": 1,
+                                "name": "Properly Functioning Condition",
+                                "active": true
+                            },
+                            "purposes": [
+                                {
+                                    "id": 3,
+                                    "purposeTypeId": 1,
+                                    "monitoringAreaId": 9,
+                                    "purposeType": {
+                                        "id": 1,
+                                        "name": "Range Readiness",
+                                        "active": true
+                                    }
+                                },
+                                {
+                                    "id": 4,
+                                    "purposeTypeId": 2,
+                                    "monitoringAreaId": 9,
+                                    "purposeType": {
+                                        "id": 2,
+                                        "name": "Stubble Height",
+                                        "active": true
+                                    }
+                                }
+                            ],
+                            "purposeTypeIds": [
+                                1,
+                                2
+                            ]
+                        },
+                        {
+                            "id": 16,
+                            "rangelandHealthId": 3,
+                            "plantCommunityId": 14,
+                            "name": "Roop's monitoring area",
+                            "otherPurpose": "the other purpose",
+                            "location": null,
+                            "transectAzimuth": null,
+                            "latitude": null,
+                            "longitude": null,
+                            "rangelandHealth": {
+                                "id": 3,
+                                "name": "Moderately at Risk",
+                                "active": true
+                            },
+                            "purposes": [
+                                {
+                                    "id": 8,
+                                    "purposeTypeId": 1,
+                                    "monitoringAreaId": 16,
+                                    "purposeType": {
+                                        "id": 1,
+                                        "name": "Range Readiness",
+                                        "active": true
+                                    }
+                                }
+                            ],
+                            "purposeTypeIds": [
+                                1
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "grazingSchedules": [
         {
             "id": 1,
-            "year": 2000,
+            "year": 2019,
             "narative": null,
-            "planId": 4,
+            "planId": 1,
             "grazingScheduleEntries": [
                 {
                     "id": 1,
                     "graceDays": 3,
-                    "livestockCount": 30,
-                    "dateIn": "2000-03-21T08:00:00.000Z",
-                    "dateOut": "2000-04-29T07:00:00.000Z",
+                    "livestockCount": 1,
+                    "dateIn": "2019-06-01T07:00:00.000Z",
+                    "dateOut": "2019-09-30T07:00:00.000Z",
                     "pastureId": 1,
-                    "livestockTypeId": 5,
+                    "livestockTypeId": 2,
                     "grazingScheduleId": 1,
                     "livestockType": {
-                        "id": 5,
-                        "name": "Sheep",
-                        "auFactor": 0.2,
+                        "id": 2,
+                        "name": "Bull",
+                        "auFactor": 1.5,
+                        "active": true
+                    }
+                },
+                {
+                    "id": 2,
+                    "graceDays": 3,
+                    "livestockCount": 12,
+                    "dateIn": "2019-06-01T07:00:00.000Z",
+                    "dateOut": "2019-09-30T07:00:00.000Z",
+                    "pastureId": 1,
+                    "livestockTypeId": 1,
+                    "grazingScheduleId": 1,
+                    "livestockType": {
+                        "id": 1,
+                        "name": "Cow with Calf",
+                        "auFactor": 1,
+                        "active": true
+                    }
+                },
+                {
+                    "id": 3,
+                    "graceDays": 3,
+                    "livestockCount": 2,
+                    "dateIn": "2019-06-01T07:00:00.000Z",
+                    "dateOut": "2019-09-30T07:00:00.000Z",
+                    "pastureId": 1,
+                    "livestockTypeId": 3,
+                    "grazingScheduleId": 1,
+                    "livestockType": {
+                        "id": 3,
+                        "name": "Yearling",
+                        "auFactor": 0.7,
                         "active": true
                     }
                 }
@@ -74,68 +377,68 @@ const mockPlanWithAgreement = {
     ],
     "ministerIssues": [
         {
-            "id": 1,
-            "detail": "The details of this issue are detailed here",
-            "objective": "This issue has no objectives ",
+            "id": 8,
+            "detail": "This is a pretty big issue",
+            "objective": "Our objective is to address the issue....",
             "identified": true,
-            "issueTypeId": 4,
+            "issueTypeId": 1,
             "otherTypeName": null,
-            "planId": 4,
+            "planId": 1,
             "ministerIssueType": {
-                "id": 4,
-                "name": "Fish - Wildlife",
+                "id": 1,
+                "name": "Community Watershed",
                 "active": true
             },
-            "ministerIssueActions": [
-                {
-                    "id": 1,
-                    "detail": "Threw salt on it",
-                    "actionTypeId": 3,
-                    "issueId": 1,
-                    "ministerIssueActionType": {
-                        "id": 3,
-                        "name": "Salting",
-                        "active": true
-                    }
-                }
-            ],
             "pastures": [
                 1
-            ]
+            ],
+            "ministerIssueActions": []
         }
     ],
     "planStatusHistory": [],
     "confirmations": [],
     "invasivePlantChecklist": {
-        "id": 4,
-        "planId": 4,
-        "equipmentAndVehiclesParking": false,
+        "id": 1,
+        "planId": 1,
+        "equipmentAndVehiclesParking": true,
         "beginInUninfestedArea": true,
-        "undercarrigesInspected": false,
+        "undercarrigesInspected": true,
         "revegetate": false,
-        "other": "Other requirement example entered here"
+        "other": "Control Canada Thistle by mowing"
     },
     "additionalRequirements": [
         {
-            "id": 2,
+            "id": 15,
             "detail": "This is the detail",
             "url": "www.google.com",
             "categoryId": 1,
-            "planId": 4,
+            "planId": 1,
             "category": {
                 "id": 1,
                 "name": "Notice or Order",
+                "active": true
+            }
+        },
+        {
+            "id": 16,
+            "detail": "This is the detail very very long. This is the detail very very long. This is the detail very very long. This is the detail very very long.",
+            "url": "www.google.com",
+            "categoryId": 3,
+            "planId": 1,
+            "category": {
+                "id": 3,
+                "name": "Memorandum of Understanding",
                 "active": true
             }
         }
     ],
     "managementConsiderations": [
         {
-            "id": 2,
-            "detail": "This is the detail for a consideration",
+            "id": 17,
+            "detail": "This is the detail for a consideration. This is the detail for a consideration. This is the detail for a consideration. This is the detail for a consideration.",
             "url": "www.google.com",
             "considerationTypeId": 1,
-            "planId": 4,
+            "planId": 1,
             "considerationType": {
                 "id": 1,
                 "name": "Concern",
@@ -144,34 +447,33 @@ const mockPlanWithAgreement = {
         }
     ],
     "agreement": {
-        "forestFileId": "RAN073906",
-        "agreementStartDate": "1999-01-01T08:00:00.000Z",
-        "agreementEndDate": "2018-12-31T08:00:00.000Z",
-        "zoneId": 64,
+        "forestFileId": "RAN074308",
+        "agreementStartDate": "2000-01-01T08:00:00.000Z",
+        "agreementEndDate": "2019-12-31T08:00:00.000Z",
+        "zoneId": 13,
         "agreementExemptionStatusId": 1,
         "agreementTypeId": 1,
         "zone": {
-            "id": 64,
-            "code": "GLNB",
-            "description": "No description available",
-            "districtId": 11,
-            "userId": 1,
+            "id": 13,
+            "code": "BULK",
+            "description": "Bulkley",
+            "districtId": 2,
+            "userId": 15,
             "district": {
-                "id": 11,
-                "code": "DMH",
+                "id": 2,
+                "code": "DSS",
                 "description": ""
             },
             "user": {
-                "id": 1,
-                "username": "rangestaff",
+                "id": 15,
+                "username": "idir\\maschuff",
                 "clientId": null,
-                "givenName": "Range",
-                "familyName": "Staff",
-                "email": "amir+1@freshworks.io",
-                "phoneNumber": null,
+                "givenName": "Marc",
+                "familyName": "Schuffert",
+                "email": "marc.schuffert@gov.bc.ca",
+                "phoneNumber": "250-847-6329",
                 "active": true,
-                "lastLoginAt": "2018-11-14T20:58:29.865Z",
-                "roles": []
+                "lastLoginAt": "2018-12-03T21:51:24.751Z"
             }
         },
         "agreementType": {
@@ -188,198 +490,206 @@ const mockPlanWithAgreement = {
         },
         "clients": [
             {
-                "id": "00176783",
-                "locationCode": "00",
-                "name": "ALLEN, SHARON MARIE",
+                "id": "00074435",
+                "locationCode": "01",
+                "name": "TRIGIANI, MICHAEL DAVID",
                 "clientTypeCode": "A",
+                "startDate": null,
+                "endDate": null
+            },
+            {
+                "id": "00180909",
+                "locationCode": "00",
+                "name": "TRIGIANI, HEATHER DIANE",
+                "clientTypeCode": "B",
                 "startDate": null,
                 "endDate": null
             }
         ],
         "usage": [
             {
-                "id": 607,
-                "year": 1999,
-                "authorizedAum": 8,
-                "temporaryIncrease": 0,
-                "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
-            },
-            {
-                "id": 608,
+                "id": 1021,
                 "year": 2000,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 609,
+                "id": 1022,
                 "year": 2001,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 610,
+                "id": 1023,
                 "year": 2002,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 611,
+                "id": 1024,
                 "year": 2003,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 612,
+                "id": 1025,
                 "year": 2004,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 613,
+                "id": 22472,
                 "year": 2005,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 614,
+                "id": 1026,
                 "year": 2006,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 615,
+                "id": 1027,
                 "year": 2007,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 616,
+                "id": 6009,
                 "year": 2008,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7455,
+                "id": 6010,
                 "year": 2009,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7489,
+                "id": 8220,
                 "year": 2010,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7490,
+                "id": 8221,
                 "year": 2011,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7491,
+                "id": 8222,
                 "year": 2012,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7492,
+                "id": 8223,
                 "year": 2013,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7493,
+                "id": 8224,
                 "year": 2014,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7494,
+                "id": 17515,
                 "year": 2015,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7495,
+                "id": 17516,
                 "year": 2016,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7496,
+                "id": 17517,
                 "year": 2017,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             },
             {
-                "id": 7497,
+                "id": 17518,
                 "year": 2018,
-                "authorizedAum": 8,
+                "authorizedAum": 25,
                 "temporaryIncrease": 0,
                 "totalNonUse": 0,
-                "totalAnnualUse": 8,
-                "agreementId": "RAN073906"
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
+            },
+            {
+                "id": 17519,
+                "year": 2019,
+                "authorizedAum": 25,
+                "temporaryIncrease": 0,
+                "totalNonUse": 0,
+                "totalAnnualUse": 25,
+                "agreementId": "RAN074308"
             }
         ],
         "livestockIdentifiers": [],
-        "id": "RAN073906"
+        "id": "RAN074308"
     }
 };
 export default mockPlanWithAgreement;
