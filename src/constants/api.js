@@ -21,13 +21,13 @@ export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openi
 export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 
 // const DEV_API_BASE_URL = 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api';
-const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
+// const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
 // const DEV_API_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api';
-// const DEV_API_BASE_URL = 'http://localhost:8000/api';
+const DEV_API_BASE_URL = 'http://localhost:8000/api';
 // const DEV_API_BASE_URL = 'http://10.10.10.190:8000/api';
 
 
-export const API_BASE_URL = (process.env.NODE_ENV === 'production')
+export const API_BASE_URL = isBundled
   ? `${window.location.origin}/api`
   : DEV_API_BASE_URL;
 
