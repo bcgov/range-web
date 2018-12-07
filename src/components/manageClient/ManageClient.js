@@ -24,6 +24,7 @@ class ManageClient extends Component {
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     searchClients: PropTypes.func.isRequired,
     updateClientIdOfUser: PropTypes.func.isRequired,
+    isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
     userUpdated: PropTypes.func.isRequired,
     isFetchingClients: PropTypes.bool.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
@@ -80,6 +81,7 @@ class ManageClient extends Component {
       users,
       clients,
       isFetchingClients,
+      isUpdatingClientIdOfUser,
     } = this.props;
     const {
       userId,
@@ -141,6 +143,7 @@ class ManageClient extends Component {
             <div className="manage-client__update-btn">
               <Button
                 primary
+                loading={isUpdatingClientIdOfUser}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >

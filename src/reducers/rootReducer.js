@@ -54,6 +54,7 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_USER_ID_OF_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_USER_ID_OF_ZONE),
   [reducerTypes.UPDATE_AGREEMENT_ZONE]: createReducer(networkReducer, reducerTypes.UPDATE_AGREEMENT_ZONE),
   [reducerTypes.SEARCH_CLIENTS]: createReducer(networkReducer, reducerTypes.SEARCH_CLIENTS),
+  [reducerTypes.UPDATE_CLIENT_ID_OF_USER]: createReducer(networkReducer, reducerTypes.UPDATE_CLIENT_ID_OF_USER),
   [reducerTypes.UPDATE_PLAN_STATUS]: createReducer(networkReducer, reducerTypes.UPDATE_PLAN_STATUS),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
@@ -103,6 +104,7 @@ export const getIsUpdatingUserIdOfZone = state => fromNetwork.getIsFetching(stat
 export const getClients = state => fromClient.getClients(state[reducerTypes.CLIENT]);
 export const getClientsMap = state => fromClient.getClientsMap(state[reducerTypes.CLIENT]);
 export const getIsFetchingClients = state => fromNetwork.getIsFetching(state[reducerTypes.SEARCH_CLIENTS]);
+export const getIsUpdatingClientIdOfUser = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_CLIENT_ID_OF_USER]);
 
 export const getPlansMap = state => fromPlan.getPlansMap(state[reducerTypes.PLAN]);
 export const getPlanIds = state => fromPlan.getPlanIds(state[reducerTypes.PLAN]);

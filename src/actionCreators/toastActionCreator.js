@@ -25,9 +25,5 @@ const toastMessage = (dispatch, getState, text, success, timeout) => {
 export const toastSuccessMessage = (text, timeout = TOAST_TIMEOUT) => (dispatch, getState) => toastMessage(dispatch, getState, text, true, timeout);
 
 export const toastErrorMessage = (err, timeout = TOAST_TIMEOUT) => (dispatch, getState) => {
-  let text = err;
-  if (typeof err === 'object') {
-    text = getErrorMessage(err);
-  }
-  toastMessage(dispatch, getState, text, false, timeout);
+  toastMessage(dispatch, getState, getErrorMessage(err), false, timeout);
 };

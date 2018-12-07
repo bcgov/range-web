@@ -13,7 +13,7 @@ export const fetchUsers = () => (dispatch, getState) => {
       return users;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };
@@ -27,7 +27,7 @@ export const fetchReferences = () => (dispatch, getState) => {
       return references;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };
@@ -50,7 +50,7 @@ export const fetchZones = districtId => (dispatch, getState) => {
       return zones;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };

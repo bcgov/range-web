@@ -16,6 +16,7 @@ export class ManageZone extends Component {
     zonesMap: PropTypes.shape({}).isRequired,
     zoneUpdated: PropTypes.func.isRequired,
     updateUserIdOfZone: PropTypes.func.isRequired,
+    isAssigning: PropTypes.bool.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
   };
@@ -79,11 +80,8 @@ export class ManageZone extends Component {
   }
 
   render() {
-    const {
-      zoneId,
-      newContactId,
-    } = this.state;
-    const { users, zones } = this.props;
+    const { zoneId, newContactId } = this.state;
+    const { users, zones, isAssigning } = this.props;
 
     const zoneOptions = zones.map(zone => getZoneOption(zone));
     const contactOptions = users.map(user => getContactOption(user));
@@ -133,6 +131,7 @@ export class ManageZone extends Component {
             <div className="manage-zone__update-btn">
               <Button
                 primary
+                loading={isAssigning}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >

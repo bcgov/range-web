@@ -6,7 +6,6 @@ import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
 import { DoesUserHaveRole, isUserActive, registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, fetchZones, signOut } from '../../actionCreators';
-import { USER_NOT_ACTIVE, USER_NO_ROLE } from '../../constants/strings';
 
 export class MainPage extends Component {
   static propTypes = {
@@ -29,27 +28,15 @@ export class MainPage extends Component {
   render() {
     const {
       component: Component,
-      confirmationModalsMap,
       ...rest
     } = this.props;
     const { user } = rest;
-    const userActive = isUserActive(user);
-    const userHaveRole = DoesUserHaveRole(user);
-    const userActiveAndHaveRole = userActive && userHaveRole;
 
     return (
       <main>
         <Navbar {...rest} />
 
-        { !userHaveRole &&
-          <section className="user-error">{USER_NO_ROLE}</section>
-        }
-
-        { userHaveRole && !userActive &&
-          <section className="user-error">{USER_NOT_ACTIVE}</section>
-        }
-
-        { userActiveAndHaveRole &&
+        { isUserActive(user) && DoesUserHaveRole(user) &&
           <Component {...rest} />
         }
 
