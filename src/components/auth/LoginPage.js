@@ -5,7 +5,7 @@ import { Button, Icon } from 'semantic-ui-react';
 import { IMAGE_SRC } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
 import { fetchUser, signOut } from '../../actionCreators';
-import { getIsFetchingUser, getUserErrorMessage } from '../../reducers/rootReducer';
+import { getIsFetchingUser, getUserErrorOccured } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
 import { detectIE } from '../../utils';
 import SignInBox from './SignInBox';
@@ -179,7 +179,7 @@ export class LoginPage extends Component {
 const mapStateToProps = state => (
   {
     isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorMessage(state),
+    errorFetchingUser: getUserErrorOccured(state),
   }
 );
 

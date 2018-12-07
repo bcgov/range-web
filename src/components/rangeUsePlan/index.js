@@ -19,12 +19,8 @@ class Base extends Component {
     location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
     fetchRUP: PropTypes.func.isRequired,
     isFetchingPlan: PropTypes.bool.isRequired,
-    errorFetchingPlan: PropTypes.shape({}),
+    errorFetchingPlan: PropTypes.bool.isRequired,
     plansMap: PropTypes.shape({}).isRequired,
-  };
-
-  static defaultProps = {
-    errorFetchingPlan: null,
   };
 
   componentWillMount() {
@@ -124,7 +120,7 @@ const mapStateToProps = state => (
     additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
     managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),
     isFetchingPlan: selectors.getIsFetchingPlan(state),
-    errorFetchingPlan: selectors.getPlanError(state),
+    errorFetchingPlan: selectors.getPlanErrorOccured(state),
     references: selectors.getReferences(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
     isCreatingAmendment: selectors.getIsCreatingAmendment(state),

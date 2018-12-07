@@ -6,20 +6,19 @@ import { connect } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
 import { Loading, ErrorPage } from '../common';
-import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFError } from '../../reducers/rootReducer';
+import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFErrorOccured } from '../../reducers/rootReducer';
 
 class PDFView extends Component {
   static propTypes = {
     match: PropTypes.shape({ params: PropTypes.object }).isRequired,
     fetchRupPDF: PropTypes.func.isRequired,
     isFetchingPDF: PropTypes.bool.isRequired,
-    errorFetchingPDF: PropTypes.shape({}),
+    errorFetchingPDF: PropTypes.bool.isRequired,
     planPDFBlob: PropTypes.shape({}),
   };
 
   static defaultProps = {
     planPDFBlob: null,
-    errorFetchingPDF: null,
   }
 
   state = {
@@ -141,7 +140,7 @@ const mapStateToProps = state => (
   {
     planPDFBlob: getPlanPDF(state),
     isFetchingPDF: getIsFetchingPlanPDF(state),
-    errorFetchingPDF: getPlanPDFError(state),
+    errorFetchingPDF: getPlanPDFErrorOccured(state),
   }
 );
 

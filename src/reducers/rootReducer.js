@@ -80,19 +80,19 @@ export const getAgreementIds = state => fromAgreement.getAgreementIds(state[redu
 export const getAgreementsMap = state => fromAgreement.getAgreementsMap(state[reducerTypes.AGREEMENTS]);
 export const getAgreementsPagination = state => fromNetwork.getPagination(state[reducerTypes.SEARCH_AGREEMENTS]);
 export const getIsFetchingAgreements = state => fromNetwork.getIsFetching(state[reducerTypes.SEARCH_AGREEMENTS]);
-export const getAgreementsErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.SEARCH_AGREEMENTS]);
+export const getAgreementsErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.SEARCH_AGREEMENTS]);
 export const getIsUpdatingAgreementZone = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_AGREEMENT_ZONE]);
 
 export const getAgreementsMapWithAllPlan = state => fromAgreementWithAllPlans.getAgreementsMap(state[reducerTypes.AGREEMENTS_WITH_ALL_PLANS]);
 export const getIsFetchingAgreementWithAllPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_AGREEMENT]);
-export const getAgreementsMapWithAllPlanErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_AGREEMENT]);
+export const getAgreementsMapWithAllPlanErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_AGREEMENT]);
 export const getIsCreatingAmendment = state => fromNetwork.getIsFetching(state[reducerTypes.CREATE_AMENDMENT]);
 
 export const getAuthData = state => fromAuth.getAuthData(state[reducerTypes.AUTH]);
 export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
 export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
 export const getIsFetchingUser = state => fromNetwork.getIsFetching(state[reducerTypes.GET_USER]);
-export const getUserErrorMessage = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_USER]);
+export const getUserErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_USER]);
 
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);
@@ -109,10 +109,10 @@ export const getIsUpdatingClientIdOfUser = state => fromNetwork.getIsFetching(st
 export const getPlansMap = state => fromPlan.getPlansMap(state[reducerTypes.PLAN]);
 export const getPlanIds = state => fromPlan.getPlanIds(state[reducerTypes.PLAN]);
 export const getIsFetchingPlan = state => fromNetwork.getIsFetching(state[reducerTypes.GET_PLAN]);
-export const getPlanError = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN]);
+export const getPlanErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_PLAN]);
 
 export const getIsFetchingPlanPDF = state => fromNetwork.getIsFetching(state[reducerTypes.GET_PLAN_PDF]);
-export const getPlanPDFError = state => fromNetwork.getErrorMessage(state[reducerTypes.GET_PLAN_PDF]);
+export const getPlanPDFErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_PLAN_PDF]);
 export const getPlanPDF = state => fromNetwork.getData(state[reducerTypes.GET_PLAN_PDF]);
 
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);

@@ -10,13 +10,9 @@ import { signOutFromSSO } from '../../utils';
 class SignInBox extends Component {
   static propTypes = {
     isFetchingUser: PropTypes.bool.isRequired,
-    errorFetchingUser: PropTypes.shape({}),
+    errorFetchingUser: PropTypes.bool.isRequired,
     signOut: PropTypes.func.isRequired,
   };
-
-  static defaultProps = {
-    errorFetchingUser: null,
-  }
 
   openNewTab = link => window.open(link, '_black')
   onSigninBtnClick = () => this.openNewTab(SSO_LOGIN_ENDPOINT)

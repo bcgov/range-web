@@ -5,7 +5,7 @@ import { Button, Segment } from 'semantic-ui-react';
 import { isStatusAmongApprovedStatuses } from '../../utils';
 import { Loading } from '../common';
 import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
-import { getIsFetchingAgreements, getUser, getReferences, getIsFetchingAgreementWithAllPlan, getAgreementsMapWithAllPlan, getAgreementsMapWithAllPlanErrorMessage } from '../../reducers/rootReducer';
+import { getIsFetchingAgreements, getUser, getReferences, getIsFetchingAgreementWithAllPlan, getAgreementsMapWithAllPlan, getAgreementsMapWithAllPlanErrorOccured } from '../../reducers/rootReducer';
 import PlanTableRow from './PlanTableRow';
 
 class PlanTable extends Component {
@@ -15,12 +15,8 @@ class PlanTable extends Component {
     references: PropTypes.shape({}).isRequired,
     isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
     isFetchingAgreements: PropTypes.bool.isRequired,
-    errorGettingAgreementWithAllPlan: PropTypes.shape({}),
+    errorGettingAgreementWithAllPlan: PropTypes.bool.isRequired,
     agreement: PropTypes.shape({}).isRequired,
-  }
-
-  static defaultProps = {
-    errorGettingAgreementWithAllPlan: null,
   }
 
   renderPlanTableItems = (plans = []) => {
@@ -104,7 +100,7 @@ const mapStateToProps = state => (
     references: getReferences(state),
     isFetchingAgreementWithAllPlan: getIsFetchingAgreementWithAllPlan(state),
     agreementsMapWithAllPlan: getAgreementsMapWithAllPlan(state),
-    errorGettingAgreementWithAllPlan: getAgreementsMapWithAllPlanErrorMessage(state),
+    errorGettingAgreementWithAllPlan: getAgreementsMapWithAllPlanErrorOccured(state),
   }
 );
 

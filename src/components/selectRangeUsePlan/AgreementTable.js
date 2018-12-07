@@ -15,7 +15,7 @@ export class AgreementTable extends Component {
       currentPage: PropTypes.number,
       totalPages: PropTypes.number,
     }).isRequired,
-    errorGettingAgreements: PropTypes.shape({}),
+    errorGettingAgreements: PropTypes.bool.isRequired,
     user: PropTypes.shape({}).isRequired,
     handlePaginationChange: PropTypes.func.isRequired,
     activeIndex: PropTypes.number.isRequired,
@@ -23,10 +23,6 @@ export class AgreementTable extends Component {
     references: PropTypes.shape({}).isRequired,
     agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
     isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
-  }
-
-  static defaultProps = {
-    errorGettingAgreements: null,
   }
 
   handlePaginationChange = (e, { activePage: currentPage }) => {
@@ -42,8 +38,6 @@ export class AgreementTable extends Component {
             <Button
               onClick={() => window.location.reload(true)}
               style={{ marginLeft: '10px' }}
-              basic
-              color="grey"
             >
               Retry
             </Button>
@@ -142,7 +136,7 @@ const mapStateToProps = state => (
     agreements: selectors.getAgreements(state),
     isFetchingAgreements: selectors.getIsFetchingAgreements(state),
     agreementPagination: selectors.getAgreementsPagination(state),
-    errorGettingAgreements: selectors.getAgreementsErrorMessage(state),
+    errorGettingAgreements: selectors.getAgreementsErrorOccured(state),
     user: selectors.getUser(state),
     references: selectors.getReferences(state),
     agreementsMapWithAllPlan: selectors.getAgreementsMapWithAllPlan(state),
