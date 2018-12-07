@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
 import { IMAGE_SRC } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
-import { fetchUser } from '../../actionCreators';
+import { fetchUser, signOut } from '../../actionCreators';
 import { getIsFetchingUser, getUserErrorMessage } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
 import { detectIE } from '../../utils';
@@ -14,6 +14,7 @@ export class LoginPage extends Component {
   static propTypes = {
     storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
@@ -182,4 +183,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, { storeAuthData, fetchUser })(LoginPage);
+export default connect(mapStateToProps, { storeAuthData, fetchUser, signOut })(LoginPage);

@@ -6,8 +6,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { Avatar } from '../common';
 import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
-import { SITEMINDER_LOGOUT_ENDPOINT } from '../../constants/api';
-import { isUserAdmin, isUserActive } from '../../utils';
+import { isUserAdmin, isUserActive, signOutFromSSO } from '../../utils';
 import { signOut } from '../../actionCreators';
 import { SELECT_RUP, MANAGE_ZONES, MANAGE_CLIENTS } from '../../constants/strings';
 
@@ -24,10 +23,7 @@ export class Navbar extends Component {
 
   onLogoutBtnClick = () => {
     this.props.signOut();
-
-    // open a new tab for signing out from SiteMinder which is Gov's auth platform
-    // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
-    window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
+    signOutFromSSO();
   }
 
   render() {

@@ -26,6 +26,7 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
+  SITEMINDER_LOGOUT_ENDPOINT,
 } from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
@@ -153,6 +154,12 @@ const isRangeAPIs = (config) => {
     return config.baseURL !== SSO_BASE_URL;
   }
   return true;
+};
+
+export const signOutFromSSO = () => {
+  // open a new tab for signing out from SiteMinder which is Gov's auth platform
+  // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
+  window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
 };
 
 /**

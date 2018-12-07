@@ -76,7 +76,7 @@ export const handleNullValue = (value, fullText = true, notProvided) => {
  * @returns an error message string
  */
 export const getErrorMessage = (err) => {
-  const response = err && err.response;
+  const response = err; // err && err.response;
   if (response) {
     const { data, status } = response;
     const msgFromServer = data && data.error;
