@@ -239,6 +239,11 @@
       width: 100%;
       background: none;
       padding: 15px !important;
+      opacity: 0.5;
+
+      &--active {
+        opacity: 1;
+      }
     }
     &__right {
       display: flex;
@@ -247,7 +252,7 @@
   &__content {
     padding: 0px 15px 15px 15px;
 
-    &__hidden {
+    &--hidden {
       display: none;
     }
   }
