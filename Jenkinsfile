@@ -86,7 +86,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         } catch (error) {
           def attachment = [:]
           attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
+          attachment.title = "Web Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
           attachment.color = '#FFA500' // Orange
           attachment.text = "The SonarQube code quality check failed.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
           // attachment.title_link = "${env.BUILD_URL}"
@@ -104,7 +104,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         } catch (error) {
           def attachment = [:]
           attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
+          attachment.title = "Web Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
           attachment.color = '#CD0000' // Red
           attachment.text = "There are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
           // attachment.title_link = "${env.BUILD_URL}"
@@ -122,7 +122,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
     //   } catch (error) {
     //     def attachment = [: ]
     //     attachment.fallback = 'See build log for more details'
-    //     attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
+    //     attachment.title = "Web Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
     //     attachment.color = '#CD0000' // Red
     //     attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
     //     // attachment.title_link = "${env.BUILD_URL}"
@@ -174,7 +174,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
 
           def attachment = [: ]
           attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
+          attachment.title = "Web Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
           attachment.color = '#CD0000' // Red
           attachment.text = "There are issues with OpenShift build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
 
