@@ -58,6 +58,7 @@
         font-weight: bold;
         font-size: 1.4rem;
         margin-top: 20px;
+        color: $primary-color;
       }
       &__label {
         color: gray;
@@ -133,8 +134,9 @@
       &__title {
         font-size: 1.2rem;
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
         display: flex;
+        color: $primary-color;
 
         > img {
           margin-right: 7px;

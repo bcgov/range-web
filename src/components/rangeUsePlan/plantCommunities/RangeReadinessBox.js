@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { handleNullValue, getRangeReadinessMonthAndDate } from '../../../utils';
 import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
+import { PLANT_CRITERIA } from '../../../constants/variables';
 
 class RangeReadinessBox extends Component {
   static propTypes = {
@@ -22,7 +22,7 @@ class RangeReadinessBox extends Component {
     return (
       <div className="rup__plant-community__rr">
         <div className="rup__plant-community__rr__title">
-          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+          {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
           Range Readiness
         </div>
         <div>
