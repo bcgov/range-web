@@ -14,8 +14,11 @@ export const SSO_BCEID_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=bceid
 
 export const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=logout`;
 export const SSO_LOGOUT_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/logout?redirect_uri=${SSO_LOGOUT_REDIRECT_URI}`;
+export const SITEMINDER_LOGOUT_BASE_URL = isBundled
+  ? '{{.Env.SITEMINDER_LOGOUT_BASE_URL}}'
+  : 'https://logontest.gov.bc.ca';
 export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=smlogout`;
-export const SITEMINDER_LOGOUT_ENDPOINT = `https://logontest.gov.bc.ca/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`;
+export const SITEMINDER_LOGOUT_ENDPOINT = `${SITEMINDER_LOGOUT_BASE_URL}/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`;
 
 export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
