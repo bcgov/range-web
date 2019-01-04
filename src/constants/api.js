@@ -3,7 +3,6 @@ import { isBundled } from './variables';
 export const SSO_BASE_URL = isBundled
   ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable when serving the content
   : 'https://sso-dev.pathfinder.gov.bc.ca';
-
 export const SSO_REALM_NAME = 'range';
 export const SSO_CLIENT_ID = 'myrangebc';
 export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
@@ -14,11 +13,12 @@ export const SSO_BCEID_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=bceid
 
 export const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=logout`;
 export const SSO_LOGOUT_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/logout?redirect_uri=${SSO_LOGOUT_REDIRECT_URI}`;
-export const SITEMINDER_LOGOUT_BASE_URL = isBundled
-  ? '{{.Env.SITEMINDER_LOGOUT_BASE_URL}}'
+
+export const SITEMINDER_BASE_URL = isBundled
+  ? '{{.Env.SITEMINDER_BASE_URL}}'
   : 'https://logontest.gov.bc.ca';
 export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=smlogout`;
-export const SITEMINDER_LOGOUT_ENDPOINT = `${SITEMINDER_LOGOUT_BASE_URL}/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`;
+export const SITEMINDER_LOGOUT_ENDPOINT = `${SITEMINDER_BASE_URL}/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`;
 
 export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
 export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
@@ -27,7 +27,6 @@ export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/o
 // const DEV_API_BASE_URL = 'https://web-range-myra-test.pathfinder.gov.bc.ca/api';
 // const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
 const DEV_API_BASE_URL = 'http://localhost:8000/api';
-// const DEV_API_BASE_URL = 'http://10.10.10.190:8000/api';
 
 
 export const API_BASE_URL = isBundled
