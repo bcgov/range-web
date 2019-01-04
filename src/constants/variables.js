@@ -5,6 +5,11 @@ export const LOCAL_STORAGE_KEY = {
   USER: 'range-web-user',
   REFERENCE: 'range-web-reference',
 };
+export const RETURN_PAGE_TYPE = {
+  LOGIN: 'login',
+  SITEMINDER_LOGOUT: 'smlogout',
+  LOGOUT: 'logout',
+};
 
 export const TOAST_TIMEOUT = 15000;
 export const NUMBER_OF_LIMIT_FOR_NOTE = 140;

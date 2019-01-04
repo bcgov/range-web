@@ -37,7 +37,7 @@ class Router extends Component {
 
           <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
-          <Route path="/return-page" component={ReturnPage} />
+          <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
           <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
           <Route component={PageNotFound} />
         </Switch>

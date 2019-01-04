@@ -1,4 +1,4 @@
-import { isBundled } from './variables';
+import { isBundled, RETURN_PAGE_TYPE } from './variables';
 
 export const SSO_BASE_URL = isBundled
   ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable when serving the content
@@ -6,18 +6,18 @@ export const SSO_BASE_URL = isBundled
 export const SSO_REALM_NAME = 'range';
 export const SSO_CLIENT_ID = 'myrangebc';
 export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
-export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=login`;
+export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`;
 export const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}`;
 export const SSO_IDIR_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=idir`;
 export const SSO_BCEID_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=bceid`;
 
-export const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=logout`;
+export const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGOUT}`;
 export const SSO_LOGOUT_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/logout?redirect_uri=${SSO_LOGOUT_REDIRECT_URI}`;
 
 export const SITEMINDER_BASE_URL = isBundled
   ? '{{.Env.SITEMINDER_BASE_URL}}'
   : 'https://logontest.gov.bc.ca';
-export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=smlogout`;
+export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.SITEMINDER_LOGOUT}`;
 export const SITEMINDER_LOGOUT_ENDPOINT = `${SITEMINDER_BASE_URL}/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`;
 
 export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`;
