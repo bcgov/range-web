@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import AgreementTable from './AgreementTable';
-import AgreementSearch from './SearchBar';
+import SearchBar from './SearchBar';
 import { Banner } from '../common';
 import { parseQuery, stringifyQuery } from '../../utils';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER, AGREEMENT_SEARCH_PLACEHOLDER } from '../../constants/strings';
@@ -70,7 +70,7 @@ export class SearchableAgreementTable extends Component {
           header={SELECT_RUP_BANNER_HEADER}
           content={SELECT_RUP_BANNER_CONTENT}
         >
-          <AgreementSearch
+          <SearchBar
             placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
             handleSearchInput={this.searchAgreementsWithDebounce}
             searchTerm={searchTerm}

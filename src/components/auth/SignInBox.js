@@ -35,6 +35,7 @@ class SignInBox extends Component {
       if (data && status) {
         const { error: errorMessage } = data;
         if (status === 403 && errorMessage && typeof errorMessage === 'string') {
+          // read a specific error message from the server
           message = errorMessage;
         }
       }

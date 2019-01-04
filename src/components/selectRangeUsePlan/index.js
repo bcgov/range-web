@@ -20,10 +20,10 @@ class Base extends Component {
 
   componentDidMount() {
     const { searchAgreements, fetchAgreement, location } = this.props;
+    const params = parseQuery(location.search);
 
     // initial search for agreements with the given query
-    const params = parseQuery(location.search);
-    searchAgreements({ ...params });
+    searchAgreements(params);
 
     // initial fetching an agreement with all plans for the active row
     if ((params.row >= 0) && params.aId) {
@@ -47,7 +47,7 @@ class Base extends Component {
 
       // search new agreements only when users search for term or click on different pages
       if ((oldParams.page !== page) || (oldParams.term !== term)) {
-        searchAgreements({ ...params });
+        searchAgreements(params);
       }
 
       // fetch a new agreement with all plans when the active row changes
