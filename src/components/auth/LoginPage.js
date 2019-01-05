@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
-import { IMAGE_SRC } from '../../constants/variables';
+import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
 import { fetchUser, signOut } from '../../actionCreators';
-import { getIsFetchingUser, getUserErrorResponse } from '../../reducers/rootReducer';
+import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
-import { detectIE } from '../../utils';
+import { detectIE, getDataFromLocalStorage } from '../../utils';
 import SignInBox from './SignInBox';
 
 export class LoginPage extends Component {
@@ -22,6 +22,12 @@ export class LoginPage extends Component {
   }
 
   componentDidMount() {
+    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+    if (authData) {
+      // if there is an access token saved already, try to fetch the user from the server
+      this.props.fetchUser();
+    }
+
     // Sets up localstorage listener for cross-tab communication
     // since the authentication requires the user to be redirected
     // to another page and then redirected back to a return URL with the token.
@@ -32,14 +38,14 @@ export class LoginPage extends Component {
     window.removeEventListener('storage', this.storageEventListener);
   }
 
-  storageEventListener = (event) => {
+  storageEventListener = () => {
     const { storeAuthData, fetchUser } = this.props;
-    const authData = JSON.parse(localStorage.getItem(event.key));
+    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 
-    // store the auth data in Redux store
-    storeAuthData(authData);
-
-    fetchUser();
+    if (authData) {
+      storeAuthData(authData); // store the auth data in Redux store
+      fetchUser();
+    }
   }
 
   registerBtnClicked = () => {
@@ -180,6 +186,7 @@ const mapStateToProps = state => (
   {
     isFetchingUser: getIsFetchingUser(state),
     errorFetchingUser: getUserErrorResponse(state),
+    errorOccuredFetchingUser: getUserErrorOccured(state),
   }
 );
 

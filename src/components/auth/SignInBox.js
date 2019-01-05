@@ -11,6 +11,7 @@ class SignInBox extends Component {
   static propTypes = {
     isFetchingUser: PropTypes.bool.isRequired,
     errorFetchingUser: PropTypes.shape({}),
+    errorOccuredFetchingUser: PropTypes.bool.isRequired,
     signOut: PropTypes.func.isRequired,
   }
 
@@ -18,7 +19,7 @@ class SignInBox extends Component {
     errorFetchingUser: null,
   }
 
-  openNewTab = link => window.open(link, '_black')
+  openNewTab = link => window.open(link, '_blank')
   onSigninBtnClick = () => this.openNewTab(SSO_LOGIN_ENDPOINT)
   onIdirSigninBtnClick = () => this.openNewTab(SSO_IDIR_LOGIN_ENDPOINT)
   onBceidSigninBtnClick = () => this.openNewTab(SSO_BCEID_LOGIN_ENDPOINT)
@@ -28,7 +29,9 @@ class SignInBox extends Component {
     signOutFromSSO();
   }
 
-  renderErrorOccur = (errResponse) => {
+  renderErrorOccur = () => {
+    const { errorFetchingUser: errResponse } = this.props;
+
     let message = 'Error occured while signing in.';
     if (errResponse) {
       const { data, status } = errResponse;
@@ -62,7 +65,7 @@ class SignInBox extends Component {
   }
 
   render() {
-    const { isFetchingUser, errorFetchingUser } = this.props;
+    const { isFetchingUser, errorOccuredFetchingUser } = this.props;
 
     return (
       <Segment basic>
@@ -80,11 +83,11 @@ class SignInBox extends Component {
             Learn more about BCeID here.
           </a>
 
-          {errorFetchingUser &&
-            this.renderErrorOccur(errorFetchingUser)
+          {errorOccuredFetchingUser &&
+            this.renderErrorOccur()
           }
 
-          {!errorFetchingUser &&
+          {!errorOccuredFetchingUser &&
             <Fragment>
               <Button
                 id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
