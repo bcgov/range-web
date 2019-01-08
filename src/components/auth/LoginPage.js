@@ -9,6 +9,7 @@ import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '..
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
 import { detectIE, getDataFromLocalStorage } from '../../utils';
 import SignInBox from './SignInBox';
+import BrowserWarningHeader from './BrowserWarningHeader';
 
 export class LoginPage extends Component {
   static propTypes = {
@@ -58,22 +59,7 @@ export class LoginPage extends Component {
     return (
       <section className="login">
         {isIE &&
-          <article className="login__no-support-browser">
-            <div className="login__no-support-browser__title">
-              Your internet browser is not supported.
-            </div>
-            <div>
-              <div>
-                Please visit {APP_NAME} using a supported browser:
-                <a href="https://www.google.com/chrome" target="_blank" rel="noopener noreferrer"> Google Chrome,</a>
-                <a href="https://www.mozilla.org/en-US/firefox/new" target="_blank" rel="noopener noreferrer"> Firefox,</a>
-                <a href="https://www.microsoft.com/en-ca/windows/microsoft-edge" target="_blank" rel="noopener noreferrer"> Microsoft Edge,</a>
-                <a href="https://support.apple.com/en-ca/safari" target="_blank" rel="noopener noreferrer"> Safari </a>
-                (Mac only).
-              </div>
-              If you choose to continue with this browser the application may not work as intended.
-            </div>
-          </article>
+          <BrowserWarningHeader />
         }
         <article className="login__header">
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
@@ -97,7 +83,7 @@ export class LoginPage extends Component {
                   Simplified electronic Range Use Plan across BC
                 </div>
                 <div className="login__paragraph3__text">
-                  After February 15, 2018 all new Range Use Plans will be submitted electronically using the new standard content requirements. Plans can be submitted, viewed, amended and printed from this site.
+                  After February 15, 2019 all new Range Use Plans will be submitted electronically using the new standard content requirements. Plans can be submitted, viewed, amended and printed from this site.
                 </div>
               </div>
               <div className="login__paragraph-cell">

@@ -162,7 +162,7 @@ export const ELEMENT_ID = {
   LOGIN_BUTTON: 'login-button',
   LOGIN_IDIR_BUTTON: 'login-idir-button',
   LOGIN_BCEID_BUTTON: 'login-bceid-button',
-  SEARCH_TERM: 'search-term',
+  SEARCH_TERM: 'agr-search-term',
   MANAGE_CLIENT_USERS_DROPDOWN: 'mc-users-dropdown',
   MANAGE_CLIENT_CLIENTS_DROPDOWN: 'mc-clients-dropdown',
 };
