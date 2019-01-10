@@ -206,9 +206,12 @@ class EditableGrazingScheduleBox extends Component {
             {year} Grazing Schedule
           </div>
         }
+        shouldHideHeaderRightWhenNotActive
         headerRight={
           <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
+            trigger={
+              <Icon name="ellipsis vertical" />
+            }
             icon={null}
             pointing="right"
             loading={false}
