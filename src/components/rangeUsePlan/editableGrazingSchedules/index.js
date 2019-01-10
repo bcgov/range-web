@@ -108,7 +108,7 @@ export class EditableGrazingSchedules extends Component {
       const { yearOptions: currYearOptions } = this.state;
       const yearOptions = [...currYearOptions];
       yearOptions.push(option);
-      yearOptions.sort((o1, o2) => o1.value > o2.value);
+      yearOptions.sort((o1, o2) => o1.value - o2.value);
 
       this.setState({
         yearOptions,
@@ -142,7 +142,7 @@ export class EditableGrazingSchedules extends Component {
       ...plan.grazingSchedules.map(id => grazingSchedulesMap[id]),
       grazingSchedule,
     ];
-    newGrazingSchedules.sort((s1, s2) => s1.year > s2.year);
+    newGrazingSchedules.sort((s1, s2) => s1.year - s2.year);
 
     // pass the copied grazing schedule and new sorted list of schedule ids for the plan reducer
     addGrazingSchedule({
