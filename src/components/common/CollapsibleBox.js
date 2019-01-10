@@ -42,7 +42,7 @@ class CollapsibleBox extends Component {
           >
             {header}
             <div className="collaspible-box__header__right">
-              {headerRight}
+              {isActive ? headerRight : null}
               { isActive
                 ? <Icon style={{ marginLeft: '10px' }} name="chevron up" />
                 : <Icon style={{ marginLeft: '10px' }} name="chevron down" />
