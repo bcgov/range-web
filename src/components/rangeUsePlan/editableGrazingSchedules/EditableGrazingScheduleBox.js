@@ -46,7 +46,7 @@ class EditableGrazingScheduleBox extends Component {
     updateGrazingSchedule({ grazingSchedule });
   }
 
-  onNewRowClick = (e) => {
+  onAddRowClicked = (e) => {
     e.preventDefault();
     const { schedule, updateGrazingSchedule } = this.props;
     const grazingSchedule = { ...schedule };
@@ -259,9 +259,8 @@ class EditableGrazingScheduleBox extends Component {
             </Table>
             <Button
               style={{ margin: '10px 0' }}
-              icon
               basic
-              onClick={this.onNewRowClick}
+              onClick={this.onAddRowClicked}
             >
               <Icon name="add" />
               Add row

@@ -8,7 +8,6 @@ import GrazingScheduleBox from './GrazingScheduleBox';
 
 class GrazingSchedules extends Component {
   static propTypes = {
-    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
@@ -78,12 +77,12 @@ class GrazingSchedules extends Component {
   }
 
   render() {
-    const { elementId, plan, grazingSchedulesMap } = this.props;
+    const { plan, grazingSchedulesMap } = this.props;
     const grazingScheduleIds = plan && plan.grazingSchedules;
     const grazingSchedules = grazingScheduleIds && grazingScheduleIds.map(id => grazingSchedulesMap[id]);
 
     return (
-      <div id={elementId} className="rup__grazing-schedules">
+      <div className="rup__grazing-schedules">
         <div className="rup__content-title">Schedules</div>
         <div className="rup__divider" />
         {this.renderSchedules(grazingSchedules)}
