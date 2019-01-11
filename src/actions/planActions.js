@@ -20,3 +20,10 @@ export const deleteGrazingSchedule = payload => (
     payload,
   }
 );
+
+export const updateMinisterIssue = payload => (
+  {
+    type: actionTypes.UPDATE_MINISTER_ISSUE,
+    payload,
+  }
+);
