@@ -276,9 +276,10 @@ class EditableGrazingScheduleBox extends Component {
             <div className="rup__grazing-schedule__narrative">Schedule Description</div>
             <Form>
               <TextArea
-                rows={2}
+                rows={3}
                 onChange={this.onNarativeChanged}
                 value={narative}
+                placeholder="Description of movement of livestock through agreement area. May include WHEN, WHERE and HOW management tools are used to create that flow. May be of particular value when an agreement consists of a single pasture or multiple unfenced pastures."
               />
             </Form>
           </Fragment>

@@ -151,8 +151,8 @@ class EditableGrazingScheduleEntryRow extends Component {
     const crownAUMs = utils.roundTo1Decimal(utils.calcCrownAUMs(totalAUMs, pldAUMs));
 
     const entryOptions = [
-      { key: `entry${entryIndex}option1`, text: 'Copy', onClick: this.onCopyEntryClicked },
-      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
+      { key: 'copy', text: 'Copy', onClick: this.onCopyEntryClicked },
+      { key: 'delete', text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
     ];
 
     const isPastureDropdownError = pastureId === undefined;

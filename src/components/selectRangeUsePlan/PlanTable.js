@@ -31,7 +31,7 @@ class PlanTable extends Component {
     if (errorGettingAgreementWithAllPlan) {
       return (
         <div className="agrm__ptable__message agrm__ptable__message--error">
-          {ERROR_OCCUR}
+          Error occured, please refresh your browser.
         </div>
       );
     }
