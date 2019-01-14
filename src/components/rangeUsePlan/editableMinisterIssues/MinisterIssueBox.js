@@ -4,7 +4,7 @@ import { Icon } from 'semantic-ui-react';
 import { TextField, CollapsibleBox } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { getPastureNames } from '../../../utils';
-import EditableMinisterIssueActions from './EditableMinisterIssueActions';
+import AddableMinisterIssueActionList from './AddableMinisterIssueActionList';
 
 class MinisterIssueBox extends Component {
   static propTypes = {
@@ -15,6 +15,7 @@ class MinisterIssueBox extends Component {
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     onMinisterIssueClicked: PropTypes.func.isRequired,
+    updateMinisterIssue: PropTypes.func.isRequired,
   };
 
   render() {
@@ -25,6 +26,7 @@ class MinisterIssueBox extends Component {
       ministerIssueIndex,
       activeMinisterIssueIndex,
       onMinisterIssueClicked,
+      updateMinisterIssue,
     } = this.props;
 
     const {
@@ -78,9 +80,10 @@ class MinisterIssueBox extends Component {
             />
 
             <div className="rup__missue__actions__title">Actions</div>
-            <EditableMinisterIssueActions
+            <AddableMinisterIssueActionList
               ministerIssue={ministerIssue}
               references={references}
+              updateMinisterIssue={updateMinisterIssue}
             />
           </Fragment>
         }

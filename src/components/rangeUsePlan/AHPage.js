@@ -12,6 +12,7 @@ import Pastures from './pastures';
 import GrazingSchedules from './grazingSchedules';
 import EditableGrazingSchedules from './editableGrazingSchedules';
 import MinisterIssues from './ministerIssues';
+import EditableMinisterIssues from './editableMinisterIssues';
 import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
 import BackBtn from './BackBtn';
@@ -329,6 +330,13 @@ export class AHPage extends Component {
       pasturesMap,
       grazingSchedulesMap,
     };
+    const ministerIssueProps = {
+      elementId: ELEMENT_ID.MINISTER_ISSUES,
+      references,
+      plan,
+      pasturesMap,
+      ministerIssuesMap,
+    };
 
     return (
       <section className="rup">
@@ -402,22 +410,15 @@ export class AHPage extends Component {
             pasturesMap={pasturesMap}
           />
 
-          {canEdit ?
-            <EditableGrazingSchedules
-              {...grazingScheduleProps}
-            />
-            : <GrazingSchedules
-              {...grazingScheduleProps}
-            />
+          {canEdit
+            ? <EditableGrazingSchedules {...grazingScheduleProps} />
+            : <GrazingSchedules {...grazingScheduleProps} />
           }
 
-          <MinisterIssues
-            elementId={ELEMENT_ID.MINISTER_ISSUES}
-            references={references}
-            plan={plan}
-            pasturesMap={pasturesMap}
-            ministerIssuesMap={ministerIssuesMap}
-          />
+          {canEdit
+            ? <EditableMinisterIssues {...ministerIssueProps} />
+            : <MinisterIssues {...ministerIssueProps} />
+          }
 
           <InvasivePlantChecklist
             elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
