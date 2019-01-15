@@ -260,3 +260,33 @@
     }
   }
 }
+
+.input-modal {
+  padding: 15px;
+  margin-top: 5px;
+
+  &__title {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  &__btns {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      width: 47% !important;
+    }
+  }
+}
+
+.inverted-btn {
+  display: inline;
+
+  .ui.button {
+    color: $primary-color !important;
+    box-shadow: 0 0 0 2px $primary-color inset !important;
+    background: transparent none !important;
+  } 
+}
