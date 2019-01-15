@@ -15,7 +15,6 @@ class MinisterIssueBox extends Component {
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     onMinisterIssueClicked: PropTypes.func.isRequired,
-    updateMinisterIssue: PropTypes.func.isRequired,
   };
 
   render() {
@@ -26,7 +25,6 @@ class MinisterIssueBox extends Component {
       ministerIssueIndex,
       activeMinisterIssueIndex,
       onMinisterIssueClicked,
-      updateMinisterIssue,
     } = this.props;
 
     const {
@@ -83,7 +81,6 @@ class MinisterIssueBox extends Component {
             <AddableMinisterIssueActionList
               ministerIssue={ministerIssue}
               references={references}
-              updateMinisterIssue={updateMinisterIssue}
             />
           </Fragment>
         }

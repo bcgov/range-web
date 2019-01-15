@@ -4,15 +4,37 @@ import PropTypes from 'prop-types';
 import { Modal, Form, Button } from 'semantic-ui-react';
 import { getInputModal } from '../../reducers/rootReducer';
 import { openInputModal, closeInputModal } from '../../actions';
+import { InvertedButton } from '../common';
 
 class InputModal extends Component {
   static propTypes = {
     closeInputModal: PropTypes.func.isRequired,
-    inputModal: PropTypes.shape({}),
+    inputModal: PropTypes.shape({
+      title: PropTypes.string,
+      onSubmit: PropTypes.func,
+    }),
   }
 
   static defaultProps = {
     inputModal: null,
+  }
+
+  state = {
+    input: '',
+  }
+
+  onInputChanged = (e) => {
+    this.setState({
+      input: e.target.value,
+    });
+  }
+
+  onSubmitClicked = () => {
+    const { closeInputModal, inputModal } = this.props;
+    const onSubmit = inputModal && inputModal.onSubmit;
+
+    onSubmit(this.state.input);
+    closeInputModal();
   }
 
   handleModalClose = () => {
@@ -21,6 +43,8 @@ class InputModal extends Component {
 
   render() {
     const { inputModal } = this.props;
+    const { input } = this.state;
+    const title = inputModal && inputModal.title;
 
     return (
       <Modal
@@ -30,20 +54,38 @@ class InputModal extends Component {
         onClose={this.handleModalClose}
         closeIcon
       >
-        <Button
-          primary
-          inverted
-          onClick={this.handleModalClose}
-        >
-          Cancel
-        </Button>
-        <Button
-          primary
-          // style={{ marginLeft: '10px' }}
-          // onClick={onYesBtnClicked}
-        >
-          Submit
-        </Button>
+        <div className="input-modal">
+          <div className="input-modal__title">
+            {title}
+          </div>
+          <Form>
+            <Form.Field>
+              <input
+                type="text"
+                value={input}
+                onChange={this.onInputChanged}
+              />
+            </Form.Field>
+          </Form>
+          <div className="input-modal__btns">
+            <InvertedButton
+              primaryColor
+              fluid
+              onClick={this.handleModalClose}
+            >
+              Cancel
+            </InvertedButton>
+            <div>
+              <Button
+                primary
+                fluid
+                onClick={this.onSubmitClicked}
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </div>
       </Modal>
     );
   }

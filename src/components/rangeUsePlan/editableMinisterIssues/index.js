@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import classnames from 'classnames';
 import MinisterIssueBox from './MinisterIssueBox';
-import { updateMinisterIssue } from '../../../actions';
 
 class EditableMinisterIssues extends Component {
   static propTypes = {
@@ -69,6 +67,4 @@ class EditableMinisterIssues extends Component {
   }
 }
 
-export default connect(null, {
-  updateMinisterIssue,
-})(EditableMinisterIssues);
+export default EditableMinisterIssues;

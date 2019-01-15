@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextArea, Dropdown, Form } from 'semantic-ui-react';
+import { Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../../constants/variables';
 
 class EditableMinisterIssueActionBox extends Component {
@@ -9,51 +9,96 @@ class EditableMinisterIssueActionBox extends Component {
     actionIndex: PropTypes.number.isRequired,
     references: PropTypes.shape({}).isRequired,
     handleActionChange: PropTypes.func.isRequired,
+    openInputModal: PropTypes.func.isRequired,
   };
 
+  onOtherSubmited = (value) => {
+    console.log(value);
+  }
+
   onActionFieldChanged = (e, { value, name }) => {
-    const { action, actionIndex, handleActionChange } = this.props;
+    const {
+      action,
+      actionIndex,
+      handleActionChange,
+      openInputModal,
+      references,
+    } = this.props;
     const newAction = {
       ...action,
       [name]: value,
     };
 
     handleActionChange(newAction, actionIndex);
+
+    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const otherActionType = actionTypes.find(t => t.name === 'Other');
+
+    // open a modal when the option 'other' is selected
+    if (name === 'actionTypeId' && otherActionType && value === otherActionType.id) {
+      openInputModal({
+        id: 'hello',
+        title: 'Other',
+        onSubmit: this.onOtherSubmited,
+      });
+    }
+  }
+
+  openDeleteActionConfirmationModal = () => {
+    // TODO
   }
 
   render() {
     const { action, references } = this.props;
     const { detail, actionTypeId } = action;
     const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
-    const actionTypesOption = actionTypes.map(miat => (
-      {
+    const actionTypesMap = {};
+    const actionTypeOptions = actionTypes.map((miat) => {
+      actionTypesMap[miat.id] = miat;
+
+      return {
         key: miat.id,
         value: miat.id,
         text: miat.name,
-      }
-    ));
+      };
+    });
+    const currActionType = actionTypesMap[actionTypeId];
+    const detailPlaceholder = currActionType && currActionType.placeholder;
+    const ellipsisOptions = [
+      { key: 'delete', text: 'Delete', onClick: this.openDeleteActionConfirmationModal },
+    ];
 
     return (
       <div className="rup__missue__action">
         <Dropdown
           name="actionTypeId"
-          options={actionTypesOption}
+          options={actionTypeOptions}
           value={actionTypeId}
           onChange={this.onActionFieldChanged}
           error={actionTypeId === null}
-          search
           selection
           selectOnBlur={false}
         />
         <Form>
-          <TextArea
-            name="detail"
-            rows={2}
-            placeholder="Tell us more"
-            onChange={this.onActionFieldChanged}
-            value={detail}
-            style={{ marginTop: '10px' }}
-          />
+          <Form.Group inline>
+            <TextArea
+              name="detail"
+              rows={3}
+              placeholder={detailPlaceholder}
+              onChange={this.onActionFieldChanged}
+              value={detail}
+              style={{ marginTop: '10px' }}
+            />
+            <div className="rup__missue__action__ellipsis-action">
+              <Dropdown
+                trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
+                options={ellipsisOptions}
+                icon={null}
+                pointing="right"
+                style={{ marginLeft: '9px' }}
+              />
+            </div>
+          </Form.Group>
         </Form>
       </div>
     );

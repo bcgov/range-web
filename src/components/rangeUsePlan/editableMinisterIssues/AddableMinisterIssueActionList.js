@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import uuid from 'uuid-v4';
 import { Button, Icon } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
+import { updateMinisterIssue, openInputModal } from '../../../actions';
 
 class AddableMinisterIssueActionList extends Component {
   static propTypes = {
@@ -12,17 +14,21 @@ class AddableMinisterIssueActionList extends Component {
     }).isRequired,
     references: PropTypes.shape({}).isRequired,
     updateMinisterIssue: PropTypes.func.isRequired,
+    openInputModal: PropTypes.func.isRequired,
   };
 
   renderMinisterIssueAction = (action, actionIndex) => {
+    const { openInputModal, references } = this.props;
     const { id, key } = action;
+
     return (
       <EditableMinisterIssueActionBox
         key={id || key}
         action={action}
         actionIndex={actionIndex}
-        references={this.props.references}
+        references={references}
         handleActionChange={this.handleMIActionChange}
+        openInputModal={openInputModal}
       />
     );
   }
@@ -75,4 +81,7 @@ class AddableMinisterIssueActionList extends Component {
   }
 }
 
-export default AddableMinisterIssueActionList;
+export default connect(null, {
+  updateMinisterIssue,
+  openInputModal,
+})(AddableMinisterIssueActionList);

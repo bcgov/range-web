@@ -1,10 +1,10 @@
 import { OPEN_INPUT_MODAL, CLOSE_INPUT_MODAL } from '../constants/actionTypes';
 
 const openModal = (state, action) => {
-  const { modal } = action.payload;
+  const modal = action.payload;
 
   return {
-    [modal.id]: modal,
+    ...modal,
   };
 };
 
