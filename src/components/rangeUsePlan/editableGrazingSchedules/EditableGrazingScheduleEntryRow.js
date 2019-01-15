@@ -124,7 +124,6 @@ class EditableGrazingScheduleEntryRow extends Component {
   render() {
     const {
       entry,
-      entryIndex,
       pasturesMap,
       pastureOptions,
       livestockTypes,

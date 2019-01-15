@@ -1,4 +1,4 @@
-import { ADD_TOAST, REMOVE_TOAST, OPEN_CONFIRMATION_MODAL, CLOSE_CONFIRMATION_MODAL } from '../constants/actionTypes';
+import { ADD_TOAST, REMOVE_TOAST, OPEN_CONFIRMATION_MODAL, CLOSE_CONFIRMATION_MODAL, OPEN_INPUT_MODAL, CLOSE_INPUT_MODAL } from '../constants/actionTypes';
 
 export const addToast = payload => (
   {
@@ -24,6 +24,20 @@ export const openConfirmationModal = payload => (
 export const closeConfirmationModal = payload => (
   {
     type: CLOSE_CONFIRMATION_MODAL,
+    payload,
+  }
+);
+
+export const openInputModal = payload => (
+  {
+    type: OPEN_INPUT_MODAL,
+    payload,
+  }
+);
+
+export const closeInputModal = payload => (
+  {
+    type: CLOSE_INPUT_MODAL,
     payload,
   }
 );

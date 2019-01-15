@@ -14,6 +14,6 @@ const round = (number, precision) => {
  * @param {float} number
  * @returns the rounded float number
  */
-export const roundTo1Decimal = number => (
+export const roundTo1Decimal = (number = 0) => (
   round(number, 1)
 );

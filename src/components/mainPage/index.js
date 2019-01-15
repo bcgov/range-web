@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Navbar from './Navbar';
 import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
+import InputModal from './InputModal';
 import { DoesUserHaveRole, isUserActive, registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, fetchZones, signOut } from '../../actionCreators';
 
@@ -41,7 +42,7 @@ export class MainPage extends Component {
         }
 
         <ConfirmationModals />
-
+        <InputModal />
         <Toasts />
 
         <footer />

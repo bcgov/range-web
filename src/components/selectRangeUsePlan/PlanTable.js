@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Segment } from 'semantic-ui-react';
 import { isStatusAmongApprovedStatuses } from '../../utils';
 import { Loading } from '../common';
-import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
+import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND } from '../../constants/strings';
 import { getIsFetchingAgreements, getUser, getReferences, getIsFetchingAgreementWithAllPlan, getAgreementsMapWithAllPlan, getAgreementsMapWithAllPlanErrorOccured } from '../../reducers/rootReducer';
 import PlanTableRow from './PlanTableRow';
 
