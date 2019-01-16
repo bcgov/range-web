@@ -70,12 +70,10 @@ export class ManageZone extends Component {
 
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
-        header: UPDATE_CONTACT_CONFIRMATION_HEADER,
-        content: UPDATE_CONTACT_CONFIRMATION_CONTENT,
-        onYesBtnClicked: this.assignStaffToZone,
-      },
+      id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
+      header: UPDATE_CONTACT_CONFIRMATION_HEADER,
+      content: UPDATE_CONTACT_CONFIRMATION_CONTENT,
+      onYesBtnClicked: this.assignStaffToZone,
     });
   }
 

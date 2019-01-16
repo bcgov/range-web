@@ -112,12 +112,10 @@ class EditableGrazingScheduleEntryRow extends Component {
 
   openDeleteScheduleEntryConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY,
-        header: DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER,
-        content: DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT,
-        onYesBtnClicked: this.onDeleteEntryClicked,
-      },
+      id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY,
+      header: DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER,
+      content: DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT,
+      onYesBtnClicked: this.onDeleteEntryClicked,
     });
   }
 

@@ -57,12 +57,10 @@ class EditableMinisterIssueActionBox extends Component {
 
   openDeleteActionConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION,
-        // header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
-        // content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
-        onYesBtnClicked: this.onDeleteActionClicked,
-      },
+      id: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION,
+      // header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
+      // content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
+      onYesBtnClicked: this.onDeleteActionClicked,
     });
   }
 

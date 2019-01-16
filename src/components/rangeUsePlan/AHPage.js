@@ -215,13 +215,12 @@ export class AHPage extends Component {
         this.openSubmitAmendmentModal();
         return;
       }
+
       openConfirmationModal({
-        modal: {
-          id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
-          header: strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
-          content: strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
-          onYesBtnClicked: this.onSubmitClicked,
-        },
+        id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
+        header: strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
+        content: strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
+        onYesBtnClicked: this.onSubmitClicked,
       });
     }
   }
