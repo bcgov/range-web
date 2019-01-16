@@ -30,14 +30,23 @@ class InputModal extends Component {
   }
 
   onSubmitClicked = () => {
-    const { closeInputModal, inputModal } = this.props;
+    const { inputModal } = this.props;
     const onSubmit = inputModal && inputModal.onSubmit;
 
-    onSubmit(this.state.input);
-    closeInputModal();
+    if (onSubmit) {
+      onSubmit(this.state.input);
+    }
+    this.handleModalClose();
+  }
+
+  onInputKeyPressed = (e) => {
+    if (e.charCode === 13) {
+      this.onSubmitClicked();
+    }
   }
 
   handleModalClose = () => {
+    this.setState({ input: '' });
     this.props.closeInputModal();
   }
 
@@ -46,6 +55,7 @@ class InputModal extends Component {
     const { input } = this.state;
     const title = inputModal && inputModal.title;
 
+    /* eslint-disable jsx-a11y/no-autofocus */
     return (
       <Modal
         dimmer="blurring"
@@ -62,8 +72,10 @@ class InputModal extends Component {
             <Form.Field>
               <input
                 type="text"
+                autoFocus
                 value={input}
                 onChange={this.onInputChanged}
+                onKeyPress={this.onInputKeyPressed}
               />
             </Form.Field>
           </Form>

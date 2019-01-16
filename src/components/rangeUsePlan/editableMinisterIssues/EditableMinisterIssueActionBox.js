@@ -31,16 +31,18 @@ class EditableMinisterIssueActionBox extends Component {
 
     handleActionChange(newAction, actionIndex);
 
-    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
-    const otherActionType = actionTypes.find(t => t.name === 'Other');
+    if (name === 'actionTypeId') {
+      const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+      const otherActionType = actionTypes.find(t => t.name === 'Other');
 
-    // open a modal when the option 'other' is selected
-    if (name === 'actionTypeId' && otherActionType && value === otherActionType.id) {
-      openInputModal({
-        id: 'hello',
-        title: 'Other',
-        onSubmit: this.onOtherSubmited,
-      });
+      // open a modal when the option 'other' is selected
+      if (otherActionType && (value === otherActionType.id)) {
+        openInputModal({
+          id: 'hello',
+          title: 'Other',
+          onSubmit: this.onOtherSubmited,
+        });
+      }
     }
   }
 
