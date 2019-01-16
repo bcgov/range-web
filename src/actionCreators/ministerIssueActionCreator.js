@@ -38,3 +38,31 @@ export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, ge
 
   return makeRequest();
 };
+
+export const deleteRUPMinisterIssue = (planId, issueId) => (dispatch, getState) => {
+  return axios.delete(
+    API.DELETE_RUP_MINISTER_ISSUE(planId, issueId),
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
+export const deleteRUPMinisterIssueAction = (planId, issueId, actionId) => (dispatch, getState) => {
+  return axios.delete(
+    API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};

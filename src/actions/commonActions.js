@@ -35,9 +35,8 @@ export const openInputModal = payload => (
   }
 );
 
-export const closeInputModal = payload => (
+export const closeInputModal = () => (
   {
     type: CLOSE_INPUT_MODAL,
-    payload,
   }
 );

@@ -5,7 +5,8 @@ import uuid from 'uuid-v4';
 import { Button, Icon } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
-import { updateMinisterIssue, openInputModal } from '../../../actions';
+import { updateMinisterIssue, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
+import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 
 class AddableMinisterIssueActionList extends Component {
   static propTypes = {
@@ -18,7 +19,6 @@ class AddableMinisterIssueActionList extends Component {
   };
 
   renderMinisterIssueAction = (action, actionIndex) => {
-    const { openInputModal, references } = this.props;
     const { id, key } = action;
 
     return (
@@ -26,9 +26,9 @@ class AddableMinisterIssueActionList extends Component {
         key={id || key}
         action={action}
         actionIndex={actionIndex}
-        references={references}
         handleActionChange={this.handleMIActionChange}
-        openInputModal={openInputModal}
+        handleActionDelete={this.handleMIActionDelete}
+        {...this.props}
       />
     );
   }
@@ -39,6 +39,29 @@ class AddableMinisterIssueActionList extends Component {
     ministerIssue.ministerIssueActions[actionIndex] = action;
 
     updateMinisterIssue({ ministerIssue });
+  }
+
+  handleMIActionDelete = (actionIndex) => {
+    const {
+      ministerIssue: mi,
+      updateMinisterIssue,
+      deleteRUPMinisterIssueAction,
+    } = this.props;
+    const ministerIssue = { ...mi };
+    const [deletedAction] = ministerIssue.ministerIssueActions.splice(actionIndex, 1);
+    const planId = ministerIssue && ministerIssue.planId;
+    const issueId = ministerIssue && ministerIssue.id;
+    const actionId = deletedAction && deletedAction.id;
+    const onDeleted = () => {
+      updateMinisterIssue({ ministerIssue });
+    };
+
+    // delete the action saved in server
+    if (planId && issueId && actionId && !uuid.isUUID(actionId)) {
+      deleteRUPMinisterIssueAction(planId, issueId, actionId).then(onDeleted);
+    } else { // or delete the action saved only in Redux
+      onDeleted();
+    }
   }
 
   onAddActionBtnClicked = () => {
@@ -84,4 +107,7 @@ class AddableMinisterIssueActionList extends Component {
 export default connect(null, {
   updateMinisterIssue,
   openInputModal,
+  closeConfirmationModal,
+  openConfirmationModal,
+  deleteRUPMinisterIssueAction,
 })(AddableMinisterIssueActionList);

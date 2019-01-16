@@ -54,16 +54,22 @@ export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/v1/plan/${planI
 
 export const CREATE_RUP_STATUS_HISTORY_RECORD = planId => `/v1/plan/${planId}/status-history`;
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`;
+
 export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/v1/plan/${planId}/schedule`;
 export const UPDATE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
 export const DELETE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
 export const CREATE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry`;
 // export const UPDATE_RUP_GRAZING_SCHEDULE_ENTRY
 export const DELETE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
+
 export const CREATE_RUP_MINISTER_ISSUE = planId => `/v1/plan/${planId}/issue`;
+export const DELETE_RUP_MINISTER_ISSUE = (planId, issueId) => `/v1/plan/${planId}/issue/${issueId}`;
 export const CREATE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId) => `/v1/plan/${planId}/issue/${issueId}/action`;
+export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) => `/v1/plan/${planId}/issue/${issueId}/action/${actionId}`;
+
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community`;
 export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action`;
+
 export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) => `v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`;
 export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area`;
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId => `/v1/plan/${planId}/invasive-plant-checklist`;

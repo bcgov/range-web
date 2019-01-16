@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
-import { REFERENCE_KEY } from '../../../constants/variables';
+import { REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 
 class EditableMinisterIssueActionBox extends Component {
   static propTypes = {
     action: PropTypes.shape({}).isRequired,
     actionIndex: PropTypes.number.isRequired,
     references: PropTypes.shape({}).isRequired,
-    handleActionChange: PropTypes.func.isRequired,
     openInputModal: PropTypes.func.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+    handleActionChange: PropTypes.func.isRequired,
+    handleActionDelete: PropTypes.func.isRequired,
   };
 
   onOtherSubmited = (value) => {
@@ -46,8 +49,21 @@ class EditableMinisterIssueActionBox extends Component {
     }
   }
 
+  onDeleteActionClicked = () => {
+    const { closeConfirmationModal, handleActionDelete, actionIndex } = this.props;
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION });
+    handleActionDelete(actionIndex);
+  }
+
   openDeleteActionConfirmationModal = () => {
-    // TODO
+    this.props.openConfirmationModal({
+      modal: {
+        id: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION,
+        // header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
+        // content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
+        onYesBtnClicked: this.onDeleteActionClicked,
+      },
+    });
   }
 
   render() {

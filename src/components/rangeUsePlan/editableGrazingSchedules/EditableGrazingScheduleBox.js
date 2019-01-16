@@ -109,7 +109,7 @@ class EditableGrazingScheduleBox extends Component {
     // delete the entry saved in server
     if (planId && scheduleId && entryId && !uuid.isUUID(entryId)) {
       deleteRupGrazingScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
-    } else { // or delete the entry saved in state
+    } else { // or delete the entry saved only in Redux
       onDeleted();
     }
   }
