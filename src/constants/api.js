@@ -13,7 +13,7 @@ const DEV_ENV = {
   BASE_SITEMINDER: 'https://logontest.gov.bc.ca',
   BASE_API: DEV_API_BASE_URL,
 };
-
+// eslint-disable-no-unused-vars
 const TEST_ENV = {
   BASE_SSO: 'https://sso-test.pathfinder.gov.bc.ca',
   BASE_SITEMINDER: 'https://logontest.gov.bc.ca',
