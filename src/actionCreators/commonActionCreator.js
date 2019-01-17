@@ -4,7 +4,6 @@ import * as API from '../constants/api';
 import { storeUsers, storeReferences, storeZones } from '../actions';
 import * as schema from './schema';
 
-/* eslint-disable arrow-body-style */
 export const fetchUsers = () => (dispatch, getState) => {
   return axios.get(API.GET_USERS, createConfigWithHeader(getState)).then(
     (response) => {

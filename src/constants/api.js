@@ -1,34 +1,34 @@
 import { isBundled, RETURN_PAGE_TYPE } from './variables';
 
-const PROD_ENV = {
-  BASE_SSO: 'https://sso.pathfinder.gov.bc.ca',
-  BASE_SITEMINDER: 'https://logon.gov.bc.ca',
-  BASE_API: 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api',
+const PROD = {
+  SSO_BASE_URL: 'https://sso.pathfinder.gov.bc.ca',
+  SITEMINDER_BASE_URL: 'https://logon.gov.bc.ca',
+  API_BASE_URL: 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api',
 };
 
 const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
 // const DEV_API_BASE_URL = 'http://localhost:8000/api';
-const DEV_ENV = {
-  BASE_SSO: 'https://sso-dev.pathfinder.gov.bc.ca',
-  BASE_SITEMINDER: 'https://logontest.gov.bc.ca',
-  BASE_API: DEV_API_BASE_URL,
-};
-// eslint-disable-no-unused-vars
-const TEST_ENV = {
-  BASE_SSO: 'https://sso-test.pathfinder.gov.bc.ca',
-  BASE_SITEMINDER: 'https://logontest.gov.bc.ca',
-  BASE_API: 'https://web-range-myra-test.pathfinder.gov.bc.ca/api',
+const DEV = { // eslint-disable-line no-unused-vars
+  SSO_BASE_URL: 'https://sso-dev.pathfinder.gov.bc.ca',
+  SITEMINDER_BASE_URL: 'https://logontest.gov.bc.ca',
+  API_BASE_URL: DEV_API_BASE_URL,
 };
 
-const ENV = {
-  ...PROD_ENV,
-  // ...DEV_ENV,
-  // ...TEST_ENV,
+const TEST = { // eslint-disable-line no-unused-vars
+  SSO_BASE_URL: 'https://sso-test.pathfinder.gov.bc.ca',
+  SITEMINDER_BASE_URL: 'https://logontest.gov.bc.ca',
+  API_BASE_URL: 'https://web-range-myra-test.pathfinder.gov.bc.ca/api',
+};
+
+const DEV_ENV = {
+  ...PROD,
+  // ...DEV,
+  // ...TEST,
 };
 
 export const SSO_BASE_URL = isBundled
-  ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable when serving the content
-  : ENV.BASE_SSO;
+  ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable configured in Openshfit
+  : DEV_ENV.SSO_BASE_URL;
 
 export const SSO_REALM_NAME = 'range';
 export const SSO_CLIENT_ID = 'myrangebc';
@@ -43,7 +43,7 @@ export const SSO_LOGOUT_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/logout?redirect_ur
 
 export const SITEMINDER_BASE_URL = isBundled
   ? '{{.Env.SITEMINDER_BASE_URL}}'
-  : ENV.BASE_SITEMINDER;
+  : DEV_ENV.SITEMINDER_BASE_URL;
 
 export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.SITEMINDER_LOGOUT}`;
 export const SITEMINDER_LOGOUT_ENDPOINT = `${SITEMINDER_BASE_URL}/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`;
@@ -53,7 +53,7 @@ export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/o
 
 export const API_BASE_URL = isBundled
   ? `${window.location.origin}/api`
-  : ENV.BASE_API;
+  : DEV_ENV.API_BASE_URL;
 
 export const SEARCH_AGREEMENTS = '/v1/agreement/search';
 export const GET_AGREEMENT = agreementId => `/v1/agreement/${agreementId}`;

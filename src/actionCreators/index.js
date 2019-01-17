@@ -34,7 +34,6 @@ export * from './grazingScheduleActionCreator';
 export * from './pastureActionCreator';
 export * from './ministerIssueActionCreator';
 
-/* eslint-disable arrow-body-style */
 export const fetchAgreement = agreementId => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.GET_AGREEMENT));
   return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
