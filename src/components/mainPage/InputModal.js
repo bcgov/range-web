@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal, Form, Button } from 'semantic-ui-react';
+import { Modal, Form, Button, Icon } from 'semantic-ui-react';
 import { getInputModal } from '../../reducers/rootReducer';
 import { openInputModal, closeInputModal } from '../../actions';
 import { InvertedButton } from '../common';
@@ -85,6 +85,7 @@ class InputModal extends Component {
               fluid
               onClick={this.handleModalClose}
             >
+              <Icon name="remove" />
               Cancel
             </InvertedButton>
             <div>
@@ -93,6 +94,7 @@ class InputModal extends Component {
                 fluid
                 onClick={this.onSubmitClicked}
               >
+                <Icon name="checkmark" />
                 Submit
               </Button>
             </div>
