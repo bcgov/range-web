@@ -218,8 +218,8 @@ export class AHPage extends Component {
 
       openConfirmationModal({
         id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
-        header: strings.SUBMIT_RUP_CHANGE_FOR_AH_HEADER,
-        content: strings.SUBMIT_RUP_CHANGE_FOR_AH_CONTENT,
+        header: strings.SUBMIT_RUP_CHANGE_CONFIRM_HEADER,
+        content: strings.SUBMIT_RUP_CHANGE_CONFIRM_CONTENT,
         onYesBtnClicked: this.onSubmitClicked,
       });
     }

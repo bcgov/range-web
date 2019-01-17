@@ -117,8 +117,8 @@ class EditableGrazingScheduleBox extends Component {
   openDeleteScheduleConfirmationModal = () => {
     this.props.openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE,
-      header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
-      content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
+      header: strings.DELETE_SCHEDULE_CONFIRM_HEADER,
+      content: strings.DELETE_SCHEDULE_CONFIRM_CONTENT,
       onYesBtnClicked: this.onScheduleDeleteClicked,
     });
   }

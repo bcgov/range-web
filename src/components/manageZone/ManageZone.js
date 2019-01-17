@@ -4,7 +4,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import { Banner } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
-  UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
+  UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER,
 } from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getZoneOption, getContactOption } from '../../utils';
@@ -71,8 +71,8 @@ export class ManageZone extends Component {
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
-      header: UPDATE_CONTACT_CONFIRMATION_HEADER,
-      content: UPDATE_CONTACT_CONFIRMATION_CONTENT,
+      header: UPDATE_CONTACT_CONFIRM_HEADER,
+      content: UPDATE_CONTACT_CONFIRM_CONTENT,
       onYesBtnClicked: this.assignStaffToZone,
     });
   }

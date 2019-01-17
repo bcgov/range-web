@@ -4,7 +4,7 @@ import Pikaday from 'pikaday';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
-import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
+import { DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT, DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER } from '../../../constants/strings';
 
 /* eslint-disable object-curly-newline */
 class EditableGrazingScheduleEntryRow extends Component {
@@ -113,8 +113,8 @@ class EditableGrazingScheduleEntryRow extends Component {
   openDeleteScheduleEntryConfirmationModal = () => {
     this.props.openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY,
-      header: DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER,
-      content: DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT,
+      header: DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER,
+      content: DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteEntryClicked,
     });
   }

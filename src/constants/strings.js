@@ -158,16 +158,18 @@ export const RECOMMEND_NOT_READY_CONFIRMATION_CONTENT = 'Are you sure you want t
 export const RECOMMEND_FOR_SUBMISSION_CONFIRMATION_HEADER = 'Update Status: Recommend For Submission';
 export const RECOMMEND_FOR_SUBMISSION_CONFIRMATION_CONTENT = 'Are you sure you want to update the status?';
 
-export const UPDATE_CONTACT_CONFIRMATION_HEADER = 'Confirmation: Update Contact';
-export const UPDATE_CONTACT_CONFIRMATION_CONTENT = 'Are you sure you want to update the contact?';
-export const DELETE_SCHEDULE_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule';
-export const DELETE_SCHEDULE_FOR_AH_CONTENT = 'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
-export const DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
-export const DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
-export const UPDATE_CLIENT_ID_FOR_AH_HEADER = 'Confirmation: Link Client';
-export const UPDATE_CLIENT_ID_FOR_AH_CONTENT = 'Are you sure you want to link this user to the client?';
-export const SUBMIT_RUP_CHANGE_FOR_AH_HEADER = 'Ready to Submit?';
-export const SUBMIT_RUP_CHANGE_FOR_AH_CONTENT = 'Once submitted you can no longer make edits to the Range Use Plan. Do not submit until you are satisfied with all content.';
+export const UPDATE_CONTACT_CONFIRM_HEADER = 'Confirmation: Update Contact';
+export const UPDATE_CONTACT_CONFIRM_CONTENT = 'Are you sure you want to update the contact?';
+export const DELETE_SCHEDULE_CONFIRM_HEADER = 'Confirmation: Deleting Grazing Schedule';
+export const DELETE_SCHEDULE_CONFIRM_CONTENT = 'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
+export const DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
+export const DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
+export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER = 'Confirmation: Deleting Minister Issue Action';
+export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT = 'This action will be permanently deleted. Are you sure you want to delete this minister issue action?';
+export const UPDATE_CLIENT_ID_CONFIRM_HEADER = 'Confirmation: Link Client';
+export const UPDATE_CLIENT_ID_CONFIRM_CONTENT = 'Are you sure you want to link this user to the client?';
+export const SUBMIT_RUP_CHANGE_CONFIRM_HEADER = 'Ready to Submit?';
+export const SUBMIT_RUP_CHANGE_CONFIRM_CONTENT = 'Once submitted you can no longer make edits to the Range Use Plan. Do not submit until you are satisfied with all content.';
 
 // banners
 export const DETAIL_RUP_BANNER_CONTENT = 'View the full PDF file or update the status of the range use plan.';

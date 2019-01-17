@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
 import { REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+import { DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT, DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER } from '../../../constants/strings';
 
 class EditableMinisterIssueActionBox extends Component {
   static propTypes = {
@@ -41,8 +42,8 @@ class EditableMinisterIssueActionBox extends Component {
       // open a modal when the option 'other' is selected
       if (otherActionType && (value === otherActionType.id)) {
         openInputModal({
-          id: 'hello',
-          title: 'Other',
+          id: 'minister_issue_action_other',
+          title: 'Other Name',
           onSubmit: this.onOtherSubmited,
         });
       }
@@ -58,8 +59,8 @@ class EditableMinisterIssueActionBox extends Component {
   openDeleteActionConfirmationModal = () => {
     this.props.openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION,
-      // header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
-      // content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
+      header: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER,
+      content: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteActionClicked,
     });
   }
