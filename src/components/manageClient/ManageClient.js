@@ -42,8 +42,8 @@ class ManageClient extends Component {
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.MANAGE_CLIENT,
-      header: strings.MANAGE_CLIENT_BANNER_HEADER,
-      content: strings.MANAGE_CLIENT_BANNER_CONTENT,
+      header: strings.UPDATE_CLIENT_ID_CONFIRM_HEADER,
+      content: strings.UPDATE_CLIENT_ID_CONFIRM_CONTENT,
       onYesBtnClicked: this.linkUserToClient,
     });
   }
