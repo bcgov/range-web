@@ -11,6 +11,7 @@ class InputModal extends Component {
     closeInputModal: PropTypes.func.isRequired,
     inputModal: PropTypes.shape({
       title: PropTypes.string,
+      input: PropTypes.string,
       onSubmit: PropTypes.func,
     }),
   }
@@ -19,8 +20,14 @@ class InputModal extends Component {
     inputModal: null,
   }
 
-  state = {
-    input: '',
+  constructor(props) {
+    super(props);
+    const { inputModal } = props;
+    const input = (inputModal && inputModal.input) || '';
+
+    this.state = {
+      input,
+    };
   }
 
   onInputChanged = (e) => {

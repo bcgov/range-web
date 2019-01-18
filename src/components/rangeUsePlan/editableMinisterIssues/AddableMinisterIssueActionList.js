@@ -2,11 +2,12 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import uuid from 'uuid-v4';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dropdown } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
 import { updateMinisterIssue, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
+import { REFERENCE_KEY } from '../../../constants/variables';
 
 class AddableMinisterIssueActionList extends Component {
   static propTypes = {
@@ -64,21 +65,46 @@ class AddableMinisterIssueActionList extends Component {
     }
   }
 
-  onAddActionBtnClicked = () => {
+  onActionTypeOptionClicked = (e, { value: actionTypeId }) => {
     const { ministerIssue: mi, updateMinisterIssue } = this.props;
     const ministerIssue = { ...mi };
     const action = {
       key: uuid(),
       detail: '',
-      actionTypeId: null,
+      actionTypeId,
     };
     ministerIssue.ministerIssueActions.push(action);
     updateMinisterIssue({ ministerIssue });
+
+    this.openInputModalWhenOtherTypeSelected(actionTypeId);
+  }
+
+  openInputModalWhenOtherTypeSelected = (actionTypeId) => {
+    const { openInputModal, references } = this.props;
+    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const otherActionType = actionTypes.find(t => t.name === 'Other');
+
+    // open a modal when the option 'other' is selected
+    if (otherActionType && (actionTypeId === otherActionType.id)) {
+      openInputModal({
+        id: 'minister_issue_action_other',
+        title: 'Other Name',
+        onSubmit: this.onOtherSubmited,
+      });
+    }
   }
 
   render() {
-    const { ministerIssue } = this.props;
+    const { ministerIssue, references } = this.props;
     const ministerIssueActions = (ministerIssue && ministerIssue.ministerIssueActions) || [];
+    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const actionTypeOptions = actionTypes.map((miat) => {
+      return {
+        key: miat.id,
+        value: miat.id,
+        text: miat.name,
+      };
+    });
 
     return (
       <Fragment>
@@ -91,14 +117,22 @@ class AddableMinisterIssueActionList extends Component {
         }
 
         <div className="rup__missue__action__note">{ACTION_NOTE}</div>
-        <Button
-          primary
-          onClick={this.onAddActionBtnClicked}
-          style={{ marginTop: '10px' }}
-        >
-          <Icon name="add circle" />
-          Add Action
-        </Button>
+
+        <Dropdown
+          trigger={
+            <Button
+              primary
+              style={{ marginTop: '10px' }}
+            >
+              <Icon name="add circle" />
+              Add Action
+            </Button>
+          }
+          options={actionTypeOptions}
+          icon={null}
+          pointing="left"
+          onChange={this.onActionTypeOptionClicked}
+        />
       </Fragment>
     );
   }

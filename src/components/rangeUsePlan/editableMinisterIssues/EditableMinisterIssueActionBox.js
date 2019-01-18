@@ -9,7 +9,6 @@ class EditableMinisterIssueActionBox extends Component {
     action: PropTypes.shape({}).isRequired,
     actionIndex: PropTypes.number.isRequired,
     references: PropTypes.shape({}).isRequired,
-    openInputModal: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
     handleActionChange: PropTypes.func.isRequired,
@@ -25,8 +24,6 @@ class EditableMinisterIssueActionBox extends Component {
       action,
       actionIndex,
       handleActionChange,
-      openInputModal,
-      references,
     } = this.props;
     const newAction = {
       ...action,
@@ -34,23 +31,9 @@ class EditableMinisterIssueActionBox extends Component {
     };
 
     handleActionChange(newAction, actionIndex);
-
-    if (name === 'actionTypeId') {
-      const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
-      const otherActionType = actionTypes.find(t => t.name === 'Other');
-
-      // open a modal when the option 'other' is selected
-      if (otherActionType && (value === otherActionType.id)) {
-        openInputModal({
-          id: 'minister_issue_action_other',
-          title: 'Other Name',
-          onSubmit: this.onOtherSubmited,
-        });
-      }
-    }
   }
 
-  onDeleteActionClicked = () => {
+  onDeleteActionBtnClicked = () => {
     const { closeConfirmationModal, handleActionDelete, actionIndex } = this.props;
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION });
     handleActionDelete(actionIndex);
@@ -61,7 +44,7 @@ class EditableMinisterIssueActionBox extends Component {
       id: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION,
       header: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER,
       content: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT,
-      onYesBtnClicked: this.onDeleteActionClicked,
+      onYesBtnClicked: this.onDeleteActionBtnClicked,
     });
   }
 
