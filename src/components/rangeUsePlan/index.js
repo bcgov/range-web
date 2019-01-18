@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import StaffPage from './StaffPage';
 import AHPage from './AHPage';
-import { Loading } from '../common';
+import { Loading, InvertedButton } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
@@ -61,16 +61,22 @@ class Base extends Component {
     if (errorFetchingPlan) {
       return (
         <div className="rup__fetching-error">
-          <Icon name="warning circle" size="big" color="red" />
+          <Icon name="warning sign" size="large" color="red" />
           <div>
             <span className="rup__fetching-error__message">
               Error occured while fetching the range use plan.
             </span>
           </div>
           <div>
-            <Button onClick={history.goBack}>Go Back</Button>
-            <span className="rup__fetching-error__or-message">or</span>
-            <Button onClick={this.fetchPlan}>Retry</Button>
+            <InvertedButton primaryColor onClick={history.goBack}>
+              Go Back
+            </InvertedButton>
+            <span className="rup__fetching-error__or-message">
+              or
+            </span>
+            <InvertedButton primaryColor onClick={this.fetchPlan}>
+              Retry
+            </InvertedButton>
           </div>
         </div>
       );

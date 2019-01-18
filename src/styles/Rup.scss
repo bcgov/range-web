@@ -24,6 +24,7 @@ $common-margin-bottom: 40px; // edit CONTENT_MARGIN_BOTTOM in variable.js when c
     height: calc(100vh - 90px);
     font-size: 1.5rem;
     flex-direction: column;
+    color: $error-color;
 
     > div {
       margin: 10px 0;
