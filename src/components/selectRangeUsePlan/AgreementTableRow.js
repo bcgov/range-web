@@ -53,13 +53,16 @@ export class AgreementTableRow extends Component {
     const { primaryAgreementHolder } = getAgreementHolders(clients);
     const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
     const isActive = activeIndex === currIndex;
-    const className = classnames('agrm__table__row', {
-      'agrm__table__row--active': isActive,
-      'agrm__table__row--not-active': (activeIndex >= 0 && !isActive),
-    });
+    const isActiveAndHasPlans = mostCurrPlan && isActive;
 
     return (
-      <div className={className}>
+      <div className={classnames('agrm__table__row',
+          {
+            'agrm__table__row--active': isActiveAndHasPlans,
+            'agrm__table__row--not-active': (activeIndex >= 0 && !isActiveAndHasPlans),
+          })
+        }
+      >
         <button
           className="agrm__table__accordian"
           onClick={this.onRowClicked}
@@ -72,15 +75,19 @@ export class AgreementTableRow extends Component {
             <Status user={user} status={status} />
           </div>
           <div className="agrm__table__accordian__cell">
-            { isActive &&
+            { isActiveAndHasPlans &&
               <Icon name="minus square" />
             }
-            { !isActive &&
+            { !isActiveAndHasPlans &&
               <Icon name="plus square" disabled={mostCurrPlan === undefined} />
             }
           </div>
         </button>
-        <div className={classnames('agrm__table__panel', { 'agrm__table__panel--active': isActive })}>
+        <div className={classnames(
+          'agrm__table__panel',
+          { 'agrm__table__panel--active': isActiveAndHasPlans },
+          )}
+        >
           <PlanTable
             agreement={agreement}
           />

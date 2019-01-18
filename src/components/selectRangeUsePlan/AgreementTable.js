@@ -38,7 +38,7 @@ export class AgreementTable extends Component {
             {strings.ERROR_OCCUR}
             <InvertedButton
               primaryColor
-              onClick={this.props.searchAgreementsWithOrWithoutParams}
+              onClick={() => { this.props.searchAgreementsWithOrWithoutParams(); }}
               style={{ marginLeft: '10px' }}
             >
               Retry
