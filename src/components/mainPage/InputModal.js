@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal, Form, Button, Icon } from 'semantic-ui-react';
+import { Modal, Form, Button, Icon, Input } from 'semantic-ui-react';
 import { getInputModal } from '../../reducers/rootReducer';
 import { openInputModal, closeInputModal } from '../../actions';
 import { InvertedButton } from '../common';
@@ -12,6 +12,7 @@ class InputModal extends Component {
     inputModal: PropTypes.shape({
       title: PropTypes.string,
       input: PropTypes.string,
+      value: PropTypes.shape({}),
       onSubmit: PropTypes.func,
     }),
   }
@@ -37,12 +38,16 @@ class InputModal extends Component {
   }
 
   onSubmitClicked = () => {
-    const { inputModal } = this.props;
-    const onSubmit = inputModal && inputModal.onSubmit;
+    const { inputModal = {} } = this.props;
+    const { onSubmit, ...rest } = inputModal;
 
     if (onSubmit) {
-      onSubmit(this.state.input);
+      onSubmit(
+        this.state.input,
+        { ...rest },
+      );
     }
+
     this.handleModalClose();
   }
 
@@ -62,7 +67,6 @@ class InputModal extends Component {
     const { input } = this.state;
     const title = inputModal && inputModal.title;
 
-    /* eslint-disable jsx-a11y/no-autofocus */
     return (
       <Modal
         dimmer="blurring"
@@ -77,12 +81,11 @@ class InputModal extends Component {
           </div>
           <Form>
             <Form.Field>
-              <input
-                type="text"
-                autoFocus
+              <Input
                 value={input}
                 onChange={this.onInputChanged}
                 onKeyPress={this.onInputKeyPressed}
+                autoFocus
               />
             </Form.Field>
           </Form>

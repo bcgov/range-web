@@ -18,11 +18,20 @@
       padding: 10px;
       margin-top: 10px;
 
-      &__ellipsis-action {
+      &__ellipsis{
         .visible.menu.transition {
           top: -8px !important;
           margin: 0 0.5em 0 0 !important;
         }
+      }
+      &__dropdown-ellipsis-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &__type-dropdown {
+        display: flex;
+        align-items: center;
       }
       &__note {
         margin-top: 15px;

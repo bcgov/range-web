@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
+import { Input, Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
 import { REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT, DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER } from '../../../constants/strings';
 
@@ -14,10 +14,6 @@ class EditableMinisterIssueActionBox extends Component {
     handleActionChange: PropTypes.func.isRequired,
     handleActionDelete: PropTypes.func.isRequired,
   };
-
-  onOtherSubmited = (value) => {
-    console.log(value);
-  }
 
   onActionFieldChanged = (e, { value, name }) => {
     const {
@@ -50,7 +46,7 @@ class EditableMinisterIssueActionBox extends Component {
 
   render() {
     const { action, references } = this.props;
-    const { detail, actionTypeId } = action;
+    const { detail, actionTypeId, other } = action;
     const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
     const actionTypesMap = {};
     const actionTypeOptions = actionTypes.map((miat) => {
@@ -67,38 +63,53 @@ class EditableMinisterIssueActionBox extends Component {
     const ellipsisOptions = [
       { key: 'delete', text: 'Delete', onClick: this.openDeleteActionConfirmationModal },
     ];
+    const otherActionType = actionTypes.find(t => t.name === 'Other');
+    const isActionTypeOther = otherActionType && (actionTypeId === otherActionType.id);
 
     return (
       <div className="rup__missue__action">
-        <Dropdown
-          name="actionTypeId"
-          options={actionTypeOptions}
-          value={actionTypeId}
-          onChange={this.onActionFieldChanged}
-          error={actionTypeId === null}
-          selection
-          selectOnBlur={false}
-        />
-        <Form>
-          <Form.Group inline>
-            <TextArea
-              name="detail"
-              rows={3}
-              placeholder={detailPlaceholder}
+        <div className="rup__missue__action__dropdown-ellipsis-container">
+          <div className="rup__missue__action__type-dropdown">
+            <Dropdown
+              name="actionTypeId"
+              options={actionTypeOptions}
+              value={actionTypeId}
               onChange={this.onActionFieldChanged}
-              value={detail}
-              style={{ marginTop: '10px' }}
+              error={actionTypeId === null}
+              selection
+              selectOnBlur={false}
             />
-            <div className="rup__missue__action__ellipsis-action">
-              <Dropdown
-                trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
-                options={ellipsisOptions}
-                icon={null}
-                pointing="right"
-                style={{ marginLeft: '9px' }}
+            {isActionTypeOther &&
+              <Input
+                name="other"
+                icon="edit"
+                value={other}
+                onChange={this.onActionFieldChanged}
+                style={{ marginLeft: '5px' }}
+                autoFocus
+                // label="Name"
               />
-            </div>
-          </Form.Group>
+            }
+          </div>
+          <div className="rup__missue__action__ellipsis">
+            <Dropdown
+              trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
+              options={ellipsisOptions}
+              icon={null}
+              pointing="right"
+              style={{ marginRight: '-5px' }}
+            />
+          </div>
+        </div>
+        <Form>
+          <TextArea
+            name="detail"
+            rows={3}
+            placeholder={detailPlaceholder}
+            onChange={this.onActionFieldChanged}
+            value={detail}
+            style={{ marginTop: '10px' }}
+          />
         </Form>
       </div>
     );

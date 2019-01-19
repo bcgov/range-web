@@ -133,7 +133,7 @@ export class ManageZone extends Component {
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Update
+                Submit
               </Button>
             </div>
           </div>

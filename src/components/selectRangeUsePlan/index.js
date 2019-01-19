@@ -32,8 +32,6 @@ class Base extends Component {
   }
 
   searchAgreementsWithOrWithoutParams = (p) => {
-    console.log(p);
-
     const { searchAgreements, location } = this.props;
     let params = p;
     if (!params) {

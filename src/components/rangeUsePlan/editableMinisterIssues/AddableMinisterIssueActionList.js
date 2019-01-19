@@ -72,14 +72,16 @@ class AddableMinisterIssueActionList extends Component {
       key: uuid(),
       detail: '',
       actionTypeId,
+      other: '',
     };
     ministerIssue.ministerIssueActions.push(action);
     updateMinisterIssue({ ministerIssue });
 
-    this.openInputModalWhenOtherTypeSelected(actionTypeId);
+    this.openInputModalWhenOtherTypeSelected(action);
   }
 
-  openInputModalWhenOtherTypeSelected = (actionTypeId) => {
+  openInputModalWhenOtherTypeSelected = (action) => {
+    const actionTypeId = action && action.actionTypeId;
     const { openInputModal, references } = this.props;
     const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
     const otherActionType = actionTypes.find(t => t.name === 'Other');
@@ -89,9 +91,22 @@ class AddableMinisterIssueActionList extends Component {
       openInputModal({
         id: 'minister_issue_action_other',
         title: 'Other Name',
+        value: action,
         onSubmit: this.onOtherSubmited,
       });
     }
+  }
+
+  onOtherSubmited = (input, { value: action }) => {
+    const { ministerIssue } = this.props;
+    const newAction = {
+      ...action,
+      other: input,
+    };
+    const actionIndex = ministerIssue.ministerIssueActions.findIndex(a => a.key === action.key);
+    if (actionIndex < 0) return;
+
+    this.handleMIActionChange(newAction, actionIndex);
   }
 
   render() {
