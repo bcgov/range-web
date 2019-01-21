@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { deleteRupGrazingSchedule } from '../../../actionCreators';
+import { deleteRUPGrazingSchedule } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
 import * as utils from '../../../utils';
 import EditableGrazingScheduleBox from './EditableGrazingScheduleBox';
@@ -20,7 +20,7 @@ export class EditableGrazingSchedules extends Component {
     usage: PropTypes.arrayOf(PropTypes.object).isRequired,
     addGrazingSchedule: PropTypes.func.isRequired,
     deleteGrazingSchedule: PropTypes.func.isRequired,
-    deleteRupGrazingSchedule: PropTypes.func.isRequired,
+    deleteRUPGrazingSchedule: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -94,7 +94,7 @@ export class EditableGrazingSchedules extends Component {
   }
 
   handleScheduleDelete = (schedule, scheduleIndex) => {
-    const { plan, deleteGrazingSchedule, deleteRupGrazingSchedule } = this.props;
+    const { plan, deleteGrazingSchedule, deleteRUPGrazingSchedule } = this.props;
 
     const planId = plan && plan.id;
     const { year, id: scheduleId } = schedule;
@@ -127,7 +127,7 @@ export class EditableGrazingSchedules extends Component {
 
     // delete the schedule saved in server
     if (planId && scheduleId && !uuid.isUUID(scheduleId)) {
-      deleteRupGrazingSchedule(planId, scheduleId).then(onDeleted);
+      deleteRUPGrazingSchedule(planId, scheduleId).then(onDeleted);
     } else { // or delete the schedule saved in Redux store
       onDeleted();
     }
@@ -254,5 +254,5 @@ export default connect(null, {
   addGrazingSchedule,
   updateGrazingSchedule,
   deleteGrazingSchedule,
-  deleteRupGrazingSchedule,
+  deleteRUPGrazingSchedule,
 })(EditableGrazingSchedules);

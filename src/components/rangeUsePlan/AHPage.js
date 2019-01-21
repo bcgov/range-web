@@ -39,7 +39,7 @@ export class AHPage extends Component {
     additionalRequirementsMap: PropTypes.shape({}).isRequired,
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
-    createOrUpdateRupGrazingSchedule: PropTypes.func.isRequired,
+    createOrUpdateRUPGrazingSchedule: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
     toastErrorMessage: PropTypes.func.isRequired,
     createAmendment: PropTypes.func.isRequired,
@@ -134,7 +134,7 @@ export class AHPage extends Component {
     const {
       plan,
       updateRUPStatus,
-      createOrUpdateRupGrazingSchedule,
+      createOrUpdateRUPGrazingSchedule,
       grazingSchedulesMap,
       toastErrorMessage,
     } = this.props;
@@ -156,7 +156,7 @@ export class AHPage extends Component {
     try {
       await updateRUPStatus(planId, statusId, false);
       const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
-        createOrUpdateRupGrazingSchedule(planId, schedule)
+        createOrUpdateRUPGrazingSchedule(planId, schedule)
       )));
       await onSuccess(newSchedules);
     } catch (err) {

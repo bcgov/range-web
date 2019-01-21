@@ -8,7 +8,7 @@ import { Loading, InvertedButton } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
+import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
 
 class Base extends Component {
@@ -138,7 +138,7 @@ export default connect(mapStateToProps, {
   updateRUPStatus,
   planUpdated,
   updateGrazingSchedule,
-  createOrUpdateRupGrazingSchedule,
+  createOrUpdateRUPGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
   createAmendment,

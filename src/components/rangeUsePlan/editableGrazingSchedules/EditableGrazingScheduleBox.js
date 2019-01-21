@@ -11,7 +11,7 @@ import * as strings from '../../../constants/strings';
 import { roundTo1Decimal } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } from '../../../actions';
-import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
+import { deleteRUPGrazingSchedule, deleteRUPGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID, IMAGE_SRC } from '../../../constants/variables';
 
 class EditableGrazingScheduleBox extends Component {
@@ -30,7 +30,7 @@ class EditableGrazingScheduleBox extends Component {
     updateGrazingSchedule: PropTypes.func.isRequired,
     handleScheduleCopy: PropTypes.func.isRequired,
     handleScheduleDelete: PropTypes.func.isRequired,
-    deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+    deleteRUPGrazingScheduleEntry: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
   };
@@ -95,7 +95,7 @@ class EditableGrazingScheduleBox extends Component {
     const {
       schedule,
       updateGrazingSchedule,
-      deleteRupGrazingScheduleEntry,
+      deleteRUPGrazingScheduleEntry,
     } = this.props;
     const grazingSchedule = { ...schedule };
     const [deletedEntry] = grazingSchedule.grazingScheduleEntries.splice(entryIndex, 1);
@@ -108,7 +108,7 @@ class EditableGrazingScheduleBox extends Component {
 
     // delete the entry saved in server
     if (planId && scheduleId && entryId && !uuid.isUUID(entryId)) {
-      deleteRupGrazingScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
+      deleteRUPGrazingScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
     } else { // or delete the entry saved only in Redux
       onDeleted();
     }
@@ -297,6 +297,6 @@ export default connect(mapStateToProps, {
   updateGrazingSchedule,
   openConfirmationModal,
   closeConfirmationModal,
-  deleteRupGrazingSchedule,
-  deleteRupGrazingScheduleEntry,
+  deleteRUPGrazingSchedule,
+  deleteRUPGrazingScheduleEntry,
 })(EditableGrazingScheduleBox);
