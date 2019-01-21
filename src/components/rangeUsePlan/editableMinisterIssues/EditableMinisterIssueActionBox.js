@@ -101,7 +101,7 @@ class EditableMinisterIssueActionBox extends Component {
             />
           </div>
         </div>
-        <Form>
+        <Form style={{ position: 'relative' }}>
           <TextArea
             name="detail"
             rows={3}
@@ -110,6 +110,9 @@ class EditableMinisterIssueActionBox extends Component {
             value={detail}
             style={{ marginTop: '10px' }}
           />
+          <span className="rup__missue__action__detail-asterisk">
+            *
+          </span>
         </Form>
       </div>
     );

@@ -33,6 +33,13 @@
         display: flex;
         align-items: center;
       }
+      &__detail-asterisk {
+        position: absolute;
+        left: 5px;
+        top: 13px;
+        color: red;
+        font-size: 1.2rem;
+      }
       &__note {
         margin-top: 15px;
         font-size: 1.05rem;
