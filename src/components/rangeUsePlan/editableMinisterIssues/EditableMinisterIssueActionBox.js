@@ -83,7 +83,7 @@ class EditableMinisterIssueActionBox extends Component {
               <Input
                 name="other"
                 icon="edit"
-                value={other}
+                value={other || ''}
                 onChange={this.onActionFieldChanged}
                 style={{ marginLeft: '5px' }}
                 autoFocus

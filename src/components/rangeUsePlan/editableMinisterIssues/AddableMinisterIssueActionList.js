@@ -20,11 +20,11 @@ class AddableMinisterIssueActionList extends Component {
   };
 
   renderMinisterIssueAction = (action, actionIndex) => {
-    const { id, key } = action;
+    const { id } = action;
 
     return (
       <EditableMinisterIssueActionBox
-        key={id || key}
+        key={id}
         action={action}
         actionIndex={actionIndex}
         handleActionChange={this.handleMIActionChange}
@@ -69,7 +69,7 @@ class AddableMinisterIssueActionList extends Component {
     const { ministerIssue: mi, updateMinisterIssue } = this.props;
     const ministerIssue = { ...mi };
     const action = {
-      key: uuid(),
+      id: uuid(),
       detail: '',
       actionTypeId,
       other: '',
@@ -103,7 +103,7 @@ class AddableMinisterIssueActionList extends Component {
       ...action,
       other: input,
     };
-    const actionIndex = ministerIssue.ministerIssueActions.findIndex(a => a.key === action.key);
+    const actionIndex = ministerIssue.ministerIssueActions.findIndex(a => a.id === action.id);
     if (actionIndex < 0) return;
 
     this.handleMIActionChange(newAction, actionIndex);

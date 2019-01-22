@@ -275,9 +275,10 @@ class EditableGrazingScheduleBox extends Component {
             <Form>
               <TextArea
                 rows={3}
-                onChange={this.onNarativeChanged}
                 value={narative}
                 placeholder="Description of movement of livestock through agreement area. May include WHEN, WHERE and HOW management tools are used to create that flow. May be of particular value when an agreement consists of a single pasture or multiple unfenced pastures."
+                onChange={this.onNarativeChanged}
+                style={{ marginTop: '5px' }}
               />
             </Form>
           </Fragment>
