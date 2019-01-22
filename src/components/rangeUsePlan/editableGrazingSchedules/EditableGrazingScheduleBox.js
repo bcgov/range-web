@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
-import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
-import { CollapsibleBox } from '../../common';
+import { Table, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
+import { CollapsibleBox, InvertedButton } from '../../common';
 import EditableGrazingScheduleEntryRow from './EditableGrazingScheduleEntryRow';
 import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
@@ -255,14 +255,15 @@ class EditableGrazingScheduleBox extends Component {
                 {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
               </Table.Header>
             </Table>
-            <Button
+            <InvertedButton
               style={{ margin: '10px 0' }}
-              basic
+              primaryColor
+              compact
               onClick={this.onAddRowClicked}
             >
-              <Icon name="add" />
-              Add row
-            </Button>
+              <Icon name="add circle" />
+              Add Row
+            </InvertedButton>
             <div className="rup__grazing-schedule__AUMs">
               <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
               <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>

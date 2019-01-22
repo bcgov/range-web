@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import uuid from 'uuid-v4';
-import { Button, Icon, Dropdown } from 'semantic-ui-react';
+import { Icon, Dropdown } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
 import { updateMinisterIssue, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 import { REFERENCE_KEY } from '../../../constants/variables';
+import { InvertedButton } from '../../common';
 
 class AddableMinisterIssueActionList extends Component {
   static propTypes = {
@@ -135,18 +136,20 @@ class AddableMinisterIssueActionList extends Component {
 
         <Dropdown
           trigger={
-            <Button
-              primary
+            <InvertedButton
+              primaryColor
+              compact
               style={{ marginTop: '10px' }}
             >
               <Icon name="add circle" />
               Add Action
-            </Button>
+            </InvertedButton>
           }
           options={actionTypeOptions}
           icon={null}
           pointing="left"
           onChange={this.onActionTypeOptionClicked}
+          selectOnBlur={false}
         />
       </Fragment>
     );

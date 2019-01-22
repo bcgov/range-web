@@ -228,6 +228,7 @@ export class EditableGrazingSchedules extends Component {
             onChange={this.onYearSelected}
             selectOnBlur={false}
             pointing
+            style={{ margin: '0' }}
           />
         </div>
         <div className="rup__divider" />

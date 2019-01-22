@@ -18,7 +18,6 @@ const ActionBtns = ({
 }) => {
   const previewPDF = (
     <Button
-      color="gray"
       inverted
       compact
       key="previewPDFBtn"
@@ -30,7 +29,6 @@ const ActionBtns = ({
   );
   const saveDraft = (
     <Button
-      color="gray"
       inverted
       compact
       key="saveDraftBtn"
@@ -43,7 +41,6 @@ const ActionBtns = ({
   );
   const submit = (
     <Button
-      color="gray"
       inverted
       compact
       key="submitBtn"
@@ -56,7 +53,6 @@ const ActionBtns = ({
   );
   const amend = (
     <Button
-      color="gray"
       inverted
       compact
       key="amendBtn"
@@ -69,7 +65,6 @@ const ActionBtns = ({
   );
   const confirmSubmission = (
     <Button
-      color="gray"
       inverted
       compact
       key="confirmSubmissionBtn"
