@@ -44,7 +44,7 @@ export const createRUPGrazingSchedule = (planId, schedule) => (dispatch, getStat
 };
 
 const createRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE));
+  dispatch(request(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES));
   const makeRequest = async () => {
     try {
       const { id, ...grazingSchedule } = schedule;
@@ -53,10 +53,10 @@ const createRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
         { ...grazingSchedule, plan_id: planId },
         createConfigWithHeader(getState),
       );
-      dispatch(success(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, data));
+      dispatch(success(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, err));
+      dispatch(error(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -65,7 +65,7 @@ const createRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
 };
 
 const updateRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE));
+  dispatch(request(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES));
   const makeRequest = async () => {
     try {
       const { data } = await axios.put(
@@ -73,10 +73,10 @@ const updateRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
         { ...schedule },
         createConfigWithHeader(getState),
       );
-      dispatch(success(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, data));
+      dispatch(success(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, err));
+      dispatch(error(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }

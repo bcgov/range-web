@@ -86,8 +86,10 @@ export const CREATE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId) => `/v1/pl
 export const DELETE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId, entryId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
 
 export const CREATE_RUP_MINISTER_ISSUE = planId => `/v1/plan/${planId}/issue`;
+export const UPDATE_RUP_MINISTER_ISSUE = (planId, issueId) => `/v1/plan/${planId}/issue/${issueId}`;
 export const DELETE_RUP_MINISTER_ISSUE = (planId, issueId) => `/v1/plan/${planId}/issue/${issueId}`;
 export const CREATE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId) => `/v1/plan/${planId}/issue/${issueId}/action`;
+export const UPDATE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) => `/v1/plan/${planId}/issue/${issueId}/action/${actionId}`;
 export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) => `/v1/plan/${planId}/issue/${issueId}/action/${actionId}`;
 
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community`;
