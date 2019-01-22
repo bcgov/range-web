@@ -13,10 +13,35 @@
       }
     }
     &__action {
-      margin: 10px;
+      border: 1px solid gainsboro;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
 
+      &__ellipsis{
+        .visible.menu.transition {
+          top: -8px !important;
+          margin: 0 0.5em 0 0 !important;
+        }
+      }
+      &__dropdown-ellipsis-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &__type-dropdown {
+        display: flex;
+        align-items: center;
+      }
+      &__detail-asterisk {
+        position: absolute;
+        left: 5px;
+        top: 13px;
+        color: red;
+        font-size: 1.2rem;
+      }
       &__note {
-        margin-top: 3px;
+        margin-top: 15px;
         font-size: 1.05rem;
       }
       &__not-found {
@@ -28,6 +53,7 @@
       }
       &__detail {
         opacity: 0.9;
+        margin-top: 5px;
       }
     }
   }

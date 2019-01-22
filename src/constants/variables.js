@@ -5,8 +5,13 @@ export const LOCAL_STORAGE_KEY = {
   USER: 'range-web-user',
   REFERENCE: 'range-web-reference',
 };
+export const RETURN_PAGE_TYPE = {
+  LOGIN: 'login',
+  SITEMINDER_LOGOUT: 'smlogout',
+  LOGOUT: 'logout',
+};
 
-export const TOAST_TIMEOUT = 9000;
+export const TOAST_TIMEOUT = 15000;
 export const NUMBER_OF_LIMIT_FOR_NOTE = 140;
 export const SEARCH_DEBOUNCE_DELAY = 1000;
 export const STICKY_HEADER_HEIGHT = 55;
@@ -105,6 +110,7 @@ export const CONFIRMATION_MODAL_ID = {
   DELETE_GRAZING_SCHEDULE: 'DELETE_GRAZING_SCHEDULE',
   DELETE_GRAZING_SCHEDULE_ENTRY: 'DELETE_GRAZING_SCHEDULE_ENTRY',
   SUBMIT_PLAN: 'SUBMIT_PLAN',
+  DELETE_MINISTER_ISSUE_ACTION: 'DELETE_MINISTER_ISSUE_ACTION',
 };
 
 export const REFERENCE_KEY = {
@@ -142,22 +148,22 @@ export const IMAGE_SRC = {
 };
 
 export const ELEMENT_ID = {
-  RUP_STICKY_HEADER: 'rup__sticky-header',
-  BASIC_INFORMATION: 'rup__basic-information',
-  PASTURES: 'rup__pastures',
-  GRAZING_SCHEDULE: 'rup__grazing-schedule',
-  MINISTER_ISSUES: 'rup__minister-issues',
-  INVASIVE_PLANT_CHECKLIST: 'rup__ip-checklist',
-  ADDITIONAL_REQUIREMENTS: 'rup__additional-requirements',
-  MANAGEMENT_CONSIDERATIONS: 'rup__management-considerations',
-  RUP_ZONE_DROPDOWN: 'rup__zone-dropdown',
-  SIGN_OUT: 'sign-out',
-  MANAGE_ZONE_ZONES_DROPDOWN: 'manage-zone__zone-dropdown',
-  MANAGE_ZONE_CONTACTS_DROPDOWN: 'manage-zone__contact-dropdown',
-  LOGIN_BUTTON: 'login-button',
-  LOGIN_IDIR_BUTTON: 'login-idir-button',
-  LOGIN_BCEID_BUTTON: 'login-bceid-button',
-  SEARCH_TERM: 'searchTerm',
-  MANAGE_CLIENT_USERS_DROPDOWN: 'manage-client__users-dropdown',
-  MANAGE_CLIENT_CLIENTS_DROPDOWN: 'manage-client__clients-dropdown',
+  RUP_STICKY_HEADER: 'rup_sticky_header',
+  BASIC_INFORMATION: 'basic_information',
+  PASTURES: 'pastures',
+  GRAZING_SCHEDULE: 'grazing_schedule',
+  MINISTER_ISSUES: 'minister_issues_and_actions',
+  INVASIVE_PLANT_CHECKLIST: 'invasive_plant',
+  ADDITIONAL_REQUIREMENTS: 'additional_requirements',
+  MANAGEMENT_CONSIDERATIONS: 'management_considerations',
+  RUP_ZONE_DROPDOWN: 'rup_zone_dropdown',
+  SIGN_OUT: 'sign_out',
+  MANAGE_ZONE_ZONES_DROPDOWN: 'mz_zone_dropdown',
+  MANAGE_ZONE_CONTACTS_DROPDOWN: 'mz_contact_dropdown',
+  LOGIN_BUTTON: 'login_button',
+  LOGIN_IDIR_BUTTON: 'login_idir_button',
+  LOGIN_BCEID_BUTTON: 'login_bceid_button',
+  SEARCH_TERM: 'agr_search_term',
+  MANAGE_CLIENT_USERS_DROPDOWN: 'mc_users_dropdown',
+  MANAGE_CLIENT_CLIENTS_DROPDOWN: 'mc_clients_dropdown',
 };

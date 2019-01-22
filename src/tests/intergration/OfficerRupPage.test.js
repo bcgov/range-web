@@ -34,10 +34,7 @@ describe('Integration testing', () => {
     const config = {
       ...requestMockHeader(store.getState),
     };
-
-    // can't inject match object with MemoryRouter to read planId
-    // so register an endpoint without planId given
-    mockAxios.onGet(API.GET_RUP(), config).reply(200, mockPlan);
+    mockAxios.onGet(API.GET_RUP(mockPlan.id), config).reply(200, mockPlan);
 
     const RangeUsePlanWithRouter = withRouter(RangeUsePlan);
     const wrapper = mount(
@@ -49,7 +46,6 @@ describe('Integration testing', () => {
     );
 
     await flushAllPromises();
-    // Forces a re-render
     wrapper.update();
 
     const plansMap = getPlansMap(store.getState());

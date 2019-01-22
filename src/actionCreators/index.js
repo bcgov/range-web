@@ -34,7 +34,6 @@ export * from './grazingScheduleActionCreator';
 export * from './pastureActionCreator';
 export * from './ministerIssueActionCreator';
 
-/* eslint-disable arrow-body-style */
 export const fetchAgreement = agreementId => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.GET_AGREEMENT));
   return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
@@ -47,7 +46,7 @@ export const fetchAgreement = agreementId => (dispatch, getState) => {
     },
     (err) => {
       dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
-      return err;
+      throw err;
     },
   );
 };
@@ -64,7 +63,7 @@ export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getStat
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_CLIENT_ID_OF_USER, err));
       dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
@@ -91,7 +90,7 @@ export const searchClients = term => (dispatch, getState) => {
     },
     (err) => {
       dispatch(actions.error(reducerTypes.SEARCH_CLIENTS, err));
-      return err;
+      throw err;
     },
   );
 };
@@ -111,7 +110,7 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_USER_ID_OF_ZONE, err));
       dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
@@ -135,7 +134,7 @@ export const fetchUser = () => (dispatch, getState) => {
     (err) => {
       dispatch(actions.error(reducerTypes.GET_USER, err));
       dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
@@ -163,7 +162,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     },
     (err) => {
       dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err));
-      return err;
+      throw err;
     },
   );
 };

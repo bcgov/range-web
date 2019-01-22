@@ -19,11 +19,11 @@ class Base extends Component {
   }
 
   componentDidMount() {
-    const { searchAgreements, fetchAgreement, location } = this.props;
+    const { fetchAgreement, location } = this.props;
+    const params = parseQuery(location.search);
 
     // initial search for agreements with the given query
-    const params = parseQuery(location.search);
-    searchAgreements({ ...params });
+    this.searchAgreementsWithOrWithoutParams(params);
 
     // initial fetching an agreement with all plans for the active row
     if ((params.row >= 0) && params.aId) {
@@ -31,8 +31,18 @@ class Base extends Component {
     }
   }
 
+  searchAgreementsWithOrWithoutParams = (p) => {
+    const { searchAgreements, location } = this.props;
+    let params = p;
+    if (!params) {
+      params = parseQuery(location.search);
+    }
+
+    searchAgreements(params);
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { searchAgreements, fetchAgreement, location } = this.props;
+    const { fetchAgreement, location } = this.props;
     const locationChanged = nextProps.location !== location;
 
     if (locationChanged) {
@@ -47,7 +57,7 @@ class Base extends Component {
 
       // search new agreements only when users search for term or click on different pages
       if ((oldParams.page !== page) || (oldParams.term !== term)) {
-        searchAgreements({ ...params });
+        this.searchAgreementsWithOrWithoutParams(params);
       }
 
       // fetch a new agreement with all plans when the active row changes
@@ -60,6 +70,7 @@ class Base extends Component {
   render() {
     return (
       <SearchableAgreementTable
+        searchAgreementsWithOrWithoutParams={this.searchAgreementsWithOrWithoutParams}
         {...this.props}
       />
     );

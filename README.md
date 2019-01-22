@@ -25,21 +25,21 @@ root/
   LICENSE
   README.md
   package.json
-  semantic.json       // Semantic UI configuration for paths
+  semantic.json       // Semantic UI build settings for gulp
   coverage/           // Test coverage
-  public/
-  scripts/            // scripts for npm
-  config/             // App configurations including Webpack
+  openshift/
+  public/             // Images, index.html etc...
+  semantic/           // Semantic UI custum styling definitions and overrides
   src/
-    actionCreators/   // Redux actions with Redux Thunk
+    actionCreators/   // Network related Redux actions
     actions/          // Redux actions
     components/       // React components
-    constants/        // variables, strings, etc...
+    constants/        // Variables, strings, etc...
     reducers/         // Redux reducers
-    semantic/         // Semantic UI custum styling definitions and overrides
-    styles/         
-    tests/            // Integration testing
-    utils/            // helper functions
+    semantic/         // Minified Semantic UI
+    styles/           // All the Sass files
+    tests/            // Integration and Unit testing
+    utils/            // Helper functions
     index.js
 ```
 
@@ -67,8 +67,11 @@ Launches the test runner with a coverage report.<br>
 ### `npm run build`
 
 Builds the app for production to the `build` folder.
-It correctly bundles React in production mode and optimizes the build for the best performance.
-The build is minified and the filenames include the hashes.
+It correctly bundles React in production mode and optimizes the build for the best performance.<br><br>
+
+In `/semantic` directory, you can also run:
+### `gulp build`
+Builds all files for Semantic UI including js, css, and assets. Build tool settings are stored in semantic.json.
 
 ## Routing & Code Splitting
 This project takes advantage of [React Router: Declarative Routing With React.js](https://github.com/ReactTraining/react-router) for routing. This helps authentication with different roles, code splitting, dynamic route matching and so on.
@@ -97,10 +100,10 @@ Create React App (from 1.0 onwards) allows us to dynamically import parts of our
 * Integration with Sass 
 
 * Semantic UI
-  * [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so the project can preserve its own theme changes(`/semantic`), allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
+  [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
 
 ## Create React App
-  The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). Then was ejected to add more plugins in Webpack such as compression-webpack-plugin and sass-loader. 
+  The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). The project was ejected once to add more plugins and make changes in Webpack configuration, then it was switched back since the newer version took care of all the demands.
 
 ## License
 

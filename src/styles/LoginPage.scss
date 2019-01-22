@@ -80,7 +80,7 @@
   &__paragraph4,
   &__paragraph5 {
     padding: 50px 0;
-    box-shadow: 0 2px 20px 0 rgba(35,64,117,0.1);
+    border-bottom: 1px solid #F2F2F2;
 
     &__content {
       display: flex;
@@ -119,54 +119,6 @@
     margin: 0 15px 0 11px;
     padding: 0 2px;
   }
-  &__signin {
-    &__container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
-      min-width: 400px;
-      background: white;
-      border-radius: 5px;
-      font-family: Lato;
-    }
-    &__title {
-      font-size: 2.3rem;
-      line-height: initial;
-      color: #234075;
-    }
-    &__text1 {
-      font-size: 1.1rem;
-      text-align: center;
-      margin-top: 5px;
-    }
-    &__text2 {
-      font-size: 1.1rem;
-      text-align: center;
-      margin-top: 20px;
-    }
-    &__text3 {
-      font-size: 1.1rem;
-    }
-    &__error {
-      margin-top: 15px;
-      width: 100%;
-      text-align: center;
-    }
-    &__link-container {
-      align-self: stretch;
-      text-align: right;
-      margin-top: 25px;
-      border-top: 1px solid lightgray;
-      padding-top: 15px;
-
-      > div {
-        display: inline;
-        cursor: pointer;
-      }
-    }
-  }
 }
 
 .signin {
@@ -182,6 +134,7 @@
     align-items: center;
     padding: 30px;
     min-width: 400px;
+    max-width: 400px;
     background: white;
     border-radius: 5px;
     font-family: Lato;

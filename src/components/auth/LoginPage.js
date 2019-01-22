@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
-import { IMAGE_SRC } from '../../constants/variables';
+import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
-import { fetchUser } from '../../actionCreators';
-import { getIsFetchingUser, getUserErrorMessage } from '../../reducers/rootReducer';
+import { fetchUser, signOut } from '../../actionCreators';
+import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
-import { detectIE } from '../../utils';
+import { detectIE, getDataFromLocalStorage } from '../../utils';
 import SignInBox from './SignInBox';
+import BrowserWarningHeader from './BrowserWarningHeader';
 
 export class LoginPage extends Component {
   static propTypes = {
     storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
@@ -21,6 +23,12 @@ export class LoginPage extends Component {
   }
 
   componentDidMount() {
+    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+    if (authData) {
+      // if there is an access token saved already, try to fetch the user from the server
+      this.props.fetchUser();
+    }
+
     // Sets up localstorage listener for cross-tab communication
     // since the authentication requires the user to be redirected
     // to another page and then redirected back to a return URL with the token.
@@ -31,14 +39,14 @@ export class LoginPage extends Component {
     window.removeEventListener('storage', this.storageEventListener);
   }
 
-  storageEventListener = (event) => {
+  storageEventListener = () => {
     const { storeAuthData, fetchUser } = this.props;
-    const authData = JSON.parse(localStorage.getItem(event.key));
+    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 
-    // store the auth data in Redux store
-    storeAuthData(authData);
-
-    fetchUser();
+    if (authData) {
+      storeAuthData(authData); // store the auth data in Redux store
+      fetchUser();
+    }
   }
 
   registerBtnClicked = () => {
@@ -51,22 +59,7 @@ export class LoginPage extends Component {
     return (
       <section className="login">
         {isIE &&
-          <article className="login__no-support-browser">
-            <div className="login__no-support-browser__title">
-              Your internet browser is not supported.
-            </div>
-            <div>
-              <div>
-                Please visit {APP_NAME} using a supported browser:
-                <a href="https://www.google.com/chrome" target="_blank" rel="noopener noreferrer"> Google Chrome,</a>
-                <a href="https://www.mozilla.org/en-US/firefox/new" target="_blank" rel="noopener noreferrer"> Firefox,</a>
-                <a href="https://www.microsoft.com/en-ca/windows/microsoft-edge" target="_blank" rel="noopener noreferrer"> Microsoft Edge,</a>
-                <a href="https://support.apple.com/en-ca/safari" target="_blank" rel="noopener noreferrer"> Safari </a>
-                (Mac only).
-              </div>
-              If you choose to continue with this browser the application may not work as intended.
-            </div>
-          </article>
+          <BrowserWarningHeader />
         }
         <article className="login__header">
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
@@ -90,7 +83,7 @@ export class LoginPage extends Component {
                   Simplified electronic Range Use Plan across BC
                 </div>
                 <div className="login__paragraph3__text">
-                  After February 15, 2018 all new Range Use Plans will be submitted electronically using the new standard content requirements. Plans can be submitted, viewed, amended and printed from this site.
+                  After February 15, 2019 all new Range Use Plans will be submitted electronically using the new standard content requirements. Plans can be submitted, viewed, amended and printed from this site.
                 </div>
               </div>
               <div className="login__paragraph-cell">
@@ -178,8 +171,9 @@ export class LoginPage extends Component {
 const mapStateToProps = state => (
   {
     isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorMessage(state),
+    errorFetchingUser: getUserErrorResponse(state),
+    errorOccuredFetchingUser: getUserErrorOccured(state),
   }
 );
 
-export default connect(mapStateToProps, { storeAuthData, fetchUser })(LoginPage);
+export default connect(mapStateToProps, { storeAuthData, fetchUser, signOut })(LoginPage);

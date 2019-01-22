@@ -26,6 +26,7 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
+  SITEMINDER_LOGOUT_ENDPOINT,
 } from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
@@ -155,6 +156,12 @@ const isRangeAPIs = (config) => {
   return true;
 };
 
+export const signOutFromSSO = () => {
+  // open a new tab for signing out from SiteMinder which is Gov's auth platform
+  // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
+  window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
+};
+
 /**
  *
  * register an interceptor to refresh the access token when expired
@@ -165,7 +172,6 @@ const isRangeAPIs = (config) => {
  * @param {function} logout the logout action function
  * @returns {object} the config or err object
  */
-/* eslint-disable no-console */
 export const registerAxiosInterceptors = (logout) => {
   axios.interceptors.request.use((c) => {
     const config = { ...c };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import AgreementTable from './AgreementTable';
-import AgreementSearch from './SearchBar';
+import SearchBar from './SearchBar';
 import { Banner } from '../common';
 import { parseQuery, stringifyQuery } from '../../utils';
 import { SELECT_RUP_BANNER_CONTENT, SELECT_RUP_BANNER_HEADER, AGREEMENT_SEARCH_PLACEHOLDER } from '../../constants/strings';
@@ -17,6 +17,7 @@ export class SearchableAgreementTable extends Component {
   static propTypes = {
     history: PropTypes.shape({}).isRequired,
     location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+    searchAgreementsWithOrWithoutParams: PropTypes.func.isRequired,
   }
 
   handleActiveIndexChange = (index, agreementId) => {
@@ -59,7 +60,7 @@ export class SearchableAgreementTable extends Component {
   }
 
   render() {
-    const { history, location } = this.props;
+    const { history, location, searchAgreementsWithOrWithoutParams } = this.props;
     const params = parseQuery(location.search);
     const searchTerm = params.term || '';
     const activeIndex = Number(params.row);
@@ -70,7 +71,7 @@ export class SearchableAgreementTable extends Component {
           header={SELECT_RUP_BANNER_HEADER}
           content={SELECT_RUP_BANNER_CONTENT}
         >
-          <AgreementSearch
+          <SearchBar
             placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
             handleSearchInput={this.searchAgreementsWithDebounce}
             searchTerm={searchTerm}
@@ -83,6 +84,7 @@ export class SearchableAgreementTable extends Component {
             activeIndex={activeIndex}
             handlePaginationChange={this.handlePaginationChange}
             handleActiveIndexChange={this.handleActiveIndexChange}
+            searchAgreementsWithOrWithoutParams={searchAgreementsWithOrWithoutParams}
           />
         </div>
       </section>

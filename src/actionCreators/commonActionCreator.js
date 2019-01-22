@@ -4,7 +4,6 @@ import * as API from '../constants/api';
 import { storeUsers, storeReferences, storeZones } from '../actions';
 import * as schema from './schema';
 
-/* eslint-disable arrow-body-style */
 export const fetchUsers = () => (dispatch, getState) => {
   return axios.get(API.GET_USERS, createConfigWithHeader(getState)).then(
     (response) => {
@@ -13,7 +12,7 @@ export const fetchUsers = () => (dispatch, getState) => {
       return users;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };
@@ -27,7 +26,7 @@ export const fetchReferences = () => (dispatch, getState) => {
       return references;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };
@@ -50,7 +49,7 @@ export const fetchZones = districtId => (dispatch, getState) => {
       return zones;
     },
     (err) => {
-      return err;
+      throw err;
     },
   );
 };

@@ -6,6 +6,8 @@ import { ELEMENT_ID } from '../../constants/variables';
 class SearchBar extends Component {
   constructor(props) {
     super(props);
+
+    // grab the search term from url
     this.state = {
       searchTerm: props.searchTerm,
     };
@@ -19,17 +21,18 @@ class SearchBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { searchTerm } = this.props;
-    const termChanged = nextProps.searchTerm !== searchTerm;
-    // change the search term to match with the current queries
-    if (termChanged) {
+    const locationChanged = nextProps.searchTerm !== searchTerm;
+
+    // set the search term to match with the current queries when location changes
+    if (locationChanged) {
       this.setState({ searchTerm: nextProps.searchTerm });
     }
   }
 
-  handleInput = (e) => {
-    const { id, value } = e.target;
+  handleSearchInput = (e) => {
+    const { value } = e.target;
     this.setState({
-      [id]: value,
+      searchTerm: value,
     }, () => {
       this.props.handleSearchInput(value);
     });
@@ -50,7 +53,7 @@ class SearchBar extends Component {
           <input
             id={ELEMENT_ID.SEARCH_TERM}
             value={searchTerm}
-            onChange={this.handleInput}
+            onChange={this.handleSearchInput}
           />
           <Icon name="search" />
         </Input>

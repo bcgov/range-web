@@ -27,6 +27,7 @@
     "prop-types": "^15.6.2",
     "puppeteer": "^1.10.0",
     "react": "^16.6.1",
+    "react-app-polyfill": "^0.2.0",
     "react-dom": "^16.6.1",
     "react-loadable": "^5.5.0",
     "react-pdf": "^3.0.6",
@@ -44,18 +45,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "test:ci": "CI=true npm test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
+    "not ie <= 9",
     "not op_mini all"
   ],
   "jest": {

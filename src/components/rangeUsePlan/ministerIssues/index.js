@@ -5,7 +5,6 @@ import MinisterIssueBox from './MinisterIssueBox';
 
 class MinisterIssues extends Component {
   static propTypes = {
-    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
@@ -54,12 +53,12 @@ class MinisterIssues extends Component {
   }
 
   render() {
-    const { elementId, plan, ministerIssuesMap } = this.props;
+    const { plan, ministerIssuesMap } = this.props;
     const ministerIssueIds = plan && plan.ministerIssues;
     const ministerIssues = ministerIssueIds && ministerIssueIds.map(id => ministerIssuesMap[id]);
 
     return (
-      <div id={elementId} className="rup__missues">
+      <div className="rup__missues">
         <div className="rup__content-title">{'Minister\'s Issues and Actions'}</div>
         <div className="rup__divider" />
         {this.renderMinisterIssues(ministerIssues)}

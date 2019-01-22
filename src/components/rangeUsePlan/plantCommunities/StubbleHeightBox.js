@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
+import { PLANT_CRITERIA } from '../../../constants/variables';
 
 class StubbleHeightBox extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ class StubbleHeightBox extends Component {
     return (
       <div className="rup__plant-community__sh">
         <div className="rup__plant-community__sh__title">
-          <img src={IMAGE_SRC.INFO_ICON} alt="info icon" />
+          {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
           Stubble Height
         </div>
         <div className="rup__plant-community__i-plant__header">

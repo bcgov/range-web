@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import { parseQuery, getTokenFromSSO, saveAuthDataInLocal } from '../utils';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 import { REDIRECTING } from '../constants/strings';
+import { RETURN_PAGE_TYPE } from '../constants/variables';
 
 class ReturnPage extends Component {
   static propTypes = {
-    location: PropTypes.shape({ search: PropTypes.string }),
+    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
   };
-
-  static defaultProps = {
-    location: {},
-  }
 
   componentDidMount() {
     const { location } = this.props;
@@ -19,18 +16,20 @@ class ReturnPage extends Component {
     const { type, code } = parseQuery(location.search);
 
     switch (type) {
-      case 'login':
-        getTokenFromSSO(code).then((response) => {
-          saveAuthDataInLocal(response);
-          window.close();
-        });
+      case RETURN_PAGE_TYPE.LOGIN:
+        if (code) {
+          getTokenFromSSO(code).then((response) => {
+            saveAuthDataInLocal(response);
+            window.close();
+          });
+        }
         break;
-      case 'smlogout':
+      case RETURN_PAGE_TYPE.SITEMINDER_LOGOUT:
         // just returned from SiteMinder, sign out from SSO this time
         window.open(SSO_LOGOUT_ENDPOINT, '_self');
         break;
-      case 'logout':
-        // done signing out close this tab
+      case RETURN_PAGE_TYPE.LOGOUT:
+        // finished logging out, close this page
         window.close();
         break;
       default:
@@ -40,7 +39,9 @@ class ReturnPage extends Component {
 
   render() {
     return (
-      <section>{REDIRECTING}</section>
+      <section>
+        {REDIRECTING}
+      </section>
     );
   }
 }

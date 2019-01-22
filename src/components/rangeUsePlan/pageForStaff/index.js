@@ -1,59 +1,31 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import UpdateZoneModal from './UpdateZoneModal';
-import { DETAIL_RUP_BANNER_CONTENT, DOWNLOAD_PDF } from '../../constants/strings';
-import { REFERENCE_KEY, ELEMENT_ID } from '../../constants/variables';
-import { Status, Banner } from '../common';
-import { getPlanTypeDescription, cannotDownloadPDF } from '../../utils';
-import BasicInformation from './basicInformation';
-import Pastures from './pastures';
-import GrazingSchedules from './grazingSchedules';
-import MinisterIssues from './ministerIssues';
-import BackBtn from './BackBtn';
-import ContentsContainer from './ContentsContainer';
-import UpdateStatusDropdown from './UpdateStatusDropdown';
-import StickyHeader from './StickyHeader';
-import { EXPORT_PDF } from '../../constants/routes';
-import Notifications from './Notifications';
-import UsageTable from './usage';
-import InvasivePlantChecklist from './invasivePlantChecklist';
-import AdditionalRequirements from './additionalRequirements';
-import ManagementConsiderations from './managementConsiderations';
+import UpdateZoneModal from '../UpdateZoneModal';
+import { DETAIL_RUP_BANNER_CONTENT, DOWNLOAD_PDF } from '../../../constants/strings';
+import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables';
+import { Status, Banner } from '../../common';
+import { getPlanTypeDescription, cannotDownloadPDF } from '../../../utils';
+import BasicInformation from '../basicInformation';
+import Pastures from '../pastures';
+import GrazingSchedules from '../grazingSchedules';
+import MinisterIssues from '../ministerIssues';
+import BackBtn from '../BackBtn';
+import ContentsContainer from '../ContentsContainer';
+import UpdateStatusDropdown from '../UpdateStatusDropdown';
+import StickyHeader from '../StickyHeader';
+import { EXPORT_PDF } from '../../../constants/routes';
+import Notifications from '../Notifications';
+import UsageTable from '../usage';
+import InvasivePlantChecklist from '../invasivePlantChecklist';
+import AdditionalRequirements from '../additionalRequirements';
+import ManagementConsiderations from '../managementConsiderations';
+import { defaultProps, propTypes } from './props';
 
 // Range Staff Page
-class StaffPage extends Component {
-  static propTypes = {
-    agreement: PropTypes.shape({ zone: PropTypes.object }),
-    plan: PropTypes.shape({}),
-    user: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-    grazingSchedulesMap: PropTypes.shape({}).isRequired,
-    ministerIssuesMap: PropTypes.shape({}).isRequired,
-    confirmationsMap: PropTypes.shape({}).isRequired,
-    planStatusHistoryMap: PropTypes.shape({}).isRequired,
-    additionalRequirementsMap: PropTypes.shape({}).isRequired,
-    managementConsiderationsMap: PropTypes.shape({}).isRequired,
-  };
+class PageForStaff extends Component {
+  static propTypes = propTypes;
 
-  static defaultProps = {
-    agreement: {
-      zone: {},
-      usage: [],
-    },
-    plan: {
-      agreementId: '',
-      pastures: [],
-      grazingSchedules: [],
-      ministerIssues: [],
-      confirmations: [],
-      planStatusHistory: [],
-      invasivePlantChecklist: {},
-      managementConsiderations: [],
-      additionalRequirements: [],
-    },
-  };
+  static defaultProps = defaultProps;
 
   state = {
     isUpdateZoneModalOpen: false,
@@ -204,4 +176,4 @@ class StaffPage extends Component {
   }
 }
 
-export default StaffPage;
+export default PageForStaff;

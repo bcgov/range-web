@@ -13,7 +13,7 @@ const propTypes = {
 
 const defaultProps = {
   actionClassName: '',
-  children: (<div />),
+  children: null,
   style: {},
   noDefaultHeight: false,
 };

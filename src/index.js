@@ -3,6 +3,8 @@
 // asynchronously load semantic-ui styling
 import('./semantic/semantic.min.css');
 
+import 'react-app-polyfill/ie9'; // includes IE10 and IE11 support.
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -23,4 +25,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.unregister();

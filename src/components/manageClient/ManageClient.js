@@ -24,6 +24,7 @@ class ManageClient extends Component {
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     searchClients: PropTypes.func.isRequired,
     updateClientIdOfUser: PropTypes.func.isRequired,
+    isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
     userUpdated: PropTypes.func.isRequired,
     isFetchingClients: PropTypes.bool.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
@@ -40,12 +41,10 @@ class ManageClient extends Component {
 
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.MANAGE_CLIENT,
-        header: strings.MANAGE_CLIENT_BANNER_HEADER,
-        content: strings.MANAGE_CLIENT_BANNER_CONTENT,
-        onYesBtnClicked: this.linkUserToClient,
-      },
+      id: CONFIRMATION_MODAL_ID.MANAGE_CLIENT,
+      header: strings.UPDATE_CLIENT_ID_CONFIRM_HEADER,
+      content: strings.UPDATE_CLIENT_ID_CONFIRM_CONTENT,
+      onYesBtnClicked: this.linkUserToClient,
     });
   }
 
@@ -80,6 +79,7 @@ class ManageClient extends Component {
       users,
       clients,
       isFetchingClients,
+      isUpdatingClientIdOfUser,
     } = this.props;
     const {
       userId,
@@ -141,10 +141,11 @@ class ManageClient extends Component {
             <div className="manage-client__update-btn">
               <Button
                 primary
+                loading={isUpdatingClientIdOfUser}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Link
+                Submit
               </Button>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import { Banner } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
-  UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
+  UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER,
 } from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getZoneOption, getContactOption } from '../../utils';
@@ -16,6 +16,7 @@ export class ManageZone extends Component {
     zonesMap: PropTypes.shape({}).isRequired,
     zoneUpdated: PropTypes.func.isRequired,
     updateUserIdOfZone: PropTypes.func.isRequired,
+    isAssigning: PropTypes.bool.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
   };
@@ -69,21 +70,16 @@ export class ManageZone extends Component {
 
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
-        header: UPDATE_CONTACT_CONFIRMATION_HEADER,
-        content: UPDATE_CONTACT_CONFIRMATION_CONTENT,
-        onYesBtnClicked: this.assignStaffToZone,
-      },
+      id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
+      header: UPDATE_CONTACT_CONFIRM_HEADER,
+      content: UPDATE_CONTACT_CONFIRM_CONTENT,
+      onYesBtnClicked: this.assignStaffToZone,
     });
   }
 
   render() {
-    const {
-      zoneId,
-      newContactId,
-    } = this.state;
-    const { users, zones } = this.props;
+    const { zoneId, newContactId } = this.state;
+    const { users, zones, isAssigning } = this.props;
 
     const zoneOptions = zones.map(zone => getZoneOption(zone));
     const contactOptions = users.map(user => getContactOption(user));
@@ -133,10 +129,11 @@ export class ManageZone extends Component {
             <div className="manage-zone__update-btn">
               <Button
                 primary
+                loading={isAssigning}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Update
+                Submit
               </Button>
             </div>
           </div>

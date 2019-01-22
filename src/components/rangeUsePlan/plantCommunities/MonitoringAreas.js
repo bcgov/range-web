@@ -17,7 +17,7 @@ class MonitoringAreas extends Component {
   }
 
   render() {
-    const { monitoringAreas } = this.props;
+    const { monitoringAreas = [] } = this.props;
 
     return (
       <div className="rup__plant-community__m-areas">

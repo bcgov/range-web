@@ -40,8 +40,12 @@
     }
     &__AUM-number {
       border: 1px solid gainsboro;
-      padding: 8px 15px;
       border-radius: 3px;
+      padding: 0 12px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+
       &--invalid {
         @extend .error;
       }

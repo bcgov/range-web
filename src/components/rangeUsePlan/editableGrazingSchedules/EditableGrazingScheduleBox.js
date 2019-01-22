@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
-import { Table, Button, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
-import { CollapsibleBox } from '../../common';
+import { Table, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
+import { CollapsibleBox, InvertedButton } from '../../common';
 import EditableGrazingScheduleEntryRow from './EditableGrazingScheduleEntryRow';
 import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
 import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } from '../../../actions';
-import { deleteRupGrazingSchedule, deleteRupGrazingScheduleEntry } from '../../../actionCreators';
+import { deleteRUPGrazingSchedule, deleteRUPGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID, IMAGE_SRC } from '../../../constants/variables';
 
 class EditableGrazingScheduleBox extends Component {
@@ -30,7 +30,7 @@ class EditableGrazingScheduleBox extends Component {
     updateGrazingSchedule: PropTypes.func.isRequired,
     handleScheduleCopy: PropTypes.func.isRequired,
     handleScheduleDelete: PropTypes.func.isRequired,
-    deleteRupGrazingScheduleEntry: PropTypes.func.isRequired,
+    deleteRUPGrazingScheduleEntry: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
   };
@@ -46,7 +46,7 @@ class EditableGrazingScheduleBox extends Component {
     updateGrazingSchedule({ grazingSchedule });
   }
 
-  onNewRowClick = (e) => {
+  onAddRowClicked = (e) => {
     e.preventDefault();
     const { schedule, updateGrazingSchedule } = this.props;
     const grazingSchedule = { ...schedule };
@@ -95,7 +95,7 @@ class EditableGrazingScheduleBox extends Component {
     const {
       schedule,
       updateGrazingSchedule,
-      deleteRupGrazingScheduleEntry,
+      deleteRUPGrazingScheduleEntry,
     } = this.props;
     const grazingSchedule = { ...schedule };
     const [deletedEntry] = grazingSchedule.grazingScheduleEntries.splice(entryIndex, 1);
@@ -108,20 +108,18 @@ class EditableGrazingScheduleBox extends Component {
 
     // delete the entry saved in server
     if (planId && scheduleId && entryId && !uuid.isUUID(entryId)) {
-      deleteRupGrazingScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
-    } else { // or delete the entry saved in state
+      deleteRUPGrazingScheduleEntry(planId, scheduleId, entryId).then(onDeleted);
+    } else { // or delete the entry saved only in Redux
       onDeleted();
     }
   }
 
   openDeleteScheduleConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE,
-        header: strings.DELETE_SCHEDULE_FOR_AH_HEADER,
-        content: strings.DELETE_SCHEDULE_FOR_AH_CONTENT,
-        onYesBtnClicked: this.onScheduleDeleteClicked,
-      },
+      id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE,
+      header: strings.DELETE_SCHEDULE_CONFIRM_HEADER,
+      content: strings.DELETE_SCHEDULE_CONFIRM_CONTENT,
+      onYesBtnClicked: this.onScheduleDeleteClicked,
     });
   }
 
@@ -206,9 +204,12 @@ class EditableGrazingScheduleBox extends Component {
             {year} Grazing Schedule
           </div>
         }
+        shouldHideHeaderRightWhenNotActive
         headerRight={
           <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
+            trigger={
+              <Icon name="ellipsis vertical" />
+            }
             icon={null}
             pointing="right"
             loading={false}
@@ -254,15 +255,15 @@ class EditableGrazingScheduleBox extends Component {
                 {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
               </Table.Header>
             </Table>
-            <Button
+            <InvertedButton
               style={{ margin: '10px 0' }}
-              icon
-              basic
-              onClick={this.onNewRowClick}
+              primaryColor
+              compact
+              onClick={this.onAddRowClicked}
             >
-              <Icon name="add" />
-              Add row
-            </Button>
+              <Icon name="add circle" />
+              Add Row
+            </InvertedButton>
             <div className="rup__grazing-schedule__AUMs">
               <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
               <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
@@ -274,9 +275,11 @@ class EditableGrazingScheduleBox extends Component {
             <div className="rup__grazing-schedule__narrative">Schedule Description</div>
             <Form>
               <TextArea
-                rows={2}
-                onChange={this.onNarativeChanged}
+                rows={3}
                 value={narative}
+                placeholder="Description of movement of livestock through agreement area. May include WHEN, WHERE and HOW management tools are used to create that flow. May be of particular value when an agreement consists of a single pasture or multiple unfenced pastures."
+                onChange={this.onNarativeChanged}
+                style={{ marginTop: '5px' }}
               />
             </Form>
           </Fragment>
@@ -296,6 +299,6 @@ export default connect(mapStateToProps, {
   updateGrazingSchedule,
   openConfirmationModal,
   closeConfirmationModal,
-  deleteRupGrazingSchedule,
-  deleteRupGrazingScheduleEntry,
+  deleteRUPGrazingSchedule,
+  deleteRUPGrazingScheduleEntry,
 })(EditableGrazingScheduleBox);

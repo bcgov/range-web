@@ -6,6 +6,7 @@
   &__label {
     font-size: 1rem;
     font-weight: bold;
+    line-height: 14px;
   }
   &__icon {
     min-width: 10px;
@@ -236,19 +237,57 @@
       @extend .default-button;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       width: 100%;
       background: none;
-      padding: 15px !important;
+      padding: 0px 15px !important;
+      height: 50px;
+      opacity: 0.5;
+
+      &--active {
+        opacity: 1;
+      }
     }
     &__right {
       display: flex;
+      align-items: center;
     }
   }
   &__content {
     padding: 0px 15px 15px 15px;
 
-    &__hidden {
+    &--hidden {
       display: none;
     }
   }
+}
+
+.input-modal {
+  padding: 15px;
+  margin-top: 5px;
+
+  &__title {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  &__btns {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      width: 47% !important;
+    }
+  }
+}
+
+.inverted-btn {
+  display: inline;
+
+  .ui.button {
+    color: $primary-color !important;
+    box-shadow: 0 0 0 2px $primary-color inset !important;
+    background: transparent none !important;
+  } 
 }
