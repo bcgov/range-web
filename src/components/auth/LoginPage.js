@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
 import { fetchUser, signOut } from '../../actionCreators';
@@ -10,6 +10,7 @@ import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
 import { detectIE, getDataFromLocalStorage } from '../../utils';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
+import { InvertedButton } from '../common';
 
 export class LoginPage extends Component {
   static propTypes = {
@@ -129,15 +130,13 @@ export class LoginPage extends Component {
                 <div className="login__paragraph5__text">
                   MyRangeBC uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
                 </div>
-                <Button
+                <InvertedButton
                   className="login__paragraph5__register-btn"
-                  primary
-                  basic
-                  compact
+                  primaryColor
                   onClick={this.registerBtnClicked}
                 >
                   Register Now
-                </Button>
+                </InvertedButton>
               </div>
               <div className="login__paragraph-cell">
                 <img

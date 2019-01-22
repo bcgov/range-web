@@ -6,8 +6,8 @@ const PROD = { // eslint-disable-line no-unused-vars
   API_BASE_URL: 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api',
 };
 
-// const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
-const DEV_API_BASE_URL = 'http://localhost:8000/api';
+const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
+// const DEV_API_BASE_URL = 'http://localhost:8000/api';
 const DEV = { // eslint-disable-line no-unused-vars
   SSO_BASE_URL: 'https://sso-dev.pathfinder.gov.bc.ca',
   SITEMINDER_BASE_URL: 'https://logontest.gov.bc.ca',
@@ -95,7 +95,7 @@ export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) => `
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community`;
 export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action`;
 
-export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) => `v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`;
+export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`;
 export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area`;
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId => `/v1/plan/${planId}/invasive-plant-checklist`;
 export const CREATE_RUP_MANAGEMENT_CONSIDERATION = planId => `/v1/plan/${planId}/management-consideration`;

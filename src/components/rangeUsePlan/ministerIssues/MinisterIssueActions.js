@@ -10,14 +10,21 @@ class MinisterIssueActions extends Component {
   };
 
   renderMinisterIssueAction = (ministerIssueAction) => {
-    const { id, detail, actionTypeId } = ministerIssueAction;
+    const { id, detail, actionTypeId, other } = ministerIssueAction;
     const miActionTypes = this.props.references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const otherActionType = miActionTypes.find(t => t.name === 'Other');
     const miActionType = miActionTypes.find(t => t.id === actionTypeId);
     const miActionTypeName = miActionType && miActionType.name;
+    const isOtherType = otherActionType && (actionTypeId === otherActionType.id);
 
     return (
       <div className="rup__missue__action" key={id}>
-        <div className="rup__missue__action__type">{miActionTypeName}</div>
+        <div className="rup__missue__action__type">
+          {miActionTypeName}
+          {isOtherType &&
+            ` - ${other}`
+          }
+        </div>
         <div className="rup__missue__action__detail">{detail}</div>
       </div>
     );
@@ -34,8 +41,8 @@ class MinisterIssueActions extends Component {
 
     return (
       <Fragment>
-        <div className="rup__missue__action__note">{ACTION_NOTE}</div>
         {ministerIssueActions.map(this.renderMinisterIssueAction)}
+        <div className="rup__missue__action__note">{ACTION_NOTE}</div>
       </Fragment>
     );
   }
