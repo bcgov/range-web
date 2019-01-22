@@ -86,7 +86,6 @@ class EditableMinisterIssueActionBox extends Component {
                 value={other || ''}
                 onChange={this.onActionFieldChanged}
                 style={{ marginLeft: '5px' }}
-                autoFocus
                 // label="Name"
               />
             }

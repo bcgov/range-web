@@ -40,13 +40,14 @@ export class AHPage extends Component {
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createOrUpdateRUPGrazingSchedule: PropTypes.func.isRequired,
+    createOrUpdateRUPMinisterIssueAndActions: PropTypes.func.isRequired,
     toastSuccessMessage: PropTypes.func.isRequired,
     toastErrorMessage: PropTypes.func.isRequired,
     createAmendment: PropTypes.func.isRequired,
     isCreatingAmendment: PropTypes.bool.isRequired,
-    planUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
+    fetchPlan: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -76,10 +77,9 @@ export class AHPage extends Component {
 
   onSaveDraftClick = () => {
     const {
-      plan,
-      planUpdated,
       references,
       toastSuccessMessage,
+      fetchPlan,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
@@ -87,11 +87,10 @@ export class AHPage extends Component {
       this.setState({ isSavingAsDraft: true });
     };
     const onSuccess = () => {
-      // update schedules in Redux store
-      const newPlan = { ...plan, status };
-      planUpdated({ plan: newPlan });
-      this.setState({ isSavingAsDraft: false });
-      toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
+      fetchPlan().then(() => {
+        this.setState({ isSavingAsDraft: false });
+        toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
+      });
     };
     const onError = () => {
       this.setState({ isSavingAsDraft: false });
@@ -102,11 +101,10 @@ export class AHPage extends Component {
 
   onSubmitClicked = () => {
     const {
-      plan,
-      planUpdated,
       references,
       toastSuccessMessage,
       closeConfirmationModal,
+      fetchPlan,
     } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
@@ -116,11 +114,10 @@ export class AHPage extends Component {
     };
 
     const onSuccess = () => {
-      // update the status and schedules of the plan in Redux store
-      const newPlan = { ...plan, status };
-      planUpdated({ plan: newPlan });
-      this.setState({ isSubmitting: false });
-      toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
+      fetchPlan().then(() => {
+        this.setState({ isSubmitting: false });
+        toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
+      });
     };
 
     const onError = () => {
@@ -137,6 +134,8 @@ export class AHPage extends Component {
       createOrUpdateRUPGrazingSchedule,
       grazingSchedulesMap,
       toastErrorMessage,
+      ministerIssuesMap,
+      createOrUpdateRUPMinisterIssueAndActions,
     } = this.props;
 
     onRequested();
@@ -147,18 +146,20 @@ export class AHPage extends Component {
       onError();
       return;
     }
-
-    const planId = plan && plan.id;
+    const { id: planId, grazingSchedules: gsIds, ministerIssues: miIds } = plan;
     const statusId = status && status.id;
-    const grazingSchedules = plan && plan.grazingSchedules
-      && plan.grazingSchedules.map(id => grazingSchedulesMap[id]);
+    const grazingSchedules = gsIds && gsIds.map(id => grazingSchedulesMap[id]);
+    const ministerIssues = miIds && miIds.map(id => ministerIssuesMap[id]);
 
     try {
-      await updateRUPStatus(planId, statusId, false);
-      const newSchedules = await Promise.all(grazingSchedules.map(schedule => (
+      await Promise.all(grazingSchedules.map(schedule => (
         createOrUpdateRUPGrazingSchedule(planId, schedule)
       )));
-      await onSuccess(newSchedules);
+      await Promise.all(ministerIssues.map(issue => (
+        createOrUpdateRUPMinisterIssueAndActions(planId, issue)
+      )));
+      await updateRUPStatus(planId, statusId, false);
+      await onSuccess();
     } catch (err) {
       onError(err);
       toastErrorMessage(err);

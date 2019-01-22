@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 import StaffPage from './StaffPage';
 import AHPage from './AHPage';
 import { Loading, InvertedButton } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
+import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment, createOrUpdateRUPMinisterIssueAndActions } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
 
 class Base extends Component {
@@ -40,7 +40,7 @@ class Base extends Component {
 
   fetchPlan = () => {
     const planId = this.getPlanId();
-    this.props.fetchRUP(planId);
+    return this.props.fetchRUP(planId);
   }
 
   render() {
@@ -74,9 +74,9 @@ class Base extends Component {
             <span className="rup__fetching-error__or-message">
               or
             </span>
-            <InvertedButton primaryColor onClick={this.fetchPlan}>
+            <Button primary onClick={this.fetchPlan}>
               Retry
-            </InvertedButton>
+            </Button>
           </div>
         </div>
       );
@@ -144,4 +144,5 @@ export default connect(mapStateToProps, {
   createAmendment,
   openConfirmationModal,
   closeConfirmationModal,
+  createOrUpdateRUPMinisterIssueAndActions,
 })(Base);

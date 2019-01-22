@@ -47,7 +47,7 @@ export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, ge
 };
 
 export const updateRUPMinisterIssueAction = (planId, issueId, action) => (dispatch, getState) => {
-  return axios.post(
+  return axios.put(
     API.UPDATE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, action.id),
     action,
     createConfigWithHeader(getState),
@@ -82,7 +82,7 @@ export const updateRUPMinisterIssueAndActions = (planId, issue) => (dispatch, ge
   dispatch(request(reducerTypes.UPDATE_RUP_MINISTER_ISSUE_AND_ACTIONS));
   const makeRequest = async () => {
     try {
-      const { data: updatedIssue } = axios.put(
+      const { data: updatedIssue } = await axios.put(
         API.UPDATE_RUP_MINISTER_ISSUE(planId, issue.id),
         issue,
         createConfigWithHeader(getState),
