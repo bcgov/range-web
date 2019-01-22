@@ -6,7 +6,6 @@ import * as strings from '../../../constants/strings';
 
 class BasicInformation extends Component {
   static propTypes = {
-    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({ isAdmin: PropTypes.bool }).isRequired,
     agreement: PropTypes.shape({}).isRequired,
@@ -26,7 +25,6 @@ class BasicInformation extends Component {
 
   render() {
     const {
-      elementId,
       agreement,
       plan,
       onZoneClicked,
@@ -66,7 +64,7 @@ class BasicInformation extends Component {
     const isAdmin = isUserAdmin(user);
 
     return (
-      <div id={elementId} className="rup__basic_information">
+      <div className="rup__basic_information">
         <div className="rup__content-title">Basic Information</div>
         <div className="rup__row">
           <div className="rup__agreement-info rup__cell-6">

@@ -41,7 +41,7 @@ class GrazingScheduleBox extends Component {
     const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
     const { id, year, narative } = schedule;
     const yearUsage = usage.find(u => u.year === year);
-    const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+    const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const crownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes));
 

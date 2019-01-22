@@ -16,32 +16,18 @@ class PlantCommunityBoxModal extends Component {
     pasture: PropTypes.shape({}).isRequired,
   }
 
-  renderPlantCommunityActions = (pcClass, purposeOfAction, plantCommunityActions = []) => {
-    if (
-      purposeOfAction === PurposeOfAction.NONE ||
-      plantCommunityActions.length === 0
-    ) return <Fragment />;
+  renderPlantCommunityActions = (purposeOfAction, plantCommunityActions = []) => {
+    if (purposeOfAction === PurposeOfAction.NONE || plantCommunityActions.length === 0) {
+      return null;
+    }
 
     return (
       <Fragment>
-        <div className={`${pcClass}__modal__content-title`}>
+        <div className="rup__plant-community__modal__content-title">
           Plant Community Actions
         </div>
         <PlantCommunityActionsBox
           plantCommunityActions={plantCommunityActions}
-        />
-      </Fragment>
-    );
-  }
-
-  renderMonitoringAreas = (pcClass, monitoringAreas = []) => {
-    return (
-      <Fragment>
-        <div className={`${pcClass}__modal__content-title`}>
-          Monitoring Areas
-        </div>
-        <MonitoringAreas
-          monitoringAreas={monitoringAreas}
         />
       </Fragment>
     );
@@ -63,7 +49,6 @@ class PlantCommunityBoxModal extends Component {
     } = plantCommunity;
     const communityTypeName = (communityType && communityType.name) || name;
     const pastureName = pasture && pasture.name;
-    const pcClass = 'rup__plant-community';
     const elevationName = elevation && elevation.name;
     const purposeOfAction = capitalize(poa);
 
@@ -72,12 +57,12 @@ class PlantCommunityBoxModal extends Component {
         dimmer="blurring"
         closeIcon
         trigger={
-          <div className={`${pcClass}__box`}>
-            <div className={`${pcClass}__box__left`}>
+          <button className="rup__plant-community__box">
+            <div className="rup__plant-community__box__left">
               <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
               Plant Community: {communityTypeName}
             </div>
-            <div className={`${pcClass}__box__right`}>
+            <div className="rup__plant-community__box__right">
               <div>
                 {'Minister approval for inclusion obtained: '}
                 { approved
@@ -87,44 +72,46 @@ class PlantCommunityBoxModal extends Component {
               </div>
               <Icon size="large" name="angle right" />
             </div>
-          </div>
+          </button>
         }
       >
         <Modal.Content>
-          <div className={`${pcClass}__modal__header`}>
+          <div className="rup__plant-community__modal__header">
             <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
             Plant Community: {communityTypeName}
           </div>
-          <div className={`${pcClass}__modal__pasture`}>Pasture: {pastureName}</div>
-          <div className={`${pcClass}__modal__content-title`}>
+          <div className="rup__plant-community__modal__pasture">
+            Pasture: {pastureName}
+          </div>
+          <div className="rup__plant-community__modal__content-title">
             Basic Plant Community Information
           </div>
           <div className="rup__row">
             <div className="rup__cell-4">
-              <div className={`${pcClass}__modal__label`}>{ASPECT}</div>
-              <div className={`${pcClass}__modal__text`}>{handleNullValue(aspect)}</div>
+              <div className="rup__plant-community__modal__label">{ASPECT}</div>
+              <div className="rup__plant-community__modal__text">{handleNullValue(aspect)}</div>
             </div>
             <div className="rup__cell-4">
-              <div className={`${pcClass}__modal__label`}>{ELEVATION}</div>
-              <div className={`${pcClass}__modal__text`}>{handleNullValue(elevationName)}</div>
+              <div className="rup__plant-community__modal__label">{ELEVATION}</div>
+              <div className="rup__plant-community__modal__text">{handleNullValue(elevationName)}</div>
             </div>
             <div className="rup__cell-4">
-              <div className={`${pcClass}__modal__label`}>{APPROVED_BY_MINISTER}</div>
-              <div className={`${pcClass}__modal__text`}>
+              <div className="rup__plant-community__modal__label">{APPROVED_BY_MINISTER}</div>
+              <div className="rup__plant-community__modal__text">
                 <Checkbox checked={approved} toggle />
               </div>
             </div>
           </div>
-          <div className={`${pcClass}__modal__label`}>{PLANT_COMMUNITY_NOTES}</div>
-          <div className={`${pcClass}__modal__text`}>{handleNullValue(notes)}</div>
-          <div className={`${pcClass}__modal__label`}>{COMMUNITY_URL}</div>
-          <div className={`${pcClass}__modal__text`}>{handleNullValue(url)}</div>
-          <div className={`${pcClass}__modal__label`}>{PURPOSE_OF_ACTION}</div>
-          <div className={`${pcClass}__modal__text`}>{handleNullValue(purposeOfAction)}</div>
+          <div className="rup__plant-community__modal__label">{PLANT_COMMUNITY_NOTES}</div>
+          <div className="rup__plant-community__modal__text">{handleNullValue(notes)}</div>
+          <div className="rup__plant-community__modal__label">{COMMUNITY_URL}</div>
+          <div className="rup__plant-community__modal__text">{handleNullValue(url)}</div>
+          <div className="rup__plant-community__modal__label">{PURPOSE_OF_ACTION}</div>
+          <div className="rup__plant-community__modal__text">{handleNullValue(purposeOfAction)}</div>
 
-          {this.renderPlantCommunityActions(pcClass, purposeOfAction, plantCommunityActions)}
+          {this.renderPlantCommunityActions(purposeOfAction, plantCommunityActions)}
 
-          <div className={`${pcClass}__modal__content-title`}>
+          <div className="rup__plant-community__modal__content-title">
             Criteria
           </div>
 
@@ -140,7 +127,12 @@ class PlantCommunityBoxModal extends Component {
             plantCommunity={plantCommunity}
           />
 
-          {this.renderMonitoringAreas(pcClass, monitoringAreas)}
+          <div className="rup__plant-community__modal__content-title">
+            Monitoring Areas
+          </div>
+          <MonitoringAreas
+            monitoringAreas={monitoringAreas}
+          />
         </Modal.Content>
       </Modal>
     );

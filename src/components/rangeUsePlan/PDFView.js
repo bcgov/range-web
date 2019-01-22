@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 // import { Document, Page } from 'react-pdf';
 import { connect } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
-import { Loading, ErrorPage } from '../common';
+import { Loading, ErrorPage, InvertedButton } from '../common';
 import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFErrorOccured } from '../../reducers/rootReducer';
 
 class PDFView extends Component {
@@ -88,13 +88,14 @@ class PDFView extends Component {
         { planPDFBlob &&
           <div>
             If your download does not begin, please click the button to try again.
-            <Button
+            <InvertedButton
+              primaryColor
               style={{ marginLeft: '10px' }}
               onClick={this.onDownloadClicked}
             >
               <Icon name="print" />
               Download PDF
-            </Button>
+            </InvertedButton>
             <div className="rup-pdf__close-btn__container">
               <button
                 className="rup-pdf__close-btn"

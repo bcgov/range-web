@@ -382,12 +382,11 @@ const mockPlanWithAgreement = {
             "objective": "Our objective is to address the issue....",
             "identified": true,
             "issueTypeId": 1,
-            "otherTypeName": null,
             "planId": 1,
             "ministerIssueType": {
                 "id": 1,
                 "name": "Community Watershed",
-                "active": true
+                "active": true,
             },
             "pastures": [
                 1

@@ -6,7 +6,6 @@ import PastureBox from './PastureBox';
 
 class Pastures extends Component {
   static propTypes = {
-    elementId: PropTypes.string.isRequired,
     plan: PropTypes.shape({}).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
   };
@@ -80,12 +79,12 @@ class Pastures extends Component {
   }
 
   render() {
-    const { elementId, plan, pasturesMap } = this.props;
+    const { plan, pasturesMap } = this.props;
     const pastureIds = plan && plan.pastures;
     const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
 
     return (
-      <div id={elementId} className="rup__pastures">
+      <div className="rup__pastures">
         <div className="rup__content-title">Pastures</div>
         <div className="rup__divider" />
         {this.renderPastures(pastures)}

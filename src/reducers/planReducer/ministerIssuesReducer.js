@@ -1,6 +1,6 @@
-import { STORE_PLAN } from '../../constants/actionTypes';
+import { STORE_PLAN, UPDATE_MINISTER_ISSUE } from '../../constants/actionTypes';
 
-const storeMinisterIssue = (state, action) => {
+const storeMinisterIssues = (state, action) => {
   const { ministerIssues } = action.payload.entities;
 
   return {
@@ -8,10 +8,22 @@ const storeMinisterIssue = (state, action) => {
     ...ministerIssues,
   };
 };
+
+const updateMinisterissue = (state, action) => {
+  const { ministerIssue } = action.payload;
+
+  return {
+    ...state,
+    [ministerIssue.id]: ministerIssue,
+  };
+};
+
 const ministerIssuesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storeMinisterIssue(state, action);
+      return storeMinisterIssues(state, action);
+    case UPDATE_MINISTER_ISSUE:
+      return updateMinisterissue(state, action);
     default:
       return state;
   }

@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { deleteRupGrazingSchedule } from '../../../actionCreators';
+import { deleteRUPGrazingSchedule } from '../../../actionCreators';
 import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
 import * as utils from '../../../utils';
 import EditableGrazingScheduleBox from './EditableGrazingScheduleBox';
@@ -20,7 +20,7 @@ export class EditableGrazingSchedules extends Component {
     usage: PropTypes.arrayOf(PropTypes.object).isRequired,
     addGrazingSchedule: PropTypes.func.isRequired,
     deleteGrazingSchedule: PropTypes.func.isRequired,
-    deleteRupGrazingSchedule: PropTypes.func.isRequired,
+    deleteRUPGrazingSchedule: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -94,7 +94,7 @@ export class EditableGrazingSchedules extends Component {
   }
 
   handleScheduleDelete = (schedule, scheduleIndex) => {
-    const { plan, deleteGrazingSchedule, deleteRupGrazingSchedule } = this.props;
+    const { plan, deleteGrazingSchedule, deleteRUPGrazingSchedule } = this.props;
 
     const planId = plan && plan.id;
     const { year, id: scheduleId } = schedule;
@@ -108,7 +108,7 @@ export class EditableGrazingSchedules extends Component {
       const { yearOptions: currYearOptions } = this.state;
       const yearOptions = [...currYearOptions];
       yearOptions.push(option);
-      yearOptions.sort((o1, o2) => o1.value > o2.value);
+      yearOptions.sort((o1, o2) => o1.value - o2.value);
 
       this.setState({
         yearOptions,
@@ -127,7 +127,7 @@ export class EditableGrazingSchedules extends Component {
 
     // delete the schedule saved in server
     if (planId && scheduleId && !uuid.isUUID(scheduleId)) {
-      deleteRupGrazingSchedule(planId, scheduleId).then(onDeleted);
+      deleteRUPGrazingSchedule(planId, scheduleId).then(onDeleted);
     } else { // or delete the schedule saved in Redux store
       onDeleted();
     }
@@ -142,7 +142,7 @@ export class EditableGrazingSchedules extends Component {
       ...plan.grazingSchedules.map(id => grazingSchedulesMap[id]),
       grazingSchedule,
     ];
-    newGrazingSchedules.sort((s1, s2) => s1.year > s2.year);
+    newGrazingSchedules.sort((s1, s2) => s1.year - s2.year);
 
     // pass the copied grazing schedule and new sorted list of schedule ids for the plan reducer
     addGrazingSchedule({
@@ -228,6 +228,7 @@ export class EditableGrazingSchedules extends Component {
             onChange={this.onYearSelected}
             selectOnBlur={false}
             pointing
+            style={{ margin: '0' }}
           />
         </div>
         <div className="rup__divider" />
@@ -254,5 +255,5 @@ export default connect(null, {
   addGrazingSchedule,
   updateGrazingSchedule,
   deleteGrazingSchedule,
-  deleteRupGrazingSchedule,
+  deleteRUPGrazingSchedule,
 })(EditableGrazingSchedules);

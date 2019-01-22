@@ -166,7 +166,8 @@ $common-margin-bottom: 40px; // edit CONTENT_MARGIN_BOTTOM in variable.js when c
         font-weight: bold;
         text-decoration: none; 
         color: $primary-color;
-        border-left: 4px solid $accent-color;
+        border-left: 3px solid $accent-color;
+        border-radius: 1px;
         cursor: pointer;
       }
       @include desktop-width {

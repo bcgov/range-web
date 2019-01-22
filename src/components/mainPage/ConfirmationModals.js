@@ -5,6 +5,7 @@ import { Modal, Icon, Button } from 'semantic-ui-react';
 import { closeConfirmationModal } from '../../actions';
 import { getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
+import { InvertedButton } from '../common';
 
 class ConfirmationModals extends Component {
   static propTypes = {
@@ -39,22 +40,20 @@ class ConfirmationModals extends Component {
         <Modal.Content>
           <div className="confirmation-modal__content">{content}</div>
           <div className="confirmation-modal__btns">
-            <Button
-              color="red"
-              inverted
+            <InvertedButton
+              primaryColor
               onClick={this.closeConfirmationModal(modal)}
             >
               <Icon name="remove" />
-              No
-            </Button>
+              Cancel
+            </InvertedButton>
             <Button
-              color="green"
-              style={{ marginLeft: '10px' }}
-              inverted
+              primary
+              style={{ marginLeft: '15px' }}
               onClick={onYesBtnClicked}
             >
               <Icon name="checkmark" />
-              Yes
+              Submit
             </Button>
           </div>
         </Modal.Content>

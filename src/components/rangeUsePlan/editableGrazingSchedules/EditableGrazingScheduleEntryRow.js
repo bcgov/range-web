@@ -4,9 +4,8 @@ import Pikaday from 'pikaday';
 import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
-import { DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT, DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER } from '../../../constants/strings';
+import { DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT, DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER } from '../../../constants/strings';
 
-/* eslint-disable object-curly-newline */
 class EditableGrazingScheduleEntryRow extends Component {
   static propTypes = {
     schedule: PropTypes.shape({}).isRequired,
@@ -112,19 +111,16 @@ class EditableGrazingScheduleEntryRow extends Component {
 
   openDeleteScheduleEntryConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY,
-        header: DELETE_SCHEDULE_ENTRY_FOR_AH_HEADER,
-        content: DELETE_SCHEDULE_ENTRY_FOR_AH_CONTENT,
-        onYesBtnClicked: this.onDeleteEntryClicked,
-      },
+      id: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY,
+      header: DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER,
+      content: DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT,
+      onYesBtnClicked: this.onDeleteEntryClicked,
     });
   }
 
   render() {
     const {
       entry,
-      entryIndex,
       pasturesMap,
       pastureOptions,
       livestockTypes,
@@ -151,8 +147,8 @@ class EditableGrazingScheduleEntryRow extends Component {
     const crownAUMs = utils.roundTo1Decimal(utils.calcCrownAUMs(totalAUMs, pldAUMs));
 
     const entryOptions = [
-      { key: `entry${entryIndex}option1`, text: 'Copy', onClick: this.onCopyEntryClicked },
-      { key: `entry${entryIndex}option2`, text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
+      { key: 'copy', text: 'Copy', onClick: this.onCopyEntryClicked },
+      { key: 'delete', text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
     ];
 
     const isPastureDropdownError = pastureId === undefined;

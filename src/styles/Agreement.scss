@@ -53,6 +53,7 @@ $third_agrm_table_cell_rate: 1.9;
 
       &--error {
         color: $error-color;
+        height: 50px;
       }
     }
     &__row {
@@ -124,7 +125,7 @@ $third_agrm_table_cell_rate: 1.9;
         border-radius: 5px;
       }
       &--not-active {
-        opacity: 0.4;
+        opacity: 0.6;
       }
     }
     &__accordian {
@@ -174,7 +175,7 @@ $third_agrm_table_cell_rate: 1.9;
   }
 
   &__pagination {
-    margin-top: 15px;
+    margin-top: 10px;
   }
 
   &__message {

@@ -17,6 +17,7 @@ export class SearchableAgreementTable extends Component {
   static propTypes = {
     history: PropTypes.shape({}).isRequired,
     location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+    searchAgreementsWithOrWithoutParams: PropTypes.func.isRequired,
   }
 
   handleActiveIndexChange = (index, agreementId) => {
@@ -59,7 +60,7 @@ export class SearchableAgreementTable extends Component {
   }
 
   render() {
-    const { history, location } = this.props;
+    const { history, location, searchAgreementsWithOrWithoutParams } = this.props;
     const params = parseQuery(location.search);
     const searchTerm = params.term || '';
     const activeIndex = Number(params.row);
@@ -83,6 +84,7 @@ export class SearchableAgreementTable extends Component {
             activeIndex={activeIndex}
             handlePaginationChange={this.handlePaginationChange}
             handleActiveIndexChange={this.handleActiveIndexChange}
+            searchAgreementsWithOrWithoutParams={searchAgreementsWithOrWithoutParams}
           />
         </div>
       </section>

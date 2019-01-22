@@ -28,6 +28,7 @@ import planReducer, * as fromPlan from './planReducer';
 import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 import clientReducer, * as fromClient from './clientReducer';
 import toastReducer, * as fromToast from './toastReducer';
+import inputModalReducer, * as fromInputModal from './inputModalReducer';
 import agreementWithALLPlansReducer, * as fromAgreementWithAllPlans from './agreementWithALLPlansReducer';
 import confirmationModalReducer, * as fromConfirmationModal from './confirmationModalReducer';
 
@@ -47,7 +48,8 @@ const appReducer = combineReducers({
   [reducerTypes.AGREEMENTS_WITH_ALL_PLANS]: agreementWithALLPlansReducer,
   [reducerTypes.PLAN]: planReducer,
   [reducerTypes.CLIENT]: clientReducer,
-  [reducerTypes.CONFIRMATION]: confirmationModalReducer,
+  [reducerTypes.CONFIRMATION_MODAL]: confirmationModalReducer,
+  [reducerTypes.INPUT_MODAL]: inputModalReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
   [reducerTypes.GET_PLAN_PDF]: createReducer(networkReducer, reducerTypes.GET_PLAN_PDF),
@@ -116,11 +118,11 @@ export const getIsFetchingPlanPDF = state => fromNetwork.getIsFetching(state[red
 export const getPlanPDFErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_PLAN_PDF]);
 export const getPlanPDF = state => fromNetwork.getData(state[reducerTypes.GET_PLAN_PDF]);
 
+export const getConfirmationsMap = state => fromPlan.getConfirmationsMap(state[reducerTypes.PLAN]);
 export const getPasturesMap = state => fromPlan.getPasturesMap(state[reducerTypes.PLAN]);
 export const getPlantCommunitiesMap = state => fromPlan.getPlantCommunitiesMap(state[reducerTypes.PLAN]);
 export const getGrazingSchedulesMap = state => fromPlan.getGrazingSchedulesMap(state[reducerTypes.PLAN]);
 export const getMinisterIssuesMap = state => fromPlan.getMinisterIssuesMap(state[reducerTypes.PLAN]);
-export const getConfirmationsMap = state => fromPlan.getConfirmationsMap(state[reducerTypes.PLAN]);
 export const getPlanStatusHistoryMap = state => fromPlan.getPlanStatusHistoryMap(state[reducerTypes.PLAN]);
 export const getAdditionalRequirementsMap = state => fromPlan.getAdditionalRequirementsMap(state[reducerTypes.PLAN]);
 export const getManagementConsiderationsMap = state => fromPlan.getManagementConsiderationsMap(state[reducerTypes.PLAN]);
@@ -130,4 +132,5 @@ export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetch
 export const getIsUpdatingPlanStatus = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_PLAN_STATUS]);
 
 export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
-export const getConfirmationModalsMap = state => fromConfirmationModal.getConfirmationModalsMap(state[reducerTypes.CONFIRMATION]);
+export const getConfirmationModalsMap = state => fromConfirmationModal.getConfirmationModalsMap(state[reducerTypes.CONFIRMATION_MODAL]);
+export const getInputModal = state => fromInputModal.getInputModal(state[reducerTypes.INPUT_MODAL]);

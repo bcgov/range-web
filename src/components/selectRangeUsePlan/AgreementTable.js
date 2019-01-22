@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Pagination, Icon, Segment, Button } from 'semantic-ui-react';
+import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableRow from './AgreementTableRow';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
-import { Loading } from '../common';
+import { Loading, InvertedButton } from '../common';
 
 export class AgreementTable extends Component {
   static propTypes = {
@@ -23,6 +23,7 @@ export class AgreementTable extends Component {
     references: PropTypes.shape({}).isRequired,
     agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
     isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
+    searchAgreementsWithOrWithoutParams: PropTypes.func.isRequired,
   }
 
   handlePaginationChange = (e, { activePage: currentPage }) => {
@@ -35,12 +36,13 @@ export class AgreementTable extends Component {
         <div className="agrm__table__row">
           <div className="agrm__message agrm__message--error">
             {strings.ERROR_OCCUR}
-            <Button
-              onClick={() => window.location.reload(true)}
+            <InvertedButton
+              primaryColor
+              onClick={() => { this.props.searchAgreementsWithOrWithoutParams(); }}
               style={{ marginLeft: '10px' }}
             >
               Retry
-            </Button>
+            </InvertedButton>
           </div>
         </div>
       );

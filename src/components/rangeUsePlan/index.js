@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
-import StaffPage from './StaffPage';
-import AHPage from './AHPage';
-import { Loading } from '../common';
+import { Icon, Button } from 'semantic-ui-react';
+import { Loading, InvertedButton } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchRUP, updateRUPStatus, createOrUpdateRupGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment } from '../../actionCreators';
+import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment, createOrUpdateRUPMinisterIssueAndActions } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
+import PageForStaff from './pageForStaff';
+import PageForAH from './pageForAH';
 
 class Base extends Component {
   static propTypes = {
@@ -40,7 +40,7 @@ class Base extends Component {
 
   fetchPlan = () => {
     const planId = this.getPlanId();
-    this.props.fetchRUP(planId);
+    return this.props.fetchRUP(planId);
   }
 
   render() {
@@ -61,16 +61,22 @@ class Base extends Component {
     if (errorFetchingPlan) {
       return (
         <div className="rup__fetching-error">
-          <Icon name="warning circle" size="big" color="red" />
+          <Icon name="warning sign" size="large" color="red" />
           <div>
             <span className="rup__fetching-error__message">
               Error occured while fetching the range use plan.
             </span>
           </div>
           <div>
-            <Button onClick={history.goBack}>Go Back</Button>
-            <span className="rup__fetching-error__or-message">or</span>
-            <Button onClick={this.fetchPlan}>Retry</Button>
+            <InvertedButton primaryColor onClick={history.goBack}>
+              Go Back
+            </InvertedButton>
+            <span className="rup__fetching-error__or-message">
+              or
+            </span>
+            <Button primary onClick={this.fetchPlan}>
+              Retry
+            </Button>
           </div>
         </div>
       );
@@ -81,7 +87,7 @@ class Base extends Component {
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
         {plan && isUserAdmin(user) &&
-          <StaffPage
+          <PageForStaff
             agreement={agreement}
             plan={plan}
             {...this.props}
@@ -89,7 +95,7 @@ class Base extends Component {
         }
 
         {plan && isUserRangeOfficer(user) &&
-          <StaffPage
+          <PageForStaff
             agreement={agreement}
             plan={plan}
             {...this.props}
@@ -97,7 +103,7 @@ class Base extends Component {
         }
 
         {plan && isUserAgreementHolder(user) &&
-          <AHPage
+          <PageForAH
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
@@ -132,10 +138,11 @@ export default connect(mapStateToProps, {
   updateRUPStatus,
   planUpdated,
   updateGrazingSchedule,
-  createOrUpdateRupGrazingSchedule,
+  createOrUpdateRUPGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
   createAmendment,
   openConfirmationModal,
   closeConfirmationModal,
+  createOrUpdateRUPMinisterIssueAndActions,
 })(Base);

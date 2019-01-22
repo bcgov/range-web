@@ -43,8 +43,8 @@ export const createRUPGrazingSchedule = (planId, schedule) => (dispatch, getStat
   return makeRequest();
 };
 
-const createRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE));
+const createRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
+  dispatch(request(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES));
   const makeRequest = async () => {
     try {
       const { id, ...grazingSchedule } = schedule;
@@ -53,10 +53,10 @@ const createRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
         { ...grazingSchedule, plan_id: planId },
         createConfigWithHeader(getState),
       );
-      dispatch(success(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, data));
+      dispatch(success(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE, err));
+      dispatch(error(reducerTypes.CREATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -64,8 +64,8 @@ const createRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
   return makeRequest();
 };
 
-const updateRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE));
+const updateRUPGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getState) => {
+  dispatch(request(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES));
   const makeRequest = async () => {
     try {
       const { data } = await axios.put(
@@ -73,10 +73,10 @@ const updateRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
         { ...schedule },
         createConfigWithHeader(getState),
       );
-      dispatch(success(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, data));
+      dispatch(success(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, data));
       return data;
     } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE, err));
+      dispatch(error(reducerTypes.UPDATE_RUP_GRAZING_SCHEDULE_AND_ENTRIES, err));
       dispatch(toastErrorMessage(err));
       throw err;
     }
@@ -84,14 +84,14 @@ const updateRupGrazingScheduleAndEntries = (planId, schedule) => (dispatch, getS
   return makeRequest();
 };
 
-export const createOrUpdateRupGrazingSchedule = (planId, schedule) => (dispatch) => {
+export const createOrUpdateRUPGrazingSchedule = (planId, schedule) => (dispatch) => {
   if (uuid.isUUID(schedule.id)) {
-    return dispatch(createRupGrazingScheduleAndEntries(planId, schedule));
+    return dispatch(createRUPGrazingScheduleAndEntries(planId, schedule));
   }
-  return dispatch(updateRupGrazingScheduleAndEntries(planId, schedule));
+  return dispatch(updateRUPGrazingScheduleAndEntries(planId, schedule));
 };
 
-export const deleteRupGrazingSchedule = (planId, scheduleId) => (dispatch, getState) => {
+export const deleteRUPGrazingSchedule = (planId, scheduleId) => (dispatch, getState) => {
   dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE));
   const makeRequest = async () => {
     try {
@@ -110,7 +110,7 @@ export const deleteRupGrazingSchedule = (planId, scheduleId) => (dispatch, getSt
   return makeRequest();
 };
 
-export const deleteRupGrazingScheduleEntry = (planId, scheduleId, entryId) => (dispatch, getState) => {
+export const deleteRUPGrazingScheduleEntry = (planId, scheduleId, entryId) => (dispatch, getState) => {
   dispatch(request(reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY));
   const makeRequest = async () => {
     try {

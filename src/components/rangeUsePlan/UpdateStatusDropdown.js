@@ -41,80 +41,80 @@ class UpdateStatusDropdown extends Component {
 
   openCompletedConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.COMPLETED_CONFIRMATION_HEADER,
-      content: strings.COMPLETED_CONFIRMATION_CONTENT,
+      header: strings.COMPLETED_CONFIRM_HEADER,
+      content: strings.COMPLETED_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.COMPLETED,
     });
   }
 
   openChangeRequestConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.CHANGE_REQUEST_CONFIRMATION_HEADER,
-      content: strings.CHANGE_REQUEST_CONFIRMATION_CONTENT,
+      header: strings.CHANGE_REQUEST_CONFIRM_HEADER,
+      content: strings.CHANGE_REQUEST_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.CHANGE_REQUESTED,
     });
   }
 
   openWMWEConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_HEADER,
-      content: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRMATION_CONTENT,
+      header: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_HEADER,
+      content: strings.WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT,
     });
   }
 
   openSWMConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.STANDS_WRONGLY_MADE_CONFIRMATION_HEADER,
-      content: strings.STANDS_WRONGLY_MADE_CONFIRMATION_CONTENT,
+      header: strings.STANDS_WRONGLY_MADE_CONFIRM_HEADER,
+      content: strings.STANDS_WRONGLY_MADE_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.STANDS_WRONGLY_MADE,
     });
   }
 
   openApprovedConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.APPROVED_CONFIRMATION_HEADER,
-      content: strings.APPROVED_CONFIRMATION_CONTENT,
+      header: strings.APPROVED_CONFIRM_HEADER,
+      content: strings.APPROVED_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.APPROVED,
     });
   }
 
   openNotApprovedConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.NOT_APPROVED_CONFIRMATION_HEADER,
-      content: strings.NOT_APPROVED_CONFIRMATION_CONTENT,
+      header: strings.NOT_APPROVED_CONFIRM_HEADER,
+      content: strings.NOT_APPROVED_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.NOT_APPROVED,
     });
   }
 
   openNotApprovedFWRConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.NOT_APPROVED_FWR_CONFIRMATION_HEADER,
-      content: strings.NOT_APPROVED_CONFIRMATION_CONTENT,
+      header: strings.NOT_APPROVED_FWR_CONFIRM_HEADER,
+      content: strings.NOT_APPROVED_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
     });
   }
 
   openRecommendReadyConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.RECOMMEND_READY_CONFIRMATION_HEADER,
-      content: strings.RECOMMEND_READY_CONFIRMATION_CONTENT,
+      header: strings.RECOMMEND_READY_CONFIRM_HEADER,
+      content: strings.RECOMMEND_READY_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.RECOMMEND_READY,
     });
   }
 
   openRecommendNotReadyConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.RECOMMEND_NOT_READY_CONFIRMATION_HEADER,
-      content: strings.RECOMMEND_NOT_READY_CONFIRMATION_CONTENT,
+      header: strings.RECOMMEND_NOT_READY_CONFIRM_HEADER,
+      content: strings.RECOMMEND_NOT_READY_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.RECOMMEND_NOT_READY,
     });
   }
 
   openRFSConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.RECOMMEND_FOR_SUBMISSION_CONFIRMATION_HEADER,
-      content: strings.RECOMMEND_FOR_SUBMISSION_CONFIRMATION_CONTENT,
+      header: strings.RECOMMEND_FOR_SUBMISSION_CONFIRM_HEADER,
+      content: strings.RECOMMEND_FOR_SUBMISSION_CONFIRM_CONTENT,
       statusCode: PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
     });
   }

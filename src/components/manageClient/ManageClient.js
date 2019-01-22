@@ -41,12 +41,10 @@ class ManageClient extends Component {
 
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.MANAGE_CLIENT,
-        header: strings.MANAGE_CLIENT_BANNER_HEADER,
-        content: strings.MANAGE_CLIENT_BANNER_CONTENT,
-        onYesBtnClicked: this.linkUserToClient,
-      },
+      id: CONFIRMATION_MODAL_ID.MANAGE_CLIENT,
+      header: strings.UPDATE_CLIENT_ID_CONFIRM_HEADER,
+      content: strings.UPDATE_CLIENT_ID_CONFIRM_CONTENT,
+      onYesBtnClicked: this.linkUserToClient,
     });
   }
 
@@ -147,7 +145,7 @@ class ManageClient extends Component {
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Link
+                Submit
               </Button>
             </div>
           </div>
