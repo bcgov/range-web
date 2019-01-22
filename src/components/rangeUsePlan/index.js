@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'semantic-ui-react';
-import StaffPage from './StaffPage';
-import AHPage from './AHPage';
 import { Loading, InvertedButton } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment, createOrUpdateRUPMinisterIssueAndActions } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
+import PageForStaff from './pageForStaff';
+import PageForAH from './pageForAH';
 
 class Base extends Component {
   static propTypes = {
@@ -87,7 +87,7 @@ class Base extends Component {
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
         {plan && isUserAdmin(user) &&
-          <StaffPage
+          <PageForStaff
             agreement={agreement}
             plan={plan}
             {...this.props}
@@ -95,7 +95,7 @@ class Base extends Component {
         }
 
         {plan && isUserRangeOfficer(user) &&
-          <StaffPage
+          <PageForStaff
             agreement={agreement}
             plan={plan}
             {...this.props}
@@ -103,7 +103,7 @@ class Base extends Component {
         }
 
         {plan && isUserAgreementHolder(user) &&
-          <AHPage
+          <PageForAH
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}

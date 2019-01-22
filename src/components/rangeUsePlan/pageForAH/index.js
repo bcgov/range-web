@@ -1,72 +1,33 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
-import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../constants/variables';
-import { RANGE_USE_PLAN, EXPORT_PDF } from '../../constants/routes';
-import * as strings from '../../constants/strings';
-import * as utils from '../../utils';
-import { Status, Banner } from '../common';
-import ContentsContainer from './ContentsContainer';
-import BasicInformation from './basicInformation';
-import Pastures from './pastures';
-import GrazingSchedules from './grazingSchedules';
-import EditableGrazingSchedules from './editableGrazingSchedules';
-import MinisterIssues from './ministerIssues';
-import EditableMinisterIssues from './editableMinisterIssues';
-import AmendmentSubmissionModal from './amendment/AmendmentSubmissionModal';
-import AmendmentConfirmationModal from './amendment/AmendmentConfirmationModal';
-import BackBtn from './BackBtn';
-import Notifications from './Notifications';
-import StickyHeader from './StickyHeader';
-import UsageTable from './usage';
-import InvasivePlantChecklist from './invasivePlantChecklist';
-import AdditionalRequirements from './additionalRequirements';
-import ManagementConsiderations from './managementConsiderations';
+import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, ELEMENT_ID } from '../../../constants/variables';
+import { RANGE_USE_PLAN, EXPORT_PDF } from '../../../constants/routes';
+import * as strings from '../../../constants/strings';
+import * as utils from '../../../utils';
+import { Status, Banner } from '../../common';
+import ContentsContainer from '../ContentsContainer';
+import BasicInformation from '../basicInformation';
+import Pastures from '../pastures';
+import GrazingSchedules from '../grazingSchedules';
+import EditableGrazingSchedules from '../editableGrazingSchedules';
+import MinisterIssues from '../ministerIssues';
+import EditableMinisterIssues from '../editableMinisterIssues';
+import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
+import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
+import BackBtn from '../BackBtn';
+import Notifications from '../Notifications';
+import StickyHeader from '../StickyHeader';
+import UsageTable from '../usage';
+import InvasivePlantChecklist from '../invasivePlantChecklist';
+import AdditionalRequirements from '../additionalRequirements';
+import ManagementConsiderations from '../managementConsiderations';
+import { defaultProps, propTypes } from './props';
+import ActionBtns from './ActionBtns';
 
 // Agreement Holder page
-export class AHPage extends Component {
-  static propTypes = {
-    agreement: PropTypes.shape({ plan: PropTypes.object }),
-    plan: PropTypes.shape({}),
-    user: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    history: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-    grazingSchedulesMap: PropTypes.shape({}).isRequired,
-    ministerIssuesMap: PropTypes.shape({}).isRequired,
-    confirmationsMap: PropTypes.shape({}).isRequired,
-    planStatusHistoryMap: PropTypes.shape({}).isRequired,
-    additionalRequirementsMap: PropTypes.shape({}).isRequired,
-    managementConsiderationsMap: PropTypes.shape({}).isRequired,
-    updateRUPStatus: PropTypes.func.isRequired,
-    createOrUpdateRUPGrazingSchedule: PropTypes.func.isRequired,
-    createOrUpdateRUPMinisterIssueAndActions: PropTypes.func.isRequired,
-    toastSuccessMessage: PropTypes.func.isRequired,
-    toastErrorMessage: PropTypes.func.isRequired,
-    createAmendment: PropTypes.func.isRequired,
-    isCreatingAmendment: PropTypes.bool.isRequired,
-    openConfirmationModal: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
-    fetchPlan: PropTypes.func.isRequired,
-  };
+class PageForAH extends Component {
+  static propTypes = propTypes;
 
-  static defaultProps = {
-    agreement: {
-      zone: {},
-      usage: [],
-    },
-    plan: {
-      agreementId: '',
-      pastures: [],
-      grazingSchedules: [],
-      ministerIssues: [],
-      confirmations: [],
-      planStatusHistory: [],
-      invasivePlantChecklist: {},
-      managementConsiderations: [],
-      additionalRequirements: [],
-    },
-  };
+  static defaultProps = defaultProps;
 
   state = {
     isSubmitAmendmentModalOpen: false,
@@ -234,63 +195,23 @@ export class AHPage extends Component {
   renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
     const { isCreatingAmendment } = this.props;
-    const previewPDF = (
-      <Button key="previewPDFBtn" onClick={this.onViewPDFClicked}>
-        {strings.DOWNLOAD_PDF}
-      </Button>
+
+    return (
+      <ActionBtns
+        canEdit={canEdit}
+        canAmend={canAmend}
+        canConfirm={canConfirm}
+        canSubmit={canSubmit}
+        isSavingAsDraft={isSavingAsDraft}
+        isSubmitting={isSubmitting}
+        isCreatingAmendment={isCreatingAmendment}
+        onViewPDFClicked={this.onViewPDFClicked}
+        onSaveDraftClick={this.onSaveDraftClick}
+        openSubmitConfirmModal={this.openSubmitConfirmModal}
+        onAmendPlanClicked={this.onAmendPlanClicked}
+        openConfirmAmendmentModal={this.openConfirmAmendmentModal}
+      />
     );
-    const saveDraft = (
-      <Button
-        key="saveDraftBtn"
-        loading={isSavingAsDraft}
-        onClick={this.onSaveDraftClick}
-        style={{ marginLeft: '10px' }}
-      >
-        {strings.SAVE_DRAFT}
-      </Button>
-    );
-    const submit = (
-      <Button
-        key="submitBtn"
-        loading={isSubmitting}
-        onClick={this.openSubmitConfirmModal}
-        style={{ marginLeft: '10px' }}
-      >
-        {strings.SUBMIT}
-      </Button>
-    );
-    const amend = (
-      <Button
-        key="amendBtn"
-        loading={isCreatingAmendment}
-        onClick={this.onAmendPlanClicked}
-        style={{ marginLeft: '10px' }}
-      >
-        {strings.AMEND_PLAN}
-      </Button>
-    );
-    const confirmSubmission = (
-      <Button
-        key="confirmSubmissionBtn"
-        style={{ marginLeft: '10px' }}
-        onClick={this.openConfirmAmendmentModal}
-      >
-        {strings.CONFIRM_SUBMISSION}
-      </Button>
-    );
-    if (canEdit) {
-      return [previewPDF, saveDraft, submit];
-    }
-    if (canAmend) {
-      return [previewPDF, amend];
-    }
-    if (canConfirm) {
-      return [previewPDF, confirmSubmission];
-    }
-    if (canSubmit) {
-      return [previewPDF, submit];
-    }
-    return previewPDF;
   }
 
   render() {
@@ -442,4 +363,4 @@ export class AHPage extends Component {
   }
 }
 
-export default AHPage;
+export default PageForAH;
