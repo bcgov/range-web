@@ -95,6 +95,8 @@ class PageForStaff extends Component {
               </div>
               <div className="rup__actions__btns">
                 <Button
+                  compact
+                  inverted
                   disabled={cannotDownloadPDF(status)}
                   onClick={this.onViewPDFClicked}
                 >

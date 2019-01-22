@@ -16,7 +16,7 @@ export const NUMBER_OF_LIMIT_FOR_NOTE = 140;
 export const SEARCH_DEBOUNCE_DELAY = 1000;
 export const STICKY_HEADER_HEIGHT = 55;
 export const CONTENT_MARGIN_TOP = 20;
-export const CONTENT_MARGIN_BOTTOM = 40;
+export const CONTENT_MARGIN_BOTTOM = 35;
 
 export const PLAN_STATUS = {
   PENDING: 'P',

@@ -213,7 +213,7 @@ export class EditableGrazingSchedules extends Component {
     return (
       <div className="rup__grazing-schedules">
         <div className="rup__content-title--editable">
-          <div>Yearly Schedules</div>
+          Yearly Schedules
           <Dropdown
             className="icon"
             text="Add Schedule"
@@ -228,6 +228,7 @@ export class EditableGrazingSchedules extends Component {
             onChange={this.onYearSelected}
             selectOnBlur={false}
             pointing
+            compact
             style={{ margin: '0' }}
           />
         </div>

@@ -10,7 +10,7 @@ $content-max-width: 550px;
     display: flex;
     flex-direction: column;
     max-width: $content-max-width;
-    margin-top: $content-margin-top;
+    margin-top: $rup-content-margin-top;
   }
   &__update-btn {
     margin-top: 35px;
@@ -24,7 +24,7 @@ $content-max-width: 550px;
     display: flex;
     flex-direction: column;
     max-width: $content-max-width;
-    margin-top: $content-margin-top;
+    margin-top: $rup-content-margin-top;
   }
 
   &__step-one,

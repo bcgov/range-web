@@ -210,6 +210,7 @@ class UpdateStatusDropdown extends Component {
           loading={isUpdatingStatus}
           button
           item
+          compact
         />
         <UpdateStatusModal
           open={updateStatusModalOpen}
