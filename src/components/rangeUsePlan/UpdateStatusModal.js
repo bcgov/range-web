@@ -126,7 +126,7 @@ class UpdateStatusModal extends Component {
             </InvertedButton>
             <Button
               primary
-              style={{ marginLeft: '10px' }}
+              style={{ marginLeft: '15px' }}
               onClick={this.onSubmit}
               disabled={requireNote && !note}
             >
