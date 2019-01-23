@@ -50,20 +50,41 @@ export const createRUPManagementConsideration = (planId, consideration) => (disp
   );
 };
 
-export const createRUPInvasivePlantChecklist = (planId, newInvasivePlantChecklist) => (dispatch, getState) => {
+export const createRUPInvasivePlantChecklist = (planId, invasivePlantChecklist) => (dispatch, getState) => {
   return axios.post(
     API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
-    newInvasivePlantChecklist,
+    invasivePlantChecklist,
     createConfigWithHeader(getState),
   ).then(
     (response) => {
       return response.data;
     },
     (err) => {
-      dispatch(toastErrorMessage(err));
       throw err;
     },
   );
+};
+
+export const updateRUPInvasivePlantChecklist = (planId, { id: checklistId, ...invasivePlantChecklist }) => (dispatch, getState) => {
+  return axios.put(
+    API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(planId, checklistId),
+    invasivePlantChecklist,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      return response.data;
+    },
+    (err) => {
+      throw err;
+    },
+  );
+};
+
+export const createOrUpdateRUPInvasivePlantChecklist = (planId, checklist) => (dispatch) => {
+  if (checklist && checklist.id) {
+    return dispatch(updateRUPInvasivePlantChecklist(planId, checklist));
+  }
+  return dispatch(createRUPInvasivePlantChecklist(planId, checklist));
 };
 
 export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch, getState) => {

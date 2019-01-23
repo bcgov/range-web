@@ -13,10 +13,10 @@ $error-color: indianred; // #9f3a38;
 $sidebar-width: 220px;
 $nav-height: 50px;
 
-$toast-z-index: 10;
+$toast-z-index: 15;
 
-$rup-sticky-z-index: 1;
-$rup-sticky-height: 51.5px;
+$rup-sticky-z-index: 10;
+$rup-sticky-height: 50.5px;
 $rup-content-margin-bottom: 35px; // edit CONTENT_MARGIN_BOTTOM and CONTENT_MARGIN_TOP
 $rup-content-margin-top: 20px;    // in variable.js when changing this value
 

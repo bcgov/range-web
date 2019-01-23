@@ -6,6 +6,17 @@
       top: -10px !important;
       right: 15px !important; 
     }
+
+    & .ui.basic.button {
+      margin: 0 !important;
+      color: #003366 !important;
+      box-shadow: 0 0 0 1.5px #003366 inset !important;
+      background: transparent none !important;
+    }
+
+    & i {
+      background-color: unset !important;
+    }
   }
 
   &__grazing-schedule {
