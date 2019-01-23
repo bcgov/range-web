@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
 import { isNoteRequired } from '../../utils';
+import { InvertedButton } from '../common';
 
 class UpdateStatusModal extends Component {
   static propTypes = {
@@ -116,23 +117,21 @@ class UpdateStatusModal extends Component {
             </div>
           }
           <div className="rup__update-status-modal__btns">
-            <Button
-              color="red"
-              inverted
+            <InvertedButton
+              primaryColor
               onClick={onClose}
             >
               <Icon name="remove" />
-              No
-            </Button>
+              Cancel
+            </InvertedButton>
             <Button
-              color="green"
+              primary
               style={{ marginLeft: '10px' }}
-              inverted
               onClick={this.onSubmit}
               disabled={requireNote && !note}
             >
               <Icon name="checkmark" />
-              Yes
+              Submit
             </Button>
           </div>
         </Modal.Content>
