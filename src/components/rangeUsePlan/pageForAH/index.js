@@ -5,21 +5,22 @@ import * as strings from '../../../constants/strings';
 import * as utils from '../../../utils';
 import { Status, Banner } from '../../common';
 import ContentsContainer from '../ContentsContainer';
+import BackBtn from '../BackBtn';
+import Notifications from '../Notifications';
+import StickyHeader from '../StickyHeader';
 import BasicInformation from '../basicInformation';
 import Pastures from '../pastures';
 import GrazingSchedules from '../grazingSchedules';
 import EditableGrazingSchedules from '../editableGrazingSchedules';
 import MinisterIssues from '../ministerIssues';
 import EditableMinisterIssues from '../editableMinisterIssues';
-import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
-import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
-import BackBtn from '../BackBtn';
-import Notifications from '../Notifications';
-import StickyHeader from '../StickyHeader';
 import UsageTable from '../usage';
 import InvasivePlantChecklist from '../invasivePlantChecklist';
+import EditableInvasivePlantChecklist from '../editableInvasivePlantChecklist';
 import AdditionalRequirements from '../additionalRequirements';
 import ManagementConsiderations from '../managementConsiderations';
+import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
+import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
 
@@ -37,53 +38,36 @@ class PageForAH extends Component {
   };
 
   onSaveDraftClick = () => {
-    const {
-      references,
-      toastSuccessMessage,
-      fetchPlan,
-    } = this.props;
+    const { references, toastSuccessMessage, fetchPlan } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
-    const onRequested = () => {
-      this.setState({ isSavingAsDraft: true });
-    };
+
+    const onRequested = () => { this.setState({ isSavingAsDraft: true }); };
     const onSuccess = () => {
       fetchPlan().then(() => {
         this.setState({ isSavingAsDraft: false });
         toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
       });
     };
-    const onError = () => {
-      this.setState({ isSavingAsDraft: false });
-    };
+    const onError = () => { this.setState({ isSavingAsDraft: false }); };
 
     this.updateStatusAndContent(status, onRequested, onSuccess, onError);
   }
 
   onSubmitClicked = () => {
-    const {
-      references,
-      toastSuccessMessage,
-      closeConfirmationModal,
-      fetchPlan,
-    } = this.props;
+    const { references, toastSuccessMessage, closeConfirmationModal, fetchPlan } = this.props;
     const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
     const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
 
-    const onRequested = () => {
-      this.setState({ isSubmitting: true });
-    };
-
+    const onRequested = () => { this.setState({ isSubmitting: true }); };
     const onSuccess = () => {
       fetchPlan().then(() => {
         this.setState({ isSubmitting: false });
         toastSuccessMessage(strings.SUBMIT_PLAN_SUCCESS);
       });
     };
+    const onError = () => { this.setState({ isSubmitting: false }); };
 
-    const onError = () => {
-      this.setState({ isSubmitting: false });
-    };
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.SUBMIT_PLAN });
     this.updateStatusAndContent(status, onRequested, onSuccess, onError);
   }
@@ -97,6 +81,7 @@ class PageForAH extends Component {
       toastErrorMessage,
       ministerIssuesMap,
       createOrUpdateRUPMinisterIssueAndActions,
+      createOrUpdateRUPInvasivePlantChecklist,
     } = this.props;
 
     onRequested();
@@ -107,7 +92,12 @@ class PageForAH extends Component {
       onError();
       return;
     }
-    const { id: planId, grazingSchedules: gsIds, ministerIssues: miIds } = plan;
+    const {
+      id: planId,
+      grazingSchedules: gsIds,
+      ministerIssues: miIds,
+      invasivePlantChecklist,
+    } = plan;
     const statusId = status && status.id;
     const grazingSchedules = gsIds && gsIds.map(id => grazingSchedulesMap[id]);
     const ministerIssues = miIds && miIds.map(id => ministerIssuesMap[id]);
@@ -119,10 +109,11 @@ class PageForAH extends Component {
       await Promise.all(ministerIssues.map(issue => (
         createOrUpdateRUPMinisterIssueAndActions(planId, issue)
       )));
+      await createOrUpdateRUPInvasivePlantChecklist(planId, invasivePlantChecklist);
       await updateRUPStatus(planId, statusId, false);
       await onSuccess();
     } catch (err) {
-      onError(err);
+      onError();
       toastErrorMessage(err);
       throw err;
     }
@@ -341,10 +332,10 @@ class PageForAH extends Component {
             : <MinisterIssues {...ministerIssueProps} />
           }
 
-          <InvasivePlantChecklist
-            elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-            plan={plan}
-          />
+          {canEdit
+            ? <EditableInvasivePlantChecklist elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST} plan={plan} />
+            : <InvasivePlantChecklist elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST} plan={plan} />
+          }
 
           <AdditionalRequirements
             elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}

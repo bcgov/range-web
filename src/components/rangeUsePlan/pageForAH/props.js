@@ -23,6 +23,7 @@ export const propTypes = {
   openConfirmationModal: PropTypes.func.isRequired,
   closeConfirmationModal: PropTypes.func.isRequired,
   fetchPlan: PropTypes.func.isRequired,
+  createOrUpdateRUPInvasivePlantChecklist: PropTypes.func.isRequired,
 };
 
 export const defaultProps = {

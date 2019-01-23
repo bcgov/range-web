@@ -6,10 +6,19 @@ import { Loading, InvertedButton } from '../common';
 import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment, createOrUpdateRUPMinisterIssueAndActions } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
 import PageForStaff from './pageForStaff';
 import PageForAH from './pageForAH';
+import {
+  fetchRUP,
+  updateRUPStatus,
+  createOrUpdateRUPGrazingSchedule,
+  toastSuccessMessage,
+  toastErrorMessage,
+  createAmendment,
+  createOrUpdateRUPMinisterIssueAndActions,
+  createOrUpdateRUPInvasivePlantChecklist,
+} from '../../actionCreators';
 
 class Base extends Component {
   static propTypes = {
@@ -145,4 +154,5 @@ export default connect(mapStateToProps, {
   openConfirmationModal,
   closeConfirmationModal,
   createOrUpdateRUPMinisterIssueAndActions,
+  createOrUpdateRUPInvasivePlantChecklist,
 })(Base);
