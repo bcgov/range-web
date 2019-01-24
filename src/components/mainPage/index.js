@@ -7,6 +7,8 @@ import ConfirmationModals from './ConfirmationModals';
 import InputModal from './InputModal';
 import { registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, fetchZones, signOut } from '../../actionCreators';
+import { reauthenticate } from '../../actions';
+import SignInModal from './SignInModal';
 
 export class MainPage extends Component {
   static propTypes = {
@@ -17,7 +19,7 @@ export class MainPage extends Component {
   }
 
   componentWillMount() {
-    registerAxiosInterceptors(this.props.signOut);
+    registerAxiosInterceptors(this.props.reauthenticate);
   }
 
   componentDidMount() {
@@ -42,6 +44,8 @@ export class MainPage extends Component {
 
         <InputModal />
 
+        <SignInModal />
+
         <Toasts />
 
         <footer />
@@ -52,6 +56,7 @@ export class MainPage extends Component {
 
 export default connect(null, {
   signOut,
+  reauthenticate,
   fetchReferences,
   fetchZones,
 })(MainPage);

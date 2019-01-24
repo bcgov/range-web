@@ -27,6 +27,7 @@ import {
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
   SITEMINDER_LOGOUT_ENDPOINT,
+  API_BASE_URL,
 } from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
@@ -135,7 +136,7 @@ const getJWTDataFromLocal = () => {
  *
  * @returns {boolean}
  */
-const isTokenExpired = () => {
+export const isTokenExpired = () => {
   const jstData = getJWTDataFromLocal();
 
   if (jstData) {
@@ -149,11 +150,12 @@ const isTokenExpired = () => {
  * @param {object} config
  * @returns {boolean}
  */
-const isRangeAPIs = (config) => {
+const isRangeAPI = (config) => {
   if (config && config.baseURL) {
-    return config.baseURL !== SSO_BASE_URL;
+    return config.baseURL === API_BASE_URL;
   }
-  return true;
+
+  return false;
 };
 
 export const signOutFromSSO = () => {
@@ -169,13 +171,14 @@ export const signOutFromSSO = () => {
  *  -> get new access token using the refresh token and try making the network again
  * case 2: both access and refresh tokens are expired
  *  -> sign out the user
- * @param {function} logout the logout action function
+ * @param {function} reauthenticate the action to re-authenticate
  * @returns {object} the config or err object
  */
-export const registerAxiosInterceptors = (logout) => {
-  axios.interceptors.request.use((c) => {
-    const config = { ...c };
-    if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
+export const registerAxiosInterceptors = (reauthenticate) => {
+  axios.interceptors.request.use((config) => {
+    const isFirstTimeTry = !config.isRetry;
+
+    if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config)) {
       if (!isBundled) console.log('Access token is expired. Trying to refresh it');
 
       const refreshToken = getRefreshTokenFromLocal();
@@ -185,18 +188,24 @@ export const registerAxiosInterceptors = (logout) => {
 
           const data = response && response.data;
           const { token_type: type, access_token: token } = data;
-          config.headers.Authorization = type && token && `${type} ${token}`;
-          config.isRetry = true;
-          return config;
+          const c = { ...config };
+          c.headers.Authorization = type && token && `${type} ${token}`;
+          c.isRetry = true;
+
+          return c;
         },
         (err) => {
-          if (!isBundled) console.log('Refresh token is also expired. Signing out.');
+          if (!isBundled) {
+            console.log('Refresh token is also expired. Request to re-authenticate.');
+            console.error(err);
+          }
+          reauthenticate();
 
-          logout();
-          return err;
+          return config;
         },
       );
     }
+
     return config;
   });
 };

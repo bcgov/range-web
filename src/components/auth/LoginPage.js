@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
+import { IMAGE_SRC } from '../../constants/variables';
 import { storeAuthData } from '../../actions';
 import { fetchUser, signOut } from '../../actionCreators';
 import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
-import { detectIE, getDataFromLocalStorage } from '../../utils';
+import { detectIE } from '../../utils';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
 import { InvertedButton } from '../common';
@@ -23,32 +23,32 @@ export class LoginPage extends Component {
     document.title = LOGIN_TITLE;
   }
 
-  componentDidMount() {
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-    if (authData) {
-      // if there is an access token saved already, try to fetch the user from the server
-      this.props.fetchUser();
-    }
+  // componentDidMount() {
+  //   const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  //   if (authData) {
+  //     // if there is an access token saved already, try to fetch the user from the server
+  //     this.props.fetchUser();
+  //   }
 
-    // Sets up localstorage listener for cross-tab communication
-    // since the authentication requires the user to be redirected
-    // to another page and then redirected back to a return URL with the token.
-    window.addEventListener('storage', this.storageEventListener);
-  }
+  //   // Sets up localstorage listener for cross-tab communication
+  //   // since the authentication requires the user to be redirected
+  //   // to another page and then redirected back to a return URL with the token.
+  //   window.addEventListener('storage', this.storageEventListener);
+  // }
 
-  componentWillUnmount() {
-    window.removeEventListener('storage', this.storageEventListener);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener('storage', this.storageEventListener);
+  // }
 
-  storageEventListener = () => {
-    const { storeAuthData, fetchUser } = this.props;
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  // storageEventListener = () => {
+  //   const { storeAuthData, fetchUser } = this.props;
+  //   const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 
-    if (authData) {
-      storeAuthData(authData); // store the auth data in Redux store
-      fetchUser();
-    }
-  }
+  //   if (authData) {
+  //     storeAuthData(authData); // store the auth data in Redux store
+  //     fetchUser();
+  //   }
+  // }
 
   registerBtnClicked = () => {
     window.open('https://www.bceid.ca/register/', '_blank');
@@ -73,7 +73,7 @@ export class LoginPage extends Component {
         <article className="login__paragraph2">
           <div className="login__paragraph2__title">What is {APP_NAME}?</div>
           <div className="login__paragraph2__text">
-            MyRangeBC is the new home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
+            {APP_NAME} is the new home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
           </div>
         </article>
         <article className="login__paragraph3">
@@ -128,7 +128,7 @@ export class LoginPage extends Component {
                   Easier login with BCeID
                 </div>
                 <div className="login__paragraph5__text">
-                  MyRangeBC uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
+                  {APP_NAME} uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
                 </div>
                 <InvertedButton
                   className="login__paragraph5__register-btn"

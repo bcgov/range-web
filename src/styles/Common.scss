@@ -291,3 +291,15 @@
     background: transparent none !important;
   } 
 }
+
+.signin-modal {
+  &__message {
+    background: $accent-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
