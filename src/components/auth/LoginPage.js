@@ -23,33 +23,6 @@ export class LoginPage extends Component {
     document.title = LOGIN_TITLE;
   }
 
-  // componentDidMount() {
-  //   const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-  //   if (authData) {
-  //     // if there is an access token saved already, try to fetch the user from the server
-  //     this.props.fetchUser();
-  //   }
-
-  //   // Sets up localstorage listener for cross-tab communication
-  //   // since the authentication requires the user to be redirected
-  //   // to another page and then redirected back to a return URL with the token.
-  //   window.addEventListener('storage', this.storageEventListener);
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('storage', this.storageEventListener);
-  // }
-
-  // storageEventListener = () => {
-  //   const { storeAuthData, fetchUser } = this.props;
-  //   const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-
-  //   if (authData) {
-  //     storeAuthData(authData); // store the auth data in Redux store
-  //     fetchUser();
-  //   }
-  // }
-
   registerBtnClicked = () => {
     window.open('https://www.bceid.ca/register/', '_blank');
   }
