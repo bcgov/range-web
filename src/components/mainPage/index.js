@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
 import InputModal from './InputModal';
-import { DoesUserHaveRole, isUserActive, registerAxiosInterceptors } from '../../utils';
+import { registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, fetchZones, signOut } from '../../actionCreators';
 
 export class MainPage extends Component {
@@ -31,18 +31,17 @@ export class MainPage extends Component {
       component: Component,
       ...rest
     } = this.props;
-    const { user } = rest;
 
     return (
       <main>
         <Navbar {...rest} />
 
-        { isUserActive(user) && DoesUserHaveRole(user) &&
-          <Component {...rest} />
-        }
+        <Component {...rest} />
 
         <ConfirmationModals />
+
         <InputModal />
+
         <Toasts />
 
         <footer />
