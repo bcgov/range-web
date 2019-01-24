@@ -9,6 +9,7 @@ export const fetchUsers = () => (dispatch, getState) => {
     (response) => {
       const users = response.data;
       dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
+
       return users;
     },
     (err) => {
@@ -23,6 +24,7 @@ export const fetchReferences = () => (dispatch, getState) => {
       const references = response.data;
       saveReferencesInLocalStorage(references);
       dispatch(storeReferences(references));
+
       return references;
     },
     (err) => {
@@ -46,6 +48,7 @@ export const fetchZones = districtId => (dispatch, getState) => {
     (response) => {
       const zones = response.data;
       dispatch(storeZones(normalize(zones, schema.arrayOfZones)));
+
       return zones;
     },
     (err) => {

@@ -20,7 +20,7 @@ const TEST = { // eslint-disable-line no-unused-vars
   API_BASE_URL: 'https://web-range-myra-test.pathfinder.gov.bc.ca/api',
 };
 
-const DEV_ENV = {
+export const DEV_ENV = {
   // ...PROD,
   ...DEV,
   // ...TEST,

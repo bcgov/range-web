@@ -19,3 +19,9 @@ export const removeAuthDataAndUser = () => (
     type: actionTypes.SIGN_OUT,
   }
 );
+
+export const reauthenticate = () => (
+  {
+    type: actionTypes.REAUTHENTICATE,
+  }
+);
