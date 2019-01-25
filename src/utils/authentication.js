@@ -147,7 +147,7 @@ export const isTokenExpired = () => {
 
 /**
  *
- * @param {object} config
+ * @param {object} config Axios's config
  * @returns {boolean}
  */
 const isRangeAPI = (config) => {
@@ -160,8 +160,24 @@ const isRangeAPI = (config) => {
 
 export const signOutFromSSO = () => {
   // open a new tab for signing out from SiteMinder which is Gov's auth platform
+
   // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
   window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
+};
+
+/**
+ *
+ * @param {object} config Axios's config
+ * @param {object} response network response from refreshing access token
+ * @returns {object}
+ */
+const createConfigReplacingHeaderWithNewToken = (config, response) => {
+  const data = response && response.data;
+  const { token_type: type, access_token: token } = data;
+  const c = { ...config };
+  c.headers.Authorization = type && token && `${type} ${token}`;
+
+  return c;
 };
 
 /**
@@ -182,14 +198,12 @@ export const registerAxiosInterceptors = (reauthenticate) => {
       if (!isBundled) console.log('Access token is expired. Trying to refresh it');
 
       const refreshToken = getRefreshTokenFromLocal();
+
       return refreshAccessToken(refreshToken).then(
         (response) => {
           saveAuthDataInLocal(response);
 
-          const data = response && response.data;
-          const { token_type: type, access_token: token } = data;
-          const c = { ...config };
-          c.headers.Authorization = type && token && `${type} ${token}`;
+          const c = createConfigReplacingHeaderWithNewToken(config, response);
           c.isRetry = true;
 
           return c;
