@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //

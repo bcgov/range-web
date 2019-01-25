@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -186,7 +186,8 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
  * case 1: access token is expired
  *  -> get new access token using the refresh token and try making the network again
  * case 2: both access and refresh tokens are expired
- *  -> sign out the user
+ *  -> request users to re signin by popping up SignInModal
+ *
  * @param {function} reauthenticate the action to re-authenticate
  * @returns {object} the config or err object
  */
