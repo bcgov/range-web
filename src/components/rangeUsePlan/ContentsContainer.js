@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { ELEMENT_ID, IMAGE_SRC, CONTENT_MARGIN_TOP, CONTENT_MARGIN_BOTTOM, STICKY_HEADER_HEIGHT } from '../../constants/variables';
-import { MINISTER_ISSUES, SCHEDULES, PASTURES, BASIC_INFORMATION, INVASIVE_PLANTS, ADDITIONAL_REQUIREMENTS, MANAGEMENT_CONSIDERATIONS } from '../../constants/strings';
+import * as strings from '../../constants/strings';
 
 class ContentsContainer extends Component {
   static propTypes = {
@@ -89,49 +89,49 @@ class ContentsContainer extends Component {
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.BASIC_INFORMATION_ICON} alt="icon" />
-            <span>{BASIC_INFORMATION}</span>
+            <span>{strings.BASIC_INFORMATION}</span>
           </a>
           <a
             href={`#${ELEMENT_ID.PASTURES}`}
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.PASTURES_ICON} alt="icon" />
-            <span>{PASTURES}</span>
+            <span>{strings.PASTURES}</span>
           </a>
           <a
             href={`#${ELEMENT_ID.GRAZING_SCHEDULE}`}
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.SCHEDULES_ICON} alt="icon" />
-            <span>{SCHEDULES}</span>
+            <span>{strings.SCHEDULES}</span>
           </a>
           <a
             href={`#${ELEMENT_ID.MINISTER_ISSUES}`}
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.MINISTER_ISSUES_ICON} alt="icon" />
-            <span>{MINISTER_ISSUES}</span>
+            <span>{strings.MINISTER_ISSUES}</span>
           </a>
           <a
             href={`#${ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}`}
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.INVASIVE_PLANTS_ICON} alt="icon" />
-            <span>{INVASIVE_PLANTS}</span>
+            <span>{strings.INVASIVE_PLANTS}</span>
           </a>
           <a
             href={`#${ELEMENT_ID.ADDITIONAL_REQUIREMENTS}`}
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.ADDITIONAL_REQS_ICON} alt="icon" />
-            <span>{ADDITIONAL_REQUIREMENTS}</span>
+            <span>{strings.ADDITIONAL_REQUIREMENTS}</span>
           </a>
           <a
             href={`#${ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}`}
             className="rup__contents__tab"
           >
             <img src={IMAGE_SRC.MANAGEMENT_ICON} alt="icon" />
-            <span>{MANAGEMENT_CONSIDERATIONS}</span>
+            <span>{strings.MANAGEMENT_CONSIDERATIONS}</span>
           </a>
         </div>
         <div className="rup__contents">
