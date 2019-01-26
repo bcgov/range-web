@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
@@ -10,6 +11,10 @@ import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
 
 export class LoginPage extends Component {
+  static propTypes = {
+    fetchUser: PropTypes.func.isRequired,
+  }
+
   componentWillMount() {
     document.title = LOGIN_TITLE;
   }
