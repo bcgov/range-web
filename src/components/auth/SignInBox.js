@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 import { Loading } from '../common';
 import { APP_NAME } from '../../constants/strings';
 import { LOCAL_STORAGE_KEY } from '../../constants/variables';
-import { getDataFromLocalStorage, isTokenExpired } from '../../utils';
+import { getDataFromLocalStorage } from '../../utils';
+import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators';
+import { storeAuthData, reauthenticate } from '../../actions';
+import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
 import SignInButtons from './SignInButtons';
 import SignInErrorMessage from './SignInErrorMessage';
 
@@ -16,6 +20,8 @@ class SignInBox extends Component {
     signOut: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
     storeAuthData: PropTypes.func.isRequired,
+    resetTimeoutForReAuth: PropTypes.func.isRequired,
+    reauthenticate: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -23,13 +29,6 @@ class SignInBox extends Component {
   }
 
   componentDidMount() {
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-    if (authData && !isTokenExpired()) {
-      // if there is an access token saved & not expired,
-      // try to fetch the user from the server
-      this.props.fetchUser();
-    }
-
     // Sets up localstorage listener for cross-tab communication
     // since the authentication requires the user to be redirected to a new tab
     // and then redirected back to a return URL(land in ReturnPage.js) with the token.
@@ -41,11 +40,12 @@ class SignInBox extends Component {
   }
 
   storageEventListener = () => {
-    const { storeAuthData, fetchUser } = this.props;
+    const { storeAuthData, fetchUser, resetTimeoutForReAuth, reauthenticate } = this.props;
     const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 
     if (authData) {
       storeAuthData(authData); // store the auth data in Redux store
+      resetTimeoutForReAuth(reauthenticate);
       fetchUser();
     }
   }
@@ -90,4 +90,18 @@ class SignInBox extends Component {
   }
 }
 
-export default SignInBox;
+const mapStateToProps = state => (
+  {
+    isFetchingUser: getIsFetchingUser(state),
+    errorFetchingUser: getUserErrorResponse(state),
+    errorOccuredFetchingUser: getUserErrorOccured(state),
+  }
+);
+
+export default connect(mapStateToProps, {
+  fetchUser,
+  storeAuthData,
+  signOut,
+  reauthenticate,
+  resetTimeoutForReAuth,
+})(SignInBox);

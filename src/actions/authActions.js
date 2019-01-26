@@ -25,3 +25,10 @@ export const reauthenticate = () => (
     type: actionTypes.REAUTHENTICATE,
   }
 );
+
+export const setTimeoutForAuthentication = timeoutId => (
+  {
+    type: actionTypes.SET_TIMEOUT_FOR_REAUTHENTICATION,
+    timeoutId,
+  }
+);

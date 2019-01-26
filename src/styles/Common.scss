@@ -293,6 +293,7 @@
 }
 
 .signin-modal {
+  &__login-message,
   &__message {
     background: $accent-color;
     display: flex;
@@ -301,5 +302,13 @@
     min-height: 45px;
     font-size: 1.2rem;
     font-weight: bold;
+  }
+  &__login-message {
+    font-size: 1.1rem;
+  }
+  &__login-btn {
+    color: #4183c4;
+    text-decoration: none;
+    cursor: pointer;
   }
 }

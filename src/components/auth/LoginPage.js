@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { IMAGE_SRC } from '../../constants/variables';
-import { storeAuthData } from '../../actions';
-import { fetchUser, signOut } from '../../actionCreators';
-import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
+import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
-import { detectIE } from '../../utils';
+import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
+import { fetchUser } from '../../actionCreators';
+import { InvertedButton } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
-import { InvertedButton } from '../common';
 
 export class LoginPage extends Component {
-  static propTypes = {
-    storeAuthData: PropTypes.func.isRequired,
-    fetchUser: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired,
-  };
-
   componentWillMount() {
     document.title = LOGIN_TITLE;
+  }
+
+  componentDidMount() {
+    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+    if (authData && !isTokenExpired()) {
+      // if there is an access token saved & not expired,
+      // try to fetch the user from the server
+      this.props.fetchUser();
+    }
   }
 
   registerBtnClicked = () => {
@@ -39,9 +39,7 @@ export class LoginPage extends Component {
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
         </article>
         <article className="login__paragraph1">
-          <SignInBox
-            {...this.props}
-          />
+          <SignInBox />
         </article>
         <article className="login__paragraph2">
           <div className="login__paragraph2__title">What is {APP_NAME}?</div>
@@ -140,12 +138,6 @@ export class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorResponse(state),
-    errorOccuredFetchingUser: getUserErrorOccured(state),
-  }
-);
-
-export default connect(mapStateToProps, { storeAuthData, fetchUser, signOut })(LoginPage);
+export default connect(null, {
+  fetchUser,
+})(LoginPage);

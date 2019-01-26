@@ -26,7 +26,7 @@ import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
 import InputModal from './InputModal';
 import { registerAxiosInterceptors } from '../../utils';
-import { fetchReferences, fetchZones, signOut } from '../../actionCreators';
+import { fetchReferences, fetchZones, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { reauthenticate } from '../../actions';
 import SignInModal from './SignInModal';
 
@@ -39,7 +39,9 @@ export class MainPage extends Component {
   }
 
   componentWillMount() {
-    registerAxiosInterceptors(this.props.reauthenticate);
+    const { reauthenticate, resetTimeoutForReAuth } = this.props;
+    resetTimeoutForReAuth(reauthenticate);
+    registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate);
   }
 
   componentDidMount() {
@@ -79,4 +81,5 @@ export default connect(null, {
   reauthenticate,
   fetchReferences,
   fetchZones,
+  resetTimeoutForReAuth,
 })(MainPage);

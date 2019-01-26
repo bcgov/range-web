@@ -180,6 +180,26 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
   return c;
 };
 
+/* eslint-disable no-console */
+
+/**
+ * set a timer to request users to re-authenticate
+ * after the access token expires + interval
+ *
+ * @param {function} reauthenticate the action to re-authenticate
+ */
+export const setTimeoutForReAuth = (reauthenticate) => {
+  if (!isBundled) console.log('set timeout for re-authentication');
+
+  const jstData = getJWTDataFromLocal();
+  const validPeriod = jstData.exp - (new Date() / 1000);
+  const intervalToRefreshToken = 20; // give some time to refresh the access token
+
+  return setTimeout(() => {
+    reauthenticate();
+  }, (validPeriod + intervalToRefreshToken) * 1000);
+};
+
 /**
  *
  * register an interceptor to refresh the access token when expired
@@ -191,7 +211,7 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
  * @param {function} reauthenticate the action to re-authenticate
  * @returns {object} the config or err object
  */
-export const registerAxiosInterceptors = (reauthenticate) => {
+export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate) => {
   axios.interceptors.request.use((config) => {
     const isFirstTimeTry = !config.isRetry;
 
@@ -203,6 +223,7 @@ export const registerAxiosInterceptors = (reauthenticate) => {
       return refreshAccessToken(refreshToken).then(
         (response) => {
           saveAuthDataInLocal(response);
+          resetTimeoutForReAuth(reauthenticate);
 
           const c = createConfigReplacingHeaderWithNewToken(config, response);
           c.isRetry = true;

@@ -22,8 +22,8 @@ import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
-import { getIsFetchingAgreements } from '../reducers/rootReducer';
-import { axios, saveUserProfileInLocal, createConfigWithHeader } from '../utils';
+import { getIsFetchingAgreements, getAuthTimeout } from '../reducers/rootReducer';
+import { axios, saveUserProfileInLocal, createConfigWithHeader, setTimeoutForReAuth } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
 
@@ -113,6 +113,13 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
       throw err;
     },
   );
+};
+
+export const resetTimeoutForReAuth = reauthenticate => (dispatch, getState) => {
+  clearTimeout(getAuthTimeout(getState()));
+
+  const timeoutId = setTimeoutForReAuth(reauthenticate);
+  dispatch(actions.setTimeoutForAuthentication(timeoutId));
 };
 
 export const signOut = () => (dispatch) => {

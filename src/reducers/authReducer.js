@@ -1,4 +1,4 @@
-import { STORE_SSO_AUTH_DATA, STORE_USER, SIGN_OUT, REAUTHENTICATE } from '../constants/actionTypes';
+import { STORE_SSO_AUTH_DATA, STORE_USER, SIGN_OUT, REAUTHENTICATE, SET_TIMEOUT_FOR_REAUTHENTICATION } from '../constants/actionTypes';
 import { getAuthAndUserFromLocal } from '../utils';
 
 const { user, authData } = getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {};
@@ -6,6 +6,7 @@ const initialState = {
   authData,
   user,
   reAuthRequired: false,
+  timeoutId: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -34,6 +35,11 @@ const authReducer = (state = initialState, action) => {
         reAuthRequired: true,
         authData: undefined,
       };
+    case SET_TIMEOUT_FOR_REAUTHENTICATION:
+      return {
+        ...state,
+        timeoutId: action.timeoutId,
+      };
     default:
       return state;
   }
@@ -44,5 +50,6 @@ export const getAuthData = state => state.authData;
 export const getToken = state => state.authData && state.authData.access_token;
 export const getUser = state => state.user;
 export const getReAuthRequired = state => state.reAuthRequired;
+export const getAuthTimeout = state => state.timeout;
 
 export default authReducer;
