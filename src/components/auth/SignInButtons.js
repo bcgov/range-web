@@ -17,7 +17,7 @@ class SignInButtons extends Component {
           className="signin__button"
           primary
           fluid
-          style={{ height: '50px', marginTop: '15px' }}
+          style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
           onClick={this.onBceidSigninBtnClick}
         >
           Login as Agreement Holder

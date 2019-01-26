@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
-import { storeAuthData } from '../../actions';
-import { fetchUser, signOut } from '../../actionCreators';
-import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
-import { detectIE, getDataFromLocalStorage } from '../../utils';
+import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
+import { fetchUser } from '../../actionCreators';
+import { InvertedButton } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
-import { InvertedButton } from '../common';
 
 export class LoginPage extends Component {
   static propTypes = {
-    storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired,
-  };
+  }
 
   componentWillMount() {
     document.title = LOGIN_TITLE;
@@ -25,28 +21,10 @@ export class LoginPage extends Component {
 
   componentDidMount() {
     const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-    if (authData) {
-      // if there is an access token saved already, try to fetch the user from the server
+    if (authData && !isTokenExpired()) {
+      // if there is an access token saved & not expired,
+      // try to fetch the user from the server
       this.props.fetchUser();
-    }
-
-    // Sets up localstorage listener for cross-tab communication
-    // since the authentication requires the user to be redirected
-    // to another page and then redirected back to a return URL with the token.
-    window.addEventListener('storage', this.storageEventListener);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('storage', this.storageEventListener);
-  }
-
-  storageEventListener = () => {
-    const { storeAuthData, fetchUser } = this.props;
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-
-    if (authData) {
-      storeAuthData(authData); // store the auth data in Redux store
-      fetchUser();
     }
   }
 
@@ -66,14 +44,12 @@ export class LoginPage extends Component {
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
         </article>
         <article className="login__paragraph1">
-          <SignInBox
-            {...this.props}
-          />
+          <SignInBox />
         </article>
         <article className="login__paragraph2">
           <div className="login__paragraph2__title">What is {APP_NAME}?</div>
           <div className="login__paragraph2__text">
-            MyRangeBC is the new home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
+            {APP_NAME} is the new home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
           </div>
         </article>
         <article className="login__paragraph3">
@@ -128,7 +104,7 @@ export class LoginPage extends Component {
                   Easier login with BCeID
                 </div>
                 <div className="login__paragraph5__text">
-                  MyRangeBC uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
+                  {APP_NAME} uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
                 </div>
                 <InvertedButton
                   className="login__paragraph5__register-btn"
@@ -167,12 +143,6 @@ export class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorResponse(state),
-    errorOccuredFetchingUser: getUserErrorOccured(state),
-  }
-);
-
-export default connect(mapStateToProps, { storeAuthData, fetchUser, signOut })(LoginPage);
+export default connect(null, {
+  fetchUser,
+})(LoginPage);

@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { Avatar } from '../common';
 import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
-import { isUserAdmin, isUserActive, signOutFromSSO } from '../../utils';
+import { isUserAdmin, signOutFromSSO } from '../../utils';
 import { signOut } from '../../actionCreators';
 import { SELECT_RUP, MANAGE_ZONES, MANAGE_CLIENTS } from '../../constants/strings';
 
@@ -39,45 +39,42 @@ export class Navbar extends Component {
           </div>
 
           <div className="navbar__right">
-            { isUserActive(user) &&
+            <NavLink
+              to={Routes.HOME}
+              className="navbar__link"
+              activeClassName="navbar__link--active"
+            >
+              {SELECT_RUP}
+            </NavLink>
+
+            {isUserAdmin(user) &&
               <Fragment>
                 <NavLink
-                  to={Routes.HOME}
+                  to={Routes.MANAGE_ZONE}
                   className="navbar__link"
                   activeClassName="navbar__link--active"
                 >
-                  {SELECT_RUP}
+                  {MANAGE_ZONES}
                 </NavLink>
-                { isUserAdmin(user) &&
-                  <Fragment>
-                    <NavLink
-                      to={Routes.MANAGE_ZONE}
-                      className="navbar__link"
-                      activeClassName="navbar__link--active"
-                    >
-                      {MANAGE_ZONES}
-                    </NavLink>
-                    <NavLink
-                      to={Routes.MANAGE_CLIENT}
-                      className="navbar__link"
-                      activeClassName="navbar__link--active"
-                    >
-                      {MANAGE_CLIENTS}
-                    </NavLink>
-                    {/* <Dropdown className="navbar__menu" text="Menu">
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          text="Manage Zone"
-                          onClick={this.onNavigate(Routes.MANAGE_ZONE)}
-                        />
-                        <Dropdown.Item
-                          text="Manage Client"
-                          onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
-                        />
-                      </Dropdown.Menu>
-                    </Dropdown> */}
-                  </Fragment>
-                }
+                <NavLink
+                  to={Routes.MANAGE_CLIENT}
+                  className="navbar__link"
+                  activeClassName="navbar__link--active"
+                >
+                  {MANAGE_CLIENTS}
+                </NavLink>
+                {/* <Dropdown className="navbar__menu" text="Menu">
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      text="Manage Zone"
+                      onClick={this.onNavigate(Routes.MANAGE_ZONE)}
+                    />
+                    <Dropdown.Item
+                      text="Manage Client"
+                      onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
+                    />
+                  </Dropdown.Menu>
+                </Dropdown> */}
               </Fragment>
             }
 
