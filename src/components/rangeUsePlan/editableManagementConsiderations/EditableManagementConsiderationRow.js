@@ -10,6 +10,7 @@ class EditalbeManagementConsiderationRow extends Component {
     references: PropTypes.shape({}).isRequired,
     updateManagementConsideration: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
   }
 
   onConsiderationChanged = (e, { name, value }) => {
@@ -25,12 +26,18 @@ class EditalbeManagementConsiderationRow extends Component {
     updateManagementConsideration({ managementConsideration });
   }
 
+  onDeleteConsiderationBtnClicked = () => {
+    const { closeConfirmationModal } = this.props;
+    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_MANAGEMENT_CONSIDERATION });
+    console.log('onDeleteConsiderationBtnClicked');
+  }
+
   openDeleteConsiderationConfirmationModal = () => {
     this.props.openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.DELETE_MANAGEMENT_CONSIDERATION,
       header: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER,
       content: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT,
-      onYesBtnClicked: this.onDeleteActionBtnClicked,
+      onYesBtnClicked: this.onDeleteConsiderationBtnClicked,
     });
   }
 
