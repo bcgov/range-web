@@ -67,5 +67,11 @@
         margin-right: 5px;
       }
     }
+    &__ellipsis {
+      .visible.menu.transition {
+        top: -8px !important;
+        margin: 0 0.5em 0 0 !important;
+      }
+    }
   }
 }

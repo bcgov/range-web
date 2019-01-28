@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Input, TextArea, Form } from 'semantic-ui-react';
-import { REFERENCE_KEY } from '../../../constants/variables';
+import { Icon, Dropdown, Input, TextArea, Form } from 'semantic-ui-react';
+import { REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+import { DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT, DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER } from '../../../constants/strings';
 
 class EditalbeManagementConsiderationRow extends Component {
   static propTypes = {
     managementConsideration: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     updateManagementConsideration: PropTypes.func.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
   }
 
   onConsiderationChanged = (e, { name, value }) => {
@@ -23,6 +25,15 @@ class EditalbeManagementConsiderationRow extends Component {
     updateManagementConsideration({ managementConsideration });
   }
 
+  openDeleteConsiderationConfirmationModal = () => {
+    this.props.openConfirmationModal({
+      id: CONFIRMATION_MODAL_ID.DELETE_MANAGEMENT_CONSIDERATION,
+      header: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER,
+      content: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT,
+      onYesBtnClicked: this.onDeleteActionBtnClicked,
+    });
+  }
+
   render() {
     const { managementConsideration, references } = this.props;
     const { detail, url, considerationTypeId } = managementConsideration;
@@ -34,6 +45,9 @@ class EditalbeManagementConsiderationRow extends Component {
         text: ct.name,
       };
     });
+    const ellipsisOptions = [
+      { key: 'delete', text: 'Delete', onClick: this.openDeleteConsiderationConfirmationModal },
+    ];
 
     return (
       <div className="rup__m-consideration__row">
@@ -50,21 +64,32 @@ class EditalbeManagementConsiderationRow extends Component {
           />
         </div>
         <div>
-          <Form>
-            <TextArea
-              name="detail"
-              rows={3}
-              value={detail}
-              onChange={this.onConsiderationChanged}
-            />
-            <Input
-              name="url"
-              value={url || ''}
-              onChange={this.onConsiderationChanged}
-              style={{ marginTop: '5px' }}
-              label="URL"
-              fluid
-            />
+          <Form style={{ display: 'flex' }}>
+            <div style={{ width: '100%' }}>
+              <TextArea
+                name="detail"
+                rows={3}
+                value={detail}
+                onChange={this.onConsiderationChanged}
+              />
+              <Input
+                name="url"
+                value={url || ''}
+                onChange={this.onConsiderationChanged}
+                style={{ marginTop: '5px' }}
+                label="URL"
+                fluid
+              />
+            </div>
+            <div className="rup__m-consideration__ellipsis">
+              <Dropdown
+                trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
+                options={ellipsisOptions}
+                icon={null}
+                pointing="right"
+                style={{ marginLeft: '5px', marginTop: '10px' }}
+              />
+            </div>
           </Form>
         </div>
       </div>
