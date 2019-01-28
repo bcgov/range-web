@@ -27,3 +27,10 @@ export const updateMinisterIssue = payload => (
     payload,
   }
 );
+
+export const updateManagementConsideration = payload => (
+  {
+    type: actionTypes.UPDATE_MANAGEMENT_CONSIDERATION,
+    payload,
+  }
+);
