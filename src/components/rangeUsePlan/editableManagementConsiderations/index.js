@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ManagementConsiderationRow from './ManagementConsiderationRow';
+import EditableManagementConsiderationRow from './EditableManagementConsiderationRow';
 
-class ManagementConsiderations extends Component {
+class EditableManagementConsiderations extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
+    references: PropTypes.shape({}).isRequired,
   }
 
   renderAdditionalRequirement = (managementConsideration) => {
+    const { references } = this.props;
     return (
-      <ManagementConsiderationRow
+      <EditableManagementConsiderationRow
         key={managementConsideration.id}
         managementConsideration={managementConsideration}
+        references={references}
       />
     );
   }
@@ -52,4 +55,4 @@ class ManagementConsiderations extends Component {
   }
 }
 
-export default ManagementConsiderations;
+export default EditableManagementConsiderations;

@@ -1,6 +1,6 @@
 .rup {
-  &__management-considerations,
-  &__additional-requirements {
+  &__m-considerations,
+  &__a-requirements {
     margin-bottom: $rup-content-margin-bottom;
 
     &__note {
@@ -18,8 +18,8 @@
       font-size: 1.1rem;
     }
   }
-  &__management-consideration,
-  &__additional-requirement {
+  &__m-consideration,
+  &__a-requirement {
     &__header {
       display: flex;
       margin-top: 5px;
@@ -27,10 +27,10 @@
       font-size: 1.2rem;
       margin-bottom: -5px;
 
-      div {
+      > div {
         &:nth-of-type(1) {
           padding-right: 10px;
-          flex: 0.4;
+          flex: 0.35;
         }
         &:nth-of-type(2) {
           flex: 1;
@@ -39,17 +39,17 @@
     }
     &__row {
       display: flex;
-      padding: 10px 0;
+      padding: 15px 0;
       border-bottom: 1px solid gainsboro;
 
       &:last-child {
         padding-bottom: 0px;
         border-bottom: 0px;
       }
-      div {
+      > div {
         &:nth-of-type(1) {
           padding-right: 10px;
-          flex: 0.4;
+          flex: 0.35;
         }
         &:nth-of-type(2) {
           flex: 1;

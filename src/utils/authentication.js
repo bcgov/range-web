@@ -193,7 +193,7 @@ export const setTimeoutForReAuth = (reauthenticate) => {
 
   const jstData = getJWTDataFromLocal();
   const validPeriod = jstData.exp - (new Date() / 1000);
-  const intervalToRefreshToken = 20; // give some time to refresh the access token
+  const intervalToRefreshToken = 60; // give some time to refresh the access token
 
   return setTimeout(() => {
     reauthenticate();

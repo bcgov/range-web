@@ -19,6 +19,7 @@ import InvasivePlantChecklist from '../invasivePlantChecklist';
 import EditableInvasivePlantChecklist from '../editableInvasivePlantChecklist';
 import AdditionalRequirements from '../additionalRequirements';
 import ManagementConsiderations from '../managementConsiderations';
+import EditableManagementConsiderations from '../editableManagementConsiderations';
 import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
 import { defaultProps, propTypes } from './props';
@@ -249,6 +250,12 @@ class PageForAH extends Component {
       pasturesMap,
       ministerIssuesMap,
     };
+    const managementConsiderationProps = {
+      elementId: ELEMENT_ID.MANAGEMENT_CONSIDERATIONS,
+      plan,
+      references,
+      managementConsiderationsMap,
+    };
 
     return (
       <section className="rup">
@@ -343,11 +350,10 @@ class PageForAH extends Component {
             additionalRequirementsMap={additionalRequirementsMap}
           />
 
-          <ManagementConsiderations
-            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
-            plan={plan}
-            managementConsiderationsMap={managementConsiderationsMap}
-          />
+          {canEdit
+            ? <EditableManagementConsiderations {...managementConsiderationProps} />
+            : <ManagementConsiderations {...managementConsiderationProps} />
+          }
         </ContentsContainer>
       </section>
     );
