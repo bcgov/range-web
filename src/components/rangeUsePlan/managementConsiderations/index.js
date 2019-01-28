@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ManagementConsiderationRow from './ManagementConsiderationRow';
 
-class PlantCommunityActionsBox extends Component {
+class ManagementConsiderations extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
@@ -52,4 +52,4 @@ class PlantCommunityActionsBox extends Component {
   }
 }
 
-export default PlantCommunityActionsBox;
+export default ManagementConsiderations;

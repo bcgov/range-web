@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { handleNullValue, getRangeReadinessMonthAndDate } from '../../../utils';
-import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../constants/variables';
+import { handleNullValue, getRangeReadinessMonthAndDate } from '../../../../utils';
+import IndicatorPlants from '../IndicatorPlants';
+import { PLANT_CRITERIA } from '../../../../constants/variables';
 
 class RangeReadinessBox extends Component {
   static propTypes = {

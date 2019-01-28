@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AdditionalRequirementRow from './AdditionalRequirementRow';
 
-class PlantCommunityActionsBox extends Component {
+class AdditionalRequirements extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     additionalRequirementsMap: PropTypes.shape({}).isRequired,
@@ -52,4 +52,4 @@ class PlantCommunityActionsBox extends Component {
   }
 }
 
-export default PlantCommunityActionsBox;
+export default AdditionalRequirements;

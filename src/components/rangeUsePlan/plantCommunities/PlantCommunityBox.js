@@ -5,10 +5,10 @@ import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNI
 import { PURPOSE_OF_ACTION as PurposeOfAction, IMAGE_SRC } from '../../../constants/variables';
 import { handleNullValue, capitalize } from '../../../utils';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
-import MonitoringAreas from './MonitoringAreas';
-import RangeReadinessBox from './RangeReadinessBox';
-import StubbleHeightBox from './StubbleHeightBox';
-import ShrubUseBox from './ShrubUseBox';
+import MonitoringAreaList from './monitoringArea';
+import RangeReadinessBox from './critera/RangeReadinessBox';
+import StubbleHeightBox from './critera/StubbleHeightBox';
+import ShrubUseBox from './critera/ShrubUseBox';
 
 class PlantCommunityBoxModal extends Component {
   static propTypes = {
@@ -130,7 +130,7 @@ class PlantCommunityBoxModal extends Component {
           <div className="rup__plant-community__modal__content-title">
             Monitoring Areas
           </div>
-          <MonitoringAreas
+          <MonitoringAreaList
             monitoringAreas={monitoringAreas}
           />
         </Modal.Content>

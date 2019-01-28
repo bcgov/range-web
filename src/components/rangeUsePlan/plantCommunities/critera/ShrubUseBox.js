@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import IndicatorPlants from './IndicatorPlants';
 // import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
-import { handleNullValue } from '../../../utils';
+import { handleNullValue } from '../../../../utils';
 
 class ShrubUseBox extends Component {
   static propTypes = {

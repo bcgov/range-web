@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MonitoringAreaRow from './MonitoringAreaBox';
 
-class MonitoringAreas extends Component {
+class MonitoringAreaList extends Component {
   static propTypes = {
     monitoringAreas: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
@@ -30,4 +30,4 @@ class MonitoringAreas extends Component {
   }
 }
 
-export default MonitoringAreas;
+export default MonitoringAreaList;

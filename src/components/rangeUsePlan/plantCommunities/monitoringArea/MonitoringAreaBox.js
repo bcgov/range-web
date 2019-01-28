@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { getMonitoringAreaPurposes, handleNullValue } from '../../../utils';
+import { getMonitoringAreaPurposes, handleNullValue } from '../../../../utils';
 
 class MonitoringAreaBox extends Component {
   static propTypes = {

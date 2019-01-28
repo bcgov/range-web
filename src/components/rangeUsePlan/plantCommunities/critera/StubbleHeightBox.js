@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import IndicatorPlants from './IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../constants/variables';
+import IndicatorPlants from '../IndicatorPlants';
+import { PLANT_CRITERIA } from '../../../../constants/variables';
 
 class StubbleHeightBox extends Component {
   static propTypes = {
