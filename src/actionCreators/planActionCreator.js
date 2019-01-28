@@ -17,38 +17,7 @@ import {
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
 import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
-
-export const createRUPAdditionalRequirement = (planId, requirement) => (dispatch, getState) => {
-  return axios.post(
-    API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
-    requirement,
-    createConfigWithHeader(getState),
-  ).then(
-    (response) => {
-      return response.data;
-    },
-    (err) => {
-      dispatch(toastErrorMessage(err));
-      throw err;
-    },
-  );
-};
-
-export const createRUPManagementConsideration = (planId, consideration) => (dispatch, getState) => {
-  return axios.post(
-    API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
-    consideration,
-    createConfigWithHeader(getState),
-  ).then(
-    (response) => {
-      return response.data;
-    },
-    (err) => {
-      dispatch(toastErrorMessage(err));
-      throw err;
-    },
-  );
-};
+import { createRUPManagementConsideration, createRUPAdditionalRequirement } from './requirementAndConsiderationActionCreator';
 
 export const createRUPInvasivePlantChecklist = (planId, invasivePlantChecklist) => (dispatch, getState) => {
   return axios.post(

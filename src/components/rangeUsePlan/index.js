@@ -18,6 +18,7 @@ import {
   createAmendment,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
+  createOrUpdateRUPManagementConsideration,
 } from '../../actionCreators';
 
 class Base extends Component {
@@ -155,4 +156,5 @@ export default connect(mapStateToProps, {
   closeConfirmationModal,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
+  createOrUpdateRUPManagementConsideration,
 })(Base);

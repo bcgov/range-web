@@ -81,8 +81,10 @@ class PageForAH extends Component {
       grazingSchedulesMap,
       toastErrorMessage,
       ministerIssuesMap,
+      managementConsiderationsMap,
       createOrUpdateRUPMinisterIssueAndActions,
       createOrUpdateRUPInvasivePlantChecklist,
+      createOrUpdateRUPManagementConsideration,
     } = this.props;
 
     onRequested();
@@ -98,10 +100,12 @@ class PageForAH extends Component {
       grazingSchedules: gsIds,
       ministerIssues: miIds,
       invasivePlantChecklist,
+      managementConsiderations: mcIds,
     } = plan;
     const statusId = status && status.id;
     const grazingSchedules = gsIds && gsIds.map(id => grazingSchedulesMap[id]);
     const ministerIssues = miIds && miIds.map(id => ministerIssuesMap[id]);
+    const managementConsiderations = mcIds && mcIds.map(id => managementConsiderationsMap[id]);
 
     try {
       await Promise.all(grazingSchedules.map(schedule => (
@@ -112,6 +116,9 @@ class PageForAH extends Component {
       )));
       await createOrUpdateRUPInvasivePlantChecklist(planId, invasivePlantChecklist);
       await updateRUPStatus(planId, statusId, false);
+      await Promise.all(managementConsiderations.map(consideration => (
+        createOrUpdateRUPManagementConsideration(planId, consideration)
+      )));
       await onSuccess();
     } catch (err) {
       onError();

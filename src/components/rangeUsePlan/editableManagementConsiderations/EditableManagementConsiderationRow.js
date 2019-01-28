@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Dropdown, Input, TextArea, Form } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { updateManagementConsideration } from '../../../actions';
 
 class EditalbeManagementConsiderationRow extends Component {
   static propTypes = {
@@ -63,7 +61,7 @@ class EditalbeManagementConsiderationRow extends Component {
               name="url"
               value={url || ''}
               onChange={this.onConsiderationChanged}
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: '5px' }}
               label="URL"
               fluid
             />
@@ -74,6 +72,4 @@ class EditalbeManagementConsiderationRow extends Component {
   }
 }
 
-export default connect(null, {
-  updateManagementConsideration,
-})(EditalbeManagementConsiderationRow);
+export default EditalbeManagementConsiderationRow;

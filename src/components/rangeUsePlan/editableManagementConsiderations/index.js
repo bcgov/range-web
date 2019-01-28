@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditableManagementConsiderationRow from './EditableManagementConsiderationRow';
+import { updateManagementConsideration } from '../../../actions';
 
 class EditableManagementConsiderations extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
+    updateManagementConsideration: PropTypes.func.isRequired,
   }
 
   renderAdditionalRequirement = (managementConsideration) => {
-    const { references } = this.props;
+    const { references, updateManagementConsideration } = this.props;
     return (
       <EditableManagementConsiderationRow
         key={managementConsideration.id}
         managementConsideration={managementConsideration}
         references={references}
+        updateManagementConsideration={updateManagementConsideration}
       />
     );
   }
@@ -55,4 +59,6 @@ class EditableManagementConsiderations extends Component {
   }
 }
 
-export default EditableManagementConsiderations;
+export default connect(null, {
+  updateManagementConsideration,
+})(EditableManagementConsiderations);

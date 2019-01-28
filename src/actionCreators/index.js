@@ -33,6 +33,7 @@ export * from './commonActionCreator';
 export * from './grazingScheduleActionCreator';
 export * from './pastureActionCreator';
 export * from './ministerIssueActionCreator';
+export * from './requirementAndConsiderationActionCreator';
 
 export const fetchAgreement = agreementId => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.GET_AGREEMENT));
