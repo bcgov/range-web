@@ -37,7 +37,7 @@ class InvasivePlantChecklist extends Component {
               />
               <Form.Checkbox
                 inline
-                label="Any work will being in un-infested areas before moving to infested locations"
+                label="Any work will begin in un-infested areas before moving to infested locations"
                 disabled
                 checked={beginInUninfestedArea}
               />
