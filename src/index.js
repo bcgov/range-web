@@ -20,8 +20,8 @@
 
 import 'react-app-polyfill/ie9'; // includes IE10 and IE11 support.
 
-import './styles/index.scss';
 import './semantic/semantic.min.css';
+import './styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

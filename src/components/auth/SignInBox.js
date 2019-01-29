@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 import { Loading } from '../common';
-import { APP_NAME } from '../../constants/strings';
 import { LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { getDataFromLocalStorage } from '../../utils';
 import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators';
@@ -64,9 +63,10 @@ class SignInBox extends Component {
 
         <div className="signin__container">
           <div className="signin__title">Sign In</div>
-          <div className="signin__text1">to continue to {APP_NAME}</div>
+          <div className="signin__text1">to continue to MyRangeBC</div>
           <div className="signin__text2">We use the BCeID for authentication.</div>
           <a
+            className="signin__text3"
             href="https://portal.nrs.gov.bc.ca/web/client/bceid"
             target="_blank"
             rel="noopener noreferrer"

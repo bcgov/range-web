@@ -40,13 +40,13 @@
 @import './Grid.scss';
 
 body {
-  overflow-x: auto !important;
-  min-width: $large-width !important;
+  overflow-x: auto;
+  min-width: $large-width;
 }
 
 main {
   height: 100vh;
-  display: flex !important; 
+  display: flex; 
   flex-direction: column;
-  min-width: $large-width !important;
+  min-width: $large-width;
 }

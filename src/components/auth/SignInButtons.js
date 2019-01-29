@@ -26,18 +26,18 @@ class SignInButtons extends Component {
           <div
             role="button"
             tabIndex="0"
-            onClick={this.onIdirSigninBtnClick}
+            onClick={this.onSigninBtnClick}
           >
             Range Staff Login
           </div>
-          <div className="signin__divider" />
+          {/* <div className="signin__divider" />
           <div
             role="button"
             tabIndex="0"
             onClick={this.onSigninBtnClick}
           >
             Admin Login
-          </div>
+          </div> */}
         </div>
       </Fragment>
     );

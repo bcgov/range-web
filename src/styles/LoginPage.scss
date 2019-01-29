@@ -145,6 +145,13 @@
     margin-top: 20px;
     margin-bottom: 2px;
   }
+  &__text3 {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
   &__error {
     margin-top: 15px;
     width: 100%;
@@ -152,15 +159,19 @@
   }
   &__link-container {
     align-self: stretch;
-    text-align: right;
-    margin-top: 25px;
-    border-top: 1px solid lightgray;
+    text-align: center;
     padding-top: 15px;
     font-size: 1rem;
-
+    color: black;
+    
     > div {
       display: inline;
       cursor: pointer;
+      text-decoration: underline;
+      
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
