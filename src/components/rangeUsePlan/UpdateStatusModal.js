@@ -13,7 +13,7 @@ class UpdateStatusModal extends Component {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     planUpdated: PropTypes.func.isRequired,
-    addPlanStatusHistoryRecord: PropTypes.func.isRequired,
+    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -43,7 +43,7 @@ class UpdateStatusModal extends Component {
       references,
       updateRUPStatus,
       planUpdated,
-      addPlanStatusHistoryRecord,
+      planStatusHistoryRecordAdded,
       createRUPStatusHistoryRecord,
       onClose,
     } = this.props;
@@ -65,7 +65,7 @@ class UpdateStatusModal extends Component {
 
       if (requireNote && note) {
         const record = await createRUPStatusHistoryRecord(plan, newStatus, note);
-        addPlanStatusHistoryRecord({
+        planStatusHistoryRecordAdded({
           planId,
           record,
           planStatusHistory: [record.id, ...planStatusHistory],

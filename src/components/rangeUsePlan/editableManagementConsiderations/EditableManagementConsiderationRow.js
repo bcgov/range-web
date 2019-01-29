@@ -9,7 +9,7 @@ class EditalbeManagementConsiderationRow extends Component {
   static propTypes = {
     managementConsideration: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
-    updateManagementConsideration: PropTypes.func.isRequired,
+    managementConsiderationUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
     deleteRUPManagementConsideration: PropTypes.func.isRequired,
@@ -19,14 +19,14 @@ class EditalbeManagementConsiderationRow extends Component {
   onConsiderationChanged = (e, { name, value }) => {
     const {
       managementConsideration: mc,
-      updateManagementConsideration,
+      managementConsiderationUpdated,
     } = this.props;
     const managementConsideration = {
       ...mc,
       [name]: value,
     };
 
-    updateManagementConsideration({ managementConsideration });
+    managementConsiderationUpdated({ managementConsideration });
   }
 
   onDeleteConsiderationBtnClicked = () => {

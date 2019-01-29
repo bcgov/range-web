@@ -7,7 +7,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRUPGrazingSchedule } from '../../../actionCreators';
-import { addGrazingSchedule, updateGrazingSchedule, deleteGrazingSchedule } from '../../../actions';
+import { grazingScheduleAdded, grazingScheduleUpdated, grazingScheduleDeleted } from '../../../actions';
 import * as utils from '../../../utils';
 import EditableGrazingScheduleBox from './EditableGrazingScheduleBox';
 
@@ -18,8 +18,8 @@ export class EditableGrazingSchedules extends Component {
     grazingSchedulesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-    addGrazingSchedule: PropTypes.func.isRequired,
-    deleteGrazingSchedule: PropTypes.func.isRequired,
+    grazingScheduleAdded: PropTypes.func.isRequired,
+    grazingScheduleDeleted: PropTypes.func.isRequired,
     deleteRUPGrazingSchedule: PropTypes.func.isRequired,
   };
   constructor(props) {
@@ -94,7 +94,7 @@ export class EditableGrazingSchedules extends Component {
   }
 
   handleScheduleDelete = (schedule, scheduleIndex) => {
-    const { plan, deleteGrazingSchedule, deleteRUPGrazingSchedule } = this.props;
+    const { plan, grazingScheduleDeleted, deleteRUPGrazingSchedule } = this.props;
 
     const planId = plan && plan.id;
     const { year, id: scheduleId } = schedule;
@@ -118,7 +118,7 @@ export class EditableGrazingSchedules extends Component {
       const grazingSchedules = [...plan.grazingSchedules];
       grazingSchedules.splice(scheduleIndex, 1);
 
-      deleteGrazingSchedule({
+      grazingScheduleDeleted({
         planId, // for plansReducer
         grazingSchedules, // for plansReducer
         grazingScheduleId: scheduleId, // for grazingSchedulesReducer
@@ -134,7 +134,7 @@ export class EditableGrazingSchedules extends Component {
   }
 
   addGrazingScheduleInStore = (grazingSchedule) => {
-    const { addGrazingSchedule, plan, grazingSchedulesMap } = this.props;
+    const { grazingScheduleAdded, plan, grazingSchedulesMap } = this.props;
     const { yearOptions: currYearOptions } = this.state;
 
     // construct a new sorted list of grazing schedules
@@ -145,7 +145,7 @@ export class EditableGrazingSchedules extends Component {
     newGrazingSchedules.sort((s1, s2) => s1.year - s2.year);
 
     // pass the copied grazing schedule and new sorted list of schedule ids for the plan reducer
-    addGrazingSchedule({
+    grazingScheduleAdded({
       planId: plan.id,
       grazingSchedules: newGrazingSchedules.map(s => s.id),
       grazingSchedule,
@@ -252,8 +252,8 @@ export class EditableGrazingSchedules extends Component {
 }
 
 export default connect(null, {
-  addGrazingSchedule,
-  updateGrazingSchedule,
-  deleteGrazingSchedule,
+  grazingScheduleAdded,
+  grazingScheduleUpdated,
+  grazingScheduleDeleted,
   deleteRUPGrazingSchedule,
 })(EditableGrazingSchedules);

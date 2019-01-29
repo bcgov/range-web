@@ -10,7 +10,7 @@ import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
-import { openConfirmationModal, closeConfirmationModal, updateGrazingSchedule } from '../../../actions';
+import { openConfirmationModal, closeConfirmationModal, grazingScheduleUpdated } from '../../../actions';
 import { deleteRUPGrazingSchedule, deleteRUPGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID, IMAGE_SRC } from '../../../constants/variables';
 
@@ -27,7 +27,7 @@ class EditableGrazingScheduleBox extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-    updateGrazingSchedule: PropTypes.func.isRequired,
+    grazingScheduleUpdated: PropTypes.func.isRequired,
     handleScheduleCopy: PropTypes.func.isRequired,
     handleScheduleDelete: PropTypes.func.isRequired,
     deleteRUPGrazingScheduleEntry: PropTypes.func.isRequired,
@@ -37,18 +37,18 @@ class EditableGrazingScheduleBox extends Component {
 
   onNarativeChanged = (e, { value }) => {
     e.preventDefault();
-    const { schedule, updateGrazingSchedule } = this.props;
+    const { schedule, grazingScheduleUpdated } = this.props;
     const grazingSchedule = {
       ...schedule,
       narative: value,
     };
 
-    updateGrazingSchedule({ grazingSchedule });
+    grazingScheduleUpdated({ grazingSchedule });
   }
 
   onAddRowClicked = (e) => {
     e.preventDefault();
-    const { schedule, updateGrazingSchedule } = this.props;
+    const { schedule, grazingScheduleUpdated } = this.props;
     const grazingSchedule = { ...schedule };
     const entry = {
       key: uuid(),
@@ -56,7 +56,7 @@ class EditableGrazingScheduleBox extends Component {
       graceDays: 0,
     };
     grazingSchedule.grazingScheduleEntries.push(entry);
-    updateGrazingSchedule({ grazingSchedule });
+    grazingScheduleUpdated({ grazingSchedule });
   }
 
   onScheduleCopyClicked = ({ value: year }) => () => {
@@ -71,15 +71,15 @@ class EditableGrazingScheduleBox extends Component {
   }
 
   handleScheduleEntryChange = (entry, entryIndex) => {
-    const { schedule, updateGrazingSchedule } = this.props;
+    const { schedule, grazingScheduleUpdated } = this.props;
     const grazingSchedule = { ...schedule };
     grazingSchedule.grazingScheduleEntries[entryIndex] = entry;
 
-    updateGrazingSchedule({ grazingSchedule });
+    grazingScheduleUpdated({ grazingSchedule });
   }
 
   handleScheduleEntryCopy = (entryIndex) => {
-    const { schedule, updateGrazingSchedule } = this.props;
+    const { schedule, grazingScheduleUpdated } = this.props;
 
     const entry = {
       ...schedule.grazingScheduleEntries[entryIndex],
@@ -88,13 +88,13 @@ class EditableGrazingScheduleBox extends Component {
     delete entry.id;
     const grazingSchedule = { ...schedule };
     grazingSchedule.grazingScheduleEntries.push(entry);
-    updateGrazingSchedule({ grazingSchedule });
+    grazingScheduleUpdated({ grazingSchedule });
   }
 
   handleScheduleEntryDelete = (entryIndex) => {
     const {
       schedule,
-      updateGrazingSchedule,
+      grazingScheduleUpdated,
       deleteRUPGrazingScheduleEntry,
     } = this.props;
     const grazingSchedule = { ...schedule };
@@ -103,7 +103,7 @@ class EditableGrazingScheduleBox extends Component {
     const scheduleId = schedule && schedule.id;
     const entryId = deletedEntry && deletedEntry.id;
     const onDeleted = () => {
-      updateGrazingSchedule({ grazingSchedule });
+      grazingScheduleUpdated({ grazingSchedule });
     };
 
     // delete the entry saved in server
@@ -301,7 +301,7 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  updateGrazingSchedule,
+  grazingScheduleUpdated,
   openConfirmationModal,
   closeConfirmationModal,
   deleteRUPGrazingSchedule,

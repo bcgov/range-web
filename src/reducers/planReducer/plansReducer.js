@@ -1,10 +1,10 @@
 import {
   STORE_PLAN,
   PLAN_UPDATED,
-  ADD_GRAZING_SCHEDULE,
-  DELETE_GRAZING_SCHEDULE,
-  ADD_PLAN_STATUS_HISTORY_RECORD,
-  DELETE_MANAGEMENT_CONSIDERATION,
+  GRAZING_SCHEDULE_ADDED,
+  GRAZING_SCHEDULE_DELETED,
+  PLAN_STATUS_HISTORY_RECORD_ADDED,
+  MANAGEMENT_CONSIDERATION_DELETED,
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -112,13 +112,13 @@ const plansReducer = (state = initialState, action) => {
       return storePlan(state, action);
     case PLAN_UPDATED:
       return updatePlan(state, action);
-    case ADD_GRAZING_SCHEDULE:
+    case GRAZING_SCHEDULE_ADDED:
       return addGrazingSchedule(state, action);
-    case DELETE_GRAZING_SCHEDULE:
+    case GRAZING_SCHEDULE_DELETED:
       return deleteGrazingSchedule(state, action);
-    case ADD_PLAN_STATUS_HISTORY_RECORD:
+    case PLAN_STATUS_HISTORY_RECORD_ADDED:
       return addPlanStatusHistoryRecord(state, action);
-    case DELETE_MANAGEMENT_CONSIDERATION:
+    case MANAGEMENT_CONSIDERATION_DELETED:
       return deleteManagementConsideration(state, action);
     default:
       return state;

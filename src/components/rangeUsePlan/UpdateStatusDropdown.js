@@ -5,7 +5,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
-import { planUpdated, addPlanStatusHistoryRecord } from '../../actions';
+import { planUpdated, planStatusHistoryRecordAdded } from '../../actions';
 import { updateRUPStatus, createRUPStatusHistoryRecord } from '../../actionCreators';
 import * as strings from '../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
@@ -16,7 +16,7 @@ class UpdateStatusDropdown extends Component {
     references: PropTypes.shape({}).isRequired,
     confirmationModalsMap: PropTypes.shape({}).isRequired,
     planUpdated: PropTypes.func.isRequired,
-    addPlanStatusHistoryRecord: PropTypes.func.isRequired,
+    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
     isUpdatingStatus: PropTypes.bool.isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
     createRUPStatusHistoryRecord: PropTypes.func.isRequired,
@@ -234,7 +234,7 @@ const mapStateToProps = state => (
 
 export default connect(mapStateToProps, {
   planUpdated,
-  addPlanStatusHistoryRecord,
+  planStatusHistoryRecordAdded,
   updateRUPStatus,
   createRUPStatusHistoryRecord,
 })(UpdateStatusDropdown);

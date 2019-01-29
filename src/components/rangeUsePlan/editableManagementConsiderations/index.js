@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
-import { updateManagementConsideration, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
+import { managementConsiderationUpdated, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
 import { deleteRUPManagementConsideration } from '../../../actionCreators';
 import { InvertedButton } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
@@ -15,7 +15,7 @@ class EditableManagementConsiderations extends Component {
   }
 
   onConsiderationOptionChanged = (e, { value }) => {
-    console.log('onConsiderationOptionChanged');
+    console.log(value, 'onConsiderationOptionChanged');
   }
 
   renderAdditionalRequirement = (managementConsideration) => {
@@ -93,7 +93,7 @@ class EditableManagementConsiderations extends Component {
 }
 
 export default connect(null, {
-  updateManagementConsideration,
+  managementConsiderationUpdated,
   openConfirmationModal,
   closeConfirmationModal,
   deleteRUPManagementConsideration,
