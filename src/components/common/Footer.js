@@ -17,6 +17,7 @@ class Footer extends Component {
         {withTopPad &&
           <section className="footer__pad" />
         }
+
         <footer className="footer">
           <div className="container">
             <div className="footer__content-list">

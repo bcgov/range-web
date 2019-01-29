@@ -71,7 +71,7 @@ class SignInBox extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn more about BCeID here.
+            Learn more about BCeID.
           </a>
 
           {errorOccuredFetchingUser &&
