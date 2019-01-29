@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid-v4';
 import { Icon, Dropdown, Input, TextArea, Form } from 'semantic-ui-react';
 import { REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT, DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER } from '../../../constants/strings';
@@ -11,6 +12,8 @@ class EditalbeManagementConsiderationRow extends Component {
     updateManagementConsideration: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
+    deleteRUPManagementConsideration: PropTypes.func.isRequired,
+    managementConsiderationDeleted: PropTypes.func.isRequired,
   }
 
   onConsiderationChanged = (e, { name, value }) => {
@@ -27,9 +30,24 @@ class EditalbeManagementConsiderationRow extends Component {
   }
 
   onDeleteConsiderationBtnClicked = () => {
-    const { closeConfirmationModal } = this.props;
+    const {
+      closeConfirmationModal,
+      managementConsideration,
+      deleteRUPManagementConsideration,
+      managementConsiderationDeleted,
+    } = this.props;
+    const { id: considerationId, planId } = managementConsideration;
+
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_MANAGEMENT_CONSIDERATION });
-    console.log('onDeleteConsiderationBtnClicked');
+
+    const onDeleted = () => {
+      managementConsiderationDeleted({ planId, considerationId });
+    };
+    if (planId && considerationId && !uuid.isUUID(considerationId)) {
+      deleteRUPManagementConsideration(planId, considerationId).then(onDeleted);
+    } else {
+      onDeleted();
+    }
   }
 
   openDeleteConsiderationConfirmationModal = () => {

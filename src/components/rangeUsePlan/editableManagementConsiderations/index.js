@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
-import EditableManagementConsiderationRow from './EditableManagementConsiderationRow';
-import { updateManagementConsideration, openConfirmationModal, closeConfirmationModal } from '../../../actions';
+import { updateManagementConsideration, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
+import { deleteRUPManagementConsideration } from '../../../actionCreators';
 import { InvertedButton } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
+import EditableManagementConsiderationRow from './EditableManagementConsiderationRow';
 
 class EditableManagementConsiderations extends Component {
   static propTypes = {
@@ -95,4 +96,6 @@ export default connect(null, {
   updateManagementConsideration,
   openConfirmationModal,
   closeConfirmationModal,
+  deleteRUPManagementConsideration,
+  managementConsiderationDeleted,
 })(EditableManagementConsiderations);

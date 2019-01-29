@@ -34,3 +34,10 @@ export const updateManagementConsideration = payload => (
     payload,
   }
 );
+
+export const managementConsiderationDeleted = payload => (
+  {
+    type: actionTypes.DELETE_MANAGEMENT_CONSIDERATION,
+    payload,
+  }
+);

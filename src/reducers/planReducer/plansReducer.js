@@ -1,4 +1,11 @@
-import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE, ADD_PLAN_STATUS_HISTORY_RECORD } from '../../constants/actionTypes';
+import {
+  STORE_PLAN,
+  PLAN_UPDATED,
+  ADD_GRAZING_SCHEDULE,
+  DELETE_GRAZING_SCHEDULE,
+  ADD_PLAN_STATUS_HISTORY_RECORD,
+  DELETE_MANAGEMENT_CONSIDERATION,
+} from '../../constants/actionTypes';
 
 const initialState = {
   byId: {},
@@ -69,6 +76,20 @@ const deleteGrazingSchedule = (state, action) => {
   };
 };
 
+const deleteManagementConsideration = (state, action) => {
+  const { planId, considerationId } = action.payload;
+  const plan = { ...state.byId[planId] };
+  plan.managementConsiderations = plan.managementConsiderations.filter(c => c !== considerationId);
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [planId]: plan,
+    },
+  };
+};
+
 const addPlanStatusHistoryRecord = (state, action) => {
   const { planId, planStatusHistory } = action.payload;
   const plan = {
@@ -97,6 +118,8 @@ const plansReducer = (state = initialState, action) => {
       return deleteGrazingSchedule(state, action);
     case ADD_PLAN_STATUS_HISTORY_RECORD:
       return addPlanStatusHistoryRecord(state, action);
+    case DELETE_MANAGEMENT_CONSIDERATION:
+      return deleteManagementConsideration(state, action);
     default:
       return state;
   }
