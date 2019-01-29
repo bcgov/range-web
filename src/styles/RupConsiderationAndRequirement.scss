@@ -41,6 +41,7 @@
       display: flex;
       padding: 15px 0;
       border-bottom: 1px solid gainsboro;
+      font-size: 1.1rem;
 
       &:last-child {
         padding-bottom: 0px;
@@ -63,7 +64,6 @@
 
       &__label {
         color: gray;
-        font-size: 1.1rem;
         margin-right: 5px;
       }
     }

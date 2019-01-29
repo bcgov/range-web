@@ -56,12 +56,14 @@ export class AgreementTableRow extends Component {
     const isActiveAndHasPlans = mostCurrPlan && isActive;
 
     return (
-      <div className={classnames('agrm__table__row',
+      <div
+        className={classnames(
+          'agrm__table__row',
           {
             'agrm__table__row--active': isActiveAndHasPlans,
             'agrm__table__row--not-active': (activeIndex >= 0 && !isActiveAndHasPlans),
-          })
-        }
+          },
+        )}
       >
         <button
           className="agrm__table__accordian"
@@ -83,9 +85,10 @@ export class AgreementTableRow extends Component {
             }
           </div>
         </button>
-        <div className={classnames(
-          'agrm__table__panel',
-          { 'agrm__table__panel--active': isActiveAndHasPlans },
+        <div
+          className={classnames(
+            'agrm__table__panel',
+            { 'agrm__table__panel--active': isActiveAndHasPlans },
           )}
         >
           <PlanTable

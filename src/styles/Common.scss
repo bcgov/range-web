@@ -312,3 +312,24 @@
     cursor: pointer;
   }
 }
+
+.footer {
+  background: $primary-color;
+  border-top: 2px solid $accent-color;
+  color: white;
+  margin-top: auto;
+
+  &__pad {
+    margin: 35px;
+  }
+  &__content-list {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0px;
+  }
+  &__divider {
+    border-right: 1px solid #ccc;
+    margin: 0 15px 0 11px;
+    padding: 0 2px;
+  }
+}

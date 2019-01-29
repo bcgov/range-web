@@ -268,7 +268,12 @@ class EditableGrazingScheduleBox extends Component {
               <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
               <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
               <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
-              <div className={classnames('rup__grazing-schedule__AUM-number', { 'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError })}>
+              <div
+                className={classnames(
+                  'rup__grazing-schedule__AUM-number',
+                  { 'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError },
+                )}
+              >
                 {roundedCrownTotalAUMs}
               </div>
             </div>

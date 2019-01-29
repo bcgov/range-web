@@ -6,7 +6,7 @@ import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
 import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
 import { fetchUser } from '../../actionCreators';
-import { InvertedButton } from '../common';
+import { InvertedButton, Footer } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
 
@@ -125,19 +125,8 @@ export class LoginPage extends Component {
             </div>
           </div>
         </article>
-        <article className="login__paragraph6">
-          <div className="container">
-            <div className="login__footer">
-              <span>Copyright</span>
-              <div className="login__divider" />
-              <span>Accessibility</span>
-              <div className="login__divider" />
-              <span>Privacy</span>
-              <div className="login__divider" />
-              <span>Disclaimer</span>
-            </div>
-          </div>
-        </article>
+
+        <Footer />
       </section>
     );
   }

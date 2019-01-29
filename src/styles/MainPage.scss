@@ -1,3 +1,9 @@
+main {
+  height: 100vh;
+  display: flex !important; 
+  flex-direction: column;
+}
+
 .navbar {
   background: $primary-color;
   border-bottom: 2px solid $accent-color;
@@ -110,10 +116,6 @@
   justify-content: center;
   height: 100vh;
   font-size: 1.5rem;
-}
-
-footer {
-  height: 40px;
 }
 
 .confirmation-modal {

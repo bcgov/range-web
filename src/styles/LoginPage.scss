@@ -21,6 +21,7 @@
     align-items: center;
     background: $primary-color;
     height: 60px;
+    border-bottom: 2px solid $accent-color;
 
     &__logo {
       height: 60px;
@@ -108,16 +109,6 @@
       align-self: flex-start;
       margin-top: 10px !important;
     }
-  }
-  &__footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 15px 0px;
-  }
-  &__divider {
-    border-right: 1px solid #ccc;
-    margin: 0 15px 0 11px;
-    padding: 0 2px;
   }
 }
 
