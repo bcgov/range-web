@@ -41,5 +41,12 @@
 
 body {
   overflow-x: auto !important;
-  min-width: $tablet-width !important;
+  min-width: $large-width !important;
+}
+
+main {
+  height: 100vh;
+  display: flex !important; 
+  flex-direction: column;
+  min-width: $large-width !important;
 }
