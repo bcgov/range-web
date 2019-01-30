@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
-import { managementConsiderationUpdated, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
+import uuid from 'uuid-v4';
+import { managementConsiderationAdded, managementConsiderationUpdated, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
 import { deleteRUPManagementConsideration } from '../../../actionCreators';
 import { InvertedButton } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
@@ -14,8 +15,21 @@ class EditableManagementConsiderations extends Component {
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
   }
 
-  onConsiderationOptionChanged = (e, { value }) => {
-    console.log(value, 'onConsiderationOptionChanged');
+  onConsiderationOptionClicked = (e, { value: considerationTypeId }) => {
+    const { plan, managementConsiderationAdded } = this.props;
+    const { id: planId } = plan;
+    const managementConsideration = {
+      id: uuid(),
+      considerationTypeId,
+      detail: '',
+      url: '',
+      planId,
+    };
+
+    managementConsiderationAdded({
+      planId,
+      managementConsideration,
+    });
   }
 
   renderAdditionalRequirement = (managementConsideration) => {
@@ -83,7 +97,7 @@ class EditableManagementConsiderations extends Component {
             options={considerTypeOptions}
             icon={null}
             pointing="left"
-            onChange={this.onConsiderationOptionChanged}
+            onChange={this.onConsiderationOptionClicked}
             selectOnBlur={false}
           />
         </div>
@@ -97,5 +111,6 @@ export default connect(null, {
   openConfirmationModal,
   closeConfirmationModal,
   deleteRUPManagementConsideration,
+  managementConsiderationAdded,
   managementConsiderationDeleted,
 })(EditableManagementConsiderations);

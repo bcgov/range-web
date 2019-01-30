@@ -4,6 +4,7 @@ import {
   GRAZING_SCHEDULE_ADDED,
   GRAZING_SCHEDULE_DELETED,
   PLAN_STATUS_HISTORY_RECORD_ADDED,
+  MANAGEMENT_CONSIDERATION_ADDED,
   MANAGEMENT_CONSIDERATION_DELETED,
 } from '../../constants/actionTypes';
 
@@ -76,10 +77,12 @@ const deleteGrazingSchedule = (state, action) => {
   };
 };
 
-const deleteManagementConsideration = (state, action) => {
-  const { planId, considerationId } = action.payload;
-  const plan = { ...state.byId[planId] };
-  plan.managementConsiderations = plan.managementConsiderations.filter(c => c !== considerationId);
+const addPlanStatusHistoryRecord = (state, action) => {
+  const { planId, planStatusHistory } = action.payload;
+  const plan = {
+    ...state.byId[planId],
+    planStatusHistory,
+  };
 
   return {
     ...state,
@@ -90,12 +93,27 @@ const deleteManagementConsideration = (state, action) => {
   };
 };
 
-const addPlanStatusHistoryRecord = (state, action) => {
-  const { planId, planStatusHistory } = action.payload;
-  const plan = {
-    ...state.byId[planId],
-    planStatusHistory,
+const addManagementConsideration = (state, action) => {
+  const { planId, managementConsideration } = action.payload;
+  const plan = { ...state.byId[planId] };
+  plan.managementConsiderations = [
+    ...plan.managementConsiderations,
+    managementConsideration.id,
+  ];
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [planId]: plan,
+    },
   };
+};
+
+const deleteManagementConsideration = (state, action) => {
+  const { planId, considerationId } = action.payload;
+  const plan = { ...state.byId[planId] };
+  plan.managementConsiderations = plan.managementConsiderations.filter(c => c !== considerationId);
 
   return {
     ...state,
@@ -118,6 +136,8 @@ const plansReducer = (state = initialState, action) => {
       return deleteGrazingSchedule(state, action);
     case PLAN_STATUS_HISTORY_RECORD_ADDED:
       return addPlanStatusHistoryRecord(state, action);
+    case MANAGEMENT_CONSIDERATION_ADDED:
+      return addManagementConsideration(state, action);
     case MANAGEMENT_CONSIDERATION_DELETED:
       return deleteManagementConsideration(state, action);
     default:

@@ -63,6 +63,13 @@ export const ministerIssueUpdated = payload => (
   }
 );
 
+export const managementConsiderationAdded = payload => (
+  {
+    type: actionTypes.MANAGEMENT_CONSIDERATION_ADDED,
+    payload,
+  }
+);
+
 export const managementConsiderationUpdated = payload => (
   {
     type: actionTypes.MANAGEMENT_CONSIDERATION_UPDATED,

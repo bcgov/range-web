@@ -11,7 +11,7 @@ import {
 import { success, request, error } from '../actions';
 import { DELETE_MANAGEMENT_CONSIDERATION_REQUEST } from '../constants/reducerTypes';
 
-export const createRUPAdditionalRequirement = (planId, requirement) => (dispatch, getState) => {
+export const createRUPAdditionalRequirement = (planId, { id, ...requirement }) => (dispatch, getState) => {
   return axios.post(
     CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
     requirement,
@@ -26,7 +26,7 @@ export const createRUPAdditionalRequirement = (planId, requirement) => (dispatch
   );
 };
 
-export const createRUPManagementConsideration = (planId, consideration) => (dispatch, getState) => {
+export const createRUPManagementConsideration = (planId, { id, ...consideration }) => (dispatch, getState) => {
   return axios.post(
     CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
     consideration,
