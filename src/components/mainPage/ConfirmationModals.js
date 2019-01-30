@@ -53,7 +53,7 @@ class ConfirmationModals extends Component {
               onClick={onYesBtnClicked}
             >
               <Icon name="checkmark" />
-              Submit
+              Confirm
             </Button>
           </div>
         </Modal.Content>

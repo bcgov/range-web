@@ -131,7 +131,7 @@ class UpdateStatusModal extends Component {
               disabled={requireNote && !note}
             >
               <Icon name="checkmark" />
-              Submit
+              Confirm
             </Button>
           </div>
         </Modal.Content>
