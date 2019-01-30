@@ -7,6 +7,7 @@ const propTypes = {
   active: PropTypes.bool,
   message: PropTypes.string,
   onlySpinner: PropTypes.bool,
+  size: PropTypes.string,
 };
 
 const defaultProps = {
@@ -14,22 +15,24 @@ const defaultProps = {
   active: true,
   message: '',
   onlySpinner: false,
+  size: 'large',
 };
 
-const Loading = ({ active, inverted, message, onlySpinner }) => {
+const Loading = ({ size, active, inverted, message, onlySpinner }) => {
   if (onlySpinner) {
     return (
       <div className="loading-spinner__container">
-        <Loader active={active} size="large" content={message} />
+        <Loader active={active} size={size} content={message} />
       </div>
     );
   }
+
   return (
     <Dimmer
       active={active}
       inverted={inverted}
     >
-      <Loader size="large" content={message} />
+      <Loader size={size} content={message} />
     </Dimmer>
   );
 };
