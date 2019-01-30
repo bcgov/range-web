@@ -1,14 +1,14 @@
 .rup {
   &__ip-checklist {
-    margin-bottom: $common-margin-bottom;
+    margin-bottom: $rup-content-margin-bottom;
   
     &__header {
       font-size: 1.1rem;
       margin-top: 5px;
     }
     &__form {
-      margin: 10px;
-  
+      margin: 10px 15px;
+
       .disabled.inline.field {
         opacity: 1 !important;
   

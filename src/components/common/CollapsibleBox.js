@@ -42,9 +42,10 @@ class CollapsibleBox extends Component {
       <li className="collaspible-box">
         <div className="collaspible-box__header">
           <button
-            className={classnames('collaspible-box__header__title', {
-              'collaspible-box__header__title--active': isActive,
-            })}
+            className={classnames(
+              'collaspible-box__header__title',
+              { 'collaspible-box__header__title--active': isActive },
+            )}
             onClick={onContentClicked(contentIndex)}
           >
             {header}

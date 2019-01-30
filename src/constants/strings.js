@@ -166,6 +166,9 @@ export const DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER = 'Confirmation: Deleting Graz
 export const DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT = 'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
 export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER = 'Confirmation: Deleting Minister Issue Action';
 export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT = 'This action will be permanently deleted. Are you sure you want to delete this minister issue action?';
+export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER = 'Confirmation: Deleting Management Consideration';
+export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT = 'This consideration will be permanently deleted. Are you sure you want to delete this management consideration?';
+
 export const UPDATE_CLIENT_ID_CONFIRM_HEADER = 'Confirmation: Link Client';
 export const UPDATE_CLIENT_ID_CONFIRM_CONTENT = 'Are you sure you want to link this user to the client?';
 export const SUBMIT_RUP_CHANGE_CONFIRM_HEADER = 'Ready to Submit?';

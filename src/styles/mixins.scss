@@ -4,18 +4,21 @@ $large-width: 1024px;
 $desktop-width: 75em;
 $x-large-width: 90em;
 
-$sidebar-width: 220px;
-$nav-height: 50px;
-$content-margin-top: 20px;
-
 $light-gray-color: rgba(34,36,38,1);
 $primary-color: #003366;
 $primary-light-color : #5475A7;
 $accent-color: #FCBA19;
 $error-color: indianred; // #9f3a38;
 
-$rup-sticky-z-index: 1;
-$toast-z-index: 10;
+$sidebar-width: 220px;
+$nav-height: 50px;
+
+$toast-z-index: 15;
+
+$rup-sticky-z-index: 10;
+$rup-sticky-height: 50.5px;
+$rup-content-margin-bottom: 35px; // edit CONTENT_MARGIN_BOTTOM and CONTENT_MARGIN_TOP
+$rup-content-margin-top: 20px;    // in variable.js when changing this value
 
 .default-button {
   color: inherit;

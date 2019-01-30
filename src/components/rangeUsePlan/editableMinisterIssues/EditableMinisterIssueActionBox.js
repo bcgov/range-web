@@ -15,16 +15,26 @@ class EditableMinisterIssueActionBox extends Component {
     handleActionDelete: PropTypes.func.isRequired,
   };
 
-  onActionFieldChanged = (e, { value, name }) => {
+  onActionFieldChanged = (e, { name, value }) => {
     const {
       action,
       actionIndex,
       handleActionChange,
+      references,
     } = this.props;
     const newAction = {
       ...action,
       [name]: value,
     };
+
+    if (name === 'actionTypeId') {
+      const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+      const otherActionType = actionTypes.find(t => t.name === 'Other');
+
+      if (otherActionType && (value === otherActionType.id)) {
+        newAction.other = null;
+      }
+    }
 
     handleActionChange(newAction, actionIndex);
   }
@@ -49,13 +59,13 @@ class EditableMinisterIssueActionBox extends Component {
     const { detail, actionTypeId, other } = action;
     const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
     const actionTypesMap = {};
-    const actionTypeOptions = actionTypes.map((miat) => {
-      actionTypesMap[miat.id] = miat;
+    const actionTypeOptions = actionTypes.map((at) => {
+      actionTypesMap[at.id] = at;
 
       return {
-        key: miat.id,
-        value: miat.id,
-        text: miat.name,
+        key: at.id,
+        value: at.id,
+        text: at.name,
       };
     });
     const currActionType = actionTypesMap[actionTypeId];
@@ -96,7 +106,7 @@ class EditableMinisterIssueActionBox extends Component {
               options={ellipsisOptions}
               icon={null}
               pointing="right"
-              style={{ marginRight: '-5px' }}
+              style={{ marginRight: '2px' }}
             />
           </div>
         </div>

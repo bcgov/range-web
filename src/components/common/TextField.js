@@ -33,7 +33,12 @@ const TextField = ({
 
   return (
     <div className={classnames('text-field', className)}>
-      <div className={classnames('text-field__label', { 'text-field__label--hidden': isLabelHidden })}>
+      <div
+        className={classnames(
+          'text-field__label',
+          { 'text-field__label--hidden': isLabelHidden },
+        )}
+      >
         {label}
       </div>
 

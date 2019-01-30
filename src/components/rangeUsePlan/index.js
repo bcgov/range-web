@@ -3,13 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'semantic-ui-react';
 import { Loading, InvertedButton } from '../common';
-import { planUpdated, updateGrazingSchedule, openConfirmationModal, closeConfirmationModal } from '../../actions';
+import { planUpdated, grazingScheduleUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
-import { fetchRUP, updateRUPStatus, createOrUpdateRUPGrazingSchedule, toastSuccessMessage, toastErrorMessage, createAmendment, createOrUpdateRUPMinisterIssueAndActions } from '../../actionCreators';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
 import PageForStaff from './pageForStaff';
 import PageForAH from './pageForAH';
+import {
+  fetchRUP,
+  updateRUPStatus,
+  createOrUpdateRUPGrazingSchedule,
+  toastSuccessMessage,
+  toastErrorMessage,
+  createAmendment,
+  createOrUpdateRUPMinisterIssueAndActions,
+  createOrUpdateRUPInvasivePlantChecklist,
+  createOrUpdateRUPManagementConsideration,
+} from '../../actionCreators';
 
 class Base extends Component {
   static propTypes = {
@@ -137,7 +147,7 @@ export default connect(mapStateToProps, {
   fetchRUP,
   updateRUPStatus,
   planUpdated,
-  updateGrazingSchedule,
+  grazingScheduleUpdated,
   createOrUpdateRUPGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
@@ -145,4 +155,6 @@ export default connect(mapStateToProps, {
   openConfirmationModal,
   closeConfirmationModal,
   createOrUpdateRUPMinisterIssueAndActions,
+  createOrUpdateRUPInvasivePlantChecklist,
+  createOrUpdateRUPManagementConsideration,
 })(Base);

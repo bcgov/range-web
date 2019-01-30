@@ -39,11 +39,11 @@ const grazingSchedulesReducer = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.STORE_PLAN:
       return storeGrazingSchedules(state, action);
-    case actionTypes.ADD_GRAZING_SCHEDULE:
+    case actionTypes.GRAZING_SCHEDULE_ADDED:
       return addSchedule(state, action);
-    case actionTypes.UPDATE_GRAZING_SCHEDULE:
+    case actionTypes.GRAZING_SCHEDULE_UPDATED:
       return updateSchedule(state, action);
-    case actionTypes.DELETE_GRAZING_SCHEDULE:
+    case actionTypes.GRAZING_SCHEDULE_DELETED:
       return deleteSchedule(state, action);
     default:
       return state;

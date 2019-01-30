@@ -1,3 +1,23 @@
+//
+// MyRangeBC
+//
+// Copyright © 2018 Province of British Columbia
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// Created by Kyubin Han.
+//
+
 import { isBundled, RETURN_PAGE_TYPE } from './variables';
 
 const PROD = { // eslint-disable-line no-unused-vars
@@ -6,8 +26,8 @@ const PROD = { // eslint-disable-line no-unused-vars
   API_BASE_URL: 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api',
 };
 
-// const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
-const DEV_API_BASE_URL = 'http://localhost:8000/api';
+const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
+// const DEV_API_BASE_URL = 'http://localhost:8000/api';
 const DEV = { // eslint-disable-line no-unused-vars
   SSO_BASE_URL: 'https://sso-dev.pathfinder.gov.bc.ca',
   SITEMINDER_BASE_URL: 'https://logontest.gov.bc.ca',
@@ -20,7 +40,7 @@ const TEST = { // eslint-disable-line no-unused-vars
   API_BASE_URL: 'https://web-range-myra-test.pathfinder.gov.bc.ca/api',
 };
 
-const DEV_ENV = {
+export const DEV_ENV = {
   // ...PROD,
   ...DEV,
   // ...TEST,
@@ -95,8 +115,11 @@ export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) => `
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community`;
 export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action`;
 
-export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) => `v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`;
+export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`;
 export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) => `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area`;
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId => `/v1/plan/${planId}/invasive-plant-checklist`;
+export const UPDATE_RUP_INVASIVE_PLANT_CHECKLIST = (planId, checklistId) => `/v1/plan/${planId}/invasive-plant-checklist/${checklistId}`;
 export const CREATE_RUP_MANAGEMENT_CONSIDERATION = planId => `/v1/plan/${planId}/management-consideration`;
+export const UPDATE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) => `/v1/plan/${planId}/management-consideration/${considerationId}`;
+export const DELETE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) => `/v1/plan/${planId}/management-consideration/${considerationId}`;
 export const CREATE_RUP_ADDITIONAL_REQUIREMENT = planId => `/v1/plan/${planId}/additional-requirement`;

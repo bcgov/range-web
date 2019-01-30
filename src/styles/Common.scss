@@ -287,7 +287,59 @@
 
   .ui.button {
     color: $primary-color !important;
-    box-shadow: 0 0 0 2px $primary-color inset !important;
+    box-shadow: 0 0 0 1.5px #003366 inset !important;
     background: transparent none !important;
-  } 
+
+    &:hover {
+      background: #f2f2f2 !important;
+    }
+  }
+}
+
+.signin-modal {
+  &__login-msg,
+  &__msg {
+    background: $accent-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  &__login-msg {
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 10px;
+  }
+  &__login-btn {
+    color: #4183c4;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  &__warning-msg {
+    line-height: 25px;
+    text-decoration: underline;
+  }
+}
+
+.footer {
+  background: $primary-color;
+  border-top: 2px solid $accent-color;
+  color: white;
+  margin-top: auto;
+
+  &__pad {
+    margin: 35px;
+  }
+  &__content-list {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0px;
+  }
+  &__divider {
+    border-right: 1px solid #ccc;
+    margin: 0 15px 0 11px;
+    padding: 0 2px;
+  }
 }

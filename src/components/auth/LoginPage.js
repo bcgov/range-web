@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Icon } from 'semantic-ui-react';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
-import { storeAuthData } from '../../actions';
-import { fetchUser, signOut } from '../../actionCreators';
-import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
-import { APP_NAME, LOGIN_TITLE } from '../../constants/strings';
-import { detectIE, getDataFromLocalStorage } from '../../utils';
+import { LOGIN_TITLE } from '../../constants/strings';
+import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
+import { fetchUser } from '../../actionCreators';
+import { InvertedButton, Footer } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
 
 export class LoginPage extends Component {
   static propTypes = {
-    storeAuthData: PropTypes.func.isRequired,
     fetchUser: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired,
-  };
+  }
 
   componentWillMount() {
     document.title = LOGIN_TITLE;
@@ -24,28 +21,10 @@ export class LoginPage extends Component {
 
   componentDidMount() {
     const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-    if (authData) {
-      // if there is an access token saved already, try to fetch the user from the server
+    if (authData && !isTokenExpired()) {
+      // if there is an access token saved & not expired,
+      // try to fetch the user from the server
       this.props.fetchUser();
-    }
-
-    // Sets up localstorage listener for cross-tab communication
-    // since the authentication requires the user to be redirected
-    // to another page and then redirected back to a return URL with the token.
-    window.addEventListener('storage', this.storageEventListener);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('storage', this.storageEventListener);
-  }
-
-  storageEventListener = () => {
-    const { storeAuthData, fetchUser } = this.props;
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-
-    if (authData) {
-      storeAuthData(authData); // store the auth data in Redux store
-      fetchUser();
     }
   }
 
@@ -65,14 +44,12 @@ export class LoginPage extends Component {
           <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
         </article>
         <article className="login__paragraph1">
-          <SignInBox
-            {...this.props}
-          />
+          <SignInBox />
         </article>
         <article className="login__paragraph2">
-          <div className="login__paragraph2__title">What is {APP_NAME}?</div>
+          <div className="login__paragraph2__title">What is MyRangeBC?</div>
           <div className="login__paragraph2__text">
-            MyRangeBC is the new home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
+            MyRangeBC is the home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
           </div>
         </article>
         <article className="login__paragraph3">
@@ -80,10 +57,10 @@ export class LoginPage extends Component {
             <div className="login__paragraph4__content">
               <div className="login__paragraph-cell">
                 <div className="login__paragraph3__title">
-                  Simplified electronic Range Use Plan across BC
+                  Simplified electronic Range Use Plan across B.C.
                 </div>
                 <div className="login__paragraph3__text">
-                  After February 15, 2019 all new Range Use Plans will be submitted electronically using the new standard content requirements. Plans can be submitted, viewed, amended and printed from this site.
+                  After February 2019 all new Range Use Plans will need to be submitted electronically using the new standard content requirements.  Plans can be submitted, viewed, amended and printed from this site.
                 </div>
               </div>
               <div className="login__paragraph-cell">
@@ -113,7 +90,7 @@ export class LoginPage extends Component {
                   Submit your Range Use Plan faster than ever
                 </div>
                 <div className="login__paragraph4__text">
-                  Electronic submission of new plans and amendments allows range staff and agreement holders to share content immediately. Agreement holders will be able to check the status of submissions at any time and contact the identified staff member to discuss their grazing or hay cutting operations.
+                  Electronic submissions of new plans and amendments allow range staff and agreement holders to share content immediately. Agreement holders will be able to check the status of submissions at any time and contact the identified staff member at any time to discuss their grazing or hay cutting operations.
                 </div>
               </div>
             </div>
@@ -127,17 +104,15 @@ export class LoginPage extends Component {
                   Easier login with BCeID
                 </div>
                 <div className="login__paragraph5__text">
-                  MyRangeBC uses the secure BCeID for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications. Click below and follow the instructions to get a BCeID account.
+                  MyRangeBC uses the secure BCeID  for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications.  Follow the instructions at the link below to get a BCeID account .
                 </div>
-                <Button
+                <InvertedButton
                   className="login__paragraph5__register-btn"
-                  primary
-                  basic
-                  compact
+                  primaryColor
                   onClick={this.registerBtnClicked}
                 >
-                  Register Now
-                </Button>
+                  Register for a BCeID
+                </InvertedButton>
               </div>
               <div className="login__paragraph-cell">
                 <img
@@ -150,30 +125,13 @@ export class LoginPage extends Component {
             </div>
           </div>
         </article>
-        <article className="login__paragraph6">
-          <div className="container">
-            <div className="login__footer">
-              <span>Copyright</span>
-              <div className="login__divider" />
-              <span>Accessibility</span>
-              <div className="login__divider" />
-              <span>Privacy</span>
-              <div className="login__divider" />
-              <span>Disclaimer</span>
-            </div>
-          </div>
-        </article>
+
+        <Footer />
       </section>
     );
   }
 }
 
-const mapStateToProps = state => (
-  {
-    isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorResponse(state),
-    errorOccuredFetchingUser: getUserErrorOccured(state),
-  }
-);
-
-export default connect(mapStateToProps, { storeAuthData, fetchUser, signOut })(LoginPage);
+export default connect(null, {
+  fetchUser,
+})(LoginPage);

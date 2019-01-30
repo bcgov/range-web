@@ -13,15 +13,15 @@ class AdditionalRequirementRow extends Component {
     const categoryName = category && category.name;
 
     return (
-      <div className="rup__additional-requirement__row">
+      <div className="rup__a-requirement__row">
         <div>
           {handleNullValue(categoryName)}
         </div>
         <div>
           {handleNullValue(detail)}
-          <div className="rup__additional-requirement__url">
-            <span className="rup__additional-requirement__url__label">
-              Url:
+          <div className="rup__a-requirement__url">
+            <span className="rup__a-requirement__url__label">
+              URL:
             </span>
             {handleNullValue(url)}
           </div>

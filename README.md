@@ -99,8 +99,7 @@ Create React App (from 1.0 onwards) allows us to dynamically import parts of our
 
 * Integration with Sass 
 
-* Semantic UI
-  [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
+* [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
 
 ## Create React App
   The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). The project was ejected once to add more plugins and make changes in Webpack configuration, then it was switched back since the newer version took care of all the demands.

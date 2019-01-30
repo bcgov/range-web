@@ -21,6 +21,7 @@
     align-items: center;
     background: $primary-color;
     height: 60px;
+    border-bottom: 2px solid $accent-color;
 
     &__logo {
       height: 60px;
@@ -53,7 +54,7 @@
     justify-content: center;
     align-items: center;
     padding: 50px 0;
-    min-height: 600px;
+    min-height: 500px;
   }
   &__paragraph2 {
     display: flex;
@@ -96,7 +97,7 @@
     }
     &__text {
       font-size: 1.2rem;
-      line-height: 20px;
+      line-height: 25px;
     }
     &__image {
       max-width: 100%;
@@ -108,16 +109,6 @@
       align-self: flex-start;
       margin-top: 10px !important;
     }
-  }
-  &__footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 15px 0px;
-  }
-  &__divider {
-    border-right: 1px solid #ccc;
-    margin: 0 15px 0 11px;
-    padding: 0 2px;
   }
 }
 
@@ -138,6 +129,7 @@
     background: white;
     border-radius: 5px;
     font-family: Lato;
+    font-size: 1.2rem;
   }
   &__title {
     font-size: 2.3rem;
@@ -145,17 +137,20 @@
     color: #234075;
   }
   &__text1 {
-    font-size: 1.1rem;
     text-align: center;
     margin-top: 5px;
   }
   &__text2 {
-    font-size: 1.1rem;
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 2px;
   }
   &__text3 {
-    font-size: 1.1rem;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
   &__error {
     margin-top: 15px;
@@ -164,14 +159,19 @@
   }
   &__link-container {
     align-self: stretch;
-    text-align: right;
-    margin-top: 25px;
-    border-top: 1px solid lightgray;
+    text-align: center;
     padding-top: 15px;
-
+    font-size: 1rem;
+    color: black;
+    
     > div {
       display: inline;
       cursor: pointer;
+      text-decoration: underline;
+      
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }

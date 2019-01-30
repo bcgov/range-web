@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -21,5 +21,4 @@ export * from './storeActions';
 export * from './networkActions';
 export * from './authActions';
 export * from './updateActions';
-export * from './planActions';
 export * from './commonActions';

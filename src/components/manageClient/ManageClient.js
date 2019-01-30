@@ -58,6 +58,7 @@ class ManageClient extends Component {
     const { usersMap, userUpdated, updateClientIdOfUser, closeConfirmationModal } = this.props;
 
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_CLIENT });
+
     const onSuccess = (newUser) => {
       const user = {
         ...usersMap[userId],
@@ -71,6 +72,7 @@ class ManageClient extends Component {
         clientNumber: null,
       });
     };
+
     updateClientIdOfUser(userId, clientNumber).then(onSuccess);
   }
 

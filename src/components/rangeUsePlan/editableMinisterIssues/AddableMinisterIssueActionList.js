@@ -5,7 +5,7 @@ import uuid from 'uuid-v4';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
-import { updateMinisterIssue, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
+import { ministerIssueUpdated, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { InvertedButton } from '../../common';
@@ -16,7 +16,7 @@ class AddableMinisterIssueActionList extends Component {
       ministerIssueActions: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
     references: PropTypes.shape({}).isRequired,
-    updateMinisterIssue: PropTypes.func.isRequired,
+    ministerIssueUpdated: PropTypes.func.isRequired,
     openInputModal: PropTypes.func.isRequired,
   };
 
@@ -36,17 +36,17 @@ class AddableMinisterIssueActionList extends Component {
   }
 
   handleMIActionChange = (action, actionIndex) => {
-    const { ministerIssue: mi, updateMinisterIssue } = this.props;
+    const { ministerIssue: mi, ministerIssueUpdated } = this.props;
     const ministerIssue = { ...mi };
     ministerIssue.ministerIssueActions[actionIndex] = action;
 
-    updateMinisterIssue({ ministerIssue });
+    ministerIssueUpdated({ ministerIssue });
   }
 
   handleMIActionDelete = (actionIndex) => {
     const {
       ministerIssue: mi,
-      updateMinisterIssue,
+      ministerIssueUpdated,
       deleteRUPMinisterIssueAction,
     } = this.props;
     const ministerIssue = { ...mi };
@@ -55,7 +55,7 @@ class AddableMinisterIssueActionList extends Component {
     const issueId = ministerIssue && ministerIssue.id;
     const actionId = deletedAction && deletedAction.id;
     const onDeleted = () => {
-      updateMinisterIssue({ ministerIssue });
+      ministerIssueUpdated({ ministerIssue });
     };
 
     // delete the action saved in server
@@ -67,7 +67,7 @@ class AddableMinisterIssueActionList extends Component {
   }
 
   onActionTypeOptionClicked = (e, { value: actionTypeId }) => {
-    const { ministerIssue: mi, updateMinisterIssue } = this.props;
+    const { ministerIssue: mi, ministerIssueUpdated } = this.props;
     const ministerIssue = { ...mi };
     const action = {
       id: uuid(),
@@ -76,7 +76,7 @@ class AddableMinisterIssueActionList extends Component {
       other: '',
     };
     ministerIssue.ministerIssueActions.push(action);
-    updateMinisterIssue({ ministerIssue });
+    ministerIssueUpdated({ ministerIssue });
 
     this.openInputModalWhenOtherTypeSelected(action);
   }
@@ -157,7 +157,7 @@ class AddableMinisterIssueActionList extends Component {
 }
 
 export default connect(null, {
-  updateMinisterIssue,
+  ministerIssueUpdated,
   openInputModal,
   closeConfirmationModal,
   openConfirmationModal,

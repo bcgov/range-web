@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
 import { isNoteRequired } from '../../utils';
+import { InvertedButton } from '../common';
 
 class UpdateStatusModal extends Component {
   static propTypes = {
@@ -12,7 +13,7 @@ class UpdateStatusModal extends Component {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     planUpdated: PropTypes.func.isRequired,
-    addPlanStatusHistoryRecord: PropTypes.func.isRequired,
+    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -42,7 +43,7 @@ class UpdateStatusModal extends Component {
       references,
       updateRUPStatus,
       planUpdated,
-      addPlanStatusHistoryRecord,
+      planStatusHistoryRecordAdded,
       createRUPStatusHistoryRecord,
       onClose,
     } = this.props;
@@ -64,7 +65,7 @@ class UpdateStatusModal extends Component {
 
       if (requireNote && note) {
         const record = await createRUPStatusHistoryRecord(plan, newStatus, note);
-        addPlanStatusHistoryRecord({
+        planStatusHistoryRecordAdded({
           planId,
           record,
           planStatusHistory: [record.id, ...planStatusHistory],
@@ -116,23 +117,21 @@ class UpdateStatusModal extends Component {
             </div>
           }
           <div className="rup__update-status-modal__btns">
-            <Button
-              color="red"
-              inverted
+            <InvertedButton
+              primaryColor
               onClick={onClose}
             >
               <Icon name="remove" />
-              No
-            </Button>
+              Cancel
+            </InvertedButton>
             <Button
-              color="green"
-              style={{ marginLeft: '10px' }}
-              inverted
+              primary
+              style={{ marginLeft: '15px' }}
               onClick={this.onSubmit}
               disabled={requireNote && !note}
             >
               <Icon name="checkmark" />
-              Yes
+              Confirm
             </Button>
           </div>
         </Modal.Content>
