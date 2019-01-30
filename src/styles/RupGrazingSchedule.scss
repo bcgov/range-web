@@ -64,7 +64,10 @@
       align-items: center;
 
       &--invalid {
-        @extend .error;
+        background-color: #fff6f6;
+        border-color: #e0b4b4;
+        color: $error-color;
+        box-shadow: none;
       }
     }
     &__narative {

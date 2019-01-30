@@ -29,13 +29,6 @@ $rup-content-margin-top: 20px;    // in variable.js when changing this value
   outline: inherit;
 }
 
-.error {
-  background-color: #fff6f6;
-  border-color: #e0b4b4;
-  color: $error-color;
-  box-shadow: none;
-}
-
 @mixin mobile {
   @media (max-width: #{$mobile-width}) {
     @content;
