@@ -41,14 +41,17 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui": "^2.4.2",
     "semantic-ui-react": "^0.83.0",
-    "uuid-v4": "^0.1.0"
+    "uuid-v4": "^0.1.0",
+    "snyk": "^1.115.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "test:ci": "CI=true npm test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "browserslist": [
     ">0.2%",
@@ -65,5 +68,6 @@
       "!src/index.js",
       "!src/registerServiceWorker.js"
     ]
-  }
+  },
+  "snyk": true
 }
