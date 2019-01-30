@@ -21,6 +21,7 @@
     align-items: center;
     background: $primary-color;
     height: 60px;
+    border-bottom: 2px solid $accent-color;
 
     &__logo {
       height: 60px;
@@ -109,16 +110,6 @@
       margin-top: 10px !important;
     }
   }
-  &__footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 15px 0px;
-  }
-  &__divider {
-    border-right: 1px solid #ccc;
-    margin: 0 15px 0 11px;
-    padding: 0 2px;
-  }
 }
 
 .signin {
@@ -154,6 +145,13 @@
     margin-top: 20px;
     margin-bottom: 2px;
   }
+  &__text3 {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
   &__error {
     margin-top: 15px;
     width: 100%;
@@ -161,15 +159,19 @@
   }
   &__link-container {
     align-self: stretch;
-    text-align: right;
-    margin-top: 25px;
-    border-top: 1px solid lightgray;
+    text-align: center;
     padding-top: 15px;
-    font-size: 1.1rem;
-
+    font-size: 1rem;
+    color: black;
+    
     > div {
       display: inline;
       cursor: pointer;
+      text-decoration: underline;
+      
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }

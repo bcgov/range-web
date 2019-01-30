@@ -52,9 +52,9 @@ class Toasts extends Component {
     const toasts = getObjValues(this.props.toastsMap);
 
     return (
-      <div className="toasts">
+      <section className="toasts">
         {toasts.map(this.renderToast)}
-      </div>
+      </section>
     );
   }
 }

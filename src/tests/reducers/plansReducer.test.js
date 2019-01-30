@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 import plansReducer from '../../reducers/planReducer/plansReducer';
-import { storePlan, planUpdated, addGrazingSchedule } from '../../actions';
+import { storePlan, planUpdated, grazingScheduleAdded } from '../../actions';
 import * as schema from '../../actionCreators/schema';
 
 const initialState = {
@@ -96,7 +96,7 @@ describe('Plan reducer', () => {
         },
         allIds: ['plan_id'],
       };
-      expect(plansReducer(state, addGrazingSchedule(payload))).toEqual(result);
+      expect(plansReducer(state, grazingScheduleAdded(payload))).toEqual(result);
     });
   });
 });

@@ -19,6 +19,7 @@ import InvasivePlantChecklist from '../invasivePlantChecklist';
 import EditableInvasivePlantChecklist from '../editableInvasivePlantChecklist';
 import AdditionalRequirements from '../additionalRequirements';
 import ManagementConsiderations from '../managementConsiderations';
+import EditableManagementConsiderations from '../editableManagementConsiderations';
 import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
 import { defaultProps, propTypes } from './props';
@@ -80,8 +81,10 @@ class PageForAH extends Component {
       grazingSchedulesMap,
       toastErrorMessage,
       ministerIssuesMap,
+      managementConsiderationsMap,
       createOrUpdateRUPMinisterIssueAndActions,
       createOrUpdateRUPInvasivePlantChecklist,
+      createOrUpdateRUPManagementConsideration,
     } = this.props;
 
     onRequested();
@@ -97,10 +100,12 @@ class PageForAH extends Component {
       grazingSchedules: gsIds,
       ministerIssues: miIds,
       invasivePlantChecklist,
+      managementConsiderations: mcIds,
     } = plan;
     const statusId = status && status.id;
     const grazingSchedules = gsIds && gsIds.map(id => grazingSchedulesMap[id]);
     const ministerIssues = miIds && miIds.map(id => ministerIssuesMap[id]);
+    const managementConsiderations = mcIds && mcIds.map(id => managementConsiderationsMap[id]);
 
     try {
       await Promise.all(grazingSchedules.map(schedule => (
@@ -111,6 +116,9 @@ class PageForAH extends Component {
       )));
       await createOrUpdateRUPInvasivePlantChecklist(planId, invasivePlantChecklist);
       await updateRUPStatus(planId, statusId, false);
+      await Promise.all(managementConsiderations.map(consideration => (
+        createOrUpdateRUPManagementConsideration(planId, consideration)
+      )));
       await onSuccess();
     } catch (err) {
       onError();
@@ -249,6 +257,12 @@ class PageForAH extends Component {
       pasturesMap,
       ministerIssuesMap,
     };
+    const managementConsiderationProps = {
+      elementId: ELEMENT_ID.MANAGEMENT_CONSIDERATIONS,
+      plan,
+      references,
+      managementConsiderationsMap,
+    };
 
     return (
       <section className="rup">
@@ -343,11 +357,10 @@ class PageForAH extends Component {
             additionalRequirementsMap={additionalRequirementsMap}
           />
 
-          <ManagementConsiderations
-            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
-            plan={plan}
-            managementConsiderationsMap={managementConsiderationsMap}
-          />
+          {canEdit
+            ? <EditableManagementConsiderations {...managementConsiderationProps} />
+            : <ManagementConsiderations {...managementConsiderationProps} />
+          }
         </ContentsContainer>
       </section>
     );

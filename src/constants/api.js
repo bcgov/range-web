@@ -120,4 +120,6 @@ export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) => `/
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId => `/v1/plan/${planId}/invasive-plant-checklist`;
 export const UPDATE_RUP_INVASIVE_PLANT_CHECKLIST = (planId, checklistId) => `/v1/plan/${planId}/invasive-plant-checklist/${checklistId}`;
 export const CREATE_RUP_MANAGEMENT_CONSIDERATION = planId => `/v1/plan/${planId}/management-consideration`;
+export const UPDATE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) => `/v1/plan/${planId}/management-consideration/${considerationId}`;
+export const DELETE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) => `/v1/plan/${planId}/management-consideration/${considerationId}`;
 export const CREATE_RUP_ADDITIONAL_REQUIREMENT = planId => `/v1/plan/${planId}/additional-requirement`;

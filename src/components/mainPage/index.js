@@ -29,6 +29,7 @@ import { registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, fetchZones, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { reauthenticate } from '../../actions';
 import SignInModal from './SignInModal';
+import { Footer } from '../common';
 
 export class MainPage extends Component {
   static propTypes = {
@@ -70,7 +71,7 @@ export class MainPage extends Component {
 
         <Toasts />
 
-        <footer />
+        <Footer withTopPad />
       </main>
     );
   }

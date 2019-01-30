@@ -18,17 +18,13 @@
 // Created by Kyubin Han.
 //
 
-/* eslint-disable import/first */
-
-// asynchronously load semantic-ui styling
-import('./semantic/semantic.min.css');
-
 import 'react-app-polyfill/ie9'; // includes IE10 and IE11 support.
 
+import './semantic/semantic.min.css';
+import './styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import './styles/index.scss';
 import App from './components/App';
 import configureStore from './configureStore';
 import * as serviceWorker from './serviceWorker';

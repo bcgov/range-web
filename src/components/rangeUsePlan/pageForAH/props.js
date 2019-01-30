@@ -24,6 +24,7 @@ export const propTypes = {
   closeConfirmationModal: PropTypes.func.isRequired,
   fetchPlan: PropTypes.func.isRequired,
   createOrUpdateRUPInvasivePlantChecklist: PropTypes.func.isRequired,
+  createOrUpdateRUPManagementConsideration: PropTypes.func.isRequired,
 };
 
 export const defaultProps = {

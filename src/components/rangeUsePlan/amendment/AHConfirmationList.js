@@ -21,9 +21,11 @@ class AHConfirmationList extends Component {
       <div key={client.id} className="amendment__confirmation__ah-list">
         <div>
           <Icon name="user outline" />
-          <span className={classnames('amendment__confirmation__ah-list__cname', {
-            'amendment__confirmation__ah-list__cname--bold': isClientCurrentUser(client, user),
-          })}
+          <span
+            className={classnames(
+              'amendment__confirmation__ah-list__cname',
+              { 'amendment__confirmation__ah-list__cname--bold': isClientCurrentUser(client, user) },
+            )}
           >
             {client.name}
           </span>

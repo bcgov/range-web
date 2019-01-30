@@ -2,6 +2,12 @@
   &__grazing-schedules {
     margin-bottom: $rup-content-margin-bottom;
     
+    &__add-dropdown {
+      > .add.circle.icon {
+        background-color: #003366 !important;
+        color: white;
+      }
+    }
     & .ui.right.pointing.dropdown>.menu {
       top: -10px !important;
       right: 15px !important; 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AdditionalRequirementRow from './AdditionalRequirementRow';
 
-class PlantCommunityActionsBox extends Component {
+class AdditionalRequirements extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     additionalRequirementsMap: PropTypes.shape({}).isRequired,
@@ -21,7 +21,7 @@ class PlantCommunityActionsBox extends Component {
     const isEmpty = additionalRequirements.length === 0;
 
     return isEmpty ? (
-      <div className="rup__additional-requirements__no-content">No additional requirements provided</div>
+      <div className="rup__a-requirements__no-content">No additional requirements provided</div>
     ) : (
       additionalRequirements.map(this.renderAdditionalRequirement)
     );
@@ -34,14 +34,14 @@ class PlantCommunityActionsBox extends Component {
       additionalRequirementIds.map(id => additionalRequirementsMap[id]);
 
     return (
-      <div className="rup__additional-requirements">
+      <div className="rup__a-requirements">
         <div className="rup__content-title">Additional Requirements</div>
         <div className="rup__divider" />
-        <div className="rup__additional-requirements__note">
+        <div className="rup__a-requirements__note">
           Other direction or agreements with which this Range Use Plan must be consistent.
         </div>
-        <div className="rup__additional-requirements__box">
-          <div className="rup__additional-requirement__header">
+        <div className="rup__a-requirements__box">
+          <div className="rup__a-requirement__header">
             <div>Category</div>
             <div>Details</div>
           </div>
@@ -52,4 +52,4 @@ class PlantCommunityActionsBox extends Component {
   }
 }
 
-export default PlantCommunityActionsBox;
+export default AdditionalRequirements;

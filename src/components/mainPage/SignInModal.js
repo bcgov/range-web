@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Icon } from 'semantic-ui-react';
 import SignInBox from '../auth/SignInBox';
 import { signOut } from '../../actionCreators';
 import { getReAuthRequired } from '../../reducers/rootReducer';
@@ -27,21 +27,27 @@ class SignInModal extends Component {
         style={{ width: '400px' }}
         open={reAuthRequired}
       >
-        <div className="signin-modal__message">
+        <div className="signin-modal__msg">
           Your session has expired, please sign in again.
         </div>
 
         <SignInBox />
 
-        <div className="signin-modal__login-message">
-          Or return to &nbsp;
-          <div
-            className="signin-modal__login-btn"
-            role="button"
-            tabIndex="0"
-            onClick={this.onLoginPageBtnClicked}
-          >
-            Login Page
+        <div className="signin-modal__login-msg">
+          <div>
+            Return to &nbsp;
+            <span
+              className="signin-modal__login-btn"
+              role="button"
+              tabIndex="0"
+              onClick={this.onLoginPageBtnClicked}
+            >
+              Landing Page
+            </span>
+            <div className="signin-modal__warning-msg">
+              <Icon name="warning sign" />
+              Unsaved work will be lost
+            </div>
           </div>
         </div>
       </Modal>

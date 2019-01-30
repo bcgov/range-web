@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPlantCommunitiesMap } from '../../../reducers/rootReducer';
-import PlantCommunityBoxModal from './PlantCommunityBoxModal';
+import PlantCommunityBox from './PlantCommunityBox';
 import { NOT_PROVIDED } from '../../../constants/strings';
 
 class PlantCommunities extends Component {
@@ -15,7 +15,7 @@ class PlantCommunities extends Component {
     const { pasture } = this.props;
 
     return (
-      <PlantCommunityBoxModal
+      <PlantCommunityBox
         key={plantCommunity.id}
         plantCommunity={plantCommunity}
         pasture={pasture}

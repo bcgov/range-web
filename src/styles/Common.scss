@@ -293,8 +293,8 @@
 }
 
 .signin-modal {
-  &__login-message,
-  &__message {
+  &__login-msg,
+  &__msg {
     background: $accent-color;
     display: flex;
     align-items: center;
@@ -303,12 +303,39 @@
     font-size: 1.2rem;
     font-weight: bold;
   }
-  &__login-message {
+  &__login-msg {
     font-size: 1.1rem;
+    text-align: center;
+    padding: 10px;
   }
   &__login-btn {
     color: #4183c4;
     text-decoration: none;
     cursor: pointer;
+  }
+  &__warning-msg {
+    line-height: 25px;
+    text-decoration: underline;
+  }
+}
+
+.footer {
+  background: $primary-color;
+  border-top: 2px solid $accent-color;
+  color: white;
+  margin-top: auto;
+
+  &__pad {
+    margin: 35px;
+  }
+  &__content-list {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0px;
+  }
+  &__divider {
+    border-right: 1px solid #ccc;
+    margin: 0 15px 0 11px;
+    padding: 0 2px;
   }
 }

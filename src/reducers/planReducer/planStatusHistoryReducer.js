@@ -1,4 +1,4 @@
-import { STORE_PLAN, ADD_PLAN_STATUS_HISTORY_RECORD } from '../../constants/actionTypes';
+import { STORE_PLAN, PLAN_STATUS_HISTORY_RECORD_ADDED } from '../../constants/actionTypes';
 
 const storeStatusHistory = (state, action) => {
   const { planStatusHistory } = action.payload.entities;
@@ -22,7 +22,7 @@ const planStatusHistoryReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storeStatusHistory(state, action);
-    case ADD_PLAN_STATUS_HISTORY_RECORD:
+    case PLAN_STATUS_HISTORY_RECORD_ADDED:
       return addStatusHistoryRecord(state, action);
     default:
       return state;

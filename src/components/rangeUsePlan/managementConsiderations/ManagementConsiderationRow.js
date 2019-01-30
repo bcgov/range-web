@@ -13,15 +13,15 @@ class ManagementConsiderationRow extends Component {
     const considerationTypeName = considerationType && considerationType.name;
 
     return (
-      <div className="rup__management-consideration__row">
+      <div className="rup__m-consideration__row">
         <div>
           {handleNullValue(considerationTypeName)}
         </div>
         <div>
           {handleNullValue(detail)}
-          <div className="rup__management-consideration__url">
-            <span className="rup__management-consideration__url__label">
-              Url:
+          <div className="rup__m-consideration__url">
+            <span className="rup__m-consideration__url__label">
+              URL:
             </span>
             {handleNullValue(url)}
           </div>

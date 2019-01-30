@@ -1,4 +1,12 @@
-import { STORE_PLAN, PLAN_UPDATED, ADD_GRAZING_SCHEDULE, DELETE_GRAZING_SCHEDULE, ADD_PLAN_STATUS_HISTORY_RECORD } from '../../constants/actionTypes';
+import {
+  STORE_PLAN,
+  PLAN_UPDATED,
+  GRAZING_SCHEDULE_ADDED,
+  GRAZING_SCHEDULE_DELETED,
+  PLAN_STATUS_HISTORY_RECORD_ADDED,
+  MANAGEMENT_CONSIDERATION_ADDED,
+  MANAGEMENT_CONSIDERATION_DELETED,
+} from '../../constants/actionTypes';
 
 const initialState = {
   byId: {},
@@ -85,18 +93,53 @@ const addPlanStatusHistoryRecord = (state, action) => {
   };
 };
 
+const addManagementConsideration = (state, action) => {
+  const { planId, managementConsideration } = action.payload;
+  const plan = { ...state.byId[planId] };
+  plan.managementConsiderations = [
+    ...plan.managementConsiderations,
+    managementConsideration.id,
+  ];
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [planId]: plan,
+    },
+  };
+};
+
+const deleteManagementConsideration = (state, action) => {
+  const { planId, considerationId } = action.payload;
+  const plan = { ...state.byId[planId] };
+  plan.managementConsiderations = plan.managementConsiderations.filter(c => c !== considerationId);
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [planId]: plan,
+    },
+  };
+};
+
 const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storePlan(state, action);
     case PLAN_UPDATED:
       return updatePlan(state, action);
-    case ADD_GRAZING_SCHEDULE:
+    case GRAZING_SCHEDULE_ADDED:
       return addGrazingSchedule(state, action);
-    case DELETE_GRAZING_SCHEDULE:
+    case GRAZING_SCHEDULE_DELETED:
       return deleteGrazingSchedule(state, action);
-    case ADD_PLAN_STATUS_HISTORY_RECORD:
+    case PLAN_STATUS_HISTORY_RECORD_ADDED:
       return addPlanStatusHistoryRecord(state, action);
+    case MANAGEMENT_CONSIDERATION_ADDED:
+      return addManagementConsideration(state, action);
+    case MANAGEMENT_CONSIDERATION_DELETED:
+      return deleteManagementConsideration(state, action);
     default:
       return state;
   }

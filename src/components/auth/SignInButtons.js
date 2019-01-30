@@ -20,24 +20,24 @@ class SignInButtons extends Component {
           style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
           onClick={this.onBceidSigninBtnClick}
         >
-          Login as Agreement Holder
+          Login as an Agreement Holder
         </Button>
         <div className="signin__link-container">
           <div
             role="button"
             tabIndex="0"
-            onClick={this.onIdirSigninBtnClick}
+            onClick={this.onSigninBtnClick}
           >
             Range Staff Login
           </div>
-          <div className="signin__divider" />
+          {/* <div className="signin__divider" />
           <div
             role="button"
             tabIndex="0"
             onClick={this.onSigninBtnClick}
           >
             Admin Login
-          </div>
+          </div> */}
         </div>
       </Fragment>
     );

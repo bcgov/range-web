@@ -29,9 +29,10 @@ class EditableMinisterIssues extends Component {
     return isEmpty ? (
       <div className="rup__section-not-found">None identified</div>
     ) : (
-      <ul className={classnames(
-        'collaspible-boxes',
-        { 'collaspible-boxes--empty': isEmpty },
+      <ul
+        className={classnames(
+          'collaspible-boxes',
+          { 'collaspible-boxes--empty': isEmpty },
         )}
       >
         {ministerIssues.map(this.renderMinisterIssue)}
