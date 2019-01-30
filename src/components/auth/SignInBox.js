@@ -7,7 +7,7 @@ import { LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { getDataFromLocalStorage } from '../../utils';
 import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { storeAuthData, reauthenticate } from '../../actions';
-import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
+import { getIsFetchingUser, getFetchingUserErrorResponse, getFetchingUserErrorOccured } from '../../reducers/rootReducer';
 import SignInButtons from './SignInButtons';
 import SignInErrorMessage from './SignInErrorMessage';
 
@@ -93,8 +93,8 @@ class SignInBox extends Component {
 const mapStateToProps = state => (
   {
     isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorResponse(state),
-    errorOccuredFetchingUser: getUserErrorOccured(state),
+    errorFetchingUser: getFetchingUserErrorResponse(state),
+    errorOccuredFetchingUser: getFetchingUserErrorOccured(state),
   }
 );
 

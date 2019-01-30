@@ -58,8 +58,6 @@ export class MainPage extends Component {
       ...rest
     } = this.props;
 
-    const { user } = rest;
-
     return (
       <main>
         <Navbar {...rest} />
@@ -72,7 +70,7 @@ export class MainPage extends Component {
 
         <SignInModal />
 
-        <UsernameInputModal user={user} />
+        <UsernameInputModal />
 
         <Toasts />
 

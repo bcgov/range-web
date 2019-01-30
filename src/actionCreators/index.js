@@ -25,7 +25,7 @@ import * as API from '../constants/api';
 import { getIsFetchingAgreements, getAuthTimeout } from '../reducers/rootReducer';
 import { axios, saveUserProfileInLocal, createConfigWithHeader, setTimeoutForReAuth } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
-import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
+import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS, UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
@@ -130,18 +130,40 @@ export const signOut = () => (dispatch) => {
 };
 
 export const fetchUser = () => (dispatch, getState) => {
-  dispatch(actions.request(reducerTypes.GET_USER));
+  dispatch(actions.request(reducerTypes.GET_USER_REQUEST));
   return axios.get(API.GET_USER_PROFILE, createConfigWithHeader(getState)).then(
     (response) => {
       const user = response.data;
-      dispatch(actions.success(reducerTypes.GET_USER, user));
+      dispatch(actions.success(reducerTypes.GET_USER_REQUEST, user));
       dispatch(actions.storeUser(user));
       saveUserProfileInLocal(user);
       return user;
     },
     (err) => {
-      dispatch(actions.error(reducerTypes.GET_USER, err));
+      dispatch(actions.error(reducerTypes.GET_USER_REQUEST, err));
       dispatch(toastErrorMessage(err));
+      throw err;
+    },
+  );
+};
+
+export const updateUser = data => (dispatch, getState) => {
+  dispatch(actions.request(reducerTypes.UPDATE_USER_REQUEST));
+  return axios.put(
+    API.UPDATE_USER_PROFILE,
+    data,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      const user = response.data;
+      dispatch(actions.success(reducerTypes.UPDATE_USER_REQUEST, user));
+      dispatch(actions.storeUser(user));
+      dispatch(toastSuccessMessage(UPDATE_USER_PROFILE_SUCCESS));
+      saveUserProfileInLocal(user);
+      return user;
+    },
+    (err) => {
+      dispatch(actions.error(reducerTypes.UPDATE_USER_REQUEST, err));
       throw err;
     },
   );

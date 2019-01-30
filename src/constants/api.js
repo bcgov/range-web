@@ -84,6 +84,7 @@ export const GET_ZONES = '/v1/zone';
 export const GET_USERS = '/v1/user';
 export const SEARCH_CLIENTS = '/v1/client/search';
 export const GET_USER_PROFILE = '/v1/user/me';
+export const UPDATE_USER_PROFILE = '/v1/user/me';
 
 export const UPDATE_USER_ID_OF_ZONE = zoneId => `/v1/zone/${zoneId}/user`;
 export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/v1/user/${userId}/client/${clientId}`;
