@@ -5,7 +5,7 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import * as schema from './schema';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
   axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment,
