@@ -134,7 +134,8 @@ export const ERROR_OCCUR = 'Error Occured!';
 export const REDIRECTING = 'Please wait while redirecting...';
 export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 export const SIGN_IN_ERROR = 'Error occured while signing in.';
-export const UPDATE_USER_ERROR = 'Error occured while updating the profile.';
+export const UPDATE_USER_ERROR = 'Error occured while updating your profile.';
+
 // modals
 export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';
 export const COMPLETED_CONFIRM_CONTENT = 'COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. If you change status to COMPLETE you will no longer be able to make edits to this RUP. Would you like to switch this RUP to complete?';

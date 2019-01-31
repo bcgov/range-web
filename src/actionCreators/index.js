@@ -149,6 +149,7 @@ export const fetchUser = () => (dispatch, getState) => {
 
 export const updateUser = data => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.UPDATE_USER));
+
   return axios.put(
     API.UPDATE_USER_PROFILE,
     data,
@@ -156,15 +157,16 @@ export const updateUser = data => (dispatch, getState) => {
   ).then(
     (response) => {
       const currUser = getUser(getState());
-      const user = {
+      const updatedUser = {
         ...currUser,
         ...response.data,
       };
-      dispatch(actions.success(reducerTypes.UPDATE_USER, user));
-      dispatch(actions.storeUser(user));
+      dispatch(actions.success(reducerTypes.UPDATE_USER, updatedUser));
+      dispatch(actions.storeUser(updatedUser));
       dispatch(toastSuccessMessage(UPDATE_USER_PROFILE_SUCCESS));
-      saveUserProfileInLocal(user);
-      return user;
+      saveUserProfileInLocal(updatedUser);
+
+      return updatedUser;
     },
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_USER, err));
