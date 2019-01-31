@@ -60,8 +60,8 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_PLAN_STATUS]: createReducer(networkReducer, reducerTypes.UPDATE_PLAN_STATUS),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
-  [reducerTypes.GET_USER_REQUEST]: createReducer(networkReducer, reducerTypes.GET_USER_REQUEST),
-  [reducerTypes.UPDATE_USER_REQUEST]: createReducer(networkReducer, reducerTypes.UPDATE_USER_REQUEST),
+  [reducerTypes.GET_USER]: createReducer(networkReducer, reducerTypes.GET_USER),
+  [reducerTypes.UPDATE_USER]: createReducer(networkReducer, reducerTypes.UPDATE_USER),
   [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
   [reducerTypes.CREATE_AMENDMENT]: createReducer(networkReducer, reducerTypes.CREATE_AMENDMENT),
 });
@@ -96,11 +96,11 @@ export const getUser = state => fromAuth.getUser(state[reducerTypes.AUTH]);
 export const getToken = state => fromAuth.getToken(state[reducerTypes.AUTH]);
 export const getReAuthRequired = state => fromAuth.getReAuthRequired(state[reducerTypes.AUTH]);
 export const getAuthTimeout = state => fromAuth.getAuthTimeout(state[reducerTypes.AUTH]);
-export const getIsFetchingUser = state => fromNetwork.getIsFetching(state[reducerTypes.GET_USER_REQUEST]);
-export const getFetchingUserErrorResponse = state => fromNetwork.getErrorResponse(state[reducerTypes.GET_USER_REQUEST]);
-export const getFetchingUserErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_USER_REQUEST]);
-export const getIsUpdatingUser = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_USER_REQUEST]);
-export const getUpdatingUserErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.UPDATE_USER_REQUEST]);
+export const getIsFetchingUser = state => fromNetwork.getIsFetching(state[reducerTypes.GET_USER]);
+export const getFetchingUserErrorResponse = state => fromNetwork.getErrorResponse(state[reducerTypes.GET_USER]);
+export const getFetchingUserErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_USER]);
+export const getIsUpdatingUser = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_USER]);
+export const getUpdatingUserErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.UPDATE_USER]);
 
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);
