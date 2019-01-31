@@ -81,7 +81,7 @@ class PlanTable extends Component {
 
     return (
       <Segment basic>
-        <Loading active={isOnlyFetchingAgreementWithAllPlan} />
+        <Loading size="medium" active={isOnlyFetchingAgreementWithAllPlan} />
 
         <div className="agrm__ptable">
           <div className="agrm__ptable__header-row">

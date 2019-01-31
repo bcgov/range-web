@@ -25,11 +25,12 @@ import Navbar from './Navbar';
 import Toasts from './Toasts';
 import ConfirmationModals from './ConfirmationModals';
 import InputModal from './InputModal';
+import SignInModal from './SignInModal';
+import UsernameInputModal from './UsernameInputModal';
+import { Footer } from '../common';
 import { registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, fetchZones, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { reauthenticate } from '../../actions';
-import SignInModal from './SignInModal';
-import { Footer } from '../common';
 
 export class MainPage extends Component {
   static propTypes = {
@@ -68,6 +69,8 @@ export class MainPage extends Component {
         <InputModal />
 
         <SignInModal />
+
+        <UsernameInputModal />
 
         <Toasts />
 

@@ -55,10 +55,7 @@ class EditableGrazingScheduleEntryRow extends Component {
   setDateOutRef = (ref) => { this.dateOutRef = ref; }
 
   handleNumberOnly = (e) => {
-    if (!(e.charCode >= 48 && e.charCode <= 57)) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+    utils.allowNumberOnly(e);
   }
 
   handleDateChange = key => (date) => {

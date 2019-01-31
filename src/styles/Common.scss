@@ -282,6 +282,29 @@
   }
 }
 
+
+.un-input-modal {
+  padding: 15px;
+
+  &__header {
+    font-weight: bold;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+  &__msg {
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  &__wave {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-size: 4rem;
+    margin: 40px 0;
+  }
+}
+
 .inverted-btn {
   display: inline;
 
@@ -314,11 +337,15 @@
   }
   &__login-btn {
     color: #4183c4;
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
   &__warning-msg {
-    line-height: 25px;
+    line-height: 30px;
     text-decoration: underline;
   }
 }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Message, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { signOutFromSSO } from '../../utils';
 import { SIGN_IN_ERROR } from '../../constants/strings';
+import { ErrorMessage } from '../common';
 
 class SignInErrorMessage extends Component {
   static propTypes = {
@@ -38,15 +39,7 @@ class SignInErrorMessage extends Component {
 
     return (
       <div className="signin__error">
-        <Message error>
-          <Message.Content>
-            <Icon
-              name="warning sign"
-              style={{ marginRight: '5px' }}
-            />
-            {message}
-          </Message.Content>
-        </Message>
+        <ErrorMessage message={message} />
         <Button
           primary
           fluid
