@@ -22,7 +22,7 @@ import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
-import { getIsFetchingAgreements, getAuthTimeout } from '../reducers/rootReducer';
+import { getIsFetchingAgreements, getAuthTimeout, getUser } from '../reducers/rootReducer';
 import { axios, saveUserProfileInLocal, createConfigWithHeader, setTimeoutForReAuth } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS, UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
@@ -155,7 +155,11 @@ export const updateUser = data => (dispatch, getState) => {
     createConfigWithHeader(getState),
   ).then(
     (response) => {
-      const user = response.data;
+      const currUser = getUser(getState());
+      const user = {
+        ...currUser,
+        ...response.data,
+      };
       dispatch(actions.success(reducerTypes.UPDATE_USER_REQUEST, user));
       dispatch(actions.storeUser(user));
       dispatch(toastSuccessMessage(UPDATE_USER_PROFILE_SUCCESS));

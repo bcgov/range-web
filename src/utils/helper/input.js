@@ -13,3 +13,9 @@ export const allowAlphabetOnly = (e) => {
     e.stopPropagation();
   }
 };
+
+export const handleWhenEnterPressed = (e, callback) => {
+  if (e.charCode === 13) {
+    callback();
+  }
+};

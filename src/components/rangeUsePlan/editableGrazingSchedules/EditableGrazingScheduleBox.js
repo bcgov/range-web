@@ -277,7 +277,7 @@ class EditableGrazingScheduleBox extends Component {
                 {roundedCrownTotalAUMs}
               </div>
             </div>
-            <div className="rup__grazing-schedule__narrative">Schedule Description</div>
+            <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
             <Form>
               <TextArea
                 rows={3}

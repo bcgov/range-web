@@ -82,7 +82,7 @@ class GrazingScheduleBox extends Component {
               <div className="rup__grazing-schedule__AUM-number">{crownTotalAUMs}</div>
             </div>
             <div>
-              <div className="rup__grazing-schedule__narative__title">Schedule Description</div>
+              <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
               {handleNullValue(narative)}
             </div>
           </Fragment>
