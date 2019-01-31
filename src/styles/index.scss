@@ -40,14 +40,14 @@
 @import './Grid.scss';
 
 body {
-  overflow-x: auto;
-  min-width: $large-width;
-  font-family: Lato;
+  overflow-x: auto !important;
+  min-width: $large-width !important;
+  font-family: Lato !important;
 }
 
 main {
-  height: 100vh;
-  display: flex; 
-  flex-direction: column;
-  min-width: $large-width;
+  height: 100vh !important;
+  display: flex !important; 
+  flex-direction: column !important;
+  min-width: $large-width !important;
 }
