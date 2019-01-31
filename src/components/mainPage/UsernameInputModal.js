@@ -6,7 +6,7 @@ import { Loading, ErrorMessage } from '../common';
 import { getUser, getIsUpdatingUser, getUpdatingUserErrorOccured } from '../../reducers/rootReducer';
 import { getUserFullName, allowAlphabetOnly } from '../../utils';
 import { updateUser } from '../../actionCreators';
-import { UPDATE_USER_ERROR } from '../../constants/strings';
+import { UPDATE_USER_ERROR, APP_NAME } from '../../constants/strings';
 
 class UsernameInputModal extends Component {
   static propTypes = {
@@ -62,7 +62,7 @@ class UsernameInputModal extends Component {
           <Loading active={false} />
           <div className="un-input-modal">
             <div className="un-input-modal__header">
-              Welcome to MyRangeBC
+              Welcome to {APP_NAME}
             </div>
             <span
               className="un-input-modal__wave"
