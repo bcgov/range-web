@@ -337,11 +337,15 @@
   }
   &__login-btn {
     color: #4183c4;
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
   &__warning-msg {
-    line-height: 25px;
+    line-height: 30px;
     text-decoration: underline;
   }
 }
