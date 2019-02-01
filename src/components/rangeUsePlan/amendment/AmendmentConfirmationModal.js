@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Modal, Icon, Form, Radio } from 'semantic-ui-react';
 import { getUser, getReferences, getConfirmationsMap } from '../../../reducers/rootReducer';
-import { CONFIRMATION_OPTION, REFERENCE_KEY } from '../../../constants/variables';
+import { CONFIRMATION_OPTION, REFERENCE_KEY, AMENDMENT_TYPE } from '../../../constants/variables';
 import { getPlanTypeDescription, getUserFullName, getUserEmail, findConfirmationWithClientId } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
@@ -53,13 +53,14 @@ class AmendmentConfirmationModal extends Component {
   onNextClicked = () => {
     this.setState(prevState => ({
       activeTab: prevState.activeTab + 1,
+      readyToGoNext: false,
     }));
   }
 
   onBackClicked = () => {
     this.setState(prevState => ({
-      readyToGoNext: true,
       activeTab: prevState.activeTab - 1,
+      readyToGoNext: true,
     }));
   }
 
@@ -70,14 +71,13 @@ class AmendmentConfirmationModal extends Component {
     } = this.props;
     if (this.state.confirmationOption === CONFIRMATION_OPTION.CONFIRM) {
       const onRequest = () => this.setState({ isConfirmating: true });
-      const onSuccess = (result) => {
-        const { allConfirmed, plan: updatedPlan, confirmation } = result;
-        const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
-        const status = planStatuses.find(status => status.id === updatedPlan.statusId);
+      const onSuccess = (data) => {
+        const { allConfirmed, plan: updatedPlan, confirmation } = data;
 
         if (allConfirmed) {
-          planUpdated({ plan: { ...plan, ...updatedPlan, status } });
+          planUpdated({ plan: { ...plan, ...updatedPlan } });
         }
+
         confirmationUpdated({ confirmation });
         this.setState({ isConfirmating: false });
         this.onNextClicked();
@@ -86,13 +86,17 @@ class AmendmentConfirmationModal extends Component {
         this.setState({ isConfirmating: false });
         throw err;
       };
-      const confirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
+
+      const currUserConfirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
       const confirmed = true;
+      const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+      const planAmendmentType = amendmentTypes.find(at => at.id === plan.amendmentTypeId);
+      const isMinorAmendment = planAmendmentType.code === AMENDMENT_TYPE.MINOR;
 
       onRequest();
-      updateRUPConfirmation(plan, confirmation.id, confirmed).then(
-        (result) => {
-          onSuccess(result);
+      updateRUPConfirmation(plan, currUserConfirmation.id, confirmed, isMinorAmendment).then(
+        (data) => {
+          onSuccess(data);
         }, (err) => {
           onError(err);
         },

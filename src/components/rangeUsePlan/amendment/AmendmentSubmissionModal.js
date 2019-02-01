@@ -62,8 +62,8 @@ class AmendmentSubmissionModal extends Component {
 
   onBackClicked = () => {
     this.setState(prevState => ({
-      readyToGoNext: true,
       activeTab: prevState.activeTab - 1,
+      readyToGoNext: true,
     }));
   }
 

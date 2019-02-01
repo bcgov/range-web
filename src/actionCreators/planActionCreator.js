@@ -78,12 +78,8 @@ export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch
   );
 };
 
-export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispatch, getState) => {
-  const { id: planId, amendmentTypeId } = plan;
-  const references = getReferences(getState());
-  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
-  const isMinorAmendment = amendmentType.code === AMENDMENT_TYPE.MINOR;
+export const updateRUPConfirmation = (plan, confirmationId, confirmed, isMinorAmendment) => (dispatch, getState) => {
+  const { id: planId } = plan;
   const config = {
     ...createConfigWithHeader(getState),
     params: {

@@ -86,6 +86,7 @@ const ActionBtns = ({
   if (canSubmit) {
     return [previewPDF, submit];
   }
+
   return previewPDF;
 };
 
