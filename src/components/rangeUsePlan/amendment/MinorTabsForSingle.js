@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Icon, Form } from 'semantic-ui-react';
+import { InvertedButton } from '../../common';
 
 const propTypes = {
   activeTab: PropTypes.number.isRequired,
@@ -43,14 +44,16 @@ class MinorTabsForSingle extends Component {
               required
             />
             <div className="multi-form__btns">
-              <Button
+              <InvertedButton
                 className="multi-form__btn"
+                primaryColor
                 onClick={onBackClicked}
               >
                 Back
-              </Button>
+              </InvertedButton>
               <Button
                 className="multi-form__btn"
+                primary
                 onClick={onSubmitClicked}
                 disabled={!isAgreed}
                 loading={isSubmitting}
@@ -62,13 +65,14 @@ class MinorTabsForSingle extends Component {
         </div>
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
           <div className="amendment__submission__last-tab">
-            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
             <div className="amendment__submission__last-tab__title">Your Minor Amendment has been applied to your range use plan.</div>
             <div style={{ marginBottom: '20px' }}>
               Your minor amendment has been applied to your active range use plan. No further action is required unless Range Staff finds errors in your submission.
             </div>
             <Button
               className="multi-form__btn"
+              primary
               onClick={onClose}
             >
               Finish

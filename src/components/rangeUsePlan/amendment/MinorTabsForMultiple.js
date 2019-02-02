@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Icon, Form } from 'semantic-ui-react';
 import { isClientCurrentUser } from '../../../utils';
+import { InvertedButton } from '../../common';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -72,14 +73,16 @@ class MinorTabsForMultiple extends Component {
             />
           </Form>
           <div className="multi-form__btns">
-            <Button
+            <InvertedButton
               className="multi-form__btn"
+              primaryColor
               onClick={onBackClicked}
             >
               Back
-            </Button>
+            </InvertedButton>
             <Button
               className="multi-form__btn"
+              primary
               onClick={onNextClicked}
               disabled={!isAgreed}
             >
@@ -103,14 +106,16 @@ class MinorTabsForMultiple extends Component {
           </div>
           {clients.map(this.renderAgreementHolder)}
           <div className="multi-form__btns">
-            <Button
+            <InvertedButton
               className="multi-form__btn"
+              primaryColor
               onClick={onBackClicked}
             >
               Back
-            </Button>
+            </InvertedButton>
             <Button
               className="multi-form__btn"
+              primary
               onClick={onSubmitClicked}
               loading={isSubmitting}
             >
@@ -121,7 +126,7 @@ class MinorTabsForMultiple extends Component {
 
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
           <div className="amendment__submission__last-tab">
-            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
             <div className="amendment__submission__last-tab__title">
             You have successfully signed this minor amendment and submitted it to other agreement holders for signature
             </div>
@@ -133,6 +138,7 @@ class MinorTabsForMultiple extends Component {
             </div>
             <Button
               className="multi-form__btn"
+              primary
               onClick={onClose}
             >
               Finish

@@ -9,6 +9,7 @@ import { getPlanTypeDescription, getUserFullName, getUserEmail, findConfirmation
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
 import AHConfirmationList from './AHConfirmationList';
+import { InvertedButton } from '../../common';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -189,14 +190,16 @@ class AmendmentConfirmationModal extends Component {
                 required
               />
               <div className="multi-form__btns">
-                <Button
+                <InvertedButton
                   className="multi-form__btn"
+                  primaryColor
                   onClick={this.onClose}
                 >
                   Cancel
-                </Button>
+                </InvertedButton>
                 <Button
                   className="multi-form__btn"
+                  primary
                   disabled={isConfirmBtnDisabled}
                   loading={isConfirmating}
                   onClick={this.onConfirmChoiceClicked}
@@ -210,7 +213,7 @@ class AmendmentConfirmationModal extends Component {
           {confirmationOption === CONFIRMATION_OPTION.CONFIRM &&
             <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 1 })}>
               <div className="amendment__submission__last-tab">
-                <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
+                <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
                 <div className="amendment__submission__last-tab__title">
                   Your {amendmentTypeDescription} confirmation has been saved
                 </div>
@@ -220,7 +223,7 @@ class AmendmentConfirmationModal extends Component {
                   plan={plan}
                   confirmationsMap={confirmationsMap}
                 />
-                <Button style={{ marginTop: '15px' }} onClick={this.onClose}>Finish</Button>
+                <Button primary style={{ marginTop: '15px' }} onClick={this.onClose}>Finish</Button>
               </div>
             </div>
           }
@@ -240,14 +243,16 @@ class AmendmentConfirmationModal extends Component {
                 Submissions can only be recalled by {getUserFullName(plan.creator)} who initiated this amendment.
               </div>
               <div className="multi-form__btns">
-                <Button
+                <InvertedButton
                   className="multi-form__btn"
+                  primaryColor
                   onClick={this.onBackClicked}
                 >
                   Back
-                </Button>
+                </InvertedButton>
                 <Button
                   className="multi-form__btn"
+                  primary
                   onClick={this.onClose}
                 >
                   Close

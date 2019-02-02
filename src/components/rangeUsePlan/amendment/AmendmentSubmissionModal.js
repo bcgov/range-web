@@ -12,6 +12,7 @@ import MinorTabsForMultiple from './MinorTabsForMultiple';
 import MandatoryTabsForSingle from './MandatoryTabsForSingle';
 import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment } from '../../../utils';
 import MandatoryTabsForMultiple from './MandatoryTabsForMultiple';
+import { InvertedButton } from '../../common';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -233,14 +234,16 @@ class AmendmentSubmissionModal extends Component {
                 </div>
               </div>
               <div className="multi-form__btns">
-                <Button
+                <InvertedButton
+                  primaryColor
                   className="multi-form__btn"
                   onClick={this.onClose}
                 >
                   Cancel
-                </Button>
+                </InvertedButton>
                 <Button
                   className="multi-form__btn"
+                  primary
                   onClick={this.onNextClicked}
                   disabled={isAmendmentTypeDecided ? false : !readyToGoNext}
                 >

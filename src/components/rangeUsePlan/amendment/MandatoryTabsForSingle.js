@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Radio, Form, Icon } from 'semantic-ui-react';
 import { PLAN_STATUS } from '../../../constants/variables';
+import { InvertedButton } from '../../common';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 const propTypes = {
@@ -77,14 +78,16 @@ class MandatoryTabsForSingle extends Component {
               />
             </Form.Field>
             <div className="multi-form__btns">
-              <Button
+              <InvertedButton
                 className="multi-form__btn"
+                primaryColor
                 onClick={onBackClicked}
               >
                 Back
-              </Button>
+              </InvertedButton>
               <Button
                 className="multi-form__btn"
+                primary
                 onClick={onNextClicked}
                 disabled={!readyToGoNext}
               >
@@ -109,14 +112,16 @@ class MandatoryTabsForSingle extends Component {
                 required
               />
               <div className="multi-form__btns">
-                <Button
+                <InvertedButton
                   className="multi-form__btn"
+                  primaryColor
                   onClick={onBackClicked}
                 >
                   Back
-                </Button>
+                </InvertedButton>
                 <Button
                   className="multi-form__btn"
+                  primary
                   onClick={onSubmitClicked}
                   loading={isSubmitting}
                   disabled={!isAgreed}
@@ -138,14 +143,16 @@ class MandatoryTabsForSingle extends Component {
                 You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
               </div>
               <div className="multi-form__btns">
-                <Button
+                <InvertedButton
                   className="multi-form__btn"
+                  primaryColor
                   onClick={onBackClicked}
                 >
                   Back
-                </Button>
+                </InvertedButton>
                 <Button
                   className="multi-form__btn"
+                  primary
                   onClick={onSubmitClicked}
                   loading={isSubmitting}
                 >
@@ -158,13 +165,14 @@ class MandatoryTabsForSingle extends Component {
 
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 3 })}>
           <div className="amendment__submission__last-tab">
-            <Icon style={{ marginBottom: '10px' }} name="check circle outline" color="green" size="huge" />
+            <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" />
             <div className="amendment__submission__last-tab__title">Your mandatory amendment has been sent for range staff review.</div>
             <div style={{ marginBottom: '20px' }}>
               Your mandatory amendment has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!
             </div>
             <Button
               className="multi-form__btn"
+              primary
               onClick={onClose}
             >
               Finish

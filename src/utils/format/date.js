@@ -16,8 +16,10 @@ export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notPr
     if (isYearIncluded) {
       return m.format(DATE_FORMAT.CLIENT_SIDE);
     }
+
     return m.format(DATE_FORMAT.CLIENT_SIDE_WITHOUT_YEAR);
   }
+
   return notProvided;
 };
 

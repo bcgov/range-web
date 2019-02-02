@@ -42,8 +42,8 @@ const TEST = { // eslint-disable-line no-unused-vars
 
 export const DEV_ENV = {
   // ...PROD,
-  ...DEV,
-  // ...TEST,
+  // ...DEV,
+  ...TEST,
 };
 
 export const SSO_BASE_URL = isBundled
