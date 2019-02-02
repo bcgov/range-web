@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, CONFIRM_SUBMISSION } from '../../../constants/strings';
 
 const ActionBtns = ({
@@ -52,16 +52,28 @@ const ActionBtns = ({
     </Button>
   );
   const amend = (
-    <Button
-      inverted
-      compact
-      key="amendBtn"
-      loading={isCreatingAmendment}
-      onClick={onAmendPlanClicked}
-      style={{ marginRight: '0', marginLeft: '10px' }}
-    >
-      {AMEND_PLAN}
-    </Button>
+    <Popup
+      trigger={
+        <Button
+          inverted
+          compact
+          key="amendBtn"
+          disabled={isCreatingAmendment}
+          style={{ marginRight: '0', marginLeft: '10px' }}
+          content={AMEND_PLAN}
+        />
+      }
+      content={
+        <Button
+          primary
+          content="Confirm to amend"
+          onClick={onAmendPlanClicked}
+          loading={isCreatingAmendment}
+        />
+      }
+      on="click"
+      position="bottom right"
+    />
   );
   const confirmSubmission = (
     <Button
