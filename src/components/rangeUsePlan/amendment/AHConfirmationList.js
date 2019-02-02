@@ -15,7 +15,9 @@ class AHConfirmationList extends Component {
 
   renderConfirmation = (client, confirmation, user) => {
     const { confirmed, updatedAt } = confirmation || {};
-    const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : AWAITING_CONFIRMATION;
+    const confirmationDate = confirmed
+      ? formatDateFromServer(updatedAt)
+      : AWAITING_CONFIRMATION;
 
     return (
       <div key={client.id} className="amendment__confirmation__ah-list">
@@ -35,8 +37,10 @@ class AHConfirmationList extends Component {
     );
   }
 
-  render() {
-    const confirmedList = [
+  createConfirmationListView = () => {
+    const { user, confirmationsMap, plan, clients } = this.props;
+
+    const confirmedListView = [
       <div key="confirmed1" className="amendment__confirmation__paragraph-title">
         Agreement holders who have confirmed the submission
       </div>,
@@ -45,33 +49,41 @@ class AHConfirmationList extends Component {
         <span>Confirmation Date</span>
       </div>,
     ];
-    const notConfirmedList = [
+    const notConfirmedListView = [
       <div key="notConfirmed" className="amendment__confirmation__paragraph-title">
         Agreement holders who have not yet confirmed the submission
       </div>,
     ];
-    const allConfimed = [
+    const allConfimedView = (
       <div key="allConfirmed" className="amendment__confirmation__paragraph-title">
         All agreement holders have confirmed this submission. It has now been submitted to Range Staff.
-      </div>,
-    ];
-    const { user, confirmationsMap, plan, clients } = this.props;
+      </div>
+    );
 
+    // create confirmation views for each client then
+    // push to the view lists based on whether it's confirmed or not
     clients.map((client) => {
       const confirmation = findConfirmationWithClientId(client.id, plan.confirmations, confirmationsMap);
       const view = this.renderConfirmation(client, confirmation, user);
       if (confirmation && confirmation.confirmed) {
-        return confirmedList.push(view);
+        return confirmedListView.push(view);
       }
-      return notConfirmedList.push(view);
+
+      return notConfirmedListView.push(view);
     });
 
-    let confirmationList;
-    if (notConfirmedList.length === 1) {
-      confirmationList = confirmedList.concat(allConfimed);
-    } else {
-      confirmationList = confirmedList.concat(notConfirmedList);
+    const isAllConfirmed = notConfirmedListView.length === 1;
+
+    if (isAllConfirmed) {
+      confirmedListView.push(allConfimedView);
+      return confirmedListView;
     }
+
+    return confirmedListView.concat(notConfirmedListView);
+  }
+
+  render() {
+    const confirmationList = this.createConfirmationListView();
 
     return (
       <div style={{ width: '100%' }}>
