@@ -60,6 +60,8 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_PLAN_STATUS]: createReducer(networkReducer, reducerTypes.UPDATE_PLAN_STATUS),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY),
+  [reducerTypes.DELETE_MINISTER_ISSUE_ACTION]: createReducer(networkReducer, reducerTypes.DELETE_MINISTER_ISSUE_ACTION),
+  [reducerTypes.DELETE_MANAGEMENT_CONSIDERATION]: createReducer(networkReducer, reducerTypes.DELETE_MANAGEMENT_CONSIDERATION),
   [reducerTypes.GET_USER]: createReducer(networkReducer, reducerTypes.GET_USER),
   [reducerTypes.UPDATE_USER]: createReducer(networkReducer, reducerTypes.UPDATE_USER),
   [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
