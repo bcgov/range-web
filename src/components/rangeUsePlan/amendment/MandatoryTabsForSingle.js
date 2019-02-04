@@ -10,7 +10,6 @@ const propTypes = {
   activeTab: PropTypes.number.isRequired,
   isAgreed: PropTypes.bool.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
-  readyToGoNext: PropTypes.bool.isRequired,
   mandatoryStatusCode: PropTypes.string,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -29,7 +28,6 @@ class MandatoryTabsForSingle extends Component {
       activeTab,
       isAgreed,
       isSubmitting,
-      readyToGoNext,
       mandatoryStatusCode,
       onClose,
       onSubmitClicked,
@@ -89,7 +87,7 @@ class MandatoryTabsForSingle extends Component {
                 className="multi-form__btn"
                 primary
                 onClick={onNextClicked}
-                disabled={!readyToGoNext}
+                disabled={!mandatoryStatusCode}
               >
                 Next
               </Button>
@@ -107,7 +105,7 @@ class MandatoryTabsForSingle extends Component {
                 You are about to submit your Mandatory Amendment for your RUP.
               </div>
               <Form.Checkbox
-                label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
+                label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
                 onChange={handleAgreeCheckBoxChange}
                 required
               />

@@ -75,7 +75,11 @@ class AmendmentSubmissionModal extends Component {
   }
 
   handleAmendmentTypeChange = (e, { value: amendmentTypeCode }) => {
-    this.setState({ amendmentTypeCode, readyToGoNext: true });
+    this.setState({
+      ...this.getInitialState(),
+      amendmentTypeCode,
+      readyToGoNext: true,
+    });
   }
 
   handleAgreeCheckBoxChange = (e, { checked }) => {
@@ -299,6 +303,7 @@ class AmendmentSubmissionModal extends Component {
               handleMandatoryStatusCodeChange={this.handleMandatoryStatusCodeChange}
             />
           }
+
           {isMandatory && !isThereSingleAH &&
             <MandatoryTabsForMultiple
               user={user}

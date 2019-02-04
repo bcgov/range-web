@@ -188,7 +188,7 @@ class MandatoryTabsForMultiple extends Component {
                   You’re ready to submit mandatory amendment. Once submitted and confirmed by all agreement holders it willl then be sent to range staff for final decision. You will be notified once the submission has been reviewed.
                 </div>
                 <Form.Checkbox
-                  label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff"
+                  label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
                   onChange={handleAgreeCheckBoxChange}
                   required
                 />

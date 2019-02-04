@@ -41,7 +41,7 @@
 
 body {
   overflow-x: auto !important;
-  min-width: $large-width !important;
+  min-width: $tablet-width !important;
   font-family: Lato !important;
 }
 
@@ -49,5 +49,5 @@ main {
   height: 100vh !important;
   display: flex !important; 
   flex-direction: column !important;
-  min-width: $large-width !important;
+  min-width: $tablet-width !important;
 }
