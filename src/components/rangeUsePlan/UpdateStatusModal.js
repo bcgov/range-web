@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
-import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
-import { isNoteRequired } from '../../utils';
+import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../constants/variables';
+import { isNoteRequired, findStatusWithCode } from '../../utils';
 import { InvertedButton } from '../common';
 
 class UpdateStatusModal extends Component {
@@ -51,8 +51,7 @@ class UpdateStatusModal extends Component {
     const requireNote = isNoteRequired(statusCode);
 
     onClose();
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = planStatuses.find(s => s.code === statusCode);
+    const status = findStatusWithCode(references, statusCode);
     const { id: planId, planStatusHistory } = plan;
 
     try {

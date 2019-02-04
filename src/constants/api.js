@@ -26,8 +26,8 @@ const PROD = { // eslint-disable-line no-unused-vars
   API_BASE_URL: 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api',
 };
 
-// const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
-const DEV_API_BASE_URL = 'http://localhost:8000/api';
+const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api';
+// const DEV_API_BASE_URL = 'http://localhost:8000/api';
 const DEV = { // eslint-disable-line no-unused-vars
   SSO_BASE_URL: 'https://sso-dev.pathfinder.gov.bc.ca',
   SITEMINDER_BASE_URL: 'https://logontest.gov.bc.ca',
@@ -42,8 +42,8 @@ const TEST = { // eslint-disable-line no-unused-vars
 
 export const DEV_ENV = {
   // ...PROD,
-  // ...DEV,
-  ...TEST,
+  ...DEV,
+  // ...TEST,
 };
 
 export const SSO_BASE_URL = isBundled

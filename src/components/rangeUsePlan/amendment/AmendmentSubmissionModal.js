@@ -10,7 +10,7 @@ import { planUpdated } from '../../../actions';
 import MinorTabsForSingle from './MinorTabsForSingle';
 import MinorTabsForMultiple from './MinorTabsForMultiple';
 import MandatoryTabsForSingle from './MandatoryTabsForSingle';
-import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment } from '../../../utils';
+import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment, findStatusWithCode } from '../../../utils';
 import MandatoryTabsForMultiple from './MandatoryTabsForMultiple';
 import { InvertedButton } from '../../common';
 
@@ -90,17 +90,16 @@ class AmendmentSubmissionModal extends Component {
     const { plan, references, clients } = this.props;
     const { mandatoryStatusCode, amendmentTypeCode } = this.state;
     const { amendmentTypeId } = plan;
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
     const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
-    const confirmationAwaiting = planStatuses.find(s => s.code === PLAN_STATUS.AWAITING_CONFIRMATION);
-    const mandatoryStatus = planStatuses.find(s => s.code === mandatoryStatusCode);
+    const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
+    const mandatoryStatus = findStatusWithCode(references, mandatoryStatusCode);
     const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
     const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
 
     if (isMinor && isSingleClient(clients)) {
-      const stands = planStatuses.find(s => s.code === PLAN_STATUS.STANDS);
+      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS);
       this.submitAmendment(plan, stands, minor);
       return;
     }

@@ -40,8 +40,7 @@ class PageForAH extends Component {
 
   onSaveDraftClick = () => {
     const { references, toastSuccessMessage, fetchPlan } = this.props;
-    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
-    const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
+    const status = utils.findStatusWithCode(references, PLAN_STATUS.DRAFT);
 
     const onRequested = () => { this.setState({ isSavingAsDraft: true }); };
     const onSuccess = () => {
@@ -57,8 +56,7 @@ class PageForAH extends Component {
 
   onSubmitClicked = () => {
     const { references, toastSuccessMessage, closeConfirmationModal, fetchPlan } = this.props;
-    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
-    const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
+    const pendingStatus = utils.findStatusWithCode(references, PLAN_STATUS.PENDING);
 
     const onRequested = () => { this.setState({ isSubmitting: true }); };
     const onSuccess = () => {
@@ -70,7 +68,7 @@ class PageForAH extends Component {
     const onError = () => { this.setState({ isSubmitting: false }); };
 
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.SUBMIT_PLAN });
-    this.updateStatusAndContent(status, onRequested, onSuccess, onError);
+    this.updateStatusAndContent(pendingStatus, onRequested, onSuccess, onError);
   }
 
   updateStatusAndContent = async (status, onRequested, onSuccess, onError) => {
