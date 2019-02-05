@@ -8,3 +8,9 @@
 @accentColor         : #FCBA19;
 @primaryLightColor   : #5475A7;
 @pageOverflowX : auto;
+@pageMinWidth  : 768px;
+
+/*******************************
+Example:
+https://github.com/Semantic-Org/example-github/blob/master/semantic/src/themes/github/globals/site.variables
+*******************************/

@@ -40,10 +40,6 @@
 @import './RupPDF.scss';
 @import './Grid.scss';
 
-body {
-  min-width: $tablet-width !important;
-}
-
 main {
   height: 100vh !important;
   display: flex !important; 
