@@ -135,7 +135,7 @@ class MandatoryTabsForSingle extends Component {
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
             <Form>
               <div className="multi-form__tab__title">
-                {`${index}. Submit Your Admendment for Review`}
+                {`${index}. Submit Your Amendment for Review`}
               </div>
               <div style={{ marginBottom: '20px' }}>
                 You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.

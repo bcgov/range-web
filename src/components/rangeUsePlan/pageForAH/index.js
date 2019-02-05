@@ -24,6 +24,7 @@ import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
+import SubmissionModal from '../initialPlan/SubmissionModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -34,6 +35,7 @@ class PageForAH extends Component {
   state = {
     isSubmitAmendmentModalOpen: false,
     isConfirmAmendmentModalOpen: false,
+    isSubmitModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
@@ -167,7 +169,7 @@ class PageForAH extends Component {
   }
 
   openSubmitConfirmModal = () => {
-    const { plan, openConfirmationModal } = this.props;
+    const { plan } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
       if (utils.isPlanAmendment(plan)) {
@@ -175,14 +177,18 @@ class PageForAH extends Component {
         return;
       }
 
-      openConfirmationModal({
-        id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
-        header: strings.SUBMIT_RUP_CHANGE_CONFIRM_HEADER,
-        content: strings.SUBMIT_RUP_CHANGE_CONFIRM_CONTENT,
-        onYesBtnClicked: this.onSubmitClicked,
-      });
+      this.openSubmitModal();
+      // openConfirmationModal({
+      //   id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
+      //   header: strings.SUBMIT_RUP_CHANGE_CONFIRM_HEADER,
+      //   content: strings.SUBMIT_RUP_CHANGE_CONFIRM_CONTENT,
+      //   onYesBtnClicked: this.onSubmitClicked,
+      // });
     }
   }
+
+  openSubmitModal = () => this.setState({ isSubmitModalOpen: true });
+  closeSubmitModal = () => this.setState({ isSubmitModalOpen: false });
 
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
@@ -215,6 +221,7 @@ class PageForAH extends Component {
     const {
       isSubmitAmendmentModalOpen,
       isConfirmAmendmentModalOpen,
+      isSubmitModalOpen,
     } = this.state;
 
     const {
@@ -264,6 +271,14 @@ class PageForAH extends Component {
 
     return (
       <section className="rup">
+        <SubmissionModal
+          open={isSubmitModalOpen}
+          onClose={this.closeSubmitModal}
+          plan={plan}
+          clients={clients}
+          updateStatusAndContent={this.updateStatusAndContent}
+        />
+
         <AmendmentSubmissionModal
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}
