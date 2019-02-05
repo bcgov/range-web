@@ -13,9 +13,8 @@ class ChooseSubmissionTypeTab extends Component {
     currTabId: PropTypes.string.isRequired,
     statusCode: PropTypes.string,
     handleStatusCodeChange: PropTypes.func.isRequired,
-    onBackClicked: PropTypes.func,
+    handleTabChange: PropTypes.func.isRequired,
     onCancelClicked: PropTypes.func,
-    onNextClicked: PropTypes.func.isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string,
       title: PropTypes.string,
@@ -28,20 +27,19 @@ class ChooseSubmissionTypeTab extends Component {
 
   static defaultProps = {
     statusCode: null,
-    onBackClicked: () => {},
     onCancelClicked: () => {},
   }
 
   onBackClicked = (e) => {
-    const { onBackClicked, tab } = this.props;
+    const { handleTabChange, tab } = this.props;
 
-    onBackClicked(e, { value: tab.back });
+    handleTabChange(e, { value: tab.back });
   }
 
   onNextClicked = (e) => {
-    const { onNextClicked, tab } = this.props;
+    const { handleTabChange, tab } = this.props;
 
-    onNextClicked(e, { value: tab.next });
+    handleTabChange(e, { value: tab.next });
   }
 
   render() {

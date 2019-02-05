@@ -27,16 +27,19 @@ class SubmissionModal extends Component {
     clients: [],
   };
 
-  state = {
-    statusCode: null,
-    isAgreed: false,
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
   }
 
+  getInitialState = () => ({
+    statusCode: null,
+    isAgreed: false,
+    note: '',
+  })
+
   onClose = () => {
-    this.setState({
-      statusCode: null,
-      isAgreed: false,
-    });
+    this.setState(this.getInitialState());
     this.props.onClose();
   }
 
@@ -46,6 +49,12 @@ class SubmissionModal extends Component {
 
   handleAgreeCheckBoxChange = (e, { checked }) => {
     this.setState({ isAgreed: checked });
+  }
+
+  handleNoteChange = (e, { value: note }) => {
+    if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
+      this.setState({ note });
+    }
   }
 
   onSubmitClicked = (e) => {
@@ -60,7 +69,7 @@ class SubmissionModal extends Component {
       plan,
       references,
     } = this.props;
-    const { statusCode, isAgreed } = this.state;
+    const { statusCode, isAgreed, note } = this.state;
 
     return (
       <Modal
@@ -76,8 +85,10 @@ class SubmissionModal extends Component {
             clients={clients}
             statusCode={statusCode}
             isAgreed={isAgreed}
+            note={note}
             handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
             handleStatusCodeChange={this.handleStatusCodeChange}
+            handleNoteChange={this.handleNoteChange}
             onSubmitClicked={this.onSubmitClicked}
             onClose={this.onClose}
           />

@@ -8,7 +8,7 @@ class SubmitForReviewTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
-    onBackClicked: PropTypes.func.isRequired,
+    handleTabChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string,
@@ -22,9 +22,9 @@ class SubmitForReviewTab extends Component {
   }
 
   onBackClicked = (e) => {
-    const { onBackClicked, tab } = this.props;
+    const { handleTabChange, tab } = this.props;
 
-    onBackClicked(e, { value: tab.back });
+    handleTabChange(e, { value: tab.back });
   }
 
   render() {

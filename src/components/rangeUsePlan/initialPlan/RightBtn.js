@@ -4,8 +4,12 @@ import { Button } from 'semantic-ui-react';
 
 const propTypes = {
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   content: PropTypes.string.isRequired,
+};
+
+const defaultProps = {
+  disabled: false,
 };
 
 const RightBtn = ({ onClick, disabled, content }) => {
@@ -22,4 +26,5 @@ const RightBtn = ({ onClick, disabled, content }) => {
 };
 
 RightBtn.propTypes = propTypes;
+RightBtn.defaultProps = defaultProps;
 export default RightBtn;
