@@ -66,8 +66,8 @@ class AddDescriptionTab extends Component {
         }
         content={
           <Form>
-            <div className="amendment__submission__note">
-              <div className="amendment__submission__note__title">
+            <div className="rup__submission__note">
+              <div className="rup__submission__note__title">
                 Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). Will be visible to Range Staff and other Agreement Holders.
               </div>
               <TextArea
@@ -75,7 +75,7 @@ class AddDescriptionTab extends Component {
                 onChange={handleNoteChange}
                 value={note}
               />
-              <div className="amendment__submission__note__text-length">
+              <div className="rup__submission__note__text-length">
                 {lengthOfNote}
               </div>
             </div>

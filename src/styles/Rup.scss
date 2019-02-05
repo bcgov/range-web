@@ -243,25 +243,4 @@
       justify-content: flex-end;
     }
   }
-
-  &__submission-tab {
-      display: none;
-  
-    &--active {
-      display: block;
-    }
-    &__title {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    &__btns {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 25px;
-    }
-    &__btn {
-      min-width: 120px;
-    }
-  }
 }

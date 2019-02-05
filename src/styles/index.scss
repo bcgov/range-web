@@ -36,13 +36,12 @@
 @import './RupInvasivePlant.scss';
 @import './RupConsiderationAndRequirement.scss';
 @import './RupNotifications.scss';
+@import './RupSubmission.scss';
 @import './RupPDF.scss';
 @import './Grid.scss';
 
 body {
-  overflow-x: auto !important;
   min-width: $tablet-width !important;
-  font-family: Lato !important;
 }
 
 main {

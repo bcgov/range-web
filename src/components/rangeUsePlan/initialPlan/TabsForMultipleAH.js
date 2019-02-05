@@ -4,11 +4,13 @@ import ChooseSubmissionTypeTab from './ChooseSubmissionTypeTab';
 import SubmitForFeedbackTab from './SubmitForFeedbackTab';
 import SubmitForFinalDecisionTab from './SubmitForFinalDecisionTab';
 import AddDescriptionTab from './AddDescriptionTab';
+import RequestSignaturesTab from './RequestSignaturesTab';
 import { PLAN_STATUS } from '../../../constants/variables';
 import { isSingleClient } from '../../../utils';
 
-class TabsForSingleAH extends Component {
+class TabsForMultipleAH extends Component {
   static propTypes = {
+    user: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     statusCode: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
@@ -45,6 +47,7 @@ class TabsForSingleAH extends Component {
       handleNoteChange,
       onSubmitClicked,
       onClose,
+      user,
     } = this.props;
     const { currTabId } = this.state;
     const tabsMap = {
@@ -78,16 +81,23 @@ class TabsForSingleAH extends Component {
         id: 'submitForFinalDecision',
         title: '3. Confirm Your Submission and eSignature',
         back: 'chooseSubmissionType',
-        next: null,
+        next: 'requestSignatures',
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
-        rightBtn1: 'Submit Initial RUP',
+        rightBtn1: 'Next',
+      },
+      requestSignatures: {
+        id: 'requestSignatures',
+        title: '4. Request eSignatures and Submit Range Use Plan for final decision',
+        back: 'submitForFinalDecision',
+        next: null,
+        text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
       },
     };
 
     const isThereSingleAH = isSingleClient(clients);
-    if (!isThereSingleAH) {
+    if (isThereSingleAH) {
       return null;
     }
 
@@ -128,9 +138,19 @@ class TabsForSingleAH extends Component {
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
         />
+
+        <RequestSignaturesTab
+          currTabId={currTabId}
+          tab={tabsMap.requestSignatures}
+          clients={clients}
+          user={user}
+          isSubmitting={false}
+          handleTabChange={this.handleTabChange}
+          onSubmitClicked={onSubmitClicked}
+        />
       </Fragment>
     );
   }
 }
 
-export default TabsForSingleAH;
+export default TabsForMultipleAH;

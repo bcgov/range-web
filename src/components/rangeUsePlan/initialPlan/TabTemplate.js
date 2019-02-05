@@ -21,16 +21,16 @@ class TabTemplate extends Component {
     return (
       <div
         className={classnames(
-          'rup__submission-tab',
-          { 'rup__submission-tab--active': isActive },
+          'rup__submission__tab',
+          { 'rup__submission__tab--active': isActive },
           )
         }
       >
-        <div className="rup__submission-tab__title">
+        <div className="rup__submission__tab__title">
           {title}
         </div>
         {content}
-        <div className="rup__submission-tab__btns">
+        <div className="rup__submission__tab__btns">
           {actions}
         </div>
       </div>

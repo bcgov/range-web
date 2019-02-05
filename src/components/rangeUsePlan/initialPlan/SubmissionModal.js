@@ -9,6 +9,7 @@ import { updateRUP, createRUPStatusHistoryRecord } from '../../../actionCreators
 import { planUpdated } from '../../../actions';
 import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment, findStatusWithCode } from '../../../utils';
 import TabsForSingleAH from './TabsForSingleAH';
+import TabsForMultipleAH from './TabsForMultipleAH';
 
 class SubmissionModal extends Component {
   static propTypes = {
@@ -93,6 +94,18 @@ class SubmissionModal extends Component {
             onClose={this.onClose}
           />
 
+          <TabsForMultipleAH
+            clients={clients}
+            statusCode={statusCode}
+            isAgreed={isAgreed}
+            note={note}
+            user={user}
+            handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
+            handleStatusCodeChange={this.handleStatusCodeChange}
+            handleNoteChange={this.handleNoteChange}
+            onSubmitClicked={this.onSubmitClicked}
+            onClose={this.onClose}
+          />
         </Modal.Content>
       </Modal>
     );

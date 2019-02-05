@@ -1,25 +1,26 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
+import classnames from 'classnames';
+import { Icon } from 'semantic-ui-react';
 import RightBtn from './RightBtn';
 import LeftBtn from './LeftBtn';
 import TabTemplate from './TabTemplate';
+import { isClientCurrentUser } from '../../../utils';
 
-class SubmitForFinalDecisionTab extends Component {
+class RequestSignaturesTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     handleTabChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
-    handleAgreeCheckBoxChange: PropTypes.func.isRequired,
-    isAgreed: PropTypes.bool.isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
+    user: PropTypes.shape({}).isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string,
       title: PropTypes.string,
       back: PropTypes.string,
       next: PropTypes.string,
       text1: PropTypes.string,
-      rightBtn1: PropTypes.string,
     }).isRequired,
   }
 
@@ -29,10 +30,22 @@ class SubmitForFinalDecisionTab extends Component {
     handleTabChange(e, { value: tab.back });
   }
 
-  onNextClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  renderAgreementHolder = (client) => {
+    const { user } = this.props;
 
-    handleTabChange(e, { value: tab.next });
+    return (
+      <div key={client.id} className="rup__submission__ah-list">
+        <Icon name="user outline" />
+        <span
+          className={classnames(
+            'rup__submission__ah-list__cname',
+            { 'rup__submission__ah-list__cname--bold': isClientCurrentUser(client, user) },
+          )}
+        >
+          {client.name}
+        </span>
+      </div>
+    );
   }
 
   render() {
@@ -41,10 +54,9 @@ class SubmitForFinalDecisionTab extends Component {
       tab,
       isSubmitting,
       onSubmitClicked,
-      handleAgreeCheckBoxChange,
-      isAgreed,
+      clients,
     } = this.props;
-    const { id, next, title, text1, checkbox1, rightBtn1 } = tab;
+    const { id, title, text1 } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -62,28 +74,29 @@ class SubmitForFinalDecisionTab extends Component {
               content="Back"
             />
             <RightBtn
-              onClick={next ? this.onNextClicked : onSubmitClicked}
+              onClick={onSubmitClicked}
               loading={isSubmitting}
-              disabled={!isAgreed}
-              content={rightBtn1}
+              content="Request eSignatures and Submit"
             />
           </Fragment>
         }
         content={
-          <Form>
+          <div>
             <div style={{ marginBottom: '20px' }}>
               {text1}
             </div>
-            <Form.Checkbox
-              label={checkbox1}
-              checked={isAgreed}
-              onChange={handleAgreeCheckBoxChange}
-            />
-          </Form>
+            <div style={{ marginBottom: '20px' }}>
+              Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by Range Staff.
+            </div>
+            <div className="rup__submission__ah-list__header">
+              Agreement holders needed to confirm submission:
+            </div>
+            {clients.map(this.renderAgreementHolder)}
+          </div>
         }
       />
     );
   }
 }
 
-export default SubmitForFinalDecisionTab;
+export default RequestSignaturesTab;
