@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'semantic-ui-react';
 import RightBtn from './RightBtn';
 import LeftBtn from './LeftBtn';
-import TabForm from './TabForm';
+import TabTemplate from './TabTemplate';
 
 class SubmitForFinalDecisionTab extends Component {
   static propTypes = {
@@ -45,7 +45,7 @@ class SubmitForFinalDecisionTab extends Component {
     }
 
     return (
-      <TabForm
+      <TabTemplate
         isActive={isActive}
         title={title}
         actions={

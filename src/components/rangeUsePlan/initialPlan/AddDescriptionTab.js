@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TextArea, Form } from 'semantic-ui-react';
 import RightBtn from './RightBtn';
 import LeftBtn from './LeftBtn';
-import TabForm from './TabForm';
+import TabTemplate from './TabTemplate';
 import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 
 class AddDescriptionTab extends Component {
@@ -49,7 +49,7 @@ class AddDescriptionTab extends Component {
     }
 
     return (
-      <TabForm
+      <TabTemplate
         isActive={isActive}
         title={title}
         actions={

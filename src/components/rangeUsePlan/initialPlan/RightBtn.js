@@ -15,7 +15,7 @@ const defaultProps = {
 const RightBtn = ({ onClick, disabled, content }) => {
   return (
     <Button
-      className="multi-form__btn"
+      className="rup__submission-tab__btn"
       primary
       onClick={onClick}
       disabled={disabled}

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import RightBtn from './RightBtn';
 import LeftBtn from './LeftBtn';
-import TabForm from './TabForm';
+import TabTemplate from './TabTemplate';
 
 class SubmitForReviewTab extends Component {
   static propTypes = {
@@ -42,7 +42,7 @@ class SubmitForReviewTab extends Component {
     }
 
     return (
-      <TabForm
+      <TabTemplate
         isActive={isActive}
         title={title}
         actions={

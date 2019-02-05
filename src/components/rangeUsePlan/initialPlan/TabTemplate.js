@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-class TabForm extends Component {
+class TabTemplate extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     actions: PropTypes.node.isRequired,
@@ -21,16 +21,16 @@ class TabForm extends Component {
     return (
       <div
         className={classnames(
-          'multi-form__tab',
-          { 'multi-form__tab--active': isActive },
+          'rup__submission-tab',
+          { 'rup__submission-tab--active': isActive },
           )
         }
       >
-        <div className="multi-form__tab__title">
+        <div className="rup__submission-tab__title">
           {title}
         </div>
         {content}
-        <div className="multi-form__btns">
+        <div className="rup__submission-tab__btns">
           {actions}
         </div>
       </div>
@@ -38,4 +38,4 @@ class TabForm extends Component {
   }
 }
 
-export default TabForm;
+export default TabTemplate;

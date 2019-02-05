@@ -4,7 +4,7 @@ import { Radio, Form } from 'semantic-ui-react';
 import { PLAN_STATUS } from '../../../constants/variables';
 import RightBtn from './RightBtn';
 import LeftBtn from './LeftBtn';
-import TabForm from './TabForm';
+import TabTemplate from './TabTemplate';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -58,7 +58,7 @@ class ChooseSubmissionTypeTab extends Component {
     }
 
     return (
-      <TabForm
+      <TabTemplate
         isActive={isActive}
         title={title}
         actions={
