@@ -169,7 +169,7 @@ class PageForAH extends Component {
   }
 
   openSubmitConfirmModal = () => {
-    const { plan } = this.props;
+    const { plan, openConfirmationModal } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
       if (utils.isPlanAmendment(plan)) {

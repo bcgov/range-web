@@ -8,9 +8,7 @@ import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP, createRUPStatusHistoryRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment, findStatusWithCode } from '../../../utils';
-import ChooseSubmissionTypeTab from './ChooseSubmissionTypeTab';
-import SubmitForFeedbackTab from './SubmitForFeedbackTab';
-import SubmitForFinalDecisionTab from './SubmitForFinalDecisionTab';
+import TabsForSingleAH from './TabsForSingleAH';
 
 class SubmissionModal extends Component {
   static propTypes = {
@@ -30,14 +28,14 @@ class SubmissionModal extends Component {
   };
 
   state = {
-    currTabId: 'chooseSubmissionType',
     statusCode: null,
+    isAgreed: false,
   }
 
   onClose = () => {
     this.setState({
-      currTabId: 'chooseSubmissionType',
       statusCode: null,
+      isAgreed: false,
     });
     this.props.onClose();
   }
@@ -46,18 +44,12 @@ class SubmissionModal extends Component {
     this.setState({ statusCode });
   }
 
-  handleTabChange = (e, { value: tabId }) => {
-    this.setState({
-      currTabId: tabId,
-    });
+  handleAgreeCheckBoxChange = (e, { checked }) => {
+    this.setState({ isAgreed: checked });
   }
 
   onSubmitClicked = (e) => {
     console.log(e, 'onSubmitClicked');
-  }
-
-  handleAgreeCheckBoxChange = (e) => {
-    console.log(e, 'handleAgreeCheckBoxChange');
   }
 
   render() {
@@ -68,34 +60,7 @@ class SubmissionModal extends Component {
       plan,
       references,
     } = this.props;
-    const { currTabId, statusCode } = this.state;
-    const tabsMap = {
-      chooseSubmissionType: {
-        id: 'chooseSubmissionType',
-        title: '1. Ready to Submit? Choose Your Submission Type',
-        back: null,
-        next: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
-          ? 'submitForFeedback'
-          : 'submitForFinalDecision',
-        radio1: 'this is radio 1',
-        radio2: 'this is radio 2',
-      },
-      submitForFeedback: {
-        id: 'submitForFeedback',
-        title: '2. Submit Your initial range use plan for Review',
-        back: 'chooseSubmissionType',
-        next: null,
-        text1: 'You’re ready to submit an initial range use plan for Range staff review. You will be notified once the submission has been reviewed.',
-      },
-      submitForFinalDecision: {
-        id: 'submitForFinalDecision',
-        title: '3. Confirm Your Submission and eSignature',
-        back: 'chooseSubmissionType',
-        next: null,
-        text1: 'You are about to submit your initial range use plan.',
-        checkbox1: 'I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff.',
-      },
-    };
+    const { statusCode, isAgreed } = this.state;
 
     return (
       <Modal
@@ -106,32 +71,17 @@ class SubmissionModal extends Component {
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Content>
-          <ChooseSubmissionTypeTab
-            currTabId={currTabId}
-            tab={tabsMap.chooseSubmissionType}
+
+          <TabsForSingleAH
+            clients={clients}
             statusCode={statusCode}
-            handleStatusCodeChange={this.handleStatusCodeChange}
-            onCancelClicked={this.onClose}
-            onNextClicked={this.handleTabChange}
-          />
-
-          <SubmitForFeedbackTab
-            currTabId={currTabId}
-            tab={tabsMap.submitForFeedback}
-            isSubmitting={false}
-            onBackClicked={this.handleTabChange}
-            onSubmitClicked={this.onSubmitClicked}
-          />
-
-          <SubmitForFinalDecisionTab
-            currTabId={currTabId}
-            tab={tabsMap.submitForFinalDecision}
-            isSubmitting={false}
-            onBackClicked={this.handleTabChange}
-            onSubmitClicked={this.onSubmitClicked}
+            isAgreed={isAgreed}
             handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
-            isAgreed={false}
+            handleStatusCodeChange={this.handleStatusCodeChange}
+            onSubmitClicked={this.onSubmitClicked}
+            onClose={this.onClose}
           />
+
         </Modal.Content>
       </Modal>
     );

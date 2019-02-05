@@ -11,12 +11,19 @@ import TabForm from './TabForm';
 class ChooseSubmissionTypeTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
-    tab: PropTypes.shape({}).isRequired,
     statusCode: PropTypes.string,
     handleStatusCodeChange: PropTypes.func.isRequired,
     onBackClicked: PropTypes.func,
     onCancelClicked: PropTypes.func,
     onNextClicked: PropTypes.func.isRequired,
+    tab: PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      back: PropTypes.string,
+      next: PropTypes.string,
+      radio1: PropTypes.string,
+      radio2: PropTypes.string,
+    }).isRequired,
   }
 
   static defaultProps = {

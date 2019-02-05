@@ -8,12 +8,18 @@ import TabForm from './TabForm';
 class SubmitForFinalDecisionTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
-    tab: PropTypes.shape({}).isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     onBackClicked: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
     isAgreed: PropTypes.bool.isRequired,
+    tab: PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      back: PropTypes.string,
+      next: PropTypes.string,
+      text1: PropTypes.string,
+    }).isRequired,
   }
 
   onBackClicked = (e) => {
@@ -31,7 +37,7 @@ class SubmitForFinalDecisionTab extends Component {
       handleAgreeCheckBoxChange,
       isAgreed,
     } = this.props;
-    const { id, title, planType, text1, checkbox1 } = tab;
+    const { id, title, text1, checkbox1, submitBtn } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -52,7 +58,7 @@ class SubmitForFinalDecisionTab extends Component {
               onClick={onSubmitClicked}
               loading={isSubmitting}
               disabled={!isAgreed}
-              content={`Submit ${planType}`}
+              content={submitBtn}
             />
           </Fragment>
         }
@@ -63,6 +69,7 @@ class SubmitForFinalDecisionTab extends Component {
             </div>
             <Form.Checkbox
               label={checkbox1}
+              checked={isAgreed}
               onChange={handleAgreeCheckBoxChange}
             />
           </Form>

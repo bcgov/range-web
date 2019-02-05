@@ -16,6 +16,7 @@ const RightBtn = ({ onClick, disabled, content }) => {
       onClick={onClick}
       disabled={disabled}
       content={content}
+      style={{ margin: '0' }}
     />
   );
 };

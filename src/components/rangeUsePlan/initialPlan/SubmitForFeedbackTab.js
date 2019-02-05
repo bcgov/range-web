@@ -7,10 +7,18 @@ import TabForm from './TabForm';
 class SubmitForReviewTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
-    tab: PropTypes.shape({}).isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     onBackClicked: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
+    tab: PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      back: PropTypes.string,
+      next: PropTypes.string,
+      text1: PropTypes.string,
+      checkbox1: PropTypes.string,
+      submitBtn: PropTypes.string,
+    }).isRequired,
   }
 
   onBackClicked = (e) => {
@@ -46,7 +54,7 @@ class SubmitForReviewTab extends Component {
             <RightBtn
               onClick={onSubmitClicked}
               disabled={isSubmitting}
-              content="Submit For Review"
+              content="Submit For Feedback"
             />
           </Fragment>
         }

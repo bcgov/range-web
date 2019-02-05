@@ -50,8 +50,8 @@ class MandatoryTabsForSingle extends Component {
                 className="amendment__submission__radio"
                 label={
                   <label>
-                    <b>Submit for Staff Review: </b>
-                    Short Description that informs the user that their submission will be reviewed by range staff before they submit for final approval.
+                    <b>Submit for Staff Feedback: </b>
+                    Make this draft amendment available for the staff to review. They will advise you if the RUP is ready to submit to the decision maker for approval.
                   </label>
                 }
                 name="radioGroup"
@@ -66,7 +66,7 @@ class MandatoryTabsForSingle extends Component {
                 label={
                   <label>
                     <b>Submit for Final Decision: </b>
-                    Short Description that informs the user that they will be submitting for Final approval and that all Agreement holders will have to review the submission before it is sent to range staff.
+                    Verify this amendment is correct and start submission for decision.
                   </label>
                 }
                 name="radioGroup"
@@ -154,7 +154,7 @@ class MandatoryTabsForSingle extends Component {
                   onClick={onSubmitClicked}
                   loading={isSubmitting}
                 >
-                  Submit For Review
+                  Submit For Feedback
                 </Button>
               </div>
             </Form>

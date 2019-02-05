@@ -72,7 +72,7 @@ class MandatoryTabsForMultiple extends Component {
                 onClick={onSubmitClicked}
                 loading={isSubmitting}
               >
-                Submit For Review
+                Submit For Feedback
               </Button>
             </div>
           </Form>
