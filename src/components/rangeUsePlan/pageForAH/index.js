@@ -24,7 +24,7 @@ import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
-import SubmissionModal from '../initialPlan/SubmissionModal';
+import AHSubmissionModal from '../initialPlan/AHSubmissionModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -272,7 +272,7 @@ class PageForAH extends Component {
 
     return (
       <section className="rup">
-        <SubmissionModal
+        <AHSubmissionModal
           open={isSubmitModalOpen}
           onClose={this.closeSubmitModal}
           plan={plan}

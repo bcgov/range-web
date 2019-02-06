@@ -4,19 +4,17 @@ import ChooseSubmissionTypeTab from './ChooseSubmissionTypeTab';
 import SubmitForFeedbackTab from './SubmitForFeedbackTab';
 import SubmitForFinalDecisionTab from './SubmitForFinalDecisionTab';
 import AddDescriptionTab from './AddDescriptionTab';
-import RequestSignaturesTab from './RequestSignaturesTab';
-import { PLAN_STATUS } from '../../../constants/variables';
-import { isSingleClient } from '../../../utils';
+import { PLAN_STATUS } from '../../../../constants/variables';
+import { isSingleClient } from '../../../../utils';
 import LastTab from './LastTab';
 
-class TabsForMultipleAH extends Component {
+class TabsForSingleAH extends Component {
   static propTypes = {
-    user: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     statusCode: PropTypes.string,
-    isSubmitting: PropTypes.bool.isRequired,
     isAgreed: PropTypes.bool.isRequired,
     note: PropTypes.string.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
     handleStatusCodeChange: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
     handleNoteChange: PropTypes.func.isRequired,
@@ -50,7 +48,6 @@ class TabsForMultipleAH extends Component {
       handleNoteChange,
       onSubmitClicked,
       onClose,
-      user,
     } = this.props;
     const { currTabId } = this.state;
     const tabsMap = {
@@ -84,33 +81,20 @@ class TabsForMultipleAH extends Component {
         id: 'submitForFinalDecision',
         title: '3. Confirm Your Submission and eSignature',
         back: 'chooseSubmissionType',
-        next: 'requestSignatures',
+        next: null,
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
-        rightBtn1: 'Next',
-      },
-      requestSignatures: {
-        id: 'requestSignatures',
-        title: '4. Request eSignatures and Submit Range Use Plan for final decision',
-        back: 'submitForFinalDecision',
-        next: 'lastTab',
-        text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
+        rightBtn1: 'Submit Initial RUP',
       },
       lastTab: {
         id: 'lastTab',
-        title: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
-          ? 'Your range use plan has been sent for range staff review.'
-          : 'Your range use plan has been sent for eSignatures and final decision by range staff.',
-        text1: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
-          ? 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!'
-          : 'Your range use plan has been sent to agreement holders '
-            + 'for confirmation. It will be sent to Range staff for final '
-            + 'approval once all agreement holders have viewed and confirmed the submission.',
+        title: 'Your range use plan has been sent for range staff review.',
+        text1: 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!',
       },
     };
 
-    if (isSingleClient(clients)) {
+    if (!isSingleClient(clients)) {
       return null;
     }
 
@@ -137,7 +121,7 @@ class TabsForMultipleAH extends Component {
         <SubmitForFeedbackTab
           currTabId={currTabId}
           tab={tabsMap.submitForFeedback}
-          isSubmitting={isSubmitting}
+          isSubmitting={false}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
         />
@@ -145,20 +129,11 @@ class TabsForMultipleAH extends Component {
         <SubmitForFinalDecisionTab
           currTabId={currTabId}
           tab={tabsMap.submitForFinalDecision}
+          isSubmitting={isSubmitting}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
-        />
-
-        <RequestSignaturesTab
-          currTabId={currTabId}
-          tab={tabsMap.requestSignatures}
-          clients={clients}
-          user={user}
-          isSubmitting={isSubmitting}
-          handleTabChange={this.handleTabChange}
-          onSubmitClicked={onSubmitClicked}
         />
 
         <LastTab
@@ -171,4 +146,4 @@ class TabsForMultipleAH extends Component {
   }
 }
 
-export default TabsForMultipleAH;
+export default TabsForSingleAH;

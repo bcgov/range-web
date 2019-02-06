@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Radio, Form } from 'semantic-ui-react';
-import { PLAN_STATUS } from '../../../constants/variables';
-import RightBtn from './RightBtn';
-import LeftBtn from './LeftBtn';
-import TabTemplate from './TabTemplate';
+import { PLAN_STATUS } from '../../../../constants/variables';
+import RightBtn from '../RightBtn';
+import LeftBtn from '../LeftBtn';
+import TabTemplate from '../TabTemplate';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 

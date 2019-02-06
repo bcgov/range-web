@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import RightBtn from './RightBtn';
+import RightBtn from '../RightBtn';
 
 class LastTab extends Component {
   static propTypes = {

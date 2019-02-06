@@ -7,10 +7,10 @@ import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { createRUPStatusHistoryRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import { isSingleClient, findStatusWithCode } from '../../../utils';
-import TabsForSingleAH from './TabsForSingleAH';
-import TabsForMultipleAH from './TabsForMultipleAH';
+import TabsForSingleAH from './submissionTabs/TabsForSingleAH';
+import TabsForMultipleAH from './submissionTabs/TabsForMultipleAH';
 
-class SubmissionModal extends Component {
+class AHSubmissionModal extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     open: PropTypes.bool.isRequired,
@@ -153,4 +153,4 @@ const mapStateToProps = state => (
 export default connect(mapStateToProps, {
   planUpdated,
   createRUPStatusHistoryRecord,
-})(SubmissionModal);
+})(AHSubmissionModal);

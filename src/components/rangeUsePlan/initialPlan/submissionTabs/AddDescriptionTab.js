@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TextArea, Form } from 'semantic-ui-react';
-import RightBtn from './RightBtn';
-import LeftBtn from './LeftBtn';
-import TabTemplate from './TabTemplate';
-import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
+import RightBtn from '../RightBtn';
+import LeftBtn from '../LeftBtn';
+import TabTemplate from '../TabTemplate';
+import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../../constants/variables';
 
 class AddDescriptionTab extends Component {
   static propTypes = {
@@ -68,7 +68,7 @@ class AddDescriptionTab extends Component {
           <Form>
             <div className="rup__submission__note">
               <div className="rup__submission__note__title">
-                Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). Will be visible to Range Staff and other Agreement Holders.
+                Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). It will be visible to Range Staff and other Agreement Holders.
               </div>
               <TextArea
                 placeholder={placeholder}
