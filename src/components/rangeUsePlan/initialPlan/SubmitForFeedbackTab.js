@@ -27,13 +27,16 @@ class SubmitForReviewTab extends Component {
     handleTabChange(e, { value: tab.back });
   }
 
+  onSubmitClicked = (e) => {
+    const { onSubmitClicked, handleTabChange, tab } = this.props;
+
+    onSubmitClicked(e).then(() => {
+      handleTabChange(e, { value: tab.next });
+    });
+  }
+
   render() {
-    const {
-      currTabId,
-      tab,
-      isSubmitting,
-      onSubmitClicked,
-    } = this.props;
+    const { currTabId, tab, isSubmitting } = this.props;
     const { id, title, text1 } = tab;
     const isActive = id === currTabId;
 
@@ -52,8 +55,8 @@ class SubmitForReviewTab extends Component {
               content="Back"
             />
             <RightBtn
-              onClick={onSubmitClicked}
-              disabled={isSubmitting}
+              onClick={this.onSubmitClicked}
+              loading={isSubmitting}
               content="Submit For Feedback"
             />
           </Fragment>

@@ -5,6 +5,7 @@ import { Button } from 'semantic-ui-react';
 const propTypes = {
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  loading: PropTypes.bool,
   content: PropTypes.string.isRequired,
 };
 
@@ -12,13 +13,14 @@ const defaultProps = {
   disabled: false,
 };
 
-const RightBtn = ({ onClick, disabled, content }) => {
+const RightBtn = ({ onClick, disabled, content, loading }) => {
   return (
     <Button
       className="rup__submission__tab__btn"
       primary
       onClick={onClick}
       disabled={disabled}
+      loading={loading}
       content={content}
       style={{ margin: '0' }}
     />

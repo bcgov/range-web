@@ -7,12 +7,14 @@ import AddDescriptionTab from './AddDescriptionTab';
 import RequestSignaturesTab from './RequestSignaturesTab';
 import { PLAN_STATUS } from '../../../constants/variables';
 import { isSingleClient } from '../../../utils';
+import LastTab from './LastTab';
 
 class TabsForMultipleAH extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     statusCode: PropTypes.string,
+    isSubmitting: PropTypes.bool.isRequired,
     isAgreed: PropTypes.bool.isRequired,
     note: PropTypes.string.isRequired,
     handleStatusCodeChange: PropTypes.func.isRequired,
@@ -42,6 +44,7 @@ class TabsForMultipleAH extends Component {
       statusCode,
       isAgreed,
       note,
+      isSubmitting,
       handleStatusCodeChange,
       handleAgreeCheckBoxChange,
       handleNoteChange,
@@ -73,7 +76,7 @@ class TabsForMultipleAH extends Component {
         id: 'submitForFeedback',
         title: '2. Submit Your initial range use plan for Feedback',
         back: 'chooseSubmissionType',
-        next: null,
+        next: 'lastTab',
         text1: 'You’re ready to submit an initial range use plan '
           + 'for Range staff review. You will be notified once the submission has been reviewed.',
       },
@@ -91,13 +94,23 @@ class TabsForMultipleAH extends Component {
         id: 'requestSignatures',
         title: '4. Request eSignatures and Submit Range Use Plan for final decision',
         back: 'submitForFinalDecision',
-        next: null,
+        next: 'lastTab',
         text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
+      },
+      lastTab: {
+        id: 'lastTab',
+        title: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
+          ? 'Your range use plan has been sent for range staff review.'
+          : 'Your range use plan has been sent for eSignatures and final decision by range staff.',
+        text1: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
+          ? 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!'
+          : 'Your range use plan has been sent to agreement holders '
+            + 'for confirmation. It will be sent to Range staff for final '
+            + 'approval once all agreement holders have viewed and confirmed the submission.',
       },
     };
 
-    const isThereSingleAH = isSingleClient(clients);
-    if (isThereSingleAH) {
+    if (isSingleClient(clients)) {
       return null;
     }
 
@@ -124,7 +137,7 @@ class TabsForMultipleAH extends Component {
         <SubmitForFeedbackTab
           currTabId={currTabId}
           tab={tabsMap.submitForFeedback}
-          isSubmitting={false}
+          isSubmitting={isSubmitting}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
         />
@@ -132,7 +145,6 @@ class TabsForMultipleAH extends Component {
         <SubmitForFinalDecisionTab
           currTabId={currTabId}
           tab={tabsMap.submitForFinalDecision}
-          isSubmitting={false}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
@@ -144,9 +156,15 @@ class TabsForMultipleAH extends Component {
           tab={tabsMap.requestSignatures}
           clients={clients}
           user={user}
-          isSubmitting={false}
+          isSubmitting={isSubmitting}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
+        />
+
+        <LastTab
+          currTabId={currTabId}
+          tab={tabsMap.lastTab}
+          onClose={onClose}
         />
       </Fragment>
     );

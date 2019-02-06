@@ -30,6 +30,14 @@ class RequestSignaturesTab extends Component {
     handleTabChange(e, { value: tab.back });
   }
 
+  onSubmitClicked = (e) => {
+    const { onSubmitClicked, handleTabChange, tab } = this.props;
+
+    onSubmitClicked(e).then(() => {
+      handleTabChange(e, { value: tab.next });
+    });
+  }
+
   renderAgreementHolder = (client) => {
     const { user } = this.props;
 
@@ -53,7 +61,6 @@ class RequestSignaturesTab extends Component {
       currTabId,
       tab,
       isSubmitting,
-      onSubmitClicked,
       clients,
     } = this.props;
     const { id, title, text1 } = tab;
@@ -74,7 +81,7 @@ class RequestSignaturesTab extends Component {
               content="Back"
             />
             <RightBtn
-              onClick={onSubmitClicked}
+              onClick={this.onSubmitClicked}
               loading={isSubmitting}
               content="Request eSignatures and Submit"
             />

@@ -6,6 +6,7 @@ import SubmitForFinalDecisionTab from './SubmitForFinalDecisionTab';
 import AddDescriptionTab from './AddDescriptionTab';
 import { PLAN_STATUS } from '../../../constants/variables';
 import { isSingleClient } from '../../../utils';
+import LastTab from './LastTab';
 
 class TabsForSingleAH extends Component {
   static propTypes = {
@@ -13,6 +14,7 @@ class TabsForSingleAH extends Component {
     statusCode: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
     note: PropTypes.string.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
     handleStatusCodeChange: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
     handleNoteChange: PropTypes.func.isRequired,
@@ -40,6 +42,7 @@ class TabsForSingleAH extends Component {
       statusCode,
       isAgreed,
       note,
+      isSubmitting,
       handleStatusCodeChange,
       handleAgreeCheckBoxChange,
       handleNoteChange,
@@ -70,7 +73,7 @@ class TabsForSingleAH extends Component {
         id: 'submitForFeedback',
         title: '2. Submit Your initial range use plan for Feedback',
         back: 'chooseSubmissionType',
-        next: null,
+        next: 'lastTab',
         text1: 'You’re ready to submit an initial range use plan '
           + 'for Range staff review. You will be notified once the submission has been reviewed.',
       },
@@ -84,10 +87,14 @@ class TabsForSingleAH extends Component {
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
         rightBtn1: 'Submit Initial RUP',
       },
+      lastTab: {
+        id: 'lastTab',
+        title: 'Your range use plan has been sent for range staff review.',
+        text1: 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!',
+      },
     };
 
-    const isThereSingleAH = isSingleClient(clients);
-    if (!isThereSingleAH) {
+    if (!isSingleClient(clients)) {
       return null;
     }
 
@@ -122,11 +129,17 @@ class TabsForSingleAH extends Component {
         <SubmitForFinalDecisionTab
           currTabId={currTabId}
           tab={tabsMap.submitForFinalDecision}
-          isSubmitting={false}
+          isSubmitting={isSubmitting}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
+        />
+
+        <LastTab
+          currTabId={currTabId}
+          tab={tabsMap.lastTab}
+          onClose={onClose}
         />
       </Fragment>
     );

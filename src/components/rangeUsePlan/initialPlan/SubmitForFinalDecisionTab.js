@@ -8,7 +8,7 @@ import TabTemplate from './TabTemplate';
 class SubmitForFinalDecisionTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
+    isSubmitting: PropTypes.bool,
     handleTabChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
@@ -21,6 +21,10 @@ class SubmitForFinalDecisionTab extends Component {
       text1: PropTypes.string,
       rightBtn1: PropTypes.string,
     }).isRequired,
+  }
+
+  static defaultProps = {
+    isSubmitting: false,
   }
 
   onBackClicked = (e) => {

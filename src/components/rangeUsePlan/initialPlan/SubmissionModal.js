@@ -1,13 +1,12 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
-import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
+import { PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
-import { updateRUP, createRUPStatusHistoryRecord } from '../../../actionCreators/planActionCreator';
+import { createRUPStatusHistoryRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
-import { isSingleClient, isSubmittedAsMinor, isSubmittedAsMandatory, isMandatoryAmendment, isMinorAmendment, findStatusWithCode } from '../../../utils';
+import { isSingleClient, findStatusWithCode } from '../../../utils';
 import TabsForSingleAH from './TabsForSingleAH';
 import TabsForMultipleAH from './TabsForMultipleAH';
 
@@ -19,9 +18,9 @@ class SubmissionModal extends Component {
     plan: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object),
-    // updateRUP: PropTypes.func.isRequired,
-    // updateStatusAndContent: PropTypes.func.isRequired,
-    // createRUPStatusHistoryRecord: PropTypes.func.isRequired,
+    fetchPlan: PropTypes.func.isRequired,
+    updateStatusAndContent: PropTypes.func.isRequired,
+    createRUPStatusHistoryRecord: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -37,6 +36,7 @@ class SubmissionModal extends Component {
     statusCode: null,
     isAgreed: false,
     note: '',
+    isSubmitting: false,
   })
 
   onClose = () => {
@@ -58,19 +58,49 @@ class SubmissionModal extends Component {
     }
   }
 
+  submitPlan = (plan, planStatus) => {
+    const {
+      updateStatusAndContent,
+      createRUPStatusHistoryRecord,
+      fetchPlan,
+    } = this.props;
+    const { note } = this.state;
+
+    const onRequest = () => {
+      this.setState({ isSubmitting: true });
+    };
+    const onSuccess = async () => {
+      if (note) {
+        await createRUPStatusHistoryRecord(plan, planStatus, note);
+      }
+      await fetchPlan();
+      this.setState({ isSubmitting: false });
+    };
+    const onError = () => {
+      this.onClose();
+    };
+
+    return updateStatusAndContent(planStatus, onRequest, onSuccess, onError);
+  }
+
   onSubmitClicked = (e) => {
-    console.log(e, 'onSubmitClicked');
+    e.preventDefault();
+    const { plan, references, clients } = this.props;
+    const { statusCode } = this.state;
+    const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
+    const status = findStatusWithCode(references, statusCode);
+    const isSubmittedForFinal = statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
+
+    if (!isSingleClient(clients) && isSubmittedForFinal) {
+      return this.submitPlan(plan, confirmationAwaiting);
+    } else {
+      return this.submitPlan(plan, status);
+    }
   }
 
   render() {
-    const {
-      open,
-      clients,
-      user,
-      plan,
-      references,
-    } = this.props;
-    const { statusCode, isAgreed, note } = this.state;
+    const { open, clients, user } = this.props;
+    const { isSubmitting, statusCode, isAgreed, note } = this.state;
 
     return (
       <Modal
@@ -81,12 +111,12 @@ class SubmissionModal extends Component {
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Content>
-
           <TabsForSingleAH
             clients={clients}
             statusCode={statusCode}
             isAgreed={isAgreed}
             note={note}
+            isSubmitting={isSubmitting}
             handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
             handleStatusCodeChange={this.handleStatusCodeChange}
             handleNoteChange={this.handleNoteChange}
@@ -99,6 +129,7 @@ class SubmissionModal extends Component {
             statusCode={statusCode}
             isAgreed={isAgreed}
             note={note}
+            isSubmitting={isSubmitting}
             user={user}
             handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
             handleStatusCodeChange={this.handleStatusCodeChange}
@@ -120,7 +151,6 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  updateRUP,
   planUpdated,
   createRUPStatusHistoryRecord,
 })(SubmissionModal);

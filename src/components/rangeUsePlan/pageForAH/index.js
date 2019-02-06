@@ -169,7 +169,7 @@ class PageForAH extends Component {
   }
 
   openSubmitConfirmModal = () => {
-    const { plan, openConfirmationModal } = this.props;
+    const { plan } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
       if (utils.isPlanAmendment(plan)) {
@@ -236,6 +236,7 @@ class PageForAH extends Component {
       planStatusHistoryMap,
       additionalRequirementsMap,
       managementConsiderationsMap,
+      fetchPlan,
     } = this.props;
 
     const { agreementId, status, confirmations, rangeName } = plan;
@@ -277,6 +278,7 @@ class PageForAH extends Component {
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
+          fetchPlan={fetchPlan}
         />
 
         <AmendmentSubmissionModal
