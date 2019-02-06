@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
-import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
+import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { planUpdated, planStatusHistoryRecordAdded } from '../../actions';
@@ -171,23 +171,38 @@ class UpdateStatusDropdown extends Component {
       onClick: this.openSWMConfirmModal,
     };
 
+    // let options = [];
+    // if (isPlanAmendment(plan)) { // for Amendment
+    //   if (isStatusStands(status)) {
+    //     options = [wronglyMadeWithoutEffect, standsWronglyMade];
+    //   } else if (isStatusSubmittedForReview(status)) {
+    //     options = [changeRequested, recommendForSubmission];
+    //   } else if (isStatusSubmittedForFD(status)) {
+    //     options = [recommendReady, recommendNotReady];
+    //   } else if (isStatusRecommendReady(status)) {
+    //     options = [approved, notApproved, notApprovedFWR];
+    //   }
+    // } else if (!isPlanAmendment(plan)) { // for initial plan
+    //   if (isStatusPending(status) || isStatusCreated(status)) {
+    //     options = [completed, changeRequested];
+    //   } else if (isStatusCompleted(status)) {
+    //     options = [approved];
+    //   }
+    // }
+
     let options = [];
-    if (isPlanAmendment(plan)) { // for Amendment
-      if (isStatusStands(status)) {
-        options = [wronglyMadeWithoutEffect, standsWronglyMade];
-      } else if (isStatusSubmittedForReview(status)) {
-        options = [changeRequested, recommendForSubmission];
-      } else if (isStatusSubmittedForFD(status)) {
-        options = [recommendReady, recommendNotReady];
-      } else if (isStatusRecommendReady(status)) {
-        options = [approved, notApproved, notApprovedFWR];
-      }
-    } else if (!isPlanAmendment(plan)) { // for initial plan
-      if (isStatusPending(status) || isStatusCreated(status)) {
-        options = [completed, changeRequested];
-      } else if (isStatusCompleted(status)) {
-        options = [approved];
-      }
+    if (isStatusStands(status)) {
+      options = [wronglyMadeWithoutEffect, standsWronglyMade];
+    } else if (isStatusSubmittedForReview(status)) {
+      options = [changeRequested, recommendForSubmission];
+    } else if (isStatusSubmittedForFD(status)) {
+      options = [recommendReady, recommendNotReady];
+    } else if (isStatusRecommendReady(status)) {
+      options = [approved, notApproved, notApprovedFWR];
+    } else if (isStatusPending(status) || isStatusCreated(status)) {
+      options = [completed, changeRequested];
+    } else if (isStatusCompleted(status)) {
+      options = [approved];
     }
 
     return options;
