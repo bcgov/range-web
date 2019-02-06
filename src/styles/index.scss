@@ -40,6 +40,10 @@
 @import './RupPDF.scss';
 @import './Grid.scss';
 
+* {
+  font-family: Lato, sans-serif;
+}
+
 main {
   height: 100vh !important;
   display: flex !important; 
