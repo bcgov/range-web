@@ -11,7 +11,7 @@ const LeftBtn = ({ onClick, content }) => {
   return (
     <InvertedButton
       primaryColor
-      className="rup__submission__tab__btn"
+      className="rup__multi-tab__tab__btn"
       onClick={onClick}
       content={content}
     />

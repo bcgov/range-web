@@ -16,7 +16,7 @@ const defaultProps = {
 const RightBtn = ({ onClick, disabled, content, loading }) => {
   return (
     <Button
-      className="rup__submission__tab__btn"
+      className="rup__multi-tab__tab__btn"
       primary
       onClick={onClick}
       disabled={disabled}

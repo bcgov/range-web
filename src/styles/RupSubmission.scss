@@ -1,26 +1,24 @@
 .rup {
-  &__submission {
-    &__tab {
-      display: none;
-  
-      &--active {
-        display: block;
-      }
-      &__title {
-        font-size: 1.3rem;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
-      &__btns {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 25px;
-      }
-      &__btn {
-        min-width: 120px;
-      }
+  &__multi-tab {
+    display: none;
+
+    &--active {
+      display: block;
     }
-    &__last-tab {
+    &__title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    &__btns {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+    &__btn {
+      min-width: 120px;
+    }
+    &__last {
       display: flex;
       flex-direction: column;
       align-items: center;

@@ -42,12 +42,12 @@ class RequestSignaturesTab extends Component {
     const { user } = this.props;
 
     return (
-      <div key={client.id} className="rup__submission__ah-list">
+      <div key={client.id} className="rup__multi-tab__ah-list">
         <Icon name="user outline" />
         <span
           className={classnames(
-            'rup__submission__ah-list__cname',
-            { 'rup__submission__ah-list__cname--bold': isClientCurrentUser(client, user) },
+            'rup__multi-tab__ah-list__cname',
+            { 'rup__multi-tab__ah-list__cname--bold': isClientCurrentUser(client, user) },
           )}
         >
           {client.name}
@@ -95,7 +95,7 @@ class RequestSignaturesTab extends Component {
             <div style={{ marginBottom: '20px' }}>
               Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by Range Staff.
             </div>
-            <div className="rup__submission__ah-list__header">
+            <div className="rup__multi-tab__ah-list__header">
               Agreement holders needed to confirm submission:
             </div>
             {clients.map(this.renderAgreementHolder)}

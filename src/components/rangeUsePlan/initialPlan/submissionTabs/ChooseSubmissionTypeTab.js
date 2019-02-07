@@ -76,9 +76,9 @@ class ChooseSubmissionTypeTab extends Component {
         }
         content={
           <Form>
-            <Form.Field className="rup__submission__radio-field">
+            <Form.Field className="rup__multi-tab__radio-field">
               <Radio
-                className="rup__submission__radio"
+                className="rup__multi-tab__radio"
                 label={
                   <label>
                     <b>Submit for Staff Feedback: </b>
@@ -91,9 +91,9 @@ class ChooseSubmissionTypeTab extends Component {
                 onChange={handleStatusCodeChange}
               />
             </Form.Field>
-            <Form.Field className="rup__submission__radio-field">
+            <Form.Field className="rup__multi-tab__radio-field">
               <Radio
-                className="rup__submission__radio"
+                className="rup__multi-tab__radio"
                 label={
                   <label>
                     <b>Submit for Final Decision: </b>

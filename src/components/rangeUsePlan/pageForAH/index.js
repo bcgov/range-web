@@ -25,6 +25,7 @@ import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal'
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
 import AHSubmissionModal from '../initialPlan/AHSubmissionModal';
+import AHConfirmationModal from '../initialPlan/AHConfirmationModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -36,6 +37,7 @@ class PageForAH extends Component {
     isSubmitAmendmentModalOpen: false,
     isConfirmAmendmentModalOpen: false,
     isSubmitModalOpen: false,
+    isConfirmModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
@@ -189,6 +191,8 @@ class PageForAH extends Component {
 
   openSubmitModal = () => this.setState({ isSubmitModalOpen: true });
   closeSubmitModal = () => this.setState({ isSubmitModalOpen: false });
+  openConfirmModal = () => this.setState({ isConfirmModalOpen: true });
+  closeConfirmModal = () => this.setState({ isConfirmModalOpen: false });
 
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
@@ -197,10 +201,11 @@ class PageForAH extends Component {
 
   renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
-    const { isCreatingAmendment } = this.props;
+    const { isCreatingAmendment, plan } = this.props;
 
     return (
       <ActionBtns
+        plan={plan}
         canEdit={canEdit}
         canAmend={canAmend}
         canConfirm={canConfirm}
@@ -213,6 +218,7 @@ class PageForAH extends Component {
         openSubmitConfirmModal={this.openSubmitConfirmModal}
         onAmendPlanClicked={this.onAmendPlanClicked}
         openConfirmAmendmentModal={this.openConfirmAmendmentModal}
+        openConfirmModal={this.openConfirmModal}
       />
     );
   }
@@ -222,6 +228,7 @@ class PageForAH extends Component {
       isSubmitAmendmentModalOpen,
       isConfirmAmendmentModalOpen,
       isSubmitModalOpen,
+      isConfirmModalOpen,
     } = this.state;
 
     const {
@@ -275,6 +282,15 @@ class PageForAH extends Component {
         <AHSubmissionModal
           open={isSubmitModalOpen}
           onClose={this.closeSubmitModal}
+          plan={plan}
+          clients={clients}
+          updateStatusAndContent={this.updateStatusAndContent}
+          fetchPlan={fetchPlan}
+        />
+
+        <AHConfirmationModal
+          open={isConfirmModalOpen}
+          onClose={this.closeConfirmModal}
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
