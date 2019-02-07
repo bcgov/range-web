@@ -4,7 +4,7 @@ import RightBtn from '../RightBtn';
 import LeftBtn from '../LeftBtn';
 import TabTemplate from '../TabTemplate';
 
-class ChooseSubmissionTypeTab extends Component {
+class RequestClarificationTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -49,7 +49,7 @@ class ChooseSubmissionTypeTab extends Component {
             />
             <RightBtn
               onClick={onClose}
-              content="Confirm"
+              content="Close"
             />
           </Fragment>
         }
@@ -71,4 +71,4 @@ class ChooseSubmissionTypeTab extends Component {
   }
 }
 
-export default ChooseSubmissionTypeTab;
+export default RequestClarificationTab;

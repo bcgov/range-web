@@ -9,7 +9,7 @@ import AHConfirmationList from './AHConfirmationList';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
-class ChooseSubmissionTypeTab extends Component {
+class ConfirmChoiceTab extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     onClose: PropTypes.func.isRequired,
@@ -19,10 +19,10 @@ class ChooseSubmissionTypeTab extends Component {
     currTabId: PropTypes.string.isRequired,
     confirmationOption: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
-    isConfirmating: PropTypes.bool.isRequired,
+    isConfirming: PropTypes.bool.isRequired,
     handleSubmissionChoiceChange: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
-    onConfirmChoiceClicked: PropTypes.func.isRequired,
+    handleConfirmation: PropTypes.func.isRequired,
     handleTabChange: PropTypes.func.isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string,
@@ -43,6 +43,12 @@ class ChooseSubmissionTypeTab extends Component {
     handleTabChange(e, { value: tab.next });
   }
 
+  handleConfirmation = (e) => {
+    this.props.handleConfirmation(e).then(() => {
+      this.onNextClicked();
+    });
+  }
+
   render() {
     const {
       user,
@@ -53,10 +59,9 @@ class ChooseSubmissionTypeTab extends Component {
       tab,
       confirmationOption,
       isAgreed,
-      isConfirmating,
+      isConfirming,
       handleSubmissionChoiceChange,
       handleAgreeCheckBoxChange,
-      onConfirmChoiceClicked,
       onClose,
     } = this.props;
     const { id, title, radio1, radio2 } = tab;
@@ -83,8 +88,8 @@ class ChooseSubmissionTypeTab extends Component {
             <RightBtn
               onClick={confirmationOption === CONFIRMATION_OPTION.REQUEST
                 ? this.onNextClicked
-                : onConfirmChoiceClicked}
-              loading={isConfirmating}
+                : this.handleConfirmation}
+              loading={isConfirming}
               disabled={isConfirmBtnDisabled}
               content="Confirm"
             />
@@ -145,4 +150,4 @@ class ChooseSubmissionTypeTab extends Component {
   }
 }
 
-export default ChooseSubmissionTypeTab;
+export default ConfirmChoiceTab;

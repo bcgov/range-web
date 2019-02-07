@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
 import { getUser, getConfirmationsMap } from '../../../reducers/rootReducer';
 import { CONFIRMATION_OPTION } from '../../../constants/variables';
-import { getUserFullName, getUserEmail } from '../../../utils';
+import { findConfirmationWithClientId } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
-import ConfirmChoiceTab from './confirmationTabs/ConfirmChoiceTab';
-import LastTab from './confirmationTabs/LastTab';
-import RequestClarificationTab from './confirmationTabs/RequestClarificationTab';
+import ConfirmationTabs from './confirmationTabs';
 
-class AmendmentConfirmationModal extends Component {
+class AHConfirmationModal extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     open: PropTypes.bool.isRequired,
@@ -36,9 +34,8 @@ class AmendmentConfirmationModal extends Component {
   getInitialState = () => (
     {
       isAgreed: false,
-      isConfirmating: false,
+      isConfirming: false,
       confirmationOption: null,
-      currTabId: 'confirmChoice',
     }
   )
 
@@ -47,14 +44,42 @@ class AmendmentConfirmationModal extends Component {
     this.props.onClose();
   }
 
-  onConfirmChoiceClicked = (e) => {
-    console.log(e, 'onConfirmChoiceClicked');
-  }
+  handleConfirmation = (e) => {
+    e.preventDefault();
+    const {
+      updateRUPConfirmation, plan, confirmationsMap,
+      user, confirmationUpdated, planUpdated,
+    } = this.props;
 
-  handleTabChange = (e, { value: tabId }) => {
-    this.setState({
-      currTabId: tabId,
-    });
+    const onRequest = () => this.setState({ isConfirming: true });
+    const onSuccess = (data) => {
+      const { allConfirmed, plan: updatedPlan, confirmation } = data;
+
+      if (allConfirmed) {
+        planUpdated({ plan: { ...plan, ...updatedPlan } });
+      }
+
+      confirmationUpdated({ confirmation });
+      this.setState({ isConfirming: false });
+    };
+    const onError = (err) => {
+      this.setState({ isConfirming: false });
+      throw err;
+    };
+
+    const currUserConfirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
+    const confirmed = true;
+    const isMinorAmendment = false;
+
+    onRequest();
+
+    return updateRUPConfirmation(plan, currUserConfirmation.id, confirmed, isMinorAmendment).then(
+      (data) => {
+        onSuccess(data);
+      }, (err) => {
+        onError(err);
+      },
+    );
   }
 
   handleSubmissionChoiceChange = (e, { value: confirmationOption }) => {
@@ -71,33 +96,8 @@ class AmendmentConfirmationModal extends Component {
   }
 
   render() {
-    const {
-      confirmationOption,
-      currTabId,
-    } = this.state;
-    const { open, plan, user } = this.props;
-    const tabsMap = {
-      confirmChoice: {
-        id: 'confirmChoice',
-        title: '1. Confirm you Submission Choice',
-        next: confirmationOption === CONFIRMATION_OPTION.CONFIRM
-          ? 'lastTab'
-          : 'requestClarification',
-        radio1: 'the range use plan will be automatically updated once all agreement holders have completed this step.',
-        radio2: 'do not agree to the range use plan at this time and get information on options',
-      },
-      requestClarification: {
-        id: 'requestClarification',
-        title: '2. Request Clarification or Changes',
-        back: 'confirmChoice',
-        text1: `Please contact ${getUserFullName(plan.creator)}(${getUserEmail(user)}) who initiated this range use plan for clarification or to request changes.`,
-        text2: `Submissions can only be recalled by ${getUserFullName(plan.creator)} who initiated this range use plan.`,
-      },
-      lastTab: {
-        id: 'lastTab',
-        title: 'Your confirmation has been saved',
-      },
-    };
+    const { open } = this.props;
+    const { isAgreed, isConfirming, confirmationOption } = this.state;
 
     return (
       <Modal
@@ -108,29 +108,15 @@ class AmendmentConfirmationModal extends Component {
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Content>
-          <ConfirmChoiceTab
-            tab={tabsMap.confirmChoice}
+          <ConfirmationTabs
             {...this.props}
-            {...this.state}
             onClose={this.onClose}
-            handleSubmissionChoiceChange={this.handleSubmissionChoiceChange}
             handleAgreeCheckBoxChange={this.handleAgreeCheckBoxChange}
-            onConfirmChoiceClicked={this.onConfirmChoiceClicked}
-            handleTabChange={this.handleTabChange}
-          />
-
-          <RequestClarificationTab
-            tab={tabsMap.requestClarification}
-            currTabId={currTabId}
-            onClose={this.onClose}
-            handleTabChange={this.handleTabChange}
-          />
-
-          <LastTab
-            tab={tabsMap.lastTab}
-            currTabId={currTabId}
-            onClose={this.onClose}
-            {...this.props}
+            handleConfirmation={this.handleConfirmation}
+            handleSubmissionChoiceChange={this.handleSubmissionChoiceChange}
+            isAgreed={isAgreed}
+            isConfirming={isConfirming}
+            confirmationOption={confirmationOption}
           />
         </Modal.Content>
       </Modal>
@@ -149,4 +135,4 @@ export default connect(mapStateToProps, {
   updateRUPConfirmation,
   planUpdated,
   confirmationUpdated,
-})(AmendmentConfirmationModal);
+})(AHConfirmationModal);

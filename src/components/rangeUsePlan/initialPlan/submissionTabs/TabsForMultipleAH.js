@@ -76,7 +76,7 @@ class TabsForMultipleAH extends Component {
         id: 'submitForFeedback',
         title: '2. Submit Your initial range use plan for Feedback',
         back: 'chooseSubmissionType',
-        next: 'lastTab',
+        next: 'last',
         text1: 'You’re ready to submit an initial range use plan '
           + 'for Range staff review. You will be notified once the submission has been reviewed.',
       },
@@ -94,11 +94,11 @@ class TabsForMultipleAH extends Component {
         id: 'requestSignatures',
         title: '4. Request eSignatures and Submit Range Use Plan for final decision',
         back: 'submitForFinalDecision',
-        next: 'lastTab',
+        next: 'last',
         text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
       },
-      lastTab: {
-        id: 'lastTab',
+      last: {
+        id: 'last',
         title: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
           ? 'Your range use plan has been sent for range staff review.'
           : 'Your range use plan has been sent for eSignatures and final decision by range staff.',
@@ -163,7 +163,7 @@ class TabsForMultipleAH extends Component {
 
         <LastTab
           currTabId={currTabId}
-          tab={tabsMap.lastTab}
+          tab={tabsMap.last}
           onClose={onClose}
         />
       </Fragment>

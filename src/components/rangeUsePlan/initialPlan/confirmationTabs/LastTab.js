@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
-import RightBtn from '../RightBtn';
+import { Icon, Button } from 'semantic-ui-react';
 import AHConfirmationList from './AHConfirmationList';
 
 class LastTab extends Component {
@@ -54,10 +53,11 @@ class LastTab extends Component {
           confirmationsMap={confirmationsMap}
         />
 
-        <RightBtn
+        <Button
           primary
           onClick={onClose}
           content="Finish"
+          style={{ marginTop: '15px' }}
         />
       </div>
     );

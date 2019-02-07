@@ -20,13 +20,13 @@ class AHConfirmationList extends Component {
       : AWAITING_CONFIRMATION;
 
     return (
-      <div key={client.id} className="amendment__confirmation__ah-list">
+      <div key={client.id} className="rup__confirmation__ah-list">
         <div>
           <Icon name="user outline" />
           <span
             className={classnames(
-              'amendment__confirmation__ah-list__cname',
-              { 'amendment__confirmation__ah-list__cname--bold': isClientCurrentUser(client, user) },
+              'rup__confirmation__ah-list__cname',
+              { 'rup__confirmation__ah-list__cname--bold': isClientCurrentUser(client, user) },
             )}
           >
             {client.name}
@@ -41,21 +41,21 @@ class AHConfirmationList extends Component {
     const { user, confirmationsMap, plan, clients } = this.props;
 
     const confirmedListView = [
-      <div key="confirmed1" className="amendment__confirmation__paragraph-title">
+      <div key="confirmed1" className="rup__confirmation__paragraph-title">
         Agreement holders who have confirmed the submission
       </div>,
-      <div key="confirmed2" className="amendment__confirmation__ah-list__columns">
+      <div key="confirmed2" className="rup__confirmation__ah-list__columns">
         <span>Name</span>
         <span>Confirmation Date</span>
       </div>,
     ];
     const notConfirmedListView = [
-      <div key="notConfirmed" className="amendment__confirmation__paragraph-title">
+      <div key="notConfirmed" className="rup__confirmation__paragraph-title">
         Agreement holders who have not yet confirmed the submission
       </div>,
     ];
     const allConfimedView = (
-      <div key="allConfirmed" className="amendment__confirmation__paragraph-title">
+      <div key="allConfirmed" className="rup__confirmation__paragraph-title">
         All agreement holders have confirmed this submission. It has now been submitted to Range Staff.
       </div>
     );

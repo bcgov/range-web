@@ -73,7 +73,7 @@ class TabsForSingleAH extends Component {
         id: 'submitForFeedback',
         title: '2. Submit Your initial range use plan for Feedback',
         back: 'chooseSubmissionType',
-        next: 'lastTab',
+        next: 'last',
         text1: 'You’re ready to submit an initial range use plan '
           + 'for Range staff review. You will be notified once the submission has been reviewed.',
       },
@@ -87,8 +87,8 @@ class TabsForSingleAH extends Component {
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
         rightBtn1: 'Submit Initial RUP',
       },
-      lastTab: {
-        id: 'lastTab',
+      last: {
+        id: 'last',
         title: 'Your range use plan has been sent for range staff review.',
         text1: 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!',
       },
@@ -138,7 +138,7 @@ class TabsForSingleAH extends Component {
 
         <LastTab
           currTabId={currTabId}
-          tab={tabsMap.lastTab}
+          tab={tabsMap.last}
           onClose={onClose}
         />
       </Fragment>
