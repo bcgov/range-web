@@ -42,7 +42,7 @@ export class LoginPage extends Component {
         }
 
         <article className="login__header">
-          <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
+          <img className="login__header__logo" src={IMAGE_SRC.MYRANGEBC_LOGO} alt="Logo" />
         </article>
 
         <article className="login__paragraph1">

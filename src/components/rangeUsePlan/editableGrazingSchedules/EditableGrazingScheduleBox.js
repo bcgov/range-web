@@ -238,7 +238,7 @@ class EditableGrazingScheduleBox extends Component {
         }
         collapsibleContent={
           <Fragment>
-            <Table unstackable>
+            <Table stackable>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>

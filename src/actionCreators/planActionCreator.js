@@ -13,6 +13,7 @@ import {
   copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment,
   copyAdditionalRequirementsToCreateAmendment,
   copyPlantCommunitiesToCreateAmendment,
+  findStatusWithCode,
 } from '../utils';
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
@@ -146,9 +147,8 @@ export const createAmendment = plan => (dispatch, getState) => {
       const additionalRequirementsMap = getAdditionalRequirementsMap(getState());
       const managementConsiderationsMap = getManagementConsiderationsMap(getState());
 
-      const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
       const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-      const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
+      const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED);
       const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
 
       const newPlan = copyPlanToCreateAmendment(plan, createdStatus.id, initialAmendment.id);

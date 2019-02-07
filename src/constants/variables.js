@@ -129,9 +129,8 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  NAV_LOGO: '/images/navbar_logo.png',
+  MYRANGEBC_LOGO: '/images/myrangebc_logo.svg',
   COW_PIC: '/images/cow.jpg',
-  LOGIN_LOGO: '/images/login_logo.png',
   SIGNIN_BACKGROUND: '/images/signin_background.jpg',
   LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',
   LOGIN_PARAGRAPH4: '/images/login_paragraph4.jpg',

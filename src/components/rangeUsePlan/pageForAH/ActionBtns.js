@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, Popup } from 'semantic-ui-react';
 import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, CONFIRM_SUBMISSION } from '../../../constants/strings';
+import { isPlanAmendment } from '../../../utils';
 
 const ActionBtns = ({
+  plan,
   canEdit,
   canAmend,
   canConfirm,
@@ -15,23 +17,24 @@ const ActionBtns = ({
   openSubmitConfirmModal,
   onAmendPlanClicked,
   openConfirmAmendmentModal,
+  openConfirmModal,
 }) => {
-  const previewPDF = (
+  const previewPDFBtn = (
     <Button
+      key="previewPDFBtn"
       inverted
       compact
-      key="previewPDFBtn"
       onClick={onViewPDFClicked}
       style={{ marginRight: '0' }}
     >
       {DOWNLOAD_PDF}
     </Button>
   );
-  const saveDraft = (
+  const saveDraftBtn = (
     <Button
+      key="saveDraftBtn"
       inverted
       compact
-      key="saveDraftBtn"
       loading={isSavingAsDraft}
       onClick={onSaveDraftClick}
       style={{ marginRight: '0', marginLeft: '10px' }}
@@ -39,11 +42,11 @@ const ActionBtns = ({
       {SAVE_DRAFT}
     </Button>
   );
-  const submit = (
+  const submitBtn = (
     <Button
+      key="submitBtn"
       inverted
       compact
-      key="submitBtn"
       loading={isSubmitting}
       onClick={openSubmitConfirmModal}
       style={{ marginRight: '0', marginLeft: '10px' }}
@@ -51,13 +54,13 @@ const ActionBtns = ({
       {SUBMIT}
     </Button>
   );
-  const amend = (
+  const amendPopup = (
     <Popup
+      key="amendPopup"
       trigger={
         <Button
           inverted
           compact
-          key="amendBtn"
           disabled={isCreatingAmendment}
           style={{ marginRight: '0', marginLeft: '10px' }}
           content={AMEND_PLAN}
@@ -75,31 +78,32 @@ const ActionBtns = ({
       position="bottom right"
     />
   );
-  const confirmSubmission = (
+  const confirmSubmissionBtn = (
     <Button
+      key="confirmSubmissionBtn"
       inverted
       compact
-      key="confirmSubmissionBtn"
       style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={openConfirmAmendmentModal}
+      onClick={isPlanAmendment(plan) ? openConfirmAmendmentModal : openConfirmModal}
     >
       {CONFIRM_SUBMISSION}
     </Button>
   );
+
   if (canEdit) {
-    return [previewPDF, saveDraft, submit];
+    return [previewPDFBtn, saveDraftBtn, submitBtn];
   }
   if (canAmend) {
-    return [previewPDF, amend];
+    return [previewPDFBtn, amendPopup];
   }
   if (canConfirm) {
-    return [previewPDF, confirmSubmission];
+    return [previewPDFBtn, confirmSubmissionBtn];
   }
   if (canSubmit) {
-    return [previewPDF, submit];
+    return [previewPDFBtn, submitBtn];
   }
 
-  return previewPDF;
+  return previewPDFBtn;
 };
 
 export default ActionBtns;

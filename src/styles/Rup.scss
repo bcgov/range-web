@@ -2,18 +2,23 @@
   &__cell-6 {
     @extend .col-md-6, .col-lg-6, .col-sm-6, .col-xs-12;
   }
+
   &__cell-4 {
     @extend .col-md-4, .col-lg-4, .col-sm-4, .col-xs-12;
   }
+
   &__row {
     @extend .row;
   }
+
   &__basic_information {
     margin-bottom: calc(#{$rup-content-margin-bottom} - 15px);
   }
+
   &__usage__table {
     margin-bottom: $rup-content-margin-bottom;
   }
+
   &__fetching-error {
     display: flex;
     align-items: center;
@@ -32,6 +37,7 @@
       margin: 0px 10px 0 10px;
     }
   }
+
   &__content-title {
     font-size: 1.8rem;
     font-weight: bold;
@@ -46,6 +52,7 @@
       align-items: center;
     }
   }
+
   &__sticky {
     z-index: $rup-sticky-z-index;
     min-width: $tablet-width;
@@ -56,11 +63,13 @@
       width: 100%;
     }
   }
+
   &__sticky--fixed + &__contents__container {
     > .rup__contents {
       padding-top: 70px;
     }
   }
+
   &__actions {
     &__background {
       background: $primary-color;
@@ -89,6 +98,7 @@
       border-right: 1px solid $accent-color;
     }
   }
+
   &__contents {
     width: 100%;
     padding-top: $rup-content-margin-top;
@@ -146,6 +156,7 @@
       }
     }
   }
+
   &__content {
     position: relative;
 
@@ -154,54 +165,63 @@
       top: calc(-#{$rup-sticky-height} + -15px);
     }
   }
+
   &__back-btn {
     position: absolute;
     margin-left: -38px;
     color: white;
     cursor: pointer;
   }
+
   &__divider {
     border-top: 3px solid $accent-color;
     margin-top: 15px;
   }
+
   &__sub-divider {
     border-top: 1px solid $accent-color;
     margin-top: 5px;
   }
+
   &__section-not-found {
     border-radius: 5px;
     margin: 2px 0 5px 0;
     padding: 8px 0;
     font-size: 1.1rem;
   }
+
   &__info-title {
     font-weight: bold;
     font-size: 1.4rem;
     margin: 10px 0;
   }
+
   &__plan-info,
   &__agreement-info,
-  &__contact-info, {
+  &__contact-info {
     display: flex;
     flex-direction: column;
   }
+
   &__zone-text {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
   }
+
   &__update-status-dropdown {
     margin-left: 10px !important;
-
+    margin-right: 0px !important;
     > .menu {
       left: inherit !important;
       right: 0 !important;
-      
-      > .item {
-        text-align: center !important;
+      &:after {
+        left: unset !important;
+        right: 55px !important;
       }
     }
   }
+
   &__update-status-modal {
     &__content {
       font-size: 1.2rem;

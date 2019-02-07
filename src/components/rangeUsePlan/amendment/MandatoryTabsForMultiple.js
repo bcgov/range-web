@@ -53,7 +53,7 @@ class MandatoryTabsForMultiple extends Component {
         <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
           <Form>
             <div className="multi-form__tab__title">
-              {`${index}. Submit Your Admendment for Review`}
+              {`${index}. Submit Your Amendment for Review`}
             </div>
             <div style={{ marginBottom: '20px' }}>
               You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
@@ -72,7 +72,7 @@ class MandatoryTabsForMultiple extends Component {
                 onClick={onSubmitClicked}
                 loading={isSubmitting}
               >
-                Submit For Review
+                Submit For Feedback
               </Button>
             </div>
           </Form>
@@ -188,7 +188,7 @@ class MandatoryTabsForMultiple extends Component {
                   You’re ready to submit mandatory amendment. Once submitted and confirmed by all agreement holders it willl then be sent to range staff for final decision. You will be notified once the submission has been reviewed.
                 </div>
                 <Form.Checkbox
-                  label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff"
+                  label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
                   onChange={handleAgreeCheckBoxChange}
                   required
                 />

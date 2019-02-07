@@ -24,6 +24,8 @@ import AmendmentSubmissionModal from '../amendment/AmendmentSubmissionModal';
 import AmendmentConfirmationModal from '../amendment/AmendmentConfirmationModal';
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
+import AHSubmissionModal from '../initialPlan/AHSubmissionModal';
+import AHConfirmationModal from '../initialPlan/AHConfirmationModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -34,14 +36,15 @@ class PageForAH extends Component {
   state = {
     isSubmitAmendmentModalOpen: false,
     isConfirmAmendmentModalOpen: false,
+    isSubmitModalOpen: false,
+    isConfirmModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
 
   onSaveDraftClick = () => {
     const { references, toastSuccessMessage, fetchPlan } = this.props;
-    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
-    const status = planStatus.find(s => s.code === PLAN_STATUS.DRAFT);
+    const status = utils.findStatusWithCode(references, PLAN_STATUS.DRAFT);
 
     const onRequested = () => { this.setState({ isSavingAsDraft: true }); };
     const onSuccess = () => {
@@ -57,8 +60,7 @@ class PageForAH extends Component {
 
   onSubmitClicked = () => {
     const { references, toastSuccessMessage, closeConfirmationModal, fetchPlan } = this.props;
-    const planStatus = references[REFERENCE_KEY.PLAN_STATUS];
-    const status = planStatus.find(s => s.code === PLAN_STATUS.PENDING);
+    const pendingStatus = utils.findStatusWithCode(references, PLAN_STATUS.PENDING);
 
     const onRequested = () => { this.setState({ isSubmitting: true }); };
     const onSuccess = () => {
@@ -70,7 +72,7 @@ class PageForAH extends Component {
     const onError = () => { this.setState({ isSubmitting: false }); };
 
     closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.SUBMIT_PLAN });
-    this.updateStatusAndContent(status, onRequested, onSuccess, onError);
+    this.updateStatusAndContent(pendingStatus, onRequested, onSuccess, onError);
   }
 
   updateStatusAndContent = async (status, onRequested, onSuccess, onError) => {
@@ -169,7 +171,7 @@ class PageForAH extends Component {
   }
 
   openSubmitConfirmModal = () => {
-    const { plan, openConfirmationModal } = this.props;
+    const { plan } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
       if (utils.isPlanAmendment(plan)) {
@@ -177,14 +179,20 @@ class PageForAH extends Component {
         return;
       }
 
-      openConfirmationModal({
-        id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
-        header: strings.SUBMIT_RUP_CHANGE_CONFIRM_HEADER,
-        content: strings.SUBMIT_RUP_CHANGE_CONFIRM_CONTENT,
-        onYesBtnClicked: this.onSubmitClicked,
-      });
+      this.openSubmitModal();
+      // openConfirmationModal({
+      //   id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
+      //   header: strings.SUBMIT_RUP_CHANGE_CONFIRM_HEADER,
+      //   content: strings.SUBMIT_RUP_CHANGE_CONFIRM_CONTENT,
+      //   onYesBtnClicked: this.onSubmitClicked,
+      // });
     }
   }
+
+  openSubmitModal = () => this.setState({ isSubmitModalOpen: true });
+  closeSubmitModal = () => this.setState({ isSubmitModalOpen: false });
+  openConfirmModal = () => this.setState({ isConfirmModalOpen: true });
+  closeConfirmModal = () => this.setState({ isConfirmModalOpen: false });
 
   openSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: true })
   closeSubmitAmendmentModal = () => this.setState({ isSubmitAmendmentModalOpen: false })
@@ -193,10 +201,11 @@ class PageForAH extends Component {
 
   renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit) => {
     const { isSavingAsDraft, isSubmitting } = this.state;
-    const { isCreatingAmendment } = this.props;
+    const { isCreatingAmendment, plan } = this.props;
 
     return (
       <ActionBtns
+        plan={plan}
         canEdit={canEdit}
         canAmend={canAmend}
         canConfirm={canConfirm}
@@ -209,6 +218,7 @@ class PageForAH extends Component {
         openSubmitConfirmModal={this.openSubmitConfirmModal}
         onAmendPlanClicked={this.onAmendPlanClicked}
         openConfirmAmendmentModal={this.openConfirmAmendmentModal}
+        openConfirmModal={this.openConfirmModal}
       />
     );
   }
@@ -217,6 +227,8 @@ class PageForAH extends Component {
     const {
       isSubmitAmendmentModalOpen,
       isConfirmAmendmentModalOpen,
+      isSubmitModalOpen,
+      isConfirmModalOpen,
     } = this.state;
 
     const {
@@ -231,6 +243,7 @@ class PageForAH extends Component {
       planStatusHistoryMap,
       additionalRequirementsMap,
       managementConsiderationsMap,
+      fetchPlan,
     } = this.props;
 
     const { agreementId, status, confirmations, rangeName } = plan;
@@ -266,6 +279,24 @@ class PageForAH extends Component {
 
     return (
       <section className="rup">
+        <AHSubmissionModal
+          open={isSubmitModalOpen}
+          onClose={this.closeSubmitModal}
+          plan={plan}
+          clients={clients}
+          updateStatusAndContent={this.updateStatusAndContent}
+          fetchPlan={fetchPlan}
+        />
+
+        <AHConfirmationModal
+          open={isConfirmModalOpen}
+          onClose={this.closeConfirmModal}
+          plan={plan}
+          clients={clients}
+          updateStatusAndContent={this.updateStatusAndContent}
+          fetchPlan={fetchPlan}
+        />
+
         <AmendmentSubmissionModal
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}

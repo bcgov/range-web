@@ -10,7 +10,6 @@ const propTypes = {
   activeTab: PropTypes.number.isRequired,
   isAgreed: PropTypes.bool.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
-  readyToGoNext: PropTypes.bool.isRequired,
   mandatoryStatusCode: PropTypes.string,
   handleAgreeCheckBoxChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -29,7 +28,6 @@ class MandatoryTabsForSingle extends Component {
       activeTab,
       isAgreed,
       isSubmitting,
-      readyToGoNext,
       mandatoryStatusCode,
       onClose,
       onSubmitClicked,
@@ -52,8 +50,8 @@ class MandatoryTabsForSingle extends Component {
                 className="amendment__submission__radio"
                 label={
                   <label>
-                    <b>Submit for Staff Review: </b>
-                    Short Description that informs the user that their submission will be reviewed by range staff before they submit for final approval.
+                    <b>Submit for Staff Feedback: </b>
+                    Make this draft amendment available for the staff to review. They will advise you if the RUP is ready to submit to the decision maker for approval.
                   </label>
                 }
                 name="radioGroup"
@@ -68,7 +66,7 @@ class MandatoryTabsForSingle extends Component {
                 label={
                   <label>
                     <b>Submit for Final Decision: </b>
-                    Short Description that informs the user that they will be submitting for Final approval and that all Agreement holders will have to review the submission before it is sent to range staff.
+                    Verify this amendment is correct and start submission for decision.
                   </label>
                 }
                 name="radioGroup"
@@ -89,7 +87,7 @@ class MandatoryTabsForSingle extends Component {
                 className="multi-form__btn"
                 primary
                 onClick={onNextClicked}
-                disabled={!readyToGoNext}
+                disabled={!mandatoryStatusCode}
               >
                 Next
               </Button>
@@ -107,7 +105,7 @@ class MandatoryTabsForSingle extends Component {
                 You are about to submit your Mandatory Amendment for your RUP.
               </div>
               <Form.Checkbox
-                label="I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly."
+                label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
                 onChange={handleAgreeCheckBoxChange}
                 required
               />
@@ -137,7 +135,7 @@ class MandatoryTabsForSingle extends Component {
           <div className={classnames('multi-form__tab', { 'multi-form__tab--active': activeTab === 2 })}>
             <Form>
               <div className="multi-form__tab__title">
-                {`${index}. Submit Your Admendment for Review`}
+                {`${index}. Submit Your Amendment for Review`}
               </div>
               <div style={{ marginBottom: '20px' }}>
                 You’re ready to submit mandatory amendment for Range staff review. You will be notified once the submission has been reviewed.
@@ -156,7 +154,7 @@ class MandatoryTabsForSingle extends Component {
                   onClick={onSubmitClicked}
                   loading={isSubmitting}
                 >
-                  Submit For Review
+                  Submit For Feedback
                 </Button>
               </div>
             </Form>

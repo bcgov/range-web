@@ -151,8 +151,8 @@ class AmendmentConfirmationModal extends Component {
                 <Radio
                   label={
                     <label>
-                      <b>Confirm and send to Range staff for final decision: </b>
-                      Short Description that informs the user about this option.
+                      <b>Agree to amendment:  </b>
+                      the RUP will be automatically updated once all agreement holders have completed this step. Approval is not required for minor amendments so the amendment takes effect immediately.
                     </label>
                   }
                   name="radioGroup"
@@ -166,7 +166,7 @@ class AmendmentConfirmationModal extends Component {
                   label={
                     <label>
                       <b>Request clarification or changes: </b>
-                      Short Description that informs the user about this option.
+                      do not agree to the amendment at this time and get information on options.
                     </label>
                   }
                   name="radioGroup"
