@@ -96,7 +96,6 @@ class Notifications extends Component {
                   </span>
                   <Button
                     primary
-                    style={{ marginTop: '10px' }}
                     onClick={this.closeConfirmationStatusModal}
                   >
                     Close

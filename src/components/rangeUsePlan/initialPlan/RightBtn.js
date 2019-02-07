@@ -11,6 +11,7 @@ const propTypes = {
 
 const defaultProps = {
   disabled: false,
+  loading: false,
 };
 
 const RightBtn = ({ onClick, disabled, content, loading }) => {
