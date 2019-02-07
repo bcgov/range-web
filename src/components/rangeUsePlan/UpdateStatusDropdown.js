@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'semantic-ui-react';
-import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
+import { Dropdown, Button } from 'semantic-ui-react';
+import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment } from '../../utils';
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { planUpdated, planStatusHistoryRecordAdded } from '../../actions';
@@ -190,22 +190,24 @@ class UpdateStatusDropdown extends Component {
     //   }
     // }
 
-    let options = [];
     if (isStatusStands(status)) {
-      options = [wronglyMadeWithoutEffect, standsWronglyMade];
+      return [wronglyMadeWithoutEffect, standsWronglyMade];
     } else if (isStatusSubmittedForReview(status)) {
-      options = [changeRequested, recommendForSubmission];
+      return [changeRequested, recommendForSubmission];
     } else if (isStatusSubmittedForFD(status)) {
-      options = [recommendReady, recommendNotReady];
+      return [recommendReady, recommendNotReady];
     } else if (isStatusRecommendReady(status)) {
-      options = [approved, notApproved, notApprovedFWR];
+      if (isPlanAmendment(plan)) {
+        return [approved, notApproved, notApprovedFWR];
+      }
+      return [approved, notApprovedFWR];
     } else if (isStatusPending(status) || isStatusCreated(status)) {
-      options = [completed, changeRequested];
+      return [completed, changeRequested];
     } else if (isStatusCompleted(status)) {
-      options = [approved];
+      return [approved];
     }
 
-    return options;
+    return [];
   }
 
   render() {
@@ -219,13 +221,19 @@ class UpdateStatusDropdown extends Component {
       <Fragment>
         <Dropdown
           className="rup__update-status-dropdown"
-          text={strings.UPDATE_STATUS}
           options={statusDropdownOptions}
           disabled={statusDropdownOptions.length === 0}
           loading={isUpdatingStatus}
-          button
-          item
-          compact
+          pointing="top"
+          icon={null}
+          trigger={
+            <Button
+              inverted
+              content={strings.UPDATE_STATUS}
+              compact
+              style={{ margin: '0' }}
+            />
+          }
         />
         <UpdateStatusModal
           open={updateStatusModalOpen}

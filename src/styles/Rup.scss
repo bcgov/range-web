@@ -198,7 +198,7 @@
 
   &__plan-info,
   &__agreement-info,
-  &__contact-info, {
+  &__contact-info {
     display: flex;
     flex-direction: column;
   }
@@ -211,13 +211,13 @@
 
   &__update-status-dropdown {
     margin-left: 10px !important;
-
+    margin-right: 0px !important;
     > .menu {
       left: inherit !important;
       right: 0 !important;
-      
-      > .item {
-        text-align: center !important;
+      &:after {
+        left: unset !important;
+        right: 55px !important;
       }
     }
   }
