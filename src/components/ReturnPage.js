@@ -1,42 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { parseQuery, getTokenFromSSO, saveAuthDataInLocal } from '../utils';
-import { SSO_LOGOUT_ENDPOINT } from '../constants/API';
+import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 import { REDIRECTING } from '../constants/strings';
-
-const propTypes = {
-  location: PropTypes.shape({ search: PropTypes.string }),
-};
-const defaultProps = {
-  location: {},
-};
+import { RETURN_PAGE_TYPE } from '../constants/variables';
 
 class ReturnPage extends Component {
+  static propTypes = {
+    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  };
+
   componentDidMount() {
     const { location } = this.props;
     // grab the code from the redirect url
     const { type, code } = parseQuery(location.search);
-    if (type === 'login' && code) {
-      const tokenReceived = (response) => {
-        saveAuthDataInLocal(response);
+
+    switch (type) {
+      case RETURN_PAGE_TYPE.LOGIN:
+        if (code) {
+          getTokenFromSSO(code).then((response) => {
+            saveAuthDataInLocal(response);
+            window.close();
+          });
+        }
+        break;
+      case RETURN_PAGE_TYPE.SITEMINDER_LOGOUT:
+        // just returned from SiteMinder, sign out from SSO this time
+        window.open(SSO_LOGOUT_ENDPOINT, '_self');
+        break;
+      case RETURN_PAGE_TYPE.LOGOUT:
+        // finished logging out, close this page
         window.close();
-      };
-      getTokenFromSSO(code).then(tokenReceived);
-    } else if (type === 'smlogout') {
-      // just returned from SiteMinder, sign out from SSO this time
-      window.open(SSO_LOGOUT_ENDPOINT, '_self');
-    } else if (type === 'logout') {
-      // done signing out close this tab
-      window.close();
+        break;
+      default:
+        break;
     }
   }
 
   render() {
     return (
-      <section>{REDIRECTING}</section>
+      <section>
+        {REDIRECTING}
+      </section>
     );
   }
 }
-ReturnPage.propTypes = propTypes;
-ReturnPage.defaultProps = defaultProps;
+
 export default ReturnPage;

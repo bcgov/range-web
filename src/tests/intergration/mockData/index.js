@@ -3,8 +3,10 @@ import { getToken } from '../../../reducers/rootReducer';
 export { default as mockAgreements } from './mockAgreements';
 export { default as mockPlan } from './mockPlan';
 export { default as mockReference } from './mockReference';
+export { default as mockUsers } from './mockUsers';
+export { default as mockZones } from './mockZones';
 
-export const mockAgreement = {
+export const mockAgreementPagination = {
   perPage: 10,
   currentPage: 1,
   totalItems: 1513,
@@ -17,7 +19,11 @@ export const mockAgreement = {
   ],
 };
 
-export const mockRequestHeader = (getState) => {
+export const mockAuthData = {
+  access_token: 'mockToken',
+};
+
+export const requestMockHeader = (getState) => {
   const token = getToken(getState());
 
   return {

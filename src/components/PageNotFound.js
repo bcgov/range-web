@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { HOME } from '../constants/routes';
 import { IMAGE_SRC } from '../constants/variables';
-
-const propTypes = {
-
-};
+import { PAGE_NOT_FOUND_TITLE, APP_NAME } from '../constants/strings';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 class PageNotFound extends Component {
   state = {
     redirectToHome: false,
+  }
+
+  componentWillMount() {
+    document.title = PAGE_NOT_FOUND_TITLE;
   }
 
   componentDidMount() {
@@ -25,8 +26,9 @@ class PageNotFound extends Component {
 
   render() {
     if (this.state.redirectToHome) {
-      return <Redirect push to={HOME} />;
+      return <Redirect to={HOME} />;
     }
+
     return (
       <section className="page-not-found">
         <div className="page-not-found__container">
@@ -38,7 +40,7 @@ class PageNotFound extends Component {
           <div className="page-not-found__title">Page Not Found</div>
           <div className="page-not-found__content">
             <p>This is not the web page you are looking for.</p>
-            <p>You will be redirected to the My Range Application home page within 10 seconds.</p>
+            <p>You will be redirected to the {APP_NAME} home page within 10 seconds.</p>
           </div>
           <div className="page-not-found__link">
             <Link to={HOME}>
@@ -51,5 +53,4 @@ class PageNotFound extends Component {
   }
 }
 
-PageNotFound.propTypes = propTypes;
 export default PageNotFound;

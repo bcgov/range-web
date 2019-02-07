@@ -4,36 +4,31 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import { Banner } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
-  UPDATE_CONTACT_CONFIRMATION_CONTENT, UPDATE_CONTACT_CONFIRMATION_HEADER,
-  NOT_SELECTED, CONTACT_NO_EXIST,
+  UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER,
 } from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
-import { getUserFullName } from '../../utils';
+import { getZoneOption, getContactOption } from '../../utils';
 
-const propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  zones: PropTypes.arrayOf(PropTypes.object).isRequired,
-  zonesMap: PropTypes.shape({}).isRequired,
-  zoneUpdated: PropTypes.func.isRequired,
-  updateUserIdOfZone: PropTypes.func.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
-};
 export class ManageZone extends Component {
+  static propTypes = {
+    users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    zones: PropTypes.arrayOf(PropTypes.object).isRequired,
+    zonesMap: PropTypes.shape({}).isRequired,
+    zoneUpdated: PropTypes.func.isRequired,
+    updateUserIdOfZone: PropTypes.func.isRequired,
+    isAssigning: PropTypes.bool.isRequired,
+    openConfirmationModal: PropTypes.func.isRequired,
+    closeConfirmationModal: PropTypes.func.isRequired,
+  };
+
   state = {
     newContactId: null,
-    currContactName: null,
     zoneId: null,
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
-    const zone = this.props.zonesMap[zoneId];
-    const user = zone && zone.user;
-    const currContactName = getUserFullName(user) || CONTACT_NO_EXIST;
-
     this.setState({
       zoneId,
-      currContactName,
     });
   }
 
@@ -67,7 +62,6 @@ export class ManageZone extends Component {
       this.setState({
         newContactId: null,
         zoneId: null,
-        currContactName: null,
       });
     };
 
@@ -76,36 +70,19 @@ export class ManageZone extends Component {
 
   openUpdateConfirmationModal = () => {
     this.props.openConfirmationModal({
-      modal: {
-        id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
-        header: UPDATE_CONTACT_CONFIRMATION_HEADER,
-        content: UPDATE_CONTACT_CONFIRMATION_CONTENT,
-        onYesBtnClicked: this.assignStaffToZone,
-      },
+      id: CONFIRMATION_MODAL_ID.MANAGE_ZONE,
+      header: UPDATE_CONTACT_CONFIRM_HEADER,
+      content: UPDATE_CONTACT_CONFIRM_CONTENT,
+      onYesBtnClicked: this.assignStaffToZone,
     });
   }
 
   render() {
-    const {
-      zoneId,
-      currContactName,
-      newContactId,
-    } = this.state;
-    const { users, zones } = this.props;
+    const { zoneId, newContactId } = this.state;
+    const { users, zones, isAssigning } = this.props;
 
-    const zoneOptions = zones.map(zone => (
-      {
-        value: zone.id,
-        text: zone.code,
-      }
-    ));
-    const contactOptions = users.map(user => (
-      {
-        value: user.id,
-        description: user.email,
-        text: getUserFullName(user),
-      }
-    ));
+    const zoneOptions = zones.map(zone => getZoneOption(zone));
+    const contactOptions = users.map(user => getContactOption(user));
     const isUpdateBtnEnabled = newContactId && zoneId;
 
     return (
@@ -119,45 +96,44 @@ export class ManageZone extends Component {
           <div className="manage-zone__steps">
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
-              <div className="manage-zone__dropdown">
-                <Dropdown
-                  id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
-                  placeholder="Zone"
-                  options={zoneOptions}
-                  value={zoneId}
-                  onChange={this.onZoneChanged}
-                  fluid
-                  search
-                  selection
-                />
-              </div>
-              <div className="manage-zone__text-field">
-                <div className="manage-zone__text-field__title">Assigned Zone Contact</div>
-                <div className="manage-zone__text-field__content">{currContactName || NOT_SELECTED}</div>
-              </div>
+              <Dropdown
+                id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
+                placeholder="Zone (Description) - District"
+                options={zoneOptions}
+                value={zoneId}
+                onChange={this.onZoneChanged}
+                fluid
+                search
+                selection
+                clearable
+                selectOnBlur={false}
+              />
             </div>
 
-            <h3>Step 2: Assign a new contact</h3>
+            <h3>Step 2: Assign a new staff</h3>
             <div className="manage-zone__step-two">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
-                placeholder="Contact"
+                placeholder="Username"
                 options={contactOptions}
                 value={newContactId}
                 onChange={this.onContactChanged}
                 fluid
                 search
                 selection
+                clearable
+                selectOnBlur={false}
               />
             </div>
 
             <div className="manage-zone__update-btn">
               <Button
                 primary
+                loading={isAssigning}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
               >
-                Update
+                Submit
               </Button>
             </div>
           </div>
@@ -167,5 +143,4 @@ export class ManageZone extends Component {
   }
 }
 
-ManageZone.propTypes = propTypes;
 export default ManageZone;

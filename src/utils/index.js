@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -47,6 +47,7 @@ export const createConfigWithHeader = (getState) => {
 
 export const getObjValues = (obj = {}) => Object.keys(obj).map(e => obj[e]) || [];
 export const createEmptyArray = (length = 0) => [...Array(length)];
+export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice(1));
 
 /**
  * Present user friendly string when getting null or undefined value
@@ -55,10 +56,15 @@ export const createEmptyArray = (length = 0) => [...Array(length)];
  * @param {boolean} fullText default is true
  * @returns {string} the value or 'Not provided' or 'N/P'
  */
-export const presentNullValue = (value, fullText = true) => {
+export const handleNullValue = (value, fullText = true, notProvided) => {
   if (value || value === 0) {
     return value;
   }
+
+  if (notProvided) {
+    return notProvided;
+  }
+
   return fullText ? NOT_PROVIDED : NP;
 };
 
@@ -70,7 +76,7 @@ export const presentNullValue = (value, fullText = true) => {
  * @returns an error message string
  */
 export const getErrorMessage = (err) => {
-  const response = err && err.response;
+  const response = err; // err && err.response;
   if (response) {
     const { data, status } = response;
     const msgFromServer = data && data.error;
@@ -100,6 +106,8 @@ export const getErrorMessage = (err) => {
 /**
  * Download a pdf file through an a tag using a built-in browser feature
  *
+ * https://blog.jayway.com/2017/07/13/open-pdf-downloaded-api-javascript/
+ *
  * @param {response.data} blob The binary array buffer from API
  * @param {object} ref The React reference of an a tag
  * @returns undefined
@@ -120,6 +128,7 @@ export const downloadPDFBlob = (blob, ref, fileName) => {
   // Create a link pointing to the ObjectURL containing the blob.
   const data = window.URL.createObjectURL(newBlob);
   const pdfLink = ref;
+
   pdfLink.href = data;
   pdfLink.download = fileName;
 
@@ -172,11 +181,11 @@ export const detectIE = () => {
     return parseInt(userAgent.substring(rv + 3, userAgent.indexOf('.', rv)), 10);
   }
 
-  const edge = userAgent.indexOf('Edge/');
-  if (edge > 0) {
-    // Edge (IE 12+) => return version number
-    return parseInt(userAgent.substring(edge + 5, userAgent.indexOf('.', edge)), 10);
-  }
+  // const edge = userAgent.indexOf('Edge/');
+  // if (edge > 0) {
+  //   // Edge (IE 12+) => return version number
+  //   return parseInt(userAgent.substring(edge + 5, userAgent.indexOf('.', edge)), 10);
+  // }
 
   // other browser
   return false;

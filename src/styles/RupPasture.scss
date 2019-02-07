@@ -1,17 +1,16 @@
 .rup {
   &__pastures {
-    &__container {
-      margin-bottom: 15px;
-    }
+    margin-bottom: $rup-content-margin-bottom;
   }
   &__pasture {
-    &__header {
+    &__title {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      height: 40px;
-      font-weight: bold;
-      font-size: 1.4rem;
+
+      > img {
+        margin-right: 7px;
+        height: 18px;
+      }
     }
   }
 }

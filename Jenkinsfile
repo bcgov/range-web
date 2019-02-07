@@ -27,7 +27,7 @@ def notifySlack(text, channel, url, attachments, icon) {
 podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
-    image: 'docker-registry.default.svc:5000/openshift/jenkins-slave-nodejs:8',
+    image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:10',
     resourceRequestCpu: '1500m',
     resourceLimitCpu: '2000m',
     resourceRequestMemory: '1Gi',
@@ -86,30 +86,12 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         } catch (error) {
           def attachment = [:]
           attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
+          attachment.title = "Web Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
           attachment.color = '#FFA500' // Orange
           attachment.text = "The SonarQube code quality check failed.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
           // attachment.title_link = "${env.BUILD_URL}"
 
           notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
-        }
-
-        //
-        // Run a security check on our packages
-        //
-
-        try {
-          echo "Checking dependencies for security issues"
-          sh "npx nsp check"
-        } catch (error) {
-          // def output = readFile('nsp-report.txt').trim()
-          def attachment = [:]
-          attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} WARNING! :unamused: :zany_face: :fox4:"
-          attachment.color = '#FFA500' // Orange
-          attachment.text = "There are security warnings related to some packages.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-
-          notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], PIRATE_ICO)
         }
 
         //
@@ -122,7 +104,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         } catch (error) {
           def attachment = [:]
           attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
+          attachment.title = "Web Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
           attachment.color = '#CD0000' // Red
           attachment.text = "There are issues with the unit tests.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
           // attachment.title_link = "${env.BUILD_URL}"
@@ -132,23 +114,23 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         }
     }
 
-    stage('Build Artifacts') {
-      echo "Build Artifacts: ${BUILD_ID}"
-      try {
-        // Run our unit tests et al.
-        sh "npm run build"
-      } catch (error) {
-        def attachment = [: ]
-        attachment.fallback = 'See build log for more details'
-        attachment.title = "WEB Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
-        attachment.color = '#CD0000' // Red
-        attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-        // attachment.title_link = "${env.BUILD_URL}"
+    // stage('Build Artifacts') {
+    //   echo "Build Artifacts: ${BUILD_ID}"
+    //   try {
+    //     // Run our unit tests et al.
+    //     sh "npm run build"
+    //   } catch (error) {
+    //     def attachment = [: ]
+    //     attachment.fallback = 'See build log for more details'
+    //     attachment.title = "Web Build ${BUILD_ID} Failed :hankey: :face_with_head_bandage:"
+    //     attachment.color = '#CD0000' // Red
+    //     attachment.text = "There are issues with the build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
+    //     // attachment.title_link = "${env.BUILD_URL}"
 
-        notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
-        sh "exit 1"
-      }
-    }
+    //     notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+    //     sh "exit 1"
+    //   }
+    // }
 
     // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
       stage('Image Build') {
@@ -173,7 +155,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
           echo "Applying tag ${TAG_NAMES[0]} to image ${IMAGE_HASH}"
 
           def attachment = [: ]
-          def message = "Another huge sucess; A freshly minted build is being deployed and will be available shortly."
+          def message = "Another huge sucess; A freshly minted build is being deployed on dev environment and will be available shortly."
           message = message + "\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
           message = message + "\nThis image can be promoted to the *test* environment"
           attachment.title = "Web Build ${BUILD_ID} OK! :heart: :tada:"
@@ -192,7 +174,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
 
           def attachment = [: ]
           attachment.fallback = 'See build log for more details'
-          attachment.title = "API Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
+          attachment.title = "Web Build ${BUILD_ID} FAILED! :face_with_head_bandage: :hankey:"
           attachment.color = '#CD0000' // Red
           attachment.text = "There are issues with OpenShift build.\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
 
@@ -206,7 +188,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
       stage('Test Approval') {
         node('master') {
           timeout(time: 4, unit: 'HOURS') {
-            input message: "Promote this image to test?", submitter: 'jleach-admin'
+            input message: "Promote this image to test?", submitter: 'authenticated'
           }
 
           stage('Promotion') {
@@ -224,7 +206,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
             def attachment = [: ]
             def message = "This image can be promoted to the *prod* environment."
             message = message + "\ncommit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}"
-            attachment.title = "Production Promotion ${BUILD_ID} OK! :heart: :tada:"
+            attachment.title = "Test Promotion ${BUILD_ID} OK! :heart: :tada:"
             attachment.fallback = 'See build log for more details'
             attachment.color = '#00FF00' // Lime Green
             def action = [: ]
@@ -239,7 +221,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
 
           stage('Prod Approval') {
             timeout(time: 4, unit: 'HOURS') {
-              input message: "Promote this image to prod?", submitter: 'jleach-admin'
+              input message: "Promote this image to prod?", submitter: 'authenticated'
             }
 
             stage('Promotion') {

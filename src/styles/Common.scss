@@ -1,10 +1,12 @@
 .status {
   display: flex;
   align-items: center;
+  line-height: 10px;
 
   &__label {
     font-size: 1rem;
     font-weight: bold;
+    line-height: 14px;
   }
   &__icon {
     min-width: 10px;
@@ -76,7 +78,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  // cursor: pointer;
 
   &__initial {
     color: white;
@@ -175,5 +176,197 @@
   }
   &__btn {
     min-width: 120px;
+  }
+}
+
+.loading-spinner {
+  &__container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  flex-direction: column;
+
+  > div {
+    margin: 10px 0;
+  }
+
+  &__message {
+    margin: 0px 10px 0 5px;
+  }
+}
+
+.collaspible-boxes {
+  margin: 10px 0 0 0;
+  list-style-type: none;
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+  
+  li {
+    border-bottom: 1px solid gainsboro;
+  }
+  li:last-child {
+    border-bottom: 0px solid gainsboro;
+  }
+
+  &--empty {
+    border: 0px;
+  }
+}
+
+.collaspible-box {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 100%;
+
+    &__title {
+      @extend .default-button;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      background: none;
+      padding: 0px 15px !important;
+      height: 50px;
+      opacity: 0.5;
+
+      &--active {
+        opacity: 1;
+      }
+    }
+    &__right {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__content {
+    padding: 0px 15px 15px 15px;
+
+    &--hidden {
+      display: none;
+    }
+  }
+}
+
+.input-modal {
+  padding: 15px;
+  margin-top: 5px;
+
+  &__title {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  &__btns {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      width: 47% !important;
+    }
+  }
+}
+
+
+.un-input-modal {
+  padding: 15px;
+
+  &__header {
+    font-weight: bold;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+  &__msg {
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  &__wave {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-size: 4rem;
+    margin: 40px 0;
+  }
+}
+
+.inverted-btn {
+  display: inline;
+
+  .ui.button {
+    color: $primary-color !important;
+    box-shadow: 0 0 0 1.5px #003366 inset !important;
+    background: transparent none !important;
+
+    &:hover {
+      background: #f2f2f2 !important;
+    }
+  }
+}
+
+.signin-modal {
+  &__login-msg,
+  &__msg {
+    background: $accent-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  &__login-msg {
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 10px;
+  }
+  &__login-btn {
+    color: #4183c4;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &__warning-msg {
+    line-height: 30px;
+    text-decoration: underline;
+  }
+}
+
+.footer {
+  background: $primary-color;
+  border-top: 2px solid $accent-color;
+  color: white;
+  margin-top: auto;
+
+  &__pad {
+    margin: 35px;
+  }
+  &__content-list {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0px;
+  }
+  &__divider {
+    border-right: 1px solid #ccc;
+    margin: 0 15px 0 11px;
+    padding: 0 2px;
   }
 }

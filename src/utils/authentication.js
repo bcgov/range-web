@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -26,10 +26,12 @@ import {
   SSO_CLIENT_ID,
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
-} from '../constants/API';
+  SITEMINDER_LOGOUT_ENDPOINT,
+  API_BASE_URL,
+} from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
-import { LOCAL_STORAGE_KEY } from '../constants/variables';
+import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
 
 /**
  * this method is called immediately at the very beginning in authReducer
@@ -45,6 +47,16 @@ export const getAuthAndUserFromLocal = () => {
 /**
  *
  * @param {object} response the network response
+ * the response looks like this
+  {
+    access_token: "characters"
+    expires_in: 1800
+    not-before-policy: 0
+    refresh_expires_in: 3600
+    refresh_token: "characters"
+    session_state: "characters-characters-characters"
+    token_type: "bearer"
+  }
  */
 export const saveAuthDataInLocal = (response) => {
   const data = { ...response.data };
@@ -124,7 +136,7 @@ const getJWTDataFromLocal = () => {
  *
  * @returns {boolean}
  */
-const isTokenExpired = () => {
+export const isTokenExpired = () => {
   const jstData = getJWTDataFromLocal();
 
   if (jstData) {
@@ -135,14 +147,57 @@ const isTokenExpired = () => {
 
 /**
  *
- * @param {object} config
+ * @param {object} config Axios's config
  * @returns {boolean}
  */
-const isRangeAPIs = (config) => {
+const isRangeAPI = (config) => {
   if (config && config.baseURL) {
-    return config.baseURL !== SSO_BASE_URL;
+    return config.baseURL === API_BASE_URL;
   }
-  return true;
+
+  return false;
+};
+
+export const signOutFromSSO = () => {
+  // open a new tab for signing out from SiteMinder which is Gov's auth platform
+
+  // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
+  window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
+};
+
+/**
+ *
+ * @param {object} config Axios's config
+ * @param {object} response network response from refreshing access token
+ * @returns {object}
+ */
+const createConfigReplacingHeaderWithNewToken = (config, response) => {
+  const data = response && response.data;
+  const { token_type: type, access_token: token } = data;
+  const c = { ...config };
+  c.headers.Authorization = type && token && `${type} ${token}`;
+
+  return c;
+};
+
+/* eslint-disable no-console */
+
+/**
+ * set a timer to request users to re-authenticate
+ * after the access token expires + interval
+ *
+ * @param {function} reauthenticate the action to re-authenticate
+ */
+export const setTimeoutForReAuth = (reauthenticate) => {
+  if (!isBundled) console.log('set timeout for re-authentication');
+
+  const jstData = getJWTDataFromLocal();
+  const validPeriod = jstData.exp - (new Date() / 1000);
+  const intervalToRefreshToken = 60; // give some time to refresh the access token
+
+  return setTimeout(() => {
+    reauthenticate();
+  }, (validPeriod + intervalToRefreshToken) * 1000);
 };
 
 /**
@@ -151,34 +206,42 @@ const isRangeAPIs = (config) => {
  * case 1: access token is expired
  *  -> get new access token using the refresh token and try making the network again
  * case 2: both access and refresh tokens are expired
- *  -> sign out the user
- * @param {function} logout the logout action function
+ *  -> request users to re signin by popping up SignInModal
+ *
+ * @param {function} reauthenticate the action to re-authenticate
  * @returns {object} the config or err object
  */
-/* eslint-disable no-console */
-export const registerAxiosInterceptors = (logout) => {
-  axios.interceptors.request.use((c) => {
-    const config = { ...c };
-    if (isTokenExpired() && !config.isRetry && isRangeAPIs()) {
+export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate) => {
+  axios.interceptors.request.use((config) => {
+    const isFirstTimeTry = !config.isRetry;
+
+    if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config)) {
+      if (!isBundled) console.log('Access token is expired. Trying to refresh it');
+
       const refreshToken = getRefreshTokenFromLocal();
-      if (process.env.NODE_ENV !== 'production') console.log('Access token is expired. Trying to refresh it');
+
       return refreshAccessToken(refreshToken).then(
         (response) => {
           saveAuthDataInLocal(response);
+          resetTimeoutForReAuth(reauthenticate);
 
-          const data = response && response.data;
-          const { token_type: type, access_token: token } = data;
-          config.headers.Authorization = type && token && `${type} ${token}`;
-          config.isRetry = true;
-          return config;
+          const c = createConfigReplacingHeaderWithNewToken(config, response);
+          c.isRetry = true;
+
+          return c;
         },
         (err) => {
-          logout();
-          if (process.env.NODE_ENV !== 'production') console.log('Refresh token is also expired. Signing out.');
-          return err;
+          if (!isBundled) {
+            console.log('Refresh token is also expired. Request to re-authenticate.');
+            console.error(err);
+          }
+          reauthenticate();
+
+          return config;
         },
       );
     }
+
     return config;
   });
 };

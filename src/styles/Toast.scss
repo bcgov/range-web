@@ -9,7 +9,6 @@
 
 .toast {
   min-height: 65px;
-  border-radius: 5px;
   color: black;
   display: flex;
   align-items: stretch;
@@ -26,6 +25,10 @@
     justify-content: center;
     align-items: center;
     color:white;
+
+    > i {
+      margin: 0 !important
+    }
     &__success {
       background-color: green;
     }
@@ -60,5 +63,10 @@
     font: inherit;
     padding: 10px;
     font-size: 1.3rem;
+    border-left: 1px solid rgba(34,36,38,.1);
+
+    > i {
+      margin: 0 !important
+    }
   }
 }

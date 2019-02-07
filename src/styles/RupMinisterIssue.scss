@@ -1,57 +1,10 @@
 .rup {
   &__missues {
-    &__container {
-      margin-bottom: 15px;
-    }
-    &__note {
-      margin-top: 10px;
-      font-size: 1.1rem;
-    }
-    margin: 10px 0;
-    list-style-type: none;
-    padding: 0;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    &--empty {
-      border: 0px;
-    }
-    li {
-      border-bottom: 1px solid gainsboro;
-    }
-    li:last-child {
-      border-bottom: 0px solid gainsboro;
-    }
+    margin-bottom: $rup-content-margin-bottom;
   }
   &__missue {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      width: 100%;
-
-      &__title {
-        @extend .default-button;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: none;
-        padding: 15px !important;
-      }
-      &__right {
-        display: flex;
-      }
-      &__identified {
-        font-size: 1rem;
-      }
-    }
-    &__content {
-      padding: 0px 15px 15px 15px;
-
-      &__hidden {
-        display: none;  
-      }
+    &__identified {
+      font-size: 1rem;
     }
     &__actions {
       &__title {
@@ -60,12 +13,48 @@
       }
     }
     &__action {
-      margin: 10px;
+      border: 1px solid gainsboro;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
+
+      &__ellipsis{
+        .visible.menu.transition {
+          top: -8px !important;
+          margin: 0 0.5em 0 0 !important;
+        }
+      }
+      &__dropdown-ellipsis-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &__type-dropdown {
+        display: flex;
+        align-items: center;
+      }
+      &__detail-asterisk {
+        position: absolute;
+        left: 5px;
+        top: 13px;
+        color: red;
+        font-size: 1.2rem;
+      }
+      &__note {
+        margin-top: 10px;
+        font-size: 1.05rem;
+      }
+      &__not-found {
+        margin-top: 5px;
+        font-size: 1.1rem;
+      }
       &__type {
+        font-size: 1.1rem;
         font-weight: bold;
       }
       &__detail {
         opacity: 0.9;
+        margin-top: 5px;
       }
     }
   }

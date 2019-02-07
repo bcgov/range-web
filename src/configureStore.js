@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -22,10 +22,11 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
+import { isBundled } from './constants/variables';
 
 const configureStore = () => {
   const middlewares = [thunk];
-  if (process.env.NODE_ENV !== 'production') {
+  if (!isBundled) {
     middlewares.push(logger);
   }
 

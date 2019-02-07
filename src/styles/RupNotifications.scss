@@ -1,0 +1,78 @@
+.rup {
+  &__history {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #F2F2F2;
+    padding: 10px;
+
+    max-height: 130px;
+    overflow: auto;
+    
+    &__record {
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      &__header {
+        font-weight: bold;
+
+        > i {
+          margin-right: 5px !important;
+        }
+      }
+      &__timestamp {
+        display: inline;
+        font-weight: normal;
+        color: darkgray;
+        margin-left: 7px;
+      }
+      &__statuses {
+        display: flex;
+
+        > i {
+          margin: 2px 7px 0 7px !important;
+        }
+      }
+    }
+  }
+  &__feedback-notification {
+    background-color: $accent-color;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+
+    &__title {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+  &__confirmations-notification {
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+    &__modal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      > button,
+      > span {
+        margin-top: 10px !important;
+      }
+      &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+    }
+  }
+}

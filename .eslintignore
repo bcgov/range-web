@@ -1,8 +1,9 @@
-/config
+/coverage
 /node_modules
 /openshift
 /public
-/build
-/scripts
 /semantic
+/build
+/sonar-runner
 /src/semantic
+/src/serviceWorker.js

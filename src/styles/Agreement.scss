@@ -1,5 +1,6 @@
 $plan_table_date_cell_rate: 0.6;
-$third_agrm_table_cell_rate: 1.8;
+$first_agrm_table_cell_rate: 0.8;
+$third_agrm_table_cell_rate: 1.9;
 
 .agrm {
   &__search {
@@ -52,6 +53,7 @@ $third_agrm_table_cell_rate: 1.8;
 
       &--error {
         color: $error-color;
+        height: 50px;
       }
     }
     &__row {
@@ -101,6 +103,9 @@ $third_agrm_table_cell_rate: 1.8;
         font-weight: bold;
         padding-right: 10px;
 
+        &:nth-of-type(1) {
+          flex: $first_agrm_table_cell_rate;
+        }
         &:nth-of-type(3) {
           flex: $third_agrm_table_cell_rate;
         }
@@ -120,7 +125,7 @@ $third_agrm_table_cell_rate: 1.8;
         border-radius: 5px;
       }
       &--not-active {
-        opacity: 0.4;
+        opacity: 0.6;
       }
     }
     &__accordian {
@@ -145,6 +150,9 @@ $third_agrm_table_cell_rate: 1.8;
         flex: 1;
         padding-right: 10px;
 
+        &:nth-of-type(1) {
+          flex: $first_agrm_table_cell_rate;
+        }
         &:nth-of-type(3) {
           flex: $third_agrm_table_cell_rate;
         }
@@ -167,7 +175,7 @@ $third_agrm_table_cell_rate: 1.8;
   }
 
   &__pagination {
-    margin-top: 15px;
+    margin-top: 10px;
   }
 
   &__message {
@@ -178,7 +186,9 @@ $third_agrm_table_cell_rate: 1.8;
     min-height: 45px;
 
     &--error {
+      min-height: 50px;
       color: $error-color;
+      font-size: 1.2rem;
     }
   }
 }

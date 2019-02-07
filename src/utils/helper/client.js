@@ -1,6 +1,5 @@
 import { CLIENT_TYPE } from '../../constants/variables';
 
-/* eslint-disable import/prefer-default-export */
 export const getAgreementHolders = (clients = []) => {
   let primaryAgreementHolder = {};
   const otherAgreementHolders = [];
@@ -13,4 +12,24 @@ export const getAgreementHolders = (clients = []) => {
   });
 
   return { primaryAgreementHolder, otherAgreementHolders };
+};
+
+export const isSingleClient = (clients = []) => {
+  return clients.length === 1;
+};
+
+export const isClientCurrentUser = (client, user) => {
+  if (client && user) {
+    return user.clientId === client.id;
+  }
+
+  return false;
+};
+
+export const findConfirmationWithClientId = (clientId, confirmations, confirmationsMap) => {
+  if (clientId && confirmations && confirmationsMap) {
+    return confirmations.map(cId => confirmationsMap[cId])
+      .find(confirmation => confirmation.clientId === clientId);
+  }
+  return undefined;
 };

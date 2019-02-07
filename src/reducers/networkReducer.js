@@ -2,8 +2,8 @@ import { REQUEST, SUCCESS, ERROR, SUCCESS_PAGINATED } from '../constants/actionT
 
 const initialState = {
   isFetching: false,
-  isSuccessful: false,
-  error: null,
+  errorOccured: false,
+  errorResponse: null,
   success: null,
   pagination: {
     perPage: 10,
@@ -19,32 +19,29 @@ const networkReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        isSuccessful: false,
-        error: null,
+        errorOccured: false,
         success: null,
       };
     case SUCCESS:
       return {
         ...state,
         isFetching: false,
-        isSuccessful: true,
-        error: null,
+        errorOccured: false,
         success: action.data,
       };
     case ERROR:
       return {
         ...state,
         isFetching: false,
-        isSuccessful: false,
-        error: action.errorMessage,
+        errorOccured: true,
+        errorResponse: action.errorResponse,
         success: null,
       };
     case SUCCESS_PAGINATED:
       return {
         ...state,
         isFetching: false,
-        isSuccessful: true,
-        error: null,
+        errorOccured: false,
         success: action.data,
         pagination: {
           perPage: action.perPage,
@@ -63,4 +60,6 @@ export default networkReducer;
 // private selectors
 export const getIsFetching = state => state.isFetching;
 export const getPagination = state => state.pagination;
-export const getErrorMessage = state => state.error;
+export const getErrorOccured = state => state.errorOccured;
+export const getErrorResponse = state => state.errorResponse;
+export const getData = state => state.success;

@@ -27,10 +27,10 @@ export const successPagenated = (reducer, data) => (
   }
 );
 
-export const error = (reducer, errorMessage) => (
+export const error = (reducer, errorResponse) => (
   {
     name: reducer,
     type: actionTypes.ERROR,
-    errorMessage,
+    errorResponse,
   }
 );

@@ -1,34 +1,39 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import LandingPage from '../LandingPage';
-import { MANAGE_CLIENT, MANAGE_ZONE, LOGIN, EXPORT_PDF_WITH_PARAM } from '../../constants/routes';
+import MainPage from '../mainPage';
+import { LOGIN, EXPORT_PDF_WITH_PARAM, MANAGE_CLIENT, MANAGE_ZONE } from '../../constants/routes';
 import { isUserAdmin } from '../../utils';
 
 const ProtectedRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
     render={(props) => { // props = { match:{...}, history:{...}, location:{...} }
+        const mainPage = <MainPage {...props} component={Component} user={user} />;
+        const redirectToLogin = <Redirect push to={LOGIN} />;
+
         if (user) {
           const { path } = props.match;
 
-          // Admin Routes
-          if (path === MANAGE_CLIENT || path === MANAGE_ZONE) {
-            if (isUserAdmin(user)) {
-              return <LandingPage {...props} component={Component} />;
-            }
-            return <Redirect push to={LOGIN} />;
-          }
+          switch (path) {
+            // no need to pass the PDFView to MainPage
+            case EXPORT_PDF_WITH_PARAM:
+              return <Component {...props} />;
 
-          // no need to pass the RupPDFView to LandingPage
-          if (path === EXPORT_PDF_WITH_PARAM) {
-            return <Component {...props} />;
-          }
+            // Admin Routes
+            case MANAGE_CLIENT:
+            case MANAGE_ZONE:
+              if (isUserAdmin(user)) {
+                return mainPage;
+              }
+              return redirectToLogin;
 
-          return <LandingPage {...props} component={Component} />;
+            default:
+              return mainPage;
+          }
         }
 
         // user is undefined redirect to the login page
-        return <Redirect push to={LOGIN} />;
+        return redirectToLogin;
       }
     }
   />

@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -21,17 +21,20 @@ import { normalize } from 'normalizr';
 import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
-import * as API from '../constants/API';
-import { getIsFetchingAgreements } from '../reducers/rootReducer';
-import { axios, saveUserProfileInLocal, createConfigWithHeader } from '../utils';
+import * as API from '../constants/api';
+import { getIsFetchingAgreements, getAuthTimeout, getUser } from '../reducers/rootReducer';
+import { axios, saveUserProfileInLocal, createConfigWithHeader, setTimeoutForReAuth } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
-import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS } from '../constants/strings';
+import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS, UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
 export * from './commonActionCreator';
+export * from './grazingScheduleActionCreator';
+export * from './pastureActionCreator';
+export * from './ministerIssueActionCreator';
+export * from './requirementAndConsiderationActionCreator';
 
-/* eslint-disable arrow-body-style */
 export const fetchAgreement = agreementId => (dispatch, getState) => {
   dispatch(actions.request(reducerTypes.GET_AGREEMENT));
   return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
@@ -44,7 +47,7 @@ export const fetchAgreement = agreementId => (dispatch, getState) => {
     },
     (err) => {
       dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
-      return err;
+      throw err;
     },
   );
 };
@@ -61,7 +64,7 @@ export const updateClientIdOfUser = (userId, clientNumber) => (dispatch, getStat
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_CLIENT_ID_OF_USER, err));
       dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
 };
@@ -88,7 +91,7 @@ export const searchClients = term => (dispatch, getState) => {
     },
     (err) => {
       dispatch(actions.error(reducerTypes.SEARCH_CLIENTS, err));
-      return err;
+      throw err;
     },
   );
 };
@@ -108,9 +111,16 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
     (err) => {
       dispatch(actions.error(reducerTypes.UPDATE_USER_ID_OF_ZONE, err));
       dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
     },
   );
+};
+
+export const resetTimeoutForReAuth = reauthenticate => (dispatch, getState) => {
+  clearTimeout(getAuthTimeout(getState()));
+
+  const timeoutId = setTimeoutForReAuth(reauthenticate);
+  dispatch(actions.setTimeoutForAuthentication(timeoutId));
 };
 
 export const signOut = () => (dispatch) => {
@@ -132,7 +142,35 @@ export const fetchUser = () => (dispatch, getState) => {
     (err) => {
       dispatch(actions.error(reducerTypes.GET_USER, err));
       dispatch(toastErrorMessage(err));
-      return err;
+      throw err;
+    },
+  );
+};
+
+export const updateUser = data => (dispatch, getState) => {
+  dispatch(actions.request(reducerTypes.UPDATE_USER));
+
+  return axios.put(
+    API.UPDATE_USER_PROFILE,
+    data,
+    createConfigWithHeader(getState),
+  ).then(
+    (response) => {
+      const currUser = getUser(getState());
+      const updatedUser = {
+        ...currUser,
+        ...response.data,
+      };
+      dispatch(actions.success(reducerTypes.UPDATE_USER, updatedUser));
+      dispatch(actions.storeUser(updatedUser));
+      dispatch(toastSuccessMessage(UPDATE_USER_PROFILE_SUCCESS));
+      saveUserProfileInLocal(updatedUser);
+
+      return updatedUser;
+    },
+    (err) => {
+      dispatch(actions.error(reducerTypes.UPDATE_USER, err));
+      throw err;
     },
   );
 };
@@ -160,7 +198,7 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
     },
     (err) => {
       dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err));
-      return err;
+      throw err;
     },
   );
 };

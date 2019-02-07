@@ -1,5 +1,5 @@
 //
-// MyRA
+// MyRangeBC
 //
 // Copyright © 2018 Province of British Columbia
 //
@@ -24,7 +24,6 @@ import Router from './router';
 
 const store = configureStore();
 
-/* eslint-disable react/prefer-stateless-function */
 class App extends Component {
   render() {
     return (

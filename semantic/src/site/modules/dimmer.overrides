@@ -2,14 +2,6 @@
         User Overrides
 *******************************/
 
-/* Animating / Active / Visible */
-.dimmed.dimmable > .ui.animating.dimmer,
-.dimmed.dimmable > .ui.visible.dimmer,
-.ui.active.dimmer {
-  display: flex !important;
-  opacity: @visibleOpacity;
-}
-
 /* added by Kyubin */
 .blurring.dimmable>.dimmer {
   background-color: rgba(255, 255, 255, 0.1);

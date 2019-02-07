@@ -13,7 +13,7 @@ const propTypes = {
 
 const defaultProps = {
   actionClassName: '',
-  children: (<div />),
+  children: null,
   style: {},
   noDefaultHeight: false,
 };
@@ -27,12 +27,17 @@ const Banner = ({
   noDefaultHeight,
 }) => (
   <div className="banner" style={style}>
-    <div className={classnames('banner__container', { 'banner__container--no-default-height': noDefaultHeight })}>
+    <div
+      className={classnames(
+        'banner__container',
+        { 'banner__container--no-default-height': noDefaultHeight },
+      )}
+    >
       <div>
         <h1 className="banner__header">{header}</h1>
         <div className="banner__content">{content}</div>
       </div>
-      { children &&
+      {children &&
         <div className={classnames('banner__action', actionClassName)}>
           {children}
         </div>

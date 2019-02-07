@@ -11,8 +11,9 @@ import { NP } from '../../constants/strings';
  */
 export const calcDateDiff = (first, second, isUserFriendly) => {
   if (first && second) {
-    return moment(first).diff(moment(second), 'days');
+    return moment(first).diff(moment(second), 'days') + 1;
   }
+
   return isUserFriendly ? NP : 0;
 };
 
@@ -24,7 +25,7 @@ export const calcDateDiff = (first, second, isUserFriendly) => {
  * @returns {float} the total AUMs
  */
 export const calcTotalAUMs = (numberOfAnimals = 0, totalDays, auFactor = 0) => (
-  ((numberOfAnimals * totalDays * auFactor) / 30.44)
+  (numberOfAnimals * totalDays * auFactor) / 30.44
 );
 
 /**
@@ -59,6 +60,7 @@ export const calcCrownTotalAUMs = (entries = [], pasturesMap = {}, livestockType
   if (entries.length === 0) {
     return 0;
   }
+
   return entries
     .map((entry) => {
       const {
@@ -74,8 +76,7 @@ export const calcCrownTotalAUMs = (entries = [], pasturesMap = {}, livestockType
       const auFactor = livestockType && livestockType.auFactor;
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
       const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent);
-      const crownAUMs = calcCrownAUMs(totalAUMs, pldAUMs);
-      return crownAUMs;
+      return calcCrownAUMs(totalAUMs, pldAUMs);
     })
     .reduce(reducer);
 };

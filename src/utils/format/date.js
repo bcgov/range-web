@@ -16,8 +16,10 @@ export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notPr
     if (isYearIncluded) {
       return m.format(DATE_FORMAT.CLIENT_SIDE);
     }
+
     return m.format(DATE_FORMAT.CLIENT_SIDE_WITHOUT_YEAR);
   }
+
   return notProvided;
 };
 
@@ -30,3 +32,13 @@ export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notPr
 export const formatDateFromUTC = date => (
   moment(date).format(DATE_FORMAT.SERVER_SIDE)
 );
+
+export const formatDateToNow = (date) => {
+  if (!date) return NOT_PROVIDED;
+
+  const fromNow = moment(date).fromNow();
+  const absolute = moment(date, DATE_FORMAT.SERVER_SIDE)
+    .format(DATE_FORMAT.CLIENT_SIDE_WITH_HOURS);
+
+  return `${fromNow}, ${absolute}`;
+};

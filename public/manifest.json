@@ -1,15 +1,16 @@
 {
   "short_name": "MyRangeBC",
-  "name": "MyRangeBC",
+  "name": "MyRangeBC - Web",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "images/shortcut_icon.png",
+      "sizes": "512x512 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/login",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#FCBA19",
+  "background_color": "#003366",
+  "orientation": "landscape"
 }

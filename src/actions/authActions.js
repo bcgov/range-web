@@ -19,3 +19,16 @@ export const removeAuthDataAndUser = () => (
     type: actionTypes.SIGN_OUT,
   }
 );
+
+export const reauthenticate = () => (
+  {
+    type: actionTypes.REAUTHENTICATE,
+  }
+);
+
+export const setTimeoutForAuthentication = timeoutId => (
+  {
+    type: actionTypes.SET_TIMEOUT_FOR_REAUTHENTICATION,
+    timeoutId,
+  }
+);

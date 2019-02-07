@@ -9,64 +9,37 @@ const initialState = {
     allIds: [],
   },
   pastures: {},
+  plantCommunities: {},
   grazingSchedules: {},
   ministerIssues: {},
+  confirmations: {},
+  planStatusHistory: {},
+  managementConsiderations: {},
+  additionalRequirements: {},
 };
 
-const mockState = {
-  plans: {
-    byId: {
-      'plan_id': {
-        id: 'plan_id',
-        rangeName: 'hello',
-        pastures: ['pasture_id'],
-        grazingSchedules: ['grazing_schedule_id'],
-        ministerIssues: ['minister_issue_id'],
-      },
-    },
-    allIds: ['plan_id'],
-  },
-  pastures: {
-    'pasture_id': {
-      id: 'pasture_id',
-      name: 'Pasture 1',
-    },
-  },
-  grazingSchedules: {
-    'grazing_schedule_id': {
-      id: 'grazing_schedule_id',
-      year: 2018,
-      grazingScheduleEntries: [
-        {
-          id: 'grazing_schedule_entry_id',
-          narative: 'narative',
-        },
-      ],
-    },
-  },
-  ministerIssues: {
-    'minister_issue_id': {
-      id: 'minister_issue_id',
-      detail: 'detail',
-    },
-  },
-};
 const mockPlanData = {
-  id: 'plan_id',
+  id: 'planId',
   rangeName: 'hello',
   pastures: [
     {
-      id: 'pasture_id',
+      id: 'pastureId',
       name: 'Pasture 1',
+      plantCommunities: [
+        {
+          id: 'plantCommunityId',
+          approved: false,
+        },
+      ],
     },
   ],
   grazingSchedules: [
     {
-      id: 'grazing_schedule_id',
+      id: 'grazingScheduleId',
       year: 2018,
       grazingScheduleEntries: [
         {
-          id: 'grazing_schedule_entry_id',
+          id: 'grazingScheduleEntryId',
           narative: 'narative',
         },
       ],
@@ -74,11 +47,112 @@ const mockPlanData = {
   ],
   ministerIssues: [
     {
-      id: 'minister_issue_id',
+      id: 'ministerIssueId',
+      detail: 'detail',
+    },
+  ],
+  confirmations: [
+    {
+      id: 'confirmationId',
+      clientId: '00000000',
+    },
+  ],
+  planStatusHistory: [
+    {
+      id: 'planStatusHistoryId',
+      note: 'note',
+    },
+  ],
+  managementConsiderations: [
+    {
+      id: 'managementConsiderationId',
+      detail: 'detail',
+    },
+  ],
+  additionalRequirements: [
+    {
+      id: 'additionalRequirementId',
       detail: 'detail',
     },
   ],
 };
+
+const mockState = {
+  plans: {
+    byId: {
+      'planId': {
+        id: 'planId',
+        rangeName: 'hello',
+        pastures: ['pastureId'],
+        grazingSchedules: ['grazingScheduleId'],
+        ministerIssues: ['ministerIssueId'],
+        confirmations: ['confirmationId'],
+        planStatusHistory: ['planStatusHistoryId'],
+        managementConsiderations: ['managementConsiderationId'],
+        additionalRequirements: ['additionalRequirementId'],
+      },
+    },
+    allIds: ['planId'],
+  },
+  pastures: {
+    'pastureId': {
+      id: 'pastureId',
+      name: 'Pasture 1',
+      plantCommunities: [
+        'plantCommunityId',
+      ],
+    },
+  },
+  plantCommunities: {
+    'plantCommunityId': {
+      id: 'plantCommunityId',
+      approved: false,
+    },
+  },
+  grazingSchedules: {
+    'grazingScheduleId': {
+      id: 'grazingScheduleId',
+      year: 2018,
+      grazingScheduleEntries: [
+        {
+          id: 'grazingScheduleEntryId',
+          narative: 'narative',
+        },
+      ],
+    },
+  },
+  ministerIssues: {
+    'ministerIssueId': {
+      id: 'ministerIssueId',
+      detail: 'detail',
+    },
+  },
+  confirmations: {
+    'confirmationId': {
+      id: 'confirmationId',
+      clientId: '00000000',
+    },
+  },
+  planStatusHistory: {
+    'planStatusHistoryId': {
+      id: 'planStatusHistoryId',
+      note: 'note',
+    },
+  },
+  managementConsiderations: {
+    'managementConsiderationId': {
+      id: 'managementConsiderationId',
+      detail: 'detail',
+    },
+  },
+  additionalRequirements: {
+    'additionalRequirementId': {
+      id: 'additionalRequirementId',
+      detail: 'detail',
+    },
+  },
+};
+
 describe('Plan reducer', () => {
   it('Initialized with the initial state', () => {
     expect(planReducer(undefined, {})).toEqual(initialState);
