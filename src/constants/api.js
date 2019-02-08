@@ -96,7 +96,7 @@ export const UPDATE_PLAN_STATUS = planId => `/v1/plan/${planId}/status`;
 export const UPDATE_RUP = planId => `/v1/plan/${planId}`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/v1/plan/${planId}/confirmation/${confirmationId}`;
 
-export const CREATE_RUP_STATUS_HISTORY_RECORD = planId => `/v1/plan/${planId}/status-history`;
+export const CREATE_RUP_STATUS_RECORD = planId => `/v1/plan/${planId}/status-record`;
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`;
 
 export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/v1/plan/${planId}/schedule`;

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, Icon, Form, Radio, TextArea } from 'semantic-ui-react';
 import { AMENDMENT_TYPE, REFERENCE_KEY, PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
-import { updateRUP, createRUPStatusHistoryRecord } from '../../../actionCreators/planActionCreator';
+import { updateRUP, createRUPStatusRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import MinorTabsForSingle from './MinorTabsForSingle';
 import MinorTabsForMultiple from './MinorTabsForMultiple';
@@ -26,7 +26,7 @@ class AmendmentSubmissionModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     updateRUP: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
-    createRUPStatusHistoryRecord: PropTypes.func.isRequired,
+    createRUPStatusRecord: PropTypes.func.isRequired,
   };
   static defaultProps = {
     clients: [],
@@ -131,7 +131,7 @@ class AmendmentSubmissionModal extends Component {
     const {
       updateRUP,
       updateStatusAndContent,
-      createRUPStatusHistoryRecord,
+      createRUPStatusRecord,
     } = this.props;
     const { note } = this.state;
 
@@ -141,7 +141,7 @@ class AmendmentSubmissionModal extends Component {
     const onSuccess = async () => {
       // update amendment type of the plan
       if (note) {
-        await createRUPStatusHistoryRecord(plan, planStatus, note);
+        await createRUPStatusRecord(plan, planStatus, note);
       }
       await updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id,
@@ -337,5 +337,5 @@ const mapStateToProps = state => (
 export default connect(mapStateToProps, {
   updateRUP,
   planUpdated,
-  createRUPStatusHistoryRecord,
+  createRUPStatusRecord,
 })(AmendmentSubmissionModal);

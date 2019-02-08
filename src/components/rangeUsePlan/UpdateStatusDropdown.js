@@ -6,7 +6,7 @@ import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, is
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { planUpdated, planStatusHistoryRecordAdded } from '../../actions';
-import { updateRUPStatus, createRUPStatusHistoryRecord } from '../../actionCreators';
+import { updateRUPStatus, createRUPStatusRecord } from '../../actionCreators';
 import * as strings from '../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
 
@@ -19,7 +19,7 @@ class UpdateStatusDropdown extends Component {
     planStatusHistoryRecordAdded: PropTypes.func.isRequired,
     isUpdatingStatus: PropTypes.bool.isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
-    createRUPStatusHistoryRecord: PropTypes.func.isRequired,
+    createRUPStatusRecord: PropTypes.func.isRequired,
   };
 
   state = {
@@ -259,5 +259,5 @@ export default connect(mapStateToProps, {
   planUpdated,
   planStatusHistoryRecordAdded,
   updateRUPStatus,
-  createRUPStatusHistoryRecord,
+  createRUPStatusRecord,
 })(UpdateStatusDropdown);

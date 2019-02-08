@@ -57,11 +57,11 @@ export const createOrUpdateRUPInvasivePlantChecklist = (planId, checklist) => (d
   return dispatch(createRUPInvasivePlantChecklist(planId, checklist));
 };
 
-export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch, getState) => {
+export const createRUPStatusRecord = (plan, newStatus, note) => (dispatch, getState) => {
   const { id: planId, statusId: fromPlanStatusId } = plan;
 
   return axios.post(
-    API.CREATE_RUP_STATUS_HISTORY_RECORD(planId),
+    API.CREATE_RUP_STATUS_RECORD(planId),
     {
       fromPlanStatusId,
       toPlanStatusId: newStatus.id,

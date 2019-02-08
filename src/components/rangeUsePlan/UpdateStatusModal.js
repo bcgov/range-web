@@ -44,7 +44,7 @@ class UpdateStatusModal extends Component {
       updateRUPStatus,
       planUpdated,
       planStatusHistoryRecordAdded,
-      createRUPStatusHistoryRecord,
+      createRUPStatusRecord,
       onClose,
     } = this.props;
     const { note } = this.state;
@@ -63,7 +63,7 @@ class UpdateStatusModal extends Component {
       planUpdated({ plan: newPlan });
 
       if (requireNote && note) {
-        const record = await createRUPStatusHistoryRecord(plan, newStatus, note);
+        const record = await createRUPStatusRecord(plan, newStatus, note);
         planStatusHistoryRecordAdded({
           planId,
           record,
