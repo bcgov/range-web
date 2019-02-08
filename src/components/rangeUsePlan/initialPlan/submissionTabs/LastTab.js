@@ -8,9 +8,9 @@ class LastTab extends Component {
     currTabId: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     tab: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      text1: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      text1: PropTypes.string.isRequired,
     }).isRequired,
   }
 

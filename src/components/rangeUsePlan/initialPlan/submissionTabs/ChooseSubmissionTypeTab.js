@@ -16,12 +16,12 @@ class ChooseSubmissionTypeTab extends Component {
     handleTabChange: PropTypes.func.isRequired,
     onCancelClicked: PropTypes.func,
     tab: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      back: PropTypes.string,
-      next: PropTypes.string,
-      radio1: PropTypes.string,
-      radio2: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      back: PropTypes.string.isRequired,
+      next: PropTypes.string.isRequired,
+      radio1: PropTypes.string.isRequired,
+      radio2: PropTypes.string.isRequired,
     }).isRequired,
   }
 

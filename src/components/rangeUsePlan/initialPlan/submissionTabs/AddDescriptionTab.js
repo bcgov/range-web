@@ -14,11 +14,10 @@ class AddDescriptionTab extends Component {
     onNextClicked: PropTypes.func.isRequired,
     handleNoteChange: PropTypes.func.isRequired,
     tab: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      next: PropTypes.string,
-      lengthOfNote: PropTypes.string,
-      radio2: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      next: PropTypes.string.isRequired,
+      placeholder: PropTypes.string.isRequired,
     }).isRequired,
   }
 

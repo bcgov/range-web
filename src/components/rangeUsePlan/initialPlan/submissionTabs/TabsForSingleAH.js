@@ -71,7 +71,7 @@ class TabsForSingleAH extends Component {
       },
       submitForFeedback: {
         id: 'submitForFeedback',
-        title: '2. Submit Your initial range use plan for Feedback',
+        title: '3. Submit Your initial range use plan for Feedback',
         back: 'chooseSubmissionType',
         next: 'last',
         text1: 'You’re ready to submit an initial range use plan '
@@ -80,8 +80,9 @@ class TabsForSingleAH extends Component {
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
         title: '3. Confirm Your Submission and eSignature',
+        isSingleAH: true,
         back: 'chooseSubmissionType',
-        next: null,
+        next: 'last',
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
@@ -121,7 +122,7 @@ class TabsForSingleAH extends Component {
         <SubmitForFeedbackTab
           currTabId={currTabId}
           tab={tabsMap.submitForFeedback}
-          isSubmitting={false}
+          isSubmitting={isSubmitting}
           handleTabChange={this.handleTabChange}
           onSubmitClicked={onSubmitClicked}
         />

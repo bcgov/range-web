@@ -11,13 +11,11 @@ class SubmitForReviewTab extends Component {
     handleTabChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
     tab: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      back: PropTypes.string,
-      next: PropTypes.string,
-      text1: PropTypes.string,
-      checkbox1: PropTypes.string,
-      submitBtn: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      back: PropTypes.string.isRequired,
+      next: PropTypes.string.isRequired,
+      text1: PropTypes.string.isRequired,
     }).isRequired,
   }
 

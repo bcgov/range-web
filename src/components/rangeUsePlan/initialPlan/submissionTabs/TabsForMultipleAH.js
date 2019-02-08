@@ -83,6 +83,7 @@ class TabsForMultipleAH extends Component {
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
         title: '3. Confirm Your Submission and eSignature',
+        isSingleAH: false,
         back: 'chooseSubmissionType',
         next: 'requestSignatures',
         text1: 'You are about to submit your initial range use plan.',

@@ -14,12 +14,13 @@ class SubmitForFinalDecisionTab extends Component {
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
     isAgreed: PropTypes.bool.isRequired,
     tab: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      back: PropTypes.string,
-      next: PropTypes.string,
-      text1: PropTypes.string,
-      rightBtn1: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      isSingleAH: PropTypes.bool.isRequired,
+      back: PropTypes.string.isRequired,
+      next: PropTypes.string.isRequired,
+      text1: PropTypes.string.isRequired,
+      rightBtn1: PropTypes.string.isRequired,
     }).isRequired,
   }
 
@@ -39,16 +40,21 @@ class SubmitForFinalDecisionTab extends Component {
     handleTabChange(e, { value: tab.next });
   }
 
+  onSubmitClicked = (e) => {
+    this.props.onSubmitClicked(e).then(() => {
+      this.onNextClicked(e);
+    });
+  }
+
   render() {
     const {
       currTabId,
       tab,
       isSubmitting,
-      onSubmitClicked,
       handleAgreeCheckBoxChange,
       isAgreed,
     } = this.props;
-    const { id, next, title, text1, checkbox1, rightBtn1 } = tab;
+    const { id, title, isSingleAH, text1, checkbox1, rightBtn1 } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -66,7 +72,7 @@ class SubmitForFinalDecisionTab extends Component {
               content="Back"
             />
             <RightBtn
-              onClick={next ? this.onNextClicked : onSubmitClicked}
+              onClick={isSingleAH ? this.onSubmitClicked : this.onNextClicked}
               loading={isSubmitting}
               disabled={!isAgreed}
               content={rightBtn1}
