@@ -117,7 +117,7 @@ class PageForAH extends Component {
         createOrUpdateRUPMinisterIssueAndActions(planId, issue)
       )));
       await createOrUpdateRUPInvasivePlantChecklist(planId, invasivePlantChecklist);
-      await updateRUPStatus(planId, statusId, false);
+      await updateRUPStatus({ planId, statusId, shouldToast: false });
       await Promise.all(managementConsiderations.map(consideration => (
         createOrUpdateRUPManagementConsideration(planId, consideration)
       )));
@@ -180,12 +180,6 @@ class PageForAH extends Component {
       }
 
       this.openSubmitModal();
-      // openConfirmationModal({
-      //   id: CONFIRMATION_MODAL_ID.SUBMIT_PLAN,
-      //   header: strings.SUBMIT_RUP_CHANGE_CONFIRM_HEADER,
-      //   content: strings.SUBMIT_RUP_CHANGE_CONFIRM_CONTENT,
-      //   onYesBtnClicked: this.onSubmitClicked,
-      // });
     }
   }
 

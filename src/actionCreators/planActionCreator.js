@@ -11,8 +11,7 @@ import {
   axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment,
   normalizePasturesWithOldId, copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
   copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment,
-  copyAdditionalRequirementsToCreateAmendment,
-  copyPlantCommunitiesToCreateAmendment,
+  copyAdditionalRequirementsToCreateAmendment, copyPlantCommunitiesToCreateAmendment,
   findStatusWithCode,
 } from '../utils';
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
@@ -242,13 +241,13 @@ export const fetchRUP = planId => (dispatch, getState) => {
   return makeRequest();
 };
 
-export const updateRUPStatus = (planId, statusId, shouldToast = true) => (dispatch, getState) => {
+export const updateRUPStatus = ({ planId, statusId, note = null, shouldToast = true }) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_PLAN_STATUS));
   const makeRequest = async () => {
     try {
       const response = await axios.put(
         API.UPDATE_PLAN_STATUS(planId),
-        { statusId },
+        { statusId, note },
         createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.UPDATE_PLAN_STATUS, response.data));

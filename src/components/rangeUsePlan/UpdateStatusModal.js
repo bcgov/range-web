@@ -55,7 +55,7 @@ class UpdateStatusModal extends Component {
     const { id: planId, planStatusHistory } = plan;
 
     try {
-      const newStatus = await updateRUPStatus(planId, status.id);
+      const newStatus = await updateRUPStatus({ planId, statusId: status.id });
       const newPlan = {
         ...plan,
         status: newStatus,
