@@ -38,6 +38,10 @@
     &__warning-message {
       padding: 0px 15px 10px 15px;
     }
+    &__l-type,
+    &__pasture {
+      min-width: 90px;
+    }
     &__dates {
       min-width: 75px;
     }

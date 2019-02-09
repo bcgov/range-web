@@ -100,7 +100,7 @@
   }
 
   &__contents {
-    width: 100%;
+    width: calc(100% - 70px);
     padding-top: $rup-content-margin-top;
 
     &__container {
