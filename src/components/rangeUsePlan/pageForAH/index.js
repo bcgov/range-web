@@ -26,6 +26,7 @@ import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
 import AHSubmissionModal from '../initialPlan/AHSubmissionModal';
 import AHConfirmationModal from '../initialPlan/AHConfirmationModal';
+import AHAmendmentSubmissionModal from '../initialPlan/AHAmendmentSubmissionModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -291,13 +292,22 @@ class PageForAH extends Component {
           fetchPlan={fetchPlan}
         />
 
+        <AHAmendmentSubmissionModal
+          open={isSubmitAmendmentModalOpen}
+          onClose={this.closeSubmitAmendmentModal}
+          plan={plan}
+          clients={clients}
+          updateStatusAndContent={this.updateStatusAndContent}
+          fetchPlan={fetchPlan}
+        />
+        {/*
         <AmendmentSubmissionModal
           open={isSubmitAmendmentModalOpen}
           onClose={this.closeSubmitAmendmentModal}
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
-        />
+        /> */}
 
         <AmendmentConfirmationModal
           open={isConfirmAmendmentModalOpen}

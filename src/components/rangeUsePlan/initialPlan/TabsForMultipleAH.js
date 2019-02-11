@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ChooseSubmissionTypeTab from './ChooseSubmissionTypeTab';
-import SubmitForFeedbackTab from './SubmitForFeedbackTab';
-import SubmitForFinalDecisionTab from './SubmitForFinalDecisionTab';
-import AddDescriptionTab from './AddDescriptionTab';
-import RequestSignaturesTab from './RequestSignaturesTab';
-import { PLAN_STATUS } from '../../../../constants/variables';
-import { isSingleClient } from '../../../../utils';
-import LastTab from './LastTab';
+import ChooseSubmissionTypeTab from './submissionTabs/ChooseSubmissionTypeTab';
+import SubmitForFeedbackTab from './submissionTabs/SubmitForFeedbackTab';
+import SubmitForFinalDecisionTab from './submissionTabs/SubmitForFinalDecisionTab';
+import AddDescriptionTab from './submissionTabs/AddDescriptionTab';
+import RequestSignaturesTab from './submissionTabs/RequestSignaturesTab';
+import LastTab from './submissionTabs/LastTab';
+import { PLAN_STATUS } from '../../../constants/variables';
+import { isSingleClient } from '../../../utils';
 
 class TabsForMultipleAH extends Component {
   static propTypes = {
@@ -83,7 +83,6 @@ class TabsForMultipleAH extends Component {
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
         title: '3. Confirm Your Submission and eSignature',
-        isSingleAH: false,
         back: 'chooseSubmissionType',
         next: 'requestSignatures',
         text1: 'You are about to submit your initial range use plan.',
@@ -150,6 +149,7 @@ class TabsForMultipleAH extends Component {
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
+          clients={clients}
         />
 
         <RequestSignaturesTab

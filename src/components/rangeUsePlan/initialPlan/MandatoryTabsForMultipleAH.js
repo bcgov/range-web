@@ -1,15 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ChooseSubmissionTypeTab from './ChooseSubmissionTypeTab';
-import SubmitForFeedbackTab from './SubmitForFeedbackTab';
-import SubmitForFinalDecisionTab from './SubmitForFinalDecisionTab';
-import AddDescriptionTab from './AddDescriptionTab';
-import { PLAN_STATUS } from '../../../../constants/variables';
-import { isSingleClient } from '../../../../utils';
-import LastTab from './LastTab';
+import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
+import ChooseSubmissionTypeTab from './submissionTabs/ChooseSubmissionTypeTab';
+import SubmitForFeedbackTab from './submissionTabs/SubmitForFeedbackTab';
+import SubmitForFinalDecisionTab from './submissionTabs/SubmitForFinalDecisionTab';
+import LastTab from './submissionTabs/LastTab';
+import { PLAN_STATUS } from '../../../constants/variables';
+import { isSingleClient } from '../../../utils';
+import RequestSignaturesTab from './submissionTabs/RequestSignaturesTab';
 
-class TabsForSingleAH extends Component {
+class MandatoryTabsForMultipleAH extends Component {
   static propTypes = {
+    user: PropTypes.shape({}).isRequired,
+    isMandatory: PropTypes.bool.isRequired,
+    isMinor: PropTypes.bool.isRequired,
+    isAmendmentTypeDecided: PropTypes.bool,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     statusCode: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
@@ -24,10 +29,11 @@ class TabsForSingleAH extends Component {
 
   static defaultProps = {
     statusCode: null,
+    isAmendmentTypeDecided: false,
   };
 
   state = {
-    currTabId: 'addDescription',
+    currTabId: 'chooseAmendmentType',
   }
 
   handleTabChange = (e, { value: tabId }) => {
@@ -38,76 +44,84 @@ class TabsForSingleAH extends Component {
 
   render() {
     const {
+      user,
       clients,
       statusCode,
       isAgreed,
-      note,
       isSubmitting,
       handleStatusCodeChange,
       handleAgreeCheckBoxChange,
-      handleNoteChange,
       onSubmitClicked,
       onClose,
+      isMinor,
     } = this.props;
     const { currTabId } = this.state;
     const tabsMap = {
-      addDescription: {
-        id: 'addDescription',
-        title: '1. Ready to Submit? Add Plan Description',
+      chooseAmendmentType: {
+        id: 'chooseAmendmentType',
+        title: '1. Ready to Submit? Choose Your Amendment Type',
         next: 'chooseSubmissionType',
-        placeholder: 'Summarize what the proposed range use plan includes. '
-          + 'Ex. Grazing schedules reflect change in land use and additional livestock.',
       },
       chooseSubmissionType: {
         id: 'chooseSubmissionType',
         title: '2. Ready to Submit? Choose Your Submission Type',
-        back: 'addDescription',
+        back: 'chooseAmendmentType',
         next: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
           ? 'submitForFeedback'
           : 'submitForFinalDecision',
-        radio1: 'Make this draft RUP available for the staff to review. '
+        radio1: 'Make this draft amendment available for the staff to review. '
           + 'They will advise you if the RUP is ready to submit to the decision maker for approval.',
-        radio2: 'Verify this RUP is correct and start submission for decision.',
+        radio2: 'Verify this amendment is correct and start submission for decision.',
       },
       submitForFeedback: {
         id: 'submitForFeedback',
         title: '3. Submit Your initial range use plan for Feedback',
         back: 'chooseSubmissionType',
         next: 'last',
-        text1: 'You’re ready to submit an initial range use plan '
-          + 'for Range staff review. You will be notified once the submission has been reviewed.',
+        text1: 'You’re ready to submit mandatory amendment for Range staff review. '
+          + 'You will be notified once the submission has been reviewed.',
       },
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
         title: '3. Confirm Your Submission and eSignature',
-        isSingleAH: true,
         back: 'chooseSubmissionType',
+        next: 'requestSignatures',
+        text1: 'You are about to submit your Mandatory Amendment for your RUP.',
+        checkbox1: 'I understand that this submission constitues a legal '
+          + 'document and eSignature. This submission will be reviewed the Range Staff.',
+        rightBtn1: 'Next',
+      },
+      requestSignatures: {
+        id: 'requestSignatures',
+        title: '4. Request eSignatures and Submit Range Use Plan for final decision',
+        back: 'submitForFinalDecision',
         next: 'last',
-        text1: 'You are about to submit your initial range use plan.',
-        checkbox1: 'I understand that this submission constitues '
-          + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
-        rightBtn1: 'Submit Initial RUP',
+        text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
       },
       last: {
         id: 'last',
-        title: 'Your range use plan has been sent for range staff review.',
-        text1: 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!',
+        title: 'Your mandatory amendment has been sent for range staff review.',
+        text1: 'Your mandatory amendment has been sent to Range staff for review. '
+         + 'Feel free to call your Range officer if you have any questions!',
       },
     };
 
-    if (!isSingleClient(clients)) {
+    if (isSingleClient(clients)) {
+      return null;
+    }
+
+    if (isMinor) {
       return null;
     }
 
     return (
       <Fragment>
-        <AddDescriptionTab
+        <ChooseAmendmentTypeTab
+          {...this.props}
           currTabId={currTabId}
-          tab={tabsMap.addDescription}
-          note={note}
-          handleNoteChange={handleNoteChange}
+          tab={tabsMap.chooseAmendmentType}
+          handleTabChange={this.handleTabChange}
           onCancelClicked={onClose}
-          onNextClicked={this.handleTabChange}
         />
 
         <ChooseSubmissionTypeTab
@@ -135,6 +149,17 @@ class TabsForSingleAH extends Component {
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
+          clients={clients}
+        />
+
+        <RequestSignaturesTab
+          currTabId={currTabId}
+          tab={tabsMap.requestSignatures}
+          clients={clients}
+          user={user}
+          isSubmitting={isSubmitting}
+          handleTabChange={this.handleTabChange}
+          onSubmitClicked={onSubmitClicked}
         />
 
         <LastTab
@@ -147,4 +172,4 @@ class TabsForSingleAH extends Component {
   }
 }
 
-export default TabsForSingleAH;
+export default MandatoryTabsForMultipleAH;

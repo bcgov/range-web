@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Popup } from 'semantic-ui-react';
-import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, CONFIRM_SUBMISSION } from '../../../constants/strings';
+import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../../constants/strings';
 import { isPlanAmendment } from '../../../utils';
 
 const ActionBtns = ({
@@ -86,7 +86,7 @@ const ActionBtns = ({
       style={{ marginRight: '0', marginLeft: '10px' }}
       onClick={isPlanAmendment(plan) ? openConfirmAmendmentModal : openConfirmModal}
     >
-      {CONFIRM_SUBMISSION}
+      {SIGN_SUBMISSION}
     </Button>
   );
 

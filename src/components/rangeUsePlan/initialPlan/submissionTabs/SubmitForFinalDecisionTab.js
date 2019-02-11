@@ -4,10 +4,12 @@ import { Form } from 'semantic-ui-react';
 import RightBtn from '../RightBtn';
 import LeftBtn from '../LeftBtn';
 import TabTemplate from '../TabTemplate';
+import { isSingleClient } from '../../../../utils';
 
 class SubmitForFinalDecisionTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     isSubmitting: PropTypes.bool,
     handleTabChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
@@ -16,7 +18,6 @@ class SubmitForFinalDecisionTab extends Component {
     tab: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      isSingleAH: PropTypes.bool.isRequired,
       back: PropTypes.string.isRequired,
       next: PropTypes.string.isRequired,
       text1: PropTypes.string.isRequired,
@@ -53,8 +54,9 @@ class SubmitForFinalDecisionTab extends Component {
       isSubmitting,
       handleAgreeCheckBoxChange,
       isAgreed,
+      clients,
     } = this.props;
-    const { id, title, isSingleAH, text1, checkbox1, rightBtn1 } = tab;
+    const { id, title, text1, checkbox1, rightBtn1 } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -72,7 +74,7 @@ class SubmitForFinalDecisionTab extends Component {
               content="Back"
             />
             <RightBtn
-              onClick={isSingleAH ? this.onSubmitClicked : this.onNextClicked}
+              onClick={isSingleClient(clients) ? this.onSubmitClicked : this.onNextClicked}
               loading={isSubmitting}
               disabled={!isAgreed}
               content={rightBtn1}

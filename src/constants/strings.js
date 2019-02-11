@@ -31,7 +31,7 @@ export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
 export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';
-export const CONFIRM_SUBMISSION = 'Confirm Submission';
+export const SIGN_SUBMISSION = 'Sign Submission';
 export const VIEW = 'View';
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 

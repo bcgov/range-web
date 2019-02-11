@@ -7,8 +7,8 @@ import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { createRUPStatusRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import { isSingleClient, findStatusWithCode } from '../../../utils';
-import TabsForSingleAH from './submissionTabs/TabsForSingleAH';
-import TabsForMultipleAH from './submissionTabs/TabsForMultipleAH';
+import TabsForSingleAH from './TabsForSingleAH';
+import TabsForMultipleAH from './TabsForMultipleAH';
 
 class AHSubmissionModal extends Component {
   static propTypes = {
