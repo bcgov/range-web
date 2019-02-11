@@ -8,6 +8,7 @@ import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer
 import { planUpdated } from '../../actions';
 import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
 import { getUserFullName } from '../../utils';
+import { InvertedButton } from '../common';
 
 export class UpdateZoneModal extends Component {
   static propTypes = {
@@ -113,21 +114,22 @@ export class UpdateZoneModal extends Component {
             selection
             clearable
           />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+            <InvertedButton
+              primaryColor
+              onClick={this.closeUpdateZoneModal}
+              content="Cancel"
+            />
+            <Button
+              primary
+              disabled={newZoneId === null}
+              loading={isUpdatingAgreementZone}
+              onClick={this.onUpdateZoneClicked}
+              style={{ margin: '0', marginLeft: '10px' }}
+              content="Update Zone"
+            />
+          </div>
         </Modal.Content>
-        <Modal.Actions>
-          <Button color="red" inverted onClick={this.closeUpdateZoneModal}>
-            Cancel
-          </Button>
-          <Button
-            color="green"
-            inverted
-            disabled={newZoneId === null}
-            loading={isUpdatingAgreementZone}
-            onClick={this.onUpdateZoneClicked}
-          >
-            Update Zone
-          </Button>
-        </Modal.Actions>
       </Modal>
     );
   }
