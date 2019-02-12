@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
 import SubmitForFinalDecisionTab from './submissionTabs/SubmitForFinalDecisionTab';
 import RequestSignaturesTab from './submissionTabs/RequestSignaturesTab';
 import LastTab from './submissionTabs/LastTab';
@@ -10,32 +9,19 @@ class MinorTabsForMultipleAH extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     isMandatory: PropTypes.bool.isRequired,
-    isMinor: PropTypes.bool.isRequired,
-    isAmendmentTypeDecided: PropTypes.bool,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     isAgreed: PropTypes.bool.isRequired,
-    note: PropTypes.string.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
-    handleStatusCodeChange: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
-    handleNoteChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    handleTabChange: PropTypes.func.isRequired,
+    currTabId: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
-    isAmendmentTypeDecided: false,
+
   };
-
-  state = {
-    currTabId: 'chooseAmendmentType',
-  }
-
-  handleTabChange = (e, { value: tabId }) => {
-    this.setState({
-      currTabId: tabId,
-    });
-  }
 
   render() {
     const {
@@ -47,14 +33,10 @@ class MinorTabsForMultipleAH extends Component {
       onSubmitClicked,
       onClose,
       isMandatory,
+      currTabId,
+      handleTabChange,
     } = this.props;
-    const { currTabId } = this.state;
     const tabsMap = {
-      chooseAmendmentType: {
-        id: 'chooseAmendmentType',
-        title: '1. Ready to Submit? Choose Your Amendment Type',
-        next: 'submitForFinalDecision',
-      },
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
         title: '2. Finalize and Sign Your Submission and eSignature',
@@ -84,29 +66,17 @@ class MinorTabsForMultipleAH extends Component {
       },
     };
 
-    if (isMandatory) {
-      return null;
-    }
-
-    if (isSingleClient(clients)) {
+    if (isMandatory || isSingleClient(clients)) {
       return null;
     }
 
     return (
       <Fragment>
-        <ChooseAmendmentTypeTab
-          {...this.props}
-          currTabId={currTabId}
-          tab={tabsMap.chooseAmendmentType}
-          handleTabChange={this.handleTabChange}
-          onCancelClicked={onClose}
-        />
-
         <SubmitForFinalDecisionTab
           currTabId={currTabId}
           tab={tabsMap.submitForFinalDecision}
           isSubmitting={isSubmitting}
-          handleTabChange={this.handleTabChange}
+          handleTabChange={handleTabChange}
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
@@ -118,7 +88,7 @@ class MinorTabsForMultipleAH extends Component {
           clients={clients}
           user={user}
           isSubmitting={isSubmitting}
-          handleTabChange={this.handleTabChange}
+          handleTabChange={handleTabChange}
           onSubmitClicked={onSubmitClicked}
         />
 

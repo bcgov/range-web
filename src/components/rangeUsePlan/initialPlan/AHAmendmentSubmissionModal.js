@@ -11,6 +11,7 @@ import MandatoryTabsForSingleAH from './MandatoryTabsForSingleAH';
 import MandatoryTabsForMultipleAH from './MandatoryTabsForMultipleAH';
 import MinorTabsForSingleAH from './MinorTabsForSingleAH';
 import MinorTabsForMultipleAH from './MinorTabsForMultipleAH';
+import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
 
 class AHAmendmentSubmissionModal extends Component {
   static propTypes = {
@@ -35,6 +36,7 @@ class AHAmendmentSubmissionModal extends Component {
   }
 
   getInitialState = () => ({
+    currTabId: 'chooseAmendmentType',
     amendmentTypeCode: null,
     statusCode: null,
     isAgreed: false,
@@ -67,6 +69,12 @@ class AHAmendmentSubmissionModal extends Component {
     if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
       this.setState({ note });
     }
+  }
+
+  handleTabChange = (e, { value: tabId }) => {
+    this.setState({
+      currTabId: tabId,
+    });
   }
 
   submitPlan = (plan, planStatus) => {
@@ -111,7 +119,7 @@ class AHAmendmentSubmissionModal extends Component {
 
   render() {
     const { open, references, plan, clients, user } = this.props;
-    const { amendmentTypeCode } = this.state;
+    const { amendmentTypeCode, currTabId } = this.state;
     const { amendmentTypeId } = plan;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const isSubmittedAsMinorAmendment = isSubmittedAsMinor(amendmentTypeId, amendmentTypes);
@@ -121,16 +129,23 @@ class AHAmendmentSubmissionModal extends Component {
     const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
     const commonProps = {
       ...this.state,
+      user,
+      clients,
       isAmendmentTypeDecided,
       isMinor,
       isMandatory,
-      clients,
       handleAmendmentTypeChange: this.handleAmendmentTypeChange,
       handleNoteChange: this.handleNoteChange,
       handleStatusCodeChange: this.handleStatusCodeChange,
       handleAgreeCheckBoxChange: this.handleAgreeCheckBoxChange,
+      handleTabChange: this.handleTabChange,
       onSubmitClicked: this.onSubmitClicked,
       onClose: this.onClose,
+    };
+    const chooseAmendmentTypeTab = {
+      id: 'chooseAmendmentType',
+      title: '1. Ready to Submit? Choose Your Amendment Type',
+      next: isMinor ? 'submitForFinalDecision' : 'chooseSubmissionType',
     };
 
     return (
@@ -142,19 +157,20 @@ class AHAmendmentSubmissionModal extends Component {
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Content>
+          <ChooseAmendmentTypeTab
+            {...commonProps}
+            currTabId={currTabId}
+            tab={chooseAmendmentTypeTab}
+            handleTabChange={this.handleTabChange}
+          />
+
           <MinorTabsForSingleAH {...commonProps} />
 
-          <MinorTabsForMultipleAH
-            {...commonProps}
-            user={user}
-          />
+          <MinorTabsForMultipleAH {...commonProps} />
 
           <MandatoryTabsForSingleAH {...commonProps} />
 
-          <MandatoryTabsForMultipleAH
-            {...commonProps}
-            user={user}
-          />
+          <MandatoryTabsForMultipleAH {...commonProps} />
         </Modal.Content>
       </Modal>
     );

@@ -10,7 +10,7 @@ class AddDescriptionTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
     note: PropTypes.string.isRequired,
-    onCancelClicked: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     onNextClicked: PropTypes.func.isRequired,
     handleNoteChange: PropTypes.func.isRequired,
     tab: PropTypes.shape({
@@ -35,7 +35,7 @@ class AddDescriptionTab extends Component {
     const {
       currTabId,
       tab,
-      onCancelClicked,
+      onClose,
       handleNoteChange,
       note,
     } = this.props;
@@ -54,7 +54,7 @@ class AddDescriptionTab extends Component {
         actions={
           <Fragment>
             <LeftBtn
-              onClick={onCancelClicked}
+              onClick={onClose}
               content="Cancel"
             />
             <RightBtn

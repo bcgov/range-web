@@ -19,7 +19,7 @@ class ChooseAmendmentTypeTab extends Component {
     handleAmendmentTypeChange: PropTypes.func.isRequired,
     handleNoteChange: PropTypes.func.isRequired,
     handleTabChange: PropTypes.func.isRequired,
-    onCancelClicked: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ class ChooseAmendmentTypeTab extends Component {
       tab,
       note,
       amendmentTypeCode,
-      onCancelClicked,
+      onClose,
       handleAmendmentTypeChange,
       handleNoteChange,
       isMandatory,
@@ -68,7 +68,7 @@ class ChooseAmendmentTypeTab extends Component {
         actions={
           <Fragment>
             <LeftBtn
-              onClick={onCancelClicked}
+              onClick={onClose}
               content="Cancel"
             />
             <RightBtn

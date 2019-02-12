@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
 import ChooseSubmissionTypeTab from './submissionTabs/ChooseSubmissionTypeTab';
 import SubmitForFeedbackTab from './submissionTabs/SubmitForFeedbackTab';
 import SubmitForFinalDecisionTab from './submissionTabs/SubmitForFinalDecisionTab';
@@ -10,35 +9,22 @@ import { isSingleClient } from '../../../utils';
 
 class MandatoryTabsForSingleAH extends Component {
   static propTypes = {
-    isMandatory: PropTypes.bool.isRequired,
     isMinor: PropTypes.bool.isRequired,
-    isAmendmentTypeDecided: PropTypes.bool,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     statusCode: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
-    note: PropTypes.string.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     handleStatusCodeChange: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
-    handleNoteChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    handleTabChange: PropTypes.func.isRequired,
+    currTabId: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     statusCode: null,
-    isAmendmentTypeDecided: false,
   };
-
-  state = {
-    currTabId: 'chooseAmendmentType',
-  }
-
-  handleTabChange = (e, { value: tabId }) => {
-    this.setState({
-      currTabId: tabId,
-    });
-  }
 
   render() {
     const {
@@ -51,14 +37,10 @@ class MandatoryTabsForSingleAH extends Component {
       onSubmitClicked,
       onClose,
       isMinor,
+      currTabId,
+      handleTabChange,
     } = this.props;
-    const { currTabId } = this.state;
     const tabsMap = {
-      chooseAmendmentType: {
-        id: 'chooseAmendmentType',
-        title: '1. Ready to Submit? Choose Your Amendment Type',
-        next: 'chooseSubmissionType',
-      },
       chooseSubmissionType: {
         id: 'chooseSubmissionType',
         title: '2. Ready to Submit? Choose Your Submission Type',
@@ -97,38 +79,26 @@ class MandatoryTabsForSingleAH extends Component {
       },
     };
 
-    if (isMinor) {
-      return null;
-    }
-
-    if (!isSingleClient(clients)) {
+    if (isMinor || !isSingleClient(clients)) {
       return null;
     }
 
     return (
       <Fragment>
-        <ChooseAmendmentTypeTab
-          {...this.props}
-          currTabId={currTabId}
-          tab={tabsMap.chooseAmendmentType}
-          handleTabChange={this.handleTabChange}
-          onCancelClicked={onClose}
-        />
-
         <ChooseSubmissionTypeTab
           currTabId={currTabId}
           tab={tabsMap.chooseSubmissionType}
           statusCode={statusCode}
           handleStatusCodeChange={handleStatusCodeChange}
-          onCancelClicked={onClose}
-          handleTabChange={this.handleTabChange}
+          onClose={onClose}
+          handleTabChange={handleTabChange}
         />
 
         <SubmitForFeedbackTab
           currTabId={currTabId}
           tab={tabsMap.submitForFeedback}
           isSubmitting={isSubmitting}
-          handleTabChange={this.handleTabChange}
+          handleTabChange={handleTabChange}
           onSubmitClicked={onSubmitClicked}
         />
 
@@ -136,7 +106,7 @@ class MandatoryTabsForSingleAH extends Component {
           currTabId={currTabId}
           tab={tabsMap.submitForFinalDecision}
           isSubmitting={isSubmitting}
-          handleTabChange={this.handleTabChange}
+          handleTabChange={handleTabChange}
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}

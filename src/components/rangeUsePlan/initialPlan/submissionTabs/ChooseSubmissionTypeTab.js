@@ -14,7 +14,7 @@ class ChooseSubmissionTypeTab extends Component {
     statusCode: PropTypes.string,
     handleStatusCodeChange: PropTypes.func.isRequired,
     handleTabChange: PropTypes.func.isRequired,
-    onCancelClicked: PropTypes.func,
+    onClose: PropTypes.func.isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -27,7 +27,6 @@ class ChooseSubmissionTypeTab extends Component {
 
   static defaultProps = {
     statusCode: null,
-    onCancelClicked: () => {},
   }
 
   onBackClicked = (e) => {
@@ -48,7 +47,7 @@ class ChooseSubmissionTypeTab extends Component {
       tab,
       statusCode,
       handleStatusCodeChange,
-      onCancelClicked,
+      onClose,
     } = this.props;
     const { id, title, back, radio1, radio2 } = tab;
     const isActive = id === currTabId;
@@ -64,7 +63,7 @@ class ChooseSubmissionTypeTab extends Component {
         actions={
           <Fragment>
             <LeftBtn
-              onClick={back ? this.onBackClicked : onCancelClicked}
+              onClick={back ? this.onBackClicked : onClose}
               content={back ? 'Back' : 'Cancel'}
             />
             <RightBtn

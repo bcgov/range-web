@@ -124,7 +124,7 @@ class TabsForMultipleAH extends Component {
           tab={tabsMap.addDescription}
           note={note}
           handleNoteChange={handleNoteChange}
-          onCancelClicked={onClose}
+          onClose={onClose}
           onNextClicked={this.handleTabChange}
         />
 
@@ -133,7 +133,7 @@ class TabsForMultipleAH extends Component {
           tab={tabsMap.chooseSubmissionType}
           statusCode={statusCode}
           handleStatusCodeChange={handleStatusCodeChange}
-          onCancelClicked={onClose}
+          onClose={onClose}
           handleTabChange={this.handleTabChange}
         />
 
