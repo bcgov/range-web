@@ -9,6 +9,8 @@ import { planUpdated } from '../../../actions';
 import { isMinorAmendment, isMandatoryAmendment, isSubmittedAsMinor, isSubmittedAsMandatory } from '../../../utils';
 import MandatoryTabsForSingleAH from './MandatoryTabsForSingleAH';
 import MandatoryTabsForMultipleAH from './MandatoryTabsForMultipleAH';
+import MinorTabsForSingleAH from './MinorTabsForSingleAH';
+import MinorTabsForMultipleAH from './MinorTabsForMultipleAH';
 
 class AHAmendmentSubmissionModal extends Component {
   static propTypes = {
@@ -119,10 +121,10 @@ class AHAmendmentSubmissionModal extends Component {
     const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
     const commonProps = {
       ...this.state,
-      clients,
       isAmendmentTypeDecided,
       isMinor,
       isMandatory,
+      clients,
       handleAmendmentTypeChange: this.handleAmendmentTypeChange,
       handleNoteChange: this.handleNoteChange,
       handleStatusCodeChange: this.handleStatusCodeChange,
@@ -140,9 +142,14 @@ class AHAmendmentSubmissionModal extends Component {
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Content>
-          <MandatoryTabsForSingleAH
+          <MinorTabsForSingleAH {...commonProps} />
+
+          <MinorTabsForMultipleAH
             {...commonProps}
+            user={user}
           />
+
+          <MandatoryTabsForSingleAH {...commonProps} />
 
           <MandatoryTabsForMultipleAH
             {...commonProps}

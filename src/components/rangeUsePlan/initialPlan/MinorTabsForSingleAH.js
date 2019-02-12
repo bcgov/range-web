@@ -1,22 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
-import ChooseSubmissionTypeTab from './submissionTabs/ChooseSubmissionTypeTab';
-import SubmitForFeedbackTab from './submissionTabs/SubmitForFeedbackTab';
 import SubmitForFinalDecisionTab from './submissionTabs/SubmitForFinalDecisionTab';
 import LastTab from './submissionTabs/LastTab';
-import { PLAN_STATUS } from '../../../constants/variables';
 import { isSingleClient } from '../../../utils';
 
-class MandatoryTabsForSingleAH extends Component {
+class MinorTabsForSingleAH extends Component {
   static propTypes = {
     isMandatory: PropTypes.bool.isRequired,
     isMinor: PropTypes.bool.isRequired,
     isAmendmentTypeDecided: PropTypes.bool,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    statusCode: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
     note: PropTypes.string.isRequired,
+    amendmentTypeCode: PropTypes.string,
     isSubmitting: PropTypes.bool.isRequired,
     handleStatusCodeChange: PropTypes.func.isRequired,
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
@@ -26,7 +23,7 @@ class MandatoryTabsForSingleAH extends Component {
   }
 
   static defaultProps = {
-    statusCode: null,
+    amendmentTypeCode: null,
     isAmendmentTypeDecided: false,
   };
 
@@ -43,61 +40,38 @@ class MandatoryTabsForSingleAH extends Component {
   render() {
     const {
       clients,
-      statusCode,
       isAgreed,
       isSubmitting,
-      handleStatusCodeChange,
       handleAgreeCheckBoxChange,
       onSubmitClicked,
       onClose,
-      isMinor,
+      isMandatory,
     } = this.props;
     const { currTabId } = this.state;
     const tabsMap = {
       chooseAmendmentType: {
         id: 'chooseAmendmentType',
         title: '1. Ready to Submit? Choose Your Amendment Type',
-        next: 'chooseSubmissionType',
-      },
-      chooseSubmissionType: {
-        id: 'chooseSubmissionType',
-        title: '2. Ready to Submit? Choose Your Submission Type',
-        back: 'chooseAmendmentType',
-        next: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
-          ? 'submitForFeedback'
-          : 'submitForFinalDecision',
-        radio1: 'Make this draft amendment available for the staff to review. '
-          + 'They will advise you if the RUP is ready to submit to the decision maker for approval.',
-        radio2: 'Verify this amendment is correct and start submission for decision.',
-      },
-      submitForFeedback: {
-        id: 'submitForFeedback',
-        title: '3. Submit Your initial range use plan for Feedback',
-        back: 'chooseSubmissionType',
-        next: 'last',
-        text1: 'You’re ready to submit mandatory amendment for Range staff review. '
-          + 'You will be notified once the submission has been reviewed.',
+        next: 'submitForFinalDecision',
       },
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
-        title: '3. Confirm Your Submission and eSignature',
-        back: 'chooseSubmissionType',
+        title: '2. Confirm Your Submission and eSignature',
+        back: 'chooseAmendmentType',
         next: 'last',
         shouldSubmit: true,
-        text1: 'You are about to submit your mandatory amendment for your RUP.',
-        checkbox1: 'I understand that this submission constitues a legal '
-          + 'document and eSignature. This submission will be reviewed the Range Staff.',
+        text1: 'You are about to submit your minor amendment for your RUP. Minor amendments to your range plan take effect immediately once submitted.',
+        checkbox1: 'I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly.',
         rightBtn1: 'Submit Amendment',
       },
       last: {
         id: 'last',
-        title: 'Your mandatory amendment has been sent for range staff review.',
-        text1: 'Your mandatory amendment has been sent to Range staff for review. '
-         + 'Feel free to call your Range officer if you have any questions!',
+        title: 'Your minor amendment has been applied to your range use plan.',
+        text1: 'Your minor amendment has been applied to your active range use plan. No further action is required unless Range Staff finds errors in your submission.',
       },
     };
 
-    if (isMinor) {
+    if (isMandatory) {
       return null;
     }
 
@@ -113,23 +87,6 @@ class MandatoryTabsForSingleAH extends Component {
           tab={tabsMap.chooseAmendmentType}
           handleTabChange={this.handleTabChange}
           onCancelClicked={onClose}
-        />
-
-        <ChooseSubmissionTypeTab
-          currTabId={currTabId}
-          tab={tabsMap.chooseSubmissionType}
-          statusCode={statusCode}
-          handleStatusCodeChange={handleStatusCodeChange}
-          onCancelClicked={onClose}
-          handleTabChange={this.handleTabChange}
-        />
-
-        <SubmitForFeedbackTab
-          currTabId={currTabId}
-          tab={tabsMap.submitForFeedback}
-          isSubmitting={isSubmitting}
-          handleTabChange={this.handleTabChange}
-          onSubmitClicked={onSubmitClicked}
         />
 
         <SubmitForFinalDecisionTab
@@ -152,4 +109,4 @@ class MandatoryTabsForSingleAH extends Component {
   }
 }
 
-export default MandatoryTabsForSingleAH;
+export default MinorTabsForSingleAH;

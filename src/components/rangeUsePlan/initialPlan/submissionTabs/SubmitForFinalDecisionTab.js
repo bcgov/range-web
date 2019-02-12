@@ -4,12 +4,10 @@ import { Form } from 'semantic-ui-react';
 import RightBtn from '../RightBtn';
 import LeftBtn from '../LeftBtn';
 import TabTemplate from '../TabTemplate';
-import { isSingleClient } from '../../../../utils';
 
 class SubmitForFinalDecisionTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     isSubmitting: PropTypes.bool,
     handleTabChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
@@ -20,7 +18,9 @@ class SubmitForFinalDecisionTab extends Component {
       title: PropTypes.string.isRequired,
       back: PropTypes.string.isRequired,
       next: PropTypes.string.isRequired,
+      shouldSubmit: PropTypes.bool.isRequired,
       text1: PropTypes.string.isRequired,
+      text2: PropTypes.string,
       rightBtn1: PropTypes.string.isRequired,
     }).isRequired,
   }
@@ -54,9 +54,8 @@ class SubmitForFinalDecisionTab extends Component {
       isSubmitting,
       handleAgreeCheckBoxChange,
       isAgreed,
-      clients,
     } = this.props;
-    const { id, title, text1, checkbox1, rightBtn1 } = tab;
+    const { id, title, shouldSubmit, text1, text2, checkbox1, rightBtn1 } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -74,7 +73,7 @@ class SubmitForFinalDecisionTab extends Component {
               content="Back"
             />
             <RightBtn
-              onClick={isSingleClient(clients) ? this.onSubmitClicked : this.onNextClicked}
+              onClick={shouldSubmit ? this.onSubmitClicked : this.onNextClicked}
               loading={isSubmitting}
               disabled={!isAgreed}
               content={rightBtn1}
@@ -86,6 +85,11 @@ class SubmitForFinalDecisionTab extends Component {
             <div style={{ marginBottom: '20px' }}>
               {text1}
             </div>
+            {text2 &&
+              <div style={{ marginBottom: '20px' }}>
+                {text2}
+              </div>
+            }
             <Form.Checkbox
               label={checkbox1}
               checked={isAgreed}

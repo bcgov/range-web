@@ -85,6 +85,7 @@ class TabsForMultipleAH extends Component {
         title: '3. Confirm Your Submission and eSignature',
         back: 'chooseSubmissionType',
         next: 'requestSignatures',
+        shouldSubmit: false,
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
@@ -96,6 +97,8 @@ class TabsForMultipleAH extends Component {
         back: 'submitForFinalDecision',
         next: 'last',
         text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
+        text2: 'Once all agreement holders have confirmed the submission and provided their eSignature your range use plan will be submitted for final decision by Range Staff.',
+        text3: 'Agreement holders needed to confirm submission:',
       },
       last: {
         id: 'last',
@@ -149,7 +152,6 @@ class TabsForMultipleAH extends Component {
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
-          clients={clients}
         />
 
         <RequestSignaturesTab

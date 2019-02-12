@@ -86,7 +86,7 @@ class MandatoryTabsForMultipleAH extends Component {
         title: '3. Confirm Your Submission and eSignature',
         back: 'chooseSubmissionType',
         next: 'requestSignatures',
-        text1: 'You are about to submit your Mandatory Amendment for your RUP.',
+        text1: 'You are about to submit your mandatory amendment for your RUP.',
         checkbox1: 'I understand that this submission constitues a legal '
           + 'document and eSignature. This submission will be reviewed the Range Staff.',
         rightBtn1: 'Next',
@@ -96,7 +96,9 @@ class MandatoryTabsForMultipleAH extends Component {
         title: '4. Request eSignatures and Submit Range Use Plan for final decision',
         back: 'submitForFinalDecision',
         next: 'last',
-        text1: 'You’re ready to submit your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
+        text1: 'You’re ready to submit your mandatory amendment to your range use plan. The secondary agreement holders below will be notified to confirm the submission and provide eSignatures.',
+        text2: 'Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by Range Staff.',
+        text3: 'Agreement holders needed to confirm submission:',
       },
       last: {
         id: 'last',
@@ -106,11 +108,11 @@ class MandatoryTabsForMultipleAH extends Component {
       },
     };
 
-    if (isSingleClient(clients)) {
+    if (isMinor) {
       return null;
     }
 
-    if (isMinor) {
+    if (isSingleClient(clients)) {
       return null;
     }
 

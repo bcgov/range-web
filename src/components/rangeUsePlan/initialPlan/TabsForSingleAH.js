@@ -82,6 +82,7 @@ class TabsForSingleAH extends Component {
         title: '3. Confirm Your Submission and eSignature',
         back: 'chooseSubmissionType',
         next: 'last',
+        shouldSubmit: true,
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
           + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
@@ -134,7 +135,6 @@ class TabsForSingleAH extends Component {
           onSubmitClicked={onSubmitClicked}
           handleAgreeCheckBoxChange={handleAgreeCheckBoxChange}
           isAgreed={isAgreed}
-          clients={clients}
         />
 
         <LastTab

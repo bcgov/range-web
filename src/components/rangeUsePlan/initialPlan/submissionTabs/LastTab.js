@@ -11,6 +11,7 @@ class LastTab extends Component {
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       text1: PropTypes.string.isRequired,
+      text2: PropTypes.string,
     }).isRequired,
   }
 
@@ -20,7 +21,7 @@ class LastTab extends Component {
       tab,
       onClose,
     } = this.props;
-    const { id, title, text1 } = tab;
+    const { id, title, text1, text2 } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -40,6 +41,11 @@ class LastTab extends Component {
         <div style={{ marginBottom: '20px' }}>
           {text1}
         </div>
+        {text2 &&
+          <div style={{ marginBottom: '20px' }}>
+            {text2}
+          </div>
+        }
         <RightBtn
           primary
           onClick={onClose}

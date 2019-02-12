@@ -16,11 +16,13 @@ class RequestSignaturesTab extends Component {
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     user: PropTypes.shape({}).isRequired,
     tab: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      back: PropTypes.string,
-      next: PropTypes.string,
-      text1: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      back: PropTypes.string.isRequired,
+      next: PropTypes.string.isRequired,
+      text1: PropTypes.string.isRequired,
+      text2: PropTypes.string.isRequired,
+      text3: PropTypes.string.isRequired,
     }).isRequired,
   }
 
@@ -63,7 +65,7 @@ class RequestSignaturesTab extends Component {
       isSubmitting,
       clients,
     } = this.props;
-    const { id, title, text1 } = tab;
+    const { id, title, text1, text2, text3 } = tab;
     const isActive = id === currTabId;
 
     if (!isActive) {
@@ -93,10 +95,10 @@ class RequestSignaturesTab extends Component {
               {text1}
             </div>
             <div style={{ marginBottom: '20px' }}>
-              Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by Range Staff.
+              {text2}
             </div>
             <div className="rup__multi-tab__ah-list__header">
-              Agreement holders needed to confirm submission:
+              {text3}
             </div>
             {clients.map(this.renderAgreementHolder)}
           </div>
