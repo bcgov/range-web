@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
-import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
-import { isNoteRequired } from '../../utils';
+import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../constants/variables';
+import { isNoteRequired, findStatusWithCode } from '../../utils';
 import { InvertedButton } from '../common';
 
 class UpdateStatusModal extends Component {
@@ -44,19 +44,18 @@ class UpdateStatusModal extends Component {
       updateRUPStatus,
       planUpdated,
       planStatusHistoryRecordAdded,
-      createRUPStatusHistoryRecord,
+      createRUPStatusRecord,
       onClose,
     } = this.props;
     const { note } = this.state;
     const requireNote = isNoteRequired(statusCode);
 
     onClose();
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = planStatuses.find(s => s.code === statusCode);
+    const status = findStatusWithCode(references, statusCode);
     const { id: planId, planStatusHistory } = plan;
 
     try {
-      const newStatus = await updateRUPStatus(planId, status.id);
+      const newStatus = await updateRUPStatus({ planId, statusId: status.id });
       const newPlan = {
         ...plan,
         status: newStatus,
@@ -64,7 +63,7 @@ class UpdateStatusModal extends Component {
       planUpdated({ plan: newPlan });
 
       if (requireNote && note) {
-        const record = await createRUPStatusHistoryRecord(plan, newStatus, note);
+        const record = await createRUPStatusRecord(plan, newStatus, note);
         planStatusHistoryRecordAdded({
           planId,
           record,
@@ -126,7 +125,7 @@ class UpdateStatusModal extends Component {
             </InvertedButton>
             <Button
               primary
-              style={{ marginLeft: '15px' }}
+              style={{ marginLeft: '15px', marginRight: '0' }}
               onClick={this.onSubmit}
               disabled={requireNote && !note}
             >

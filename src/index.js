@@ -18,10 +18,13 @@
 // Created by Kyubin Han.
 //
 
+/* eslint-disable import/first */
+
 import 'react-app-polyfill/ie9'; // includes IE10 and IE11 support.
 
-import './semantic/semantic.min.css';
+import('./semantic/semantic.min.css'); // asynchronously import semantic-ui style sheet
 import './styles/index.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

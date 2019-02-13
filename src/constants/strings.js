@@ -1,7 +1,7 @@
-export const APP_NAME = 'MyRange BC';
+export const APP_NAME = 'MyRangeBC';
 
 // page titles
-const createTitle = title => `${title} | MyRangeBC`;
+const createTitle = title => `${title} | ${APP_NAME}`;
 export const LOGIN_TITLE = createTitle('Sign in');
 export const DETAIL_RUP_TITLE = createTitle('View RUP');
 export const SELECT_RUP_TITLE = createTitle('Select RUP');
@@ -31,7 +31,7 @@ export const UPDATE_STATUS = 'Update Status';
 export const SAVE_DRAFT = 'Save Draft';
 export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';
-export const CONFIRM_SUBMISSION = 'Confirm Submission';
+export const SIGN_SUBMISSION = 'Sign Submission';
 export const VIEW = 'View';
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
@@ -117,6 +117,7 @@ export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the sta
 export const UPDATE_AGREEMENT_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
 export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range use plan as a draft.';
+export const UPDATE_USER_PROFILE_SUCCESS = 'You have successfully update your profile.';
 export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff.';
 export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
@@ -133,6 +134,7 @@ export const ERROR_OCCUR = 'Error Occured!';
 export const REDIRECTING = 'Please wait while redirecting...';
 export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 export const SIGN_IN_ERROR = 'Error occured while signing in.';
+export const UPDATE_USER_ERROR = 'Error occured while updating your profile.';
 
 // modals
 export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';

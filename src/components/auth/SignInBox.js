@@ -7,9 +7,10 @@ import { LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { getDataFromLocalStorage } from '../../utils';
 import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { storeAuthData, reauthenticate } from '../../actions';
-import { getIsFetchingUser, getUserErrorResponse, getUserErrorOccured } from '../../reducers/rootReducer';
+import { getIsFetchingUser, getFetchingUserErrorResponse, getFetchingUserErrorOccured } from '../../reducers/rootReducer';
 import SignInButtons from './SignInButtons';
 import SignInErrorMessage from './SignInErrorMessage';
+import { APP_NAME } from '../../constants/strings';
 
 class SignInBox extends Component {
   static propTypes = {
@@ -63,7 +64,7 @@ class SignInBox extends Component {
 
         <div className="signin__container">
           <div className="signin__title">Sign In</div>
-          <div className="signin__text1">to continue to MyRangeBC</div>
+          <div className="signin__text1">to continue to {APP_NAME}</div>
           <div className="signin__text2">We use the BCeID for authentication.</div>
           <a
             className="signin__text3"
@@ -93,8 +94,8 @@ class SignInBox extends Component {
 const mapStateToProps = state => (
   {
     isFetchingUser: getIsFetchingUser(state),
-    errorFetchingUser: getUserErrorResponse(state),
-    errorOccuredFetchingUser: getUserErrorOccured(state),
+    errorFetchingUser: getFetchingUserErrorResponse(state),
+    errorOccuredFetchingUser: getFetchingUserErrorOccured(state),
   }
 );
 

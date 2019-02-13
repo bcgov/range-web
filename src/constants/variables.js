@@ -76,7 +76,7 @@ export const CLIENT_TYPE = {
 export const DATE_FORMAT = {
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   CLIENT_SIDE: 'MMMM D, YYYY',
-  CLIENT_SIDE_WITH_HOURS: 'MMM D, YYYY (HH:mm a)',
+  CLIENT_SIDE_WITH_HOURS: 'MMM D, YYYY (h:mma)',
   CLIENT_SIDE_WITHOUT_YEAR: 'MMM D',
 };
 
@@ -129,9 +129,8 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  NAV_LOGO: '/images/navbar_logo.png',
+  MYRANGEBC_LOGO: '/images/myrangebc_logo.svg',
   COW_PIC: '/images/cow.jpg',
-  LOGIN_LOGO: '/images/login_logo.png',
   SIGNIN_BACKGROUND: '/images/signin_background.jpg',
   LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',
   LOGIN_PARAGRAPH4: '/images/login_paragraph4.jpg',

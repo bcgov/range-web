@@ -5,6 +5,7 @@ import { Modal, Form, Button, Icon, Input } from 'semantic-ui-react';
 import { getInputModal } from '../../reducers/rootReducer';
 import { openInputModal, closeInputModal } from '../../actions';
 import { InvertedButton } from '../common';
+import { handleWhenEnterPressed } from '../../utils';
 
 class InputModal extends Component {
   static propTypes = {
@@ -52,9 +53,7 @@ class InputModal extends Component {
   }
 
   onInputKeyPressed = (e) => {
-    if (e.charCode === 13) {
-      this.onSubmitClicked();
-    }
+    handleWhenEnterPressed(e, this.onSubmitClicked);
   }
 
   handleModalClose = () => {

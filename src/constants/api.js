@@ -84,6 +84,7 @@ export const GET_ZONES = '/v1/zone';
 export const GET_USERS = '/v1/user';
 export const SEARCH_CLIENTS = '/v1/client/search';
 export const GET_USER_PROFILE = '/v1/user/me';
+export const UPDATE_USER_PROFILE = '/v1/user/me';
 
 export const UPDATE_USER_ID_OF_ZONE = zoneId => `/v1/zone/${zoneId}/user`;
 export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) => `/v1/user/${userId}/client/${clientId}`;
@@ -95,7 +96,7 @@ export const UPDATE_PLAN_STATUS = planId => `/v1/plan/${planId}/status`;
 export const UPDATE_RUP = planId => `/v1/plan/${planId}`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) => `/v1/plan/${planId}/confirmation/${confirmationId}`;
 
-export const CREATE_RUP_STATUS_HISTORY_RECORD = planId => `/v1/plan/${planId}/status-history`;
+export const CREATE_RUP_STATUS_RECORD = planId => `/v1/plan/${planId}/status-record`;
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`;
 
 export const CREATE_RUP_GRAZING_SCHEDULE = planId => `/v1/plan/${planId}/schedule`;

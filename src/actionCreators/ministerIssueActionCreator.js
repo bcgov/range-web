@@ -20,7 +20,7 @@ export const createRUPMinisterIssueAction = (planId, issueId, action) => (dispat
 };
 
 export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.CREATE_MINISTER_ISSUE_AND_ACTIONS_REQUEST));
+  dispatch(request(reducerTypes.CREATE_MINISTER_ISSUE_AND_ACTIONS));
   const makeRequest = async () => {
     try {
       const { data: newIssue } = await axios.post(
@@ -34,11 +34,11 @@ export const createRUPMinisterIssueAndActions = (planId, issue) => (dispatch, ge
         ...newIssue,
         ministerIssueActions: newActions,
       };
-      dispatch(success(reducerTypes.CREATE_MINISTER_ISSUE_AND_ACTIONS_REQUEST, newIssueWithNewActions));
+      dispatch(success(reducerTypes.CREATE_MINISTER_ISSUE_AND_ACTIONS, newIssueWithNewActions));
 
       return newIssueWithNewActions;
     } catch (err) {
-      dispatch(error(reducerTypes.CREATE_MINISTER_ISSUE_AND_ACTIONS_REQUEST));
+      dispatch(error(reducerTypes.CREATE_MINISTER_ISSUE_AND_ACTIONS));
       throw err;
     }
   };
@@ -79,7 +79,7 @@ export const createOrUpdateRUPMinisterIssueActions = (planId, issueId, actions) 
 };
 
 export const updateRUPMinisterIssueAndActions = (planId, issue) => (dispatch, getState) => {
-  dispatch(request(reducerTypes.UPDATE_MINISTER_ISSUE_AND_ACTIONS_REQUEST));
+  dispatch(request(reducerTypes.UPDATE_MINISTER_ISSUE_AND_ACTIONS));
   const makeRequest = async () => {
     try {
       const { data: updatedIssue } = await axios.put(
@@ -92,11 +92,11 @@ export const updateRUPMinisterIssueAndActions = (planId, issue) => (dispatch, ge
         ...updatedIssue,
         ministerIssueActions: createdOrUpdatedActions,
       };
-      dispatch(success(reducerTypes.UPDATE_MINISTER_ISSUE_AND_ACTIONS_REQUEST, updatedIssueWithCreatedOrUpdatedActions));
+      dispatch(success(reducerTypes.UPDATE_MINISTER_ISSUE_AND_ACTIONS, updatedIssueWithCreatedOrUpdatedActions));
 
       return updatedIssueWithCreatedOrUpdatedActions;
     } catch (err) {
-      dispatch(error(reducerTypes.UPDATE_MINISTER_ISSUE_AND_ACTIONS_REQUEST));
+      dispatch(error(reducerTypes.UPDATE_MINISTER_ISSUE_AND_ACTIONS));
       throw err;
     }
   };
@@ -127,14 +127,17 @@ export const deleteRUPMinisterIssue = (planId, issueId) => (dispatch, getState) 
 };
 
 export const deleteRUPMinisterIssueAction = (planId, issueId, actionId) => (dispatch, getState) => {
+  dispatch(request(reducerTypes.DELETE_MINISTER_ISSUE_ACTION));
   return axios.delete(
     API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
     createConfigWithHeader(getState),
   ).then(
     (response) => {
+      dispatch(success(reducerTypes.DELETE_MINISTER_ISSUE_ACTION, response.data));
       return response.data;
     },
     (err) => {
+      dispatch(error(reducerTypes.DELETE_MINISTER_ISSUE_ACTION, err));
       throw err;
     },
   );

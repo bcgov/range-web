@@ -148,7 +148,7 @@ $third_agrm_table_cell_rate: 1.9;
       }
       &__cell {
         flex: 1;
-        padding-right: 10px;
+        padding: 5px 10px 5px 0;
 
         &:nth-of-type(1) {
           flex: $first_agrm_table_cell_rate;

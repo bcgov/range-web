@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { formatDateFromServer } from '../../utils';
-import { Status } from '../common';
+import { Status, InvertedButton } from '../common';
 import { VIEW, INITIAL_PLAN } from '../../constants/strings';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 
@@ -60,7 +60,13 @@ class PlanTableRow extends Component {
           <Status user={user} status={plan.status} />
         </div>
         <div className="agrm__ptable__row__cell">
-          <Button onClick={this.onViewClicked(plan)}>{VIEW}</Button>
+          <InvertedButton
+            primaryColor
+            compact
+            onClick={this.onViewClicked(plan)}
+          >
+            {VIEW}
+          </InvertedButton>
         </div>
       </div>
     );

@@ -241,8 +241,8 @@ class EditableGrazingScheduleBox extends Component {
             <Table unstackable>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__pasture">{strings.PASTURE}</div></Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__l-type">{strings.LIVESTOCK_TYPE}</div></Table.HeaderCell>
                   <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
                   <Table.HeaderCell><div className="rup__grazing-schedule__dates">{strings.DATE_IN}</div></Table.HeaderCell>
                   <Table.HeaderCell><div className="rup__grazing-schedule__dates">{strings.DATE_OUT}</div></Table.HeaderCell>
@@ -277,7 +277,7 @@ class EditableGrazingScheduleBox extends Component {
                 {roundedCrownTotalAUMs}
               </div>
             </div>
-            <div className="rup__grazing-schedule__narrative">Schedule Description</div>
+            <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
             <Form>
               <TextArea
                 rows={3}

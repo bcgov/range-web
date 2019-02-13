@@ -5,14 +5,14 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import * as schema from './schema';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getUser, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
   axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment,
   normalizePasturesWithOldId, copyGrazingSchedulesToCreateAmendment, copyMinisterIssuesToCreateAmendment,
   copyInvasivePlantChecklistToCreateAmendment, copyManagementConsiderationsToCreateAmendment,
-  copyAdditionalRequirementsToCreateAmendment,
-  copyPlantCommunitiesToCreateAmendment,
+  copyAdditionalRequirementsToCreateAmendment, copyPlantCommunitiesToCreateAmendment,
+  findStatusWithCode,
 } from '../utils';
 import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
@@ -56,14 +56,12 @@ export const createOrUpdateRUPInvasivePlantChecklist = (planId, checklist) => (d
   return dispatch(createRUPInvasivePlantChecklist(planId, checklist));
 };
 
-export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch, getState) => {
+export const createRUPStatusRecord = (plan, newStatus, note) => (dispatch, getState) => {
   const { id: planId, statusId: fromPlanStatusId } = plan;
-  const user = getUser(getState());
 
   return axios.post(
-    API.CREATE_RUP_STATUS_HISTORY_RECORD(planId),
+    API.CREATE_RUP_STATUS_RECORD(planId),
     {
-      userId: user.id,
       fromPlanStatusId,
       toPlanStatusId: newStatus.id,
       note,
@@ -80,12 +78,8 @@ export const createRUPStatusHistoryRecord = (plan, newStatus, note) => (dispatch
   );
 };
 
-export const updateRUPConfirmation = (plan, confirmationId, confirmed) => (dispatch, getState) => {
-  const { id: planId, amendmentTypeId } = plan;
-  const references = getReferences(getState());
-  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
-  const isMinorAmendment = amendmentType.code === AMENDMENT_TYPE.MINOR;
+export const updateRUPConfirmation = (plan, confirmationId, confirmed, isMinorAmendment) => (dispatch, getState) => {
+  const { id: planId } = plan;
   const config = {
     ...createConfigWithHeader(getState),
     params: {
@@ -152,9 +146,8 @@ export const createAmendment = plan => (dispatch, getState) => {
       const additionalRequirementsMap = getAdditionalRequirementsMap(getState());
       const managementConsiderationsMap = getManagementConsiderationsMap(getState());
 
-      const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
       const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-      const createdStatus = planStatuses.find(s => s.code === PLAN_STATUS.CREATED);
+      const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED);
       const initialAmendment = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.INITIAL);
 
       const newPlan = copyPlanToCreateAmendment(plan, createdStatus.id, initialAmendment.id);
@@ -248,13 +241,13 @@ export const fetchRUP = planId => (dispatch, getState) => {
   return makeRequest();
 };
 
-export const updateRUPStatus = (planId, statusId, shouldToast = true) => (dispatch, getState) => {
+export const updateRUPStatus = ({ planId, statusId, note = null, shouldToast = true }) => (dispatch, getState) => {
   dispatch(request(reducerTypes.UPDATE_PLAN_STATUS));
   const makeRequest = async () => {
     try {
       const response = await axios.put(
         API.UPDATE_PLAN_STATUS(planId),
-        { statusId },
+        { statusId, note },
         createConfigWithHeader(getState),
       );
       dispatch(success(reducerTypes.UPDATE_PLAN_STATUS, response.data));

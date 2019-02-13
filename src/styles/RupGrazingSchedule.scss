@@ -38,6 +38,10 @@
     &__warning-message {
       padding: 0px 15px 10px 15px;
     }
+    &__l-type,
+    &__pasture {
+      min-width: 90px;
+    }
     &__dates {
       min-width: 75px;
     }
@@ -64,10 +68,13 @@
       align-items: center;
 
       &--invalid {
-        @extend .error;
+        background-color: #fff6f6;
+        border-color: #e0b4b4;
+        color: $error-color;
+        box-shadow: none;
       }
     }
-    &__narative {
+    &__narrative {
       &__title {
         font-weight: bold;
       }

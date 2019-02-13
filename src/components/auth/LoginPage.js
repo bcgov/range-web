@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
-import { LOGIN_TITLE } from '../../constants/strings';
+import { LOGIN_TITLE, APP_NAME } from '../../constants/strings';
 import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
 import { fetchUser } from '../../actionCreators';
 import { InvertedButton, Footer } from '../common';
@@ -40,18 +40,22 @@ export class LoginPage extends Component {
         {isIE &&
           <BrowserWarningHeader />
         }
+
         <article className="login__header">
-          <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
+          <img className="login__header__logo" src={IMAGE_SRC.MYRANGEBC_LOGO} alt="Logo" />
         </article>
+
         <article className="login__paragraph1">
           <SignInBox />
         </article>
+
         <article className="login__paragraph2">
-          <div className="login__paragraph2__title">What is MyRangeBC?</div>
+          <div className="login__paragraph2__title">What is {APP_NAME}?</div>
           <div className="login__paragraph2__text">
-            MyRangeBC is the home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
+            {APP_NAME} is the home for electronic tools and information relating to crown grazing and hay-cutting activities. New tools and information will be added as they become available.
           </div>
         </article>
+
         <article className="login__paragraph3">
           <div className="container">
             <div className="login__paragraph4__content">
@@ -74,6 +78,7 @@ export class LoginPage extends Component {
             </div>
           </div>
         </article>
+
         <article className="login__paragraph4">
           <div className="container">
             <div className="login__paragraph4__content">
@@ -96,6 +101,7 @@ export class LoginPage extends Component {
             </div>
           </div>
         </article>
+
         <article className="login__paragraph5">
           <div className="container">
             <div className="login__paragraph5__content">
@@ -104,7 +110,7 @@ export class LoginPage extends Component {
                   Easier login with BCeID
                 </div>
                 <div className="login__paragraph5__text">
-                  MyRangeBC uses the secure BCeID  for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications.  Follow the instructions at the link below to get a BCeID account .
+                  {APP_NAME} uses the secure BCeID  for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications.  Follow the instructions at the link below to get a BCeID account .
                 </div>
                 <InvertedButton
                   className="login__paragraph5__register-btn"

@@ -1,6 +1,4 @@
 .login {
-  font-family: Lato;
-
   &__no-support-browser {
     background: $accent-color;
     display: flex;
@@ -22,10 +20,6 @@
     background: $primary-color;
     height: 60px;
     border-bottom: 2px solid $accent-color;
-
-    &__logo {
-      height: 60px;
-    }
   }
   &__paragraph-cell {
     max-width: 45%;
@@ -128,7 +122,6 @@
     max-width: 400px;
     background: white;
     border-radius: 5px;
-    font-family: Lato;
     font-size: 1.2rem;
   }
   &__title {
