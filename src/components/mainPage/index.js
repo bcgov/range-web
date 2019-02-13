@@ -23,7 +23,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Navbar from './Navbar';
 import Toasts from './Toasts';
-import ConfirmationModals from './ConfirmationModals';
+import ConfirmModals from './ConfirmModals';
 import InputModal from './InputModal';
 import SignInModal from './SignInModal';
 import UsernameInputModal from './UsernameInputModal';
@@ -64,7 +64,7 @@ export class MainPage extends Component {
 
         <Component {...rest} />
 
-        <ConfirmationModals />
+        <ConfirmModals />
 
         <InputModal />
 

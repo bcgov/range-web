@@ -13,7 +13,7 @@ import MinorTabsForSingleAH from './tabs/MinorTabsForSingleAH';
 import MinorTabsForMultipleAH from './tabs/MinorTabsForMultipleAH';
 import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
 
-class AHAmendmentSubmissionModal extends Component {
+class AmendmentSubmissionModal extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     open: PropTypes.bool.isRequired,
@@ -201,4 +201,4 @@ const mapStateToProps = state => (
 export default connect(mapStateToProps, {
   planUpdated,
   updateRUP,
-})(AHAmendmentSubmissionModal);
+})(AmendmentSubmissionModal);

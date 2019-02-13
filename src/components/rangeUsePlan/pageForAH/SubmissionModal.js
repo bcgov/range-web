@@ -9,7 +9,7 @@ import { isSingleClient, findStatusWithCode } from '../../../utils';
 import TabsForSingleAH from './tabs/TabsForSingleAH';
 import TabsForMultipleAH from './tabs/TabsForMultipleAH';
 
-class AHSubmissionModal extends Component {
+class SubmissionModal extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     open: PropTypes.bool.isRequired,
@@ -142,4 +142,4 @@ const mapStateToProps = state => (
 
 export default connect(mapStateToProps, {
   planUpdated,
-})(AHSubmissionModal);
+})(SubmissionModal);

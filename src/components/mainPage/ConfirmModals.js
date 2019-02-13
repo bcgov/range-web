@@ -7,7 +7,7 @@ import { getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
 import { InvertedButton } from '../common';
 
-class ConfirmationModals extends Component {
+class ConfirmModals extends Component {
   static propTypes = {
     confirmationModalsMap: PropTypes.shape({}).isRequired,
     closeConfirmationModal: PropTypes.func.isRequired,
@@ -76,4 +76,4 @@ class ConfirmationModals extends Component {
 const mapStateToProps = state => ({
   confirmationModalsMap: getConfirmationModalsMap(state),
 });
-export default connect(mapStateToProps, { closeConfirmationModal })(ConfirmationModals);
+export default connect(mapStateToProps, { closeConfirmationModal })(ConfirmModals);
