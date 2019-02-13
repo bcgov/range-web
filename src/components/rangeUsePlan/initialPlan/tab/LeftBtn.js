@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InvertedButton } from '../../common';
+import { InvertedButton } from '../../../common';
 
 const propTypes = {
   onClick: PropTypes.func.isRequired,

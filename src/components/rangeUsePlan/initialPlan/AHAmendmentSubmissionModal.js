@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
-import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../../constants/variables';
+import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
-import { createRUPStatusRecord } from '../../../actionCreators/planActionCreator';
+import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
-import { isMinorAmendment, isMandatoryAmendment, isSubmittedAsMinor, isSubmittedAsMandatory } from '../../../utils';
+import { isMinorAmendment, isMandatoryAmendment, isSubmittedAsMinor, isSubmittedAsMandatory, findStatusWithCode, isSingleClient } from '../../../utils';
 import MandatoryTabsForSingleAH from './MandatoryTabsForSingleAH';
 import MandatoryTabsForMultipleAH from './MandatoryTabsForMultipleAH';
 import MinorTabsForSingleAH from './MinorTabsForSingleAH';
@@ -23,7 +23,7 @@ class AHAmendmentSubmissionModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     fetchPlan: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
-    createRUPStatusRecord: PropTypes.func.isRequired,
+    updateRUP: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -72,49 +72,63 @@ class AHAmendmentSubmissionModal extends Component {
   }
 
   handleTabChange = (e, { value: tabId }) => {
-    this.setState({
-      currTabId: tabId,
-    });
+    this.setState({ currTabId: tabId });
   }
 
-  submitPlan = (plan, planStatus) => {
-    // const {
-    //   updateStatusAndContent,
-    //   createRUPStatusRecord,
-    //   fetchPlan,
-    // } = this.props;
-    // const { note } = this.state;
+  submitAmendment = (plan, status, amendmentType) => {
+    const { updateStatusAndContent, updateRUP } = this.props;
+    const { note } = this.state;
 
-    // const onRequest = () => {
-    //   this.setState({ isSubmitting: true });
-    // };
-    // const onSuccess = async () => {
-    //   if (note) {
-    //     await createRUPStatusRecord(plan, planStatus, note);
-    //   }
-    //   await fetchPlan();
-    //   this.setState({ isSubmitting: false });
-    // };
-    // const onError = () => {
-    //   this.onClose();
-    // };
+    const onRequest = () => {
+      this.setState({ isSubmitting: true });
+    };
+    const onSuccess = async () => {
+      // update amendment type of the plan
+      await updateRUP(plan.id, {
+        amendmentTypeId: amendmentType.id,
+      }).then(() => {
+        this.setState({ isSubmitting: false });
+      });
+    };
+    const onError = () => { this.onClose(); };
 
-    // return updateStatusAndContent(planStatus, onRequest, onSuccess, onError);
+    return updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
   }
 
   onSubmitClicked = (e) => {
-    // e.preventDefault();
-    // const { plan, references, clients } = this.props;
-    // const { statusCode } = this.state;
-    // const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
-    // const status = findStatusWithCode(references, statusCode);
-    // const isSubmittedForFinal = statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
+    e.preventDefault();
+    const { plan, references, clients } = this.props;
+    const { statusCode, amendmentTypeCode } = this.state;
+    const { amendmentTypeId } = plan;
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
+    const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
+    const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
+    const selectedStatusForMandatory = findStatusWithCode(references, statusCode);
+    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
 
-    // if (!isSingleClient(clients) && isSubmittedForFinal) {
-    //   return this.submitPlan(plan, confirmationAwaiting);
-    // } else {
-    //   return this.submitPlan(plan, status);
-    // }
+    if (isMinor && isSingleClient(clients)) {
+      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS);
+      return this.submitAmendment(plan, stands, minor);
+    }
+
+    if (isMinor && !isSingleClient(clients)) {
+      return this.submitAmendment(plan, confirmationAwaiting, minor);
+    }
+
+    if (isMandatory && isSingleClient(clients)) {
+      return this.submitAmendment(plan, selectedStatusForMandatory, mandatory);
+    }
+
+    if (isMandatory && !isSingleClient(clients)) {
+      if (statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION) {
+        return this.submitAmendment(plan, confirmationAwaiting, mandatory);
+      }
+      return this.submitAmendment(plan, selectedStatusForMandatory, mandatory);
+    }
+
+    return null;
   }
 
   render() {
@@ -186,5 +200,5 @@ const mapStateToProps = state => (
 
 export default connect(mapStateToProps, {
   planUpdated,
-  createRUPStatusRecord,
+  updateRUP,
 })(AHAmendmentSubmissionModal);

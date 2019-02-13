@@ -85,9 +85,14 @@ class MandatoryTabsForMultipleAH extends Component {
       },
       last: {
         id: 'last',
-        title: 'Your mandatory amendment has been sent for range staff review.',
-        text1: 'Your mandatory amendment has been sent to Range staff for review. '
-         + 'Feel free to call your Range officer if you have any questions!',
+        title: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
+          ? 'Your mandatory amendment has been sent for range staff review.'
+          : 'Your mandatory amendment has been sent for eSignatures and final decision by range staff.',
+        text1: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
+          ? 'Your mandatory amendment has been sent to range staff for review. Feel free to call your Range officer if you have any questions!'
+          : 'Your mandatory amendment has been sent to agreement holders '
+            + 'for confirmation. It will be sent to Range staff for final '
+            + 'approval once all agreement holders have viewed and confirmed the submission.',
       },
     };
 

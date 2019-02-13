@@ -1,10 +1,8 @@
 import React from 'react';
 import { Button, Popup } from 'semantic-ui-react';
 import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../../constants/strings';
-import { isPlanAmendment } from '../../../utils';
 
 const ActionBtns = ({
-  plan,
   canEdit,
   canAmend,
   canConfirm,
@@ -16,7 +14,6 @@ const ActionBtns = ({
   onSaveDraftClick,
   openSubmitConfirmModal,
   onAmendPlanClicked,
-  openConfirmAmendmentModal,
   openConfirmModal,
 }) => {
   const previewPDFBtn = (
@@ -84,7 +81,7 @@ const ActionBtns = ({
       inverted
       compact
       style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={isPlanAmendment(plan) ? openConfirmAmendmentModal : openConfirmModal}
+      onClick={openConfirmModal}
     >
       {SIGN_SUBMISSION}
     </Button>

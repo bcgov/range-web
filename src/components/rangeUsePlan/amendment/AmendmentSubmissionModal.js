@@ -26,7 +26,6 @@ class AmendmentSubmissionModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     updateRUP: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
-    createRUPStatusRecord: PropTypes.func.isRequired,
   };
   static defaultProps = {
     clients: [],
@@ -127,11 +126,10 @@ class AmendmentSubmissionModal extends Component {
     }
   }
 
-  submitAmendment = (plan, planStatus, amendmentType) => {
+  submitAmendment = (plan, status, amendmentType) => {
     const {
       updateRUP,
       updateStatusAndContent,
-      createRUPStatusRecord,
     } = this.props;
     const { note } = this.state;
 
@@ -140,9 +138,6 @@ class AmendmentSubmissionModal extends Component {
     };
     const onSuccess = async () => {
       // update amendment type of the plan
-      if (note) {
-        await createRUPStatusRecord(plan, planStatus, note);
-      }
       await updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id,
       }).then(() => {
@@ -154,7 +149,7 @@ class AmendmentSubmissionModal extends Component {
       this.onClose();
     };
 
-    updateStatusAndContent(planStatus, onRequest, onSuccess, onError);
+    updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
   }
 
   render() {

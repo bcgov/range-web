@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
 import { PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
-import { createRUPStatusRecord } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import { isSingleClient, findStatusWithCode } from '../../../utils';
 import TabsForSingleAH from './TabsForSingleAH';
@@ -20,7 +19,6 @@ class AHSubmissionModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     fetchPlan: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
-    createRUPStatusRecord: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -58,29 +56,21 @@ class AHSubmissionModal extends Component {
     }
   }
 
-  submitPlan = (plan, planStatus) => {
+  submitPlan = (plan, status) => {
     const {
       updateStatusAndContent,
-      createRUPStatusRecord,
       fetchPlan,
     } = this.props;
     const { note } = this.state;
 
-    const onRequest = () => {
-      this.setState({ isSubmitting: true });
-    };
+    const onRequest = () => { this.setState({ isSubmitting: true }); };
     const onSuccess = async () => {
-      if (note) {
-        await createRUPStatusRecord(plan, planStatus, note);
-      }
       await fetchPlan();
       this.setState({ isSubmitting: false });
     };
-    const onError = () => {
-      this.onClose();
-    };
+    const onError = () => { this.onClose(); };
 
-    return updateStatusAndContent(planStatus, onRequest, onSuccess, onError);
+    return updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
   }
 
   onSubmitClicked = (e) => {
@@ -152,5 +142,4 @@ const mapStateToProps = state => (
 
 export default connect(mapStateToProps, {
   planUpdated,
-  createRUPStatusRecord,
 })(AHSubmissionModal);

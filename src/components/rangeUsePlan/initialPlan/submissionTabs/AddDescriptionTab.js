@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TextArea, Form } from 'semantic-ui-react';
-import RightBtn from '../RightBtn';
-import LeftBtn from '../LeftBtn';
-import TabTemplate from '../TabTemplate';
+import RightBtn from '../tab/RightBtn';
+import LeftBtn from '../tab/LeftBtn';
+import TabTemplate from '../tab/TabTemplate';
 import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../../constants/variables';
 
 class AddDescriptionTab extends Component {

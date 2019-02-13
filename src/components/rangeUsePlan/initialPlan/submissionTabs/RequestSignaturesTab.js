@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
-import RightBtn from '../RightBtn';
-import LeftBtn from '../LeftBtn';
-import TabTemplate from '../TabTemplate';
+import RightBtn from '../tab/RightBtn';
+import LeftBtn from '../tab/LeftBtn';
+import TabTemplate from '../tab/TabTemplate';
 import { isClientCurrentUser } from '../../../../utils';
 
 class RequestSignaturesTab extends Component {
