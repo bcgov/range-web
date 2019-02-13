@@ -7,7 +7,7 @@ import { CONFIRMATION_OPTION } from '../../../constants/variables';
 import { findConfirmationWithClientId } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
-import ConfirmationTabs from './confirmationTabs';
+import ConfirmationTabs from './tabs/ConfirmationTabs';
 
 class AHConfirmationModal extends Component {
   static propTypes = {

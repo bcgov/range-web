@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { CONFIRMATION_OPTION } from '../../../../constants/variables';
 import { getUserFullName, getUserEmail } from '../../../../utils';
-import ConfirmChoiceTab from './ConfirmChoiceTab';
-import LastTab from './LastTab';
-import RequestClarificationTab from './RequestClarificationTab';
+import ConfirmChoiceTab from '../confirmationTabs/ConfirmChoiceTab';
+import LastTab from '../confirmationTabs/LastTab';
+import RequestClarificationTab from '../confirmationTabs/RequestClarificationTab';
 
 class ConfirmationTabs extends Component {
   static propTypes = {

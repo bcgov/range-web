@@ -6,8 +6,8 @@ import { PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variab
 import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { planUpdated } from '../../../actions';
 import { isSingleClient, findStatusWithCode } from '../../../utils';
-import TabsForSingleAH from './TabsForSingleAH';
-import TabsForMultipleAH from './TabsForMultipleAH';
+import TabsForSingleAH from './tabs/TabsForSingleAH';
+import TabsForMultipleAH from './tabs/TabsForMultipleAH';
 
 class AHSubmissionModal extends Component {
   static propTypes = {

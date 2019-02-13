@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon, Modal, Button } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
 import AHConfirmationList from './initialPlan/confirmationTabs/AHConfirmationList';
-import PlanStatusHistory from './StatusHistory';
+import StatusHistory from './StatusHistory';
 import { InvertedButton } from '../common';
 
 class Notifications extends Component {
@@ -59,7 +59,7 @@ class Notifications extends Component {
         }
 
         {planStatusHistory.length !== 0 &&
-          <PlanStatusHistory
+          <StatusHistory
             planStatusHistory={planStatusHistory}
             planStatusHistoryMap={planStatusHistoryMap}
             user={user}

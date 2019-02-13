@@ -7,10 +7,10 @@ import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
 import { isMinorAmendment, isMandatoryAmendment, isSubmittedAsMinor, isSubmittedAsMandatory, findStatusWithCode, isSingleClient } from '../../../utils';
-import MandatoryTabsForSingleAH from './MandatoryTabsForSingleAH';
-import MandatoryTabsForMultipleAH from './MandatoryTabsForMultipleAH';
-import MinorTabsForSingleAH from './MinorTabsForSingleAH';
-import MinorTabsForMultipleAH from './MinorTabsForMultipleAH';
+import MandatoryTabsForSingleAH from './tabs/MandatoryTabsForSingleAH';
+import MandatoryTabsForMultipleAH from './tabs/MandatoryTabsForMultipleAH';
+import MinorTabsForSingleAH from './tabs/MinorTabsForSingleAH';
+import MinorTabsForMultipleAH from './tabs/MinorTabsForMultipleAH';
 import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
 
 class AHAmendmentSubmissionModal extends Component {

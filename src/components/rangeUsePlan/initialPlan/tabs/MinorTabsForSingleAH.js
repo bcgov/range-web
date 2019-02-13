@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import SubmitForFinalDecisionTab from './submissionTabs/SubmitForFinalDecisionTab';
-import LastTab from './submissionTabs/LastTab';
-import { isSingleClient } from '../../../utils';
+import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab';
+import LastTab from '../submissionTabs/LastTab';
+import { isSingleClient } from '../../../../utils';
 
 class MinorTabsForSingleAH extends Component {
   static propTypes = {
