@@ -22,9 +22,9 @@ import ManagementConsiderations from '../managementConsiderations';
 import EditableManagementConsiderations from '../editableManagementConsiderations';
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
-import AHSubmissionModal from '../initialPlan/AHSubmissionModal';
-import AHConfirmationModal from '../initialPlan/AHConfirmationModal';
-import AHAmendmentSubmissionModal from '../initialPlan/AHAmendmentSubmissionModal';
+import PlanSubmissionModal from '../initialPlan/AHSubmissionModal';
+import ConfirmationModal from '../initialPlan/AHConfirmationModal';
+import AmendmentSubmissionModal from '../initialPlan/AHAmendmentSubmissionModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -34,8 +34,8 @@ class PageForAH extends Component {
 
   state = {
     isAmendmentSubmissionModalOpen: false,
-    isSubmitModalOpen: false,
-    isConfirmModalOpen: false,
+    isPlanSubmissionModalOpen: false,
+    isConfirmationModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
   };
@@ -141,7 +141,7 @@ class PageForAH extends Component {
     window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank');
   }
 
-  openSubmitConfirmModal = () => {
+  openSubmissionModal = () => {
     const { plan } = this.props;
     const error = this.validateRup(plan);
     if (!error) {
@@ -150,15 +150,14 @@ class PageForAH extends Component {
         return;
       }
 
-      this.openSubmitModal();
+      this.openPlanSubmissionModal();
     }
   }
 
-  openSubmitModal = () => this.setState({ isSubmitModalOpen: true });
-  closeSubmitModal = () => this.setState({ isSubmitModalOpen: false });
-  openConfirmModal = () => this.setState({ isConfirmModalOpen: true });
-  closeConfirmModal = () => this.setState({ isConfirmModalOpen: false });
-
+  openPlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: true });
+  closePlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: false });
+  openConfirmationModal = () => this.setState({ isConfirmationModalOpen: true });
+  closeConfirmationModal = () => this.setState({ isConfirmationModalOpen: false });
   openAmendmentSubmissionModal = () => this.setState({ isAmendmentSubmissionModalOpen: true })
   closeAmendmentSubmissionModal = () => this.setState({ isAmendmentSubmissionModalOpen: false })
 
@@ -177,9 +176,9 @@ class PageForAH extends Component {
         isCreatingAmendment={isCreatingAmendment}
         onViewPDFClicked={this.onViewPDFClicked}
         onSaveDraftClick={this.onSaveDraftClick}
-        openSubmitConfirmModal={this.openSubmitConfirmModal}
         onAmendPlanClicked={this.onAmendPlanClicked}
-        openConfirmModal={this.openConfirmModal}
+        openSubmissionModal={this.openSubmissionModal}
+        openConfirmationModal={this.openConfirmationModal}
       />
     );
   }
@@ -187,8 +186,8 @@ class PageForAH extends Component {
   render() {
     const {
       isAmendmentSubmissionModalOpen,
-      isSubmitModalOpen,
-      isConfirmModalOpen,
+      isPlanSubmissionModalOpen,
+      isConfirmationModalOpen,
     } = this.state;
 
     const {
@@ -239,25 +238,25 @@ class PageForAH extends Component {
 
     return (
       <section className="rup">
-        <AHSubmissionModal
-          open={isSubmitModalOpen}
-          onClose={this.closeSubmitModal}
+        <PlanSubmissionModal
+          open={isPlanSubmissionModalOpen}
+          onClose={this.closePlanSubmissionModal}
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
         />
 
-        <AHConfirmationModal
-          open={isConfirmModalOpen}
-          onClose={this.closeConfirmModal}
+        <ConfirmationModal
+          open={isConfirmationModalOpen}
+          onClose={this.closeConfirmationModal}
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
         />
 
-        <AHAmendmentSubmissionModal
+        <AmendmentSubmissionModal
           open={isAmendmentSubmissionModalOpen}
           onClose={this.closeAmendmentSubmissionModal}
           plan={plan}

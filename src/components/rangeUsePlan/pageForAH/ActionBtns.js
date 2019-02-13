@@ -12,9 +12,9 @@ const ActionBtns = ({
   isCreatingAmendment,
   onViewPDFClicked,
   onSaveDraftClick,
-  openSubmitConfirmModal,
   onAmendPlanClicked,
-  openConfirmModal,
+  openSubmissionModal,
+  openConfirmationModal,
 }) => {
   const previewPDFBtn = (
     <Button
@@ -45,7 +45,7 @@ const ActionBtns = ({
       inverted
       compact
       loading={isSubmitting}
-      onClick={openSubmitConfirmModal}
+      onClick={openSubmissionModal}
       style={{ marginRight: '0', marginLeft: '10px' }}
     >
       {SUBMIT}
@@ -81,7 +81,7 @@ const ActionBtns = ({
       inverted
       compact
       style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={openConfirmModal}
+      onClick={openConfirmationModal}
     >
       {SIGN_SUBMISSION}
     </Button>
