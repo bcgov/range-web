@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Modal, Button } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
-import AHConfirmationList from './initialPlan/confirmationTabs/AHConfirmationList';
+import AHConfirmationList from './pageForAH/confirmationTabs/AHConfirmationList';
 import StatusHistory from './StatusHistory';
 import { InvertedButton } from '../common';
 

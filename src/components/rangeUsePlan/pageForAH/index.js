@@ -22,9 +22,9 @@ import ManagementConsiderations from '../managementConsiderations';
 import EditableManagementConsiderations from '../editableManagementConsiderations';
 import { defaultProps, propTypes } from './props';
 import ActionBtns from './ActionBtns';
-import PlanSubmissionModal from '../initialPlan/AHSubmissionModal';
-import ConfirmationModal from '../initialPlan/AHConfirmationModal';
-import AmendmentSubmissionModal from '../initialPlan/AHAmendmentSubmissionModal';
+import PlanSubmissionModal from './AHSubmissionModal';
+import ConfirmationModal from './AHConfirmationModal';
+import AmendmentSubmissionModal from './AHAmendmentSubmissionModal';
 
 // Agreement Holder page
 class PageForAH extends Component {
