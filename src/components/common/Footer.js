@@ -21,19 +21,33 @@ class Footer extends Component {
         <footer className="footer">
           <div className="container">
             <div className="footer__content-list">
-              <span>Home</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home" target="_blank" rel="noopener noreferrer">
+                Home
+              </a>
               <div className="footer__divider" />
-              <span>About gov.bc.ca</span>
+              <a href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca" target="_blank" rel="noopener noreferrer">
+                About gov.bc.ca
+              </a>
               <div className="footer__divider" />
-              <span>Privacy</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/disclaimer" target="_blank" rel="noopener noreferrer">
+                Disclaimer
+              </a>
               <div className="footer__divider" />
-              <span>Accessibility</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/privacy" target="_blank" rel="noopener noreferrer">
+                Privacy
+              </a>
               <div className="footer__divider" />
-              <span>Disclaimer</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/accessibility" target="_blank" rel="noopener noreferrer">
+                Accessibility
+              </a>
               <div className="footer__divider" />
-              <span>Copyright</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/copyright" target="_blank" rel="noopener noreferrer">
+                Copyright
+              </a>
               <div className="footer__divider" />
-              <span>Contact Us</span>
+              <a href="https://www2.gov.bc.ca/StaticWebResources/static/gov3/html/contact-us.html" target="_blank" rel="noopener noreferrer">
+                Contact Us
+              </a>
             </div>
           </div>
         </footer>

@@ -354,15 +354,23 @@
 .footer {
   background: $primary-color;
   border-top: 2px solid $accent-color;
-  color: white;
   margin-top: auto;
+  font-size: 1.1rem;
 
+  a {
+    color: white;
+
+    &:hover {
+      color: white;
+      text-decoration: underline;
+    }
+  }
   &__pad {
     margin: 35px;
   }
   &__content-list {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: 15px 0px;
   }
   &__divider {
