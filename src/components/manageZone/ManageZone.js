@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Button } from 'semantic-ui-react';
-import { Banner } from '../common';
+import { Dropdown } from 'semantic-ui-react';
+import { Banner, PrimaryButton } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
   UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER,
@@ -127,14 +127,12 @@ export class ManageZone extends Component {
             </div>
 
             <div className="manage-zone__update-btn">
-              <Button
-                primary
+              <PrimaryButton
                 loading={isAssigning}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
-              >
-                Submit
-              </Button>
+                content="Submit"
+              />
             </div>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import AHConfirmationList from './AHConfirmationList';
+import { PrimaryButton } from '../../../common';
 
 class LastTab extends Component {
   static propTypes = {
@@ -53,8 +54,7 @@ class LastTab extends Component {
           confirmationsMap={confirmationsMap}
         />
 
-        <Button
-          primary
+        <PrimaryButton
           onClick={onClose}
           content="Finish"
           style={{ marginTop: '15px' }}

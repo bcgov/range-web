@@ -25,6 +25,6 @@ export { default as Banner } from './Banner';
 export { default as Loading } from './Loading';
 export { default as ErrorPage } from './ErrorPage';
 export { default as CollapsibleBox } from './CollapsibleBox';
-export { default as InvertedButton } from './InvertedButton';
 export { default as Footer } from './Footer';
 export { default as ErrorMessage } from './ErrorMessage';
+export { default as PrimaryButton } from './PrimaryButton';

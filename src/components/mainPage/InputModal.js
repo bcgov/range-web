@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal, Form, Button, Icon, Input } from 'semantic-ui-react';
+import { Modal, Form, Icon, Input } from 'semantic-ui-react';
 import { getInputModal } from '../../reducers/rootReducer';
 import { openInputModal, closeInputModal } from '../../actions';
-import { InvertedButton } from '../common';
+import { PrimaryButton } from '../common';
 import { handleWhenEnterPressed } from '../../utils';
 
 class InputModal extends Component {
@@ -89,23 +89,22 @@ class InputModal extends Component {
             </Form.Field>
           </Form>
           <div className="input-modal__btns">
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               fluid
               onClick={this.handleModalClose}
             >
               <Icon name="remove" />
               Cancel
-            </InvertedButton>
+            </PrimaryButton>
             <div>
-              <Button
-                primary
+              <PrimaryButton
                 fluid
                 onClick={this.onSubmitClicked}
               >
                 <Icon name="checkmark" />
                 Submit
-              </Button>
+              </PrimaryButton>
             </div>
           </div>
         </div>

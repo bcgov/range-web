@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Button } from 'semantic-ui-react';
+import { PrimaryButton } from '../common';
 import { ELEMENT_ID } from '../../constants/variables';
 import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../../constants/api';
 
@@ -12,16 +12,14 @@ class SignInButtons extends Component {
   render() {
     return (
       <Fragment>
-        <Button
+        <PrimaryButton
           id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
           className="signin__button"
-          primary
           fluid
           style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
           onClick={this.onBceidSigninBtnClick}
-        >
-          Login as an Agreement Holder
-        </Button>
+          content="Login as an Agreement Holder"
+        />
         <div className="signin__link-container">
           <div
             role="button"

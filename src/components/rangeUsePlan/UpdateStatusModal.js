@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
+import { Modal, Icon, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../constants/variables';
 import { isNoteRequired, findStatusWithCode } from '../../utils';
-import { InvertedButton } from '../common';
+import { PrimaryButton } from '../common';
 
 class UpdateStatusModal extends Component {
   static propTypes = {
@@ -116,22 +116,21 @@ class UpdateStatusModal extends Component {
             </div>
           }
           <div className="rup__update-status-modal__btns">
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               onClick={onClose}
             >
               <Icon name="remove" />
               Cancel
-            </InvertedButton>
-            <Button
-              primary
+            </PrimaryButton>
+            <PrimaryButton
               style={{ marginLeft: '15px', marginRight: '0' }}
               onClick={this.onSubmit}
               disabled={requireNote && !note}
             >
               <Icon name="checkmark" />
               Confirm
-            </Button>
+            </PrimaryButton>
           </div>
         </Modal.Content>
       </Modal>

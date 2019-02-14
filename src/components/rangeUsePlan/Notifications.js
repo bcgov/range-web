@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Modal, Button } from 'semantic-ui-react';
+import { Icon, Modal } from 'semantic-ui-react';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
 import AHConfirmationList from './pageForAH/confirmationTabs/AHConfirmationList';
 import StatusHistory from './StatusHistory';
-import { InvertedButton } from '../common';
+import { PrimaryButton } from '../common';
 
 class Notifications extends Component {
   static propTypes = {
@@ -94,12 +94,10 @@ class Notifications extends Component {
                   <span>
                     This amendment will not be submitted until all agreement holders have confirmed and eSigned.
                   </span>
-                  <Button
-                    primary
+                  <PrimaryButton
                     onClick={this.closeConfirmationStatusModal}
-                  >
-                    Close
-                  </Button>
+                    content="Close"
+                  />
                 </div>
               </Modal.Content>
             </Modal>
@@ -108,13 +106,13 @@ class Notifications extends Component {
                 <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
                 {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
               </div>
-              <InvertedButton
-                primaryColor
+              <PrimaryButton
+                inverted
                 compact
                 onClick={this.openConfirmationStatusModal}
               >
                 View Submission Status
-              </InvertedButton>
+              </PrimaryButton>
             </div>
           </Fragment>
         }
