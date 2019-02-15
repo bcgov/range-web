@@ -1,36 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
-// import { getInputModal } from '../../reducers/rootReducer';
-// import { openInputModal, closeInputModal } from '../../actions';
 import { PrimaryButton } from './index';
 import { APP_NAME } from '../../constants/strings';
 
 class PrivacyInfoModal extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
-    trigger: PropTypes.node,
-    // inputModal: PropTypes.shape({
-    //   title: PropTypes.string,
-    //   input: PropTypes.string,
-    //   value: PropTypes.shape({}),
-    //   onSubmit: PropTypes.func,
-    // }),
-  }
-
-  static defaultProps = {
-    trigger: null,
+    open: PropTypes.bool.isRequired,
   }
 
   render() {
-    const { trigger, closeModal } = this.props;
+    const { closeModal, open } = this.props;
 
     return (
       <Modal
         dimmer="blurring"
         closeIcon
-        trigger={trigger}
-        open
+        onClose={closeModal}
+        open={open}
         size="small"
       >
         <Modal.Content>
@@ -65,10 +53,10 @@ class PrivacyInfoModal extends Component {
               <div>V2C 2T3</div>
             </div>
             <a
-              href="https://www2.gov.bc.ca/gov/content/home/divrivacy"
+              className="privacy-info__gov-link"
+              href="https://www2.gov.bc.ca/gov/content/home/privacy"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: 'block', marginTop: '10px' }}
             >
               Open B.C. Government Website Privacy
             </a>
@@ -86,11 +74,3 @@ class PrivacyInfoModal extends Component {
 }
 
 export default PrivacyInfoModal;
-
-// const mapStateToProps = state => ({
-//   inputModal: getInputModal(state),
-// });
-// export default connect(mapStateToProps, {
-//   openInputModal,
-//   closeInputModal,
-// })(InputModal);
