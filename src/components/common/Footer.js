@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import PrivacyInfoModal from './PrivacyInfoModal';
 
 class Footer extends Component {
   static propTypes = {
@@ -51,6 +52,10 @@ class Footer extends Component {
             </div>
           </div>
         </footer>
+
+        <PrivacyInfoModal
+          closeModal={() => {}}
+        />
       </Fragment>
     );
   }
