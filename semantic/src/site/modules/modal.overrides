@@ -3,12 +3,6 @@
 *******************************/
 
 /* added by Kyubin */
-.ui.modal > .close {
-  right: -5px;
-  top: -2px;
-  color: #000;
-  font-size: 1.3rem;
-}
 
 .ui.active.modal {
   position: relative;

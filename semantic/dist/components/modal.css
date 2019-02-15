@@ -57,12 +57,12 @@
 .ui.modal > .close {
   cursor: pointer;
   position: absolute;
-  top: -2.5rem;
-  right: -2.5rem;
+  top: -2px;
+  right: -5px;
   z-index: 1;
   opacity: 0.8;
-  font-size: 1.25em;
-  color: #FFFFFF;
+  font-size: 1.3rem;
+  color: #000;
   width: 2.25rem;
   height: 2.25rem;
   padding: 0.625rem 0rem 0rem 0rem;
@@ -222,9 +222,9 @@
     padding-right: 2.25rem;
   }
   .ui.modal > .close {
-    top: 1.0535rem;
-    right: 1rem;
-    color: rgba(0, 0, 0, 0.87);
+    top: -2px;
+    right: -5px;
+    color: #000;
   }
 }
 
@@ -239,8 +239,8 @@
     padding: 1rem !important;
   }
   .ui.modal > .close {
-    top: 0.5rem !important;
-    right: 0.5rem !important;
+    top: -2px !important;
+    right: -5px !important;
   }
   /*rtl:ignore*/
   .ui.modal .image.content {
@@ -443,9 +443,9 @@
   padding-right: 2.25rem;
 }
 .ui.fullscreen.modal > .close {
-  top: 1.0535rem;
-  right: 1rem;
-  color: rgba(0, 0, 0, 0.87);
+  top: -2px;
+  right: -5px;
+  color: #000;
 }
 
 /*--------------
@@ -615,12 +615,6 @@
 
 
 /* added by Kyubin */
-.ui.modal > .close {
-  right: -5px;
-  top: -2px;
-  color: #000;
-  font-size: 1.3rem;
-}
 .ui.active.modal {
   position: relative;
 }
