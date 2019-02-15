@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import PrivacyInfoModal from './PrivacyInfoModal';
 
 class Footer extends Component {
   static propTypes = {
@@ -10,10 +11,24 @@ class Footer extends Component {
     withTopPad: false,
   };
 
+  state = {
+    isPrivacyInfoModalOpen: false,
+  }
+
+  openPrivacyInfoModal = () => this.setState({ isPrivacyInfoModalOpen: true })
+  closePrivacyInfoModal = () => this.setState({ isPrivacyInfoModalOpen: false })
+
   render() {
     const { withTopPad } = this.props;
+    const { isPrivacyInfoModalOpen } = this.state;
+
     return (
       <Fragment>
+        <PrivacyInfoModal
+          open={isPrivacyInfoModalOpen}
+          closeModal={this.closePrivacyInfoModal}
+        />
+
         {withTopPad &&
           <section className="footer__pad" />
         }
@@ -33,9 +48,9 @@ class Footer extends Component {
                 Disclaimer
               </a>
               <div className="footer__divider" />
-              <a href="https://www2.gov.bc.ca/gov/content/home/privacy" target="_blank" rel="noopener noreferrer">
+              <button className="footer__privacy-btn" onClick={this.openPrivacyInfoModal}>
                 Privacy
-              </a>
+              </button>
               <div className="footer__divider" />
               <a href="https://www2.gov.bc.ca/gov/content/home/accessibility" target="_blank" rel="noopener noreferrer">
                 Accessibility
