@@ -4,7 +4,7 @@
 
 /* added by Kyubin */
 @primaryColor        : #002C71;
-@secondaryColor      : @5C668C;
+@secondaryColor      : #5C668C;
 @accentColor         : #F3B229;
 @primaryLightColor   : #5C668C;
 @pageOverflowX : auto;

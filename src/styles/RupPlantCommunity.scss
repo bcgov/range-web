@@ -24,7 +24,9 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-
+      &:hover {
+        background: $light-gray;
+      }
       &:last-child {
         margin-bottom: 0px;
       }
@@ -47,10 +49,14 @@
         font-weight: bold;
         font-size: 1.8rem;
         display: flex;
+        align-items: flex-start;
+        line-height: 25px;
+        margin-bottom: 5px;
         color: $primary-color;
 
         > img {
           margin-right: 7px;
+          height: 23px;;
         }
       }
       &__pasture {

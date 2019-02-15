@@ -2,7 +2,7 @@
   &__history {
     margin-bottom: 20px;
     border-radius: 5px;
-    background-color: #F2F2F2;
+    background-color: $light-gray;
     padding: 10px;
 
     max-height: 130px;
@@ -47,7 +47,7 @@
   }
   &__confirmations-notification {
     padding: 10px;
-    background-color: #f2f2f2;
+    background-color: $light-gray;
     border-radius: 5px;
     margin-bottom: 20px;
     font-size: 1.2rem;

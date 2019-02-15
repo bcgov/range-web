@@ -1,3 +1,19 @@
 /*******************************
          Site Overrides
 *******************************/
+
+/* added by Kyubin */
+@closeTop: -2px;
+@closeRight: -5px;
+@closeColor: #000;
+@closeSize: 1.3rem;
+
+@innerCloseTop: -2px;
+@innerCloseRight: -5px;
+@innerCloseColor: #000;
+
+@mobileCloseTop: -2px;
+@mobileCloseRight: -5px;
+
+@basicModalCloseTop: -2px;
+@basicModalCloseRight: -5px;
