@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { PrimaryButton } from '../../../common';
 
 const propTypes = {
   onClick: PropTypes.func.isRequired,
@@ -16,9 +16,8 @@ const defaultProps = {
 
 const RightBtn = ({ onClick, disabled, content, loading }) => {
   return (
-    <Button
+    <PrimaryButton
       className="rup__multi-tab__tab__btn"
-      primary
       onClick={onClick}
       disabled={disabled}
       loading={loading}

@@ -5,7 +5,7 @@ import { Icon, Dropdown } from 'semantic-ui-react';
 import uuid from 'uuid-v4';
 import { managementConsiderationAdded, managementConsiderationUpdated, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
 import { deleteRUPManagementConsideration } from '../../../actionCreators';
-import { InvertedButton } from '../../common';
+import { PrimaryButton } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import EditableManagementConsiderationRow from './EditableManagementConsiderationRow';
 
@@ -85,14 +85,14 @@ class EditableManagementConsiderations extends Component {
 
           <Dropdown
             trigger={
-              <InvertedButton
-                primaryColor
+              <PrimaryButton
+                inverted
                 compact
                 style={{ marginTop: '10px' }}
               >
                 <Icon name="add circle" />
                 Add Consideration
-              </InvertedButton>
+              </PrimaryButton>
             }
             options={considerTypeOptions}
             icon={null}

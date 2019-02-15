@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
+import { Header, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
 import { planUpdated } from '../../actions';
 import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
 import { getUserFullName } from '../../utils';
-import { InvertedButton } from '../common';
+import { PrimaryButton } from '../common';
 
 export class UpdateZoneModal extends Component {
   static propTypes = {
@@ -115,13 +115,12 @@ export class UpdateZoneModal extends Component {
             clearable
           />
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               onClick={this.closeUpdateZoneModal}
               content="Cancel"
             />
-            <Button
-              primary
+            <PrimaryButton
               disabled={newZoneId === null}
               loading={isUpdatingAgreementZone}
               onClick={this.onUpdateZoneClicked}

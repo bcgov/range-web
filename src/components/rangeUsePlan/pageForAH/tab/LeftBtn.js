@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InvertedButton } from '../../../common';
+import { PrimaryButton } from '../../../common';
 
 const propTypes = {
   onClick: PropTypes.func.isRequired,
@@ -9,8 +9,8 @@ const propTypes = {
 
 const LeftBtn = ({ onClick, content }) => {
   return (
-    <InvertedButton
-      primaryColor
+    <PrimaryButton
+      inverted
       className="rup__multi-tab__tab__btn"
       onClick={onClick}
       content={content}

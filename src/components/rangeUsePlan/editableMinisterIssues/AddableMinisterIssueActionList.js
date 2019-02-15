@@ -8,7 +8,7 @@ import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
 import { ministerIssueUpdated, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { InvertedButton } from '../../common';
+import { PrimaryButton } from '../../common';
 
 class AddableMinisterIssueActionList extends Component {
   static propTypes = {
@@ -136,14 +136,14 @@ class AddableMinisterIssueActionList extends Component {
 
         <Dropdown
           trigger={
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               compact
               style={{ marginTop: '10px' }}
             >
               <Icon name="add circle" />
               Add Action
-            </InvertedButton>
+            </PrimaryButton>
           }
           options={actionTypeOptions}
           icon={null}

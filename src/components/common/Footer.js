@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import PrivacyInfoModal from './PrivacyInfoModal';
 
 class Footer extends Component {
   static propTypes = {
@@ -10,10 +11,24 @@ class Footer extends Component {
     withTopPad: false,
   };
 
+  state = {
+    isPrivacyInfoModalOpen: false,
+  }
+
+  openPrivacyInfoModal = () => this.setState({ isPrivacyInfoModalOpen: true })
+  closePrivacyInfoModal = () => this.setState({ isPrivacyInfoModalOpen: false })
+
   render() {
     const { withTopPad } = this.props;
+    const { isPrivacyInfoModalOpen } = this.state;
+
     return (
       <Fragment>
+        <PrivacyInfoModal
+          open={isPrivacyInfoModalOpen}
+          closeModal={this.closePrivacyInfoModal}
+        />
+
         {withTopPad &&
           <section className="footer__pad" />
         }
@@ -21,19 +36,33 @@ class Footer extends Component {
         <footer className="footer">
           <div className="container">
             <div className="footer__content-list">
-              <span>Home</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home" target="_blank" rel="noopener noreferrer">
+                Home
+              </a>
               <div className="footer__divider" />
-              <span>About gov.bc.ca</span>
+              <a href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca" target="_blank" rel="noopener noreferrer">
+                About gov.bc.ca
+              </a>
               <div className="footer__divider" />
-              <span>Privacy</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/disclaimer" target="_blank" rel="noopener noreferrer">
+                Disclaimer
+              </a>
               <div className="footer__divider" />
-              <span>Accessibility</span>
+              <button className="footer__privacy-btn" onClick={this.openPrivacyInfoModal}>
+                Privacy
+              </button>
               <div className="footer__divider" />
-              <span>Disclaimer</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/accessibility" target="_blank" rel="noopener noreferrer">
+                Accessibility
+              </a>
               <div className="footer__divider" />
-              <span>Copyright</span>
+              <a href="https://www2.gov.bc.ca/gov/content/home/copyright" target="_blank" rel="noopener noreferrer">
+                Copyright
+              </a>
               <div className="footer__divider" />
-              <span>Contact Us</span>
+              <a href="https://www2.gov.bc.ca/StaticWebResources/static/gov3/html/contact-us.html" target="_blank" rel="noopener noreferrer">
+                Contact Us
+              </a>
             </div>
           </div>
         </footer>

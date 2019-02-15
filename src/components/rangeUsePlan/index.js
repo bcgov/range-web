@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Icon, Button } from 'semantic-ui-react';
-import { Loading, InvertedButton } from '../common';
+import { Icon } from 'semantic-ui-react';
+import { Loading, PrimaryButton } from '../common';
 import { planUpdated, grazingScheduleUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
@@ -78,15 +78,13 @@ class Base extends Component {
             </span>
           </div>
           <div>
-            <InvertedButton primaryColor onClick={history.goBack}>
+            <PrimaryButton inverted onClick={history.goBack}>
               Go Back
-            </InvertedButton>
+            </PrimaryButton>
             <span className="rup__fetching-error__or-message">
               or
             </span>
-            <Button primary onClick={this.fetchPlan}>
-              Retry
-            </Button>
+            <PrimaryButton onClick={this.fetchPlan} content="Retry" />
           </div>
         </div>
       );
@@ -100,6 +98,7 @@ class Base extends Component {
           <PageForStaff
             agreement={agreement}
             plan={plan}
+            fetchPlan={this.fetchPlan}
             {...this.props}
           />
         }
@@ -108,6 +107,7 @@ class Base extends Component {
           <PageForStaff
             agreement={agreement}
             plan={plan}
+            fetchPlan={this.fetchPlan}
             {...this.props}
           />
         }

@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Icon, Button } from 'semantic-ui-react';
+import { Modal, Icon } from 'semantic-ui-react';
 import { closeConfirmationModal } from '../../actions';
 import { getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
-import { InvertedButton } from '../common';
+import { PrimaryButton } from '../common';
 
 class ConfirmModals extends Component {
   static propTypes = {
@@ -40,21 +40,20 @@ class ConfirmModals extends Component {
         <Modal.Content>
           <div className="confirmation-modal__content">{content}</div>
           <div className="confirmation-modal__btns">
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               onClick={this.closeConfirmationModal(modal)}
             >
               <Icon name="remove" />
               Cancel
-            </InvertedButton>
-            <Button
-              primary
+            </PrimaryButton>
+            <PrimaryButton
               style={{ marginLeft: '15px' }}
               onClick={onYesBtnClicked}
             >
               <Icon name="checkmark" />
               Confirm
-            </Button>
+            </PrimaryButton>
           </div>
         </Modal.Content>
       </Modal>

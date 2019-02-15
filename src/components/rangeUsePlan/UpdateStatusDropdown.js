@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown, Button } from 'semantic-ui-react';
-import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment } from '../../utils';
+import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment, isStatusRecommendNotReady } from '../../utils';
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
-import { planUpdated, planStatusHistoryRecordAdded } from '../../actions';
-import { updateRUPStatus, createRUPStatusRecord } from '../../actionCreators';
+import { updateRUPStatus } from '../../actionCreators';
 import * as strings from '../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
 
@@ -15,11 +14,9 @@ class UpdateStatusDropdown extends Component {
     plan: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     confirmationModalsMap: PropTypes.shape({}).isRequired,
-    planUpdated: PropTypes.func.isRequired,
-    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
     isUpdatingStatus: PropTypes.bool.isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
-    createRUPStatusRecord: PropTypes.func.isRequired,
+    fetchPlan: PropTypes.func.isRequired,
   };
 
   state = {
@@ -171,32 +168,13 @@ class UpdateStatusDropdown extends Component {
       onClick: this.openSWMConfirmModal,
     };
 
-    // let options = [];
-    // if (isPlanAmendment(plan)) { // for Amendment
-    //   if (isStatusStands(status)) {
-    //     options = [wronglyMadeWithoutEffect, standsWronglyMade];
-    //   } else if (isStatusSubmittedForReview(status)) {
-    //     options = [changeRequested, recommendForSubmission];
-    //   } else if (isStatusSubmittedForFD(status)) {
-    //     options = [recommendReady, recommendNotReady];
-    //   } else if (isStatusRecommendReady(status)) {
-    //     options = [approved, notApproved, notApprovedFWR];
-    //   }
-    // } else if (!isPlanAmendment(plan)) { // for initial plan
-    //   if (isStatusPending(status) || isStatusCreated(status)) {
-    //     options = [completed, changeRequested];
-    //   } else if (isStatusCompleted(status)) {
-    //     options = [approved];
-    //   }
-    // }
-
     if (isStatusStands(status)) {
       return [wronglyMadeWithoutEffect, standsWronglyMade];
     } else if (isStatusSubmittedForReview(status)) {
       return [changeRequested, recommendForSubmission];
     } else if (isStatusSubmittedForFD(status)) {
-      return [recommendReady, recommendNotReady];
-    } else if (isStatusRecommendReady(status)) {
+      return [recommendReady, recommendNotReady, changeRequested];
+    } else if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
       if (isPlanAmendment(plan)) {
         return [approved, notApproved, notApprovedFWR];
       }
@@ -256,8 +234,5 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  planUpdated,
-  planStatusHistoryRecordAdded,
   updateRUPStatus,
-  createRUPStatusRecord,
 })(UpdateStatusDropdown);

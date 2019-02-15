@@ -16,7 +16,7 @@ const closeModal = (state, action) => {
   return newState;
 };
 
-const confirmationModalReducer = (state = {}, action) => {
+const confirmModalReducer = (state = {}, action) => {
   switch (action.type) {
     case OPEN_CONFIRMATION_MODAL:
       return openModal(state, action);
@@ -29,4 +29,4 @@ const confirmationModalReducer = (state = {}, action) => {
 
 export const getConfirmationModalsMap = state => state;
 
-export default confirmationModalReducer;
+export default confirmModalReducer;

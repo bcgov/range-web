@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { formatDateFromServer } from '../../utils';
-import { Status, InvertedButton } from '../common';
+import { Status, PrimaryButton } from '../common';
 import { VIEW, INITIAL_PLAN } from '../../constants/strings';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 
@@ -60,13 +60,13 @@ class PlanTableRow extends Component {
           <Status user={user} status={plan.status} />
         </div>
         <div className="agrm__ptable__row__cell">
-          <InvertedButton
-            primaryColor
+          <PrimaryButton
+            inverted
             compact
             onClick={this.onViewClicked(plan)}
           >
             {VIEW}
-          </InvertedButton>
+          </PrimaryButton>
         </div>
       </div>
     );

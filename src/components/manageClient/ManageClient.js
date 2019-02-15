@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Button, Icon } from 'semantic-ui-react';
+import { Dropdown, Icon } from 'semantic-ui-react';
 import debounce from 'lodash.debounce';
-import { Banner } from '../common';
+import { Banner, PrimaryButton } from '../common';
 import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getClientOption, getUserOption } from '../../utils';
@@ -141,14 +141,12 @@ class ManageClient extends Component {
             />
 
             <div className="manage-client__update-btn">
-              <Button
-                primary
+              <PrimaryButton
                 loading={isUpdatingClientIdOfUser}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
-              >
-                Submit
-              </Button>
+                content="Submit"
+              />
             </div>
           </div>
         </div>

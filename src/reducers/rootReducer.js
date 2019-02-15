@@ -30,7 +30,7 @@ import clientReducer, * as fromClient from './clientReducer';
 import toastReducer, * as fromToast from './toastReducer';
 import inputModalReducer, * as fromInputModal from './inputModalReducer';
 import agreementWithALLPlansReducer, * as fromAgreementWithAllPlans from './agreementWithALLPlansReducer';
-import confirmationModalReducer, * as fromConfirmationModal from './confirmationModalReducer';
+import confirmModalReducer, * as fromConfirmModal from './confirmModalReducer';
 
 // createReducer to allow for reducer reuse
 const createReducer = (reducer, name) => (state, action) => {
@@ -48,7 +48,7 @@ const appReducer = combineReducers({
   [reducerTypes.AGREEMENTS_WITH_ALL_PLANS]: agreementWithALLPlansReducer,
   [reducerTypes.PLAN]: planReducer,
   [reducerTypes.CLIENT]: clientReducer,
-  [reducerTypes.CONFIRMATION_MODAL]: confirmationModalReducer,
+  [reducerTypes.CONFIRM_MODAL]: confirmModalReducer,
   [reducerTypes.INPUT_MODAL]: inputModalReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
@@ -139,5 +139,5 @@ export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetch
 export const getIsUpdatingPlanStatus = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_PLAN_STATUS]);
 
 export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
-export const getConfirmationModalsMap = state => fromConfirmationModal.getConfirmationModalsMap(state[reducerTypes.CONFIRMATION_MODAL]);
+export const getConfirmationModalsMap = state => fromConfirmModal.getConfirmationModalsMap(state[reducerTypes.CONFIRM_MODAL]);
 export const getInputModal = state => fromInputModal.getInputModal(state[reducerTypes.INPUT_MODAL]);

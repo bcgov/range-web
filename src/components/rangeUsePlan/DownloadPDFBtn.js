@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
 import { downloadPDFBlob, cannotDownloadPDF } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
 import { getPlanPDF, getIsFetchingPlanPDF } from '../../reducers/rootReducer';
 import { DOWNLOAD_PDF } from '../../constants/strings';
+import { PrimaryButton } from '../common';
 
 class DownloadPDFBtn extends Component {
   static propTypes = {
@@ -48,13 +48,12 @@ class DownloadPDFBtn extends Component {
           link
         </a>
 
-        <Button
+        <PrimaryButton
           disabled={isDisabled}
           loading={isFetchingPDF}
           onClick={this.onDownloadClicked}
-        >
-          {DOWNLOAD_PDF}
-        </Button>
+          content={DOWNLOAD_PDF}
+        />
       </span>
     );
   }

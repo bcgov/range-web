@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import { PrimaryButton } from './index';
 
 const propTypes = {
   message: PropTypes.string.isRequired,
@@ -16,7 +17,10 @@ const ErrorPage = ({ message }) => {
         </span>
       </div>
       <div>
-        <Button onClick={() => window.location.reload(true)}>Reload</Button>
+        <PrimaryButton
+          onClick={() => window.location.reload(true)}
+          content="Reload"
+        />
       </div>
     </div>
   );

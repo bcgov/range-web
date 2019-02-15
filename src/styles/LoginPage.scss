@@ -14,12 +14,22 @@
     }
   }
   &__header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: $login-header-z-index;
     background: $primary-color;
-    height: 60px;
     border-bottom: 2px solid $accent-color;
+
+    &__logo {
+      height: 32px;
+    }
+    &__content {
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      height: 58px;
+      align-items: center;
+    }
   }
   &__paragraph-cell {
     max-width: 45%;
@@ -75,7 +85,7 @@
   &__paragraph4,
   &__paragraph5 {
     padding: 50px 0;
-    border-bottom: 1px solid #F2F2F2;
+    border-bottom: 1px solid $light-gray;
 
     &__content {
       display: flex;

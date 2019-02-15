@@ -12,6 +12,7 @@ export const propTypes = {
   planStatusHistoryMap: PropTypes.shape({}).isRequired,
   additionalRequirementsMap: PropTypes.shape({}).isRequired,
   managementConsiderationsMap: PropTypes.shape({}).isRequired,
+  fetchPlan: PropTypes.func.isRequired,
 };
 
 export { defaultProps } from '../pageForAH/props';
