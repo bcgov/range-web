@@ -98,6 +98,7 @@ class Base extends Component {
           <PageForStaff
             agreement={agreement}
             plan={plan}
+            fetchPlan={this.fetchPlan}
             {...this.props}
           />
         }
@@ -106,6 +107,7 @@ class Base extends Component {
           <PageForStaff
             agreement={agreement}
             plan={plan}
+            fetchPlan={this.fetchPlan}
             {...this.props}
           />
         }

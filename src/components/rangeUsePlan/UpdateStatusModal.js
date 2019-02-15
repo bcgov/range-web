@@ -12,8 +12,7 @@ class UpdateStatusModal extends Component {
     statusCode: PropTypes.string,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    planUpdated: PropTypes.func.isRequired,
-    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
+    fetchPlan: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -37,39 +36,32 @@ class UpdateStatusModal extends Component {
     this.updateStatus(statusCode);
   }
 
+  onClose = () => {
+    this.setState({ note: '' });
+    this.props.onClose();
+  }
+
   updateStatus = async (statusCode) => {
     const {
       plan,
       references,
       updateRUPStatus,
-      planUpdated,
-      planStatusHistoryRecordAdded,
-      createRUPStatusRecord,
-      onClose,
+      fetchPlan,
     } = this.props;
     const { note } = this.state;
     const requireNote = isNoteRequired(statusCode);
 
-    onClose();
+    this.onClose();
     const status = findStatusWithCode(references, statusCode);
-    const { id: planId, planStatusHistory } = plan;
 
     try {
-      const newStatus = await updateRUPStatus({ planId, statusId: status.id });
-      const newPlan = {
-        ...plan,
-        status: newStatus,
-      };
-      planUpdated({ plan: newPlan });
-
+      const body = { planId: plan.id, statusId: status.id };
       if (requireNote && note) {
-        const record = await createRUPStatusRecord(plan, newStatus, note);
-        planStatusHistoryRecordAdded({
-          planId,
-          record,
-          planStatusHistory: [record.id, ...planStatusHistory],
-        });
+        body.note = note;
       }
+
+      await updateRUPStatus(body);
+      await fetchPlan();
     } catch (err) {
       throw err;
     }
