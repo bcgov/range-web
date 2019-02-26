@@ -234,7 +234,7 @@ export class EditableGrazingSchedules extends Component {
         <div className="rup__divider" />
         {
           isEmpty ? (
-            <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+            <div className="rup__section-not-found">No graze period.</div>
           ) : (
             <ul
               className={classnames(

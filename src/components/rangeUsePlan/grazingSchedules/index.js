@@ -48,7 +48,7 @@ class GrazingSchedules extends Component {
     }
 
     if (isEmpty) {
-      return <div className="rup__section-not-found">{strings.NOT_PROVIDED}</div>;
+      return <div className="rup__section-not-found">No graze period.</div>;
     }
 
     return (
