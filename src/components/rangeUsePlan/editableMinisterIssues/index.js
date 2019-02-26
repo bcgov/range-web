@@ -27,7 +27,7 @@ class EditableMinisterIssues extends Component {
   renderMinisterIssues = (ministerIssues = []) => {
     const isEmpty = ministerIssues.length === 0;
     return isEmpty ? (
-      <div className="rup__section-not-found">None identified</div>
+      <div className="rup__section-not-found">None identified.</div>
     ) : (
       <ul
         className={classnames(

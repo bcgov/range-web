@@ -4,7 +4,6 @@ import uuid from 'uuid-v4';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
-import { NOT_PROVIDED } from '../../../constants/strings';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { deleteRUPGrazingSchedule } from '../../../actionCreators';
 import { grazingScheduleAdded, grazingScheduleUpdated, grazingScheduleDeleted } from '../../../actions';
@@ -234,7 +233,7 @@ export class EditableGrazingSchedules extends Component {
         <div className="rup__divider" />
         {
           isEmpty ? (
-            <div className="rup__section-not-found">No graze period.</div>
+            <div className="rup__section-not-found">No schedule provided.</div>
           ) : (
             <ul
               className={classnames(
