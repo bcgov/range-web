@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PrivacyInfoModal from './PrivacyInfoModal';
-import { openPiaModal } from '../../actions';
+import { openPiaModal } from '../../../actions';
 
 class Footer extends Component {
   static propTypes = {
