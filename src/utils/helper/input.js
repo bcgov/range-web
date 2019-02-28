@@ -16,6 +16,6 @@ export const allowAlphabetOnly = (e) => {
 
 export const handleWhenEnterPressed = (e, callback) => {
   if (e.charCode === 13) {
-    callback();
+    callback(e);
   }
 };

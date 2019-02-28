@@ -1,8 +1,7 @@
 export const AUTH = 'AUTH';
 export const COMMON = 'COMMON';
 export const TOAST = 'TOAST';
-export const CONFIRM_MODAL = 'CONFIRM_MODAL';
-export const INPUT_MODAL = 'INPUT_MODAL';
+export const MODAL = 'MODAL';
 
 export const GET_AGREEMENT = 'GET_AGREEMENT';
 export const AGREEMENTS = 'AGREEMENTS';

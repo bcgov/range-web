@@ -1,10 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-
-const propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
 
 const PrimaryButton = ({
   inverted = false,
@@ -28,5 +23,4 @@ const PrimaryButton = ({
   );
 };
 
-PrimaryButton.propTypes = propTypes;
 export default PrimaryButton;

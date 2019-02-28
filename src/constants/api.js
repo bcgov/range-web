@@ -41,8 +41,8 @@ const TEST = { // eslint-disable-line no-unused-vars
 };
 
 export const DEV_ENV = {
-  ...PROD,
-  // ...DEV,
+  // ...PROD,
+  ...DEV,
   // ...TEST,
 };
 

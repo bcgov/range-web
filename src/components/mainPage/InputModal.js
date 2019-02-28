@@ -38,7 +38,7 @@ class InputModal extends Component {
     });
   }
 
-  onSubmitClicked = () => {
+  onSubmitClicked = (e) => {
     const { inputModal = {} } = this.props;
     const { onSubmit, ...rest } = inputModal;
 
@@ -49,14 +49,15 @@ class InputModal extends Component {
       );
     }
 
-    this.handleModalClose();
+    this.handleModalClose(e);
   }
 
   onInputKeyPressed = (e) => {
     handleWhenEnterPressed(e, this.onSubmitClicked);
   }
 
-  handleModalClose = () => {
+  handleModalClose = (e) => {
+    e.preventDefault();
     this.setState({ input: '' });
     this.props.closeInputModal();
   }

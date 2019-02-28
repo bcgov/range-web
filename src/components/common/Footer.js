@@ -1,33 +1,25 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PrivacyInfoModal from './PrivacyInfoModal';
+import { openPiaModal } from '../../actions';
 
 class Footer extends Component {
   static propTypes = {
     withTopPad: PropTypes.bool,
+    openPiaModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     withTopPad: false,
   };
 
-  state = {
-    isPrivacyInfoModalOpen: false,
-  }
-
-  openPrivacyInfoModal = () => this.setState({ isPrivacyInfoModalOpen: true })
-  closePrivacyInfoModal = () => this.setState({ isPrivacyInfoModalOpen: false })
-
   render() {
-    const { withTopPad } = this.props;
-    const { isPrivacyInfoModalOpen } = this.state;
+    const { withTopPad, openPiaModal } = this.props;
 
     return (
       <Fragment>
-        <PrivacyInfoModal
-          open={isPrivacyInfoModalOpen}
-          closeModal={this.closePrivacyInfoModal}
-        />
+        <PrivacyInfoModal />
 
         {withTopPad &&
           <section className="footer__pad" />
@@ -48,7 +40,7 @@ class Footer extends Component {
                 Disclaimer
               </a>
               <div className="footer__divider" />
-              <button className="footer__privacy-btn" onClick={this.openPrivacyInfoModal}>
+              <button className="footer__privacy-btn" onClick={openPiaModal}>
                 Privacy
               </button>
               <div className="footer__divider" />
@@ -71,4 +63,6 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default connect(null, {
+  openPiaModal,
+})(Footer);
