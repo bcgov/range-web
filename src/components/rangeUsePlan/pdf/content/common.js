@@ -39,7 +39,12 @@ export const writeText = ({
   const splitTextArray = doc.splitTextToSize(handleNullValue(text), width);
   splitTextArray.map((textChunk) => {
     currY = checkY(doc, currY);
-    doc.textEx(textChunk, x, currY, hAlign, vAlign);
+    // remove the first empty space
+    if (textChunk[0] === ' ') {
+      doc.textEx(textChunk.substring(1, textChunk.length), x, currY, hAlign, vAlign);
+    } else {
+      doc.textEx(textChunk, x, currY, hAlign, vAlign);
+    }
     currY += 5;
 
     return null;
