@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '../../common';
-import { formatDateFromServer, getAgreementHolders, isUserAdmin, getUserFullName } from '../../../utils';
+import { formatDateFromServer, getAgreementHolders, getUserFullName } from '../../../utils';
 import * as strings from '../../../constants/strings';
 
 class BasicInformation extends Component {
@@ -28,7 +28,6 @@ class BasicInformation extends Component {
       agreement,
       plan,
       onZoneClicked,
-      user,
     } = this.props;
 
     // variables for textfields
@@ -61,7 +60,6 @@ class BasicInformation extends Component {
     const exemptionStatusName = aes && aes.description;
     const { primaryAgreementHolder: pah, otherAgreementHolders } = getAgreementHolders(clients);
     const primaryAgreementHolderName = pah && pah.name;
-    const isAdmin = isUserAdmin(user);
 
     return (
       <div className="rup__basic_information">
@@ -101,7 +99,7 @@ class BasicInformation extends Component {
             <TextField
               label={strings.ZONE}
               text={zoneCode}
-              isEditable={isAdmin}
+              // isEditable={isUserAdmin(user)} // doesn't need it since we pull data from FTA directly
               onClick={onZoneClicked}
             />
             <TextField
