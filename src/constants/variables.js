@@ -73,6 +73,8 @@ export const CLIENT_TYPE = {
   OTHER: 'B',
 };
 
+export const DAYS_ON_THE_AVERAGE = 30.44;
+
 export const DATE_FORMAT = {
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   CLIENT_SIDE: 'MMMM D, YYYY',
