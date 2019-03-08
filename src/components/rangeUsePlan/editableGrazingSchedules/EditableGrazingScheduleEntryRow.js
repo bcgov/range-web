@@ -5,7 +5,6 @@ import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT, DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER } from '../../../constants/strings';
-import { createDateWithMoment } from '../../../utils';
 
 class EditableGrazingScheduleEntryRow extends Component {
   static propTypes = {
@@ -28,8 +27,8 @@ class EditableGrazingScheduleEntryRow extends Component {
     const { dateIn: din, dateOut: dout } = entry;
     const dateIn = din ? new Date(din) : null;
     const dateOut = dout ? new Date(dout) : null;
-    const minDate = createDateWithMoment(2, 1, schedule.year);
-    const maxDate = createDateWithMoment(1, 1, schedule.year + 1);
+    const minDate = utils.createDateWithMoment(1, 1, schedule.year);
+    const maxDate = utils.createDateWithMoment(31, 12, schedule.year);
 
     this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,

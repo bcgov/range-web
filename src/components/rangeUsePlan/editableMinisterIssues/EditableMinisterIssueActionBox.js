@@ -27,12 +27,10 @@ class EditableMinisterIssueActionBox extends Component {
       noGrazeStartMonth: ngStartMonth,
     } = action;
 
-    // use the current year as a reference point to create date objects
-    const currYear = new Date().getFullYear();
-    const noGrazeStartDate = createDateWithMoment(ngStartDay, ngStartMonth, currYear);
-    const noGrazeEndDate = createDateWithMoment(ngEndDay, ngEndMonth, currYear);
-    const minDate = createDateWithMoment(2, 1, currYear);
-    const maxDate = createDateWithMoment(1, 1, currYear + 1);
+    const noGrazeStartDate = createDateWithMoment(ngStartDay, ngStartMonth);
+    const noGrazeEndDate = createDateWithMoment(ngEndDay, ngEndMonth);
+    const minDate = createDateWithMoment(1, 1);
+    const maxDate = createDateWithMoment(31, 12);
 
     this.pikaDayDateIn = new Pikaday({
       field: this.startDateRef,
