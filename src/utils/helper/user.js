@@ -1,10 +1,19 @@
 import { USER_ROLE } from '../../constants/variables';
 import { capitalize } from '../index';
 
+export const doesUserHaveFullName = (user) => {
+  const { givenName, familyName } = user || {};
+  if (givenName && familyName) {
+    return true;
+  }
+
+  return false;
+};
+
 export const getUserFullName = (user) => {
   const { givenName, familyName, username } = user || {};
-  if (givenName && familyName) {
-    return `${givenName} ${familyName}`;
+  if (doesUserHaveFullName(user)) {
+    return `${capitalize(givenName)} ${capitalize(familyName)}`;
   }
 
   return username;

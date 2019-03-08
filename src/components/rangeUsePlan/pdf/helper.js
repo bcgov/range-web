@@ -117,9 +117,14 @@ export const getContactRole = (contact) => {
   return 'Secondary';
 };
 
-export const getUserFullName = user => (
-  user && user.givenName && user.familyName && `${user.givenName} ${user.familyName}`
-);
+export const getUserFullName = (user) => {
+  const { givenName, familyName, username } = user || {};
+  if (givenName && familyName) {
+    return `${capitalize(givenName)} ${capitalize(familyName)}`;
+  }
+
+  return username;
+};
 
 /**
  * Handlebars helper to build the full name of the primary agreement holder
