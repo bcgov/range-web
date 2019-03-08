@@ -33,6 +33,22 @@
         display: flex;
         align-items: center;
       }
+      &__ng {
+        margin-left: 20px;
+
+        &--hidden {
+          visibility: hidden;
+        }
+        &__start-date {
+          margin-left: 5px;
+          margin-right: 5px;
+          width: 75px;
+        }
+        &__end-date {
+          margin-left: 5px;
+          width: 75px;
+        }
+      }
       &__detail-asterisk {
         position: absolute;
         left: 5px;
