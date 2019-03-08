@@ -35,7 +35,7 @@ class Toasts extends Component {
             <Icon name="check circle" size="large" />
           }
           {!success &&
-            <Icon name="times" size="large" />
+            <Icon name="warning circle" size="large" />
           }
         </div>
         <div className="toast__content">

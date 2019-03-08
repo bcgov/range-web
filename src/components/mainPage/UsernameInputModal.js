@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal, Segment, Button, Form } from 'semantic-ui-react';
-import { Loading, ErrorMessage } from '../common';
+import { Modal, Segment, Form } from 'semantic-ui-react';
+import { Loading, ErrorMessage, PrimaryButton } from '../common';
 import { getUser, getIsUpdatingUser, getUpdatingUserErrorOccured } from '../../reducers/rootReducer';
 import { getUserFullName, allowAlphabetOnly } from '../../utils';
 import { updateUser } from '../../actionCreators';
@@ -95,15 +95,14 @@ class UsernameInputModal extends Component {
                 onChange={this.onInputChanged}
                 onKeyPress={this.onInputPressed}
               />
-              <Button
-                primary
+              <PrimaryButton
                 fluid
                 disabled={isGivenEmpty || isFamilyEmpty}
                 loading={isUpdatingUser}
                 onClick={this.onSubmitClicked}
               >
                 Submit
-              </Button>
+              </PrimaryButton>
             </Form>
           </div>
         </Segment>

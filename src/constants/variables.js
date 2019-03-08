@@ -50,7 +50,7 @@ export const NOT_DOWNLOADABLE_PLAN_STATUSES = [
 
 export const EDITABLE_PLAN_STATUSES = [
   PLAN_STATUS.CREATED, PLAN_STATUS.DRAFT, PLAN_STATUS.CHANGE_REQUESTED,
-  PLAN_STATUS.RECOMMEND_NOT_READY, PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
+  PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
 ];
 
 export const REQUIRE_NOTES_PLAN_STATUSES = [
@@ -72,6 +72,8 @@ export const CLIENT_TYPE = {
   PRIMARY: 'A',
   OTHER: 'B',
 };
+
+export const DAYS_ON_THE_AVERAGE = 30.44;
 
 export const DATE_FORMAT = {
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
@@ -129,9 +131,9 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  NAV_LOGO: '/images/navbar_logo.png',
+  MYRANGEBC_LOGO_PNG: '/images/myrangebc_logo.png',
+  MYRANGEBC_LOGO: '/images/myrangebc_logo.svg',
   COW_PIC: '/images/cow.jpg',
-  LOGIN_LOGO: '/images/login_logo.png',
   SIGNIN_BACKGROUND: '/images/signin_background.jpg',
   LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',
   LOGIN_PARAGRAPH4: '/images/login_paragraph4.jpg',

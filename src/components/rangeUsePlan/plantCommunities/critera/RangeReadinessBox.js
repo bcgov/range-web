@@ -49,7 +49,7 @@ class RangeReadinessBox extends Component {
         />
 
         <div className="rup__plant-community__rr__label">
-          Other
+          Notes
         </div>
         <div>{handleNullValue(rangeReadinessNote)}</div>
       </div>

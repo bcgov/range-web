@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { isStatusDraft } from '../../../utils';
-import * as strings from '../../../constants/strings';
 import GrazingScheduleBox from './GrazingScheduleBox';
 
 class GrazingSchedules extends Component {
@@ -48,7 +47,7 @@ class GrazingSchedules extends Component {
     }
 
     if (isEmpty) {
-      return <div className="rup__section-not-found">{strings.NOT_PROVIDED}</div>;
+      return <div className="rup__section-not-found">No schedule provided.</div>;
     }
 
     return (

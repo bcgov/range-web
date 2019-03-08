@@ -102,6 +102,7 @@
 
   &__content {
     font-size: 1.2rem;
+    line-height: 25px;
   }
 
   &__action {
@@ -314,7 +315,7 @@
     background: transparent none !important;
 
     &:hover {
-      background: #f2f2f2 !important;
+      background: $light-gray !important;
     }
   }
 }
@@ -353,20 +354,69 @@
 .footer {
   background: $primary-color;
   border-top: 2px solid $accent-color;
-  color: white;
   margin-top: auto;
+  font-size: 1.1rem;
 
+  a {
+    color: white;
+
+    &:hover {
+      color: white;
+      text-decoration: underline;
+    }
+  }
   &__pad {
     margin: 35px;
   }
+  &__privacy-btn {
+    @extend .default-button;
+    background: transparent;
+    color: white;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
   &__content-list {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: 15px 0px;
   }
   &__divider {
     border-right: 1px solid #ccc;
     margin: 0 15px 0 11px;
     padding: 0 2px;
+  }
+}
+
+.privacy-info {
+  font-size: 1.2rem;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  &__sub-title {
+    font-size: 1.3rem;
+    text-align: center;
+    color: #8C8C8C;
+    margin-bottom: 15px;
+  }
+  &__space {
+    margin: 10px 0;
+  }
+  &__continue-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  &__gov-link {
+    display: block;
+    margin-top: 10px;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Icon, Button, Form, TextArea } from 'semantic-ui-react';
-import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY } from '../../constants/variables';
-import { isNoteRequired } from '../../utils';
-import { InvertedButton } from '../common';
+import { Modal, Icon, Form, TextArea } from 'semantic-ui-react';
+import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../constants/variables';
+import { isNoteRequired, findStatusWithCode } from '../../utils';
+import { PrimaryButton } from '../common';
 
 class UpdateStatusModal extends Component {
   static propTypes = {
@@ -12,8 +12,7 @@ class UpdateStatusModal extends Component {
     statusCode: PropTypes.string,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    planUpdated: PropTypes.func.isRequired,
-    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
+    fetchPlan: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -37,40 +36,32 @@ class UpdateStatusModal extends Component {
     this.updateStatus(statusCode);
   }
 
+  onClose = () => {
+    this.setState({ note: '' });
+    this.props.onClose();
+  }
+
   updateStatus = async (statusCode) => {
     const {
       plan,
       references,
       updateRUPStatus,
-      planUpdated,
-      planStatusHistoryRecordAdded,
-      createRUPStatusHistoryRecord,
-      onClose,
+      fetchPlan,
     } = this.props;
     const { note } = this.state;
     const requireNote = isNoteRequired(statusCode);
 
-    onClose();
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS] || [];
-    const status = planStatuses.find(s => s.code === statusCode);
-    const { id: planId, planStatusHistory } = plan;
+    this.onClose();
+    const status = findStatusWithCode(references, statusCode);
 
     try {
-      const newStatus = await updateRUPStatus(planId, status.id);
-      const newPlan = {
-        ...plan,
-        status: newStatus,
-      };
-      planUpdated({ plan: newPlan });
-
+      const body = { planId: plan.id, statusId: status.id };
       if (requireNote && note) {
-        const record = await createRUPStatusHistoryRecord(plan, newStatus, note);
-        planStatusHistoryRecordAdded({
-          planId,
-          record,
-          planStatusHistory: [record.id, ...planStatusHistory],
-        });
+        body.note = note;
       }
+
+      await updateRUPStatus(body);
+      await fetchPlan();
     } catch (err) {
       throw err;
     }
@@ -117,22 +108,21 @@ class UpdateStatusModal extends Component {
             </div>
           }
           <div className="rup__update-status-modal__btns">
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               onClick={onClose}
             >
               <Icon name="remove" />
               Cancel
-            </InvertedButton>
-            <Button
-              primary
-              style={{ marginLeft: '15px' }}
+            </PrimaryButton>
+            <PrimaryButton
+              style={{ marginLeft: '15px', marginRight: '0' }}
               onClick={this.onSubmit}
               disabled={requireNote && !note}
             >
               <Icon name="checkmark" />
               Confirm
-            </Button>
+            </PrimaryButton>
           </div>
         </Modal.Content>
       </Modal>

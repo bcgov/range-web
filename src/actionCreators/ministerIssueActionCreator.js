@@ -127,14 +127,17 @@ export const deleteRUPMinisterIssue = (planId, issueId) => (dispatch, getState) 
 };
 
 export const deleteRUPMinisterIssueAction = (planId, issueId, actionId) => (dispatch, getState) => {
+  dispatch(request(reducerTypes.DELETE_MINISTER_ISSUE_ACTION));
   return axios.delete(
     API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
     createConfigWithHeader(getState),
   ).then(
     (response) => {
+      dispatch(success(reducerTypes.DELETE_MINISTER_ISSUE_ACTION, response.data));
       return response.data;
     },
     (err) => {
+      dispatch(error(reducerTypes.DELETE_MINISTER_ISSUE_ACTION, err));
       throw err;
     },
   );

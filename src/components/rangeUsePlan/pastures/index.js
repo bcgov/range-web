@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NOT_PROVIDED } from '../../../constants/strings';
 import PastureBox from './PastureBox';
 
 class Pastures extends Component {
@@ -65,7 +64,7 @@ class Pastures extends Component {
     const isEmpty = pastures.length === 0;
 
     return isEmpty ? (
-      <div className="rup__section-not-found">{NOT_PROVIDED}</div>
+      <div className="rup__section-not-found">No pasture provided.</div>
     ) : (
       <ul
         className={classnames(

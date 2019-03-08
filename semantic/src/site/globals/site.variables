@@ -3,7 +3,14 @@
 *******************************/
 
 /* added by Kyubin */
-@primaryColor        : #003366;
-@secondaryColor      : @grey;
-@accentColor         : #FCBA19;
-@primaryLightColor   : #5475A7;
+@primaryColor        : #002C71;
+@secondaryColor      : #5C668C;
+@accentColor         : #F3B229;
+@primaryLightColor   : #5C668C;
+@pageOverflowX : auto;
+@pageMinWidth  : 768px;
+
+/*******************************
+Example:
+https://github.com/Semantic-Org/example-github/blob/master/semantic/src/themes/github/globals/site.variables
+*******************************/

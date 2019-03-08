@@ -5,7 +5,7 @@ import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableRow from './AgreementTableRow';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
-import { Loading, InvertedButton } from '../common';
+import { Loading, PrimaryButton } from '../common';
 
 export class AgreementTable extends Component {
   static propTypes = {
@@ -36,13 +36,13 @@ export class AgreementTable extends Component {
         <div className="agrm__table__row">
           <div className="agrm__message agrm__message--error">
             {strings.ERROR_OCCUR}
-            <InvertedButton
-              primaryColor
+            <PrimaryButton
+              inverted
               onClick={() => { this.props.searchAgreementsWithOrWithoutParams(); }}
               style={{ marginLeft: '10px' }}
             >
               Retry
-            </InvertedButton>
+            </PrimaryButton>
           </div>
         </div>
       );

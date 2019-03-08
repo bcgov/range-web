@@ -60,7 +60,9 @@ class PlantCommunityBoxModal extends Component {
           <button className="rup__plant-community__box">
             <div className="rup__plant-community__box__left">
               <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
-              Plant Community: {communityTypeName}
+              <div style={{ textAlign: 'left' }}>
+                Plant Community: {communityTypeName}
+              </div>
             </div>
             <div className="rup__plant-community__box__right">
               <div>

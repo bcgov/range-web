@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Header, Button, Dropdown, Modal, Icon } from 'semantic-ui-react';
+import { Header, Dropdown, Modal, Icon } from 'semantic-ui-react';
 import { updateAgreementZone } from '../../actionCreators';
 import { ELEMENT_ID } from '../../constants/variables';
 import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
 import { planUpdated } from '../../actions';
 import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
 import { getUserFullName } from '../../utils';
+import { PrimaryButton } from '../common';
 
 export class UpdateZoneModal extends Component {
   static propTypes = {
@@ -113,21 +114,21 @@ export class UpdateZoneModal extends Component {
             selection
             clearable
           />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+            <PrimaryButton
+              inverted
+              onClick={this.closeUpdateZoneModal}
+              content="Cancel"
+            />
+            <PrimaryButton
+              disabled={newZoneId === null}
+              loading={isUpdatingAgreementZone}
+              onClick={this.onUpdateZoneClicked}
+              style={{ margin: '0', marginLeft: '10px' }}
+              content="Update Zone"
+            />
+          </div>
         </Modal.Content>
-        <Modal.Actions>
-          <Button color="red" inverted onClick={this.closeUpdateZoneModal}>
-            Cancel
-          </Button>
-          <Button
-            color="green"
-            inverted
-            disabled={newZoneId === null}
-            loading={isUpdatingAgreementZone}
-            onClick={this.onUpdateZoneClicked}
-          >
-            Update Zone
-          </Button>
-        </Modal.Actions>
       </Modal>
     );
   }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
 import { Table, Icon, TextArea, Form, Dropdown } from 'semantic-ui-react';
-import { CollapsibleBox, InvertedButton } from '../../common';
+import { CollapsibleBox, PrimaryButton } from '../../common';
 import EditableGrazingScheduleEntryRow from './EditableGrazingScheduleEntryRow';
 import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
@@ -241,8 +241,8 @@ class EditableGrazingScheduleBox extends Component {
             <Table unstackable>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__pasture">{strings.PASTURE}</div></Table.HeaderCell>
+                  <Table.HeaderCell><div className="rup__grazing-schedule__l-type">{strings.LIVESTOCK_TYPE}</div></Table.HeaderCell>
                   <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
                   <Table.HeaderCell><div className="rup__grazing-schedule__dates">{strings.DATE_IN}</div></Table.HeaderCell>
                   <Table.HeaderCell><div className="rup__grazing-schedule__dates">{strings.DATE_OUT}</div></Table.HeaderCell>
@@ -255,15 +255,15 @@ class EditableGrazingScheduleBox extends Component {
                 {this.renderScheduleEntries(grazingScheduleEntries, scheduleIndex)}
               </Table.Header>
             </Table>
-            <InvertedButton
+            <PrimaryButton
               style={{ margin: '10px 0' }}
-              primaryColor
+              inverted
               compact
               onClick={this.onAddRowClicked}
             >
               <Icon name="add circle" />
               Add Row
-            </InvertedButton>
+            </PrimaryButton>
             <div className="rup__grazing-schedule__AUMs">
               <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
               <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>

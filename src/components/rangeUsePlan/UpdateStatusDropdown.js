@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'semantic-ui-react';
-import { isPlanAmendment, isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady } from '../../utils';
+import { Dropdown, Button } from 'semantic-ui-react';
+import { isStatusStands, isStatusCreated, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment, isStatusRecommendNotReady } from '../../utils';
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
-import { planUpdated, planStatusHistoryRecordAdded } from '../../actions';
-import { updateRUPStatus, createRUPStatusHistoryRecord } from '../../actionCreators';
+import { updateRUPStatus } from '../../actionCreators';
 import * as strings from '../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
 
@@ -15,11 +14,9 @@ class UpdateStatusDropdown extends Component {
     plan: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     confirmationModalsMap: PropTypes.shape({}).isRequired,
-    planUpdated: PropTypes.func.isRequired,
-    planStatusHistoryRecordAdded: PropTypes.func.isRequired,
     isUpdatingStatus: PropTypes.bool.isRequired,
     updateRUPStatus: PropTypes.func.isRequired,
-    createRUPStatusHistoryRecord: PropTypes.func.isRequired,
+    fetchPlan: PropTypes.func.isRequired,
   };
 
   state = {
@@ -120,11 +117,11 @@ class UpdateStatusDropdown extends Component {
   }
 
   getStatusDropdownOptions = (plan, status) => {
-    const completed = {
-      key: PLAN_STATUS.COMPLETED,
-      text: 'Completed',
-      onClick: this.openCompletedConfirmModal,
-    };
+    // const completed = {
+    //   key: PLAN_STATUS.COMPLETED,
+    //   text: 'Completed',
+    //   onClick: this.openCompletedConfirmModal,
+    // };
     const changeRequested = {
       key: PLAN_STATUS.CHANGE_REQUESTED,
       text: 'Change Request',
@@ -171,26 +168,22 @@ class UpdateStatusDropdown extends Component {
       onClick: this.openSWMConfirmModal,
     };
 
-    let options = [];
-    if (isPlanAmendment(plan)) { // for Amendment
-      if (isStatusStands(status)) {
-        options = [wronglyMadeWithoutEffect, standsWronglyMade];
-      } else if (isStatusSubmittedForReview(status)) {
-        options = [changeRequested, recommendForSubmission];
-      } else if (isStatusSubmittedForFD(status)) {
-        options = [recommendReady, recommendNotReady];
-      } else if (isStatusRecommendReady(status)) {
-        options = [approved, notApproved, notApprovedFWR];
+    if (isStatusStands(status)) {
+      return [wronglyMadeWithoutEffect, standsWronglyMade];
+    } else if (isStatusSubmittedForReview(status)) {
+      return [changeRequested, recommendForSubmission];
+    } else if (isStatusSubmittedForFD(status)) {
+      return [recommendReady, recommendNotReady, changeRequested];
+    } else if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
+      if (isPlanAmendment(plan)) {
+        return [approved, notApproved, notApprovedFWR];
       }
-    } else if (!isPlanAmendment(plan)) { // for initial plan
-      if (isStatusPending(status) || isStatusCreated(status)) {
-        options = [completed, changeRequested];
-      } else if (isStatusCompleted(status)) {
-        options = [approved];
-      }
+      return [approved, notApprovedFWR];
+    } else if (isStatusCreated(status)) {
+      return [changeRequested];
     }
 
-    return options;
+    return [];
   }
 
   render() {
@@ -204,13 +197,19 @@ class UpdateStatusDropdown extends Component {
       <Fragment>
         <Dropdown
           className="rup__update-status-dropdown"
-          text={strings.UPDATE_STATUS}
           options={statusDropdownOptions}
           disabled={statusDropdownOptions.length === 0}
           loading={isUpdatingStatus}
-          button
-          item
-          compact
+          pointing="top"
+          icon={null}
+          trigger={
+            <Button
+              inverted
+              content={strings.UPDATE_STATUS}
+              compact
+              style={{ margin: '0' }}
+            />
+          }
         />
         <UpdateStatusModal
           open={updateStatusModalOpen}
@@ -233,8 +232,5 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  planUpdated,
-  planStatusHistoryRecordAdded,
   updateRUPStatus,
-  createRUPStatusHistoryRecord,
 })(UpdateStatusDropdown);

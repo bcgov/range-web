@@ -6,4 +6,5 @@
 /build
 /sonar-runner
 /src/semantic
+/src/components/rangeUsePlan/pdf
 /src/serviceWorker.js

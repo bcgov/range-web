@@ -6,7 +6,7 @@ import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { LOGIN_TITLE, APP_NAME } from '../../constants/strings';
 import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
 import { fetchUser } from '../../actionCreators';
-import { InvertedButton, Footer } from '../common';
+import { Footer, PrimaryButton } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
 
@@ -42,7 +42,11 @@ export class LoginPage extends Component {
         }
 
         <article className="login__header">
-          <img className="login__header__logo" src={IMAGE_SRC.NAV_LOGO} alt="Logo" />
+          <div className="container">
+            <div className="login__header__content">
+              <img className="login__header__logo" src={IMAGE_SRC.MYRANGEBC_LOGO} alt="Logo" />
+            </div>
+          </div>
         </article>
 
         <article className="login__paragraph1">
@@ -112,13 +116,13 @@ export class LoginPage extends Component {
                 <div className="login__paragraph5__text">
                   {APP_NAME} uses the secure BCeID  for accessing, submitting and signing legal materials relating to crown range agreements. Many individuals may already have a  BCeID used for groundwater registration or other BC Government applications.  Follow the instructions at the link below to get a BCeID account .
                 </div>
-                <InvertedButton
+                <PrimaryButton
                   className="login__paragraph5__register-btn"
-                  primaryColor
+                  inverted
                   onClick={this.registerBtnClicked}
                 >
                   Register for a BCeID
-                </InvertedButton>
+                </PrimaryButton>
               </div>
               <div className="login__paragraph-cell">
                 <img

@@ -154,11 +154,17 @@ export const isAmendment = amendmentTypeId => (
 
 export const isSubmittedAsMinor = (amendmentTypeId, amendmentTypes) => {
   const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  if (!amendmentType) {
+    return false;
+  }
   return amendmentType && (amendmentType.code === AMENDMENT_TYPE.MINOR);
 };
 
 export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
   const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId);
+  if (!amendmentType) {
+    return false;
+  }
   return amendmentType && (amendmentType.code === AMENDMENT_TYPE.MANDATORY);
 };
 

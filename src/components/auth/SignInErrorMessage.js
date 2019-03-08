@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
 import { signOutFromSSO } from '../../utils';
 import { SIGN_IN_ERROR } from '../../constants/strings';
-import { ErrorMessage } from '../common';
+import { ErrorMessage, PrimaryButton } from '../common';
 
 class SignInErrorMessage extends Component {
   static propTypes = {
@@ -40,14 +39,12 @@ class SignInErrorMessage extends Component {
     return (
       <div className="signin__error">
         <ErrorMessage message={message} />
-        <Button
-          primary
+        <PrimaryButton
           fluid
-          style={{ height: '50px', marginTop: '15px' }}
+          style={{ height: '45px', marginTop: '15px' }}
           onClick={this.onLogoutBtnClick}
-        >
-          Sign Out
-        </Button>
+          content="Sign Out"
+        />
       </div>
     );
   }

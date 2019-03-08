@@ -1,5 +1,5 @@
 import * as strings from '../../constants/strings';
-import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES, NOT_DOWNLOADABLE_PLAN_STATUSES } from '../../constants/variables';
+import { PLAN_STATUS, APPROVED_PLAN_STATUSES, EDITABLE_PLAN_STATUSES, FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES, REQUIRE_NOTES_PLAN_STATUSES, NOT_DOWNLOADABLE_PLAN_STATUSES, REFERENCE_KEY } from '../../constants/variables';
 import { isAmendment } from './amendment';
 import { isPlanAmendment } from '../validation';
 
@@ -157,6 +157,15 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   }
 
   return false;
+};
+
+export const findStatusWithCode = (references, statusCode) => {
+  if (references && statusCode) {
+    const planStatusList = references[REFERENCE_KEY.PLAN_STATUS];
+    return planStatusList.find(s => s.code === statusCode);
+  }
+
+  return undefined;
 };
 
 export const getBannerContentForAH = (plan) => {

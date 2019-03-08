@@ -37,19 +37,22 @@ export const getContactOption = user => (
 );
 
 export const getClientOption = (client) => {
-  const { clientNumber, name } = client;
+  const { clientNumber, name, locationCode } = client;
 
   return {
     key: clientNumber,
     value: clientNumber,
-    text: name,
+    text: `${name} - ${locationCode}`,
     description: `Client #: ${clientNumber}`,
   };
 };
 
 export const getUserOption = (user) => {
   const { email, clientId } = user;
-  const description = clientId ? `Client #: ${clientId}, ${email}` : `${email}`;
+  let description = `${email}`;
+  if (clientId) {
+    description = `Client #: ${clientId}, ${email}`;
+  }
 
   return {
     value: user.id,
