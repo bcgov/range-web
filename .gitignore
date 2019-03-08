@@ -24,3 +24,4 @@ yarn-error.log*
 
 .vscode/*
 Todo
+sonar-runner/build/
