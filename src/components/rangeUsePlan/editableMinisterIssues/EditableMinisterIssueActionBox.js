@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { Input, Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
 import { REFERENCE_KEY, CONFIRMATION_MODAL_ID, DATE_FORMAT } from '../../../constants/variables';
 import { DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT, DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER } from '../../../constants/strings';
-import { parseMonthAndDay } from '../../../utils';
+import { parseMonthAndDay, createDateWithMoment } from '../../../utils';
 
 class EditableMinisterIssueActionBox extends Component {
   static propTypes = {
@@ -29,11 +29,10 @@ class EditableMinisterIssueActionBox extends Component {
 
     // use the current year as a reference point to create date objects
     const currYear = new Date().getFullYear();
-    const noGrazeStartDate = (ngStartDay && ngStartMonth) ? new Date(`${currYear}-${ngStartMonth}-${ngStartDay}`) : undefined;
-    const noGrazeEndDate = (ngEndDay && ngEndMonth) ? new Date(`${currYear}-${ngEndMonth}-${ngEndDay}`) : undefined;
-
-    const minDate = new Date(`${currYear}-01-02`);
-    const maxDate = new Date(`${currYear + 1}-01-01`);
+    const noGrazeStartDate = createDateWithMoment(ngStartDay, ngStartMonth, currYear);
+    const noGrazeEndDate = createDateWithMoment(ngEndDay, ngEndMonth, currYear);
+    const minDate = createDateWithMoment(2, 1, currYear);
+    const maxDate = createDateWithMoment(1, 1, currYear + 1);
 
     this.pikaDayDateIn = new Pikaday({
       field: this.startDateRef,
@@ -41,7 +40,7 @@ class EditableMinisterIssueActionBox extends Component {
       minDate,
       maxDate: noGrazeEndDate || maxDate,
       defaultDate: noGrazeStartDate || minDate, // the initial date to view when first opened
-      setDefaultDate: noGrazeStartDate !== undefined,
+      setDefaultDate: noGrazeStartDate !== null,
       onSelect: this.handleDateChange('noGrazeStartDate'),
     });
 
@@ -51,7 +50,7 @@ class EditableMinisterIssueActionBox extends Component {
       minDate: noGrazeStartDate || minDate,
       maxDate,
       defaultDate: noGrazeEndDate || minDate,
-      setDefaultDate: noGrazeEndDate !== undefined,
+      setDefaultDate: noGrazeEndDate !== null,
       onSelect: this.handleDateChange('noGrazeEndDate'),
     });
   }

@@ -5,6 +5,7 @@ import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
 import * as utils from '../../../utils';
 import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT, DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER } from '../../../constants/strings';
+import { createDateWithMoment } from '../../../utils';
 
 class EditableGrazingScheduleEntryRow extends Component {
   static propTypes = {
@@ -25,10 +26,10 @@ class EditableGrazingScheduleEntryRow extends Component {
   componentDidMount() {
     const { entry, schedule } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
-    const dateIn = din ? new Date(din) : undefined;
-    const dateOut = dout ? new Date(dout) : undefined;
-    const minDate = new Date(`${schedule.year}-01-02`);
-    const maxDate = new Date(`${schedule.year + 1}-01-01`);
+    const dateIn = din ? new Date(din) : null;
+    const dateOut = dout ? new Date(dout) : null;
+    const minDate = createDateWithMoment(2, 1, schedule.year);
+    const maxDate = createDateWithMoment(1, 1, schedule.year + 1);
 
     this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,
@@ -36,7 +37,7 @@ class EditableGrazingScheduleEntryRow extends Component {
       minDate,
       maxDate: dateOut || maxDate,
       defaultDate: dateIn || minDate, // the initial date to view when first opened
-      setDefaultDate: dateIn !== undefined, // show default date if dateIn was defined
+      setDefaultDate: dateIn !== null, // show default date if dateIn was defined
       onSelect: this.handleDateChange('dateIn'),
     });
 
@@ -46,7 +47,7 @@ class EditableGrazingScheduleEntryRow extends Component {
       minDate: dateIn || minDate,
       maxDate,
       defaultDate: dateOut || minDate,
-      setDefaultDate: dateOut !== undefined,
+      setDefaultDate: dateOut !== null,
       onSelect: this.handleDateChange('dateOut'),
     });
   }

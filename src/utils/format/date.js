@@ -61,3 +61,15 @@ export const parseMonthAndDay = (date) => {
     day: moment(date).date(),
   };
 };
+
+export const createDateWithMoment = (day, month, year) => {
+  if (month && day) {
+    return moment()
+      .set('year', year || new Date().getFullYear())
+      .set('month', month - 1)
+      .set('date', day)
+      .toDate();
+  }
+
+  return null;
+};

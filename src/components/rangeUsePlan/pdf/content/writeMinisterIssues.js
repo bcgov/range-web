@@ -85,7 +85,7 @@ export const writeMinisterIssuesAndActions = (doc, plan) => {
         const { detail: miaDetail, ministerIssueActionType, other } = mia;
         let miatName = ministerIssueActionType.name;
         if (ministerIssueActionType.name === 'Other') {
-          miatName = other || 'Other';
+          miatName = other ? `Other (${other})` : 'Other';
         }
 
         const startYForVLine = currY;
