@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { parseQuery } from '../../utils';
 import SearchableAgreementTable from './SearchableAgreementTable';
 import { searchAgreements, fetchAgreement } from '../../actionCreators';
+import { agreementSearchChanged } from '../../actions';
 import { SELECT_RUP_TITLE } from '../../constants/strings';
 
 class Base extends Component {
@@ -42,7 +43,7 @@ class Base extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { fetchAgreement, location } = this.props;
+    const { agreementSearchChanged, fetchAgreement, location } = this.props;
     const locationChanged = nextProps.location !== location;
 
     if (locationChanged) {
@@ -54,6 +55,8 @@ class Base extends Component {
         row,
         aId: agreementId,
       } = params;
+
+      agreementSearchChanged(params);
 
       // search new agreements only when users search for term or click on different pages
       if ((oldParams.page !== page) || (oldParams.term !== term)) {
@@ -78,4 +81,8 @@ class Base extends Component {
 }
 
 
-export default connect(null, { searchAgreements, fetchAgreement })(Base);
+export default connect(null, {
+  searchAgreements,
+  fetchAgreement,
+  agreementSearchChanged,
+})(Base);
