@@ -44,5 +44,6 @@ const agreementReducer = (state = initialState, action) => {
 export const getAgreements = state => state.agreementIds.map(id => state.agreements[id]);
 export const getAgreementsMap = state => state.agreements;
 export const getAgreementIds = state => state.agreementIds;
+export const getAgreementSearchParams = state => state.params;
 
 export default agreementReducer;

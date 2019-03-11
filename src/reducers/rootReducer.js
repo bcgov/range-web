@@ -80,6 +80,7 @@ export default rootReducer;
 // public selectors
 export const getAgreements = state => fromAgreement.getAgreements(state[reducerTypes.AGREEMENTS]);
 export const getAgreementIds = state => fromAgreement.getAgreementIds(state[reducerTypes.AGREEMENTS]);
+export const getAgreementSearchParams = state => fromAgreement.getAgreementSearchParams(state[reducerTypes.AGREEMENTS]);
 export const getAgreementsMap = state => fromAgreement.getAgreementsMap(state[reducerTypes.AGREEMENTS]);
 export const getAgreementsPagination = state => fromNetwork.getPagination(state[reducerTypes.SEARCH_AGREEMENTS]);
 export const getIsFetchingAgreements = state => fromNetwork.getIsFetching(state[reducerTypes.SEARCH_AGREEMENTS]);
