@@ -135,6 +135,7 @@ export const REDIRECTING = 'Please wait while redirecting...';
 export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 export const SIGN_IN_ERROR = 'Error occured while signing in.';
 export const UPDATE_USER_ERROR = 'Error occured while updating your profile.';
+export const NO_CLIENT_NUMBER_ASSIGNED = 'Your account has not yet been linked to a client number. Please contact your local range staff office.';
 
 // modals
 export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';
