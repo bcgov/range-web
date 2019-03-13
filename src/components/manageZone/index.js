@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ManageZone from './ManageZone';
-import { fetchUsers, updateUserIdOfZone } from '../../actionCreators';
+import { fetchUsers, updateUserIdOfZone, fetchZones } from '../../actionCreators';
 import { zoneUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
 import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone } from '../../reducers/rootReducer';
 import { MANAGE_ZONE_TITLE } from '../../constants/strings';
 
 class Base extends Component {
+  static propTypes = {
+    fetchZones: PropTypes.func.isRequired,
+    fetchUsers: PropTypes.func.isRequired,
+  }
+
   componentWillMount() {
+    const { fetchUsers, fetchZones } = this.props;
     document.title = MANAGE_ZONE_TITLE;
 
-    this.props.fetchUsers();
+    fetchZones();
+    fetchUsers();
   }
 
   render() {
@@ -33,6 +41,7 @@ const mapStateToProps = state => (
 
 export default connect(mapStateToProps, {
   fetchUsers,
+  fetchZones,
   updateUserIdOfZone,
   zoneUpdated,
   openConfirmationModal,
