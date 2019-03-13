@@ -28,9 +28,8 @@ import planReducer, * as fromPlan from './planReducer';
 import commonStoreReducer, * as fromCommonStore from './commonStoreReducer';
 import clientReducer, * as fromClient from './clientReducer';
 import toastReducer, * as fromToast from './toastReducer';
-import inputModalReducer, * as fromInputModal from './inputModalReducer';
 import agreementWithALLPlansReducer, * as fromAgreementWithAllPlans from './agreementWithALLPlansReducer';
-import confirmModalReducer, * as fromConfirmModal from './confirmModalReducer';
+import modalReducer, * as fromModalReducer from './modalReducer';
 
 // createReducer to allow for reducer reuse
 const createReducer = (reducer, name) => (state, action) => {
@@ -48,8 +47,7 @@ const appReducer = combineReducers({
   [reducerTypes.AGREEMENTS_WITH_ALL_PLANS]: agreementWithALLPlansReducer,
   [reducerTypes.PLAN]: planReducer,
   [reducerTypes.CLIENT]: clientReducer,
-  [reducerTypes.CONFIRM_MODAL]: confirmModalReducer,
-  [reducerTypes.INPUT_MODAL]: inputModalReducer,
+  [reducerTypes.MODAL]: modalReducer,
   [reducerTypes.SEARCH_AGREEMENTS]: createReducer(networkReducer, reducerTypes.SEARCH_AGREEMENTS),
   [reducerTypes.GET_PLAN]: createReducer(networkReducer, reducerTypes.GET_PLAN),
   [reducerTypes.GET_PLAN_PDF]: createReducer(networkReducer, reducerTypes.GET_PLAN_PDF),
@@ -82,6 +80,7 @@ export default rootReducer;
 // public selectors
 export const getAgreements = state => fromAgreement.getAgreements(state[reducerTypes.AGREEMENTS]);
 export const getAgreementIds = state => fromAgreement.getAgreementIds(state[reducerTypes.AGREEMENTS]);
+export const getAgreementSearchParams = state => fromAgreement.getAgreementSearchParams(state[reducerTypes.AGREEMENTS]);
 export const getAgreementsMap = state => fromAgreement.getAgreementsMap(state[reducerTypes.AGREEMENTS]);
 export const getAgreementsPagination = state => fromNetwork.getPagination(state[reducerTypes.SEARCH_AGREEMENTS]);
 export const getIsFetchingAgreements = state => fromNetwork.getIsFetching(state[reducerTypes.SEARCH_AGREEMENTS]);
@@ -139,5 +138,6 @@ export const getIsDeletingGrazingScheduleEntry = state => fromNetwork.getIsFetch
 export const getIsUpdatingPlanStatus = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_PLAN_STATUS]);
 
 export const getToastsMap = state => fromToast.getToastsMap(state[reducerTypes.TOAST]);
-export const getConfirmationModalsMap = state => fromConfirmModal.getConfirmationModalsMap(state[reducerTypes.CONFIRM_MODAL]);
-export const getInputModal = state => fromInputModal.getInputModal(state[reducerTypes.INPUT_MODAL]);
+export const getConfirmationModalsMap = state => fromModalReducer.getConfirmationModalsMap(state[reducerTypes.MODAL]);
+export const getInputModal = state => fromModalReducer.getInputModal(state[reducerTypes.MODAL]);
+export const getIsPiaModalOpen = state => fromModalReducer.getIsPiaModalOpen(state[reducerTypes.MODAL]);

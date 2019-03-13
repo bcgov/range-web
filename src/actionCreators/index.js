@@ -175,7 +175,9 @@ export const updateUser = data => (dispatch, getState) => {
   );
 };
 
-export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispatch, getState) => {
+export const searchAgreements = params => (dispatch, getState) => {
+  const { term = '', page = 1, limit = 10 } = params;
+
   if (getIsFetchingAgreements(getState())) {
     return Promise.resolve();
   }
@@ -193,7 +195,12 @@ export const searchAgreements = ({ term = '', page = 1, limit = 10 }) => (dispat
   return axios.get(API.SEARCH_AGREEMENTS, config).then(
     (response) => {
       dispatch(actions.successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data));
-      dispatch(actions.storeAgreements(normalize(response.data.agreements, schema.arrayOfAgreements)));
+      const payload = {
+        ...normalize(response.data.agreements, schema.arrayOfAgreements),
+        params,
+      };
+
+      dispatch(actions.storeAgreements(payload));
       return response.data;
     },
     (err) => {

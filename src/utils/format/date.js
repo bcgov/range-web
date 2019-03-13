@@ -33,6 +33,12 @@ export const formatDateFromUTC = date => (
   moment(date).format(DATE_FORMAT.SERVER_SIDE)
 );
 
+/**
+ *
+ *
+ * @param {Date} date The Date instance
+ * @returns {string} a formatted string
+ */
 export const formatDateToNow = (date) => {
   if (!date) return NOT_PROVIDED;
 
@@ -41,4 +47,29 @@ export const formatDateToNow = (date) => {
     .format(DATE_FORMAT.CLIENT_SIDE_WITH_HOURS);
 
   return `${fromNow}, ${absolute}`;
+};
+
+/**
+ * Parse a Date instance to get the month and day
+ *
+ * @param {Date} date The Date instance created by Pikaday
+ * @returns {object}
+ */
+export const parseMonthAndDay = (date) => {
+  return {
+    month: moment(date).month() + 1,
+    day: moment(date).date(),
+  };
+};
+
+export const createDateWithMoment = (day, month, year) => {
+  if (month && day) {
+    return moment()
+      .set('year', year || new Date().getFullYear())
+      .set('month', month - 1)
+      .set('date', day)
+      .toDate();
+  }
+
+  return null;
 };

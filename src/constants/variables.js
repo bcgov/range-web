@@ -73,6 +73,8 @@ export const CLIENT_TYPE = {
   OTHER: 'B',
 };
 
+export const DAYS_ON_THE_AVERAGE = 30.44;
+
 export const DATE_FORMAT = {
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   CLIENT_SIDE: 'MMMM D, YYYY',
@@ -129,6 +131,7 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
+  MYRANGEBC_LOGO_PNG: '/images/myrangebc_logo.png',
   MYRANGEBC_LOGO: '/images/myrangebc_logo.svg',
   COW_PIC: '/images/cow.jpg',
   SIGNIN_BACKGROUND: '/images/signin_background.jpg',

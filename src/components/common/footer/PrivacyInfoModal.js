@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
-import { PrimaryButton } from './index';
-import { APP_NAME } from '../../constants/strings';
+import { PrimaryButton } from '../index';
+import { APP_NAME } from '../../../constants/strings';
+import { openPiaModal, closePiaModal } from '../../../actions';
+import { getIsPiaModalOpen } from '../../../reducers/rootReducer';
 
 class PrivacyInfoModal extends Component {
   static propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
+    closePiaModal: PropTypes.func.isRequired,
+    isModalOpen: PropTypes.bool.isRequired,
   }
 
   render() {
-    const { closeModal, open } = this.props;
+    const { closePiaModal, isModalOpen } = this.props;
 
     return (
       <Modal
         dimmer="blurring"
         closeIcon
-        onClose={closeModal}
-        open={open}
+        onClose={closePiaModal}
+        open={isModalOpen}
         size="small"
       >
         <Modal.Content>
@@ -64,7 +67,7 @@ class PrivacyInfoModal extends Component {
           <div className="privacy-info__continue-btn">
             <PrimaryButton
               content={`Continue to ${APP_NAME}`}
-              onClick={closeModal}
+              onClick={closePiaModal}
             />
           </div>
         </Modal.Content>
@@ -73,4 +76,11 @@ class PrivacyInfoModal extends Component {
   }
 }
 
-export default PrivacyInfoModal;
+const mapStateToProps = state => ({
+  isModalOpen: getIsPiaModalOpen(state),
+});
+
+export default connect(mapStateToProps, {
+  openPiaModal,
+  closePiaModal,
+})(PrivacyInfoModal);

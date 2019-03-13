@@ -1,4 +1,4 @@
-import { ADD_TOAST, REMOVE_TOAST, OPEN_CONFIRMATION_MODAL, CLOSE_CONFIRMATION_MODAL, OPEN_INPUT_MODAL, CLOSE_INPUT_MODAL } from '../constants/actionTypes';
+import { ADD_TOAST, REMOVE_TOAST, OPEN_CONFIRMATION_MODAL, CLOSE_CONFIRMATION_MODAL, OPEN_INPUT_MODAL, CLOSE_INPUT_MODAL, OPEN_PIA_MODAL, CLOSE_PIA_MODAL } from '../constants/actionTypes';
 
 export const addToast = payload => (
   {
@@ -38,5 +38,17 @@ export const openInputModal = payload => (
 export const closeInputModal = () => (
   {
     type: CLOSE_INPUT_MODAL,
+  }
+);
+
+export const openPiaModal = () => (
+  {
+    type: OPEN_PIA_MODAL,
+  }
+);
+
+export const closePiaModal = () => (
+  {
+    type: CLOSE_PIA_MODAL,
   }
 );

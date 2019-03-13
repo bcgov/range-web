@@ -25,10 +25,10 @@ class EditableGrazingScheduleEntryRow extends Component {
   componentDidMount() {
     const { entry, schedule } = this.props;
     const { dateIn: din, dateOut: dout } = entry;
-    const dateIn = din ? new Date(din) : undefined;
-    const dateOut = dout ? new Date(dout) : undefined;
-    const minDate = new Date(`${schedule.year}-01-02`);
-    const maxDate = new Date(`${schedule.year + 1}-01-01`);
+    const dateIn = din ? new Date(din) : null;
+    const dateOut = dout ? new Date(dout) : null;
+    const minDate = utils.createDateWithMoment(1, 1, schedule.year);
+    const maxDate = utils.createDateWithMoment(31, 12, schedule.year);
 
     this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,
@@ -36,7 +36,7 @@ class EditableGrazingScheduleEntryRow extends Component {
       minDate,
       maxDate: dateOut || maxDate,
       defaultDate: dateIn || minDate, // the initial date to view when first opened
-      setDefaultDate: dateIn !== undefined, // show default date if dateIn was defined
+      setDefaultDate: dateIn !== null, // show default date if dateIn was defined
       onSelect: this.handleDateChange('dateIn'),
     });
 
@@ -46,7 +46,7 @@ class EditableGrazingScheduleEntryRow extends Component {
       minDate: dateIn || minDate,
       maxDate,
       defaultDate: dateOut || minDate,
-      setDefaultDate: dateOut !== undefined,
+      setDefaultDate: dateOut !== null,
       onSelect: this.handleDateChange('dateOut'),
     });
   }

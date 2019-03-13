@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Modal, Segment, Form } from 'semantic-ui-react';
 import { Loading, ErrorMessage, PrimaryButton } from '../common';
 import { getUser, getIsUpdatingUser, getUpdatingUserErrorOccured } from '../../reducers/rootReducer';
-import { getUserFullName, allowAlphabetOnly } from '../../utils';
+import { allowAlphabetOnly, doesUserHaveFullName } from '../../utils';
 import { updateUser } from '../../actionCreators';
 import { UPDATE_USER_ERROR, APP_NAME } from '../../constants/strings';
 
@@ -50,7 +50,7 @@ class UsernameInputModal extends Component {
     const { familyName, givenName } = this.state;
     const isGivenEmpty = givenName === '';
     const isFamilyEmpty = familyName === '';
-    const missingLastAndFirstName = !getUserFullName(user);
+    const missingLastAndFirstName = !doesUserHaveFullName(user);
 
     return (
       <Modal

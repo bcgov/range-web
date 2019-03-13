@@ -112,7 +112,7 @@ export const NOT_ASSIGNED = 'Not assigned';
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
-export const STATUS500 = 'Internal server error occurred, please contact the administrator(MyRangeBC@gov.bc.ca).';
+export const STATUS500 = 'Internal server error occurred, please contact the administrator (MyRangeBC@gov.bc.ca).';
 export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
 export const UPDATE_AGREEMENT_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
@@ -122,8 +122,8 @@ export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range us
 export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
-export const USER_NOT_ACTIVE = 'This account is not active yet. Please contact the administrator(MyRangeBC@gov.bc.ca).';
-export const USER_NO_ROLE = 'This account has not been assigned a role, please contact the administrator(MyRangeBC@gov.bc.ca).';
+export const USER_NOT_ACTIVE = 'This account is not active yet. Please contact the administrator (MyRangeBC@gov.bc.ca).';
+export const USER_NO_ROLE = 'This account has not been assigned a role, please contact the administrator (MyRangeBC@gov.bc.ca).';
 export const USER_NOT_REGISTERED = 'This account has not been registered.';
 export const LOADING_USER = 'Loading User Information';
 export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
@@ -135,6 +135,7 @@ export const REDIRECTING = 'Please wait while redirecting...';
 export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 export const SIGN_IN_ERROR = 'Error occured while signing in.';
 export const UPDATE_USER_ERROR = 'Error occured while updating your profile.';
+export const NO_CLIENT_NUMBER_ASSIGNED = 'Your account has not yet been linked to a client number. Please contact your local range staff office.';
 
 // modals
 export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';

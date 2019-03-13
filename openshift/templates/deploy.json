@@ -94,7 +94,7 @@
             "containers": [
               {
                 "name": "${NAME}-caddy",
-                "image": "${NAME}-caddy@${IMAGE_TAG}",
+                "image": "${NAME}-caddy:${IMAGE_TAG}",
                 "args": ["/tmp/scripts/run"],
                 "ports": [
                   {

@@ -1,5 +1,12 @@
 import * as actionTypes from '../constants/actionTypes';
 
+export const agreementSearchChanged = payload => (
+  {
+    type: actionTypes.AGREEMENT_SEARCH_CHANGED,
+    payload,
+  }
+);
+
 export const zoneUpdated = payload => (
   {
     type: actionTypes.ZONE_UPDATED,

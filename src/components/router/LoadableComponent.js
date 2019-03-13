@@ -32,4 +32,4 @@ export const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
 export const ManageZone = LoadableComponent(() => import('../manageZone'));
 export const ManageClient = LoadableComponent(() => import('../manageClient'));
 export const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlan'));
-export const PDFView = LoadableComponent(() => import('../rangeUsePlan/PDFView'));
+export const PDFView = LoadableComponent(() => import('../rangeUsePlan/pdf/PDFView'));

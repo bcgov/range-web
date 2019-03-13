@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Pagination, Icon, Segment } from 'semantic-ui-react';
+import { Pagination, Icon, Segment, Message } from 'semantic-ui-react';
 import AgreementTableRow from './AgreementTableRow';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
 import { Loading, PrimaryButton } from '../common';
+import { isUserAgreementHolder } from '../../utils';
 
 export class AgreementTable extends Component {
   static propTypes = {
@@ -86,6 +87,33 @@ export class AgreementTable extends Component {
     );
   }
 
+  renderWarningMsgForAgreementHolder = (errorGettingAgreements, isFetchingAgreements) => {
+    const { user } = this.props;
+    const clientNumber = user && user.clientId;
+
+    if (
+      isUserAgreementHolder(user) &&
+      !clientNumber &&
+      !isFetchingAgreements &&
+      !errorGettingAgreements
+    ) {
+      return (
+        <Message
+          warning
+          style={{ margin: '10px 0' }}
+          content={
+            <div>
+              <Icon name="warning sign" style={{ marginRight: '5px' }} />
+              {strings.NO_CLIENT_NUMBER_ASSIGNED}
+            </div>
+          }
+        />
+      );
+    }
+
+    return null;
+  }
+
   render() {
     const {
       agreements,
@@ -98,6 +126,8 @@ export class AgreementTable extends Component {
     return (
       <Segment basic>
         <Loading active={isFetchingAgreements} />
+
+        {this.renderWarningMsgForAgreementHolder(agreements, errorGettingAgreements, isFetchingAgreements)}
 
         <div className="agrm__table">
           <div className="agrm__table__header-row">

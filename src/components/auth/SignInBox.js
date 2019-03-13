@@ -6,7 +6,7 @@ import { Loading } from '../common';
 import { LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { getDataFromLocalStorage } from '../../utils';
 import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators';
-import { storeAuthData, reauthenticate } from '../../actions';
+import { storeAuthData, reauthenticate, openPiaModal } from '../../actions';
 import { getIsFetchingUser, getFetchingUserErrorResponse, getFetchingUserErrorOccured } from '../../reducers/rootReducer';
 import SignInButtons from './SignInButtons';
 import SignInErrorMessage from './SignInErrorMessage';
@@ -22,6 +22,7 @@ class SignInBox extends Component {
     storeAuthData: PropTypes.func.isRequired,
     resetTimeoutForReAuth: PropTypes.func.isRequired,
     reauthenticate: PropTypes.func.isRequired,
+    openPiaModal: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -40,13 +41,17 @@ class SignInBox extends Component {
   }
 
   storageEventListener = () => {
-    const { storeAuthData, fetchUser, resetTimeoutForReAuth, reauthenticate } = this.props;
+    const { storeAuthData, fetchUser, resetTimeoutForReAuth, reauthenticate, openPiaModal } = this.props;
     const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
 
     if (authData) {
       storeAuthData(authData); // store the auth data in Redux store
       resetTimeoutForReAuth(reauthenticate);
-      fetchUser();
+      fetchUser().then(({ piaSeen }) => {
+        if (!piaSeen) {
+          openPiaModal();
+        }
+      });
     }
   }
 
@@ -105,4 +110,5 @@ export default connect(mapStateToProps, {
   signOut,
   reauthenticate,
   resetTimeoutForReAuth,
+  openPiaModal,
 })(SignInBox);

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown, Button } from 'semantic-ui-react';
-import { isStatusStands, isStatusPending, isStatusCreated, isStatusCompleted, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment, isStatusRecommendNotReady } from '../../utils';
+import { isStatusStands, isStatusCreated, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment, isStatusRecommendNotReady } from '../../utils';
 import { PLAN_STATUS } from '../../constants/variables';
 import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { updateRUPStatus } from '../../actionCreators';
@@ -117,11 +117,11 @@ class UpdateStatusDropdown extends Component {
   }
 
   getStatusDropdownOptions = (plan, status) => {
-    const completed = {
-      key: PLAN_STATUS.COMPLETED,
-      text: 'Completed',
-      onClick: this.openCompletedConfirmModal,
-    };
+    // const completed = {
+    //   key: PLAN_STATUS.COMPLETED,
+    //   text: 'Completed',
+    //   onClick: this.openCompletedConfirmModal,
+    // };
     const changeRequested = {
       key: PLAN_STATUS.CHANGE_REQUESTED,
       text: 'Change Request',
@@ -179,10 +179,8 @@ class UpdateStatusDropdown extends Component {
         return [approved, notApproved, notApprovedFWR];
       }
       return [approved, notApprovedFWR];
-    } else if (isStatusPending(status) || isStatusCreated(status)) {
-      return [completed, changeRequested];
-    } else if (isStatusCompleted(status)) {
-      return [approved];
+    } else if (isStatusCreated(status)) {
+      return [changeRequested];
     }
 
     return [];
