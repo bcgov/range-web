@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Icon } from 'semantic-ui-react';
 import debounce from 'lodash.debounce';
-import { Banner, PrimaryButton } from '../common';
+import { Banner, PrimaryButton, ErrorMessage } from '../common';
 import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getClientOption, getUserOption } from '../../utils';
@@ -21,6 +21,7 @@ class ManageClient extends Component {
   static propTypes = {
     users: PropTypes.arrayOf(PropTypes.object).isRequired,
     usersMap: PropTypes.shape({}).isRequired,
+    errorOccuredGettingUsers: PropTypes.bool.isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     searchClients: PropTypes.func.isRequired,
     updateClientIdOfUser: PropTypes.func.isRequired,
@@ -82,6 +83,7 @@ class ManageClient extends Component {
       clients,
       isFetchingClients,
       isUpdatingClientIdOfUser,
+      errorOccuredGettingUsers,
     } = this.props;
     const {
       userId,
@@ -110,6 +112,10 @@ class ManageClient extends Component {
 
         <div className="manage-client__content">
           <div className="manage-client__steps">
+            {errorOccuredGettingUsers &&
+              <ErrorMessage message={strings.GET_USERS_ERROR} />
+            }
+
             <h3>Step 1: Select User</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_USERS_DROPDOWN}
