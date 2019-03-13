@@ -127,7 +127,7 @@ export class AgreementTable extends Component {
       <Segment basic>
         <Loading active={isFetchingAgreements} />
 
-        {this.renderWarningMsgForAgreementHolder(agreements, errorGettingAgreements, isFetchingAgreements)}
+        {this.renderWarningMsgForAgreementHolder(errorGettingAgreements, isFetchingAgreements)}
 
         <div className="agrm__table">
           <div className="agrm__table__header-row">
