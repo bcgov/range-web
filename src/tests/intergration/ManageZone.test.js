@@ -31,6 +31,7 @@ describe('Integration testing', () => {
     };
 
     mockAxios.onGet(API.GET_USERS, config).reply(200, mockUsers);
+    mockAxios.onGet(API.GET_ZONES, config).reply(200, mockZones);
 
     const ManageZoneWithRouter = withRouter(ManageZone);
     const wrapper = mount(
@@ -57,6 +58,7 @@ describe('Integration testing', () => {
     const mockZone = mockZones[12];
 
     mockAxios.onGet(API.GET_USERS, config).reply(200, mockUsers);
+    mockAxios.onGet(API.GET_ZONES, config).reply(200, mockZones);
     mockAxios.onPut(API.UPDATE_USER_ID_OF_ZONE(mockZone.id), { userId: mockContact.id }, config);
 
     const ManageZoneWithRouter = withRouter(ManageZone);
