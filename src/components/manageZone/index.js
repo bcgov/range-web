@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ManageZone from './ManageZone';
 import { fetchUsers, updateUserIdOfZone, fetchZones } from '../../actionCreators';
 import { zoneUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
-import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone } from '../../reducers/rootReducer';
+import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone, getZonesErrorOccured } from '../../reducers/rootReducer';
 import { MANAGE_ZONE_TITLE } from '../../constants/strings';
 
 class Base extends Component {
@@ -34,6 +34,7 @@ const mapStateToProps = state => (
   {
     zones: getZones(state),
     zonesMap: getZonesMap(state),
+    errorOccuredGettingZones: getZonesErrorOccured(state),
     users: getUsers(state),
     isAssigning: getIsUpdatingUserIdOfZone(state),
   }

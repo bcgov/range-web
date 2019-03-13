@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
-import { Banner, PrimaryButton } from '../common';
+import { Banner, PrimaryButton, ErrorMessage } from '../common';
 import {
   MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
-  UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER,
+  UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER, GET_ZONES_ERROR,
 } from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getZoneOption, getContactOption } from '../../utils';
@@ -14,6 +14,7 @@ export class ManageZone extends Component {
     users: PropTypes.arrayOf(PropTypes.object).isRequired,
     zones: PropTypes.arrayOf(PropTypes.object).isRequired,
     zonesMap: PropTypes.shape({}).isRequired,
+    errorOccuredGettingZones: PropTypes.bool.isRequired,
     zoneUpdated: PropTypes.func.isRequired,
     updateUserIdOfZone: PropTypes.func.isRequired,
     isAssigning: PropTypes.bool.isRequired,
@@ -79,7 +80,7 @@ export class ManageZone extends Component {
 
   render() {
     const { zoneId, newContactId } = this.state;
-    const { users, zones, isAssigning } = this.props;
+    const { users, zones, isAssigning, errorOccuredGettingZones } = this.props;
 
     const zoneOptions = zones.map(zone => getZoneOption(zone));
     const contactOptions = users.map(user => getContactOption(user));
@@ -94,6 +95,12 @@ export class ManageZone extends Component {
 
         <div className="manage-zone__content">
           <div className="manage-zone__steps">
+            {errorOccuredGettingZones &&
+              <ErrorMessage
+                message={GET_ZONES_ERROR}
+              />
+            }
+
             <h3>Step 1: Select a zone</h3>
             <div className="manage-zone__step-one">
               <Dropdown
