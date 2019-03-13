@@ -8,34 +8,35 @@ import { stringifyQuery } from '../../utils';
 import { HOME } from '../../constants/routes';
 
 const propTypes = {
-  agreementSearchParams: PropTypes.shape({}).isRequired,
+  agreementSearchParams: PropTypes.shape({}),
   className: PropTypes.string,
 };
 
 const defaultProps = {
   className: '',
+  agreementSearchParams: null,
 };
 
 class BackBtn extends Component {
   state = {
-    redirect: null,
+    agreementSearchQuery: null,
   }
 
   onBtnClick = (e) => {
     e.preventDefault();
     const { agreementSearchParams } = this.props;
-    const query = stringifyQuery(agreementSearchParams);
+
     this.setState({
-      redirect: query,
+      agreementSearchQuery: stringifyQuery(agreementSearchParams),
     });
   }
 
   render() {
     const { className } = this.props;
-    const { redirect } = this.state;
+    const { agreementSearchQuery } = this.state;
 
-    if (redirect) {
-      return <Redirect to={`${HOME}?${redirect}`} />;
+    if (agreementSearchQuery) {
+      return <Redirect to={`${HOME}?${agreementSearchQuery}`} />;
     }
 
     return (
