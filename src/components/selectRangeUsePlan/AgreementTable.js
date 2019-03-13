@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Pagination, Icon, Segment, Message } from 'semantic-ui-react';
+import { Pagination, Icon, Segment } from 'semantic-ui-react';
 import AgreementTableRow from './AgreementTableRow';
 import * as strings from '../../constants/strings';
 import * as selectors from '../../reducers/rootReducer';
-import { Loading, PrimaryButton } from '../common';
+import { Loading, PrimaryButton, ErrorMessage } from '../common';
 import { isUserAgreementHolder } from '../../utils';
 
 export class AgreementTable extends Component {
@@ -98,15 +98,10 @@ export class AgreementTable extends Component {
       !errorGettingAgreements
     ) {
       return (
-        <Message
+        <ErrorMessage
           warning
           style={{ margin: '10px 0' }}
-          content={
-            <div>
-              <Icon name="warning sign" style={{ marginRight: '5px' }} />
-              {strings.NO_CLIENT_NUMBER_ASSIGNED}
-            </div>
-          }
+          message={strings.NO_CLIENT_NUMBER_ASSIGNED}
         />
       );
     }

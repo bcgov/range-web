@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Message } from 'semantic-ui-react';
 import { handleGrazingScheduleValidation } from '../../../utils';
+import { ErrorMessage } from '../../common';
 
 class WarningMessage extends Component {
   static propTypes = {
@@ -27,14 +27,8 @@ class WarningMessage extends Component {
 
     return (
       <div className="rup__grazing-schedule__warning-message">
-        <Message
-          error
-          content={
-            <div>
-              <Icon name="warning sign" style={{ marginRight: '5px' }} />
-              {message}
-            </div>
-          }
+        <ErrorMessage
+          message={message}
         />
       </div>
     );
