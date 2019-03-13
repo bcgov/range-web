@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ManageClient from './ManageClient';
 import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
 import { userUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
-import { getUsers, getClients, getIsFetchingClients, getIsUpdatingClientIdOfUser, getUsersMap } from '../../reducers/rootReducer';
+import { getUsers, getClients, getIsFetchingClients, getIsUpdatingClientIdOfUser, getUsersMap, getUsersErrorOccured } from '../../reducers/rootReducer';
 import { MANAGE_CLIENT_TITLE } from '../../constants/strings';
 
 const propTypes = {
@@ -31,6 +31,7 @@ const mapStateToProps = state => (
   {
     users: getUsers(state),
     usersMap: getUsersMap(state),
+    errorOccuredGettingUsers: getUsersErrorOccured(state),
     clients: getClients(state),
     isFetchingClients: getIsFetchingClients(state),
     isUpdatingClientIdOfUser: getIsUpdatingClientIdOfUser(state),

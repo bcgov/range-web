@@ -29,14 +29,13 @@ import SignInModal from './SignInModal';
 import UsernameInputModal from './UsernameInputModal';
 import { Footer } from '../common';
 import { registerAxiosInterceptors } from '../../utils';
-import { fetchReferences, fetchZones, signOut, resetTimeoutForReAuth } from '../../actionCreators';
+import { fetchReferences, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { reauthenticate } from '../../actions';
 
 export class MainPage extends Component {
   static propTypes = {
     component: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired,
-    fetchZones: PropTypes.func.isRequired,
     fetchReferences: PropTypes.func.isRequired,
   }
 
@@ -47,9 +46,7 @@ export class MainPage extends Component {
   }
 
   componentDidMount() {
-    const { fetchReferences, fetchZones } = this.props;
-    fetchReferences();
-    fetchZones();
+    this.props.fetchReferences();
   }
 
   render() {
@@ -84,6 +81,5 @@ export default connect(null, {
   signOut,
   reauthenticate,
   fetchReferences,
-  fetchZones,
   resetTimeoutForReAuth,
 })(MainPage);

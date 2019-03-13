@@ -26,6 +26,11 @@ class BackBtn extends Component {
     e.preventDefault();
     const { agreementSearchParams } = this.props;
 
+    if (!agreementSearchParams) {
+      window.history.back();
+      return;
+    }
+
     this.setState({
       agreementSearchQuery: stringifyQuery(agreementSearchParams),
     });

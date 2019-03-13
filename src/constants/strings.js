@@ -136,6 +136,8 @@ export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendm
 export const SIGN_IN_ERROR = 'Error occured while signing in.';
 export const UPDATE_USER_ERROR = 'Error occured while updating your profile.';
 export const NO_CLIENT_NUMBER_ASSIGNED = 'Your account has not yet been linked to a client number. Please contact your local range staff office.';
+export const GET_ZONES_ERROR = 'Error occured while fetching zones';
+export const GET_USERS_ERROR = 'Error occured while fetching users';
 
 // modals
 export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';
