@@ -91,7 +91,7 @@
 
   &__container {
     @extend .container;
-    padding-top: 15px;
+    padding: 24px 0;
     min-height: 130px;
     display: flex;
     flex-direction: column;
@@ -104,6 +104,7 @@
   &__content {
     font-size: 1.2rem;
     line-height: 25px;
+    max-width: 700px;
   }
 
   &__action {
