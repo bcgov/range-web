@@ -78,10 +78,10 @@ export class AgreementTableRow extends Component {
           </div>
           <div className="agrm__table__accordian__cell">
             { isActiveAndHasPlans &&
-              <Icon name="minus square" />
+              <Icon name="minus circle" size="large" />
             }
             { !isActiveAndHasPlans &&
-              <Icon name="plus square" disabled={mostCurrPlan === undefined} />
+              <Icon name="plus circle" size="large" disabled={mostCurrPlan === undefined} />
             }
           </div>
         </button>
