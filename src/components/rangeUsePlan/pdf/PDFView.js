@@ -43,7 +43,7 @@ class PDFView extends Component {
   }
 
   generatePDF = (plan) => {
-    this.getDataUri(IMAGE_SRC.MYRANGEBC_LOGO_PNG, (logoImage) => {
+    this.getDataUri(IMAGE_SRC.MYRANGEBC_LOGO_FOR_PDF, (logoImage) => {
       const doc = new jsPDF();
       const startX = 14;
       const halfPageWidth = 105;

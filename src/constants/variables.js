@@ -131,8 +131,9 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  MYRANGEBC_LOGO_PNG: '/images/myrangebc_logo.png',
+  MYRANGEBC_LOGO_FOR_PDF: '/images/myrangebc_logo.png',
   MYRANGEBC_LOGO: '/images/myrangebc_logo.svg',
+  MYRANGEBC_LOGO_DARK: '/images/myrangebc_logo_dark.svg',
   COW_PIC: '/images/cow.jpg',
   SIGNIN_BACKGROUND: '/images/signin_background.jpg',
   LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',
