@@ -47,6 +47,7 @@ export class Navbar extends Component {
               activeClassName="navbar__link--active"
             >
               {SELECT_RUP}
+              <div className="navbar__link__underline" />
             </NavLink>
 
             {isUserAdmin(user) &&
@@ -57,6 +58,7 @@ export class Navbar extends Component {
                   activeClassName="navbar__link--active"
                 >
                   {MANAGE_ZONES}
+                  <div className="navbar__link__underline" />
                 </NavLink>
                 <NavLink
                   to={Routes.MANAGE_CLIENT}
@@ -64,6 +66,7 @@ export class Navbar extends Component {
                   activeClassName="navbar__link--active"
                 >
                   {MANAGE_CLIENTS}
+                  <div className="navbar__link__underline" />
                 </NavLink>
                 {/* <Dropdown className="navbar__menu" text="Menu">
                   <Dropdown.Menu>

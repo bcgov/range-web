@@ -26,7 +26,13 @@
       color: black;
     }
     &--active {
-      border-bottom: 5px solid $accent-color;
+      > div { // for .navbar__link__underline
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        border-bottom: 5px solid #F3B229;
+      }
     }
   }
 
