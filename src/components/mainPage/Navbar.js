@@ -34,7 +34,9 @@ export class Navbar extends Component {
         <div className="navbar__container">
           <div className="navbar__left">
             <Link to={Routes.HOME}>
-              <img className="navbar__logo" src={IMAGE_SRC.MYRANGEBC_LOGO} alt="Logo" />
+              <div className="navbar__logo">
+                <img src={IMAGE_SRC.MYRANGEBC_LOGO_DARK} alt="Logo" />
+              </div>
             </Link>
           </div>
 
