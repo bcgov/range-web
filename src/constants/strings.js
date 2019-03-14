@@ -21,7 +21,7 @@ export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
 export const SUBMITTED = 'Submitted';
-export const AGREEMENT_SEARCH_PLACEHOLDER = 'Enter RAN, agreement holder\'s name, or staff contact';
+export const AGREEMENT_SEARCH_PLACEHOLDER = 'Enter RAN number, agreement holder\'s name, or staff contact';
 export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View

@@ -70,15 +70,15 @@ export class SearchableAgreementTable extends Component {
         <Banner
           header={SELECT_RUP_BANNER_HEADER}
           content={SELECT_RUP_BANNER_CONTENT}
-        >
+        />
+
+        <div className="agrm__table-container">
           <SearchBar
             placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
             handleSearchInput={this.searchAgreementsWithDebounce}
             searchTerm={searchTerm}
           />
-        </Banner>
 
-        <div className="agrm__table-container">
           <AgreementTable
             history={history}
             activeIndex={activeIndex}

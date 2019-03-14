@@ -119,7 +119,7 @@ export class AgreementTable extends Component {
     const { currentPage, totalPages } = agreementPagination || {};
 
     return (
-      <Segment basic>
+      <Segment basic style={{ marginTop: '0' }}>
         <Loading active={isFetchingAgreements} />
 
         {this.renderWarningMsgForAgreementHolder(errorGettingAgreements, isFetchingAgreements)}
