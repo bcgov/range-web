@@ -4,7 +4,7 @@ import UpdateZoneModal from '../UpdateZoneModal';
 import { DETAIL_RUP_BANNER_CONTENT, DOWNLOAD_PDF } from '../../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
-import { getPlanTypeDescription, cannotDownloadPDF } from '../../../utils';
+import { getPlanTypeDescription, cannotDownloadPDF, capitalize } from '../../../utils';
 import BasicInformation from '../basicInformation';
 import Pastures from '../pastures';
 import GrazingSchedules from '../grazingSchedules';
@@ -82,17 +82,16 @@ class PageForStaff extends Component {
         <StickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
-              <BackBtn
-                className="rup__back-btn"
-              />
               <div className="rup__actions__left">
-                <div className="rup__actions__title">{agreementId}</div>
-                <div className="rup__actions__primary-agreement-holder">{rangeName}</div>
+                <BackBtn
+                  className="rup__back-btn"
+                />
+                <div>{agreementId}</div>
                 <Status
-                  className="rup__status"
                   status={status}
                   user={user}
                 />
+                <div>{capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
                 <Button

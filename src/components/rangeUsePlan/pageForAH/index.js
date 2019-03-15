@@ -274,17 +274,16 @@ class PageForAH extends Component {
         <StickyHeader>
           <div className="rup__actions__background">
             <div className="rup__actions__container">
-              <BackBtn
-                className="rup__back-btn"
-              />
               <div className="rup__actions__left">
-                <div className="rup__actions__title">{agreementId}</div>
-                <div className="rup__actions__primary-agreement-holder">{rangeName}</div>
+                <BackBtn
+                  className="rup__back-btn"
+                />
+                <div>{agreementId}</div>
                 <Status
-                  className="rup__status"
                   status={status}
                   user={user}
                 />
+                <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
                 {this.renderActionBtns(canEdit, canAmend, canConfirm, canSubmit)}
