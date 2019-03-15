@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import UpdateZoneModal from '../UpdateZoneModal';
 import { DETAIL_RUP_BANNER_CONTENT, DOWNLOAD_PDF } from '../../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables';
@@ -100,6 +100,7 @@ class PageForStaff extends Component {
                   disabled={cannotDownloadPDF(status)}
                   onClick={this.onViewPDFClicked}
                 >
+                  <Icon name="file pdf outline" />
                   {DOWNLOAD_PDF}
                 </Button>
                 <UpdateStatusDropdown
