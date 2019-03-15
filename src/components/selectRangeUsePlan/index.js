@@ -6,6 +6,7 @@ import SearchableAgreementTable from './SearchableAgreementTable';
 import { searchAgreements, fetchAgreement } from '../../actionCreators';
 import { agreementSearchChanged } from '../../actions';
 import { SELECT_RUP_TITLE } from '../../constants/strings';
+import { getAgreementsErrorOccured, getIsFetchingAgreements } from '../../reducers/rootReducer';
 
 class Base extends Component {
   static propTypes = {
@@ -80,8 +81,14 @@ class Base extends Component {
   }
 }
 
+const mapStateToProps = state => (
+  {
+    isFetchingAgreements: getIsFetchingAgreements(state),
+    errorGettingAgreements: getAgreementsErrorOccured(state),
+  }
+);
 
-export default connect(null, {
+export default connect(mapStateToProps    , {
   searchAgreements,
   fetchAgreement,
   agreementSearchChanged,

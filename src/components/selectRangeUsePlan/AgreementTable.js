@@ -161,13 +161,11 @@ export class AgreementTable extends Component {
 const mapStateToProps = state => (
   {
     agreements: selectors.getAgreements(state),
-    isFetchingAgreements: selectors.getIsFetchingAgreements(state),
     agreementPagination: selectors.getAgreementsPagination(state),
-    errorGettingAgreements: selectors.getAgreementsErrorOccured(state),
+    isFetchingAgreementWithAllPlan: selectors.getIsFetchingAgreementWithAllPlan(state),
+    agreementsMapWithAllPlan: selectors.getAgreementsMapWithAllPlan(state),
     user: selectors.getUser(state),
     references: selectors.getReferences(state),
-    agreementsMapWithAllPlan: selectors.getAgreementsMapWithAllPlan(state),
-    isFetchingAgreementWithAllPlan: selectors.getIsFetchingAgreementWithAllPlan(state),
   }
 );
 

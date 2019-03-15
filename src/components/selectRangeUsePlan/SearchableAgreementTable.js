@@ -60,7 +60,7 @@ export class SearchableAgreementTable extends Component {
   }
 
   render() {
-    const { history, location, searchAgreementsWithOrWithoutParams } = this.props;
+    const { location, searchAgreementsWithOrWithoutParams, isFetchingAgreements } = this.props;
     const params = parseQuery(location.search);
     const searchTerm = params.term || '';
     const activeIndex = Number(params.row);
@@ -77,10 +77,11 @@ export class SearchableAgreementTable extends Component {
             placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
             handleSearchInput={this.searchAgreementsWithDebounce}
             searchTerm={searchTerm}
+            isFetchingAgreements={isFetchingAgreements}
           />
 
           <AgreementTable
-            history={history}
+            {...this.props}
             activeIndex={activeIndex}
             handlePaginationChange={this.handlePaginationChange}
             handleActiveIndexChange={this.handleActiveIndexChange}
