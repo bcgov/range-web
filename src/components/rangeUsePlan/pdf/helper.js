@@ -4,6 +4,18 @@ import { NOT_PROVIDED } from '../../../constants/strings';
 
 export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice(1));
 
+export const createDateWithMoment = (day, month, year) => {
+  if (month && day) {
+    return moment()
+      .set('year', year || new Date().getFullYear())
+      .set('month', month - 1)
+      .set('date', day)
+      .toDate();
+  }
+
+  return null;
+};
+
 /**
  * Present the date time in a more readable way
  *
