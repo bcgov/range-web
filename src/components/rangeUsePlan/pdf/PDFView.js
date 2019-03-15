@@ -127,7 +127,7 @@ class PDFView extends Component {
               style={{ marginLeft: '10px' }}
               onClick={this.onDownloadClicked}
             >
-              <Icon name="print" />
+              <Icon name="file pdf outline" />
               Download PDF
             </PrimaryButton>
             <div className="rup-pdf__close-btn__container">

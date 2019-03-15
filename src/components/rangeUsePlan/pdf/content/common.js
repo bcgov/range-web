@@ -84,7 +84,8 @@ export const writeLogoImage = (doc, logoImage) => {
 export const writeHeaderAndFooter = (doc, plan, logoImage) => {
   const { config } = doc;
   const {
-    startY, contentEndX, blackColor, grayColor, normalFontSize, halfPageWidth, pageHeight,
+    startY, contentEndX, blackColor, grayColor, lightGrayColor,
+    normalFontSize, halfPageWidth, pageHeight, startX,
   } = config;
   const {
     forestFileId, agreementStartDate: asd, agreementEndDate: aed, clients,
@@ -107,8 +108,14 @@ export const writeHeaderAndFooter = (doc, plan, logoImage) => {
     doc.textEx(`${formatDateFromServer(asd)} - ${formatDateFromServer(aed)}`, contentEndX - 0.5, startY + 12, 'right');
 
     // footer
-    doc.setFontSize(normalFontSize).setFontStyle('normal').setTextColor(blackColor);
-    doc.textEx(`${i}/${totalPages}`, halfPageWidth, pageHeight - 3);
+    doc.setFontSize(normalFontSize).setFontStyle('normal').setTextColor(grayColor);
+    const currDate = formatDateFromServer(new Date());
+    const footerY = pageHeight - 1;
+    doc.textEx(`Generated ${currDate} by the MyRangeBC Web application.`, startX, footerY);
+    doc.textEx(`Page ${i} of ${totalPages}`, contentEndX, footerY, 'right');
+    // horizontal line on the top of the footer
+    doc.setLineWidth(0.1).setDrawColor('#cccccc');
+    doc.line(startX, footerY - 1.5, contentEndX, footerY - 1.5);
   }
 };
 
@@ -155,7 +162,6 @@ export const drawVerticalLine = (
     doc.line(x, y1, x, y2 + 4);
   }
 };
-
 
 export const writeTitle = (doc, title) => {
   const { startX, afterHeaderY, blackColor } = doc.config;
