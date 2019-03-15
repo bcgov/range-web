@@ -51,7 +51,7 @@ class BackBtn extends Component {
         role="button"
         tabIndex="0"
       >
-        <Icon name="arrow left" size="large" />
+        <Icon name="arrow circle left" size="large" />
       </div>
     );
   }
