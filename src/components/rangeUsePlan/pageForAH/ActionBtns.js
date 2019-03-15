@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Popup } from 'semantic-ui-react';
+import { Button, Popup, Icon } from 'semantic-ui-react';
 import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../../constants/strings';
 
 const ActionBtns = ({
@@ -24,6 +24,7 @@ const ActionBtns = ({
       onClick={onViewPDFClicked}
       style={{ marginRight: '0' }}
     >
+      <Icon name="file pdf outline" />
       {DOWNLOAD_PDF}
     </Button>
   );

@@ -41,7 +41,7 @@ class BackBtn extends Component {
     const { agreementSearchQuery } = this.state;
 
     if (agreementSearchQuery) {
-      return <Redirect to={`${HOME}?${agreementSearchQuery}`} />;
+      return <Redirect push to={`${HOME}?${agreementSearchQuery}`} />;
     }
 
     return (
@@ -51,7 +51,7 @@ class BackBtn extends Component {
         role="button"
         tabIndex="0"
       >
-        <Icon name="arrow left" size="large" />
+        <Icon name="arrow circle left" size="large" />
       </div>
     );
   }

@@ -17,6 +17,7 @@ class SearchBar extends Component {
     handleSearchInput: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
     searchTerm: PropTypes.string.isRequired,
+    isFetchingAgreements: PropTypes.bool.isRequired,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,13 +41,13 @@ class SearchBar extends Component {
 
   render() {
     const { searchTerm } = this.state;
-    const { placeholder } = this.props;
+    const { placeholder, isFetchingAgreements } = this.props;
     return (
       <div className="agrm__search">
         <Input
           fluid
           icon
-          loading={false}
+          loading={isFetchingAgreements}
           iconPosition="left"
           placeholder={placeholder}
         >

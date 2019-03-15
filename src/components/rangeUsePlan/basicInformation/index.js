@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '../../common';
-import { formatDateFromServer, getAgreementHolders, getUserFullName } from '../../../utils';
+import { formatDateFromServer, getAgreementHolders, getUserFullName, capitalize } from '../../../utils';
 import * as strings from '../../../constants/strings';
 
 class BasicInformation extends Component {
@@ -82,7 +82,7 @@ class BasicInformation extends Component {
             />
             <TextField
               label={strings.RANGE_NAME}
-              text={rangeName}
+              text={capitalize(rangeName)}
             />
             <TextField
               label={strings.ALTERNATIVE_BUSINESS_NAME}

@@ -6,6 +6,7 @@ import {
   getClientFullName,
   getContactRole,
   getDistrict,
+  capitalize,
 } from '../helper';
 import { writeTitle, writeFieldText, drawHorizontalLine, writeText } from './common';
 
@@ -67,7 +68,7 @@ export const writeBasicInformation = (doc, plan) => {
   currY += marginBottom;
 
   currY = Math.max(
-    writeFieldText(doc, 'Range Name', rangeName, startX, currY, fieldTextWidth),
+    writeFieldText(doc, 'Range Name', capitalize(rangeName), startX, currY, fieldTextWidth),
     writeFieldText(doc, 'Contact Phone', phoneNumber, halfPageWidth, currY, fieldTextWidth),
   );
   currY += marginBottom;
