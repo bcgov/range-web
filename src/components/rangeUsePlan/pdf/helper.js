@@ -378,8 +378,11 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
 export const getMonthAndDateIntegers = (month, day) => {
   let monthAndDate = NOT_PROVIDED;
   if (month && day) {
-    const currYear = new Date().getFullYear();
-    monthAndDate = moment(`${currYear} ${month} ${day}`).format('MMMM D');
+    monthAndDate = moment()
+      .set('year', new Date().getFullYear())
+      .set('month', month - 1)
+      .set('date', day)
+      .format('MMMM D');
   }
 
   return monthAndDate;
