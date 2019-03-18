@@ -37,11 +37,13 @@ export const findConfirmationWithClientId = (clientId, confirmations, confirmati
 };
 
 export const getClientFullName = (contact) => {
-  if (!contact) return NOT_PROVIDED;
+  if (contact && contact.name) {
+    const array = contact.name
+      .split(' ')
+      .map(string => capitalize(string.toLowerCase()));
 
-  const array = contact.name
-    .split(' ')
-    .map(string => capitalize(string.toLowerCase()));
+    return array.join(' ');
+  }
 
-  return array.join(' ');
+  return NOT_PROVIDED;
 };

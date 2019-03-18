@@ -91,20 +91,17 @@ export const getAgreementType = (agreementType) => {
 
 export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice(1));
 
-/**
- * Reformat the contact name
- *
- * @param {Contact} contact The contact to be operated on
- * @returns A `String` represeting the contact name in the format `First Last`
- */
 export const getClientFullName = (contact) => {
-  const array = contact.name
-    .split(' ')
-    .map(string => capitalize(string.toLowerCase()));
+  if (contact && contact.name) {
+    const array = contact.name
+      .split(' ')
+      .map(string => capitalize(string.toLowerCase()));
 
-  return array.join(' ');
+    return array.join(' ');
+  }
+
+  return NOT_PROVIDED;
 };
-
 
 /**
  * Convert the contact type / role to its string equivolent
