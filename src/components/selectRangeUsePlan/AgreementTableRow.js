@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { Status } from '../common';
-import { handleNullValue, getUserFullName, getAgreementHolders } from '../../utils';
+import { handleNullValue, getUserFullName, getAgreementHolders, getClientFullName } from '../../utils';
 import PlanTable from './PlanTable';
 
 export class AgreementTableRow extends Component {
@@ -51,7 +51,7 @@ export class AgreementTableRow extends Component {
     const staff = zone && zone.user;
     const staffFullName = getUserFullName(staff);
     const { primaryAgreementHolder } = getAgreementHolders(clients);
-    const primaryAgreementHolderName = primaryAgreementHolder && primaryAgreementHolder.name;
+    const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder);
     const isActive = activeIndex === currIndex;
     const isActiveAndHasPlans = mostCurrPlan && isActive;
 

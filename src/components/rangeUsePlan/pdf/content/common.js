@@ -81,34 +81,53 @@ export const writeLogoImage = (doc, logoImage) => {
   doc.addImage(logoImage, 'PNG', startX - 3.5, startY - 3, 600 / di, 214 / di);
 };
 
-export const writeHeaderAndFooter = (doc, plan, logoImage) => {
-  const { config } = doc;
+const writeHeader = (doc, plan, logoImage) => {
   const {
-    startY, contentEndX, blackColor, grayColor, normalFontSize, halfPageWidth, pageHeight,
-  } = config;
+    startY, contentEndX, blackColor, grayColor,
+  } = doc.config;
   const {
     forestFileId, agreementStartDate: asd, agreementEndDate: aed, clients,
   } = plan.agreement || {};
 
+  if (logoImage) {
+    writeLogoImage(doc, logoImage);
+  }
+
+  doc.setFontSize(15).setFontStyle('bold').setTextColor(blackColor);
+  doc.textEx('Range Use Plan', contentEndX - 0.5, startY, 'right');
+
+  doc.setFontSize(10).setFontStyle('normal').setTextColor(grayColor);
+  doc.textEx(`${forestFileId} | ${getPrimaryClientFullName(clients)}`, contentEndX - 1, startY + 7, 'right');
+  doc.textEx(`${formatDateFromServer(asd)} - ${formatDateFromServer(aed)}`, contentEndX - 0.5, startY + 12, 'right');
+};
+
+const writeFooter = (doc, currPage, totalPages) => {
+  const {
+    contentEndX, grayColor, normalFontSize,
+    pageHeight, startX,
+  } = doc.config;
+
+  doc.setFontSize(normalFontSize).setFontStyle('normal').setTextColor(grayColor);
+  const currDate = formatDateFromServer(new Date());
+  const footerY = pageHeight - 1;
+  doc.textEx(`Generated ${currDate} by the MyRangeBC web application.`, startX, footerY);
+  doc.textEx(`Page ${currPage} of ${totalPages}`, contentEndX, footerY, 'right');
+
+  // horizontal line on the top of the footer
+  doc.setLineWidth(0.2).setDrawColor('#cccccc');
+  doc.line(startX, footerY - 1.5, contentEndX, footerY - 1.5);
+};
+
+export const writeHeadersAndFooters = (doc, plan, logoImage) => {
   const totalPages = doc.internal.getNumberOfPages();
+
   for (let i = 1; i <= totalPages; i += 1) {
     doc.setPage(i);
 
-    if (logoImage) {
-      writeLogoImage(doc, logoImage);
+    if (i > 1) { // for the front page
+      writeHeader(doc, plan, logoImage);
     }
-
-    // header
-    doc.setFontSize(15).setFontStyle('bold').setTextColor(blackColor);
-    doc.textEx('Range Use Plan', contentEndX - 0.5, startY, 'right');
-
-    doc.setFontSize(10).setFontStyle('normal').setTextColor(grayColor);
-    doc.textEx(`${forestFileId} | ${getPrimaryClientFullName(clients)}`, contentEndX - 1, startY + 7, 'right');
-    doc.textEx(`${formatDateFromServer(asd)} - ${formatDateFromServer(aed)}`, contentEndX - 0.5, startY + 12, 'right');
-
-    // footer
-    doc.setFontSize(normalFontSize).setFontStyle('normal').setTextColor(blackColor);
-    doc.textEx(`${i}/${totalPages}`, halfPageWidth, pageHeight - 3);
+    writeFooter(doc, i, totalPages)
   }
 };
 
@@ -155,7 +174,6 @@ export const drawVerticalLine = (
     doc.line(x, y1, x, y2 + 4);
   }
 };
-
 
 export const writeTitle = (doc, title) => {
   const { startX, afterHeaderY, blackColor } = doc.config;

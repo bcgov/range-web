@@ -1070,7 +1070,16 @@ const mockPlanWithAgreement = {
       
   ],
   "planStatusHistory": [],
-  "confirmations": [],
+  "confirmations": [
+      {
+        clientId: "00074435",
+        confirmed: true,
+        createdAt: "2019-03-15T22:29:52.438Z",
+        id: 1,
+        planId: 1,
+        updatedAt: "2019-03-15T22:50:52.438Z",
+      }
+  ],
   "invasivePlantChecklist": {
       "id": 1,
       "planId": 1,

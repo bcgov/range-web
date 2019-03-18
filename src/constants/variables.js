@@ -11,9 +11,10 @@ export const RETURN_PAGE_TYPE = {
   LOGOUT: 'logout',
 };
 
+export const SEARCH_DEBOUNCE_DELAY = 1000;
+export const DEFAULT_SEARCH_LIMIT = 10;
 export const TOAST_TIMEOUT = 15000;
 export const NUMBER_OF_LIMIT_FOR_NOTE = 140;
-export const SEARCH_DEBOUNCE_DELAY = 1000;
 export const STICKY_HEADER_HEIGHT = 55;
 export const CONTENT_MARGIN_TOP = 20;
 export const CONTENT_MARGIN_BOTTOM = 35;

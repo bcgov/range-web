@@ -1,5 +1,5 @@
 import {
-  formatMinisterIssues,
+  formatMinisterIssues, createDateWithMoment, formatDateFromServer,
 } from '../helper';
 import { writeTitle, drawHorizontalLine, drawVerticalLine, writeText, writeFieldText } from './common';
 
@@ -82,10 +82,27 @@ export const writeMinisterIssuesAndActions = (doc, plan) => {
       currY += 7;
     } else {
       ministerIssueActions && ministerIssueActions.map(((mia) => {
-        const { detail: miaDetail, ministerIssueActionType, other } = mia;
+        const {
+          detail: miaDetail,
+          ministerIssueActionType,
+          other,
+          noGrazeEndDay: ngEndDay,
+          noGrazeEndMonth: ngEndMonth,
+          noGrazeStartDay: ngStartDay,
+          noGrazeStartMonth: ngStartMonth,
+        } = mia;
         let miatName = ministerIssueActionType.name;
+
         if (ministerIssueActionType.name === 'Other') {
           miatName = other ? `Other (${other})` : 'Other';
+        }
+
+        if (ministerIssueActionType.name === 'Timing') {
+          const noGrazeStartDate = createDateWithMoment(ngStartDay, ngStartMonth);
+          const noGrazeEndDate = createDateWithMoment(ngEndDay, ngEndMonth);
+          const formatedNoGrazeStartDate = formatDateFromServer(noGrazeStartDate, false);
+          const formatedNoGrazeEndDate = formatDateFromServer(noGrazeEndDate, false);
+          miatName = `Timing - No Graze Period (${formatedNoGrazeStartDate} - ${formatedNoGrazeEndDate})`;
         }
 
         const startYForVLine = currY;
