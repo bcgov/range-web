@@ -91,7 +91,7 @@ export const writeFrontPage = (doc, plan, logoImage) => {
   doc.setLineWidth(0.3).setDrawColor(primaryColor);
   doc.line(halfPageWidth - fromCenterToStartLength, currY, halfPageWidth - halfOfLineW - interval, currY);
   writeText({
-    doc, text: 'Name',
+    doc, text: 'Printed Name',
     x: halfPageWidth - fromCenterToStartLength + halfOfLineW, y: currY + 3,
     fontSize: fieldTitleFontSize,
     hAlign: 'center',
