@@ -110,7 +110,7 @@ const writeFooter = (doc, currPage, totalPages) => {
   doc.setFontSize(normalFontSize).setFontStyle('normal').setTextColor(grayColor);
   const currDate = formatDateFromServer(new Date());
   const footerY = pageHeight - 1;
-  doc.textEx(`Generated ${currDate} by MyRangeBC web application.`, startX, footerY);
+  doc.textEx(`Generated ${currDate} by the MyRangeBC web application.`, startX, footerY);
   doc.textEx(`Page ${currPage} of ${totalPages}`, contentEndX, footerY, 'right');
 
   // horizontal line on the top of the footer
@@ -118,7 +118,7 @@ const writeFooter = (doc, currPage, totalPages) => {
   doc.line(startX, footerY - 1.5, contentEndX, footerY - 1.5);
 };
 
-export const writeHeaderAndFooter = (doc, plan, logoImage) => {
+export const writeHeadersAndFooters = (doc, plan, logoImage) => {
   const totalPages = doc.internal.getNumberOfPages();
 
   for (let i = 1; i <= totalPages; i += 1) {

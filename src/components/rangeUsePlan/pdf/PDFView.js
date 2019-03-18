@@ -7,7 +7,7 @@ import { Loading, ErrorPage, PrimaryButton } from '../../common';
 import { writeBasicInformation } from './content/writeBasicInformation';
 import { writePastures } from './content/writePastures';
 import { writeGrazingSchedules } from './content/writeGrazingSchedules';
-import { writeHeaderAndFooter } from './content/common';
+import { writeHeadersAndFooters } from './content/common';
 import { writeMinisterIssuesAndActions } from './content/writeMinisterIssues';
 import { writeInvasivePlantChecklist } from './content/writeInvasivePlant';
 import { writeAdditionalRequirements } from './content/writeAdditionalRequirements';
@@ -15,6 +15,7 @@ import { writeManagementConsiderations } from './content/writeManagementConsider
 import { getIsFetchingPlan, getPlanErrorOccured, getPlansMap } from '../../../reducers/rootReducer';
 import { fetchRUP } from '../../../actionCreators';
 import { IMAGE_SRC } from '../../../constants/variables';
+import { writeFrontPage } from './content/writeFrontPage';
 
 class PDFView extends Component {
   state = {
@@ -71,6 +72,7 @@ class PDFView extends Component {
       // https://stackoverflow.com/a/43999406
       // doc.setFont("arial");
 
+      writeFrontPage(doc, plan, logoImage);
       writeBasicInformation(doc, plan);
       writePastures(doc, plan);
       writeGrazingSchedules(doc, plan);
@@ -79,7 +81,7 @@ class PDFView extends Component {
       writeAdditionalRequirements(doc, plan);
       writeManagementConsiderations(doc, plan);
 
-      writeHeaderAndFooter(doc, plan, logoImage);
+      writeHeadersAndFooters(doc, plan, logoImage);
 
       // doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
       // doc.output('datauristring');        //returns the data uri string

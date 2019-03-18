@@ -31,7 +31,9 @@ export const writeBasicInformation = (doc, plan) => {
   const { code: zoneCode, user: staff } = zone || {};
   const { phoneNumber, email } = staff || {};
 
+  doc.addPage();
   let currY = afterHeaderY;
+
   currY = writeTitle(doc, 'Basic Information');
   const marginBottom = 7;
   const fieldTextWidth = halfPageWidth - startX - 1;

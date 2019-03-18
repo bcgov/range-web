@@ -387,3 +387,11 @@ export const getMonthAndDateIntegers = (month, day) => {
 
   return monthAndDate;
 };
+
+export const findConfirmationWithClientId = (clientId, confirmations) => {
+  if (clientId && confirmations) {
+    return confirmations.find(confirmation => confirmation.clientId === clientId);
+  }
+
+  return undefined;
+};
