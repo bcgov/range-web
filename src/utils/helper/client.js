@@ -1,4 +1,6 @@
 import { CLIENT_TYPE } from '../../constants/variables';
+import { capitalize } from '../../components/rangeUsePlan/pdf/helper';
+import { NOT_PROVIDED } from '../../constants/strings';
 
 export const getAgreementHolders = (clients = []) => {
   let primaryAgreementHolder = {};
@@ -32,4 +34,14 @@ export const findConfirmationWithClientId = (clientId, confirmations, confirmati
       .find(confirmation => confirmation.clientId === clientId);
   }
   return undefined;
+};
+
+export const getClientFullName = (contact) => {
+  if (!contact) return NOT_PROVIDED;
+
+  const array = contact.name
+    .split(' ')
+    .map(string => capitalize(string.toLowerCase()));
+
+  return array.join(' ');
 };

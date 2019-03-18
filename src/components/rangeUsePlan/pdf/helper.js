@@ -2,8 +2,6 @@ import moment from 'moment';
 import { CLIENT_TYPE, DAYS_ON_THE_AVERAGE, DATE_FORMAT } from '../../../constants/variables';
 import { NOT_PROVIDED } from '../../../constants/strings';
 
-export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice(1));
-
 export const createDateWithMoment = (day, month, year) => {
   if (month && day) {
     return moment()
@@ -90,12 +88,8 @@ export const getAgreementType = (agreementType) => {
  * @param {String} string The string to be operated on
  * @returns A string with the first letter capitalized
  */
-export const capitalizeFirstLetter = (string) => {
-  if (!string) {
-    return '';
-  }
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
+
+export const capitalize = (str = '') => (str.charAt(0).toUpperCase() + str.slice(1));
 
 /**
  * Reformat the contact name
@@ -104,11 +98,11 @@ export const capitalizeFirstLetter = (string) => {
  * @returns A `String` represeting the contact name in the format `First Last`
  */
 export const getClientFullName = (contact) => {
-  const [lastName, firstName] = contact.name
-    .split(',')
-    .map(string => string.toLowerCase())
-    .map(string => string.trim());
-  return `${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`;
+  const array = contact.name
+    .split(' ')
+    .map(string => capitalize(string.toLowerCase()));
+
+  return array.join(' ');
 };
 
 
