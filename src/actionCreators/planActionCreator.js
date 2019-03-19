@@ -5,7 +5,7 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import * as schema from './schema';
-import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getAdditionalRequirementsMap, getManagementConsiderationsMap } from '../reducers/rootReducer';
+import { getPasturesMap, getGrazingSchedulesMap, getMinisterIssuesMap, getReferences, getAdditionalRequirementsMap, getManagementConsiderationsMap, getPlantCommunitiesMap } from '../reducers/rootReducer';
 import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE } from '../constants/variables';
 import {
   axios, createConfigWithHeader, copyPlanToCreateAmendment, copyPasturesToCreateAmendment,
@@ -141,6 +141,7 @@ export const createAmendment = plan => (dispatch, getState) => {
     try {
       const references = getReferences(getState());
       const pasturesMap = getPasturesMap(getState());
+      const plantCommunitiesMap = getPlantCommunitiesMap(getState());
       const grazingSchedulesMap = getGrazingSchedulesMap(getState());
       const ministerIssuesMap = getMinisterIssuesMap(getState());
       const additionalRequirementsMap = getAdditionalRequirementsMap(getState());
@@ -162,7 +163,9 @@ export const createAmendment = plan => (dispatch, getState) => {
       // create a normalized pasture ids map with the old pasture id as a key
       const newPastureIdsMap = normalizePasturesWithOldId(newPastures);
 
-      const plantCommunities = copyPlantCommunitiesToCreateAmendment(pcs, newPastureIdsMap);
+      const plantCommunities = copyPlantCommunitiesToCreateAmendment(
+        pcs, plantCommunitiesMap, newPastureIdsMap,
+      );
       const newPlantCommunities = await Promise.all(
         plantCommunities.map(pc => dispatch(createRUPPlantCommunityAndOthers(amendmentId, pc.pastureId, pc))),
       );
