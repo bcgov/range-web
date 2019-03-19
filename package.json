@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "The Range Mobile Pathfinder project is developing a suite of applications to support the sustainable management of cattle range on crown lands in British Columbia.",
   "private": false,
-  "author": "Kyubin Han <kyubin@freshworks.io>",
+  "author": "Kyubin Han <kyubinhan11@gmail.com>",
   "license": "Apache-2.0",
   "homepage": "https://web-range-myra-prod.pathfinder.gov.bc.ca",
   "dependencies": {
@@ -62,6 +62,7 @@
       "src/**/*.{js,jsx,mjs}",
       "!**/semantic/**",
       "!src/components/routes/*.js",
+      "!src/components/rangeUsePlan/pdf/**",
       "!src/store/*.js",
       "!src/index.js",
       "!src/registerServiceWorker.js"
