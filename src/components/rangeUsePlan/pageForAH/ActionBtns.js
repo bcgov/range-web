@@ -14,7 +14,7 @@ const ActionBtns = ({
   onSaveDraftClick,
   onAmendPlanClicked,
   openSubmissionModal,
-  openConfirmationModal,
+  openAHConfirmationModal,
 }) => {
   const previewPDFBtn = (
     <Button
@@ -82,7 +82,7 @@ const ActionBtns = ({
       inverted
       compact
       style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={openConfirmationModal}
+      onClick={openAHConfirmationModal}
     >
       {SIGN_SUBMISSION}
     </Button>

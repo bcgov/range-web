@@ -9,7 +9,9 @@ import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator
 import { planUpdated, confirmationUpdated } from '../../../actions';
 import ConfirmationTabs from './tabs/ConfirmationTabs';
 
-class ConfirmationModal extends Component {
+// modal for an agreement holder to sign a submitted range use plan
+
+class AHConfirmationModal extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     open: PropTypes.bool.isRequired,
@@ -135,4 +137,4 @@ export default connect(mapStateToProps, {
   updateRUPConfirmation,
   planUpdated,
   confirmationUpdated,
-})(ConfirmationModal);
+})(AHConfirmationModal);
