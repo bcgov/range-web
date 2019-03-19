@@ -14,7 +14,7 @@ import ContentsContainer from '../ContentsContainer';
 import UpdateStatusDropdown from '../UpdateStatusDropdown';
 import StickyHeader from '../StickyHeader';
 import { EXPORT_PDF } from '../../../constants/routes';
-import Notifications from '../Notifications';
+import Notifications from '../notifications';
 import UsageTable from '../usage';
 import InvasivePlantChecklist from '../invasivePlantChecklist';
 import AdditionalRequirements from '../additionalRequirements';
