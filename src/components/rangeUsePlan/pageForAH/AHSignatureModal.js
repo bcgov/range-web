@@ -11,7 +11,7 @@ import ConfirmationTabs from './tabs/ConfirmationTabs';
 
 // modal for an agreement holder to sign a submitted range use plan
 
-class AHConfirmationModal extends Component {
+class AHSignatureModal extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     open: PropTypes.bool.isRequired,
@@ -137,4 +137,4 @@ export default connect(mapStateToProps, {
   updateRUPConfirmation,
   planUpdated,
   confirmationUpdated,
-})(AHConfirmationModal);
+})(AHSignatureModal);
