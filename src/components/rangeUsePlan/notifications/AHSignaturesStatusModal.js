@@ -14,14 +14,14 @@ class AHSignaturesStatusModal extends Component {
   };
 
   state = {
-    ismModalOpen: false,
+    isModalOpen: false,
   }
 
-  openModal = () => this.setState({ ismModalOpen: true })
-  closeModal = () => this.setState({ ismModalOpen: false })
+  openModal = () => this.setState({ isModalOpen: true })
+  closeModal = () => this.setState({ isModalOpen: false })
 
   render() {
-    const { ismModalOpen } = this.state;
+    const { isModalOpen } = this.state;
     const {
       plan,
       confirmationsMap,
@@ -42,7 +42,7 @@ class AHSignaturesStatusModal extends Component {
         <Modal
           dimmer="blurring"
           size="tiny"
-          open={ismModalOpen}
+          open={isModalOpen}
           onClose={this.closeModal}
           closeIcon={<Icon name="close" color="black" />}
         >
@@ -66,7 +66,7 @@ class AHSignaturesStatusModal extends Component {
               </span>
               <PrimaryButton
                 onClick={this.closeModal}
-                style={{ marginTop: '10px' }}
+                style={{ marginTop: '15px' }}
                 content="Close"
               />
             </div>
