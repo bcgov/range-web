@@ -6,7 +6,7 @@ import * as utils from '../../../utils';
 import { Status, Banner } from '../../common';
 import ContentsContainer from '../ContentsContainer';
 import BackBtn from '../BackBtn';
-import Notifications from '../Notifications';
+import Notifications from '../notifications';
 import StickyHeader from '../StickyHeader';
 import BasicInformation from '../basicInformation';
 import Pastures from '../pastures';

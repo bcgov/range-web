@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { Status } from '../common';
-import { getUserFullName, formatDateToNow } from '../../utils';
-import { REFERENCE_KEY } from '../../constants/variables';
+import { Status } from '../../common';
+import { getUserFullName, formatDateToNow } from '../../../utils';
+import { REFERENCE_KEY } from '../../../constants/variables';
 
 class StatusHistory extends Component {
   static propTypes = {

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Modal } from 'semantic-ui-react';
-import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../utils';
-import AHConfirmationList from './pageForAH/confirmationTabs/AHConfirmationList';
 import StatusHistory from './StatusHistory';
-import { PrimaryButton } from '../common';
+import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList';
+import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../../utils';
+import { PrimaryButton } from '../../common';
 
 class Notifications extends Component {
   static propTypes = {
