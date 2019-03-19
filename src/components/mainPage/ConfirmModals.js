@@ -24,8 +24,18 @@ class ConfirmModals extends Component {
       id,
       header,
       content,
-      onYesBtnClicked,
+      onYesBtnClicked: oYBClicked,
+      closeAfterYesBtnClicked,
     } = modal;
+    let onYesBtnClicked = oYBClicked;
+    if (closeAfterYesBtnClicked) {
+      onYesBtnClicked = () => {
+        oYBClicked();
+        this.props.closeConfirmationModal({
+          modalId: id,
+        });
+      };
+    }
 
     return (
       <Modal
