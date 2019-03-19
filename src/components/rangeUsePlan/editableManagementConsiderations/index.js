@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import uuid from 'uuid-v4';
-import { managementConsiderationAdded, managementConsiderationUpdated, openConfirmationModal, closeConfirmationModal, managementConsiderationDeleted } from '../../../actions';
+import { managementConsiderationAdded, managementConsiderationUpdated, openConfirmationModal, managementConsiderationDeleted } from '../../../actions';
 import { deleteRUPManagementConsideration } from '../../../actionCreators';
 import { PrimaryButton } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
@@ -109,7 +109,6 @@ class EditableManagementConsiderations extends Component {
 export default connect(null, {
   managementConsiderationUpdated,
   openConfirmationModal,
-  closeConfirmationModal,
   deleteRUPManagementConsideration,
   managementConsiderationAdded,
   managementConsiderationDeleted,

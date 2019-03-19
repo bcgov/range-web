@@ -10,7 +10,7 @@ import WarningMessage from './WarningMessage';
 import * as strings from '../../../constants/strings';
 import { roundTo1Decimal } from '../../../utils';
 import { getPasturesMap } from '../../../reducers/rootReducer';
-import { openConfirmationModal, closeConfirmationModal, grazingScheduleUpdated } from '../../../actions';
+import { openConfirmationModal, grazingScheduleUpdated } from '../../../actions';
 import { deleteRUPGrazingSchedule, deleteRUPGrazingScheduleEntry } from '../../../actionCreators';
 import { CONFIRMATION_MODAL_ID, IMAGE_SRC } from '../../../constants/variables';
 
@@ -31,7 +31,6 @@ class EditableGrazingScheduleBox extends Component {
     handleScheduleCopy: PropTypes.func.isRequired,
     handleScheduleDelete: PropTypes.func.isRequired,
     deleteRUPGrazingScheduleEntry: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
   };
 
@@ -65,8 +64,7 @@ class EditableGrazingScheduleBox extends Component {
   }
 
   onScheduleDeleteClicked = () => {
-    const { schedule, scheduleIndex, handleScheduleDelete, closeConfirmationModal } = this.props;
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE });
+    const { schedule, scheduleIndex, handleScheduleDelete } = this.props;
     handleScheduleDelete(schedule, scheduleIndex);
   }
 
@@ -120,6 +118,7 @@ class EditableGrazingScheduleBox extends Component {
       header: strings.DELETE_SCHEDULE_CONFIRM_HEADER,
       content: strings.DELETE_SCHEDULE_CONFIRM_CONTENT,
       onYesBtnClicked: this.onScheduleDeleteClicked,
+      closeAfterYesBtnClicked: true,
     });
   }
 
@@ -130,7 +129,6 @@ class EditableGrazingScheduleBox extends Component {
       pasturesMap,
       livestockTypes,
       openConfirmationModal,
-      closeConfirmationModal,
     } = this.props;
 
     const pastureOptions = pastures.map((pId) => {
@@ -167,7 +165,6 @@ class EditableGrazingScheduleBox extends Component {
           handleScheduleEntryCopy={this.handleScheduleEntryCopy}
           handleScheduleEntryDelete={this.handleScheduleEntryDelete}
           openConfirmationModal={openConfirmationModal}
-          closeConfirmationModal={closeConfirmationModal}
         />
       )
     ));
@@ -303,7 +300,6 @@ const mapStateToProps = state => (
 export default connect(mapStateToProps, {
   grazingScheduleUpdated,
   openConfirmationModal,
-  closeConfirmationModal,
   deleteRUPGrazingSchedule,
   deleteRUPGrazingScheduleEntry,
 })(EditableGrazingScheduleBox);

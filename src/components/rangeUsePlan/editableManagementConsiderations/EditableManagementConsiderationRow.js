@@ -11,7 +11,6 @@ class EditalbeManagementConsiderationRow extends Component {
     references: PropTypes.shape({}).isRequired,
     managementConsiderationUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
     deleteRUPManagementConsideration: PropTypes.func.isRequired,
     managementConsiderationDeleted: PropTypes.func.isRequired,
   }
@@ -31,18 +30,16 @@ class EditalbeManagementConsiderationRow extends Component {
 
   onDeleteConsiderationBtnClicked = () => {
     const {
-      closeConfirmationModal,
       managementConsideration,
       deleteRUPManagementConsideration,
       managementConsiderationDeleted,
     } = this.props;
     const { id: considerationId, planId } = managementConsideration;
 
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_MANAGEMENT_CONSIDERATION });
-
     const onDeleted = () => {
       managementConsiderationDeleted({ planId, considerationId });
     };
+
     if (planId && considerationId && !uuid.isUUID(considerationId)) {
       deleteRUPManagementConsideration(planId, considerationId).then(onDeleted);
     } else {
@@ -56,6 +53,7 @@ class EditalbeManagementConsiderationRow extends Component {
       header: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER,
       content: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteConsiderationBtnClicked,
+      closeAfterYesBtnClicked: true,
     });
   }
 

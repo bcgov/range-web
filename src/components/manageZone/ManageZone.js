@@ -19,7 +19,6 @@ export class ManageZone extends Component {
     updateUserIdOfZone: PropTypes.func.isRequired,
     isAssigning: PropTypes.bool.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
   };
 
   state = {
@@ -43,10 +42,7 @@ export class ManageZone extends Component {
       zonesMap,
       updateUserIdOfZone,
       zoneUpdated,
-      closeConfirmationModal,
     } = this.props;
-
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_ZONE });
 
     const staffAssigned = (assignedUser) => {
       // create a new zone obj with the new assigned user
@@ -75,6 +71,7 @@ export class ManageZone extends Component {
       header: UPDATE_CONTACT_CONFIRM_HEADER,
       content: UPDATE_CONTACT_CONFIRM_CONTENT,
       onYesBtnClicked: this.assignStaffToZone,
+      closeAfterYesBtnClicked: true,
     });
   }
 

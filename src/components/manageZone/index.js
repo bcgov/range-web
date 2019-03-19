@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ManageZone from './ManageZone';
 import { fetchUsers, updateUserIdOfZone, fetchZones } from '../../actionCreators';
-import { zoneUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
+import { zoneUpdated, openConfirmationModal } from '../../actions';
 import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone, getZonesErrorOccured } from '../../reducers/rootReducer';
 import { MANAGE_ZONE_TITLE } from '../../constants/strings';
 
@@ -46,5 +46,4 @@ export default connect(mapStateToProps, {
   updateUserIdOfZone,
   zoneUpdated,
   openConfirmationModal,
-  closeConfirmationModal,
 })(Base);

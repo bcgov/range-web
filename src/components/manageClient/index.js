@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ManageClient from './ManageClient';
 import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
-import { userUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
+import { userUpdated, openConfirmationModal } from '../../actions';
 import { getUsers, getClients, getIsFetchingClients, getIsUpdatingClientIdOfUser, getUsersMap, getUsersErrorOccured } from '../../reducers/rootReducer';
 import { MANAGE_CLIENT_TITLE } from '../../constants/strings';
 
@@ -45,5 +45,4 @@ export default connect(mapStateToProps, {
   updateClientIdOfUser,
   userUpdated,
   openConfirmationModal,
-  closeConfirmationModal,
 })(Base);

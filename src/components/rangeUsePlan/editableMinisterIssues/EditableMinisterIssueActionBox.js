@@ -13,7 +13,6 @@ class EditableMinisterIssueActionBox extends Component {
     actionIndex: PropTypes.number.isRequired,
     references: PropTypes.shape({}).isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
     handleActionChange: PropTypes.func.isRequired,
     handleActionDelete: PropTypes.func.isRequired,
   };
@@ -102,8 +101,7 @@ class EditableMinisterIssueActionBox extends Component {
   }
 
   onDeleteActionBtnClicked = () => {
-    const { closeConfirmationModal, handleActionDelete, actionIndex } = this.props;
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION });
+    const { handleActionDelete, actionIndex } = this.props;
     handleActionDelete(actionIndex);
   }
 
@@ -113,6 +111,7 @@ class EditableMinisterIssueActionBox extends Component {
       header: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER,
       content: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteActionBtnClicked,
+      closeAfterYesBtnClicked: true,
     });
   }
 

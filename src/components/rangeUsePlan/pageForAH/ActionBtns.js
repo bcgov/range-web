@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Popup, Icon } from 'semantic-ui-react';
-import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../../constants/strings';
+import { Button, Icon } from 'semantic-ui-react';
+import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION, AMEND_PLAN_CONFIRM_HEADER, AMEND_PLAN_CONFIRM_CONTENT } from '../../../constants/strings';
+import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 
 const ActionBtns = ({
   canEdit,
@@ -14,11 +15,12 @@ const ActionBtns = ({
   onSaveDraftClick,
   onAmendPlanClicked,
   openSubmissionModal,
+  openAHSignatureModal,
   openConfirmationModal,
 }) => {
-  const previewPDFBtn = (
+  const downloadPDFBtn = (
     <Button
-      key="previewPDFBtn"
+      key="downloadPDFBtn"
       inverted
       compact
       onClick={onViewPDFClicked}
@@ -52,28 +54,23 @@ const ActionBtns = ({
       {SUBMIT}
     </Button>
   );
-  const amendPopup = (
-    <Popup
-      key="amendPopup"
-      trigger={
-        <Button
-          inverted
-          compact
-          disabled={isCreatingAmendment}
-          style={{ marginRight: '0', marginLeft: '10px' }}
-          content={AMEND_PLAN}
-        />
-      }
-      content={
-        <Button
-          primary
-          content="Confirm to amend"
-          onClick={onAmendPlanClicked}
-          loading={isCreatingAmendment}
-        />
-      }
-      on="click"
-      position="bottom right"
+  const amendBtn = (
+    <Button
+      key="amendBtn"
+      inverted
+      compact
+      content={AMEND_PLAN}
+      loading={isCreatingAmendment}
+      style={{ marginRight: '0', marginLeft: '10px' }}
+      onClick={() => {
+        openConfirmationModal({
+          id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
+          header: AMEND_PLAN_CONFIRM_HEADER,
+          content: AMEND_PLAN_CONFIRM_CONTENT,
+          onYesBtnClicked: onAmendPlanClicked,
+          closeAfterYesBtnClicked: true,
+        });
+      }}
     />
   );
   const confirmSubmissionBtn = (
@@ -82,26 +79,26 @@ const ActionBtns = ({
       inverted
       compact
       style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={openConfirmationModal}
+      onClick={openAHSignatureModal}
     >
       {SIGN_SUBMISSION}
     </Button>
   );
 
   if (canEdit) {
-    return [previewPDFBtn, saveDraftBtn, submitBtn];
+    return [downloadPDFBtn, saveDraftBtn, submitBtn];
   }
   if (canAmend) {
-    return [previewPDFBtn, amendPopup];
+    return [downloadPDFBtn, amendBtn];
   }
   if (canConfirm) {
-    return [previewPDFBtn, confirmSubmissionBtn];
+    return [downloadPDFBtn, confirmSubmissionBtn];
   }
   if (canSubmit) {
-    return [previewPDFBtn, submitBtn];
+    return [downloadPDFBtn, submitBtn];
   }
 
-  return previewPDFBtn;
+  return downloadPDFBtn;
 };
 
 export default ActionBtns;

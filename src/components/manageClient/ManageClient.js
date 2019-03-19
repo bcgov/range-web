@@ -29,7 +29,6 @@ class ManageClient extends Component {
     userUpdated: PropTypes.func.isRequired,
     isFetchingClients: PropTypes.bool.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
   };
 
   onUserChanged = (e, { value: userId }) => {
@@ -46,6 +45,7 @@ class ManageClient extends Component {
       header: strings.UPDATE_CLIENT_ID_CONFIRM_HEADER,
       content: strings.UPDATE_CLIENT_ID_CONFIRM_CONTENT,
       onYesBtnClicked: this.linkUserToClient,
+      closeAfterYesBtnClicked: true,
     });
   }
 
@@ -56,9 +56,7 @@ class ManageClient extends Component {
 
   linkUserToClient = () => {
     const { userId, clientNumber } = this.state;
-    const { usersMap, userUpdated, updateClientIdOfUser, closeConfirmationModal } = this.props;
-
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.MANAGE_CLIENT });
+    const { usersMap, userUpdated, updateClientIdOfUser } = this.props;
 
     const onSuccess = (newUser) => {
       const user = {
