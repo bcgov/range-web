@@ -5,7 +5,7 @@ import uuid from 'uuid-v4';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
-import { ministerIssueUpdated, openInputModal, closeConfirmationModal, openConfirmationModal } from '../../../actions';
+import { ministerIssueUpdated, openInputModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { PrimaryButton } from '../../common';
@@ -159,7 +159,6 @@ class AddableMinisterIssueActionList extends Component {
 export default connect(null, {
   ministerIssueUpdated,
   openInputModal,
-  closeConfirmationModal,
   openConfirmationModal,
   deleteRUPMinisterIssueAction,
 })(AddableMinisterIssueActionList);

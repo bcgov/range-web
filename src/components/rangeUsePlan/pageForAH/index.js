@@ -157,7 +157,7 @@ class PageForAH extends Component {
   openPlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: true });
   closePlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: false });
   openAHSignatureModal = () => this.setState({ isAHSignatureModalOpen: true });
-  closeConfirmationModal = () => this.setState({ isAHSignatureModalOpen: false });
+  closeAHSignatureModal = () => this.setState({ isAHSignatureModalOpen: false });
   openAmendmentSubmissionModal = () => this.setState({ isAmendmentSubmissionModalOpen: true })
   closeAmendmentSubmissionModal = () => this.setState({ isAmendmentSubmissionModalOpen: false })
 
@@ -250,7 +250,7 @@ class PageForAH extends Component {
 
         <AHSignatureModal
           open={isAHSignatureModalOpen}
-          onClose={this.closeConfirmationModal}
+          onClose={this.closeAHSignatureModal}
           plan={plan}
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}

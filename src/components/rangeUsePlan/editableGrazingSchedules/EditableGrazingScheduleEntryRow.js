@@ -19,7 +19,6 @@ class EditableGrazingScheduleEntryRow extends Component {
     handleScheduleEntryCopy: PropTypes.func.isRequired,
     handleScheduleEntryDelete: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -101,8 +100,7 @@ class EditableGrazingScheduleEntryRow extends Component {
   }
 
   onDeleteEntryClicked = () => {
-    const { handleScheduleEntryDelete, entryIndex, closeConfirmationModal } = this.props;
-    closeConfirmationModal({ modalId: CONFIRMATION_MODAL_ID.DELETE_GRAZING_SCHEDULE_ENTRY });
+    const { handleScheduleEntryDelete, entryIndex } = this.props;
     handleScheduleEntryDelete(entryIndex);
   }
 
@@ -112,6 +110,7 @@ class EditableGrazingScheduleEntryRow extends Component {
       header: DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER,
       content: DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteEntryClicked,
+      closeAfterYesBtnClicked: true,
     });
   }
 

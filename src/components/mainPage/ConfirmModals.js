@@ -13,15 +13,10 @@ class ConfirmModals extends Component {
     closeConfirmationModal: PropTypes.func.isRequired,
   };
 
-  closeConfirmationModal = modal => () => {
-    this.props.closeConfirmationModal({
-      modalId: modal.id,
-    });
-  }
-
   renderConfirmationModal = (modal) => {
+    const { closeConfirmationModal } = this.props;
     const {
-      id,
+      id: modalId,
       header,
       content,
       onYesBtnClicked: oYBClicked,
@@ -30,20 +25,18 @@ class ConfirmModals extends Component {
     let onYesBtnClicked = oYBClicked;
     if (closeAfterYesBtnClicked) {
       onYesBtnClicked = () => {
+        closeConfirmationModal({ modalId });
         oYBClicked();
-        this.props.closeConfirmationModal({
-          modalId: id,
-        });
       };
     }
 
     return (
       <Modal
-        key={id}
+        key={modalId}
         dimmer="blurring"
         size="tiny"
         open
-        onClose={this.closeConfirmationModal(modal)}
+        onClose={() => closeConfirmationModal({ modalId })}
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Header as="h2" content={header} />
@@ -52,7 +45,7 @@ class ConfirmModals extends Component {
           <div className="confirmation-modal__btns">
             <PrimaryButton
               inverted
-              onClick={this.closeConfirmationModal(modal)}
+              onClick={() => closeConfirmationModal({ modalId })}
             >
               <Icon name="remove" />
               Cancel

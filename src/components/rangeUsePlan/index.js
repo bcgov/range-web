@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import { Loading, PrimaryButton } from '../common';
-import { planUpdated, grazingScheduleUpdated, openConfirmationModal, closeConfirmationModal } from '../../actions';
+import { planUpdated, grazingScheduleUpdated, openConfirmationModal } from '../../actions';
 import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import { DETAIL_RUP_TITLE } from '../../constants/strings';
@@ -153,7 +153,6 @@ export default connect(mapStateToProps, {
   toastErrorMessage,
   createAmendment,
   openConfirmationModal,
-  closeConfirmationModal,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
   createOrUpdateRUPManagementConsideration,

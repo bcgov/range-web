@@ -21,7 +21,6 @@ export const propTypes = {
   createAmendment: PropTypes.func.isRequired,
   isCreatingAmendment: PropTypes.bool.isRequired,
   openConfirmationModal: PropTypes.func.isRequired,
-  closeConfirmationModal: PropTypes.func.isRequired,
   fetchPlan: PropTypes.func.isRequired,
   createOrUpdateRUPInvasivePlantChecklist: PropTypes.func.isRequired,
   createOrUpdateRUPManagementConsideration: PropTypes.func.isRequired,
