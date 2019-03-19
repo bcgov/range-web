@@ -96,28 +96,28 @@ class Base extends Component {
 
         {plan && isUserAdmin(user) &&
           <PageForStaff
+            {...this.props}
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
-            {...this.props}
           />
         }
 
         {plan && isUserRangeOfficer(user) &&
           <PageForStaff
+            {...this.props}
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
-            {...this.props}
           />
         }
 
         {plan && isUserAgreementHolder(user) &&
           <PageForAH
+            {...this.props}
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
-            {...this.props}
           />
         }
       </Fragment>

@@ -162,6 +162,8 @@ export const RECOMMEND_NOT_READY_CONFIRM_HEADER = 'Update Status: Recommend Not 
 export const RECOMMEND_NOT_READY_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const RECOMMEND_FOR_SUBMISSION_CONFIRM_HEADER = 'Update Status: Recommend For Submission';
 export const RECOMMEND_FOR_SUBMISSION_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
+export const AMEND_PLAN_CONFIRM_HEADER = 'Amend Range Use Plan';
+export const AMEND_PLAN_CONFIRM_CONTENT = 'Are you sure you want to amend this range use plan?';
 
 export const UPDATE_CONTACT_CONFIRM_HEADER = 'Confirmation: Update Contact with Zone';
 export const UPDATE_CONTACT_CONFIRM_CONTENT = 'Are you sure you want to update this contact?';
