@@ -36,7 +36,8 @@ export const writeText = ({
     .setTextColor(fontColor || blackColor);
 
   const width = cusContentWidth || contentWidth;
-  const splitTextArray = doc.splitTextToSize(handleNullValue(text), width);
+  const t = text ? `${text}` : handleNullValue(text);
+  const splitTextArray = doc.splitTextToSize(t, width);
   splitTextArray.map((textChunk) => {
     currY = checkY(doc, currY);
     // remove the first empty space

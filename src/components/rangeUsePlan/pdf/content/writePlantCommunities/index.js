@@ -1,8 +1,8 @@
 import { writeText, writeFieldText, drawVerticalLine } from '../common';
 import { capitalize, handleNullValue } from '../../helper';
-import { writeMonitoringAreas } from './monitoringArea';
-import { writePlantCommunityActions } from './plantCommunityActions';
-import { writeCriteria } from './criteria';
+import { writeMonitoringAreas } from './writeMonitoringAreas';
+import { writePlantCommunityActions } from './writePlantCommunityActions';
+import { writeCriteria } from './writeCriteria';
 
 export const writePlantCommunities = (doc, y, pasture) => {
   const { internal, config } = doc;
