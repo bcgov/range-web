@@ -4,7 +4,7 @@ import {
   getPrimaryClientFullName,
 } from '../helper';
 
-export const checkY = (doc, currY) => {
+export const checkYPositionAndAddPage = (doc, currY) => {
   const { contentEndY, afterHeaderY } = doc.config;
 
   if (currY >= contentEndY) {
@@ -17,7 +17,7 @@ export const checkY = (doc, currY) => {
 
 export const writeText = ({
   doc,
-  text,
+  text: t,
   x,
   y,
   fontSize,
@@ -29,17 +29,17 @@ export const writeText = ({
 }) => {
   const { blackColor, normalFontSize, contentWidth } = doc.config;
 
-  let currY = checkY(doc, y);
+  let currY = checkYPositionAndAddPage(doc, y);
 
   doc.setFontSize(fontSize || normalFontSize)
     .setFontStyle(fontStyle)
     .setTextColor(fontColor || blackColor);
 
   const width = cusContentWidth || contentWidth;
-  const t = text ? `${text}` : handleNullValue(text);
-  const splitTextArray = doc.splitTextToSize(t, width);
+  const text = t ? `${t}` : handleNullValue(t);
+  const splitTextArray = doc.splitTextToSize(text, width);
   splitTextArray.map((textChunk) => {
-    currY = checkY(doc, currY);
+    currY = checkYPositionAndAddPage(doc, currY);
     // remove the first empty space
     if (textChunk[0] === ' ') {
       doc.textEx(textChunk.substring(1, textChunk.length), x, currY, hAlign, vAlign);
@@ -134,7 +134,7 @@ export const writeHeadersAndFooters = (doc, plan, logoImage) => {
 
 export const drawHorizontalLine = (doc, y, thickness) => {
   const { startX, contentEndX, primaryColor } = doc.config;
-  const currY = checkY(doc, y);
+  const currY = checkYPositionAndAddPage(doc, y);
 
   doc.setLineWidth(thickness).setDrawColor(primaryColor);
   doc.line(startX, currY, contentEndX, currY); // horizontal line
