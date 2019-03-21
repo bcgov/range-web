@@ -6,7 +6,7 @@ import { MemoryRouter, withRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { normalize } from 'normalizr';
 import { axios, getContactOption, getZoneOption } from '../../utils';
-import ManageZone from '../../components/manageZone';
+import ManageZonePage from '../../components/manageZonePage';
 import { storeAuthData, storeReferences, storeZones } from '../../actions';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { requestMockHeader, mockUsers, mockReference, mockZones, mockAuthData } from './mockData';
@@ -33,7 +33,7 @@ describe('Integration testing', () => {
     mockAxios.onGet(API.GET_USERS, config).reply(200, mockUsers);
     mockAxios.onGet(API.GET_ZONES, config).reply(200, mockZones);
 
-    const ManageZoneWithRouter = withRouter(ManageZone);
+    const ManageZoneWithRouter = withRouter(ManageZonePage);
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['manage-zone']}>
@@ -61,7 +61,7 @@ describe('Integration testing', () => {
     mockAxios.onGet(API.GET_ZONES, config).reply(200, mockZones);
     mockAxios.onPut(API.UPDATE_USER_ID_OF_ZONE(mockZone.id), { userId: mockContact.id }, config);
 
-    const ManageZoneWithRouter = withRouter(ManageZone);
+    const ManageZoneWithRouter = withRouter(ManageZonePage);
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['manage-zone']}>

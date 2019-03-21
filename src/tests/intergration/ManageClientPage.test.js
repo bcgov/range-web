@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { axios } from '../../utils';
-import ManageClient from '../../components/manageClient';
+import ManageClientPage from '../../components/manageClientPage';
 import { storeAuthData, storeReferences } from '../../actions';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { requestMockHeader, mockUsers, mockReference, mockAuthData } from './mockData';
@@ -29,7 +29,7 @@ describe('Integration testing', () => {
 
     mockAxios.onGet(API.GET_USERS, config).reply(200, mockUsers);
 
-    const ManageClientWithRouter = withRouter(ManageClient);
+    const ManageClientWithRouter = withRouter(ManageClientPage);
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['manage-zone']}>
