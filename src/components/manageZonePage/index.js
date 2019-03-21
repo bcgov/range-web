@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ManageZone from './ManageZone';
+import ManageZonePage from './ManageZonePage';
 import { fetchUsers, updateUserIdOfZone, fetchZones } from '../../actionCreators';
 import { zoneUpdated, openConfirmationModal } from '../../actions';
 import { getZones, getZonesMap, getUsers, getIsUpdatingUserIdOfZone, getZonesErrorOccured } from '../../reducers/rootReducer';
@@ -23,7 +23,7 @@ class Base extends Component {
 
   render() {
     return (
-      <ManageZone
+      <ManageZonePage
         {...this.props}
       />
     );

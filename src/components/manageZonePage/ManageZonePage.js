@@ -9,7 +9,7 @@ import {
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getZoneOption, getContactOption } from '../../utils';
 
-export class ManageZone extends Component {
+export class ManageZonePage extends Component {
   static propTypes = {
     users: PropTypes.arrayOf(PropTypes.object).isRequired,
     zones: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -145,4 +145,4 @@ export class ManageZone extends Component {
   }
 }
 
-export default ManageZone;
+export default ManageZonePage;
