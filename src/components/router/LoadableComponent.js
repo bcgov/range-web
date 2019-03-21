@@ -31,5 +31,5 @@ export const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
 export const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
 export const ManageZone = LoadableComponent(() => import('../manageZonePage'));
 export const ManageClient = LoadableComponent(() => import('../manageClientPage'));
-export const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlan'));
+export const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
 export const PDFView = LoadableComponent(() => import('../rangeUsePlan/pdf/PDFView'));
