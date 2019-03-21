@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import { axios } from '../../utils';
-import SelectRangeUsePlan from '../../components/selectRangeUsePlan';
+import SelectRangeUsePlanPage from '../../components/selectRangeUsePlanPage';
 import { storeAuthData, storeUser, storeReferences } from '../../actions';
 import { getAgreements } from '../../reducers/rootReducer';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
@@ -38,7 +38,7 @@ describe('Integration testing', () => {
 
     mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreements);
 
-    const SelectRangeUsePlanWithRouter = withRouter(SelectRangeUsePlan);
+    const SelectRangeUsePlanWithRouter = withRouter(SelectRangeUsePlanPage);
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/home']}>
@@ -63,7 +63,7 @@ describe('Integration testing', () => {
       config = { ...config, params: { term: 'RAN075974', page: 1, limit: 10 } };
       mockAxios.onGet(API.SEARCH_AGREEMENTS, config).reply(200, mockAgreementPagination);
 
-      const SelectRangeUsePlanWithRouter = withRouter(SelectRangeUsePlan);
+      const SelectRangeUsePlanWithRouter = withRouter(SelectRangeUsePlanPage);
       const wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/home']}>

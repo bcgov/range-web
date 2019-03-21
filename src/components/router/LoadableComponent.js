@@ -25,7 +25,7 @@ const LoadableComponent = Component => (
   })
 );
 
-export const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlan'));
+export const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlanPage'));
 export const LoginPage = LoadableComponent(() => import('../loginPage'));
 export const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
 export const PageNotFound = LoadableComponent(() => import('../PageNotFound'));

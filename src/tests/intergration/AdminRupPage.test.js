@@ -6,7 +6,7 @@ import { normalize } from 'normalizr';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { axios } from '../../utils';
-import RangeUsePlan from '../../components/rangeUsePlan';
+import RangeUsePlanPage from '../../components/rangeUsePlanPage';
 import { storeAuthData, storeReferences } from '../../actions';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { requestMockHeader, mockPlan, mockReference, mockAuthData } from './mockData';
@@ -36,7 +36,7 @@ describe('Integration testing', () => {
     };
     mockAxios.onGet(API.GET_RUP(mockPlan.id), config).reply(200, mockPlan);
 
-    const RangeUsePlanWithRouter = withRouter(RangeUsePlan);
+    const RangeUsePlanWithRouter = withRouter(RangeUsePlanPage);
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={[`/range-use-plan/${mockPlan.id}`]}>

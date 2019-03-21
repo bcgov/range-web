@@ -1,6 +1,6 @@
 import { CLIENT_TYPE } from '../../constants/variables';
-import { capitalize } from '../../components/rangeUsePlan/pdf/helper';
 import { NOT_PROVIDED } from '../../constants/strings';
+import { capitalize } from '..';
 
 export const getAgreementHolders = (clients = []) => {
   let primaryAgreementHolder = {};
