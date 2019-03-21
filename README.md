@@ -8,7 +8,7 @@ An Agile Scrum team is developing the Alpha product to test basic fuctions after
 
 - [For the latest product vision and feature roadmap, please see our RealtimeBoard](https://realtimeboard.com/app/board/o9J_kzhjVKg=/) 
 
-For the Alpha Release, the **web application** documented here will allow Range Branch Staff to view Range Use Plans that have been created in the iOS application. It will also enable users to assign staff to a set of agreements they are responsible for managing.
+For the Alpha Release, the web application documented here will allow Range Branch Staff to view Range Use Plans that have been created in the iOS application. It will also enable users to assign staff to a set of agreements they are responsible for managing.
 
 ### Related MyRangeBc Documentation
 
@@ -73,10 +73,13 @@ In `/semantic` directory, you can also run:
 ### `gulp build`
 Builds all files for Semantic UI including js, css, and assets. Build tool settings are stored in semantic.json.
 
-## Routing & Code Splitting
-This project takes advantage of [React Router v4: Declarative Routing With React.js](https://github.com/ReactTraining/react-router) for routing. This helps authentication with different roles, code splitting, dynamic route matching and so on.
+## Create React App
+  The application was built on top of [Create-React-App](https://github.com/facebook/create-react-app) with [Redux selector pattern](https://github.com/markerikson/react-redux-links/blob/master/redux-reducers-selectors.md#selectors) for state management and [React Router v4](https://github.com/ReactTraining/react-router) for routing & code splitting. The project was ejected once to add more plugins and make changes in Webpack configuration, then it was switched back to the unejected state with the newer version since it took care of all the demands.
 
-Create React App allows us to dynamically import parts of our app(code splitting) to reduce initial load time using the `import()` proposal. Related reference can be found [here](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html).
+## Routing & Code Splitting
+This project takes advantage of React Router v4 to acheive many things such as authentication, authorizing users based on their roles, code splitting, dynamic route matching and so on.
+
+Create React App allows us to dynamically import parts of our app using the `import()` proposal to reduce initial load time. Related reference can be found [here](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html).
 
 ## Styling
 * Post-Processing CSS
@@ -100,9 +103,6 @@ Create React App allows us to dynamically import parts of our app(code splitting
 * Integration with Sass 
 
 * [Semantic UI React](https://react.semantic-ui.com/usage) was chosen for the main css framework. It includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
-
-## Create React App
-  The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). The project was ejected once to add more plugins and make changes in Webpack configuration, then it was switched back since the newer version took care of all the demands.
 
 ## License
 
