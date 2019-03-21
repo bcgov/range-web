@@ -8,7 +8,7 @@ import { Loading, ErrorPage } from '../common';
 */
 
 const LoadingComponent = ({ isLoading, error }) => {
-  let component;
+  let component = <div />;
   if (isLoading) { // Handle the loading state
     component = <Loading />;
   } else if (error) { // Handle the error state
