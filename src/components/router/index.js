@@ -26,10 +26,16 @@ import PublicRoute from './PublicRoute';
 import ProtectedRoute from './ProtectedRoute';
 import { getUser } from '../../reducers/rootReducer';
 import * as Routes from '../../constants/routes';
-import {
-  ManageZone, ManageClient, SelectRangeUsePlan, RangeUsePlan,
-  PDFView, LoginPage, ReturnPage, PageNotFound,
-} from './LoadableComponent';
+import { LoadableComponent } from './LoadableComponent';
+
+const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlanPage'));
+const LoginPage = LoadableComponent(() => import('../loginPage'));
+const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
+const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
+const ManageZone = LoadableComponent(() => import('../manageZonePage'));
+const ManageClient = LoadableComponent(() => import('../manageClientPage'));
+const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
+const PDFView = LoadableComponent(() => import('../rangeUsePlanPage/pdf/PDFView'));
 
 class Router extends Component {
   static propTypes = {

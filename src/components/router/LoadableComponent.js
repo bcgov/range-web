@@ -18,18 +18,9 @@ const LoadingComponent = ({ isLoading, error }) => {
   return component;
 };
 
-const LoadableComponent = Component => (
+export const LoadableComponent = Component => (
   Loadable({
     loader: Component,
     loading: LoadingComponent,
   })
 );
-
-export const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlanPage'));
-export const LoginPage = LoadableComponent(() => import('../loginPage'));
-export const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
-export const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
-export const ManageZone = LoadableComponent(() => import('../manageZonePage'));
-export const ManageClient = LoadableComponent(() => import('../manageClientPage'));
-export const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
-export const PDFView = LoadableComponent(() => import('../rangeUsePlan/pdf/PDFView'));

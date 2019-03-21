@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import jsPDF from './jspdf';
 import { Icon } from 'semantic-ui-react';
+import jsPDF from './jspdf';
 import { Loading, ErrorPage, PrimaryButton } from '../../common';
 // import plan from './mockPlanForPDF';
 import { writeBasicInformation } from './content/writeBasicInformation';
@@ -35,7 +35,7 @@ class PDFView extends Component {
 
   getDataUri = (url, callback) => {
     let image = new Image();
-    
+
     image.onload = function () {
       callback(this);
     };

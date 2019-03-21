@@ -74,9 +74,9 @@ In `/semantic` directory, you can also run:
 Builds all files for Semantic UI including js, css, and assets. Build tool settings are stored in semantic.json.
 
 ## Routing & Code Splitting
-This project takes advantage of [React Router: Declarative Routing With React.js](https://github.com/ReactTraining/react-router) for routing. This helps authentication with different roles, code splitting, dynamic route matching and so on.
+This project takes advantage of [React Router v4: Declarative Routing With React.js](https://github.com/ReactTraining/react-router) for routing. This helps authentication with different roles, code splitting, dynamic route matching and so on.
 
-Create React App (from 1.0 onwards) allows us to dynamically import parts of our app using the `import()` proposal. Related reference can be found [here](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html).
+Create React App allows us to dynamically import parts of our app(code splitting) to reduce initial load time using the `import()` proposal. Related reference can be found [here](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html).
 
 ## Styling
 * Post-Processing CSS
@@ -99,7 +99,7 @@ Create React App (from 1.0 onwards) allows us to dynamically import parts of our
 
 * Integration with Sass 
 
-* [Semantic UI](https://react.semantic-ui.com/usage) includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
+* [Semantic UI React](https://react.semantic-ui.com/usage) was chosen for the main css framework. It includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
 
 ## Create React App
   The application was based on Facebook's [Create-React-App](https://github.com/facebook/create-react-app). The project was ejected once to add more plugins and make changes in Webpack configuration, then it was switched back since the newer version took care of all the demands.
