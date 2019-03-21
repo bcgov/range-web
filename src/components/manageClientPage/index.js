@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ManageClient from './ManageClient';
+import ManageClientPage from './ManageClientPage';
 import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
 import { userUpdated, openConfirmationModal } from '../../actions';
 import { getUsers, getClients, getIsFetchingClients, getIsUpdatingClientIdOfUser, getUsersMap, getUsersErrorOccured } from '../../reducers/rootReducer';
@@ -20,7 +20,7 @@ class Base extends Component {
 
   render() {
     return (
-      <ManageClient
+      <ManageClientPage
         {...this.props}
       />
     );

@@ -7,7 +7,7 @@ import * as strings from '../../constants/strings';
 import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
 import { getClientOption, getUserOption } from '../../utils';
 
-class ManageClient extends Component {
+class ManageClientPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -159,4 +159,4 @@ class ManageClient extends Component {
   }
 }
 
-export default ManageClient;
+export default ManageClientPage;

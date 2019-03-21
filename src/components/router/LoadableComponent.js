@@ -26,10 +26,10 @@ const LoadableComponent = Component => (
 );
 
 export const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlan'));
-export const LoginPage = LoadableComponent(() => import('../auth/LoginPage'));
+export const LoginPage = LoadableComponent(() => import('../loginPage'));
 export const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
 export const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
 export const ManageZone = LoadableComponent(() => import('../manageZone'));
-export const ManageClient = LoadableComponent(() => import('../manageClient'));
+export const ManageClient = LoadableComponent(() => import('../manageClientPage'));
 export const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlan'));
 export const PDFView = LoadableComponent(() => import('../rangeUsePlan/pdf/PDFView'));
