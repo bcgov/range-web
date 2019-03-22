@@ -82,6 +82,12 @@ This project takes advantage of React Router v4 to acheive many things such as a
 Create React App allows us to dynamically import parts of our app using the `import()` proposal to reduce initial load time. Related reference can be found [here](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html).
 
 ## Styling
+* [Semantic UI React](https://react.semantic-ui.com/usage) was chosen for the main css framework. It includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
+
+* [BEM(Block Element Modifier)](http://getbem.com/introduction) methodology was chosen for naming convention.
+
+* Integration with Sass 
+
 * Post-Processing CSS
 
   ```css
@@ -100,9 +106,6 @@ Create React App allows us to dynamically import parts of our app using the `imp
   }
   ```
 
-* Integration with Sass 
-
-* [Semantic UI React](https://react.semantic-ui.com/usage) was chosen for the main css framework. It includes Gulp build tools so the project can preserve its own theme changes, allowing us to customise the style variables. Detailed documentation on theming in Semantic UI can be found [here](http://learnsemantic.com/developing/customizing.html).
 
 ## License
 
