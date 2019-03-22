@@ -38,6 +38,13 @@
     }
   }
 
+  &__no-plan-shown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
   &__content-title {
     font-size: 1.8rem;
     font-weight: bold;

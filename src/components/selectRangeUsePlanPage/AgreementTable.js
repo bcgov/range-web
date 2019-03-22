@@ -132,7 +132,7 @@ export class AgreementTable extends Component {
             <div className="agrm__table__header-row__cell">{strings.STAFF_CONTACT}</div>
             <div className="agrm__table__header-row__cell">{strings.STATUS}</div>
             <div className="agrm__table__header-row__cell">
-              <Icon name="plus circle" />
+              <Icon name="plus circle" size="large" />
             </div>
           </div>
 
