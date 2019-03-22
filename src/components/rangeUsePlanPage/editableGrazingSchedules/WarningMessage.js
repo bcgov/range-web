@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { handleGrazingScheduleValidation } from '../../../utils';
 import { ErrorMessage } from '../../common';
@@ -22,7 +22,7 @@ class WarningMessage extends Component {
     const { message, error } = result || {};
 
     if (!error) {
-      return <Fragment />;
+      return null;
     }
 
     return (

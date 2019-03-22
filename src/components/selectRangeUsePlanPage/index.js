@@ -74,8 +74,8 @@ class Base extends Component {
   render() {
     return (
       <SearchableAgreementTable
-        searchAgreementsWithOrWithoutParams={this.searchAgreementsWithOrWithoutParams}
         {...this.props}
+        searchAgreementsWithOrWithoutParams={this.searchAgreementsWithOrWithoutParams}
       />
     );
   }
