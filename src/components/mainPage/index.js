@@ -71,7 +71,7 @@ export class MainPage extends Component {
 
         <Toasts />
 
-        <Footer withTopPad />
+        <Footer withTopMargin />
       </main>
     );
   }
