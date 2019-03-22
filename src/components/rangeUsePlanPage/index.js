@@ -94,6 +94,17 @@ class Base extends Component {
       <Fragment>
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
+        {!plan && !isFetchingPlan &&
+          <div className="rup__no-plan-shown">
+            {'Don\'t see any plan?'}
+            <PrimaryButton
+              onClick={this.fetchPlan}
+              content="Fetch Plan"
+              style={{ marginLeft: '15px' }}
+            />
+          </div>
+        }
+
         {plan && isUserAdmin(user) &&
           <PageForStaff
             {...this.props}
