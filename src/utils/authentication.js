@@ -158,7 +158,7 @@ const isRangeAPI = (config) => {
   return false;
 };
 
-export const signOutFromSSO = () => {
+export const signOutFromSSOAndSiteMinder = () => {
   // open a new tab for signing out from SiteMinder which is Gov's auth platform
 
   // once it returns back, it will sign out from SSO which will happen in ReturnPage.js

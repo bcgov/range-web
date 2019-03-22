@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { signOutFromSSO } from '../../utils';
+import { signOutFromSSOAndSiteMinder } from '../../utils';
 import { SIGN_IN_ERROR } from '../../constants/strings';
 import { ErrorMessage, PrimaryButton } from '../common';
 
@@ -16,7 +16,7 @@ class SignInErrorMessage extends Component {
 
   onLogoutBtnClick = () => {
     this.props.signOut();
-    signOutFromSSO();
+    signOutFromSSOAndSiteMinder();
   }
 
   render() {
