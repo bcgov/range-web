@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../constants/variables';
-import { isNoteRequired, findStatusWithCode } from '../../utils';
+import { isNoteRequired, findStatusWithCode, isStatusChangedRequested } from '../../utils';
 import { PrimaryButton } from '../common';
 
 class UpdateStatusModal extends Component {
@@ -94,7 +94,13 @@ class UpdateStatusModal extends Component {
           <div className="rup__update-status-modal__content">{content}</div>
           {requireNote &&
             <div className="rup__update-status-modal__note">
-              Add Note ({NUMBER_OF_LIMIT_FOR_NOTE} characters).
+              Add
+              {
+                isStatusChangedRequested({ code: statusCode })
+                ? ' explanation of changes requested. This will be visible to the agreement holder'
+                : ' Note'
+              }
+              &nbsp;({NUMBER_OF_LIMIT_FOR_NOTE} characters).
               <Form>
                 <TextArea
                   placeholder="Add notes here"
