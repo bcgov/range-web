@@ -114,7 +114,7 @@ class ChooseAmendmentTypeTab extends Component {
             </Form.Field>
 
             <div className="rup__multi-tab__note__title">
-              Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). It will be visible to range staff and other Agreement Holders.
+              Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). It will be visible to range staff and other agreement holders.
             </div>
             <TextArea
               placeholder="Summarize what the proposed amendment includes.

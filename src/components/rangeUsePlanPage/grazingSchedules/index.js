@@ -38,7 +38,7 @@ class GrazingSchedules extends Component {
           <div className="rup__grazing-schedule__in-draft">
             <Icon name="lock" size="big" />
             <div style={{ marginLeft: '10px' }}>
-              <div style={{ fontSize: '1.15rem', fontWeight: 'bold' }}> RUP Awaiting Input from Agreement Holder </div>
+              <div style={{ fontSize: '1.15rem', fontWeight: 'bold' }}> RUP Awaiting Input from Agreement Holder(s) </div>
               <div style={{ opacity: '0.7' }}> This section will remain hidden until the agreement holder submits for staff reviews. </div>
             </div>
           </div>
