@@ -41,7 +41,7 @@ class MinorTabsForSingleAH extends Component {
         next: 'last',
         shouldSubmit: true,
         text1: 'You are about to submit your minor amendment for your RUP. Minor amendments to your range plan take effect immediately once submitted.',
-        checkbox1: 'I understand that this submission constitues a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediatly.',
+        checkbox1: 'I understand that this submission constitutes a legal document and eSignature. Changes to the current Range Use Plan will be take effect immediately.',
         rightBtn1: 'Submit Amendment',
       },
       last: {
