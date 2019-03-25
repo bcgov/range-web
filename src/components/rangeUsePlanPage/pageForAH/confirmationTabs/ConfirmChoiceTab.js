@@ -137,7 +137,7 @@ class ConfirmChoiceTab extends Component {
             />
 
             <Form.Checkbox
-              label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the range staff."
+              label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker."
               checked={isAgreed}
               style={{ marginTop: '20px' }}
               disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}

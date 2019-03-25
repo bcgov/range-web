@@ -88,7 +88,7 @@ class TabsForMultipleAH extends Component {
         shouldSubmit: false,
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
-          + 'a legal document and eSignature. This submission will be reviewed the range staff.',
+          + 'a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker.',
         rightBtn1: 'Next',
       },
       requestSignatures: {
