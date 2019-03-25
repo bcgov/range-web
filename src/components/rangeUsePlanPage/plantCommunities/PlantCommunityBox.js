@@ -12,7 +12,7 @@ import StubbleHeightBox from './critera/StubbleHeightBox';
 import ShrubUseBox from './critera/ShrubUseBox';
 import { getUser } from '../../../reducers/rootReducer';
 
-class PlantCommunityBoxModal extends Component {
+class PlantCommunityBox extends Component {
   static propTypes = {
     plantCommunity: PropTypes.shape({}).isRequired,
     pasture: PropTypes.shape({}).isRequired,
@@ -151,4 +151,4 @@ const mapStateToProps = state => (
     user: getUser(state),
   }
 );
-export default connect(mapStateToProps, null)(PlantCommunityBoxModal);
+export default connect(mapStateToProps, null)(PlantCommunityBox);
