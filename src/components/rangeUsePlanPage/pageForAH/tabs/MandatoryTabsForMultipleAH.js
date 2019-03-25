@@ -52,7 +52,7 @@ class MandatoryTabsForMultipleAH extends Component {
           ? 'submitForFeedback'
           : 'submitForFinalDecision',
         radio1: 'Make this draft amendment available for the staff to review. '
-          + 'They will advise you if the RUP is ready to submit to the decision maker for approval.',
+          + 'They will advise you if the RUP is ready to submit to the decision maker for approval or make content suggestions.',
         radio2: 'Verify this amendment is correct and start submission for decision.',
       },
       submitForFeedback: {
