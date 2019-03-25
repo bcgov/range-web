@@ -8,7 +8,6 @@ import RequestClarificationTab from '../confirmationTabs/RequestClarificationTab
 
 class ConfirmationTabs extends Component {
   static propTypes = {
-    user: PropTypes.shape({}).isRequired,
     plan: PropTypes.shape({}).isRequired,
     confirmationOption: PropTypes.string,
     onClose: PropTypes.func.isRequired,
@@ -30,7 +29,7 @@ class ConfirmationTabs extends Component {
 
   render() {
     const { currTabId } = this.state;
-    const { plan, user, confirmationOption, onClose } = this.props;
+    const { plan, confirmationOption, onClose } = this.props;
     const tabsMap = {
       confirmChoice: {
         id: 'confirmChoice',
@@ -46,7 +45,7 @@ class ConfirmationTabs extends Component {
         id: 'requestClarification',
         title: '2. Request Clarification or Changes',
         back: 'confirmChoice',
-        text1: `Please contact ${getUserFullName(plan.creator)}(${getUserEmail(user)}) `
+        text1: `Please contact ${getUserFullName(plan.creator)} (${getUserEmail(plan.creator)}) `
           + 'who initiated this range use plan for clarification or to request changes.',
         text2: 'Submissions can only be recalled by '
           + `${getUserFullName(plan.creator)} who initiated this range use plan.`,
