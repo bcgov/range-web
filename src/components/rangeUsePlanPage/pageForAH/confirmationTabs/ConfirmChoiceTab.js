@@ -102,7 +102,7 @@ class ConfirmChoiceTab extends Component {
                 className="rup__multi-tab__radio"
                 label={
                   <label>
-                    <b>Confirm and send to Range staff for final decision: </b>
+                    <b>Confirm and send for final decision: </b>
                     {radio1}
                   </label>
                 }
