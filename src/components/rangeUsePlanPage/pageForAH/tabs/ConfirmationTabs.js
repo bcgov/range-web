@@ -34,11 +34,11 @@ class ConfirmationTabs extends Component {
     const tabsMap = {
       confirmChoice: {
         id: 'confirmChoice',
-        title: '1. Confirm you Submission Choice',
+        title: '1. Confirm your Submission Choice',
         next: confirmationOption === CONFIRMATION_OPTION.CONFIRM
           ? 'last'
           : 'requestClarification',
-        radio1: 'the range use plan will be automatically updated'
+        radio1: 'the range use plan will be automatically forwarded for decision'
           + ' once all agreement holders have completed this step.',
         radio2: 'do not agree to the range use plan at this time and get information on options',
       },
