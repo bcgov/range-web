@@ -1,19 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Icon, Modal, Checkbox } from 'semantic-ui-react';
 import { ASPECT, ELEVATION, APPROVED_BY_MINISTER, PLANT_COMMUNITY_NOTES, COMMUNITY_URL, PURPOSE_OF_ACTION } from '../../../constants/strings';
 import { PURPOSE_OF_ACTION as PurposeOfAction, IMAGE_SRC } from '../../../constants/variables';
-import { handleNullValue, capitalize } from '../../../utils';
+import { handleNullValue, capitalize, isUserAgreementHolder } from '../../../utils';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
 import MonitoringAreaList from './monitoringArea';
 import RangeReadinessBox from './critera/RangeReadinessBox';
 import StubbleHeightBox from './critera/StubbleHeightBox';
 import ShrubUseBox from './critera/ShrubUseBox';
+import { getUser } from '../../../reducers/rootReducer';
 
 class PlantCommunityBoxModal extends Component {
   static propTypes = {
     plantCommunity: PropTypes.shape({}).isRequired,
     pasture: PropTypes.shape({}).isRequired,
+    user: PropTypes.shape({}).isRequired,
   }
 
   renderPlantCommunityActions = (purposeOfAction, plantCommunityActions = []) => {
@@ -34,7 +37,7 @@ class PlantCommunityBoxModal extends Component {
   }
 
   render() {
-    const { plantCommunity, pasture } = this.props;
+    const { plantCommunity, pasture, user } = this.props;
     const {
       name,
       plantCommunityActions,
@@ -97,12 +100,14 @@ class PlantCommunityBoxModal extends Component {
               <div className="rup__plant-community__modal__label">{ELEVATION}</div>
               <div className="rup__plant-community__modal__text">{handleNullValue(elevationName)}</div>
             </div>
-            <div className="rup__cell-4">
-              <div className="rup__plant-community__modal__label">{APPROVED_BY_MINISTER}</div>
-              <div className="rup__plant-community__modal__text">
-                <Checkbox checked={approved} toggle />
+            {!isUserAgreementHolder(user) &&
+              <div className="rup__cell-4">
+                <div className="rup__plant-community__modal__label">{APPROVED_BY_MINISTER}</div>
+                <div className="rup__plant-community__modal__text">
+                  <Checkbox checked={approved} toggle />
+                </div>
               </div>
-            </div>
+            }
           </div>
           <div className="rup__plant-community__modal__label">{PLANT_COMMUNITY_NOTES}</div>
           <div className="rup__plant-community__modal__text">{handleNullValue(notes)}</div>
@@ -141,4 +146,9 @@ class PlantCommunityBoxModal extends Component {
   }
 }
 
-export default PlantCommunityBoxModal;
+const mapStateToProps = state => (
+  {
+    user: getUser(state),
+  }
+);
+export default connect(mapStateToProps, null)(PlantCommunityBoxModal);
