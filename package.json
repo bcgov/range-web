@@ -62,7 +62,7 @@
       "src/**/*.{js,jsx,mjs}",
       "!**/semantic/**",
       "!src/components/routes/*.js",
-      "!src/components/rangeUsePlan/pdf/**",
+      "!src/components/rangeUsePlanPage/pdf/**",
       "!src/store/*.js",
       "!src/index.js",
       "!src/registerServiceWorker.js"
