@@ -104,10 +104,10 @@ class TabsForMultipleAH extends Component {
         id: 'last',
         title: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
           ? 'Your range use plan has been sent for range staff review.'
-          : 'Your range use plan has been sent for eSignatures and final decision by range staff.',
+          : 'Your range use plan has been sent to other agreement holders for confirmation. It will be sent to range staff for review before final decision once all agreement holders have viewed and confirmed the submission.',
         text1: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
           ? 'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!'
-          : 'Your range use plan has been sent to agreement holders '
+          : 'Your range use plan has been sent to other agreement holders '
             + 'for confirmation. It will be sent to Range staff for final '
             + 'approval once all agreement holders have viewed and confirmed the submission.',
       },
