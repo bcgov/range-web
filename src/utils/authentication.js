@@ -192,6 +192,9 @@ export const setTimeoutForReAuth = (reauthenticate) => {
   if (!isBundled) console.log('set timeout for re-authentication');
 
   const jstData = getJWTDataFromLocal();
+
+  if (!jstData) return undefined;
+
   const validPeriod = jstData.exp - (new Date() / 1000);
   const intervalToRefreshToken = 60; // give some time to refresh the access token
 
