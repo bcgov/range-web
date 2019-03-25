@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Icon } from 'semantic-ui-react';
 import UpdateZoneModal from '../UpdateZoneModal';
-import { DETAIL_RUP_BANNER_CONTENT, DOWNLOAD_PDF } from '../../../constants/strings';
+import { DETAIL_RUP_BANNER_CONTENT } from '../../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
 import { getPlanTypeDescription, cannotDownloadPDF, capitalize } from '../../../utils';
@@ -20,6 +19,7 @@ import InvasivePlantChecklist from '../invasivePlantChecklist';
 import AdditionalRequirements from '../additionalRequirements';
 import ManagementConsiderations from '../managementConsiderations';
 import { defaultProps, propTypes } from './props';
+import DownloadPDFBtn from '../DownloadPDFBtn';
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -94,15 +94,10 @@ class PageForStaff extends Component {
                 <div>{capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                <Button
-                  compact
-                  inverted
+                <DownloadPDFBtn
                   disabled={cannotDownloadPDF(status)}
                   onClick={this.onViewPDFClicked}
-                >
-                  <Icon name="file pdf outline" />
-                  {DOWNLOAD_PDF}
-                </Button>
+                />
                 <UpdateStatusDropdown
                   plan={plan}
                   fetchPlan={fetchPlan}

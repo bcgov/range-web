@@ -77,6 +77,21 @@
     }
   }
 
+  &__download-pdf-btn {
+    &--short {
+      display: none !important;
+      @include large {
+        display: inline-block !important;
+      }
+    }
+    &--long {
+      display: inline-block !important;
+      @include large {
+        display: none !important;
+      }
+    }
+  }
+
   &__actions {
     &__background {
       background: #002257;
