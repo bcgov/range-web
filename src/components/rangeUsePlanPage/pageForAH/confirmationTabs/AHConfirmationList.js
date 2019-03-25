@@ -56,7 +56,7 @@ class AHConfirmationList extends Component {
     ];
     const allConfimedView = (
       <div key="allConfirmed" className="rup__confirmation__paragraph-title">
-        All agreement holders have confirmed this submission. It has now been submitted to Range Staff.
+        All agreement holders have confirmed this submission. It has now been submitted to range staff.
       </div>
     );
 

@@ -47,7 +47,7 @@ class MinorTabsForSingleAH extends Component {
       last: {
         id: 'last',
         title: 'Your minor amendment has been applied to your range use plan.',
-        text1: 'Your minor amendment has been applied to your active range use plan. No further action is required unless Range Staff finds errors in your submission.',
+        text1: 'Your minor amendment has been applied to your active range use plan. No further action is required unless range staff finds errors in your submission.',
       },
     };
 

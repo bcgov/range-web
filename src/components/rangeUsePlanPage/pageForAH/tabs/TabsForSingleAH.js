@@ -85,7 +85,7 @@ class TabsForSingleAH extends Component {
         shouldSubmit: true,
         text1: 'You are about to submit your initial range use plan.',
         checkbox1: 'I understand that this submission constitues '
-          + 'a legal document and eSignature. This submission will be reviewed the Range Staff.',
+          + 'a legal document and eSignature. This submission will be reviewed the range staff.',
         rightBtn1: 'Submit Initial RUP',
       },
       last: {

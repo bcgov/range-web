@@ -71,7 +71,7 @@ class MandatoryTabsForMultipleAH extends Component {
         shouldSubmit: false,
         text1: 'You are about to submit your mandatory amendment for your RUP.',
         checkbox1: 'I understand that this submission constitues a legal '
-          + 'document and eSignature. This submission will be reviewed the Range Staff.',
+          + 'document and eSignature. This submission will be reviewed the range staff.',
         rightBtn1: 'Next',
       },
       requestSignatures: {
@@ -80,7 +80,7 @@ class MandatoryTabsForMultipleAH extends Component {
         back: 'submitForFinalDecision',
         next: 'last',
         text1: 'You have signed your mandatory amendment submission. The agreement holders below will be notified to confirm the submission and provide eSignatures.',
-        text2: 'Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by Range Staff.',
+        text2: 'Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by range staff.',
         text3: 'Agreement holders needed to confirm submission:',
       },
       last: {

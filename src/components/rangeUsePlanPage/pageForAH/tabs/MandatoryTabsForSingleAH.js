@@ -68,7 +68,7 @@ class MandatoryTabsForSingleAH extends Component {
         shouldSubmit: true,
         text1: 'You are about to submit your mandatory amendment for your RUP.',
         checkbox1: 'I understand that this submission constitues a legal '
-          + 'document and eSignature. This submission will be reviewed the Range Staff.',
+          + 'document and eSignature. This submission will be reviewed the range staff.',
         rightBtn1: 'Submit Amendment',
       },
       last: {
