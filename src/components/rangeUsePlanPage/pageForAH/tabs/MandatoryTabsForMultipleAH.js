@@ -57,7 +57,7 @@ class MandatoryTabsForMultipleAH extends Component {
       },
       submitForFeedback: {
         id: 'submitForFeedback',
-        title: '3. Submit Your initial range use plan for Feedback',
+        title: '3. Submit your initial range use plan for feedback',
         back: 'chooseSubmissionType',
         next: 'last',
         text1: 'You’re ready to submit mandatory amendment for Range staff review. '
