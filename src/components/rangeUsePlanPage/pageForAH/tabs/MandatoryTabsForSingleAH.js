@@ -49,12 +49,12 @@ class MandatoryTabsForSingleAH extends Component {
           ? 'submitForFeedback'
           : 'submitForFinalDecision',
         radio1: 'Make this draft amendment available for the staff to review. '
-          + 'They will advise you if the RUP is ready to submit to the decision maker for approval.',
+          + 'They will advise you if the RUP is ready to submit to the decision maker for approval or make content suggestions.',
         radio2: 'Verify this amendment is correct and start submission for decision.',
       },
       submitForFeedback: {
         id: 'submitForFeedback',
-        title: '3. Submit Your initial range use plan for Feedback',
+        title: '3. Submit your initial range use plan for feedback',
         back: 'chooseSubmissionType',
         next: 'last',
         text1: 'You’re ready to submit mandatory amendment for Range staff review. '
@@ -68,7 +68,7 @@ class MandatoryTabsForSingleAH extends Component {
         shouldSubmit: true,
         text1: 'You are about to submit your mandatory amendment for your RUP.',
         checkbox1: 'I understand that this submission constitues a legal '
-          + 'document and eSignature. This submission will be reviewed the Range Staff.',
+          + 'document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker.',
         rightBtn1: 'Submit Amendment',
       },
       last: {

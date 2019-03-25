@@ -52,7 +52,7 @@ export const writeBasicInformation = (doc, plan) => {
   currY += marginBottom;
 
   currY = Math.max(
-    writeFieldText(doc, 'Ran Number', forestFileId, startX, currY, fieldTextWidth),
+    writeFieldText(doc, 'RAN', forestFileId, startX, currY, fieldTextWidth),
     writeFieldText(doc, 'District (Responsible)', getDistrict(zone), halfPageWidth, currY, fieldTextWidth),
   );
   currY += marginBottom;

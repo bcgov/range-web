@@ -5,7 +5,7 @@ import { Icon } from 'semantic-ui-react';
 import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
-import { isClientCurrentUser } from '../../../../utils';
+import { isClientCurrentUser, getClientFullName } from '../../../../utils';
 
 class RequestSignaturesTab extends Component {
   static propTypes = {
@@ -52,7 +52,10 @@ class RequestSignaturesTab extends Component {
             { 'rup__multi-tab__ah-list__cname--bold': isClientCurrentUser(client, user) },
           )}
         >
-          {client.name}
+          {getClientFullName(client)}
+          {isClientCurrentUser(client, user) &&
+            ' (in progress)'
+          }
         </span>
       </div>
     );

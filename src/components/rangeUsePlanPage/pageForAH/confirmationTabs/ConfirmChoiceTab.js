@@ -102,7 +102,7 @@ class ConfirmChoiceTab extends Component {
                 className="rup__multi-tab__radio"
                 label={
                   <label>
-                    <b>Confirm and send to Range staff for final decision: </b>
+                    <b>Confirm and send for final decision: </b>
                     {radio1}
                   </label>
                 }
@@ -137,7 +137,7 @@ class ConfirmChoiceTab extends Component {
             />
 
             <Form.Checkbox
-              label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed the Range Staff."
+              label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker."
               checked={isAgreed}
               style={{ marginTop: '20px' }}
               disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}

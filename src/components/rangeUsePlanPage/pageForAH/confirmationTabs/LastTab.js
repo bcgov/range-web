@@ -56,7 +56,7 @@ class LastTab extends Component {
 
         <PrimaryButton
           onClick={onClose}
-          content="Finish"
+          content="Ok"
           style={{ marginTop: '15px' }}
         />
       </div>

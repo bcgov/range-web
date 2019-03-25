@@ -49,7 +49,7 @@ class LastTab extends Component {
         <RightBtn
           primary
           onClick={onClose}
-          content="Finish"
+          content="Ok"
         />
       </div>
     );

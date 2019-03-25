@@ -7,7 +7,7 @@ import { MemoryRouter, withRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { axios } from '../../utils';
 import RangeUsePlanPage from '../../components/rangeUsePlanPage';
-import { storeAuthData, storeReferences } from '../../actions';
+import { storeAuthData, storeReferences, storeUser } from '../../actions';
 import { configureMockStore, flushAllPromises } from '../helpers/utils';
 import { requestMockHeader, mockPlan, mockReference, mockAuthData } from './mockData';
 import * as API from '../../constants/api';
@@ -26,6 +26,7 @@ beforeEach(() => {
   store = configureMockStore([thunk]);
   store.dispatch(storeAuthData(mockAuthData));
   store.dispatch(storeReferences(mockReference));
+  store.dispatch(storeUser(mockOfficerUser));
   mockAxios.reset();
 });
 

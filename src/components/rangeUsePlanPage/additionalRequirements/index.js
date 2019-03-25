@@ -39,6 +39,7 @@ class AdditionalRequirements extends Component {
         <div className="rup__divider" />
         <div className="rup__a-requirements__note">
           Other direction or agreements with which this Range Use Plan must be consistent.
+          Contact a range staff member if you need more information.
         </div>
         <div className="rup__a-requirements__box">
           <div className="rup__a-requirement__header">

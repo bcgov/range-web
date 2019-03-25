@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Icon } from 'semantic-ui-react';
-import { DOWNLOAD_PDF, SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION, AMEND_PLAN_CONFIRM_HEADER, AMEND_PLAN_CONFIRM_CONTENT } from '../../../constants/strings';
+import { Button } from 'semantic-ui-react';
+import { SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION, AMEND_PLAN_CONFIRM_HEADER, AMEND_PLAN_CONFIRM_CONTENT } from '../../../constants/strings';
 import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+import DownloadPDFBtn from '../DownloadPDFBtn';
 
 const ActionBtns = ({
   canEdit,
@@ -19,16 +20,10 @@ const ActionBtns = ({
   openConfirmationModal,
 }) => {
   const downloadPDFBtn = (
-    <Button
+    <DownloadPDFBtn
       key="downloadPDFBtn"
-      inverted
-      compact
       onClick={onViewPDFClicked}
-      style={{ marginRight: '0' }}
-    >
-      <Icon name="file pdf outline" />
-      {DOWNLOAD_PDF}
-    </Button>
+    />
   );
   const saveDraftBtn = (
     <Button
