@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { findConfirmationWithClientId, formatDateFromServer, isClientCurrentUser } from '../../../../utils';
+import { findConfirmationWithClientId, formatDateFromServer, isClientCurrentUser, getClientFullName } from '../../../../utils';
 import { AWAITING_CONFIRMATION } from '../../../../constants/strings';
 
 class AHConfirmationList extends Component {
@@ -29,7 +29,7 @@ class AHConfirmationList extends Component {
               { 'rup__confirmation__ah-list__cname--bold': isClientCurrentUser(client, user) },
             )}
           >
-            {client.name}
+            {getClientFullName(client)}
           </span>
         </div>
         <div>{confirmationDate}</div>
