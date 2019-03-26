@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UpdateZoneModal from '../UpdateZoneModal';
+import UpdateZoneModal from './UpdateZoneModal';
 import { DETAIL_RUP_BANNER_CONTENT } from '../../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
@@ -10,7 +10,7 @@ import GrazingSchedules from '../grazingSchedules';
 import MinisterIssues from '../ministerIssues';
 import BackBtn from '../BackBtn';
 import ContentsContainer from '../ContentsContainer';
-import UpdateStatusDropdown from '../UpdateStatusDropdown';
+import UpdateStatusDropdown from './UpdateStatusDropdown';
 import StickyHeader from '../StickyHeader';
 import { EXPORT_PDF } from '../../../constants/routes';
 import Notifications from '../notifications';
@@ -53,6 +53,7 @@ class PageForStaff extends Component {
       additionalRequirementsMap,
       managementConsiderationsMap,
       fetchPlan,
+      isFetchingPlan,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
@@ -101,6 +102,7 @@ class PageForStaff extends Component {
                 <UpdateStatusDropdown
                   plan={plan}
                   fetchPlan={fetchPlan}
+                  isFetchingPlan={isFetchingPlan}
                 />
               </div>
             </div>
