@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Header, Dropdown, Modal, Icon } from 'semantic-ui-react';
-import { updateAgreementZone } from '../../actionCreators';
-import { ELEMENT_ID } from '../../constants/variables';
-import { getZones, getIsUpdatingAgreementZone } from '../../reducers/rootReducer';
-import { planUpdated } from '../../actions';
-import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
-import { getUserFullName } from '../../utils';
-import { PrimaryButton } from '../common';
+import { updateAgreementZone } from '../../../actionCreators';
+import { ELEMENT_ID } from '../../../constants/variables';
+import { getZones, getIsUpdatingAgreementZone } from '../../../reducers/rootReducer';
+import { planUpdated } from '../../../actions';
+import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../../constants/strings';
+import { getUserFullName } from '../../../utils';
+import { PrimaryButton } from '../../common';
 
 export class UpdateZoneModal extends Component {
   static propTypes = {

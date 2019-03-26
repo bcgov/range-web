@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dropdown, Button } from 'semantic-ui-react';
-import { isStatusStands, isStatusCreated, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment, isStatusRecommendNotReady } from '../../utils';
-import { PLAN_STATUS } from '../../constants/variables';
-import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../reducers/rootReducer';
-import { updateRUPStatus } from '../../actionCreators';
-import * as strings from '../../constants/strings';
+import { isStatusStands, isStatusCreated, isStatusSubmittedForFD, isStatusSubmittedForReview, isStatusRecommendReady, isPlanAmendment, isStatusRecommendNotReady } from '../../../utils';
+import { PLAN_STATUS } from '../../../constants/variables';
+import { getReferences, getIsUpdatingPlanStatus, getConfirmationModalsMap } from '../../../reducers/rootReducer';
+import { updateRUPStatus } from '../../../actionCreators';
+import * as strings from '../../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
 
 class UpdateStatusDropdown extends Component {

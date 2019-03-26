@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Form, TextArea } from 'semantic-ui-react';
-import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../constants/variables';
-import { isNoteRequired, findStatusWithCode, isStatusChangedRequested } from '../../utils';
-import { PrimaryButton } from '../common';
+import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
+import { isNoteRequired, findStatusWithCode, isStatusChangedRequested } from '../../../utils';
+import { PrimaryButton } from '../../common';
 
 class UpdateStatusModal extends Component {
   static propTypes = {
