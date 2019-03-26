@@ -236,12 +236,21 @@
   &__update-status-dropdown {
     margin-left: 10px !important;
     margin-right: 0px !important;
+
     > .menu {
       left: inherit !important;
       right: 0 !important;
       &:after {
         left: unset !important;
         right: 55px !important;
+      }
+    }
+
+    &.disabled {
+      opacity: 1 !important;
+
+      > button {
+        opacity: 0.45;
       }
     }
   }

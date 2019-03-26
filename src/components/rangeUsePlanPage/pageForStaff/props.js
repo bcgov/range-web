@@ -13,6 +13,7 @@ export const propTypes = {
   additionalRequirementsMap: PropTypes.shape({}).isRequired,
   managementConsiderationsMap: PropTypes.shape({}).isRequired,
   fetchPlan: PropTypes.func.isRequired,
+  isFetchingPlan: PropTypes.bool.isRequired,
 };
 
 export { defaultProps } from '../pageForAH/props';

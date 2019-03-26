@@ -10,6 +10,7 @@ import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../../constants/strings';
 import { getUserFullName } from '../../../utils';
 import { PrimaryButton } from '../../common';
 
+// the componenet is no longer needed since the database is periodically updated by FTA apis
 export class UpdateZoneModal extends Component {
   static propTypes = {
     agreement: PropTypes.shape({ zone: PropTypes.object }).isRequired,

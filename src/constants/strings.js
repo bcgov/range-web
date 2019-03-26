@@ -27,7 +27,7 @@ export const INITIAL_PLAN = 'Initial Plan';
 // RUP View
 export const PREVIEW_PDF = 'Preview PDF';
 export const DOWNLOAD_PDF = 'Download PDF';
-export const UPDATE_STATUS = 'Update Status';
+export const PLAN_ACTIONS = 'Plan Actions';
 export const SAVE_DRAFT = 'Save Draft';
 export const SUBMIT = 'Submit';
 export const AMEND_PLAN = 'Amend Plan';

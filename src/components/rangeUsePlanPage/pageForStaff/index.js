@@ -53,6 +53,7 @@ class PageForStaff extends Component {
       additionalRequirementsMap,
       managementConsiderationsMap,
       fetchPlan,
+      isFetchingPlan,
     } = this.props;
     const {
       isUpdateZoneModalOpen,
@@ -101,6 +102,7 @@ class PageForStaff extends Component {
                 <UpdateStatusDropdown
                   plan={plan}
                   fetchPlan={fetchPlan}
+                  isFetchingPlan={isFetchingPlan}
                 />
               </div>
             </div>
