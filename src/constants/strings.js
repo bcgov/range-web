@@ -202,13 +202,3 @@ export const RUP_NOT_APPROVED_FURTHER_WORK_REQUIRED_BANNER_FOR_AH = 'Your plan o
 export const RUP_STANDS_BANNER_FOR_AH = 'Your minor amendment was reviewed by Range staff and was approved.';
 export const RUP_STANDS_WRONGLY__BANNER_FOR_AH = 'Your minor amendment was reviewed by Range staff and was approved  but deemed wrongly made. This typically means that there was a small error in your submission but it is still valid.';
 export const RUP_WRONGLY_MADE_WITHOUT_EFFECT = 'Your minor amendment was reviewed by Range staff and was deemed wrongly made. For more information follow up with your Range staff contact.';
-
-// statuses of range use plan in user perspective
-export const INPUT_REQUIRED = 'Input Required';
-export const REVIEW_REQUIRED = 'Review Required';
-export const IN_REVIEW = 'In Review';
-export const REVISIONS_REQUESTED = 'Revisions Requested';
-export const SENT_FOR_INPUT = 'Sent for Input';
-export const IN_PROGRESS = 'In Progress';
-export const DRAFT = 'Draft';
-export const UNKNOWN_STATUS = 'Unknown Status';
