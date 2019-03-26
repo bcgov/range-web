@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import UpdateZoneModal from './UpdateZoneModal';
-import { DETAIL_RUP_BANNER_CONTENT } from '../../../constants/strings';
 import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
-import { getPlanTypeDescription, cannotDownloadPDF, capitalize } from '../../../utils';
+import { getPlanTypeDescription, cannotDownloadPDF, capitalize, getBannerHeaderAndContentForAH } from '../../../utils';
 import BasicInformation from '../basicInformation';
 import Pastures from '../pastures';
 import GrazingSchedules from '../grazingSchedules';
@@ -64,6 +63,7 @@ class PageForStaff extends Component {
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const planTypeDescription = getPlanTypeDescription(plan, amendmentTypes);
+    const { header: bannerHeader, content: bannerContent } = getBannerHeaderAndContentForAH(plan, user);
 
     return (
       <section className="rup">
@@ -75,8 +75,8 @@ class PageForStaff extends Component {
         />
 
         <Banner
-          header={planTypeDescription}
-          content={DETAIL_RUP_BANNER_CONTENT}
+          header={bannerHeader}
+          content={bannerContent}
           noDefaultHeight
         />
 

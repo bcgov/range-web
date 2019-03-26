@@ -205,14 +205,14 @@ class UpdateStatusDropdown extends Component {
         <Dropdown
           className="rup__update-status-dropdown"
           options={statusDropdownOptions}
-          disabled={statusDropdownOptions[0].key === 'noOption'}
+          disabled={isFetchingPlan || statusDropdownOptions[0].key === 'noOption'}
           pointing="top"
           icon={null}
           onClick={fetchPlan}
           trigger={
             <Button
               inverted
-              loading={isFetchingPlan || isUpdatingStatus}
+              loading={isUpdatingStatus}
               compact
               style={{ margin: '0' }}
             >

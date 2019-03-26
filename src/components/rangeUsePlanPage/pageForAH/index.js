@@ -212,9 +212,10 @@ class PageForAH extends Component {
     const canEdit = utils.canUserEditThisPlan(plan, user);
     const canAmend = utils.isStatusAmongApprovedStatuses(status);
     const canConfirm = utils.canUserSubmitConfirmation(status, user, confirmations, confirmationsMap);
-    const canSubmit = utils.isStatusReadyForSubmission(status);
-    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const header = utils.getPlanTypeDescription(plan, amendmentTypes);
+    const canSubmit = utils.isStatusRecommendForSubmission(status);
+    const { header: bannerHeader, content: bannerContent } = utils.getBannerHeaderAndContentForAH(plan, user);
+    // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
     const grazingScheduleProps = {
       elementId: ELEMENT_ID.GRAZING_SCHEDULE,
       references,
@@ -268,8 +269,8 @@ class PageForAH extends Component {
 
         <Banner
           noDefaultHeight
-          header={header}
-          content={utils.getBannerContentForAH(plan)}
+          header={bannerHeader}
+          content={bannerContent}
         />
 
         <StickyHeader>
