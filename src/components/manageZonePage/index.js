@@ -16,22 +16,24 @@ class Base extends Component {
   }
 
   componentWillMount() {
-    const { fetchUsers, fetchZones } = this.props;
     document.title = MANAGE_ZONE_TITLE;
-
-    fetchZones();
-    fetchUsers();
+    this.fetchData();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { reAuthRequired, fetchUsers, fetchZones, errorOccuredGettingZones } = nextProps;
+    const { reAuthRequired, errorOccuredGettingZones } = nextProps;
 
     // fetch zones and users if the user just reauthenticate and there was an error occurred
     const justReAuthenticated = this.props.reAuthRequired === true && reAuthRequired === false;
     if (justReAuthenticated && errorOccuredGettingZones) {
-      fetchZones();
-      fetchUsers();
+      this.fetchData();
     }
+  }
+
+  fetchData = () => {
+    const { fetchUsers, fetchZones } = this.props;
+    fetchZones();
+    fetchUsers();
   }
 
   render() {
