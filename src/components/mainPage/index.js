@@ -30,7 +30,7 @@ import UsernameInputModal from './UsernameInputModal';
 import { Footer } from '../common';
 import { registerAxiosInterceptors } from '../../utils';
 import { fetchReferences, signOut, resetTimeoutForReAuth } from '../../actionCreators';
-import { reauthenticate } from '../../actions';
+import { reauthenticate, storeAuthData } from '../../actions';
 
 export class MainPage extends Component {
   static propTypes = {
@@ -40,9 +40,9 @@ export class MainPage extends Component {
   }
 
   componentWillMount() {
-    const { reauthenticate, resetTimeoutForReAuth } = this.props;
+    const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props;
     resetTimeoutForReAuth(reauthenticate);
-    registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate);
+    registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate, storeAuthData);
   }
 
   componentDidMount() {
@@ -82,4 +82,5 @@ export default connect(null, {
   reauthenticate,
   fetchReferences,
   resetTimeoutForReAuth,
+  storeAuthData,
 })(MainPage);

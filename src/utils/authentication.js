@@ -63,6 +63,8 @@ export const saveAuthDataInLocal = (response) => {
   data.jwtData = jwtDecode(data.access_token);
 
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
+
+  return data;
 };
 
 /**
@@ -196,7 +198,7 @@ export const setTimeoutForReAuth = (reauthenticate) => {
   if (!jstData) return undefined;
 
   const validPeriod = jstData.exp - (new Date() / 1000);
-  const intervalToRefreshToken = 60; // give some time to refresh the access token
+  const intervalToRefreshToken = 0; // give some time to refresh the access token
 
   return setTimeout(() => {
     reauthenticate();
@@ -211,10 +213,12 @@ export const setTimeoutForReAuth = (reauthenticate) => {
  * case 2: both access and refresh tokens are expired
  *  -> request users to re signin by popping up SignInModal
  *
+ * @param {function} resetTimeoutForReAuth the action to reset a timeout for reauthentication
  * @param {function} reauthenticate the action to re-authenticate
- * @returns {object} the config or err object
+ * @param {function} storeAuthData the action to store the user in Redux
+ * @returns {object} the network response config
  */
-export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate) => {
+export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate, storeAuthData) => {
   axios.interceptors.request.use((config) => {
     const isFirstTimeTry = !config.isRetry;
 
@@ -225,7 +229,10 @@ export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate)
 
       return refreshAccessToken(refreshToken).then(
         (response) => {
-          saveAuthDataInLocal(response);
+          if (!isBundled) console.log('Access token has been refreshed!');
+
+          const authData = saveAuthDataInLocal(response);
+          storeAuthData(authData);
           resetTimeoutForReAuth(reauthenticate);
 
           const c = createConfigReplacingHeaderWithNewToken(config, response);
