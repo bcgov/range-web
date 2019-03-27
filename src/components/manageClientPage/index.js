@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import ManageClientPage from './ManageClientPage';
 import { fetchUsers, searchClients, updateClientIdOfUser } from '../../actionCreators';
 import { userUpdated, openConfirmationModal } from '../../actions';
-import { getUsers, getClients, getIsFetchingClients, getIsUpdatingClientIdOfUser, getUsersMap, getUsersErrorOccured } from '../../reducers/rootReducer';
+import { getUsers, getClients, getIsFetchingClients, getIsUpdatingClientIdOfUser, getUsersMap, getUsersErrorOccured, getReAuthRequired } from '../../reducers/rootReducer';
 import { MANAGE_CLIENT_TITLE } from '../../constants/strings';
 
 const propTypes = {
   fetchUsers: PropTypes.func.isRequired,
+  reAuthRequired: PropTypes.bool.isRequired,
+  errorOccuredGettingUsers: PropTypes.bool.isRequired,
 };
 
 class Base extends Component {
@@ -16,6 +18,16 @@ class Base extends Component {
     document.title = MANAGE_CLIENT_TITLE;
 
     this.props.fetchUsers();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { reAuthRequired, fetchUsers, errorOccuredGettingUsers } = nextProps;
+
+    // fetch users if the user just reauthenticate and there was an error occurred
+    const justReAuthenticated = this.props.reAuthRequired === true && reAuthRequired === false;
+    if (justReAuthenticated && errorOccuredGettingUsers) {
+      fetchUsers();
+    }
   }
 
   render() {
@@ -35,6 +47,7 @@ const mapStateToProps = state => (
     clients: getClients(state),
     isFetchingClients: getIsFetchingClients(state),
     isUpdatingClientIdOfUser: getIsUpdatingClientIdOfUser(state),
+    reAuthRequired: getReAuthRequired(state),
   }
 );
 

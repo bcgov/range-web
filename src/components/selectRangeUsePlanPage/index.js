@@ -6,7 +6,7 @@ import SearchableAgreementTable from './SearchableAgreementTable';
 import { searchAgreements, fetchAgreement } from '../../actionCreators';
 import { agreementSearchChanged } from '../../actions';
 import { SELECT_RUP_TITLE } from '../../constants/strings';
-import { getAgreementsErrorOccured, getIsFetchingAgreements } from '../../reducers/rootReducer';
+import { getAgreementsErrorOccured, getIsFetchingAgreements, getReAuthRequired } from '../../reducers/rootReducer';
 
 class Base extends Component {
   static propTypes = {
@@ -44,18 +44,29 @@ class Base extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { agreementSearchChanged, fetchAgreement, location } = this.props;
-    const locationChanged = nextProps.location !== location;
+    const { agreementSearchChanged, fetchAgreement, location, reAuthRequired } = this.props;
+    const params = parseQuery(nextProps.location.search);
+    const {
+      page,
+      term,
+      row,
+      aId: agreementId,
+    } = params;
 
+    // fetch agreements search result and an agreement with all the plans
+    // if the user just reauthenticate and there was an error occurred
+    const justReAuthenticated = nextProps.reAuthRequired === false && reAuthRequired === true;
+    if (justReAuthenticated && nextProps.errorGettingAgreements) {
+      this.searchAgreementsWithOrWithoutParams(params);
+
+      if (agreementId && (row >= 0)) {
+        fetchAgreement(agreementId);
+      }
+    }
+
+    const locationChanged = nextProps.location !== location;
     if (locationChanged) {
       const oldParams = parseQuery(location.search);
-      const params = parseQuery(nextProps.location.search);
-      const {
-        page,
-        term,
-        row,
-        aId: agreementId,
-      } = params;
 
       agreementSearchChanged(params);
 
@@ -85,6 +96,7 @@ const mapStateToProps = state => (
   {
     isFetchingAgreements: getIsFetchingAgreements(state),
     errorGettingAgreements: getAgreementsErrorOccured(state),
+    reAuthRequired: getReAuthRequired(state),
   }
 );
 

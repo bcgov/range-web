@@ -42,6 +42,16 @@ class Base extends Component {
     this.fetchPlan();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { reAuthRequired, errorFetchingPlan } = nextProps;
+
+    // fetch zones and users if the user just reauthenticate and there was an error occurred
+    const justReAuthenticated = this.props.reAuthRequired === true && reAuthRequired === false;
+    if (justReAuthenticated && errorFetchingPlan) {
+      this.fetchPlan();
+    }
+  }
+
   getPlanId = () => {
     const { match, location } = this.props;
     // the second part is being used for testing
@@ -74,7 +84,7 @@ class Base extends Component {
           <Icon name="warning sign" size="large" color="red" />
           <div>
             <span className="rup__fetching-error__message">
-              Error occured while fetching the range use plan.
+              Error occurred while fetching the range use plan.
             </span>
           </div>
           <div>
@@ -151,6 +161,7 @@ const mapStateToProps = state => (
     references: selectors.getReferences(state),
     isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
     isCreatingAmendment: selectors.getIsCreatingAmendment(state),
+    reAuthRequired: selectors.getReAuthRequired(state),
   }
 );
 
