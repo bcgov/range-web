@@ -38,6 +38,13 @@
     }
   }
 
+  &__no-plan-shown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
   &__content-title {
     font-size: 1.8rem;
     font-weight: bold;
@@ -70,9 +77,24 @@
     }
   }
 
+  &__download-pdf-btn {
+    &--short {
+      display: none !important;
+      @include large {
+        display: inline-block !important;
+      }
+    }
+    &--long {
+      display: inline-block !important;
+      @include large {
+        display: none !important;
+      }
+    }
+  }
+
   &__actions {
     &__background {
-      background: $primary-color;
+      background: #002257;
     }
     &__container {
       @extend .container;
@@ -88,14 +110,17 @@
       font-weight: 600;
       line-height: 16px;
       color: white;
-    }
-    &__title,
-    &__primary-agreement-holder {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-      padding-right: 15px;
-      border-right: 1px solid $accent-color;
+
+      > div:nth-child(n + 2) {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+        padding-right: 15px;
+        border-right: 1px solid $accent-color;
+      }
+      > div:last-child {
+        border-right: 0px;
+      }
     }
   }
 
@@ -167,8 +192,7 @@
   }
 
   &__back-btn {
-    position: absolute;
-    margin-left: -38px;
+    margin-right: 7px;
     color: white;
     cursor: pointer;
   }
@@ -212,12 +236,21 @@
   &__update-status-dropdown {
     margin-left: 10px !important;
     margin-right: 0px !important;
+
     > .menu {
       left: inherit !important;
       right: 0 !important;
       &:after {
         left: unset !important;
         right: 55px !important;
+      }
+    }
+
+    &.disabled {
+      opacity: 1 !important;
+
+      > button {
+        opacity: 0.45;
       }
     }
   }

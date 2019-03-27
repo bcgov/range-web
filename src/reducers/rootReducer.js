@@ -64,6 +64,8 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_USER]: createReducer(networkReducer, reducerTypes.UPDATE_USER),
   [reducerTypes.GET_AGREEMENT]: createReducer(networkReducer, reducerTypes.GET_AGREEMENT),
   [reducerTypes.CREATE_AMENDMENT]: createReducer(networkReducer, reducerTypes.CREATE_AMENDMENT),
+  [reducerTypes.GET_ZONES]: createReducer(networkReducer, reducerTypes.GET_ZONES),
+  [reducerTypes.GET_USERS]: createReducer(networkReducer, reducerTypes.GET_USERS),
 });
 
 const rootReducer = (state, action) => {
@@ -105,9 +107,11 @@ export const getUpdatingUserErrorOccured = state => fromNetwork.getErrorOccured(
 
 export const getZones = state => fromCommonStore.getZones(state[reducerTypes.COMMON]);
 export const getZonesMap = state => fromCommonStore.getZonesMap(state[reducerTypes.COMMON]);
+export const getZonesErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_ZONES]);
 export const getReferences = state => fromCommonStore.getReferences(state[reducerTypes.COMMON]);
 export const getUsers = state => fromCommonStore.getUsers(state[reducerTypes.COMMON]);
 export const getUsersMap = state => fromCommonStore.getUsersMap(state[reducerTypes.COMMON]);
+export const getUsersErrorOccured = state => fromNetwork.getErrorOccured(state[reducerTypes.GET_USERS]);
 export const getIsUpdatingUserIdOfZone = state => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_USER_ID_OF_ZONE]);
 
 export const getClients = state => fromClient.getClients(state[reducerTypes.CLIENT]);

@@ -1,17 +1,20 @@
 import { AMENDMENT_TYPE } from '../../constants/variables';
 
-export const copyPlantCommunitiesToCreateAmendment = (plantCommunities, newPastureIdsMap) => {
+export const copyPlantCommunitiesToCreateAmendment = (plantCommunityIds, plantCommunitiesMap, newPastureIdsMap) => {
+  const plantCommunities = plantCommunityIds.map(id => plantCommunitiesMap[id]);
+
   return plantCommunities.map((pc) => {
     const {
       id,
-      pastureId: pId,
-      ...plantCommunity } = pc;
+      pastureId: oldPastureId,
+      ...plantCommunity
+    } = pc;
     // get the newly created pasture id
-    const newPastureId = newPastureIdsMap[pId];
+    const pastureId = newPastureIdsMap[oldPastureId];
 
     return {
       ...plantCommunity,
-      pastureId: newPastureId,
+      pastureId,
     };
   });
 };

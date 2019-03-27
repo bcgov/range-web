@@ -1,4 +1,6 @@
 import { CLIENT_TYPE } from '../../constants/variables';
+import { NOT_PROVIDED } from '../../constants/strings';
+import { capitalize } from '..';
 
 export const getAgreementHolders = (clients = []) => {
   let primaryAgreementHolder = {};
@@ -32,4 +34,16 @@ export const findConfirmationWithClientId = (clientId, confirmations, confirmati
       .find(confirmation => confirmation.clientId === clientId);
   }
   return undefined;
+};
+
+export const getClientFullName = (contact) => {
+  if (contact && contact.name) {
+    const array = contact.name
+      .split(' ')
+      .map(string => capitalize(string.toLowerCase()));
+
+    return array.join(' ');
+  }
+
+  return NOT_PROVIDED;
 };

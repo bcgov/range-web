@@ -4,9 +4,13 @@ import { NOT_PROVIDED } from '../../constants/strings';
 export const getRangeReadinessMonthAndDate = (month, day) => {
   let readinessMonthAndDate;
   if (month && day) {
-    const currYear = new Date().getFullYear();
-    readinessMonthAndDate = moment(`${currYear} ${month} ${day}`).format('MMMM D');
+    readinessMonthAndDate = moment()
+      .set('year', new Date().getFullYear())
+      .set('month', month - 1)
+      .set('date', day)
+      .format('MMMM D');
   }
+
   return readinessMonthAndDate;
 };
 

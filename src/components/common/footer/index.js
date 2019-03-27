@@ -6,22 +6,22 @@ import { openPiaModal } from '../../../actions';
 
 class Footer extends Component {
   static propTypes = {
-    withTopPad: PropTypes.bool,
+    withTopMargin: PropTypes.bool,
     openPiaModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    withTopPad: false,
+    withTopMargin: false,
   };
 
   render() {
-    const { withTopPad, openPiaModal } = this.props;
+    const { withTopMargin, openPiaModal } = this.props;
 
     return (
       <Fragment>
         <PrivacyInfoModal />
 
-        {withTopPad &&
+        {withTopMargin &&
           <section className="footer__pad" />
         }
 

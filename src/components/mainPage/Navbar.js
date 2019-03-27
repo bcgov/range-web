@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { Avatar } from '../common';
 import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
-import { isUserAdmin, signOutFromSSO } from '../../utils';
+import { isUserAdmin, signOutFromSSOAndSiteMinder } from '../../utils';
 import { signOut } from '../../actionCreators';
 import { SELECT_RUP, MANAGE_ZONES, MANAGE_CLIENTS } from '../../constants/strings';
 
@@ -23,7 +23,7 @@ export class Navbar extends Component {
 
   onLogoutBtnClick = () => {
     this.props.signOut();
-    signOutFromSSO();
+    signOutFromSSOAndSiteMinder();
   }
 
   render() {
@@ -34,7 +34,9 @@ export class Navbar extends Component {
         <div className="navbar__container">
           <div className="navbar__left">
             <Link to={Routes.HOME}>
-              <img className="navbar__logo" src={IMAGE_SRC.MYRANGEBC_LOGO} alt="Logo" />
+              <div className="navbar__logo">
+                <img src={IMAGE_SRC.MYRANGEBC_LOGO_DARK} alt="Logo" />
+              </div>
             </Link>
           </div>
 
@@ -45,6 +47,7 @@ export class Navbar extends Component {
               activeClassName="navbar__link--active"
             >
               {SELECT_RUP}
+              <div className="navbar__link__underline" />
             </NavLink>
 
             {isUserAdmin(user) &&
@@ -55,6 +58,7 @@ export class Navbar extends Component {
                   activeClassName="navbar__link--active"
                 >
                   {MANAGE_ZONES}
+                  <div className="navbar__link__underline" />
                 </NavLink>
                 <NavLink
                   to={Routes.MANAGE_CLIENT}
@@ -62,19 +66,8 @@ export class Navbar extends Component {
                   activeClassName="navbar__link--active"
                 >
                   {MANAGE_CLIENTS}
+                  <div className="navbar__link__underline" />
                 </NavLink>
-                {/* <Dropdown className="navbar__menu" text="Menu">
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      text="Manage Zone"
-                      onClick={this.onNavigate(Routes.MANAGE_ZONE)}
-                    />
-                    <Dropdown.Item
-                      text="Manage Client"
-                      onClick={this.onNavigate(Routes.MANAGE_CLIENT)}
-                    />
-                  </Dropdown.Menu>
-                </Dropdown> */}
               </Fragment>
             }
 

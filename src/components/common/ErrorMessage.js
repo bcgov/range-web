@@ -1,30 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Message, Icon } from 'semantic-ui-react';
 
 class ErrorMessage extends Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
-    style: PropTypes.shape({}),
+    warning: PropTypes.bool,
   }
 
   static defaultProps = {
-    style: {},
+    warning: false,
   }
 
   render() {
-    const { message, style } = this.props;
+    const { message, warning, ...rest } = this.props;
 
     return (
-      <Message error style={style}>
-        <Message.Content>
-          <Icon
-            name="warning sign"
-            style={{ marginRight: '7px' }}
-          />
-          {message}
-        </Message.Content>
-      </Message>
+      <Message
+        warning={warning}
+        error={!warning}
+        {...rest}
+        content={
+          <Fragment>
+            <Icon
+              name="warning sign"
+              style={{ marginRight: '7px' }}
+            />
+            {message}
+          </Fragment>
+        }
+      />
     );
   }
 }

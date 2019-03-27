@@ -1,7 +1,4 @@
 .navbar {
-  background: $primary-color;
-  border-bottom: 2px solid $accent-color;
-
   &__container {
     @extend .container;
     height: $nav-height;
@@ -20,32 +17,27 @@
     height: $nav-height;
     display: flex;
     align-items: center;
-    color: lightgray;
-    padding: 0 10px;
+    color: $light-black;
+    padding: 0 12px;
     cursor: pointer;
     position: relative;
 
     &:hover {
-      color: white;
+      color: black;
     }
     &--active {
-      color: white;
-    }
-    &--active::after {
-      content: '';
-      position: absolute;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid $accent-color;
-      transform: rotate(180deg);
-      clear: both;
-      top: 3.1em;
-      left: 42%;
+      > div { // for .navbar__link__underline
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        border-bottom: 5px solid #F3B229;
+      }
     }
   }
 
   &__logo {
-    height: 25px;
+    display: flex;
   }
 
   &__title {
@@ -62,6 +54,7 @@
     height: 50px;
     margin-left: 10px;
 
+    // custom positioning for semantic-ui dropdown
     > .menu.transition.visible:after {
       right: 13%;
       left: unset !important;

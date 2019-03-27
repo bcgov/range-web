@@ -26,6 +26,7 @@ import { getIsFetchingAgreements, getAuthTimeout, getUser } from '../reducers/ro
 import { axios, saveUserProfileInLocal, createConfigWithHeader, setTimeoutForReAuth } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { LINK_CLIENT_SUCCESS, ASSIGN_STAFF_TO_ZONE_SUCCESS, UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
+import { DEFAULT_SEARCH_LIMIT } from '../constants/variables';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
@@ -176,7 +177,7 @@ export const updateUser = data => (dispatch, getState) => {
 };
 
 export const searchAgreements = params => (dispatch, getState) => {
-  const { term = '', page = 1, limit = 10 } = params;
+  const { term = '', page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;
 
   if (getIsFetchingAgreements(getState())) {
     return Promise.resolve();

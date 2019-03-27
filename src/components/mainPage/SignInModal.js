@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
-import SignInBox from '../auth/SignInBox';
+import SignInBox from '../loginPage/SignInBox';
 import { signOut } from '../../actionCreators';
 import { getReAuthRequired } from '../../reducers/rootReducer';
-import { signOutFromSSO } from '../../utils';
+import { signOutFromSSOAndSiteMinder } from '../../utils';
 
 class SignInModal extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ class SignInModal extends Component {
 
   onLoginPageBtnClicked = () => {
     this.props.signOut();
-    signOutFromSSO();
+    signOutFromSSOAndSiteMinder();
   }
 
   render() {

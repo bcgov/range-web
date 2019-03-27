@@ -11,9 +11,10 @@ export const RETURN_PAGE_TYPE = {
   LOGOUT: 'logout',
 };
 
+export const SEARCH_DEBOUNCE_DELAY = 1000;
+export const DEFAULT_SEARCH_LIMIT = 10;
 export const TOAST_TIMEOUT = 15000;
 export const NUMBER_OF_LIMIT_FOR_NOTE = 140;
-export const SEARCH_DEBOUNCE_DELAY = 1000;
 export const STICKY_HEADER_HEIGHT = 55;
 export const CONTENT_MARGIN_TOP = 20;
 export const CONTENT_MARGIN_BOTTOM = 35;
@@ -38,6 +39,7 @@ export const PLAN_STATUS = {
   RECOMMEND_FOR_SUBMISSION: 'RFS',
   READY_FOR_FINAL_DECISION: 'RFD',
   AWAITING_CONFIRMATION: 'AC',
+  STANDS_REVIEW: 'MSR',
 };
 
 export const APPROVED_PLAN_STATUSES = [
@@ -114,6 +116,7 @@ export const CONFIRMATION_MODAL_ID = {
   SUBMIT_PLAN: 'SUBMIT_PLAN',
   DELETE_MINISTER_ISSUE_ACTION: 'DELETE_MINISTER_ISSUE_ACTION',
   DELETE_MANAGEMENT_CONSIDERATION: 'DELETE_MANAGEMENT_CONSIDERATION',
+  AMEND_PLAN: 'AMEND_PLAN',
 };
 
 export const REFERENCE_KEY = {
@@ -131,8 +134,9 @@ export const REFERENCE_KEY = {
 };
 
 export const IMAGE_SRC = {
-  MYRANGEBC_LOGO_PNG: '/images/myrangebc_logo.png',
+  MYRANGEBC_LOGO_FOR_PDF: '/images/myrangebc_logo.png',
   MYRANGEBC_LOGO: '/images/myrangebc_logo.svg',
+  MYRANGEBC_LOGO_DARK: '/images/myrangebc_logo_dark.svg',
   COW_PIC: '/images/cow.jpg',
   SIGNIN_BACKGROUND: '/images/signin_background.jpg',
   LOGIN_PARAGRAPH3: '/images/login_paragraph3.jpg',

@@ -27,17 +27,11 @@ import './styles/index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import App from './components/App';
-import configureStore from './configureStore';
 import * as serviceWorker from './serviceWorker';
 
-const store = configureStore();
-
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App />,
   document.getElementById('root'),
 );
 

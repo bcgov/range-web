@@ -47,11 +47,11 @@ export const DEV_ENV = {
 };
 
 export const SSO_BASE_URL = isBundled
-  ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable configured in Openshfit
+  ? '{{.Env.SSO_BASE_URL}}' // Caddy will replace this with the environment variable configured in Openshift
   : DEV_ENV.SSO_BASE_URL;
 
-export const SSO_REALM_NAME = 'range';
-export const SSO_CLIENT_ID = 'myrangebc';
+export const SSO_REALM_NAME = isBundled ? '{{.Env.SSO_REALM_NAME}}' : process.env.REACT_APP_SSO_REALM_NAME;
+export const SSO_CLIENT_ID = isBundled ? '{{.Env.SSO_CLIENT_ID}}' : process.env.REACT_APP_SSO_CLIENT_ID;
 export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
 export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`;
 export const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}`;
