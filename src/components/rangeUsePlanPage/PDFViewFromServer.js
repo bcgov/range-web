@@ -81,7 +81,7 @@ class PDFView extends Component {
 
         { errorFetchingPDF &&
           <ErrorPage
-            message="Error occured while fetching pdf."
+            message="Error occurred while fetching pdf."
           />
         }
 

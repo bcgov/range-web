@@ -130,14 +130,14 @@ export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
 export const NO_INTERNET = 'There is no Internet connection.';
 export const TYPE_CLIENT_NAME = 'Type name of the client';
 export const NO_RESULTS_FOUND = 'No result founds.';
-export const ERROR_OCCUR = 'Error Occured!';
+export const ERROR_OCCUR = 'Error Occurred!';
 export const REDIRECTING = 'Please wait while redirecting...';
 export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
-export const SIGN_IN_ERROR = 'Error occured while signing in.';
-export const UPDATE_USER_ERROR = 'Error occured while updating your profile.';
+export const SIGN_IN_ERROR = 'Error occurred while signing in.';
+export const UPDATE_USER_ERROR = 'Error occurred while updating your profile.';
 export const NO_CLIENT_NUMBER_ASSIGNED = 'Your account has not yet been linked to a client number. Please contact your local range staff office.';
-export const GET_ZONES_ERROR = 'Error occured while fetching zones';
-export const GET_USERS_ERROR = 'Error occured while fetching users';
+export const GET_ZONES_ERROR = 'Error occurred while fetching zones';
+export const GET_USERS_ERROR = 'Error occurred while fetching users';
 
 // modals
 export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';

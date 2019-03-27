@@ -28,6 +28,8 @@ const authReducer = (state = initialState, action) => {
         authData: undefined,
         user: undefined,
         reAuthRequired: false,
+        timeoutId: null,
+        unauthorizedErrorResponses: [],
       };
     case REAUTHENTICATE:
       return {
