@@ -33,8 +33,8 @@ class Base extends Component {
   fetchUsers = () => {
     this.props.fetchUsers({
       orderCId: 'desc',
-      filterBy: 'email',
-      filter: '@gov.bc.ca',
+      excludeBy: 'email',
+      exclude: '@gov.bc.ca',
     });
   }
 

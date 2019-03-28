@@ -8,13 +8,13 @@ import { GET_USERS, GET_ZONES } from '../constants/reducerTypes';
 export const fetchUsers = params => (dispatch, getState) => {
   dispatch(request(GET_USERS));
 
-  const { orderCId, filterBy, filter } = params || {};
+  const { orderCId, excludeBy, exclude } = params || {};
   const config = {
     ...createConfigWithHeader(getState),
     params: {
       orderCId,
-      filterBy,
-      filter,
+      excludeBy,
+      exclude,
     },
   };
 
