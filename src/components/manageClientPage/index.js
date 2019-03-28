@@ -17,17 +17,25 @@ class Base extends Component {
   componentWillMount() {
     document.title = MANAGE_CLIENT_TITLE;
 
-    this.props.fetchUsers();
+    this.fetchUsers();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { reAuthRequired, fetchUsers, errorOccuredGettingUsers } = nextProps;
+    const { reAuthRequired, errorOccuredGettingUsers } = nextProps;
 
     // fetch users if the user just reauthenticate and there was an error occurred
     const justReAuthenticated = this.props.reAuthRequired === true && reAuthRequired === false;
     if (justReAuthenticated && errorOccuredGettingUsers) {
-      fetchUsers();
+      this.fetchUsers();
     }
+  }
+
+  fetchUsers = () => {
+    this.props.fetchUsers({
+      orderCId: 'desc',
+      filterBy: 'email',
+      filter: '@gov.bc.ca',
+    });
   }
 
   render() {
