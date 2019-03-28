@@ -25,6 +25,7 @@ import {
   STATUS500,
 } from '../constants/strings';
 import { getToken } from '../reducers/rootReducer';
+import { isBundled } from '../constants/variables';
 
 export { default as axios } from './axios';
 export * from './calculation';
@@ -76,31 +77,24 @@ export const handleNullValue = (value, fullText = true, notProvided) => {
  * @returns an error message string
  */
 export const getErrorMessage = (err) => {
-  const response = err; // err && err.response;
-  if (response) {
-    const { data, status } = response;
-    const msgFromServer = data && data.error;
+  const generateMessage = (err) => {
+    const { status, message } = err || {};
+    if (status === 404) return STATUS404;
+    if (status === 500) return STATUS500;
+    if (message) return `${UNEXPECTED_ERROR} (${message})`;
 
+    return UNEXPECTED_ERROR;
+  };
+
+  if (!isBundled) {
+    // display error message provided by api in development mode
+    const msgFromServer = err && err.data && err.data.error;
     if (msgFromServer) {
       return msgFromServer;
-    } else if (status) {
-      switch (status) {
-        case 404:
-          return STATUS404;
-        case 500:
-          return STATUS500;
-        default:
-          break;
-      }
     }
   }
 
-  const message = err && err.message;
-  if (message) {
-    return `${UNEXPECTED_ERROR} (${message})`;
-  }
-
-  return UNEXPECTED_ERROR;
+  return generateMessage(err);
 };
 
 /**
