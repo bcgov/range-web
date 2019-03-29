@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Icon } from 'semantic-ui-react';
 import { Avatar } from '../common';
 import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
@@ -76,9 +76,13 @@ export class Navbar extends Component {
               pointing="top"
               icon={null}
               trigger={
-                <Avatar
-                  user={user}
-                />
+                <Fragment>
+                  <Avatar
+                    user={user}
+                  />
+                  <Icon name="angle down" style={{ marginRight: '-4px' }} />
+                  {/* <Icon name="caret down" style={{ marginRight: '-4px' }} /> */}
+                </Fragment>
               }
             >
               <Dropdown.Menu>
