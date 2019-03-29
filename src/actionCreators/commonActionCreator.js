@@ -5,9 +5,20 @@ import { storeUsers, storeReferences, storeZones, request, success, error } from
 import * as schema from './schema';
 import { GET_USERS, GET_ZONES } from '../constants/reducerTypes';
 
-export const fetchUsers = () => (dispatch, getState) => {
+export const fetchUsers = params => (dispatch, getState) => {
   dispatch(request(GET_USERS));
-  return axios.get(API.GET_USERS, createConfigWithHeader(getState)).then(
+
+  const { orderCId, excludeBy, exclude } = params || {};
+  const config = {
+    ...createConfigWithHeader(getState),
+    params: {
+      orderCId,
+      excludeBy,
+      exclude,
+    },
+  };
+
+  return axios.get(API.GET_USERS, config).then(
     (response) => {
       const users = response.data;
       dispatch(success(GET_USERS, users));
