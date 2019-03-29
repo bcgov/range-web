@@ -41,6 +41,7 @@ class LastTab extends Component {
           style={{ marginBottom: '10px' }}
           name="check circle outline"
           size="huge"
+          color="green"
         />
 
         <div className="rup__multi-tab__last__title">
