@@ -114,7 +114,7 @@ class ManageClientPage extends Component {
               <ErrorMessage message={strings.GET_USERS_ERROR} />
             }
 
-            <h3>Step 1: Select User</h3>
+            <h3>Step 1: Search and select the user (agreement holder) you&apos;d like to link:</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_USERS_DROPDOWN}
               placeholder="Username"
@@ -127,7 +127,7 @@ class ManageClientPage extends Component {
               clearable
             />
 
-            <h3>Step 2: Search and Select Corresponding Client</h3>
+            <h3>Step 2: Search and select the corresponding client:</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_CLIENTS_DROPDOWN}
               placeholder={strings.TYPE_CLIENT_NAME}
@@ -149,7 +149,7 @@ class ManageClientPage extends Component {
                 loading={isUpdatingClientIdOfUser}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
-                content="Submit"
+                content="Link Client"
               />
             </div>
           </div>

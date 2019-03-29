@@ -98,7 +98,7 @@ export class ManageZonePage extends Component {
               />
             }
 
-            <h3>Step 1: Select a zone</h3>
+            <h3>Step 1: Search and select the user (range staff member) you&apos;d like to link:</h3>
             <div className="manage-zone__step-one">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
@@ -114,7 +114,7 @@ export class ManageZonePage extends Component {
               />
             </div>
 
-            <h3>Step 2: Assign a new staff</h3>
+            <h3>Step 2: Search and select the corresponding zone:</h3>
             <div className="manage-zone__step-two">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
@@ -135,7 +135,7 @@ export class ManageZonePage extends Component {
                 loading={isAssigning}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
-                content="Submit"
+                content="Link Zone"
               />
             </div>
           </div>
