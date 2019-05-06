@@ -43,7 +43,7 @@
     "semantic-ui": "^2.4.2",
     "semantic-ui-react": "^0.83.0",
     "uuid-v4": "^0.1.0",
-    "snyk": "^1.115.0"
+    "snyk": "^1.161.1"
   },
   "scripts": {
     "start": "react-scripts start",
