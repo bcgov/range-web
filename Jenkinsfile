@@ -199,6 +199,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
               script: """oc get istag ${CADDY_IMAGESTREAM_NAME}:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
               returnStdout: true).trim()
             echo ">> IMAGE_HASH: ${IMAGE_HASH}"
+            echo ">> IMAGE_HASH: ${IMAGE_HASH}"
             
             openshiftTag destStream: CADDY_IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[1], srcStream: CADDY_IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
             notifySlack("Promotion Completed\n Build #${BUILD_ID} was promoted to *test*.", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [], OPENSHIFT_ICO)
