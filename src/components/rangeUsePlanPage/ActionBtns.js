@@ -7,15 +7,16 @@ import {
   SIGN_SUBMISSION,
   AMEND_PLAN_CONFIRM_HEADER,
   AMEND_PLAN_CONFIRM_CONTENT
-} from '../../../constants/strings'
-import { CONFIRMATION_MODAL_ID } from '../../../constants/variables'
-import DownloadPDFBtn from '../DownloadPDFBtn'
+} from '../../constants/strings'
+import { CONFIRMATION_MODAL_ID } from '../../constants/variables'
+import DownloadPDFBtn from './DownloadPDFBtn'
 
 const ActionBtns = ({
   canEdit,
   canAmend,
   canConfirm,
   canSubmit,
+  canDownload,
   isSavingAsDraft,
   isSubmitting,
   isCreatingAmendment,
@@ -27,7 +28,11 @@ const ActionBtns = ({
   openConfirmationModal
 }) => {
   const downloadPDFBtn = (
-    <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
+    <DownloadPDFBtn
+      key="downloadPDFBtn"
+      disabled={canDownload}
+      onClick={onViewPDFClicked}
+    />
   )
   const saveDraftBtn = (
     <Button
