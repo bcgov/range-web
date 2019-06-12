@@ -20,7 +20,7 @@ const userPropOptions = {
 
 storiesOf('Status', module)
   .addDecorator(withKnobs)
-  .add('With knobs', () => (
+  .add('With Knobs', () => (
     <Status
       user={select(
         'User',

@@ -7,9 +7,9 @@ import { action } from '@storybook/addon-actions'
 import TextField from './TextField'
 
 storiesOf('Text Field', module)
-  .add('With Label', () => <TextField label={'With Label'} />)
+  .add('With label', () => <TextField label={'With Label'} />)
   .addDecorator(withKnobs)
-  .add('With Knobs', () => (
+  .add('With knobs', () => (
     <TextField
       label={text('Label', 'Some Label')}
       text={text('Text', 'Some Text')}

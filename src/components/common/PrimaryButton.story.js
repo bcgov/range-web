@@ -15,7 +15,6 @@ storiesOf('Priamry Button', module)
   .add('With children', () => <PrimaryButton>Button</PrimaryButton>)
   .add('With long children', () => (
     <PrimaryButton>
-      {' '}
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel
       venenatis purus, vitae viverra ex. Nulla ac nisl aliquam, eleifend neque
       vitae, feugiat magna. Nunc venenatis dui et odio pulvinar tincidunt. Nunc
