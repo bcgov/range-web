@@ -9,6 +9,7 @@ import {
   getBannerHeaderAndContentForAH
 } from '../../../utils'
 import BasicInformation from '../basicInformation'
+import EditableBasicInformation from '../editableBasicInformation'
 import Pastures from '../pastures'
 import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
@@ -116,13 +117,23 @@ class PageForStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
-          <BasicInformation
-            elementId={ELEMENT_ID.BASIC_INFORMATION}
-            agreement={agreement}
-            plan={plan}
-            user={user}
-            onZoneClicked={this.openUpdateZoneModal}
-          />
+          {isUserRangeOfficer(user) ? (
+            <EditableBasicInformation
+              elementId={ELEMENT_ID.BASIC_INFORMATION}
+              agreement={agreement}
+              plan={plan}
+              user={user}
+              onZoneClicked={this.openUpdateZoneModal}
+            />
+          ) : (
+            <BasicInformation
+              elementId={ELEMENT_ID.BASIC_INFORMATION}
+              agreement={agreement}
+              plan={plan}
+              user={user}
+              onZoneClicked={this.openUpdateZoneModal}
+            />
+          )}
 
           <UsageTable usage={usage} plan={plan} />
 
