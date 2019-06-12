@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
-import { withKnobs, text } from '@storybook/addon-knobs'
+import { withKnobs, text, boolean } from '@storybook/addon-knobs'
+import { action } from '@storybook/addon-actions'
 
 import TextField from './TextField'
 
@@ -10,7 +11,10 @@ storiesOf('Text Field', module)
   .addDecorator(withKnobs)
   .add('With Knobs', () => (
     <TextField
-      label={text('Label', 'Default Label')}
-      text={text('Text', 'Default Text')}
+      label={text('Label', 'Some Label')}
+      text={text('Text', 'Some Text')}
+      onClick={action('on-content-clicked')}
+      isEditable={boolean('Is Editable', false)}
+      isLabelHidden={boolean('Is Label Hidden', false)}
     />
   ))
