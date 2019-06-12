@@ -68,6 +68,8 @@ export const CONTACT_PHONE = 'Contact Phone'
 export const EXTENDED = 'Extended'
 export const EXEMPTION_STATUS = 'Exemption Status'
 export const PLAN_DATE = 'Plan Date'
+export const PLAN_START_DATE = 'Plan Start Date'
+export const PLAN_END_DATE = 'Plan End Date'
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder'
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)'
 
@@ -125,6 +127,8 @@ export const ASSIGN_STAFF_TO_ZONE_SUCCESS =
   'You have successfully assigned the staff to the zone.'
 export const SAVE_PLAN_AS_DRAFT_SUCCESS =
   'You have successfully saved the range use plan as a draft.'
+export const STAFF_SAVE_PLAN_DRAFT_SUCCESS =
+  'Your changes have been successfully saved to the range use plan.'
 export const UPDATE_USER_PROFILE_SUCCESS =
   'You have successfully update your profile.'
 export const SUBMIT_PLAN_SUCCESS =
@@ -197,6 +201,9 @@ export const RECOMMEND_FOR_SUBMISSION_CONFIRM_CONTENT =
 export const AMEND_PLAN_CONFIRM_HEADER = 'Amend Range Use Plan'
 export const AMEND_PLAN_CONFIRM_CONTENT =
   'Are you sure you want to amend this range use plan?'
+export const SUBMIT_PLAN_CONFIRM_HEADER = 'Confirm'
+export const SUBMIT_PLAN_CONFIRM_CONTENT =
+  'You will not be able to edit this RUP after submission'
 
 export const UPDATE_CONTACT_CONFIRM_HEADER =
   'Confirmation: Update Contact with Zone'

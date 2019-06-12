@@ -19,6 +19,7 @@ import PageForStaff from './pageForStaff'
 import PageForAH from './pageForAH'
 import {
   fetchRUP,
+  updateRUP,
   updateRUPStatus,
   createOrUpdateRUPGrazingSchedule,
   toastSuccessMessage,
@@ -179,6 +180,7 @@ export default connect(
   mapStateToProps,
   {
     fetchRUP,
+    updateRUP,
     updateRUPStatus,
     planUpdated,
     grazingScheduleUpdated,

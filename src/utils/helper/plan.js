@@ -171,7 +171,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
     } else {
       header = 'Draft In Progress by AH'
       content =
-        'This range use plan draft is being  worked on by the agreement holder. Some content may not be visible until agreement holder has submitted it to Range Staff.'
+        'This range use plan draft is being worked on by the agreement holder. Some content may not be visible until agreement holder has submitted it to Range Staff.'
     }
   }
   if (isStatusCreated(status)) {
@@ -183,7 +183,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
       header = 'Submitted to AH for Input'
       content = `This ${
         isAmendment(amendmentTypeId) ? 'amendment' : 'range use plan'
-      } has been submitted the agreement holder for input. You will be notified when a submission is received.`
+      } has been submitted to the agreement holder for input. You will be notified when a submission is received.`
     }
   }
   if (isStatusChangedRequested(status)) {
@@ -200,7 +200,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
   if (isStatusStaffDraft(status)) {
     header = 'Staff Draft (Synced from iOS)'
     content =
-      'This range use plan draft is currently in progress and synced to the server. Use the "Save" button to save your draft or "Submit to Client" when ready for the agreement holder to add content.'
+      'This range use plan draft is currently in progress and synced to the server. Use the "Save" button to save your draft or "Submit" when ready for the agreement holder to add content.'
   }
   if (isStatusWronglyMakeWE(status)) {
     if (isUserAgreementHolder(user)) {
@@ -239,7 +239,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
     if (isUserAgreementHolder(user)) {
       header = 'Minor Amendment Accepted'
       content =
-        'This range use plan minor amendment  is now the current legal version. It may be reviewed by range staff to confirm that it meets requirements.'
+        'This range use plan minor amendment is now the current legal version. It may be reviewed by range staff to confirm that it meets requirements.'
     } else {
       header = 'Minor Amendment - Review Required'
       content =

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import UpdateZoneModal from './UpdateZoneModal'
-import { REFERENCE_KEY, ELEMENT_ID } from '../../../constants/variables'
-import { Status, Banner } from '../../common'
 import {
-  getPlanTypeDescription,
-  cannotDownloadPDF,
-  capitalize,
-  getBannerHeaderAndContentForAH
-} from '../../../utils'
+  REFERENCE_KEY,
+  ELEMENT_ID,
+  PLAN_STATUS
+} from '../../../constants/variables'
+import { Status, Banner } from '../../common'
+import * as strings from '../../../constants/strings'
+import * as utils from '../../../utils'
 import BasicInformation from '../basicInformation'
 import EditableBasicInformation from '../editableBasicInformation'
 import Pastures from '../pastures'
@@ -24,16 +24,80 @@ import InvasivePlantChecklist from '../invasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
 import ManagementConsiderations from '../managementConsiderations'
 import { defaultProps, propTypes } from './props'
-import DownloadPDFBtn from '../DownloadPDFBtn'
+import ActionBtns from '../ActionBtns'
+import UpdateStatusModal from './UpdateStatusModal'
 
 // Range Staff Page
 class PageForStaff extends Component {
   static propTypes = propTypes
-
   static defaultProps = defaultProps
 
   state = {
-    isUpdateZoneModalOpen: false
+    isUpdateZoneModalOpen: false,
+    isPlanSubmissionModalOpen: false,
+    isSavingAsDraft: false
+  }
+
+  onSaveDraftClick = () => {
+    const onRequested = () => {
+      this.setState({ isSavingAsDraft: true })
+    }
+    const onSuccess = () => {
+      this.props.fetchPlan().then(() => {
+        this.setState({ isSavingAsDraft: false })
+        this.props.toastSuccessMessage(strings.STAFF_SAVE_PLAN_DRAFT_SUCCESS)
+      })
+    }
+    const onError = () => {
+      this.setState({ isSavingAsDraft: false })
+    }
+
+    this.updateContent(onRequested, onSuccess, onError)
+  }
+
+  updateContent = async (onRequested, onSuccess, onError) => {
+    const { plan, updateRUP, toastErrorMessage } = this.props
+
+    onRequested()
+
+    if (this.validateRup(plan)) return onError()
+
+    try {
+      await updateRUP(plan.id, plan)
+      await onSuccess()
+    } catch (err) {
+      onError()
+      toastErrorMessage(err)
+      throw err
+    }
+  }
+
+  validateRup = plan => {
+    const {
+      references,
+      agreement,
+      pasturesMap,
+      grazingSchedulesMap
+    } = this.props
+    const usage = agreement && agreement.usage
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
+    const errors = utils.handleRupValidation(
+      plan,
+      pasturesMap,
+      grazingSchedulesMap,
+      livestockTypes,
+      usage
+    )
+
+    // errors have been found
+    if (errors.length !== 0) {
+      const [error] = errors
+      utils.scrollIntoView(error.elementId)
+      return error
+    }
+
+    // no errors found
+    return false
   }
 
   onViewPDFClicked = () => {
@@ -43,6 +107,27 @@ class PageForStaff extends Component {
 
   openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
   closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
+  openPlanSubmissionModal = () =>
+    this.setState({ isPlanSubmissionModalOpen: true })
+  closePlanSubmissionModal = () =>
+    this.setState({ isPlanSubmissionModalOpen: false })
+
+  renderActionBtns = (canEdit, canSubmit, canDownload) => {
+    const { isSavingAsDraft, isSubmitting } = this.state
+
+    return (
+      <ActionBtns
+        canEdit={canEdit}
+        canSubmit={canSubmit}
+        canDownload={canDownload}
+        isSubmitting={isSubmitting}
+        isSavingAsDraft={isSavingAsDraft}
+        onViewPDFClicked={this.onViewPDFClicked}
+        onSaveDraftClick={this.onSaveDraftClick}
+        openSubmissionModal={this.openPlanSubmissionModal}
+      />
+    )
+  }
 
   render() {
     const {
@@ -58,19 +143,27 @@ class PageForStaff extends Component {
       additionalRequirementsMap,
       managementConsiderationsMap,
       fetchPlan,
-      isFetchingPlan
+      isFetchingPlan,
+      updateRUPStatus
     } = this.props
-    const { isUpdateZoneModalOpen } = this.state
+    const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
     const { agreementId, status, rangeName } = plan
     const { usage } = agreement
 
+    const canEdit = utils.canUserEditThisPlan(plan, user)
+    const canSubmit = utils.isStatusRecommendForSubmission(status)
+    const canDownload = utils.cannotDownloadPDF(status)
+
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
-    const planTypeDescription = getPlanTypeDescription(plan, amendmentTypes)
+    const planTypeDescription = utils.getPlanTypeDescription(
+      plan,
+      amendmentTypes
+    )
     const {
       header: bannerHeader,
       content: bannerContent
-    } = getBannerHeaderAndContentForAH(plan, user)
+    } = utils.getBannerHeaderAndContentForAH(plan, user)
 
     return (
       <section className="rup">
@@ -79,6 +172,18 @@ class PageForStaff extends Component {
           closeUpdateZoneModal={this.closeUpdateZoneModal}
           plan={plan}
           agreement={agreement}
+        />
+
+        <UpdateStatusModal
+          open={isPlanSubmissionModalOpen}
+          onClose={this.closePlanSubmissionModal}
+          plan={plan}
+          statusCode={PLAN_STATUS['CREATED']}
+          fetchPlan={fetchPlan}
+          updateRUPStatus={updateRUPStatus}
+          references={references}
+          header={strings.SUBMIT_PLAN_CONFIRM_HEADER}
+          content={strings.SUBMIT_PLAN_CONFIRM_CONTENT}
         />
 
         <Banner header={bannerHeader} content={bannerContent} noDefaultHeight />
@@ -90,13 +195,10 @@ class PageForStaff extends Component {
                 <BackBtn className="rup__back-btn" />
                 <div>{agreementId}</div>
                 <Status status={status} user={user} />
-                <div>{capitalize(rangeName)}</div>
+                <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                <DownloadPDFBtn
-                  disabled={cannotDownloadPDF(status)}
-                  onClick={this.onViewPDFClicked}
-                />
+                {this.renderActionBtns(canEdit, canSubmit, canDownload)}
                 <UpdateStatusDropdown
                   plan={plan}
                   fetchPlan={fetchPlan}
@@ -117,7 +219,7 @@ class PageForStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
-          {isUserRangeOfficer(user) ? (
+          {canEdit ? (
             <EditableBasicInformation
               elementId={ELEMENT_ID.BASIC_INFORMATION}
               agreement={agreement}
