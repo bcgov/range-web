@@ -56,6 +56,7 @@ storiesOf('Collapsible Box', module)
             </div>
             <div className="rup__cell-4">
               <TextField
+                label={'Label B'}
                 text={`
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
