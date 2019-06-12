@@ -26,13 +26,8 @@ storiesOf('Status', module)
         'User',
         userPropOptions,
         userPropOptions['Agreement Holder'],
-        'User'
+        ''
       )}
-      status={select(
-        'Plan Status',
-        statusPropOptions,
-        { code: 'SFD' },
-        'Plan Status'
-      )}
+      status={select('Plan Status', statusPropOptions, { code: 'SFD' })}
     />
   ))
