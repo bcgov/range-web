@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions'
 
 import SignInErrorMessage from './SignInErrorMessage'
 
-const stories = storiesOf('SignInErrorMessage', module)
+const stories = storiesOf('loginPage/SignInErrorMessage', module)
 stories.add('Default', () => <SignInErrorMessage />)
 stories.add('error fetching user', () => (
   <SignInErrorMessage

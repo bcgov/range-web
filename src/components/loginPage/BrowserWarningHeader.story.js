@@ -4,6 +4,6 @@ import { storiesOf } from '@storybook/react'
 
 import BrowserWarningHeader from './BrowserWarningHeader'
 
-storiesOf('BrowserWarningHeader', module).add('Default', () => (
+storiesOf('loginPage/BrowserWarningHeader', module).add('Default', () => (
   <BrowserWarningHeader />
 ))

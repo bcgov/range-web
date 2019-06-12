@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions'
 
 import { SignInBox } from './SignInBox'
 
-const stories = storiesOf('SignInBox', module)
+const stories = storiesOf('loginPage/SignInBox', module)
 stories.add('Default', () => <SignInBox />)
 stories.add('isFetchingUser', () => <SignInBox isFetchingUser={true} />)
 stories.add('user fetched', () => <SignInBox isFetchingUser={false} />)

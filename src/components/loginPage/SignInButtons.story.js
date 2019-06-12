@@ -4,5 +4,5 @@ import { storiesOf } from '@storybook/react'
 
 import SignInButtons from './SignInButtons'
 
-const stories = storiesOf('SignInButtons', module)
+const stories = storiesOf('loginPage/SignInButtons', module)
 stories.add('Default', () => <SignInButtons />)
