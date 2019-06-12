@@ -16,7 +16,7 @@ import SignInButtons from './SignInButtons'
 import SignInErrorMessage from './SignInErrorMessage'
 import { APP_NAME } from '../../constants/strings'
 
-class SignInBox extends Component {
+export class SignInBox extends Component {
   static propTypes = {
     isFetchingUser: PropTypes.bool.isRequired,
     errorOccuredFetchingUser: PropTypes.bool.isRequired,
