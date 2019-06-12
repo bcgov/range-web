@@ -7,16 +7,14 @@ import { USER_ROLE } from '../../constants/variables'
 import { storiesOf } from '@storybook/react'
 import { withKnobs, select } from '@storybook/addon-knobs'
 
-let statusPropOptions = {}
-const statusSelectOptions = Object.keys(PLAN_STATUS)
-statusSelectOptions.forEach(
-  status => (statusPropOptions[status] = { code: PLAN_STATUS[status] })
-)
-
 const userPropOptions = {
   'Agreement Holder': { roles: [USER_ROLE.AGREEMENT_HOLDER] },
   'Not Agreement Holder': { roles: [] }
 }
+
+const statusPropOptions = Object.fromEntries(
+  Object.entries(PLAN_STATUS).map(([status, code]) => [status, { code }])
+)
 
 storiesOf('Status', module)
   .addDecorator(withKnobs)
