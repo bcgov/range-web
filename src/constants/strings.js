@@ -203,7 +203,7 @@ export const AMEND_PLAN_CONFIRM_CONTENT =
   'Are you sure you want to amend this range use plan?'
 export const SUBMIT_PLAN_CONFIRM_HEADER = 'Confirm'
 export const SUBMIT_PLAN_CONFIRM_CONTENT =
-  'You will not be able to edit this RUP after submission'
+  'You will not be able to edit this RUP after submission.'
 
 export const UPDATE_CONTACT_CONFIRM_HEADER =
   'Confirmation: Update Contact with Zone'
