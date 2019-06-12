@@ -1,32 +1,32 @@
-import { STORE_PLAN, CONFIRMATION_UPDATED } from '../../constants/actionTypes';
+import { STORE_PLAN, CONFIRMATION_UPDATED } from '../../constants/actionTypes'
 
 const storeConfirmations = (state, action) => {
-  const { confirmations } = action.payload.entities;
+  const { confirmations } = action.payload.entities
 
   return {
     ...state,
-    ...confirmations,
-  };
-};
+    ...confirmations
+  }
+}
 
 const updateConfirmation = (state, action) => {
-  const { confirmation } = action.payload;
+  const { confirmation } = action.payload
 
   return {
     ...state,
-    [confirmation.id]: confirmation,
-  };
-};
+    [confirmation.id]: confirmation
+  }
+}
 
 const confirmationsReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storeConfirmations(state, action);
+      return storeConfirmations(state, action)
     case CONFIRMATION_UPDATED:
-      return updateConfirmation(state, action);
+      return updateConfirmation(state, action)
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default confirmationsReducer;
+export default confirmationsReducer

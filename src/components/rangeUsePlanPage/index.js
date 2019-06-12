@@ -1,14 +1,22 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
-import { Loading, PrimaryButton } from '../common';
-import { planUpdated, grazingScheduleUpdated, openConfirmationModal } from '../../actions';
-import { isUserAgreementHolder, isUserAdmin, isUserRangeOfficer } from '../../utils';
-import * as selectors from '../../reducers/rootReducer';
-import { DETAIL_RUP_TITLE } from '../../constants/strings';
-import PageForStaff from './pageForStaff';
-import PageForAH from './pageForAH';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Icon } from 'semantic-ui-react'
+import { Loading, PrimaryButton } from '../common'
+import {
+  planUpdated,
+  grazingScheduleUpdated,
+  openConfirmationModal
+} from '../../actions'
+import {
+  isUserAgreementHolder,
+  isUserAdmin,
+  isUserRangeOfficer
+} from '../../utils'
+import * as selectors from '../../reducers/rootReducer'
+import { DETAIL_RUP_TITLE } from '../../constants/strings'
+import PageForStaff from './pageForStaff'
+import PageForAH from './pageForAH'
 import {
   fetchRUP,
   updateRUPStatus,
@@ -18,12 +26,14 @@ import {
   createAmendment,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration,
-} from '../../actionCreators';
+  createOrUpdateRUPManagementConsideration
+} from '../../actionCreators'
 
 class Base extends Component {
   static propTypes = {
-    match: PropTypes.shape({ params: PropTypes.shape({ planId: PropTypes.string }) }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({ planId: PropTypes.string })
+    }).isRequired,
     user: PropTypes.shape({}).isRequired,
     history: PropTypes.shape({}).isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
@@ -31,36 +41,40 @@ class Base extends Component {
     isFetchingPlan: PropTypes.bool.isRequired,
     errorFetchingPlan: PropTypes.bool.isRequired,
     plansMap: PropTypes.shape({}).isRequired,
-  };
+    reAuthRequired: PropTypes.bool.isRequired
+  }
 
   componentWillMount() {
-    document.title = DETAIL_RUP_TITLE;
+    document.title = DETAIL_RUP_TITLE
   }
 
   componentDidMount() {
     // initial fetch for a plan
-    this.fetchPlan();
+    this.fetchPlan()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { reAuthRequired, errorFetchingPlan } = nextProps;
+    const { reAuthRequired, errorFetchingPlan } = nextProps
 
     // fetch zones and users if the user just reauthenticate and there was an error occurred
-    const justReAuthenticated = this.props.reAuthRequired === true && reAuthRequired === false;
+    const justReAuthenticated =
+      this.props.reAuthRequired === true && reAuthRequired === false
     if (justReAuthenticated && errorFetchingPlan) {
-      this.fetchPlan();
+      this.fetchPlan()
     }
   }
 
   getPlanId = () => {
-    const { match, location } = this.props;
+    const { match, location } = this.props
     // the second part is being used for testing
-    return match.params.planId || location.pathname.charAt('/range-use-plan/'.length);
+    return (
+      match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
+    )
   }
 
   fetchPlan = () => {
-    const planId = this.getPlanId();
-    return this.props.fetchRUP(planId);
+    const planId = this.getPlanId()
+    return this.props.fetchRUP(planId)
   }
 
   render() {
@@ -69,13 +83,13 @@ class Base extends Component {
       isFetchingPlan,
       errorFetchingPlan,
       plansMap,
-      history,
-    } = this.props;
+      history
+    } = this.props
 
-    const planId = this.getPlanId();
-    const plan = plansMap[planId];
-    const agreement = plan && plan.agreement;
-    const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan;
+    const planId = this.getPlanId()
+    const plan = plansMap[planId]
+    const agreement = plan && plan.agreement
+    const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan
     // const doneFetching = !isFetchingPlanForTheFirstTime;
 
     if (errorFetchingPlan) {
@@ -91,91 +105,90 @@ class Base extends Component {
             <PrimaryButton inverted onClick={history.goBack}>
               Go Back
             </PrimaryButton>
-            <span className="rup__fetching-error__or-message">
-              or
-            </span>
+            <span className="rup__fetching-error__or-message">or</span>
             <PrimaryButton onClick={this.fetchPlan} content="Retry" />
           </div>
         </div>
-      );
+      )
     }
 
     return (
       <Fragment>
         <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-        {!plan && !isFetchingPlan &&
+        {!plan && !isFetchingPlan && (
           <div className="rup__no-plan-shown">
-            {'Don\'t see any plan?'}
+            {"Don't see any plan?"}
             <PrimaryButton
               onClick={this.fetchPlan}
               content="Fetch Plan"
               style={{ marginLeft: '15px' }}
             />
           </div>
-        }
+        )}
 
-        {plan && isUserAdmin(user) &&
+        {plan && isUserAdmin(user) && (
           <PageForStaff
             {...this.props}
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
           />
-        }
+        )}
 
-        {plan && isUserRangeOfficer(user) &&
+        {plan && isUserRangeOfficer(user) && (
           <PageForStaff
             {...this.props}
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
           />
-        }
+        )}
 
-        {plan && isUserAgreementHolder(user) &&
+        {plan && isUserAgreementHolder(user) && (
           <PageForAH
             {...this.props}
             agreement={agreement}
             plan={plan}
             fetchPlan={this.fetchPlan}
           />
-        }
+        )}
       </Fragment>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => (
-  {
-    plansMap: selectors.getPlansMap(state),
-    pasturesMap: selectors.getPasturesMap(state),
-    grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
-    ministerIssuesMap: selectors.getMinisterIssuesMap(state),
-    confirmationsMap: selectors.getConfirmationsMap(state),
-    planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
-    additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
-    managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),
-    isFetchingPlan: selectors.getIsFetchingPlan(state),
-    errorFetchingPlan: selectors.getPlanErrorOccured(state),
-    references: selectors.getReferences(state),
-    isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
-    isCreatingAmendment: selectors.getIsCreatingAmendment(state),
-    reAuthRequired: selectors.getReAuthRequired(state),
-  }
-);
+const mapStateToProps = state => ({
+  plansMap: selectors.getPlansMap(state),
+  pasturesMap: selectors.getPasturesMap(state),
+  grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
+  ministerIssuesMap: selectors.getMinisterIssuesMap(state),
+  confirmationsMap: selectors.getConfirmationsMap(state),
+  planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
+  additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
+  managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),
+  isFetchingPlan: selectors.getIsFetchingPlan(state),
+  errorFetchingPlan: selectors.getPlanErrorOccured(state),
+  references: selectors.getReferences(state),
+  isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
+  isCreatingAmendment: selectors.getIsCreatingAmendment(state),
+  reAuthRequired: selectors.getReAuthRequired(state)
+})
 
-export default connect(mapStateToProps, {
-  fetchRUP,
-  updateRUPStatus,
-  planUpdated,
-  grazingScheduleUpdated,
-  createOrUpdateRUPGrazingSchedule,
-  toastSuccessMessage,
-  toastErrorMessage,
-  createAmendment,
-  openConfirmationModal,
-  createOrUpdateRUPMinisterIssueAndActions,
-  createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration,
-})(Base);
+export default connect(
+  mapStateToProps,
+  {
+    fetchRUP,
+    updateRUPStatus,
+    planUpdated,
+    grazingScheduleUpdated,
+    createOrUpdateRUPGrazingSchedule,
+    toastSuccessMessage,
+    toastErrorMessage,
+    createAmendment,
+    openConfirmationModal,
+    createOrUpdateRUPMinisterIssueAndActions,
+    createOrUpdateRUPInvasivePlantChecklist,
+    createOrUpdateRUPManagementConsideration
+  }
+)(Base)

@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Radio, Form } from 'semantic-ui-react';
-import { PLAN_STATUS } from '../../../../constants/variables';
-import RightBtn from '../tab/RightBtn';
-import LeftBtn from '../tab/LeftBtn';
-import TabTemplate from '../tab/TabTemplate';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { Radio, Form } from 'semantic-ui-react'
+import { PLAN_STATUS } from '../../../../constants/variables'
+import RightBtn from '../tab/RightBtn'
+import LeftBtn from '../tab/LeftBtn'
+import TabTemplate from '../tab/TabTemplate'
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -21,24 +21,24 @@ class ChooseSubmissionTypeTab extends Component {
       back: PropTypes.string.isRequired,
       next: PropTypes.string.isRequired,
       radio1: PropTypes.string.isRequired,
-      radio2: PropTypes.string.isRequired,
-    }).isRequired,
+      radio2: PropTypes.string.isRequired
+    }).isRequired
   }
 
   static defaultProps = {
-    statusCode: null,
+    statusCode: null
   }
 
-  onBackClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  onBackClicked = e => {
+    const { handleTabChange, tab } = this.props
 
-    handleTabChange(e, { value: tab.back });
+    handleTabChange(e, { value: tab.back })
   }
 
-  onNextClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  onNextClicked = e => {
+    const { handleTabChange, tab } = this.props
 
-    handleTabChange(e, { value: tab.next });
+    handleTabChange(e, { value: tab.next })
   }
 
   render() {
@@ -47,13 +47,13 @@ class ChooseSubmissionTypeTab extends Component {
       tab,
       statusCode,
       handleStatusCodeChange,
-      onClose,
-    } = this.props;
-    const { id, title, back, radio1, radio2 } = tab;
-    const isActive = id === currTabId;
+      onClose
+    } = this.props
+    const { id, title, back, radio1, radio2 } = tab
+    const isActive = id === currTabId
 
     if (!isActive) {
-      return null;
+      return null
     }
 
     return (
@@ -101,15 +101,17 @@ class ChooseSubmissionTypeTab extends Component {
                 }
                 name="radioGroup"
                 value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
-                checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
+                checked={
+                  statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION
+                }
                 onChange={handleStatusCodeChange}
               />
             </Form.Field>
           </Form>
         }
       />
-    );
+    )
   }
 }
 
-export default ChooseSubmissionTypeTab;
+export default ChooseSubmissionTypeTab

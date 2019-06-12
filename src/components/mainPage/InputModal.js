@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal, Form, Icon, Input } from 'semantic-ui-react';
-import { getInputModal } from '../../reducers/rootReducer';
-import { openInputModal, closeInputModal } from '../../actions';
-import { PrimaryButton } from '../common';
-import { handleWhenEnterPressed } from '../../utils';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Modal, Form, Icon, Input } from 'semantic-ui-react'
+import { getInputModal } from '../../reducers/rootReducer'
+import { openInputModal, closeInputModal } from '../../actions'
+import { PrimaryButton } from '../common'
+import { handleWhenEnterPressed } from '../../utils'
 
 class InputModal extends Component {
   static propTypes = {
@@ -14,58 +14,55 @@ class InputModal extends Component {
       title: PropTypes.string,
       input: PropTypes.string,
       value: PropTypes.shape({}),
-      onSubmit: PropTypes.func,
-    }),
+      onSubmit: PropTypes.func
+    })
   }
 
   static defaultProps = {
-    inputModal: null,
+    inputModal: null
   }
 
   constructor(props) {
-    super(props);
-    const { inputModal } = props;
-    const input = (inputModal && inputModal.input) || '';
+    super(props)
+    const { inputModal } = props
+    const input = (inputModal && inputModal.input) || ''
 
     this.state = {
-      input,
-    };
+      input
+    }
   }
 
-  onInputChanged = (e) => {
+  onInputChanged = e => {
     this.setState({
-      input: e.target.value,
-    });
+      input: e.target.value
+    })
   }
 
-  onSubmitClicked = (e) => {
-    const { inputModal = {} } = this.props;
-    const { onSubmit, ...rest } = inputModal;
+  onSubmitClicked = e => {
+    const { inputModal = {} } = this.props
+    const { onSubmit, ...rest } = inputModal
 
     if (onSubmit) {
-      onSubmit(
-        this.state.input,
-        { ...rest },
-      );
+      onSubmit(this.state.input, { ...rest })
     }
 
-    this.handleModalClose(e);
+    this.handleModalClose(e)
   }
 
-  onInputKeyPressed = (e) => {
-    handleWhenEnterPressed(e, this.onSubmitClicked);
+  onInputKeyPressed = e => {
+    handleWhenEnterPressed(e, this.onSubmitClicked)
   }
 
-  handleModalClose = (e) => {
-    e.preventDefault();
-    this.setState({ input: '' });
-    this.props.closeInputModal();
+  handleModalClose = e => {
+    e.preventDefault()
+    this.setState({ input: '' })
+    this.props.closeInputModal()
   }
 
   render() {
-    const { inputModal } = this.props;
-    const { input } = this.state;
-    const title = inputModal && inputModal.title;
+    const { inputModal } = this.props
+    const { input } = this.state
+    const title = inputModal && inputModal.title
 
     return (
       <Modal
@@ -73,12 +70,9 @@ class InputModal extends Component {
         size="mini"
         open={inputModal !== null}
         onClose={this.handleModalClose}
-        closeIcon
-      >
+        closeIcon>
         <div className="input-modal">
-          <div className="input-modal__title">
-            {title}
-          </div>
+          <div className="input-modal__title">{title}</div>
           <Form>
             <Form.Field>
               <Input
@@ -90,19 +84,12 @@ class InputModal extends Component {
             </Form.Field>
           </Form>
           <div className="input-modal__btns">
-            <PrimaryButton
-              inverted
-              fluid
-              onClick={this.handleModalClose}
-            >
+            <PrimaryButton inverted fluid onClick={this.handleModalClose}>
               <Icon name="remove" />
               Cancel
             </PrimaryButton>
             <div>
-              <PrimaryButton
-                fluid
-                onClick={this.onSubmitClicked}
-              >
+              <PrimaryButton fluid onClick={this.onSubmitClicked}>
                 <Icon name="checkmark" />
                 Submit
               </PrimaryButton>
@@ -110,14 +97,17 @@ class InputModal extends Component {
           </div>
         </div>
       </Modal>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  inputModal: getInputModal(state),
-});
-export default connect(mapStateToProps, {
-  openInputModal,
-  closeInputModal,
-})(InputModal);
+  inputModal: getInputModal(state)
+})
+export default connect(
+  mapStateToProps,
+  {
+    openInputModal,
+    closeInputModal
+  }
+)(InputModal)

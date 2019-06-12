@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import PastureBox from './PastureBox';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import PastureBox from './PastureBox'
 
 class Pastures extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-  };
+    pasturesMap: PropTypes.shape({}).isRequired
+  }
 
   state = {
-    activePastureIndex: 0,
+    activePastureIndex: 0
   }
 
   onPastureClicked = pastureIndex => () => {
-    this.setState((prevState) => {
-      const newIndex = prevState.activePastureIndex === pastureIndex ? -1 : pastureIndex;
+    this.setState(prevState => {
+      const newIndex =
+        prevState.activePastureIndex === pastureIndex ? -1 : pastureIndex
       return {
-        activePastureIndex: newIndex,
-      };
-    });
+        activePastureIndex: newIndex
+      }
+    })
   }
-
 
   renderPasture = (pasture, pastureIndex) => {
     return (
@@ -32,7 +32,7 @@ class Pastures extends Component {
         activePastureIndex={this.state.activePastureIndex}
         onPastureClicked={this.onPastureClicked}
       />
-    );
+    )
   }
 
   // onPastureClicked = pastureIndex => () => {
@@ -61,26 +61,24 @@ class Pastures extends Component {
   // }
 
   renderPastures = (pastures = []) => {
-    const isEmpty = pastures.length === 0;
+    const isEmpty = pastures.length === 0
 
     return isEmpty ? (
       <div className="rup__section-not-found">No pasture provided.</div>
     ) : (
       <ul
-        className={classnames(
-          'collaspible-boxes',
-          { 'collaspible-boxes--empty': isEmpty },
-        )}
-      >
+        className={classnames('collaspible-boxes', {
+          'collaspible-boxes--empty': isEmpty
+        })}>
         {pastures.map(this.renderPasture)}
       </ul>
-    );
+    )
   }
 
   render() {
-    const { plan, pasturesMap } = this.props;
-    const pastureIds = plan && plan.pastures;
-    const pastures = pastureIds && pastureIds.map(id => pasturesMap[id]);
+    const { plan, pasturesMap } = this.props
+    const pastureIds = plan && plan.pastures
+    const pastures = pastureIds && pastureIds.map(id => pasturesMap[id])
 
     return (
       <div className="rup__pastures">
@@ -88,8 +86,8 @@ class Pastures extends Component {
         <div className="rup__divider" />
         {this.renderPastures(pastures)}
       </div>
-    );
+    )
   }
 }
 
-export default Pastures;
+export default Pastures

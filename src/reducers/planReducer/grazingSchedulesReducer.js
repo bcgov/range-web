@@ -1,53 +1,53 @@
-import * as actionTypes from '../../constants/actionTypes';
+import * as actionTypes from '../../constants/actionTypes'
 
 const storeGrazingSchedules = (state, action) => {
-  const { grazingSchedules } = action.payload.entities;
+  const { grazingSchedules } = action.payload.entities
 
   return {
     ...state,
-    ...grazingSchedules,
-  };
-};
+    ...grazingSchedules
+  }
+}
 
 const addSchedule = (state, action) => {
-  const { grazingSchedule } = action.payload;
+  const { grazingSchedule } = action.payload
 
   return {
     ...state,
-    [grazingSchedule.id]: grazingSchedule,
-  };
-};
+    [grazingSchedule.id]: grazingSchedule
+  }
+}
 
 const updateSchedule = (state, action) => {
-  const { grazingSchedule } = action.payload;
+  const { grazingSchedule } = action.payload
 
   return {
     ...state,
-    [grazingSchedule.id]: grazingSchedule,
-  };
-};
+    [grazingSchedule.id]: grazingSchedule
+  }
+}
 
 const deleteSchedule = (state, action) => {
-  const { grazingScheduleId } = action.payload;
-  const newState = { ...state };
-  delete newState[grazingScheduleId];
+  const { grazingScheduleId } = action.payload
+  const newState = { ...state }
+  delete newState[grazingScheduleId]
 
-  return newState;
-};
+  return newState
+}
 
 const grazingSchedulesReducer = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.STORE_PLAN:
-      return storeGrazingSchedules(state, action);
+      return storeGrazingSchedules(state, action)
     case actionTypes.GRAZING_SCHEDULE_ADDED:
-      return addSchedule(state, action);
+      return addSchedule(state, action)
     case actionTypes.GRAZING_SCHEDULE_UPDATED:
-      return updateSchedule(state, action);
+      return updateSchedule(state, action)
     case actionTypes.GRAZING_SCHEDULE_DELETED:
-      return deleteSchedule(state, action);
+      return deleteSchedule(state, action)
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default grazingSchedulesReducer;
+export default grazingSchedulesReducer

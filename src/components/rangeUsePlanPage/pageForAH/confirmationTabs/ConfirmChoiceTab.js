@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Radio, Form } from 'semantic-ui-react';
-import { CONFIRMATION_OPTION } from '../../../../constants/variables';
-import RightBtn from '../tab/RightBtn';
-import LeftBtn from '../tab/LeftBtn';
-import TabTemplate from '../tab/TabTemplate';
-import AHConfirmationList from './AHConfirmationList';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { Radio, Form } from 'semantic-ui-react'
+import { CONFIRMATION_OPTION } from '../../../../constants/variables'
+import RightBtn from '../tab/RightBtn'
+import LeftBtn from '../tab/LeftBtn'
+import TabTemplate from '../tab/TabTemplate'
+import AHConfirmationList from './AHConfirmationList'
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -29,24 +29,24 @@ class ConfirmChoiceTab extends Component {
       title: PropTypes.string,
       next: PropTypes.string,
       radio1: PropTypes.string,
-      radio2: PropTypes.string,
-    }).isRequired,
+      radio2: PropTypes.string
+    }).isRequired
   }
 
   static defaultProps = {
-    confirmationOption: null,
+    confirmationOption: null
   }
 
-  onNextClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  onNextClicked = e => {
+    const { handleTabChange, tab } = this.props
 
-    handleTabChange(e, { value: tab.next });
+    handleTabChange(e, { value: tab.next })
   }
 
-  handleConfirmation = (e) => {
+  handleConfirmation = e => {
     this.props.handleConfirmation(e).then(() => {
-      this.onNextClicked();
-    });
+      this.onNextClicked()
+    })
   }
 
   render() {
@@ -62,17 +62,17 @@ class ConfirmChoiceTab extends Component {
       isConfirming,
       handleSubmissionChoiceChange,
       handleAgreeCheckBoxChange,
-      onClose,
-    } = this.props;
-    const { id, title, radio1, radio2 } = tab;
-    const isActive = id === currTabId;
+      onClose
+    } = this.props
+    const { id, title, radio1, radio2 } = tab
+    const isActive = id === currTabId
 
     if (!isActive) {
-      return null;
+      return null
     }
-    let isConfirmBtnDisabled = confirmationOption === null;
+    let isConfirmBtnDisabled = confirmationOption === null
     if (confirmationOption === CONFIRMATION_OPTION.CONFIRM) {
-      isConfirmBtnDisabled = !isAgreed;
+      isConfirmBtnDisabled = !isAgreed
     }
 
     return (
@@ -81,14 +81,13 @@ class ConfirmChoiceTab extends Component {
         title={title}
         actions={
           <Fragment>
-            <LeftBtn
-              onClick={onClose}
-              content="Cancel"
-            />
+            <LeftBtn onClick={onClose} content="Cancel" />
             <RightBtn
-              onClick={confirmationOption === CONFIRMATION_OPTION.REQUEST
-                ? this.onNextClicked
-                : this.handleConfirmation}
+              onClick={
+                confirmationOption === CONFIRMATION_OPTION.REQUEST
+                  ? this.onNextClicked
+                  : this.handleConfirmation
+              }
               loading={isConfirming}
               disabled={isConfirmBtnDisabled}
               content="Confirm"
@@ -146,8 +145,8 @@ class ConfirmChoiceTab extends Component {
           </Form>
         }
       />
-    );
+    )
   }
 }
 
-export default ConfirmChoiceTab;
+export default ConfirmChoiceTab

@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
-import RightBtn from '../tab/RightBtn';
-import LeftBtn from '../tab/LeftBtn';
-import TabTemplate from '../tab/TabTemplate';
-import { isClientCurrentUser, getClientFullName } from '../../../../utils';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { Icon } from 'semantic-ui-react'
+import RightBtn from '../tab/RightBtn'
+import LeftBtn from '../tab/LeftBtn'
+import TabTemplate from '../tab/TabTemplate'
+import { isClientCurrentUser, getClientFullName } from '../../../../utils'
 
 class RequestSignaturesTab extends Component {
   static propTypes = {
@@ -22,57 +22,51 @@ class RequestSignaturesTab extends Component {
       next: PropTypes.string.isRequired,
       text1: PropTypes.string.isRequired,
       text2: PropTypes.string.isRequired,
-      text3: PropTypes.string.isRequired,
-    }).isRequired,
+      text3: PropTypes.string.isRequired
+    }).isRequired
   }
 
-  onBackClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  onBackClicked = e => {
+    const { handleTabChange, tab } = this.props
 
-    handleTabChange(e, { value: tab.back });
+    handleTabChange(e, { value: tab.back })
   }
 
-  onSubmitClicked = (e) => {
-    const { onSubmitClicked, handleTabChange, tab } = this.props;
+  onSubmitClicked = e => {
+    const { onSubmitClicked, handleTabChange, tab } = this.props
 
     onSubmitClicked(e).then(() => {
-      handleTabChange(e, { value: tab.next });
-    });
+      handleTabChange(e, { value: tab.next })
+    })
   }
 
-  renderAgreementHolder = (client) => {
-    const { user } = this.props;
+  renderAgreementHolder = client => {
+    const { user } = this.props
 
     return (
       <div key={client.id} className="rup__multi-tab__ah-list">
         <Icon name="user outline" />
         <span
-          className={classnames(
-            'rup__multi-tab__ah-list__cname',
-            { 'rup__multi-tab__ah-list__cname--bold': isClientCurrentUser(client, user) },
-          )}
-        >
+          className={classnames('rup__multi-tab__ah-list__cname', {
+            'rup__multi-tab__ah-list__cname--bold': isClientCurrentUser(
+              client,
+              user
+            )
+          })}>
           {getClientFullName(client)}
-          {isClientCurrentUser(client, user) &&
-            ' (in progress)'
-          }
+          {isClientCurrentUser(client, user) && ' (in progress)'}
         </span>
       </div>
-    );
+    )
   }
 
   render() {
-    const {
-      currTabId,
-      tab,
-      isSubmitting,
-      clients,
-    } = this.props;
-    const { id, title, text1, text2, text3 } = tab;
-    const isActive = id === currTabId;
+    const { currTabId, tab, isSubmitting, clients } = this.props
+    const { id, title, text1, text2, text3 } = tab
+    const isActive = id === currTabId
 
     if (!isActive) {
-      return null;
+      return null
     }
 
     return (
@@ -81,10 +75,7 @@ class RequestSignaturesTab extends Component {
         title={title}
         actions={
           <Fragment>
-            <LeftBtn
-              onClick={this.onBackClicked}
-              content="Back"
-            />
+            <LeftBtn onClick={this.onBackClicked} content="Back" />
             <RightBtn
               onClick={this.onSubmitClicked}
               loading={isSubmitting}
@@ -94,21 +85,15 @@ class RequestSignaturesTab extends Component {
         }
         content={
           <div>
-            <div style={{ marginBottom: '20px' }}>
-              {text1}
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              {text2}
-            </div>
-            <div className="rup__multi-tab__ah-list__header">
-              {text3}
-            </div>
+            <div style={{ marginBottom: '20px' }}>{text1}</div>
+            <div style={{ marginBottom: '20px' }}>{text2}</div>
+            <div className="rup__multi-tab__ah-list__header">{text3}</div>
             {clients.map(this.renderAgreementHolder)}
           </div>
         }
       />
-    );
+    )
   }
 }
 
-export default RequestSignaturesTab;
+export default RequestSignaturesTab

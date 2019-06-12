@@ -1,21 +1,21 @@
-import { STORE_PLAN } from '../../constants/actionTypes';
+import { STORE_PLAN } from '../../constants/actionTypes'
 
 const storePastures = (state, action) => {
-  const { pastures } = action.payload.entities;
+  const { pastures } = action.payload.entities
 
   return {
     ...state,
-    ...pastures,
-  };
-};
+    ...pastures
+  }
+}
 
 const pasturesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storePastures(state, action);
+      return storePastures(state, action)
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default pasturesReducer;
+export default pasturesReducer

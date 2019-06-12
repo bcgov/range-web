@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import IndicatorPlants from '../IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../../constants/variables';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import IndicatorPlants from '../IndicatorPlants'
+import { PLANT_CRITERIA } from '../../../../constants/variables'
 
 class StubbleHeightBox extends Component {
   static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired,
+    plantCommunity: PropTypes.shape({}).isRequired
   }
 
   render() {
-    const { plantCommunity } = this.props;
-    const { indicatorPlants } = plantCommunity;
+    const { plantCommunity } = this.props
+    const { indicatorPlants } = plantCommunity
 
     return (
       <div className="rup__plant-community__sh">
@@ -19,9 +19,7 @@ class StubbleHeightBox extends Component {
           Stubble Height
         </div>
         <div className="rup__plant-community__i-plant__header">
-          <div className="rup__plant-community__sh__label">
-            Indicator Plant
-          </div>
+          <div className="rup__plant-community__sh__label">Indicator Plant</div>
           <div className="rup__plant-community__sh__label">
             Height After Grazing (cm)
           </div>
@@ -32,8 +30,8 @@ class StubbleHeightBox extends Component {
           criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}
         />
       </div>
-    );
+    )
   }
 }
 
-export default StubbleHeightBox;
+export default StubbleHeightBox

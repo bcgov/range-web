@@ -18,17 +18,18 @@
 // Created by Kyubin Han.
 //
 
-import axios from 'axios';
-import { API_BASE_URL } from '../constants/api';
+import axios from 'axios'
+import { API_BASE_URL } from '../constants/api'
 
 const instance = axios.create({
-  baseURL: API_BASE_URL,
-});
+  baseURL: API_BASE_URL
+})
 
-instance.interceptors.response.use(response => (
-  response
-), (error) => {
-  return Promise.reject(error && error.response);
-});
+instance.interceptors.response.use(
+  response => response,
+  error => {
+    return Promise.reject(error && error.response)
+  }
+)
 
-export default instance;
+export default instance

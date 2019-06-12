@@ -49,7 +49,10 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "test:ci": "CI=true npm test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pretest": "prettier --list-different \"**/*.js\"",
+    "prettier": "prettier --write \"**/*.js\"",
+    "eslint": "eslint '**/*.js'"
   },
   "browserslist": [
     ">0.2%",
@@ -67,5 +70,18 @@
       "!src/index.js",
       "!src/registerServiceWorker.js"
     ]
+  },
+  "devDependencies": {
+    "@twostoryrobot/eslint-config": "^2.2.0",
+    "@twostoryrobot/prettier-config": "^2.0.1",
+    "eslint-config-prettier": "^2.10.0",
+    "eslint-plugin-jest": "^21.27.2",
+    "husky": "^2.3.0",
+    "prettier": "^1.17.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretest && npm run eslint"
+    }
   }
 }

@@ -18,8 +18,8 @@
 // Created by Kyubin Han.
 //
 
-import jwtDecode from 'jwt-decode';
-import axios from './axios';
+import jwtDecode from 'jwt-decode'
+import axios from './axios'
 import {
   SSO_BASE_URL,
   SSO_LOGIN_REDIRECT_URI,
@@ -27,11 +27,11 @@ import {
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
   SITEMINDER_LOGOUT_ENDPOINT,
-  API_BASE_URL,
-} from '../constants/api';
-import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
-import { stringifyQuery } from './index';
-import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
+  API_BASE_URL
+} from '../constants/api'
+import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage'
+import { stringifyQuery } from './index'
+import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables'
 
 /**
  * this method is called immediately at the very beginning in authReducer
@@ -39,10 +39,10 @@ import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
  * @returns {object} the object that contains authData and user
  */
 export const getAuthAndUserFromLocal = () => {
-  const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER);
-  const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-  return { authData, user };
-};
+  const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER)
+  const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
+  return { authData, user }
+}
 
 /**
  *
@@ -58,54 +58,54 @@ export const getAuthAndUserFromLocal = () => {
     token_type: "bearer"
   }
  */
-export const saveAuthDataInLocal = (response) => {
-  const data = { ...response.data };
-  data.jwtData = jwtDecode(data.access_token);
+export const saveAuthDataInLocal = response => {
+  const data = { ...response.data }
+  data.jwtData = jwtDecode(data.access_token)
 
-  saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data)
 
-  return data;
-};
+  return data
+}
 
 /**
  *
  * @param {object} newUser the new user object
  */
-export const saveUserProfileInLocal = (newUser) => {
-  saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser);
-};
+export const saveUserProfileInLocal = newUser => {
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser)
+}
 
 /**
  *
  * @param {string} code the code received from Single Sign On
  */
-export const getTokenFromSSO = (code) => {
+export const getTokenFromSSO = code => {
   const data = {
     code,
     grant_type: 'authorization_code',
     redirect_uri: SSO_LOGIN_REDIRECT_URI,
-    client_id: SSO_CLIENT_ID,
-  };
+    client_id: SSO_CLIENT_ID
+  }
   // make an application/x-www-form-urlencoded request with axios
   return axios({
     method: 'post',
     baseURL: SSO_BASE_URL,
     url: GET_TOKEN_FROM_SSO,
-    data: stringifyQuery(data),
-  });
-};
+    data: stringifyQuery(data)
+  })
+}
 
 /**
  *
  * @param {string} refreshToken the refreshToken saved in localStorage
  */
-export const refreshAccessToken = (refreshToken) => {
+export const refreshAccessToken = refreshToken => {
   const data = {
     refresh_token: refreshToken,
     grant_type: 'refresh_token',
     redirect_uri: SSO_LOGIN_REDIRECT_URI,
-    client_id: SSO_CLIENT_ID,
-  };
+    client_id: SSO_CLIENT_ID
+  }
 
   // make an application/x-www-form-urlencoded request with axios
   // pass isRetry in config so that it only tries to refresh once.
@@ -114,58 +114,58 @@ export const refreshAccessToken = (refreshToken) => {
     baseURL: SSO_BASE_URL,
     url: REFRESH_TOKEN_FROM_SSO,
     data: stringifyQuery(data),
-    isRetry: true,
-  });
-};
+    isRetry: true
+  })
+}
 
 /**
  * @returns {string} the refresh token
  */
 const getRefreshTokenFromLocal = () => {
-  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-  return data && data.refresh_token;
-};
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
+  return data && data.refresh_token
+}
 
 /**
  * @returns {object} the parsed data from Json Web Token
  */
 const getJWTDataFromLocal = () => {
-  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-  return data && data.jwtData;
-};
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
+  return data && data.jwtData
+}
 
 /**
  *
  * @returns {boolean}
  */
 export const isTokenExpired = () => {
-  const jstData = getJWTDataFromLocal();
+  const jstData = getJWTDataFromLocal()
 
   if (jstData) {
-    return (new Date() / 1000) > jstData.exp;
+    return new Date() / 1000 > jstData.exp
   }
-  return false;
-};
+  return false
+}
 
 /**
  *
  * @param {object} config Axios's config
  * @returns {boolean}
  */
-const isRangeAPI = (config) => {
+const isRangeAPI = config => {
   if (config && config.baseURL) {
-    return config.baseURL === API_BASE_URL;
+    return config.baseURL === API_BASE_URL
   }
 
-  return false;
-};
+  return false
+}
 
 export const signOutFromSSOAndSiteMinder = () => {
   // open a new tab for signing out from SiteMinder which is Gov's auth platform
 
   // once it returns back, it will sign out from SSO which will happen in ReturnPage.js
-  window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank');
-};
+  window.open(SITEMINDER_LOGOUT_ENDPOINT, '_blank')
+}
 
 /**
  *
@@ -174,13 +174,13 @@ export const signOutFromSSOAndSiteMinder = () => {
  * @returns {object}
  */
 const createConfigReplacingHeaderWithNewToken = (config, response) => {
-  const data = response && response.data;
-  const { token_type: type, access_token: token } = data;
-  const c = { ...config };
-  c.headers.Authorization = type && token && `${type} ${token}`;
+  const data = response && response.data
+  const { token_type: type, access_token: token } = data
+  const c = { ...config }
+  c.headers.Authorization = type && token && `${type} ${token}`
 
-  return c;
-};
+  return c
+}
 
 /* eslint-disable no-console */
 
@@ -190,20 +190,20 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
  *
  * @param {function} reauthenticate the action to re-authenticate
  */
-export const setTimeoutForReAuth = (reauthenticate) => {
-  if (!isBundled) console.log('set timeout for re-authentication');
+export const setTimeoutForReAuth = reauthenticate => {
+  if (!isBundled) console.log('set timeout for re-authentication')
 
-  const jstData = getJWTDataFromLocal();
+  const jstData = getJWTDataFromLocal()
 
-  if (!jstData) return undefined;
+  if (!jstData) return undefined
 
-  const validPeriod = jstData.exp - (new Date() / 1000);
-  const intervalToRefreshToken = 0; // give some time to refresh the access token
+  const validPeriod = jstData.exp - new Date() / 1000
+  const intervalToRefreshToken = 0 // give some time to refresh the access token
 
   return setTimeout(() => {
-    reauthenticate();
-  }, (validPeriod + intervalToRefreshToken) * 1000);
-};
+    reauthenticate()
+  }, (validPeriod + intervalToRefreshToken) * 1000)
+}
 
 /**
  *
@@ -218,40 +218,47 @@ export const setTimeoutForReAuth = (reauthenticate) => {
  * @param {function} storeAuthData the action to store the user in Redux
  * @returns {object} the network response config
  */
-export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate, storeAuthData) => {
-  axios.interceptors.request.use((config) => {
-    const isFirstTimeTry = !config.isRetry;
+export const registerAxiosInterceptors = (
+  resetTimeoutForReAuth,
+  reauthenticate,
+  storeAuthData
+) => {
+  axios.interceptors.request.use(config => {
+    const isFirstTimeTry = !config.isRetry
 
     if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config)) {
-      if (!isBundled) console.log('Access token is expired. Trying to refresh it');
+      if (!isBundled)
+        console.log('Access token is expired. Trying to refresh it')
 
-      const refreshToken = getRefreshTokenFromLocal();
+      const refreshToken = getRefreshTokenFromLocal()
 
       return refreshAccessToken(refreshToken).then(
-        (response) => {
-          if (!isBundled) console.log('Access token has been refreshed!');
+        response => {
+          if (!isBundled) console.log('Access token has been refreshed!')
 
-          const authData = saveAuthDataInLocal(response);
-          storeAuthData(authData);
-          resetTimeoutForReAuth(reauthenticate);
+          const authData = saveAuthDataInLocal(response)
+          storeAuthData(authData)
+          resetTimeoutForReAuth(reauthenticate)
 
-          const c = createConfigReplacingHeaderWithNewToken(config, response);
-          c.isRetry = true;
+          const c = createConfigReplacingHeaderWithNewToken(config, response)
+          c.isRetry = true
 
-          return c;
+          return c
         },
-        (err) => {
+        err => {
           if (!isBundled) {
-            console.log('Refresh token is also expired. Request to re-authenticate.');
-            console.error(err);
+            console.log(
+              'Refresh token is also expired. Request to re-authenticate.'
+            )
+            console.error(err)
           }
-          reauthenticate();
+          reauthenticate()
 
-          return config;
-        },
-      );
+          return config
+        }
+      )
     }
 
-    return config;
-  });
-};
+    return config
+  })
+}

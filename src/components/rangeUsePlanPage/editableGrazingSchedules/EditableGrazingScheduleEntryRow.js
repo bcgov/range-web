@@ -1,10 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Pikaday from 'pikaday';
-import { Table, Dropdown, Input, Icon } from 'semantic-ui-react';
-import * as utils from '../../../utils';
-import { DATE_FORMAT, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
-import { DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT, DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER } from '../../../constants/strings';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Pikaday from 'pikaday'
+import { Table, Dropdown, Input, Icon } from 'semantic-ui-react'
+import * as utils from '../../../utils'
+import {
+  DATE_FORMAT,
+  CONFIRMATION_MODAL_ID
+} from '../../../constants/variables'
+import {
+  DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT,
+  DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER
+} from '../../../constants/strings'
 
 class EditableGrazingScheduleEntryRow extends Component {
   static propTypes = {
@@ -18,16 +24,16 @@ class EditableGrazingScheduleEntryRow extends Component {
     handleScheduleEntryChange: PropTypes.func.isRequired,
     handleScheduleEntryCopy: PropTypes.func.isRequired,
     handleScheduleEntryDelete: PropTypes.func.isRequired,
-    openConfirmationModal: PropTypes.func.isRequired,
-  };
+    openConfirmationModal: PropTypes.func.isRequired
+  }
 
   componentDidMount() {
-    const { entry, schedule } = this.props;
-    const { dateIn: din, dateOut: dout } = entry;
-    const dateIn = din ? new Date(din) : null;
-    const dateOut = dout ? new Date(dout) : null;
-    const minDate = utils.createDateWithMoment(1, 1, schedule.year);
-    const maxDate = utils.createDateWithMoment(31, 12, schedule.year);
+    const { entry, schedule } = this.props
+    const { dateIn: din, dateOut: dout } = entry
+    const dateIn = din ? new Date(din) : null
+    const dateOut = dout ? new Date(dout) : null
+    const minDate = utils.createDateWithMoment(1, 1, schedule.year)
+    const maxDate = utils.createDateWithMoment(31, 12, schedule.year)
 
     this.pikaDayDateIn = new Pikaday({
       field: this.dateInRef,
@@ -36,8 +42,8 @@ class EditableGrazingScheduleEntryRow extends Component {
       maxDate: dateOut || maxDate,
       defaultDate: dateIn || minDate, // the initial date to view when first opened
       setDefaultDate: dateIn !== null, // show default date if dateIn was defined
-      onSelect: this.handleDateChange('dateIn'),
-    });
+      onSelect: this.handleDateChange('dateIn')
+    })
 
     this.pikaDayDateOut = new Pikaday({
       field: this.dateOutRef,
@@ -46,62 +52,71 @@ class EditableGrazingScheduleEntryRow extends Component {
       maxDate,
       defaultDate: dateOut || minDate,
       setDefaultDate: dateOut !== null,
-      onSelect: this.handleDateChange('dateOut'),
-    });
+      onSelect: this.handleDateChange('dateOut')
+    })
   }
 
-  setDateInRef = (ref) => { this.dateInRef = ref; }
-  setDateOutRef = (ref) => { this.dateOutRef = ref; }
-
-  handleNumberOnly = (e) => {
-    utils.allowNumberOnly(e);
+  setDateInRef = ref => {
+    this.dateInRef = ref
+  }
+  setDateOutRef = ref => {
+    this.dateOutRef = ref
   }
 
-  handleDateChange = key => (date) => {
-    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
-    entry[key] = utils.formatDateFromUTC(date);
+  handleNumberOnly = e => {
+    utils.allowNumberOnly(e)
+  }
+
+  handleDateChange = key => date => {
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props
+    entry[key] = utils.formatDateFromUTC(date)
 
     // prevent users from inputting wrong dates
     if (this.pikaDayDateIn && key === 'dateOut') {
-      this.pikaDayDateIn.setMaxDate(date);
+      this.pikaDayDateIn.setMaxDate(date)
     } else if (this.pikaDayDateOut && key === 'dateIn') {
-      this.pikaDayDateOut.setMinDate(date);
+      this.pikaDayDateOut.setMinDate(date)
     }
-    handleScheduleEntryChange(entry, entryIndex);
+    handleScheduleEntryChange(entry, entryIndex)
   }
 
-  handleNumberInput = key => (e) => {
-    const { value } = e.target;
-    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
-    entry[key] = Number(value);
+  handleNumberInput = key => e => {
+    const { value } = e.target
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props
+    entry[key] = Number(value)
 
-    handleScheduleEntryChange(entry, entryIndex);
+    handleScheduleEntryChange(entry, entryIndex)
   }
 
   handlePastureDropdown = (e, { value: pastureId }) => {
-    const { entry, entryIndex, handleScheduleEntryChange, pasturesMap } = this.props;
+    const {
+      entry,
+      entryIndex,
+      handleScheduleEntryChange,
+      pasturesMap
+    } = this.props
 
-    entry.pastureId = pastureId;
-    const { graceDays } = pasturesMap[pastureId];
-    entry.graceDays = graceDays;
-    handleScheduleEntryChange(entry, entryIndex);
+    entry.pastureId = pastureId
+    const { graceDays } = pasturesMap[pastureId]
+    entry.graceDays = graceDays
+    handleScheduleEntryChange(entry, entryIndex)
   }
 
   handleLiveStockTypeDropdown = (e, { value: livestockTypeId }) => {
-    const { entry, entryIndex, handleScheduleEntryChange } = this.props;
+    const { entry, entryIndex, handleScheduleEntryChange } = this.props
 
-    entry.livestockTypeId = livestockTypeId;
-    handleScheduleEntryChange(entry, entryIndex);
+    entry.livestockTypeId = livestockTypeId
+    handleScheduleEntryChange(entry, entryIndex)
   }
 
   onCopyEntryClicked = () => {
-    const { handleScheduleEntryCopy, entryIndex } = this.props;
-    handleScheduleEntryCopy(entryIndex);
+    const { handleScheduleEntryCopy, entryIndex } = this.props
+    handleScheduleEntryCopy(entryIndex)
   }
 
   onDeleteEntryClicked = () => {
-    const { handleScheduleEntryDelete, entryIndex } = this.props;
-    handleScheduleEntryDelete(entryIndex);
+    const { handleScheduleEntryDelete, entryIndex } = this.props
+    handleScheduleEntryDelete(entryIndex)
   }
 
   openDeleteScheduleEntryConfirmationModal = () => {
@@ -110,8 +125,8 @@ class EditableGrazingScheduleEntryRow extends Component {
       header: DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER,
       content: DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteEntryClicked,
-      closeAfterYesBtnClicked: true,
-    });
+      closeAfterYesBtnClicked: true
+    })
   }
 
   render() {
@@ -120,8 +135,8 @@ class EditableGrazingScheduleEntryRow extends Component {
       pasturesMap,
       pastureOptions,
       livestockTypes,
-      livestockTypeOptions,
-    } = this.props;
+      livestockTypeOptions
+    } = this.props
 
     const {
       pastureId,
@@ -129,29 +144,37 @@ class EditableGrazingScheduleEntryRow extends Component {
       livestockCount,
       dateIn,
       dateOut,
-      graceDays,
-    } = entry || {};
+      graceDays
+    } = entry || {}
 
-    const days = utils.calcDateDiff(dateOut, dateIn, false);
-    const pasture = pasturesMap[pastureId];
-    const pldPercent = pasture && pasture.pldPercent;
-    const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId);
-    const auFactor = livestockType && livestockType.auFactor;
+    const days = utils.calcDateDiff(dateOut, dateIn, false)
+    const pasture = pasturesMap[pastureId]
+    const pldPercent = pasture && pasture.pldPercent
+    const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
+    const auFactor = livestockType && livestockType.auFactor
 
-    const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor);
-    const pldAUMs = utils.roundTo1Decimal(utils.calcPldAUMs(totalAUMs, pldPercent));
-    const crownAUMs = utils.roundTo1Decimal(utils.calcCrownAUMs(totalAUMs, pldAUMs));
+    const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor)
+    const pldAUMs = utils.roundTo1Decimal(
+      utils.calcPldAUMs(totalAUMs, pldPercent)
+    )
+    const crownAUMs = utils.roundTo1Decimal(
+      utils.calcCrownAUMs(totalAUMs, pldAUMs)
+    )
 
     const entryOptions = [
       { key: 'copy', text: 'Copy', onClick: this.onCopyEntryClicked },
-      { key: 'delete', text: 'Delete', onClick: this.openDeleteScheduleEntryConfirmationModal },
-    ];
+      {
+        key: 'delete',
+        text: 'Delete',
+        onClick: this.openDeleteScheduleEntryConfirmationModal
+      }
+    ]
 
-    const isPastureDropdownError = pastureId === undefined;
-    const isLivestockTypeDropdownError = livestockTypeId === undefined;
-    const isLivestockCountError = livestockCount <= 0;
-    const isDateInError = dateIn === undefined;
-    const isDateOutError = dateOut === undefined;
+    const isPastureDropdownError = pastureId === undefined
+    const isLivestockTypeDropdownError = livestockTypeId === undefined
+    const isLivestockCountError = livestockCount <= 0
+    const isDateInError = dateIn === undefined
+    const isDateOutError = dateOut === undefined
 
     return (
       <Table.Row>
@@ -191,18 +214,12 @@ class EditableGrazingScheduleEntryRow extends Component {
         </Table.Cell>
         <Table.Cell collapsing>
           <Input fluid error={isDateInError}>
-            <input
-              type="text"
-              ref={this.setDateInRef}
-            />
+            <input type="text" ref={this.setDateInRef} />
           </Input>
         </Table.Cell>
         <Table.Cell collapsing>
           <Input fluid error={isDateOutError}>
-            <input
-              type="text"
-              ref={this.setDateOutRef}
-            />
+            <input type="text" ref={this.setDateOutRef} />
           </Input>
         </Table.Cell>
         <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
@@ -216,8 +233,12 @@ class EditableGrazingScheduleEntryRow extends Component {
             />
           </Input>
         </Table.Cell>
-        <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>
+          {utils.handleNullValue(pldAUMs, false)}
+        </Table.Cell>
+        <Table.Cell collapsing>
+          {utils.handleNullValue(crownAUMs, false)}
+        </Table.Cell>
         <Table.Cell collapsing textAlign="center">
           <Dropdown
             trigger={<Icon name="ellipsis vertical" />}
@@ -227,8 +248,8 @@ class EditableGrazingScheduleEntryRow extends Component {
           />
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }
 
-export default EditableGrazingScheduleEntryRow;
+export default EditableGrazingScheduleEntryRow

@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { handleNullValue, getRangeReadinessMonthAndDate } from '../../../../utils';
-import IndicatorPlants from '../IndicatorPlants';
-import { PLANT_CRITERIA } from '../../../../constants/variables';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import {
+  handleNullValue,
+  getRangeReadinessMonthAndDate
+} from '../../../../utils'
+import IndicatorPlants from '../IndicatorPlants'
+import { PLANT_CRITERIA } from '../../../../constants/variables'
 
 class RangeReadinessBox extends Component {
   static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired,
+    plantCommunity: PropTypes.shape({}).isRequired
   }
 
   render() {
-    const { plantCommunity } = this.props;
+    const { plantCommunity } = this.props
     const {
       rangeReadinessDay: day,
       rangeReadinessMonth: month,
       rangeReadinessNote,
-      indicatorPlants,
-    } = plantCommunity;
-    const readinessMonthAndDate = getRangeReadinessMonthAndDate(month, day);
+      indicatorPlants
+    } = plantCommunity
+    const readinessMonthAndDate = getRangeReadinessMonthAndDate(month, day)
 
     return (
       <div className="rup__plant-community__rr">
@@ -26,18 +29,15 @@ class RangeReadinessBox extends Component {
           Range Readiness
         </div>
         <div>
-          If more than one readiness criteria is provided, all such criteria must be met before grazing may occur.
+          If more than one readiness criteria is provided, all such criteria
+          must be met before grazing may occur.
         </div>
 
-        <div className="rup__plant-community__rr__label">
-          Readiness Date
-        </div>
+        <div className="rup__plant-community__rr__label">Readiness Date</div>
         <div>{handleNullValue(readinessMonthAndDate)}</div>
 
         <div className="rup__plant-community__i-plant__header">
-          <div className="rup__plant-community__rr__label">
-            Indicator Plant
-          </div>
+          <div className="rup__plant-community__rr__label">Indicator Plant</div>
           <div className="rup__plant-community__rr__label">
             Criteria (Leaf Stage)
           </div>
@@ -48,13 +48,11 @@ class RangeReadinessBox extends Component {
           criteria={PLANT_CRITERIA.RANGE_READINESS}
         />
 
-        <div className="rup__plant-community__rr__label">
-          Notes
-        </div>
+        <div className="rup__plant-community__rr__label">Notes</div>
         <div>{handleNullValue(rangeReadinessNote)}</div>
       </div>
-    );
+    )
   }
 }
 
-export default RangeReadinessBox;
+export default RangeReadinessBox

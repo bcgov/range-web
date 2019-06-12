@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
-import RightBtn from '../tab/RightBtn';
-import LeftBtn from '../tab/LeftBtn';
-import TabTemplate from '../tab/TabTemplate';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { Form } from 'semantic-ui-react'
+import RightBtn from '../tab/RightBtn'
+import LeftBtn from '../tab/LeftBtn'
+import TabTemplate from '../tab/TabTemplate'
 
 class SubmitForFinalDecisionTab extends Component {
   static propTypes = {
@@ -21,30 +21,30 @@ class SubmitForFinalDecisionTab extends Component {
       shouldSubmit: PropTypes.bool.isRequired,
       text1: PropTypes.string.isRequired,
       text2: PropTypes.string,
-      rightBtn1: PropTypes.string.isRequired,
-    }).isRequired,
+      rightBtn1: PropTypes.string.isRequired
+    }).isRequired
   }
 
   static defaultProps = {
-    isSubmitting: false,
+    isSubmitting: false
   }
 
-  onBackClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  onBackClicked = e => {
+    const { handleTabChange, tab } = this.props
 
-    handleTabChange(e, { value: tab.back });
+    handleTabChange(e, { value: tab.back })
   }
 
-  onNextClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+  onNextClicked = e => {
+    const { handleTabChange, tab } = this.props
 
-    handleTabChange(e, { value: tab.next });
+    handleTabChange(e, { value: tab.next })
   }
 
-  onSubmitClicked = (e) => {
+  onSubmitClicked = e => {
     this.props.onSubmitClicked(e).then(() => {
-      this.onNextClicked(e);
-    });
+      this.onNextClicked(e)
+    })
   }
 
   render() {
@@ -53,13 +53,13 @@ class SubmitForFinalDecisionTab extends Component {
       tab,
       isSubmitting,
       handleAgreeCheckBoxChange,
-      isAgreed,
-    } = this.props;
-    const { id, title, shouldSubmit, text1, text2, checkbox1, rightBtn1 } = tab;
-    const isActive = id === currTabId;
+      isAgreed
+    } = this.props
+    const { id, title, shouldSubmit, text1, text2, checkbox1, rightBtn1 } = tab
+    const isActive = id === currTabId
 
     if (!isActive) {
-      return null;
+      return null
     }
 
     return (
@@ -68,10 +68,7 @@ class SubmitForFinalDecisionTab extends Component {
         title={title}
         actions={
           <Fragment>
-            <LeftBtn
-              onClick={this.onBackClicked}
-              content="Back"
-            />
+            <LeftBtn onClick={this.onBackClicked} content="Back" />
             <RightBtn
               onClick={shouldSubmit ? this.onSubmitClicked : this.onNextClicked}
               loading={isSubmitting}
@@ -82,14 +79,8 @@ class SubmitForFinalDecisionTab extends Component {
         }
         content={
           <Form>
-            <div style={{ marginBottom: '20px' }}>
-              {text1}
-            </div>
-            {text2 &&
-              <div style={{ marginBottom: '20px' }}>
-                {text2}
-              </div>
-            }
+            <div style={{ marginBottom: '20px' }}>{text1}</div>
+            {text2 && <div style={{ marginBottom: '20px' }}>{text2}</div>}
             <Form.Checkbox
               label={checkbox1}
               checked={isAgreed}
@@ -98,8 +89,8 @@ class SubmitForFinalDecisionTab extends Component {
           </Form>
         }
       />
-    );
+    )
   }
 }
 
-export default SubmitForFinalDecisionTab;
+export default SubmitForFinalDecisionTab

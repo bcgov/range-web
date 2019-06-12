@@ -1,8 +1,15 @@
-import React from 'react';
-import { Button } from 'semantic-ui-react';
-import { SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION, AMEND_PLAN_CONFIRM_HEADER, AMEND_PLAN_CONFIRM_CONTENT } from '../../../constants/strings';
-import { CONFIRMATION_MODAL_ID } from '../../../constants/variables';
-import DownloadPDFBtn from '../DownloadPDFBtn';
+import React from 'react'
+import { Button } from 'semantic-ui-react'
+import {
+  SAVE_DRAFT,
+  SUBMIT,
+  AMEND_PLAN,
+  SIGN_SUBMISSION,
+  AMEND_PLAN_CONFIRM_HEADER,
+  AMEND_PLAN_CONFIRM_CONTENT
+} from '../../../constants/strings'
+import { CONFIRMATION_MODAL_ID } from '../../../constants/variables'
+import DownloadPDFBtn from '../DownloadPDFBtn'
 
 const ActionBtns = ({
   canEdit,
@@ -17,14 +24,11 @@ const ActionBtns = ({
   onAmendPlanClicked,
   openSubmissionModal,
   openAHSignatureModal,
-  openConfirmationModal,
+  openConfirmationModal
 }) => {
   const downloadPDFBtn = (
-    <DownloadPDFBtn
-      key="downloadPDFBtn"
-      onClick={onViewPDFClicked}
-    />
-  );
+    <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
+  )
   const saveDraftBtn = (
     <Button
       key="saveDraftBtn"
@@ -32,11 +36,10 @@ const ActionBtns = ({
       compact
       loading={isSavingAsDraft}
       onClick={onSaveDraftClick}
-      style={{ marginRight: '0', marginLeft: '10px' }}
-    >
+      style={{ marginRight: '0', marginLeft: '10px' }}>
       {SAVE_DRAFT}
     </Button>
-  );
+  )
   const submitBtn = (
     <Button
       key="submitBtn"
@@ -44,11 +47,10 @@ const ActionBtns = ({
       compact
       loading={isSubmitting}
       onClick={openSubmissionModal}
-      style={{ marginRight: '0', marginLeft: '10px' }}
-    >
+      style={{ marginRight: '0', marginLeft: '10px' }}>
       {SUBMIT}
     </Button>
-  );
+  )
   const amendBtn = (
     <Button
       key="amendBtn"
@@ -63,37 +65,36 @@ const ActionBtns = ({
           header: AMEND_PLAN_CONFIRM_HEADER,
           content: AMEND_PLAN_CONFIRM_CONTENT,
           onYesBtnClicked: onAmendPlanClicked,
-          closeAfterYesBtnClicked: true,
-        });
+          closeAfterYesBtnClicked: true
+        })
       }}
     />
-  );
+  )
   const confirmSubmissionBtn = (
     <Button
       key="confirmSubmissionBtn"
       inverted
       compact
       style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={openAHSignatureModal}
-    >
+      onClick={openAHSignatureModal}>
       {SIGN_SUBMISSION}
     </Button>
-  );
+  )
 
   if (canEdit) {
-    return [downloadPDFBtn, saveDraftBtn, submitBtn];
+    return [downloadPDFBtn, saveDraftBtn, submitBtn]
   }
   if (canAmend) {
-    return [downloadPDFBtn, amendBtn];
+    return [downloadPDFBtn, amendBtn]
   }
   if (canConfirm) {
-    return [downloadPDFBtn, confirmSubmissionBtn];
+    return [downloadPDFBtn, confirmSubmissionBtn]
   }
   if (canSubmit) {
-    return [downloadPDFBtn, submitBtn];
+    return [downloadPDFBtn, submitBtn]
   }
 
-  return downloadPDFBtn;
-};
+  return downloadPDFBtn
+}
 
-export default ActionBtns;
+export default ActionBtns
