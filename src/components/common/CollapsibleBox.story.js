@@ -45,25 +45,36 @@ storiesOf('Collapsible Box', module)
             <div className="rup__cell-4">
               <TextField
                 label={'Label A'}
-                text={
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel venenatis purus, vitae viverra ex. Nulla ac nisl aliquam, eleifend neque vitae, feugiat magna. Nunc venenatis dui et odio pulvinar tincidunt. Nunc in maximus est, at faucibus elit. '
-                }
+                text={`
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
+                  nisl aliquam, eleifend neque vitae, feugiat magna. Nunc
+                  venenatis dui et odio pulvinar tincidunt. Nunc in maximus
+                  est, at faucibus elit.
+                `}
               />
             </div>
             <div className="rup__cell-4">
               <TextField
-                label={'Label B'}
-                text={
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel venenatis purus, vitae viverra ex. Nulla ac nisl aliquam, eleifend neque vitae, feugiat magna. Nunc venenatis dui et odio pulvinar tincidunt. Nunc in maximus est, at faucibus elit. '
-                }
+                text={`
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
+                  nisl aliquam, eleifend neque vitae, feugiat magna. Nunc
+                  venenatis dui et odio pulvinar tincidunt. Nunc in maximus
+                  est, at faucibus elit.
+              `}
               />
             </div>
             <div className="rup__cell-4">
               <TextField
                 label={'Label C'}
-                text={
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel venenatis purus, vitae viverra ex. Nulla ac nisl aliquam, eleifend neque vitae, feugiat magna. Nunc venenatis dui et odio pulvinar tincidunt. Nunc in maximus est, at faucibus elit. '
-                }
+                text={`
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
+                  nisl aliquam, eleifend neque vitae, feugiat magna. Nunc
+                  venenatis dui et odio pulvinar tincidunt. Nunc in maximus
+                  est, at faucibus elit.
+                `}
               />
             </div>
             <div className="rup__cell-4">
@@ -77,9 +88,13 @@ storiesOf('Collapsible Box', module)
             <div className="rup__cell-4">
               <TextField
                 label={'Label E'}
-                text={
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel venenatis purus, vitae viverra ex. Nulla ac nisl aliquam, eleifend neque vitae, feugiat magna. Nunc venenatis dui et odio pulvinar tincidunt. Nunc in maximus est, at faucibus elit. '
-                }
+                text={`
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
+                  nisl aliquam, eleifend neque vitae, feugiat magna. Nunc
+                  venenatis dui et odio pulvinar tincidunt. Nunc in maximus
+                  est, at faucibus elit.
+                `}
               />
             </div>
           </div>
@@ -125,9 +140,13 @@ storiesOf('Collapsible Box', module)
       message={
         <>
           <div style={{ marginLeft: ' 15px' }}>
-            {
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel venenatis purus, vitae viverra ex. Nulla ac nisl aliquam, eleifend neque vitae, feugiat magna. Nunc venenatis dui et odio pulvinar tincidunt. Nunc in maximus est, at faucibus elit. '
-            }
+            {`
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
+              nisl aliquam, eleifend neque vitae, feugiat magna. Nunc
+              venenatis dui et odio pulvinar tincidunt. Nunc in maximus
+              est, at faucibus elit.
+            `}
           </div>
         </>
       }
