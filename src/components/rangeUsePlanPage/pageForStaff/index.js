@@ -153,7 +153,7 @@ class PageForStaff extends Component {
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canSubmit = utils.isStatusRecommendForSubmission(status)
-    const canDownload = utils.cannotDownloadPDF(status)
+    const canDownload = !utils.cannotDownloadPDF(status)
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     const planTypeDescription = utils.getPlanTypeDescription(
