@@ -1,7 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { PrimaryButton } from '../common';
-import { ELEMENT_ID } from '../../constants/variables';
-import { SSO_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../../constants/api';
+import React, { Component, Fragment } from 'react'
+import { PrimaryButton } from '../common'
+import { ELEMENT_ID } from '../../constants/variables'
+import {
+  SSO_LOGIN_ENDPOINT,
+  SSO_IDIR_LOGIN_ENDPOINT,
+  SSO_BCEID_LOGIN_ENDPOINT
+} from '../../constants/api'
 
 class SignInButtons extends Component {
   openNewTab = link => window.open(link, '_blank')
@@ -21,11 +25,7 @@ class SignInButtons extends Component {
           content="Login as an Agreement Holder"
         />
         <div className="signin__link-container">
-          <div
-            role="button"
-            tabIndex="0"
-            onClick={this.onSigninBtnClick}
-          >
+          <div role="button" tabIndex="0" onClick={this.onSigninBtnClick}>
             Range Staff Login
           </div>
           {/* <div className="signin__divider" />
@@ -38,8 +38,8 @@ class SignInButtons extends Component {
           </div> */}
         </div>
       </Fragment>
-    );
+    )
   }
 }
 
-export default SignInButtons;
+export default SignInButtons

@@ -1,168 +1,163 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { PLAN_STATUS } from '../../constants/variables';
-import { NO_PLAN } from '../../constants/strings';
-import { isUserAgreementHolder } from '../../utils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { PLAN_STATUS } from '../../constants/variables'
+import { NO_PLAN } from '../../constants/strings'
+import { isUserAgreementHolder } from '../../utils'
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
   status: PropTypes.shape({
     id: PropTypes.number,
     code: PropTypes.string,
-    name: PropTypes.string,
+    name: PropTypes.string
   }),
   className: PropTypes.string,
-  style: PropTypes.shape({}),
-};
+  style: PropTypes.shape({})
+}
 
 const defaultProps = {
   className: '',
   status: {},
-  style: {},
-};
+  style: {}
+}
 
-const Status = ({
-  status,
-  className,
-  style,
-  user,
-}) => {
-  let modifier = 'status__icon';
-  let statusName = status.code ? 'Unknown_status' : NO_PLAN;
+const Status = ({ status, className, style, user }) => {
+  let modifier = 'status__icon'
+  let statusName = status.code ? 'Unknown_status' : NO_PLAN
 
   switch (status.code) {
     case PLAN_STATUS.DRAFT:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Draft in Progress';
+        statusName = 'Draft in Progress'
       } else {
-        statusName = 'AH Draft in Progress';
+        statusName = 'AH Draft in Progress'
       }
-      modifier += '--gray';
-      break;
+      modifier += '--gray'
+      break
     case PLAN_STATUS.CREATED:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Add Content to RUP';
-        modifier += '--orange';
+        statusName = 'Add Content to RUP'
+        modifier += '--orange'
       } else {
-        statusName = 'Submitted to AH';
-        modifier += '--gray';
+        statusName = 'Submitted to AH'
+        modifier += '--gray'
       }
-      break;
+      break
     case PLAN_STATUS.CHANGE_REQUESTED:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Make Changes to RUP';
-        modifier += '--orange';
+        statusName = 'Make Changes to RUP'
+        modifier += '--orange'
       } else {
-        statusName = 'Awaiting AH Input';
-        modifier += '--gray';
+        statusName = 'Awaiting AH Input'
+        modifier += '--gray'
       }
-      break;
+      break
     case PLAN_STATUS.STAFF_DRAFT:
-      statusName = 'Staff Draft';
-      modifier += '--gray';
-      break;
+      statusName = 'Staff Draft'
+      modifier += '--gray'
+      break
 
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Not Accepted';
+        statusName = 'Not Accepted'
       } else {
-        statusName = 'Wrongly Made Without Effect';
+        statusName = 'Wrongly Made Without Effect'
       }
-      modifier += '--red';
-      break;
+      modifier += '--red'
+      break
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
-      statusName = 'Wrongly Made Stands';
-      modifier += '--green';
-      break;
+      statusName = 'Wrongly Made Stands'
+      modifier += '--green'
+      break
     case PLAN_STATUS.STANDS_REVIEW:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Stands';
-        modifier += '--green';
+        statusName = 'Stands'
+        modifier += '--green'
       } else {
-        statusName = 'Review Amendment';
-        modifier += '--orange';
+        statusName = 'Review Amendment'
+        modifier += '--orange'
       }
-      break;
+      break
     case PLAN_STATUS.STANDS:
-      statusName = 'Stands';
-      modifier += '--green';
-      break;
+      statusName = 'Stands'
+      modifier += '--green'
+      break
 
     case PLAN_STATUS.SUBMITTED_FOR_REVIEW:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Feedback';
-        modifier += '--gray';
+        statusName = 'Awaiting Feedback'
+        modifier += '--gray'
       } else {
-        statusName = 'Provide Feedback';
-        modifier += '--orange';
+        statusName = 'Provide Feedback'
+        modifier += '--orange'
       }
-      break;
+      break
     case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Decision';
-        modifier += '--gray';
+        statusName = 'Awaiting Decision'
+        modifier += '--gray'
       } else {
-        statusName = 'Decision Required';
-        modifier += '--orange';
+        statusName = 'Decision Required'
+        modifier += '--orange'
       }
-      break;
+      break
     case PLAN_STATUS.AWAITING_CONFIRMATION:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Signatures';
-        modifier += '--orange';
+        statusName = 'Awaiting Signatures'
+        modifier += '--orange'
       } else {
-        statusName = 'AH Signatures Pending';
-        modifier += '--gray';
+        statusName = 'AH Signatures Pending'
+        modifier += '--gray'
       }
-      break;
+      break
 
     case PLAN_STATUS.RECOMMEND_FOR_SUBMISSION:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Ready to Submit';
-        modifier += '--orange';
+        statusName = 'Ready to Submit'
+        modifier += '--orange'
       } else {
-        statusName = 'Recommended for Submission';
-        modifier += '--gray';
+        statusName = 'Recommended for Submission'
+        modifier += '--gray'
       }
-      break;
+      break
     case PLAN_STATUS.RECOMMEND_READY:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Decision';
+        statusName = 'Awaiting Decision'
       } else {
-        statusName = 'Approval Recommended';
+        statusName = 'Approval Recommended'
       }
-      modifier += '--gray';
-      break;
+      modifier += '--gray'
+      break
     case PLAN_STATUS.RECOMMEND_NOT_READY:
       if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Decision';
+        statusName = 'Awaiting Decision'
       } else {
-        statusName = 'Approval Not Recommended';
+        statusName = 'Approval Not Recommended'
       }
-      modifier += '--gray';
-      break;
+      modifier += '--gray'
+      break
 
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
-      statusName = 'Changes Requested';
+      statusName = 'Changes Requested'
       if (isUserAgreementHolder(user)) {
-        modifier += '--orange';
+        modifier += '--orange'
       } else {
-        modifier += '--gray';
+        modifier += '--gray'
       }
-      break;
+      break
     case PLAN_STATUS.NOT_APPROVED:
-      statusName = 'Not Approved';
-      modifier += '--red';
-      break;
+      statusName = 'Not Approved'
+      modifier += '--red'
+      break
     case PLAN_STATUS.APPROVED:
-      statusName = 'Approved';
-      modifier += '--green';
-      break;
+      statusName = 'Approved'
+      modifier += '--green'
+      break
 
     default:
-      modifier += '--not-provided';
-      break;
+      modifier += '--not-provided'
+      break
   }
 
   return (
@@ -170,9 +165,9 @@ const Status = ({
       <span className={classnames('status__icon', modifier)} />
       <span className="status__label">{statusName}</span>
     </div>
-  );
-};
+  )
+}
 
-Status.propTypes = propTypes;
-Status.defaultProps = defaultProps;
-export default Status;
+Status.propTypes = propTypes
+Status.defaultProps = defaultProps
+export default Status

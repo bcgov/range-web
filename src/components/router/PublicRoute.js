@@ -1,17 +1,25 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { HOME } from '../../constants/routes';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import { HOME } from '../../constants/routes'
+
+const propTypes = {
+  component: PropTypes.func,
+  user: PropTypes.object.isRequired
+}
 
 const PublicRoute = ({ component: Component, user, ...rest }) => (
   <Route
     {...rest}
-    render={(props) => {
+    render={props => {
       if (user) {
-        return <Redirect push to={HOME} />;
+        return <Redirect push to={HOME} />
       }
-      return <Component {...props} />;
+      return <Component {...props} />
     }}
   />
-);
+)
 
-export default PublicRoute;
+PublicRoute.propTypes = propTypes
+
+export default PublicRoute

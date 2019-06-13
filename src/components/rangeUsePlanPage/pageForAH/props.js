@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export const propTypes = {
   agreement: PropTypes.shape({ plan: PropTypes.object }),
@@ -23,13 +23,13 @@ export const propTypes = {
   openConfirmationModal: PropTypes.func.isRequired,
   fetchPlan: PropTypes.func.isRequired,
   createOrUpdateRUPInvasivePlantChecklist: PropTypes.func.isRequired,
-  createOrUpdateRUPManagementConsideration: PropTypes.func.isRequired,
-};
+  createOrUpdateRUPManagementConsideration: PropTypes.func.isRequired
+}
 
 export const defaultProps = {
   agreement: {
     zone: {},
-    usage: [],
+    usage: []
   },
   plan: {
     agreementId: '',
@@ -40,6 +40,6 @@ export const defaultProps = {
     planStatusHistory: [],
     invasivePlantChecklist: {},
     managementConsiderations: [],
-    additionalRequirements: [],
-  },
-};
+    additionalRequirements: []
+  }
+}

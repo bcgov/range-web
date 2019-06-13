@@ -1,6 +1,10 @@
-import { INVALID_GRAZING_SCHEDULE_ENTRY, EMPTY_GRAZING_SCHEDULE_ENTRIES, TOTAL_AUMS_EXCEEDS } from '../../constants/strings';
-import { ELEMENT_ID } from '../../constants/variables';
-import { calcCrownTotalAUMs } from '../calculation';
+import {
+  INVALID_GRAZING_SCHEDULE_ENTRY,
+  EMPTY_GRAZING_SCHEDULE_ENTRIES,
+  TOTAL_AUMS_EXCEEDS
+} from '../../constants/strings'
+import { ELEMENT_ID } from '../../constants/variables'
+import { calcCrownTotalAUMs } from '../calculation'
 /**
  * Validate a grazing schedule entry
  *
@@ -8,16 +12,22 @@ import { calcCrownTotalAUMs } from '../calculation';
  * @returns {object | undefined} the error object that has error and message properties
  */
 export const handleGrazingScheduleEntryValidation = (e = {}) => {
-  if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && e.livestockCount) {
+  if (
+    e.dateIn &&
+    e.dateOut &&
+    e.pastureId &&
+    e.livestockTypeId &&
+    e.livestockCount
+  ) {
     // valid entry
   } else {
     return {
       error: true,
-      message: INVALID_GRAZING_SCHEDULE_ENTRY,
-    };
+      message: INVALID_GRAZING_SCHEDULE_ENTRY
+    }
   }
-  return undefined;
-};
+  return undefined
+}
 
 /**
  * Validate a grazing schedule
@@ -28,38 +38,47 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
  * @param {Array} usage the array of usage from the agreement
  * @returns {Array} An array of errors
  */
-export const handleGrazingScheduleValidation = (schedule = {}, pasturesMap = {}, livestockTypes = [], usage = []) => {
-  const { year, grazingScheduleEntries: gse } = schedule;
-  const grazingScheduleEntries = gse || [];
-  const yearUsage = usage.find(u => u.year === year);
-  const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
-  const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes);
+export const handleGrazingScheduleValidation = (
+  schedule = {},
+  pasturesMap = {},
+  livestockTypes = [],
+  usage = []
+) => {
+  const { year, grazingScheduleEntries: gse } = schedule
+  const grazingScheduleEntries = gse || []
+  const yearUsage = usage.find(u => u.year === year)
+  const authorizedAUMs = yearUsage && yearUsage.authorizedAum
+  const crownTotalAUMs = calcCrownTotalAUMs(
+    grazingScheduleEntries,
+    pasturesMap,
+    livestockTypes
+  )
 
-  const elementId = ELEMENT_ID.GRAZING_SCHEDULE;
-  const errors = [];
+  const elementId = ELEMENT_ID.GRAZING_SCHEDULE
+  const errors = []
 
   if (grazingScheduleEntries.length === 0) {
     errors.push({
       error: true,
       message: EMPTY_GRAZING_SCHEDULE_ENTRIES,
-      elementId,
-    });
+      elementId
+    })
   }
 
-  grazingScheduleEntries.map((entry) => {
-    const result = handleGrazingScheduleEntryValidation(entry);
+  grazingScheduleEntries.map(entry => {
+    const result = handleGrazingScheduleEntryValidation(entry)
     if (result) {
-      errors.push({ ...result, elementId });
+      errors.push({ ...result, elementId })
     }
-    return undefined;
-  });
+    return undefined
+  })
 
   if (crownTotalAUMs > authorizedAUMs) {
     errors.push({
       error: true,
       message: TOTAL_AUMS_EXCEEDS,
-      elementId,
-    });
+      elementId
+    })
   }
-  return errors;
-};
+  return errors
+}

@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Message, Icon } from 'semantic-ui-react';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { Message, Icon } from 'semantic-ui-react'
 
 class ErrorMessage extends Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
-    warning: PropTypes.bool,
+    warning: PropTypes.bool
   }
 
   static defaultProps = {
-    warning: false,
+    warning: false
   }
 
   render() {
-    const { message, warning, ...rest } = this.props;
+    const { message, warning, ...rest } = this.props
 
     return (
       <Message
@@ -22,16 +22,13 @@ class ErrorMessage extends Component {
         {...rest}
         content={
           <Fragment>
-            <Icon
-              name="warning sign"
-              style={{ marginRight: '7px' }}
-            />
+            <Icon name="warning sign" style={{ marginRight: '7px' }} />
             {message}
           </Fragment>
         }
       />
-    );
+    )
   }
 }
 
-export default ErrorMessage;
+export default ErrorMessage

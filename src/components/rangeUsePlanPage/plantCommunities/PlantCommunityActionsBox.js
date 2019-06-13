@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import PlantCommunityActionRow from './PlantCommunityActionRow';
-import { IMAGE_SRC } from '../../../constants/variables';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import PlantCommunityActionRow from './PlantCommunityActionRow'
+import { IMAGE_SRC } from '../../../constants/variables'
 
 class PlantCommunityActionsBox extends Component {
   static propTypes = {
-    plantCommunityActions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    plantCommunityActions: PropTypes.arrayOf(PropTypes.shape({})).isRequired
   }
 
-  renderPlantCommunityAction = (plantCommunityAction) => {
+  renderPlantCommunityAction = plantCommunityAction => {
     return (
       <PlantCommunityActionRow
         key={plantCommunityAction.id}
         plantCommunityAction={plantCommunityAction}
       />
-    );
+    )
   }
 
   render() {
-    const { plantCommunityActions } = this.props;
+    const { plantCommunityActions } = this.props
 
     return (
       <div className="rup__plant-community__actions">
@@ -32,8 +32,8 @@ class PlantCommunityActionsBox extends Component {
         </div>
         {plantCommunityActions.map(this.renderPlantCommunityAction)}
       </div>
-    );
+    )
   }
 }
 
-export default PlantCommunityActionsBox;
+export default PlantCommunityActionsBox

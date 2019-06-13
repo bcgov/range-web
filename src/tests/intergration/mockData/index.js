@@ -1,10 +1,10 @@
-import { getToken } from '../../../reducers/rootReducer';
+import { getToken } from '../../../reducers/rootReducer'
 
-export { default as mockAgreements } from './mockAgreements';
-export { default as mockPlan } from './mockPlan';
-export { default as mockReference } from './mockReference';
-export { default as mockUsers } from './mockUsers';
-export { default as mockZones } from './mockZones';
+export { default as mockAgreements } from './mockAgreements'
+export { default as mockPlan } from './mockPlan'
+export { default as mockReference } from './mockReference'
+export { default as mockUsers } from './mockUsers'
+export { default as mockZones } from './mockZones'
 
 export const mockAgreementPagination = {
   perPage: 10,
@@ -14,22 +14,22 @@ export const mockAgreementPagination = {
   agreements: [
     {
       id: 'RAN075974',
-      plans: [],
-    },
-  ],
-};
+      plans: []
+    }
+  ]
+}
 
 export const mockAuthData = {
-  access_token: 'mockToken',
-};
+  access_token: 'mockToken'
+}
 
-export const requestMockHeader = (getState) => {
-  const token = getToken(getState());
+export const requestMockHeader = getState => {
+  const token = getToken(getState())
 
   return {
     headers: {
-      'Authorization': `Bearer ${token}`,
-      'content-type': 'application/json',
-    },
-  };
-};
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json'
+    }
+  }
+}

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal, Icon } from 'semantic-ui-react';
-import { getUser, getConfirmationsMap } from '../../../reducers/rootReducer';
-import { CONFIRMATION_OPTION } from '../../../constants/variables';
-import { findConfirmationWithClientId } from '../../../utils';
-import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
-import { planUpdated, confirmationUpdated } from '../../../actions';
-import ConfirmationTabs from './tabs/ConfirmationTabs';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Modal, Icon } from 'semantic-ui-react'
+import { getUser, getConfirmationsMap } from '../../../reducers/rootReducer'
+import { CONFIRMATION_OPTION } from '../../../constants/variables'
+import { findConfirmationWithClientId } from '../../../utils'
+import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
+import { planUpdated, confirmationUpdated } from '../../../actions'
+import ConfirmationTabs from './tabs/ConfirmationTabs'
 
 // modal for an agreement holder to sign a submitted range use plan
 
@@ -21,85 +21,97 @@ class AHSignatureModal extends Component {
     confirmationsMap: PropTypes.shape({}).isRequired,
     updateRUPConfirmation: PropTypes.func.isRequired,
     confirmationUpdated: PropTypes.func.isRequired,
-    planUpdated: PropTypes.func.isRequired,
-  };
+    planUpdated: PropTypes.func.isRequired
+  }
 
   static defaultProps = {
-    clients: [],
-  };
+    clients: []
+  }
 
   constructor(props) {
-    super(props);
-    this.state = this.getInitialState();
+    super(props)
+    this.state = this.getInitialState()
   }
 
-  getInitialState = () => (
-    {
-      isAgreed: false,
-      isConfirming: false,
-      confirmationOption: null,
-    }
-  )
+  getInitialState = () => ({
+    isAgreed: false,
+    isConfirming: false,
+    confirmationOption: null
+  })
 
   onClose = () => {
-    this.setState(this.getInitialState());
-    this.props.onClose();
+    this.setState(this.getInitialState())
+    this.props.onClose()
   }
 
-  handleConfirmation = (e) => {
-    e.preventDefault();
+  handleConfirmation = e => {
+    e.preventDefault()
     const {
-      updateRUPConfirmation, plan, confirmationsMap,
-      user, confirmationUpdated, planUpdated,
-    } = this.props;
+      updateRUPConfirmation,
+      plan,
+      confirmationsMap,
+      user,
+      confirmationUpdated,
+      planUpdated
+    } = this.props
 
-    const onRequest = () => this.setState({ isConfirming: true });
-    const onSuccess = (data) => {
-      const { allConfirmed, plan: updatedPlan, confirmation } = data;
+    const onRequest = () => this.setState({ isConfirming: true })
+    const onSuccess = data => {
+      const { allConfirmed, plan: updatedPlan, confirmation } = data
 
       if (allConfirmed) {
-        planUpdated({ plan: { ...plan, ...updatedPlan } });
+        planUpdated({ plan: { ...plan, ...updatedPlan } })
       }
 
-      confirmationUpdated({ confirmation });
-      this.setState({ isConfirming: false });
-    };
-    const onError = (err) => {
-      this.setState({ isConfirming: false });
-      throw err;
-    };
+      confirmationUpdated({ confirmation })
+      this.setState({ isConfirming: false })
+    }
+    const onError = err => {
+      this.setState({ isConfirming: false })
+      throw err
+    }
 
-    const currUserConfirmation = findConfirmationWithClientId(user.clientId, plan.confirmations, confirmationsMap);
-    const confirmed = true;
-    const isMinorAmendment = false;
+    const currUserConfirmation = findConfirmationWithClientId(
+      user.clientId,
+      plan.confirmations,
+      confirmationsMap
+    )
+    const confirmed = true
+    const isMinorAmendment = false
 
-    onRequest();
+    onRequest()
 
-    return updateRUPConfirmation(plan, currUserConfirmation.id, confirmed, isMinorAmendment).then(
-      (data) => {
-        onSuccess(data);
-      }, (err) => {
-        onError(err);
+    return updateRUPConfirmation(
+      plan,
+      currUserConfirmation.id,
+      confirmed,
+      isMinorAmendment
+    ).then(
+      data => {
+        onSuccess(data)
       },
-    );
+      err => {
+        onError(err)
+      }
+    )
   }
 
   handleSubmissionChoiceChange = (e, { value: confirmationOption }) => {
     if (confirmationOption === CONFIRMATION_OPTION.REQUEST) {
-      this.setState({ confirmationOption, isAgreed: false });
-      return;
+      this.setState({ confirmationOption, isAgreed: false })
+      return
     }
 
-    this.setState({ confirmationOption });
+    this.setState({ confirmationOption })
   }
 
   handleAgreeCheckBoxChange = (e, { checked }) => {
-    this.setState({ isAgreed: checked });
+    this.setState({ isAgreed: checked })
   }
 
   render() {
-    const { open } = this.props;
-    const { isAgreed, isConfirming, confirmationOption } = this.state;
+    const { open } = this.props
+    const { isAgreed, isConfirming, confirmationOption } = this.state
 
     return (
       <Modal
@@ -107,8 +119,7 @@ class AHSignatureModal extends Component {
         size="tiny"
         open={open}
         onClose={this.onClose}
-        closeIcon={<Icon name="close" color="black" />}
-      >
+        closeIcon={<Icon name="close" color="black" />}>
         <Modal.Content>
           <ConfirmationTabs
             {...this.props}
@@ -122,19 +133,20 @@ class AHSignatureModal extends Component {
           />
         </Modal.Content>
       </Modal>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => (
-  {
-    user: getUser(state),
-    confirmationsMap: getConfirmationsMap(state),
-  }
-);
+const mapStateToProps = state => ({
+  user: getUser(state),
+  confirmationsMap: getConfirmationsMap(state)
+})
 
-export default connect(mapStateToProps, {
-  updateRUPConfirmation,
-  planUpdated,
-  confirmationUpdated,
-})(AHSignatureModal);
+export default connect(
+  mapStateToProps,
+  {
+    updateRUPConfirmation,
+    planUpdated,
+    confirmationUpdated
+  }
+)(AHSignatureModal)

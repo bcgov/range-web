@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // import IndicatorPlants from './IndicatorPlants';
 // import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
-import { handleNullValue } from '../../../../utils';
+import { handleNullValue } from '../../../../utils'
 
 class ShrubUseBox extends Component {
   static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired,
+    plantCommunity: PropTypes.shape({}).isRequired
   }
 
   render() {
-    const { plantCommunity } = this.props;
-    const { shrubUse } = plantCommunity;
+    const { plantCommunity } = this.props
+    const { shrubUse } = plantCommunity
 
     return (
       <div className="rup__plant-community__su">
@@ -20,7 +20,8 @@ class ShrubUseBox extends Component {
           Shrub Use
         </div>
         <div>
-          Unless otherwise indicated the allowable browse level is 25% of current annual growth.
+          Unless otherwise indicated the allowable browse level is 25% of
+          current annual growth.
         </div>
 
         <div className="rup__plant-community__su__label">
@@ -42,8 +43,8 @@ class ShrubUseBox extends Component {
           criteria={PLANT_CRITERIA.SHRUBUSE}
         /> */}
       </div>
-    );
+    )
   }
 }
 
-export default ShrubUseBox;
+export default ShrubUseBox

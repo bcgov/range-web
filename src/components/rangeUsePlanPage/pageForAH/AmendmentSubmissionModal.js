@@ -1,17 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal, Icon } from 'semantic-ui-react';
-import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../../../constants/variables';
-import { getReferences, getUser } from '../../../reducers/rootReducer';
-import { updateRUP } from '../../../actionCreators/planActionCreator';
-import { planUpdated } from '../../../actions';
-import { isMinorAmendment, isMandatoryAmendment, isSubmittedAsMinor, isSubmittedAsMandatory, findStatusWithCode, isSingleClient } from '../../../utils';
-import MandatoryTabsForSingleAH from './tabs/MandatoryTabsForSingleAH';
-import MandatoryTabsForMultipleAH from './tabs/MandatoryTabsForMultipleAH';
-import MinorTabsForSingleAH from './tabs/MinorTabsForSingleAH';
-import MinorTabsForMultipleAH from './tabs/MinorTabsForMultipleAH';
-import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Modal, Icon } from 'semantic-ui-react'
+import {
+  NUMBER_OF_LIMIT_FOR_NOTE,
+  REFERENCE_KEY,
+  AMENDMENT_TYPE,
+  PLAN_STATUS
+} from '../../../constants/variables'
+import { getReferences, getUser } from '../../../reducers/rootReducer'
+import { updateRUP } from '../../../actionCreators/planActionCreator'
+import { planUpdated } from '../../../actions'
+import {
+  isMinorAmendment,
+  isMandatoryAmendment,
+  isSubmittedAsMinor,
+  isSubmittedAsMandatory,
+  findStatusWithCode,
+  isSingleClient
+} from '../../../utils'
+import MandatoryTabsForSingleAH from './tabs/MandatoryTabsForSingleAH'
+import MandatoryTabsForMultipleAH from './tabs/MandatoryTabsForMultipleAH'
+import MinorTabsForSingleAH from './tabs/MinorTabsForSingleAH'
+import MinorTabsForMultipleAH from './tabs/MinorTabsForMultipleAH'
+import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab'
 
 class AmendmentSubmissionModal extends Component {
   static propTypes = {
@@ -23,16 +35,16 @@ class AmendmentSubmissionModal extends Component {
     clients: PropTypes.arrayOf(PropTypes.object),
     fetchPlan: PropTypes.func.isRequired,
     updateStatusAndContent: PropTypes.func.isRequired,
-    updateRUP: PropTypes.func.isRequired,
+    updateRUP: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    clients: [],
-  };
+    clients: []
+  }
 
   constructor(props) {
-    super(props);
-    this.state = this.getInitialState();
+    super(props)
+    this.state = this.getInitialState()
   }
 
   getInitialState = () => ({
@@ -41,106 +53,143 @@ class AmendmentSubmissionModal extends Component {
     statusCode: null,
     isAgreed: false,
     isSubmitting: false,
-    note: '',
+    note: ''
   })
 
   onClose = () => {
-    this.setState(this.getInitialState());
-    this.props.onClose();
+    this.setState(this.getInitialState())
+    this.props.onClose()
   }
-
 
   handleAmendmentTypeChange = (e, { value: amendmentTypeCode }) => {
     this.setState({
       ...this.getInitialState(),
-      amendmentTypeCode,
-    });
+      amendmentTypeCode
+    })
   }
 
   handleStatusCodeChange = (e, { value: statusCode }) => {
-    this.setState({ statusCode });
+    this.setState({ statusCode })
   }
 
   handleAgreeCheckBoxChange = (e, { checked }) => {
-    this.setState({ isAgreed: checked });
+    this.setState({ isAgreed: checked })
   }
 
   handleNoteChange = (e, { value: note }) => {
     if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
-      this.setState({ note });
+      this.setState({ note })
     }
   }
 
   handleTabChange = (e, { value: tabId }) => {
-    this.setState({ currTabId: tabId });
+    this.setState({ currTabId: tabId })
   }
 
   submitAmendment = (plan, status, amendmentType) => {
-    const { updateStatusAndContent, updateRUP } = this.props;
-    const { note } = this.state;
+    const { updateStatusAndContent, updateRUP } = this.props
+    const { note } = this.state
 
     const onRequest = () => {
-      this.setState({ isSubmitting: true });
-    };
+      this.setState({ isSubmitting: true })
+    }
     const onSuccess = async () => {
       // update amendment type of the plan
       await updateRUP(plan.id, {
-        amendmentTypeId: amendmentType.id,
+        amendmentTypeId: amendmentType.id
       }).then(() => {
-        this.setState({ isSubmitting: false });
-      });
-    };
-    const onError = () => { this.onClose(); };
+        this.setState({ isSubmitting: false })
+      })
+    }
+    const onError = () => {
+      this.onClose()
+    }
 
-    return updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
+    return updateStatusAndContent(
+      { status, note },
+      onRequest,
+      onSuccess,
+      onError
+    )
   }
 
-  onSubmitClicked = (e) => {
-    e.preventDefault();
-    const { plan, references, clients } = this.props;
-    const { statusCode, amendmentTypeCode } = this.state;
-    const { amendmentTypeId } = plan;
-    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR);
-    const mandatory = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MANDATORY);
-    const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
-    const selectedStatusForMandatory = findStatusWithCode(references, statusCode);
-    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
-    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+  onSubmitClicked = e => {
+    e.preventDefault()
+    const { plan, references, clients } = this.props
+    const { statusCode, amendmentTypeCode } = this.state
+    const { amendmentTypeId } = plan
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+    const minor = amendmentTypes.find(at => at.code === AMENDMENT_TYPE.MINOR)
+    const mandatory = amendmentTypes.find(
+      at => at.code === AMENDMENT_TYPE.MANDATORY
+    )
+    const confirmationAwaiting = findStatusWithCode(
+      references,
+      PLAN_STATUS.AWAITING_CONFIRMATION
+    )
+    const selectedStatusForMandatory = findStatusWithCode(
+      references,
+      statusCode
+    )
+    const isMinor = isMinorAmendment(
+      amendmentTypeId,
+      amendmentTypes,
+      amendmentTypeCode
+    )
+    const isMandatory = isMandatoryAmendment(
+      amendmentTypeId,
+      amendmentTypes,
+      amendmentTypeCode
+    )
 
     if (isMinor && isSingleClient(clients)) {
-      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS);
-      return this.submitAmendment(plan, stands, minor);
+      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS)
+      return this.submitAmendment(plan, stands, minor)
     }
 
     if (isMinor && !isSingleClient(clients)) {
-      return this.submitAmendment(plan, confirmationAwaiting, minor);
+      return this.submitAmendment(plan, confirmationAwaiting, minor)
     }
 
     if (isMandatory && isSingleClient(clients)) {
-      return this.submitAmendment(plan, selectedStatusForMandatory, mandatory);
+      return this.submitAmendment(plan, selectedStatusForMandatory, mandatory)
     }
 
     if (isMandatory && !isSingleClient(clients)) {
       if (statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION) {
-        return this.submitAmendment(plan, confirmationAwaiting, mandatory);
+        return this.submitAmendment(plan, confirmationAwaiting, mandatory)
       }
-      return this.submitAmendment(plan, selectedStatusForMandatory, mandatory);
+      return this.submitAmendment(plan, selectedStatusForMandatory, mandatory)
     }
 
-    return null;
+    return null
   }
 
   render() {
-    const { open, references, plan, clients, user } = this.props;
-    const { amendmentTypeCode, currTabId } = this.state;
-    const { amendmentTypeId } = plan;
-    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const isSubmittedAsMinorAmendment = isSubmittedAsMinor(amendmentTypeId, amendmentTypes);
-    const isSubmittedAsMandatoryAmendment = isSubmittedAsMandatory(amendmentTypeId, amendmentTypes);
-    const isAmendmentTypeDecided = isSubmittedAsMinorAmendment || isSubmittedAsMandatoryAmendment;
-    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
-    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const { open, references, plan, clients, user } = this.props
+    const { amendmentTypeCode, currTabId } = this.state
+    const { amendmentTypeId } = plan
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+    const isSubmittedAsMinorAmendment = isSubmittedAsMinor(
+      amendmentTypeId,
+      amendmentTypes
+    )
+    const isSubmittedAsMandatoryAmendment = isSubmittedAsMandatory(
+      amendmentTypeId,
+      amendmentTypes
+    )
+    const isAmendmentTypeDecided =
+      isSubmittedAsMinorAmendment || isSubmittedAsMandatoryAmendment
+    const isMinor = isMinorAmendment(
+      amendmentTypeId,
+      amendmentTypes,
+      amendmentTypeCode
+    )
+    const isMandatory = isMandatoryAmendment(
+      amendmentTypeId,
+      amendmentTypes,
+      amendmentTypeCode
+    )
     const commonProps = {
       ...this.state,
       user,
@@ -154,13 +203,13 @@ class AmendmentSubmissionModal extends Component {
       handleAgreeCheckBoxChange: this.handleAgreeCheckBoxChange,
       handleTabChange: this.handleTabChange,
       onSubmitClicked: this.onSubmitClicked,
-      onClose: this.onClose,
-    };
+      onClose: this.onClose
+    }
     const chooseAmendmentTypeTab = {
       id: 'chooseAmendmentType',
       title: '1. Ready to Submit? Choose Your Amendment Type',
-      next: isMinor ? 'submitForFinalDecision' : 'chooseSubmissionType',
-    };
+      next: isMinor ? 'submitForFinalDecision' : 'chooseSubmissionType'
+    }
 
     return (
       <Modal
@@ -168,8 +217,7 @@ class AmendmentSubmissionModal extends Component {
         size="tiny"
         open={open}
         onClose={this.onClose}
-        closeIcon={<Icon name="close" color="black" />}
-      >
+        closeIcon={<Icon name="close" color="black" />}>
         <Modal.Content>
           <ChooseAmendmentTypeTab
             {...commonProps}
@@ -187,18 +235,19 @@ class AmendmentSubmissionModal extends Component {
           <MandatoryTabsForMultipleAH {...commonProps} />
         </Modal.Content>
       </Modal>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => (
-  {
-    user: getUser(state),
-    references: getReferences(state),
-  }
-);
+const mapStateToProps = state => ({
+  user: getUser(state),
+  references: getReferences(state)
+})
 
-export default connect(mapStateToProps, {
-  planUpdated,
-  updateRUP,
-})(AmendmentSubmissionModal);
+export default connect(
+  mapStateToProps,
+  {
+    planUpdated,
+    updateRUP
+  }
+)(AmendmentSubmissionModal)

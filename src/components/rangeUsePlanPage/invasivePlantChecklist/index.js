@@ -1,30 +1,32 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Form } from 'semantic-ui-react'
 
 class InvasivePlantChecklist extends Component {
   static propTypes = {
-    plan: PropTypes.shape({}).isRequired,
-  };
+    plan: PropTypes.shape({}).isRequired
+  }
 
   render() {
-    const { plan } = this.props;
-    const { invasivePlantChecklist } = plan;
+    const { plan } = this.props
+    const { invasivePlantChecklist } = plan
     const {
       equipmentAndVehiclesParking = false,
       beginInUninfestedArea = false,
       undercarrigesInspected = false,
       revegetate = false,
-      other,
-    } = invasivePlantChecklist;
-    const otherChecked = typeof other === 'string';
+      other
+    } = invasivePlantChecklist
+    const otherChecked = typeof other === 'string'
 
     return (
       <div className="rup__ip-checklist">
         <div className="rup__content-title">Invasive Plants</div>
         <div className="rup__divider" />
         <div className="rup__ip-checklist__header">
-          I commit to carry out the following measures to prevent the introduction or spread of invasive plants that are likely the result of my range practices:
+          I commit to carry out the following measures to prevent the
+          introduction or spread of invasive plants that are likely the result
+          of my range practices:
         </div>
         <div className="rup__ip-checklist__form">
           <Form>
@@ -59,20 +61,17 @@ class InvasivePlantChecklist extends Component {
                 disabled
                 checked={otherChecked}
               />
-              {otherChecked &&
+              {otherChecked && (
                 <div className="rup__ip-checklist__form__textarea">
-                  <Form.TextArea
-                    value={other}
-                    disabled
-                  />
+                  <Form.TextArea value={other} disabled />
                 </div>
-              }
+              )}
             </Form.Group>
           </Form>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default InvasivePlantChecklist;
+export default InvasivePlantChecklist

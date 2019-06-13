@@ -1,47 +1,47 @@
 import {
   STORE_PLAN,
   MANAGEMENT_CONSIDERATION_ADDED,
-  MANAGEMENT_CONSIDERATION_UPDATED,
-} from '../../constants/actionTypes';
+  MANAGEMENT_CONSIDERATION_UPDATED
+} from '../../constants/actionTypes'
 
 const storeManagementConsiderations = (state, action) => {
-  const { managementConsiderations } = action.payload.entities;
+  const { managementConsiderations } = action.payload.entities
 
   return {
     ...state,
-    ...managementConsiderations,
-  };
-};
+    ...managementConsiderations
+  }
+}
 
 const addManagementConsideration = (state, action) => {
-  const { managementConsideration } = action.payload;
+  const { managementConsideration } = action.payload
 
   return {
     ...state,
-    [managementConsideration.id]: managementConsideration,
-  };
-};
+    [managementConsideration.id]: managementConsideration
+  }
+}
 
 const updateManagementConsideration = (state, action) => {
-  const { managementConsideration } = action.payload;
+  const { managementConsideration } = action.payload
 
   return {
     ...state,
-    [managementConsideration.id]: managementConsideration,
-  };
-};
+    [managementConsideration.id]: managementConsideration
+  }
+}
 
 const managementConsiderationsReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storeManagementConsiderations(state, action);
+      return storeManagementConsiderations(state, action)
     case MANAGEMENT_CONSIDERATION_ADDED:
-      return addManagementConsideration(state, action);
+      return addManagementConsideration(state, action)
     case MANAGEMENT_CONSIDERATION_UPDATED:
-      return updateManagementConsideration(state, action);
+      return updateManagementConsideration(state, action)
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default managementConsiderationsReducer;
+export default managementConsiderationsReducer

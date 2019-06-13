@@ -18,22 +18,19 @@
 // Created by Kyubin Han.
 //
 
-import { createStore, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers/rootReducer';
-import { isBundled } from './constants/variables';
+import { createStore, applyMiddleware } from 'redux'
+import logger from 'redux-logger'
+import thunk from 'redux-thunk'
+import rootReducer from './reducers/rootReducer'
+import { isBundled } from './constants/variables'
 
 const configureStore = () => {
-  const middlewares = [thunk];
+  const middlewares = [thunk]
   if (!isBundled) {
-    middlewares.push(logger);
+    middlewares.push(logger)
   }
 
-  return createStore(
-    rootReducer,
-    applyMiddleware(...middlewares),
-  );
-};
+  return createStore(rootReducer, applyMiddleware(...middlewares))
+}
 
-export default configureStore;
+export default configureStore

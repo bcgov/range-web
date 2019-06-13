@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import uuid from 'uuid-v4';
-import { Icon, Dropdown, Input, TextArea, Form } from 'semantic-ui-react';
-import { REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
-import { DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT, DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER } from '../../../constants/strings';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import uuid from 'uuid-v4'
+import { Icon, Dropdown, Input, TextArea, Form } from 'semantic-ui-react'
+import {
+  REFERENCE_KEY,
+  CONFIRMATION_MODAL_ID
+} from '../../../constants/variables'
+import {
+  DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT,
+  DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER
+} from '../../../constants/strings'
 
 class EditalbeManagementConsiderationRow extends Component {
   static propTypes = {
@@ -12,38 +18,38 @@ class EditalbeManagementConsiderationRow extends Component {
     managementConsiderationUpdated: PropTypes.func.isRequired,
     openConfirmationModal: PropTypes.func.isRequired,
     deleteRUPManagementConsideration: PropTypes.func.isRequired,
-    managementConsiderationDeleted: PropTypes.func.isRequired,
+    managementConsiderationDeleted: PropTypes.func.isRequired
   }
 
   onConsiderationChanged = (e, { name, value }) => {
     const {
       managementConsideration: mc,
-      managementConsiderationUpdated,
-    } = this.props;
+      managementConsiderationUpdated
+    } = this.props
     const managementConsideration = {
       ...mc,
-      [name]: value,
-    };
+      [name]: value
+    }
 
-    managementConsiderationUpdated({ managementConsideration });
+    managementConsiderationUpdated({ managementConsideration })
   }
 
   onDeleteConsiderationBtnClicked = () => {
     const {
       managementConsideration,
       deleteRUPManagementConsideration,
-      managementConsiderationDeleted,
-    } = this.props;
-    const { id: considerationId, planId } = managementConsideration;
+      managementConsiderationDeleted
+    } = this.props
+    const { id: considerationId, planId } = managementConsideration
 
     const onDeleted = () => {
-      managementConsiderationDeleted({ planId, considerationId });
-    };
+      managementConsiderationDeleted({ planId, considerationId })
+    }
 
     if (planId && considerationId && !uuid.isUUID(considerationId)) {
-      deleteRUPManagementConsideration(planId, considerationId).then(onDeleted);
+      deleteRUPManagementConsideration(planId, considerationId).then(onDeleted)
     } else {
-      onDeleted();
+      onDeleted()
     }
   }
 
@@ -53,24 +59,29 @@ class EditalbeManagementConsiderationRow extends Component {
       header: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER,
       content: DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT,
       onYesBtnClicked: this.onDeleteConsiderationBtnClicked,
-      closeAfterYesBtnClicked: true,
-    });
+      closeAfterYesBtnClicked: true
+    })
   }
 
   render() {
-    const { managementConsideration, references } = this.props;
-    const { detail, url, considerationTypeId } = managementConsideration;
-    const considerTypes = references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
-    const considerTypeOptions = considerTypes.map((ct) => {
+    const { managementConsideration, references } = this.props
+    const { detail, url, considerationTypeId } = managementConsideration
+    const considerTypes =
+      references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || []
+    const considerTypeOptions = considerTypes.map(ct => {
       return {
         key: ct.id,
         value: ct.id,
-        text: ct.name,
-      };
-    });
+        text: ct.name
+      }
+    })
     const ellipsisOptions = [
-      { key: 'delete', text: 'Delete', onClick: this.openDeleteConsiderationConfirmationModal },
-    ];
+      {
+        key: 'delete',
+        text: 'Delete',
+        onClick: this.openDeleteConsiderationConfirmationModal
+      }
+    ]
 
     return (
       <div className="rup__m-consideration__row">
@@ -106,7 +117,9 @@ class EditalbeManagementConsiderationRow extends Component {
             </div>
             <div className="rup__m-consideration__ellipsis">
               <Dropdown
-                trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
+                trigger={
+                  <Icon name="ellipsis vertical" style={{ margin: '0' }} />
+                }
                 options={ellipsisOptions}
                 icon={null}
                 pointing="right"
@@ -116,8 +129,8 @@ class EditalbeManagementConsiderationRow extends Component {
           </Form>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default EditalbeManagementConsiderationRow;
+export default EditalbeManagementConsiderationRow

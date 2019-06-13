@@ -1,2 +1,2 @@
-export * from './queryString';
-export * from './date';
+export * from './queryString'
+export * from './date'

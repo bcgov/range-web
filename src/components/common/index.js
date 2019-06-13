@@ -18,13 +18,13 @@
 // Created by Kyubin Han.
 //
 
-export { default as Avatar } from './Avatar';
-export { default as TextField } from './TextField';
-export { default as Status } from './Status';
-export { default as Banner } from './Banner';
-export { default as Loading } from './Loading';
-export { default as ErrorPage } from './ErrorPage';
-export { default as CollapsibleBox } from './CollapsibleBox';
-export { default as Footer } from './footer';
-export { default as ErrorMessage } from './ErrorMessage';
-export { default as PrimaryButton } from './PrimaryButton';
+export { default as Avatar } from './Avatar'
+export { default as TextField } from './TextField'
+export { default as Status } from './Status'
+export { default as Banner } from './Banner'
+export { default as Loading } from './Loading'
+export { default as ErrorPage } from './ErrorPage'
+export { default as CollapsibleBox } from './CollapsibleBox'
+export { default as Footer } from './footer'
+export { default as ErrorMessage } from './ErrorMessage'
+export { default as PrimaryButton } from './PrimaryButton'

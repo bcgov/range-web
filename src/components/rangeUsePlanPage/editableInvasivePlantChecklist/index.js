@@ -1,58 +1,60 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
-import { planUpdated } from '../../../actions';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Form } from 'semantic-ui-react'
+import { planUpdated } from '../../../actions'
 
 class EditableInvasivePlantChecklist extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
-    planUpdated: PropTypes.func.isRequired,
-  };
+    planUpdated: PropTypes.func.isRequired
+  }
 
   handleInvasivePlantChange = (name, value) => {
-    const { plan, planUpdated } = this.props;
+    const { plan, planUpdated } = this.props
     const updatedChecklist = {
       ...plan.invasivePlantChecklist,
-      [name]: value,
-    };
+      [name]: value
+    }
     if (name === 'otherChecked' && value === false) {
-      updatedChecklist.other = null;
+      updatedChecklist.other = null
     }
     const updatedPlan = {
       ...plan,
-      invasivePlantChecklist: updatedChecklist,
-    };
+      invasivePlantChecklist: updatedChecklist
+    }
 
-    planUpdated({ plan: updatedPlan });
+    planUpdated({ plan: updatedPlan })
   }
 
   onCheckboxClicked = (e, { name, checked }) => {
-    this.handleInvasivePlantChange(name, checked);
+    this.handleInvasivePlantChange(name, checked)
   }
 
   onOtherChanged = (e, { value }) => {
-    this.handleInvasivePlantChange('other', value);
+    this.handleInvasivePlantChange('other', value)
   }
 
   render() {
-    const { plan } = this.props;
-    const { invasivePlantChecklist } = plan;
+    const { plan } = this.props
+    const { invasivePlantChecklist } = plan
     const {
       equipmentAndVehiclesParking = false,
       beginInUninfestedArea = false,
       undercarrigesInspected = false,
       revegetate = false,
       other,
-      otherChecked = false || (typeof other === 'string' && other.length > 0),
-    } = invasivePlantChecklist;
+      otherChecked = false || (typeof other === 'string' && other.length > 0)
+    } = invasivePlantChecklist
 
     return (
       <div className="rup__ip-checklist">
         <div className="rup__content-title">Invasive Plants</div>
         <div className="rup__divider" />
         <div className="rup__ip-checklist__header">
-          I commit to carry out the following measures to prevent the introduction or spread of invasive plants that are likely the result of my range practices:
+          I commit to carry out the following measures to prevent the
+          introduction or spread of invasive plants that are likely the result
+          of my range practices:
         </div>
         <div className="rup__ip-checklist__form">
           <Form>
@@ -92,22 +94,25 @@ class EditableInvasivePlantChecklist extends Component {
                 checked={otherChecked}
                 onChange={this.onCheckboxClicked}
               />
-              {otherChecked &&
+              {otherChecked && (
                 <div className="rup__ip-checklist__form__textarea">
                   <Form.TextArea
                     value={other || ''}
                     onChange={this.onOtherChanged}
                   />
                 </div>
-              }
+              )}
             </Form.Group>
           </Form>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default connect(null, {
-  planUpdated,
-})(EditableInvasivePlantChecklist);
+export default connect(
+  null,
+  {
+    planUpdated
+  }
+)(EditableInvasivePlantChecklist)
