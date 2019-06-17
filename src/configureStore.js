@@ -18,11 +18,20 @@
 // Created by Kyubin Han.
 //
 
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers/rootReducer'
 import { isBundled } from './constants/variables'
+
+const dev = process.env.NODE_ENV === 'development'
+
+function devTools() {
+  if (dev && window.__REDUX_DEVTOOLS_EXTENSION__) {
+    return window.__REDUX_DEVTOOLS_EXTENSION__()
+  }
+  return f => f
+}
 
 const configureStore = () => {
   const middlewares = [thunk]
@@ -30,7 +39,13 @@ const configureStore = () => {
     middlewares.push(logger)
   }
 
-  return createStore(rootReducer, applyMiddleware(...middlewares))
+  return createStore(
+    rootReducer,
+    compose(
+      applyMiddleware(...middlewares),
+      devTools()
+    )
+  )
 }
 
 export default configureStore
