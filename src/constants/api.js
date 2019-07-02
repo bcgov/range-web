@@ -60,25 +60,19 @@ export const SSO_CLIENT_ID = isBundled
   ? '{{.Env.SSO_CLIENT_ID}}'
   : process.env.REACT_APP_SSO_CLIENT_ID
 export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`
-export const SSO_LOGIN_REDIRECT_URI = `${
-  window.location.origin
-}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`
+export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`
 export const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}`
 export const SSO_IDIR_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=idir`
 export const SSO_BCEID_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=bceid`
 
-export const SSO_LOGOUT_REDIRECT_URI = `${
-  window.location.origin
-}/return-page?type=${RETURN_PAGE_TYPE.LOGOUT}`
+export const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGOUT}`
 export const SSO_LOGOUT_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/logout?redirect_uri=${SSO_LOGOUT_REDIRECT_URI}`
 
 export const SITEMINDER_BASE_URL = isBundled
   ? '{{.Env.SITEMINDER_BASE_URL}}'
   : DEV_ENV.SITEMINDER_BASE_URL
 
-export const SITEMINDER_LOGOUT_REDIRECT_URI = `${
-  window.location.origin
-}/return-page?type=${RETURN_PAGE_TYPE.SITEMINDER_LOGOUT}`
+export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.SITEMINDER_LOGOUT}`
 export const SITEMINDER_LOGOUT_ENDPOINT = `${SITEMINDER_BASE_URL}/clp-cgi/logoff.cgi?returl=${SITEMINDER_LOGOUT_REDIRECT_URI}&retnow=1`
 
 export const GET_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect/token`
