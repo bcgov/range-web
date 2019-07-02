@@ -61,7 +61,9 @@ export class LoginPage extends Component {
             {APP_NAME} is the home for electronic tools and information relating
             to crown grazing and hay-cutting activities. New tools and
             information will be added as they become available.
-            <div className="login_newsflash">Mike&apos;s newsflash goes here.</div>
+            <div className="login_newsflash">
+              Mike&apos;s newsflash goes here.
+            </div>
           </div>
         </article>
 
