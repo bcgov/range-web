@@ -2,7 +2,8 @@ const packageConfig = require('./package.json')
 
 module.exports = {
   rules: {
-    'no-unused-vars': ['warn', { ignoreRestSiblings: true }]
+    'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
+    'react/prop-types': 1
   },
   extends: ['@twostoryrobot/eslint-config/React', 'prettier'],
   settings: {
