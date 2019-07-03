@@ -80,6 +80,14 @@
       text-align: center;
       padding: 10px;
     }
+    &__notice {
+      max-width: 600px;
+      font-size: 1.2rem;
+      line-height: 25px;
+      text-align: center;
+      padding: 10px;
+      background-color: yellow;
+    }
   }
   &__paragraph3,
   &__paragraph4,
