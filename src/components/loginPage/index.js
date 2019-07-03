@@ -63,11 +63,11 @@ export class LoginPage extends Component {
             information will be added as they become available.
             <br></br>
             <br></br>
-            <mark>
-              02/22/2019: Having login issues and not sure if it is a BCEID
-              issue or not? Please contact MyRangeBC@gov.bc.ca and we&apos;ll
-              sort you out.
-            </mark>
+            <div className="login__paragraph2__notice">
+              NOTICE: Having login issues and not sure if it is a BCEID issue or
+              not? Please email MyRangeBC@gov.bc.ca describing the problem and
+              your contact information. Someone will reply to assist.
+            </div>
           </div>
         </article>
 
