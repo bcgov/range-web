@@ -61,9 +61,13 @@ export class LoginPage extends Component {
             {APP_NAME} is the home for electronic tools and information relating
             to crown grazing and hay-cutting activities. New tools and
             information will be added as they become available.
-            <div className="login_newsflash">
-              Mike&apos;s newsflash goes here.
-            </div>
+            <br></br>
+            <br></br>
+            <mark>
+              02/22/2019: Having login issues and not sure if it is a BCEID
+              issue or not? Please contact MyRangeBC@gov.bc.ca and we&apos;ll
+              sort you out.
+            </mark>
           </div>
         </article>
 
