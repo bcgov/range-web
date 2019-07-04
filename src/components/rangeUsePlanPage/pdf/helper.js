@@ -2,9 +2,47 @@ import moment from 'moment'
 import {
   CLIENT_TYPE,
   DAYS_ON_THE_AVERAGE,
-  DATE_FORMAT
+  DATE_FORMAT,
+  PDF_DRAFT_STATUSES,
+  PDF_IN_EFFECT_STATUSES,
+  PDF_NOT_IN_EFFECT_STATUSES
 } from '../../../constants/variables'
 import { NOT_PROVIDED } from '../../../constants/strings'
+
+
+export const getPDFStatus = status => { 
+  console.log(PDF_DRAFT_STATUSES)
+  console.log(PDF_DRAFT_STATUSES.includes(status.code))
+  
+
+  if(PDF_DRAFT_STATUSES.includes(status.code))
+  {
+      return 'DRAFT'
+  }
+  else if(PDF_IN_EFFECT_STATUSES.includes(status.code))
+  {
+      return 'IN EFFECT'
+  }
+  else if(PDF_NOT_IN_EFFECT_STATUSES.includes(status.code))
+  {
+      return 'NOT IN EFFECT'
+  }
+} 
+
+
+
+
+export const getPlantCommunityCriteria = (indicatorPlants, criteria) => {
+    return indicatorPlants.reduce((acc, indicator) => { 
+      if(indicator.criteria === criteria)
+      {
+        acc.push({name: indicator.plantSpecies.name, value: indicator.value})
+      }
+      return acc
+    },[]
+    )
+  }
+
 
 export const createDateWithMoment = (day, month, year) => {
   if (month && day) {

@@ -1,8 +1,12 @@
 import {
   formatDateFromServer,
   getClientFullName,
-  findConfirmationWithClientId
+  findConfirmationWithClientId,
+  getPDFStatus 
+  
 } from '../helper'
+
+
 import { writeText } from './common'
 
 export const writeFrontPage = (doc, plan, logoImage) => {
@@ -37,7 +41,7 @@ export const writeFrontPage = (doc, plan, logoImage) => {
 
   writeText({
     doc,
-    text: 'Range Use Plan',
+    text: 'Range Use Plan\n\nSTATUS: ' + getPDFStatus(plan.status) + '\n',
     x: halfPageWidth,
     y: currY,
     fontSize: sectionTitleFontSize + 9,
@@ -45,11 +49,11 @@ export const writeFrontPage = (doc, plan, logoImage) => {
     fontColor: primaryColor,
     hAlign: 'center'
   })
-  currY += 20
+  currY += 40
 
   writeText({
     doc,
-    text: `#${forestFileId}`,
+    text: `${forestFileId}`,
     x: halfPageWidth,
     y: currY,
     fontSize: sectionTitleFontSize + 1,
@@ -81,7 +85,7 @@ export const writeFrontPage = (doc, plan, logoImage) => {
   currY += 8
 
   clients.map(client => {
-    let confirmationDate = 'Awaiting Signiture'
+    let confirmationDate = 'Awaiting Signature'
     const confirmation = findConfirmationWithClientId(client.id, confirmations)
     if (confirmation && confirmation.confirmed) {
       confirmationDate = formatDateFromServer(confirmation.updatedAt)
