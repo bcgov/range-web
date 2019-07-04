@@ -82,20 +82,20 @@ export const writeCriteria = (doc, y, pc) => {
     )
   )
 
-  rangeReadinesses.forEach(rangeReadiness => {
-    currY += 6
+  rangeReadinesses.forEach((rangeReadiness, index) => {
+    currY = (index ===0)? (currY + 6): (currY);    
     momentCurrY = currY // eslint-disable-line
     currY = Math.max(
       writeFieldText(
         doc,
-        'Indicator Plant',
+        index === 0? 'Indicator Plant': ' ',
         rangeReadiness.name,
         startX + moreMarginRight,
         momentCurrY
       ),
       writeFieldText(
         doc,
-        'Criteria (Leaf Stage)',
+        index === 0? 'Criteria (Leaf Stage)': ' ',
         rangeReadiness.value,
         startX + notesStartX,
         momentCurrY,
@@ -126,20 +126,22 @@ export const writeCriteria = (doc, y, pc) => {
     cusContentWidth: contentWidth - moreMarginRight
   })
 
-  stubbleHeights.forEach(stubbleHeight => {
-    currY += 6
+
+
+  stubbleHeights.forEach((stubbleHeight, index) => {
+    currY = (index ===0)? (currY + 6): (currY);
     momentCurrY = currY // eslint-disable-line
     currY = Math.max(
       writeFieldText(
         doc,
-        'Indicator Plant',
+        index === 0? 'Indicator Plant': ' ',
         stubbleHeight.name,
         startX + moreMarginRight,
         momentCurrY
       ),
       writeFieldText(
         doc,
-        'Height After Grazing (cm)',
+        index === 0? 'Height After Grazing (cm)': ' ',
         stubbleHeight.value,
         startX + notesStartX,
         momentCurrY,
