@@ -83,7 +83,8 @@ export const writeCriteria = (doc, y, pc) => {
   )
 
   rangeReadinesses.forEach((rangeReadiness, index) => {
-    currY = (index ===0)? (currY + 6): (currY);    momentCurrY = currY // eslint-disable-line
+    currY = (index ===0)? (currY + 6): (currY);    
+    momentCurrY = currY // eslint-disable-line
     currY = Math.max(
       writeFieldText(
         doc,
@@ -124,6 +125,7 @@ export const writeCriteria = (doc, y, pc) => {
     fontColor: lightGrayColor,
     cusContentWidth: contentWidth - moreMarginRight
   })
+
 
 
   stubbleHeights.forEach((stubbleHeight, index) => {
