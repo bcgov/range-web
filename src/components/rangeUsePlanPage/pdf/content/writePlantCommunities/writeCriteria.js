@@ -1,4 +1,4 @@
-import { getMonthAndDateIntegers, handleNullValue } from '../../helper'
+import { getMonthAndDateIntegers, handleNullValue,  getPlantCommunityCriteria } from '../../helper'
 import { writeText, writeFieldText } from '../common'
 
 export const writeCriteria = (doc, y, pc) => {
@@ -16,7 +16,7 @@ export const writeCriteria = (doc, y, pc) => {
     rangeReadinessDay: day,
     rangeReadinessMonth: month,
     rangeReadinessNote,
-    // indicatorPlants,
+    indicatorPlants,
     shrubUse
   } = pc
 
@@ -24,6 +24,9 @@ export const writeCriteria = (doc, y, pc) => {
 
   const communityTypeName = (communityType && communityType.name) || name
   const readinessMonthAndDate = getMonthAndDateIntegers(month, day)
+  const rangeReadinesses = getPlantCommunityCriteria(indicatorPlants, 'rangereadiness')
+  const stubbleHeights = getPlantCommunityCriteria(indicatorPlants, 'stubbleheight')
+
   const marginRight = 5
   const moreMarginRight = 9
   const notesStartX = halfPageWidth - 60 + moreMarginRight
@@ -79,6 +82,27 @@ export const writeCriteria = (doc, y, pc) => {
     )
   )
 
+  rangeReadinesses.forEach((rangeReadiness, index) => {
+    currY = (index ===0)? (currY + 6): (currY);    momentCurrY = currY // eslint-disable-line
+    currY = Math.max(
+      writeFieldText(
+        doc,
+        index === 0? 'Indicator Plant': ' ',
+        rangeReadiness.name,
+        startX + moreMarginRight,
+        momentCurrY
+      ),
+      writeFieldText(
+        doc,
+        index === 0? 'Criteria (Leaf Stage)': ' ',
+        rangeReadiness.value,
+        startX + notesStartX,
+        momentCurrY,
+        contentWidth - notesStartX - 1
+      )
+    ) 
+  })
+
   currY += 8
   currY = writeText({
     doc,
@@ -89,6 +113,7 @@ export const writeCriteria = (doc, y, pc) => {
     fontSize: fieldTitleFontSize
   })
 
+
   currY += 5
   currY = writeText({
     doc,
@@ -98,6 +123,29 @@ export const writeCriteria = (doc, y, pc) => {
     y: currY,
     fontColor: lightGrayColor,
     cusContentWidth: contentWidth - moreMarginRight
+  })
+
+
+  stubbleHeights.forEach((stubbleHeight, index) => {
+    currY = (index ===0)? (currY + 6): (currY);
+    momentCurrY = currY // eslint-disable-line
+    currY = Math.max(
+      writeFieldText(
+        doc,
+        index === 0? 'Indicator Plant': ' ',
+        stubbleHeight.name,
+        startX + moreMarginRight,
+        momentCurrY
+      ),
+      writeFieldText(
+        doc,
+        index === 0? 'Height After Grazing (cm)': ' ',
+        stubbleHeight.value,
+        startX + notesStartX,
+        momentCurrY,
+        contentWidth - notesStartX - 1
+      )
+    )
   })
 
   currY += 8

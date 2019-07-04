@@ -28,11 +28,7 @@ const ActionBtns = ({
   openConfirmationModal
 }) => {
   const downloadPDFBtn = (
-    <DownloadPDFBtn
-      key="downloadPDFBtn"
-      disabled={canDownload}
-      onClick={onViewPDFClicked}
-    />
+    <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
   )
   const saveDraftBtn = (
     <Button

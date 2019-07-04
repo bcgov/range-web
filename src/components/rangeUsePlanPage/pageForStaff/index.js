@@ -112,14 +112,13 @@ class PageForStaff extends Component {
   closePlanSubmissionModal = () =>
     this.setState({ isPlanSubmissionModalOpen: false })
 
-  renderActionBtns = (canEdit, canSubmit, canDownload) => {
+  renderActionBtns = (canEdit, canSubmit) => {
     const { isSavingAsDraft, isSubmitting } = this.state
 
     return (
       <ActionBtns
         canEdit={canEdit}
         canSubmit={canSubmit}
-        canDownload={canDownload}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}
@@ -153,7 +152,6 @@ class PageForStaff extends Component {
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canSubmit = utils.isStatusRecommendForSubmission(status)
-    const canDownload = !utils.cannotDownloadPDF(status)
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     const planTypeDescription = utils.getPlanTypeDescription(
@@ -198,7 +196,7 @@ class PageForStaff extends Component {
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(canEdit, canSubmit, canDownload)}
+                {this.renderActionBtns(canEdit, canSubmit)}
                 <UpdateStatusDropdown
                   plan={plan}
                   fetchPlan={fetchPlan}
