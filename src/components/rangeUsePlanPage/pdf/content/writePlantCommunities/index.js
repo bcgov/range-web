@@ -11,7 +11,8 @@ export const writePlantCommunities = (doc, y, pasture) => {
     contentWidth,
     sectionTitleFontSize,
     primaryColor,
-    fieldTitleFontSize
+    fieldTitleFontSize,
+    afterHeaderY
   } = config
   const { name: pastureName, plantCommunities = [] } = pasture
 
@@ -32,7 +33,8 @@ export const writePlantCommunities = (doc, y, pasture) => {
   currY += 7
 
   const marginRight = 5
-  plantCommunities.map(pc => {
+  let numberOfCommunities = plantCommunities.length
+  plantCommunities.map((pc, index) => {
     const {
       name,
       purposeOfAction: poa,
@@ -114,7 +116,9 @@ export const writePlantCommunities = (doc, y, pasture) => {
     )
 
     currY += 10
+    doc.addPage();
 
+    currY = afterHeaderY
     return null
   })
 

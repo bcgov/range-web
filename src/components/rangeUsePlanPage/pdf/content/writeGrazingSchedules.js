@@ -22,7 +22,7 @@ export const writeGrazingSchedules = (doc, plan) => {
     contentEndX
   } = doc.config
 
-  doc.addPage()
+  //doc.addPage()
   let currY = afterHeaderY
 
   const grazingSchedules = formatGrazingSchedules(plan)

@@ -29,7 +29,7 @@ export const writeText = ({
 }) => {
   const { blackColor, normalFontSize, contentWidth } = doc.config
 
-  let currY = checkYPositionAndAddPage(doc, y)
+  let currY = y; //= checkYPositionAndAddPage(doc, y)
 
   doc
     .setFontSize(fontSize || normalFontSize)
@@ -40,7 +40,7 @@ export const writeText = ({
   const text = t ? `${t}` : handleNullValue(t)
   const splitTextArray = doc.splitTextToSize(text, width)
   splitTextArray.map(textChunk => {
-    currY = checkYPositionAndAddPage(doc, currY)
+    currY = currY; //checkYPositionAndAddPage(doc, currY)
     // remove the first empty space
     if (textChunk[0] === ' ') {
       doc.textEx(
