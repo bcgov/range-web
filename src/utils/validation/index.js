@@ -1,2 +1,2 @@
-export * from './grazingSchedule';
-export * from './plan';
+export * from './grazingSchedule'
+export * from './plan'

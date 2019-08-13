@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { handleGrazingScheduleValidation } from '../../../utils';
-import { ErrorMessage } from '../../common';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { handleGrazingScheduleValidation } from '../../../utils'
+import { ErrorMessage } from '../../common'
 
 class WarningMessage extends Component {
   static propTypes = {
     pasturesMap: PropTypes.shape({}).isRequired,
     usage: PropTypes.arrayOf(PropTypes.object).isRequired,
     livestockTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    grazingSchedule: PropTypes.shape({}).isRequired,
-  };
+    grazingSchedule: PropTypes.shape({}).isRequired
+  }
 
   render() {
-    const {
+    const { pasturesMap, livestockTypes, usage, grazingSchedule } = this.props
+    const [result] = handleGrazingScheduleValidation(
+      grazingSchedule,
       pasturesMap,
       livestockTypes,
-      usage,
-      grazingSchedule,
-    } = this.props;
-    const [result] = handleGrazingScheduleValidation(grazingSchedule, pasturesMap, livestockTypes, usage);
-    const { message, error } = result || {};
+      usage
+    )
+    const { message, error } = result || {}
 
     if (!error) {
-      return null;
+      return null
     }
 
     return (
       <div className="rup__grazing-schedule__warning-message">
-        <ErrorMessage
-          message={message}
-        />
+        <ErrorMessage message={message} />
       </div>
-    );
+    )
   }
 }
 
-export default WarningMessage;
+export default WarningMessage

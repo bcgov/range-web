@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { Icon } from 'semantic-ui-react'
 
 class CollapsibleBox extends Component {
   static propTypes = {
@@ -12,13 +12,13 @@ class CollapsibleBox extends Component {
     collapsibleContent: PropTypes.node.isRequired,
     contentIndex: PropTypes.number.isRequired,
     activeContentIndex: PropTypes.number.isRequired,
-    onContentClicked: PropTypes.func.isRequired,
+    onContentClicked: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     headerRight: null,
     shouldHideHeaderRightWhenNotActive: false,
-    message: null,
+    message: null
   }
 
   render() {
@@ -30,45 +30,49 @@ class CollapsibleBox extends Component {
       headerRight,
       shouldHideHeaderRightWhenNotActive,
       message,
-      collapsibleContent,
-    } = this.props;
-    const isActive = activeContentIndex === contentIndex;
-    let additionalHeaderRight = headerRight;
+      collapsibleContent
+    } = this.props
+    const isActive = activeContentIndex === contentIndex
+    let additionalHeaderRight = headerRight
     if (shouldHideHeaderRightWhenNotActive) {
-      additionalHeaderRight = isActive ? headerRight : null;
+      additionalHeaderRight = isActive ? headerRight : null
     }
 
     return (
       <li className="collaspible-box">
         <div className="collaspible-box__header">
           <button
-            className={classnames(
-              'collaspible-box__header__title',
-              { 'collaspible-box__header__title--active': isActive },
-            )}
-            onClick={onContentClicked(contentIndex)}
-          >
+            className={classnames('collaspible-box__header__title', {
+              'collaspible-box__header__title--active': isActive
+            })}
+            onClick={onContentClicked(contentIndex)}>
             {header}
             <div className="collaspible-box__header__right">
               {additionalHeaderRight}
-              { isActive
-                ? <Icon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron up" />
-                : <Icon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron down" />
-              }
+              {isActive ? (
+                <Icon
+                  style={{ marginLeft: '7px', marginBottom: '3px' }}
+                  name="chevron up"
+                />
+              ) : (
+                <Icon
+                  style={{ marginLeft: '7px', marginBottom: '3px' }}
+                  name="chevron down"
+                />
+              )}
             </div>
           </button>
         </div>
         {message}
         <div
           className={classnames('collaspible-box__content', {
-            'collaspible-box__content--hidden': !isActive,
-          })}
-        >
+            'collaspible-box__content--hidden': !isActive
+          })}>
           {collapsibleContent}
         </div>
       </li>
-    );
+    )
   }
 }
 
-export default CollapsibleBox;
+export default CollapsibleBox

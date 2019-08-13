@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Dropdown, Icon } from 'semantic-ui-react';
-import debounce from 'lodash.debounce';
-import { Banner, PrimaryButton, ErrorMessage } from '../common';
-import * as strings from '../../constants/strings';
-import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
-import { getClientOption, getUserOption } from '../../utils';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Dropdown, Icon } from 'semantic-ui-react'
+import debounce from 'lodash.debounce'
+import { Banner, PrimaryButton, ErrorMessage } from '../common'
+import * as strings from '../../constants/strings'
+import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables'
+import { getClientOption, getUserOption } from '../../utils'
 
 class ManageClientPage extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       userId: null,
       clientNumber: null,
-      searchQuery: '',
-    };
-    this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000);
+      searchQuery: ''
+    }
+    this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000)
   }
 
   static propTypes = {
@@ -28,15 +28,15 @@ class ManageClientPage extends Component {
     isUpdatingClientIdOfUser: PropTypes.bool.isRequired,
     userUpdated: PropTypes.func.isRequired,
     isFetchingClients: PropTypes.bool.isRequired,
-    openConfirmationModal: PropTypes.func.isRequired,
-  };
+    openConfirmationModal: PropTypes.func.isRequired
+  }
 
   onUserChanged = (e, { value: userId }) => {
-    this.setState({ userId });
+    this.setState({ userId })
   }
 
   onClientChanged = (e, { value: clientNumber }) => {
-    this.setState({ clientNumber });
+    this.setState({ clientNumber })
   }
 
   openUpdateConfirmationModal = () => {
@@ -45,34 +45,34 @@ class ManageClientPage extends Component {
       header: strings.UPDATE_CLIENT_ID_CONFIRM_HEADER,
       content: strings.UPDATE_CLIENT_ID_CONFIRM_CONTENT,
       onYesBtnClicked: this.linkUserToClient,
-      closeAfterYesBtnClicked: true,
-    });
+      closeAfterYesBtnClicked: true
+    })
   }
 
   handleSearchChange = (e, { searchQuery }) => {
-    this.setState({ searchQuery });
-    this.props.searchClients(searchQuery);
+    this.setState({ searchQuery })
+    this.props.searchClients(searchQuery)
   }
 
   linkUserToClient = () => {
-    const { userId, clientNumber } = this.state;
-    const { usersMap, userUpdated, updateClientIdOfUser } = this.props;
+    const { userId, clientNumber } = this.state
+    const { usersMap, userUpdated, updateClientIdOfUser } = this.props
 
-    const onSuccess = (newUser) => {
+    const onSuccess = newUser => {
       const user = {
         ...usersMap[userId],
-        clientId: newUser.clientId,
-      };
+        clientId: newUser.clientId
+      }
 
-      userUpdated(user);
+      userUpdated(user)
 
       this.setState({
         userId: null,
-        clientNumber: null,
-      });
-    };
+        clientNumber: null
+      })
+    }
 
-    updateClientIdOfUser(userId, clientNumber).then(onSuccess);
+    updateClientIdOfUser(userId, clientNumber).then(onSuccess)
   }
 
   render() {
@@ -81,24 +81,20 @@ class ManageClientPage extends Component {
       clients,
       isFetchingClients,
       isUpdatingClientIdOfUser,
-      errorOccuredGettingUsers,
-    } = this.props;
-    const {
-      userId,
-      clientNumber,
-      searchQuery,
-    } = this.state;
+      errorOccuredGettingUsers
+    } = this.props
+    const { userId, clientNumber, searchQuery } = this.state
 
-    const userOptions = users.map(user => getUserOption(user));
-    const clientOptions = clients.map(client => getClientOption(client));
+    const userOptions = users.map(user => getUserOption(user))
+    const clientOptions = clients.map(client => getClientOption(client))
 
-    const isUpdateBtnEnabled = userId && clientNumber;
+    const isUpdateBtnEnabled = userId && clientNumber
 
-    let noResultsMessage = strings.NO_RESULTS_FOUND;
+    let noResultsMessage = strings.NO_RESULTS_FOUND
     if (isFetchingClients) {
-      noResultsMessage = 'Fetching clients...';
+      noResultsMessage = 'Fetching clients...'
     } else if (!searchQuery) {
-      noResultsMessage = strings.TYPE_CLIENT_NAME;
+      noResultsMessage = strings.TYPE_CLIENT_NAME
     }
 
     return (
@@ -110,11 +106,14 @@ class ManageClientPage extends Component {
 
         <div className="manage-client__content">
           <div className="manage-client__steps">
-            {errorOccuredGettingUsers &&
+            {errorOccuredGettingUsers && (
               <ErrorMessage message={strings.GET_USERS_ERROR} />
-            }
+            )}
 
-            <h3>Step 1: Select User</h3>
+            <h3>
+              Step 1: Search and select the user (agreement holder) you&apos;d
+              like to link:
+            </h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_USERS_DROPDOWN}
               placeholder="Username"
@@ -127,7 +126,7 @@ class ManageClientPage extends Component {
               clearable
             />
 
-            <h3>Step 2: Search and Select Corresponding Client</h3>
+            <h3>Step 2: Search and select the corresponding client:</h3>
             <Dropdown
               id={ELEMENT_ID.MANAGE_CLIENT_CLIENTS_DROPDOWN}
               placeholder={strings.TYPE_CLIENT_NAME}
@@ -149,14 +148,14 @@ class ManageClientPage extends Component {
                 loading={isUpdatingClientIdOfUser}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
-                content="Submit"
+                content="Link Client"
               />
             </div>
           </div>
         </div>
       </section>
-    );
+    )
   }
 }
 
-export default ManageClientPage;
+export default ManageClientPage

@@ -1,4 +1,4 @@
-import { handleGrazingScheduleValidation } from './grazingSchedule';
+import { handleGrazingScheduleValidation } from './grazingSchedule'
 
 /**
  * Validate a range use plan
@@ -15,22 +15,26 @@ export const handleRupValidation = (
   pasturesMap = {},
   grazingSchedulesMap = {},
   livestockTypes = [],
-  usage = [],
+  usage = []
 ) => {
-  const grazingSchedules = plan.grazingSchedules.map(id => grazingSchedulesMap[id]) || [];
+  const grazingSchedules =
+    plan.grazingSchedules.map(id => grazingSchedulesMap[id]) || []
 
-  let errors = [];
-  grazingSchedules.map((schedule) => {
+  let errors = []
+  grazingSchedules.map(schedule => {
     errors = [
       ...errors,
-      ...handleGrazingScheduleValidation(schedule, pasturesMap, livestockTypes, usage),
-    ];
-    return undefined;
-  });
+      ...handleGrazingScheduleValidation(
+        schedule,
+        pasturesMap,
+        livestockTypes,
+        usage
+      )
+    ]
+    return undefined
+  })
 
-  return errors;
-};
+  return errors
+}
 
-export const isPlanAmendment = plan => (
-  plan && plan.amendmentTypeId
-);
+export const isPlanAmendment = plan => plan && plan.amendmentTypeId

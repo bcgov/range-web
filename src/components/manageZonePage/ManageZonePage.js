@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Dropdown } from 'semantic-ui-react';
-import { Banner, PrimaryButton, ErrorMessage } from '../common';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Dropdown } from 'semantic-ui-react'
+import { Banner, PrimaryButton, ErrorMessage } from '../common'
 import {
-  MANAGE_ZONE_BANNER_CONTENT, MANAGE_ZONE_BANNER_HEADER,
-  UPDATE_CONTACT_CONFIRM_CONTENT, UPDATE_CONTACT_CONFIRM_HEADER, GET_ZONES_ERROR,
-} from '../../constants/strings';
-import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables';
-import { getZoneOption, getContactOption } from '../../utils';
+  MANAGE_ZONE_BANNER_CONTENT,
+  MANAGE_ZONE_BANNER_HEADER,
+  UPDATE_CONTACT_CONFIRM_CONTENT,
+  UPDATE_CONTACT_CONFIRM_HEADER,
+  GET_ZONES_ERROR
+} from '../../constants/strings'
+import { ELEMENT_ID, CONFIRMATION_MODAL_ID } from '../../constants/variables'
+import { getZoneOption, getContactOption } from '../../utils'
 
 export class ManageZonePage extends Component {
   static propTypes = {
@@ -18,51 +21,47 @@ export class ManageZonePage extends Component {
     zoneUpdated: PropTypes.func.isRequired,
     updateUserIdOfZone: PropTypes.func.isRequired,
     isAssigning: PropTypes.bool.isRequired,
-    openConfirmationModal: PropTypes.func.isRequired,
-  };
+    openConfirmationModal: PropTypes.func.isRequired
+  }
 
   state = {
     newContactId: null,
-    zoneId: null,
+    zoneId: null
   }
 
   onZoneChanged = (e, { value: zoneId }) => {
     this.setState({
-      zoneId,
-    });
+      zoneId
+    })
   }
 
   onContactChanged = (e, { value: newContactId }) => {
-    this.setState({ newContactId });
+    this.setState({ newContactId })
   }
 
   assignStaffToZone = () => {
-    const { zoneId, newContactId: userId } = this.state;
-    const {
-      zonesMap,
-      updateUserIdOfZone,
-      zoneUpdated,
-    } = this.props;
+    const { zoneId, newContactId: userId } = this.state
+    const { zonesMap, updateUserIdOfZone, zoneUpdated } = this.props
 
-    const staffAssigned = (assignedUser) => {
+    const staffAssigned = assignedUser => {
       // create a new zone obj with the new assigned user
       const zone = {
         ...zonesMap[zoneId],
         user: assignedUser,
-        userId: assignedUser.id,
-      };
+        userId: assignedUser.id
+      }
 
       // then update this zone in Redux store
-      zoneUpdated(zone);
+      zoneUpdated(zone)
 
       // refresh the view
       this.setState({
         newContactId: null,
-        zoneId: null,
-      });
-    };
+        zoneId: null
+      })
+    }
 
-    updateUserIdOfZone(zoneId, userId).then(staffAssigned);
+    updateUserIdOfZone(zoneId, userId).then(staffAssigned)
   }
 
   openUpdateConfirmationModal = () => {
@@ -71,17 +70,17 @@ export class ManageZonePage extends Component {
       header: UPDATE_CONTACT_CONFIRM_HEADER,
       content: UPDATE_CONTACT_CONFIRM_CONTENT,
       onYesBtnClicked: this.assignStaffToZone,
-      closeAfterYesBtnClicked: true,
-    });
+      closeAfterYesBtnClicked: true
+    })
   }
 
   render() {
-    const { zoneId, newContactId } = this.state;
-    const { users, zones, isAssigning, errorOccuredGettingZones } = this.props;
+    const { zoneId, newContactId } = this.state
+    const { users, zones, isAssigning, errorOccuredGettingZones } = this.props
 
-    const zoneOptions = zones.map(zone => getZoneOption(zone));
-    const contactOptions = users.map(user => getContactOption(user));
-    const isUpdateBtnEnabled = newContactId && zoneId;
+    const zoneOptions = zones.map(zone => getZoneOption(zone))
+    const contactOptions = users.map(user => getContactOption(user))
+    const isUpdateBtnEnabled = newContactId && zoneId
 
     return (
       <section className="manage-zone">
@@ -92,13 +91,14 @@ export class ManageZonePage extends Component {
 
         <div className="manage-zone__content">
           <div className="manage-zone__steps">
-            {errorOccuredGettingZones &&
-              <ErrorMessage
-                message={GET_ZONES_ERROR}
-              />
-            }
+            {errorOccuredGettingZones && (
+              <ErrorMessage message={GET_ZONES_ERROR} />
+            )}
 
-            <h3>Step 1: Select a zone</h3>
+            <h3>
+              Step 1: Search and select the user (range staff member) you&apos;d
+              like to link:
+            </h3>
             <div className="manage-zone__step-one">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_ZONES_DROPDOWN}
@@ -114,7 +114,7 @@ export class ManageZonePage extends Component {
               />
             </div>
 
-            <h3>Step 2: Assign a new staff</h3>
+            <h3>Step 2: Search and select the corresponding zone:</h3>
             <div className="manage-zone__step-two">
               <Dropdown
                 id={ELEMENT_ID.MANAGE_ZONE_CONTACTS_DROPDOWN}
@@ -135,14 +135,14 @@ export class ManageZonePage extends Component {
                 loading={isAssigning}
                 onClick={this.openUpdateConfirmationModal}
                 disabled={!isUpdateBtnEnabled}
-                content="Submit"
+                content="Link Zone"
               />
             </div>
           </div>
         </div>
       </section>
-    );
+    )
   }
 }
 
-export default ManageZonePage;
+export default ManageZonePage

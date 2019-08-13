@@ -1,12 +1,12 @@
-import { normalize } from 'normalizr';
-import planReducer from '../../reducers/planReducer';
-import { storePlan } from '../../actions/storeActions';
-import * as schema from '../../actionCreators/schema';
+import { normalize } from 'normalizr'
+import planReducer from '../../reducers/planReducer'
+import { storePlan } from '../../actions/storeActions'
+import * as schema from '../../actionCreators/schema'
 
 const initialState = {
   plans: {
     byId: {},
-    allIds: [],
+    allIds: []
   },
   pastures: {},
   plantCommunities: {},
@@ -15,8 +15,8 @@ const initialState = {
   confirmations: {},
   planStatusHistory: {},
   managementConsiderations: {},
-  additionalRequirements: {},
-};
+  additionalRequirements: {}
+}
 
 const mockPlanData = {
   id: 'planId',
@@ -28,10 +28,10 @@ const mockPlanData = {
       plantCommunities: [
         {
           id: 'plantCommunityId',
-          approved: false,
-        },
-      ],
-    },
+          approved: false
+        }
+      ]
+    }
   ],
   grazingSchedules: [
     {
@@ -40,47 +40,47 @@ const mockPlanData = {
       grazingScheduleEntries: [
         {
           id: 'grazingScheduleEntryId',
-          narative: 'narative',
-        },
-      ],
-    },
+          narative: 'narative'
+        }
+      ]
+    }
   ],
   ministerIssues: [
     {
       id: 'ministerIssueId',
-      detail: 'detail',
-    },
+      detail: 'detail'
+    }
   ],
   confirmations: [
     {
       id: 'confirmationId',
-      clientId: '00000000',
-    },
+      clientId: '00000000'
+    }
   ],
   planStatusHistory: [
     {
       id: 'planStatusHistoryId',
-      note: 'note',
-    },
+      note: 'note'
+    }
   ],
   managementConsiderations: [
     {
       id: 'managementConsiderationId',
-      detail: 'detail',
-    },
+      detail: 'detail'
+    }
   ],
   additionalRequirements: [
     {
       id: 'additionalRequirementId',
-      detail: 'detail',
-    },
-  ],
-};
+      detail: 'detail'
+    }
+  ]
+}
 
 const mockState = {
   plans: {
     byId: {
-      'planId': {
+      planId: {
         id: 'planId',
         rangeName: 'hello',
         pastures: ['pastureId'],
@@ -89,84 +89,84 @@ const mockState = {
         confirmations: ['confirmationId'],
         planStatusHistory: ['planStatusHistoryId'],
         managementConsiderations: ['managementConsiderationId'],
-        additionalRequirements: ['additionalRequirementId'],
-      },
+        additionalRequirements: ['additionalRequirementId']
+      }
     },
-    allIds: ['planId'],
+    allIds: ['planId']
   },
   pastures: {
-    'pastureId': {
+    pastureId: {
       id: 'pastureId',
       name: 'Pasture 1',
-      plantCommunities: [
-        'plantCommunityId',
-      ],
-    },
+      plantCommunities: ['plantCommunityId']
+    }
   },
   plantCommunities: {
-    'plantCommunityId': {
+    plantCommunityId: {
       id: 'plantCommunityId',
-      approved: false,
-    },
+      approved: false
+    }
   },
   grazingSchedules: {
-    'grazingScheduleId': {
+    grazingScheduleId: {
       id: 'grazingScheduleId',
       year: 2018,
       grazingScheduleEntries: [
         {
           id: 'grazingScheduleEntryId',
-          narative: 'narative',
-        },
-      ],
-    },
+          narative: 'narative'
+        }
+      ]
+    }
   },
   ministerIssues: {
-    'ministerIssueId': {
+    ministerIssueId: {
       id: 'ministerIssueId',
-      detail: 'detail',
-    },
+      detail: 'detail'
+    }
   },
   confirmations: {
-    'confirmationId': {
+    confirmationId: {
       id: 'confirmationId',
-      clientId: '00000000',
-    },
+      clientId: '00000000'
+    }
   },
   planStatusHistory: {
-    'planStatusHistoryId': {
+    planStatusHistoryId: {
       id: 'planStatusHistoryId',
-      note: 'note',
-    },
+      note: 'note'
+    }
   },
   managementConsiderations: {
-    'managementConsiderationId': {
+    managementConsiderationId: {
       id: 'managementConsiderationId',
-      detail: 'detail',
-    },
+      detail: 'detail'
+    }
   },
   additionalRequirements: {
-    'additionalRequirementId': {
+    additionalRequirementId: {
       id: 'additionalRequirementId',
-      detail: 'detail',
-    },
-  },
-};
+      detail: 'detail'
+    }
+  }
+}
 
 describe('Plan reducer', () => {
   it('Initialized with the initial state', () => {
-    expect(planReducer(undefined, {})).toEqual(initialState);
-  });
+    expect(planReducer(undefined, {})).toEqual(initialState)
+  })
 
-  describe('Handles \'STORE_PLAN\'', () => {
+  describe("Handles 'STORE_PLAN'", () => {
     it('Correctly stores the plans and related fields with initial state', () => {
-      const normalized = normalize(mockPlanData, schema.plan);
-      expect(planReducer(initialState, storePlan(normalized))).toEqual(mockState);
-    });
+      const normalized = normalize(mockPlanData, schema.plan)
+      expect(planReducer(initialState, storePlan(normalized))).toEqual(
+        mockState
+      )
+    })
 
     it('Correctly stores the plans and related fields with pre-existing state', () => {
-      const normalized = normalize(mockPlanData, schema.plan);
-      expect(planReducer(mockState, storePlan(normalized))).toEqual(mockState);
-    });
-  });
-});
+      const normalized = normalize(mockPlanData, schema.plan)
+      expect(planReducer(mockState, storePlan(normalized))).toEqual(mockState)
+    })
+  })
+})

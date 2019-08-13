@@ -24,25 +24,23 @@ def notifySlack(text, channel, url, attachments, icon) {
 }
 
 // See https://github.com/jenkinsci/kubernetes-plugin
-podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkins', cloud: 'openshift', containers: [
-  containerTemplate(
-    name: 'jnlp',
-    image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:10',
-    resourceRequestCpu: '1500m',
-    resourceLimitCpu: '2000m',
-    resourceRequestMemory: '1Gi',
-    resourceLimitMemory: '2Gi',
-    workingDir: '/tmp',
-    command: '',
-    args: '${computer.jnlpmac} ${computer.name}',
-    alwaysPullImage: false
-    // envVars: [
-    //     secretEnvVar(key: 'BDD_DEVICE_FARM_USER', secretName: 'bdd-credentials', secretKey: 'username'),
-    //     secretEnvVar(key: 'BDD_DEVICE_FARM_PASSWD', secretName: 'bdd-credentials', secretKey: 'password'),
-    //     secretEnvVar(key: 'ANDROID_DECRYPT_KEY', secretName: 'android-decrypt-key', secretKey: 'decryptKey')
-    //   ]
-  )
-]) {
+podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkins', cloud: 'openshift',
+  containers: [
+    containerTemplate(
+      name: 'jnlp',
+      image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:10',
+      resourceRequestCpu: '1500m',
+      resourceLimitCpu: '2000m',
+      resourceRequestMemory: '1Gi',
+      resourceLimitMemory: '2Gi',
+      workingDir: '/var/tmp',
+      command: '',
+      args: '${computer.jnlpmac} ${computer.name}',
+      alwaysPullImage: false
+    )
+  ],
+  volumes: [persistentVolumeClaim(claimName: 'jenkins-workspace', mountPath: '/var/tmp/workspace')]
+) {
   node("${POD_LABEL}") {
     SLACK_TOKEN = sh (
       script: """oc get secret/slack -o template --template="{{.data.token}}" | base64 --decode""",
@@ -66,6 +64,8 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
       sh "npm ci"
       sh "npm -v"
       sh "node -v"
+     // sh "prettier -v"
+     // sh "eslint -v"
     }
 
     stage('Test') {

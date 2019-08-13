@@ -1,16 +1,16 @@
-import React, { Fragment } from 'react';
-import { Button, Icon } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
-import { DOWNLOAD_PDF } from '../../constants/strings';
+import React, { Fragment } from 'react'
+import { Button, Icon } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import { DOWNLOAD_PDF } from '../../constants/strings'
 
 const propTypes = {
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
+  disabled: PropTypes.bool
+}
 
 const defaultProps = {
-  disabled: false,
-};
+  disabled: false
+}
 
 const DownloadPDFBtn = ({ onClick, disabled }) => (
   <Fragment>
@@ -29,14 +29,13 @@ const DownloadPDFBtn = ({ onClick, disabled }) => (
       inverted
       disabled={disabled}
       onClick={onClick}
-      style={{ marginRight: '0' }}
-    >
+      style={{ marginRight: '0' }}>
       <Icon name="file pdf outline" />
       {DOWNLOAD_PDF}
     </Button>
   </Fragment>
-);
+)
 
-DownloadPDFBtn.propTypes = propTypes;
-DownloadPDFBtn.defaultProps = defaultProps;
-export default DownloadPDFBtn;
+DownloadPDFBtn.propTypes = propTypes
+DownloadPDFBtn.defaultProps = defaultProps
+export default DownloadPDFBtn

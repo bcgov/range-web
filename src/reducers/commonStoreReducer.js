@@ -1,63 +1,61 @@
-import * as actionTypes from '../constants/actionTypes';
-import { getReferencesFromLocalStorage } from '../utils';
+import * as actionTypes from '../constants/actionTypes'
+import { getReferencesFromLocalStorage } from '../utils'
 
 const initialState = {
-  references: getReferencesFromLocalStorage ? getReferencesFromLocalStorage() : {},
+  references: getReferencesFromLocalStorage
+    ? getReferencesFromLocalStorage()
+    : {},
   zones: {},
   zoneIds: [],
   users: {},
-  userIds: [],
-};
+  userIds: []
+}
 
 const updateZone = (state, action) => {
-  const zone = { ...action.payload };
+  const zone = { ...action.payload }
   return {
     ...state,
     zones: {
       ...state.zones,
-      [zone.id]: zone,
-    },
-  };
-};
+      [zone.id]: zone
+    }
+  }
+}
 
 const storeZones = (state, action) => {
-  const { entities, result } = action.payload;
-  const { zones } = entities;
+  const { entities, result } = action.payload
+  const { zones } = entities
   return {
     ...state,
     zones: {
-      ...zones,
+      ...zones
     },
-    zoneIds: [
-      ...result,
-    ],
-  };
-};
+    zoneIds: [...result]
+  }
+}
 
 const updateUser = (state, action) => {
-  const user = { ...action.payload };
+  const user = { ...action.payload }
   return {
     ...state,
     users: {
       ...state.users,
-      [user.id]: user,
-    },
-  };
-};
+      [user.id]: user
+    }
+  }
+}
 
 const storeUsers = (state, action) => {
-  const { entities, result } = action.payload;
-  const { users } = entities;
+  const { entities, result } = action.payload
+  const { users } = entities
   return {
     ...state,
     users: {
-      ...users,
+      ...users
     },
-    userIds: [
-      ...result,
-    ],
-  };
-};
+    userIds: [...result]
+  }
+}
 
 const commonStoreReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -65,27 +63,27 @@ const commonStoreReducer = (state = initialState, action) => {
       return {
         ...state,
         references: {
-          ...action.payload,
-        },
-      };
+          ...action.payload
+        }
+      }
     case actionTypes.STORE_ZONES:
-      return storeZones(state, action);
+      return storeZones(state, action)
     case actionTypes.ZONE_UPDATED:
-      return updateZone(state, action);
+      return updateZone(state, action)
     case actionTypes.STORE_USERS:
-      return storeUsers(state, action);
+      return storeUsers(state, action)
     case actionTypes.USER_UPDATED:
-      return updateUser(state, action);
+      return updateUser(state, action)
     default:
-      return state;
+      return state
   }
-};
+}
 
 // private selectors
-export const getZones = state => state.zoneIds.map(id => state.zones[id]);
-export const getZonesMap = state => state.zones;
-export const getReferences = state => state.references;
-export const getUsers = state => state.userIds.map(id => state.users[id]);
-export const getUsersMap = state => state.users;
+export const getZones = state => state.zoneIds.map(id => state.zones[id])
+export const getZonesMap = state => state.zones
+export const getReferences = state => state.references
+export const getUsers = state => state.userIds.map(id => state.users[id])
+export const getUsersMap = state => state.users
 
-export default commonStoreReducer;
+export default commonStoreReducer

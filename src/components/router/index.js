@@ -18,64 +18,89 @@
 // Created by Kyubin Han.
 //
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import PublicRoute from './PublicRoute';
-import ProtectedRoute from './ProtectedRoute';
-import { getUser } from '../../reducers/rootReducer';
-import * as Routes from '../../constants/routes';
-import { LoadableComponent } from './LoadableComponent';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import PublicRoute from './PublicRoute'
+import ProtectedRoute from './ProtectedRoute'
+import { getUser } from '../../reducers/rootReducer'
+import * as Routes from '../../constants/routes'
+import { LoadableComponent } from './LoadableComponent'
 
-const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlanPage'));
-const LoginPage = LoadableComponent(() => import('../loginPage'));
-const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
-const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
-const ManageZone = LoadableComponent(() => import('../manageZonePage'));
-const ManageClient = LoadableComponent(() => import('../manageClientPage'));
-const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
-const PDFView = LoadableComponent(() => import('../rangeUsePlanPage/pdf/PDFView'));
+const SelectRangeUsePlan = LoadableComponent(() =>
+  import('../selectRangeUsePlanPage')
+)
+const LoginPage = LoadableComponent(() => import('../loginPage'))
+const ReturnPage = LoadableComponent(() => import('../ReturnPage'))
+const PageNotFound = LoadableComponent(() => import('../PageNotFound'))
+const ManageZone = LoadableComponent(() => import('../manageZonePage'))
+const ManageClient = LoadableComponent(() => import('../manageClientPage'))
+const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'))
+const PDFView = LoadableComponent(() =>
+  import('../rangeUsePlanPage/pdf/PDFView')
+)
 
 class Router extends Component {
   static propTypes = {
-    user: PropTypes.shape({}),
+    user: PropTypes.shape({})
   }
 
   static defaultProps = {
-    user: null,
+    user: null
   }
 
   render() {
-    const { user } = this.props;
+    const { user } = this.props
 
     return (
       <BrowserRouter>
         <Switch>
           {/* Admin Routes */}
-          <ProtectedRoute path={Routes.MANAGE_ZONE} component={ManageZone} user={user} />
-          <ProtectedRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
+          <ProtectedRoute
+            path={Routes.MANAGE_ZONE}
+            component={ManageZone}
+            user={user}
+          />
+          <ProtectedRoute
+            path={Routes.MANAGE_CLIENT}
+            component={ManageClient}
+            user={user}
+          />
           {/* Admin Routes End */}
 
-          <ProtectedRoute path={Routes.HOME} component={SelectRangeUsePlan} user={user} />
-          <ProtectedRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} user={user} />
-          <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={PDFView} user={user} />
+          <ProtectedRoute
+            path={Routes.HOME}
+            component={SelectRangeUsePlan}
+            user={user}
+          />
+          <ProtectedRoute
+            path={Routes.RANGE_USE_PLAN_WITH_PARAM}
+            component={RangeUsePlan}
+            user={user}
+          />
+          <ProtectedRoute
+            path={Routes.EXPORT_PDF_WITH_PARAM}
+            component={PDFView}
+            user={user}
+          />
 
           <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
           <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
-          <Route path="/" exact render={() => (<Redirect to={Routes.LOGIN} />)} />
+          <Route path="/" exact render={() => <Redirect to={Routes.LOGIN} />} />
           <Route component={PageNotFound} />
         </Switch>
       </BrowserRouter>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => (
-  {
-    user: getUser(state),
-  }
-);
+const mapStateToProps = state => ({
+  user: getUser(state)
+})
 
-export default connect(mapStateToProps, null)(Router);
+export default connect(
+  mapStateToProps,
+  null
+)(Router)

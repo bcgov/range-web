@@ -18,42 +18,50 @@
 // Created by Kyubin Han.
 //
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Navbar from './Navbar';
-import Toasts from './Toasts';
-import ConfirmModals from './ConfirmModals';
-import InputModal from './InputModal';
-import SignInModal from './SignInModal';
-import UsernameInputModal from './UsernameInputModal';
-import { Footer } from '../common';
-import { registerAxiosInterceptors } from '../../utils';
-import { fetchReferences, signOut, resetTimeoutForReAuth } from '../../actionCreators';
-import { reauthenticate, storeAuthData } from '../../actions';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import Navbar from './Navbar'
+import Toasts from './Toasts'
+import ConfirmModals from './ConfirmModals'
+import InputModal from './InputModal'
+import SignInModal from './SignInModal'
+import UsernameInputModal from './UsernameInputModal'
+import { Footer } from '../common'
+import { registerAxiosInterceptors } from '../../utils'
+import {
+  fetchReferences,
+  signOut,
+  resetTimeoutForReAuth
+} from '../../actionCreators'
+import { reauthenticate, storeAuthData } from '../../actions'
 
 export class MainPage extends Component {
   static propTypes = {
     component: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired,
     fetchReferences: PropTypes.func.isRequired,
+    reauthenticate: PropTypes.func.isRequired,
+    resetTimeoutForReAuth: PropTypes.func.isRequired,
+    storeAuthData: PropTypes.func.isRequired
   }
 
   componentWillMount() {
-    const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props;
-    resetTimeoutForReAuth(reauthenticate);
-    registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate, storeAuthData);
+    const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props
+    resetTimeoutForReAuth(reauthenticate)
+    registerAxiosInterceptors(
+      resetTimeoutForReAuth,
+      reauthenticate,
+      storeAuthData
+    )
   }
 
   componentDidMount() {
-    this.props.fetchReferences();
+    this.props.fetchReferences()
   }
 
   render() {
-    const {
-      component: Component,
-      ...rest
-    } = this.props;
+    const { component: Component, ...rest } = this.props
 
     return (
       <main>
@@ -73,14 +81,17 @@ export class MainPage extends Component {
 
         <Footer withTopMargin />
       </main>
-    );
+    )
   }
 }
 
-export default connect(null, {
-  signOut,
-  reauthenticate,
-  fetchReferences,
-  resetTimeoutForReAuth,
-  storeAuthData,
-})(MainPage);
+export default connect(
+  null,
+  {
+    signOut,
+    reauthenticate,
+    fetchReferences,
+    resetTimeoutForReAuth,
+    storeAuthData
+  }
+)(MainPage)

@@ -1,70 +1,81 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Icon, Dropdown } from 'semantic-ui-react';
-import uuid from 'uuid-v4';
-import { managementConsiderationAdded, managementConsiderationUpdated, openConfirmationModal, managementConsiderationDeleted } from '../../../actions';
-import { deleteRUPManagementConsideration } from '../../../actionCreators';
-import { PrimaryButton } from '../../common';
-import { REFERENCE_KEY } from '../../../constants/variables';
-import EditableManagementConsiderationRow from './EditableManagementConsiderationRow';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Icon, Dropdown } from 'semantic-ui-react'
+import uuid from 'uuid-v4'
+import {
+  managementConsiderationAdded,
+  managementConsiderationUpdated,
+  openConfirmationModal,
+  managementConsiderationDeleted
+} from '../../../actions'
+import { deleteRUPManagementConsideration } from '../../../actionCreators'
+import { PrimaryButton } from '../../common'
+import { REFERENCE_KEY } from '../../../constants/variables'
+import EditableManagementConsiderationRow from './EditableManagementConsiderationRow'
 
 class EditableManagementConsiderations extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
     managementConsiderationsMap: PropTypes.shape({}).isRequired,
+    managementConsiderationAdded: PropTypes.func.isRequired,
+    references: PropTypes.shape({}).isRequired
   }
 
   onConsiderationOptionClicked = (e, { value: considerationTypeId }) => {
-    const { plan, managementConsiderationAdded } = this.props;
-    const { id: planId } = plan;
+    const { plan, managementConsiderationAdded } = this.props
+    const { id: planId } = plan
     const managementConsideration = {
       id: uuid(),
       considerationTypeId,
       detail: '',
       url: '',
-      planId,
-    };
+      planId
+    }
 
     managementConsiderationAdded({
       planId,
-      managementConsideration,
-    });
+      managementConsideration
+    })
   }
 
-  renderAdditionalRequirement = (managementConsideration) => {
+  renderAdditionalRequirement = managementConsideration => {
     return (
       <EditableManagementConsiderationRow
         key={managementConsideration.id}
         managementConsideration={managementConsideration}
         {...this.props}
       />
-    );
+    )
   }
 
   renderManagementConsiderations = (managementConsiderations = []) => {
-    const isEmpty = managementConsiderations.length === 0;
+    const isEmpty = managementConsiderations.length === 0
 
     return isEmpty ? (
-      <div className="rup__m-considerations__no-content">No management considerations provided</div>
+      <div className="rup__m-considerations__no-content">
+        No management considerations provided
+      </div>
     ) : (
       managementConsiderations.map(this.renderAdditionalRequirement)
-    );
+    )
   }
 
   render() {
-    const { plan, managementConsiderationsMap, references } = this.props;
-    const managementConsiderationIds = plan && plan.managementConsiderations;
-    const managementConsiderations = managementConsiderationIds &&
-      managementConsiderationIds.map(id => managementConsiderationsMap[id]);
-    const considerTypes = references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
-    const considerTypeOptions = considerTypes.map((ct) => {
+    const { plan, managementConsiderationsMap, references } = this.props
+    const managementConsiderationIds = plan && plan.managementConsiderations
+    const managementConsiderations =
+      managementConsiderationIds &&
+      managementConsiderationIds.map(id => managementConsiderationsMap[id])
+    const considerTypes =
+      references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || []
+    const considerTypeOptions = considerTypes.map(ct => {
       return {
         key: ct.id,
         value: ct.id,
-        text: ct.name,
-      };
-    });
+        text: ct.name
+      }
+    })
 
     return (
       <div className="rup__m-considerations">
@@ -72,7 +83,8 @@ class EditableManagementConsiderations extends Component {
         <div className="rup__divider" />
 
         <div className="rup__m-considerations__note">
-          Content in this section is non-legal and is intended to provide additional information about management within the agreement area.
+          Content in this section is non-legal and is intended to provide
+          additional information about management within the agreement area.
         </div>
 
         <div className="rup__m-considerations__box">
@@ -85,11 +97,7 @@ class EditableManagementConsiderations extends Component {
 
           <Dropdown
             trigger={
-              <PrimaryButton
-                inverted
-                compact
-                style={{ marginTop: '10px' }}
-              >
+              <PrimaryButton inverted compact style={{ marginTop: '10px' }}>
                 <Icon name="add circle" />
                 Add Consideration
               </PrimaryButton>
@@ -102,14 +110,17 @@ class EditableManagementConsiderations extends Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default connect(null, {
-  managementConsiderationUpdated,
-  openConfirmationModal,
-  deleteRUPManagementConsideration,
-  managementConsiderationAdded,
-  managementConsiderationDeleted,
-})(EditableManagementConsiderations);
+export default connect(
+  null,
+  {
+    managementConsiderationUpdated,
+    openConfirmationModal,
+    deleteRUPManagementConsideration,
+    managementConsiderationAdded,
+    managementConsiderationDeleted
+  }
+)(EditableManagementConsiderations)

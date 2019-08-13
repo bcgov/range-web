@@ -1,6 +1,6 @@
-import React from 'react';
-import Loadable from 'react-loadable';
-import { Loading, ErrorPage } from '../common';
+import React from 'react'
+import Loadable from 'react-loadable'
+import { Loading, ErrorPage } from '../common'
 
 /*
   Code Splitting with React Router
@@ -8,19 +8,22 @@ import { Loading, ErrorPage } from '../common';
 */
 
 const LoadingComponent = ({ isLoading, error }) => {
-  let component = <div />;
-  if (isLoading) { // Handle the loading state
-    component = <Loading />;
-  } else if (error) { // Handle the error state
-    component = <ErrorPage message="Sorry, there was a problem loading the page." />;
+  let component = <div />
+  if (isLoading) {
+    // Handle the loading state
+    component = <Loading />
+  } else if (error) {
+    // Handle the error state
+    component = (
+      <ErrorPage message="Sorry, there was a problem loading the page." />
+    )
   }
 
-  return component;
-};
+  return component
+}
 
-export const LoadableComponent = Component => (
+export const LoadableComponent = Component =>
   Loadable({
     loader: Component,
-    loading: LoadingComponent,
+    loading: LoadingComponent
   })
-);

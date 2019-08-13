@@ -1,11 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
-import { roundTo1Decimal, calcCrownTotalAUMs, handleNullValue } from '../../../utils';
-import * as strings from '../../../constants/strings';
-import { REFERENCE_KEY, IMAGE_SRC } from '../../../constants/variables';
-import { CollapsibleBox } from '../../common';
-import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { Table } from 'semantic-ui-react'
+import {
+  roundTo1Decimal,
+  calcCrownTotalAUMs,
+  handleNullValue
+} from '../../../utils'
+import * as strings from '../../../constants/strings'
+import { REFERENCE_KEY, IMAGE_SRC } from '../../../constants/variables'
+import { CollapsibleBox } from '../../common'
+import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 
 class GrazingScheduleBox extends Component {
   static propTypes = {
@@ -15,17 +19,13 @@ class GrazingScheduleBox extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onScheduleClicked: PropTypes.func.isRequired,
-  };
+    onScheduleClicked: PropTypes.func.isRequired
+  }
 
-  renderScheduleEntry = (entry) => {
+  renderScheduleEntry = entry => {
     return (
-      <GrazingScheduleEntryRow
-        key={entry.id}
-        entry={entry}
-        {...this.props}
-      />
-    );
+      <GrazingScheduleEntryRow key={entry.id} entry={entry} {...this.props} />
+    )
   }
 
   render() {
@@ -36,14 +36,16 @@ class GrazingScheduleBox extends Component {
       onScheduleClicked,
       usage,
       references,
-      pasturesMap,
-    } = this.props;
-    const grazingScheduleEntries = schedule.grazingScheduleEntries || [];
-    const { id, year, narative } = schedule;
-    const yearUsage = usage.find(u => u.year === year);
-    const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0;
-    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
-    const crownTotalAUMs = roundTo1Decimal(calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes));
+      pasturesMap
+    } = this.props
+    const grazingScheduleEntries = schedule.grazingScheduleEntries || []
+    const { id, year, narative } = schedule
+    const yearUsage = usage.find(u => u.year === year)
+    const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
+    const crownTotalAUMs = roundTo1Decimal(
+      calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes)
+    )
 
     return (
       <CollapsibleBox
@@ -75,21 +77,31 @@ class GrazingScheduleBox extends Component {
                 {grazingScheduleEntries.map(this.renderScheduleEntry)}
               </Table.Header>
             </Table>
-            <div className="rup__grazing-schedule__AUMs" style={{ marginTop: '10px' }}>
-              <div className="rup__grazing-schedule__AUM-label">Authorized AUMs</div>
-              <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
+            <div
+              className="rup__grazing-schedule__AUMs"
+              style={{ marginTop: '10px' }}>
+              <div className="rup__grazing-schedule__AUM-label">
+                Authorized AUMs
+              </div>
+              <div className="rup__grazing-schedule__AUM-number">
+                {authorizedAUMs}
+              </div>
               <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
-              <div className="rup__grazing-schedule__AUM-number">{crownTotalAUMs}</div>
+              <div className="rup__grazing-schedule__AUM-number">
+                {crownTotalAUMs}
+              </div>
             </div>
             <div>
-              <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
+              <div className="rup__grazing-schedule__narrative__title">
+                Schedule Description
+              </div>
               {handleNullValue(narative)}
             </div>
           </Fragment>
         }
       />
-    );
+    )
   }
 }
 
-export default GrazingScheduleBox;
+export default GrazingScheduleBox
