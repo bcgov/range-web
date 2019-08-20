@@ -2,8 +2,8 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import moment from 'moment'
 
-import providerDecorator from '../../loginPage/providerDecorator'
-import MinisterIssues from '.'
+import { providerDecorator } from '../../decorators'
+import MinisterIssues from './MinisterIssues'
 
 const issues = [
   {

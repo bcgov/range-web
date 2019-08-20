@@ -162,7 +162,6 @@ class PageForStaff extends Component {
       plan,
       pasturesMap,
       grazingSchedulesMap,
-      ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
@@ -299,10 +298,7 @@ class PageForStaff extends Component {
 
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
-            references={references}
-            plan={plan}
-            pasturesMap={pasturesMap}
-            ministerIssuesMap={ministerIssuesMap}
+            issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
           />
 
           <InvasivePlantChecklist

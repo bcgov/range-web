@@ -56,7 +56,7 @@ const MinisterIssueBox = ({
 MinisterIssueBox.propTypes = {
   issue: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    type: PropTypes.string,
+    type: PropTypes.string.isRequired,
     detail: PropTypes.string,
     objective: PropTypes.string,
     identified: PropTypes.bool,
