@@ -140,7 +140,7 @@ class EditablePastureBox extends Component {
                 onChange={e => onTextFieldChange('notes', e.target.value)}
               />
             </Input>
-            <PlantCommunities pasture={pasture} />
+            <PlantCommunities pasture={pasture} canEdit={true} />
           </Fragment>
         }
       />

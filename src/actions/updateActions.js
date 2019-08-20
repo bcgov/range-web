@@ -84,3 +84,8 @@ export const pastureCopied = payload => ({
   type: actionTypes.PASTURE_COPIED,
   payload
 })
+
+export const plantCommunityAdded = payload => ({
+  type: actionTypes.PLANT_COMMUNITY_ADDED,
+  payload
+})
