@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Input, TextArea } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Input, TextArea, Dropdown } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import {
   ALLOWABLE_AUMS,
@@ -10,6 +11,7 @@ import {
 } from '../../../constants/strings'
 import { allowNumberOnly } from '../../../utils'
 import PlantCommunities from '../plantCommunities'
+import { openInputModal } from '../../../actions'
 import { IMAGE_SRC } from '../../../constants/variables'
 
 class EditablePastureBox extends Component {
@@ -19,7 +21,22 @@ class EditablePastureBox extends Component {
     activePastureIndex: PropTypes.number.isRequired,
     onPastureClicked: PropTypes.func.isRequired,
     onNumberFieldChange: PropTypes.func.isRequired,
-    onTextFieldChange: PropTypes.func.isRequired
+    onTextFieldChange: PropTypes.func.isRequired,
+    onCopy: PropTypes.func.isRequired,
+    openInputModal: PropTypes.func.isRequired
+  }
+
+  handleOnCopy = () => {
+    this.props.openInputModal({
+      id: 'pasture_copy',
+      title: strings.PASTURE_NAME,
+      value: {},
+      onSubmit: value => this.props.onCopy(value)
+    })
+  }
+
+  onVerticalEllipsisClicked = (e, { value }) => {
+    if (value === 'copy') return this.handleOnCopy()
   }
 
   render() {
@@ -35,6 +52,7 @@ class EditablePastureBox extends Component {
     const { id, name, allowableAum, pldPercent, graceDays, notes } = pasture
 
     const pld = pldPercent && Math.floor(pldPercent * 100)
+    const dropdownOptions = [{ key: 'copy', value: 'copy', text: 'Copy' }]
 
     return (
       <CollapsibleBox
@@ -43,21 +61,34 @@ class EditablePastureBox extends Component {
         activeContentIndex={activePastureIndex}
         onContentClicked={onPastureClicked}
         header={
-          <div className="rup__pasture__title">
-            <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
-            Pasture:
-            {activePastureIndex === pastureIndex ? (
-              <Input className={'text-field__text'}>
-                <input
-                  type="text"
-                  value={name}
-                  onClick={e => e.stopPropagation()}
-                  onChange={e => onTextFieldChange('name', e.target.value)}
-                />
-              </Input>
-            ) : (
-              ` ${name}`
-            )}
+          <div className="rup__pasture">
+            <div className="rup__pasture__title">
+              <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+              Pasture:
+              {activePastureIndex === pastureIndex ? (
+                <Input className={'text-field__text'}>
+                  <input
+                    type="text"
+                    value={name}
+                    onClick={e => e.stopPropagation()}
+                    onChange={e => onTextFieldChange('name', e.target.value)}
+                  />
+                </Input>
+              ) : (
+                ` ${name}`
+              )}
+            </div>
+
+            <Dropdown
+              className="rup__pasture__actions"
+              trigger={<i className="ellipsis vertical icon" />}
+              options={dropdownOptions}
+              icon={null}
+              pointing="right"
+              onClick={e => e.stopPropagation()}
+              onChange={this.onVerticalEllipsisClicked}
+              selectOnBlur={false}
+            />
           </div>
         }
         collapsibleContent={
@@ -119,5 +150,9 @@ class EditablePastureBox extends Component {
     )
   }
 }
-
-export default EditablePastureBox
+export default connect(
+  null,
+  {
+    openInputModal
+  }
+)(EditablePastureBox)

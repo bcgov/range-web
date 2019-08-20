@@ -79,3 +79,8 @@ export const pastureSubmitted = payload => ({
   type: actionTypes.PASTURE_SUBMITTED,
   payload
 })
+
+export const pastureCopied = payload => ({
+  type: actionTypes.PASTURE_COPIED,
+  payload
+})

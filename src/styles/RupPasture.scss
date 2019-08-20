@@ -20,6 +20,10 @@
     }
   }
   &__pasture {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
     &__title {
       display: flex;
       align-items: center;
@@ -32,6 +36,15 @@
       > div > input {
         padding: 4px 7px !important;
         margin-left: 7px !important;
+      }
+    }
+
+    &__actions {
+      margin: auto 0;
+
+      & button {
+        padding: 0 !important;
+        background-color: unset !important;
       }
     }
   }

@@ -2,7 +2,8 @@ import {
   STORE_PLAN,
   PASTURE_ADDED,
   PASTURE_UPDATED,
-  PASTURE_SUBMITTED
+  PASTURE_SUBMITTED,
+  PASTURE_COPIED
 } from '../../constants/actionTypes'
 
 const initialPasture = {
@@ -61,6 +62,22 @@ const submitPasture = (state, action) => {
   }
 }
 
+const copyPasture = (state, action) => {
+  const { pastureId, planId, name } = action.payload
+  // Set temporary ID based on timestamp to track unsubmitted pastures
+  const id = new Date().toISOString()
+  return {
+    ...state,
+    [id]: {
+      ...initialPasture,
+      ...state[pastureId],
+      planId,
+      id,
+      name
+    }
+  }
+}
+
 const pasturesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
@@ -71,6 +88,8 @@ const pasturesReducer = (state = {}, action) => {
       return updatePasture(state, action)
     case PASTURE_SUBMITTED:
       return submitPasture(state, action)
+    case PASTURE_COPIED:
+      return copyPasture(state, action)
     default:
       return state
   }

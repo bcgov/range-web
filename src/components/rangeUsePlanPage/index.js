@@ -7,6 +7,7 @@ import {
   planUpdated,
   pastureAdded,
   pastureUpdated,
+  pastureCopied,
   grazingScheduleUpdated,
   openConfirmationModal
 } from '../../actions'
@@ -188,6 +189,7 @@ export default connect(
     planUpdated,
     pastureAdded,
     pastureUpdated,
+    pastureCopied,
     createOrUpdateRUPPasture,
     grazingScheduleUpdated,
     createOrUpdateRUPGrazingSchedule,

@@ -9,11 +9,20 @@ class EditablePastures extends Component {
     plan: PropTypes.shape({ id: PropTypes.number }).isRequired,
     pasturesMap: PropTypes.shape({}).isRequired,
     pastureAdded: PropTypes.func.isRequired,
-    pastureUpdated: PropTypes.func.isRequired
+    pastureUpdated: PropTypes.func.isRequired,
+    pastureCopied: PropTypes.func.isRequired
   }
 
   state = {
     activePastureIndex: 0
+  }
+
+  onCopyPastureClick = (pastureId, name) => {
+    this.props.pastureCopied({
+      pastureId: pastureId,
+      planId: this.props.plan,
+      name
+    })
   }
 
   onAddPastureClick = () => {
@@ -63,6 +72,7 @@ class EditablePastures extends Component {
         onTextFieldChange={(field, value) =>
           this.onTextFieldChange(pasture, field, value)
         }
+        onCopy={name => this.onCopyPastureClick(pasture.id, name)}
       />
     )
   }
