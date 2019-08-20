@@ -41,7 +41,7 @@ class CollapsibleBox extends Component {
     return (
       <li className="collaspible-box">
         <div className="collaspible-box__header">
-          <button
+          <div
             className={classnames('collaspible-box__header__title', {
               'collaspible-box__header__title--active': isActive
             })}
@@ -61,7 +61,7 @@ class CollapsibleBox extends Component {
                 />
               )}
             </div>
-          </button>
+          </div>
         </div>
         {message}
         <div
