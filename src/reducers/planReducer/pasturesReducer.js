@@ -69,7 +69,6 @@ const copyPasture = (state, action) => {
   return {
     ...state,
     [id]: {
-      ...initialPasture,
       ...state[pastureId],
       planId,
       id,

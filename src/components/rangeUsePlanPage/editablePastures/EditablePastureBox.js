@@ -3,15 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Input, TextArea, Dropdown } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
-import {
-  ALLOWABLE_AUMS,
-  PRIVATE_LAND_DEDUCTION,
-  GRACE_DAYS,
-  PASTURE_NOTES
-} from '../../../constants/strings'
-import { allowNumberOnly } from '../../../utils'
 import PlantCommunities from '../plantCommunities'
+import { allowNumberOnly } from '../../../utils'
 import { openInputModal } from '../../../actions'
+import * as strings from '../../../constants/strings'
 import { IMAGE_SRC } from '../../../constants/variables'
 
 class EditablePastureBox extends Component {
@@ -95,7 +90,9 @@ class EditablePastureBox extends Component {
           <Fragment>
             <div className="rup__row">
               <div className="rup__cell-4">
-                <div className={'text-field__label'}>{ALLOWABLE_AUMS}</div>
+                <div className={'text-field__label'}>
+                  {strings.ALLOWABLE_AUMS}
+                </div>
                 <Input className={'text-field__text'}>
                   <input
                     type="text"
@@ -109,7 +106,7 @@ class EditablePastureBox extends Component {
               </div>
               <div className="rup__cell-4">
                 <div className={'text-field__label'}>
-                  {PRIVATE_LAND_DEDUCTION}
+                  {strings.PRIVATE_LAND_DEDUCTION}
                 </div>
                 <Input className={'text-field__text'}>
                   <input
@@ -123,7 +120,7 @@ class EditablePastureBox extends Component {
                 </Input>
               </div>
               <div className="rup__cell-4">
-                <div className={'text-field__label'}>{GRACE_DAYS}</div>
+                <div className={'text-field__label'}>{strings.GRACE_DAYS}</div>
                 <Input className={'text-field__text'}>
                   <input
                     type="text"
@@ -136,7 +133,7 @@ class EditablePastureBox extends Component {
                 </Input>
               </div>
             </div>
-            <div className={'text-field__label'}>{PASTURE_NOTES}</div>
+            <div className={'text-field__label'}>{strings.PASTURE_NOTES}</div>
             <Input fluid className={'text-field__text'}>
               <TextArea
                 value={notes}
