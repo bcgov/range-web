@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Input } from 'semantic-ui-react'
 import Pikaday from 'pikaday'
@@ -14,7 +13,6 @@ import {
 } from '../../../utils'
 import * as strings from '../../../constants/strings'
 import { DATE_FORMAT } from '../../../constants/variables'
-import { planUpdated } from '../../../actions'
 
 class EditableBasicInformation extends Component {
   static propTypes = {
@@ -216,9 +214,4 @@ class EditableBasicInformation extends Component {
   }
 }
 
-export default connect(
-  null,
-  {
-    planUpdated
-  }
-)(EditableBasicInformation)
+export default EditableBasicInformation

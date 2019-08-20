@@ -155,6 +155,7 @@ class PageForStaff extends Component {
       managementConsiderationsMap,
       fetchPlan,
       isFetchingPlan,
+      planUpdated,
       updateRUPStatus,
       pastureAdded,
       pastureUpdated
@@ -238,6 +239,7 @@ class PageForStaff extends Component {
               plan={plan}
               user={user}
               onZoneClicked={this.openUpdateZoneModal}
+              planUpdated={planUpdated}
             />
           ) : (
             <BasicInformation
