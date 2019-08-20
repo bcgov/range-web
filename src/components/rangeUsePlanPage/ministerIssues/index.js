@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { createDateWithMoment } from '../../../utils/'
 
 import MinisterIssues from './MinisterIssues'
 
@@ -12,7 +13,15 @@ const mapStateToProps = ({ PLAN }, props) => {
       type: issue.ministerIssueType.name,
       actions: issue.ministerIssueActions.map(action => ({
         ...action,
-        type: action.ministerIssueActionType.name
+        type: action.ministerIssueActionType.name,
+        noGrazeStartDate: createDateWithMoment(
+          action.noGrazeStartDay,
+          action.noGrazeStartMonth
+        ),
+        noGrazeEndDate: createDateWithMoment(
+          action.noGrazeEndDay,
+          action.noGrazeEndMonth
+        )
       })),
       pastures
     }
