@@ -78,7 +78,13 @@ class Pastures extends Component {
   render() {
     const { plan, pasturesMap } = this.props
     const pastureIds = plan && plan.pastures
-    const pastures = pastureIds && pastureIds.map(id => pasturesMap[id])
+    const pastures =
+      pastureIds &&
+      pastureIds
+        .map(id => pasturesMap[id])
+        .sort((a, b) =>
+          a.name.toUpperCase().localeCompare(b.name.toUpperCase())
+        )
 
     return (
       <div className="rup__pastures">
