@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
-import providerDecorator from './providerDecorator'
+import { action } from '@storybook/addon-actions'
+import { providerDecorator } from '../decorators'
 
 import { LoginPage } from './'
 
