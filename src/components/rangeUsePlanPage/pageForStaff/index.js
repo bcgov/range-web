@@ -61,8 +61,10 @@ class PageForStaff extends Component {
       plan,
       updateRUP,
       toastErrorMessage,
+      pasturesMap,
       createOrUpdateRUPPasture,
-      pasturesMap
+      createOrUpdateRUPGrazingSchedule,
+      grazingSchedulesMap
     } = this.props
 
     onRequested()
@@ -75,6 +77,13 @@ class PageForStaff extends Component {
       await updateRUP(plan.id, plan)
       pastures.forEach(
         async pasture => await createOrUpdateRUPPasture(plan.id, pasture)
+      )
+      plan.grazingSchedules.forEach(
+        async scheduleId =>
+          await createOrUpdateRUPGrazingSchedule(
+            plan.id,
+            grazingSchedulesMap[scheduleId]
+          )
       )
       await onSuccess()
     } catch (err) {
@@ -158,7 +167,8 @@ class PageForStaff extends Component {
       planUpdated,
       updateRUPStatus,
       pastureAdded,
-      pastureUpdated
+      pastureUpdated,
+      grazingScheduleUpdated
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
@@ -276,6 +286,8 @@ class PageForStaff extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
+            grazingScheduleUpdated={grazingScheduleUpdated}
+            canEditGraceDays={canEdit}
           />
 
           <MinisterIssues
