@@ -1,17 +1,6 @@
 import { STORE_PLAN, PLANT_COMMUNITY_ADDED } from '../../constants/actionTypes'
 
 const initialPlantCommunity = {
-  /*purposeOfAction: 'none',
-  aspect: null,
-  elevationId: null,
-  url: null,
-  notes: null,
-  approved: false,
-  rangeReadinessDay: null,
-  rangeReadinessMonth: null,
-  rangeReadinessNote: null,
-  shrubUse: null,
-  plantCommunityActions: [],*/
   indicatorPlants: [],
   monitoringAreas: []
 }
