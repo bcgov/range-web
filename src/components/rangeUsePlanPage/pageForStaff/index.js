@@ -11,6 +11,7 @@ import * as utils from '../../../utils'
 import BasicInformation from '../basicInformation'
 import EditableBasicInformation from '../editableBasicInformation'
 import Pastures from '../pastures'
+import EditablePastures from '../editablePastures'
 import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
@@ -56,14 +57,25 @@ class PageForStaff extends Component {
   }
 
   updateContent = async (onRequested, onSuccess, onError) => {
-    const { plan, updateRUP, toastErrorMessage } = this.props
+    const {
+      plan,
+      updateRUP,
+      toastErrorMessage,
+      createOrUpdateRUPPasture,
+      pasturesMap
+    } = this.props
 
     onRequested()
 
     if (this.validateRup(plan)) return onError()
 
+    const pastures = Object.values(pasturesMap)
+
     try {
       await updateRUP(plan.id, plan)
+      pastures.forEach(
+        async pasture => await createOrUpdateRUPPasture(plan.id, pasture)
+      )
       await onSuccess()
     } catch (err) {
       onError()
@@ -143,7 +155,9 @@ class PageForStaff extends Component {
       managementConsiderationsMap,
       fetchPlan,
       isFetchingPlan,
-      updateRUPStatus
+      updateRUPStatus,
+      pastureAdded,
+      pastureUpdated
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
@@ -237,11 +251,21 @@ class PageForStaff extends Component {
 
           <UsageTable usage={usage} plan={plan} />
 
-          <Pastures
-            elementId={ELEMENT_ID.PASTURES}
-            plan={plan}
-            pasturesMap={pasturesMap}
-          />
+          {canEdit ? (
+            <EditablePastures
+              elementId={ELEMENT_ID.PASTURES}
+              plan={plan}
+              pasturesMap={pasturesMap}
+              pastureAdded={pastureAdded}
+              pastureUpdated={pastureUpdated}
+            />
+          ) : (
+            <Pastures
+              elementId={ELEMENT_ID.PASTURES}
+              plan={plan}
+              pasturesMap={pasturesMap}
+            />
+          )}
 
           <GrazingSchedules
             elementId={ELEMENT_ID.GRAZING_SCHEDULE}

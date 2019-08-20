@@ -1,4 +1,17 @@
-import { STORE_PLAN } from '../../constants/actionTypes'
+import {
+  STORE_PLAN,
+  PASTURE_ADDED,
+  PASTURE_UPDATED
+} from '../../constants/actionTypes'
+
+const initialPasture = {
+  name: '',
+  allowableAum: 0,
+  pldPercent: 0,
+  graceDays: 0,
+  notes: '',
+  plantCommunities: []
+}
 
 const storePastures = (state, action) => {
   const { pastures } = action.payload.entities
@@ -9,10 +22,38 @@ const storePastures = (state, action) => {
   }
 }
 
+const addPasture = (state, action) => {
+  // Set temporary ID based on timestamp to track unsubmitted pastures
+  const id = new Date().toISOString()
+  return {
+    ...state,
+    [id]: {
+      ...initialPasture,
+      id,
+      planId: action.payload
+    }
+  }
+}
+
+const updatePasture = (state, action) => {
+  const { pasture } = action.payload
+  return {
+    ...state,
+    [pasture.id]: {
+      ...initialPasture,
+      ...pasture
+    }
+  }
+}
+
 const pasturesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storePastures(state, action)
+    case PASTURE_ADDED:
+      return addPasture(state, action)
+    case PASTURE_UPDATED:
+      return updatePasture(state, action)
     default:
       return state
   }

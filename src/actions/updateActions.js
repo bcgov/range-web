@@ -64,3 +64,13 @@ export const managementConsiderationDeleted = payload => ({
   type: actionTypes.MANAGEMENT_CONSIDERATION_DELETED,
   payload
 })
+
+export const pastureAdded = payload => ({
+  type: actionTypes.PASTURE_ADDED,
+  payload
+})
+
+export const pastureUpdated = payload => ({
+  type: actionTypes.PASTURE_UPDATED,
+  payload
+})
