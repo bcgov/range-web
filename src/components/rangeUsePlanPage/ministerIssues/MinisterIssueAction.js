@@ -4,7 +4,6 @@ import { NO_DESCRIPTION } from '../../../constants/strings'
 import { formatDateFromServer } from '../../../utils'
 
 const MinisterIssueAction = ({
-  id,
   detail,
   type,
   other,
@@ -22,7 +21,7 @@ const MinisterIssueAction = ({
   )
 
   return (
-    <div className="rup__missue__action" key={id}>
+    <div className="rup__missue__action">
       <span className="rup__missue__action__type">
         {type}
         {isOtherType && ` (${other})`}
@@ -37,7 +36,6 @@ const MinisterIssueAction = ({
 }
 
 MinisterIssueAction.propTypes = {
-  id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   other: PropTypes.string,
   detail: PropTypes.string,

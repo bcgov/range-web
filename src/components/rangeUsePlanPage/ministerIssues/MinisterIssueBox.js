@@ -7,7 +7,7 @@ import { oxfordComma } from '../../../utils'
 import MinisterIssueAction from './MinisterIssueAction'
 
 const MinisterIssueBox = ({
-  issue: { detail, objective, pastures, identified, actions, type },
+  issue: { detail, objective, pastures = [], identified, actions = [], type },
   ministerIssueIndex,
   activeMinisterIssueIndex,
   onMinisterIssueClicked
@@ -55,7 +55,6 @@ const MinisterIssueBox = ({
 
 MinisterIssueBox.propTypes = {
   issue: PropTypes.shape({
-    id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     detail: PropTypes.string,
     objective: PropTypes.string,

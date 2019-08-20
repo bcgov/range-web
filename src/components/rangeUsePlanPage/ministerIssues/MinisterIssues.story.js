@@ -2,7 +2,6 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import moment from 'moment'
 
-import { providerDecorator } from '../../decorators'
 import MinisterIssues from './MinisterIssues'
 
 const issues = [
@@ -29,6 +28,8 @@ const issues = [
   }
 ]
 
-storiesOf('rangeUsePlanPage/ministerIssues/ministerIssues', module)
-  .addDecorator(providerDecorator)
+storiesOf('rangeUsePlanPage/ministerIssues/MinisterIssues', module)
   .add('With Content', () => <MinisterIssues issues={issues} />)
+  .add('Only required fields', () => (
+    <MinisterIssues issues={[{ id: issues[0].id, type: issues[0].type }]} />
+  ))
