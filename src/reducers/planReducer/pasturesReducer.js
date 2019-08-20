@@ -1,7 +1,8 @@
 import {
   STORE_PLAN,
   PASTURE_ADDED,
-  PASTURE_UPDATED
+  PASTURE_UPDATED,
+  PASTURE_SUBMITTED
 } from '../../constants/actionTypes'
 
 const initialPasture = {
@@ -46,6 +47,20 @@ const updatePasture = (state, action) => {
   }
 }
 
+const submitPasture = (state, action) => {
+  const { id, pasture } = action.payload
+  const newState = { ...state }
+  delete newState[id]
+
+  return {
+    ...newState,
+    [pasture.id]: {
+      ...initialPasture,
+      ...pasture
+    }
+  }
+}
+
 const pasturesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
@@ -54,6 +69,8 @@ const pasturesReducer = (state = {}, action) => {
       return addPasture(state, action)
     case PASTURE_UPDATED:
       return updatePasture(state, action)
+    case PASTURE_SUBMITTED:
+      return submitPasture(state, action)
     default:
       return state
   }

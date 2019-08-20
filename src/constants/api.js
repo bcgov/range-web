@@ -109,6 +109,8 @@ export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
 export const CREATE_RUP_STATUS_RECORD = planId =>
   `/v1/plan/${planId}/status-record`
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`
+export const UPDATE_RUP_PASTURE = (planId, pastureId) =>
+  `/v1/plan/${planId}/pasture/${pastureId}`
 
 export const CREATE_RUP_GRAZING_SCHEDULE = planId =>
   `/v1/plan/${planId}/schedule`

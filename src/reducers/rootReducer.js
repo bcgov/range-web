@@ -77,6 +77,14 @@ const appReducer = combineReducers({
     networkReducer,
     reducerTypes.UPDATE_PLAN_STATUS
   ),
+  [reducerTypes.CREATE_PASTURE]: createReducer(
+    networkReducer,
+    reducerTypes.CREATE_PASTURE
+  ),
+  [reducerTypes.UPDATE_PASTURE]: createReducer(
+    networkReducer,
+    reducerTypes.UPDATE_PASTURE
+  ),
   [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(
     networkReducer,
     reducerTypes.DELETE_GRAZING_SCHEUDLE
