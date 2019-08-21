@@ -115,17 +115,7 @@ class PageForStaff extends Component {
   renderActionBtns = (canEdit, canSubmit) => {
     const { isSavingAsDraft, isSubmitting } = this.state
 
-    return (
-      <ActionBtns
-        canEdit={canEdit}
-        canSubmit={canSubmit}
-        isSubmitting={isSubmitting}
-        isSavingAsDraft={isSavingAsDraft}
-        onViewPDFClicked={this.onViewPDFClicked}
-        onSaveDraftClick={this.onSaveDraftClick}
-        openSubmissionModal={this.openPlanSubmissionModal}
-      />
-    )
+    return <div />
   }
 
   render() {
@@ -185,27 +175,6 @@ class PageForStaff extends Component {
         />
 
         <Banner header={bannerHeader} content={bannerContent} noDefaultHeight />
-
-        <StickyHeader>
-          <div className="rup__actions__background">
-            <div className="rup__actions__container">
-              <div className="rup__actions__left">
-                <BackBtn className="rup__back-btn" />
-                <div>{agreementId}</div>
-                <Status status={status} user={user} />
-                <div>{utils.capitalize(rangeName)}</div>
-              </div>
-              <div className="rup__actions__btns">
-                {this.renderActionBtns(canEdit, canSubmit)}
-                <UpdateStatusDropdown
-                  plan={plan}
-                  fetchPlan={fetchPlan}
-                  isFetchingPlan={isFetchingPlan}
-                />
-              </div>
-            </div>
-          </div>
-        </StickyHeader>
 
         <ContentsContainer>
           <Notifications

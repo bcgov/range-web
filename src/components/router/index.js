@@ -36,7 +36,7 @@ const ReturnPage = LoadableComponent(() => import('../ReturnPage'))
 const PageNotFound = LoadableComponent(() => import('../PageNotFound'))
 const ManageZone = LoadableComponent(() => import('../manageZonePage'))
 const ManageClient = LoadableComponent(() => import('../manageClientPage'))
-const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'))
+const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPDFView'))
 const PDFView = LoadableComponent(() => import('../rangeUsePlanPDFView'))
 
 class Router extends Component {

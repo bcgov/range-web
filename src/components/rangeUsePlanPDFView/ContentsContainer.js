@@ -91,48 +91,6 @@ class ContentsContainer extends Component {
 
     return (
       <div className="rup__contents__container">
-        <div className="rup__contents__tabs">
-          <a
-            href={`#${ELEMENT_ID.BASIC_INFORMATION}`}
-            className="rup__contents__tab">
-            <img src={IMAGE_SRC.BASIC_INFORMATION_ICON} alt="icon" />
-            <span>{strings.BASIC_INFORMATION}</span>
-          </a>
-          <a href={`#${ELEMENT_ID.PASTURES}`} className="rup__contents__tab">
-            <img src={IMAGE_SRC.PASTURES_ICON} alt="icon" />
-            <span>{strings.PASTURES}</span>
-          </a>
-          <a
-            href={`#${ELEMENT_ID.GRAZING_SCHEDULE}`}
-            className="rup__contents__tab">
-            <img src={IMAGE_SRC.SCHEDULES_ICON} alt="icon" />
-            <span>{strings.SCHEDULES}</span>
-          </a>
-          <a
-            href={`#${ELEMENT_ID.MINISTER_ISSUES}`}
-            className="rup__contents__tab">
-            <img src={IMAGE_SRC.MINISTER_ISSUES_ICON} alt="icon" />
-            <span>{strings.MINISTER_ISSUES}</span>
-          </a>
-          <a
-            href={`#${ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}`}
-            className="rup__contents__tab">
-            <img src={IMAGE_SRC.INVASIVE_PLANTS_ICON} alt="icon" />
-            <span>{strings.INVASIVE_PLANTS}</span>
-          </a>
-          <a
-            href={`#${ELEMENT_ID.ADDITIONAL_REQUIREMENTS}`}
-            className="rup__contents__tab">
-            <img src={IMAGE_SRC.ADDITIONAL_REQS_ICON} alt="icon" />
-            <span>{strings.ADDITIONAL_REQUIREMENTS}</span>
-          </a>
-          <a
-            href={`#${ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}`}
-            className="rup__contents__tab">
-            <img src={IMAGE_SRC.MANAGEMENT_ICON} alt="icon" />
-            <span>{strings.MANAGEMENT_CONSIDERATIONS}</span>
-          </a>
-        </div>
         <div className="rup__contents">{children.map(this.renderChild)}</div>
       </div>
     )

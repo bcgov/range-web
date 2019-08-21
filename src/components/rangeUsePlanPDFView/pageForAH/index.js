@@ -320,26 +320,7 @@ class PageForAH extends Component {
 
         <Banner noDefaultHeight header={bannerHeader} content={bannerContent} />
 
-        <StickyHeader>
-          <div className="rup__actions__background">
-            <div className="rup__actions__container">
-              <div className="rup__actions__left">
-                <BackBtn className="rup__back-btn" />
-                <div>{agreementId}</div>
-                <Status status={status} user={user} />
-                <div>{utils.capitalize(rangeName)}</div>
-              </div>
-              <div className="rup__actions__btns">
-                {this.renderActionBtns(
-                  canEdit,
-                  canAmend,
-                  canConfirm,
-                  canSubmit
-                )}
-              </div>
-            </div>
-          </div>
-        </StickyHeader>
+        <StickyHeader></StickyHeader>
 
         <ContentsContainer>
           <Notifications
