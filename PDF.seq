@@ -1,0 +1,10 @@
+title: THIS IS HOW PDF'S ARE CREATED
+Note left of iPadAppOrBrowser: PDF requested from user device
+iPadAppOrBrowser->MyRangeAPI: RUP id + auth token
+Note over BrowserlessAPI: (headless chrome instance)
+MyRangeAPI->BrowserlessAPI: RUP URL + auth token + print options
+BrowserlessAPI->MyRangeBCWebsite: RUP URL + auth token 
+MyRangeBCWebsite->BrowserlessAPI: html
+BrowserlessAPI->MyRangeAPI: PDF
+MyRangeAPI->iPadAppOrBrowser: PDF
+Note left of iPadAppOrBrowser: PDF download initiated
