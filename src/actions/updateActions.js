@@ -64,3 +64,28 @@ export const managementConsiderationDeleted = payload => ({
   type: actionTypes.MANAGEMENT_CONSIDERATION_DELETED,
   payload
 })
+
+export const pastureAdded = payload => ({
+  type: actionTypes.PASTURE_ADDED,
+  payload
+})
+
+export const pastureUpdated = payload => ({
+  type: actionTypes.PASTURE_UPDATED,
+  payload
+})
+
+export const pastureSubmitted = payload => ({
+  type: actionTypes.PASTURE_SUBMITTED,
+  payload
+})
+
+export const pastureCopied = payload => ({
+  type: actionTypes.PASTURE_COPIED,
+  payload
+})
+
+export const plantCommunityAdded = payload => ({
+  type: actionTypes.PLANT_COMMUNITY_ADDED,
+  payload
+})

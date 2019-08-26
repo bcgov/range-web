@@ -57,7 +57,7 @@ class PastureBox extends Component {
             </div>
             <TextField label={PASTURE_NOTES} text={notes} />
 
-            <PlantCommunities pasture={pasture} />
+            <PlantCommunities pasture={pasture} canEdit={false} />
           </Fragment>
         }
       />

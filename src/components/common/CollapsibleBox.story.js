@@ -137,3 +137,28 @@ storiesOf('Collapsible Box', module)
       }
     />
   ))
+
+  .add('Scroll', () => (
+    <CollapsibleBox
+      header={<div>Header</div>}
+      collapsibleContent={
+        <div>
+          {[1, 2, 3, 4, 5].map(index => (
+            <div key={index} style={{ paddingBottom: '20px' }}>
+              {`
+                [${index}] Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus vel venenatis purus, vitae viverra ex. Nulla ac
+                nisl aliquam, eleifend neque vitae, feugiat magna. Nunc
+                venenatis dui et odio pulvinar tincidunt. Nunc in maximus
+                est, at faucibus elit.
+              `}
+            </div>
+          ))}
+        </div>
+      }
+      contentIndex={0}
+      activeContentIndex={0}
+      onContentClicked={() => action('on-content-clicked')}
+      scroll={true}
+    />
+  ))

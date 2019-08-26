@@ -11,6 +11,7 @@ import * as utils from '../../../utils'
 import BasicInformation from '../basicInformation'
 import EditableBasicInformation from '../editableBasicInformation'
 import Pastures from '../pastures'
+import EditablePastures from '../editablePastures'
 import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
@@ -56,14 +57,39 @@ class PageForStaff extends Component {
   }
 
   updateContent = async (onRequested, onSuccess, onError) => {
-    const { plan, updateRUP, toastErrorMessage } = this.props
+    const {
+      plan,
+      updateRUP,
+      toastErrorMessage,
+      pasturesMap,
+      createOrUpdateRUPPasture,
+      grazingSchedulesMap,
+      createOrUpdateRUPGrazingSchedule
+    } = this.props
 
     onRequested()
 
     if (this.validateRup(plan)) return onError()
 
+    const pastures = Object.values(pasturesMap)
+    const pasturesForPlan = pastures.filter(
+      pasture => plan.pastures.includes(pasture.planId) || !Number(pasture.id)
+    )
+
     try {
+      // Update Plan
       await updateRUP(plan.id, plan)
+      pasturesForPlan.forEach(
+        async pasture => await createOrUpdateRUPPasture(plan.id, pasture)
+      )
+      // Update Grazing Schedules
+      plan.grazingSchedules.forEach(
+        async scheduleId =>
+          await createOrUpdateRUPGrazingSchedule(
+            plan.id,
+            grazingSchedulesMap[scheduleId]
+          )
+      )
       await onSuccess()
     } catch (err) {
       onError()
@@ -136,14 +162,18 @@ class PageForStaff extends Component {
       plan,
       pasturesMap,
       grazingSchedulesMap,
-      ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
       managementConsiderationsMap,
       fetchPlan,
       isFetchingPlan,
-      updateRUPStatus
+      planUpdated,
+      updateRUPStatus,
+      pastureAdded,
+      pastureUpdated,
+      pastureCopied,
+      grazingScheduleUpdated
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
@@ -224,6 +254,7 @@ class PageForStaff extends Component {
               plan={plan}
               user={user}
               onZoneClicked={this.openUpdateZoneModal}
+              planUpdated={planUpdated}
             />
           ) : (
             <BasicInformation
@@ -237,11 +268,22 @@ class PageForStaff extends Component {
 
           <UsageTable usage={usage} plan={plan} />
 
-          <Pastures
-            elementId={ELEMENT_ID.PASTURES}
-            plan={plan}
-            pasturesMap={pasturesMap}
-          />
+          {canEdit ? (
+            <EditablePastures
+              elementId={ELEMENT_ID.PASTURES}
+              plan={plan}
+              pasturesMap={pasturesMap}
+              pastureAdded={pastureAdded}
+              pastureUpdated={pastureUpdated}
+              pastureCopied={pastureCopied}
+            />
+          ) : (
+            <Pastures
+              elementId={ELEMENT_ID.PASTURES}
+              plan={plan}
+              pasturesMap={pasturesMap}
+            />
+          )}
 
           <GrazingSchedules
             elementId={ELEMENT_ID.GRAZING_SCHEDULE}
@@ -250,14 +292,13 @@ class PageForStaff extends Component {
             plan={plan}
             pasturesMap={pasturesMap}
             grazingSchedulesMap={grazingSchedulesMap}
+            grazingScheduleUpdated={grazingScheduleUpdated}
+            canEditGraceDays={canEdit}
           />
 
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
-            references={references}
-            plan={plan}
-            pasturesMap={pasturesMap}
-            ministerIssuesMap={ministerIssuesMap}
+            issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
           />
 
           <InvasivePlantChecklist

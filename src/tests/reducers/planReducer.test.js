@@ -25,6 +25,7 @@ const mockPlanData = {
     {
       id: 'pastureId',
       name: 'Pasture 1',
+      notes: '',
       plantCommunities: [
         {
           id: 'plantCommunityId',
@@ -98,6 +99,7 @@ const mockState = {
     pastureId: {
       id: 'pastureId',
       name: 'Pasture 1',
+      notes: '',
       plantCommunities: ['plantCommunityId']
     }
   },

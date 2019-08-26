@@ -50,7 +50,7 @@ const mockPlanWithAgreement = {
       allowableAum: 25,
       graceDays: 3,
       pldPercent: 0.65,
-      notes: null,
+      notes: '',
       planId: 1,
       plantCommunities: [
         {

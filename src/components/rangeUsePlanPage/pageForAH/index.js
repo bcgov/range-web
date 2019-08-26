@@ -374,7 +374,7 @@ class PageForAH extends Component {
           {canEdit ? (
             <EditableMinisterIssues {...ministerIssueProps} />
           ) : (
-            <MinisterIssues {...ministerIssueProps} />
+            <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
           )}
 
           {canEdit ? (

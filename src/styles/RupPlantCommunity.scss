@@ -8,25 +8,17 @@
     &__not-provided {
       margin-top: -5px;
     }
+    &__add-button {
+      margin-bottom: 10px !important;
+    }
   }
 
   &__plant-community {
-    &__box {
-      @extend .default-button;
+    &__title {
       width: 100%;
-      background: white;
-      font-weight: bold;
-      padding: 12px;
-      border-radius: 5px;
-      border: 1px solid gainsboro;
-      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      &:hover {
-        background: $light-gray;
-      }
       &:last-child {
         margin-bottom: 0px;
       }
@@ -45,7 +37,7 @@
         font-weight: initial;
       }
     }
-    &__modal {
+    &__content {
       &__header {
         font-weight: bold;
         font-size: 1.8rem;
@@ -64,7 +56,7 @@
         color: gray;
         font-size: 1.1rem;
       }
-      &__content-title {
+      &-title {
         font-weight: bold;
         font-size: 1.4rem;
         margin-top: 20px;

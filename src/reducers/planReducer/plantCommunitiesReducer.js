@@ -1,4 +1,9 @@
-import { STORE_PLAN } from '../../constants/actionTypes'
+import { STORE_PLAN, PLANT_COMMUNITY_ADDED } from '../../constants/actionTypes'
+
+const initialPlantCommunity = {
+  indicatorPlants: [],
+  monitoringAreas: []
+}
 
 const storePlantCommunities = (state, action) => {
   const { plantCommunities } = action.payload.entities
@@ -9,10 +14,23 @@ const storePlantCommunities = (state, action) => {
   }
 }
 
+const addPlantCommunity = (state, action) => {
+  const { id } = action.payload
+
+  return {
+    ...state,
+    [id]: {
+      ...initialPlantCommunity,
+      ...action.payload
+    }
+  }
+}
 const plantCommunitiesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
       return storePlantCommunities(state, action)
+    case PLANT_COMMUNITY_ADDED:
+      return addPlantCommunity(state, action)
     default:
       return state
   }

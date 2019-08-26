@@ -1,85 +1,83 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from 'semantic-ui-react'
 import { TextField, CollapsibleBox } from '../../common'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { getPastureNames } from '../../../utils'
-import MinisterIssueActions from './MinisterIssueActions'
+import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings'
+import { oxfordComma } from '../../../utils'
+import MinisterIssueAction from './MinisterIssueAction'
 
-class MinisterIssueBox extends Component {
-  static propTypes = {
-    ministerIssue: PropTypes.shape({}).isRequired,
-    ministerIssueIndex: PropTypes.number.isRequired,
-    activeMinisterIssueIndex: PropTypes.number.isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-    ministerIssuesMap: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    onMinisterIssueClicked: PropTypes.func.isRequired
-  }
+const MinisterIssueBox = ({
+  issue: { detail, objective, pastures = [], identified, actions = [], type },
+  ministerIssueIndex,
+  activeMinisterIssueIndex,
+  onMinisterIssueClicked
+}) => (
+  <CollapsibleBox
+    contentIndex={ministerIssueIndex}
+    activeContentIndex={activeMinisterIssueIndex}
+    onContentClicked={onMinisterIssueClicked}
+    header={
+      <div>
+        <Icon name="warning sign" style={{ marginRight: '7px' }} />
+        Issue Type: {type}
+      </div>
+    }
+    headerRight={
+      <div className="rup__missue__identified">
+        {'Identified: '}
+        {identified ? (
+          <Icon name="check circle" color="green" />
+        ) : (
+          <Icon name="remove circle" color="red" />
+        )}
+      </div>
+    }
+    collapsibleContent={
+      <>
+        <TextField label="Details" text={detail} />
+        <TextField label="Objective" text={objective} />
+        <TextField
+          label="Pastures"
+          text={oxfordComma(pastures.map(p => p.name))}
+        />
 
-  render() {
-    const {
-      pasturesMap,
-      references,
-      ministerIssue,
-      ministerIssueIndex,
-      activeMinisterIssueIndex,
-      onMinisterIssueClicked
-    } = this.props
+        <div className="text-field__label">Actions</div>
+        {actions.map(action => (
+          <MinisterIssueAction key={action.id} {...action} />
+        ))}
+        <div className="text-field__text">
+          {actions.length === 0 ? NOT_PROVIDED : ACTION_NOTE}
+        </div>
+      </>
+    }
+  />
+)
 
-    const {
-      id,
-      detail,
-      identified,
-      ministerIssueActions,
-      issueTypeId,
-      objective,
-      pastures: pastureIds
-    } = ministerIssue || {}
-
-    const miTypes = references[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || []
-    const ministerIssueType = miTypes.find(i => i.id === issueTypeId)
-    const ministerIssueTypeName = ministerIssueType && ministerIssueType.name
-    const pastureNames = getPastureNames(pastureIds, pasturesMap)
-
-    return (
-      <CollapsibleBox
-        key={id}
-        contentIndex={ministerIssueIndex}
-        activeContentIndex={activeMinisterIssueIndex}
-        onContentClicked={onMinisterIssueClicked}
-        header={
-          <div>
-            <Icon name="warning sign" style={{ marginRight: '7px' }} />
-            Issue Type: {ministerIssueTypeName}
-          </div>
-        }
-        headerRight={
-          <div className="rup__missue__identified">
-            {'Identified: '}
-            {identified ? (
-              <Icon name="check circle" color="green" />
-            ) : (
-              <Icon name="remove circle" color="red" />
-            )}
-          </div>
-        }
-        collapsibleContent={
-          <Fragment>
-            <TextField label="Details" text={detail} />
-            <TextField label="Objective" text={objective} />
-            <TextField label="Pastures" text={pastureNames} />
-
-            <div className="rup__missue__actions__title">Actions</div>
-            <MinisterIssueActions
-              ministerIssueActions={ministerIssueActions}
-              references={references}
-            />
-          </Fragment>
-        }
-      />
+MinisterIssueBox.propTypes = {
+  issue: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    detail: PropTypes.string,
+    objective: PropTypes.string,
+    identified: PropTypes.bool,
+    pastures: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired
+      })
+    ),
+    actions: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+        other: PropTypes.string,
+        detail: PropTypes.string,
+        noGrazeEndDate: PropTypes.instanceOf(Date),
+        noGrazeStartDate: PropTypes.instanceOf(Date)
+      })
     )
-  }
+  }),
+  ministerIssueIndex: PropTypes.number.isRequired,
+  activeMinisterIssueIndex: PropTypes.number.isRequired,
+  onMinisterIssueClicked: PropTypes.func.isRequired
 }
 
 export default MinisterIssueBox

@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Modal, Checkbox } from 'semantic-ui-react'
+import { Icon, Checkbox } from 'semantic-ui-react'
+import { CollapsibleBox } from '../../common'
+
 import {
   ASPECT,
   ELEVATION,
@@ -29,7 +31,8 @@ import { getUser } from '../../../reducers/rootReducer'
 class PlantCommunityBox extends Component {
   static propTypes = {
     plantCommunity: PropTypes.shape({}).isRequired,
-    pasture: PropTypes.shape({}).isRequired,
+    activePlantCommunityId: PropTypes.number.isRequired,
+    onPlantCommunityClicked: PropTypes.func.isRequired,
     user: PropTypes.shape({}).isRequired
   }
 
@@ -46,7 +49,7 @@ class PlantCommunityBox extends Component {
 
     return (
       <Fragment>
-        <div className="rup__plant-community__modal__content-title">
+        <div className="rup__plant-community__content-title">
           Plant Community Actions
         </div>
         <PlantCommunityActionsBox
@@ -57,7 +60,11 @@ class PlantCommunityBox extends Component {
   }
 
   render() {
-    const { plantCommunity, pasture, user } = this.props
+    const {
+      plantCommunity,
+      activePlantCommunityId,
+      onPlantCommunityClicked
+    } = this.props
     const {
       name,
       plantCommunityActions,
@@ -68,26 +75,29 @@ class PlantCommunityBox extends Component {
       approved,
       notes,
       communityType,
+      communityTypeId,
       monitoringAreas
     } = plantCommunity
     const communityTypeName = (communityType && communityType.name) || name
-    const pastureName = pasture && pasture.name
     const elevationName = elevation && elevation.name
     const purposeOfAction = capitalize(poa)
 
     return (
-      <Modal
-        dimmer="blurring"
-        closeIcon
-        trigger={
-          <button className="rup__plant-community__box">
-            <div className="rup__plant-community__box__left">
+      <CollapsibleBox
+        key={communityType}
+        contentIndex={communityTypeId}
+        activeContentIndex={activePlantCommunityId}
+        onContentClicked={onPlantCommunityClicked}
+        scroll={true}
+        header={
+          <div className="rup__plant-community__title">
+            <div className="rup__plant-community__title__left">
               <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
               <div style={{ textAlign: 'left' }}>
                 Plant Community: {communityTypeName}
               </div>
             </div>
-            <div className="rup__plant-community__box__right">
+            <div className="rup__plant-community__title__right">
               <div>
                 {'Minister approval for inclusion obtained: '}
                 {approved ? (
@@ -96,87 +106,81 @@ class PlantCommunityBox extends Component {
                   <Icon name="remove circle" color="red" />
                 )}
               </div>
-              <Icon size="large" name="angle right" />
             </div>
-          </button>
-        }>
-        <Modal.Content>
-          <div className="rup__plant-community__modal__header">
-            <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
-            Plant Community: {communityTypeName}
           </div>
-          <div className="rup__plant-community__modal__pasture">
-            Pasture: {pastureName}
-          </div>
-          <div className="rup__plant-community__modal__content-title">
-            Basic Plant Community Information
-          </div>
-          <div className="rup__row">
-            <div className="rup__cell-4">
-              <div className="rup__plant-community__modal__label">{ASPECT}</div>
-              <div className="rup__plant-community__modal__text">
-                {handleNullValue(aspect)}
-              </div>
+        }
+        collapsibleContent={
+          <Fragment>
+            <div className="rup__plant-community__content-title">
+              Basic Plant Community Information
             </div>
-            <div className="rup__cell-4">
-              <div className="rup__plant-community__modal__label">
-                {ELEVATION}
-              </div>
-              <div className="rup__plant-community__modal__text">
-                {handleNullValue(elevationName)}
-              </div>
-            </div>
-            {!isUserAgreementHolder(user) && (
+            <div className="rup__row">
               <div className="rup__cell-4">
-                <div className="rup__plant-community__modal__label">
-                  {APPROVED_BY_MINISTER}
+                <div className="rup__plant-community__content__label">
+                  {ASPECT}
                 </div>
-                <div className="rup__plant-community__modal__text">
-                  <Checkbox checked={approved} toggle />
+                <div className="rup__plant-community__content__text">
+                  {handleNullValue(aspect)}
                 </div>
               </div>
+              <div className="rup__cell-4">
+                <div className="rup__plant-community__content__label">
+                  {ELEVATION}
+                </div>
+                <div className="rup__plant-community__content__text">
+                  {handleNullValue(elevationName)}
+                </div>
+              </div>
+              {!isUserAgreementHolder(this.props.user) && (
+                <div className="rup__cell-4">
+                  <div className="rup__plant-community__content__label">
+                    {APPROVED_BY_MINISTER}
+                  </div>
+                  <div className="rup__plant-community__content__text">
+                    <Checkbox checked={approved} toggle />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="rup__plant-community__content__label">
+              {PLANT_COMMUNITY_NOTES}
+            </div>
+            <div className="rup__plant-community__content__text">
+              {handleNullValue(notes)}
+            </div>
+            <div className="rup__plant-community__content__label">
+              {COMMUNITY_URL}
+            </div>
+            <div className="rup__plant-community__content__text">
+              {handleNullValue(url)}
+            </div>
+            <div className="rup__plant-community__content__label">
+              {PURPOSE_OF_ACTION}
+            </div>
+            <div className="rup__plant-community__content__text">
+              {handleNullValue(purposeOfAction)}
+            </div>
+
+            {this.renderPlantCommunityActions(
+              purposeOfAction,
+              plantCommunityActions
             )}
-          </div>
-          <div className="rup__plant-community__modal__label">
-            {PLANT_COMMUNITY_NOTES}
-          </div>
-          <div className="rup__plant-community__modal__text">
-            {handleNullValue(notes)}
-          </div>
-          <div className="rup__plant-community__modal__label">
-            {COMMUNITY_URL}
-          </div>
-          <div className="rup__plant-community__modal__text">
-            {handleNullValue(url)}
-          </div>
-          <div className="rup__plant-community__modal__label">
-            {PURPOSE_OF_ACTION}
-          </div>
-          <div className="rup__plant-community__modal__text">
-            {handleNullValue(purposeOfAction)}
-          </div>
 
-          {this.renderPlantCommunityActions(
-            purposeOfAction,
-            plantCommunityActions
-          )}
+            <div className="rup__plant-community__content-title">Criteria</div>
 
-          <div className="rup__plant-community__modal__content-title">
-            Criteria
-          </div>
+            <RangeReadinessBox plantCommunity={plantCommunity} />
 
-          <RangeReadinessBox plantCommunity={plantCommunity} />
+            <StubbleHeightBox plantCommunity={plantCommunity} />
 
-          <StubbleHeightBox plantCommunity={plantCommunity} />
+            <ShrubUseBox plantCommunity={plantCommunity} />
 
-          <ShrubUseBox plantCommunity={plantCommunity} />
-
-          <div className="rup__plant-community__modal__content-title">
-            Monitoring Areas
-          </div>
-          <MonitoringAreaList monitoringAreas={monitoringAreas} />
-        </Modal.Content>
-      </Modal>
+            <div className="rup__plant-community__content-title">
+              Monitoring Areas
+            </div>
+            <MonitoringAreaList monitoringAreas={monitoringAreas} />
+          </Fragment>
+        }
+      />
     )
   }
 }

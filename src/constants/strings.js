@@ -81,6 +81,7 @@ export const BILLABLE_NON_USE = 'Non-Use'
 export const TOTAL_ANNUAL_USE = 'Total Annual'
 
 // RUP pastures
+export const PASTURE_NAME = 'Pasture Name'
 export const ALLOWABLE_AUMS = 'Allowable AUMs'
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction (%)'
 export const GRACE_DAYS = 'Grace Days'

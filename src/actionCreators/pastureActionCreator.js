@@ -1,30 +1,65 @@
 import * as API from '../constants/api'
 import { axios, createConfigWithHeader } from '../utils'
+import { request, success, error } from '../actions'
+import { toastErrorMessage } from './toastActionCreator'
+import { CREATE_PASTURE, UPDATE_PASTURE } from '../constants/reducerTypes'
+import { pastureUpdated, pastureSubmitted } from '../actions'
 
 export const createRUPPasture = (planId, pasture) => (dispatch, getState) => {
-  const { id, ...data } = pasture
+  dispatch(request(CREATE_PASTURE))
 
-  return axios
-    .post(
-      API.CREATE_RUP_PASTURE(planId),
-      data,
-      createConfigWithHeader(getState)
-    )
-    .then(
-      response => {
-        const newPasture = response.data
-        const { oldId } = pasture
+  const { id, ...values } = pasture
 
-        // this is when creating amendment to keep track of the old ids
-        if (oldId) {
-          return { ...newPasture, oldId }
-        }
-        return newPasture
-      },
-      err => {
-        throw err
-      }
-    )
+  const makeRequest = async () => {
+    try {
+      const { data } = await axios.post(
+        API.CREATE_RUP_PASTURE(planId),
+        values,
+        createConfigWithHeader(getState)
+      )
+      dispatch(success(CREATE_PASTURE, data))
+      dispatch(pastureSubmitted({ id, pasture: data }))
+      return data
+    } catch (err) {
+      dispatch(error(CREATE_PASTURE, err))
+      dispatch(toastErrorMessage(err))
+      throw err
+    }
+  }
+
+  return makeRequest()
+}
+
+export const updateRUPPasture = (planId, pasture) => (dispatch, getState) => {
+  dispatch(request(UPDATE_PASTURE))
+
+  const makeRequest = async () => {
+    try {
+      const { data } = await axios.put(
+        API.UPDATE_RUP_PASTURE(planId, pasture.id),
+        pasture,
+        createConfigWithHeader(getState)
+      )
+      dispatch(success(UPDATE_PASTURE, data))
+      dispatch(pastureUpdated({ pasture: data }))
+      return data
+    } catch (err) {
+      dispatch(error(UPDATE_PASTURE, err))
+      dispatch(toastErrorMessage(err))
+      throw err
+    }
+  }
+
+  return makeRequest()
+}
+
+export const createOrUpdateRUPPasture = (planId, pasture) => dispatch => {
+  const isEditing = Number.isInteger(pasture.id)
+
+  if (isEditing) dispatch(updateRUPPasture(planId, pasture))
+  else {
+    dispatch(createRUPPasture(planId, pasture))
+  }
 }
 
 export const createRUPPlantCommunityAction = (

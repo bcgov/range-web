@@ -5,6 +5,9 @@ import { Icon } from 'semantic-ui-react'
 import { Loading, PrimaryButton } from '../common'
 import {
   planUpdated,
+  pastureAdded,
+  pastureUpdated,
+  pastureCopied,
   grazingScheduleUpdated,
   openConfirmationModal
 } from '../../actions'
@@ -21,6 +24,7 @@ import {
   fetchRUP,
   updateRUP,
   updateRUPStatus,
+  createOrUpdateRUPPasture,
   createOrUpdateRUPGrazingSchedule,
   toastSuccessMessage,
   toastErrorMessage,
@@ -183,6 +187,10 @@ export default connect(
     updateRUP,
     updateRUPStatus,
     planUpdated,
+    pastureAdded,
+    pastureUpdated,
+    pastureCopied,
+    createOrUpdateRUPPasture,
     grazingScheduleUpdated,
     createOrUpdateRUPGrazingSchedule,
     toastSuccessMessage,
