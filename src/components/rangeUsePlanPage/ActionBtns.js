@@ -51,6 +51,7 @@ const ActionBtns = ({
       key="submitBtn"
       inverted
       compact
+      type="button"
       loading={isSubmitting}
       onClick={openSubmissionModal}
       style={{ marginRight: '0', marginLeft: '10px' }}>
