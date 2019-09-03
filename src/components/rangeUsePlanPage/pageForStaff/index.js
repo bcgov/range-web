@@ -10,7 +10,6 @@ import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import BasicInformation from '../basicInformation'
 import EditableBasicInformation from '../editableBasicInformation'
-import Pastures from '../pastures'
 import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
@@ -26,6 +25,7 @@ import ManagementConsiderations from '../managementConsiderations'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
+import PlanForm from '../PlanForm'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -255,6 +255,8 @@ class PageForStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
+          {plan && <PlanForm plan={plan} />}
+
           {canEdit ? (
             <EditableBasicInformation
               elementId={ELEMENT_ID.BASIC_INFORMATION}
@@ -275,8 +277,6 @@ class PageForStaff extends Component {
           )}
 
           <UsageTable usage={usage} plan={plan} />
-
-          <Pastures plan={plan} elementId={ELEMENT_ID.PASTURES} />
 
           <GrazingSchedules
             elementId={ELEMENT_ID.GRAZING_SCHEDULE}

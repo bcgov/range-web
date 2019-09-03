@@ -13,7 +13,6 @@ import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
 import BasicInformation from '../basicInformation'
-import Pastures from '../pastures'
 import GrazingSchedules from '../grazingSchedules'
 import EditableGrazingSchedules from '../editableGrazingSchedules'
 import MinisterIssues from '../ministerIssues'
@@ -29,6 +28,7 @@ import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
 import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
+import PlanForm from '../PlanForm'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -350,6 +350,8 @@ class PageForAH extends Component {
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
+          {plan && <PlanForm plan={plan} />}
+
           <BasicInformation
             elementId={ELEMENT_ID.BASIC_INFORMATION}
             agreement={agreement}
@@ -358,8 +360,6 @@ class PageForAH extends Component {
           />
 
           <UsageTable usage={usage} plan={plan} />
-
-          <Pastures elementId={ELEMENT_ID.PASTURES} plan={plan} />
 
           {canEdit ? (
             <EditableGrazingSchedules {...grazingScheduleProps} />
