@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { handleNullValue, oxfordComma } from '../../../../utils'
 import { MONITORING_AREAS } from '../../../../constants/fields'
@@ -8,9 +8,15 @@ import { REFERENCE_KEY } from '../../../../constants/variables'
 import { connect } from 'formik'
 import { useReferences } from '../../../../providers/ReferencesProvider'
 import LocationButton from '../../../common/LocationButton'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react'
 
-const MonitoringAreaBox = ({ monitoringArea, namespace, formik }) => {
+const MonitoringAreaBox = ({
+  monitoringArea,
+  namespace,
+  formik,
+  onRemove,
+  onCopy
+}) => {
   const {
     latitude,
     location,
@@ -19,6 +25,8 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik }) => {
     purposes,
     rangelandHealth
   } = monitoringArea
+
+  const [removeDialogOpen, setDialogOpen] = useState(false)
 
   const references = useReferences()
 
@@ -41,6 +49,44 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik }) => {
       <div className="rup__plant-community__m-area__header">
         {/* <Icon name="map marker alternate" /> */}
         Monitoring Area: {name}
+        <PlainDropdown
+          trigger={<Icon name="ellipsis vertical" />}
+          options={[
+            {
+              key: 'copy',
+              value: 'copy',
+              text: 'Copy'
+            },
+            {
+              key: 'delete',
+              value: 'delete',
+              text: 'Delete'
+            }
+          ]}
+          style={{ display: 'flex', alignItems: 'center' }}
+          icon={null}
+          pointing="right"
+          onClick={e => e.stopPropagation()}
+          onChange={(e, { value }) => {
+            if (value === 'delete') {
+              setDialogOpen(true)
+            }
+            if (value === 'copy') {
+              onCopy()
+            }
+          }}
+          selectOnBlur={false}
+        />
+        <Confirm
+          open={removeDialogOpen}
+          onCancel={() => {
+            setDialogOpen(false)
+          }}
+          onConfirm={() => {
+            setDialogOpen(false)
+            onRemove()
+          }}
+        />
       </div>
       <div className="rup__row">
         <div className="rup__cell-6">
@@ -121,7 +167,9 @@ MonitoringAreaBox.propTypes = {
   namespace: PropTypes.string.isRequired,
   formik: PropTypes.shape({
     setFieldValue: PropTypes.func.isRequired
-  })
+  }),
+  onRemove: PropTypes.func,
+  onCopy: PropTypes.func
 }
 
 export default connect(MonitoringAreaBox)
