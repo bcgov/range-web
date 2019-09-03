@@ -40,7 +40,6 @@ const ActionBtns = ({
       compact
       loading={formik.isSubmitting}
       onClick={() => {
-        formik.setFieldValue('formStatus', 'draft')
         formik.submitForm()
       }}
       style={{ marginRight: '0', marginLeft: '10px' }}>

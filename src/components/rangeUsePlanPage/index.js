@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import uuid from 'uuid-v4'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Icon } from 'semantic-ui-react'
@@ -100,65 +101,73 @@ class Base extends Component {
     return this.props.fetchRUP(planId)
   }
 
-  handleSubmit = async (values, formik) => {
-    const { formStatus, ...plan } = values
+  handleSubmit = async (plan, formik) => {
+    const { pastures, grazingSchedules } = plan
 
-    const { pastures } = plan
+    console.log('submitting')
 
     const config = getAuthHeaderConfig()
 
     try {
       // Update Plan
-      if (formStatus === 'draft') {
-        await axios.put(API.UPDATE_RUP(plan.id), plan, config)
+      await axios.put(API.UPDATE_RUP(plan.id), plan, config)
 
-        const pasturesData = await Promise.all(
-          pastures.map(pasture => {
-            if (Number.isInteger(pasture.id)) {
-              return axios.put(
-                API.UPDATE_RUP_PASTURE(plan.id, pasture.id),
-                pasture,
-                config
-              )
-            } else {
-              const { id, ...values } = pasture
-              return axios.post(API.CREATE_RUP_PASTURE(plan.id), values, config)
-            }
-          })
-        )
-
-        const newPastures = pasturesData.map(p => p.data)
-
-        await Promise.all(
-          pastures.map((pasture, pastureIndex) =>
-            Promise.all(
-              pasture.plantCommunities.map(plantCommunity => {
-                const { id, ...values } = plantCommunity
-                if (!Number.isInteger(id)) {
-                  return axios.post(
-                    API.CREATE_RUP_PLANT_COMMUNITY(
-                      plan.id,
-                      newPastures[pastureIndex].id
-                    ),
-                    values,
-                    config
-                  )
-                }
-              })
+      const pasturesData = await Promise.all(
+        pastures.map(pasture => {
+          if (Number.isInteger(pasture.id)) {
+            return axios.put(
+              API.UPDATE_RUP_PASTURE(plan.id, pasture.id),
+              pasture,
+              config
             )
+          } else {
+            const { id, ...values } = pasture
+            return axios.post(API.CREATE_RUP_PASTURE(plan.id), values, config)
+          }
+        })
+      )
+
+      const newPastures = pasturesData.map(p => p.data)
+
+      await Promise.all(
+        pastures.map((pasture, pastureIndex) =>
+          Promise.all(
+            pasture.plantCommunities.map(plantCommunity => {
+              const { id, ...values } = plantCommunity
+              if (!Number.isInteger(id)) {
+                return axios.post(
+                  API.CREATE_RUP_PLANT_COMMUNITY(
+                    plan.id,
+                    newPastures[pastureIndex].id
+                  ),
+                  values,
+                  config
+                )
+              }
+            })
           )
         )
+      )
 
-        // // Update Grazing Schedules
-        // plan.grazingSchedules.forEach(
-        //   async scheduleId =>
-        //     await createOrUpdateRUPGrazingSchedule(
-        //       plan.id,
-        //       grazingSchedulesMap[scheduleId]
-        //     )
-        // )
-        // await onSuccess()
-      }
+      // Update Grazing Schedules
+      await Promise.all(
+        grazingSchedules.map(schedule => {
+          if (uuid.isUUID(schedule.id)) {
+            const { id, ...grazingSchedule } = schedule
+            return axios.post(
+              API.CREATE_RUP_GRAZING_SCHEDULE(plan.id),
+              { ...grazingSchedule, plan_id: plan.id },
+              config
+            )
+          } else {
+            return axios.put(
+              API.UPDATE_RUP_GRAZING_SCHEDULE(plan.id, schedule.id),
+              { ...schedule },
+              config
+            )
+          }
+        })
+      )
 
       formik.setSubmitting(false)
     } catch (err) {
