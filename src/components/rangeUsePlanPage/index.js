@@ -176,19 +176,19 @@ const Base = ({
       await Promise.all(
         managementConsiderations.map(consideration => {
           if (uuid.isUUID(consideration.id)) {
+            const { id, ...values } = consideration
+            return axios.post(
+              API.CREATE_RUP_MANAGEMENT_CONSIDERATION(plan.id),
+              values,
+              config
+            )
+          } else {
             return axios.put(
               API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(
                 plan.id,
                 consideration.id
               ),
               consideration,
-              config
-            )
-          } else {
-            const { id, ...values } = consideration
-            return axios.post(
-              API.CREATE_RUP_MANAGEMENT_CONSIDERATION(plan.id),
-              values,
               config
             )
           }
