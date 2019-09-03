@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import IndicatorPlantsForm from '../IndicatorPlantsForm'
-import { plantCommunityUpdated } from '../../../../actions'
 import { PLANT_CRITERIA } from '../../../../constants/variables'
 
 const StubbleHeightBox = ({ plantCommunity, namespace }) => {
@@ -40,11 +38,4 @@ StubbleHeightBox.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = {
-  plantCommunityUpdated
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(StubbleHeightBox)
+export default StubbleHeightBox
