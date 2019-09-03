@@ -50,7 +50,7 @@ const Pastures = ({ plan, pasturesMap }) => {
             render={({ push }) => (
               <div className="rup__pastures">
                 <div className="rup__content-title--editable">
-                  Pastures (refactored)
+                  Pastures
                   <Button
                     type="button"
                     basic
