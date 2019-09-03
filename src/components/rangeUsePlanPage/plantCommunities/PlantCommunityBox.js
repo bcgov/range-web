@@ -194,7 +194,10 @@ const PlantCommunityBox = ({
           <div className="rup__plant-community__content-title">
             Monitoring Areas
           </div>
-          <MonitoringAreaList monitoringAreas={monitoringAreas} />
+          <MonitoringAreaList
+            monitoringAreas={monitoringAreas}
+            namespace={`${namespace}.monitoringAreas`}
+          />
         </>
       }
     />
