@@ -12,7 +12,8 @@ const AddPlantCommunityButton = ({ onSubmit }) => {
   const options = types.map(type => ({
     key: type.id,
     value: type.id,
-    text: type.name
+    text: type.name,
+    id: type.id
   }))
 
   const otherType = types.find(t => t.name === 'Other')

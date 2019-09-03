@@ -80,30 +80,31 @@ const IndicatorPlantsForm = ({
                         type: 'number'
                       }}
                     />
-
-                    <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-                      <Dropdown
-                        trigger={<Icon name="ellipsis vertical" />}
-                        options={[
-                          {
-                            key: 'delete',
-                            value: 'delete',
-                            text: 'Delete'
-                          }
-                        ]}
-                        style={{ display: 'flex', alignItems: 'center' }}
-                        icon={null}
-                        pointing="right"
-                        onClick={e => e.stopPropagation()}
-                        onChange={(e, { value }) => {
-                          if (value === 'delete') {
-                            setToRemove(index)
-                            setDialogOpen(true)
-                          }
-                        }}
-                        selectOnBlur={false}
-                      />
-                    </IfEditable>
+                    {!Number.isInteger(plant.id) && (
+                      <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
+                        <Dropdown
+                          trigger={<Icon name="ellipsis vertical" />}
+                          options={[
+                            {
+                              key: 'delete',
+                              value: 'delete',
+                              text: 'Delete'
+                            }
+                          ]}
+                          style={{ display: 'flex', alignItems: 'center' }}
+                          icon={null}
+                          pointing="right"
+                          onClick={e => e.stopPropagation()}
+                          onChange={(e, { value }) => {
+                            if (value === 'delete') {
+                              setToRemove(index)
+                              setDialogOpen(true)
+                            }
+                          }}
+                          selectOnBlur={false}
+                        />
+                      </IfEditable>
+                    )}
                   </Form.Group>
                 )
             )}
