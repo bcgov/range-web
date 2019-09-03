@@ -69,7 +69,11 @@ const Base = ({
         API.GET_RUP(planId),
         getAuthHeaderConfig()
       )
-      setPlan(data)
+      setPlan({
+        ...data,
+        planStartDate: new Date(data.planStartDate),
+        planEndDate: new Date(data.planEndDate)
+      })
     } catch (e) {
       setError(e)
     }
