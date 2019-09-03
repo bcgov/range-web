@@ -170,7 +170,9 @@ class PlantCommunityBox extends Component {
 
             <RangeReadinessBox plantCommunity={plantCommunity} />
 
-            <StubbleHeightBox plantCommunity={plantCommunity} />
+            <StubbleHeightBox
+              indicatorPlants={plantCommunity.indicatorPlants}
+            />
 
             <ShrubUseBox plantCommunity={plantCommunity} />
 
