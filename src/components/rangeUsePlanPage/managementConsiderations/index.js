@@ -85,8 +85,7 @@ const ManagementConsiderations = ({ managementConsiderations }) => {
 }
 
 ManagementConsiderations.propTypes = {
-  managementConsiderations: PropTypes.array.isRequired,
-  namespace: PropTypes.string.isRequired
+  managementConsiderations: PropTypes.array.isRequired
 }
 
 export default ManagementConsiderations
