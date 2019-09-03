@@ -7,7 +7,7 @@ import {
   REFERENCE_KEY
 } from '../../../constants/variables'
 import { capitalize } from '../../../utils'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Form } from 'semantic-ui-react'
 import RangeReadinessBox from './criteria/RangeReadinessBox'
 import StubbleHeightBox from './criteria/StubbleHeightBox'
 import ShrubUseBox from './criteria/ShrubUseBox'
@@ -107,37 +107,37 @@ const PlantCommunityBox = ({
           <div className="rup__plant-community__content-title">
             Basic Plant Community Information
           </div>
-          <div className="rup__row">
-            <div className="rup__cell-4">
-              <PermissionsField
-                name={`${namespace}.aspect`}
-                permission={PLANT_COMMUNITY.ASPECT}
-                component={Input}
-                displayValue={aspect}
-                label={ASPECT}
-              />
-            </div>
-            <div className="rup__cell-4">
-              <PermissionsField
-                permission={PLANT_COMMUNITY.ELEVATION}
-                name={`${namespace}.elevation`}
-                component={Dropdown}
-                options={elevationOptions}
-                displayValue={elevationTypes[elevation].name}
-                label={ELEVATION}
-              />
-            </div>
+
+          <Form.Group widths="2">
             <PermissionsField
-              name={`${namespace}.approved`}
-              permission={PLANT_COMMUNITY.APPROVED}
-              component={Checkbox}
-              displayValue={approved}
-              label={APPROVED_BY_MINISTER}
-              inputProps={{
-                toggle: true
-              }}
+              name={`${namespace}.aspect`}
+              permission={PLANT_COMMUNITY.ASPECT}
+              component={Input}
+              displayValue={aspect}
+              label={ASPECT}
             />
-          </div>
+
+            <PermissionsField
+              permission={PLANT_COMMUNITY.ELEVATION}
+              name={`${namespace}.elevation`}
+              component={Dropdown}
+              options={elevationOptions}
+              displayValue={elevation ? elevationTypes[elevation].name : ''}
+              label={ELEVATION}
+            />
+          </Form.Group>
+
+          <PermissionsField
+            name={`${namespace}.approved`}
+            permission={PLANT_COMMUNITY.APPROVED}
+            component={Checkbox}
+            displayValue={approved}
+            label={APPROVED_BY_MINISTER}
+            inputProps={{
+              toggle: true
+            }}
+          />
+
           <PermissionsField
             name={`${namespace}.notes`}
             permission={PLANT_COMMUNITY.NOTES}
@@ -146,22 +146,24 @@ const PlantCommunityBox = ({
             label={PLANT_COMMUNITY_NOTES}
           />
 
-          <PermissionsField
-            name={`${namespace}.url`}
-            permission={PLANT_COMMUNITY.COMMUNITY_URL}
-            component={Input}
-            displayValue={url}
-            label={COMMUNITY_URL}
-          />
+          <Form.Group widths="2">
+            <PermissionsField
+              name={`${namespace}.url`}
+              permission={PLANT_COMMUNITY.COMMUNITY_URL}
+              component={Input}
+              displayValue={url}
+              label={COMMUNITY_URL}
+            />
 
-          <PermissionsField
-            permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
-            name={`${namespace}.purposeOfAction`}
-            component={Dropdown}
-            options={purposeOptions}
-            displayValue={purposeOfAction}
-            label={PURPOSE_OF_ACTION}
-          />
+            <PermissionsField
+              permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
+              name={`${namespace}.purposeOfAction`}
+              component={Dropdown}
+              options={purposeOptions}
+              displayValue={purposeOfAction}
+              label={PURPOSE_OF_ACTION}
+            />
+          </Form.Group>
 
           {!(
             purposeOfAction === PurposeOfAction.NONE ||
