@@ -31,6 +31,7 @@ export const PLANT_COMMUNITY = {
   COMMUNITY_URL: 'plantCommunity.communityURL',
   PURPOSE_OF_ACTION: 'plantCommunity.purposeOfAction',
   NOTES: 'plantCommunity.notes',
+  IMPORT: 'plantCommunity.import',
   ACTIONS: {
     NAME: 'plantCommunity.actions.name',
     DETAIL: 'plantCommunity.actions.detail',

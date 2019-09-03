@@ -5,6 +5,8 @@ import PlantCommunityBox from './PlantCommunityBox'
 import AddPlantCommunityButton from './AddPlantCommunityButton'
 import { FieldArray } from 'formik'
 import { NOT_PROVIDED } from '../../../constants/strings'
+import { IfEditable } from '../../common/PermissionsField'
+import { PLANT_COMMUNITY } from '../../../constants/fields'
 
 const PlantCommunities = ({ plantCommunities = [], canEdit, namespace }) => {
   const isEmpty = plantCommunities.length === 0
@@ -16,7 +18,7 @@ const PlantCommunities = ({ plantCommunities = [], canEdit, namespace }) => {
       render={({ push }) => (
         <div className="rup__plant-communities">
           <div className="rup__plant-communities__title">Plant Communities</div>
-          {canEdit && (
+          <IfEditable permission={PLANT_COMMUNITY.NAME}>
             <AddPlantCommunityButton
               onSubmit={plantCommunity => {
                 push({
@@ -36,30 +38,33 @@ const PlantCommunities = ({ plantCommunities = [], canEdit, namespace }) => {
                 })
               }}
             />
-          )}
-          {isEmpty && !canEdit ? (
-            <div className="rup__plant-communities__not-provided">
-              {NOT_PROVIDED}
-            </div>
-          ) : (
-            <ul
-              className={classnames('collaspible-boxes', {
-                'collaspible-boxes--empty': isEmpty
-              })}>
-              {plantCommunities.map((plantCommunity, index) => (
-                <PlantCommunityBox
-                  key={plantCommunity.id}
-                  plantCommunity={plantCommunity}
-                  activeIndex={activeIndex}
-                  index={index}
-                  onClick={() => {
-                    setActiveIndex(index)
-                  }}
-                  namespace={`${namespace}.plantCommunities.${index}`}
-                />
-              ))}
-            </ul>
-          )}
+          </IfEditable>
+
+          <IfEditable permission={PLANT_COMMUNITY.NAME} invert>
+            {isEmpty && (
+              <div className="rup__plant-communities__not-provided">
+                {NOT_PROVIDED}
+              </div>
+            )}
+          </IfEditable>
+
+          <ul
+            className={classnames('collaspible-boxes', {
+              'collaspible-boxes--empty': isEmpty
+            })}>
+            {plantCommunities.map((plantCommunity, index) => (
+              <PlantCommunityBox
+                key={plantCommunity.id}
+                plantCommunity={plantCommunity}
+                activeIndex={activeIndex}
+                index={index}
+                onClick={() => {
+                  setActiveIndex(index)
+                }}
+                namespace={`${namespace}.plantCommunities.${index}`}
+              />
+            ))}
+          </ul>
         </div>
       )}
     />

@@ -9,7 +9,7 @@ import { CollapsibleBox, PrimaryButton } from '../../common'
 import { IMAGE_SRC } from '../../../constants/variables'
 import { FieldArray } from 'formik'
 import { TextArea } from 'formik-semantic-ui'
-import PermissionsField from '../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 
 const GrazingScheduleBox = ({
@@ -131,23 +131,25 @@ const GrazingScheduleBox = ({
                     )}
                   </Table.Header>
                 </Table>
-                <PrimaryButton
-                  style={{ margin: '10px 0' }}
-                  inverted
-                  compact
-                  onClick={() =>
-                    push({
-                      dateIn: '',
-                      dateOut: '',
-                      graceDays: '',
-                      livestockCount: '',
-                      livestockType: {},
-                      livestockTypeId: ''
-                    })
-                  }>
-                  <Icon name="add circle" />
-                  Add Row
-                </PrimaryButton>
+                <IfEditable permission={SCHEDULE.TYPE}>
+                  <PrimaryButton
+                    style={{ margin: '10px 0' }}
+                    inverted
+                    compact
+                    onClick={() =>
+                      push({
+                        dateIn: '',
+                        dateOut: '',
+                        graceDays: '',
+                        livestockCount: '',
+                        livestockType: {},
+                        livestockTypeId: ''
+                      })
+                    }>
+                    <Icon name="add circle" />
+                    Add Row
+                  </PrimaryButton>
+                </IfEditable>
                 <div className="rup__grazing-schedule__AUMs">
                   <div className="rup__grazing-schedule__AUM-label">
                     Authorized AUMs

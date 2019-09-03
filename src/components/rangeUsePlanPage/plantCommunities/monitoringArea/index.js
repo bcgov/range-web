@@ -4,6 +4,8 @@ import MonitoringAreaRow from './MonitoringAreaBox'
 import { FieldArray } from 'formik'
 import AddMonitoringAreaButton from './AddMonitoringAreaButton'
 import InputModal from '../../../common/InputModal'
+import { IfEditable } from '../../../common/PermissionsField'
+import { MONITORING_AREAS } from '../../../../constants/fields'
 
 const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
   const [areaToCopy, setAreaToCopy] = useState()
@@ -14,20 +16,24 @@ const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
         name={namespace}
         render={({ push, remove }) => (
           <>
-            <AddMonitoringAreaButton
-              onClick={() => {
-                setAreaToCopy({
-                  rangelandHealth: 0,
-                  purposes: [],
-                  location: '',
-                  latitute: 0,
-                  longtitude: 0,
-                  transect_azimuth: 0,
-                  other_purpose: ''
-                })
-              }}
-            />
-            {monitoringAreas.length === 0 && <div>No monitoring area</div>}
+            <IfEditable permission={MONITORING_AREAS.NAME}>
+              <AddMonitoringAreaButton
+                onClick={() => {
+                  setAreaToCopy({
+                    rangelandHealth: 0,
+                    purposes: [],
+                    location: '',
+                    latitute: 0,
+                    longtitude: 0,
+                    transect_azimuth: 0,
+                    other_purpose: ''
+                  })
+                }}
+              />
+            </IfEditable>
+            <IfEditable permission={MONITORING_AREAS.NAME} invert>
+              {monitoringAreas.length === 0 && <div>No monitoring areas</div>}
+            </IfEditable>
             {monitoringAreas.map((monitoringArea, index) => (
               <MonitoringAreaRow
                 key={monitoringArea.id}

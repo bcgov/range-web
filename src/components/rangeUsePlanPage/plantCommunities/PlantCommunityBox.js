@@ -21,7 +21,7 @@ import {
   PURPOSE_OF_ACTION
 } from '../../../constants/strings'
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
-import PermissionsField from '../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
 import { connect } from 'formik'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
@@ -181,43 +181,45 @@ const PlantCommunityBox = ({
 
           <div className="rup__plant-community__content-title">
             <span>Criteria</span>
-            <Import
-              onSubmit={({ plantCommunity, criteria }) => {
-                const indicatorPlants = plantCommunity.indicatorPlants.filter(
-                  ip => {
-                    return (
-                      (criteria.includes('rangeReadiness') &&
-                        ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
-                      (criteria.includes('stubbleHeight') &&
-                        ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+            <IfEditable permission={PLANT_CRITERIA.IMPORT}>
+              <Import
+                onSubmit={({ plantCommunity, criteria }) => {
+                  const indicatorPlants = plantCommunity.indicatorPlants.filter(
+                    ip => {
+                      return (
+                        (criteria.includes('rangeReadiness') &&
+                          ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
+                        (criteria.includes('stubbleHeight') &&
+                          ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                      )
+                    }
+                  )
+
+                  formik.setFieldValue(
+                    `${namespace}.indicatorPlants`,
+                    indicatorPlants
+                  )
+
+                  if (criteria.includes('rangeReadiness')) {
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessDate`,
+                      plantCommunity.rangeReadinessDate
+                    )
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessNotes`,
+                      plantCommunity.rangeReadinessNotes
                     )
                   }
-                )
 
-                formik.setFieldValue(
-                  `${namespace}.indicatorPlants`,
-                  indicatorPlants
-                )
-
-                if (criteria.includes('rangeReadiness')) {
-                  formik.setFieldValue(
-                    `${namespace}.rangeReadinessDate`,
-                    plantCommunity.rangeReadinessDate
-                  )
-                  formik.setFieldValue(
-                    `${namespace}.rangeReadinessNotes`,
-                    plantCommunity.rangeReadinessNotes
-                  )
-                }
-
-                if (criteria.includes('shrubUse')) {
-                  formik.setFieldValue(
-                    `${namespace}.shrubUse`,
-                    plantCommunity.shrubUse
-                  )
-                }
-              }}
-            />
+                  if (criteria.includes('shrubUse')) {
+                    formik.setFieldValue(
+                      `${namespace}.shrubUse`,
+                      plantCommunity.shrubUse
+                    )
+                  }
+                }}
+              />
+            </IfEditable>
           </div>
 
           <RangeReadinessBox
