@@ -6,7 +6,9 @@ import {
 
 const initialPlantCommunity = {
   indicatorPlants: [],
-  monitoringAreas: []
+  monitoringAreas: [],
+  purposeOfAction: 'none',
+  plantCommunityActions: []
 }
 
 const storePlantCommunities = (state, action) => {
