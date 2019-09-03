@@ -1,50 +1,45 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-// import IndicatorPlants from './IndicatorPlants';
-// import { PLANT_CRITERIA, IMAGE_SRC } from '../../../constants/variables';
-import { handleNullValue } from '../../../../utils'
+import { Input } from 'formik-semantic-ui'
+import { RANGE_READINESS } from '../../../../constants/fields'
+import PermissionsField from '../../../common/PermissionsField'
 
-class ShrubUseBox extends Component {
-  static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired
-  }
-
-  render() {
-    const { plantCommunity } = this.props
-    const { shrubUse } = plantCommunity
-
-    return (
-      <div className="rup__plant-community__su">
-        <div className="rup__plant-community__su__title">
-          {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
-          Shrub Use
-        </div>
-        <div>
-          Unless otherwise indicated the allowable browse level is 25% of
-          current annual growth.
-        </div>
-
-        <div className="rup__plant-community__su__label">
-          % of Current Annual Growth
-        </div>
-        <div>{handleNullValue(shrubUse)}</div>
-
-        {/* <div className="rup__plant-community__i-plant__header">
-          <div className="rup__plant-community__su__label">
-            Indicator Plant
-          </div>
-          <div className="rup__plant-community__su__label">
-            % of Current Annual Growth
-          </div>
-        </div>
-
-        <IndicatorPlants
-          indicatorPlants={indicatorPlants}
-          criteria={PLANT_CRITERIA.SHRUBUSE}
-        /> */}
+const ShrubUseBox = ({ plantCommunity, namespace }) => {
+  return (
+    <div className="rup__plant-community__su">
+      <div className="rup__plant-community__su__title">
+        {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
+        Shrub Use
       </div>
+      <div>
+        Unless otherwise indicated the allowable browse level is 25% of current
+        annual growth.
+      </div>
+
+      <PermissionsField
+        name={`${namespace}.shrubUse`}
+        permission={RANGE_READINESS.NOTES}
+        component={Input}
+        displayValue={plantCommunity.shrubUse}
+        label="% of Current Annual Growth"
+      />
+    </div>
+  )
+}
+
+ShrubUseBox.propTypes = {
+  plantCommunity: PropTypes.shape({
+    indicatorPlants: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired,
+        plantSpeciesId: PropTypes.number.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired
+      })
     )
-  }
+  }),
+  namespace: PropTypes.string.isRequired
 }
 
 export default ShrubUseBox
