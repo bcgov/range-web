@@ -4,6 +4,7 @@ import permissions from '../../constants/permissions'
 import { useUser } from '../../providers/UserProvider'
 import { Input } from 'formik-semantic-ui'
 import { Input as PlainInput, Form } from 'semantic-ui-react'
+import { handleNullValue } from '../../utils'
 
 export const canUserEdit = (field, user) =>
   permissions[user.roles[0]].includes(field)
@@ -20,7 +21,8 @@ const PermissionsField = ({
     <Component {...props} />
   ) : (
     <Form.Field>
-      <PlainInput transparent value={displayValue} />
+      {props.label && <label>{props.label}</label>}
+      <PlainInput transparent value={handleNullValue(displayValue)} />
     </Form.Field>
   )
 }
@@ -28,7 +30,8 @@ const PermissionsField = ({
 PermissionsField.propTypes = {
   permission: PropTypes.string.isRequired,
   displayValue: PropTypes.any.isRequired,
-  component: PropTypes.elementType
+  component: PropTypes.elementType,
+  label: PropTypes.string
 }
 
 export const IfEditable = ({ children, permission, invert }) => {
