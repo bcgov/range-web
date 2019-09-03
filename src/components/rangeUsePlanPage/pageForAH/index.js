@@ -14,7 +14,6 @@ import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
 import MinisterIssues from '../ministerIssues'
 import EditableMinisterIssues from '../editableMinisterIssues'
-import UsageTable from '../usage'
 import InvasivePlantChecklist from '../invasivePlantChecklist'
 import EditableInvasivePlantChecklist from '../editableInvasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
@@ -348,8 +347,6 @@ class PageForAH extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <UsageTable usage={usage} plan={plan} />
 
           {canEdit ? (
             <EditableMinisterIssues {...ministerIssueProps} />

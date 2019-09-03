@@ -15,7 +15,6 @@ import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
-import UsageTable from '../usage'
 import InvasivePlantChecklist from '../invasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
 import ManagementConsiderations from '../managementConsiderations'
@@ -253,8 +252,6 @@ class PageForStaff extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <UsageTable usage={usage} plan={plan} />
 
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
