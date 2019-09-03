@@ -6,7 +6,7 @@ import AddPlantCommunityButton from './AddPlantCommunityButton'
 import { FieldArray } from 'formik'
 import { NOT_PROVIDED } from '../../../constants/strings'
 
-const PlantCommunities = ({ plantCommunities, canEdit, namespace }) => {
+const PlantCommunities = ({ plantCommunities = [], canEdit, namespace }) => {
   const isEmpty = plantCommunities.length === 0
   const [activeIndex, setActiveIndex] = useState(-1)
 
@@ -21,7 +21,7 @@ const PlantCommunities = ({ plantCommunities, canEdit, namespace }) => {
               onSubmit={plantCommunity => {
                 push({
                   ...plantCommunity,
-                  communityTypeId: new Date().toISOString(),
+                  communityTypeId: plantCommunity.id,
                   indicatorPlants: [],
                   plantCommunityActions: [],
                   purposeOfAction: 'none',
