@@ -59,8 +59,11 @@
       &-title {
         font-weight: bold;
         font-size: 1.4rem;
-        margin-top: 20px;
+        height: 36;
         color: $primary-color;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       &__label {
         color: gray;

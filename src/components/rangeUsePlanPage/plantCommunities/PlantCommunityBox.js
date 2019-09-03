@@ -179,45 +179,46 @@ const PlantCommunityBox = ({
             </>
           )}
 
-          <div className="rup__plant-community__content-title">Criteria</div>
+          <div className="rup__plant-community__content-title">
+            <span>Criteria</span>
+            <Import
+              onSubmit={({ plantCommunity, criteria }) => {
+                const indicatorPlants = plantCommunity.indicatorPlants.filter(
+                  ip => {
+                    return (
+                      (criteria.includes('rangeReadiness') &&
+                        ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
+                      (criteria.includes('stubbleHeight') &&
+                        ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                    )
+                  }
+                )
 
-          <Import
-            onSubmit={({ plantCommunity, criteria }) => {
-              const indicatorPlants = plantCommunity.indicatorPlants.filter(
-                ip => {
-                  return (
-                    (criteria.includes('rangeReadiness') &&
-                      ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
-                    (criteria.includes('stubbleHeight') &&
-                      ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                formik.setFieldValue(
+                  `${namespace}.indicatorPlants`,
+                  indicatorPlants
+                )
+
+                if (criteria.includes('rangeReadiness')) {
+                  formik.setFieldValue(
+                    `${namespace}.rangeReadinessDate`,
+                    plantCommunity.rangeReadinessDate
+                  )
+                  formik.setFieldValue(
+                    `${namespace}.rangeReadinessNotes`,
+                    plantCommunity.rangeReadinessNotes
                   )
                 }
-              )
 
-              formik.setFieldValue(
-                `${namespace}.indicatorPlants`,
-                indicatorPlants
-              )
-
-              if (criteria.includes('rangeReadiness')) {
-                formik.setFieldValue(
-                  `${namespace}.rangeReadinessDate`,
-                  plantCommunity.rangeReadinessDate
-                )
-                formik.setFieldValue(
-                  `${namespace}.rangeReadinessNotes`,
-                  plantCommunity.rangeReadinessNotes
-                )
-              }
-
-              if (criteria.includes('shrubUse')) {
-                formik.setFieldValue(
-                  `${namespace}.shrubUse`,
-                  plantCommunity.shrubUse
-                )
-              }
-            }}
-          />
+                if (criteria.includes('shrubUse')) {
+                  formik.setFieldValue(
+                    `${namespace}.shrubUse`,
+                    plantCommunity.shrubUse
+                  )
+                }
+              }}
+            />
+          </div>
 
           <RangeReadinessBox
             plantCommunity={plantCommunity}
