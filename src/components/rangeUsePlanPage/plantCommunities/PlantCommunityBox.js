@@ -249,10 +249,10 @@ PlantCommunityBox.propTypes = {
   plantCommunity: PropTypes.shape({
     name: PropTypes.string.isRequired,
     plantCommunityActions: PropTypes.array.isRequired,
-    purposeOfAction: PropTypes.string.isRequired,
-    aspect: PropTypes.string.isRequired,
+    purposeOfAction: PropTypes.string,
+    aspect: PropTypes.string,
     elevation: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
+    url: PropTypes.string,
     approved: PropTypes.bool.isRequired,
     notes: PropTypes.string.isRequired,
     communityType: PropTypes.object,
