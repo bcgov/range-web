@@ -55,7 +55,7 @@ const permissions = {
     SHRUB_USE.PERCENT,
     MINISTER_ISSUES.TYPE
   ],
-  agreementHolder: [
+  myra_client: [
     SCHEDULE.PASTURE,
     SCHEDULE.TYPE,
     SCHEDULE.ANIMALS,
