@@ -4,7 +4,7 @@ import {
   handleNullValue,
   getRangeReadinessMonthAndDate
 } from '../../../../utils'
-import IndicatorPlants from '../IndicatorPlants'
+import IndicatorPlantsForm from '../IndicatorPlantsForm'
 import { PLANT_CRITERIA } from '../../../../constants/variables'
 
 class RangeReadinessBox extends Component {
@@ -36,16 +36,9 @@ class RangeReadinessBox extends Component {
         <div className="rup__plant-community__rr__label">Readiness Date</div>
         <div>{handleNullValue(readinessMonthAndDate)}</div>
 
-        <div className="rup__plant-community__i-plant__header">
-          <div className="rup__plant-community__rr__label">Indicator Plant</div>
-          <div className="rup__plant-community__rr__label">
-            Criteria (Leaf Stage)
-          </div>
-        </div>
-
-        <IndicatorPlants
+        <IndicatorPlantsForm
           indicatorPlants={indicatorPlants}
-          criteria={PLANT_CRITERIA.RANGE_READINESS}
+          valueLabel="Criteria (Leaf Stage)"
         />
 
         <div className="rup__plant-community__rr__label">Notes</div>
