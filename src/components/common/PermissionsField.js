@@ -20,7 +20,7 @@ const PermissionsField = ({
   return canUserEdit(permission, user) ? (
     <Component {...props} />
   ) : (
-    <Form.Field>
+    <Form.Field inline={props.inline}>
       {props.label && <label>{props.label}</label>}
       <PlainInput transparent value={handleNullValue(displayValue)} />
     </Form.Field>
@@ -31,7 +31,8 @@ PermissionsField.propTypes = {
   permission: PropTypes.string.isRequired,
   displayValue: PropTypes.any.isRequired,
   component: PropTypes.elementType,
-  label: PropTypes.string
+  label: PropTypes.string,
+  inline: PropTypes.bool
 }
 
 export const IfEditable = ({ children, permission, invert }) => {
