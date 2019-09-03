@@ -20,13 +20,7 @@ const StubbleHeightBox = ({ indicatorPlants = [] }) => {
       </div>
 
       <IndicatorPlantsForm
-        indicatorPlants={[
-          {
-            id: 0,
-            value: 23.3,
-            plantSpecies: 23
-          }
-        ]}
+        indicatorPlants={indicatorPlants}
         onSubmit={handleSubmit}
         valueLabel="Height After Grazing (cm)"
       />
