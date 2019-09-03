@@ -232,17 +232,15 @@ class PageForAH extends Component {
       agreement,
       references,
       pasturesMap,
-      grazingSchedulesMap,
       ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
-      managementConsiderationsMap,
       fetchPlan
     } = this.props
 
     const { agreementId, status, confirmations, rangeName } = plan
-    const { clients, usage } = agreement
+    const { clients } = agreement
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canAmend = utils.isStatusAmongApprovedStatuses(status)
@@ -259,26 +257,12 @@ class PageForAH extends Component {
     } = utils.getBannerHeaderAndContentForAH(plan, user)
     // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
-    const grazingScheduleProps = {
-      elementId: ELEMENT_ID.GRAZING_SCHEDULE,
-      references,
-      usage,
-      plan,
-      pasturesMap,
-      grazingSchedulesMap
-    }
     const ministerIssueProps = {
       elementId: ELEMENT_ID.MINISTER_ISSUES,
       references,
       plan,
       pasturesMap,
       ministerIssuesMap
-    }
-    const managementConsiderationProps = {
-      elementId: ELEMENT_ID.MANAGEMENT_CONSIDERATIONS,
-      plan,
-      references,
-      managementConsiderationsMap
     }
 
     return (

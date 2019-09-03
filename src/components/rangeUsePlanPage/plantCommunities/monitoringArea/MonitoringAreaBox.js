@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { handleNullValue, oxfordComma } from '../../../../utils'
+import { oxfordComma } from '../../../../utils'
 import { MONITORING_AREAS } from '../../../../constants/fields'
 import { Input, Dropdown } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField'

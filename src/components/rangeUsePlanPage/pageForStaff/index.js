@@ -165,22 +165,16 @@ class PageForStaff extends Component {
       user,
       references,
       plan,
-      pasturesMap,
-      grazingSchedulesMap,
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
-      managementConsiderationsMap,
       fetchPlan,
       isFetchingPlan,
-      planUpdated,
-      updateRUPStatus,
-      grazingScheduleUpdated
+      updateRUPStatus
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
     const { agreementId, status, rangeName } = plan
-    const { usage } = agreement
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canSubmit = utils.isStatusRecommendForSubmission(status)

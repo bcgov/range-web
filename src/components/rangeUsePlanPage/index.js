@@ -20,7 +20,6 @@ import {
   getAuthHeaderConfig
 } from '../../utils'
 import * as selectors from '../../reducers/rootReducer'
-import { DETAIL_RUP_TITLE } from '../../constants/strings'
 import PageForStaff from './pageForStaff'
 import PageForAH from './pageForAH'
 import {
@@ -130,6 +129,7 @@ const Base = ({
                   config
                 )
               }
+              return Promise.resolve()
             })
           )
         )
