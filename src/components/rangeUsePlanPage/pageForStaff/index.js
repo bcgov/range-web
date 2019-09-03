@@ -181,9 +181,6 @@ class PageForStaff extends Component {
       isFetchingPlan,
       planUpdated,
       updateRUPStatus,
-      pastureAdded,
-      pastureUpdated,
-      pastureCopied,
       grazingScheduleUpdated
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state

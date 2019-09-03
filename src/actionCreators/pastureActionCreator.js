@@ -168,10 +168,11 @@ export const createRUPPlantCommunityAndOthers = (
       const newIps = await Promise.all(
         community.indicatorPlants.map(ip => {
           if (!ip.id) {
-            dispatch(
+            return dispatch(
               createRUPIndicatorPlant(planId, pastureId, plantCommunity.id, ip)
             )
           }
+          return Promise.resolve()
         })
       )
       const newMas = await Promise.all(

@@ -8,7 +8,6 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Input, Dropdown as FormikDropdown, Form } from 'formik-semantic-ui'
 import { FieldArray, getIn } from 'formik'
-import * as Yup from 'yup'
 
 const IndicatorPlantsForm = ({
   indicatorPlants,

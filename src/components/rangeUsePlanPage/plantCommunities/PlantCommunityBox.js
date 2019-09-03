@@ -20,7 +20,6 @@ import {
   COMMUNITY_URL,
   PURPOSE_OF_ACTION
 } from '../../../constants/strings'
-import { useUser } from '../../../providers/UserProvider'
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
 import PermissionsField from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
@@ -44,7 +43,6 @@ const PlantCommunityBox = ({
     approved,
     notes,
     communityType,
-    communityTypeId,
     monitoringAreas
   } = plantCommunity
   const communityTypeName = (communityType && communityType.name) || name
