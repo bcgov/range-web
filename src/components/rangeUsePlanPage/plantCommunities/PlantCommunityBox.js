@@ -107,7 +107,7 @@ const PlantCommunityBox = ({
       collapsibleContent={
         <>
           <div className="rup__plant-community__content-title">
-            Basic Plant Community Information
+            <span>Basic Plant Community Information</span>
           </div>
 
           <Form.Group widths="2">
@@ -170,7 +170,7 @@ const PlantCommunityBox = ({
           {purposeOfAction !== PurposeOfAction.NONE && (
             <>
               <div className="rup__plant-community__content-title">
-                Plant Community Actions
+                <span>Plant Community Actions</span>
               </div>
               <PlantCommunityActionsBox
                 actions={plantCommunityActions}
@@ -233,7 +233,7 @@ const PlantCommunityBox = ({
           <ShrubUseBox plantCommunity={plantCommunity} namespace={namespace} />
 
           <div className="rup__plant-community__content-title">
-            Monitoring Areas
+            <span>Monitoring Areas</span>
           </div>
           <MonitoringAreaList
             monitoringAreas={monitoringAreas}
