@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PermissionsField from '../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
@@ -62,17 +62,19 @@ const ManagementConsiderationRow = ({ namespace, managementConsideration }) => {
             />
           </div>
 
-          <div className="rup__m-consideration__ellipsis">
-            <Dropdown
-              trigger={
-                <Icon name="ellipsis vertical" style={{ margin: '0' }} />
-              }
-              options={ellipsisOptions}
-              icon={null}
-              pointing="right"
-              style={{ marginLeft: '5px', marginTop: '10px' }}
-            />
-          </div>
+          <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
+            <div className="rup__m-consideration__ellipsis">
+              <Dropdown
+                trigger={
+                  <Icon name="ellipsis vertical" style={{ margin: '0' }} />
+                }
+                options={ellipsisOptions}
+                icon={null}
+                pointing="right"
+                style={{ marginLeft: '5px', marginTop: '10px' }}
+              />
+            </div>
+          </IfEditable>
         </Form.Group>
       </div>
     </div>

@@ -6,6 +6,8 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { FieldArray } from 'formik'
 import ManagementConsiderationRow from './ManagementConsiderationRow'
+import { IfEditable } from '../../common/PermissionsField'
+import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
 
 const ManagementConsiderations = ({ managementConsiderations }) => {
   const references = useReferences()
@@ -50,29 +52,31 @@ const ManagementConsiderations = ({ managementConsiderations }) => {
               ))
             )}
 
-            <Dropdown
-              trigger={
-                <PrimaryButton
-                  inverted
-                  compact
-                  style={{ marginTop: '10px' }}
-                  type="button">
-                  <Icon name="add circle" />
-                  Add Consideration
-                </PrimaryButton>
-              }
-              options={considerTypeOptions}
-              icon={null}
-              pointing="left"
-              onChange={(e, { value }) => {
-                push({
-                  considerationTypeId: value,
-                  detail: '',
-                  url: ''
-                })
-              }}
-              selectOnBlur={false}
-            />
+            <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
+              <Dropdown
+                trigger={
+                  <PrimaryButton
+                    inverted
+                    compact
+                    style={{ marginTop: '10px' }}
+                    type="button">
+                    <Icon name="add circle" />
+                    Add Consideration
+                  </PrimaryButton>
+                }
+                options={considerTypeOptions}
+                icon={null}
+                pointing="left"
+                onChange={(e, { value }) => {
+                  push({
+                    considerationTypeId: value,
+                    detail: '',
+                    url: ''
+                  })
+                }}
+                selectOnBlur={false}
+              />
+            </IfEditable>
           </div>
         </div>
       )}
