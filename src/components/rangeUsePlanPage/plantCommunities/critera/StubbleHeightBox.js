@@ -1,37 +1,52 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import IndicatorPlants from '../IndicatorPlants'
-import { PLANT_CRITERIA } from '../../../../constants/variables'
+import { connect } from 'react-redux'
+import IndicatorPlantsForm from '../IndicatorPlantsForm'
 
-class StubbleHeightBox extends Component {
-  static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired
+const StubbleHeightBox = ({ indicatorPlants = [] }) => {
+  const handleSubmit = () => {
+    console.log('submit')
   }
 
-  render() {
-    const { plantCommunity } = this.props
-    const { indicatorPlants } = plantCommunity
+  const handleChange = () => {
+    console.log('change')
+  }
 
-    return (
-      <div className="rup__plant-community__sh">
-        <div className="rup__plant-community__sh__title">
-          {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
-          Stubble Height
-        </div>
-        <div className="rup__plant-community__i-plant__header">
-          <div className="rup__plant-community__sh__label">Indicator Plant</div>
-          <div className="rup__plant-community__sh__label">
-            Height After Grazing (cm)
-          </div>
-        </div>
-
-        <IndicatorPlants
-          indicatorPlants={indicatorPlants}
-          criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}
-        />
+  return (
+    <div className="rup__plant-community__sh">
+      <div className="rup__plant-community__sh__title">
+        {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
+        Stubble Height
       </div>
-    )
-  }
+
+      <IndicatorPlantsForm
+        indicatorPlants={[
+          {
+            id: 0,
+            value: 23.3,
+            plantSpecies: 23
+          }
+        ]}
+        onSubmit={handleSubmit}
+        valueLabel="Height After Grazing (cm)"
+      />
+    </div>
+  )
 }
 
-export default StubbleHeightBox
+StubbleHeightBox.propTypes = {
+  indicatorPlants: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      plantSpecies: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  )
+}
+
+const mapDispatchToProps = {}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(StubbleHeightBox)
