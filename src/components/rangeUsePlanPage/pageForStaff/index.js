@@ -8,7 +8,6 @@ import {
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
-import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
 import ContentsContainer from '../ContentsContainer'
@@ -256,17 +255,6 @@ class PageForStaff extends Component {
           {plan && <PlanForm plan={plan} />}
 
           <UsageTable usage={usage} plan={plan} />
-
-          <GrazingSchedules
-            elementId={ELEMENT_ID.GRAZING_SCHEDULE}
-            references={references}
-            usage={usage}
-            plan={plan}
-            pasturesMap={pasturesMap}
-            grazingSchedulesMap={grazingSchedulesMap}
-            grazingScheduleUpdated={grazingScheduleUpdated}
-            canEditGraceDays={canEdit}
-          />
 
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}

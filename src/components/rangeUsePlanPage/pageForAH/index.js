@@ -12,8 +12,6 @@ import ContentsContainer from '../ContentsContainer'
 import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
-import GrazingSchedules from '../grazingSchedules'
-import EditableGrazingSchedules from '../editableGrazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import EditableMinisterIssues from '../editableMinisterIssues'
 import UsageTable from '../usage'
@@ -352,12 +350,6 @@ class PageForAH extends Component {
           {plan && <PlanForm plan={plan} />}
 
           <UsageTable usage={usage} plan={plan} />
-
-          {canEdit ? (
-            <EditableGrazingSchedules {...grazingScheduleProps} />
-          ) : (
-            <GrazingSchedules {...grazingScheduleProps} />
-          )}
 
           {canEdit ? (
             <EditableMinisterIssues {...ministerIssueProps} />

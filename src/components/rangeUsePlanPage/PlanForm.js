@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Pastures from './pastures'
 import { ELEMENT_ID } from '../../constants/variables'
 import BasicInformation from './basicInformation'
-import GrazingSchedules from './grazingSchedulesRefactored'
+import GrazingSchedules from './grazingSchedules'
 
 const PlanForm = ({ plan }) => {
   return (
