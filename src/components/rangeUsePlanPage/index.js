@@ -14,7 +14,9 @@ import {
 import {
   isUserAgreementHolder,
   isUserAdmin,
-  isUserRangeOfficer
+  isUserRangeOfficer,
+  axios,
+  getAuthHeaderConfig
 } from '../../utils'
 import * as selectors from '../../reducers/rootReducer'
 import { DETAIL_RUP_TITLE } from '../../constants/strings'
@@ -34,8 +36,14 @@ import {
   createOrUpdateRUPManagementConsideration,
   createRUPPlantCommunityAndOthers
 } from '../../actionCreators'
+import * as API from '../../constants/api'
+import { Form } from 'formik-semantic-ui'
 
 class Base extends Component {
+  state = {
+    plan: null
+  }
+
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({ planId: PropTypes.string })
@@ -78,9 +86,87 @@ class Base extends Component {
     )
   }
 
-  fetchPlan = () => {
+  fetchPlan = async () => {
     const planId = this.getPlanId()
+
+    const { data } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig())
+
+    this.setState({
+      plan: data
+    })
+
+    console.log(data)
+
     return this.props.fetchRUP(planId)
+  }
+
+  handleSubmit = async (values, formik) => {
+    const { formStatus, ...plan } = values
+
+    const { pastures } = plan
+
+    const config = getAuthHeaderConfig()
+
+    try {
+      // Update Plan
+      if (formStatus === 'draft') {
+        await axios.put(API.UPDATE_RUP(plan.id), plan, config)
+
+        const pasturesData = await Promise.all(
+          pastures.map(pasture => {
+            if (Number.isInteger(pasture.id)) {
+              return axios.put(
+                API.UPDATE_RUP_PASTURE(plan.id, pasture.id),
+                pasture,
+                config
+              )
+            } else {
+              const { id, ...values } = pasture
+              return axios.post(API.CREATE_RUP_PASTURE(plan.id), values, config)
+            }
+          })
+        )
+
+        const newPastures = pasturesData.map(p => p.data)
+
+        await Promise.all(
+          pastures.map((pasture, pastureIndex) =>
+            Promise.all(
+              pasture.plantCommunities.map(plantCommunity => {
+                const { id, ...values } = plantCommunity
+                if (!Number.isInteger(id)) {
+                  return axios.post(
+                    API.CREATE_RUP_PLANT_COMMUNITY(
+                      plan.id,
+                      newPastures[pastureIndex].id
+                    ),
+                    values,
+                    config
+                  )
+                }
+              })
+            )
+          )
+        )
+
+        // // Update Grazing Schedules
+        // plan.grazingSchedules.forEach(
+        //   async scheduleId =>
+        //     await createOrUpdateRUPGrazingSchedule(
+        //       plan.id,
+        //       grazingSchedulesMap[scheduleId]
+        //     )
+        // )
+        // await onSuccess()
+      }
+
+      formik.setSubmitting(false)
+    } catch (err) {
+      formik.setStatus('error')
+      formik.setSubmitting(false)
+      toastErrorMessage(err)
+      throw err
+    }
   }
 
   render() {
@@ -133,30 +219,33 @@ class Base extends Component {
           </div>
         )}
 
-        {plan && isUserAdmin(user) && (
-          <PageForStaff
-            {...this.props}
-            agreement={agreement}
-            plan={plan}
-            fetchPlan={this.fetchPlan}
-          />
-        )}
+        {this.state.plan && (
+          <Form
+            initialValues={this.state.plan}
+            validateOnChange={true}
+            onSubmit={this.handleSubmit}
+            render={({ values: plan }) => (
+              <>
+                {isUserAdmin(user) ||
+                  (isUserRangeOfficer(user) && (
+                    <PageForStaff
+                      {...this.props}
+                      agreement={agreement}
+                      plan={plan}
+                      fetchPlan={this.fetchPlan}
+                    />
+                  ))}
 
-        {plan && isUserRangeOfficer(user) && (
-          <PageForStaff
-            {...this.props}
-            agreement={agreement}
-            plan={plan}
-            fetchPlan={this.fetchPlan}
-          />
-        )}
-
-        {plan && isUserAgreementHolder(user) && (
-          <PageForAH
-            {...this.props}
-            agreement={agreement}
-            plan={plan}
-            fetchPlan={this.fetchPlan}
+                {isUserAgreementHolder(user) && (
+                  <PageForAH
+                    {...this.props}
+                    agreement={agreement}
+                    plan={plan}
+                    fetchPlan={this.fetchPlan}
+                  />
+                )}
+              </>
+            )}
           />
         )}
       </Fragment>
