@@ -33,6 +33,17 @@ import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage'
 import { stringifyQuery } from './index'
 import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables'
 
+export const getAuthHeaderConfig = () => {
+  const { authData } = getAuthAndUserFromLocal()
+
+  return {
+    headers: {
+      Authorization: `Bearer ${authData.access_token}`,
+      'content-type': 'application/json'
+    }
+  }
+}
+
 /**
  * this method is called immediately at the very beginning in authReducer
  * to initialize the auth and user objects in Router.js
