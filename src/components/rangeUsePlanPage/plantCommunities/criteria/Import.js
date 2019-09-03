@@ -18,10 +18,10 @@ const initialState = {
 const Import = ({ formik, onSubmit }) => {
   const [state, setState] = useState(initialState)
 
-  const pastures = getIn(formik.values, 'pastures')
-  const pasturesOptions = pastures.map(pasture => ({
+  const pastures = getIn(formik.values, 'pastures') || []
+  const pasturesOptions = pastures.map((pasture, index) => ({
     value: pasture.id,
-    text: pasture.name,
+    text: pasture.name || `Unnamed pasture ${index + 1}`,
     key: pasture.id,
     pasture
   }))
@@ -45,14 +45,12 @@ const Import = ({ formik, onSubmit }) => {
       <Button
         primary
         type="button"
-        className="icon labeled rup__plant-communities__add-button"
         onClick={() =>
           setState({
             ...state,
             showPastureModal: true
           })
         }>
-        <i className="add circle icon" />
         Import
       </Button>
       <ListModal
@@ -119,6 +117,7 @@ const Import = ({ formik, onSubmit }) => {
         }}
       />
       <Confirm
+        dimmer="blurring"
         content={
           <Modal.Content>
             <p>
