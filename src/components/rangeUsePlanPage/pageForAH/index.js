@@ -14,8 +14,6 @@ import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
 import MinisterIssues from '../ministerIssues'
 import EditableMinisterIssues from '../editableMinisterIssues'
-import InvasivePlantChecklist from '../invasivePlantChecklist'
-import EditableInvasivePlantChecklist from '../editableInvasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
 import ManagementConsiderations from '../managementConsiderations'
 import EditableManagementConsiderations from '../editableManagementConsiderations'
@@ -352,18 +350,6 @@ class PageForAH extends Component {
             <EditableMinisterIssues {...ministerIssueProps} />
           ) : (
             <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
-          )}
-
-          {canEdit ? (
-            <EditableInvasivePlantChecklist
-              elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-              plan={plan}
-            />
-          ) : (
-            <InvasivePlantChecklist
-              elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-              plan={plan}
-            />
           )}
 
           <AdditionalRequirements

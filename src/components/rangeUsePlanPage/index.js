@@ -110,7 +110,7 @@ class Base extends Component {
   }
 
   handleSubmit = async (plan, formik) => {
-    const { pastures, grazingSchedules } = plan
+    const { pastures, grazingSchedules, invasivePlantChecklist } = plan
 
     console.log('submitting')
 
@@ -176,6 +176,23 @@ class Base extends Component {
           }
         })
       )
+
+      if (invasivePlantChecklist && invasivePlantChecklist.id) {
+        await axios.put(
+          API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(
+            plan.id,
+            invasivePlantChecklist.id
+          ),
+          invasivePlantChecklist,
+          config
+        )
+      } else {
+        await axios.post(
+          API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(plan.id),
+          invasivePlantChecklist,
+          config
+        )
+      }
 
       formik.setSubmitting(false)
     } catch (err) {

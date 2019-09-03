@@ -15,7 +15,6 @@ import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
-import InvasivePlantChecklist from '../invasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
 import ManagementConsiderations from '../managementConsiderations'
 import { defaultProps, propTypes } from './props'
@@ -256,11 +255,6 @@ class PageForStaff extends Component {
           <MinisterIssues
             elementId={ELEMENT_ID.MINISTER_ISSUES}
             issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
-          />
-
-          <InvasivePlantChecklist
-            elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-            plan={plan}
           />
 
           <AdditionalRequirements

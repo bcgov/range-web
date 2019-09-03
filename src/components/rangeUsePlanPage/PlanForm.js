@@ -5,6 +5,7 @@ import { ELEMENT_ID } from '../../constants/variables'
 import BasicInformation from './basicInformation'
 import GrazingSchedules from './grazingSchedules'
 import Usage from './usage'
+import InvasivePlantChecklist from './invasivePlantChecklist'
 
 const PlanForm = ({ plan }) => {
   return (
@@ -13,6 +14,10 @@ const PlanForm = ({ plan }) => {
       <Pastures pastures={plan.pastures} elementId={ELEMENT_ID.PASTURES} />
       <Usage plan={plan} usage={plan.agreement.usage} />
       <GrazingSchedules plan={plan} />
+      <InvasivePlantChecklist
+        namespace="invasivePlantChecklist"
+        invasivePlantChecklist={plan.invasivePlantChecklist}
+      />
     </>
   )
 }
