@@ -6,6 +6,7 @@ import BasicInformation from './basicInformation'
 import GrazingSchedules from './grazingSchedules'
 import Usage from './usage'
 import InvasivePlantChecklist from './invasivePlantChecklist'
+import ManagementConsiderations from './managementConsiderations'
 
 const PlanForm = ({ plan }) => {
   return (
@@ -17,6 +18,9 @@ const PlanForm = ({ plan }) => {
       <InvasivePlantChecklist
         namespace="invasivePlantChecklist"
         invasivePlantChecklist={plan.invasivePlantChecklist}
+      />
+      <ManagementConsiderations
+        managementConsiderations={plan.managementConsiderations}
       />
     </>
   )

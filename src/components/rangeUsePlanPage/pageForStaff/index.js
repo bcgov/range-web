@@ -16,7 +16,6 @@ import StickyHeader from '../StickyHeader'
 import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
 import AdditionalRequirements from '../additionalRequirements'
-import ManagementConsiderations from '../managementConsiderations'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
@@ -261,12 +260,6 @@ class PageForStaff extends Component {
             elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
             plan={plan}
             additionalRequirementsMap={additionalRequirementsMap}
-          />
-
-          <ManagementConsiderations
-            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
-            plan={plan}
-            managementConsiderationsMap={managementConsiderationsMap}
           />
         </ContentsContainer>
       </section>

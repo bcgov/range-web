@@ -110,7 +110,14 @@ class Base extends Component {
   }
 
   handleSubmit = async (plan, formik) => {
-    const { pastures, grazingSchedules, invasivePlantChecklist } = plan
+    const {
+      pastures,
+      grazingSchedules,
+      invasivePlantChecklist,
+      managementConsiderations
+    } = plan
+
+    console.log(plan)
 
     console.log('submitting')
 
@@ -193,6 +200,27 @@ class Base extends Component {
           config
         )
       }
+
+      await Promise.all(
+        managementConsiderations.map(consideration => {
+          if (uuid.isUUID(consideration.id)) {
+            return axios.put(
+              API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(
+                plan.id,
+                consideration.id
+              ),
+              consideration,
+              config
+            )
+          } else {
+            return axios.post(
+              API.CREATE_RUP_MANAGEMENT_CONSIDERATION(plan.id),
+              consideration,
+              config
+            )
+          }
+        })
+      )
 
       formik.setSubmitting(false)
     } catch (err) {

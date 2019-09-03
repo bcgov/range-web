@@ -15,8 +15,6 @@ import StickyHeader from '../StickyHeader'
 import MinisterIssues from '../ministerIssues'
 import EditableMinisterIssues from '../editableMinisterIssues'
 import AdditionalRequirements from '../additionalRequirements'
-import ManagementConsiderations from '../managementConsiderations'
-import EditableManagementConsiderations from '../editableManagementConsiderations'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
@@ -357,14 +355,6 @@ class PageForAH extends Component {
             plan={plan}
             additionalRequirementsMap={additionalRequirementsMap}
           />
-
-          {canEdit ? (
-            <EditableManagementConsiderations
-              {...managementConsiderationProps}
-            />
-          ) : (
-            <ManagementConsiderations {...managementConsiderationProps} />
-          )}
         </ContentsContainer>
       </section>
     )

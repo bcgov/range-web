@@ -84,7 +84,7 @@ export const SCHEDULE = {
 export const INVASIVE_PLANTS = {
   ITEMS: 'invasivePlants.items'
 }
-export const MANAGEMENT_CONSIDERAIONTS = {
+export const MANAGEMENT_CONSIDERATIONS = {
   NAME: 'managementConsiderations.name',
   TYPE: 'managementConsiderations.type',
   DESCRIPTION: 'managementConsiderations.description',
