@@ -256,15 +256,14 @@ class Base extends Component {
             onSubmit={this.handleSubmit}
             render={({ values: plan }) => (
               <>
-                {isUserAdmin(user) ||
-                  (isUserRangeOfficer(user) && (
-                    <PageForStaff
-                      {...this.props}
-                      agreement={agreement}
-                      plan={plan}
-                      fetchPlan={this.fetchPlan}
-                    />
-                  ))}
+                {(isUserAdmin(user) || isUserRangeOfficer(user)) && (
+                  <PageForStaff
+                    {...this.props}
+                    agreement={agreement}
+                    plan={plan}
+                    fetchPlan={this.fetchPlan}
+                  />
+                )}
 
                 {isUserAgreementHolder(user) && (
                   <PageForAH
