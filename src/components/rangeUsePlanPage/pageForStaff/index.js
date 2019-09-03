@@ -62,7 +62,9 @@ class PageForStaff extends Component {
       updateRUP,
       toastErrorMessage,
       pasturesMap,
+      plantCommunitiesMap,
       createOrUpdateRUPPasture,
+      createRUPPlantCommunityAndOthers,
       grazingSchedulesMap,
       createOrUpdateRUPGrazingSchedule
     } = this.props
@@ -73,15 +75,25 @@ class PageForStaff extends Component {
 
     const pastures = Object.values(pasturesMap)
     const pasturesForPlan = pastures.filter(
-      pasture => plan.pastures.includes(pasture.planId) || !Number(pasture.id)
+      pasture => plan.pastures.includes(pasture.id) || !Number(pasture.id)
     )
 
     try {
       // Update Plan
       await updateRUP(plan.id, plan)
-      pasturesForPlan.forEach(
-        async pasture => await createOrUpdateRUPPasture(plan.id, pasture)
-      )
+      pasturesForPlan.forEach(async pasture => {
+        await createOrUpdateRUPPasture(plan.id, pasture)
+
+        pasture.plantCommunities.forEach(
+          async plantCommunity =>
+            await createRUPPlantCommunityAndOthers(
+              plan.id,
+              pasture.id,
+              plantCommunitiesMap[plantCommunity]
+            )
+        )
+      })
+
       // Update Grazing Schedules
       plan.grazingSchedules.forEach(
         async scheduleId =>

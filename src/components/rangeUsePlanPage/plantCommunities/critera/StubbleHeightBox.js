@@ -2,14 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import IndicatorPlantsForm from '../IndicatorPlantsForm'
+import { plantCommunityUpdated } from '../../../../actions'
+import { PLANT_CRITERIA } from '../../../../constants/variables'
 
-const StubbleHeightBox = ({ indicatorPlants = [] }) => {
-  const handleSubmit = () => {
-    console.log('submit')
-  }
-
-  const handleChange = () => {
-    console.log('change')
+const StubbleHeightBox = ({ plantCommunity, plantCommunityUpdated }) => {
+  const handleChange = ({ indicatorPlants }) => {
+    plantCommunityUpdated({
+      plantCommunity: {
+        ...plantCommunity,
+        indicatorPlants: indicatorPlants.map(ip => ({
+          ...ip,
+          criteria: PLANT_CRITERIA.STUBBLE_HEIGHT
+        }))
+      }
+    })
   }
 
   return (
@@ -20,25 +26,33 @@ const StubbleHeightBox = ({ indicatorPlants = [] }) => {
       </div>
 
       <IndicatorPlantsForm
-        indicatorPlants={indicatorPlants}
-        onSubmit={handleSubmit}
+        indicatorPlants={plantCommunity.indicatorPlants.filter(
+          ip => ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT
+        )}
+        onChange={handleChange}
         valueLabel="Height After Grazing (cm)"
+        criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}
       />
     </div>
   )
 }
 
 StubbleHeightBox.propTypes = {
-  indicatorPlants: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      plantSpecies: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    })
-  )
+  plantCommunity: PropTypes.shape({
+    indicatorPlants: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        plantSpeciesId: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+      })
+    )
+  }),
+  plantCommunityUpdated: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  plantCommunityUpdated
+}
 
 export default connect(
   null,

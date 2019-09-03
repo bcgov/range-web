@@ -31,7 +31,8 @@ import {
   createAmendment,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration
+  createOrUpdateRUPManagementConsideration,
+  createRUPPlantCommunityAndOthers
 } from '../../actionCreators'
 
 class Base extends Component {
@@ -166,6 +167,7 @@ class Base extends Component {
 const mapStateToProps = state => ({
   plansMap: selectors.getPlansMap(state),
   pasturesMap: selectors.getPasturesMap(state),
+  plantCommunitiesMap: selectors.getPlantCommunitiesMap(state),
   grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
   ministerIssuesMap: selectors.getMinisterIssuesMap(state),
   confirmationsMap: selectors.getConfirmationsMap(state),
@@ -199,6 +201,7 @@ export default connect(
     openConfirmationModal,
     createOrUpdateRUPMinisterIssueAndActions,
     createOrUpdateRUPInvasivePlantChecklist,
-    createOrUpdateRUPManagementConsideration
+    createOrUpdateRUPManagementConsideration,
+    createRUPPlantCommunityAndOthers
   }
 )(Base)
