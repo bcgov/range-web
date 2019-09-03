@@ -55,7 +55,8 @@ RangeReadinessBox.propTypes = {
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
           .isRequired,
         plantSpeciesId: PropTypes.number.isRequired,
-        value: PropTypes.number.isRequired
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired
       })
     )
   }),

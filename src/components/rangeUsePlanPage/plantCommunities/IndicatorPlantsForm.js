@@ -145,7 +145,8 @@ IndicatorPlantsForm.propTypes = {
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       plantSpeciesId: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
       criteria: PropTypes.string.isRequired
     })
   ),
