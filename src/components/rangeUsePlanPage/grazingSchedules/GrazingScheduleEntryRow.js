@@ -82,6 +82,7 @@ const GrazingScheduleEntryRow = ({
               ? pastureOptions.find(p => p.value === pastureId).text
               : ''
           }
+          fluid
           inputProps={{
             fluid: true,
             search: true
@@ -99,6 +100,7 @@ const GrazingScheduleEntryRow = ({
               ? livestockTypeOptions.find(o => o.value === livestockTypeId).text
               : ''
           }
+          fluid
           inputProps={{
             fluid: true,
             search: true
