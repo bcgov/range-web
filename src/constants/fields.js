@@ -30,6 +30,7 @@ export const PLANT_COMMUNITY = {
   DESCRIPTION: 'plantCommunity.description',
   COMMUNITY_URL: 'plantCommunity.communityURL',
   PURPOSE_OF_ACTION: 'plantCommunity.purposeOfAction',
+  NOTES: 'plantCommunity.notes',
   ACTIONS: {
     NAME: 'plantCommunity.actions.name',
     DETAIL: 'plantCommunity.actions.detail',
@@ -49,6 +50,7 @@ export const MONITORING_AREAS = {
 export const RANGE_READINESS = {
   DATE: 'rangeReadiness.date',
   INDICATOR_PLANTS: 'rangeReadiness.indicatorPlants',
+  NOTES: 'rangeReadiness.notes',
   CRITERIA: 'rangeReadiness.criteria'
 }
 
