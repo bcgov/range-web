@@ -1,7 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Formik } from 'formik'
-import { action } from '@storybook/addon-actions'
+import { Form } from 'formik-semantic-ui'
 
 import IndicatorPlantsForm from './IndicatorPlantsForm'
 
@@ -13,15 +12,22 @@ const indicatorPlants = [
   }
 ]
 
-const changeAction = action('change')
-
 storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add(
   'default',
   () => (
-    <IndicatorPlantsForm
-      indicatorPlants={indicatorPlants}
-      onChange={values => changeAction(values)}
-      valueLabel="Height After Grazing (cm)"
+    <Form
+      initialValues={{
+        plantCommunity: {
+          indicatorPlants
+        }
+      }}
+      render={({ values }) => (
+        <IndicatorPlantsForm
+          indicatorPlants={values.plantCommunity.indicatorPlants}
+          namespace="plantCommunity"
+          valueLabel="Height After Grazing (cm)"
+        />
+      )}
     />
   )
 )
