@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Icon, Modal } from 'semantic-ui-react'
-import { Input } from 'formik-semantic-ui'
-import { Formik } from 'formik'
+import { Form } from 'semantic-ui-react'
+import { Formik, Field } from 'formik'
 
 const InputModal = ({
   open = false,
@@ -10,6 +10,14 @@ const InputModal = ({
   onClose,
   title = 'Enter a value'
 }) => {
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (open) {
+      inputRef.current.focus()
+    }
+  }, [open])
+
   return (
     <Formik
       initialValues={{ input: '' }}
@@ -24,9 +32,18 @@ const InputModal = ({
           <Modal.Header>{title}</Modal.Header>
 
           <Modal.Content>
-            <form onSubmit={handleSubmit}>
-              <Input name="input" autoFocus inputProps={{ fluid: true }} />
-            </form>
+            <Form
+              onSubmit={e => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleSubmit()
+              }}>
+              <Field
+                name="input"
+                placeholder="Type a value here..."
+                innerRef={inputRef}
+              />
+            </Form>
           </Modal.Content>
           <Modal.Actions>
             <Button
