@@ -77,7 +77,8 @@ export const SCHEDULE = {
   ANIMALS: 'schedule.animals',
   DATE_IN: 'schedule.dateIn',
   DATE_OUT: 'schedule.dateOut',
-  DESCRIPTION: 'schedule.description'
+  DESCRIPTION: 'schedule.description',
+  GRACE_DAYS: 'schedule.graceDays'
 }
 export const INVASIVE_PLANTS = {
   ITEMS: 'invasivePlants.items'
