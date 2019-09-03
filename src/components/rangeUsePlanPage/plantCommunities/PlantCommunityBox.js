@@ -4,7 +4,8 @@ import { CollapsibleBox } from '../../common'
 import {
   IMAGE_SRC,
   PURPOSE_OF_ACTION as PurposeOfAction,
-  REFERENCE_KEY
+  REFERENCE_KEY,
+  PLANT_CRITERIA
 } from '../../../constants/variables'
 import { Icon, Form } from 'semantic-ui-react'
 import RangeReadinessBox from './criteria/RangeReadinessBox'
@@ -22,15 +23,18 @@ import {
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
 import PermissionsField from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
+import { connect } from 'formik'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
+import Import from './criteria/Import'
 
 const PlantCommunityBox = ({
   plantCommunity,
   activeIndex,
   index,
   onClick,
-  namespace
+  namespace,
+  formik
 }) => {
   const {
     name,
@@ -177,6 +181,44 @@ const PlantCommunityBox = ({
 
           <div className="rup__plant-community__content-title">Criteria</div>
 
+          <Import
+            onSubmit={({ plantCommunity, criteria }) => {
+              const indicatorPlants = plantCommunity.indicatorPlants.filter(
+                ip => {
+                  return (
+                    (criteria.includes('rangeReadiness') &&
+                      ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
+                    (criteria.includes('stubbleHeight') &&
+                      ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                  )
+                }
+              )
+
+              formik.setFieldValue(
+                `${namespace}.indicatorPlants`,
+                indicatorPlants
+              )
+
+              if (criteria.includes('rangeReadiness')) {
+                formik.setFieldValue(
+                  `${namespace}.rangeReadinessDate`,
+                  plantCommunity.rangeReadinessDate
+                )
+                formik.setFieldValue(
+                  `${namespace}.rangeReadinessNotes`,
+                  plantCommunity.rangeReadinessNotes
+                )
+              }
+
+              if (criteria.includes('shrubUse')) {
+                formik.setFieldValue(
+                  `${namespace}.shrubUse`,
+                  plantCommunity.shrubUse
+                )
+              }
+            }}
+          />
+
           <RangeReadinessBox
             plantCommunity={plantCommunity}
             namespace={namespace}
@@ -187,7 +229,7 @@ const PlantCommunityBox = ({
             namespace={namespace}
           />
 
-          <ShrubUseBox plantCommunity={plantCommunity} />
+          <ShrubUseBox plantCommunity={plantCommunity} namespace={namespace} />
 
           <div className="rup__plant-community__content-title">
             Monitoring Areas
@@ -220,7 +262,10 @@ PlantCommunityBox.propTypes = {
   index: PropTypes.number.isRequired,
   activeIndex: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
-  namespace: PropTypes.string.isRequired
+  namespace: PropTypes.string.isRequired,
+  formik: PropTypes.shape({
+    setFieldValue: PropTypes.func.isRequired
+  })
 }
 
-export default PlantCommunityBox
+export default connect(PlantCommunityBox)
