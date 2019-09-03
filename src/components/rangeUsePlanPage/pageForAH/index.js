@@ -13,7 +13,7 @@ import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
 import BasicInformation from '../basicInformation'
-import Pastures from '../pastures'
+import Pastures from '../pasturesRefactored'
 import GrazingSchedules from '../grazingSchedules'
 import EditableGrazingSchedules from '../editableGrazingSchedules'
 import MinisterIssues from '../ministerIssues'
@@ -359,11 +359,7 @@ class PageForAH extends Component {
 
           <UsageTable usage={usage} plan={plan} />
 
-          <Pastures
-            elementId={ELEMENT_ID.PASTURES}
-            plan={plan}
-            pasturesMap={pasturesMap}
-          />
+          <Pastures elementId={ELEMENT_ID.PASTURES} plan={plan} />
 
           {canEdit ? (
             <EditableGrazingSchedules {...grazingScheduleProps} />

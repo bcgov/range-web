@@ -10,8 +10,7 @@ import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import BasicInformation from '../basicInformation'
 import EditableBasicInformation from '../editableBasicInformation'
-import Pastures from '../pastures'
-import EditablePastures from '../editablePastures'
+import Pastures from '../pasturesRefactored'
 import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
@@ -280,22 +279,7 @@ class PageForStaff extends Component {
 
           <UsageTable usage={usage} plan={plan} />
 
-          {canEdit ? (
-            <EditablePastures
-              elementId={ELEMENT_ID.PASTURES}
-              plan={plan}
-              pasturesMap={pasturesMap}
-              pastureAdded={pastureAdded}
-              pastureUpdated={pastureUpdated}
-              pastureCopied={pastureCopied}
-            />
-          ) : (
-            <Pastures
-              elementId={ELEMENT_ID.PASTURES}
-              plan={plan}
-              pasturesMap={pasturesMap}
-            />
-          )}
+          <Pastures plan={plan} elementId={ELEMENT_ID.PASTURES} />
 
           <GrazingSchedules
             elementId={ELEMENT_ID.GRAZING_SCHEDULE}
