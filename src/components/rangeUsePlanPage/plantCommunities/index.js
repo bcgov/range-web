@@ -8,7 +8,7 @@ import { NOT_PROVIDED } from '../../../constants/strings'
 import { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
 
-const PlantCommunities = ({ plantCommunities = [], canEdit, namespace }) => {
+const PlantCommunities = ({ plantCommunities = [], namespace }) => {
   const isEmpty = plantCommunities.length === 0
   const [activeIndex, setActiveIndex] = useState(-1)
 
@@ -73,8 +73,7 @@ const PlantCommunities = ({ plantCommunities = [], canEdit, namespace }) => {
 
 PlantCommunities.propTypes = {
   plantCommunities: PropTypes.array.isRequired,
-  namespace: PropTypes.string.isRequired,
-  canEdit: PropTypes.bool
+  namespace: PropTypes.string.isRequired
 }
 
 export default PlantCommunities
