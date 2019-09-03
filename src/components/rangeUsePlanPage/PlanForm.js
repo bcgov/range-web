@@ -5,6 +5,7 @@ import Pastures from './pastures'
 import { Form } from 'formik-semantic-ui'
 import { ELEMENT_ID } from '../../constants/variables'
 import Effect from '../common/form/Effect'
+import BasicInformation from './basicInformation'
 
 const PlanForm = ({ plan }) => {
   const onChange = debounce(values => {
@@ -18,6 +19,7 @@ const PlanForm = ({ plan }) => {
       render={({ values: { pastures }, errors }) => (
         <>
           <Effect onChange={onChange} />
+          <BasicInformation plan={plan} agreement={plan.agreement} />
           <Pastures pastures={pastures} elementId={ELEMENT_ID.PASTURES} />
         </>
       )}

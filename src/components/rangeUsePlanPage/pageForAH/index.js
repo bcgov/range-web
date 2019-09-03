@@ -12,7 +12,6 @@ import ContentsContainer from '../ContentsContainer'
 import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
-import BasicInformation from '../basicInformation'
 import GrazingSchedules from '../grazingSchedules'
 import EditableGrazingSchedules from '../editableGrazingSchedules'
 import MinisterIssues from '../ministerIssues'
@@ -351,13 +350,6 @@ class PageForAH extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <BasicInformation
-            elementId={ELEMENT_ID.BASIC_INFORMATION}
-            agreement={agreement}
-            plan={plan}
-            user={user}
-          />
 
           <UsageTable usage={usage} plan={plan} />
 

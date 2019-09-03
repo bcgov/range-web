@@ -8,8 +8,6 @@ import {
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
-import BasicInformation from '../basicInformation'
-import EditableBasicInformation from '../editableBasicInformation'
 import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
@@ -256,25 +254,6 @@ class PageForStaff extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          {canEdit ? (
-            <EditableBasicInformation
-              elementId={ELEMENT_ID.BASIC_INFORMATION}
-              agreement={agreement}
-              plan={plan}
-              user={user}
-              onZoneClicked={this.openUpdateZoneModal}
-              planUpdated={planUpdated}
-            />
-          ) : (
-            <BasicInformation
-              elementId={ELEMENT_ID.BASIC_INFORMATION}
-              agreement={agreement}
-              plan={plan}
-              user={user}
-              onZoneClicked={this.openUpdateZoneModal}
-            />
-          )}
 
           <UsageTable usage={usage} plan={plan} />
 
