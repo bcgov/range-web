@@ -21,7 +21,10 @@ const InputModal = ({
   return (
     <Formik
       initialValues={{ input: '' }}
-      onSubmit={({ input }) => onSubmit(input)}
+      onSubmit={({ input }, { resetForm }) => {
+        resetForm()
+        onSubmit(input)
+      }}
       render={({ resetForm, handleSubmit }) => (
         <Modal
           dimmer="blurring"
