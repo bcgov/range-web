@@ -39,6 +39,7 @@ import * as API from '../../constants/api'
 import { Form } from 'formik-semantic-ui'
 import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
+import RUPSchema from './schema'
 
 const Base = ({
   user,
@@ -69,11 +70,7 @@ const Base = ({
         API.GET_RUP(planId),
         getAuthHeaderConfig()
       )
-      setPlan({
-        ...data,
-        planStartDate: new Date(data.planStartDate),
-        planEndDate: new Date(data.planEndDate)
-      })
+      setPlan(RUPSchema.cast(data))
     } catch (e) {
       setError(e)
     }
@@ -252,6 +249,7 @@ const Base = ({
         <Form
           initialValues={plan}
           validateOnChange={true}
+          validationSchema={RUPSchema}
           onSubmit={handleSubmit}
           render={({ values: plan }) => (
             <>
