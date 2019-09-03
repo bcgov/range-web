@@ -6,7 +6,6 @@ import {
   PURPOSE_OF_ACTION as PurposeOfAction,
   REFERENCE_KEY
 } from '../../../constants/variables'
-import { capitalize } from '../../../utils'
 import { Icon, Form } from 'semantic-ui-react'
 import RangeReadinessBox from './criteria/RangeReadinessBox'
 import StubbleHeightBox from './criteria/StubbleHeightBox'
@@ -36,7 +35,7 @@ const PlantCommunityBox = ({
   const {
     name,
     plantCommunityActions,
-    purposeOfAction: poa,
+    purposeOfAction,
     aspect,
     elevation,
     url,
@@ -46,7 +45,6 @@ const PlantCommunityBox = ({
     monitoringAreas
   } = plantCommunity
   const communityTypeName = (communityType && communityType.name) || name
-  const purposeOfAction = capitalize(poa)
 
   const elevationTypes = useReferences()[
     REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION
@@ -59,9 +57,9 @@ const PlantCommunityBox = ({
 
   const purposeOptions = [
     {
-      key: 'none',
-      value: 'none',
-      text: 'Clear'
+      key: PurposeOfAction.NONE,
+      value: PurposeOfAction.NONE,
+      text: 'None'
     },
     {
       key: 'maintain',
@@ -165,16 +163,14 @@ const PlantCommunityBox = ({
             />
           </Form.Group>
 
-          {!(
-            purposeOfAction === PurposeOfAction.NONE ||
-            plantCommunityActions.length === 0
-          ) && (
+          {purposeOfAction !== PurposeOfAction.NONE && (
             <>
               <div className="rup__plant-community__content-title">
                 Plant Community Actions
               </div>
               <PlantCommunityActionsBox
-                plantCommunityActions={plantCommunityActions}
+                actions={plantCommunityActions}
+                namespace={namespace}
               />
             </>
           )}
