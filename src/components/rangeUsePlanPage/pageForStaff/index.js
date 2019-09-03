@@ -20,6 +20,7 @@ import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
+import { Element } from 'react-scroll'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -245,16 +246,20 @@ class PageForStaff extends Component {
 
           {plan && <PlanForm plan={plan} />}
 
-          <MinisterIssues
-            elementId={ELEMENT_ID.MINISTER_ISSUES}
-            issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
-          />
+          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
+            <MinisterIssues
+              elementId={ELEMENT_ID.MINISTER_ISSUES}
+              issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
+            />
+          </Element>
 
-          <AdditionalRequirements
-            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-            plan={plan}
-            additionalRequirementsMap={additionalRequirementsMap}
-          />
+          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
+            <AdditionalRequirements
+              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
+              plan={plan}
+              additionalRequirementsMap={additionalRequirementsMap}
+            />
+          </Element>
         </ContentsContainer>
       </section>
     )

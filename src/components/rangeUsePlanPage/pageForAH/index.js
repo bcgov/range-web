@@ -21,6 +21,7 @@ import PlanSubmissionModal from './SubmissionModal'
 import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
 import PlanForm from '../PlanForm'
+import { Element } from 'react-scroll'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -328,17 +329,21 @@ class PageForAH extends Component {
 
           {plan && <PlanForm plan={plan} />}
 
-          {canEdit ? (
-            <EditableMinisterIssues {...ministerIssueProps} />
-          ) : (
-            <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
-          )}
+          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
+            {canEdit ? (
+              <EditableMinisterIssues {...ministerIssueProps} />
+            ) : (
+              <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
+            )}
+          </Element>
 
-          <AdditionalRequirements
-            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-            plan={plan}
-            additionalRequirementsMap={additionalRequirementsMap}
-          />
+          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
+            <AdditionalRequirements
+              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
+              plan={plan}
+              additionalRequirementsMap={additionalRequirementsMap}
+            />
+          </Element>
         </ContentsContainer>
       </section>
     )
