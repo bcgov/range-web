@@ -39,7 +39,7 @@ const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
             ))}
 
             <InputModal
-              open={areaToCopy}
+              open={!!areaToCopy}
               onSubmit={name => {
                 setAreaToCopy()
                 push({
