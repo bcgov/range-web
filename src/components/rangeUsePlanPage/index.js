@@ -42,7 +42,8 @@ import { Form } from 'formik-semantic-ui'
 
 class Base extends Component {
   state = {
-    plan: null
+    plan: null,
+    isFetching: false
   }
 
   static propTypes = {
@@ -88,6 +89,9 @@ class Base extends Component {
   }
 
   fetchPlan = async () => {
+    this.setState({
+      isFetching: true
+    })
     const planId = this.getPlanId()
 
     const { data } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig())
@@ -97,6 +101,10 @@ class Base extends Component {
     })
 
     console.log(data)
+
+    this.setState({
+      isFetching: false
+    })
 
     return this.props.fetchRUP(planId)
   }
@@ -179,13 +187,9 @@ class Base extends Component {
   }
 
   render() {
-    const {
-      user,
-      isFetchingPlan,
-      errorFetchingPlan,
-      plansMap,
-      history
-    } = this.props
+    const { user, errorFetchingPlan, plansMap, history } = this.props
+
+    const isFetchingPlan = this.state.isFetching
 
     const planId = this.getPlanId()
     const plan = plansMap[planId]
