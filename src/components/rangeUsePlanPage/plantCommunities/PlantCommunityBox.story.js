@@ -8,7 +8,7 @@ import PlantCommunityBox from './PlantCommunityBox'
 const plantCommunity = {
   name: 'Plant Community',
   plantCommunityActions: [],
-  purposeOfAction: '',
+  purposeOfAction: 'maintain',
   aspect: '',
   elevation: 0,
   url: '',
