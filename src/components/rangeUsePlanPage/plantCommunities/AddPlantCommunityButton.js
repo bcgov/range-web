@@ -21,21 +21,6 @@ const AddPlantCommunityButton = ({ onSubmit }) => {
     if (otherType && communityTypeId === otherType.id) {
       return setModalOpen(true)
     }
-    // const { openInputModal, references } = this.props
-    // const communityTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
-    // const otherType = communityTypes.find(t => t.name === 'Other')
-
-    // // open a modal when the option 'other' is selected
-    // if (otherType && communityTypeId === otherType.id) {
-    //   return openInputModal({
-    //     id: 'plant_community_action_other',
-    //     title: 'Other Name',
-    //     onSubmit: name => this.onSubmit({ ...otherType, name })
-    //   })
-    // }
-
-    // const plantCommunity = communityTypes.find(t => t.id === communityTypeId)
-    // this.onSubmit(plantCommunity)
 
     const plantCommunity = types.find(t => t.id === communityTypeId)
 
