@@ -2,16 +2,21 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect, getIn } from 'formik'
 import ListModal from '../../../common/ListModal'
-import { Button } from 'semantic-ui-react'
+import { Button, Confirm, Modal } from 'semantic-ui-react'
+import { oxfordComma } from '../../../../utils'
+
+const initialState = {
+  pasture: null,
+  showPastureModal: false,
+  plantCommunity: null,
+  showPlantCommunityModal: false,
+  showCriteriaModal: false,
+  criteria: [],
+  showConfirm: false
+}
 
 const Import = ({ formik, onSubmit }) => {
-  const [state, setState] = useState({
-    pasture: null,
-    showPastureModal: false,
-    plantCommunity: null,
-    showPlantCommunityModal: false,
-    showCriteriaModal: false
-  })
+  const [state, setState] = useState(initialState)
 
   const pastures = getIn(formik.values, 'pastures')
   const pasturesOptions = pastures.map(pasture => ({
@@ -20,6 +25,10 @@ const Import = ({ formik, onSubmit }) => {
     key: pasture.id,
     pasture
   }))
+
+  const close = () => {
+    setState(initialState)
+  }
 
   let plantCommunityOptions = []
   if (state.pasture) {
@@ -50,12 +59,7 @@ const Import = ({ formik, onSubmit }) => {
         options={pasturesOptions}
         open={state.showPastureModal}
         title="Choose Pasture"
-        onClose={() =>
-          setState({
-            ...state,
-            showPastureModal: false
-          })
-        }
+        onClose={close}
         onOptionClick={({ pasture }) =>
           setState({
             ...state,
@@ -73,13 +77,7 @@ const Import = ({ formik, onSubmit }) => {
             ? `Choose Plant Community from ${state.pasture.name}`
             : 'Choose Plant Community'
         }
-        onClose={() =>
-          setState({
-            ...state,
-            pasture: null,
-            showPlantCommunityModal: false
-          })
-        }
+        onClose={close}
         onOptionClick={({ plantCommunity }) => {
           setState({
             ...state,
@@ -92,6 +90,7 @@ const Import = ({ formik, onSubmit }) => {
       <ListModal
         multiselect
         open={state.showCriteriaModal}
+        title="Choose Criteria"
         options={[
           {
             key: 'rangeReadiness',
@@ -109,25 +108,36 @@ const Import = ({ formik, onSubmit }) => {
             text: 'Shrub Use'
           }
         ]}
-        onClose={() =>
-          setState({
-            ...state,
-            pasture: null,
-            plantCommunity: null
-          })
-        }
+        onClose={close}
         onSubmit={criteria => {
-          onSubmit({
-            pasture: state.pasture,
-            plantCommunity: state.plantCommunity,
-            criteria: criteria.map(c => c.value)
-          })
           setState({
             ...state,
             showCriteriaModal: false,
-            pasture: null,
-            plantCommunity: null
+            showConfirm: true,
+            criteria
           })
+        }}
+      />
+      <Confirm
+        content={
+          <Modal.Content>
+            <p>
+              The following Criteria sections in the current plant community
+              will be overwritten:
+            </p>
+            <p>{oxfordComma(state.criteria.map(c => c.text))}.</p>
+          </Modal.Content>
+        }
+        header="Overwrite Specified Criteria"
+        open={state.showConfirm}
+        onCancel={close}
+        onConfirm={() => {
+          onSubmit({
+            pasture: state.pasture,
+            plantCommunity: state.plantCommunity,
+            criteria: state.criteria.map(c => c.value)
+          })
+          close()
         }}
       />
     </>
