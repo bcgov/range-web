@@ -1,51 +1,82 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import {
   handleNullValue,
   getRangeReadinessMonthAndDate
 } from '../../../../utils'
 import IndicatorPlantsForm from '../IndicatorPlantsForm'
+import { plantCommunityUpdated } from '../../../../actions'
 import { PLANT_CRITERIA } from '../../../../constants/variables'
 
-class RangeReadinessBox extends Component {
-  static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired
+const RangeReadinessBox = ({ plantCommunity, plantCommunityUpdated }) => {
+  const handleChange = ({ indicatorPlants }) => {
+    plantCommunityUpdated({
+      plantCommunity: {
+        ...plantCommunity,
+        indicatorPlants: indicatorPlants.map(ip => ({
+          ...ip,
+          criteria: PLANT_CRITERIA.RANGE_READINESS
+        }))
+      }
+    })
   }
 
-  render() {
-    const { plantCommunity } = this.props
-    const {
-      rangeReadinessDay: day,
-      rangeReadinessMonth: month,
-      rangeReadinessNote,
-      indicatorPlants
-    } = plantCommunity
-    const readinessMonthAndDate = getRangeReadinessMonthAndDate(month, day)
+  const {
+    rangeReadinessDay: day,
+    rangeReadinessMonth: month,
+    rangeReadinessNote
+  } = plantCommunity
 
-    return (
-      <div className="rup__plant-community__rr">
-        <div className="rup__plant-community__rr__title">
-          {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
-          Range Readiness
-        </div>
-        <div>
-          If more than one readiness criteria is provided, all such criteria
-          must be met before grazing may occur.
-        </div>
+  const readinessMonthAndDate = getRangeReadinessMonthAndDate(month, day)
 
-        <div className="rup__plant-community__rr__label">Readiness Date</div>
-        <div>{handleNullValue(readinessMonthAndDate)}</div>
-
-        <IndicatorPlantsForm
-          indicatorPlants={indicatorPlants}
-          valueLabel="Criteria (Leaf Stage)"
-        />
-
-        <div className="rup__plant-community__rr__label">Notes</div>
-        <div>{handleNullValue(rangeReadinessNote)}</div>
+  return (
+    <div className="rup__plant-community__sh">
+      <div className="rup__plant-community__rr__title">
+        {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
+        Range Readiness
       </div>
-    )
-  }
+      <div>
+        If more than one readiness criteria is provided, all such criteria must
+        be met before grazing may occur.
+      </div>
+
+      <div className="rup__plant-community__rr__label">Readiness Date</div>
+      <div>{handleNullValue(readinessMonthAndDate)}</div>
+
+      <IndicatorPlantsForm
+        indicatorPlants={plantCommunity.indicatorPlants.filter(
+          ip => ip.criteria === PLANT_CRITERIA.RANGE_READINESS
+        )}
+        onChange={handleChange}
+        valueLabel="Criteria (Leaf Stage)"
+        criteria={PLANT_CRITERIA.RANGE_READINESS}
+      />
+
+      <div className="rup__plant-community__rr__label">Notes</div>
+      <div>{handleNullValue(rangeReadinessNote)}</div>
+    </div>
+  )
 }
 
-export default RangeReadinessBox
+RangeReadinessBox.propTypes = {
+  plantCommunity: PropTypes.shape({
+    indicatorPlants: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        plantSpeciesId: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+      })
+    )
+  }),
+  plantCommunityUpdated: PropTypes.func.isRequired
+}
+
+const mapDispatchToProps = {
+  plantCommunityUpdated
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(RangeReadinessBox)
