@@ -82,7 +82,9 @@ const IndicatorPlantsForm = ({
                       placeholder="Indicator Plant"
                       options={options}
                       displayValue={
-                        options.find(o => o.key === plant.plantSpecies).text
+                        plant.plantSpecies
+                          ? options.find(o => o.key === plant.plantSpecies).text
+                          : ''
                       }
                       inputProps={{
                         error: !!getIn(
