@@ -73,7 +73,8 @@ const permissions = {
     MANAGEMENT_CONSIDERAIONTS.TYPE,
     MANAGEMENT_CONSIDERAIONTS.DESCRIPTION,
     MANAGEMENT_CONSIDERAIONTS.ATTACHMENT
-  ]
+  ],
+  myra_admin: []
 }
 
 export default permissions
