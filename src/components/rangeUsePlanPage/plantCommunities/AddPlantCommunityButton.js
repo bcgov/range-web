@@ -1,81 +1,54 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Dropdown, Button } from 'semantic-ui-react'
-import { getReferences } from '../../../reducers/rootReducer'
-import {
-  plantCommunityAdded,
-  pastureUpdated,
-  openInputModal
-} from '../../../actions'
+import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import { Button, Dropdown } from 'semantic-ui-react'
+import InputModal from '../../common/InputModal'
 
-class AddPlantCommunityButton extends Component {
-  static propTypes = {
-    pasture: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      plantCommunities: PropTypes.array.isRequired
-    }).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    plantCommunityAdded: PropTypes.func.isRequired,
-    pastureUpdated: PropTypes.func.isRequired,
-    openInputModal: PropTypes.func.isRequired
-  }
+const AddPlantCommunityButton = ({ onSubmit }) => {
+  const [isModalOpen, setModalOpen] = useState(false)
 
-  onSubmit = plantCommunity => {
-    // Set temporary ID based on timestamp to track unsubmitted plant
-    // communities
-    const id = new Date().toISOString()
+  const types = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
+  const options = types.map(type => ({
+    key: type.id,
+    value: type.id,
+    text: type.name
+  }))
 
-    // Add an object to the plantCommunities array
-    this.props.plantCommunityAdded({
-      id,
-      pastureId: this.props.pasture.id,
-      communityTypeId: plantCommunity.id,
-      name: plantCommunity.name
-    })
+  const otherType = types.find(t => t.name === 'Other')
 
-    // Add id to the pastures.plantCommunities array
-    this.props.pastureUpdated({
-      pasture: {
-        ...this.props.pasture,
-        plantCommunities: [...this.props.pasture.plantCommunities, id]
-      }
-    })
-  }
-
-  onOptionClicked = (e, { value: communityTypeId }) => {
-    const { openInputModal, references } = this.props
-    const communityTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
-    const otherType = communityTypes.find(t => t.name === 'Other')
-
-    // open a modal when the option 'other' is selected
+  const onOptionClicked = (e, { value: communityTypeId }) => {
     if (otherType && communityTypeId === otherType.id) {
-      return openInputModal({
-        id: 'plant_community_action_other',
-        title: 'Other Name',
-        onSubmit: name => this.onSubmit({ ...otherType, name })
-      })
+      return setModalOpen(true)
     }
+    // const { openInputModal, references } = this.props
+    // const communityTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
+    // const otherType = communityTypes.find(t => t.name === 'Other')
 
-    const plantCommunity = communityTypes.find(t => t.id === communityTypeId)
-    this.onSubmit(plantCommunity)
+    // // open a modal when the option 'other' is selected
+    // if (otherType && communityTypeId === otherType.id) {
+    //   return openInputModal({
+    //     id: 'plant_community_action_other',
+    //     title: 'Other Name',
+    //     onSubmit: name => this.onSubmit({ ...otherType, name })
+    //   })
+    // }
+
+    // const plantCommunity = communityTypes.find(t => t.id === communityTypeId)
+    // this.onSubmit(plantCommunity)
+
+    const plantCommunity = types.find(t => t.id === communityTypeId)
+
+    onSubmit(plantCommunity)
   }
 
-  render() {
-    const types =
-      this.props.references[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
-    const options = types.map(type => ({
-      key: type.id,
-      value: type.id,
-      text: type.name
-    }))
-
-    return (
+  return (
+    <>
       <Dropdown
         trigger={
           <Button
             primary
+            type="button"
             className="icon labeled rup__plant-communities__add-button">
             <i className="add circle icon" />
             Add Plant Community
@@ -85,22 +58,24 @@ class AddPlantCommunityButton extends Component {
         icon={null}
         pointing="left"
         search
-        onChange={this.onOptionClicked}
+        onChange={onOptionClicked}
         selectOnBlur={false}
       />
-    )
-  }
+      <InputModal
+        open={isModalOpen}
+        onSubmit={input => {
+          setModalOpen(false)
+          onSubmit({ ...otherType, name: input })
+        }}
+        onClose={() => setModalOpen(false)}
+        title="Other Name"
+      />
+    </>
+  )
 }
 
-const mapStateToProps = state => ({
-  references: getReferences(state)
-})
+AddPlantCommunityButton.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}
 
-export default connect(
-  mapStateToProps,
-  {
-    plantCommunityAdded,
-    pastureUpdated,
-    openInputModal
-  }
-)(AddPlantCommunityButton)
+export default AddPlantCommunityButton

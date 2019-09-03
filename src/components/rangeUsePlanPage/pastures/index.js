@@ -1,99 +1,119 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+import { Button } from 'semantic-ui-react'
+import { getPasturesMap } from '../../../reducers/rootReducer'
+import { Form } from 'formik-semantic-ui'
+import Effect from '../../common/form/Effect'
+import { FieldArray } from 'formik'
 import PastureBox from './PastureBox'
+import debounce from 'lodash.debounce'
 
-class Pastures extends Component {
-  static propTypes = {
-    plan: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired
-  }
-
-  state = {
-    activePastureIndex: 0
-  }
-
-  onPastureClicked = pastureIndex => () => {
-    this.setState(prevState => {
-      const newIndex =
-        prevState.activePastureIndex === pastureIndex ? -1 : pastureIndex
-      return {
-        activePastureIndex: newIndex
-      }
+const Pastures = ({ plan, pasturesMap }) => {
+  const pastureIds = Object.keys(pasturesMap)
+  const initialPastures = pastureIds
+    .map(id => {
+      const isNumber = Number(id)
+      if (plan.pastures.includes(Number(id)) || !isNumber)
+        return pasturesMap[id]
+      return null
     })
-  }
+    .filter(Boolean)
+    .sort((a, b) => {
+      // Sort unsubmitted pastures before pre-exisiting pastures
+      if (a.id.toString().length !== b.id.toString().length)
+        return b.id.toString().length - a.id.toString().length
 
-  renderPasture = (pasture, pastureIndex) => {
-    return (
-      <PastureBox
-        key={pasture.id}
-        pasture={pasture}
-        pastureIndex={pastureIndex}
-        activePastureIndex={this.state.activePastureIndex}
-        onPastureClicked={this.onPastureClicked}
-      />
-    )
-  }
+      // Sort pastures with newer timestamp before older pastures
+      if (a.id < b.id) return 1
 
-  // onPastureClicked = pastureIndex => () => {
-  //   const { location, redirectWithParams } = this.props;
-  //   const parsedParams = parseQuery(location.search);
-  //   const { pasture: currIndex } = parsedParams;
-  //   const newIndex = Number(currIndex) === pastureIndex ? -1 : pastureIndex;
+      return -1
+    })
 
-  //   redirectWithParams({ pasture: newIndex });
-  // }
+  const onChange = debounce(values => {
+    console.log('form change', values)
+  }, 1000)
 
-  // renderPasture = (pasture, pastureIndex) => {
-  //   const parsedParams = parseQuery(this.props.location.search);
-  //   const { pasture: index = 0 } = parsedParams;
-  //   const activePastureIndex = Number(index);
+  const [activeIndex, setActiveIndex] = useState(-1)
 
-  //   return (
-  //     <PastureBox
-  //       key={pasture.id}
-  //       pasture={pasture}
-  //       pastureIndex={pastureIndex}
-  //       activePastureIndex={activePastureIndex}
-  //       onPastureClicked={this.onPastureClicked}
-  //     />
-  //   );
-  // }
+  return (
+    <Form
+      initialValues={{ pastures: initialPastures }}
+      validateOnChange={true}
+      render={({ values: { pastures }, errors }) => (
+        <>
+          <Effect onChange={onChange} />
 
-  renderPastures = (pastures = []) => {
-    const isEmpty = pastures.length === 0
+          <FieldArray
+            name="pastures"
+            render={({ push }) => (
+              <div className="rup__pastures">
+                <div className="rup__content-title--editable">
+                  Pastures (refactored)
+                  <Button
+                    type="button"
+                    basic
+                    primary
+                    onClick={() => {
+                      push({
+                        name: '',
+                        allowableAum: '',
+                        graceDays: '',
+                        pldPercent: '',
+                        notes: '',
+                        planId: plan.id,
+                        plantCommunities: [],
+                        id: new Date().toISOString()
+                      })
+                    }}
+                    className="icon labeled rup__pastures__add-button">
+                    <i className="add circle icon" />
+                    Add Pasture
+                  </Button>
+                </div>
 
-    return isEmpty ? (
-      <div className="rup__section-not-found">No pasture provided.</div>
-    ) : (
-      <ul
-        className={classnames('collaspible-boxes', {
-          'collaspible-boxes--empty': isEmpty
-        })}>
-        {pastures.map(this.renderPasture)}
-      </ul>
-    )
-  }
-
-  render() {
-    const { plan, pasturesMap } = this.props
-    const pastureIds = plan && plan.pastures
-    const pastures =
-      pastureIds &&
-      pastureIds
-        .map(id => pasturesMap[id])
-        .sort((a, b) =>
-          a.name.toUpperCase().localeCompare(b.name.toUpperCase())
-        )
-
-    return (
-      <div className="rup__pastures">
-        <div className="rup__content-title">Pastures</div>
-        <div className="rup__divider" />
-        {this.renderPastures(pastures)}
-      </div>
-    )
-  }
+                <div className="rup__divider" />
+                {pastures.length === 0 ? (
+                  <div className="rup__section-not-found">
+                    No pasture provided.
+                  </div>
+                ) : (
+                  <ul
+                    className={classnames('collaspible-boxes', {
+                      'collaspible-boxes--empty': pastures.length === 0
+                    })}>
+                    {pastures.map((pasture, index) => (
+                      <PastureBox
+                        key={pasture.id || `pasture_${index}`}
+                        pasture={pasture}
+                        index={index}
+                        activeIndex={activeIndex}
+                        onClick={() => {
+                          setActiveIndex(activeIndex === index ? -1 : index)
+                        }}
+                        onCopy={() => console.log('copy')}
+                        namespace={`pastures.${index}`}
+                      />
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          />
+        </>
+      )}
+    />
+  )
 }
 
-export default Pastures
+Pastures.propTypes = {
+  plan: PropTypes.shape({ id: PropTypes.number }).isRequired,
+  pasturesMap: PropTypes.shape({}).isRequired
+}
+
+const mapStateToProps = state => ({
+  pasturesMap: getPasturesMap(state)
+})
+
+export default connect(mapStateToProps)(Pastures)
