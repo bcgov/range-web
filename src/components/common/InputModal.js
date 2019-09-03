@@ -4,51 +4,48 @@ import { Button, Icon, Modal } from 'semantic-ui-react'
 import { Input } from 'formik-semantic-ui'
 import { Formik } from 'formik'
 
-const InputModal = ({ open = false, onSubmit, onClose, title = 'Modal' }) => {
+const InputModal = ({
+  open = false,
+  onSubmit,
+  onClose,
+  title = 'Enter a value'
+}) => {
   return (
-    <Modal
-      dimmer="blurring"
-      size="mini"
-      open={open}
-      onClose={onClose}
-      closeIcon>
-      <div className="input-modal">
-        <div className="input-modal__title">{title}</div>
-        <Formik
-          initialValues={{ input: '' }}
-          onSubmit={({ input }) => onSubmit(input)}
-          render={({ resetForm, submitForm }) => (
-            <form
-              onSubmit={e => {
-                e.preventDefault()
-                e.stopPropagation()
-                submitForm()
-              }}>
-              <Input name="input" autoFocus />
-              <div className="input-modal__btns">
-                <Button
-                  inverted
-                  fluid
-                  onClick={() => {
-                    resetForm()
-                    onClose()
-                  }}
-                  type="button">
-                  <Icon name="remove" />
-                  Cancel
-                </Button>
-                <div>
-                  <Button type="submit" fluid>
-                    <Icon name="checkmark" />
-                    Submit
-                  </Button>
-                </div>
-              </div>
+    <Formik
+      initialValues={{ input: '' }}
+      onSubmit={({ input }) => onSubmit(input)}
+      render={({ resetForm, handleSubmit }) => (
+        <Modal
+          dimmer="blurring"
+          size="mini"
+          open={open}
+          onClose={onClose}
+          closeIcon>
+          <Modal.Header>{title}</Modal.Header>
+
+          <Modal.Content>
+            <form onSubmit={handleSubmit}>
+              <Input name="input" autoFocus inputProps={{ fluid: true }} />
             </form>
-          )}
-        />
-      </div>
-    </Modal>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              onClick={() => {
+                resetForm()
+                onClose()
+              }}
+              type="button">
+              <Icon name="remove" />
+              Cancel
+            </Button>
+            <Button type="submit" primary onClick={handleSubmit}>
+              <Icon name="checkmark" />
+              Submit
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      )}
+    />
   )
 }
 
