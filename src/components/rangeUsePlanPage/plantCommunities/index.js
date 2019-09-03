@@ -19,8 +19,6 @@ const PlantCommunities = ({ plantCommunities, canEdit, namespace }) => {
           {canEdit && (
             <AddPlantCommunityButton
               onSubmit={plantCommunity => {
-                console.log(plantCommunity)
-
                 push({
                   ...plantCommunity,
                   communityTypeId: new Date().toISOString(),
@@ -28,11 +26,13 @@ const PlantCommunities = ({ plantCommunities, canEdit, namespace }) => {
                   plantCommunityActions: [],
                   purposeOfAction: 'none',
                   monitoringAreas: [],
-                  aspect: 0,
+                  aspect: '',
                   elevation: 0,
                   url: '',
                   approved: false,
-                  notes: ''
+                  notes: '',
+                  rangeReadinessDate: '',
+                  rangeReadinessNotes: ''
                 })
               }}
             />
@@ -53,7 +53,6 @@ const PlantCommunities = ({ plantCommunities, canEdit, namespace }) => {
                   activeIndex={activeIndex}
                   index={index}
                   onClick={() => {
-                    console.log('click')
                     setActiveIndex(index)
                   }}
                   namespace={`${namespace}.plantCommunities.${index}`}
