@@ -3,12 +3,17 @@ import PropTypes from 'prop-types'
 import { handleNullValue, oxfordComma } from '../../../../utils'
 import { MONITORING_AREAS } from '../../../../constants/fields'
 import { Input, Dropdown } from 'formik-semantic-ui'
-import PermissionsField from '../../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../../common/PermissionsField'
 import { REFERENCE_KEY } from '../../../../constants/variables'
 import { connect } from 'formik'
 import { useReferences } from '../../../../providers/ReferencesProvider'
 import LocationButton from '../../../common/LocationButton'
-import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react'
+import {
+  Icon,
+  Confirm,
+  Dropdown as PlainDropdown,
+  Form
+} from 'semantic-ui-react'
 
 const MonitoringAreaBox = ({
   monitoringArea,
@@ -48,7 +53,9 @@ const MonitoringAreaBox = ({
     <div className="rup__plant-community__m-area__box">
       <div className="rup__plant-community__m-area__header">
         {/* <Icon name="map marker alternate" /> */}
-        Monitoring Area: {name}
+
+        <span>Monitoring Area: {name}</span>
+
         <PlainDropdown
           trigger={<Icon name="ellipsis vertical" />}
           options={[
@@ -63,7 +70,6 @@ const MonitoringAreaBox = ({
               text: 'Delete'
             }
           ]}
-          style={{ display: 'flex', alignItems: 'center' }}
           icon={null}
           pointing="right"
           onClick={e => e.stopPropagation()}
@@ -77,6 +83,7 @@ const MonitoringAreaBox = ({
           }}
           selectOnBlur={false}
         />
+
         <Confirm
           open={removeDialogOpen}
           onCancel={() => {
@@ -88,26 +95,29 @@ const MonitoringAreaBox = ({
           }}
         />
       </div>
-      <div className="rup__row">
-        <div className="rup__cell-6">
-          <div className="rup__plant-community__m-area__label">Location</div>
-          <div>{handleNullValue(location)}</div>
-        </div>
-        <div className="rup__cell-6">
-          <PermissionsField
-            name={`${namespace}.rangelandHealth`}
-            permission={MONITORING_AREAS.RANGELAND_HEALTH}
-            component={Dropdown}
-            options={rangelandHealthOptions}
-            displayValue={
-              rangelandHealthTypes.find(r => r.id === rangelandHealth)
-                ? rangelandHealthTypes.find(r => r.id === rangelandHealth).name
-                : ''
-            }
-            label="Rangeland Health"
-          />
-        </div>
-      </div>
+      <Form.Group widths="equal">
+        <PermissionsField
+          name={`${namespace}.location`}
+          permission={MONITORING_AREAS.LOCATION}
+          component={Input}
+          displayValue={location}
+          label="Location"
+        />
+
+        <PermissionsField
+          name={`${namespace}.rangelandHealth`}
+          permission={MONITORING_AREAS.RANGELAND_HEALTH}
+          component={Dropdown}
+          options={rangelandHealthOptions}
+          displayValue={
+            rangelandHealthTypes.find(r => r.id === rangelandHealth)
+              ? rangelandHealthTypes.find(r => r.id === rangelandHealth).name
+              : ''
+          }
+          label="Rangeland Health"
+        />
+      </Form.Group>
+
       <PermissionsField
         name={`${namespace}.purposes`}
         permission={MONITORING_AREAS.PURPOSE}
@@ -122,32 +132,28 @@ const MonitoringAreaBox = ({
         label="Purposes"
       />
 
-      <div className="rup__row">
-        <div className="rup__cell-4">
-          <PermissionsField
-            name={`${namespace}.latitude`}
-            permission={MONITORING_AREAS.LATITUDE}
-            component={Input}
-            displayValue={latitude}
-            label="Latitude"
-            inputProps={{
-              type: 'number'
-            }}
-          />
-        </div>
-        <div className="rup__cell-4">
-          <PermissionsField
-            name={`${namespace}.longitude`}
-            permission={MONITORING_AREAS.LONGTITUDE}
-            component={Input}
-            displayValue={longitude}
-            label="Longitude"
-            inputProps={{
-              type: 'number'
-            }}
-          />
-        </div>
-        <div className="rup__cell-4">
+      <Form.Group widths="equal">
+        <PermissionsField
+          name={`${namespace}.latitude`}
+          permission={MONITORING_AREAS.LATITUDE}
+          component={Input}
+          displayValue={latitude}
+          label="Latitude"
+          inputProps={{
+            type: 'number'
+          }}
+        />
+        <PermissionsField
+          name={`${namespace}.longitude`}
+          permission={MONITORING_AREAS.LONGTITUDE}
+          component={Input}
+          displayValue={longitude}
+          label="Longitude"
+          inputProps={{
+            type: 'number'
+          }}
+        />
+        <IfEditable permission={MONITORING_AREAS.LATITUDE}>
           <LocationButton
             onLocation={({ coords: { longitude, latitude } }) => {
               formik.setFieldValue(`${namespace}.longitude`, longitude)
@@ -156,8 +162,8 @@ const MonitoringAreaBox = ({
             <Icon name="compass" />
             Get Location
           </LocationButton>
-        </div>
-      </div>
+        </IfEditable>
+      </Form.Group>
     </div>
   )
 }

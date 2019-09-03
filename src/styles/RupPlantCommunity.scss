@@ -195,8 +195,10 @@
       &__header {
         font-size: 1.2rem;
         font-weight: bold;
-        margin-bottom: -5px;
+        margin-bottom: 5px;
         display: flex;
+        width: 100%;
+        justify-content: space-between;
       }
       &__label {
         color: gray;

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 
 const LocationButton = ({ children, onLocation, ...props }) => {
   const [loading, setLoading] = useState(false)
 
   return (
-    <Button
+    <Form.Button
+      fluid
       type="button"
       {...props}
       loading={loading}
@@ -18,9 +19,10 @@ const LocationButton = ({ children, onLocation, ...props }) => {
             onLocation(...args)
           })
         }
-      }}>
+      }}
+      label="&nbsp;">
       {children}
-    </Button>
+    </Form.Button>
   )
 }
 
