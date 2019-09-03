@@ -17,7 +17,7 @@ const IndicatorPlantsSchema = Yup.object().shape({
       value: Yup.number()
         .positive('Please choose a number greater than 0')
         .required('Value required!'),
-      plantSpecies: Yup.number()
+      plantSpeciesId: Yup.number()
         .moreThan(0, 'Please select a species')
         .required('Please select a species')
     })
@@ -28,7 +28,8 @@ const IndicatorPlantsForm = ({
   indicatorPlants,
   onSubmit,
   onChange,
-  valueLabel
+  valueLabel,
+  criteria
 }) => {
   const references = useReferences()
 
@@ -77,19 +78,20 @@ const IndicatorPlantsForm = ({
                   <Form.Group widths="equal" key={plant.id}>
                     <PermissionsField
                       permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-                      name={`indicatorPlants.${index}.plantSpecies`}
+                      name={`indicatorPlants.${index}.plantSpeciesId`}
                       component={FormikDropdown}
                       placeholder="Indicator Plant"
                       options={options}
                       displayValue={
-                        plant.plantSpecies
-                          ? options.find(o => o.key === plant.plantSpecies).text
+                        plant.plantSpeciesId
+                          ? options.find(o => o.key === plant.plantSpeciesId)
+                              .text
                           : ''
                       }
                       inputProps={{
                         error: !!getIn(
                           errors,
-                          `indicatorPlants.${index}.plantSpecies`
+                          `indicatorPlants.${index}.plantSpeciesId`
                         )
                       }}
                     />
@@ -136,15 +138,10 @@ const IndicatorPlantsForm = ({
                     type="button"
                     primary
                     onClick={() => {
-                      const { indicatorPlants } = values
-                      const id = indicatorPlants[indicatorPlants.length - 1]
-                        ? indicatorPlants[indicatorPlants.length - 1].id + 1
-                        : 0
-
                       push({
-                        id,
-                        plantSpecies: 0,
-                        value: 0
+                        plantSpeciesId: 0,
+                        value: 0,
+                        criteria
                       })
                     }}>
                     <i className="add circle icon" />
@@ -177,13 +174,15 @@ IndicatorPlantsForm.propTypes = {
   indicatorPlants: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      plantSpecies: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired
+      plantSpeciesId: PropTypes.number.isRequired,
+      value: PropTypes.number.isRequired,
+      criteria: PropTypes.string.isRequired
     })
   ),
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
-  valueLabel: PropTypes.string.isRequired
+  valueLabel: PropTypes.string.isRequired,
+  criteria: PropTypes.string.isRequired
 }
 
 export default IndicatorPlantsForm
