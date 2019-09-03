@@ -47,62 +47,66 @@ const IndicatorPlantsForm = ({
               </IfEditable>
             )}
 
-            {indicatorPlants.map((plant, index) => (
-              <Form.Group widths="equal" key={plant.id}>
-                <PermissionsField
-                  permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-                  name={`${namespace}.indicatorPlants.${index}.plantSpeciesId`}
-                  component={FormikDropdown}
-                  placeholder="Indicator Plant"
-                  options={options}
-                  displayValue={
-                    plant.plantSpeciesId
-                      ? options.find(o => o.key === plant.plantSpeciesId).text
-                      : ''
-                  }
-                  inputProps={{
-                    error: !!getIn(
-                      errors,
-                      `${namespace}.indicatorPlants.${index}.plantSpeciesId`
-                    )
-                  }}
-                />
-
-                <PermissionsField
-                  permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-                  name={`${namespace}.indicatorPlants.${index}.value`}
-                  component={Input}
-                  displayValue={plant.value}
-                  inputProps={{
-                    type: 'number'
-                  }}
-                />
-
-                <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-                  <Dropdown
-                    trigger={<Icon name="ellipsis vertical" />}
-                    options={[
-                      {
-                        key: 'delete',
-                        value: 'delete',
-                        text: 'Delete'
+            {indicatorPlants.map(
+              (plant, index) =>
+                plant.criteria === criteria && (
+                  <Form.Group widths="equal" key={plant.id}>
+                    <PermissionsField
+                      permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+                      name={`${namespace}.indicatorPlants.${index}.plantSpeciesId`}
+                      component={FormikDropdown}
+                      placeholder="Indicator Plant"
+                      options={options}
+                      displayValue={
+                        plant.plantSpeciesId
+                          ? options.find(o => o.key === plant.plantSpeciesId)
+                              .text
+                          : ''
                       }
-                    ]}
-                    style={{ display: 'flex', alignItems: 'center' }}
-                    icon={null}
-                    pointing="right"
-                    onClick={e => e.stopPropagation()}
-                    onChange={(e, { value }) => {
-                      if (value === 'delete') {
-                        setToRemove(index)
-                        setDialogOpen(true)
-                      }
-                    }}
-                    selectOnBlur={false}
-                  />
-                </IfEditable>
-              </Form.Group>
-            ))}
+                      inputProps={{
+                        error: !!getIn(
+                          errors,
+                          `${namespace}.indicatorPlants.${index}.plantSpeciesId`
+                        )
+                      }}
+                    />
+
+                    <PermissionsField
+                      permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+                      name={`${namespace}.indicatorPlants.${index}.value`}
+                      component={Input}
+                      displayValue={plant.value}
+                      inputProps={{
+                        type: 'number'
+                      }}
+                    />
+
+                    <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
+                      <Dropdown
+                        trigger={<Icon name="ellipsis vertical" />}
+                        options={[
+                          {
+                            key: 'delete',
+                            value: 'delete',
+                            text: 'Delete'
+                          }
+                        ]}
+                        style={{ display: 'flex', alignItems: 'center' }}
+                        icon={null}
+                        pointing="right"
+                        onClick={e => e.stopPropagation()}
+                        onChange={(e, { value }) => {
+                          if (value === 'delete') {
+                            setToRemove(index)
+                            setDialogOpen(true)
+                          }
+                        }}
+                        selectOnBlur={false}
+                      />
+                    </IfEditable>
+                  </Form.Group>
+                )
+            )}
 
             <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
               <Button

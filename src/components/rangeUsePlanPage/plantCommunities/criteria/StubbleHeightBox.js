@@ -12,9 +12,7 @@ const StubbleHeightBox = ({ plantCommunity, namespace }) => {
       </div>
 
       <IndicatorPlantsForm
-        indicatorPlants={plantCommunity.indicatorPlants.filter(
-          ip => ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT
-        )}
+        indicatorPlants={plantCommunity.indicatorPlants}
         namespace={namespace}
         valueLabel="Height After Grazing (cm)"
         criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}

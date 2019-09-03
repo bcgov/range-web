@@ -37,9 +37,7 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         label="Notes"
       />
       <IndicatorPlantsForm
-        indicatorPlants={plantCommunity.indicatorPlants.filter(
-          ip => ip.criteria === PLANT_CRITERIA.RANGE_READINESS
-        )}
+        indicatorPlants={plantCommunity.indicatorPlants}
         namespace={namespace}
         valueLabel="Criteria (Leaf Stage)"
         criteria={PLANT_CRITERIA.RANGE_READINESS}
