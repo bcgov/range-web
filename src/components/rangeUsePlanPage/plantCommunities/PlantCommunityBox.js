@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 import { CollapsibleBox } from '../../common'
 import {
   IMAGE_SRC,
-  PURPOSE_OF_ACTION as PurposeOfAction
+  PURPOSE_OF_ACTION as PurposeOfAction,
+  REFERENCE_KEY
 } from '../../../constants/variables'
-import {
-  capitalize,
-  isUserAgreementHolder,
-  handleNullValue
-} from '../../../utils'
-import { Icon, Checkbox } from 'semantic-ui-react'
+import { capitalize } from '../../../utils'
+import { Icon } from 'semantic-ui-react'
 import RangeReadinessBox from './criteria/RangeReadinessBox'
 import StubbleHeightBox from './criteria/StubbleHeightBox'
 import ShrubUseBox from './criteria/ShrubUseBox'
@@ -25,6 +22,10 @@ import {
 } from '../../../constants/strings'
 import { useUser } from '../../../providers/UserProvider'
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
+import PermissionsField from '../../common/PermissionsField'
+import { PLANT_COMMUNITY } from '../../../constants/fields'
+import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
+import { useReferences } from '../../../providers/ReferencesProvider'
 
 const PlantCommunityBox = ({
   plantCommunity,
@@ -47,10 +48,34 @@ const PlantCommunityBox = ({
     monitoringAreas
   } = plantCommunity
   const communityTypeName = (communityType && communityType.name) || name
-  const elevationName = elevation && elevation.name
   const purposeOfAction = capitalize(poa)
 
-  const user = useUser()
+  const elevationTypes = useReferences()[
+    REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION
+  ]
+  const elevationOptions = elevationTypes.map(type => ({
+    key: type.id,
+    value: type.id,
+    text: type.name
+  }))
+
+  const purposeOptions = [
+    {
+      key: 'none',
+      value: 'none',
+      text: 'Clear'
+    },
+    {
+      key: 'maintain',
+      value: 'maintain',
+      text: 'Maintain Plant Community'
+    },
+    {
+      key: 'establish',
+      value: 'establish',
+      text: 'Establish Plant Community'
+    }
+  ]
 
   return (
     <CollapsibleBox
@@ -86,50 +111,59 @@ const PlantCommunityBox = ({
           </div>
           <div className="rup__row">
             <div className="rup__cell-4">
-              <div className="rup__plant-community__content__label">
-                {ASPECT}
-              </div>
-              <div className="rup__plant-community__content__text">
-                {handleNullValue(aspect)}
-              </div>
+              <PermissionsField
+                name={`${namespace}.aspect`}
+                permission={PLANT_COMMUNITY.ASPECT}
+                component={Input}
+                displayValue={aspect}
+                label={ASPECT}
+              />
             </div>
             <div className="rup__cell-4">
-              <div className="rup__plant-community__content__label">
-                {ELEVATION}
-              </div>
-              <div className="rup__plant-community__content__text">
-                {handleNullValue(elevationName)}
-              </div>
+              <PermissionsField
+                permission={PLANT_COMMUNITY.ELEVATION}
+                name={`${namespace}.elevation`}
+                component={Dropdown}
+                options={elevationOptions}
+                displayValue={elevationTypes[elevation].name}
+                label={ELEVATION}
+              />
             </div>
-            {!isUserAgreementHolder(user) && (
-              <div className="rup__cell-4">
-                <div className="rup__plant-community__content__label">
-                  {APPROVED_BY_MINISTER}
-                </div>
-                <div className="rup__plant-community__content__text">
-                  <Checkbox checked={approved} toggle />
-                </div>
-              </div>
-            )}
+            <PermissionsField
+              name={`${namespace}.approved`}
+              permission={PLANT_COMMUNITY.APPROVED}
+              component={Checkbox}
+              displayValue={approved}
+              label={APPROVED_BY_MINISTER}
+              inputProps={{
+                toggle: true
+              }}
+            />
           </div>
-          <div className="rup__plant-community__content__label">
-            {PLANT_COMMUNITY_NOTES}
-          </div>
-          <div className="rup__plant-community__content__text">
-            {handleNullValue(notes)}
-          </div>
-          <div className="rup__plant-community__content__label">
-            {COMMUNITY_URL}
-          </div>
-          <div className="rup__plant-community__content__text">
-            {handleNullValue(url)}
-          </div>
-          <div className="rup__plant-community__content__label">
-            {PURPOSE_OF_ACTION}
-          </div>
-          <div className="rup__plant-community__content__text">
-            {handleNullValue(purposeOfAction)}
-          </div>
+          <PermissionsField
+            name={`${namespace}.notes`}
+            permission={PLANT_COMMUNITY.NOTES}
+            component={TextArea}
+            displayValue={notes}
+            label={PLANT_COMMUNITY_NOTES}
+          />
+
+          <PermissionsField
+            name={`${namespace}.url`}
+            permission={PLANT_COMMUNITY.COMMUNITY_URL}
+            component={Input}
+            displayValue={url}
+            label={COMMUNITY_URL}
+          />
+
+          <PermissionsField
+            permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
+            name={`${namespace}.purposeOfAction`}
+            component={Dropdown}
+            options={purposeOptions}
+            displayValue={purposeOfAction}
+            label={PURPOSE_OF_ACTION}
+          />
 
           {!(
             purposeOfAction === PurposeOfAction.NONE ||
@@ -174,7 +208,7 @@ PlantCommunityBox.propTypes = {
     name: PropTypes.string.isRequired,
     plantCommunityActions: PropTypes.array.isRequired,
     purposeOfAction: PropTypes.string.isRequired,
-    aspect: PropTypes.number.isRequired,
+    aspect: PropTypes.string.isRequired,
     elevation: PropTypes.number.isRequired,
     url: PropTypes.string.isRequired,
     approved: PropTypes.bool.isRequired,
