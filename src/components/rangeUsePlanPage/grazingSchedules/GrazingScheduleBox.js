@@ -210,7 +210,7 @@ GrazingScheduleBox.propTypes = {
   crownTotalAUMs: PropTypes.number.isRequired,
   yearOptions: PropTypes.array.isRequired,
   onScheduleClicked: PropTypes.func.isRequired,
-  authorizedAUMs: PropTypes.array.isRequired,
+  authorizedAUMs: PropTypes.number.isRequired,
   onScheduleCopy: PropTypes.func.isRequired,
   onScheduleDelete: PropTypes.func.isRequired
 }

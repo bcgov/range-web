@@ -112,8 +112,8 @@ const GrazingSchedules = ({ plan }) => {
                     namespace={`grazingSchedules.${index}`}
                     authorizedAUMs={authorizedAUMs}
                     crownTotalAUMs={crownTotalAUMs}
-                    onCopy={handleScheduleCopy}
-                    onDelete={handleScheduleDelete}
+                    onScheduleCopy={handleScheduleCopy}
+                    onScheduleDelete={handleScheduleDelete}
                   />
                 )
               })}
