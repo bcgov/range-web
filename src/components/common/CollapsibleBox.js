@@ -12,7 +12,8 @@ class CollapsibleBox extends Component {
     collapsibleContent: PropTypes.node.isRequired,
     contentIndex: PropTypes.number.isRequired,
     activeContentIndex: PropTypes.number.isRequired,
-    onContentClicked: PropTypes.func.isRequired,
+    onContentClicked: PropTypes.func,
+    onContentClick: PropTypes.func,
     scroll: PropTypes.bool
   }
 
@@ -27,6 +28,7 @@ class CollapsibleBox extends Component {
       contentIndex,
       activeContentIndex,
       onContentClicked,
+      onContentClick,
       header,
       headerRight,
       shouldHideHeaderRightWhenNotActive,
@@ -47,7 +49,9 @@ class CollapsibleBox extends Component {
             className={classnames('collaspible-box__header__title', {
               'collaspible-box__header__title--active': isActive
             })}
-            onClick={onContentClicked(contentIndex)}>
+            onClick={
+              onContentClick ? onContentClick : onContentClicked(contentIndex)
+            }>
             {header}
             <div className="collaspible-box__header__right">
               {additionalHeaderRight}
