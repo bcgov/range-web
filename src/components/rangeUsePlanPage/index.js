@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import uuid from 'uuid-v4'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -34,92 +34,63 @@ import {
   createAmendment,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration,
-  createRUPPlantCommunityAndOthers
+  createOrUpdateRUPManagementConsideration
 } from '../../actionCreators'
 import * as API from '../../constants/api'
 import { Form } from 'formik-semantic-ui'
+import { useToast } from '../../providers/ToastProvider'
+import { useReferences } from '../../providers/ReferencesProvider'
 
-class Base extends Component {
-  state = {
-    plan: null,
-    isFetching: false
-  }
+const Base = ({
+  user,
+  plansMap,
+  history,
+  fetchRUP,
+  match,
+  location,
+  ...props
+}) => {
+  const [isFetchingPlan, setFetching] = useState(false)
+  const [errorFetchingPlan, setError] = useState()
+  const [plan, setPlan] = useState()
 
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({ planId: PropTypes.string })
-    }).isRequired,
-    user: PropTypes.shape({}).isRequired,
-    history: PropTypes.shape({}).isRequired,
-    location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
-    fetchRUP: PropTypes.func.isRequired,
-    isFetchingPlan: PropTypes.bool.isRequired,
-    errorFetchingPlan: PropTypes.bool.isRequired,
-    plansMap: PropTypes.shape({}).isRequired,
-    reAuthRequired: PropTypes.bool.isRequired
-  }
+  const references = useReferences()
 
-  componentWillMount() {
-    document.title = DETAIL_RUP_TITLE
-  }
+  const { successToast, errorToast } = useToast()
 
-  componentDidMount() {
-    // initial fetch for a plan
-    this.fetchPlan()
-  }
+  const getPlanId = () =>
+    match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
 
-  componentWillReceiveProps(nextProps) {
-    const { reAuthRequired, errorFetchingPlan } = nextProps
+  const fetchPlan = async () => {
+    setFetching(true)
+    const planId = getPlanId()
 
-    // fetch zones and users if the user just reauthenticate and there was an error occurred
-    const justReAuthenticated =
-      this.props.reAuthRequired === true && reAuthRequired === false
-    if (justReAuthenticated && errorFetchingPlan) {
-      this.fetchPlan()
+    try {
+      const { data } = await axios.get(
+        API.GET_RUP(planId),
+        getAuthHeaderConfig()
+      )
+      setPlan(data)
+    } catch (e) {
+      setError(e)
     }
+
+    setFetching(false)
+
+    return fetchRUP(planId)
   }
 
-  getPlanId = () => {
-    const { match, location } = this.props
-    // the second part is being used for testing
-    return (
-      match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
-    )
-  }
+  useEffect(() => {
+    fetchPlan()
+  }, [])
 
-  fetchPlan = async () => {
-    this.setState({
-      isFetching: true
-    })
-    const planId = this.getPlanId()
-
-    const { data } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig())
-
-    this.setState({
-      plan: data
-    })
-
-    console.log(data)
-
-    this.setState({
-      isFetching: false
-    })
-
-    return this.props.fetchRUP(planId)
-  }
-
-  handleSubmit = async (plan, formik) => {
+  const handleSubmit = async (plan, formik) => {
     const {
       pastures,
       grazingSchedules,
       invasivePlantChecklist,
       managementConsiderations
     } = plan
-
-    console.log(plan)
-
-    console.log('submitting')
 
     const config = getAuthHeaderConfig()
 
@@ -194,9 +165,10 @@ class Base extends Component {
           config
         )
       } else {
+        const { id, ...values } = invasivePlantChecklist
         await axios.post(
           API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(plan.id),
-          invasivePlantChecklist,
+          values,
           config
         )
       }
@@ -213,9 +185,10 @@ class Base extends Component {
               config
             )
           } else {
+            const { id, ...values } = consideration
             return axios.post(
               API.CREATE_RUP_MANAGEMENT_CONSIDERATION(plan.id),
-              consideration,
+              values,
               config
             )
           }
@@ -223,97 +196,109 @@ class Base extends Component {
       )
 
       formik.setSubmitting(false)
+      successToast('Successfully saved draft')
     } catch (err) {
       formik.setStatus('error')
       formik.setSubmitting(false)
-      toastErrorMessage(err)
+      errorToast('Error saving draft')
       throw err
     }
   }
 
-  render() {
-    const { user, errorFetchingPlan, plansMap, history } = this.props
+  const agreement = plan && plan.agreement
+  const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan
+  // const doneFetching = !isFetchingPlanForTheFirstTime;
 
-    const isFetchingPlan = this.state.isFetching
-
-    const planId = this.getPlanId()
-    const plan = plansMap[planId]
-    const agreement = plan && plan.agreement
-    const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan
-    // const doneFetching = !isFetchingPlanForTheFirstTime;
-
-    if (errorFetchingPlan) {
-      return (
-        <div className="rup__fetching-error">
-          <Icon name="warning sign" size="large" color="red" />
-          <div>
-            <span className="rup__fetching-error__message">
-              Error occurred while fetching the range use plan.
-            </span>
-          </div>
-          <div>
-            <PrimaryButton inverted onClick={history.goBack}>
-              Go Back
-            </PrimaryButton>
-            <span className="rup__fetching-error__or-message">or</span>
-            <PrimaryButton onClick={this.fetchPlan} content="Retry" />
-          </div>
-        </div>
-      )
-    }
-
+  if (errorFetchingPlan) {
     return (
-      <Fragment>
-        <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
-
-        {!plan && !isFetchingPlan && (
-          <div className="rup__no-plan-shown">
-            {"Don't see any plan?"}
-            <PrimaryButton
-              onClick={this.fetchPlan}
-              content="Fetch Plan"
-              style={{ marginLeft: '15px' }}
-            />
-          </div>
-        )}
-
-        {this.state.plan && (
-          <Form
-            initialValues={this.state.plan}
-            validateOnChange={true}
-            onSubmit={this.handleSubmit}
-            render={({ values: plan }) => (
-              <>
-                {(isUserAdmin(user) || isUserRangeOfficer(user)) && (
-                  <PageForStaff
-                    {...this.props}
-                    agreement={agreement}
-                    plan={plan}
-                    fetchPlan={this.fetchPlan}
-                  />
-                )}
-
-                {isUserAgreementHolder(user) && (
-                  <PageForAH
-                    {...this.props}
-                    agreement={agreement}
-                    plan={plan}
-                    fetchPlan={this.fetchPlan}
-                  />
-                )}
-              </>
-            )}
-          />
-        )}
-      </Fragment>
+      <div className="rup__fetching-error">
+        <Icon name="warning sign" size="large" color="red" />
+        <div>
+          <span className="rup__fetching-error__message">
+            Error occurred while fetching the range use plan.
+          </span>
+        </div>
+        <div>
+          <PrimaryButton inverted onClick={history.goBack}>
+            Go Back
+          </PrimaryButton>
+          <span className="rup__fetching-error__or-message">or</span>
+          <PrimaryButton onClick={fetchPlan} content="Retry" />
+        </div>
+      </div>
     )
   }
+
+  return (
+    <Fragment>
+      <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
+
+      {!plan && !isFetchingPlan && (
+        <div className="rup__no-plan-shown">
+          {"Don't see any plan?"}
+          <PrimaryButton
+            onClick={fetchPlan}
+            content="Fetch Plan"
+            style={{ marginLeft: '15px' }}
+          />
+        </div>
+      )}
+
+      {plan && (
+        <Form
+          initialValues={plan}
+          validateOnChange={true}
+          onSubmit={handleSubmit}
+          render={({ values: plan }) => (
+            <>
+              {(isUserAdmin(user) || isUserRangeOfficer(user)) && (
+                <PageForStaff
+                  references={references}
+                  agreement={agreement}
+                  plan={plan}
+                  fetchPlan={fetchPlan}
+                  user={user}
+                  history={history}
+                  {...props}
+                />
+              )}
+
+              {isUserAgreementHolder(user) && (
+                <PageForAH
+                  references={references}
+                  agreement={agreement}
+                  plan={plan}
+                  fetchPlan={fetchPlan}
+                  user={user}
+                  history={history}
+                  {...props}
+                />
+              )}
+            </>
+          )}
+        />
+      )}
+    </Fragment>
+  )
+}
+
+Base.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ planId: PropTypes.string })
+  }).isRequired,
+  user: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
+  fetchRUP: PropTypes.func.isRequired,
+  isFetchingPlan: PropTypes.bool.isRequired,
+  errorFetchingPlan: PropTypes.bool.isRequired,
+  plansMap: PropTypes.shape({}).isRequired,
+  reAuthRequired: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
   plansMap: selectors.getPlansMap(state),
   pasturesMap: selectors.getPasturesMap(state),
-  plantCommunitiesMap: selectors.getPlantCommunitiesMap(state),
   grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
   ministerIssuesMap: selectors.getMinisterIssuesMap(state),
   confirmationsMap: selectors.getConfirmationsMap(state),
@@ -347,7 +332,6 @@ export default connect(
     openConfirmationModal,
     createOrUpdateRUPMinisterIssueAndActions,
     createOrUpdateRUPInvasivePlantChecklist,
-    createOrUpdateRUPManagementConsideration,
-    createRUPPlantCommunityAndOthers
+    createOrUpdateRUPManagementConsideration
   }
 )(Base)
