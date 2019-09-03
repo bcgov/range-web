@@ -108,7 +108,6 @@ const GrazingSchedules = ({ plan }) => {
                     onScheduleClicked={() => setActiveIndex(index)}
                     activeIndex={activeIndex}
                     livestockTypes={livestockTypes}
-                    pasture={plan.pasture}
                     namespace={`grazingSchedules.${index}`}
                     authorizedAUMs={authorizedAUMs}
                     crownTotalAUMs={crownTotalAUMs}

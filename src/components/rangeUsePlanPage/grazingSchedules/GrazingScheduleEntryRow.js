@@ -12,7 +12,6 @@ import DateInputField from '../../common/form/DateInputField'
 
 const GrazingScheduleEntryRow = ({
   entry,
-  pasture,
   formik,
   namespace,
   onDelete,
@@ -48,6 +47,8 @@ const GrazingScheduleEntryRow = ({
   })
 
   const days = utils.calcDateDiff(dateOut, dateIn, false)
+  const pasture = formik.values.pastures.find(p => p.id === pastureId)
+
   const pldPercent = pasture && pasture.pldPercent
   const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
   const auFactor = livestockType && livestockType.auFactor
@@ -174,7 +175,6 @@ const GrazingScheduleEntryRow = ({
 
 GrazingScheduleEntryRow.propTypes = {
   entry: PropTypes.object.isRequired,
-  pasture: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   namespace: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,

@@ -16,7 +16,6 @@ const GrazingScheduleBox = ({
   schedule,
   activeIndex,
   index,
-  pasture,
   namespace,
   crownTotalAUMs,
   yearOptions,
@@ -122,7 +121,6 @@ const GrazingScheduleBox = ({
                           entry={entry}
                           entryIndex={entryIndex}
                           scheduleIndex={index}
-                          pasture={pasture}
                           namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
                           onDelete={() => setToRemove(entryIndex)}
                           onCopy={() => push(entry)}
@@ -207,7 +205,6 @@ GrazingScheduleBox.propTypes = {
   schedule: PropTypes.object.isRequired,
   activeIndex: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
-  pasture: PropTypes.object.isRequired,
   namespace: PropTypes.string.isRequired,
   crownTotalAUMs: PropTypes.number.isRequired,
   yearOptions: PropTypes.array.isRequired,

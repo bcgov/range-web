@@ -181,7 +181,7 @@ const PlantCommunityBox = ({
 
           <div className="rup__plant-community__content-title">
             <span>Criteria</span>
-            <IfEditable permission={PLANT_CRITERIA.IMPORT}>
+            <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
                 onSubmit={({ plantCommunity, criteria }) => {
                   const indicatorPlants = plantCommunity.indicatorPlants.filter(
