@@ -22,17 +22,22 @@ const PermissionsField = ({
   ) : (
     <Form.Field inline={props.inline}>
       {props.label && <label>{props.label}</label>}
-      <PlainInput transparent value={handleNullValue(displayValue)} />
+      <PlainInput
+        transparent
+        value={handleNullValue(displayValue)}
+        fluid={props.fluid}
+      />
     </Form.Field>
   )
 }
 
 PermissionsField.propTypes = {
   permission: PropTypes.string.isRequired,
-  displayValue: PropTypes.any.isRequired,
+  displayValue: PropTypes.any,
   component: PropTypes.elementType,
   label: PropTypes.string,
-  inline: PropTypes.bool
+  inline: PropTypes.bool,
+  fluid: PropTypes.bool
 }
 
 export const IfEditable = ({ children, permission, invert }) => {
