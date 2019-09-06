@@ -8,11 +8,6 @@ import {
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
-import BasicInformation from '../basicInformation'
-import EditableBasicInformation from '../editableBasicInformation'
-import Pastures from '../pastures'
-import EditablePastures from '../editablePastures'
-import GrazingSchedules from '../grazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
 import ContentsContainer from '../ContentsContainer'
@@ -20,13 +15,12 @@ import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
-import UsageTable from '../usage'
-import InvasivePlantChecklist from '../invasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
-import ManagementConsiderations from '../managementConsiderations'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
+import PlanForm from '../PlanForm'
+import { Element } from 'react-scroll'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -62,7 +56,9 @@ class PageForStaff extends Component {
       updateRUP,
       toastErrorMessage,
       pasturesMap,
+      plantCommunitiesMap,
       createOrUpdateRUPPasture,
+      createRUPPlantCommunityAndOthers,
       grazingSchedulesMap,
       createOrUpdateRUPGrazingSchedule
     } = this.props
@@ -73,15 +69,25 @@ class PageForStaff extends Component {
 
     const pastures = Object.values(pasturesMap)
     const pasturesForPlan = pastures.filter(
-      pasture => plan.pastures.includes(pasture.planId) || !Number(pasture.id)
+      pasture => plan.pastures.includes(pasture.id) || !Number(pasture.id)
     )
 
     try {
       // Update Plan
       await updateRUP(plan.id, plan)
-      pasturesForPlan.forEach(
-        async pasture => await createOrUpdateRUPPasture(plan.id, pasture)
-      )
+      pasturesForPlan.forEach(async pasture => {
+        await createOrUpdateRUPPasture(plan.id, pasture)
+
+        pasture.plantCommunities.forEach(
+          async plantCommunity =>
+            await createRUPPlantCommunityAndOthers(
+              plan.id,
+              pasture.id,
+              plantCommunitiesMap[plantCommunity]
+            )
+        )
+      })
+
       // Update Grazing Schedules
       plan.grazingSchedules.forEach(
         async scheduleId =>
@@ -160,25 +166,16 @@ class PageForStaff extends Component {
       user,
       references,
       plan,
-      pasturesMap,
-      grazingSchedulesMap,
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
-      managementConsiderationsMap,
       fetchPlan,
       isFetchingPlan,
-      planUpdated,
-      updateRUPStatus,
-      pastureAdded,
-      pastureUpdated,
-      pastureCopied,
-      grazingScheduleUpdated
+      updateRUPStatus
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
     const { agreementId, status, rangeName } = plan
-    const { usage } = agreement
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canSubmit = utils.isStatusRecommendForSubmission(status)
@@ -247,76 +244,22 @@ class PageForStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
-          {canEdit ? (
-            <EditableBasicInformation
-              elementId={ELEMENT_ID.BASIC_INFORMATION}
-              agreement={agreement}
-              plan={plan}
-              user={user}
-              onZoneClicked={this.openUpdateZoneModal}
-              planUpdated={planUpdated}
+          {plan && <PlanForm plan={plan} />}
+
+          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
+            <MinisterIssues
+              elementId={ELEMENT_ID.MINISTER_ISSUES}
+              issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
             />
-          ) : (
-            <BasicInformation
-              elementId={ELEMENT_ID.BASIC_INFORMATION}
-              agreement={agreement}
+          </Element>
+
+          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
+            <AdditionalRequirements
+              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
               plan={plan}
-              user={user}
-              onZoneClicked={this.openUpdateZoneModal}
+              additionalRequirementsMap={additionalRequirementsMap}
             />
-          )}
-
-          <UsageTable usage={usage} plan={plan} />
-
-          {canEdit ? (
-            <EditablePastures
-              elementId={ELEMENT_ID.PASTURES}
-              plan={plan}
-              pasturesMap={pasturesMap}
-              pastureAdded={pastureAdded}
-              pastureUpdated={pastureUpdated}
-              pastureCopied={pastureCopied}
-            />
-          ) : (
-            <Pastures
-              elementId={ELEMENT_ID.PASTURES}
-              plan={plan}
-              pasturesMap={pasturesMap}
-            />
-          )}
-
-          <GrazingSchedules
-            elementId={ELEMENT_ID.GRAZING_SCHEDULE}
-            references={references}
-            usage={usage}
-            plan={plan}
-            pasturesMap={pasturesMap}
-            grazingSchedulesMap={grazingSchedulesMap}
-            grazingScheduleUpdated={grazingScheduleUpdated}
-            canEditGraceDays={canEdit}
-          />
-
-          <MinisterIssues
-            elementId={ELEMENT_ID.MINISTER_ISSUES}
-            issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
-          />
-
-          <InvasivePlantChecklist
-            elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-            plan={plan}
-          />
-
-          <AdditionalRequirements
-            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-            plan={plan}
-            additionalRequirementsMap={additionalRequirementsMap}
-          />
-
-          <ManagementConsiderations
-            elementId={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
-            plan={plan}
-            managementConsiderationsMap={managementConsiderationsMap}
-          />
+          </Element>
         </ContentsContainer>
       </section>
     )

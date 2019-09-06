@@ -49,7 +49,7 @@
 
         > img {
           margin-right: 7px;
-          height: 23px;;
+          height: 23px;
         }
       }
       &__pasture {
@@ -59,8 +59,15 @@
       &-title {
         font-weight: bold;
         font-size: 1.4rem;
-        margin-top: 20px;
+        height: 36;
         color: $primary-color;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        > span {
+          padding: 10px 0;
+        }
       }
       &__label {
         color: gray;
@@ -165,7 +172,7 @@
     &__i-plant {
       &__header {
         display: flex;
-        margin-bottom: -3px;
+        margin-bottom: 10px;
 
         div {
           flex: 1;
@@ -195,8 +202,10 @@
       &__header {
         font-size: 1.2rem;
         font-weight: bold;
-        margin-bottom: -5px;
+        margin-bottom: 5px;
         display: flex;
+        width: 100%;
+        justify-content: space-between;
       }
       &__label {
         color: gray;

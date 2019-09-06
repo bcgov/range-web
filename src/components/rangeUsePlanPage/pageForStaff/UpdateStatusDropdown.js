@@ -238,6 +238,7 @@ class UpdateStatusDropdown extends Component {
               inverted
               loading={isUpdatingStatus}
               compact
+              type="button"
               style={{ margin: '0' }}>
               {strings.PLAN_ACTIONS}
               <Icon

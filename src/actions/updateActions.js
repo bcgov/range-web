@@ -89,3 +89,8 @@ export const plantCommunityAdded = payload => ({
   type: actionTypes.PLANT_COMMUNITY_ADDED,
   payload
 })
+
+export const plantCommunityUpdated = payload => ({
+  type: actionTypes.PLANT_COMMUNITY_UPDATED,
+  payload
+})

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
+import { connect } from 'formik'
 import {
   SAVE_DRAFT,
   SUBMIT,
@@ -17,15 +18,14 @@ const ActionBtns = ({
   canConfirm,
   canSubmit,
   canDownload,
-  isSavingAsDraft,
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
-  onSaveDraftClick,
   onAmendPlanClicked,
   openSubmissionModal,
   openAHSignatureModal,
-  openConfirmationModal
+  openConfirmationModal,
+  formik
 }) => {
   const downloadPDFBtn = (
     <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
@@ -33,10 +33,13 @@ const ActionBtns = ({
   const saveDraftBtn = (
     <Button
       key="saveDraftBtn"
+      type="button"
       inverted
       compact
-      loading={isSavingAsDraft}
-      onClick={onSaveDraftClick}
+      loading={formik.isSubmitting}
+      onClick={() => {
+        formik.submitForm()
+      }}
       style={{ marginRight: '0', marginLeft: '10px' }}>
       {SAVE_DRAFT}
     </Button>
@@ -46,6 +49,7 @@ const ActionBtns = ({
       key="submitBtn"
       inverted
       compact
+      type="button"
       loading={isSubmitting}
       onClick={openSubmissionModal}
       style={{ marginRight: '0', marginLeft: '10px' }}>
@@ -98,4 +102,4 @@ const ActionBtns = ({
   return downloadPDFBtn
 }
 
-export default ActionBtns
+export default connect(ActionBtns)

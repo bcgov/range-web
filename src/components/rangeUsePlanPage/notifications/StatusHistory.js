@@ -1,38 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from 'semantic-ui-react'
 import { Status } from '../../common'
 import { getUserFullName, formatDateToNow } from '../../../utils'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import { useReferences } from '../../../providers/ReferencesProvider'
+import { useUser } from '../../../providers/UserProvider'
 
-class StatusHistory extends Component {
-  static propTypes = {
-    planStatusHistory: PropTypes.arrayOf(PropTypes.number).isRequired,
-    planStatusHistoryMap: PropTypes.shape({}).isRequired,
-    user: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired
-  }
+const StatusHistory = ({ planStatusHistory }) => {
+  const references = useReferences()
+  const user = useUser()
+  const planStatuses = references[REFERENCE_KEY.PLAN_STATUS]
 
-  render() {
-    const {
-      planStatusHistory,
-      planStatusHistoryMap,
-      references,
-      user
-    } = this.props
-    const planStatuses = references[REFERENCE_KEY.PLAN_STATUS]
-
-    return (
-      <div className="rup__history">
-        {planStatusHistory.map(pshId => {
-          const record = planStatusHistoryMap[pshId]
-          const {
-            id,
-            user: recorder,
-            createdAt,
-            fromPlanStatusId,
-            toPlanStatusId
-          } = record || {}
+  return (
+    <div className="rup__history">
+      {planStatusHistory.map(
+        ({
+          id,
+          user: recorder,
+          createdAt,
+          fromPlanStatusId,
+          toPlanStatusId,
+          note
+        }) => {
           const from = planStatuses.find(s => s.id === fromPlanStatusId)
           const to = planStatuses.find(s => s.id === toPlanStatusId)
 
@@ -50,13 +40,17 @@ class StatusHistory extends Component {
                 <Icon name="long arrow alternate right" size="large" />
                 <Status status={to} user={user} />
               </div>
-              {record.note}
+              {note}
             </div>
           )
-        })}
-      </div>
-    )
-  }
+        }
+      )}
+    </div>
+  )
+}
+
+StatusHistory.propTypes = {
+  planStatusHistory: PropTypes.array.isRequired
 }
 
 export default StatusHistory

@@ -1,61 +1,181 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-// import { Icon } from 'semantic-ui-react';
-import { getMonitoringAreaPurposes, handleNullValue } from '../../../../utils'
+import { oxfordComma } from '../../../../utils'
+import { MONITORING_AREAS } from '../../../../constants/fields'
+import { Input, Dropdown } from 'formik-semantic-ui'
+import PermissionsField, { IfEditable } from '../../../common/PermissionsField'
+import { REFERENCE_KEY } from '../../../../constants/variables'
+import { connect } from 'formik'
+import { useReferences } from '../../../../providers/ReferencesProvider'
+import LocationButton from '../../../common/LocationButton'
+import {
+  Icon,
+  Confirm,
+  Dropdown as PlainDropdown,
+  Form
+} from 'semantic-ui-react'
 
-class MonitoringAreaBox extends Component {
-  static propTypes = {
-    monitoringArea: PropTypes.shape({}).isRequired
-  }
+const MonitoringAreaBox = ({
+  monitoringArea,
+  namespace,
+  formik,
+  onRemove,
+  onCopy
+}) => {
+  const {
+    latitude,
+    location,
+    longitude,
+    name,
+    purposes,
+    rangelandHealth
+  } = monitoringArea
 
-  render() {
-    const { monitoringArea } = this.props
-    const {
-      latitude,
-      location,
-      longitude,
-      name,
-      otherPurpose,
-      purposes,
-      rangelandHealth
-    } = monitoringArea
+  const [removeDialogOpen, setDialogOpen] = useState(false)
 
-    const rangelandHealthName = rangelandHealth && rangelandHealth.name
-    const purposeNames = getMonitoringAreaPurposes(purposes, otherPurpose)
+  const references = useReferences()
 
-    return (
-      <div className="rup__plant-community__m-area__box">
-        <div className="rup__plant-community__m-area__header">
-          {/* <Icon name="map marker alternate" /> */}
-          Monitoring Area: {name}
-        </div>
-        <div className="rup__row">
-          <div className="rup__cell-6">
-            <div className="rup__plant-community__m-area__label">Location</div>
-            <div>{handleNullValue(location)}</div>
-          </div>
-          <div className="rup__cell-6">
-            <div className="rup__plant-community__m-area__label">
-              Rangeland Health
-            </div>
-            <div>{handleNullValue(rangelandHealthName)}</div>
-          </div>
-        </div>
-        <div className="rup__plant-community__m-area__label">Purposes</div>
-        <div>{handleNullValue(purposeNames)}</div>
-        <div className="rup__row">
-          <div className="rup__cell-6">
-            <div className="rup__plant-community__m-area__label">Latitude</div>
-            <div>{handleNullValue(latitude)}</div>
-          </div>
-          <div className="rup__cell-6">
-            <div className="rup__plant-community__m-area__label">Longitude</div>
-            <div>{handleNullValue(longitude)}</div>
-          </div>
-        </div>
+  const rangelandHealthTypes = references[REFERENCE_KEY.MONITORING_AREA_HEALTH]
+  const rangelandHealthOptions = rangelandHealthTypes.map(type => ({
+    key: type.id,
+    value: type.id,
+    text: type.name
+  }))
+
+  const purposeTypes = references[REFERENCE_KEY.MONITORING_AREA_PURPOSE_TYPE]
+  const purposeOptions = purposeTypes.map(type => ({
+    key: type.id,
+    value: type.id,
+    text: type.name
+  }))
+
+  return (
+    <div className="rup__plant-community__m-area__box">
+      <div className="rup__plant-community__m-area__header">
+        {/* <Icon name="map marker alternate" /> */}
+
+        <span>Monitoring Area: {name}</span>
+
+        <PlainDropdown
+          trigger={<Icon name="ellipsis vertical" />}
+          options={[
+            {
+              key: 'copy',
+              value: 'copy',
+              text: 'Copy'
+            },
+            {
+              key: 'delete',
+              value: 'delete',
+              text: 'Delete'
+            }
+          ]}
+          icon={null}
+          pointing="right"
+          onClick={e => e.stopPropagation()}
+          onChange={(e, { value }) => {
+            if (value === 'delete') {
+              setDialogOpen(true)
+            }
+            if (value === 'copy') {
+              onCopy()
+            }
+          }}
+          selectOnBlur={false}
+        />
+
+        <Confirm
+          open={removeDialogOpen}
+          onCancel={() => {
+            setDialogOpen(false)
+          }}
+          onConfirm={() => {
+            setDialogOpen(false)
+            onRemove()
+          }}
+        />
       </div>
-    )
-  }
+      <Form.Group widths="equal">
+        <PermissionsField
+          name={`${namespace}.location`}
+          permission={MONITORING_AREAS.LOCATION}
+          component={Input}
+          displayValue={location}
+          label="Location"
+        />
+
+        <PermissionsField
+          name={`${namespace}.rangelandHealth`}
+          permission={MONITORING_AREAS.RANGELAND_HEALTH}
+          component={Dropdown}
+          options={rangelandHealthOptions}
+          displayValue={
+            rangelandHealthTypes.find(r => r.id === rangelandHealth)
+              ? rangelandHealthTypes.find(r => r.id === rangelandHealth).name
+              : ''
+          }
+          label="Rangeland Health"
+        />
+      </Form.Group>
+
+      <PermissionsField
+        name={`${namespace}.purposes`}
+        permission={MONITORING_AREAS.PURPOSE}
+        component={Dropdown}
+        options={purposeOptions}
+        inputProps={{
+          multiple: true
+        }}
+        displayValue={oxfordComma(
+          purposes.map(purpose => purposeTypes.find(p => p.id === purpose).name)
+        )}
+        label="Purposes"
+      />
+
+      <Form.Group widths="equal">
+        <PermissionsField
+          name={`${namespace}.latitude`}
+          permission={MONITORING_AREAS.LATITUDE}
+          component={Input}
+          displayValue={latitude}
+          label="Latitude"
+          inputProps={{
+            type: 'number'
+          }}
+        />
+        <PermissionsField
+          name={`${namespace}.longitude`}
+          permission={MONITORING_AREAS.LONGTITUDE}
+          component={Input}
+          displayValue={longitude}
+          label="Longitude"
+          inputProps={{
+            type: 'number'
+          }}
+        />
+        <IfEditable permission={MONITORING_AREAS.LATITUDE}>
+          <LocationButton
+            onLocation={({ coords: { longitude, latitude } }) => {
+              formik.setFieldValue(`${namespace}.longitude`, longitude)
+              formik.setFieldValue(`${namespace}.latitude`, latitude)
+            }}>
+            <Icon name="compass" />
+            Get Location
+          </LocationButton>
+        </IfEditable>
+      </Form.Group>
+    </div>
+  )
 }
 
-export default MonitoringAreaBox
+MonitoringAreaBox.propTypes = {
+  monitoringArea: PropTypes.shape({}).isRequired,
+  namespace: PropTypes.string.isRequired,
+  formik: PropTypes.shape({
+    setFieldValue: PropTypes.func.isRequired
+  }),
+  onRemove: PropTypes.func,
+  onCopy: PropTypes.func
+}
+
+export default connect(MonitoringAreaBox)

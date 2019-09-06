@@ -1,9 +1,17 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Icon, Checkbox } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
-
+import {
+  IMAGE_SRC,
+  PURPOSE_OF_ACTION as PurposeOfAction,
+  REFERENCE_KEY,
+  PLANT_CRITERIA
+} from '../../../constants/variables'
+import { Icon, Form } from 'semantic-ui-react'
+import RangeReadinessBox from './criteria/RangeReadinessBox'
+import StubbleHeightBox from './criteria/StubbleHeightBox'
+import ShrubUseBox from './criteria/ShrubUseBox'
+import MonitoringAreaList from './monitoringArea'
 import {
   ASPECT,
   ELEVATION,
@@ -12,183 +20,255 @@ import {
   COMMUNITY_URL,
   PURPOSE_OF_ACTION
 } from '../../../constants/strings'
-import {
-  PURPOSE_OF_ACTION as PurposeOfAction,
-  IMAGE_SRC
-} from '../../../constants/variables'
-import {
-  handleNullValue,
-  capitalize,
-  isUserAgreementHolder
-} from '../../../utils'
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
-import MonitoringAreaList from './monitoringArea'
-import RangeReadinessBox from './critera/RangeReadinessBox'
-import StubbleHeightBox from './critera/StubbleHeightBox'
-import ShrubUseBox from './critera/ShrubUseBox'
-import { getUser } from '../../../reducers/rootReducer'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
+import { PLANT_COMMUNITY } from '../../../constants/fields'
+import { connect } from 'formik'
+import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
+import { useReferences } from '../../../providers/ReferencesProvider'
+import Import from './criteria/Import'
 
-class PlantCommunityBox extends Component {
-  static propTypes = {
-    plantCommunity: PropTypes.shape({}).isRequired,
-    activePlantCommunityId: PropTypes.number.isRequired,
-    onPlantCommunityClicked: PropTypes.func.isRequired,
-    user: PropTypes.shape({}).isRequired
-  }
-
-  renderPlantCommunityActions = (
+const PlantCommunityBox = ({
+  plantCommunity,
+  activeIndex,
+  index,
+  onClick,
+  namespace,
+  formik
+}) => {
+  const {
+    name,
+    plantCommunityActions,
     purposeOfAction,
-    plantCommunityActions = []
-  ) => {
-    if (
-      purposeOfAction === PurposeOfAction.NONE ||
-      plantCommunityActions.length === 0
-    ) {
-      return null
+    aspect,
+    elevation,
+    url,
+    approved,
+    notes,
+    communityType,
+    monitoringAreas
+  } = plantCommunity
+  const communityTypeName = (communityType && communityType.name) || name
+
+  const elevationTypes = useReferences()[
+    REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION
+  ]
+  const elevationOptions = elevationTypes.map(type => ({
+    key: type.id,
+    value: type.id,
+    text: type.name
+  }))
+
+  const purposeOptions = [
+    {
+      key: PurposeOfAction.NONE,
+      value: PurposeOfAction.NONE,
+      text: 'None'
+    },
+    {
+      key: 'maintain',
+      value: 'maintain',
+      text: 'Maintain Plant Community'
+    },
+    {
+      key: 'establish',
+      value: 'establish',
+      text: 'Establish Plant Community'
     }
+  ]
 
-    return (
-      <Fragment>
-        <div className="rup__plant-community__content-title">
-          Plant Community Actions
-        </div>
-        <PlantCommunityActionsBox
-          plantCommunityActions={plantCommunityActions}
-        />
-      </Fragment>
-    )
-  }
-
-  render() {
-    const {
-      plantCommunity,
-      activePlantCommunityId,
-      onPlantCommunityClicked
-    } = this.props
-    const {
-      name,
-      plantCommunityActions,
-      purposeOfAction: poa,
-      aspect,
-      elevation,
-      url,
-      approved,
-      notes,
-      communityType,
-      communityTypeId,
-      monitoringAreas
-    } = plantCommunity
-    const communityTypeName = (communityType && communityType.name) || name
-    const elevationName = elevation && elevation.name
-    const purposeOfAction = capitalize(poa)
-
-    return (
-      <CollapsibleBox
-        key={communityType}
-        contentIndex={communityTypeId}
-        activeContentIndex={activePlantCommunityId}
-        onContentClicked={onPlantCommunityClicked}
-        scroll={true}
-        header={
-          <div className="rup__plant-community__title">
-            <div className="rup__plant-community__title__left">
-              <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
-              <div style={{ textAlign: 'left' }}>
-                Plant Community: {communityTypeName}
-              </div>
-            </div>
-            <div className="rup__plant-community__title__right">
-              <div>
-                {'Minister approval for inclusion obtained: '}
-                {approved ? (
-                  <Icon name="check circle" color="green" />
-                ) : (
-                  <Icon name="remove circle" color="red" />
-                )}
-              </div>
+  return (
+    <CollapsibleBox
+      key={communityType}
+      contentIndex={index}
+      activeContentIndex={activeIndex}
+      onContentClick={onClick}
+      scroll={true}
+      header={
+        <div className="rup__plant-community__title">
+          <div className="rup__plant-community__title__left">
+            <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
+            <div style={{ textAlign: 'left' }}>
+              Plant Community: {communityTypeName}
             </div>
           </div>
-        }
-        collapsibleContent={
-          <Fragment>
-            <div className="rup__plant-community__content-title">
-              Basic Plant Community Information
-            </div>
-            <div className="rup__row">
-              <div className="rup__cell-4">
-                <div className="rup__plant-community__content__label">
-                  {ASPECT}
-                </div>
-                <div className="rup__plant-community__content__text">
-                  {handleNullValue(aspect)}
-                </div>
-              </div>
-              <div className="rup__cell-4">
-                <div className="rup__plant-community__content__label">
-                  {ELEVATION}
-                </div>
-                <div className="rup__plant-community__content__text">
-                  {handleNullValue(elevationName)}
-                </div>
-              </div>
-              {!isUserAgreementHolder(this.props.user) && (
-                <div className="rup__cell-4">
-                  <div className="rup__plant-community__content__label">
-                    {APPROVED_BY_MINISTER}
-                  </div>
-                  <div className="rup__plant-community__content__text">
-                    <Checkbox checked={approved} toggle />
-                  </div>
-                </div>
+          <div className="rup__plant-community__title__right">
+            <div>
+              {'Minister approval for inclusion obtained: '}
+              {approved ? (
+                <Icon name="check circle" color="green" />
+              ) : (
+                <Icon name="remove circle" color="red" />
               )}
             </div>
-            <div className="rup__plant-community__content__label">
-              {PLANT_COMMUNITY_NOTES}
-            </div>
-            <div className="rup__plant-community__content__text">
-              {handleNullValue(notes)}
-            </div>
-            <div className="rup__plant-community__content__label">
-              {COMMUNITY_URL}
-            </div>
-            <div className="rup__plant-community__content__text">
-              {handleNullValue(url)}
-            </div>
-            <div className="rup__plant-community__content__label">
-              {PURPOSE_OF_ACTION}
-            </div>
-            <div className="rup__plant-community__content__text">
-              {handleNullValue(purposeOfAction)}
-            </div>
+          </div>
+        </div>
+      }
+      collapsibleContent={
+        <>
+          <div className="rup__plant-community__content-title">
+            <span>Basic Plant Community Information</span>
+          </div>
 
-            {this.renderPlantCommunityActions(
-              purposeOfAction,
-              plantCommunityActions
-            )}
+          <Form.Group widths="2">
+            <PermissionsField
+              name={`${namespace}.aspect`}
+              permission={PLANT_COMMUNITY.ASPECT}
+              component={Input}
+              displayValue={aspect}
+              label={ASPECT}
+            />
 
-            <div className="rup__plant-community__content-title">Criteria</div>
+            <PermissionsField
+              permission={PLANT_COMMUNITY.ELEVATION}
+              name={`${namespace}.elevation`}
+              component={Dropdown}
+              options={elevationOptions}
+              displayValue={elevation ? elevationTypes[elevation].name : ''}
+              label={ELEVATION}
+            />
+          </Form.Group>
 
-            <RangeReadinessBox plantCommunity={plantCommunity} />
+          <PermissionsField
+            name={`${namespace}.approved`}
+            permission={PLANT_COMMUNITY.APPROVED}
+            component={Checkbox}
+            displayValue={approved}
+            label={APPROVED_BY_MINISTER}
+            inputProps={{
+              toggle: true
+            }}
+          />
 
-            <StubbleHeightBox plantCommunity={plantCommunity} />
+          <PermissionsField
+            name={`${namespace}.notes`}
+            permission={PLANT_COMMUNITY.NOTES}
+            component={TextArea}
+            displayValue={notes}
+            label={PLANT_COMMUNITY_NOTES}
+          />
 
-            <ShrubUseBox plantCommunity={plantCommunity} />
+          <Form.Group widths="2">
+            <PermissionsField
+              name={`${namespace}.url`}
+              permission={PLANT_COMMUNITY.COMMUNITY_URL}
+              component={Input}
+              displayValue={url}
+              label={COMMUNITY_URL}
+            />
 
-            <div className="rup__plant-community__content-title">
-              Monitoring Areas
-            </div>
-            <MonitoringAreaList monitoringAreas={monitoringAreas} />
-          </Fragment>
-        }
-      />
-    )
-  }
+            <PermissionsField
+              permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
+              name={`${namespace}.purposeOfAction`}
+              component={Dropdown}
+              options={purposeOptions}
+              displayValue={purposeOfAction}
+              label={PURPOSE_OF_ACTION}
+            />
+          </Form.Group>
+
+          {purposeOfAction !== PurposeOfAction.NONE && (
+            <>
+              <div className="rup__plant-community__content-title">
+                <span>Plant Community Actions</span>
+              </div>
+              <PlantCommunityActionsBox
+                actions={plantCommunityActions}
+                namespace={namespace}
+              />
+            </>
+          )}
+
+          <div className="rup__plant-community__content-title">
+            <span>Criteria</span>
+            <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
+              <Import
+                onSubmit={({ plantCommunity, criteria }) => {
+                  const indicatorPlants = plantCommunity.indicatorPlants.filter(
+                    ip => {
+                      return (
+                        (criteria.includes('rangeReadiness') &&
+                          ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
+                        (criteria.includes('stubbleHeight') &&
+                          ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                      )
+                    }
+                  )
+
+                  formik.setFieldValue(
+                    `${namespace}.indicatorPlants`,
+                    indicatorPlants
+                  )
+
+                  if (criteria.includes('rangeReadiness')) {
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessDate`,
+                      plantCommunity.rangeReadinessDate
+                    )
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessNotes`,
+                      plantCommunity.rangeReadinessNotes
+                    )
+                  }
+
+                  if (criteria.includes('shrubUse')) {
+                    formik.setFieldValue(
+                      `${namespace}.shrubUse`,
+                      plantCommunity.shrubUse
+                    )
+                  }
+                }}
+              />
+            </IfEditable>
+          </div>
+
+          <RangeReadinessBox
+            plantCommunity={plantCommunity}
+            namespace={namespace}
+          />
+
+          <StubbleHeightBox
+            plantCommunity={plantCommunity}
+            namespace={namespace}
+          />
+
+          <ShrubUseBox plantCommunity={plantCommunity} namespace={namespace} />
+
+          <div className="rup__plant-community__content-title">
+            <span>Monitoring Areas</span>
+          </div>
+          <MonitoringAreaList
+            monitoringAreas={monitoringAreas}
+            namespace={`${namespace}.monitoringAreas`}
+          />
+        </>
+      }
+    />
+  )
 }
 
-const mapStateToProps = state => ({
-  user: getUser(state)
-})
-export default connect(
-  mapStateToProps,
-  null
-)(PlantCommunityBox)
+PlantCommunityBox.propTypes = {
+  plantCommunity: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    plantCommunityActions: PropTypes.array.isRequired,
+    purposeOfAction: PropTypes.string,
+    aspect: PropTypes.string,
+    elevation: PropTypes.number.isRequired,
+    url: PropTypes.string,
+    approved: PropTypes.bool.isRequired,
+    notes: PropTypes.string.isRequired,
+    communityType: PropTypes.object,
+    communityTypeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    monitoringAreas: PropTypes.array.isRequired
+  }),
+  index: PropTypes.number.isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  namespace: PropTypes.string.isRequired,
+  formik: PropTypes.shape({
+    setFieldValue: PropTypes.func.isRequired
+  })
+}
+
+export default connect(PlantCommunityBox)

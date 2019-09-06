@@ -12,23 +12,16 @@ import ContentsContainer from '../ContentsContainer'
 import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
-import BasicInformation from '../basicInformation'
-import Pastures from '../pastures'
-import GrazingSchedules from '../grazingSchedules'
-import EditableGrazingSchedules from '../editableGrazingSchedules'
 import MinisterIssues from '../ministerIssues'
 import EditableMinisterIssues from '../editableMinisterIssues'
-import UsageTable from '../usage'
-import InvasivePlantChecklist from '../invasivePlantChecklist'
-import EditableInvasivePlantChecklist from '../editableInvasivePlantChecklist'
 import AdditionalRequirements from '../additionalRequirements'
-import ManagementConsiderations from '../managementConsiderations'
-import EditableManagementConsiderations from '../editableManagementConsiderations'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
 import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
+import PlanForm from '../PlanForm'
+import { Element } from 'react-scroll'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -240,17 +233,15 @@ class PageForAH extends Component {
       agreement,
       references,
       pasturesMap,
-      grazingSchedulesMap,
       ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
-      managementConsiderationsMap,
       fetchPlan
     } = this.props
 
     const { agreementId, status, confirmations, rangeName } = plan
-    const { clients, usage } = agreement
+    const { clients } = agreement
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canAmend = utils.isStatusAmongApprovedStatuses(status)
@@ -267,26 +258,12 @@ class PageForAH extends Component {
     } = utils.getBannerHeaderAndContentForAH(plan, user)
     // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
-    const grazingScheduleProps = {
-      elementId: ELEMENT_ID.GRAZING_SCHEDULE,
-      references,
-      usage,
-      plan,
-      pasturesMap,
-      grazingSchedulesMap
-    }
     const ministerIssueProps = {
       elementId: ELEMENT_ID.MINISTER_ISSUES,
       references,
       plan,
       pasturesMap,
       ministerIssuesMap
-    }
-    const managementConsiderationProps = {
-      elementId: ELEMENT_ID.MANAGEMENT_CONSIDERATIONS,
-      plan,
-      references,
-      managementConsiderationsMap
     }
 
     return (
@@ -350,58 +327,23 @@ class PageForAH extends Component {
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
-          <BasicInformation
-            elementId={ELEMENT_ID.BASIC_INFORMATION}
-            agreement={agreement}
-            plan={plan}
-            user={user}
-          />
+          {plan && <PlanForm plan={plan} />}
 
-          <UsageTable usage={usage} plan={plan} />
+          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
+            {canEdit ? (
+              <EditableMinisterIssues {...ministerIssueProps} />
+            ) : (
+              <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
+            )}
+          </Element>
 
-          <Pastures
-            elementId={ELEMENT_ID.PASTURES}
-            plan={plan}
-            pasturesMap={pasturesMap}
-          />
-
-          {canEdit ? (
-            <EditableGrazingSchedules {...grazingScheduleProps} />
-          ) : (
-            <GrazingSchedules {...grazingScheduleProps} />
-          )}
-
-          {canEdit ? (
-            <EditableMinisterIssues {...ministerIssueProps} />
-          ) : (
-            <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
-          )}
-
-          {canEdit ? (
-            <EditableInvasivePlantChecklist
-              elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
+          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
+            <AdditionalRequirements
+              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
               plan={plan}
+              additionalRequirementsMap={additionalRequirementsMap}
             />
-          ) : (
-            <InvasivePlantChecklist
-              elementId={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
-              plan={plan}
-            />
-          )}
-
-          <AdditionalRequirements
-            elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-            plan={plan}
-            additionalRequirementsMap={additionalRequirementsMap}
-          />
-
-          {canEdit ? (
-            <EditableManagementConsiderations
-              {...managementConsiderationProps}
-            />
-          ) : (
-            <ManagementConsiderations {...managementConsiderationProps} />
-          )}
+          </Element>
         </ContentsContainer>
       </section>
     )

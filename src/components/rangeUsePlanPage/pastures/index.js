@@ -1,99 +1,76 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { Button } from 'semantic-ui-react'
+import { FieldArray } from 'formik'
 import PastureBox from './PastureBox'
+import { IfEditable } from '../../common/PermissionsField'
+import { PASTURES } from '../../../constants/fields'
 
-class Pastures extends Component {
-  static propTypes = {
-    plan: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired
-  }
+const Pastures = ({ pastures }) => {
+  const [activeIndex, setActiveIndex] = useState(-1)
 
-  state = {
-    activePastureIndex: 0
-  }
+  return (
+    <FieldArray
+      name="pastures"
+      render={({ push }) => (
+        <div className="rup__pastures">
+          <div className="rup__content-title--editable">
+            Pastures
+            <IfEditable permission={PASTURES.NAME}>
+              <Button
+                type="button"
+                basic
+                primary
+                onClick={() => {
+                  push({
+                    name: '',
+                    allowableAum: '',
+                    graceDays: '',
+                    pldPercent: '',
+                    notes: '',
+                    plantCommunities: [],
+                    id: new Date().toISOString()
+                  })
+                }}
+                className="icon labeled rup__pastures__add-button">
+                <i className="add circle icon" />
+                Add Pasture
+              </Button>
+            </IfEditable>
+          </div>
 
-  onPastureClicked = pastureIndex => () => {
-    this.setState(prevState => {
-      const newIndex =
-        prevState.activePastureIndex === pastureIndex ? -1 : pastureIndex
-      return {
-        activePastureIndex: newIndex
-      }
-    })
-  }
+          <div className="rup__divider" />
+          {pastures.length === 0 ? (
+            <div className="rup__section-not-found">No pasture provided.</div>
+          ) : (
+            <ul
+              className={classnames('collaspible-boxes', {
+                'collaspible-boxes--empty': pastures.length === 0
+              })}>
+              {pastures.map((pasture, index) => (
+                <PastureBox
+                  key={pasture.id || `pasture_${index}`}
+                  pasture={pasture}
+                  index={index}
+                  activeIndex={activeIndex}
+                  onClick={() => {
+                    setActiveIndex(activeIndex === index ? -1 : index)
+                  }}
+                  onCopy={() => console.log('copy')}
+                  namespace={`pastures.${index}`}
+                />
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    />
+  )
+}
 
-  renderPasture = (pasture, pastureIndex) => {
-    return (
-      <PastureBox
-        key={pasture.id}
-        pasture={pasture}
-        pastureIndex={pastureIndex}
-        activePastureIndex={this.state.activePastureIndex}
-        onPastureClicked={this.onPastureClicked}
-      />
-    )
-  }
-
-  // onPastureClicked = pastureIndex => () => {
-  //   const { location, redirectWithParams } = this.props;
-  //   const parsedParams = parseQuery(location.search);
-  //   const { pasture: currIndex } = parsedParams;
-  //   const newIndex = Number(currIndex) === pastureIndex ? -1 : pastureIndex;
-
-  //   redirectWithParams({ pasture: newIndex });
-  // }
-
-  // renderPasture = (pasture, pastureIndex) => {
-  //   const parsedParams = parseQuery(this.props.location.search);
-  //   const { pasture: index = 0 } = parsedParams;
-  //   const activePastureIndex = Number(index);
-
-  //   return (
-  //     <PastureBox
-  //       key={pasture.id}
-  //       pasture={pasture}
-  //       pastureIndex={pastureIndex}
-  //       activePastureIndex={activePastureIndex}
-  //       onPastureClicked={this.onPastureClicked}
-  //     />
-  //   );
-  // }
-
-  renderPastures = (pastures = []) => {
-    const isEmpty = pastures.length === 0
-
-    return isEmpty ? (
-      <div className="rup__section-not-found">No pasture provided.</div>
-    ) : (
-      <ul
-        className={classnames('collaspible-boxes', {
-          'collaspible-boxes--empty': isEmpty
-        })}>
-        {pastures.map(this.renderPasture)}
-      </ul>
-    )
-  }
-
-  render() {
-    const { plan, pasturesMap } = this.props
-    const pastureIds = plan && plan.pastures
-    const pastures =
-      pastureIds &&
-      pastureIds
-        .map(id => pasturesMap[id])
-        .sort((a, b) =>
-          a.name.toUpperCase().localeCompare(b.name.toUpperCase())
-        )
-
-    return (
-      <div className="rup__pastures">
-        <div className="rup__content-title">Pastures</div>
-        <div className="rup__divider" />
-        {this.renderPastures(pastures)}
-      </div>
-    )
-  }
+Pastures.propTypes = {
+  pastures: PropTypes.array.isRequired
 }
 
 export default Pastures

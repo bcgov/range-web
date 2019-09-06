@@ -1,104 +1,184 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Input } from 'semantic-ui-react'
+import { Table, Dropdown, Icon } from 'semantic-ui-react'
+import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
+import { connect } from 'formik'
 import * as utils from '../../../utils'
+import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
+import { SCHEDULE } from '../../../constants/fields'
+import DateInputField from '../../common/form/DateInputField'
 
-class GrazingScheduleEntryRow extends Component {
-  static propTypes = {
-    entry: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    schedule: PropTypes.shape({}).isRequired,
-    scheduleIndex: PropTypes.number.isRequired,
-    canEditGraceDays: PropTypes.bool,
-    grazingScheduleUpdated: PropTypes.func.isRequired
-  }
+const GrazingScheduleEntryRow = ({
+  entry,
+  formik,
+  namespace,
+  onDelete,
+  onCopy
+}) => {
+  const {
+    pastureId,
+    livestockTypeId,
+    livestockCount,
+    dateIn,
+    dateOut,
+    graceDays
+  } = entry || {}
 
-  static defaultProps = {
-    canEditGraceDays: false
-  }
+  const references = useReferences()
+  const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
 
-  handleScheduleEntryChange = key => e => {
-    const { value } = e.target
-    const {
-      entry,
-      scheduleIndex,
-      schedule,
-      grazingScheduleUpdated
-    } = this.props
-    entry[key] = Number(value)
+  const pastureOptions = formik.values.pastures.map(pasture => {
+    const { id, name } = pasture || {}
+    return {
+      key: id,
+      value: id,
+      text: name
+    }
+  })
+  const livestockTypeOptions = livestockTypes.map(lt => {
+    const { id, name } = lt || {}
+    return {
+      key: id,
+      value: id,
+      text: name
+    }
+  })
 
-    const grazingSchedule = { ...schedule }
-    grazingSchedule.grazingScheduleEntries[scheduleIndex] = entry
+  const days = utils.calcDateDiff(dateOut, dateIn, false)
+  const pasture = formik.values.pastures.find(p => p.id === pastureId)
 
-    grazingScheduleUpdated({ grazingSchedule })
-  }
+  const pldPercent = pasture && pasture.pldPercent
+  const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
+  const auFactor = livestockType && livestockType.auFactor
 
-  render() {
-    const { references, pasturesMap, entry, canEditGraceDays } = this.props
-    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
-    const {
-      id,
-      pastureId,
-      livestockTypeId,
-      livestockCount,
-      dateIn,
-      dateOut,
-      graceDays
-    } = entry || {}
+  const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor)
+  const pldAUMs = utils.roundTo1Decimal(
+    utils.calcPldAUMs(totalAUMs, pldPercent)
+  )
+  const crownAUMs = utils.roundTo1Decimal(
+    utils.calcCrownAUMs(totalAUMs, pldAUMs)
+  )
 
-    const days = utils.calcDateDiff(dateOut, dateIn, false)
-    const pasture = pasturesMap[pastureId]
-    const pldPercent = pasture && pasture.pldPercent
-    const pastureName = pasture && pasture.name
-    const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
-    const livestockTypeName = livestockType && livestockType.name
-    const auFactor = livestockType && livestockType.auFactor
+  const entryOptions = [
+    { key: 'copy', text: 'Duplicate', onClick: onCopy },
+    {
+      key: 'delete',
+      text: 'Delete',
+      onClick: onDelete
+    }
+  ]
 
-    const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor)
-    const pldAUMs = utils.roundTo1Decimal(
-      utils.calcPldAUMs(totalAUMs, pldPercent)
-    )
-    const crownAUMs = utils.roundTo1Decimal(
-      utils.calcCrownAUMs(totalAUMs, pldAUMs)
-    )
-
-    return (
-      <Table.Row key={id}>
-        <Table.Cell>{utils.handleNullValue(pastureName, false)}</Table.Cell>
-        <Table.Cell>
-          {utils.handleNullValue(livestockTypeName, false)}
+  return (
+    <Table.Row>
+      <Table.Cell>
+        <PermissionsField
+          permission={SCHEDULE.PASTURE}
+          name={`${namespace}.pastureId`}
+          options={pastureOptions}
+          component={FormikDropdown}
+          displayValue={
+            pastureOptions.find(p => p.value === pastureId)
+              ? pastureOptions.find(p => p.value === pastureId).text
+              : ''
+          }
+          fluid
+          inputProps={{
+            fluid: true,
+            search: true
+          }}
+        />
+      </Table.Cell>
+      <Table.Cell>
+        <PermissionsField
+          permission={SCHEDULE.TYPE}
+          name={`${namespace}.livestockTypeId`}
+          options={livestockTypeOptions}
+          component={FormikDropdown}
+          displayValue={
+            livestockTypeOptions.find(o => o.value === livestockTypeId)
+              ? livestockTypeOptions.find(o => o.value === livestockTypeId).text
+              : ''
+          }
+          fluid
+          inputProps={{
+            fluid: true,
+            search: true
+          }}
+        />
+      </Table.Cell>
+      <Table.Cell collapsing>
+        <PermissionsField
+          permission={SCHEDULE.TYPE}
+          name={`${namespace}.livestockCount`}
+          displayValue={livestockCount}
+          inputProps={{
+            fluid: true
+          }}
+        />
+      </Table.Cell>
+      <Table.Cell collapsing>
+        <PermissionsField
+          permission={SCHEDULE.DATE_IN}
+          name={`${namespace}.dateIn`}
+          component={DateInputField}
+          displayValue={dateIn}
+          fluid
+          dateFormat="MMM DD"
+          icon={null}
+        />
+      </Table.Cell>
+      <Table.Cell collapsing>
+        <PermissionsField
+          permission={SCHEDULE.DATE_OUT}
+          name={`${namespace}.dateOut`}
+          component={DateInputField}
+          displayValue={dateOut}
+          dateFormat="MMM DD"
+          fluid
+          icon={null}
+        />
+      </Table.Cell>
+      <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
+      <Table.Cell collapsing>
+        <PermissionsField
+          permission={SCHEDULE.GRACE_DAYS}
+          name={`${namespace}.graceDays`}
+          displayValue={graceDays}
+          inputProps={{
+            type: 'number',
+            fluid: true
+          }}
+          fluid
+        />
+      </Table.Cell>
+      <Table.Cell collapsing>
+        {utils.handleNullValue(pldAUMs, false)}
+      </Table.Cell>
+      <Table.Cell collapsing>
+        {utils.handleNullValue(crownAUMs, false)}
+      </Table.Cell>
+      <IfEditable permission={SCHEDULE.TYPE}>
+        <Table.Cell collapsing textAlign="center">
+          <Dropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={entryOptions}
+            icon={null}
+            pointing="right"
+          />
         </Table.Cell>
-        <Table.Cell collapsing>
-          {utils.handleNullValue(livestockCount, false)}
-        </Table.Cell>
-        <Table.Cell>{utils.formatDateFromServer(dateIn, false)}</Table.Cell>
-        <Table.Cell>{utils.formatDateFromServer(dateOut, false)}</Table.Cell>
-        <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
-        <Table.Cell collapsing>
-          {!canEditGraceDays ? (
-            utils.handleNullValue(graceDays || 0, false)
-          ) : (
-            <Input fluid>
-              <input
-                type="text"
-                onKeyPress={utils.allowNumberOnly}
-                value={graceDays}
-                onChange={this.handleScheduleEntryChange('graceDays')}
-              />
-            </Input>
-          )}
-        </Table.Cell>
-        <Table.Cell collapsing>
-          {utils.handleNullValue(pldAUMs, false)}
-        </Table.Cell>
-        <Table.Cell collapsing>
-          {utils.handleNullValue(crownAUMs, false)}
-        </Table.Cell>
-      </Table.Row>
-    )
-  }
+      </IfEditable>
+    </Table.Row>
+  )
 }
 
-export default GrazingScheduleEntryRow
+GrazingScheduleEntryRow.propTypes = {
+  entry: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
+  namespace: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onCopy: PropTypes.func.isRequired
+}
+
+export default connect(GrazingScheduleEntryRow)

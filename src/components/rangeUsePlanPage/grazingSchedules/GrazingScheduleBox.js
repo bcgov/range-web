@@ -1,107 +1,217 @@
-import React, { Component, Fragment } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Table } from 'semantic-ui-react'
-import {
-  roundTo1Decimal,
-  calcCrownTotalAUMs,
-  handleNullValue
-} from '../../../utils'
-import * as strings from '../../../constants/strings'
-import { REFERENCE_KEY, IMAGE_SRC } from '../../../constants/variables'
-import { CollapsibleBox } from '../../common'
+import classnames from 'classnames'
+import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
+import { roundTo1Decimal } from '../../../utils'
+import * as strings from '../../../constants/strings'
+import { CollapsibleBox, PrimaryButton } from '../../common'
+import { IMAGE_SRC } from '../../../constants/variables'
+import { FieldArray } from 'formik'
+import { TextArea } from 'formik-semantic-ui'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
+import { SCHEDULE } from '../../../constants/fields'
 
-class GrazingScheduleBox extends Component {
-  static propTypes = {
-    schedule: PropTypes.shape({}).isRequired,
-    scheduleIndex: PropTypes.number.isRequired,
-    activeScheduleIndex: PropTypes.number.isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onScheduleClicked: PropTypes.func.isRequired
-  }
+const GrazingScheduleBox = ({
+  schedule,
+  activeIndex,
+  index,
+  namespace,
+  crownTotalAUMs,
+  yearOptions,
+  onScheduleClicked,
+  authorizedAUMs,
+  onScheduleCopy,
+  onScheduleDelete
+}) => {
+  const { id, year } = schedule
+  const narative = (schedule && schedule.narative) || ''
+  const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs)
+  const copyOptions =
+    yearOptions.map(o => ({
+      ...o,
+      onClick: () => onScheduleCopy(year, schedule.id)
+    })) || []
+  const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs
 
-  renderScheduleEntry = entry => {
-    return (
-      <GrazingScheduleEntryRow key={entry.id} entry={entry} {...this.props} />
-    )
-  }
+  const [toRemove, setToRemove] = useState(null)
 
-  render() {
-    const {
-      schedule,
-      scheduleIndex,
-      activeScheduleIndex,
-      onScheduleClicked,
-      usage,
-      references,
-      pasturesMap
-    } = this.props
-    const grazingScheduleEntries = schedule.grazingScheduleEntries || []
-    const { id, year, narative } = schedule
-    const yearUsage = usage.find(u => u.year === year)
-    const authorizedAUMs = (yearUsage && yearUsage.authorizedAum) || 0
-    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
-    const crownTotalAUMs = roundTo1Decimal(
-      calcCrownTotalAUMs(grazingScheduleEntries, pasturesMap, livestockTypes)
-    )
+  return (
+    <FieldArray
+      name={`${namespace}.grazingScheduleEntries`}
+      render={({ push, remove }) => (
+        <>
+          <CollapsibleBox
+            key={id}
+            contentIndex={index}
+            activeContentIndex={activeIndex}
+            onContentClick={onScheduleClicked}
+            header={
+              <div className="rup__grazing-schedule__title">
+                <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
+                {year} Grazing Schedule
+              </div>
+            }
+            shouldHideHeaderRightWhenNotActive
+            headerRight={
+              <Dropdown
+                trigger={<Icon name="ellipsis vertical" />}
+                icon={null}
+                pointing="right"
+                loading={false}
+                disabled={false}>
+                <Dropdown.Menu>
+                  <Dropdown
+                    header="Years"
+                    text="Copy"
+                    pointing="left"
+                    className="link item"
+                    options={copyOptions}
+                    disabled={copyOptions.length === 0}
+                  />
+                  <Dropdown.Item onClick={() => onScheduleDelete()}>
+                    Delete
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            }
+            collapsibleContent={
+              <>
+                <Table unstackable>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>
+                        <div className="rup__grazing-schedule__pasture">
+                          {strings.PASTURE}
+                        </div>
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        <div className="rup__grazing-schedule__l-type">
+                          {strings.LIVESTOCK_TYPE}
+                        </div>
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        {strings.NUM_OF_ANIMALS}
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        <div className="rup__grazing-schedule__dates">
+                          {strings.DATE_IN}
+                        </div>
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        <div className="rup__grazing-schedule__dates">
+                          {strings.DATE_OUT}
+                        </div>
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
+                      <Table.HeaderCell>
+                        <div className="rup__grazing-schedule__grace-days">
+                          {strings.GRACE_DAYS}
+                        </div>
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
+                      <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
+                      <Table.HeaderCell />
+                    </Table.Row>
+                    {schedule.grazingScheduleEntries.map(
+                      (entry, entryIndex) => (
+                        <GrazingScheduleEntryRow
+                          key={entry.id || entry.key}
+                          schedule={schedule}
+                          entry={entry}
+                          entryIndex={entryIndex}
+                          scheduleIndex={index}
+                          namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
+                          onDelete={() => setToRemove(entryIndex)}
+                          onCopy={() => push(entry)}
+                        />
+                      )
+                    )}
+                  </Table.Header>
+                </Table>
+                <IfEditable permission={SCHEDULE.TYPE}>
+                  <PrimaryButton
+                    style={{ margin: '10px 0' }}
+                    inverted
+                    compact
+                    onClick={() =>
+                      push({
+                        dateIn: '',
+                        dateOut: '',
+                        graceDays: '',
+                        livestockCount: '',
+                        livestockType: {},
+                        livestockTypeId: ''
+                      })
+                    }>
+                    <Icon name="add circle" />
+                    Add Row
+                  </PrimaryButton>
+                </IfEditable>
+                <div className="rup__grazing-schedule__AUMs">
+                  <div className="rup__grazing-schedule__AUM-label">
+                    Authorized AUMs
+                  </div>
+                  <div className="rup__grazing-schedule__AUM-number">
+                    {authorizedAUMs}
+                  </div>
+                  <div className="rup__grazing-schedule__AUM-label">
+                    Total AUMs
+                  </div>
+                  <div
+                    className={classnames('rup__grazing-schedule__AUM-number', {
+                      'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError
+                    })}>
+                    {roundedCrownTotalAUMs}
+                  </div>
+                </div>
+                <div className="rup__grazing-schedule__narrative__title">
+                  Schedule Description
+                </div>
+                <div>
+                  <PermissionsField
+                    permission={SCHEDULE.DESCRIPTION}
+                    name={`${namespace}.narative`}
+                    component={TextArea}
+                    inputProps={{
+                      placeholder: `Description of movement of livestock through agreement area. May include WHEN, WHERE and HOW management tools are used to create that flow. May be of particular value when an agreement consists of a single pasture or multiple unfenced pastures.`,
+                      rows: 3,
+                      style: { marginTop: '5px' }
+                    }}
+                    displayValue={narative}
+                  />
+                </div>
+              </>
+            }
+          />
 
-    return (
-      <CollapsibleBox
-        key={id}
-        contentIndex={scheduleIndex}
-        activeContentIndex={activeScheduleIndex}
-        onContentClicked={onScheduleClicked}
-        header={
-          <div className="rup__grazing-schedule__title">
-            <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
-            {year} Grazing Schedule
-          </div>
-        }
-        collapsibleContent={
-          <Fragment>
-            <Table unstackable>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>{strings.PASTURE}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.LIVESTOCK_TYPE}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.NUM_OF_ANIMALS}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.DATE_IN}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.DATE_OUT}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.GRACE_DAYS}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
-                  <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
-                </Table.Row>
-                {grazingScheduleEntries.map(this.renderScheduleEntry)}
-              </Table.Header>
-            </Table>
-            <div
-              className="rup__grazing-schedule__AUMs"
-              style={{ marginTop: '10px' }}>
-              <div className="rup__grazing-schedule__AUM-label">
-                Authorized AUMs
-              </div>
-              <div className="rup__grazing-schedule__AUM-number">
-                {authorizedAUMs}
-              </div>
-              <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
-              <div className="rup__grazing-schedule__AUM-number">
-                {crownTotalAUMs}
-              </div>
-            </div>
-            <div>
-              <div className="rup__grazing-schedule__narrative__title">
-                Schedule Description
-              </div>
-              {handleNullValue(narative)}
-            </div>
-          </Fragment>
-        }
-      />
-    )
-  }
+          <Confirm
+            open={toRemove !== null}
+            onCancel={() => {
+              setToRemove(null)
+            }}
+            onConfirm={() => {
+              remove(toRemove)
+              setToRemove(null)
+            }}
+          />
+        </>
+      )}
+    />
+  )
+}
+
+GrazingScheduleBox.propTypes = {
+  schedule: PropTypes.object.isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  namespace: PropTypes.string.isRequired,
+  crownTotalAUMs: PropTypes.number.isRequired,
+  yearOptions: PropTypes.array.isRequired,
+  onScheduleClicked: PropTypes.func.isRequired,
+  authorizedAUMs: PropTypes.number.isRequired,
+  onScheduleCopy: PropTypes.func.isRequired,
+  onScheduleDelete: PropTypes.func.isRequired
 }
 
 export default GrazingScheduleBox

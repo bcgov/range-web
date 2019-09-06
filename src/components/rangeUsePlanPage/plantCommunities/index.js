@@ -1,79 +1,79 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { connect } from 'react-redux'
-import { getPlantCommunitiesMap } from '../../../reducers/rootReducer'
 import PlantCommunityBox from './PlantCommunityBox'
 import AddPlantCommunityButton from './AddPlantCommunityButton'
+import { FieldArray } from 'formik'
 import { NOT_PROVIDED } from '../../../constants/strings'
+import { IfEditable } from '../../common/PermissionsField'
+import { PLANT_COMMUNITY } from '../../../constants/fields'
 
-class PlantCommunities extends Component {
-  static propTypes = {
-    pasture: PropTypes.shape({}).isRequired,
-    plantCommunitiesMap: PropTypes.shape({}).isRequired,
-    canEdit: PropTypes.bool.isRequired
-  }
+const PlantCommunities = ({ plantCommunities = [], namespace }) => {
+  const isEmpty = plantCommunities.length === 0
+  const [activeIndex, setActiveIndex] = useState(-1)
 
-  state = {
-    activePlantCommunityId: 0
-  }
+  return (
+    <FieldArray
+      name={`${namespace}.plantCommunities`}
+      render={({ push }) => (
+        <div className="rup__plant-communities">
+          <div className="rup__plant-communities__title">Plant Communities</div>
+          <IfEditable permission={PLANT_COMMUNITY.NAME}>
+            <AddPlantCommunityButton
+              onSubmit={plantCommunity => {
+                push({
+                  ...plantCommunity,
+                  communityTypeId: plantCommunity.id,
+                  indicatorPlants: [],
+                  plantCommunityActions: [],
+                  purposeOfAction: 'none',
+                  monitoringAreas: [],
+                  aspect: '',
+                  elevation: 0,
+                  url: '',
+                  approved: false,
+                  notes: '',
+                  rangeReadinessDate: '',
+                  rangeReadinessNotes: ''
+                })
+              }}
+            />
+          </IfEditable>
 
-  onPlantCommunityClicked = communityTypeId => () => {
-    this.setState(prevState => {
-      const nextId =
-        prevState.activePlantCommunityId === communityTypeId
-          ? -1
-          : communityTypeId
-      return {
-        activePlantCommunityId: nextId
-      }
-    })
-  }
+          <IfEditable permission={PLANT_COMMUNITY.NAME} invert>
+            {isEmpty && (
+              <div className="rup__plant-communities__not-provided">
+                {NOT_PROVIDED}
+              </div>
+            )}
+          </IfEditable>
 
-  renderPlantCommunity = plantCommunity => (
-    <PlantCommunityBox
-      key={plantCommunity.id}
-      plantCommunity={plantCommunity}
-      activePlantCommunityId={this.state.activePlantCommunityId}
-      onPlantCommunityClicked={this.onPlantCommunityClicked}
+          <ul
+            className={classnames('collaspible-boxes', {
+              'collaspible-boxes--empty': isEmpty
+            })}>
+            {plantCommunities.map((plantCommunity, index) => (
+              <PlantCommunityBox
+                key={plantCommunity.id}
+                plantCommunity={plantCommunity}
+                activeIndex={activeIndex}
+                index={index}
+                onClick={() => {
+                  setActiveIndex(index)
+                }}
+                namespace={`${namespace}.plantCommunities.${index}`}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
     />
   )
-
-  renderPlantCommunities = (plantCommunities = []) => {
-    const isEmpty = plantCommunities.length === 0
-
-    return isEmpty && !this.props.canEdit ? (
-      <div className="rup__plant-communities__not-provided">{NOT_PROVIDED}</div>
-    ) : (
-      <ul
-        className={classnames('collaspible-boxes', {
-          'collaspible-boxes--empty': isEmpty
-        })}>
-        {plantCommunities.map(this.renderPlantCommunity)}
-      </ul>
-    )
-  }
-
-  render() {
-    const { pasture, plantCommunitiesMap, canEdit } = this.props
-    const { plantCommunities: pcIds } = pasture
-    const plantCommunities = pcIds.map(id => plantCommunitiesMap[id])
-
-    return (
-      <div className="rup__plant-communities">
-        <div className="rup__plant-communities__title">Plant Communities</div>
-        {canEdit && <AddPlantCommunityButton pasture={pasture} />}
-        {this.renderPlantCommunities(plantCommunities)}
-      </div>
-    )
-  }
 }
 
-const mapStateToProps = state => ({
-  plantCommunitiesMap: getPlantCommunitiesMap(state)
-})
+PlantCommunities.propTypes = {
+  plantCommunities: PropTypes.array.isRequired,
+  namespace: PropTypes.string.isRequired
+}
 
-export default connect(
-  mapStateToProps,
-  null
-)(PlantCommunities)
+export default PlantCommunities

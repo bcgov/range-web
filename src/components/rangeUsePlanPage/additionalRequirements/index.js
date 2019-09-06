@@ -4,8 +4,7 @@ import AdditionalRequirementRow from './AdditionalRequirementRow'
 
 class AdditionalRequirements extends Component {
   static propTypes = {
-    plan: PropTypes.shape({}).isRequired,
-    additionalRequirementsMap: PropTypes.shape({}).isRequired
+    plan: PropTypes.shape({}).isRequired
   }
 
   renderAdditionalRequirement = additionalRequirement => {
@@ -30,11 +29,8 @@ class AdditionalRequirements extends Component {
   }
 
   render() {
-    const { plan, additionalRequirementsMap } = this.props
-    const additionalRequirementIds = plan && plan.additionalRequirements
-    const additionalRequirements =
-      additionalRequirementIds &&
-      additionalRequirementIds.map(id => additionalRequirementsMap[id])
+    const { plan } = this.props
+    const additionalRequirements = plan && plan.additionalRequirements
 
     return (
       <div className="rup__a-requirements">
