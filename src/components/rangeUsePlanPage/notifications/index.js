@@ -9,7 +9,8 @@ import {
 import AHSignaturesStatusModal from './AHSignaturesStatusModal'
 import { useUser } from '../../../providers/UserProvider'
 
-const Notifications = ({ plan, planTypeDescription = '' }) => {
+const Notifications = props => {
+  const { plan, planTypeDescription = '' } = props
   const user = useUser()
 
   const { status, planStatusHistory } = plan
@@ -30,7 +31,7 @@ const Notifications = ({ plan, planTypeDescription = '' }) => {
       )}
 
       {isStatusAwaitingConfirmation(status) && (
-        <AHSignaturesStatusModal {...this.props} />
+        <AHSignaturesStatusModal {...props} />
       )}
     </div>
   )
