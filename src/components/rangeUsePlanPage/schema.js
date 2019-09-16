@@ -4,16 +4,20 @@ import moment from 'moment'
 const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
 
 const RUPSchema = Yup.object().shape({
+  rangeName: Yup.string(),
+  altBusinessName: Yup.string().transform(handleNull()),
   planStartDate: Yup.string().required(),
   planEndDate: Yup.string().required(),
   pastures: Yup.array().of(
     Yup.object().shape({
-      allowableAum: Yup.number(),
+      allowableAum: Yup.number().nullable(),
       graceDays: Yup.number(),
       name: Yup.string().required('Please enter a name'),
-      notes: Yup.string(),
+      notes: Yup.string().nullable(),
       planId: Yup.number(),
-      pldPercent: Yup.number().typeError('Please enter a number'),
+      pldPercent: Yup.number()
+        .typeError('Please enter a number')
+        .nullable(),
       plantCommunities: Yup.array().of(
         Yup.object().shape({
           approved: Yup.bool().required(),
