@@ -14,8 +14,7 @@ class AHConfirmationList extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    plan: PropTypes.shape({}).isRequired,
-    confirmationsMap: PropTypes.shape({}).isRequired
+    plan: PropTypes.shape({}).isRequired
   }
 
   renderConfirmation = (client, confirmation, user) => {
@@ -44,7 +43,7 @@ class AHConfirmationList extends Component {
   }
 
   createConfirmationListView = () => {
-    const { user, confirmationsMap, plan, clients } = this.props
+    const { user, plan, clients } = this.props
 
     const confirmedListView = [
       <div key="confirmed1" className="rup__confirmation__paragraph-title">
@@ -72,8 +71,7 @@ class AHConfirmationList extends Component {
     clients.map(client => {
       const confirmation = findConfirmationWithClientId(
         client.id,
-        plan.confirmations,
-        confirmationsMap
+        plan.confirmations
       )
       const view = this.renderConfirmation(client, confirmation, user)
       if (confirmation && confirmation.confirmed) {

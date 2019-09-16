@@ -39,7 +39,6 @@ const Notifications = props => {
 
 Notifications.propTypes = {
   plan: PropTypes.shape({}).isRequired,
-  confirmationsMap: PropTypes.shape({}).isRequired,
   planStatusHistoryMap: PropTypes.shape({}).isRequired,
   planTypeDescription: PropTypes.string
 }

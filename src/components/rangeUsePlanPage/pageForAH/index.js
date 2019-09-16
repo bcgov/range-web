@@ -234,7 +234,6 @@ class PageForAH extends Component {
       references,
       pasturesMap,
       ministerIssuesMap,
-      confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
       fetchPlan
@@ -248,8 +247,7 @@ class PageForAH extends Component {
     const canConfirm = utils.canUserSubmitConfirmation(
       status,
       user,
-      confirmations,
-      confirmationsMap
+      confirmations
     )
     const canSubmit = utils.isStatusRecommendForSubmission(status)
     const {
@@ -323,7 +321,6 @@ class PageForAH extends Component {
             plan={plan}
             user={user}
             references={references}
-            confirmationsMap={confirmationsMap}
             planStatusHistoryMap={planStatusHistoryMap}
           />
 

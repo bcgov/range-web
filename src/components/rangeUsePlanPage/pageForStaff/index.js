@@ -166,7 +166,6 @@ class PageForStaff extends Component {
       user,
       references,
       plan,
-      confirmationsMap,
       planStatusHistoryMap,
       additionalRequirementsMap,
       fetchPlan,
@@ -239,7 +238,6 @@ class PageForStaff extends Component {
             plan={plan}
             user={user}
             references={references}
-            confirmationsMap={confirmationsMap}
             planStatusHistoryMap={planStatusHistoryMap}
             planTypeDescription={planTypeDescription}
           />
