@@ -10,14 +10,19 @@ const RUPSchema = Yup.object().shape({
   planEndDate: Yup.string().required(),
   pastures: Yup.array().of(
     Yup.object().shape({
-      allowableAum: Yup.number().nullable(),
+      allowableAum: Yup.number()
+        .nullable()
+        .transform(handleNull(0)),
       graceDays: Yup.number(),
       name: Yup.string().required('Please enter a name'),
-      notes: Yup.string().nullable(),
+      notes: Yup.string()
+        .transform(handleNull())
+        .nullable(),
       planId: Yup.number(),
       pldPercent: Yup.number()
         .typeError('Please enter a number')
-        .nullable(),
+        .nullable()
+        .transform(handleNull(0)),
       plantCommunities: Yup.array().of(
         Yup.object().shape({
           approved: Yup.bool().required(),
@@ -28,9 +33,7 @@ const RUPSchema = Yup.object().shape({
             .required()
             .nullable()
             .transform(handleNull(0)),
-          notes: Yup.string()
-            .required()
-            .transform(handleNull()),
+          notes: Yup.string().required(),
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required(),
           shrubUse: Yup.string().transform(handleNull()),
