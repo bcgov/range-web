@@ -46,7 +46,7 @@ export class MainPage extends Component {
     storeAuthData: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props
     resetTimeoutForReAuth(reauthenticate)
     registerAxiosInterceptors(

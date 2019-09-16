@@ -26,13 +26,13 @@ const propTypes = {
 }
 
 class Base extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     document.title = MANAGE_CLIENT_TITLE
 
     this.fetchUsers()
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { reAuthRequired, errorOccuredGettingUsers } = nextProps
 
     // fetch users if the user just reauthenticate and there was an error occurred

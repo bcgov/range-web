@@ -20,7 +20,7 @@ class SearchBar extends Component {
     isFetchingAgreements: PropTypes.bool.isRequired
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { searchTerm } = this.props
     const locationChanged = nextProps.searchTerm !== searchTerm
 

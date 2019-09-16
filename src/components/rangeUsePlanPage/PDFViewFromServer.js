@@ -29,7 +29,7 @@ class PDFView extends Component {
     // numPages: 1,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { fetchRupPDF, match } = this.props
     const { planId, agreementId } = match.params
 
