@@ -170,7 +170,7 @@ const MinisterIssueBox = ({
 }
 
 MinisterIssueBox.propTypes = {
-  issue: PropTypes.string.isRequired,
+  issue: PropTypes.object.isRequired,
   ministerIssueIndex: PropTypes.number.isRequired,
   activeMinisterIssueIndex: PropTypes.number.isRequired,
   onMinisterIssueClicked: PropTypes.func.isRequired,
