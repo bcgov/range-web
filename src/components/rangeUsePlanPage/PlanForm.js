@@ -8,6 +8,7 @@ import GrazingSchedules from './grazingSchedules'
 import Usage from './usage'
 import InvasivePlantChecklist from './invasivePlantChecklist'
 import ManagementConsiderations from './managementConsiderations'
+import MinisterIssues from './ministerIssuesRefactor'
 
 const PlanForm = ({ plan }) => {
   return (
@@ -23,6 +24,9 @@ const PlanForm = ({ plan }) => {
 
       <Element name={ELEMENT_ID.GRAZING_SCHEDULE}>
         <GrazingSchedules plan={plan} />
+      </Element>
+      <Element name={ELEMENT_ID.MINISTER_ISSUES}>
+        <MinisterIssues issues={plan.ministerIssues} />
       </Element>
       <Element name={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}>
         <InvasivePlantChecklist

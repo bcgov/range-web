@@ -40,6 +40,7 @@ import { Form } from 'formik-semantic-ui'
 import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'
+import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
 
 const Base = ({
   user,
@@ -84,12 +85,17 @@ const Base = ({
     fetchPlan()
   }, [])
 
+  const handleValidationError = ({ errors }) => {
+    errorToast('Could not submit due to invalid fields.')
+  }
+
   const handleSubmit = async (plan, formik) => {
     const {
       pastures,
       grazingSchedules,
       invasivePlantChecklist,
-      managementConsiderations
+      managementConsiderations,
+      ministerIssues
     } = plan
 
     const config = getAuthHeaderConfig()
@@ -196,6 +202,101 @@ const Base = ({
         })
       )
 
+      await Promise.all(
+        ministerIssues.map(async issue => {
+          if (uuid.isUUID(issue.id)) {
+            const { id, ...issueBody } = issue
+            const { data: newIssue } = await axios.post(
+              API.CREATE_RUP_MINISTER_ISSUE(plan.id),
+              issueBody,
+              config
+            )
+            const newActions = await Promise.all(
+              issue.ministerIssueActions.map(async action => {
+                const { id, ...actionBody } = action
+
+                return axios
+                  .post(
+                    API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, issue.id),
+                    actionBody,
+                    config
+                  )
+                  .then(
+                    response => {
+                      return response.data
+                    },
+                    err => {
+                      throw err
+                    }
+                  )
+              })
+            )
+            const newIssueWithNewActions = {
+              ...newIssue,
+              ministerIssueActions: newActions
+            }
+
+            return newIssueWithNewActions
+          }
+
+          const { id, ...issueBody } = issue
+
+          const { data: updatedIssue } = await axios.put(
+            API.UPDATE_RUP_MINISTER_ISSUE(plan.id, issue.id),
+            issueBody,
+            config
+          )
+
+          const actions = issue.ministerIssueActions
+
+          const createdOrUpdatedActions = await Promise.all(
+            actions.map(action => {
+              const { id, ...actionBody } = action
+              if (uuid.isUUID(action.id)) {
+                return axios
+                  .post(
+                    API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, issue.id),
+                    actionBody,
+                    config
+                  )
+                  .then(
+                    response => {
+                      return response.data
+                    },
+                    err => {
+                      throw err
+                    }
+                  )
+              }
+              return axios
+                .put(
+                  API.UPDATE_RUP_MINISTER_ISSUE_ACTION(
+                    plan.id,
+                    issue.id,
+                    action.id
+                  ),
+                  actionBody,
+                  config
+                )
+                .then(
+                  response => {
+                    return response.data
+                  },
+                  err => {
+                    throw err
+                  }
+                )
+            })
+          )
+          const updatedIssueWithCreatedOrUpdatedActions = {
+            ...updatedIssue,
+            ministerIssueActions: createdOrUpdatedActions
+          }
+
+          return updatedIssueWithCreatedOrUpdatedActions
+        })
+      )
+
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
     } catch (err) {
@@ -249,10 +350,12 @@ const Base = ({
         <Form
           initialValues={plan}
           validateOnChange={true}
-          validationSchema={RUPSchema}
+          // validationSchema={RUPSchema}
           onSubmit={handleSubmit}
           render={({ values: plan }) => (
             <>
+              <OnSubmitValidationError callback={handleValidationError} />
+
               {(isUserAdmin(user) || isUserRangeOfficer(user)) && (
                 <PageForStaff
                   references={references}

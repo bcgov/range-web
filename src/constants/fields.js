@@ -66,6 +66,10 @@ export const SHRUB_USE = {
 }
 export const MINISTER_ISSUES = {
   TYPE: 'ministerIssues.type',
+  DETAIL: 'ministerIssues.detail',
+  OBJECTIVE: 'ministerIssues.objective',
+  IDENTIFIED: 'ministerIssues.identified',
+  PASTURES: 'ministerIssues.pastures',
   ACTIONS: {
     NAME: 'ministerIssues.actions.name',
     DETAIL: 'ministerIssues.actions.detail',
