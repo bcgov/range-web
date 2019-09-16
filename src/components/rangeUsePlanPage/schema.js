@@ -6,8 +6,12 @@ const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
 const RUPSchema = Yup.object().shape({
   rangeName: Yup.string(),
   altBusinessName: Yup.string().transform(handleNull()),
-  planStartDate: Yup.string().required(),
-  planEndDate: Yup.string().required(),
+  planStartDate: Yup.string()
+    .required()
+    .transform(v => moment(v).format('MMMM DD, YYYY')),
+  planEndDate: Yup.string()
+    .required()
+    .transform(v => moment(v).format('MMMM DD, YYYY')),
   pastures: Yup.array().of(
     Yup.object().shape({
       allowableAum: Yup.number()
@@ -54,8 +58,12 @@ const RUPSchema = Yup.object().shape({
         .transform(handleNull()),
       grazingScheduleEntries: Yup.array().of(
         Yup.object().shape({
-          dateIn: Yup.date().required(),
-          dateOut: Yup.date().required()
+          dateIn: Yup.string()
+            .required()
+            .transform(v => moment(v).format('MMMM DD, YYYY')),
+          dateOut: Yup.string()
+            .required()
+            .transform(v => moment(v).format('MMMM DD, YYYY'))
         })
       )
     })
