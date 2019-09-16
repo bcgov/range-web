@@ -33,7 +33,9 @@ const RUPSchema = Yup.object().shape({
             .required()
             .nullable()
             .transform(handleNull(0)),
-          notes: Yup.string().required(),
+          notes: Yup.string()
+            .transform(handleNull())
+            .required(),
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required(),
           shrubUse: Yup.string().transform(handleNull()),
@@ -57,7 +59,22 @@ const RUPSchema = Yup.object().shape({
         })
       )
     })
-  )
+  ),
+  invasivePlantChecklist: Yup.object().shape({
+    equipmentAndVehiclesParking: Yup.bool()
+      .required()
+      .default(false),
+    beginInUninfestedArea: Yup.bool()
+      .required()
+      .default(false),
+    undercarrigesInspected: Yup.bool()
+      .required()
+      .default(false),
+    revegetate: Yup.bool()
+      .required()
+      .default(false),
+    other: Yup.string().transform(handleNull())
+  })
 })
 
 export default RUPSchema
