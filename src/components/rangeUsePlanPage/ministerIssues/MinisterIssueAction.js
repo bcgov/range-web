@@ -48,7 +48,7 @@ const MinisterIssueAction = ({
     <div className="rup__missue__action">
       <span className="rup__missue__action__type">
         {type}
-        {isOtherType && ` (${other})`}
+        {isOtherType && other.name && ` (${other.name})`}
       </span>
       {isActionTypeTiming && noGrazePeriod}
 
