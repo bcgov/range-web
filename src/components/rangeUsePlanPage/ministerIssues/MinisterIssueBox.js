@@ -129,7 +129,9 @@ const MinisterIssueBox = ({
             name={`${namespace}.ministerIssueActions`}
             render={({ push }) => (
               <>
-                <div className="text-field__label">Actions</div>
+                <div className="text-field__label" style={{ marginBottom: 10 }}>
+                  Actions
+                </div>
 
                 <IfEditable permission={MINISTER_ISSUES.ACTIONS.NAME}>
                   <AddMinisterIssueActionButton
