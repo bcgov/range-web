@@ -1,33 +1,64 @@
-import { connect } from 'react-redux'
-import { createDateWithMoment } from '../../../utils/'
+import React, { useState } from 'react'
+import uuid from 'uuid-v4'
+import MinisterIssueBox from './MinisterIssueBox'
+import { FieldArray } from 'formik'
+import { IfEditable } from '../../common/PermissionsField'
+import { MINISTER_ISSUES } from '../../../constants/fields'
+import AddMinisterIssueButton from './AddMinisterIssueButton'
 
-import MinisterIssues from './MinisterIssues'
+const MinisterIssues = ({ issues }) => {
+  const [activeMinisterIssue, setActiveMinisterIssue] = useState(
+    issues[0] ? issues[0].id : -1
+  )
 
-const mapStateToProps = ({ PLAN }, props) => {
-  const issues = props.issues.map(id => {
-    const issue = PLAN.ministerIssues[id]
-    const pastures = issue.pastures.map(id => PLAN.pastures[id])
+  return (
+    <FieldArray
+      name={'ministerIssues'}
+      render={({ push }) => (
+        <div className="rup__missues">
+          <div className="rup__content-title--editable">
+            {"Minister's Issues and Actions"}
+            <IfEditable permission={MINISTER_ISSUES.TYPE}>
+              <AddMinisterIssueButton
+                onSubmit={ministerIssue => {
+                  push({
+                    issueTypeId: ministerIssue.id,
+                    detail: '',
+                    objective: '',
+                    identified: false,
+                    pastures: [],
+                    actions: [],
+                    id: uuid()
+                  })
+                }}
+              />
+            </IfEditable>
+          </div>
+          <div className="rup__divider" />
 
-    return {
-      ...issue,
-      type: issue.ministerIssueType.name,
-      actions: issue.ministerIssueActions.map(action => ({
-        ...action,
-        type: action.ministerIssueActionType.name,
-        noGrazeStartDate: createDateWithMoment(
-          action.noGrazeStartDay,
-          action.noGrazeStartMonth
-        ),
-        noGrazeEndDate: createDateWithMoment(
-          action.noGrazeEndDay,
-          action.noGrazeEndMonth
-        )
-      })),
-      pastures
-    }
-  })
-
-  return { issues }
+          {issues.length > 0 ? (
+            <ul className="collaspible-boxes">
+              {issues.map((issue, index) => (
+                <MinisterIssueBox
+                  key={issue.id}
+                  issue={issue}
+                  ministerIssueIndex={issue.id}
+                  activeMinisterIssueIndex={activeMinisterIssue}
+                  onMinisterIssueClicked={index => () =>
+                    setActiveMinisterIssue(
+                      index === activeMinisterIssue ? -1 : index
+                    )}
+                  namespace={`ministerIssues.${index}`}
+                />
+              ))}
+            </ul>
+          ) : (
+            <div className="rup__section-not-found">None identified.</div>
+          )}
+        </div>
+      )}
+    />
+  )
 }
 
-export default connect(mapStateToProps)(MinisterIssues)
+export default MinisterIssues

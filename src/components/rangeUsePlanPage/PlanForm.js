@@ -8,7 +8,7 @@ import GrazingSchedules from './grazingSchedules'
 import Usage from './usage'
 import InvasivePlantChecklist from './invasivePlantChecklist'
 import ManagementConsiderations from './managementConsiderations'
-import MinisterIssues from './ministerIssuesRefactor'
+import MinisterIssues from './ministerIssues'
 
 const PlanForm = ({ plan }) => {
   return (
