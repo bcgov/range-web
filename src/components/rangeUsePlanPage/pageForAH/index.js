@@ -336,14 +336,6 @@ class PageForAH extends Component {
               <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
             )}
           </Element>
-
-          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
-            <AdditionalRequirements
-              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-              plan={plan}
-              additionalRequirementsMap={additionalRequirementsMap}
-            />
-          </Element>
         </ContentsContainer>
       </section>
     )
