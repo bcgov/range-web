@@ -22,7 +22,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
     <div className="rup__a-requirement__row">
       <PermissionsField
         permission={ADDITIONAL_REQUIREMENTS.CATEGORY}
-        name={`${namespace}.category`}
+        name={`${namespace}.categoryId`}
         component={Dropdown}
         options={options}
         displayValue={
