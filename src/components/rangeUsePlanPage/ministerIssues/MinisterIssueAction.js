@@ -17,7 +17,9 @@ const MinisterIssueAction = ({
   namespace
 }) => {
   const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
-  const type = types.find(t => t.id === actionTypeId).name
+  const type = types.find(t => t.id === actionTypeId)
+    ? types.find(t => t.id === actionTypeId).name
+    : ''
 
   const isOtherType = type === 'Other'
   const isActionTypeTiming = type === 'Timing'

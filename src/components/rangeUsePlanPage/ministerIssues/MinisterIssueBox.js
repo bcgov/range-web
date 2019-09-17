@@ -68,7 +68,11 @@ const MinisterIssueBox = ({
             name={`${namespace}.issueTypeId`}
             component={Dropdown}
             options={typeOptions}
-            displayValue={types.find(t => t.id === issueTypeId).name}
+            displayValue={
+              types.find(t => t.id === issueTypeId)
+                ? types.find(t => t.id === issueTypeId).name
+                : ''
+            }
           />
         </div>
       }
@@ -100,8 +104,10 @@ const MinisterIssueBox = ({
             component={Dropdown}
             options={pasturesOptions}
             displayValue={oxfordComma(
-              pastures.map(
-                purpose => allPastures.find(p => p.id === purpose).name
+              pastures.map(purpose =>
+                allPastures.find(p => p.id === purpose)
+                  ? allPastures.find(p => p.id === purpose).name
+                  : ''
               )
             )}
             label="Pastures"
