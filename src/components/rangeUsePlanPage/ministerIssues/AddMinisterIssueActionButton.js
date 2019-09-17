@@ -42,7 +42,6 @@ const AddMinisterIssueActionButton = ({ onSubmit }) => {
         options={options}
         icon={null}
         pointing="left"
-        search
         onChange={onOptionClicked}
         selectOnBlur={false}
       />

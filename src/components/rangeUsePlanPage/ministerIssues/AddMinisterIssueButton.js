@@ -44,7 +44,6 @@ const AddMinisterIssueButton = ({ onSubmit }) => {
         options={options}
         icon={null}
         pointing="right"
-        search
         onChange={onOptionClicked}
         selectOnBlur={false}
       />
