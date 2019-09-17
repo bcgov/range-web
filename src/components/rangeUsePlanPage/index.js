@@ -89,7 +89,8 @@ const Base = ({
       pastures,
       grazingSchedules,
       invasivePlantChecklist,
-      managementConsiderations
+      managementConsiderations,
+      additionalRequirements
     } = plan
 
     const config = getAuthHeaderConfig()
@@ -190,6 +191,19 @@ const Base = ({
                 consideration.id
               ),
               consideration,
+              config
+            )
+          }
+        })
+      )
+
+      await Promise.all(
+        additionalRequirements.map(requirement => {
+          if (uuid.isUUID(requirement.id)) {
+            const { id, ...values } = requirement
+            return axios.post(
+              API.CREATE_RUP_ADDITIONAL_REQUIREMENT(plan.id),
+              values,
               config
             )
           }
