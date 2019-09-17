@@ -42,7 +42,7 @@ const MinisterIssues = ({ issues }) => {
                 <MinisterIssueBox
                   key={issue.id}
                   issue={issue}
-                  ministerIssueIndex={issue.id}
+                  ministerIssueIndex={index}
                   activeMinisterIssueIndex={activeMinisterIssue}
                   onMinisterIssueClicked={index => () =>
                     setActiveMinisterIssue(
