@@ -105,9 +105,6 @@ const MinisterIssueBox = ({
               )
             )}
             label="Pastures"
-            fieldProps={{
-              width: 3
-            }}
             inputProps={{
               multiple: true,
               search: true
