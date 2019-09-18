@@ -120,6 +120,13 @@ const Base = ({
       )
 
       const newPastures = pasturesData.map(p => p.data)
+      const newPasturesMap = newPastures.reduce(
+        (acc, newPasture, i) => ({
+          ...acc,
+          [pastures[i].id]: newPasture.id
+        }),
+        {}
+      )
 
       await Promise.all(
         pastures.map((pasture, pastureIndex) =>
@@ -208,7 +215,10 @@ const Base = ({
             const { id, ...issueBody } = issue
             const { data: newIssue } = await axios.post(
               API.CREATE_RUP_MINISTER_ISSUE(plan.id),
-              issueBody,
+              {
+                ...issueBody,
+                pastures: issueBody.pastures.map(p => newPasturesMap[p])
+              },
               config
             )
             const newActions = await Promise.all(
@@ -243,7 +253,10 @@ const Base = ({
 
           const { data: updatedIssue } = await axios.put(
             API.UPDATE_RUP_MINISTER_ISSUE(plan.id, issue.id),
-            issueBody,
+            {
+              ...issueBody,
+              pastures: issueBody.pastures.map(p => newPasturesMap[p])
+            },
             config
           )
 
