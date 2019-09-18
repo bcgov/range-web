@@ -104,9 +104,9 @@ const MinisterIssueBox = ({
             component={Dropdown}
             options={pasturesOptions}
             displayValue={oxfordComma(
-              pastures.map(purpose =>
-                allPastures.find(p => p.id === purpose)
-                  ? allPastures.find(p => p.id === purpose).name
+              pastures.map(pasture =>
+                allPastures.find(p => p.id === pasture)
+                  ? allPastures.find(p => p.id === pasture).name
                   : ''
               )
             )}
