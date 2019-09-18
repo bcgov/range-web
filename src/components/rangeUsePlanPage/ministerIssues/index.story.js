@@ -16,14 +16,20 @@ const ministerIssues = [
     ministerIssueActions: [
       {
         id: 1,
-        actionTypeId: 1,
+        actionTypeId: 5,
         detail: 'Issue actions details yo!',
-        noGrazeEndDate: moment()
+        noGrazeEndMonth: moment()
           .add(3, 'months')
-          .toDate(),
-        noGrazeStartDate: moment()
+          .month(),
+        noGrazeEndDay: moment()
+          .add(3, 'months')
+          .day(),
+        noGrazeStartMonth: moment()
           .add(1, 'month')
-          .toDate()
+          .month(),
+        noGrazeStartDay: moment()
+          .add(1, 'month')
+          .day()
       }
     ]
   }

@@ -7,13 +7,17 @@ import { Form } from 'semantic-ui-react'
 import DateInputField from '../../common/form/DateInputField'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import DayMonthPicker from '../../common/form/DayMonthPicker'
+import moment from 'moment'
 
 const MinisterIssueAction = ({
   actionTypeId,
   detail,
   other,
-  noGrazeEndDate,
-  noGrazeStartDate,
+  noGrazeStartMonth,
+  noGrazeStartDay,
+  noGrazeEndMonth,
+  noGrazeEndDay,
   namespace
 }) => {
   const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
@@ -25,23 +29,29 @@ const MinisterIssueAction = ({
   const isActionTypeTiming = type === 'Timing'
 
   const noGrazePeriod = (
-    <Form.Group width="equal">
+    <Form.Group widths="equal">
       <PermissionsField
-        name={`${namespace}.noGrazeStartDate`}
         permission={MINISTER_ISSUES.ACTIONS.NO_GRAZING_PERIOD}
-        displayValue={noGrazeStartDate}
-        component={DateInputField}
-        label="No Graze Period"
-        inline
+        monthName={`${namespace}.noGrazeStartMonth`}
+        dayName={`${namespace}.noGrazeStartDay`}
+        component={DayMonthPicker}
+        label="Grazing Period Start"
+        displayValue={moment(
+          `${noGrazeStartMonth} ${noGrazeStartDay}`,
+          'MM DD'
+        ).format('MMMM Do')}
       />
 
       <PermissionsField
-        name={`${namespace}.noGrazeEndDate`}
         permission={MINISTER_ISSUES.ACTIONS.NO_GRAZING_PERIOD}
-        displayValue={noGrazeEndDate}
-        component={DateInputField}
-        label="-"
-        inline
+        monthName={`${namespace}.noGrazeEndMonth`}
+        dayName={`${namespace}.noGrazeEndDay`}
+        component={DayMonthPicker}
+        label="Grazing Period End"
+        displayValue={moment(
+          `${noGrazeEndMonth} ${noGrazeEndDay}`,
+          'MM DD'
+        ).format('MMMM Do')}
       />
     </Form.Group>
   )
@@ -52,14 +62,15 @@ const MinisterIssueAction = ({
         {type}
         {isOtherType && other.name && ` (${other.name})`}
       </span>
-      {isActionTypeTiming && noGrazePeriod}
-
       <div className="rup__missue__action__detail">
+        {isActionTypeTiming && noGrazePeriod}
+
         <PermissionsField
           permission={MINISTER_ISSUES.ACTIONS.DETAIL}
           name={`${namespace}.detail`}
           component={TextArea}
           displayValue={detail || NO_DESCRIPTION}
+          label="Description"
         />
       </div>
     </div>
