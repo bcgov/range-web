@@ -211,8 +211,11 @@ const Base = ({
 
       await Promise.all(
         ministerIssues.map(async issue => {
-          if (uuid.isUUID(issue.id)) {
+          // Create new Minister Issues/Actions because they don't exist on the
+          // server yet
             const { id, ...issueBody } = issue
+
+          if (uuid.isUUID(issue.id)) {
             const { data: newIssue } = await axios.post(
               API.CREATE_RUP_MINISTER_ISSUE(plan.id),
               {
@@ -221,37 +224,20 @@ const Base = ({
               },
               config
             )
-            const newActions = await Promise.all(
-              issue.ministerIssueActions.map(async action => {
+
+            await Promise.all(
+              issue.ministerIssueActions.map(action => {
                 const { id, ...actionBody } = action
 
-                return axios
-                  .post(
-                    API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, issue.id),
+                return axios.post(
+                  API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, newIssue.id),
                     actionBody,
                     config
                   )
-                  .then(
-                    response => {
-                      return response.data
-                    },
-                    err => {
-                      throw err
-                    }
-                  )
               })
             )
-            const newIssueWithNewActions = {
-              ...newIssue,
-              ministerIssueActions: newActions
-            }
-
-            return newIssueWithNewActions
-          }
-
-          const { id, ...issueBody } = issue
-
-          const { data: updatedIssue } = await axios.put(
+          } else {
+            await axios.put(
             API.UPDATE_RUP_MINISTER_ISSUE(plan.id, issue.id),
             {
               ...issueBody,
@@ -262,27 +248,17 @@ const Base = ({
 
           const actions = issue.ministerIssueActions
 
-          const createdOrUpdatedActions = await Promise.all(
+            await Promise.all(
             actions.map(action => {
               const { id, ...actionBody } = action
               if (uuid.isUUID(action.id)) {
-                return axios
-                  .post(
+                  return axios.post(
                     API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, issue.id),
                     actionBody,
                     config
                   )
-                  .then(
-                    response => {
-                      return response.data
-                    },
-                    err => {
-                      throw err
-                    }
-                  )
               }
-              return axios
-                .put(
+                return axios.put(
                   API.UPDATE_RUP_MINISTER_ISSUE_ACTION(
                     plan.id,
                     issue.id,
@@ -291,22 +267,9 @@ const Base = ({
                   actionBody,
                   config
                 )
-                .then(
-                  response => {
-                    return response.data
-                  },
-                  err => {
-                    throw err
-                  }
-                )
             })
           )
-          const updatedIssueWithCreatedOrUpdatedActions = {
-            ...updatedIssue,
-            ministerIssueActions: createdOrUpdatedActions
           }
-
-          return updatedIssueWithCreatedOrUpdatedActions
         })
       )
 

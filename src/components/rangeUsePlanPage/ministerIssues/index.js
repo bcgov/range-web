@@ -27,7 +27,7 @@ const MinisterIssues = ({ issues }) => {
                     objective: '',
                     identified: false,
                     pastures: [],
-                    actions: [],
+                    ministerIssueActions: [],
                     id: uuid()
                   })
                 }}
