@@ -53,9 +53,7 @@ const RUPSchema = Yup.object().shape({
   grazingSchedules: Yup.array().of(
     Yup.object().shape({
       id: Yup.number().required(),
-      narative: Yup.string()
-        .required()
-        .transform(handleNull()),
+      narative: Yup.string().transform(handleNull()),
       grazingScheduleEntries: Yup.array().of(
         Yup.object().shape({
           dateIn: Yup.string()
@@ -83,6 +81,14 @@ const RUPSchema = Yup.object().shape({
       .default(false),
     other: Yup.string().transform(handleNull())
   })
+  additionalRequirements: Yup.array().of(
+    Yup.object().shape({
+      id: Yup.string(),
+      categoryId: Yup.number().required('Please choose a category'),
+      detail: Yup.string().required('Please enter some details'),
+      url: Yup.string().transform(handleNull())
+    })
+  )
 })
 
 export default RUPSchema
