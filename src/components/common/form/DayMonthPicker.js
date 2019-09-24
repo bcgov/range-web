@@ -12,7 +12,6 @@ const DayMonthPicker = ({ dayName, monthName, label, formik, ...props }) => {
           const month = date.month() + 1
           const day = date.date()
 
-          console.log(month, day)
           formik.setFieldValue(monthName, month)
           formik.setFieldValue(dayName, day)
         }}
