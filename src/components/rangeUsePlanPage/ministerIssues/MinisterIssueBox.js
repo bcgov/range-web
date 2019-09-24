@@ -13,6 +13,7 @@ import { connect, getIn, FieldArray } from 'formik'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import AddMinisterIssueActionButton from './AddMinisterIssueActionButton'
+import moment from 'moment'
 
 const MinisterIssueBox = ({
   issue,
@@ -146,8 +147,10 @@ const MinisterIssueBox = ({
                         actionTypeId: action.id,
                         detail: '',
                         other: action,
-                        noGrazeEndDate: new Date(),
-                        noGrazeStartDate: new Date(),
+                        noGrazeStartMonth: moment().month() + 1,
+                        noGrazeStartDay: moment().date(),
+                        noGrazeEndMonth: moment().month() + 1,
+                        noGrazeEndDay: moment().date(),
                         id: uuid()
                       })
                     }
