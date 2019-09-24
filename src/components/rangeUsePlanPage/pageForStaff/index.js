@@ -15,7 +15,6 @@ import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
-import AdditionalRequirements from '../additionalRequirements'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
@@ -168,7 +167,6 @@ class PageForStaff extends Component {
       plan,
       confirmationsMap,
       planStatusHistoryMap,
-      additionalRequirementsMap,
       fetchPlan,
       isFetchingPlan,
       updateRUPStatus
@@ -250,14 +248,6 @@ class PageForStaff extends Component {
             <MinisterIssues
               elementId={ELEMENT_ID.MINISTER_ISSUES}
               issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
-            />
-          </Element>
-
-          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
-            <AdditionalRequirements
-              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-              plan={plan}
-              additionalRequirementsMap={additionalRequirementsMap}
             />
           </Element>
         </ContentsContainer>

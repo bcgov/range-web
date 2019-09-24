@@ -90,3 +90,10 @@ export const MANAGEMENT_CONSIDERATIONS = {
   DESCRIPTION: 'managementConsiderations.description',
   ATTACHMENT: 'managementConsiderations.attachment'
 }
+export const ADDITIONAL_REQUIREMENTS = {
+  CATEGORY: 'additionalRequirements.category',
+  NAME: 'additionalRequirements.name',
+  DESCRIPTION: 'additionalRequirements.description',
+  LINK: 'additionalRequirements.link',
+  URL: 'additionalRequirements.url'
+}
