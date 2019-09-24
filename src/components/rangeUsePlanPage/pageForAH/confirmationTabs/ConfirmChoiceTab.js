@@ -15,7 +15,6 @@ class ConfirmChoiceTab extends Component {
     onClose: PropTypes.func.isRequired,
     plan: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    confirmationsMap: PropTypes.shape({}).isRequired,
     currTabId: PropTypes.string.isRequired,
     confirmationOption: PropTypes.string,
     isAgreed: PropTypes.bool.isRequired,
@@ -54,7 +53,6 @@ class ConfirmChoiceTab extends Component {
       user,
       clients,
       plan,
-      confirmationsMap,
       currTabId,
       tab,
       confirmationOption,
@@ -128,12 +126,7 @@ class ConfirmChoiceTab extends Component {
               />
             </Form.Field>
 
-            <AHConfirmationList
-              user={user}
-              clients={clients}
-              plan={plan}
-              confirmationsMap={confirmationsMap}
-            />
+            <AHConfirmationList user={user} clients={clients} plan={plan} />
 
             <Form.Checkbox
               label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker."

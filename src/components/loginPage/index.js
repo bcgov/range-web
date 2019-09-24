@@ -15,7 +15,7 @@ export class LoginPage extends Component {
     fetchUser: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     document.title = LOGIN_TITLE
   }
 

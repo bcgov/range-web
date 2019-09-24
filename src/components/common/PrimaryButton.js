@@ -11,7 +11,9 @@ const PrimaryButton = ({ inverted = false, children, ...props }) => {
   if (inverted) {
     return (
       <div className="inverted-btn">
-        <Button {...props}>{children}</Button>
+        <Button type="button" {...props}>
+          {children}
+        </Button>
       </div>
     )
   }

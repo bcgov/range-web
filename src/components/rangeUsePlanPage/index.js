@@ -399,7 +399,6 @@ const mapStateToProps = state => ({
   pasturesMap: selectors.getPasturesMap(state),
   grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
   ministerIssuesMap: selectors.getMinisterIssuesMap(state),
-  confirmationsMap: selectors.getConfirmationsMap(state),
   planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
   additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
   managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),

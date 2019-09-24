@@ -113,16 +113,10 @@ export const isStatusIndicatingStaffFeedbackNeeded = status =>
 export const isNoteRequired = statusCode =>
   REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode)
 
-export const canUserSubmitConfirmation = (
-  status,
-  user,
-  confirmations = [],
-  confirmationsMap = {}
-) => {
+export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
   if (isStatusAwaitingConfirmation(status) && user) {
     let isConfirmed = false
-    confirmations.map(cId => {
-      const confirmation = confirmationsMap[cId]
+    confirmations.map(confirmation => {
       if (user.clientId && user.clientId === confirmation.clientId) {
         isConfirmed = confirmation.confirmed
       }

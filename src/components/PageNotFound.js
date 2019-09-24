@@ -10,7 +10,7 @@ class PageNotFound extends Component {
     redirectToHome: false
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     document.title = PAGE_NOT_FOUND_TITLE
   }
 

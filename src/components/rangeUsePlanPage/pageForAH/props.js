@@ -9,7 +9,6 @@ export const propTypes = {
   pasturesMap: PropTypes.shape({}).isRequired,
   grazingSchedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
-  confirmationsMap: PropTypes.shape({}).isRequired,
   planStatusHistoryMap: PropTypes.shape({}).isRequired,
   additionalRequirementsMap: PropTypes.shape({}).isRequired,
   managementConsiderationsMap: PropTypes.shape({}).isRequired,

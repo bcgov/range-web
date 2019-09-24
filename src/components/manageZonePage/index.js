@@ -26,12 +26,12 @@ class Base extends Component {
     errorOccuredGettingZones: PropTypes.bool.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     document.title = MANAGE_ZONE_TITLE
     this.fetchData()
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { reAuthRequired, errorOccuredGettingZones } = nextProps
 
     // fetch zones and users if the user just reauthenticate and there was an error occurred
