@@ -17,7 +17,7 @@ const DateInputField = ({ inline, ...props }) => (
           const date = moment(value, props.dateFormat).toISOString()
           form.setFieldValue(field.name, date)
         }}
-        value={moment(field.value).format(props.dateFormat)}
+        value={field.value ? moment(field.value).format(props.dateFormat) : ''}
         onBlur={() => form.setFieldTouched(field.name)}
       />
     )}></Field>
