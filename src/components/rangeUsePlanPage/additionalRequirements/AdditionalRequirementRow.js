@@ -27,7 +27,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
         options={options}
         displayValue={
           options.find(c => c.value === categoryId)
-            ? options.find(c => c.value === categoryId).name
+            ? options.find(c => c.value === categoryId).text
             : ''
         }
       />
