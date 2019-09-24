@@ -212,6 +212,8 @@ const Base = ({
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
+
+      fetchPlan()
     } catch (err) {
       formik.setStatus('error')
       formik.setSubmitting(false)
@@ -262,6 +264,7 @@ const Base = ({
       {plan && (
         <Form
           initialValues={plan}
+          enableReinitialize
           validateOnChange={true}
           validationSchema={RUPSchema}
           onSubmit={handleSubmit}
