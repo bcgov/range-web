@@ -46,11 +46,13 @@ const MinisterIssueBox = ({
     ministerIssueActions = [],
     issueTypeId
   } = issue
+  const isError = !!getIn(formik.errors, namespace)
   return (
     <CollapsibleBox
       contentIndex={ministerIssueIndex}
       activeContentIndex={activeMinisterIssueIndex}
       onContentClicked={onMinisterIssueClicked}
+      error={isError}
       header={
         <div
           style={{
