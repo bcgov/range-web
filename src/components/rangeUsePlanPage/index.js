@@ -95,7 +95,7 @@ const Base = ({
       grazingSchedules,
       invasivePlantChecklist,
       managementConsiderations,
-      ministerIssues
+      ministerIssues,
       additionalRequirements
     } = plan
 
@@ -214,7 +214,7 @@ const Base = ({
         ministerIssues.map(async issue => {
           // Create new Minister Issues/Actions because they don't exist on the
           // server yet
-            const { id, ...issueBody } = issue
+          const { id, ...issueBody } = issue
 
           if (uuid.isUUID(issue.id)) {
             const { data: newIssue } = await axios.post(
@@ -232,33 +232,33 @@ const Base = ({
 
                 return axios.post(
                   API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, newIssue.id),
-                    actionBody,
-                    config
-                  )
+                  actionBody,
+                  config
+                )
               })
             )
           } else {
             await axios.put(
-            API.UPDATE_RUP_MINISTER_ISSUE(plan.id, issue.id),
-            {
-              ...issueBody,
-              pastures: issueBody.pastures.map(p => newPasturesMap[p])
-            },
-            config
-          )
+              API.UPDATE_RUP_MINISTER_ISSUE(plan.id, issue.id),
+              {
+                ...issueBody,
+                pastures: issueBody.pastures.map(p => newPasturesMap[p])
+              },
+              config
+            )
 
-          const actions = issue.ministerIssueActions
+            const actions = issue.ministerIssueActions
 
             await Promise.all(
-            actions.map(action => {
-              const { id, ...actionBody } = action
-              if (uuid.isUUID(action.id)) {
+              actions.map(action => {
+                const { id, ...actionBody } = action
+                if (uuid.isUUID(action.id)) {
                   return axios.post(
                     API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, issue.id),
                     actionBody,
                     config
                   )
-              }
+                }
                 return axios.put(
                   API.UPDATE_RUP_MINISTER_ISSUE_ACTION(
                     plan.id,
@@ -268,10 +268,13 @@ const Base = ({
                   actionBody,
                   config
                 )
-            })
-          )
+              })
+            )
           }
+        })
+      )
 
+      await Promise.all(
         additionalRequirements.map(requirement => {
           if (uuid.isUUID(requirement.id)) {
             const { id, ...values } = requirement
@@ -283,7 +286,6 @@ const Base = ({
           }
 
           return Promise.resolve()
-
         })
       )
 

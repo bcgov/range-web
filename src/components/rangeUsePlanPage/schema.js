@@ -80,7 +80,7 @@ const RUPSchema = Yup.object().shape({
       .required()
       .default(false),
     other: Yup.string().transform(handleNull())
-  })
+  }),
   additionalRequirements: Yup.array().of(
     Yup.object().shape({
       id: Yup.string(),
