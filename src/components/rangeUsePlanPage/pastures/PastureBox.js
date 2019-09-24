@@ -46,6 +46,7 @@ const PastureBox = ({
                 permission={PASTURES.NAME}
                 component={Input}
                 displayValue={pasture.name}
+                errorComponent={() => null}
                 inputProps={{
                   onClick: e => e.stopPropagation()
                 }}
