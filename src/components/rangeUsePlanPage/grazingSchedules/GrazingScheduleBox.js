@@ -7,7 +7,7 @@ import { roundTo1Decimal } from '../../../utils'
 import * as strings from '../../../constants/strings'
 import { CollapsibleBox, PrimaryButton } from '../../common'
 import { IMAGE_SRC } from '../../../constants/variables'
-import { FieldArray } from 'formik'
+import { FieldArray, connect, getIn } from 'formik'
 import { TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
@@ -22,7 +22,8 @@ const GrazingScheduleBox = ({
   onScheduleClicked,
   authorizedAUMs,
   onScheduleCopy,
-  onScheduleDelete
+  onScheduleDelete,
+  formik
 }) => {
   const { id, year } = schedule
   const narative = (schedule && schedule.narative) || ''
@@ -36,6 +37,8 @@ const GrazingScheduleBox = ({
 
   const [toRemove, setToRemove] = useState(null)
 
+  const isError = !!getIn(formik.errors, namespace)
+
   return (
     <FieldArray
       name={`${namespace}.grazingScheduleEntries`}
@@ -46,9 +49,16 @@ const GrazingScheduleBox = ({
             contentIndex={index}
             activeContentIndex={activeIndex}
             onContentClick={onScheduleClicked}
+            error={isError}
             header={
               <div className="rup__grazing-schedule__title">
-                <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
+                <div style={{ width: '30px' }}>
+                  {isError ? (
+                    <Icon name="warning sign" />
+                  ) : (
+                    <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
+                  )}
+                </div>
                 {year} Grazing Schedule
               </div>
             }
@@ -214,4 +224,4 @@ GrazingScheduleBox.propTypes = {
   onScheduleDelete: PropTypes.func.isRequired
 }
 
-export default GrazingScheduleBox
+export default connect(GrazingScheduleBox)
