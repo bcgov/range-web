@@ -40,7 +40,6 @@ export const writeText = ({
   const text = t ? `${t}` : handleNullValue(t)
   const splitTextArray = doc.splitTextToSize(text, width)
   splitTextArray.map(textChunk => {
-    currY = currY; 
     // remove the first empty space
     if (textChunk[0] === ' ') {
       doc.textEx(

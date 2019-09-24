@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-  PLAN_STATUS,
-  REFERENCE_KEY,
-  ELEMENT_ID
-} from '../../../constants/variables'
+import { PLAN_STATUS, REFERENCE_KEY } from '../../../constants/variables'
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../../constants/routes'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
@@ -18,7 +14,6 @@ import PlanSubmissionModal from './SubmissionModal'
 import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
 import PlanForm from '../PlanForm'
-import { Element } from 'react-scroll'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -229,8 +224,6 @@ class PageForAH extends Component {
       user,
       agreement,
       references,
-      pasturesMap,
-      ministerIssuesMap,
       planStatusHistoryMap,
       fetchPlan
     } = this.props

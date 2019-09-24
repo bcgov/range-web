@@ -85,7 +85,7 @@ const Base = ({
     fetchPlan()
   }, [])
 
-  const handleValidationError = ({ errors }) => {
+  const handleValidationError = () => {
     errorToast('Could not submit due to invalid fields.')
   }
 

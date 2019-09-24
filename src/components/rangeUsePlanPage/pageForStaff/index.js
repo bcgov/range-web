@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import UpdateZoneModal from './UpdateZoneModal'
-import {
-  REFERENCE_KEY,
-  ELEMENT_ID,
-  PLAN_STATUS
-} from '../../../constants/variables'
+import { REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables'
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
@@ -18,7 +14,6 @@ import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
-import { Element } from 'react-scroll'
 
 // Range Staff Page
 class PageForStaff extends Component {
