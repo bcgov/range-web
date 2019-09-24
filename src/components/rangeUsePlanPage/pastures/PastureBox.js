@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import PermissionsField from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
 import { Input } from 'formik-semantic-ui'
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Icon } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import * as strings from '../../../constants/strings'
 import { IMAGE_SRC } from '../../../constants/variables'
 import PlantCommunities from '../plantCommunities'
+import { getIn, connect } from 'formik'
 
 const dropdownOptions = [{ key: 'copy', value: 'copy', text: 'Copy' }]
 
@@ -17,18 +18,27 @@ const PastureBox = ({
   activeIndex,
   onClick,
   onCopy,
-  namespace
+  namespace,
+  formik
 }) => {
+  const isError = !!getIn(formik.errors, namespace)
   return (
     <CollapsibleBox
       key={pasture.id}
       contentIndex={index}
       activeContentIndex={activeIndex}
       onContentClick={onClick}
+      error={isError}
       header={
         <div className="rup__pasture">
           <div className="rup__pasture__title">
-            <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+            <div style={{ width: '30px' }}>
+              {isError ? (
+                <Icon name="warning sign" />
+              ) : (
+                <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+              )}
+            </div>
             Pasture:
             {activeIndex === index ? (
               <PermissionsField
@@ -121,4 +131,4 @@ PastureBox.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-export default PastureBox
+export default connect(PastureBox)

@@ -14,7 +14,8 @@ class CollapsibleBox extends Component {
     activeContentIndex: PropTypes.number.isRequired,
     onContentClicked: PropTypes.func,
     onContentClick: PropTypes.func,
-    scroll: PropTypes.bool
+    scroll: PropTypes.bool,
+    error: PropTypes.bool
   }
 
   static defaultProps = {
@@ -34,7 +35,8 @@ class CollapsibleBox extends Component {
       shouldHideHeaderRightWhenNotActive,
       message,
       collapsibleContent,
-      scroll
+      scroll,
+      error
     } = this.props
     const isActive = activeContentIndex === contentIndex
     let additionalHeaderRight = headerRight
@@ -47,7 +49,8 @@ class CollapsibleBox extends Component {
         <div className="collaspible-box__header">
           <div
             className={classnames('collaspible-box__header__title', {
-              'collaspible-box__header__title--active': isActive
+              'collaspible-box__header__title--active': isActive,
+              'collaspible-box__header__title--error': error
             })}
             onClick={
               onContentClick ? onContentClick : onContentClicked(contentIndex)

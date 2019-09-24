@@ -17,7 +17,7 @@
 
     &--orange {
       background: orange;
-    } 
+    }
     &--purple {
       background: purple;
     }
@@ -74,7 +74,7 @@
   height: 40px;
   min-height: 40px;
   border-radius: 50%;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #cccccc;
   background: $light-gray;
   display: flex;
   justify-content: center;
@@ -113,7 +113,6 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
-
 }
 
 .page-not-found {
@@ -154,7 +153,7 @@
     font-size: 1.3rem;
 
     &--boldered {
-      border: 1px solid  
+      border: 1px solid;
     }
   }
 }
@@ -214,7 +213,7 @@
   padding: 0;
   border-radius: 5px;
   border: 1px solid gainsboro;
-  
+
   li {
     border-bottom: 1px solid gainsboro;
   }
@@ -249,6 +248,10 @@
 
       &--active {
         opacity: 1;
+      }
+
+      &--error {
+        color: #9f3a38;
       }
     }
     &__right {
@@ -289,7 +292,6 @@
     }
   }
 }
-
 
 .un-input-modal {
   padding: 15px;
@@ -407,7 +409,7 @@
   &__sub-title {
     font-size: 1.3rem;
     text-align: center;
-    color: #8C8C8C;
+    color: #8c8c8c;
     margin-bottom: 15px;
   }
   &__space {
