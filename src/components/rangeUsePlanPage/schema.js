@@ -17,7 +17,9 @@ const RUPSchema = Yup.object().shape({
       allowableAum: Yup.number()
         .nullable()
         .transform(handleNull(0)),
-      graceDays: Yup.number(),
+      graceDays: Yup.number()
+        .nullable()
+        .transform(handleNull(0)),
       name: Yup.string().required('Please enter a name'),
       notes: Yup.string()
         .transform(handleNull())
@@ -84,9 +86,25 @@ const RUPSchema = Yup.object().shape({
   additionalRequirements: Yup.array().of(
     Yup.object().shape({
       id: Yup.string(),
-      categoryId: Yup.number().required('Please choose a category'),
-      detail: Yup.string().required('Please enter some details'),
+      categoryId: Yup.number()
+        .required('Please choose a category')
+        .nullable()
+        .transform(handleNull(0)),
+      detail: Yup.string()
+        .required('Please enter some details')
+        .transform(handleNull()),
       url: Yup.string().transform(handleNull())
+    })
+  ),
+  ministerIssues: Yup.array().of(
+    Yup.object().shape({
+      pastures: Yup.array().of(Yup.number()),
+      detail: Yup.string()
+        .required()
+        .transform(handleNull()),
+      objective: Yup.string()
+        .required()
+        .transform(handleNull())
     })
   )
 })
