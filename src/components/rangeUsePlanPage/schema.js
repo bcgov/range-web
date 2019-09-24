@@ -104,7 +104,29 @@ const RUPSchema = Yup.object().shape({
         .transform(handleNull()),
       objective: Yup.string()
         .required()
-        .transform(handleNull())
+        .transform(handleNull()),
+      ministerIssueActions: Yup.array().of(
+        Yup.object().shape({
+          detail: Yup.string()
+            .required()
+            .transform(handleNull()),
+          issueTypeId: Yup.number()
+            .required()
+            .transform(handleNull(0)),
+          noGrazeStartMonth: Yup.number()
+            .nullable()
+            .transform(handleNull(0)),
+          noGrazeStartDay: Yup.number()
+            .nullable()
+            .transform(handleNull(0)),
+          noGrazeEndMonth: Yup.number()
+            .nullable()
+            .transform(handleNull(0)),
+          noGrazeEndDay: Yup.number()
+            .nullable()
+            .transform(handleNull(0))
+        })
+      )
     })
   )
 })
