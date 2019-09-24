@@ -98,7 +98,7 @@ const RUPSchema = Yup.object().shape({
   ),
   ministerIssues: Yup.array().of(
     Yup.object().shape({
-      pastures: Yup.array().of(Yup.number()),
+      pastures: Yup.array().of(Yup.string()),
       detail: Yup.string()
         .required('Required field')
         .transform(handleNull()),
