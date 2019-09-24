@@ -56,7 +56,7 @@ const RUPSchema = Yup.object().shape({
       id: Yup.string(),
       categoryId: Yup.number().required('Please choose a category'),
       detail: Yup.string().required('Please enter some details'),
-      url: Yup.string()
+      url: Yup.string().transform(handleNull())
     })
   )
 })
