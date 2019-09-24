@@ -306,6 +306,9 @@ const Base = ({
   // const doneFetching = !isFetchingPlanForTheFirstTime;
 
   if (errorFetchingPlan) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(errorFetchingPlan)
+    }
     return (
       <div className="rup__fetching-error">
         <Icon name="warning sign" size="large" color="red" />
@@ -314,6 +317,9 @@ const Base = ({
             Error occurred while fetching the range use plan.
           </span>
         </div>
+        {process.env.NODE_ENV !== 'production' && (
+          <p>Check console for details.</p>
+        )}
         <div>
           <PrimaryButton inverted onClick={history.goBack}>
             Go Back
