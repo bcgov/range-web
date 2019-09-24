@@ -1,17 +1,12 @@
 import * as Yup from 'yup'
-import moment from 'moment'
 
 const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
 
 const RUPSchema = Yup.object().shape({
   rangeName: Yup.string(),
   altBusinessName: Yup.string().transform(handleNull()),
-  planStartDate: Yup.string()
-    .required()
-    .transform(v => moment(v).format('MMMM DD, YYYY')),
-  planEndDate: Yup.string()
-    .required()
-    .transform(v => moment(v).format('MMMM DD, YYYY')),
+  planStartDate: Yup.string().required(),
+  planEndDate: Yup.string().required(),
   pastures: Yup.array().of(
     Yup.object().shape({
       allowableAum: Yup.number()
@@ -45,9 +40,7 @@ const RUPSchema = Yup.object().shape({
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required(),
           shrubUse: Yup.string().transform(handleNull()),
-          rangeReadinessDate: Yup.string()
-            .required()
-            .default(moment().format('MMMM DD'))
+          rangeReadinessDate: Yup.string().required()
         })
       )
     })
@@ -58,12 +51,8 @@ const RUPSchema = Yup.object().shape({
       narative: Yup.string().transform(handleNull()),
       grazingScheduleEntries: Yup.array().of(
         Yup.object().shape({
-          dateIn: Yup.string()
-            .required()
-            .transform(v => moment(v).format('MMMM DD, YYYY')),
-          dateOut: Yup.string()
-            .required()
-            .transform(v => moment(v).format('MMMM DD, YYYY'))
+          dateIn: Yup.string().required(),
+          dateOut: Yup.string().required()
         })
       )
     })
