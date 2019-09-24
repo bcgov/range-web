@@ -351,7 +351,7 @@ const Base = ({
           initialValues={plan}
           enableReinitialize
           validateOnChange={true}
-          // validationSchema={RUPSchema}
+          validationSchema={RUPSchema}
           onSubmit={handleSubmit}
           render={({ values: plan }) => (
             <>
