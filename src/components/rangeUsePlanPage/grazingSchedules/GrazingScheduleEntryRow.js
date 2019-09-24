@@ -9,6 +9,7 @@ import { REFERENCE_KEY } from '../../../constants/variables'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
+import moment from 'moment'
 
 const GrazingScheduleEntryRow = ({
   entry,
@@ -123,7 +124,7 @@ const GrazingScheduleEntryRow = ({
           permission={SCHEDULE.DATE_IN}
           name={`${namespace}.dateIn`}
           component={DateInputField}
-          displayValue={dateIn}
+          displayValue={moment(dateIn).format('MMM DD')}
           fluid
           dateFormat="MMM DD"
           icon={null}
@@ -134,7 +135,7 @@ const GrazingScheduleEntryRow = ({
           permission={SCHEDULE.DATE_OUT}
           name={`${namespace}.dateOut`}
           component={DateInputField}
-          displayValue={dateOut}
+          displayValue={moment(dateOut).format('MMM DD')}
           dateFormat="MMM DD"
           fluid
           icon={null}
