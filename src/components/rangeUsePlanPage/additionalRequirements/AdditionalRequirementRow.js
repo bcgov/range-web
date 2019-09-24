@@ -42,18 +42,14 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           inputProps={{ placeholder: 'Details' }}
           label="Details"
         />
-        <div className="rup__a-requirement__url">
-          <PermissionsField
-            permission={ADDITIONAL_REQUIREMENTS.URL}
-            name={`${namespace}.url`}
-            displayValue={url}
-            label="URL:"
-            fieldProps={{
-              inline: true
-            }}
-            inputProps={{ placeholder: 'URL' }}
-          />
-        </div>
+
+        <PermissionsField
+          permission={ADDITIONAL_REQUIREMENTS.URL}
+          name={`${namespace}.url`}
+          displayValue={url}
+          label="URL"
+          inputProps={{ placeholder: 'URL', fluid: true }}
+        />
       </div>
     </div>
   )
