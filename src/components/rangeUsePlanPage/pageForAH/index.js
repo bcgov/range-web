@@ -12,7 +12,6 @@ import ContentsContainer from '../ContentsContainer'
 import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
-import AdditionalRequirements from '../additionalRequirements'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
@@ -232,7 +231,6 @@ class PageForAH extends Component {
       references,
       confirmationsMap,
       planStatusHistoryMap,
-      additionalRequirementsMap,
       fetchPlan
     } = this.props
 
@@ -317,14 +315,6 @@ class PageForAH extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
-            <AdditionalRequirements
-              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-              plan={plan}
-              additionalRequirementsMap={additionalRequirementsMap}
-            />
-          </Element>
         </ContentsContainer>
       </section>
     )

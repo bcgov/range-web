@@ -96,6 +96,7 @@ const Base = ({
       invasivePlantChecklist,
       managementConsiderations,
       ministerIssues
+      additionalRequirements
     } = plan
 
     const config = getAuthHeaderConfig()
@@ -270,11 +271,26 @@ const Base = ({
             })
           )
           }
+
+        additionalRequirements.map(requirement => {
+          if (uuid.isUUID(requirement.id)) {
+            const { id, ...values } = requirement
+            return axios.post(
+              API.CREATE_RUP_ADDITIONAL_REQUIREMENT(plan.id),
+              values,
+              config
+            )
+          }
+
+          return Promise.resolve()
+
         })
       )
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
+
+      fetchPlan()
     } catch (err) {
       formik.setStatus('error')
       formik.setSubmitting(false)
@@ -325,6 +341,7 @@ const Base = ({
       {plan && (
         <Form
           initialValues={plan}
+          enableReinitialize
           validateOnChange={true}
           // validationSchema={RUPSchema}
           onSubmit={handleSubmit}

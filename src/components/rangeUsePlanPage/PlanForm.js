@@ -9,6 +9,7 @@ import Usage from './usage'
 import InvasivePlantChecklist from './invasivePlantChecklist'
 import ManagementConsiderations from './managementConsiderations'
 import MinisterIssues from './ministerIssues'
+import AdditionalRequirements from './additionalRequirements'
 
 const PlanForm = ({ plan }) => {
   return (
@@ -32,6 +33,11 @@ const PlanForm = ({ plan }) => {
         <InvasivePlantChecklist
           namespace="invasivePlantChecklist"
           invasivePlantChecklist={plan.invasivePlantChecklist}
+        />
+      </Element>
+      <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
+        <AdditionalRequirements
+          additionalRequirements={plan.additionalRequirements}
         />
       </Element>
       <Element name={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}>
