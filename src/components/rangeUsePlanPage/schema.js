@@ -110,7 +110,7 @@ const RUPSchema = Yup.object().shape({
           detail: Yup.string()
             .required('Required field')
             .transform(handleNull()),
-          issueTypeId: Yup.number()
+          actionTypeId: Yup.number()
             .required('Required field')
             .transform(handleNull(0)),
           noGrazeStartMonth: Yup.number()
