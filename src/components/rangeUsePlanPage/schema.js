@@ -100,18 +100,18 @@ const RUPSchema = Yup.object().shape({
     Yup.object().shape({
       pastures: Yup.array().of(Yup.number()),
       detail: Yup.string()
-        .required()
+        .required('Required field')
         .transform(handleNull()),
       objective: Yup.string()
-        .required()
+        .required('Required field')
         .transform(handleNull()),
       ministerIssueActions: Yup.array().of(
         Yup.object().shape({
           detail: Yup.string()
-            .required()
+            .required('Required field')
             .transform(handleNull()),
           issueTypeId: Yup.number()
-            .required()
+            .required('Required field')
             .transform(handleNull(0)),
           noGrazeStartMonth: Yup.number()
             .nullable()
