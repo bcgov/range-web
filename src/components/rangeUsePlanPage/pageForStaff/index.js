@@ -8,7 +8,6 @@ import {
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
-import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
 import ContentsContainer from '../ContentsContainer'
 import UpdateStatusDropdown from './UpdateStatusDropdown'
@@ -243,13 +242,6 @@ class PageForStaff extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
-            <MinisterIssues
-              elementId={ELEMENT_ID.MINISTER_ISSUES}
-              issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
-            />
-          </Element>
         </ContentsContainer>
       </section>
     )

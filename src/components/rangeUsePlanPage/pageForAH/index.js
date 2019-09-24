@@ -12,8 +12,6 @@ import ContentsContainer from '../ContentsContainer'
 import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
-import MinisterIssues from '../ministerIssues'
-import EditableMinisterIssues from '../editableMinisterIssues'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
@@ -231,8 +229,6 @@ class PageForAH extends Component {
       user,
       agreement,
       references,
-      pasturesMap,
-      ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
       fetchPlan
@@ -256,13 +252,6 @@ class PageForAH extends Component {
     } = utils.getBannerHeaderAndContentForAH(plan, user)
     // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
-    const ministerIssueProps = {
-      elementId: ELEMENT_ID.MINISTER_ISSUES,
-      references,
-      plan,
-      pasturesMap,
-      ministerIssuesMap
-    }
 
     return (
       <section className="rup">
@@ -326,14 +315,6 @@ class PageForAH extends Component {
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
-            {canEdit ? (
-              <EditableMinisterIssues {...ministerIssueProps} />
-            ) : (
-              <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
-            )}
-          </Element>
         </ContentsContainer>
       </section>
     )
