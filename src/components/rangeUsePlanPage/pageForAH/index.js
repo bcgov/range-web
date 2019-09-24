@@ -14,7 +14,6 @@ import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
 import MinisterIssues from '../ministerIssues'
 import EditableMinisterIssues from '../editableMinisterIssues'
-import AdditionalRequirements from '../additionalRequirements'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
@@ -236,7 +235,6 @@ class PageForAH extends Component {
       ministerIssuesMap,
       confirmationsMap,
       planStatusHistoryMap,
-      additionalRequirementsMap,
       fetchPlan
     } = this.props
 

@@ -207,6 +207,8 @@ const Base = ({
               config
             )
           }
+
+          return Promise.resolve()
         })
       )
 
