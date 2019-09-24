@@ -31,6 +31,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
             ? options.find(c => c.value === categoryId).text
             : ''
         }
+        label="Category"
       />
       <div>
         <PermissionsField
@@ -39,6 +40,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           component={TextArea}
           displayValue={detail}
           inputProps={{ placeholder: 'Details' }}
+          label="Details"
         />
         <div className="rup__a-requirement__url">
           <PermissionsField

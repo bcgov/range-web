@@ -70,10 +70,6 @@ class AdditionalRequirements extends Component {
               information.
             </div>
             <div className="rup__a-requirements__box">
-              <div className="rup__a-requirement__header">
-                <div>Category</div>
-                <div>Details</div>
-              </div>
               {this.renderAdditionalRequirements(additionalRequirements)}
             </div>
           </div>
