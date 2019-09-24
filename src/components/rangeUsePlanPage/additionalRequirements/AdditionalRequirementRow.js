@@ -22,6 +22,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
     <div className="rup__a-requirement__row">
       <PermissionsField
         permission={ADDITIONAL_REQUIREMENTS.CATEGORY}
+        inputProps={{ placeholder: 'Category' }}
         name={`${namespace}.categoryId`}
         component={Dropdown}
         options={options}
@@ -37,6 +38,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           name={`${namespace}.detail`}
           component={TextArea}
           displayValue={detail}
+          inputProps={{ placeholder: 'Details' }}
         />
         <div className="rup__a-requirement__url">
           <PermissionsField
@@ -47,6 +49,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
             fieldProps={{
               inline: true
             }}
+            inputProps={{ placeholder: 'URL' }}
           />
         </div>
       </div>
