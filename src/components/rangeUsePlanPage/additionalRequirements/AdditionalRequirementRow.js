@@ -32,6 +32,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
             : ''
         }
         label="Category"
+        fast
       />
       <div>
         <PermissionsField
@@ -41,6 +42,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           displayValue={detail}
           inputProps={{ placeholder: 'Details' }}
           label="Details"
+          fast
         />
 
         <PermissionsField
@@ -49,6 +51,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           displayValue={url}
           label="URL"
           inputProps={{ placeholder: 'URL', fluid: true }}
+          fast
         />
       </div>
     </div>
@@ -60,4 +63,4 @@ AdditionalRequirementRow.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-export default AdditionalRequirementRow
+export default React.memo(AdditionalRequirementRow)

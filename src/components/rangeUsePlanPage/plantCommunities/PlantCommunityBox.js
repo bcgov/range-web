@@ -129,6 +129,7 @@ const PlantCommunityBox = ({
               component={Input}
               displayValue={aspect}
               label={ASPECT}
+              fast
             />
 
             <PermissionsField
@@ -138,6 +139,7 @@ const PlantCommunityBox = ({
               options={elevationOptions}
               displayValue={elevation ? elevationTypes[elevation].name : ''}
               label={ELEVATION}
+              fast
             />
           </Form.Group>
 
@@ -150,6 +152,7 @@ const PlantCommunityBox = ({
             inputProps={{
               toggle: true
             }}
+            fast
           />
 
           <PermissionsField
@@ -158,6 +161,7 @@ const PlantCommunityBox = ({
             component={TextArea}
             displayValue={notes}
             label={PLANT_COMMUNITY_NOTES}
+            fast
           />
 
           <Form.Group widths="2">
@@ -167,6 +171,7 @@ const PlantCommunityBox = ({
               component={Input}
               displayValue={url}
               label={COMMUNITY_URL}
+              fast
             />
 
             <PermissionsField
@@ -176,6 +181,7 @@ const PlantCommunityBox = ({
               options={purposeOptions}
               displayValue={purposeOfAction}
               label={PURPOSE_OF_ACTION}
+              fast
             />
           </Form.Group>
 
