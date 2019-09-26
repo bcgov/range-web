@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Button } from 'semantic-ui-react'
@@ -9,6 +9,12 @@ import { PASTURES } from '../../../constants/fields'
 
 const Pastures = ({ pastures }) => {
   const [activeIndex, setActiveIndex] = useState(-1)
+  const handlePastureClick = useCallback(index => {
+    setActiveIndex(activeIndex === index ? -1 : index)
+  })
+  const handlePastureCopy = useCallback(index => {
+    console.log('copy', index)
+  })
 
   return (
     <FieldArray
@@ -50,14 +56,12 @@ const Pastures = ({ pastures }) => {
               })}>
               {pastures.map((pasture, index) => (
                 <PastureBox
-                  key={pasture.id || `pasture_${index}`}
+                  key={pasture.id}
                   pasture={pasture}
                   index={index}
                   activeIndex={activeIndex}
-                  onClick={() => {
-                    setActiveIndex(activeIndex === index ? -1 : index)
-                  }}
-                  onCopy={() => console.log('copy')}
+                  onClick={handlePastureClick}
+                  onCopy={handlePastureCopy}
                   namespace={`pastures.${index}`}
                 />
               ))}
@@ -73,4 +77,4 @@ Pastures.propTypes = {
   pastures: PropTypes.array.isRequired
 }
 
-export default Pastures
+export default React.memo(Pastures)

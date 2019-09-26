@@ -6,9 +6,14 @@ import { Button, Dropdown } from 'semantic-ui-react'
 import InputModal from '../../common/InputModal'
 
 const AddMinisterIssueButton = ({ onSubmit }) => {
+  const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || []
+
+  return <MinisterIssuePicker types={types} onSubmit={onSubmit} />
+}
+
+const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
   const [isModalOpen, setModalOpen] = useState(false)
 
-  const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || []
   const options = types.map(type => ({
     key: type.id,
     value: type.id,
@@ -58,7 +63,7 @@ const AddMinisterIssueButton = ({ onSubmit }) => {
       />
     </>
   )
-}
+})
 
 AddMinisterIssueButton.propTypes = {
   onSubmit: PropTypes.func.isRequired

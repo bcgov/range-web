@@ -189,6 +189,7 @@ const GrazingScheduleBox = ({
                       style: { marginTop: '5px' }
                     }}
                     displayValue={narative}
+                    fast
                   />
                 </div>
               </>
@@ -224,4 +225,13 @@ GrazingScheduleBox.propTypes = {
   onScheduleDelete: PropTypes.func.isRequired
 }
 
-export default connect(GrazingScheduleBox)
+export default connect(
+  React.memo(
+    GrazingScheduleBox,
+    (prevProps, nextProps) =>
+      getIn(prevProps.formik.errors, prevProps.namespace) ===
+        getIn(nextProps.formik.errors, nextProps.namespace) &&
+      prevProps.schedule === nextProps.schedule &&
+      prevProps.activeIndex === nextProps.activeIndex
+  )
+)

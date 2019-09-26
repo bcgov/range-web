@@ -27,7 +27,7 @@ const PastureBox = ({
       key={pasture.id}
       contentIndex={index}
       activeContentIndex={activeIndex}
-      onContentClick={onClick}
+      onContentClick={() => onClick(index)}
       error={isError}
       header={
         <div className="rup__pasture">
@@ -137,4 +137,11 @@ PastureBox.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-export default connect(PastureBox)
+export default connect(
+  React.memo(
+    PastureBox,
+    (prevProps, nextProps) =>
+      prevProps.pasture === nextProps.pasture &&
+      prevProps.activeIndex === nextProps.activeIndex
+  )
+)
