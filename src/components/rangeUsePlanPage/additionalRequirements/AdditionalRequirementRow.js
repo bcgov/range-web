@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { isUUID } from 'uuid-v4'
 import PermissionsField from '../../common/PermissionsField'
 import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
 import { useReferences } from '../../../providers/ReferencesProvider'
@@ -18,6 +19,8 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
 
   const { detail, url, categoryId } = additionalRequirement
 
+  const isEditable = isUUID(additionalRequirement.id)
+
   return (
     <div className="rup__a-requirement__row">
       <PermissionsField
@@ -33,6 +36,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
         }
         label="Category"
         fast
+        editable={!isEditable}
       />
       <div>
         <PermissionsField
@@ -43,6 +47,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           inputProps={{ placeholder: 'Details' }}
           label="Details"
           fast
+          editable={!isEditable}
         />
 
         <PermissionsField
@@ -52,6 +57,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           label="URL"
           inputProps={{ placeholder: 'URL', fluid: true }}
           fast
+          editable={!isEditable}
         />
       </div>
     </div>
