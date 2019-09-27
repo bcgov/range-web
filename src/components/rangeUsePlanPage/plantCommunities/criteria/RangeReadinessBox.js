@@ -28,6 +28,7 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         displayValue={rangeReadinessDate}
         label="Readiness Date"
         dateFormat="MMMM DD"
+        fast
       />
       <PermissionsField
         name={`${namespace}.rangeReadinessNotes`}
@@ -35,12 +36,14 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         component={TextArea}
         displayValue={rangeReadinessNotes}
         label="Notes"
+        fast
       />
       <IndicatorPlantsForm
         indicatorPlants={plantCommunity.indicatorPlants}
         namespace={namespace}
         valueLabel="Criteria (Leaf Stage)"
         criteria={PLANT_CRITERIA.RANGE_READINESS}
+        fast
       />
     </div>
   )

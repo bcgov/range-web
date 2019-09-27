@@ -27,7 +27,7 @@ const PastureBox = ({
       key={pasture.id}
       contentIndex={index}
       activeContentIndex={activeIndex}
-      onContentClick={onClick}
+      onContentClick={() => onClick(index)}
       error={isError}
       header={
         <div className="rup__pasture">
@@ -50,6 +50,7 @@ const PastureBox = ({
                 inputProps={{
                   onClick: e => e.stopPropagation()
                 }}
+                fast
               />
             ) : (
               ` ${pasture.name}`
@@ -80,6 +81,7 @@ const PastureBox = ({
                 component={Input}
                 displayValue={pasture.allowableAum}
                 label={strings.ALLOWABLE_AUMS}
+                fast
               />
             </div>
             <div className="rup__cell-4">
@@ -89,6 +91,7 @@ const PastureBox = ({
                 component={Input}
                 displayValue={pasture.pldPercent}
                 label={strings.PRIVATE_LAND_DEDUCTION}
+                fast
               />
             </div>
             <div className="rup__cell-4">
@@ -98,6 +101,7 @@ const PastureBox = ({
                 component={Input}
                 displayValue={pasture.graceDays}
                 label={strings.GRACE_DAYS}
+                fast
               />
             </div>
           </div>
@@ -108,6 +112,7 @@ const PastureBox = ({
             component={Input}
             label={strings.PASTURE_NOTES}
             fluid
+            fast
           />
 
           <PlantCommunities
@@ -132,4 +137,11 @@ PastureBox.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-export default connect(PastureBox)
+export default connect(
+  React.memo(
+    PastureBox,
+    (prevProps, nextProps) =>
+      prevProps.pasture === nextProps.pasture &&
+      prevProps.activeIndex === nextProps.activeIndex
+  )
+)

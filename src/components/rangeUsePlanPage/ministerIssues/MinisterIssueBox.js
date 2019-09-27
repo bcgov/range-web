@@ -76,6 +76,7 @@ const MinisterIssueBox = ({
                 ? types.find(t => t.id === issueTypeId).name
                 : ''
             }
+            fast
           />
         </div>
       }
@@ -100,6 +101,7 @@ const MinisterIssueBox = ({
             inputProps={{
               toggle: true
             }}
+            fast
           />
           <PermissionsField
             name={`${namespace}.pastures`}
@@ -118,6 +120,7 @@ const MinisterIssueBox = ({
               multiple: true,
               search: true
             }}
+            fast
           />
           <PermissionsField
             permission={MINISTER_ISSUES.DETAIL}
@@ -125,6 +128,7 @@ const MinisterIssueBox = ({
             label="Details"
             component={TextArea}
             displayValue={detail}
+            fast
           />
           <PermissionsField
             permission={MINISTER_ISSUES.OBJECTIVE}
@@ -132,6 +136,7 @@ const MinisterIssueBox = ({
             label="Objective"
             component={TextArea}
             displayValue={objective}
+            fast
           />
 
           <FieldArray

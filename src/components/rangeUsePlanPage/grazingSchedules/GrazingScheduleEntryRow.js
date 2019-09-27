@@ -10,6 +10,7 @@ import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
+import PasturesDropdown from './PasturesDropdown'
 
 const GrazingScheduleEntryRow = ({
   entry,
@@ -30,14 +31,6 @@ const GrazingScheduleEntryRow = ({
   const references = useReferences()
   const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
 
-  const pastureOptions = formik.values.pastures.map(pasture => {
-    const { id, name } = pasture || {}
-    return {
-      key: id,
-      value: id,
-      text: name
-    }
-  })
   const livestockTypeOptions = livestockTypes.map(lt => {
     const { id, name } = lt || {}
     return {
@@ -74,21 +67,9 @@ const GrazingScheduleEntryRow = ({
   return (
     <Table.Row>
       <Table.Cell>
-        <PermissionsField
-          permission={SCHEDULE.PASTURE}
+        <PasturesDropdown
           name={`${namespace}.pastureId`}
-          options={pastureOptions}
-          component={FormikDropdown}
-          displayValue={
-            pastureOptions.find(p => p.value === pastureId)
-              ? pastureOptions.find(p => p.value === pastureId).text
-              : ''
-          }
-          fluid
-          inputProps={{
-            fluid: true,
-            search: true
-          }}
+          pastureId={pastureId}
         />
       </Table.Cell>
       <Table.Cell>
@@ -107,6 +88,7 @@ const GrazingScheduleEntryRow = ({
             fluid: true,
             search: true
           }}
+          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -117,6 +99,7 @@ const GrazingScheduleEntryRow = ({
           inputProps={{
             fluid: true
           }}
+          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -128,6 +111,7 @@ const GrazingScheduleEntryRow = ({
           fluid
           dateFormat="MMM DD"
           icon={null}
+          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -139,6 +123,7 @@ const GrazingScheduleEntryRow = ({
           dateFormat="MMM DD"
           fluid
           icon={null}
+          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
@@ -152,6 +137,7 @@ const GrazingScheduleEntryRow = ({
             fluid: true
           }}
           fluid
+          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -182,4 +168,9 @@ GrazingScheduleEntryRow.propTypes = {
   onCopy: PropTypes.func.isRequired
 }
 
-export default connect(GrazingScheduleEntryRow)
+export default connect(
+  React.memo(
+    GrazingScheduleEntryRow,
+    (prevProps, nextProps) => prevProps.entry === nextProps.entry
+  )
+)

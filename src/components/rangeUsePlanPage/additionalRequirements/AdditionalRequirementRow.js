@@ -69,4 +69,4 @@ AdditionalRequirementRow.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-export default AdditionalRequirementRow
+export default React.memo(AdditionalRequirementRow)
