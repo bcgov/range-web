@@ -17,7 +17,6 @@ const ActionBtns = ({
   canAmend,
   canConfirm,
   canSubmit,
-  canDownload,
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,

@@ -23,7 +23,7 @@ import {
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { connect } from 'formik'
+import { connect, getIn } from 'formik'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import Import from './criteria/Import'
@@ -77,6 +77,8 @@ const PlantCommunityBox = ({
     }
   ]
 
+  const isError = !!getIn(formik.errors, namespace)
+
   return (
     <CollapsibleBox
       key={communityType}
@@ -84,10 +86,20 @@ const PlantCommunityBox = ({
       activeContentIndex={activeIndex}
       onContentClick={onClick}
       scroll={true}
+      error={isError}
       header={
         <div className="rup__plant-community__title">
           <div className="rup__plant-community__title__left">
-            <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
+            <div style={{ width: '30px' }}>
+              {isError ? (
+                <Icon name="warning sign" />
+              ) : (
+                <img
+                  src={IMAGE_SRC.PLANT_COMMUNITY_ICON}
+                  alt="community icon"
+                />
+              )}
+            </div>
             <div style={{ textAlign: 'left' }}>
               Plant Community: {communityTypeName}
             </div>
@@ -117,6 +129,7 @@ const PlantCommunityBox = ({
               component={Input}
               displayValue={aspect}
               label={ASPECT}
+              fast
             />
 
             <PermissionsField
@@ -126,6 +139,7 @@ const PlantCommunityBox = ({
               options={elevationOptions}
               displayValue={elevation ? elevationTypes[elevation].name : ''}
               label={ELEVATION}
+              fast
             />
           </Form.Group>
 
@@ -138,6 +152,7 @@ const PlantCommunityBox = ({
             inputProps={{
               toggle: true
             }}
+            fast
           />
 
           <PermissionsField
@@ -146,6 +161,7 @@ const PlantCommunityBox = ({
             component={TextArea}
             displayValue={notes}
             label={PLANT_COMMUNITY_NOTES}
+            fast
           />
 
           <Form.Group widths="2">
@@ -155,6 +171,7 @@ const PlantCommunityBox = ({
               component={Input}
               displayValue={url}
               label={COMMUNITY_URL}
+              fast
             />
 
             <PermissionsField
@@ -164,6 +181,7 @@ const PlantCommunityBox = ({
               options={purposeOptions}
               displayValue={purposeOfAction}
               label={PURPOSE_OF_ACTION}
+              fast
             />
           </Form.Group>
 

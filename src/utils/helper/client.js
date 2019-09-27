@@ -28,15 +28,11 @@ export const isClientCurrentUser = (client, user) => {
   return false
 }
 
-export const findConfirmationWithClientId = (
-  clientId,
-  confirmations,
-  confirmationsMap
-) => {
-  if (clientId && confirmations && confirmationsMap) {
-    return confirmations
-      .map(cId => confirmationsMap[cId])
-      .find(confirmation => confirmation.clientId === clientId)
+export const findConfirmationWithClientId = (clientId, confirmations) => {
+  if (clientId && confirmations) {
+    return confirmations.find(
+      confirmation => confirmation.clientId === clientId
+    )
   }
   return undefined
 }

@@ -9,7 +9,6 @@ class LastTab extends Component {
     user: PropTypes.shape({}).isRequired,
     plan: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    confirmationsMap: PropTypes.shape({}).isRequired,
     currTabId: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     tab: PropTypes.shape({
@@ -19,15 +18,7 @@ class LastTab extends Component {
   }
 
   render() {
-    const {
-      user,
-      clients,
-      plan,
-      confirmationsMap,
-      currTabId,
-      tab,
-      onClose
-    } = this.props
+    const { user, clients, plan, currTabId, tab, onClose } = this.props
     const { id, title } = tab
     const isActive = id === currTabId
 
@@ -46,12 +37,7 @@ class LastTab extends Component {
 
         <div className="rup__multi-tab__last__title">{title}</div>
 
-        <AHConfirmationList
-          user={user}
-          clients={clients}
-          plan={plan}
-          confirmationsMap={confirmationsMap}
-        />
+        <AHConfirmationList user={user} clients={clients} plan={plan} />
 
         <PrimaryButton
           onClick={onClose}

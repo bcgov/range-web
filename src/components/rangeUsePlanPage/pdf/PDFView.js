@@ -26,7 +26,7 @@ class PDFView extends Component {
     doc: null
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { match, fetchRUP } = this.props
     const { planId, agreementId } = match.params
 

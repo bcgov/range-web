@@ -1,26 +1,19 @@
 import React, { Component } from 'react'
 import UpdateZoneModal from './UpdateZoneModal'
-import {
-  REFERENCE_KEY,
-  ELEMENT_ID,
-  PLAN_STATUS
-} from '../../../constants/variables'
+import { REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables'
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
-import MinisterIssues from '../ministerIssues'
 import BackBtn from '../BackBtn'
 import ContentsContainer from '../ContentsContainer'
 import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
-import AdditionalRequirements from '../additionalRequirements'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
-import { Element } from 'react-scroll'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -166,9 +159,7 @@ class PageForStaff extends Component {
       user,
       references,
       plan,
-      confirmationsMap,
       planStatusHistoryMap,
-      additionalRequirementsMap,
       fetchPlan,
       isFetchingPlan,
       updateRUPStatus
@@ -239,27 +230,11 @@ class PageForStaff extends Component {
             plan={plan}
             user={user}
             references={references}
-            confirmationsMap={confirmationsMap}
             planStatusHistoryMap={planStatusHistoryMap}
             planTypeDescription={planTypeDescription}
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
-            <MinisterIssues
-              elementId={ELEMENT_ID.MINISTER_ISSUES}
-              issues={plan.ministerIssues} //  TODO: these should be populated objects instead of ids
-            />
-          </Element>
-
-          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
-            <AdditionalRequirements
-              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-              plan={plan}
-              additionalRequirementsMap={additionalRequirementsMap}
-            />
-          </Element>
         </ContentsContainer>
       </section>
     )

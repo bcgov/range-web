@@ -61,6 +61,7 @@ const BasicInformation = ({ plan, agreement }) => {
             name="rangeName"
             displayValue={capitalize(rangeName)}
             label={strings.RANGE_NAME}
+            fast
           />
 
           <PermissionsField
@@ -68,6 +69,7 @@ const BasicInformation = ({ plan, agreement }) => {
             name="altBusinessName"
             displayValue={altBusinessName}
             label={strings.ALTERNATIVE_BUSINESS_NAME}
+            fast
           />
         </div>
         <div className="rup__contact-info rup__cell-6">

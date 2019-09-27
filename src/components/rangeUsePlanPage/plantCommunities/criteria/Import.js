@@ -152,4 +152,8 @@ Import.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default connect(Import)
+export default connect(
+  React.memo(Import, (prevProps, nextProps) => {
+    return prevProps.formik.pastures === nextProps.formik.pastures
+  })
+)

@@ -23,7 +23,7 @@ class Base extends Component {
     reAuthRequired: PropTypes.bool
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     document.title = SELECT_RUP_TITLE
   }
 
@@ -50,7 +50,7 @@ class Base extends Component {
     searchAgreements(params)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       agreementSearchChanged,
       fetchAgreement,

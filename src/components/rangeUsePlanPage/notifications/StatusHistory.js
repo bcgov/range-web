@@ -53,4 +53,4 @@ StatusHistory.propTypes = {
   planStatusHistory: PropTypes.array.isRequired
 }
 
-export default StatusHistory
+export default React.memo(StatusHistory)

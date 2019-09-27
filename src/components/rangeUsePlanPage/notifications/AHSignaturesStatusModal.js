@@ -4,7 +4,7 @@ import { Icon, Modal } from 'semantic-ui-react'
 import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList'
 import { PrimaryButton } from '../../common'
 
-const AHSignaturesStatusModal = ({ plan, confirmationsMap, user }) => {
+const AHSignaturesStatusModal = ({ plan, user }) => {
   const [isModalOpen, setModalOpen] = useState(false)
 
   const openModal = () => setModalOpen(true)
@@ -14,8 +14,8 @@ const AHSignaturesStatusModal = ({ plan, confirmationsMap, user }) => {
   const clients = (agreement && agreement.clients) || []
 
   let numberOfConfirmed = 0
-  confirmations.forEach(cId => {
-    if (confirmationsMap[cId] && confirmationsMap[cId].confirmed) {
+  confirmations.forEach(confirmation => {
+    if (confirmation && confirmation.confirmed) {
       numberOfConfirmed += 1
     }
   })
@@ -38,12 +38,7 @@ const AHSignaturesStatusModal = ({ plan, confirmationsMap, user }) => {
               There are still agreement holders who have not yet confirmed their
               confirmation choice.
             </span>
-            <AHConfirmationList
-              user={user}
-              clients={clients}
-              plan={plan}
-              confirmationsMap={confirmationsMap}
-            />
+            <AHConfirmationList user={user} clients={clients} plan={plan} />
             <span>
               This amendment will not be submitted until all agreement holders
               have confirmed and eSigned.
@@ -78,7 +73,6 @@ AHSignaturesStatusModal.propTypes = {
   plan: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  confirmationsMap: PropTypes.shape({}).isRequired,
   planStatusHistoryMap: PropTypes.shape({}).isRequired
 }
 

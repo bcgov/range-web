@@ -33,7 +33,6 @@ export const writePlantCommunities = (doc, y, pasture) => {
   currY += 7
 
   const marginRight = 5
-  let numberOfCommunities = plantCommunities.length
   plantCommunities.map((pc, index) => {
     const {
       name,

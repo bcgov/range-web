@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import PermissionsField from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
 import { Input } from 'formik-semantic-ui'
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Icon } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import * as strings from '../../../constants/strings'
 import { IMAGE_SRC } from '../../../constants/variables'
 import PlantCommunities from '../plantCommunities'
+import { getIn, connect } from 'formik'
 
 const dropdownOptions = [{ key: 'copy', value: 'copy', text: 'Copy' }]
 
@@ -17,18 +18,27 @@ const PastureBox = ({
   activeIndex,
   onClick,
   onCopy,
-  namespace
+  namespace,
+  formik
 }) => {
+  const isError = !!getIn(formik.errors, namespace)
   return (
     <CollapsibleBox
       key={pasture.id}
       contentIndex={index}
       activeContentIndex={activeIndex}
-      onContentClick={onClick}
+      onContentClick={() => onClick(index)}
+      error={isError}
       header={
         <div className="rup__pasture">
           <div className="rup__pasture__title">
-            <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+            <div style={{ width: '30px' }}>
+              {isError ? (
+                <Icon name="warning sign" />
+              ) : (
+                <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+              )}
+            </div>
             Pasture:
             {activeIndex === index ? (
               <PermissionsField
@@ -36,9 +46,11 @@ const PastureBox = ({
                 permission={PASTURES.NAME}
                 component={Input}
                 displayValue={pasture.name}
+                errorComponent={() => null}
                 inputProps={{
                   onClick: e => e.stopPropagation()
                 }}
+                fast
               />
             ) : (
               ` ${pasture.name}`
@@ -69,6 +81,7 @@ const PastureBox = ({
                 component={Input}
                 displayValue={pasture.allowableAum}
                 label={strings.ALLOWABLE_AUMS}
+                fast
               />
             </div>
             <div className="rup__cell-4">
@@ -78,6 +91,7 @@ const PastureBox = ({
                 component={Input}
                 displayValue={pasture.pldPercent}
                 label={strings.PRIVATE_LAND_DEDUCTION}
+                fast
               />
             </div>
             <div className="rup__cell-4">
@@ -87,6 +101,7 @@ const PastureBox = ({
                 component={Input}
                 displayValue={pasture.graceDays}
                 label={strings.GRACE_DAYS}
+                fast
               />
             </div>
           </div>
@@ -97,6 +112,7 @@ const PastureBox = ({
             component={Input}
             label={strings.PASTURE_NOTES}
             fluid
+            fast
           />
 
           <PlantCommunities
@@ -121,4 +137,11 @@ PastureBox.propTypes = {
   namespace: PropTypes.string.isRequired
 }
 
-export default PastureBox
+export default connect(
+  React.memo(
+    PastureBox,
+    (prevProps, nextProps) =>
+      prevProps.pasture === nextProps.pasture &&
+      prevProps.activeIndex === nextProps.activeIndex
+  )
+)

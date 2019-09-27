@@ -66,6 +66,10 @@ export const SHRUB_USE = {
 }
 export const MINISTER_ISSUES = {
   TYPE: 'ministerIssues.type',
+  DETAIL: 'ministerIssues.detail',
+  OBJECTIVE: 'ministerIssues.objective',
+  IDENTIFIED: 'ministerIssues.identified',
+  PASTURES: 'ministerIssues.pastures',
   ACTIONS: {
     NAME: 'ministerIssues.actions.name',
     DETAIL: 'ministerIssues.actions.detail',
@@ -89,4 +93,11 @@ export const MANAGEMENT_CONSIDERATIONS = {
   TYPE: 'managementConsiderations.type',
   DESCRIPTION: 'managementConsiderations.description',
   ATTACHMENT: 'managementConsiderations.attachment'
+}
+export const ADDITIONAL_REQUIREMENTS = {
+  CATEGORY: 'additionalRequirements.category',
+  NAME: 'additionalRequirements.name',
+  DESCRIPTION: 'additionalRequirements.description',
+  LINK: 'additionalRequirements.link',
+  URL: 'additionalRequirements.url'
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
 import { connect } from 'formik'
@@ -126,4 +126,4 @@ InvasivePlantChecklist.propTypes = {
   formik: PropTypes.object.isRequired
 }
 
-export default connect(InvasivePlantChecklist)
+export default memo(connect(InvasivePlantChecklist))

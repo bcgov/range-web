@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal, Icon } from 'semantic-ui-react'
-import { getUser, getConfirmationsMap } from '../../../reducers/rootReducer'
+import { getUser } from '../../../reducers/rootReducer'
 import { CONFIRMATION_OPTION } from '../../../constants/variables'
 import { findConfirmationWithClientId } from '../../../utils'
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
@@ -18,7 +18,6 @@ class AHSignatureModal extends Component {
     onClose: PropTypes.func.isRequired,
     plan: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object),
-    confirmationsMap: PropTypes.shape({}).isRequired,
     updateRUPConfirmation: PropTypes.func.isRequired,
     confirmationUpdated: PropTypes.func.isRequired,
     planUpdated: PropTypes.func.isRequired
@@ -49,7 +48,6 @@ class AHSignatureModal extends Component {
     const {
       updateRUPConfirmation,
       plan,
-      confirmationsMap,
       user,
       confirmationUpdated,
       planUpdated
@@ -73,8 +71,7 @@ class AHSignatureModal extends Component {
 
     const currUserConfirmation = findConfirmationWithClientId(
       user.clientId,
-      plan.confirmations,
-      confirmationsMap
+      plan.confirmations
     )
     const confirmed = true
     const isMinorAmendment = false
@@ -138,8 +135,7 @@ class AHSignatureModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: getUser(state),
-  confirmationsMap: getConfirmationsMap(state)
+  user: getUser(state)
 })
 
 export default connect(

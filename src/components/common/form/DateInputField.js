@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DateInput } from 'semantic-ui-calendar-react'
 import { Field } from 'formik'
+import moment from 'moment'
 
 const DateInputField = ({ inline, ...props }) => (
   <Field
@@ -13,8 +14,10 @@ const DateInputField = ({ inline, ...props }) => (
         {...props}
         inlineLabel={inline}
         onChange={(e, { value }) => {
-          form.setFieldValue(field.name, value)
+          const date = moment(value, props.dateFormat).toISOString()
+          form.setFieldValue(field.name, date)
         }}
+        value={field.value ? moment(field.value).format(props.dateFormat) : ''}
         onBlur={() => form.setFieldTouched(field.name)}
       />
     )}></Field>

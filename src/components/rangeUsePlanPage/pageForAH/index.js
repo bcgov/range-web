@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-  PLAN_STATUS,
-  REFERENCE_KEY,
-  ELEMENT_ID
-} from '../../../constants/variables'
+import { PLAN_STATUS, REFERENCE_KEY } from '../../../constants/variables'
 import { RANGE_USE_PLAN, EXPORT_PDF } from '../../../constants/routes'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
@@ -12,16 +8,12 @@ import ContentsContainer from '../ContentsContainer'
 import BackBtn from '../BackBtn'
 import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
-import MinisterIssues from '../ministerIssues'
-import EditableMinisterIssues from '../editableMinisterIssues'
-import AdditionalRequirements from '../additionalRequirements'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import PlanSubmissionModal from './SubmissionModal'
 import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
 import PlanForm from '../PlanForm'
-import { Element } from 'react-scroll'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -232,11 +224,7 @@ class PageForAH extends Component {
       user,
       agreement,
       references,
-      pasturesMap,
-      ministerIssuesMap,
-      confirmationsMap,
       planStatusHistoryMap,
-      additionalRequirementsMap,
       fetchPlan
     } = this.props
 
@@ -248,8 +236,7 @@ class PageForAH extends Component {
     const canConfirm = utils.canUserSubmitConfirmation(
       status,
       user,
-      confirmations,
-      confirmationsMap
+      confirmations
     )
     const canSubmit = utils.isStatusRecommendForSubmission(status)
     const {
@@ -258,13 +245,6 @@ class PageForAH extends Component {
     } = utils.getBannerHeaderAndContentForAH(plan, user)
     // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
-    const ministerIssueProps = {
-      elementId: ELEMENT_ID.MINISTER_ISSUES,
-      references,
-      plan,
-      pasturesMap,
-      ministerIssuesMap
-    }
 
     return (
       <section className="rup">
@@ -323,27 +303,10 @@ class PageForAH extends Component {
             plan={plan}
             user={user}
             references={references}
-            confirmationsMap={confirmationsMap}
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
           {plan && <PlanForm plan={plan} />}
-
-          <Element name={ELEMENT_ID.MINISTER_ISSUES}>
-            {canEdit ? (
-              <EditableMinisterIssues {...ministerIssueProps} />
-            ) : (
-              <MinisterIssues issues={plan.ministerIssues} /> //  TODO: these should be populated objects instead of ids
-            )}
-          </Element>
-
-          <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
-            <AdditionalRequirements
-              elementId={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
-              plan={plan}
-              additionalRequirementsMap={additionalRequirementsMap}
-            />
-          </Element>
         </ContentsContainer>
       </section>
     )
