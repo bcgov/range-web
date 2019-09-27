@@ -13,11 +13,12 @@ const PermissionsField = ({
   permission,
   displayValue,
   component: Component = Input,
+  editable = false,
   ...props
 }) => {
   const user = useUser()
 
-  return canUserEdit(permission, user) ? (
+  return !editable && canUserEdit(permission, user) ? (
     <Component {...props} />
   ) : (
     <Form.Field inline={props.inline}>
