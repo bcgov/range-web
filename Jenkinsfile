@@ -42,7 +42,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
   volumes: [persistentVolumeClaim(claimName: 'jenkins-workspace', mountPath: '/var/tmp/workspace')]
 ) {
   node("${POD_LABEL}") {
-    SLACK_TOKEN = sh (
+    SLACK_TOKEN = sh ( // todo: remove slack stuff
       script: """oc get secret/slack -o template --template="{{.data.token}}" | base64 --decode""",
       returnStdout: true).trim()
 
