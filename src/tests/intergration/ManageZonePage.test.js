@@ -88,7 +88,7 @@ describe('Integration testing', () => {
     const updateButtonProp = {
       disabled: true,
       primary: true,
-      role: 'button'
+      content: 'Link Zone'
     }
     expect(wrapper.find(updateButtonProp)).toHaveLength(1)
 
