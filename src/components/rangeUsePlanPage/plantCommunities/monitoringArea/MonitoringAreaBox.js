@@ -28,7 +28,7 @@ const MonitoringAreaBox = ({
     longitude,
     name,
     purposeTypeIds,
-    rangelandHealth
+    rangelandHealthId
   } = monitoringArea
 
   const [removeDialogOpen, setDialogOpen] = useState(false)
@@ -105,13 +105,13 @@ const MonitoringAreaBox = ({
         />
 
         <PermissionsField
-          name={`${namespace}.rangelandHealth`}
+          name={`${namespace}.rangelandHealthId`}
           permission={MONITORING_AREAS.RANGELAND_HEALTH}
           component={Dropdown}
           options={rangelandHealthOptions}
           displayValue={
-            rangelandHealthTypes.find(r => r.id === rangelandHealth)
-              ? rangelandHealthTypes.find(r => r.id === rangelandHealth).name
+            rangelandHealthTypes.find(r => r.id === rangelandHealthId)
+              ? rangelandHealthTypes.find(r => r.id === rangelandHealthId).name
               : ''
           }
           label="Rangeland Health"
