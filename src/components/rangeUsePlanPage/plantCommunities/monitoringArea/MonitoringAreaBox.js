@@ -27,7 +27,7 @@ const MonitoringAreaBox = ({
     location,
     longitude,
     name,
-    purposes,
+    purposeTypeIds,
     rangelandHealth
   } = monitoringArea
 
@@ -119,7 +119,7 @@ const MonitoringAreaBox = ({
       </Form.Group>
 
       <PermissionsField
-        name={`${namespace}.purposes`}
+        name={`${namespace}.purposeTypeIds`}
         permission={MONITORING_AREAS.PURPOSE}
         component={Dropdown}
         options={purposeOptions}
@@ -127,7 +127,9 @@ const MonitoringAreaBox = ({
           multiple: true
         }}
         displayValue={oxfordComma(
-          purposes.map(purpose => purposeTypes.find(p => p.id === purpose).name)
+          purposeTypeIds.map(
+            purposeTypeId => purposeTypes.find(p => p.id === purposeTypeId).name
+          )
         )}
         label="Purposes"
       />
