@@ -34,7 +34,11 @@ const ManagementConsiderationRow = ({ namespace, managementConsideration }) => {
           name={`${namespace}.considerationTypeId`}
           component={FormikDropdown}
           options={considerTypeOptions}
-          displayValue={considerationTypeId}
+          displayValue={
+            considerTypes.find(type => type.id === considerationTypeId)
+              ? considerTypes.find(type => type.id === considerationTypeId).name
+              : ''
+          }
           inputProps={{
             fluid: true
           }}

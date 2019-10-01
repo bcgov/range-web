@@ -27,8 +27,8 @@ const MonitoringAreaBox = ({
     location,
     longitude,
     name,
-    purposes,
-    rangelandHealth
+    purposeTypeIds,
+    rangelandHealthId
   } = monitoringArea
 
   const [removeDialogOpen, setDialogOpen] = useState(false)
@@ -105,13 +105,13 @@ const MonitoringAreaBox = ({
         />
 
         <PermissionsField
-          name={`${namespace}.rangelandHealth`}
+          name={`${namespace}.rangelandHealthId`}
           permission={MONITORING_AREAS.RANGELAND_HEALTH}
           component={Dropdown}
           options={rangelandHealthOptions}
           displayValue={
-            rangelandHealthTypes.find(r => r.id === rangelandHealth)
-              ? rangelandHealthTypes.find(r => r.id === rangelandHealth).name
+            rangelandHealthTypes.find(r => r.id === rangelandHealthId)
+              ? rangelandHealthTypes.find(r => r.id === rangelandHealthId).name
               : ''
           }
           label="Rangeland Health"
@@ -119,7 +119,7 @@ const MonitoringAreaBox = ({
       </Form.Group>
 
       <PermissionsField
-        name={`${namespace}.purposes`}
+        name={`${namespace}.purposeTypeIds`}
         permission={MONITORING_AREAS.PURPOSE}
         component={Dropdown}
         options={purposeOptions}
@@ -127,7 +127,9 @@ const MonitoringAreaBox = ({
           multiple: true
         }}
         displayValue={oxfordComma(
-          purposes.map(purpose => purposeTypes.find(p => p.id === purpose).name)
+          purposeTypeIds.map(
+            purposeTypeId => purposeTypes.find(p => p.id === purposeTypeId).name
+          )
         )}
         label="Purposes"
       />
