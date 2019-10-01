@@ -30,7 +30,7 @@ const RUPSchema = Yup.object().shape({
           aspect: Yup.string()
             .nullable()
             .transform(handleNull()),
-          elevation: Yup.number()
+          elevationId: Yup.number()
             .required()
             .nullable()
             .transform(handleNull(0)),

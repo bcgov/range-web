@@ -41,7 +41,7 @@ const PlantCommunityBox = ({
     plantCommunityActions,
     purposeOfAction,
     aspect,
-    elevation,
+    elevationId,
     url,
     approved,
     notes,
@@ -134,10 +134,10 @@ const PlantCommunityBox = ({
 
             <PermissionsField
               permission={PLANT_COMMUNITY.ELEVATION}
-              name={`${namespace}.elevation`}
+              name={`${namespace}.elevationId`}
               component={Dropdown}
               options={elevationOptions}
-              displayValue={elevation ? elevationTypes[elevation].name : ''}
+              displayValue={elevationId ? elevationTypes[elevationId].name : ''}
               label={ELEVATION}
               fast
             />
@@ -271,7 +271,7 @@ PlantCommunityBox.propTypes = {
     plantCommunityActions: PropTypes.array.isRequired,
     purposeOfAction: PropTypes.string,
     aspect: PropTypes.string,
-    elevation: PropTypes.number.isRequired,
+    elevationId: PropTypes.number.isRequired,
     url: PropTypes.string,
     approved: PropTypes.bool.isRequired,
     notes: PropTypes.string.isRequired,
