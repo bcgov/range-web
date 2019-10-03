@@ -5,18 +5,16 @@ The Range Mobile Pathfinder project is developing a suite of applications to sup
 
 The goal is to move important crown land management documents from paper to digital, and to make this information accessible in the field through disconnected mobile devices. This also supports a new and consistent process for Range staff across the province to support decision making processes.
 
-An Agile Scrum team is developing the Alpha product to test basic fuctions after March 31, 2018. Future releases will lead towards an application that can be used by staff and public range use agreement holders, on multiple platforms.
+An Agile Scrum team is developed the Alpha product to test basic fuctions and was done March 31, 2018. Future releases will lead towards an application that can be used by staff and public range use agreement holders, on multiple platforms.
 
-- [For the latest product vision and feature roadmap, please see our RealtimeBoard](https://realtimeboard.com/app/board/o9J_kzhjVKg=/) 
-
-For the Alpha Release, the web application documented here will allow Range Branch Staff to view Range Use Plans that have been created in the iOS application. It will also enable users to assign staff to a set of agreements they are responsible for managing.
+For the Alpha Release, the web application documented here allows Range Branch Staff to view Range Use Plans that have been created in the iOS application. Soon, Range Officers will also be able to create and maintain records on web.  It will also enable users to assign staff to a set of agreements they are responsible for managing.
 
 ### Related MyRangeBc Documentation
 
 - [MyRangeBC iOS application Github Repository](https://github.com/bcgov/range-ios)
 - [MyRangeBC Web application Github Repository](https://github.com/bcgov/range-web)
 - [MyRangeBC API Github Repository](https://github.com/bcgov/range-api)
-- [Our current Sprint Backlog is visible on Trello](https://trello.com/b/YxiYOPGU)
+- Our current Sprint Backlog is visible on GitHub Issues, see each repo for what is going on.
 - [See the database Schema on Schema-Spy](http://schema-spy-range-myra-dev.pathfinder.gov.bc.ca/)
 
 ## Folder Structure
