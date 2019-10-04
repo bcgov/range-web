@@ -17,7 +17,8 @@ const RUPSchema = Yup.object().shape({
     Yup.object().shape({
       allowableAum: Yup.number()
         .nullable()
-        .transform(handleNull(0)),
+        .transform((v, originalValue) => (originalValue === '' ? null : v))
+        .typeError('Please enter a number'),
       graceDays: Yup.number()
         .nullable()
         .transform(handleNull(0)),
