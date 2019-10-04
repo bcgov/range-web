@@ -41,6 +41,7 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         indicatorPlants={plantCommunity.indicatorPlants}
         namespace={namespace}
         valueLabel="Criteria (Leaf Stage)"
+        valueType="leafStage"
         criteria={PLANT_CRITERIA.RANGE_READINESS}
         fast
       />
