@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import uuid from 'uuid-v4'
 import PlantCommunityBox from './PlantCommunityBox'
 import AddPlantCommunityButton from './AddPlantCommunityButton'
 import { FieldArray } from 'formik'
@@ -34,7 +35,8 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                   approved: false,
                   notes: '',
                   rangeReadinessDate: '',
-                  rangeReadinessNotes: ''
+                  rangeReadinessNotes: '',
+                  id: uuid()
                 })
               }}
             />

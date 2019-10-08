@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import uuid from 'uuid-v4'
 import MonitoringAreaRow from './MonitoringAreaBox'
 import { FieldArray } from 'formik'
 import AddMonitoringAreaButton from './AddMonitoringAreaButton'
@@ -21,12 +22,13 @@ const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
                 onClick={() => {
                   setAreaToCopy({
                     rangelandHealth: 0,
-                    purposes: [],
+                    purposeTypeIds: [],
                     location: '',
                     latitute: 0,
                     longtitude: 0,
                     transect_azimuth: 0,
-                    other_purpose: ''
+                    other_purpose: '',
+                    id: uuid()
                   })
                 }}
               />

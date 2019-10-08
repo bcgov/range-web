@@ -132,18 +132,33 @@ const Base = ({
       await Promise.all(
         pastures.map((pasture, pastureIndex) =>
           Promise.all(
-            pasture.plantCommunities.map(plantCommunity => {
-              const { id, ...values } = plantCommunity
-              if (!Number.isInteger(id)) {
-                return axios.post(
+            pasture.plantCommunities.map(async plantCommunity => {
+              let { id: communityId, ...values } = plantCommunity
+              if (uuid.isUUID(communityId)) {
+                communityId = (await axios.post(
                   API.CREATE_RUP_PLANT_COMMUNITY(
                     plan.id,
                     newPastures[pastureIndex].id
                   ),
                   values,
                   config
-                )
+                )).data.id
               }
+
+              plantCommunity.monitoringAreas.map(area => {
+                let { id: areaId, ...values } = area
+                if (uuid.isUUID(areaId)) {
+                  return axios.post(
+                    API.CREATE_RUP_MONITERING_AREA(
+                      plan.id,
+                      newPastures[pastureIndex].id,
+                      communityId
+                    ),
+                    values,
+                    config
+                  )
+                }
+              })
               return Promise.resolve()
             })
           )
