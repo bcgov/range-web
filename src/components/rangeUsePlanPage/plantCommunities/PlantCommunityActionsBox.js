@@ -138,7 +138,7 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             className="icon labeled rup__plant-communities__add-button"
             onClick={() => push({ name: '', details: '' })}>
             <i className="add circle icon" />
-            Add Plant Community
+            Add Action
           </Button>
         </>
       )}
