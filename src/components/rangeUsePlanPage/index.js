@@ -145,6 +145,24 @@ const Base = ({
                 )).data.id
               }
 
+              await Promise.all(
+                plantCommunity.indicatorPlants.map(plant => {
+                  let { id: plantId, ...values } = plant
+                  if (uuid.isUUID(plantId)) {
+                    return axios.post(
+                      API.CREATE_RUP_INDICATOR_PLANT(
+                        plan.id,
+                        newPastures[pastureIndex].id,
+                        communityId
+                      ),
+                      values,
+                      config
+                    )
+                  }
+                })
+              )
+
+              await Promise.all(
               plantCommunity.monitoringAreas.map(area => {
                 let { id: areaId, ...values } = area
                 if (uuid.isUUID(areaId)) {
@@ -159,7 +177,7 @@ const Base = ({
                   )
                 }
               })
-              return Promise.resolve()
+              )
             })
           )
         )
