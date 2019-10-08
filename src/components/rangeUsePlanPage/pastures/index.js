@@ -32,8 +32,8 @@ const Pastures = ({ pastures }) => {
                   push({
                     name: '',
                     allowableAum: '',
-                    graceDays: '',
-                    pldPercent: '',
+                    graceDays: 1,
+                    pldPercent: 0,
                     notes: '',
                     plantCommunities: [],
                     id: new Date().toISOString()
