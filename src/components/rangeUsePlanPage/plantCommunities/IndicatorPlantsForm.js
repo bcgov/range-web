@@ -7,18 +7,21 @@ import { Button, Confirm, Dropdown, Icon } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Input, Dropdown as FormikDropdown, Form } from 'formik-semantic-ui'
-import { FieldArray, getIn } from 'formik'
+import { FieldArray, getIn, connect } from 'formik'
 
 const IndicatorPlantsForm = ({
   indicatorPlants,
   valueLabel,
+  valueType,
   criteria,
   namespace,
-  errors
+  errors,
+  formik
 }) => {
   const references = useReferences()
 
   const species = references[REFERENCE_KEY.PLANT_SPECIES] || []
+
   const options = species.map(species => ({
     key: species.id,
     value: species.id,
@@ -67,7 +70,18 @@ const IndicatorPlantsForm = ({
                         error: !!getIn(
                           errors,
                           `${namespace}.indicatorPlants.${index}.plantSpeciesId`
-                        )
+                        ),
+                        onChange: (e, { value }) => {
+                          const plantValue = species.find(s => s.id === value)[
+                            valueType
+                          ]
+                          if (plantValue) {
+                            formik.setFieldValue(
+                              `${namespace}.indicatorPlants.${index}.value`,
+                              plantValue
+                            )
+                          }
+                        }
                       }}
                     />
 
@@ -158,9 +172,10 @@ IndicatorPlantsForm.propTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   valueLabel: PropTypes.string.isRequired,
+  valueType: PropTypes.string.isRequired,
   criteria: PropTypes.string.isRequired,
   namespace: PropTypes.string.isRequired,
   errors: PropTypes.object
 }
 
-export default IndicatorPlantsForm
+export default connect(IndicatorPlantsForm)

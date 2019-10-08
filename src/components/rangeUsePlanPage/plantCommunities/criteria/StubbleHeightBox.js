@@ -15,6 +15,7 @@ const StubbleHeightBox = ({ plantCommunity, namespace }) => {
         indicatorPlants={plantCommunity.indicatorPlants}
         namespace={namespace}
         valueLabel="Height After Grazing (cm)"
+        valueType="stubbleHeight"
         criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}
       />
     </div>
