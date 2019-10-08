@@ -156,8 +156,8 @@ const Base = ({
                     ),
                     values,
                     config
-                )
-              }
+                  )
+                }
               })
               return Promise.resolve()
             })
