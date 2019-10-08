@@ -41,9 +41,8 @@ const RUPSchema = Yup.object().shape({
             .nullable()
             .transform(handleNull()),
           elevationId: Yup.number()
-            .required()
-            .nullable()
-            .transform(handleNull(0)),
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable(),
           notes: Yup.string()
             .transform(handleNull())
             .required(),
