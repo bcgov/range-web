@@ -271,7 +271,7 @@ PlantCommunityBox.propTypes = {
     plantCommunityActions: PropTypes.array.isRequired,
     purposeOfAction: PropTypes.string,
     aspect: PropTypes.string,
-    elevationId: PropTypes.number.isRequired,
+    elevationId: PropTypes.number,
     url: PropTypes.string,
     approved: PropTypes.bool.isRequired,
     notes: PropTypes.string.isRequired,

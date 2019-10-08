@@ -34,7 +34,7 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         permission={RANGE_READINESS.NOTES}
         component={TextArea}
         displayValue={rangeReadinessNotes}
-        label="Notes"
+        label="Other"
         fast
       />
       <IndicatorPlantsForm

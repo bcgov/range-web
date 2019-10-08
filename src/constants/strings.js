@@ -91,7 +91,7 @@ export const PASTURE_NOTES = 'Pasture Notes (non legal content)'
 export const ASPECT = 'Aspect'
 export const ELEVATION = 'Elevation'
 export const APPROVED_BY_MINISTER = 'Approved by minister'
-export const PLANT_COMMUNITY_NOTES = 'Plant Community Notes'
+export const PLANT_COMMUNITY_NOTES = 'Plant Community Description'
 export const COMMUNITY_URL = 'Community URL'
 export const PURPOSE_OF_ACTION = 'Purpose of Action'
 
