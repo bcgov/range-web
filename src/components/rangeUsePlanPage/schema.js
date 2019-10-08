@@ -20,17 +20,20 @@ const RUPSchema = Yup.object().shape({
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .typeError('Please enter a number'),
       graceDays: Yup.number()
+        .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
-        .transform(handleNull(0)),
+        .typeError('Please enter a number'),
       name: Yup.string().required('Please enter a name'),
       notes: Yup.string()
         .transform(handleNull())
         .nullable(),
       planId: Yup.number(),
       pldPercent: Yup.number()
-        .typeError('Please enter a number')
+        .min(0, 'Please enter a value between 0 and 100')
+        .max(100, 'Please enter a value between 0 and 100')
+        .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
-        .transform(handleNull(0)),
+        .typeError('Please enter a number'),
       plantCommunities: Yup.array().of(
         Yup.object().shape({
           approved: Yup.bool().required(),
