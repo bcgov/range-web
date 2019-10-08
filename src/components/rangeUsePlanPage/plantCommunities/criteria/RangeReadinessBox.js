@@ -5,7 +5,7 @@ import IndicatorPlantsForm from '../IndicatorPlantsForm'
 import { PLANT_CRITERIA } from '../../../../constants/variables'
 import { RANGE_READINESS } from '../../../../constants/fields'
 import PermissionsField from '../../../common/PermissionsField'
-import DateInputField from '../../../common/form/DateInputField'
+import DayMonthPicker from '../../../common/form/DayMonthPicker'
 import { TextArea } from 'formik-semantic-ui'
 
 const RangeReadinessBox = ({ plantCommunity, namespace }) => {
@@ -22,9 +22,10 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         be met before grazing may occur.
       </div>
       <PermissionsField
-        name={`${namespace}.rangeReadinessDate`}
+        monthName={`${namespace}.rangeReadinessMonth`}
+        dayName={`${namespace}.rangeReadinessDay`}
         permission={RANGE_READINESS.DATE}
-        component={DateInputField}
+        component={DayMonthPicker}
         displayValue={rangeReadinessDate}
         label="Readiness Date"
         dateFormat="MMMM DD"
