@@ -21,7 +21,7 @@ const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
                 onClick={() => {
                   setAreaToCopy({
                     rangelandHealth: 0,
-                    purposes: [],
+                    purposeTypeIds: [],
                     location: '',
                     latitute: 0,
                     longtitude: 0,
