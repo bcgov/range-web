@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FieldArray, connect } from 'formik'
+import uuid from 'uuid-v4'
 import {
   Button,
   Form,
@@ -25,7 +26,7 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
   const actionOptions = actionTypes
     .map(type => ({
       key: type.id,
-      value: type.name,
+      value: type.id,
       text: type.name
     }))
     .concat(otherOptions)
@@ -39,11 +40,19 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             <div key={action.id || `action${index}`}>
               <Form.Group widths="equal">
                 <PermissionsField
-                  name={`${namespace}.plantCommunityActions.${index}.name`}
+                  name={`${namespace}.plantCommunityActions.${index}.actionTypeId`}
                   permission={PLANT_COMMUNITY.ACTIONS.NAME}
                   component={Dropdown}
                   options={actionOptions}
-                  displayValue={action.name}
+                  displayValue={
+                    actionOptions.find(
+                      option => option.value === action.actionTypeId
+                    )
+                      ? actionOptions.find(
+                          option => option.value === action.actionTypeId
+                        ).text
+                      : ''
+                  }
                   label="Action"
                   fieldProps={{
                     width: 3,
@@ -138,7 +147,7 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             primary
             type="button"
             className="icon labeled rup__plant-communities__add-button"
-            onClick={() => push({ name: '', details: '' })}>
+            onClick={() => push({ name: '', details: '', id: uuid() })}>
             <i className="add circle icon" />
             Add Action
           </Button>
