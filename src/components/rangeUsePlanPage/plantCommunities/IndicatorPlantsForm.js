@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import uuid from 'uuid-v4'
 import { NOT_PROVIDED } from '../../../constants/strings'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { STUBBLE_HEIGHT } from '../../../constants/fields'
@@ -7,7 +8,7 @@ import { Button, Confirm, Dropdown, Icon } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Input, Dropdown as FormikDropdown, Form } from 'formik-semantic-ui'
-import { FieldArray, getIn, connect } from 'formik'
+import { FieldArray, connect } from 'formik'
 
 const IndicatorPlantsForm = ({
   indicatorPlants,
@@ -15,7 +16,6 @@ const IndicatorPlantsForm = ({
   valueType,
   criteria,
   namespace,
-  errors,
   formik
 }) => {
   const references = useReferences()
@@ -67,10 +67,6 @@ const IndicatorPlantsForm = ({
                           : ''
                       }
                       inputProps={{
-                        error: !!getIn(
-                          errors,
-                          `${namespace}.indicatorPlants.${index}.plantSpeciesId`
-                        ),
                         onChange: (e, { value }) => {
                           const plantValue = species.find(s => s.id === value)[
                             valueType
@@ -129,10 +125,10 @@ const IndicatorPlantsForm = ({
                 primary
                 onClick={() => {
                   push({
-                    plantSpeciesId: 0,
+                    plantSpeciesId: null,
                     value: 0,
                     criteria,
-                    id: new Date().toISOString()
+                    id: uuid()
                   })
                 }}>
                 <i className="add circle icon" />
