@@ -34,8 +34,12 @@ const IndicatorPlantsForm = ({
   return (
     <>
       <div className="rup__plant-community__i-plant__header">
-        <div className="rup__plant-community__sh__label">Indicator Plant</div>
-        <div className="rup__plant-community__sh__label">{valueLabel}</div>
+        <div className="rup__plant-community__sh__label label--required">
+          Indicator Plant
+        </div>
+        <div className="rup__plant-community__sh__label label--required">
+          {valueLabel}
+        </div>
       </div>
 
       <FieldArray
