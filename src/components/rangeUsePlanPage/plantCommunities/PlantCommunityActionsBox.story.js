@@ -6,14 +6,16 @@ import PlantCommunityActionsBox from './PlantCommunityActionsBox'
 
 const plantCommunityActions = [
   {
-    name: 'Herding',
+    actionTypeId: 2,
     details: ''
   },
   {
-    name: 'Timing',
+    actionTypeId: 5,
     details: '',
-    noGrazingStart: '',
-    noGrazingEnd: ''
+    noGrazeStartMonth: 4,
+    noGrazeStartDay: 15,
+    noGrazeEndMonth: 8,
+    noGrazeEndDay: 21
   }
 ]
 
