@@ -149,14 +149,14 @@ const Base = ({
                   if (uuid.isUUID(actionId)) {
                     return axios.post(
                       API.CREATE_RUP_PLANT_COMMUNITY_ACTION(
-                    plan.id,
+                        plan.id,
                         pastureId,
                         communityId
-                  ),
-                  values,
-                  config
+                      ),
+                      values,
+                      config
                     )
-              }
+                  }
                 })
               )
 
@@ -178,20 +178,20 @@ const Base = ({
               )
 
               await Promise.all(
-              plantCommunity.monitoringAreas.map(area => {
-                let { id: areaId, ...values } = area
-                if (uuid.isUUID(areaId)) {
-                  return axios.post(
-                    API.CREATE_RUP_MONITERING_AREA(
-                      plan.id,
+                plantCommunity.monitoringAreas.map(area => {
+                  let { id: areaId, ...values } = area
+                  if (uuid.isUUID(areaId)) {
+                    return axios.post(
+                      API.CREATE_RUP_MONITERING_AREA(
+                        plan.id,
                         pastureId,
-                      communityId
-                    ),
-                    values,
-                    config
-                  )
-                }
-              })
+                        communityId
+                      ),
+                      values,
+                      config
+                    )
+                  }
+                })
               )
             })
           )
