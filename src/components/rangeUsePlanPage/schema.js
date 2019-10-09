@@ -63,7 +63,14 @@ const RUPSchema = Yup.object().shape({
                 )
                 .nullable()
                 .required('Required field'),
-              details: Yup.string().required('Required field')
+              details: Yup.string().required('Required field'),
+              name: Yup.string()
+                .nullable()
+                .when('actionTypeId', {
+                  is: 6,
+                  then: Yup.string().required('Required field'),
+                  otherwise: Yup.string()
+                })
             })
           ),
           indicatorPlants: Yup.array().of(
