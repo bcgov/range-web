@@ -57,6 +57,17 @@ const RUPSchema = Yup.object().shape({
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
             .required('Required field'),
+          plantCommunityActions: Yup.array().of(
+            Yup.object().shape({
+              actionTypeId: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field'),
+              details: Yup.string().required('Required field')
+            })
+          ),
           indicatorPlants: Yup.array().of(
             Yup.object().shape({
               plantSpeciesId: Yup.number()

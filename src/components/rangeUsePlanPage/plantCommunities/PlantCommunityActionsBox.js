@@ -147,7 +147,9 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             primary
             type="button"
             className="icon labeled rup__plant-communities__add-button"
-            onClick={() => push({ name: '', details: '', id: uuid() })}>
+            onClick={() =>
+              push({ actionTypeId: null, details: '', id: uuid() })
+            }>
             <i className="add circle icon" />
             Add Action
           </Button>
