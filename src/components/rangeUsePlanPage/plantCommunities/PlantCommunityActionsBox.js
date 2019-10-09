@@ -112,34 +112,37 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
               </Form.Group>
               {actionOptions.find(
                 option => option.value === action.actionTypeId
-              ).text === 'Timing' && (
-                <Form.Group width="equal">
-                  <Form.Field width="5" />
-                  <PermissionsField
-                    monthName={`${namespace}.plantCommunityActions.${index}.noGrazeStartMonth`}
-                    dayName={`${namespace}.plantCommunityActions.${index}.noGrazeStartDay`}
-                    permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                    displayValue={moment(
-                      `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
-                      'MM DD'
-                    ).format('MMMM Do')}
-                    component={DayMonthPicker}
-                    label="No Graze Start"
-                  />
+              ) &&
+                actionOptions.find(
+                  option => option.value === action.actionTypeId
+                ).text === 'Timing' && (
+                  <Form.Group width="equal">
+                    <Form.Field width="5" />
+                    <PermissionsField
+                      monthName={`${namespace}.plantCommunityActions.${index}.noGrazeStartMonth`}
+                      dayName={`${namespace}.plantCommunityActions.${index}.noGrazeStartDay`}
+                      permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                      displayValue={moment(
+                        `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
+                        'MM DD'
+                      ).format('MMMM Do')}
+                      component={DayMonthPicker}
+                      label="No Graze Start"
+                    />
 
-                  <PermissionsField
-                    monthName={`${namespace}.plantCommunityActions.${index}.noGrazeEndMonth`}
-                    dayName={`${namespace}.plantCommunityActions.${index}.noGrazeEndDay`}
-                    permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                    displayValue={moment(
-                      `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
-                      'MM DD'
-                    ).format('MMMM Do')}
-                    component={DayMonthPicker}
-                    label="No Graze End"
-                  />
-                </Form.Group>
-              )}
+                    <PermissionsField
+                      monthName={`${namespace}.plantCommunityActions.${index}.noGrazeEndMonth`}
+                      dayName={`${namespace}.plantCommunityActions.${index}.noGrazeEndDay`}
+                      permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                      displayValue={moment(
+                        `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
+                        'MM DD'
+                      ).format('MMMM Do')}
+                      component={DayMonthPicker}
+                      label="No Graze End"
+                    />
+                  </Form.Group>
+                )}
             </div>
           ))}
           <Confirm
