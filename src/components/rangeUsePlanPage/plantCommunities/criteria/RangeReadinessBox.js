@@ -37,7 +37,6 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         ).format('MMMM DD')}
         label="Readiness Date"
         dateFormat="MMMM DD"
-        required
       />
       <PermissionsField
         name={`${namespace}.rangeReadinessNotes`}

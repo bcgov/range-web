@@ -51,12 +51,10 @@ const RUPSchema = Yup.object().shape({
           shrubUse: Yup.string().transform(handleNull()),
           rangeReadinessMonth: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required('Required field'),
+            .nullable(),
           rangeReadinessDay: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required('Required field'),
+            .nullable(),
           plantCommunityActions: Yup.array().of(
             Yup.object().shape({
               actionTypeId: Yup.number()
