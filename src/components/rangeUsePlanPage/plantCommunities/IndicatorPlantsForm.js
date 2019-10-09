@@ -4,7 +4,7 @@ import uuid from 'uuid-v4'
 import { NOT_PROVIDED } from '../../../constants/strings'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { STUBBLE_HEIGHT } from '../../../constants/fields'
-import { Button, Confirm, Dropdown, Icon } from 'semantic-ui-react'
+import { Button, Confirm, Dropdown, Icon, Grid } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Input, Dropdown as FormikDropdown, Form } from 'formik-semantic-ui'
@@ -57,69 +57,97 @@ const IndicatorPlantsForm = ({
             {indicatorPlants.map(
               (plant, index) =>
                 plant.criteria === criteria && (
-                  <Form.Group widths="equal" key={plant.id}>
-                    <PermissionsField
-                      permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-                      name={`${namespace}.indicatorPlants.${index}.plantSpeciesId`}
-                      component={FormikDropdown}
-                      placeholder="Indicator Plant"
-                      options={options}
-                      displayValue={
-                        plant.plantSpeciesId
-                          ? options.find(o => o.key === plant.plantSpeciesId)
-                              .text
-                          : ''
-                      }
-                      inputProps={{
-                        onChange: (e, { value }) => {
-                          const plantValue = species.find(s => s.id === value)[
-                            valueType
-                          ]
-                          if (plantValue) {
-                            formik.setFieldValue(
-                              `${namespace}.indicatorPlants.${index}.value`,
-                              plantValue
-                            )
+                  <Grid key={plant.id}>
+                    <Grid.Column mobile="8">
+                      <Form.Group widths="equal" style={{ margin: 0 }}>
+                        <PermissionsField
+                          permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+                          name={`${namespace}.indicatorPlants.${index}.plantSpeciesId`}
+                          component={FormikDropdown}
+                          placeholder="Indicator Plant"
+                          options={options}
+                          displayValue={
+                            plant.plantSpeciesId
+                              ? options.find(
+                                  o => o.key === plant.plantSpeciesId
+                                ).text
+                              : ''
                           }
-                        }
-                      }}
-                    />
-
-                    <PermissionsField
-                      permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-                      name={`${namespace}.indicatorPlants.${index}.value`}
-                      component={Input}
-                      displayValue={plant.value}
-                      inputProps={{
-                        type: 'number'
-                      }}
-                    />
-                    {!Number.isInteger(plant.id) && (
-                      <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-                        <Dropdown
-                          trigger={<Icon name="ellipsis vertical" />}
-                          options={[
-                            {
-                              key: 'delete',
-                              value: 'delete',
-                              text: 'Delete'
-                            }
-                          ]}
-                          style={{ display: 'flex', alignItems: 'center' }}
-                          icon={null}
-                          pointing="right"
-                          onClick={e => e.stopPropagation()}
-                          onChange={(e, { value }) => {
-                            if (value === 'delete') {
-                              setToRemove(index)
-                              setDialogOpen(true)
-                            }
+                          inputProps={{
+                            onChange: (e, { value }) => {
+                              const plantValue = species.find(
+                                s => s.id === value
+                              )[valueType]
+                              if (plantValue) {
+                                formik.setFieldValue(
+                                  `${namespace}.indicatorPlants.${index}.value`,
+                                  plantValue
+                                )
+                              }
+                            },
+                            fluid: true
                           }}
-                          selectOnBlur={false}
                         />
-                      </IfEditable>
-                    )}
-                  </Form.Group>
+
+                        {options.find(o => o.key === plant.plantSpeciesId) &&
+                          options.find(o => o.key === plant.plantSpeciesId)
+                            .text === 'Other' && (
+                            <PermissionsField
+                              permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+                              name={`${namespace}.indicatorPlants.${index}.name`}
+                              component={Input}
+                              displayValue={plant.name}
+                              inputProps={{
+                                fluid: true,
+                                placeholder: 'Other indicator plant'
+                              }}
+                            />
+                          )}
+                      </Form.Group>
+                    </Grid.Column>
+
+                    <Grid.Column mobile="7">
+                      <Form.Group widths="equal" style={{ margin: 0 }}>
+                        <PermissionsField
+                          permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+                          name={`${namespace}.indicatorPlants.${index}.value`}
+                          component={Input}
+                          displayValue={plant.value}
+                          inputProps={{
+                            type: 'number'
+                          }}
+                        />
+                      </Form.Group>
+                    </Grid.Column>
+                    <Grid.Column mobile="1" verticalAlign="middle">
+                      {!Number.isInteger(plant.id) && (
+                        <IfEditable
+                          permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
+                          <Dropdown
+                            trigger={<Icon name="ellipsis vertical" />}
+                            options={[
+                              {
+                                key: 'delete',
+                                value: 'delete',
+                                text: 'Delete'
+                              }
+                            ]}
+                            style={{ display: 'flex', alignItems: 'center' }}
+                            icon={null}
+                            pointing="right"
+                            onClick={e => e.stopPropagation()}
+                            onChange={(e, { value }) => {
+                              if (value === 'delete') {
+                                setToRemove(index)
+                                setDialogOpen(true)
+                              }
+                            }}
+                            selectOnBlur={false}
+                          />
+                        </IfEditable>
+                      )}
+                    </Grid.Column>
+                  </Grid>
                 )
             )}
 
@@ -131,10 +159,12 @@ const IndicatorPlantsForm = ({
                   push({
                     plantSpeciesId: null,
                     value: 0,
+                    name: null,
                     criteria,
                     id: uuid()
                   })
-                }}>
+                }}
+                style={{ marginTop: '20px' }}>
                 <i className="add circle icon" />
                 Add Indicator Plant
               </Button>
