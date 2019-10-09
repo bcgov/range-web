@@ -56,7 +56,24 @@ const RUPSchema = Yup.object().shape({
           rangeReadinessDay: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
-            .required('Required field')
+            .required('Required field'),
+          indicatorPlants: Yup.array().of(
+            Yup.object().shape({
+              plantSpeciesId: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field'),
+              value: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field')
+                .typeError('Please enter a number')
+            })
+          )
         })
       )
     })
