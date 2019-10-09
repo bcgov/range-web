@@ -46,7 +46,8 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   displayValue={action.name}
                   label="Action"
                   fieldProps={{
-                    width: 3
+                    width: 3,
+                    required: true
                   }}
                   inputProps={{
                     allowAdditions: true,
@@ -71,7 +72,8 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   component={TextArea}
                   label="Details"
                   fieldProps={{
-                    width: 9
+                    width: 9,
+                    required: true
                   }}
                 />
 
