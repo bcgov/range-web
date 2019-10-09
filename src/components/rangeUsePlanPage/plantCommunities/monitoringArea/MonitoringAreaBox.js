@@ -102,6 +102,7 @@ const MonitoringAreaBox = ({
           component={Input}
           displayValue={location}
           label="Location"
+          fieldProps={{ required: true }}
         />
 
         <PermissionsField
@@ -115,6 +116,7 @@ const MonitoringAreaBox = ({
               : ''
           }
           label="Rangeland Health"
+          fieldProps={{ required: true }}
         />
       </Form.Group>
 
@@ -123,6 +125,7 @@ const MonitoringAreaBox = ({
         permission={MONITORING_AREAS.PURPOSE}
         component={Dropdown}
         options={purposeOptions}
+        fieldProps={{ required: true }}
         inputProps={{
           multiple: true
         }}

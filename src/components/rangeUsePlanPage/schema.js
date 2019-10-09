@@ -82,6 +82,34 @@ const RUPSchema = Yup.object().shape({
                 .required('Required field')
                 .typeError('Please enter a number')
             })
+          ),
+          monitoringAreas: Yup.array().of(
+            Yup.object().shape({
+              latitude: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .typeError('Please enter a number'),
+              longitude: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .typeError('Please enter a number'),
+              location: Yup.string()
+                .nullable()
+                .required('Required field'),
+              rangelandHealthId: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field'),
+              purposeTypeIds: Yup.array()
+                .of(Yup.number())
+                .required('Required field')
+            })
           )
         })
       )
