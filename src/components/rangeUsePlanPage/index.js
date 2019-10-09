@@ -134,16 +134,31 @@ const Base = ({
           Promise.all(
             pasture.plantCommunities.map(async plantCommunity => {
               let { id: communityId, ...values } = plantCommunity
+              const pastureId = newPastures[pastureIndex].id
               if (uuid.isUUID(communityId)) {
                 communityId = (await axios.post(
-                  API.CREATE_RUP_PLANT_COMMUNITY(
-                    plan.id,
-                    newPastures[pastureIndex].id
-                  ),
+                  API.CREATE_RUP_PLANT_COMMUNITY(plan.id, pastureId),
                   values,
                   config
                 )).data.id
               }
+
+              await Promise.all(
+                plantCommunity.plantCommunityActions.map(action => {
+                  let { id: actionId, ...values } = action
+                  if (uuid.isUUID(actionId)) {
+                    return axios.post(
+                      API.CREATE_RUP_PLANT_COMMUNITY_ACTION(
+                    plan.id,
+                        pastureId,
+                        communityId
+                  ),
+                  values,
+                  config
+                    )
+              }
+                })
+              )
 
               await Promise.all(
                 plantCommunity.indicatorPlants.map(plant => {
@@ -152,7 +167,7 @@ const Base = ({
                     return axios.post(
                       API.CREATE_RUP_INDICATOR_PLANT(
                         plan.id,
-                        newPastures[pastureIndex].id,
+                        pastureId,
                         communityId
                       ),
                       values,
@@ -169,7 +184,7 @@ const Base = ({
                   return axios.post(
                     API.CREATE_RUP_MONITERING_AREA(
                       plan.id,
-                      newPastures[pastureIndex].id,
+                        pastureId,
                       communityId
                     ),
                     values,
