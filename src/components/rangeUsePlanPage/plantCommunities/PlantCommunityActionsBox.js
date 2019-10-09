@@ -7,7 +7,8 @@ import {
   Form,
   Confirm,
   Icon,
-  Dropdown as PlainDropdown
+  Dropdown as PlainDropdown,
+  Grid
 } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
@@ -38,8 +39,8 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
       render={({ push, remove }) => (
         <>
           {actions.map((action, index) => (
-            <div key={action.id || `action${index}`}>
-              <Form.Group widths="equal">
+            <Grid key={action.id || `action${index}`}>
+              <Grid.Column width="4">
                 <PermissionsField
                   name={`${namespace}.plantCommunityActions.${index}.actionTypeId`}
                   permission={PLANT_COMMUNITY.ACTIONS.NAME}
@@ -56,12 +57,12 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   }
                   label="Action"
                   fieldProps={{
-                    width: 3,
                     required: true
                   }}
                   inputProps={{
                     allowAdditions: true,
                     search: true,
+                    fluid: true,
                     onAddItem: (e, { value }) => {
                       setOtherOptions([
                         ...otherOptions,
@@ -75,6 +76,29 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   }}
                 />
 
+                {actionOptions.find(
+                  option => option.value === action.actionTypeId
+                ) &&
+                  actionOptions.find(
+                    option => option.value === action.actionTypeId
+                  ).text === 'Other' && (
+                    <PermissionsField
+                      name={`${namespace}.plantCommunityActions.${index}.name`}
+                      permission={PLANT_COMMUNITY.ACTIONS.NAME}
+                      displayValue={action.name}
+                      label="Other name"
+                      fieldProps={{
+                        style: { marginTop: '-4px' },
+                        required: true
+                      }}
+                      inputProps={{
+                        fluid: true
+                      }}
+                    />
+                  )}
+              </Grid.Column>
+
+              <Grid.Column width="11">
                 <PermissionsField
                   name={`${namespace}.plantCommunityActions.${index}.details`}
                   permission={PLANT_COMMUNITY.ACTIONS.DETAIL}
@@ -82,12 +106,51 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   component={TextArea}
                   label="Details"
                   fieldProps={{
-                    width: 9,
                     required: true
+                  }}
+                  inputProps={{
+                    rows: 5
                   }}
                 />
 
-                <IfEditable permission={PLANT_COMMUNITY.ACTIONS.NAME}>
+                {actionOptions.find(
+                  option => option.value === action.actionTypeId
+                ) &&
+                  actionOptions.find(
+                    option => option.value === action.actionTypeId
+                  ).text === 'Timing' && (
+                    <Form.Group widths="equal">
+                      <PermissionsField
+                        monthName={`${namespace}.plantCommunityActions.${index}.noGrazeStartMonth`}
+                        dayName={`${namespace}.plantCommunityActions.${index}.noGrazeStartDay`}
+                        permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                        displayValue={moment(
+                          `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
+                          'MM DD'
+                        ).format('MMMM Do')}
+                        component={DayMonthPicker}
+                        label="No Graze Start"
+                        fluid
+                      />
+
+                      <PermissionsField
+                        monthName={`${namespace}.plantCommunityActions.${index}.noGrazeEndMonth`}
+                        dayName={`${namespace}.plantCommunityActions.${index}.noGrazeEndDay`}
+                        permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                        displayValue={moment(
+                          `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
+                          'MM DD'
+                        ).format('MMMM Do')}
+                        component={DayMonthPicker}
+                        label="No Graze End"
+                        fluid
+                      />
+                    </Form.Group>
+                  )}
+              </Grid.Column>
+
+              <IfEditable permission={PLANT_COMMUNITY.ACTIONS.NAME}>
+                <Grid.Column width="1" verticalAlign="middle">
                   <PlainDropdown
                     trigger={<Icon name="ellipsis vertical" />}
                     options={[
@@ -108,42 +171,9 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                     }}
                     selectOnBlur={false}
                   />
-                </IfEditable>
-              </Form.Group>
-              {actionOptions.find(
-                option => option.value === action.actionTypeId
-              ) &&
-                actionOptions.find(
-                  option => option.value === action.actionTypeId
-                ).text === 'Timing' && (
-                  <Form.Group width="equal">
-                    <Form.Field width="5" />
-                    <PermissionsField
-                      monthName={`${namespace}.plantCommunityActions.${index}.noGrazeStartMonth`}
-                      dayName={`${namespace}.plantCommunityActions.${index}.noGrazeStartDay`}
-                      permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                      displayValue={moment(
-                        `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
-                        'MM DD'
-                      ).format('MMMM Do')}
-                      component={DayMonthPicker}
-                      label="No Graze Start"
-                    />
-
-                    <PermissionsField
-                      monthName={`${namespace}.plantCommunityActions.${index}.noGrazeEndMonth`}
-                      dayName={`${namespace}.plantCommunityActions.${index}.noGrazeEndDay`}
-                      permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                      displayValue={moment(
-                        `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
-                        'MM DD'
-                      ).format('MMMM Do')}
-                      component={DayMonthPicker}
-                      label="No Graze End"
-                    />
-                  </Form.Group>
-                )}
-            </div>
+                </Grid.Column>
+              </IfEditable>
+            </Grid>
           ))}
           <Confirm
             open={toRemove !== null}
