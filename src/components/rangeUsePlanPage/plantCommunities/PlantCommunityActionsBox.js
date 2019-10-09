@@ -14,7 +14,8 @@ import { REFERENCE_KEY } from '../../../constants/variables'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
 import { Dropdown, TextArea } from 'formik-semantic-ui'
-import DateInputField from '../../common/form/DateInputField'
+import DayMonthPicker from '../../common/form/DayMonthPicker'
+import moment from 'moment'
 
 const PlantCommunityActionsBox = ({ actions, namespace }) => {
   const [otherOptions, setOtherOptions] = useState([])
@@ -47,11 +48,7 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   displayValue={
                     actionOptions.find(
                       option => option.value === action.actionTypeId
-                    )
-                      ? actionOptions.find(
-                          option => option.value === action.actionTypeId
-                        ).text
-                      : ''
+                    ).text || ''
                   }
                   label="Action"
                   fieldProps={{
@@ -109,25 +106,33 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   />
                 </IfEditable>
               </Form.Group>
-              {action.name === 'Timing' && (
+              {actionOptions.find(
+                option => option.value === action.actionTypeId
+              ).text === 'Timing' && (
                 <Form.Group width="equal">
                   <Form.Field width="5" />
                   <PermissionsField
-                    name={`${namespace}.plantCommunityActions.${index}.noGrazeStart`}
+                    monthName={`${namespace}.plantCommunityActions.${index}.noGrazeStartMonth`}
+                    dayName={`${namespace}.plantCommunityActions.${index}.noGrazeStartDay`}
                     permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                    displayValue={action.noGrazeStart}
-                    component={DateInputField}
-                    label="No Graze Period"
-                    inline
+                    displayValue={moment(
+                      `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
+                      'MM DD'
+                    ).format('MMMM Do')}
+                    component={DayMonthPicker}
+                    label="No Graze Start"
                   />
 
                   <PermissionsField
-                    name={`${namespace}.plantCommunityActions.${index}.noGrazeEND`}
+                    monthName={`${namespace}.plantCommunityActions.${index}.noGrazeEndMonth`}
+                    dayName={`${namespace}.plantCommunityActions.${index}.noGrazeEndDay`}
                     permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                    displayValue={action.noGrazeEND}
-                    component={DateInputField}
-                    label="-"
-                    inline
+                    displayValue={moment(
+                      `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
+                      'MM DD'
+                    ).format('MMMM Do')}
+                    component={DayMonthPicker}
+                    label="No Graze End"
                   />
                 </Form.Group>
               )}
