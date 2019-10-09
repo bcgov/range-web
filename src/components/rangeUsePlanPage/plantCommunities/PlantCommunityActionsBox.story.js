@@ -16,6 +16,11 @@ const plantCommunityActions = [
     noGrazeStartDay: 15,
     noGrazeEndMonth: 8,
     noGrazeEndDay: 21
+  },
+  {
+    actionTypeId: 6,
+    details: 'Details for other type',
+    name: 'My custom action'
   }
 ]
 
