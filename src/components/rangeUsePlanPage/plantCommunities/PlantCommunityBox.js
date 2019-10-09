@@ -162,6 +162,7 @@ const PlantCommunityBox = ({
             displayValue={notes}
             label={PLANT_COMMUNITY_NOTES}
             fast
+            fieldProps={{ required: true }}
           />
 
           <Form.Group widths="2">
@@ -182,6 +183,7 @@ const PlantCommunityBox = ({
               displayValue={purposeOfAction}
               label={PURPOSE_OF_ACTION}
               fast
+              fieldProps={{ required: true }}
             />
           </Form.Group>
 

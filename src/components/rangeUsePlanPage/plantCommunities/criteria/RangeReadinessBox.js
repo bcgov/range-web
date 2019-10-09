@@ -7,9 +7,14 @@ import { RANGE_READINESS } from '../../../../constants/fields'
 import PermissionsField from '../../../common/PermissionsField'
 import DayMonthPicker from '../../../common/form/DayMonthPicker'
 import { TextArea } from 'formik-semantic-ui'
+import moment from 'moment'
 
 const RangeReadinessBox = ({ plantCommunity, namespace }) => {
-  const { rangeReadinessDate, rangeReadinessNotes } = plantCommunity
+  const {
+    rangeReadinessMonth,
+    rangeReadinessDay,
+    rangeReadinessNotes
+  } = plantCommunity
 
   return (
     <div className="rup__plant-community__sh">
@@ -26,7 +31,10 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         dayName={`${namespace}.rangeReadinessDay`}
         permission={RANGE_READINESS.DATE}
         component={DayMonthPicker}
-        displayValue={rangeReadinessDate}
+        displayValue={moment(
+          `${rangeReadinessMonth} ${rangeReadinessDay}`,
+          'MM DD'
+        ).format('MMMM DD')}
         label="Readiness Date"
         dateFormat="MMMM DD"
       />
@@ -56,9 +64,8 @@ RangeReadinessBox.propTypes = {
       PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
           .isRequired,
-        plantSpeciesId: PropTypes.number.isRequired,
+        plantSpeciesId: PropTypes.number,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired
       })
     )
   }),

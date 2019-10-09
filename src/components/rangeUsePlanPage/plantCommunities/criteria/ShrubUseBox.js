@@ -33,9 +33,8 @@ ShrubUseBox.propTypes = {
       PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
           .isRequired,
-        plantSpeciesId: PropTypes.number.isRequired,
+        plantSpeciesId: PropTypes.number,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired
       })
     )
   }),

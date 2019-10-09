@@ -51,12 +51,66 @@ const RUPSchema = Yup.object().shape({
           shrubUse: Yup.string().transform(handleNull()),
           rangeReadinessMonth: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required('Required field'),
+            .nullable(),
           rangeReadinessDay: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required('Required field')
+            .nullable(),
+          plantCommunityActions: Yup.array().of(
+            Yup.object().shape({
+              actionTypeId: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field'),
+              details: Yup.string().required('Required field')
+            })
+          ),
+          indicatorPlants: Yup.array().of(
+            Yup.object().shape({
+              plantSpeciesId: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field'),
+              value: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field')
+                .typeError('Please enter a number')
+            })
+          ),
+          monitoringAreas: Yup.array().of(
+            Yup.object().shape({
+              latitude: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .typeError('Please enter a number'),
+              longitude: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .typeError('Please enter a number'),
+              location: Yup.string()
+                .nullable()
+                .required('Required field'),
+              rangelandHealthId: Yup.number()
+                .transform((v, originalValue) =>
+                  originalValue === '' ? null : v
+                )
+                .nullable()
+                .required('Required field'),
+              purposeTypeIds: Yup.array()
+                .of(Yup.number())
+                .required('Required field')
+            })
+          )
         })
       )
     })

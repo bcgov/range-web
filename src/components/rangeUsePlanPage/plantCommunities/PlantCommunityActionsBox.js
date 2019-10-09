@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FieldArray, connect } from 'formik'
+import uuid from 'uuid-v4'
 import {
   Button,
   Form,
@@ -13,7 +14,8 @@ import { REFERENCE_KEY } from '../../../constants/variables'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
 import { Dropdown, TextArea } from 'formik-semantic-ui'
-import DateInputField from '../../common/form/DateInputField'
+import DayMonthPicker from '../../common/form/DayMonthPicker'
+import moment from 'moment'
 
 const PlantCommunityActionsBox = ({ actions, namespace }) => {
   const [otherOptions, setOtherOptions] = useState([])
@@ -25,7 +27,7 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
   const actionOptions = actionTypes
     .map(type => ({
       key: type.id,
-      value: type.name,
+      value: type.id,
       text: type.name
     }))
     .concat(otherOptions)
@@ -39,14 +41,23 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             <div key={action.id || `action${index}`}>
               <Form.Group widths="equal">
                 <PermissionsField
-                  name={`${namespace}.plantCommunityActions.${index}.name`}
+                  name={`${namespace}.plantCommunityActions.${index}.actionTypeId`}
                   permission={PLANT_COMMUNITY.ACTIONS.NAME}
                   component={Dropdown}
                   options={actionOptions}
-                  displayValue={action.name}
+                  displayValue={
+                    actionOptions.find(
+                      option => option.value === action.actionTypeId
+                    )
+                      ? actionOptions.find(
+                          option => option.value === action.actionTypeId
+                        ).text
+                      : ''
+                  }
                   label="Action"
                   fieldProps={{
-                    width: 3
+                    width: 3,
+                    required: true
                   }}
                   inputProps={{
                     allowAdditions: true,
@@ -71,7 +82,8 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   component={TextArea}
                   label="Details"
                   fieldProps={{
-                    width: 9
+                    width: 9,
+                    required: true
                   }}
                 />
 
@@ -98,28 +110,39 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   />
                 </IfEditable>
               </Form.Group>
-              {action.name === 'Timing' && (
-                <Form.Group width="equal">
-                  <Form.Field width="5" />
-                  <PermissionsField
-                    name={`${namespace}.plantCommunityActions.${index}.noGrazeStart`}
-                    permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                    displayValue={action.noGrazeStart}
-                    component={DateInputField}
-                    label="No Graze Period"
-                    inline
-                  />
+              {actionOptions.find(
+                option => option.value === action.actionTypeId
+              ) &&
+                actionOptions.find(
+                  option => option.value === action.actionTypeId
+                ).text === 'Timing' && (
+                  <Form.Group width="equal">
+                    <Form.Field width="5" />
+                    <PermissionsField
+                      monthName={`${namespace}.plantCommunityActions.${index}.noGrazeStartMonth`}
+                      dayName={`${namespace}.plantCommunityActions.${index}.noGrazeStartDay`}
+                      permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                      displayValue={moment(
+                        `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
+                        'MM DD'
+                      ).format('MMMM Do')}
+                      component={DayMonthPicker}
+                      label="No Graze Start"
+                    />
 
-                  <PermissionsField
-                    name={`${namespace}.plantCommunityActions.${index}.noGrazeEND`}
-                    permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                    displayValue={action.noGrazeEND}
-                    component={DateInputField}
-                    label="-"
-                    inline
-                  />
-                </Form.Group>
-              )}
+                    <PermissionsField
+                      monthName={`${namespace}.plantCommunityActions.${index}.noGrazeEndMonth`}
+                      dayName={`${namespace}.plantCommunityActions.${index}.noGrazeEndDay`}
+                      permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                      displayValue={moment(
+                        `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
+                        'MM DD'
+                      ).format('MMMM Do')}
+                      component={DayMonthPicker}
+                      label="No Graze End"
+                    />
+                  </Form.Group>
+                )}
             </div>
           ))}
           <Confirm
@@ -136,7 +159,9 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             primary
             type="button"
             className="icon labeled rup__plant-communities__add-button"
-            onClick={() => push({ name: '', details: '' })}>
+            onClick={() =>
+              push({ actionTypeId: null, details: '', id: uuid() })
+            }>
             <i className="add circle icon" />
             Add Action
           </Button>

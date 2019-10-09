@@ -429,3 +429,15 @@
     }
   }
 }
+
+.label {
+  &--required {
+    &::after {
+      display: inline-block;
+      vertical-align: top;
+      margin: -0.2em 0 0 0.2em;
+      content: '*';
+      color: #db2828;
+    }
+  }
+}
