@@ -48,7 +48,11 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
                   displayValue={
                     actionOptions.find(
                       option => option.value === action.actionTypeId
-                    ).text || ''
+                    )
+                      ? actionOptions.find(
+                          option => option.value === action.actionTypeId
+                        ).text
+                      : ''
                   }
                   label="Action"
                   fieldProps={{
