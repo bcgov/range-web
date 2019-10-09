@@ -219,7 +219,8 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
             attachment.actions = [action]
             attachment.text = message
 
-            notifySlack("${env.JOB_NAME}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+           // notifySlack("${env.JOB_NAME}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
+           slackSend(channel: "ext-range", message: "https://www.nytimes.com", sendAsText: true)
           }
 
           stage('Prod Approval') {
