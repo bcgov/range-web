@@ -87,7 +87,15 @@ const RUPSchema = Yup.object().shape({
                 )
                 .nullable()
                 .required('Required field')
-                .typeError('Please enter a number')
+                .typeError('Please enter a number'),
+              name: Yup.string()
+                .nullable()
+                .transform(handleNull(''))
+                .when('plantSpeciesId', {
+                  is: 81,
+                  then: Yup.string().required('Required field'),
+                  otherwise: Yup.string()
+                })
             })
           ),
           monitoringAreas: Yup.array().of(
