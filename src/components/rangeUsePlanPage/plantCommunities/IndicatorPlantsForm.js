@@ -20,7 +20,8 @@ const IndicatorPlantsForm = ({
 }) => {
   const references = useReferences()
 
-  const species = references[REFERENCE_KEY.PLANT_SPECIES] || []
+  const species =
+    references[REFERENCE_KEY.PLANT_SPECIES].filter(s => !s.isShrubUse) || []
 
   const options = species.map(species => ({
     key: species.id,
