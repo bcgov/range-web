@@ -30,7 +30,7 @@ const RUPSchema = Yup.object().shape({
       planId: Yup.number(),
       pldPercent: Yup.number()
         .min(0, 'Please enter a value between 0 and 100')
-        .max(100, 'Please enter a value between 0 and 100')
+        .max(1, 'Please enter a value between 0 and 100')
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
         .typeError('Please enter a number'),

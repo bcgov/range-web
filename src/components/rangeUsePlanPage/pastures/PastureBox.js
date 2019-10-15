@@ -9,6 +9,7 @@ import * as strings from '../../../constants/strings'
 import { IMAGE_SRC } from '../../../constants/variables'
 import PlantCommunities from '../plantCommunities'
 import { getIn, connect } from 'formik'
+import PercentField from '../../common/form/PercentField'
 
 const dropdownOptions = [{ key: 'copy', value: 'copy', text: 'Copy' }]
 
@@ -88,9 +89,14 @@ const PastureBox = ({
               <PermissionsField
                 name={`${namespace}.pldPercent`}
                 permission={PASTURES.PLD}
-                component={Input}
+                component={PercentField}
                 displayValue={pasture.pldPercent}
                 label={strings.PRIVATE_LAND_DEDUCTION}
+                inputProps={{
+                  label: '%',
+                  labelPosition: 'right',
+                  type: 'number'
+                }}
                 fast
               />
             </div>
