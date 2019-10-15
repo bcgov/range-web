@@ -97,7 +97,7 @@ const Base = ({
       managementConsiderations,
       ministerIssues,
       additionalRequirements
-    } = plan
+    } = RUPSchema.cast(plan)
 
     const config = getAuthHeaderConfig()
 
