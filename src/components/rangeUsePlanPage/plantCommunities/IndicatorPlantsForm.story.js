@@ -20,7 +20,7 @@ const indicatorPlants = [
   {
     id: 2,
     value: 2.5,
-    plantSpeciesId: 81,
+    plantSpeciesId: 56,
     criteria: 'rangeReadiness'
   }
 ]

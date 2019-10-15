@@ -9,6 +9,7 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Input, Dropdown as FormikDropdown, Form } from 'formik-semantic-ui'
 import { FieldArray, connect } from 'formik'
+import DecimalField from '../../common/form/DecimalField'
 
 const IndicatorPlantsForm = ({
   indicatorPlants,
@@ -20,7 +21,8 @@ const IndicatorPlantsForm = ({
 }) => {
   const references = useReferences()
 
-  const species = references[REFERENCE_KEY.PLANT_SPECIES] || []
+  const species =
+    references[REFERENCE_KEY.PLANT_SPECIES].filter(s => !s.isShrubUse) || []
 
   const options = species.map(species => ({
     key: species.id,
@@ -111,11 +113,8 @@ const IndicatorPlantsForm = ({
                         <PermissionsField
                           permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
                           name={`${namespace}.indicatorPlants.${index}.value`}
-                          component={Input}
+                          component={DecimalField}
                           displayValue={plant.value}
-                          inputProps={{
-                            type: 'number'
-                          }}
                         />
                       </Form.Group>
                     </Grid.Column>
@@ -158,7 +157,7 @@ const IndicatorPlantsForm = ({
                 onClick={() => {
                   push({
                     plantSpeciesId: null,
-                    value: 0,
+                    value: '0.0',
                     name: null,
                     criteria,
                     id: uuid()
