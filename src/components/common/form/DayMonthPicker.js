@@ -54,7 +54,7 @@ const DayMonthPicker = connect(
             trigger={
               <>
                 <Input
-                  onFocus={() => setOpen(true)}
+                  onClick={() => setOpen(true)}
                   value={
                     dayValue && monthValue
                       ? `${moment(monthValue, 'MM').format('MMMM')} ${moment(
@@ -123,8 +123,6 @@ const DayMonthPicker = connect(
 
                             formik.setFieldValue(monthName, date.month() + 1)
                             formik.setFieldValue(dayName, date.date())
-
-                            setOpen(false)
                           }}
                           style={{
                             backgroundColor:
