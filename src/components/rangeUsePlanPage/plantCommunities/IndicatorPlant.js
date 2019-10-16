@@ -47,6 +47,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             inputProps={{
               search: true,
               allowAdditions: true,
+              additionLabel: 'Other: ',
               onAddItem: (e, { value }) => {
                 setOtherType({
                   ...otherType,
