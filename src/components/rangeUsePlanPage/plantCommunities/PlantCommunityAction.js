@@ -68,24 +68,6 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             }
           }}
         />
-
-        {actionOptions.find(option => option.value === action.actionTypeId) &&
-          actionOptions.find(option => option.value === action.actionTypeId)
-            .text === 'Other' && (
-            <PermissionsField
-              name={`${namespace}.name`}
-              permission={PLANT_COMMUNITY.ACTIONS.NAME}
-              displayValue={action.name}
-              label="Other name"
-              fieldProps={{
-                style: { marginTop: '-4px' },
-                required: true
-              }}
-              inputProps={{
-                fluid: true
-              }}
-            />
-          )}
       </Grid.Column>
 
       <Grid.Column width="11">
