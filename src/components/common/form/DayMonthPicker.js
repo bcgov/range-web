@@ -15,8 +15,8 @@ import {
 } from 'semantic-ui-react'
 
 const DayMonthPicker = connect(
-  ({ dayName, monthName, label, formik, ...props }) => {
-    const [open, setOpen] = useState(false)
+  ({ dayName, monthName, label, formik, dateFormat, ...props }) => {
+    const [open, setOpen] = useState(true)
     const [currentMonth, setCurrentMonth] = useState(0)
 
     const previousMonth = () =>
@@ -57,10 +57,10 @@ const DayMonthPicker = connect(
                   onClick={() => setOpen(true)}
                   value={
                     dayValue && monthValue
-                      ? `${moment(monthValue, 'MM').format('MMMM')} ${moment(
-                          dayValue,
-                          'DD'
-                        ).format('Do')} `
+                      ? moment()
+                          .set('month', monthValue)
+                          .set('date', dayValue)
+                          .format(dateFormat)
                       : ''
                   }
                   icon={
@@ -77,7 +77,6 @@ const DayMonthPicker = connect(
                       'calendar'
                     )
                   }
-                  iconPosition="right"
                   {...props}
                 />
                 {error && (
@@ -107,46 +106,53 @@ const DayMonthPicker = connect(
               </Grid>
               <Divider />
               <Table columns="7" celled>
-                {weeksArray.map((days, week) => (
-                  <Table.Row key={`${currentMonth}_week_${week}`}>
-                    <>
-                      {days.map(day => (
-                        <Table.Cell
-                          selectable
-                          textAlign="center"
-                          verticalAlign="middle"
-                          key={`${currentMonth}_day_${day}`}
-                          onClick={() => {
-                            const date = moment()
-                              .set('month', currentMonth)
-                              .set('date', day)
+                <Table.Body>
+                  {weeksArray.map((days, week) => (
+                    <Table.Row key={`${currentMonth}_week_${week}`}>
+                      <>
+                        {days.map(day => (
+                          <Table.Cell
+                            selectable
+                            textAlign="center"
+                            verticalAlign="middle"
+                            key={`${currentMonth}_day_${day}`}
+                            onClick={() => {
+                              const date = moment()
+                                .set('month', currentMonth)
+                                .set('date', day)
 
-                            formik.setFieldValue(monthName, date.month() + 1)
-                            formik.setFieldValue(dayName, date.date())
-                          }}
-                          style={{
-                            backgroundColor:
-                              dayValue === day &&
-                              monthValue === currentMonth + 1
-                                ? '#2185d0'
-                                : 'transparent',
-                            color:
-                              dayValue === day &&
-                              monthValue === currentMonth + 1
-                                ? '#ffffff'
-                                : 'black',
-                            cursor: 'pointer'
-                          }}>
-                          {day}
-                        </Table.Cell>
-                      ))}
-                      {days.length < 7 &&
-                        Array.from({ length: 7 - days.length }).map((_, i) => (
-                          <Table.Cell key={`${currentMonth}_emptycell_${i}`} />
+                              formik.setFieldValue(monthName, date.month() + 1)
+                              formik.setFieldValue(dayName, date.date())
+                            }}
+                            style={{
+                              backgroundColor:
+                                dayValue === day &&
+                                monthValue === currentMonth + 1
+                                  ? '#2185d0'
+                                  : 'transparent',
+                              color:
+                                dayValue === day &&
+                                monthValue === currentMonth + 1
+                                  ? '#ffffff'
+                                  : 'black',
+                              cursor: 'pointer',
+                              padding: '10px'
+                            }}>
+                            {day}
+                          </Table.Cell>
                         ))}
-                    </>
-                  </Table.Row>
-                ))}
+                        {days.length < 7 &&
+                          Array.from({ length: 7 - days.length }).map(
+                            (_, i) => (
+                              <Table.Cell
+                                key={`${currentMonth}_emptycell_${i}`}
+                              />
+                            )
+                          )}
+                      </>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
               </Table>
             </Popup.Content>
           </Popup>

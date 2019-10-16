@@ -144,10 +144,10 @@ const Base = ({
               }
 
               await Promise.all(
-                plantCommunity.plantCommunityActions.map(action => {
+                plantCommunity.plantCommunityActions.map(async action => {
                   let { id: actionId, ...values } = action
                   if (uuid.isUUID(actionId)) {
-                    return axios.post(
+                    await axios.post(
                       API.CREATE_RUP_PLANT_COMMUNITY_ACTION(
                         plan.id,
                         pastureId,
@@ -161,10 +161,10 @@ const Base = ({
               )
 
               await Promise.all(
-                plantCommunity.indicatorPlants.map(plant => {
+                plantCommunity.indicatorPlants.map(async plant => {
                   let { id: plantId, ...values } = plant
                   if (uuid.isUUID(plantId)) {
-                    return axios.post(
+                    await axios.post(
                       API.CREATE_RUP_INDICATOR_PLANT(
                         plan.id,
                         pastureId,
@@ -178,10 +178,10 @@ const Base = ({
               )
 
               await Promise.all(
-                plantCommunity.monitoringAreas.map(area => {
+                plantCommunity.monitoringAreas.map(async area => {
                   let { id: areaId, ...values } = area
                   if (uuid.isUUID(areaId)) {
-                    return axios.post(
+                    await axios.post(
                       API.CREATE_RUP_MONITERING_AREA(
                         plan.id,
                         pastureId,
