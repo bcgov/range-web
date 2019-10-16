@@ -16,7 +16,7 @@ import {
 
 const DayMonthPicker = connect(
   ({ dayName, monthName, label, formik, dateFormat, ...props }) => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
     const [currentMonth, setCurrentMonth] = useState(0)
 
     const previousMonth = () =>
