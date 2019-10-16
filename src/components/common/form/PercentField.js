@@ -11,6 +11,7 @@ const PercentField = ({
   inputProps = {},
   fieldProps = {},
   errorComponent = ErrorMessage,
+  allowDecimals = false,
   inputRef,
   fast
 }) => {
@@ -36,7 +37,7 @@ const PercentField = ({
                 {...safeInputProps}
                 value={
                   !isNaN(parseFloat(field.value))
-                    ? field.value * 100
+                    ? (field.value * 100).toFixed(allowDecimals ? 2 : 0)
                     : field.value
                 }
                 onChange={(e, { name, value }) => {
@@ -48,7 +49,17 @@ const PercentField = ({
                     onChange && onChange(e, { name, value })
                   })
                 }}
-                onBlur={form.handleBlur}
+                onBlur={(...args) => {
+                  if (!allowDecimals) {
+                    form.setFieldValue(
+                      field.name,
+                      !isNaN(parseFloat(field.value))
+                        ? Math.trunc(parseFloat(field.value) * 100) / 100
+                        : field.value
+                    )
+                  }
+                  form.handleBlur(...args)
+                }}
               />
             </InputRef>
 
