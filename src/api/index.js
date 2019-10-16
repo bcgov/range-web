@@ -125,7 +125,6 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
     }),
     {}
   )
-  console.log(pastureMap)
 
   return Promise.all(
     ministerIssues.map(async issue => {
