@@ -22,6 +22,13 @@ const indicatorPlants = [
     value: 2.5,
     plantSpeciesId: 56,
     criteria: 'rangeReadiness'
+  },
+  {
+    id: 3,
+    value: 2.5,
+    plantSpeciesId: 56,
+    criteria: 'stubbleHeight',
+    name: 'My plant'
   }
 ]
 
