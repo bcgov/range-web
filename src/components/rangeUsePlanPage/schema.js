@@ -63,7 +63,9 @@ const RUPSchema = Yup.object().shape({
                 )
                 .nullable()
                 .required('Required field'),
-              details: Yup.string().required('Required field'),
+              details: Yup.string()
+                .nullable()
+                .required('Required field'),
               name: Yup.string()
                 .nullable()
                 .when('actionTypeId', {
