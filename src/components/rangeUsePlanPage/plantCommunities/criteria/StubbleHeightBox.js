@@ -24,14 +24,7 @@ const StubbleHeightBox = ({ plantCommunity, namespace }) => {
 
 StubbleHeightBox.propTypes = {
   plantCommunity: PropTypes.shape({
-    indicatorPlants: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
-        plantSpeciesId: PropTypes.number,
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-      })
-    )
+    indicatorPlants: PropTypes.arrayOf(PropTypes.object)
   }),
   namespace: PropTypes.string.isRequired
 }
