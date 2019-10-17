@@ -168,9 +168,4 @@ GrazingScheduleEntryRow.propTypes = {
   onCopy: PropTypes.func.isRequired
 }
 
-export default connect(
-  React.memo(
-    GrazingScheduleEntryRow,
-    (prevProps, nextProps) => prevProps.entry === nextProps.entry
-  )
-)
+export default connect(GrazingScheduleEntryRow)
