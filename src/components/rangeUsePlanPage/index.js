@@ -41,6 +41,16 @@ import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
+import {
+  saveGrazingSchedules,
+  saveInvasivePlantChecklist,
+  saveManagementConsiderations,
+  saveAdditionalRequirements,
+  saveMinisterIssues,
+  getPlan,
+  savePastures,
+  savePlantCommunities
+} from '../../api'
 
 const Base = ({
   user,
@@ -67,11 +77,9 @@ const Base = ({
     const planId = getPlanId()
 
     try {
-      const { data } = await axios.get(
-        API.GET_RUP(planId),
-        getAuthHeaderConfig()
-      )
-      setPlan(RUPSchema.cast(data))
+      const plan = await getPlan(planId)
+
+      setPlan(RUPSchema.cast(plan))
     } catch (e) {
       setError(e)
     }
@@ -105,237 +113,23 @@ const Base = ({
       // Update Plan
       await axios.put(API.UPDATE_RUP(plan.id), plan, config)
 
-      const pasturesData = await Promise.all(
-        pastures.map(pasture => {
-          if (Number.isInteger(pasture.id)) {
-            return axios.put(
-              API.UPDATE_RUP_PASTURE(plan.id, pasture.id),
-              pasture,
-              config
-            )
-          } else {
-            const { id, ...values } = pasture
-            return axios.post(API.CREATE_RUP_PASTURE(plan.id), values, config)
-          }
-        })
-      )
-
-      const newPastures = pasturesData.map(p => p.data)
-      const newPasturesMap = newPastures.reduce(
-        (acc, newPasture, i) => ({
-          ...acc,
-          [pastures[i].id]: newPasture.id
-        }),
-        {}
-      )
+      const newPastures = await savePastures(plan.id, pastures)
 
       await Promise.all(
-        pastures.map((pasture, pastureIndex) =>
-          Promise.all(
-            pasture.plantCommunities.map(async plantCommunity => {
-              let { id: communityId, ...values } = plantCommunity
-              const pastureId = newPastures[pastureIndex].id
-              if (uuid.isUUID(communityId)) {
-                communityId = (await axios.post(
-                  API.CREATE_RUP_PLANT_COMMUNITY(plan.id, pastureId),
-                  values,
-                  config
-                )).data.id
-              }
-
-              await Promise.all(
-                plantCommunity.plantCommunityActions.map(async action => {
-                  let { id: actionId, ...values } = action
-                  if (uuid.isUUID(actionId)) {
-                    await axios.post(
-                      API.CREATE_RUP_PLANT_COMMUNITY_ACTION(
-                        plan.id,
-                        pastureId,
-                        communityId
-                      ),
-                      values,
-                      config
-                    )
-                  }
-                })
-              )
-
-              await Promise.all(
-                plantCommunity.indicatorPlants.map(async plant => {
-                  let { id: plantId, ...values } = plant
-                  if (uuid.isUUID(plantId)) {
-                    await axios.post(
-                      API.CREATE_RUP_INDICATOR_PLANT(
-                        plan.id,
-                        pastureId,
-                        communityId
-                      ),
-                      values,
-                      config
-                    )
-                  }
-                })
-              )
-
-              await Promise.all(
-                plantCommunity.monitoringAreas.map(async area => {
-                  let { id: areaId, ...values } = area
-                  if (uuid.isUUID(areaId)) {
-                    await axios.post(
-                      API.CREATE_RUP_MONITERING_AREA(
-                        plan.id,
-                        pastureId,
-                        communityId
-                      ),
-                      values,
-                      config
-                    )
-                  }
-                })
-              )
-            })
-          )
-        )
-      )
-
-      // Update Grazing Schedules
-      await Promise.all(
-        grazingSchedules.map(schedule => {
-          if (uuid.isUUID(schedule.id)) {
-            const { id, ...grazingSchedule } = schedule
-            return axios.post(
-              API.CREATE_RUP_GRAZING_SCHEDULE(plan.id),
-              { ...grazingSchedule, plan_id: plan.id },
-              config
-            )
-          } else {
-            return axios.put(
-              API.UPDATE_RUP_GRAZING_SCHEDULE(plan.id, schedule.id),
-              { ...schedule },
-              config
-            )
-          }
-        })
-      )
-
-      if (invasivePlantChecklist && invasivePlantChecklist.id) {
-        await axios.put(
-          API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(
+        newPastures.map(async pasture => {
+          await savePlantCommunities(
             plan.id,
-            invasivePlantChecklist.id
-          ),
-          invasivePlantChecklist,
-          config
-        )
-      } else {
-        const { id, ...values } = invasivePlantChecklist
-        await axios.post(
-          API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(plan.id),
-          values,
-          config
-        )
-      }
-
-      await Promise.all(
-        managementConsiderations.map(consideration => {
-          if (uuid.isUUID(consideration.id)) {
-            const { id, ...values } = consideration
-            return axios.post(
-              API.CREATE_RUP_MANAGEMENT_CONSIDERATION(plan.id),
-              values,
-              config
-            )
-          } else {
-            return axios.put(
-              API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(
-                plan.id,
-                consideration.id
-              ),
-              consideration,
-              config
-            )
-          }
+            pasture.id,
+            pasture.plantCommunities
+          )
         })
       )
 
-      await Promise.all(
-        ministerIssues.map(async issue => {
-          // Create new Minister Issues/Actions because they don't exist on the
-          // server yet
-          const { id, ...issueBody } = issue
-
-          if (uuid.isUUID(issue.id)) {
-            const { data: newIssue } = await axios.post(
-              API.CREATE_RUP_MINISTER_ISSUE(plan.id),
-              {
-                ...issueBody,
-                pastures: issueBody.pastures.map(p => newPasturesMap[p])
-              },
-              config
-            )
-
-            await Promise.all(
-              issue.ministerIssueActions.map(action => {
-                const { id, ...actionBody } = action
-
-                return axios.post(
-                  API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, newIssue.id),
-                  actionBody,
-                  config
-                )
-              })
-            )
-          } else {
-            await axios.put(
-              API.UPDATE_RUP_MINISTER_ISSUE(plan.id, issue.id),
-              {
-                ...issueBody,
-                pastures: issueBody.pastures.map(p => newPasturesMap[p])
-              },
-              config
-            )
-
-            const actions = issue.ministerIssueActions
-
-            await Promise.all(
-              actions.map(action => {
-                const { id, ...actionBody } = action
-                if (uuid.isUUID(action.id)) {
-                  return axios.post(
-                    API.CREATE_RUP_MINISTER_ISSUE_ACTION(plan.id, issue.id),
-                    actionBody,
-                    config
-                  )
-                }
-                return axios.put(
-                  API.UPDATE_RUP_MINISTER_ISSUE_ACTION(
-                    plan.id,
-                    issue.id,
-                    action.id
-                  ),
-                  actionBody,
-                  config
-                )
-              })
-            )
-          }
-        })
-      )
-
-      await Promise.all(
-        additionalRequirements.map(requirement => {
-          if (uuid.isUUID(requirement.id)) {
-            const { id, ...values } = requirement
-            return axios.post(
-              API.CREATE_RUP_ADDITIONAL_REQUIREMENT(plan.id),
-              values,
-              config
-            )
-          }
-
-          return Promise.resolve()
-        })
-      )
+      await saveGrazingSchedules(plan.id, grazingSchedules)
+      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
+      await saveManagementConsiderations(plan.id, managementConsiderations)
+      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
+      await saveAdditionalRequirements(plan.id, additionalRequirements)
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
