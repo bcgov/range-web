@@ -16,6 +16,7 @@ import {
   getContactRole
 } from '../../pdf/helper'
 import Row from './common/Row'
+import SectionHeader from './common/SectionHeader'
 
 const styles = StyleSheet.create({
   page: {
@@ -31,12 +32,6 @@ const styles = StyleSheet.create({
   },
   section: {
     flex: 1
-  },
-  sectionHeader: {
-    fontSize: config.sectionTitleFontSize,
-    fontWeight: 'bold',
-    margin: '5px 0',
-    flex: 1
   }
 })
 
@@ -46,8 +41,8 @@ const BasicInformation = ({ plan }) => (
     <Title>Basic Information</Title>
 
     <Row>
-      <Text style={styles.sectionHeader}>Agreement Information</Text>
-      <Text style={styles.sectionHeader}>Contact Information</Text>
+      <SectionHeader>Agreement Information</SectionHeader>
+      <SectionHeader>Contact Information</SectionHeader>
     </Row>
 
     <Row>
@@ -89,7 +84,7 @@ const BasicInformation = ({ plan }) => (
     <Line color={config.primaryColor} />
 
     <Row>
-      <Text style={styles.sectionHeader}>Plan Information</Text>
+      <SectionHeader>Plan Information</SectionHeader>
     </Row>
 
     <Row>
@@ -111,7 +106,7 @@ const BasicInformation = ({ plan }) => (
     <Line color={config.primaryColor} />
 
     <Row>
-      <Text style={styles.sectionHeader}>Agreement Holders</Text>
+      <SectionHeader>Agreement Holders</SectionHeader>
     </Row>
 
     {plan.agreement.clients.map(client => (
