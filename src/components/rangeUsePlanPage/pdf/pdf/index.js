@@ -12,6 +12,7 @@ import latoRegular from './fonts/Lato-Regular.ttf'
 import latoItalic from './fonts/Lato-Italic.ttf'
 import latoBold from './fonts/Lato-Bold.ttf'
 import latoBlack from './fonts/Lato-Black.ttf'
+import ManagementConsiderations from './ManagementConsiderations'
 
 Font.register({
   family: 'Lato',
@@ -32,6 +33,7 @@ const RUPDocument = ({ plan }) => (
     <MinisterIssues plan={plan} />
     <InvasivePlants plan={plan} />
     <AdditionalRequirements plan={plan} />
+    <ManagementConsiderations plan={plan} />
   </Document>
 )
 
