@@ -25,57 +25,75 @@ const styles = StyleSheet.create({
   }
 })
 
-const InvasivePlants = ({ plan }) => (
-  <Page size="A4" style={styles.page} wrap>
-    <Header plan={plan} />
-    <Title>Invasive Plants</Title>
+const InvasivePlants = ({ plan }) => {
+  const {
+    equipmentAndVehiclesParking,
+    beginInUninfestedArea,
+    undercarrigesInspected,
+    revegetate,
+    other
+  } = plan.invasivePlantChecklist
 
-    <Subtext style={styles.subtext}>
-      I commit to carry out the following measures to prevent the introduction
-      or spread of invasive plants that are likely the result of my range
-      practices:
-    </Subtext>
+  const nothingSelected = !(
+    equipmentAndVehiclesParking ||
+    beginInUninfestedArea ||
+    undercarrigesInspected ||
+    revegetate ||
+    other
+  )
 
-    {plan.invasivePlantChecklist.equipmentAndVehiclesParking && (
-      <Text style={styles.listItem}>
-        Equipment and vehicles will not be parked on invasive plant infestations
-      </Text>
-    )}
+  if (nothingSelected) return null
+  return (
+    <Page size="A4" style={styles.page} wrap>
+      <Header plan={plan} />
+      <Title>Invasive Plants</Title>
 
-    {plan.invasivePlantChecklist.beginInUninfestedArea && (
-      <Text style={styles.listItem}>
-        Any work will being in un-infested areas before moving to infested
-        locations
-      </Text>
-    )}
+      <Subtext style={styles.subtext}>
+        I commit to carry out the following measures to prevent the introduction
+        or spread of invasive plants that are likely the result of my range
+        practices:
+      </Subtext>
 
-    {plan.invasivePlantChecklist.undercarrigesInspected && (
-      <Text style={styles.listItem}>
-        Clothing and vehicle/equipment undercarriages will be regularly
-        inspected for plant parts or propagules if working in an area known to
-        contain invasive plants
-      </Text>
-    )}
-    {plan.invasivePlantChecklist.revegetate && (
-      <Text style={styles.listItem}>
-        Revegetate disturbed areas that have exposed mineral soil within one
-        year of disturbance by seeding using Common #1 Forage Mixture or better.
-        The certificate of seed analysis will be requested and seed that
-        contains weed seeds of listed invasive plants and/or invasive plants
-        that are high priority to the area will be rejected. Seeding will occur
-        around range developments and areas of cattle congregation where bare
-        soil is exposed. Revegetated areas will be monitored and revegetated as
-        necessary until exposed soil is eliminated.
-      </Text>
-    )}
-    {plan.invasivePlantChecklist.other ? (
-      <Text style={styles.listItem}>
-        Other: {plan.invasivePlantChecklist.other.toString()}
-      </Text>
-    ) : null}
+      {equipmentAndVehiclesParking && (
+        <Text style={styles.listItem}>
+          Equipment and vehicles will not be parked on invasive plant
+          infestations
+        </Text>
+      )}
 
-    <Footer />
-  </Page>
-)
+      {beginInUninfestedArea && (
+        <Text style={styles.listItem}>
+          Any work will being in un-infested areas before moving to infested
+          locations
+        </Text>
+      )}
+
+      {undercarrigesInspected && (
+        <Text style={styles.listItem}>
+          Clothing and vehicle/equipment undercarriages will be regularly
+          inspected for plant parts or propagules if working in an area known to
+          contain invasive plants
+        </Text>
+      )}
+      {revegetate && (
+        <Text style={styles.listItem}>
+          Revegetate disturbed areas that have exposed mineral soil within one
+          year of disturbance by seeding using Common #1 Forage Mixture or
+          better. The certificate of seed analysis will be requested and seed
+          that contains weed seeds of listed invasive plants and/or invasive
+          plants that are high priority to the area will be rejected. Seeding
+          will occur around range developments and areas of cattle congregation
+          where bare soil is exposed. Revegetated areas will be monitored and
+          revegetated as necessary until exposed soil is eliminated.
+        </Text>
+      )}
+      {other ? (
+        <Text style={styles.listItem}>Other: {other.toString()}</Text>
+      ) : null}
+
+      <Footer />
+    </Page>
+  )
+}
 
 export default InvasivePlants
