@@ -19,6 +19,7 @@ import {
   axios,
   getAuthHeaderConfig
 } from '../../utils'
+import { appendUsage } from '../../utils/helper/plan'
 import * as selectors from '../../reducers/rootReducer'
 import PageForStaff from './pageForStaff'
 import PageForAH from './pageForAH'
@@ -71,37 +72,6 @@ const Base = ({
 
   const getPlanId = () =>
     match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
-
-  // for plans extending past agreement date, extend usage
-  const appendUsage = plan => {
-    let planStartDate = new Date(plan.planStartDate)
-    let planEndDate = new Date(plan.planEndDate)
-    let agrEndDate = new Date(plan.agreement.agreementEndDate)
-
-    var newPlan = JSON.parse(JSON.stringify(plan))
-
-    if (planEndDate.getFullYear() > agrEndDate.getFullYear()) {
-      let lastYearOfUsage =
-        plan.agreement.usage[plan.agreement.usage.length - 1]
-      var lastYearOfUsageID = lastYearOfUsage.id
-      var lastYear = lastYearOfUsage.year
-
-      do {
-        lastYearOfUsageID++
-        lastYear++
-        let tempUsage = JSON.parse(JSON.stringify(lastYearOfUsage))
-        tempUsage.id = lastYearOfUsageID
-        tempUsage.year = lastYear
-        tempUsage.fta = false
-        newPlan.agreement.usage.push(tempUsage)
-      } while (
-        newPlan.agreement.usage.length <
-        planEndDate.getFullYear() - planStartDate.getFullYear()
-      )
-    }
-
-    return newPlan
-  }
 
   const fetchPlan = async () => {
     setFetching(true)
