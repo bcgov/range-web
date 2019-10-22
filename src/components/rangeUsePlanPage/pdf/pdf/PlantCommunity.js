@@ -30,17 +30,25 @@ const PlantCommunity = ({ plantCommunity }) => {
         </SectionHeader>
       </Row>
 
-      <Field>
-        {plantCommunity.aspect || 'No aspect'}
-        {plantCommunity.elevation && ` | ${plantCommunity.elevation.name} FT`}
-        {plantCommunity.approved && ' | Approved By Minister'}
-      </Field>
+      <Row>
+        <Field>
+          {plantCommunity.aspect || 'No aspect'}
+          {plantCommunity.elevation && ` | ${plantCommunity.elevation.name} FT`}
+          {plantCommunity.approved && ' | Approved By Minister'}
+        </Field>
+      </Row>
 
-      <Field label="Pasture Notes">{plantCommunity.notes}</Field>
-      <Field label="Plant Community URL">{plantCommunity.url}</Field>
-      <Field label="Purpose of Actions">
-        {capitalize(plantCommunity.purposeOfAction)}
-      </Field>
+      <Row>
+        <Field label="Pasture Notes">{plantCommunity.notes}</Field>
+      </Row>
+      <Row>
+        <Field label="Plant Community URL">{plantCommunity.url}</Field>
+      </Row>
+      <Row>
+        <Field label="Purpose of Actions">
+          {capitalize(plantCommunity.purposeOfAction)}
+        </Field>
+      </Row>
 
       {plantCommunity.monitoringAreas.length > 0 && (
         <>
