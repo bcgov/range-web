@@ -4,15 +4,26 @@ import { config } from './config'
 
 const styles = StyleSheet.create({
   sectionHeader: {
-    fontSize: config.sectionTitleFontSize,
     fontWeight: 'bold',
     margin: '5px 0',
     flex: 1
   }
 })
 
-const SectionHeader = ({ children }) => (
-  <Text style={styles.sectionHeader}>{children}</Text>
+const SectionHeader = ({ children, secondary = false, style = {} }) => (
+  <Text
+    style={[
+      styles.sectionHeader,
+      {
+        color: secondary ? config.primaryColor : config.blackColor,
+        fontSize: secondary
+          ? config.sectionTitleFontSize - 1
+          : config.sectionTitleFontSize
+      },
+      style
+    ]}>
+    {children}
+  </Text>
 )
 
 export default SectionHeader

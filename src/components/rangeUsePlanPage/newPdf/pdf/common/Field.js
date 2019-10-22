@@ -5,22 +5,24 @@ import { config } from './config'
 const styles = StyleSheet.create({
   field: {
     fontFamily: 'Lato',
-    fontSize: config.normalFontSize,
-    marginBottom: 5,
+    fontSize: config.normalFontSize + 1,
+    marginBottom: 8,
     flex: 1
   },
   label: {
-    marginBottom: 2
+    marginBottom: 1,
+    color: config.blackColor
   },
   value: {
     color: config.grayColor,
+    fontSize: config.normalFontSize,
     margin: 0
   }
 })
 
-const Field = ({ children, label }) => (
-  <View style={styles.field}>
-    <Text style={styles.label}>{label}</Text>
+const Field = ({ children, label, style }) => (
+  <View style={[styles.field, style]}>
+    {label && <Text style={styles.label}>{label}</Text>}
     <Text style={styles.value}>{children || 'Not provided'}</Text>
   </View>
 )
