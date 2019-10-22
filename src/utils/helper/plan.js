@@ -36,6 +36,36 @@ export const scrollIntoView = elementId => {
   })
 }
 
+// for plans extending past agreement date, extend usage
+export const appendUsage = plan => {
+  let planStartDate = new Date(plan.planStartDate)
+  let planEndDate = new Date(plan.planEndDate)
+  let agrEndDate = new Date(plan.agreement.agreementEndDate)
+
+  var newPlan = JSON.parse(JSON.stringify(plan))
+
+  if (planEndDate.getFullYear() > agrEndDate.getFullYear()) {
+    let lastYearOfUsage = plan.agreement.usage[plan.agreement.usage.length - 1]
+    var lastYearOfUsageID = lastYearOfUsage.id
+    var lastYear = lastYearOfUsage.year
+
+    do {
+      lastYearOfUsageID++
+      lastYear++
+      let tempUsage = JSON.parse(JSON.stringify(lastYearOfUsage))
+      tempUsage.id = lastYearOfUsageID
+      tempUsage.year = lastYear
+      tempUsage.fta = false
+      newPlan.agreement.usage.push(tempUsage)
+    } while (
+      newPlan.agreement.usage.length <
+      planEndDate.getFullYear() - planStartDate.getFullYear()
+    )
+  }
+
+  return newPlan
+}
+
 export const isStatusCreated = status =>
   status && status.code === PLAN_STATUS.CREATED
 

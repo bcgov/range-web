@@ -18,6 +18,7 @@ import {
   axios,
   getAuthHeaderConfig
 } from '../../utils'
+import { appendUsage } from '../../utils/helper/plan'
 import * as selectors from '../../reducers/rootReducer'
 import PageForStaff from './pageForStaff'
 import PageForAH from './pageForAH'
@@ -76,8 +77,8 @@ const Base = ({
     const planId = getPlanId()
 
     try {
-      const plan = await getPlan(planId)
-
+      const tempPlan = await getPlan(planId)
+      const plan = appendUsage(tempPlan)
       setPlan(RUPSchema.cast(plan))
     } catch (e) {
       setError(e)
