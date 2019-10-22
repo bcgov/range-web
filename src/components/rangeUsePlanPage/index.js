@@ -73,7 +73,7 @@ const Base = ({
     match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
 
   // for plans extending past agreement date, extend usage
-  const appendUsage = (plan, Plan) => {
+  const appendUsage = plan => {
     let planStartDate = new Date(plan.planStartDate)
     let planEndDate = new Date(plan.planEndDate)
     let agrEndDate = new Date(plan.agreement.agreementEndDate)
