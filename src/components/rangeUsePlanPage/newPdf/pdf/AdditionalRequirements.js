@@ -5,12 +5,9 @@ import Header from './Header'
 import Title from './common/Title'
 import { config } from './common/config'
 import Subtext from './common/Subtext'
-import SectionHeader from './common/SectionHeader'
-import Field from './common/Field'
-import { formatMinisterIssues, handleNullValue } from '../../pdf/helper'
+import { handleNullValue } from '../../pdf/helper'
 import Label from './common/Label'
 import Row from './common/Row'
-import Line from './common/Line'
 
 const styles = StyleSheet.create({
   page: {
@@ -44,7 +41,7 @@ const AdditionalRequirements = ({ plan }) => (
       <Label style={{ flex: 2 }}>Details</Label>
     </Row>
 
-    {plan.additionalRequirements.map((requirement, i) => (
+    {plan.additionalRequirements.map(requirement => (
       <View style={styles.container} key={requirement.id}>
         <Subtext style={{ flex: 1 }}>
           {handleNullValue(requirement.category && requirement.category.name)}

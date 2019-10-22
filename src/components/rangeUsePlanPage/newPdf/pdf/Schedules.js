@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Page, StyleSheet, Text } from '@react-pdf/renderer'
+import { Page, StyleSheet, Text } from '@react-pdf/renderer'
 import Footer from './Footer'
 import Header from './Header'
 import Title from './common/Title'
@@ -7,10 +7,7 @@ import { config } from './common/config'
 import Table from './common/Table'
 import Subtext from './common/Subtext'
 import moment from 'moment'
-import {
-  formatGrazingScheduleEntries,
-  formatGrazingSchedules
-} from '../../pdf/helper'
+import { formatGrazingSchedules } from '../../pdf/helper'
 import SectionHeader from './common/SectionHeader'
 import Row from './common/Row'
 import Field from './common/Field'

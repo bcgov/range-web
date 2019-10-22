@@ -1,9 +1,5 @@
 import React from 'react'
-import Field from './common/Field'
 import Row from './common/Row'
-import SectionHeader from './common/SectionHeader'
-import Section from './common/Section'
-import { getMonitoringAreaPurposes } from '../../pdf/helper'
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
 import moment from 'moment'
 import { config } from './common/config'
@@ -45,7 +41,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const PlantCommunityActions = ({ plan, actions }) => (
+const PlantCommunityActions = ({ actions }) => (
   <View style={styles.container}>
     <Row>
       <Text style={styles.label}>Action</Text>

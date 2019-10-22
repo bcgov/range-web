@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import uuid from 'uuid-v4'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Icon } from 'semantic-ui-react'

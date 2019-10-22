@@ -22,12 +22,12 @@ const Pastures = ({ plan }) => (
     <Title>Pastures</Title>
 
     {plan.pastures.map((pasture, i) => (
-      <>
-        <Pasture key={pasture.id} pasture={pasture} plan={plan} />
+      <React.Fragment key={pasture.id}>
+        <Pasture pasture={pasture} plan={plan} />
         {i + 1 < plan.pastures.length && (
           <Line color={config.primaryColor} height={20} />
         )}
-      </>
+      </React.Fragment>
     ))}
 
     <Footer />

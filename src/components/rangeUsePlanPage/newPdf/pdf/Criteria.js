@@ -2,8 +2,6 @@ import React from 'react'
 import Field from './common/Field'
 import Row from './common/Row'
 import SectionHeader from './common/SectionHeader'
-import Section from './common/Section'
-import { getMonitoringAreaPurposes } from '../../pdf/helper'
 import { View, Text, StyleSheet } from '@react-pdf/renderer'
 import { config } from './common/config'
 import IndicatorPlants from './IndicatorPlants'
@@ -29,7 +27,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const Criteria = ({ plan, plantCommunity }) => (
+const Criteria = ({ plantCommunity }) => (
   <View style={styles.container}>
     <Row>
       <SectionHeader style={styles.header}>Range Readiness</SectionHeader>

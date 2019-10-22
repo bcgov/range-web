@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, Text, StyleSheet } from '@react-pdf/renderer'
+import { Page, StyleSheet } from '@react-pdf/renderer'
 import Footer from './Footer'
 import moment from 'moment'
 import Header from './Header'

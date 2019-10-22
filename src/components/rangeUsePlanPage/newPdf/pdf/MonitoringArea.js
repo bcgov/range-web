@@ -5,7 +5,7 @@ import SectionHeader from './common/SectionHeader'
 import Section from './common/Section'
 import { getMonitoringAreaPurposes } from '../../pdf/helper'
 
-const MonitoringArea = ({ plan, monitoringArea }) => (
+const MonitoringArea = ({ monitoringArea }) => (
   <Section primary>
     <Row>
       <SectionHeader>Monitoring Area: {monitoringArea.name}</SectionHeader>

@@ -1,21 +1,8 @@
 import React from 'react'
-import { Page, Text, StyleSheet, View } from '@react-pdf/renderer'
-import Footer from './Footer'
-import moment from 'moment'
-import Header from './Header'
-import Title from './common/Title'
+import { StyleSheet, View } from '@react-pdf/renderer'
 import Field from './common/Field'
-import Line from './common/Line'
 import { config } from './common/config'
-import {
-  getAgreementType,
-  getDistrict,
-  getUserFullName,
-  getAgreementExemptionStatus,
-  getClientFullName,
-  getContactRole,
-  capitalize
-} from '../../pdf/helper'
+import { capitalize } from '../../pdf/helper'
 import Row from './common/Row'
 import SectionHeader from './common/SectionHeader'
 import MonitoringArea from './MonitoringArea'
@@ -31,7 +18,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const PlantCommunity = ({ plan, plantCommunity }) => {
+const PlantCommunity = ({ plantCommunity }) => {
   const communityType =
     (plantCommunity.communityType && plantCommunity.communityType.name) ||
     'Not provided'
