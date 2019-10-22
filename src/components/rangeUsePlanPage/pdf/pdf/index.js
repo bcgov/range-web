@@ -6,6 +6,7 @@ import Pastures from './Pastures'
 import Schedules from './Schedules'
 import MinisterIssues from './MinisterIssues'
 import AdditionalRequirements from './AdditionalRequirements'
+import InvasivePlants from './InvasivePlants'
 
 import latoRegular from './fonts/Lato-Regular.ttf'
 import latoItalic from './fonts/Lato-Italic.ttf'
@@ -29,6 +30,7 @@ const RUPDocument = ({ plan }) => (
     <Pastures plan={plan} />
     <Schedules plan={plan} />
     <MinisterIssues plan={plan} />
+    <InvasivePlants plan={plan} />
     <AdditionalRequirements plan={plan} />
   </Document>
 )
