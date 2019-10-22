@@ -85,12 +85,14 @@ const Base = ({
         plan.agreement.usage[plan.agreement.usage.length - 1]
       var lastYearOfUsageID = lastYearOfUsage.id
       var lastYear = lastYearOfUsage.year
+
       do {
         lastYearOfUsageID++
         lastYear++
         let tempUsage = JSON.parse(JSON.stringify(lastYearOfUsage))
         tempUsage.id = lastYearOfUsageID
         tempUsage.year = lastYear
+        tempUsage.fta = false
         newPlan.agreement.usage.push(tempUsage)
       } while (
         newPlan.agreement.usage.length <
