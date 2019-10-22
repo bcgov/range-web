@@ -72,13 +72,38 @@ const Base = ({
   const getPlanId = () =>
     match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
 
+  // for plans extending past agreement date, extend usage
+  const appendUsage = (plan, Plan) => {
+    let planStartDate = Date.parse(plan.planStartDate)
+    let planEndDate = Date.parse(plan.planEndDate)
+    let agrEndDate = Date.parse(plan.agreement.agreementEndDate)
+
+    var newPlan = JSON.parse(JSON.stringify(plan))
+    if (planEndDate.getFullYear() > agrEndDate.getFullYear()) {
+      let lastYearOfUsage =
+        plan.agreement.usage[plan.agreement.usage.length - 1]
+      var lastYearOfUsageID = lastYearOfUsage.id
+      do {
+        lastYearOfUsageID++
+        let tempUsage = JSON.parse(JSON.Stringify(lastYearOfUsage))
+        tempUsage.id = lastYearOfUsageID
+        newPlan.agreement.usage.push(tempUsage)
+      } while (
+        newPlan.agreement.usage.length <
+        planEndDate.getFullYear() - planStartDate.getFullYear()
+      )
+    }
+
+    return newPlan
+  }
+
   const fetchPlan = async () => {
     setFetching(true)
     const planId = getPlanId()
 
     try {
-      const plan = await getPlan(planId)
-
+      const tempPlan = await getPlan(planId)
+      const plan = appendUsage(tempPlan)
       setPlan(RUPSchema.cast(plan))
     } catch (e) {
       setError(e)
