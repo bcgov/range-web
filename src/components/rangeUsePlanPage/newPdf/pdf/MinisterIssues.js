@@ -43,7 +43,7 @@ const MinisterIssues = ({ plan }) => (
         {ministerIssue.ministerIssueActions.length > 0 ? (
           <MinisterIssueActions actions={ministerIssue.ministerIssueActions} />
         ) : (
-          <Subtext>No action provided</Subtext>
+          <Subtext>No actions provided</Subtext>
         )}
       </View>
     ))}
