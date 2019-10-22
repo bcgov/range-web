@@ -74,11 +74,12 @@ const Base = ({
 
   // for plans extending past agreement date, extend usage
   const appendUsage = (plan, Plan) => {
-    let planStartDate = Date.parse(plan.planStartDate)
-    let planEndDate = Date.parse(plan.planEndDate)
-    let agrEndDate = Date.parse(plan.agreement.agreementEndDate)
+    let planStartDate = new Date(plan.planStartDate)
+    let planEndDate = new Date(plan.planEndDate)
+    let agrEndDate = new Date(plan.agreement.agreementEndDate)
 
     var newPlan = JSON.parse(JSON.stringify(plan))
+
     if (planEndDate.getFullYear() > agrEndDate.getFullYear()) {
       let lastYearOfUsage =
         plan.agreement.usage[plan.agreement.usage.length - 1]
