@@ -14,7 +14,7 @@ import {
   getAgreementExemptionStatus,
   getClientFullName,
   getContactRole
-} from '../../pdf/helper'
+} from '../helper'
 import Row from './common/Row'
 import SectionHeader from './common/SectionHeader'
 

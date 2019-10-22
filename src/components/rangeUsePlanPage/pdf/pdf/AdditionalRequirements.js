@@ -5,7 +5,7 @@ import Header from './Header'
 import Title from './common/Title'
 import { config } from './common/config'
 import Subtext from './common/Subtext'
-import { handleNullValue } from '../../pdf/helper'
+import { handleNullValue } from '../helper'
 import Label from './common/Label'
 import Row from './common/Row'
 

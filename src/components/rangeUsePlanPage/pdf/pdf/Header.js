@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, Image } from '@react-pdf/renderer'
 import moment from 'moment'
 import { IMAGE_SRC } from '../../../../constants/variables'
-import { getPrimaryClientFullName } from '../../pdf/helper'
+import { getPrimaryClientFullName } from '../helper'
 
 const styles = StyleSheet.create({
   header: {

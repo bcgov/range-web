@@ -3,7 +3,7 @@ import Field from './common/Field'
 import Row from './common/Row'
 import SectionHeader from './common/SectionHeader'
 import Section from './common/Section'
-import { getMonitoringAreaPurposes } from '../../pdf/helper'
+import { getMonitoringAreaPurposes } from '../helper'
 
 const MonitoringArea = ({ monitoringArea }) => (
   <Section primary>

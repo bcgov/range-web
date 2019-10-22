@@ -7,7 +7,7 @@ import { config } from './common/config'
 import Subtext from './common/Subtext'
 import SectionHeader from './common/SectionHeader'
 import Field from './common/Field'
-import { formatMinisterIssues } from '../../pdf/helper'
+import { formatMinisterIssues } from '../helper'
 import MinisterIssueActions from './MinisterIssueActions'
 
 const styles = StyleSheet.create({
