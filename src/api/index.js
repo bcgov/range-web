@@ -283,6 +283,7 @@ const savePlantCommunityActions = (
           getAuthHeaderConfig()
         )
       }
+      return Promise.resolve()
     })
   )
 }
@@ -303,6 +304,7 @@ const saveIndicatorPlants = (
           getAuthHeaderConfig()
         )
       }
+      return Promise.resolve()
     })
   )
 }
@@ -323,6 +325,7 @@ const saveMonitoringAreas = (
           getAuthHeaderConfig()
         )
       }
+      return Promise.resolve()
     })
   )
 }
