@@ -58,8 +58,8 @@ export const appendUsage = plan => {
       tempUsage.fta = false
       newPlan.agreement.usage.push(tempUsage)
     } while (
-      newPlan.agreement.usage.length <
-      planEndDate.getFullYear() - planStartDate.getFullYear()
+      newPlan.agreement.usage[newPlan.agreement.usage.length - 1].year <
+      planEndDate.getFullYear()
     )
   }
 
