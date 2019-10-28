@@ -24,17 +24,21 @@ Font.register({
   ]
 })
 
-const RUPDocument = ({ plan }) => (
-  <Document title={`Range Use Plan - ${plan.agreement.id}`}>
-    <FrontPage plan={plan} />
-    <BasicInformation plan={plan} />
-    <Pastures plan={plan} />
-    <Schedules plan={plan} />
-    <MinisterIssues plan={plan} />
-    <InvasivePlants plan={plan} />
-    <AdditionalRequirements plan={plan} />
-    <ManagementConsiderations plan={plan} />
-  </Document>
-)
+const RUPDocument = ({ plan }) => {
+  if (!plan) return <Document />
+
+  return (
+    <Document title={`Range Use Plan - ${plan.agreement.id}`}>
+      <FrontPage plan={plan} />
+      <BasicInformation plan={plan} />
+      <Pastures plan={plan} />
+      <Schedules plan={plan} />
+      <MinisterIssues plan={plan} />
+      <InvasivePlants plan={plan} />
+      <AdditionalRequirements plan={plan} />
+      <ManagementConsiderations plan={plan} />
+    </Document>
+  )
+}
 
 export default RUPDocument
