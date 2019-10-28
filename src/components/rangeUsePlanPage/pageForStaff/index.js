@@ -8,7 +8,6 @@ import BackBtn from '../BackBtn'
 import ContentsContainer from '../ContentsContainer'
 import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
-import { EXPORT_PDF } from '../../../constants/routes'
 import Notifications from '../notifications'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
@@ -126,8 +125,8 @@ class PageForStaff extends Component {
   }
 
   onViewPDFClicked = () => {
-    const { id: planId, agreementId } = this.props.plan || {}
-    window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank')
+    const { id: planId } = this.props.plan || {}
+    this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
   }
 
   openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PLAN_STATUS, REFERENCE_KEY } from '../../../constants/variables'
-import { RANGE_USE_PLAN, EXPORT_PDF } from '../../../constants/routes'
+import { RANGE_USE_PLAN } from '../../../constants/routes'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import { Status, Banner } from '../../common'
@@ -161,8 +161,8 @@ class PageForAH extends Component {
   }
 
   onViewPDFClicked = () => {
-    const { id: planId, agreementId } = this.props.plan || {}
-    window.open(`${EXPORT_PDF}/${agreementId}/${planId}`, '_blank')
+    const { id: planId } = this.props.plan || {}
+    this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
   }
 
   openSubmissionModal = () => {

@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Modal, Header, Button } from 'semantic-ui-react'
+import { Route } from 'react-router-dom'
 import { Loading, PrimaryButton } from '../common'
 import {
   planUpdated,
@@ -51,6 +52,7 @@ import {
   savePastures,
   savePlantCommunities
 } from '../../api'
+import PDFView from './pdf/PDFView'
 
 const Base = ({
   user,
@@ -187,6 +189,31 @@ const Base = ({
           />
         </div>
       )}
+
+      <Route
+        path={`${match.url}/export-pdf`}
+        render={() => {
+          const closePDFModal = () => history.push(match.url)
+          return (
+            <Modal
+              size="tiny"
+              open={true}
+              onClose={closePDFModal}
+              dimmer="blurring">
+              <Header content="Download PDF" icon="file pdf" />
+              <Modal.Content>
+                The PDF may take a few minutes to generate.
+              </Modal.Content>
+              <Modal.Actions>
+                <Button type="button" onClick={closePDFModal}>
+                  Close
+                </Button>
+                <PDFView match={match} />
+              </Modal.Actions>
+            </Modal>
+          )
+        }}
+      />
 
       {plan && (
         <Form
