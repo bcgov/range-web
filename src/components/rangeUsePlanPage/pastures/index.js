@@ -6,8 +6,10 @@ import { FieldArray } from 'formik'
 import PastureBox from './PastureBox'
 import { IfEditable } from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
+import InputModal from '../../common/InputModal'
 
 const Pastures = ({ pastures }) => {
+  const [isModalOpen, setModalOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const handlePastureClick = useCallback(index => {
     setActiveIndex(activeIndex === index ? -1 : index)
@@ -29,15 +31,7 @@ const Pastures = ({ pastures }) => {
                 basic
                 primary
                 onClick={() => {
-                  push({
-                    name: '',
-                    allowableAum: '',
-                    graceDays: 1,
-                    pldPercent: 0,
-                    notes: '',
-                    plantCommunities: [],
-                    id: new Date().toISOString()
-                  })
+                  setModalOpen(true)
                 }}
                 className="icon labeled rup__pastures__add-button">
                 <i className="add circle icon" />
@@ -45,6 +39,25 @@ const Pastures = ({ pastures }) => {
               </Button>
             </IfEditable>
           </div>
+
+          <InputModal
+            open={isModalOpen}
+            onClose={() => setModalOpen(false)}
+            onSubmit={name => {
+              push({
+                name,
+                allowableAum: '',
+                graceDays: 1,
+                pldPercent: 0,
+                notes: '',
+                plantCommunities: [],
+                id: new Date().toISOString()
+              })
+              setModalOpen(false)
+            }}
+            title="Add pasture"
+            placeholder="Pasture name"
+          />
 
           <div className="rup__divider" />
           {pastures.length === 0 ? (
