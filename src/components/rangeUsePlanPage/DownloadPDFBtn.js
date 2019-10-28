@@ -20,6 +20,7 @@ const DownloadPDFBtn = ({ onClick, disabled }) => (
       inverted
       disabled={disabled}
       onClick={onClick}
+      type="button"
       icon="file pdf outline"
       style={{ marginRight: '0' }}
     />
@@ -29,6 +30,7 @@ const DownloadPDFBtn = ({ onClick, disabled }) => (
       inverted
       disabled={disabled}
       onClick={onClick}
+      type="button"
       style={{ marginRight: '0' }}>
       <Icon name="file pdf outline" />
       {DOWNLOAD_PDF}
