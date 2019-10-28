@@ -51,6 +51,7 @@ const PlantCommunityPicker = React.memo(
           pointing="left"
           onChange={onOptionClicked}
           selectOnBlur={false}
+          scrolling
           // Make the dropdown controlled so it doesn't remember the last option
           // picked and always fires `onChange`
           value={null}
