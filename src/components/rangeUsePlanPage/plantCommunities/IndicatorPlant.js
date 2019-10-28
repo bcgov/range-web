@@ -29,6 +29,16 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
     .filter(o => o.text !== 'Other')
     .concat(otherType)
 
+  const onAddItem = (e, { value }) => {
+    setOtherType({
+      ...otherType,
+      text: value
+    })
+
+    formik.setFieldValue(`${namespace}.plantSpeciesId`, otherType.value)
+    formik.setFieldValue(`${namespace}.name`, value)
+  }
+
   return (
     <Grid key={plant.id}>
       <Grid.Column mobile="15">
@@ -48,17 +58,11 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               search: true,
               allowAdditions: true,
               additionLabel: 'Other: ',
-              onAddItem: (e, { value }) => {
-                setOtherType({
-                  ...otherType,
-                  text: value
-                })
-
-                formik.setFieldValue(
-                  `${namespace}.plantSpeciesId`,
-                  otherType.value
-                )
-                formik.setFieldValue(`${namespace}.name`, value)
+              onAddItem,
+              onBlur: e => {
+                if (e.target.value !== '') {
+                  onAddItem(e, { value: e.target.value })
+                }
               },
               onChange: (e, { value }) => {
                 if (typeof value !== 'string') {
