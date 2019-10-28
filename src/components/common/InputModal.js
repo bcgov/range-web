@@ -8,7 +8,8 @@ const InputModal = ({
   open = false,
   onSubmit,
   onClose,
-  title = 'Enter a value'
+  title = 'Enter a value',
+  placeholder = 'Type a value here...'
 }) => {
   const inputRef = useRef(null)
 
@@ -43,7 +44,7 @@ const InputModal = ({
               }}>
               <Field
                 name="input"
-                placeholder="Type a value here..."
+                placeholder={placeholder}
                 innerRef={inputRef}
               />
             </Form>
@@ -73,7 +74,8 @@ InputModal.propTypes = {
   open: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
+  placeholder: PropTypes.string
 }
 
 export default InputModal
