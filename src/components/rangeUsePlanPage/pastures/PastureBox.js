@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import PermissionsField from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
@@ -10,6 +10,7 @@ import { IMAGE_SRC } from '../../../constants/variables'
 import PlantCommunities from '../plantCommunities'
 import { getIn, connect } from 'formik'
 import PercentField from '../../common/form/PercentField'
+import InputModal from '../../common/InputModal'
 
 const dropdownOptions = [{ key: 'copy', value: 'copy', text: 'Copy' }]
 
@@ -22,113 +23,123 @@ const PastureBox = ({
   namespace,
   formik
 }) => {
+  const [isModalOpen, setModalOpen] = useState(false)
+
   const isError = !!getIn(formik.errors, namespace)
   return (
-    <CollapsibleBox
-      key={pasture.id}
-      contentIndex={index}
-      activeContentIndex={activeIndex}
-      onContentClick={() => onClick(index)}
-      error={isError}
-      header={
-        <div className="rup__pasture">
-          <div className="rup__pasture__title">
-            <div style={{ width: '30px' }}>
-              {isError ? (
-                <Icon name="warning sign" />
-              ) : (
-                <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+    <>
+      <CollapsibleBox
+        key={pasture.id}
+        contentIndex={index}
+        activeContentIndex={activeIndex}
+        onContentClick={() => onClick(index)}
+        error={isError}
+        header={
+          <div className="rup__pasture">
+            <div className="rup__pasture__title">
+              <div style={{ width: '30px' }}>
+                {isError ? (
+                  <Icon name="warning sign" />
+                ) : (
+                  <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
+                )}
+              </div>
+              Pasture: {pasture.name}
+            </div>
+
+            <div>
+              {activeIndex === index && (
+                <Icon
+                  name="edit"
+                  onClick={e => {
+                    setModalOpen(true)
+                    e.stopPropagation()
+                  }}
+                />
               )}
-            </div>
-            Pasture:
-            {activeIndex === index ? (
-              <PermissionsField
-                name={`${namespace}.name`}
-                permission={PASTURES.NAME}
-                component={Input}
-                displayValue={pasture.name}
-                errorComponent={() => null}
-                inputProps={{
-                  onClick: e => e.stopPropagation()
+              <Dropdown
+                className="rup__pasture__actions"
+                trigger={<i className="ellipsis vertical icon" />}
+                options={dropdownOptions}
+                icon={null}
+                pointing="right"
+                onClick={e => e.stopPropagation()}
+                onChange={(e, { value }) => {
+                  if (value === 'copy') onCopy()
                 }}
-                fast
-              />
-            ) : (
-              ` ${pasture.name}`
-            )}
-          </div>
-
-          <Dropdown
-            className="rup__pasture__actions"
-            trigger={<i className="ellipsis vertical icon" />}
-            options={dropdownOptions}
-            icon={null}
-            pointing="right"
-            onClick={e => e.stopPropagation()}
-            onChange={(e, { value }) => {
-              if (value === 'copy') onCopy()
-            }}
-            selectOnBlur={false}
-          />
-        </div>
-      }
-      collapsibleContent={
-        <>
-          <div className="rup__row">
-            <div className="rup__cell-4">
-              <PermissionsField
-                name={`${namespace}.allowableAum`}
-                permission={PASTURES.ALLOWABLE_AUMS}
-                component={Input}
-                displayValue={pasture.allowableAum}
-                label={strings.ALLOWABLE_AUMS}
-                fast
-              />
-            </div>
-            <div className="rup__cell-4">
-              <PermissionsField
-                name={`${namespace}.pldPercent`}
-                permission={PASTURES.PLD}
-                component={PercentField}
-                displayValue={pasture.pldPercent}
-                label={strings.PRIVATE_LAND_DEDUCTION}
-                inputProps={{
-                  label: '%',
-                  labelPosition: 'right',
-                  type: 'number'
-                }}
-                fast
-              />
-            </div>
-            <div className="rup__cell-4">
-              <PermissionsField
-                name={`${namespace}.graceDays`}
-                permission={PASTURES.GRACE_DAYS}
-                component={Input}
-                displayValue={pasture.graceDays}
-                label={strings.GRACE_DAYS}
-                fast
+                selectOnBlur={false}
               />
             </div>
           </div>
-          <PermissionsField
-            name={`${namespace}.notes`}
-            permission={PASTURES.NOTES}
-            displayValue={pasture.notes}
-            component={Input}
-            label={strings.PASTURE_NOTES}
-            fluid
-            fast
-          />
+        }
+        collapsibleContent={
+          <>
+            <div className="rup__row">
+              <div className="rup__cell-4">
+                <PermissionsField
+                  name={`${namespace}.allowableAum`}
+                  permission={PASTURES.ALLOWABLE_AUMS}
+                  component={Input}
+                  displayValue={pasture.allowableAum}
+                  label={strings.ALLOWABLE_AUMS}
+                  fast
+                />
+              </div>
+              <div className="rup__cell-4">
+                <PermissionsField
+                  name={`${namespace}.pldPercent`}
+                  permission={PASTURES.PLD}
+                  component={PercentField}
+                  displayValue={pasture.pldPercent}
+                  label={strings.PRIVATE_LAND_DEDUCTION}
+                  inputProps={{
+                    label: '%',
+                    labelPosition: 'right',
+                    type: 'number'
+                  }}
+                  fast
+                />
+              </div>
+              <div className="rup__cell-4">
+                <PermissionsField
+                  name={`${namespace}.graceDays`}
+                  permission={PASTURES.GRACE_DAYS}
+                  component={Input}
+                  displayValue={pasture.graceDays}
+                  label={strings.GRACE_DAYS}
+                  fast
+                />
+              </div>
+            </div>
+            <PermissionsField
+              name={`${namespace}.notes`}
+              permission={PASTURES.NOTES}
+              displayValue={pasture.notes}
+              component={Input}
+              label={strings.PASTURE_NOTES}
+              fluid
+              fast
+            />
 
-          <PlantCommunities
-            plantCommunities={pasture.plantCommunities}
-            namespace={namespace}
-            canEdit={true}
-          />
-        </>
-      }
-    />
+            <PlantCommunities
+              plantCommunities={pasture.plantCommunities}
+              namespace={namespace}
+              canEdit={true}
+            />
+          </>
+        }
+      />
+      <InputModal
+        open={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={name => {
+          formik.setFieldValue(`${namespace}.name`, name)
+          setModalOpen(false)
+        }}
+        title="Edit pasture name"
+        placeholder="Pasture name"
+      />
+    </>
   )
 }
 
