@@ -17,6 +17,7 @@ const DateInputField = ({ inline, ...props }) => (
             {...field}
             {...props}
             inlineLabel={inline}
+            hideMobileKeyboard
             onChange={(e, { value }) => {
               const date = moment(value, props.dateFormat).toISOString()
               form.setFieldValue(field.name, date)
@@ -25,6 +26,10 @@ const DateInputField = ({ inline, ...props }) => (
               field.value ? moment(field.value).format(props.dateFormat) : ''
             }
             onBlur={() => form.setFieldTouched(field.name)}
+            onKeyDown={e => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
             error={!!error}
           />
           {error && (
