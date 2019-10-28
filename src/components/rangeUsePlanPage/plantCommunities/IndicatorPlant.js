@@ -26,8 +26,8 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
       value: species.id,
       text: species.name
     }))
-    .filter(o => o.text !== 'Other')
     .concat(otherType)
+    .filter(o => o.text !== 'Other')
 
   const onAddItem = (e, { value }) => {
     setOtherType({
