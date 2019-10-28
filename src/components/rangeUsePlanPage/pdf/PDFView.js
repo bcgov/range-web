@@ -1,35 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import { PDFViewer } from '@react-pdf/renderer'
+import React, { useState } from 'react'
 import RUPDocument from './pdf'
 import { getPlan } from '../../../api'
-import { Loading } from '../../common'
+import { Button, Icon } from 'semantic-ui-react'
+import { usePDF } from '../../../utils/hooks/pdf'
 
 const PDFView = ({ match }) => {
-  const [isFetching, setFetching] = useState(false)
-  const [plan, setPlan] = useState(null)
+  const [agreementId, setAgreementId] = useState(null)
   const { planId } = match.params
 
-  const fetchPlan = async () => {
-    setFetching(true)
-
+  const [pdfUrl, loading, error, retry] = usePDF(async () => {
+    setAgreementId(null)
     const plan = await getPlan(planId)
 
-    setPlan(plan)
-    setFetching(false)
-  }
+    if (plan && plan.agreement && plan.agreement.id) {
+      setAgreementId(plan.agreement.id)
+    }
+    return <RUPDocument plan={plan} />
+  }, [match.url])
 
-  useEffect(() => {
-    fetchPlan()
-  }, [])
+  const hasError = !!error
 
   return (
     <>
-      <Loading active={isFetching} message="Fetching plan" />
-      {!isFetching && plan && (
-        <PDFViewer width={window.innerWidth} height={window.innerHeight}>
-          <RUPDocument plan={plan} />
-        </PDFViewer>
-      )}
+      <Button
+        primary
+        negative={hasError}
+        basic={hasError}
+        loading={loading}
+        as="a"
+        href={pdfUrl}
+        download={`Range Use Plan - ${agreementId}`}
+        onClick={() => {
+          if (hasError && !loading) {
+            retry()
+          }
+        }}>
+        <Icon name="file pdf outline" />
+        {error ? `Error loading PDF. Click to retry` : 'Download PDF'}
+      </Button>
     </>
   )
 }
