@@ -49,9 +49,11 @@ const PlantCommunityPicker = React.memo(
           options={options}
           icon={null}
           pointing="left"
-          search
           onChange={onOptionClicked}
           selectOnBlur={false}
+          // Make the dropdown controlled so it doesn't remember the last option
+          // picked and always fires `onChange`
+          value={null}
         />
         <InputModal
           open={isModalOpen}
