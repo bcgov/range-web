@@ -15,7 +15,7 @@ import {
 } from 'semantic-ui-react'
 
 const DayMonthPicker = connect(
-  ({ dayName, monthName, label, formik, dateFormat, ...props }) => {
+  ({ dayName, monthName, label, formik, dateFormat = 'MMMM Do', ...props }) => {
     const [open, setOpen] = useState(false)
     const [currentMonth, setCurrentMonth] = useState(0)
 
@@ -58,7 +58,7 @@ const DayMonthPicker = connect(
                   value={
                     dayValue && monthValue
                       ? moment()
-                          .set('month', monthValue)
+                          .set('month', monthValue - 1)
                           .set('date', dayValue)
                           .format(dateFormat)
                       : ''
