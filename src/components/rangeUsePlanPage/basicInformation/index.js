@@ -41,6 +41,8 @@ const BasicInformation = ({ plan, agreement }) => {
   )
   const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder)
 
+  const isFutureDatedPlan = plan.planEndDate > plan.agreement.agreementEndDate
+
   return (
     <div className="rup__basic_information">
       <div className="rup__content-title">Basic Information</div>
@@ -102,6 +104,16 @@ const BasicInformation = ({ plan, agreement }) => {
             label={strings.PLAN_END_DATE}
             dateFormat="MMMM DD, YYYY"
           />
+
+          {isFutureDatedPlan && (
+            <div>
+              If your plan end date extends past the agreement date, the usage
+              from the last year will be copied forward each year to plan end.
+              <br />
+              <br />
+            </div>
+          )}
+
           <TextField label={strings.EXTENDED} text={extension} />
           <TextField
             label={strings.EXEMPTION_STATUS}
