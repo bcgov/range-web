@@ -30,7 +30,14 @@ const PDFView = ({ match }) => {
         as="a"
         href={pdfUrl}
         download={`Range Use Plan - ${agreementId}`}
-        onClick={() => {
+        onClick={e => {
+          const iOS =
+            /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+
+          if (iOS && !loading && !hasError && pdfUrl) {
+            e.preventDefault()
+            window.open(pdfUrl, '_blank')
+          }
           if (hasError && !loading) {
             retry()
           }
