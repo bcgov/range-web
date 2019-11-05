@@ -24,6 +24,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm ci
+        npm run prettier -- -v
         npm run test:ci
       env:
         CI: true
