@@ -108,8 +108,8 @@ const BasicInformation = ({ plan, agreement }) => {
           {isFutureDatedPlan && (
             <div>
               If your plan end date extends past the agreement date, the usage
-              from the last year will be copied forward each year to plan end
-              on saving.
+              from the last year will be copied forward each year to plan end on
+              saving.
               <br />
               <br />
             </div>
