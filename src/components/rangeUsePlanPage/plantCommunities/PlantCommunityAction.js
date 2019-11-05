@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'formik'
 import { Form, Icon, Dropdown as PlainDropdown, Grid } from 'semantic-ui-react'
@@ -30,6 +30,8 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
     .filter(o => o.text !== 'Other')
     .concat(otherOption)
 
+  const valueInputRef = useRef(null)
+
   return (
     <Grid>
       <Grid.Column width="4">
@@ -54,6 +56,11 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             search: true,
             fluid: true,
             additionLabel: 'Other: ',
+            onKeyDown: e => {
+              if (e.keyCode === 13) {
+                valueInputRef.current.focus()
+              }
+            },
             onAddItem: (e, { value }) => {
               setOtherOption({
                 ...otherOption,
@@ -81,7 +88,8 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             required: true
           }}
           inputProps={{
-            rows: 5
+            rows: 5,
+            ref: valueInputRef
           }}
         />
 
