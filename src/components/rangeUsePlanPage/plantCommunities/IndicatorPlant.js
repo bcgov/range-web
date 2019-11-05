@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { STUBBLE_HEIGHT } from '../../../constants/fields'
 import { Dropdown, Icon, Grid } from 'semantic-ui-react'
@@ -39,6 +39,8 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
     formik.setFieldValue(`${namespace}.name`, value)
   }
 
+  const valueInputRef = useRef(null)
+
   return (
     <Grid key={plant.id}>
       <Grid.Column mobile="15">
@@ -59,9 +61,15 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               allowAdditions: true,
               additionLabel: 'Other: ',
               onAddItem,
+              selectOnBlur: true,
               onBlur: e => {
                 if (e.target.value !== '') {
                   onAddItem(e, { value: e.target.value })
+                }
+              },
+              onKeyDown: e => {
+                if (e.keyCode === 13) {
+                  valueInputRef.current.focus()
                 }
               },
               onChange: (e, { value }) => {
@@ -83,6 +91,9 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             name={`${namespace}.value`}
             component={DecimalField}
             displayValue={plant.value}
+            inputProps={{
+              ref: valueInputRef
+            }}
           />
         </Form.Group>
       </Grid.Column>
