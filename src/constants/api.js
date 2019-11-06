@@ -141,6 +141,8 @@ export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) =>
 
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community`
+export const UPDATE_RUP_PLANT_COMMUNITY = (planId, pastureId, plantId) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${plantId}`
 export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (
   planId,
   pastureId,
