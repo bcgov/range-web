@@ -149,6 +149,13 @@ export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (
   communityId
 ) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action`
+export const UPDATE_RUP_PLANT_COMMUNITY_ACTION = (
+  planId,
+  pastureId,
+  communityId,
+  actionId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action/${actionId}`
 
 export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`

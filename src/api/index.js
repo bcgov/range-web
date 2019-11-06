@@ -259,13 +259,11 @@ export const savePlantCommunities = (planId, pastureId, plantCommunities) => {
           getAuthHeaderConfig()
         )).data.id
       } else {
-        const { data: updatedCommunity } = await axios.put(
+        await axios.put(
           API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
           values,
           getAuthHeaderConfig()
         )
-
-        return updatedCommunity
       }
 
       await savePlantCommunityActions(
@@ -305,8 +303,18 @@ const savePlantCommunityActions = (
           values,
           getAuthHeaderConfig()
         )
+      } else {
+        return axios.put(
+          API.UPDATE_RUP_PLANT_COMMUNITY_ACTION(
+            planId,
+            pastureId,
+            communityId,
+            actionId
+          ),
+          values,
+          getAuthHeaderConfig()
+        )
       }
-      return Promise.resolve()
     })
   )
 }
