@@ -1,5 +1,5 @@
 # About My Range Application (MyRangeBC) for Web
-
+	
 
 The Range Mobile Pathfinder project is developing a suite of applications to support the sustainable management of cattle range on crown lands in British Columbia. [Learn more about the Range Program](https://www.for.gov.bc.ca/hra/)
 
