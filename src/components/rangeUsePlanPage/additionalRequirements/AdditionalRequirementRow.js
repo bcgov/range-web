@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { isUUID } from 'uuid-v4'
 import PermissionsField from '../../common/PermissionsField'
 import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
 import { useReferences } from '../../../providers/ReferencesProvider'
