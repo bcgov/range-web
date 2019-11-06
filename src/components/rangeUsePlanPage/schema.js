@@ -48,7 +48,9 @@ const RUPSchema = Yup.object().shape({
             .required('Required field'),
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required('Required field'),
-          shrubUse: Yup.string().transform(handleNull()),
+          shrubUse: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable(),
           rangeReadinessMonth: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable(),
