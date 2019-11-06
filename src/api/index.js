@@ -119,6 +119,14 @@ export const saveAdditionalRequirements = (planId, additionalRequirements) => {
           ...requirement,
           id: data.id
         }
+      } else {
+        await axios.put(
+          API.UPDATE_RUP_ADDITIONAL_REQUIREMENT(planId, requirement.id),
+          requirement,
+          getAuthHeaderConfig()
+        )
+
+        return requirement
       }
     })
   )
