@@ -334,8 +334,18 @@ const saveIndicatorPlants = (
           values,
           getAuthHeaderConfig()
         )
+      } else {
+        return axios.put(
+          API.UPDATE_RUP_INDICATOR_PLANT(
+            planId,
+            pastureId,
+            communityId,
+            plantId
+          ),
+          values,
+          getAuthHeaderConfig()
+        )
       }
-      return Promise.resolve()
     })
   )
 }
