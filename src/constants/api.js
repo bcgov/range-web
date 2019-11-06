@@ -168,6 +168,13 @@ export const UPDATE_RUP_INDICATOR_PLANT = (
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant/${plantId}`
 export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area`
+export const UPDATE_RUP_MONITORING_AREA = (
+  planId,
+  pastureId,
+  communityId,
+  areaId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area/${areaId}`
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId =>
   `/v1/plan/${planId}/invasive-plant-checklist`
 export const UPDATE_RUP_INVASIVE_PLANT_CHECKLIST = (planId, checklistId) =>

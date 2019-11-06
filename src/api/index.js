@@ -365,8 +365,18 @@ const saveMonitoringAreas = (
           values,
           getAuthHeaderConfig()
         )
+      } else {
+        return axios.put(
+          API.UPDATE_RUP_MONITORING_AREA(
+            planId,
+            pastureId,
+            communityId,
+            areaId
+          ),
+          values,
+          getAuthHeaderConfig()
+        )
       }
-      return Promise.resolve()
     })
   )
 }
