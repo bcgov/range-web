@@ -62,11 +62,6 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               additionLabel: 'Other: ',
               onAddItem,
               selectOnBlur: true,
-              onBlur: e => {
-                if (e.target.value !== '') {
-                  onAddItem(e, { value: e.target.value })
-                }
-              },
               onKeyDown: e => {
                 if (e.keyCode === 13) {
                   valueInputRef.current.focus()

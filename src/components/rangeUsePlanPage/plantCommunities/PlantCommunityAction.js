@@ -56,6 +56,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             search: true,
             fluid: true,
             additionLabel: 'Other: ',
+            selectOnBlur: true,
             onKeyDown: e => {
               if (e.keyCode === 13) {
                 valueInputRef.current.focus()
