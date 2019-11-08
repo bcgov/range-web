@@ -10,7 +10,9 @@ import { getReferences, getUser } from '../../../reducers/rootReducer'
 import { planUpdated } from '../../../actions'
 import { isSingleClient, findStatusWithCode } from '../../../utils'
 import TabsForSingleAH from './tabs/TabsForSingleAH'
+import { findConfirmationWithClientId } from '../../../utils'
 import TabsForMultipleAH from './tabs/TabsForMultipleAH'
+import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
 
 class SubmissionModal extends Component {
   static propTypes = {
@@ -60,13 +62,31 @@ class SubmissionModal extends Component {
   }
 
   submitPlan = (plan, status) => {
-    const { updateStatusAndContent, fetchPlan } = this.props
+    const {
+      updateStatusAndContent,
+      updateRUPConfirmation,
+      fetchPlan,
+      user
+    } = this.props
     const { note } = this.state
 
     const onRequest = () => {
       this.setState({ isSubmitting: true })
     }
     const onSuccess = async () => {
+      const currUserConfirmation = findConfirmationWithClientId(
+        user.clientId,
+        plan.confirmations
+      )
+      const confirmed = true
+      const isMinorAmendment = false
+
+      await updateRUPConfirmation(
+        plan,
+        currUserConfirmation.id,
+        confirmed,
+        isMinorAmendment
+      )
       await fetchPlan()
       this.setState({ isSubmitting: false })
     }
@@ -153,6 +173,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    planUpdated
+    planUpdated,
+    updateRUPConfirmation
   }
 )(SubmissionModal)
