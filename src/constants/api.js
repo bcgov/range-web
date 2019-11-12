@@ -106,6 +106,11 @@ export const UPDATE_RUP = planId => `/v1/plan/${planId}`
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`
 
+export const CREATE_RUP_VERSION = planId => `/v1/plan/${planId}/version`
+export const GET_RUP_VERSIONS = planId => `/v1/plan/${planId}/version`
+export const GET_RUP_VERSION = (planId, version) =>
+  `/v1/plan/${planId}/version/${version}`
+
 export const CREATE_RUP_STATUS_RECORD = planId =>
   `/v1/plan/${planId}/status-record`
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`
