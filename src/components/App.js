@@ -24,6 +24,7 @@ import Router from './router'
 import UserProvider from '../providers/UserProvider'
 import ReferencesProvider from '../providers/ReferencesProvider'
 import ToastProvider from '../providers/ToastProvider'
+import EditableProvider from '../providers/EditableProvider'
 
 const store = configureStore()
 
@@ -32,11 +33,13 @@ class App extends Component {
     return (
       <Provider store={store}>
         <UserProvider>
-          <ReferencesProvider>
-            <ToastProvider>
-              <Router />
-            </ToastProvider>
-          </ReferencesProvider>
+          <EditableProvider editable={true}>
+            <ReferencesProvider>
+              <ToastProvider>
+                <Router />
+              </ToastProvider>
+            </ReferencesProvider>
+          </EditableProvider>
         </UserProvider>
       </Provider>
     )
