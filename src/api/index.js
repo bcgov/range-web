@@ -8,6 +8,10 @@ export const getPlan = async planId => {
   return data
 }
 
+export const createVersion = async planId => {
+  await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig())
+}
+
 export const saveGrazingSchedules = (planId, grazingSchedules) => {
   return Promise.all(
     grazingSchedules.map(async schedule => {
