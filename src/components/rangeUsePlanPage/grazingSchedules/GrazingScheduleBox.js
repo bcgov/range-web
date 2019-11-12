@@ -40,6 +40,17 @@ const GrazingScheduleBox = ({
 
   const isError = !!getIn(formik.errors, namespace)
 
+  const getScheduleError = () => {
+    if (schedule.grazingScheduleEntries.length === 0) {
+      return strings.EMPTY_GRAZING_SCHEDULE_ENTRIES
+    }
+    if (isCrownTotalAUMsError) {
+      return strings.TOTAL_AUMS_EXCEEDS
+    }
+  }
+
+  const scheduleError = getScheduleError()
+
   return (
     <FieldArray
       name={`${namespace}.grazingScheduleEntries`}
@@ -88,14 +99,17 @@ const GrazingScheduleBox = ({
             }
             collapsibleContent={
               <>
-                {isError && (
-                  <ErrorMessage
-                    message="Schedule has one or more invalid entries"
-                    visible
-                    attached
-                  />
-                )}
-                <Table unstackable attached={isError ? 'bottom' : false}>
+                {isError ||
+                  (scheduleError && (
+                    <ErrorMessage
+                      message={scheduleError || 'Error'}
+                      visible
+                      attached
+                    />
+                  ))}
+                <Table
+                  unstackable
+                  attached={isError || scheduleError ? 'bottom' : false}>
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell>
