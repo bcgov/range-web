@@ -35,6 +35,7 @@ export const AMEND_PLAN = 'Amend Plan'
 export const SIGN_SUBMISSION = 'Sign Submission'
 export const VIEW = 'View'
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation'
+export const VIEW_VERSIONS = 'View Versions'
 
 // RUP tabs
 export const BASIC_INFORMATION = 'Basic Information'

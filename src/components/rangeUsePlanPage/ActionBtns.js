@@ -7,7 +7,8 @@ import {
   AMEND_PLAN,
   SIGN_SUBMISSION,
   AMEND_PLAN_CONFIRM_HEADER,
-  AMEND_PLAN_CONFIRM_CONTENT
+  AMEND_PLAN_CONFIRM_CONTENT,
+  VIEW_VERSIONS
 } from '../../constants/strings'
 import { CONFIRMATION_MODAL_ID } from '../../constants/variables'
 import DownloadPDFBtn from './DownloadPDFBtn'
@@ -21,6 +22,7 @@ const ActionBtns = ({
   isCreatingAmendment,
   onViewPDFClicked,
   onAmendPlanClicked,
+  onViewVersionsClicked,
   openSubmissionModal,
   openAHSignatureModal,
   openConfirmationModal,
@@ -84,6 +86,17 @@ const ActionBtns = ({
       {SIGN_SUBMISSION}
     </Button>
   )
+  const viewVersionsBtn = (
+    <Button
+      key="viewVersionnBtn"
+      type="button"
+      inverted
+      compact
+      style={{ marginRight: '0', marginLeft: '10px' }}
+      onClick={onViewVersionsClicked}>
+      {VIEW_VERSIONS}
+    </Button>
+  )
 
   if (canSubmit && !canEdit) {
     return [downloadPDFBtn, submitBtn]
@@ -92,19 +105,19 @@ const ActionBtns = ({
     return [downloadPDFBtn, saveDraftBtn]
   }
   if (canEdit) {
-    return [downloadPDFBtn, saveDraftBtn, submitBtn]
+    return [downloadPDFBtn, viewVersionsBtn, saveDraftBtn, submitBtn]
   }
   if (canAmend) {
-    return [downloadPDFBtn, amendBtn]
+    return [downloadPDFBtn, viewVersionsBtn, amendBtn]
   }
   if (canConfirm) {
-    return [downloadPDFBtn, confirmSubmissionBtn]
+    return [downloadPDFBtn, viewVersionsBtn, confirmSubmissionBtn]
   }
   if (canSubmit) {
-    return [downloadPDFBtn, submitBtn]
+    return [downloadPDFBtn, viewVersionsBtn, submitBtn]
   }
 
-  return downloadPDFBtn
+  return [downloadPDFBtn, viewVersionsBtn]
 }
 
 export default connect(ActionBtns)
