@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Dropdown } from 'semantic-ui-react'
 import classnames from 'classnames'
 import { FieldArray } from 'formik'
+import uuid from 'uuid-v4'
 import { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import * as utils from '../../../utils'
@@ -70,7 +71,8 @@ const GrazingSchedules = ({ plan }) => {
                   push({
                     grazingScheduleEntries: [],
                     narative: '',
-                    year: value
+                    year: value,
+                    id: uuid()
                   })
                 }}
                 selectOnBlur={false}
