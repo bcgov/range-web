@@ -5,7 +5,7 @@ import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 import { roundTo1Decimal } from '../../../utils'
 import * as strings from '../../../constants/strings'
-import { CollapsibleBox, PrimaryButton } from '../../common'
+import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common'
 import { IMAGE_SRC } from '../../../constants/variables'
 import { FieldArray, connect, getIn } from 'formik'
 import { TextArea } from 'formik-semantic-ui'
@@ -87,7 +87,14 @@ const GrazingScheduleBox = ({
             }
             collapsibleContent={
               <>
-                <Table unstackable>
+                {isError && (
+                  <ErrorMessage
+                    message="Schedule has one or more invalid entries"
+                    visible
+                    attached
+                  />
+                )}
+                <Table unstackable attached={isError ? 'bottom' : false}>
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell>
