@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FieldArray, connect } from 'formik'
 import uuid from 'uuid-v4'
+import { IfEditable } from '../../common/PermissionsField'
+import { PLANT_COMMUNITY } from '../../../constants/fields'
 import { Button, Confirm } from 'semantic-ui-react'
 import PlantCommunityAction from './PlantCommunityAction'
 
@@ -33,16 +35,18 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
               setToRemove(null)
             }}
           />
-          <Button
-            primary
-            type="button"
-            className="icon labeled rup__plant-communities__add-button"
-            onClick={() =>
-              push({ actionTypeId: null, details: '', id: uuid() })
-            }>
-            <i className="add circle icon" />
-            Add Action
-          </Button>
+          <IfEditable permission={PLANT_COMMUNITY.ACTIONS.NAME}>
+            <Button
+              primary
+              type="button"
+              className="icon labeled rup__plant-communities__add-button"
+              onClick={() =>
+                push({ actionTypeId: null, details: '', id: uuid() })
+              }>
+              <i className="add circle icon" />
+              Add Action
+            </Button>
+          </IfEditable>
         </>
       )}
     />
