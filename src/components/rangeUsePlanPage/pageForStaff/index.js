@@ -130,6 +130,11 @@ class PageForStaff extends Component {
     this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
   }
 
+  onViewVersionsClicked = () => {
+    const { id: planId } = this.props.plan || {}
+    this.props.history.push(`/range-use-plan/${planId}/versions`)
+  }
+
   openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
   closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
   openPlanSubmissionModal = () =>
@@ -147,6 +152,7 @@ class PageForStaff extends Component {
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}
+        onViewVersionsClicked={this.onViewVersionsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
         openSubmissionModal={this.openPlanSubmissionModal}
       />

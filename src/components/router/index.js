@@ -26,6 +26,7 @@ import ProtectedRoute from './ProtectedRoute'
 import { useUser } from '../../providers/UserProvider'
 import * as Routes from '../../constants/routes'
 import { LoadableComponent } from './LoadableComponent'
+import VersionsList from '../rangeUsePlanPage/versionsList/VersionsList'
 
 const SelectRangeUsePlan = LoadableComponent(() =>
   import('../selectRangeUsePlanPage')
@@ -62,6 +63,29 @@ const Router = () => {
         <ProtectedRoute
           path={Routes.HOME}
           component={SelectRangeUsePlan}
+          user={user}
+        />
+        <ProtectedRoute
+          path={Routes.RANGE_USE_PLAN_WITH_PARAM}
+          component={RangeUsePlan}
+          user={user}
+        />
+        <ProtectedRoute
+          path={Routes.EXPORT_PDF_WITH_PARAM}
+          component={PDFView}
+          user={user}
+        />
+
+        <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
+
+        <ProtectedRoute
+          path={Routes.HOME}
+          component={SelectRangeUsePlan}
+          user={user}
+        />
+        <ProtectedRoute
+          path={Routes.VIEW_PLAN_VERSIONS}
+          component={VersionsList}
           user={user}
         />
         <ProtectedRoute
