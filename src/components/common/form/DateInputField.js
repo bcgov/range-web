@@ -31,6 +31,7 @@ const DateInputField = ({ inline, ...props }) => (
               e.stopPropagation()
             }}
             error={!!error}
+            className={props.icon === null ? 'calendar-input--no-icon' : ''}
           />
           {error && typeof error === 'string' && (
             <span
