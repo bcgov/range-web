@@ -32,7 +32,7 @@ const DateInputField = ({ inline, ...props }) => (
             }}
             error={!!error}
           />
-          {error && (
+          {error && typeof error === 'string' && (
             <span
               className="sui-error-message"
               style={{ position: 'relative', top: '-1em' }}>
