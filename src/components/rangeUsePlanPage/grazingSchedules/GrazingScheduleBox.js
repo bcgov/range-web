@@ -8,6 +8,7 @@ import * as strings from '../../../constants/strings'
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common'
 import { IMAGE_SRC } from '../../../constants/variables'
 import { FieldArray, connect, getIn } from 'formik'
+import uuid from 'uuid-v4'
 import { TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
@@ -151,16 +152,31 @@ const GrazingScheduleBox = ({
                     style={{ margin: '10px 0' }}
                     inverted
                     compact
-                    onClick={() =>
+                    onClick={() => {
                       push({
                         dateIn: '',
                         dateOut: '',
                         graceDays: '',
                         livestockCount: '',
-                        livestockType: {},
-                        livestockTypeId: ''
+                        livestockTypeId: '',
+                        id: uuid()
                       })
-                    }>
+
+                      // Touch fields to ensure error status is shown for new entries
+                      const lastIndex = schedule.grazingScheduleEntries.length
+                      formik.setFieldTouched(
+                        `${namespace}.grazingScheduleEntries.${lastIndex}.livestockCount`,
+                        true
+                      )
+                      formik.setFieldTouched(
+                        `${namespace}.grazingScheduleEntries.${lastIndex}.livestockTypeId`,
+                        true
+                      )
+                      formik.setFieldTouched(
+                        `${namespace}.grazingScheduleEntries.${lastIndex}.pastureId`,
+                        true
+                      )
+                    }}>
                     <Icon name="add circle" />
                     Add Row
                   </PrimaryButton>
