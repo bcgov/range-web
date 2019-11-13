@@ -18,13 +18,12 @@
 // Created by Kyubin Han.
 //
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PublicRoute from './PublicRoute'
 import ProtectedRoute from './ProtectedRoute'
-import { getUser } from '../../reducers/rootReducer'
+import { useUser } from '../../providers/UserProvider'
 import * as Routes from '../../constants/routes'
 import { LoadableComponent } from './LoadableComponent'
 
@@ -41,66 +40,53 @@ const PDFView = LoadableComponent(() =>
   import('../rangeUsePlanPage/pdf/PDFView')
 )
 
-class Router extends Component {
-  static propTypes = {
-    user: PropTypes.shape({})
-  }
+const Router = () => {
+  const user = useUser()
 
-  static defaultProps = {
-    user: null
-  }
+  return (
+    <BrowserRouter>
+      <Switch>
+        {/* Admin Routes */}
+        <ProtectedRoute
+          path={Routes.MANAGE_ZONE}
+          component={ManageZone}
+          user={user}
+        />
+        <ProtectedRoute
+          path={Routes.MANAGE_CLIENT}
+          component={ManageClient}
+          user={user}
+        />
+        {/* Admin Routes End */}
 
-  render() {
-    const { user } = this.props
+        <ProtectedRoute
+          path={Routes.HOME}
+          component={SelectRangeUsePlan}
+          user={user}
+        />
+        <ProtectedRoute
+          path={Routes.RANGE_USE_PLAN_WITH_PARAM}
+          component={RangeUsePlan}
+          user={user}
+        />
+        <ProtectedRoute
+          path={Routes.EXPORT_PDF_WITH_PARAM}
+          component={PDFView}
+          user={user}
+        />
 
-    return (
-      <BrowserRouter>
-        <Switch>
-          {/* Admin Routes */}
-          <ProtectedRoute
-            path={Routes.MANAGE_ZONE}
-            component={ManageZone}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.MANAGE_CLIENT}
-            component={ManageClient}
-            user={user}
-          />
-          {/* Admin Routes End */}
+        <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
-          <ProtectedRoute
-            path={Routes.HOME}
-            component={SelectRangeUsePlan}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.RANGE_USE_PLAN_WITH_PARAM}
-            component={RangeUsePlan}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.EXPORT_PDF_WITH_PARAM}
-            component={PDFView}
-            user={user}
-          />
-
-          <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
-
-          <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
-          <Route path="/" exact render={() => <Redirect to={Routes.LOGIN} />} />
-          <Route component={PageNotFound} />
-        </Switch>
-      </BrowserRouter>
-    )
-  }
+        <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
+        <Route path="/" exact render={() => <Redirect to={Routes.LOGIN} />} />
+        <Route component={PageNotFound} />
+      </Switch>
+    </BrowserRouter>
+  )
 }
 
-const mapStateToProps = state => ({
-  user: getUser(state)
-})
+Router.propTypes = {
+  user: PropTypes.shape({})
+}
 
-export default connect(
-  mapStateToProps,
-  null
-)(Router)
+export default Router
