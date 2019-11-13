@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Dropdown, Icon } from 'semantic-ui-react'
 import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
 import { connect } from 'formik'
+import uuid from 'uuid-v4'
 import * as utils from '../../../utils'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
@@ -61,7 +62,8 @@ const GrazingScheduleEntryRow = ({
     {
       key: 'delete',
       text: 'Delete',
-      onClick: onDelete
+      onClick: uuid.isUUID(entry.id) ? onDelete : null,
+      disabled: !uuid.isUUID(entry.id)
     }
   ]
 

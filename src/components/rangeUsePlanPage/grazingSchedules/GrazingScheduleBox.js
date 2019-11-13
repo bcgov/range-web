@@ -91,7 +91,9 @@ const GrazingScheduleBox = ({
                     options={copyOptions}
                     disabled={copyOptions.length === 0}
                   />
-                  <Dropdown.Item onClick={() => onScheduleDelete()}>
+                  <Dropdown.Item
+                    disabled={!uuid.isUUID(schedule.id)}
+                    onClick={() => onScheduleDelete()}>
                     Delete
                   </Dropdown.Item>
                 </Dropdown.Menu>
