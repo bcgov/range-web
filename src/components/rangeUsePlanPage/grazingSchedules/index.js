@@ -44,9 +44,7 @@ const GrazingSchedules = ({ plan }) => {
         })
       setYearOptions(options)
     }
-  }, [])
-
-  const handleScheduleCopy = () => {}
+  }, [grazingSchedules.length])
 
   return (
     <FieldArray
@@ -116,7 +114,9 @@ const GrazingSchedules = ({ plan }) => {
                       namespace={`grazingSchedules.${index}`}
                       authorizedAUMs={authorizedAUMs}
                       crownTotalAUMs={crownTotalAUMs}
-                      onScheduleCopy={handleScheduleCopy}
+                      onScheduleCopy={year => {
+                        push({ ...schedule, id: uuid(), year })
+                      }}
                       onScheduleDelete={() => setIndexToRemove(index)}
                     />
                   )

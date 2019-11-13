@@ -32,7 +32,7 @@ const GrazingScheduleBox = ({
   const copyOptions =
     yearOptions.map(o => ({
       ...o,
-      onClick: () => onScheduleCopy(year, schedule.id)
+      onClick: () => onScheduleCopy(o.value, schedule.id)
     })) || []
   const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs
 
@@ -158,7 +158,7 @@ const GrazingScheduleBox = ({
                           scheduleIndex={index}
                           namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
                           onDelete={() => setToRemove(entryIndex)}
-                          onCopy={() => push(entry)}
+                          onCopy={() => push({ ...entry, id: uuid() })}
                         />
                       )
                     )}
