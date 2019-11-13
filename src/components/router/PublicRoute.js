@@ -5,7 +5,7 @@ import { HOME } from '../../constants/routes'
 
 const propTypes = {
   component: PropTypes.func,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object
 }
 
 const PublicRoute = ({ component: Component, user, ...rest }) => (

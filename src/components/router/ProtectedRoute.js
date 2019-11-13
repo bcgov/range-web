@@ -12,7 +12,7 @@ import { isUserAdmin } from '../../utils'
 
 const propTypes = {
   component: PropTypes.func,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   match: PropTypes.shape({ path: PropTypes.string })
 }
 
