@@ -265,13 +265,4 @@ GrazingScheduleBox.propTypes = {
   onScheduleDelete: PropTypes.func.isRequired
 }
 
-export default connect(
-  React.memo(
-    GrazingScheduleBox,
-    (prevProps, nextProps) =>
-      getIn(prevProps.formik.errors, prevProps.namespace) ===
-        getIn(nextProps.formik.errors, nextProps.namespace) &&
-      prevProps.schedule === nextProps.schedule &&
-      prevProps.activeIndex === nextProps.activeIndex
-  )
-)
+export default connect(GrazingScheduleBox)
