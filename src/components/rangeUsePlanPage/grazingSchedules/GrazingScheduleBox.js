@@ -99,14 +99,15 @@ const GrazingScheduleBox = ({
             }
             collapsibleContent={
               <>
-                {isError ||
-                  (scheduleError && (
-                    <ErrorMessage
-                      message={scheduleError || 'Error'}
-                      visible
-                      attached
-                    />
-                  ))}
+                {(isError || scheduleError) && (
+                  <ErrorMessage
+                    message={
+                      scheduleError || strings.INVALID_GRAZING_SCHEDULE_ENTRY
+                    }
+                    visible
+                    attached
+                  />
+                )}
                 <Table
                   unstackable
                   attached={isError || scheduleError ? 'bottom' : false}>
