@@ -108,7 +108,9 @@ const GrazingSchedules = ({ plan }) => {
                       yearOptions={yearOptions}
                       schedule={schedule}
                       index={index}
-                      onScheduleClicked={() => setActiveIndex(index)}
+                      onScheduleClicked={() =>
+                        setActiveIndex(index !== activeIndex ? index : -1)
+                      }
                       activeIndex={activeIndex}
                       livestockTypes={livestockTypes}
                       namespace={`grazingSchedules.${index}`}
