@@ -127,7 +127,6 @@ const GrazingScheduleEntryRow = ({
           initialDate={initialDate}
           minDate={initialDate}
           maxDate={maxDate}
-          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -142,7 +141,6 @@ const GrazingScheduleEntryRow = ({
           initialDate={initialDate}
           minDate={initialDate}
           maxDate={maxDate}
-          fast
         />
       </Table.Cell>
       <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
