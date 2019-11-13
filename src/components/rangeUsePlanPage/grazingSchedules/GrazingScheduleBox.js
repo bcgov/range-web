@@ -90,10 +90,12 @@ const GrazingScheduleBox = ({
                     className="link item"
                     options={copyOptions}
                     disabled={copyOptions.length === 0}
+                    data-testid={`copy-button-${schedule.year}`}
                   />
                   <Dropdown.Item
                     disabled={!uuid.isUUID(schedule.id)}
-                    onClick={() => onScheduleDelete()}>
+                    onClick={() => onScheduleDelete()}
+                    data-testid={`delete-button-${schedule.year}`}>
                     Delete
                   </Dropdown.Item>
                 </Dropdown.Menu>
