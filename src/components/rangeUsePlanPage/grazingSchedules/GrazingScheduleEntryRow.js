@@ -17,7 +17,8 @@ const GrazingScheduleEntryRow = ({
   formik,
   namespace,
   onDelete,
-  onCopy
+  onCopy,
+  schedule
 }) => {
   const {
     pastureId,
@@ -63,6 +64,16 @@ const GrazingScheduleEntryRow = ({
       onClick: onDelete
     }
   ]
+
+  const initialDate = moment()
+    .set('year', schedule.year)
+    .set('month', 0)
+    .set('date', 1)
+
+  const maxDate = moment()
+    .set('year', schedule.year)
+    .set('month', 11)
+    .set('date', 31)
 
   return (
     <Table.Row>
@@ -111,6 +122,9 @@ const GrazingScheduleEntryRow = ({
           fluid
           dateFormat="MMM DD"
           icon={null}
+          initialDate={initialDate}
+          minDate={initialDate}
+          maxDate={maxDate}
           fast
         />
       </Table.Cell>
@@ -123,6 +137,9 @@ const GrazingScheduleEntryRow = ({
           dateFormat="MMM DD"
           fluid
           icon={null}
+          initialDate={initialDate}
+          minDate={initialDate}
+          maxDate={maxDate}
           fast
         />
       </Table.Cell>
