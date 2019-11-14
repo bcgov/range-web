@@ -9,34 +9,39 @@ import {
 import GrazingScheduleBox from './GrazingScheduleBox'
 import moment from 'moment'
 
-const schedule = {
-  id: 1,
-  year: 2022,
-  grazingScheduleEntries: [
-    {
-      pastureId: 1,
-      dateIn: moment('January 26 2022', 'MMMM D YYYY'),
-      dateOut: moment('March 9 2022', 'MMMM D YYYY'),
-      graceDays: 4,
-      livestockTypeId: 5,
-      livestockCount: 10,
-      id: uuid()
-    }
-  ]
-}
+const grazingSchedules = [
+  {
+    id: 1,
+    year: 2022,
+    grazingScheduleEntries: [
+      {
+        pastureId: 1,
+        dateIn: moment('January 26 2022', 'MMMM D YYYY'),
+        dateOut: moment('March 9 2022', 'MMMM D YYYY'),
+        graceDays: 4,
+        livestockTypeId: 5,
+        livestockCount: 10,
+        id: uuid()
+      }
+    ]
+  }
+]
 
 const pastures = [{ id: 1, name: 'Pasture 1' }, { id: 2, name: 'Pasture 2' }]
 
-const namespace = 'schedule'
+const namespace = 'grazingSchedules.0'
 
-const WrappedComponent = props => (
+const WrappedComponent = ({
+  initialValues = { grazingSchedules, pastures },
+  ...props
+}) => (
   <Formik
-    initialValues={{ schedule, pastures }}
+    initialValues={initialValues}
     render={({ values }) => (
       <GrazingScheduleBox
         activeIndex={1}
         index={1}
-        schedule={values.schedule}
+        schedule={values.grazingSchedules[0]}
         namespace={namespace}
         onCopy={jest.fn()}
         onDelete={jest.fn()}
@@ -81,5 +86,75 @@ describe('Grazing Schedule Entry Box', () => {
     const dateOuts = getAllByLabelText('date out')
     expect(dateOuts).toHaveLength(2)
     expect(dateOuts[0].value).toBe(dateOuts[1].value)
+  })
+
+  it('deletes a row when the delete button is pressed', () => {
+    const { getAllByText, getByText, queryAllByLabelText } = render(
+      <WrappedComponent />
+    )
+
+    // The first delete button is for the whole schedule. We want the button for
+    // just the row.
+    const rowDeleteButton = getAllByText('Delete')[1]
+    expect(rowDeleteButton).not.toHaveClass('disabled')
+    fireEvent.click(rowDeleteButton)
+    // Click 'OK' in confirmation modal
+    fireEvent.click(getByText('OK'))
+
+    const pastureDropdowns = queryAllByLabelText('pasture')
+    expect(pastureDropdowns).toHaveLength(0)
+
+    const livestockTypes = queryAllByLabelText('livestock type')
+    expect(livestockTypes).toHaveLength(0)
+
+    const livestockCounts = queryAllByLabelText('livestock count')
+    expect(livestockCounts).toHaveLength(0)
+
+    const dateIns = queryAllByLabelText('date in')
+    expect(dateIns).toHaveLength(0)
+
+    const dateOuts = queryAllByLabelText('date out')
+    expect(dateOuts).toHaveLength(0)
+  })
+
+  it('disables the delete button when an entry is persisted', () => {
+    const { getAllByText, queryByText, queryAllByLabelText } = render(
+      <WrappedComponent
+        initialValues={{
+          grazingSchedules: [
+            {
+              ...grazingSchedules[0],
+              grazingScheduleEntries: [
+                { ...grazingSchedules[0].grazingScheduleEntries[0], id: 1 }
+              ]
+            }
+          ],
+          pastures
+        }}
+      />
+    )
+
+    // The first delete button is for the whole schedule. We want the button for
+    // just the row.
+    const rowDeleteButton = getAllByText('Delete')[1]
+    expect(rowDeleteButton.parentElement).toHaveClass('disabled')
+    fireEvent.click(rowDeleteButton)
+    // Modal shouldn't appear because button is disabled
+    expect(queryByText('OK')).toBeNull()
+
+    const pastureDropdowns = queryAllByLabelText('pasture')
+    expect(pastureDropdowns).toHaveLength(1)
+
+    const livestockTypes = queryAllByLabelText('livestock type')
+    expect(livestockTypes).toHaveLength(1)
+
+    const livestockCounts = queryAllByLabelText('livestock count')
+    expect(livestockCounts).toHaveLength(1)
+
+    const dateIns = queryAllByLabelText('date in')
+    expect(dateIns).toHaveLength(1)
+
+    const dateOuts = queryAllByLabelText('date out')
+    expect(dateOuts).toHaveLength(1)
   })
 })
