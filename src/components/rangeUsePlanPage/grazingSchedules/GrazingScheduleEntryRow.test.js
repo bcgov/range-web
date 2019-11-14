@@ -3,7 +3,8 @@ import uuid from 'uuid-v4'
 import { Formik } from 'formik'
 import {
   render,
-  getSemanticDropdownValue
+  getSemanticDropdownValue,
+  fireEvent
 } from '../../../tests/helpers/test-utils'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 import { UserContext } from '../../../providers/UserProvider'
@@ -58,9 +59,7 @@ describe('Grazing Schedule Entry Row', () => {
   })
 
   it('shows an input for each schedule entry field', () => {
-    const { queryByLabelText, getByLabelText, debug } = render(
-      <WrappedComponent />
-    )
+    const { queryByLabelText, getByLabelText } = render(<WrappedComponent />)
 
     const [entry] = schedule.grazingScheduleEntries
 
@@ -91,6 +90,30 @@ describe('Grazing Schedule Entry Row', () => {
     expect(dateOut.value).toBe(entry.dateOut.format('MMM D'))
 
     expect(queryByLabelText('grace days')).toBeNull()
+  })
+
+  it('calls the onCopy handler when the duplicate button is pressed', () => {
+    const handleCopy = jest.fn()
+
+    const { getByText } = render(<WrappedComponent onCopy={handleCopy} />)
+
+    const duplicateBtn = getByText('Duplicate')
+
+    fireEvent.click(duplicateBtn)
+
+    expect(handleCopy).toHaveBeenCalled()
+  })
+
+  it('calls the onDelete handler when the delete button is pressed', () => {
+    const handleDelete = jest.fn()
+
+    const { getByText } = render(<WrappedComponent onDelete={handleDelete} />)
+
+    const deleteBtn = getByText('Delete')
+
+    fireEvent.click(deleteBtn)
+
+    expect(handleDelete).toHaveBeenCalled()
   })
 
   it('only shows the grace days input for range officers', () => {
