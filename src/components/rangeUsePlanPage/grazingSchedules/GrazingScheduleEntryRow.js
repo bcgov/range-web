@@ -99,7 +99,8 @@ const GrazingScheduleEntryRow = ({
           fluid
           inputProps={{
             fluid: true,
-            search: true
+            search: true,
+            'aria-label': 'livestock type'
           }}
           fast
         />
@@ -110,7 +111,8 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.livestockCount`}
           displayValue={livestockCount}
           inputProps={{
-            fluid: true
+            fluid: true,
+            'aria-label': 'livestock count'
           }}
           fast
         />
@@ -127,6 +129,7 @@ const GrazingScheduleEntryRow = ({
           initialDate={initialDate}
           minDate={initialDate}
           maxDate={maxDate}
+          aria-label="date in"
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -141,6 +144,7 @@ const GrazingScheduleEntryRow = ({
           initialDate={initialDate}
           minDate={initialDate}
           maxDate={maxDate}
+          aria-label="date out"
         />
       </Table.Cell>
       <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
@@ -151,7 +155,8 @@ const GrazingScheduleEntryRow = ({
           displayValue={graceDays}
           inputProps={{
             type: 'number',
-            fluid: true
+            fluid: true,
+            'aria-label': 'grace days'
           }}
           fluid
           fast

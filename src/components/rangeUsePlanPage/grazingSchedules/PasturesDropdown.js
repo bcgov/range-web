@@ -27,7 +27,8 @@ const PasturesDropdown = ({ name, formik, pastureId }) => {
       fluid
       inputProps={{
         fluid: true,
-        search: true
+        search: true,
+        'aria-label': 'pasture'
       }}
       fast
     />
