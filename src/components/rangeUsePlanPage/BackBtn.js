@@ -19,29 +19,26 @@ const defaultProps = {
 
 class BackBtn extends Component {
   state = {
-    agreementSearchQuery: null
+    redirectPath: null
   }
 
   onBtnClick = e => {
     e.preventDefault()
     const { agreementSearchParams } = this.props
 
-    if (!agreementSearchParams) {
-      window.history.back()
-      return
-    }
-
     this.setState({
-      agreementSearchQuery: stringifyQuery(agreementSearchParams)
+      redirectPath: agreementSearchParams
+        ? `${HOME}?${stringifyQuery(agreementSearchParams)}`
+        : HOME
     })
   }
 
   render() {
     const { className } = this.props
-    const { agreementSearchQuery } = this.state
+    const { redirectPath } = this.state
 
-    if (agreementSearchQuery) {
-      return <Redirect push to={`${HOME}?${agreementSearchQuery}`} />
+    if (redirectPath) {
+      return <Redirect push to={redirectPath} />
     }
 
     return (
