@@ -27,13 +27,19 @@ const schedule = {
   ]
 }
 
-const pastures = [{ id: 1, name: 'Pasture 1' }, { id: 2, name: 'Pasture 2' }]
+const pastures = [
+  { id: 1, name: 'Pasture 1', graceDays: 50 },
+  { id: 2, name: 'Pasture 2' }
+]
 
 const namespace = 'schedule.grazingScheduleEntries.0'
 
-const WrappedComponent = props => (
+const WrappedComponent = ({
+  initialValues = { schedule, pastures },
+  ...props
+}) => (
   <Formik
-    initialValues={{ schedule, pastures }}
+    initialValues={initialValues}
     render={({ values }) => (
       <table>
         <tbody>
@@ -89,7 +95,9 @@ describe('Grazing Schedule Entry Row', () => {
     expect(dateOut).toBeInTheDocument()
     expect(dateOut.value).toBe(entry.dateOut.format('MMM D'))
 
-    expect(queryByLabelText('grace days')).toBeNull()
+    expect(queryByLabelText('grace days').value).toBe(
+      entry.graceDays.toString()
+    )
   })
 
   it('calls the onCopy handler when the duplicate button is pressed', () => {
@@ -116,12 +124,24 @@ describe('Grazing Schedule Entry Row', () => {
     expect(handleDelete).toHaveBeenCalled()
   })
 
+  it('does not allow the grace days to be edited by agreement holders', () => {
+    const { getByLabelText } = render(<WrappedComponent />)
+
+    const [entry] = schedule.grazingScheduleEntries
+
+    const graceDays = getByLabelText('grace days')
+
+    expect(graceDays.value).toBe(entry.graceDays.toString())
+    fireEvent.change(graceDays, { value: '500' })
+    expect(graceDays.value).toBe(entry.graceDays.toString())
+  })
+
   it('only shows the grace days input for range officers', () => {
     const user = {
       roles: ['myra_range_officer']
     }
 
-    const { getByLabelText, queryByLabelText } = render(
+    const { getByLabelText } = render(
       <UserContext.Provider value={user}>
         <WrappedComponent />
       </UserContext.Provider>
@@ -130,12 +150,37 @@ describe('Grazing Schedule Entry Row', () => {
     const [entry] = schedule.grazingScheduleEntries
 
     const graceDays = getByLabelText('grace days')
-    expect(graceDays).toBeInTheDocument()
     expect(graceDays.value).toBe(entry.graceDays.toString())
-    expect(queryByLabelText('pasture')).toBeNull()
-    expect(queryByLabelText('livestock type')).toBeNull()
-    expect(queryByLabelText('livestock count')).toBeNull()
-    expect(queryByLabelText('date in')).toBeNull()
-    expect(queryByLabelText('date out')).toBeNull()
+
+    const newGraceDays = '60'
+    fireEvent.change(graceDays, { target: { value: newGraceDays } })
+    expect(graceDays.value).toBe(newGraceDays)
+  })
+
+  it('pulls the grace days from the selected pasture if not overridden', () => {
+    const { getByLabelText } = render(
+      <WrappedComponent
+        initialValues={{
+          schedule: {
+            ...schedule,
+            grazingScheduleEntries: [
+              {
+                ...schedule.grazingScheduleEntries[0],
+                graceDays: null
+              }
+            ]
+          },
+          pastures
+        }}
+      />
+    )
+
+    const [entry] = schedule.grazingScheduleEntries
+
+    const graceDays = getByLabelText('grace days')
+    expect(graceDays).toBeInTheDocument()
+    expect(graceDays.value).toBe(
+      pastures.find(p => p.id === entry.pastureId).graceDays.toString()
+    )
   })
 })

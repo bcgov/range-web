@@ -618,6 +618,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                     class="ui fluid transparent input"
                   >
                     <input
+                      aria-label="grace days"
                       type="text"
                       value="4"
                     />
