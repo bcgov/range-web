@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, getAllByRole } from '@testing-library/react'
 import { UserContext } from '../../providers/UserProvider'
 import { ReferencesContext } from '../../providers/ReferencesProvider'
 import mockReference from '../intergration/mockData/mockReference'
@@ -28,6 +28,21 @@ const Wrapper = ({ children }) => {
 
 const customRender = (ui, options) =>
   render(ui, { wrapper: Wrapper, ...options })
+
+// Relies too much on the implementation details of semantic-ui's <Dropdown />.
+// Eventually, a better dropdown component should be used that allows us to
+// simply get the value via `dropdownElement.value`.
+export const getSemanticDropdownValue = dropdownElement => {
+  const options = getAllByRole(dropdownElement, 'option')
+  const selected = options.find(
+    o =>
+      o.getAttribute('aria-selected') === 'true' ||
+      o.getAttribute('aria-checked') === 'true'
+  )
+
+  if (selected) return selected.textContent
+  return null
+}
 
 export * from '@testing-library/react'
 
