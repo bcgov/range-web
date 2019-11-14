@@ -24,8 +24,8 @@ const plan = {
       grazingScheduleEntries: [
         {
           pastureId: 1,
-          dateIn: new Date().toISOString(),
-          dateOut: new Date().toISOString(),
+          dateIn: moment('January 26 2022', 'MMMM D YYYY'),
+          dateOut: moment('March 9 2022', 'MMMM D YYYY'),
           graceDays: 4,
           livestockCount: 10,
           id: uuid()

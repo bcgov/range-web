@@ -575,7 +575,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                       name="grazingSchedules.0.grazingScheduleEntries.0.dateIn"
                       tabindex="0"
                       type="text"
-                      value="Nov 13"
+                      value="Jan 26"
                     />
                   </div>
                 </div>
@@ -598,7 +598,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                       name="grazingSchedules.0.grazingScheduleEntries.0.dateOut"
                       tabindex="0"
                       type="text"
-                      value="Nov 13"
+                      value="Mar 9"
                     />
                   </div>
                 </div>
@@ -606,7 +606,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
               <td
                 class="collapsing"
               >
-                1
+                43
               </td>
               <td
                 class="collapsing"
