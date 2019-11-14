@@ -125,14 +125,12 @@ describe('Grazing Schedules', () => {
   })
 
   it('renders and matches the snapshot', () => {
-    const container = render(
+    const { container, getByText } = render(
       <Formik
         initialValues={plan}
         render={({ values }) => <GrazingSchedules plan={values} />}
       />
     )
-
-    const { getByText } = container
 
     expect(getByText('2022 Grazing Schedule')).toBeInTheDocument()
     expect(getByText('2025 Grazing Schedule')).toBeInTheDocument()
