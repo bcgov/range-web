@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
+exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
 <table>
   <tbody>
     <tr
@@ -101,7 +101,9 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
               aria-live="polite"
               class="text"
               role="alert"
-            />
+            >
+              Sheep
+            </div>
             <i
               aria-hidden="true"
               class="dropdown icon"
@@ -112,8 +114,8 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
             >
               <div
                 aria-checked="false"
-                aria-selected="true"
-                class="selected item"
+                aria-selected="false"
+                class="item"
                 role="option"
                 style="pointer-events: all;"
               >
@@ -163,9 +165,9 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
                 </span>
               </div>
               <div
-                aria-checked="false"
-                aria-selected="false"
-                class="item"
+                aria-checked="true"
+                aria-selected="true"
+                class="active selected item"
                 role="option"
                 style="pointer-events: all;"
               >
@@ -281,7 +283,7 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
               name="schedule.grazingScheduleEntries.0.dateIn"
               tabindex="0"
               type="text"
-              value="Nov 13"
+              value="Jan 26"
             />
           </div>
         </div>
@@ -304,7 +306,7 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
               name="schedule.grazingScheduleEntries.0.dateOut"
               tabindex="0"
               type="text"
-              value="Nov 13"
+              value="Mar 9"
             />
           </div>
         </div>
@@ -312,7 +314,7 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
       <td
         class="collapsing"
       >
-        1
+        43
       </td>
       <td
         class="collapsing"
@@ -338,7 +340,7 @@ exports[`Grazing Schedule Box Displays each grazing schedule entry 1`] = `
       <td
         class="collapsing"
       >
-        0
+        2.8
       </td>
       <td
         class="collapsing center aligned"
