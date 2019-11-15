@@ -14,6 +14,7 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import AddMinisterIssueActionButton from './AddMinisterIssueActionButton'
 import moment from 'moment'
+import { deleteMinisterIssueAction } from '../../../api'
 
 const MinisterIssueBox = ({
   issue,
@@ -183,7 +184,17 @@ const MinisterIssueBox = ({
                   onCancel={() => {
                     setToRemove(null)
                   }}
-                  onConfirm={() => {
+                  onConfirm={async () => {
+                    const action = ministerIssueActions[toRemove]
+
+                    if (!uuid.isUUID(action.id)) {
+                      await deleteMinisterIssueAction(
+                        issue.planId,
+                        issue.id,
+                        action.id
+                      )
+                    }
+
                     remove(toRemove)
                     setToRemove(null)
                   }}

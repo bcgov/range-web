@@ -336,3 +336,10 @@ const saveMonitoringAreas = (
     })
   )
 }
+
+export const deleteMinisterIssueAction = async (planId, issueId, actionId) => {
+  await axios.delete(
+    API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
+    getAuthHeaderConfig()
+  )
+}
