@@ -15,9 +15,7 @@ import {
 import {
   isUserAgreementHolder,
   isUserAdmin,
-  isUserRangeOfficer,
-  axios,
-  getAuthHeaderConfig
+  isUserRangeOfficer
 } from '../../utils'
 import { appendUsage } from '../../utils/helper/plan'
 import * as selectors from '../../reducers/rootReducer'
@@ -42,17 +40,7 @@ import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
-import {
-  saveGrazingSchedules,
-  saveInvasivePlantChecklist,
-  saveManagementConsiderations,
-  saveAdditionalRequirements,
-  saveMinisterIssues,
-  getPlan,
-  savePastures,
-  savePlantCommunities,
-  createVersion
-} from '../../api'
+import { getPlan, savePlan } from '../../api'
 import PDFView from './pdf/PDFView'
 
 const Base = ({
@@ -89,7 +77,10 @@ const Base = ({
 
     setFetching(false)
 
-    return fetchRUP(planId)
+    // TODO: remove redux
+    if (navigator.onLine) {
+      return fetchRUP(planId)
+    }
   }
 
   useEffect(() => {
@@ -101,38 +92,9 @@ const Base = ({
   }
 
   const handleSubmit = async (plan, formik) => {
-    const {
-      pastures,
-      grazingSchedules,
-      invasivePlantChecklist,
-      managementConsiderations,
-      ministerIssues,
-      additionalRequirements
-    } = RUPSchema.cast(plan)
-
-    const config = getAuthHeaderConfig()
-
     try {
       // Update Plan
-      await axios.put(API.UPDATE_RUP(plan.id), plan, config)
-
-      const newPastures = await savePastures(plan.id, pastures)
-
-      await Promise.all(
-        newPastures.map(async pasture => {
-          await savePlantCommunities(
-            plan.id,
-            pasture.id,
-            pasture.plantCommunities
-          )
-        })
-      )
-
-      await saveGrazingSchedules(plan.id, grazingSchedules)
-      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
-      await saveManagementConsiderations(plan.id, managementConsiderations)
-      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
-      await saveAdditionalRequirements(plan.id, additionalRequirements)
+      await savePlan(plan)
 
       await createVersion(plan.id)
 
