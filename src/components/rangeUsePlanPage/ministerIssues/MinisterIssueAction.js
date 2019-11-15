@@ -1,9 +1,10 @@
 import React from 'react'
+import uuid from 'uuid-v4'
 import { NO_DESCRIPTION } from '../../../constants/strings'
-import PermissionsField from '../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { MINISTER_ISSUES } from '../../../constants/fields'
-import { TextArea } from 'formik-semantic-ui'
-import { Form } from 'semantic-ui-react'
+import { TextArea, Dropdown as FormikDropdown } from 'formik-semantic-ui'
+import { Form, Icon, Dropdown } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import DayMonthPicker from '../../common/form/DayMonthPicker'
@@ -17,15 +18,32 @@ const MinisterIssueAction = ({
   noGrazeStartDay,
   noGrazeEndMonth,
   noGrazeEndDay,
-  namespace
+  namespace,
+  onDelete,
+  id
 }) => {
   const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
   const type = types.find(t => t.id === actionTypeId)
     ? types.find(t => t.id === actionTypeId).name
     : ''
+  const options = types.map(type => ({
+    key: type.id,
+    value: type.id,
+    text: type.name,
+    id: type.id
+  }))
 
   const isOtherType = type === 'Other'
   const isActionTypeTiming = type === 'Timing'
+
+  const menuOptions = [
+    {
+      key: 'delete',
+      text: 'Delete',
+      onClick: uuid.isUUID(id) ? onDelete : null,
+      disabled: !uuid.isUUID(id)
+    }
+  ]
 
   const noGrazePeriod = (
     <Form.Group widths="equal">
@@ -57,10 +75,36 @@ const MinisterIssueAction = ({
 
   return (
     <div className="rup__missue__action">
-      <span className="rup__missue__action__type">
-        {type}
-        {isOtherType && other.name && ` (${other.name})`}
-      </span>
+      <div className="rup__missue__action__dropdown-ellipsis-container">
+        <Form.Group>
+          <PermissionsField
+            permission={MINISTER_ISSUES.ACTIONS.NAME}
+            name={`${namespace}.actionTypeId`}
+            displayValue={isOtherType ? 'Other:' : type}
+            component={FormikDropdown}
+            options={options}
+          />
+          {isOtherType && (
+            <PermissionsField
+              permission={MINISTER_ISSUES.ACTIONS.NAME}
+              name={`${namespace}.other`}
+              displayValue={other}
+              inputProps={{
+                placeholder: 'Other type'
+              }}
+            />
+          )}
+        </Form.Group>
+
+        <IfEditable permission={MINISTER_ISSUES.ACTIONS.NAME}>
+          <Dropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={menuOptions}
+            icon={null}
+            pointing="right"
+          />
+        </IfEditable>
+      </div>
       <div className="rup__missue__action__detail">
         {isActionTypeTiming && noGrazePeriod}
 
