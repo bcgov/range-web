@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import uuid from 'uuid-v4'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Confirm } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings'
 import { oxfordComma } from '../../../utils'
@@ -23,6 +23,8 @@ const MinisterIssueBox = ({
   namespace,
   formik
 }) => {
+  const [toRemove, setToRemove] = useState(null)
+
   const allPastures = getIn(formik.values, 'pastures') || []
   const pasturesOptions = allPastures.map((pasture, index) => ({
     value: pasture.id,
@@ -141,7 +143,7 @@ const MinisterIssueBox = ({
 
           <FieldArray
             name={`${namespace}.ministerIssueActions`}
-            render={({ push }) => (
+            render={({ push, remove }) => (
               <>
                 <div className="text-field__label" style={{ marginBottom: 10 }}>
                   Actions
@@ -167,6 +169,7 @@ const MinisterIssueBox = ({
                   <MinisterIssueAction
                     key={action.id}
                     namespace={`${namespace}.ministerIssueActions.${i}`}
+                    onDelete={() => setToRemove(i)}
                     {...action}
                   />
                 ))}
@@ -175,6 +178,16 @@ const MinisterIssueBox = ({
                     ? NOT_PROVIDED
                     : ACTION_NOTE}
                 </div>
+                <Confirm
+                  open={toRemove !== null}
+                  onCancel={() => {
+                    setToRemove(null)
+                  }}
+                  onConfirm={() => {
+                    remove(toRemove)
+                    setToRemove(null)
+                  }}
+                />
               </>
             )}
           />
