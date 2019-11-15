@@ -1,5 +1,4 @@
 import React from 'react'
-import uuid from 'uuid-v4'
 import { NO_DESCRIPTION } from '../../../constants/strings'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { MINISTER_ISSUES } from '../../../constants/fields'
@@ -19,8 +18,7 @@ const MinisterIssueAction = ({
   noGrazeEndMonth,
   noGrazeEndDay,
   namespace,
-  onDelete,
-  id
+  onDelete
 }) => {
   const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
   const type = types.find(t => t.id === actionTypeId)
@@ -40,8 +38,7 @@ const MinisterIssueAction = ({
     {
       key: 'delete',
       text: 'Delete',
-      onClick: uuid.isUUID(id) ? onDelete : null,
-      disabled: !uuid.isUUID(id)
+      onClick: onDelete
     }
   ]
 
