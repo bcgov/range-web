@@ -8,6 +8,8 @@
   "homepage": "https://web-range-myra-prod.pathfinder.gov.bc.ca",
   "dependencies": {
     "@react-pdf/renderer": "^1.6.7",
+    "@testing-library/jest-dom": "^4.2.3",
+    "@testing-library/react": "^9.3.2",
     "axios": "^0.19.0",
     "axios-mock-adapter": "^1.17.0",
     "classnames": "^2.2.6",

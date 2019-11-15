@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Dropdown, Icon } from 'semantic-ui-react'
 import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
 import { connect } from 'formik'
+import uuid from 'uuid-v4'
 import * as utils from '../../../utils'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
@@ -17,7 +18,8 @@ const GrazingScheduleEntryRow = ({
   formik,
   namespace,
   onDelete,
-  onCopy
+  onCopy,
+  schedule
 }) => {
   const {
     pastureId,
@@ -60,9 +62,20 @@ const GrazingScheduleEntryRow = ({
     {
       key: 'delete',
       text: 'Delete',
-      onClick: onDelete
+      onClick: uuid.isUUID(entry.id) ? onDelete : null,
+      disabled: !uuid.isUUID(entry.id)
     }
   ]
+
+  const initialDate = moment()
+    .set('year', schedule.year)
+    .set('month', 0)
+    .set('date', 1)
+
+  const maxDate = moment()
+    .set('year', schedule.year)
+    .set('month', 11)
+    .set('date', 31)
 
   return (
     <Table.Row>
@@ -86,7 +99,8 @@ const GrazingScheduleEntryRow = ({
           fluid
           inputProps={{
             fluid: true,
-            search: true
+            search: true,
+            'aria-label': 'livestock type'
           }}
           fast
         />
@@ -97,7 +111,8 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.livestockCount`}
           displayValue={livestockCount}
           inputProps={{
-            fluid: true
+            fluid: true,
+            'aria-label': 'livestock count'
           }}
           fast
         />
@@ -107,11 +122,14 @@ const GrazingScheduleEntryRow = ({
           permission={SCHEDULE.DATE_IN}
           name={`${namespace}.dateIn`}
           component={DateInputField}
-          displayValue={moment(dateIn).format('MMM DD')}
+          displayValue={moment(dateIn).format('MMM D')}
           fluid
-          dateFormat="MMM DD"
+          dateFormat="MMM D"
           icon={null}
-          fast
+          initialDate={initialDate}
+          minDate={initialDate}
+          maxDate={maxDate}
+          aria-label="date in"
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -119,11 +137,14 @@ const GrazingScheduleEntryRow = ({
           permission={SCHEDULE.DATE_OUT}
           name={`${namespace}.dateOut`}
           component={DateInputField}
-          displayValue={moment(dateOut).format('MMM DD')}
-          dateFormat="MMM DD"
+          displayValue={moment(dateOut).format('MMM D')}
+          dateFormat="MMM D"
           fluid
           icon={null}
-          fast
+          initialDate={initialDate}
+          minDate={initialDate}
+          maxDate={maxDate}
+          aria-label="date out"
         />
       </Table.Cell>
       <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
@@ -131,10 +152,11 @@ const GrazingScheduleEntryRow = ({
         <PermissionsField
           permission={SCHEDULE.GRACE_DAYS}
           name={`${namespace}.graceDays`}
-          displayValue={graceDays}
+          displayValue={graceDays || pasture.graceDays}
           inputProps={{
             type: 'number',
-            fluid: true
+            fluid: true,
+            'aria-label': 'grace days'
           }}
           fluid
           fast

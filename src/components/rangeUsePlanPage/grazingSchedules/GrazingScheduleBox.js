@@ -5,9 +5,10 @@ import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 import { roundTo1Decimal } from '../../../utils'
 import * as strings from '../../../constants/strings'
-import { CollapsibleBox, PrimaryButton } from '../../common'
+import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common'
 import { IMAGE_SRC } from '../../../constants/variables'
 import { FieldArray, connect, getIn } from 'formik'
+import uuid from 'uuid-v4'
 import { TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
@@ -31,13 +32,24 @@ const GrazingScheduleBox = ({
   const copyOptions =
     yearOptions.map(o => ({
       ...o,
-      onClick: () => onScheduleCopy(year, schedule.id)
+      onClick: () => onScheduleCopy(o.value, schedule.id)
     })) || []
   const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs
 
   const [toRemove, setToRemove] = useState(null)
 
   const isError = !!getIn(formik.errors, namespace)
+
+  const getScheduleError = () => {
+    if (schedule.grazingScheduleEntries.length === 0) {
+      return strings.EMPTY_GRAZING_SCHEDULE_ENTRIES
+    }
+    if (isCrownTotalAUMsError) {
+      return strings.TOTAL_AUMS_EXCEEDS
+    }
+  }
+
+  const scheduleError = getScheduleError()
 
   return (
     <FieldArray
@@ -78,8 +90,12 @@ const GrazingScheduleBox = ({
                     className="link item"
                     options={copyOptions}
                     disabled={copyOptions.length === 0}
+                    data-testid={`copy-button-${schedule.year}`}
                   />
-                  <Dropdown.Item onClick={() => onScheduleDelete()}>
+                  <Dropdown.Item
+                    disabled={!uuid.isUUID(schedule.id)}
+                    onClick={() => onScheduleDelete()}
+                    data-testid={`delete-button-${schedule.year}`}>
                     Delete
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -87,7 +103,18 @@ const GrazingScheduleBox = ({
             }
             collapsibleContent={
               <>
-                <Table unstackable>
+                {(isError || scheduleError) && (
+                  <ErrorMessage
+                    message={
+                      scheduleError || strings.INVALID_GRAZING_SCHEDULE_ENTRY
+                    }
+                    visible
+                    attached
+                  />
+                )}
+                <Table
+                  unstackable
+                  attached={isError || scheduleError ? 'bottom' : false}>
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell>
@@ -133,7 +160,7 @@ const GrazingScheduleBox = ({
                           scheduleIndex={index}
                           namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
                           onDelete={() => setToRemove(entryIndex)}
-                          onCopy={() => push(entry)}
+                          onCopy={() => push({ ...entry, id: uuid() })}
                         />
                       )
                     )}
@@ -144,16 +171,31 @@ const GrazingScheduleBox = ({
                     style={{ margin: '10px 0' }}
                     inverted
                     compact
-                    onClick={() =>
+                    onClick={() => {
                       push({
                         dateIn: '',
                         dateOut: '',
                         graceDays: '',
                         livestockCount: '',
-                        livestockType: {},
-                        livestockTypeId: ''
+                        livestockTypeId: '',
+                        id: uuid()
                       })
-                    }>
+
+                      // Touch fields to ensure error status is shown for new entries
+                      const lastIndex = schedule.grazingScheduleEntries.length
+                      formik.setFieldTouched(
+                        `${namespace}.grazingScheduleEntries.${lastIndex}.livestockCount`,
+                        true
+                      )
+                      formik.setFieldTouched(
+                        `${namespace}.grazingScheduleEntries.${lastIndex}.livestockTypeId`,
+                        true
+                      )
+                      formik.setFieldTouched(
+                        `${namespace}.grazingScheduleEntries.${lastIndex}.pastureId`,
+                        true
+                      )
+                    }}>
                     <Icon name="add circle" />
                     Add Row
                   </PrimaryButton>
@@ -225,13 +267,4 @@ GrazingScheduleBox.propTypes = {
   onScheduleDelete: PropTypes.func.isRequired
 }
 
-export default connect(
-  React.memo(
-    GrazingScheduleBox,
-    (prevProps, nextProps) =>
-      getIn(prevProps.formik.errors, prevProps.namespace) ===
-        getIn(nextProps.formik.errors, nextProps.namespace) &&
-      prevProps.schedule === nextProps.schedule &&
-      prevProps.activeIndex === nextProps.activeIndex
-  )
-)
+export default connect(GrazingScheduleBox)

@@ -134,12 +134,23 @@ const RUPSchema = Yup.object().shape({
   ),
   grazingSchedules: Yup.array().of(
     Yup.object().shape({
-      id: Yup.number().required(),
       narative: Yup.string().transform(handleNull()),
       grazingScheduleEntries: Yup.array().of(
         Yup.object().shape({
-          dateIn: Yup.string().required(),
-          dateOut: Yup.string().required()
+          dateIn: Yup.string().required(true),
+          dateOut: Yup.string().required(true),
+          livestockCount: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .required(true),
+          pastureId: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .required(true),
+          livestockTypeId: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .required(true)
         })
       )
     })

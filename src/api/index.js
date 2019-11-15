@@ -11,11 +11,18 @@ export const getPlan = async planId => {
 export const saveGrazingSchedules = (planId, grazingSchedules) => {
   return Promise.all(
     grazingSchedules.map(async schedule => {
+      const grazingScheduleEntries = schedule.grazingScheduleEntries.map(
+        ({ id: entryId, ...entry }) => ({
+          ...entry,
+          ...(!uuid.isUUID(entryId) && { id: entryId })
+        })
+      )
+      const { id, ...grazingSchedule } = schedule
+
       if (uuid.isUUID(schedule.id)) {
-        const { id, ...grazingSchedule } = schedule
         const { data } = await axios.post(
           API.CREATE_RUP_GRAZING_SCHEDULE(planId),
-          { ...grazingSchedule, plan_id: planId },
+          { ...grazingSchedule, grazingScheduleEntries, plan_id: planId },
           getAuthHeaderConfig()
         )
 
@@ -26,7 +33,7 @@ export const saveGrazingSchedules = (planId, grazingSchedules) => {
       } else {
         await axios.put(
           API.UPDATE_RUP_GRAZING_SCHEDULE(planId, schedule.id),
-          { ...schedule },
+          { ...grazingSchedule, grazingScheduleEntries },
           getAuthHeaderConfig()
         )
 

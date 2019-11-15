@@ -1,0 +1,395 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
+<table>
+  <tbody>
+    <tr
+      class=""
+    >
+      <td
+        class=""
+      >
+        <div
+          class="field"
+        >
+          <div
+            aria-expanded="false"
+            aria-label="pasture"
+            class="ui fluid search selection dropdown"
+            id="field_dropdown_schedule.grazingScheduleEntries.0.pastureId"
+            name="schedule.grazingScheduleEntries.0.pastureId"
+            role="combobox"
+          >
+            <input
+              aria-autocomplete="list"
+              autocomplete="off"
+              class="search"
+              tabindex="0"
+              type="text"
+              value=""
+            />
+            <div
+              aria-atomic="true"
+              aria-live="polite"
+              class="text"
+              role="alert"
+            >
+              Pasture 1
+            </div>
+            <i
+              aria-hidden="true"
+              class="dropdown icon"
+            />
+            <div
+              class="menu transition"
+              role="listbox"
+            >
+              <div
+                aria-checked="true"
+                aria-selected="true"
+                class="active selected item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Pasture 1
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Pasture 2
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td
+        class=""
+      >
+        <div
+          class="field"
+        >
+          <div
+            aria-expanded="false"
+            aria-label="livestock type"
+            class="ui fluid search selection dropdown"
+            id="field_dropdown_schedule.grazingScheduleEntries.0.livestockTypeId"
+            name="schedule.grazingScheduleEntries.0.livestockTypeId"
+            role="combobox"
+          >
+            <input
+              aria-autocomplete="list"
+              autocomplete="off"
+              class="search"
+              tabindex="0"
+              type="text"
+              value=""
+            />
+            <div
+              aria-atomic="true"
+              aria-live="polite"
+              class="text"
+              role="alert"
+            >
+              Sheep
+            </div>
+            <i
+              aria-hidden="true"
+              class="dropdown icon"
+            />
+            <div
+              class="menu transition"
+              role="listbox"
+            >
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Cow with Calf
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Bull
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Yearling
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Horse
+                </span>
+              </div>
+              <div
+                aria-checked="true"
+                aria-selected="true"
+                class="active selected item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Sheep
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Alpaca
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Ass
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Goat
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Llama
+                </span>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <span
+                  class="text"
+                >
+                  Mule
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td
+        class="collapsing"
+      >
+        <div
+          class="field"
+        >
+          <div
+            class="ui fluid input"
+          >
+            <input
+              aria-label="livestock count"
+              id="field_input_schedule.grazingScheduleEntries.0.livestockCount"
+              name="schedule.grazingScheduleEntries.0.livestockCount"
+              type="text"
+              value="10"
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        class="collapsing"
+      >
+        <div
+          class="field calendar-input--no-icon"
+        >
+          <div
+            class="ui fluid icon input"
+          >
+            <i
+              aria-hidden="true"
+              class="icon"
+            />
+            <input
+              aria-label="date in"
+              name="schedule.grazingScheduleEntries.0.dateIn"
+              tabindex="0"
+              type="text"
+              value="Jan 26"
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        class="collapsing"
+      >
+        <div
+          class="field calendar-input--no-icon"
+        >
+          <div
+            class="ui fluid icon input"
+          >
+            <i
+              aria-hidden="true"
+              class="icon"
+            />
+            <input
+              aria-label="date out"
+              name="schedule.grazingScheduleEntries.0.dateOut"
+              tabindex="0"
+              type="text"
+              value="Mar 9"
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        class="collapsing"
+      >
+        43
+      </td>
+      <td
+        class="collapsing"
+      >
+        <div
+          class="field"
+        >
+          <div
+            class="ui fluid transparent input"
+          >
+            <input
+              aria-label="grace days"
+              type="text"
+              value="4"
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        class="collapsing"
+      >
+        0
+      </td>
+      <td
+        class="collapsing"
+      >
+        2.8
+      </td>
+      <td
+        class="collapsing center aligned"
+      >
+        <div
+          aria-expanded="false"
+          class="ui right pointing dropdown"
+          role="listbox"
+          tabindex="0"
+        >
+          <i
+            aria-hidden="true"
+            class="ellipsis vertical icon"
+          />
+          <div
+            class="menu transition"
+          >
+            <div
+              aria-checked="false"
+              aria-selected="true"
+              class="selected item"
+              role="option"
+              style="pointer-events: all;"
+            >
+              <span
+                class="text"
+              >
+                Duplicate
+              </span>
+            </div>
+            <div
+              aria-checked="false"
+              aria-disabled="false"
+              aria-selected="false"
+              class="item"
+              role="option"
+              style="pointer-events: all;"
+            >
+              <span
+                class="text"
+              >
+                Delete
+              </span>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

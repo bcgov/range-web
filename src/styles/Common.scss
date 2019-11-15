@@ -441,3 +441,11 @@
     }
   }
 }
+
+.calendar-input {
+  &--no-icon {
+    > .ui.icon.input > input {
+      padding-right: 0 !important;
+    }
+  }
+}
