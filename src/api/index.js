@@ -2,6 +2,7 @@ import uuid from 'uuid-v4'
 import { axios, getAuthHeaderConfig } from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
+import { getNetworkStatus } from '../utils/helper/network'
 
 /**
  * Syncs plan and then returns locally stored record
@@ -22,9 +23,10 @@ export const getPlan = async planId => {
  */
 
 const syncPlan = async planId => {
+  const isOnline = await getNetworkStatus()
   const localPlan = getPlanFromLocalStorage(planId)
 
-  if (navigator.onLine) {
+  if (isOnline) {
     if (localPlan && !localPlan.synced) {
       console.log(localPlan)
 
@@ -44,7 +46,9 @@ const syncPlan = async planId => {
  * @param {object} plan
  */
 export const savePlan = async plan => {
-  if (!navigator.onLine) {
+  const isOnline = await getNetworkStatus()
+
+  if (!isOnline) {
     return savePlanToLocalStorage(plan, false)
   }
 

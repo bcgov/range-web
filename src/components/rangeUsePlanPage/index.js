@@ -34,7 +34,6 @@ import {
   createOrUpdateRUPInvasivePlantChecklist,
   createOrUpdateRUPManagementConsideration
 } from '../../actionCreators'
-import * as API from '../../constants/api'
 import { Form } from 'formik-semantic-ui'
 import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
@@ -42,6 +41,7 @@ import RUPSchema from './schema'
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
 import { getPlan, savePlan } from '../../api'
 import PDFView from './pdf/PDFView'
+import { getNetworkStatus } from '../../utils/helper/network'
 
 const Base = ({
   user,
@@ -78,7 +78,8 @@ const Base = ({
     setFetching(false)
 
     // TODO: remove redux
-    if (navigator.onLine) {
+    const isOnline = await getNetworkStatus()
+    if (isOnline) {
       return fetchRUP(planId)
     }
   }
