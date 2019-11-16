@@ -8,7 +8,11 @@ import { TextArea } from 'formik-semantic-ui'
 import { Dropdown, Icon, Form } from 'semantic-ui-react'
 import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
 
-const ManagementConsiderationRow = ({ namespace, managementConsideration }) => {
+const ManagementConsiderationRow = ({
+  namespace,
+  managementConsideration,
+  onDelete
+}) => {
   const { detail, url, considerationTypeId } = managementConsideration
   const references = useReferences()
   const considerTypes =
@@ -22,7 +26,7 @@ const ManagementConsiderationRow = ({ namespace, managementConsideration }) => {
     {
       key: 'delete',
       text: 'Delete',
-      onClick: () => {}
+      onClick: onDelete
     }
   ]
 

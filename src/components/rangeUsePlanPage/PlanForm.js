@@ -42,6 +42,7 @@ const PlanForm = ({ plan }) => {
       </Element>
       <Element name={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}>
         <ManagementConsiderations
+          planId={plan.id}
           managementConsiderations={plan.managementConsiderations}
         />
       </Element>

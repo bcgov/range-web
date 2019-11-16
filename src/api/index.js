@@ -81,8 +81,8 @@ export const saveManagementConsiderations = (
     managementConsiderations.map(async consideration => {
       if (uuid.isUUID(consideration.id)) {
         const { id, ...values } = consideration
-        const { data } = await axios.post(
-          API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
+        const { data } = await axios.put(
+          API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id),
           values,
           getAuthHeaderConfig()
         )
@@ -92,8 +92,8 @@ export const saveManagementConsiderations = (
           id: data.id
         }
       } else {
-        await axios.put(
-          API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id),
+        await axios.post(
+          API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
           consideration,
           getAuthHeaderConfig()
         )
@@ -340,6 +340,16 @@ const saveMonitoringAreas = (
 export const deleteMinisterIssueAction = async (planId, issueId, actionId) => {
   await axios.delete(
     API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
+    getAuthHeaderConfig()
+  )
+}
+
+export const deleteManagementConsideration = async (
+  planId,
+  considerationId
+) => {
+  await axios.delete(
+    API.DELETE_RUP_MANAGEMENT_CONSIDERATION(planId, considerationId),
     getAuthHeaderConfig()
   )
 }
