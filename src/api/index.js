@@ -3,6 +3,7 @@ import { axios, getAuthHeaderConfig } from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
+import { deleteFromQueue, initDeleteQueue } from './delete'
 
 /**
  * Syncs plan and then returns locally stored record
@@ -23,6 +24,7 @@ export const getPlan = async planId => {
  */
 
 const syncPlan = async planId => {
+  await initDeleteQueue()
   const isOnline = await getNetworkStatus()
   const localPlan = getPlanFromLocalStorage(planId)
 
@@ -51,6 +53,8 @@ export const savePlan = async plan => {
   if (!isOnline) {
     return savePlanToLocalStorage(plan, false)
   }
+
+  await deleteFromQueue()
 
   const {
     pastures,
@@ -508,3 +512,5 @@ export const deleteGrazingScheduleEntry = async (
     getAuthHeaderConfig()
   )
 }
+
+export * from './delete'
