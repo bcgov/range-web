@@ -85,28 +85,7 @@ class PageForAH extends Component {
 
     onRequested()
 
-    // TODO: replace with single function to save plan
     const config = getAuthHeaderConfig()
-
-    await utils.axios.put(API.UPDATE_RUP(plan.id), plan, config)
-
-    const newPastures = await savePastures(plan.id, pastures)
-
-    await Promise.all(
-      newPastures.map(async pasture => {
-        await savePlantCommunities(
-          plan.id,
-          pasture.id,
-          pasture.plantCommunities
-        )
-      })
-    )
-
-    await saveGrazingSchedules(plan.id, grazingSchedules)
-    await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
-    await saveManagementConsiderations(plan.id, managementConsiderations)
-    await saveMinisterIssues(plan.id, ministerIssues, newPastures)
-    await saveAdditionalRequirements(plan.id, additionalRequirements)
 
     const error = this.validateRup(plan)
 
@@ -116,6 +95,27 @@ class PageForAH extends Component {
     }
 
     try {
+      // TODO: replace with single function to save plan
+      await utils.axios.put(API.UPDATE_RUP(plan.id), plan, config)
+
+      const newPastures = await savePastures(plan.id, pastures)
+
+      await Promise.all(
+        newPastures.map(async pasture => {
+          await savePlantCommunities(
+            plan.id,
+            pasture.id,
+            pasture.plantCommunities
+          )
+        })
+      )
+
+      await saveGrazingSchedules(plan.id, grazingSchedules)
+      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
+      await saveManagementConsiderations(plan.id, managementConsiderations)
+      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
+      await saveAdditionalRequirements(plan.id, additionalRequirements)
+
       await updateRUPStatus({
         planId: plan.id,
         statusId: status.id,
