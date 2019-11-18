@@ -343,3 +343,13 @@ export const deleteMinisterIssueAction = async (planId, issueId, actionId) => {
     getAuthHeaderConfig()
   )
 }
+
+export const deleteManagementConsideration = async (
+  planId,
+  considerationId
+) => {
+  await axios.delete(
+    API.DELETE_RUP_MANAGEMENT_CONSIDERATION(planId, considerationId),
+    getAuthHeaderConfig()
+  )
+}

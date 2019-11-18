@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Dropdown, Icon } from 'semantic-ui-react'
+import uuid from 'uuid-v4'
+import { Dropdown, Icon, Confirm } from 'semantic-ui-react'
 import { PrimaryButton } from '../../common'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
@@ -8,8 +9,9 @@ import { FieldArray } from 'formik'
 import ManagementConsiderationRow from './ManagementConsiderationRow'
 import { IfEditable } from '../../common/PermissionsField'
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
+import { deleteManagementConsideration } from '../../../api'
 
-const ManagementConsiderations = ({ managementConsiderations }) => {
+const ManagementConsiderations = ({ planId, managementConsiderations }) => {
   const references = useReferences()
   const considerTypes =
     references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || []
@@ -19,66 +21,91 @@ const ManagementConsiderations = ({ managementConsiderations }) => {
     text: ct.name
   }))
 
+  const [toRemove, setToRemove] = useState(null)
+
   return (
     <FieldArray
       name={`managementConsiderations`}
-      render={({ push }) => (
-        <div className="rup__m-considerations">
-          <div className="rup__content-title">Management Considerations</div>
-          <div className="rup__divider" />
+      render={({ push, remove }) => (
+        <>
+          <div className="rup__m-considerations">
+            <div className="rup__content-title">Management Considerations</div>
+            <div className="rup__divider" />
 
-          <div className="rup__m-considerations__note">
-            Content in this section is non-legal and is intended to provide
-            additional information about management within the agreement area.
-          </div>
-
-          <div className="rup__m-considerations__box">
-            <div className="rup__m-consideration__header">
-              <div>Considerations</div>
-              <div>Details</div>
+            <div className="rup__m-considerations__note">
+              Content in this section is non-legal and is intended to provide
+              additional information about management within the agreement area.
             </div>
 
-            {managementConsiderations.length === 0 ? (
-              <div className="rup__m-considerations__no-content">
-                No management considerations provided
+            <div className="rup__m-considerations__box">
+              <div className="rup__m-consideration__header">
+                <div>Considerations</div>
+                <div>Details</div>
               </div>
-            ) : (
-              managementConsiderations.map((managementConsideration, index) => (
-                <ManagementConsiderationRow
-                  key={managementConsideration.id}
-                  managementConsideration={managementConsideration}
-                  namespace={`managementConsiderations.${index}`}
-                />
-              ))
-            )}
 
-            <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
-              <Dropdown
-                trigger={
-                  <PrimaryButton
-                    inverted
-                    compact
-                    style={{ marginTop: '10px' }}
-                    type="button">
-                    <Icon name="add circle" />
-                    Add Consideration
-                  </PrimaryButton>
-                }
-                options={considerTypeOptions}
-                icon={null}
-                pointing="left"
-                onChange={(e, { value }) => {
-                  push({
-                    considerationTypeId: value,
-                    detail: '',
-                    url: ''
-                  })
-                }}
-                selectOnBlur={false}
-              />
-            </IfEditable>
+              {managementConsiderations.length === 0 ? (
+                <div className="rup__m-considerations__no-content">
+                  No management considerations provided
+                </div>
+              ) : (
+                managementConsiderations.map(
+                  (managementConsideration, index) => (
+                    <ManagementConsiderationRow
+                      key={index}
+                      managementConsideration={managementConsideration}
+                      namespace={`managementConsiderations.${index}`}
+                      onDelete={() => setToRemove(index)}
+                    />
+                  )
+                )
+              )}
+
+              <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
+                <Dropdown
+                  trigger={
+                    <PrimaryButton
+                      inverted
+                      compact
+                      style={{ marginTop: '10px' }}
+                      type="button">
+                      <Icon name="add circle" />
+                      Add Consideration
+                    </PrimaryButton>
+                  }
+                  options={considerTypeOptions}
+                  icon={null}
+                  pointing="left"
+                  onChange={(e, { value }) => {
+                    push({
+                      id: uuid(),
+                      considerationTypeId: value,
+                      detail: '',
+                      url: ''
+                    })
+                  }}
+                  selectOnBlur={false}
+                />
+              </IfEditable>
+            </div>
           </div>
-        </div>
+
+          <Confirm
+            open={toRemove !== null}
+            onCancel={() => {
+              setToRemove(null)
+            }}
+            onConfirm={async () => {
+              const consideration = managementConsiderations[toRemove]
+
+              if (!uuid.isUUID(consideration.id)) {
+                await deleteManagementConsideration(planId, consideration.id)
+              }
+
+              remove(toRemove)
+              setToRemove(null)
+            }}
+          />
+        </>
       )}
     />
   )
