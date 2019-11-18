@@ -5,6 +5,7 @@ import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import BackBtn from '../BackBtn'
+import * as API from '../../../constants/api'
 import ContentsContainer from '../ContentsContainer'
 import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
@@ -13,6 +14,17 @@ import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
+import RUPSchema from '../schema'
+import { getAuthHeaderConfig } from '../../../utils'
+import {
+  savePastures,
+  savePlantCommunities,
+  saveGrazingSchedules,
+  saveInvasivePlantChecklist,
+  saveManagementConsiderations,
+  saveMinisterIssues,
+  saveAdditionalRequirements
+} from '../../../api'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -43,51 +55,46 @@ class PageForStaff extends Component {
   }
 
   updateContent = async (onRequested, onSuccess, onError) => {
+    const { plan, toastErrorMessage } = this.props
+
     const {
-      plan,
-      updateRUP,
-      toastErrorMessage,
-      pasturesMap,
-      plantCommunitiesMap,
-      createOrUpdateRUPPasture,
-      createRUPPlantCommunityAndOthers,
-      grazingSchedulesMap,
-      createOrUpdateRUPGrazingSchedule
-    } = this.props
+      pastures,
+      grazingSchedules,
+      invasivePlantChecklist,
+      managementConsiderations,
+      ministerIssues,
+      additionalRequirements
+    } = RUPSchema.cast(plan)
 
     onRequested()
 
-    if (this.validateRup(plan)) return onError()
+    const config = getAuthHeaderConfig()
 
-    const pastures = Object.values(pasturesMap)
-    const pasturesForPlan = pastures.filter(
-      pasture => plan.pastures.includes(pasture.id) || !Number(pasture.id)
-    )
+    if (this.validateRup(plan)) return onError()
 
     try {
       // Update Plan
-      await updateRUP(plan.id, plan)
-      pasturesForPlan.forEach(async pasture => {
-        await createOrUpdateRUPPasture(plan.id, pasture)
+      // TODO: replace with single function to save plan
+      await utils.axios.put(API.UPDATE_RUP(plan.id), plan, config)
 
-        pasture.plantCommunities.forEach(
-          async plantCommunity =>
-            await createRUPPlantCommunityAndOthers(
-              plan.id,
-              pasture.id,
-              plantCommunitiesMap[plantCommunity]
-            )
-        )
-      })
+      const newPastures = await savePastures(plan.id, pastures)
 
-      // Update Grazing Schedules
-      plan.grazingSchedules.forEach(
-        async scheduleId =>
-          await createOrUpdateRUPGrazingSchedule(
+      await Promise.all(
+        newPastures.map(async pasture => {
+          await savePlantCommunities(
             plan.id,
-            grazingSchedulesMap[scheduleId]
+            pasture.id,
+            pasture.plantCommunities
           )
+        })
       )
+
+      await saveGrazingSchedules(plan.id, grazingSchedules)
+      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
+      await saveManagementConsiderations(plan.id, managementConsiderations)
+      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
+      await saveAdditionalRequirements(plan.id, additionalRequirements)
+
       await onSuccess()
     } catch (err) {
       onError()

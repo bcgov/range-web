@@ -23,7 +23,9 @@ const PlanForm = ({ plan }) => {
 
       <Usage plan={plan} usage={plan.agreement.usage} />
 
-      <Element name={ELEMENT_ID.GRAZING_SCHEDULE}>
+      <Element
+        name={ELEMENT_ID.GRAZING_SCHEDULE}
+        id={ELEMENT_ID.GRAZING_SCHEDULE}>
         <GrazingSchedules plan={plan} />
       </Element>
       <Element name={ELEMENT_ID.MINISTER_ISSUES}>
