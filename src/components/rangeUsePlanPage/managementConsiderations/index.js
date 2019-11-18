@@ -77,6 +77,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                   pointing="left"
                   onChange={(e, { value }) => {
                     push({
+                      id: uuid(),
                       considerationTypeId: value,
                       detail: '',
                       url: ''
