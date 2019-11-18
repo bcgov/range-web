@@ -81,8 +81,8 @@ export const saveManagementConsiderations = (
     managementConsiderations.map(async consideration => {
       if (uuid.isUUID(consideration.id)) {
         const { id, ...values } = consideration
-        const { data } = await axios.put(
-          API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id),
+        const { data } = await axios.post(
+          API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
           values,
           getAuthHeaderConfig()
         )
@@ -92,8 +92,8 @@ export const saveManagementConsiderations = (
           id: data.id
         }
       } else {
-        await axios.post(
-          API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
+        await axios.put(
+          API.UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id),
           consideration,
           getAuthHeaderConfig()
         )

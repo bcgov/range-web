@@ -96,7 +96,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
             onConfirm={async () => {
               const consideration = managementConsiderations[toRemove]
 
-              if (uuid.isUUID(consideration.id)) {
+              if (!uuid.isUUID(consideration.id)) {
                 await deleteManagementConsideration(planId, consideration.id)
               }
 
