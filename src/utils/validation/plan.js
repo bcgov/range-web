@@ -13,12 +13,10 @@ import { handleGrazingScheduleValidation } from './grazingSchedule'
 export const handleRupValidation = (
   plan = {},
   pasturesMap = {},
-  grazingSchedulesMap = {},
   livestockTypes = [],
   usage = []
 ) => {
-  const grazingSchedules =
-    plan.grazingSchedules.map(id => grazingSchedulesMap[id]) || []
+  const { grazingSchedules = [] } = plan
 
   let errors = []
   grazingSchedules.map(schedule => {
