@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react'
+import React, { useEffect, memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
 import { connect } from 'formik'
@@ -17,9 +17,10 @@ const InvasivePlantChecklist = ({
     beginInUninfestedArea,
     undercarrigesInspected,
     revegetate,
-    otherChecked,
     other
   } = invasivePlantChecklist
+
+  const [otherChecked, setOtherChecked] = useState(!!other)
 
   const user = useUser()
   const canEdit = canUserEdit(INVASIVE_PLANTS.ITEMS, user)
@@ -91,7 +92,8 @@ const InvasivePlantChecklist = ({
             displayValue={otherChecked}
             inputProps={{
               disabled: !canEdit,
-              onClick: () => {
+              onClick: e => {
+                setOtherChecked(e.target.checked)
                 formik.setFieldValue(`${namespace}.other`, '')
               }
             }}
