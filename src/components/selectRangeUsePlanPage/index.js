@@ -1,118 +1,65 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { parseQuery } from '../../utils'
-import SearchableAgreementTable from './SearchableAgreementTable'
-import { searchAgreements, fetchAgreement } from '../../actionCreators'
-import { agreementSearchChanged } from '../../actions'
-import { SELECT_RUP_TITLE } from '../../constants/strings'
+import React, { useState } from 'react'
+import useSWR from 'swr'
+import * as API from '../../constants/api'
+import { axios, getAuthHeaderConfig } from '../../utils'
+import Error from './Error'
+import AgreementTable from './AgreementTable'
+import SearchBar from './SearchBar'
+import { Banner } from '../common'
 import {
-  getAgreementsErrorOccured,
-  getIsFetchingAgreements,
-  getReAuthRequired
-} from '../../reducers/rootReducer'
+  SELECT_RUP_BANNER_HEADER,
+  SELECT_RUP_BANNER_CONTENT,
+  AGREEMENT_SEARCH_PLACEHOLDER
+} from '../../constants/strings'
+import { useToast } from '../../providers/ToastProvider'
+import { useUrlState } from '../../utils/hooks/urlState'
 
-class Base extends Component {
-  static propTypes = {
-    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-    history: PropTypes.shape({}).isRequired,
-    searchAgreements: PropTypes.func.isRequired,
-    fetchAgreement: PropTypes.func.isRequired,
-    agreementSearchChanged: PropTypes.func.isRequired,
-    errorGettingAgreements: PropTypes.bool,
-    reAuthRequired: PropTypes.bool
-  }
+const SelectRangeUsePlanPage = () => {
+  const [term, setTerm] = useUrlState('term', '')
+  const [page, setPage] = useUrlState('page', 1)
+  const [toastId, setToastId] = useState()
+  const { warningToast, removeToast, errorToast } = useToast()
 
-  UNSAFE_componentWillMount() {
-    document.title = SELECT_RUP_TITLE
-  }
-
-  componentDidMount() {
-    const { fetchAgreement, location } = this.props
-    const params = parseQuery(location.search)
-
-    // initial search for agreements with the given query
-    this.searchAgreementsWithOrWithoutParams(params)
-
-    // initial fetching an agreement with all plans for the active row
-    if (params.row >= 0 && params.aId) {
-      fetchAgreement(params.aId)
+  const { data, error, revalidate, isValidating } = useSWR(
+    `${API.SEARCH_AGREEMENTS}?page=${page}&term=${term}&limit=10`,
+    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data),
+    {
+      onLoadingSlow: () =>
+        setToastId(warningToast('Agreements are taking a while to load', -1)),
+      onError: () => errorToast('Could not load agreements'),
+      onSuccess: () => removeToast(toastId)
     }
-  }
+  )
 
-  searchAgreementsWithOrWithoutParams = p => {
-    const { searchAgreements, location } = this.props
-    let params = p
-    if (!params) {
-      params = parseQuery(location.search)
-    }
+  const { agreements, totalPages, currentPage } = data || {}
 
-    searchAgreements(params)
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      agreementSearchChanged,
-      fetchAgreement,
-      location,
-      reAuthRequired
-    } = this.props
-    const params = parseQuery(nextProps.location.search)
-    const { page, term, row, aId: agreementId } = params
-
-    // fetch agreements search result and an agreement with all the plans
-    // if the user just reauthenticate and there was an error occurred
-    const justReAuthenticated =
-      nextProps.reAuthRequired === false && reAuthRequired === true
-    if (justReAuthenticated && nextProps.errorGettingAgreements) {
-      this.searchAgreementsWithOrWithoutParams(params)
-
-      if (agreementId && row >= 0) {
-        fetchAgreement(agreementId)
-      }
-    }
-
-    const locationChanged = nextProps.location !== location
-    if (locationChanged) {
-      const oldParams = parseQuery(location.search)
-
-      agreementSearchChanged(params)
-
-      // search new agreements only when users search for term or click on different pages
-      if (oldParams.page !== page || oldParams.term !== term) {
-        this.searchAgreementsWithOrWithoutParams(params)
-      }
-
-      // fetch a new agreement with all plans when the active row changes
-      if (agreementId && oldParams.row !== row && row >= 0) {
-        fetchAgreement(agreementId)
-      }
-    }
-  }
-
-  render() {
-    return (
-      <SearchableAgreementTable
-        {...this.props}
-        searchAgreementsWithOrWithoutParams={
-          this.searchAgreementsWithOrWithoutParams
-        }
+  if (error) return <Error onRetry={revalidate} />
+  return (
+    <section className="agreement">
+      <Banner
+        header={SELECT_RUP_BANNER_HEADER}
+        content={SELECT_RUP_BANNER_CONTENT}
       />
-    )
-  }
+      <div className="agrm__table-container">
+        <SearchBar
+          onSearch={value => {
+            setPage(1)
+            setTerm(value)
+          }}
+          loading={isValidating}
+          placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
+          initialValue={term}
+        />
+        <AgreementTable
+          agreements={agreements}
+          loading={isValidating}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(e, { activePage }) => setPage(activePage)}
+        />
+      </div>
+    </section>
+  )
 }
 
-const mapStateToProps = state => ({
-  isFetchingAgreements: getIsFetchingAgreements(state),
-  errorGettingAgreements: getAgreementsErrorOccured(state),
-  reAuthRequired: getReAuthRequired(state)
-})
-
-export default connect(
-  mapStateToProps,
-  {
-    searchAgreements,
-    fetchAgreement,
-    agreementSearchChanged
-  }
-)(Base)
+export default SelectRangeUsePlanPage

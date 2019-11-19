@@ -1,68 +1,35 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Icon, Input } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Input, Icon } from 'semantic-ui-react'
 import { ELEMENT_ID } from '../../constants/variables'
 
-class SearchBar extends Component {
-  constructor(props) {
-    super(props)
+const SearchBar = ({ onSearch, loading, placeholder, initialValue = '' }) => {
+  const [inputValue, setInputValue] = useState(initialValue)
 
-    // grab the search term from url
-    this.state = {
-      searchTerm: props.searchTerm
-    }
-  }
+  return (
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        e.stopPropagation()
 
-  static propTypes = {
-    handleSearchInput: PropTypes.func.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    searchTerm: PropTypes.string.isRequired,
-    isFetchingAgreements: PropTypes.bool.isRequired
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { searchTerm } = this.props
-    const locationChanged = nextProps.searchTerm !== searchTerm
-
-    // set the search term to match with the current queries when location changes
-    if (locationChanged) {
-      this.setState({ searchTerm: nextProps.searchTerm })
-    }
-  }
-
-  handleSearchInput = e => {
-    const { value } = e.target
-    this.setState(
-      {
-        searchTerm: value
-      },
-      () => {
-        this.props.handleSearchInput(value)
-      }
-    )
-  }
-
-  render() {
-    const { searchTerm } = this.state
-    const { placeholder, isFetchingAgreements } = this.props
-    return (
+        onSearch(inputValue)
+      }}>
       <div className="agrm__search">
         <Input
           fluid
           icon
-          loading={isFetchingAgreements}
+          loading={loading}
           iconPosition="left"
           placeholder={placeholder}>
+          <Icon name="search" />
           <input
             id={ELEMENT_ID.SEARCH_TERM}
-            value={searchTerm}
-            onChange={this.handleSearchInput}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
           />
-          <Icon name="search" />
         </Input>
       </div>
-    )
-  }
+    </form>
+  )
 }
 
 export default SearchBar
