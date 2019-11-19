@@ -61,7 +61,9 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                 activeIndex={activeIndex}
                 index={index}
                 onClick={() => {
-                  setActiveIndex(index)
+                  index === activeIndex
+                    ? setActiveIndex(-1)
+                    : setActiveIndex(index)
                 }}
                 namespace={`${namespace}.plantCommunities.${index}`}
               />
