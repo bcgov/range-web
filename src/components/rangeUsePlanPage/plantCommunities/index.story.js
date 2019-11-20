@@ -2,28 +2,51 @@ import React from 'react'
 import PlantCommunities from '.'
 import { Form } from 'formik-semantic-ui'
 
-export default {
-  title: 'PoopCommunities|PlantCommunities',
-  component: PlantCommunities
-  /*	  decorators: [storyFn => 
-    <Form
-      initialValues={{
-        plantCommunities: [
-			{
+const plantCommunities = [
+  {
+    approved: false,
+    communityTypeId: 2,
+    name: 'My plant community',
+    monitoringAreas: [],
+    plantCommunityActions: [],
+    notes: '',
+    pastureId: 1,
+    indicatorPlants: [],
+    id: 1
+  },
+  {
+    approved: false,
+    communityTypeId: 2,
+    name: 'community 2',
+    monitoringAreas: [],
+    plantCommunityActions: [],
+    notes: '',
+    pastureId: 1,
+    indicatorPlants: [],
+    id: 2
+  }
+]
 
-			} 
-				]
-      }}
-      render={({ values }) => (
-		storyFn(values)
-      )}
-    />]
-	*/
+const pastures = [{ id: 1 }]
+
+export default {
+  title: 'rangeUsePlanPage/PlantCommunities',
+  decorators: [
+    storyFn => (
+      <Form
+        initialValues={{
+          plantCommunities,
+          pastures
+        }}
+        render={({ values }) => storyFn(values)}
+      />
+    )
+  ]
 }
 
-export const simple = values => (
+export const DefaultStory = values => (
   <PlantCommunities
-    plantCommunties={values.plantCommunities}
+    plantCommunities={values.plantCommunities}
     namespace="plantCommunities"
   />
 )
