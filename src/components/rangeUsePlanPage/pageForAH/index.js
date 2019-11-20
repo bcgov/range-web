@@ -140,18 +140,12 @@ class PageForAH extends Component {
   }
 
   validateRup = plan => {
-    const {
-      references,
-      agreement,
-      pasturesMap,
-      grazingSchedulesMap
-    } = this.props
+    const { references, agreement, pasturesMap } = this.props
     const usage = agreement && agreement.usage
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
     const errors = utils.handleRupValidation(
       plan,
       pasturesMap,
-      grazingSchedulesMap,
       livestockTypes,
       usage
     )
