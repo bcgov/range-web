@@ -27,7 +27,7 @@ const plantCommunities = [
   }
 ]
 
-const pastures = [{ id: 1 }]
+const pastures = [{ id: 1, plantCommunities }]
 
 export default {
   title: 'rangeUsePlanPage/PlantCommunities',
@@ -35,7 +35,6 @@ export default {
     storyFn => (
       <Form
         initialValues={{
-          plantCommunities,
           pastures
         }}
         render={({ values }) => storyFn(values)}
@@ -46,7 +45,7 @@ export default {
 
 export const DefaultStory = values => (
   <PlantCommunities
-    plantCommunities={values.plantCommunities}
-    namespace="plantCommunities"
+    plantCommunities={values.pastures[0].plantCommunities}
+    namespace="pastures.0"
   />
 )
