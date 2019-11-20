@@ -9,12 +9,6 @@ import { ReferencesContext } from '../src/providers/ReferencesProvider'
 import mockReferences from './mocks/references'
 import { withUserDecorator } from './roles-addon'
 
-// automatically import all files ending in *.stories.js or *.story.js
-const req = require.context('../src/components', true, /\.(stories|story)\.js$/)
-function loadStories() {
-  req.keys().forEach(filename => req(filename))
-}
-
 // Mock user
 addDecorator(withUserDecorator())
 
@@ -25,4 +19,7 @@ addDecorator(story => (
   </ReferencesContext.Provider>
 ))
 
-configure(loadStories, module)
+// automatically import all files ending in *.stories.js or *.story.js
+const res = require.context('../src/components', true, /\.(stories|story)\.js$/)
+
+configure(res, module)
