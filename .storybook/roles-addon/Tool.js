@@ -1,6 +1,8 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { Form } from '@storybook/components'
+import { ADDON_ID } from './constants'
+import { useAddonState, useChannel } from '@storybook/api'
+import { STORY_RENDERED } from '@storybook/core-events'
 
 const roleOptions = [
   {
@@ -15,32 +17,37 @@ const roleOptions = [
   }
 ]
 
-export default class ViewportTool extends Component {
-  handleChange = e => {
-    this.props.channel.emit('role/change', e.target.value)
+const ViewportTool = () => {
+  const [role, setRole] = useAddonState(ADDON_ID, 'myra_range_officer')
+
+  const emit = useChannel({
+    [STORY_RENDERED]: () => {
+      setTimeout(() => {
+        emit('role/change', role)
+      }, 100)
+    }
+  })
+
+  const handleChange = e => {
+    setRole(e.target.value)
+    emit('role/change', e.target.value)
   }
 
-  render() {
-    return (
-      <Form.Select
-        placeholder="Select role"
-        style={{
-          margin: 'auto 0 auto 15px'
-        }}
-        onChange={this.handleChange}>
-        {roleOptions.map(role => (
-          <option key={role.key} value={role.value}>
-            {role.text}
-          </option>
-        ))}
-      </Form.Select>
-    )
-  }
+  return (
+    <Form.Select
+      placeholder="Select role"
+      style={{
+        margin: 'auto 0 auto 15px'
+      }}
+      onChange={handleChange}
+      value={role}>
+      {roleOptions.map(role => (
+        <option key={role.key} value={role.value}>
+          {role.text}
+        </option>
+      ))}
+    </Form.Select>
+  )
 }
 
-ViewportTool.propTypes = {
-  api: PropTypes.shape({
-    on: PropTypes.func
-  }).isRequired,
-  channel: PropTypes.object.isRequired
-}
+export default ViewportTool
