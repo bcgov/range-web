@@ -12,11 +12,11 @@ import {
   AGREEMENT_SEARCH_PLACEHOLDER
 } from '../../constants/strings'
 import { useToast } from '../../providers/ToastProvider'
-import { useUrlState } from '../../utils/hooks/urlState'
+import { useQueryParam, StringParam, NumberParam } from 'use-query-params'
 
 const SelectRangeUsePlanPage = () => {
-  const [term, setTerm] = useUrlState('term', '')
-  const [page, setPage] = useUrlState('page', 1)
+  const [term = '', setTerm] = useQueryParam('term', StringParam)
+  const [page = 1, setPage] = useQueryParam('page', NumberParam)
   const [toastId, setToastId] = useState()
   const { warningToast, removeToast, errorToast } = useToast()
 

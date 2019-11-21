@@ -4,7 +4,7 @@ import * as strings from '../../constants/strings'
 import { Loading } from '../common'
 import AgreementTableRow from './AgreementTableRow'
 import AHWarning from './AHWarning'
-import { useUrlState } from '../../utils/hooks/urlState'
+import { useQueryParam, StringParam } from 'use-query-params'
 
 const AgreementTable = ({
   agreements,
@@ -13,7 +13,7 @@ const AgreementTable = ({
   totalPages,
   onPageChange
 }) => {
-  const [activeId, setActiveId] = useUrlState('selected')
+  const [activeId, setActiveId] = useQueryParam('selected', StringParam)
 
   const [currentAgreements, setCurrentAgreements] = useState([])
   const [currentTotalPages, setCurrentTotalPages] = useState(0)
