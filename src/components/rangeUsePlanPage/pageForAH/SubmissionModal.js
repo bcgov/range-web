@@ -82,12 +82,12 @@ class SubmissionModal extends Component {
       const isMinorAmendment = false
 
       if (status.id === 14) {
-      await updateRUPConfirmation(
-        plan,
-        currUserConfirmation.id,
-        confirmed,
-        isMinorAmendment
-      )
+        await updateRUPConfirmation(
+          plan,
+          currUserConfirmation.id,
+          confirmed,
+          isMinorAmendment
+        )
       }
       await fetchPlan()
       this.setState({ isSubmitting: false })
