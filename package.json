@@ -51,6 +51,7 @@
     "semantic-ui-calendar-react": "^0.15.3",
     "semantic-ui-react": "^0.88.1",
     "swr": "^0.1.10",
+    "use-query-params": "^0.4.5",
     "uuid-v4": "^0.1.0",
     "yup": "^0.27.0"
   },
