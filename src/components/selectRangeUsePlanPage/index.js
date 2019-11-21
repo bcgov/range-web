@@ -33,7 +33,6 @@ const SelectRangeUsePlanPage = () => {
 
   const { agreements, totalPages, currentPage } = data || {}
 
-  if (error) return <Error onRetry={revalidate} />
   return (
     <section className="agreement">
       <Banner
@@ -50,13 +49,17 @@ const SelectRangeUsePlanPage = () => {
           placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
           initialValue={term}
         />
-        <AgreementTable
-          agreements={agreements}
-          loading={isValidating}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(e, { activePage }) => setPage(activePage)}
-        />
+        {error ? (
+          <Error onRetry={revalidate} />
+        ) : (
+          <AgreementTable
+            agreements={agreements}
+            loading={isValidating}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(e, { activePage }) => setPage(activePage)}
+          />
+        )}
       </div>
     </section>
   )
