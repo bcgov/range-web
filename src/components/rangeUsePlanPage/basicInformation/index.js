@@ -12,6 +12,7 @@ import {
 import PermissionsField from '../../common/PermissionsField'
 import { BASIC_INFORMATION } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
+import moment from 'moment'
 
 const BasicInformation = ({ plan, agreement }) => {
   const zone = agreement && agreement.zone
@@ -92,7 +93,7 @@ const BasicInformation = ({ plan, agreement }) => {
             name="planStartDate"
             permission={BASIC_INFORMATION.PLAN_START_DATE}
             component={DateInputField}
-            displayValue={planStartDate}
+            displayValue={moment(planStartDate).format('MMMM DD, YYYY')}
             label={strings.PLAN_START_DATE}
             dateFormat="MMMM DD, YYYY"
           />
@@ -100,7 +101,7 @@ const BasicInformation = ({ plan, agreement }) => {
             name="planEndDate"
             permission={BASIC_INFORMATION.PLAN_END_DATE}
             component={DateInputField}
-            displayValue={planEndDate}
+            displayValue={moment(planEndDate).format('MMMM DD, YYYY')}
             label={strings.PLAN_END_DATE}
             dateFormat="MMMM DD, YYYY"
           />
