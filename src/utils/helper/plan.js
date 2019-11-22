@@ -170,7 +170,8 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusCreated(status) ||
     isStatusDraft(status) ||
     isStatusChangedRequested(status) ||
-    isStatusNotApproved(status)
+    isStatusNotApproved(status) ||
+    isStatusRecommendForSubmission(status)
   ) {
     return user.roles.includes('myra_client')
   }
