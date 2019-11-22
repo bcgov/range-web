@@ -26,6 +26,10 @@ const PermissionsField = ({
     <Form.Field inline={props.inline}>
       {props.label && <label>{props.label}</label>}
       <PlainInput
+        aria-label={
+          props['aria-label'] ||
+          (props.inputProps && props.inputProps['aria-label'])
+        }
         transparent
         value={handleNullValue(displayValue)}
         fluid={props.fluid}
