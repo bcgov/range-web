@@ -137,7 +137,11 @@ const PlantCommunityBox = ({
               name={`${namespace}.elevationId`}
               component={Dropdown}
               options={elevationOptions}
-              displayValue={elevationId ? elevationTypes[elevationId].name : ''}
+              displayValue={
+                elevationTypes.find(t => t.id === elevationId)
+                  ? elevationTypes.find(t => t.id === elevationId).name
+                  : ''
+              }
               label={ELEVATION}
               fast
             />
