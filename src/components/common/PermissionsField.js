@@ -5,6 +5,7 @@ import { useUser } from '../../providers/UserProvider'
 import { Input } from 'formik-semantic-ui'
 import { Input as PlainInput, Form } from 'semantic-ui-react'
 import { handleNullValue } from '../../utils'
+import { useEditable } from '../../providers/EditableProvider'
 
 export const canUserEdit = (field, user) =>
   permissions[user.roles[0]].includes(field)
@@ -17,17 +18,14 @@ const PermissionsField = ({
   ...props
 }) => {
   const user = useUser()
+  const globalIsEditable = useEditable()
 
-  return !editable && canUserEdit(permission, user) ? (
+  return globalIsEditable && !editable && canUserEdit(permission, user) ? (
     <Component {...props} />
   ) : (
     <Form.Field inline={props.inline}>
       {props.label && <label>{props.label}</label>}
       <PlainInput
-        aria-label={
-          props['aria-label'] ||
-          (props.inputProps && props.inputProps['aria-label'])
-        }
         transparent
         value={handleNullValue(displayValue)}
         fluid={props.fluid}
@@ -47,8 +45,9 @@ PermissionsField.propTypes = {
 
 export const IfEditable = ({ children, permission, invert }) => {
   const user = useUser()
+  const globalIsEditable = useEditable()
 
-  const canEdit = canUserEdit(permission, user)
+  const canEdit = canUserEdit(permission, user) && globalIsEditable
 
   if (!invert && canEdit) return children
   if (invert && !canEdit) return children
