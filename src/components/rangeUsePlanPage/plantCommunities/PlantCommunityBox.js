@@ -226,8 +226,8 @@ const PlantCommunityBox = ({
                       plantCommunity.rangeReadinessDate
                     )
                     formik.setFieldValue(
-                      `${namespace}.rangeReadinessNotes`,
-                      plantCommunity.rangeReadinessNotes
+                      `${namespace}.rangeReadinessNote`,
+                      plantCommunity.rangeReadinessNote
                     )
                   }
 

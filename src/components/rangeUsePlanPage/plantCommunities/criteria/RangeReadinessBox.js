@@ -13,7 +13,7 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
   const {
     rangeReadinessMonth,
     rangeReadinessDay,
-    rangeReadinessNotes
+    rangeReadinessNote
   } = plantCommunity
 
   return (
@@ -39,10 +39,10 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         dateFormat="MMMM DD"
       />
       <PermissionsField
-        name={`${namespace}.rangeReadinessNotes`}
-        permission={RANGE_READINESS.NOTES}
+        name={`${namespace}.rangeReadinessNote`}
+        permission={RANGE_READINESS.NOTE}
         component={TextArea}
-        displayValue={rangeReadinessNotes}
+        displayValue={rangeReadinessNote}
         label="Other"
         fast
       />

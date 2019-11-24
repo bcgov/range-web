@@ -35,7 +35,7 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                   approved: false,
                   notes: '',
                   rangeReadinessDate: '',
-                  rangeReadinessNotes: '',
+                  rangeReadinessNote: '',
                   id: uuid()
                 })
               }}
