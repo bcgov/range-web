@@ -38,7 +38,6 @@ export const scrollIntoView = elementId => {
 
 // for plans extending past agreement date, extend usage
 export const appendUsage = plan => {
-  let planStartDate = new Date(plan.planStartDate)
   let planEndDate = new Date(plan.planEndDate)
   let agrEndDate = new Date(plan.agreement.agreementEndDate)
 
