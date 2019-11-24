@@ -123,6 +123,7 @@ const DayMonthPicker = connect(
 
                               formik.setFieldValue(monthName, date.month() + 1)
                               formik.setFieldValue(dayName, date.date())
+                              setOpen(false)
                             }}
                             style={{
                               backgroundColor:
