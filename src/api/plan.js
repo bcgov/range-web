@@ -20,7 +20,9 @@ import { PLAN_STATUS } from '../constants/variables'
  * @param {number} planId
  */
 export const getPlan = async planId => {
-  await syncPlan(planId)
+  if (!uuid.isUUID(planId)) {
+    await syncPlan(planId)
+  }
   const plan = getPlanFromLocalStorage(planId)
 
   return plan
@@ -77,21 +79,32 @@ export const savePlan = async plan => {
 
   const config = getAuthHeaderConfig()
 
-  await axios.put(API.UPDATE_RUP(plan.id), plan, config)
+  let planId = plan.id
 
-  const newPastures = await savePastures(plan.id, pastures)
+  if (uuid.isUUID(planId)) {
+    const { id, ...planData } = plan
+    const { data } = await axios.post(API.CREATE_RUP, planData, config)
+    removePlanFromLocalStorage(planId)
+    planId = data.id
+  } else {
+    await axios.put(API.UPDATE_RUP(plan.id), plan, config)
+  }
+
+  const newPastures = await savePastures(planId, pastures)
 
   await Promise.all(
     newPastures.map(async pasture => {
-      await savePlantCommunities(plan.id, pasture.id, pasture.plantCommunities)
+      await savePlantCommunities(planId, pasture.id, pasture.plantCommunities)
     })
   )
 
-  await saveGrazingSchedules(plan.id, grazingSchedules)
-  await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
-  await saveManagementConsiderations(plan.id, managementConsiderations)
-  await saveMinisterIssues(plan.id, ministerIssues, newPastures)
-  await saveAdditionalRequirements(plan.id, additionalRequirements)
+  await saveGrazingSchedules(planId, grazingSchedules)
+  await saveInvasivePlantChecklist(planId, invasivePlantChecklist)
+  await saveManagementConsiderations(planId, managementConsiderations)
+  await saveMinisterIssues(planId, ministerIssues, newPastures)
+  await saveAdditionalRequirements(planId, additionalRequirements)
+
+  return planId
 }
 
 /**
@@ -109,6 +122,10 @@ export const savePlanToLocalStorage = (plan, synced = false) => {
  */
 export const getPlanFromLocalStorage = planId => {
   return JSON.parse(localStorage.getItem(`plan-${planId}`))
+}
+
+export const removePlanFromLocalStorage = planId => {
+  localStorage.removeItem(`plan-${planId}`)
 }
 
 export const getLocalPlansForAgreement = agreementId => {
@@ -137,11 +154,27 @@ export const getPlans = () =>
     .filter(([key]) => key.match(/(plan-)(.*)/g))
     .map(entry => JSON.parse(entry[1]))
 
-export const createNewPlan = agreementId => {
+export const createNewPlan = agreement => {
   const newPlan = {
     id: uuid(),
-    agreementId,
-    status: { code: PLAN_STATUS.DRAFT }
+    agreementId: agreement.id,
+    statusId: 6,
+    status: { code: PLAN_STATUS.DRAFT },
+    agreement,
+    planStatusHistory: [],
+    pastures: [],
+    ministerIssues: [],
+    invasivePlanChecklist: {
+      beginInUninfestedArea: false,
+      equipmentAndVehiclesParking: false,
+      other: null,
+      revegetate: false,
+      undercarrigesInspected: false
+    },
+    grazingSchedules: [],
+    managementConsiderations: [],
+    additionalRequirements: [],
+    uploaded: true
   }
 
   savePlanToLocalStorage(newPlan)
