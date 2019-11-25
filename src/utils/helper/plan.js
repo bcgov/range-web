@@ -159,7 +159,7 @@ export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
 }
 
 export const canUserEditThisPlan = (plan = {}, user = {}) => {
-  const { status, creatorId } = plan
+  const { status } = plan
 
   if (isStatusStaffDraft(status) || isStatusSubmittedForReview(status)) {
     return user.roles.includes('myra_range_officer')
@@ -173,15 +173,6 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusRecommendForSubmission(status)
   ) {
     return user.roles.includes('myra_client')
-  }
-
-  if (isPlanAmendment(plan)) {
-    if (status && creatorId && user.id) {
-      return canAllowRevisionForAH(status) && creatorId === user.id
-    }
-  } else {
-    // initial plan
-    return canAllowRevisionForAH(status)
   }
 
   return false
