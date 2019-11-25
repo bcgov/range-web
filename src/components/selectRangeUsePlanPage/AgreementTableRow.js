@@ -10,6 +10,7 @@ import { useUser } from '../../providers/UserProvider'
 import { Status } from '../common'
 import { Icon } from 'semantic-ui-react'
 import PlanTable from './PlanTable'
+import NewPlanButton from './NewPlanButton'
 
 const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
   const [plan] = agreement.plans
@@ -33,7 +34,7 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
         'agrm__table__row--active': active,
         'agrm__table__row--not-active': !noneSelected && !active
       })}>
-      <button className="agrm__table__accordian" onClick={plan && onSelect}>
+      <div className="agrm__table__accordian" onClick={plan && onSelect}>
         <div className="agrm__table__accordian__cell">{agreement.id}</div>
         <div className="agrm__table__accordian__cell">
           {handleNullValue(rangeName, false, '-')}
@@ -45,7 +46,11 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
           {handleNullValue(staffFullName)}
         </div>
         <div className="agrm__table__accordian__cell">
-          <Status user={user} status={status} />
+          {agreement.plans.length !== 0 ? (
+            <Status user={user} status={status} />
+          ) : (
+            <NewPlanButton agreement={agreement} />
+          )}
         </div>
         <div className="agrm__table__accordian__cell">
           {isActiveAndHasPlans && <Icon name="minus circle" size="large" />}
@@ -57,7 +62,7 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
             />
           )}
         </div>
-      </button>
+      </div>
       <div
         className={classnames('agrm__table__panel', {
           'agrm__table__panel--active': isActiveAndHasPlans
