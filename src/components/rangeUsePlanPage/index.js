@@ -42,6 +42,7 @@ import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
 import { getPlan, savePlan } from '../../api'
 import PDFView from './pdf/PDFView'
 import { getNetworkStatus } from '../../utils/helper/network'
+import { RANGE_USE_PLAN } from '../../constants/routes'
 
 const Base = ({
   user,
@@ -63,9 +64,9 @@ const Base = ({
   const getPlanId = () =>
     match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
 
-  const fetchPlan = async () => {
+  const fetchPlan = async planId => {
     setFetching(true)
-    const planId = getPlanId()
+    planId = planId || getPlanId()
 
     try {
       const tempPlan = await getPlan(planId)
@@ -95,14 +96,16 @@ const Base = ({
   const handleSubmit = async (plan, formik) => {
     try {
       // Update Plan
-      await savePlan(plan)
+      const planId = await savePlan(plan)
 
       await createVersion(plan.id)
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
 
-      fetchPlan()
+      await history.push(`${RANGE_USE_PLAN}/${planId}`)
+
+      fetchPlan(planId)
     } catch (err) {
       formik.setStatus('error')
       formik.setSubmitting(false)
