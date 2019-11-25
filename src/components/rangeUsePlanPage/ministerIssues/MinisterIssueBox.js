@@ -156,7 +156,7 @@ const MinisterIssueBox = ({
                       push({
                         actionTypeId: action.id,
                         detail: '',
-                        other: action,
+                        other: action.other,
                         noGrazeStartMonth: moment().month() + 1,
                         noGrazeStartDay: moment().date(),
                         noGrazeEndMonth: moment().month() + 1,
