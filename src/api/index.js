@@ -224,7 +224,7 @@ export const savePastures = (planId, pastures) => {
         return { ...pasture, oldId: pasture.id }
       } else {
         const { id, ...values } = pasture
-        const { data } = axios.post(
+        const { data } = await axios.post(
           API.CREATE_RUP_PASTURE(planId),
           values,
           getAuthHeaderConfig()
