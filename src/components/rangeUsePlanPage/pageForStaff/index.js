@@ -15,7 +15,7 @@ import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
 import RUPSchema from '../schema'
-import { getAuthHeaderConfig } from '../../../utils'
+import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
 import {
   savePastures,
   savePlantCommunities,
@@ -240,7 +240,12 @@ class PageForStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
-          {plan && <PlanForm plan={plan} />}
+          {plan && (
+            <PlanForm
+              plan={plan}
+              isEditable={canUserEditThisPlan(plan, user)}
+            />
+          )}
         </ContentsContainer>
       </section>
     )

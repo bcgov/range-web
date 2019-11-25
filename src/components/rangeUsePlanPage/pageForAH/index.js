@@ -25,7 +25,7 @@ import {
   savePastures
 } from '../../../api'
 import RUPSchema from '../schema'
-import { getAuthHeaderConfig } from '../../../utils'
+import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -314,7 +314,12 @@ class PageForAH extends Component {
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
-          {plan && <PlanForm plan={plan} />}
+          {plan && (
+            <PlanForm
+              plan={plan}
+              isEditable={canUserEditThisPlan(plan, user)}
+            />
+          )}
         </ContentsContainer>
       </section>
     )
