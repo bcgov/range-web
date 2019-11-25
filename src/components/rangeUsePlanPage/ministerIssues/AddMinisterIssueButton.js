@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Button, Dropdown } from 'semantic-ui-react'
-import InputModal from '../../common/InputModal'
 
 const AddMinisterIssueButton = ({ onSubmit }) => {
   const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || []
@@ -12,8 +11,6 @@ const AddMinisterIssueButton = ({ onSubmit }) => {
 }
 
 const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
-  const [isModalOpen, setModalOpen] = useState(false)
-
   const options = types.map(type => ({
     key: type.id,
     value: type.id,
@@ -21,13 +18,7 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
     id: type.id
   }))
 
-  const otherType = types.find(t => t.name === 'Other')
-
   const onOptionClicked = (e, { value: ministerIssueTypeId }) => {
-    if (otherType && ministerIssueTypeId === otherType.id) {
-      return setModalOpen(true)
-    }
-
     const ministerIssue = types.find(t => t.id === ministerIssueTypeId)
 
     onSubmit(ministerIssue)
@@ -51,15 +42,6 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
         pointing="right"
         onChange={onOptionClicked}
         selectOnBlur={false}
-      />
-      <InputModal
-        open={isModalOpen}
-        onSubmit={input => {
-          setModalOpen(false)
-          onSubmit({ ...otherType, name: input })
-        }}
-        onClose={() => setModalOpen(false)}
-        title="Other Name"
       />
     </>
   )
