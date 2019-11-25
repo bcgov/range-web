@@ -51,7 +51,7 @@ export const MONITORING_AREAS = {
 export const RANGE_READINESS = {
   DATE: 'rangeReadiness.date',
   INDICATOR_PLANTS: 'rangeReadiness.indicatorPlants',
-  NOTES: 'rangeReadiness.notes',
+  NOTE: 'rangeReadiness.note',
   CRITERIA: 'rangeReadiness.criteria'
 }
 

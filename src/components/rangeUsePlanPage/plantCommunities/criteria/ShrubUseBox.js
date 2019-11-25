@@ -18,7 +18,7 @@ const ShrubUseBox = ({ plantCommunity, namespace }) => {
 
       <PermissionsField
         name={`${namespace}.shrubUse`}
-        permission={RANGE_READINESS.NOTES}
+        permission={RANGE_READINESS.NOTE}
         component={Input}
         displayValue={plantCommunity.shrubUse}
         label="% of Current Annual Growth"

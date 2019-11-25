@@ -55,6 +55,9 @@ const RUPSchema = Yup.object().shape({
           rangeReadinessDay: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable(),
+          rangeReadinessNote: Yup.string()
+            .transform(handleNull())
+            .nullable(),
           plantCommunityActions: Yup.array().of(
             Yup.object().shape({
               actionTypeId: Yup.number()
