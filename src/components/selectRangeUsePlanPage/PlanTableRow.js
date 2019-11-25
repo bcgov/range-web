@@ -1,14 +1,12 @@
 import React from 'react'
-import useSWR from 'swr'
 import { Link } from 'react-router-dom'
-import * as API from '../../constants/api'
-import { getAuthHeaderConfig, axios, formatDateFromServer } from '../../utils'
+import { formatDateFromServer, canUserEditThisPlan } from '../../utils'
 import { useUser } from '../../providers/UserProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import { Icon } from 'semantic-ui-react'
 import { REFERENCE_KEY } from '../../constants/variables'
 import { INITIAL_PLAN, VIEW } from '../../constants/strings'
-import { Status, PrimaryButton, Loading } from '../common'
+import { Status, PrimaryButton } from '../common'
 import { RANGE_USE_PLAN } from '../../constants/routes'
 
 const PlanTableRow = ({ plan }) => {
@@ -43,7 +41,7 @@ const PlanTableRow = ({ plan }) => {
           compact
           as={Link}
           to={`${RANGE_USE_PLAN}/${plan.id}`}>
-          {VIEW}
+          {canUserEditThisPlan(plan, user) ? 'Edit' : VIEW}
         </PrimaryButton>
       </div>
     </div>
