@@ -16,6 +16,7 @@ import { axios, getAuthHeaderConfig } from '../../../utils'
 import moment from 'moment'
 import Version from './Version'
 import EditableProvider from '../../../providers/EditableProvider'
+import NoVersions from './NoVersions'
 
 const sortVersions = (a, b) => {
   if (b.version === -1) return 1
@@ -35,57 +36,62 @@ const VersionsList = ({ match }) => {
 
   const contextRef = useRef()
 
+  const { versions = [] } = data || {}
+  const formattedVersions = versions
+    .sort(sortVersions)
+    .filter(v => v.version !== -1)
+
   if (error) return <div>Error: {JSON.stringify(error.message)}</div>
   return (
     <EditableProvider editable={false}>
-      <Grid columns="equal" padded>
-        <Grid.Column width="12">
-          <Ref innerRef={contextRef}>
-            <Segment padded>
-              {selectedVersion ? (
-                <Version {...selectedVersion} planId={planId} />
-              ) : (
-                <Container>Please select a version on the right</Container>
-              )}
-              <Rail position="right">
-                <Sticky context={contextRef}>
-                  <Segment loading={loading || !data}>
-                    <Header attached="top">Versions</Header>
-                    <List selection animated>
-                      {data &&
-                        data.versions
-                          .sort(sortVersions)
-                          .filter(v => v.version !== -1)
-                          .map(version => (
-                            <List.Item
-                              active={
-                                selectedVersion &&
-                                version.version === selectedVersion.version
-                              }
-                              key={version.planId}
-                              onClick={() => setSelectedVersion(version)}>
-                              <Label>
-                                {version.version === -1
-                                  ? 'Current'
-                                  : `v${version.version}`}
-                              </Label>
-                              <List.Content
-                                floated="right"
-                                verticalAlign="middle">
-                                {moment(version.updatedAt).format(
-                                  'MMMM Do, YYYY, h:mm a '
-                                )}
-                              </List.Content>
-                            </List.Item>
-                          ))}
-                    </List>
-                  </Segment>
-                </Sticky>
-              </Rail>
-            </Segment>
-          </Ref>
-        </Grid.Column>
-      </Grid>
+      {formattedVersions.length === 0 ? (
+        <NoVersions planId={planId} />
+      ) : (
+        <Grid columns="equal" padded>
+          <Grid.Column width="12">
+            <Ref innerRef={contextRef}>
+              <Segment padded placeholder={!selectedVersion}>
+                {selectedVersion ? (
+                  <Version {...selectedVersion} planId={planId} />
+                ) : (
+                  <Container>Please select a version on the right</Container>
+                )}
+                <Rail position="right">
+                  <Sticky context={contextRef}>
+                    <Segment loading={loading || !data}>
+                      <Header attached="top">Versions</Header>
+                      <List selection animated>
+                        {formattedVersions.map(version => (
+                          <List.Item
+                            active={
+                              selectedVersion &&
+                              version.version === selectedVersion.version
+                            }
+                            key={version.planId}
+                            onClick={() => setSelectedVersion(version)}>
+                            <Label>
+                              {version.version === -1
+                                ? 'Current'
+                                : `v${version.version}`}
+                            </Label>
+                            <List.Content
+                              floated="right"
+                              verticalAlign="middle">
+                              {moment(version.updatedAt).format(
+                                'MMMM Do, YYYY, h:mm a '
+                              )}
+                            </List.Content>
+                          </List.Item>
+                        ))}
+                      </List>
+                    </Segment>
+                  </Sticky>
+                </Rail>
+              </Segment>
+            </Ref>
+          </Grid.Column>
+        </Grid>
+      )}
     </EditableProvider>
   )
 }
