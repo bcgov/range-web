@@ -63,7 +63,8 @@ export const savePlan = async plan => {
   const isOnline = await getNetworkStatus()
 
   if (!isOnline) {
-    return savePlanToLocalStorage(plan, false)
+    savePlanToLocalStorage(plan, false)
+    return plan.id
   }
 
   await deleteFromQueue()
