@@ -42,6 +42,7 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
         pointing="right"
         onChange={onOptionClicked}
         selectOnBlur={false}
+        value={null}
       />
     </>
   )
