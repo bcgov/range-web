@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import PermissionsField from '../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
 import { Input } from 'formik-semantic-ui'
 import { Dropdown, Icon } from 'semantic-ui-react'
@@ -47,29 +47,31 @@ const PastureBox = ({
               Pasture: {pasture.name}
             </div>
 
-            <div>
-              {activeIndex === index && (
-                <Icon
-                  name="edit"
-                  onClick={e => {
-                    setModalOpen(true)
-                    e.stopPropagation()
+            <IfEditable permission={PASTURES.NAME}>
+              <div>
+                {activeIndex === index && (
+                  <Icon
+                    name="edit"
+                    onClick={e => {
+                      setModalOpen(true)
+                      e.stopPropagation()
+                    }}
+                  />
+                )}
+                <Dropdown
+                  className="rup__pasture__actions"
+                  trigger={<i className="ellipsis vertical icon" />}
+                  options={dropdownOptions}
+                  icon={null}
+                  pointing="right"
+                  onClick={e => e.stopPropagation()}
+                  onChange={(e, { value }) => {
+                    if (value === 'copy') onCopy()
                   }}
+                  selectOnBlur={false}
                 />
-              )}
-              <Dropdown
-                className="rup__pasture__actions"
-                trigger={<i className="ellipsis vertical icon" />}
-                options={dropdownOptions}
-                icon={null}
-                pointing="right"
-                onClick={e => e.stopPropagation()}
-                onChange={(e, { value }) => {
-                  if (value === 'copy') onCopy()
-                }}
-                selectOnBlur={false}
-              />
-            </div>
+              </div>
+            </IfEditable>
           </div>
         }
         collapsibleContent={
