@@ -49,7 +49,7 @@ const AddMinisterIssueActionButton = ({ onSubmit }) => {
         open={isModalOpen}
         onSubmit={input => {
           setModalOpen(false)
-          onSubmit({ ...otherType, name: input })
+          onSubmit({ ...otherType, other: input })
         }}
         onClose={() => setModalOpen(false)}
         title="Other Name"
