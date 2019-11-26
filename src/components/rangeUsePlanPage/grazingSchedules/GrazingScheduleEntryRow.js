@@ -124,7 +124,7 @@ const GrazingScheduleEntryRow = ({
           component={DateInputField}
           displayValue={moment(dateIn).format('MMM D')}
           fluid
-          dateFormat="MMM D"
+          dateFormat="MMM D YYYY"
           icon={null}
           initialDate={initialDate}
           minDate={initialDate}
@@ -138,7 +138,7 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.dateOut`}
           component={DateInputField}
           displayValue={moment(dateOut).format('MMM D')}
-          dateFormat="MMM D"
+          dateFormat="MMM D YYYY"
           fluid
           icon={null}
           initialDate={initialDate}

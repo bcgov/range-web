@@ -89,11 +89,11 @@ describe('Grazing Schedule Entry Row', () => {
 
     const dateIn = getByLabelText('date in')
     expect(dateIn).toBeInTheDocument()
-    expect(dateIn.value).toBe(entry.dateIn.format('MMM D'))
+    expect(dateIn.value).toBe(entry.dateIn.format('MMM D YYYY'))
 
     const dateOut = getByLabelText('date out')
     expect(dateOut).toBeInTheDocument()
-    expect(dateOut.value).toBe(entry.dateOut.format('MMM D'))
+    expect(dateOut.value).toBe(entry.dateOut.format('MMM D YYYY'))
 
     expect(queryByLabelText('grace days').value).toBe(
       entry.graceDays.toString()
