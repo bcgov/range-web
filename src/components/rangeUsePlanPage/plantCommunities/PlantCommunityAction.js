@@ -6,9 +6,10 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { Dropdown, TextArea } from 'formik-semantic-ui'
+import { TextArea } from 'formik-semantic-ui'
 import DayMonthPicker from '../../common/form/DayMonthPicker'
 import moment from 'moment'
+import HelpfulDropdown from '../../common/form/HelpfulDropdown'
 
 const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
   const references = useReferences()
@@ -38,7 +39,8 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
         <PermissionsField
           name={`${namespace}.actionTypeId`}
           permission={PLANT_COMMUNITY.ACTIONS.NAME}
-          component={Dropdown}
+          component={HelpfulDropdown}
+          help="To select a value, start typing. If a predefined option doesn't exist, you can provide your own value"
           options={actionOptions}
           displayValue={
             actionOptions.find(option => option.value === action.actionTypeId)
