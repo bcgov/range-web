@@ -208,6 +208,7 @@ const PlantCommunityBox = ({
             <span>Criteria</span>
             <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
+                excludedPlantCommunityId={plantCommunity.id}
                 onSubmit={({ plantCommunity, criteria }) => {
                   const indicatorPlants = plantCommunity.indicatorPlants.filter(
                     ip => {

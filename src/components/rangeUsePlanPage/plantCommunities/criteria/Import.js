@@ -15,7 +15,7 @@ const initialState = {
   showConfirm: false
 }
 
-const Import = ({ formik, onSubmit }) => {
+const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
   const [state, setState] = useState(initialState)
 
   const pastures = getIn(formik.values, 'pastures') || []
@@ -32,12 +32,14 @@ const Import = ({ formik, onSubmit }) => {
 
   let plantCommunityOptions = []
   if (state.pasture) {
-    plantCommunityOptions = state.pasture.plantCommunities.map(pc => ({
-      value: pc.id,
-      text: pc.name,
-      key: pc.id,
-      plantCommunity: pc
-    }))
+    plantCommunityOptions = state.pasture.plantCommunities
+      .filter(community => community.id !== excludedPlantCommunityId)
+      .map(pc => ({
+        value: pc.id,
+        text: pc.name,
+        key: pc.id,
+        plantCommunity: pc
+      }))
   }
 
   return (
