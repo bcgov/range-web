@@ -265,6 +265,7 @@ class PageForAH extends Component {
           clients={clients}
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
+          onSuccess={() => fetchPlan()}
         />
 
         <AmendmentSubmissionModal

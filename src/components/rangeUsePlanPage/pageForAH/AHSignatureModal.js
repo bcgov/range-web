@@ -63,6 +63,7 @@ class AHSignatureModal extends Component {
 
       confirmationUpdated({ confirmation })
       this.setState({ isConfirming: false })
+      if (this.props.onSuccess) this.props.onSuccess()
     }
     const onError = err => {
       this.setState({ isConfirming: false })
