@@ -45,7 +45,7 @@ const RUPSchema = Yup.object().shape({
             .nullable(),
           notes: Yup.string()
             .transform(handleNull())
-            .required(),
+            .required('Required field'),
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required('Required field'),
           shrubUse: Yup.string().transform(handleNull()),
