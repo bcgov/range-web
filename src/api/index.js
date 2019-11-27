@@ -353,3 +353,10 @@ export const deleteManagementConsideration = async (
     getAuthHeaderConfig()
   )
 }
+
+export const deleteGrazingSchedule = async (planId, scheduleId) => {
+  await axios.delete(
+    API.DELETE_RUP_GRAZING_SCHEDULE(planId, scheduleId),
+    getAuthHeaderConfig()
+  )
+}

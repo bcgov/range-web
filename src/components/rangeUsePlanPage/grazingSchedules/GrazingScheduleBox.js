@@ -93,7 +93,6 @@ const GrazingScheduleBox = ({
                     data-testid={`copy-button-${schedule.year}`}
                   />
                   <Dropdown.Item
-                    disabled={!uuid.isUUID(schedule.id)}
                     onClick={() => onScheduleDelete()}
                     data-testid={`delete-button-${schedule.year}`}>
                     Delete

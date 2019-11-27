@@ -11,6 +11,7 @@ import GrazingScheduleBox from './GrazingScheduleBox'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import moment from 'moment'
+import { deleteGrazingSchedule } from '../../../api'
 
 const GrazingSchedules = ({ plan }) => {
   const [yearOptions, setYearOptions] = useState([])
@@ -148,7 +149,12 @@ const GrazingSchedules = ({ plan }) => {
             onCancel={() => {
               setIndexToRemove(null)
             }}
-            onConfirm={() => {
+            onConfirm={async () => {
+              const schedule = grazingSchedules[indexToRemove]
+
+              if (!uuid.isUUID(schedule.id)) {
+                await deleteGrazingSchedule(plan.id, schedule.id)
+              }
               remove(indexToRemove)
               setIndexToRemove(null)
             }}
