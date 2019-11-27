@@ -85,8 +85,7 @@ describe('Grazing Schedules', () => {
 
     expect(getByText('2025 Grazing Schedule')).toBeInTheDocument()
 
-    // The 2022 schedule should not be allowed to be deleted, since it is persisted
-    expect(getByTestId('delete-button-2022')).toHaveClass('disabled')
+    expect(getByTestId('delete-button-2022')).not.toHaveClass('disabled')
 
     // Uncollapse 2025 schedule
     fireEvent.click(getByText('2025 Grazing Schedule'))

@@ -374,7 +374,6 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
             </div>
             <div
               aria-checked="false"
-              aria-disabled="false"
               aria-selected="false"
               class="item"
               role="option"

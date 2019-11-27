@@ -117,8 +117,8 @@ describe('Grazing Schedule Entry Box', () => {
     expect(dateOuts).toHaveLength(0)
   })
 
-  it('disables the delete button when an entry is persisted', () => {
-    const { getAllByText, queryByText, queryAllByLabelText } = render(
+  it('does not disable the delete button when an entry is persisted', () => {
+    const { getAllByText } = render(
       <WrappedComponent
         initialValues={{
           grazingSchedules: [
@@ -137,24 +137,6 @@ describe('Grazing Schedule Entry Box', () => {
     // The first delete button is for the whole schedule. We want the button for
     // just the row.
     const rowDeleteButton = getAllByText('Delete')[1]
-    expect(rowDeleteButton.parentElement).toHaveClass('disabled')
-    fireEvent.click(rowDeleteButton)
-    // Modal shouldn't appear because button is disabled
-    expect(queryByText('OK')).toBeNull()
-
-    const pastureDropdowns = queryAllByLabelText('pasture')
-    expect(pastureDropdowns).toHaveLength(1)
-
-    const livestockTypes = queryAllByLabelText('livestock type')
-    expect(livestockTypes).toHaveLength(1)
-
-    const livestockCounts = queryAllByLabelText('livestock count')
-    expect(livestockCounts).toHaveLength(1)
-
-    const dateIns = queryAllByLabelText('date in')
-    expect(dateIns).toHaveLength(1)
-
-    const dateOuts = queryAllByLabelText('date out')
-    expect(dateOuts).toHaveLength(1)
+    expect(rowDeleteButton.parentElement).not.toHaveClass('disabled')
   })
 })
