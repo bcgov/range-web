@@ -62,8 +62,7 @@ const GrazingScheduleEntryRow = ({
     {
       key: 'delete',
       text: 'Delete',
-      onClick: uuid.isUUID(entry.id) ? onDelete : null,
-      disabled: !uuid.isUUID(entry.id)
+      onClick: onDelete
     }
   ]
 

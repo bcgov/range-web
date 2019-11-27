@@ -12,6 +12,7 @@ import uuid from 'uuid-v4'
 import { TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
+import { deleteGrazingScheduleEntry } from '../../../api'
 
 const GrazingScheduleBox = ({
   schedule,
@@ -242,7 +243,16 @@ const GrazingScheduleBox = ({
             onCancel={() => {
               setToRemove(null)
             }}
-            onConfirm={() => {
+            onConfirm={async () => {
+              const entry = schedule.grazingScheduleEntries[toRemove]
+
+              if (!uuid.isUUID(entry.id)) {
+                await deleteGrazingScheduleEntry(
+                  schedule.planId,
+                  schedule.id,
+                  entry.id
+                )
+              }
               remove(toRemove)
               setToRemove(null)
             }}
