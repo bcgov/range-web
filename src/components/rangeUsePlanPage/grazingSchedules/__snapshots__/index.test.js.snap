@@ -220,8 +220,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  aria-disabled="true"
-                  class="disabled item"
+                  class="item"
                   data-testid="delete-button-2022"
                   role="option"
                 >
@@ -666,7 +665,6 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                     </div>
                     <div
                       aria-checked="false"
-                      aria-disabled="false"
                       aria-selected="false"
                       class="item"
                       role="option"

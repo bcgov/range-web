@@ -138,24 +138,32 @@ const RUPSchema = Yup.object().shape({
   grazingSchedules: Yup.array().of(
     Yup.object().shape({
       narative: Yup.string().transform(handleNull()),
-      grazingScheduleEntries: Yup.array().of(
-        Yup.object().shape({
-          dateIn: Yup.string().required(true),
-          dateOut: Yup.string().required(true),
-          livestockCount: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required(true),
-          pastureId: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required(true),
-          livestockTypeId: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
-            .nullable()
-            .required(true)
-        })
-      )
+      grazingScheduleEntries: Yup.array()
+        .min(1)
+        .of(
+          Yup.object().shape({
+            dateIn: Yup.string().required(true),
+            dateOut: Yup.string().required(true),
+            livestockCount: Yup.number()
+              .transform((v, originalValue) =>
+                originalValue === '' ? null : v
+              )
+              .nullable()
+              .required(true),
+            pastureId: Yup.number()
+              .transform((v, originalValue) =>
+                originalValue === '' ? null : v
+              )
+              .nullable()
+              .required(true),
+            livestockTypeId: Yup.number()
+              .transform((v, originalValue) =>
+                originalValue === '' ? null : v
+              )
+              .nullable()
+              .required(true)
+          })
+        )
     })
   ),
   invasivePlantChecklist: Yup.object().shape({
