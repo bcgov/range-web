@@ -10,6 +10,7 @@ import * as utils from '../../../utils'
 import GrazingScheduleBox from './GrazingScheduleBox'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import moment from 'moment'
 
 const GrazingSchedules = ({ plan }) => {
   const [yearOptions, setYearOptions] = useState([])
@@ -117,7 +118,23 @@ const GrazingSchedules = ({ plan }) => {
                       authorizedAUMs={authorizedAUMs}
                       crownTotalAUMs={crownTotalAUMs}
                       onScheduleCopy={year => {
-                        push({ ...schedule, id: uuid(), year })
+                        push({
+                          ...schedule,
+                          id: uuid(),
+                          year,
+                          grazingScheduleEntries: schedule.grazingScheduleEntries.map(
+                            entry => ({
+                              ...entry,
+                              id: uuid(),
+                              dateIn: moment(entry.dateIn)
+                                .set('year', year)
+                                .toISOString(),
+                              dateOut: moment(entry.dateOut)
+                                .set('year', year)
+                                .toISOString()
+                            })
+                          )
+                        })
                       }}
                       onScheduleDelete={() => setIndexToRemove(index)}
                     />
