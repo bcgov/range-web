@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import useSWR from 'swr'
-import { Grid, Segment, Sticky, Ref, Container } from 'semantic-ui-react'
+import { Segment, Sticky, Ref, Container } from 'semantic-ui-react'
 import * as API from '../../../constants/api'
 import { axios, getAuthHeaderConfig } from '../../../utils'
 import Version from './Version'
@@ -36,33 +36,26 @@ const VersionsList = ({ match }) => {
       {!isValidating && formattedVersions.length === 0 ? (
         <NoVersions planId={planId} />
       ) : (
-        <Grid columns="equal" padded centered>
-          <Grid.Row>
-            <Grid.Column width="10">
-              <Sticky context={contextRef}>
-                <VersionsToolbar
-                  planId={planId}
-                  versions={formattedVersions}
-                  selectedVersion={selectedVersion}
-                  onSelectVersion={(e, { value }) => setSelectedVersion(value)}
-                />
-              </Sticky>
+        <Container>
+          <Sticky context={contextRef}>
+            <VersionsToolbar
+              planId={planId}
+              versions={formattedVersions}
+              selectedVersion={selectedVersion}
+              onSelectVersion={(e, { value }) => setSelectedVersion(value)}
+            />
+          </Sticky>
 
-              <Ref innerRef={contextRef}>
-                <Segment
-                  padded
-                  placeholder={!selectedVersion}
-                  attached="bottom">
-                  {selectedVersion ? (
-                    <Version {...selectedVersion} planId={planId} />
-                  ) : (
-                    <Container>Please select a version</Container>
-                  )}
-                </Segment>
-              </Ref>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+          <Ref innerRef={contextRef}>
+            <Segment padded placeholder={!selectedVersion} attached="bottom">
+              {selectedVersion ? (
+                <Version {...selectedVersion} planId={planId} />
+              ) : (
+                <Container>Please select a version</Container>
+              )}
+            </Segment>
+          </Ref>
+        </Container>
       )}
     </>
   )
