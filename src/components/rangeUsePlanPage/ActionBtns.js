@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon, Menu, Dropdown } from 'semantic-ui-react'
 import { connect } from 'formik'
 import {
   SAVE_DRAFT,
@@ -12,12 +12,14 @@ import {
 } from '../../constants/strings'
 import { CONFIRMATION_MODAL_ID } from '../../constants/variables'
 import DownloadPDFBtn from './DownloadPDFBtn'
+import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
 
 const ActionBtns = ({
   canEdit,
   canAmend,
   canConfirm,
   canSubmit,
+  canUpdateStatus,
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
@@ -26,7 +28,10 @@ const ActionBtns = ({
   openSubmissionModal,
   openAHSignatureModal,
   openConfirmationModal,
-  formik
+  formik,
+  plan,
+  isFetchingPlan,
+  fetchPlan
 }) => {
   const downloadPDFBtn = (
     <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
@@ -42,6 +47,7 @@ const ActionBtns = ({
         formik.submitForm()
       }}
       style={{ marginRight: '0', marginLeft: '10px' }}>
+      <Icon name="save" />
       {SAVE_DRAFT}
     </Button>
   )
@@ -54,17 +60,14 @@ const ActionBtns = ({
       loading={isSubmitting}
       onClick={openSubmissionModal}
       style={{ marginRight: '0', marginLeft: '10px' }}>
+      <Icon name="check" />
       {SUBMIT}
     </Button>
   )
-  const amendBtn = (
-    <Button
+  const amendMenuItem = (
+    <Menu.Item
       key="amendBtn"
-      inverted
-      compact
-      content={AMEND_PLAN}
       loading={isCreatingAmendment}
-      style={{ marginRight: '0', marginLeft: '10px' }}
       onClick={() => {
         openConfirmationModal({
           id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
@@ -73,51 +76,50 @@ const ActionBtns = ({
           onYesBtnClicked: onAmendPlanClicked,
           closeAfterYesBtnClicked: true
         })
-      }}
-    />
+      }}>
+      <Icon name="edit" />
+      {AMEND_PLAN}
+    </Menu.Item>
   )
-  const confirmSubmissionBtn = (
-    <Button
-      key="confirmSubmissionBtn"
-      inverted
-      compact
-      style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={openAHSignatureModal}>
+  const confirmSubmissionMenuItem = (
+    <Menu.Item key="confirmSubmissionBtn" onClick={openAHSignatureModal}>
       {SIGN_SUBMISSION}
-    </Button>
+    </Menu.Item>
   )
-  const viewVersionsBtn = (
-    <Button
-      key="viewVersionnBtn"
-      type="button"
-      inverted
-      compact
-      style={{ marginRight: '0', marginLeft: '10px' }}
-      onClick={onViewVersionsClicked}>
+  const viewVersionsMenuItem = (
+    <Menu.Item key="viewVersionBtn" onClick={onViewVersionsClicked}>
+      <Icon name="history" />
       {VIEW_VERSIONS}
-    </Button>
+    </Menu.Item>
   )
 
-  if (canSubmit && !canEdit) {
-    return [downloadPDFBtn, submitBtn]
-  }
-  if (canEdit && !canSubmit) {
-    return [downloadPDFBtn, saveDraftBtn]
-  }
-  if (canEdit) {
-    return [downloadPDFBtn, viewVersionsBtn, saveDraftBtn, submitBtn]
-  }
-  if (canAmend) {
-    return [downloadPDFBtn, viewVersionsBtn, amendBtn]
-  }
-  if (canConfirm) {
-    return [downloadPDFBtn, viewVersionsBtn, confirmSubmissionBtn]
-  }
-  if (canSubmit) {
-    return [downloadPDFBtn, viewVersionsBtn, submitBtn]
-  }
-
-  return [downloadPDFBtn, viewVersionsBtn]
+  return (
+    <>
+      {canEdit && saveDraftBtn}
+      {canSubmit && submitBtn}
+      <Dropdown
+        trigger={<Icon name="ellipsis vertical" inverted />}
+        closeOnBlur
+        icon={null}
+        pointing="top right"
+        style={{ marginLeft: 10 }}
+        value={null}>
+        <Dropdown.Menu>
+          {downloadPDFBtn}
+          {viewVersionsMenuItem}
+          {canConfirm && confirmSubmissionMenuItem}
+          {canAmend && amendMenuItem}
+          {canUpdateStatus && (
+            <UpdateStatusDropdown
+              plan={plan}
+              fetchPlan={fetchPlan}
+              isFetchingPlan={isFetchingPlan}
+            />
+          )}
+        </Dropdown.Menu>
+      </Dropdown>
+    </>
+  )
 }
 
 export default connect(ActionBtns)

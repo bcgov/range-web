@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Dropdown, Button, Icon } from 'semantic-ui-react'
+import { Menu, Divider } from 'semantic-ui-react'
 import {
   isStatusStands,
   isStatusCreated,
@@ -213,7 +213,7 @@ class UpdateStatusDropdown extends Component {
 
   render() {
     const { modal, updateStatusModalOpen } = this.state
-    const { plan, isUpdatingStatus, fetchPlan, isFetchingPlan } = this.props
+    const { plan, isFetchingPlan } = this.props
     const status = plan && plan.status
 
     const statusDropdownOptions = this.getStatusDropdownOptions(
@@ -224,30 +224,19 @@ class UpdateStatusDropdown extends Component {
 
     return (
       <Fragment>
-        <Dropdown
-          className="rup__update-status-dropdown"
-          options={statusDropdownOptions}
-          disabled={
-            isFetchingPlan || statusDropdownOptions[0].key === 'noOption'
-          }
-          pointing="top"
-          icon={null}
-          onClick={fetchPlan}
-          trigger={
-            <Button
-              inverted
-              loading={isUpdatingStatus}
-              compact
-              type="button"
-              style={{ margin: '0' }}>
-              {strings.PLAN_ACTIONS}
-              <Icon
-                name="caret down"
-                style={{ marginRight: '-5px', marginLeft: '5px' }}
-              />
-            </Button>
-          }
-        />
+        <>
+          <Divider />
+          <Menu.Header>{strings.PLAN_ACTIONS}</Menu.Header>
+          {statusDropdownOptions.map(o => (
+            <Menu.Item
+              key={o.key}
+              value={o.text}
+              onClick={o.onClick}
+              disabled={o.key === 'noOption'}>
+              {o.text}
+            </Menu.Item>
+          ))}
+        </>
         <UpdateStatusModal
           open={updateStatusModalOpen}
           onClose={this.closeUpdateStatusModalOpen}

@@ -7,7 +7,6 @@ import * as utils from '../../../utils'
 import BackBtn from '../BackBtn'
 import * as API from '../../../constants/api'
 import ContentsContainer from '../ContentsContainer'
-import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import Notifications from '../notifications'
 import { defaultProps, propTypes } from './props'
@@ -155,6 +154,10 @@ class PageForStaff extends Component {
         onViewVersionsClicked={this.onViewVersionsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
         openSubmissionModal={this.openPlanSubmissionModal}
+        plan={this.props.plan}
+        isFetchingPlan={this.props.isFetchingPlan}
+        fetchPlan={this.props.fetchPlan}
+        canUpdateStatus
       />
     )
   }
@@ -167,7 +170,6 @@ class PageForStaff extends Component {
       plan,
       planStatusHistoryMap,
       fetchPlan,
-      isFetchingPlan,
       updateRUPStatus
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
@@ -221,11 +223,6 @@ class PageForStaff extends Component {
               </div>
               <div className="rup__actions__btns">
                 {this.renderActionBtns(canEdit, canSubmit)}
-                <UpdateStatusDropdown
-                  plan={plan}
-                  fetchPlan={fetchPlan}
-                  isFetchingPlan={isFetchingPlan}
-                />
               </div>
             </div>
           </div>
