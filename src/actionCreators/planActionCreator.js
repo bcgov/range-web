@@ -217,7 +217,7 @@ export const createAmendment = plan => (dispatch, getState) => {
       )
 
       // create a normalized pasture ids map with the old pasture id as a key
-      const newPastureIdsMap = normalizePasturesWithOldId(newPastures)
+      const newPastureIdsMap = normalizePasturesWithOldId(pastures, newPastures)
 
       const plantCommunities = copyPlantCommunitiesToCreateAmendment(
         pcs,

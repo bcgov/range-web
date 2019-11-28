@@ -43,8 +43,8 @@ export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
   // extract all plantCommunities from pastures
   let plantCommunities = []
 
-  const pastures = plan.pastures.map(pId => {
-    const { id: oldId, planId, ...pasture } = pasturesMap[pId] || {}
+  const pastures = plan.pastures.map(p => {
+    const { id: oldId, planId, ...pasture } = pasturesMap[p.id] || {}
 
     const { plantCommunities: pcs } = pasture
     if (pcs && pcs.length) {
@@ -63,11 +63,11 @@ export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
   }
 }
 
-export const normalizePasturesWithOldId = pastures => {
+export const normalizePasturesWithOldId = (oldPastures, newPastures) => {
   const pastureIdsMap = {}
-  pastures.map(p => {
-    pastureIdsMap[p.oldId] = p.id
-    return null
+  newPastures.forEach(p => {
+    const match = oldPastures.find(old => p.name === old.name)
+    pastureIdsMap[match.oldId] = p.id
   })
   return pastureIdsMap
 }
@@ -103,13 +103,13 @@ export const copyMinisterIssuesToCreateAmendment = (
   ministerIssuesMap,
   newPastureIdsMap
 ) => {
-  return plan.ministerIssues.map(miId => {
+  return plan.ministerIssues.map(mi => {
     const {
       id,
       planId,
       pastures: oldPastureIds,
       ...ministerIssue
-    } = ministerIssuesMap[miId]
+    } = ministerIssuesMap[mi.id]
     // replace the pasture ids with the newly created pasture ids
     const pastures = oldPastureIds.map(opId => newPastureIdsMap[opId])
     return { ...ministerIssue, pastures }
@@ -127,13 +127,13 @@ export const copyManagementConsiderationsToCreateAmendment = (
   plan,
   managementConsiderationsMap
 ) => {
-  return plan.managementConsiderations.map(mcId => {
+  return plan.managementConsiderations.map(mc => {
     const {
       id,
       planId,
       considerationType,
       ...managementConsideration
-    } = managementConsiderationsMap[mcId]
+    } = managementConsiderationsMap[mc.id]
 
     return managementConsideration
   })
@@ -143,13 +143,13 @@ export const copyAdditionalRequirementsToCreateAmendment = (
   plan,
   additionalRequirementsMap
 ) => {
-  return plan.additionalRequirements.map(arId => {
+  return plan.additionalRequirements.map(ar => {
     const {
       id,
       planId,
       category,
       ...additionalRequirement
-    } = additionalRequirementsMap[arId]
+    } = additionalRequirementsMap[ar.id]
 
     return additionalRequirement
   })
