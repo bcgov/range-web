@@ -77,29 +77,31 @@ const GrazingScheduleBox = ({
             }
             shouldHideHeaderRightWhenNotActive
             headerRight={
-              <Dropdown
-                trigger={<Icon name="ellipsis vertical" />}
-                icon={null}
-                pointing="right"
-                loading={false}
-                disabled={false}>
-                <Dropdown.Menu>
-                  <Dropdown
-                    header="Years"
-                    text="Copy"
-                    pointing="left"
-                    className="link item"
-                    options={copyOptions}
-                    disabled={copyOptions.length === 0}
-                    data-testid={`copy-button-${schedule.year}`}
-                  />
-                  <Dropdown.Item
-                    onClick={() => onScheduleDelete()}
-                    data-testid={`delete-button-${schedule.year}`}>
-                    Delete
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <IfEditable permission={SCHEDULE.TYPE}>
+                <Dropdown
+                  trigger={<Icon name="ellipsis vertical" />}
+                  icon={null}
+                  pointing="right"
+                  loading={false}
+                  disabled={false}>
+                  <Dropdown.Menu>
+                    <Dropdown
+                      header="Years"
+                      text="Copy"
+                      pointing="left"
+                      className="link item"
+                      options={copyOptions}
+                      disabled={copyOptions.length === 0}
+                      data-testid={`copy-button-${schedule.year}`}
+                    />
+                    <Dropdown.Item
+                      onClick={() => onScheduleDelete()}
+                      data-testid={`delete-button-${schedule.year}`}>
+                      Delete
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </IfEditable>
             }
             collapsibleContent={
               <>
