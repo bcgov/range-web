@@ -17,7 +17,7 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
     e.dateOut &&
     e.pastureId &&
     e.livestockTypeId &&
-    e.livestockCount
+    !isNaN(parseFloat(e.livestockCount))
   ) {
     // valid entry
   } else {
