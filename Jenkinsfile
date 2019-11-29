@@ -23,7 +23,7 @@ def notifySlack(text, channel, url, attachments, icon) {
   sh "curl -s -S -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
 }
 
-// See https://github.com/jenkinsci/kubernetes-plugin
+//   See https://github.com/jenkinsci/kubernetes-plugin
 podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkins', cloud: 'openshift',
   containers: [
     containerTemplate(
