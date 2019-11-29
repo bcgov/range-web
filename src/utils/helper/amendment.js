@@ -77,13 +77,13 @@ export const copyGrazingSchedulesToCreateAmendment = (
   grazingSchedulesMap,
   newPastureIdsMap
 ) => {
-  return plan.grazingSchedules.map(gsId => {
+  return plan.grazingSchedules.map(gs => {
     const {
       id,
       planId,
       grazingScheduleEntries,
       ...grazingSchedule
-    } = grazingSchedulesMap[gsId]
+    } = grazingSchedulesMap[gs.id]
     const newGrazingScheduleEntries = grazingScheduleEntries.map(gse => {
       const { id, pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse
       // replace the original pastureId with the newly created pastureId
