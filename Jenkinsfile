@@ -64,8 +64,6 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
       sh "npm ci"
       sh "npm -v"
       sh "node -v"
-     // sh "prettier -v"
-     // sh "eslint -v"
     }
 
     stage('Test') {
