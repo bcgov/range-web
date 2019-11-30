@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { CollapsibleBox } from '../../common'
+import uuid from 'uuid-v4'
 import {
   IMAGE_SRC,
   PURPOSE_OF_ACTION as PurposeOfAction,
@@ -207,6 +208,7 @@ const PlantCommunityBox = ({
             <span>Criteria</span>
             <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
+                excludedPlantCommunityId={plantCommunity.id}
                 onSubmit={({ plantCommunity, criteria }) => {
                   const indicatorPlants = plantCommunity.indicatorPlants.filter(
                     ip => {
@@ -221,13 +223,17 @@ const PlantCommunityBox = ({
 
                   formik.setFieldValue(
                     `${namespace}.indicatorPlants`,
-                    indicatorPlants
+                    indicatorPlants.map(ip => ({ ...ip, id: uuid() }))
                   )
 
                   if (criteria.includes('rangeReadiness')) {
                     formik.setFieldValue(
-                      `${namespace}.rangeReadinessDate`,
-                      plantCommunity.rangeReadinessDate
+                      `${namespace}.rangeReadinessDay`,
+                      plantCommunity.rangeReadinessDay
+                    )
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessMonth`,
+                      plantCommunity.rangeReadinessMonth
                     )
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessNote`,
