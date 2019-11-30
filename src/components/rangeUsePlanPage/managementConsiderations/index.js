@@ -75,6 +75,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                   options={considerTypeOptions}
                   icon={null}
                   pointing="left"
+                  value={null}
                   onChange={(e, { value }) => {
                     push({
                       id: uuid(),
