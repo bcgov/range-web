@@ -101,3 +101,6 @@ export const ADDITIONAL_REQUIREMENTS = {
   LINK: 'additionalRequirements.link',
   URL: 'additionalRequirements.url'
 }
+export const PLAN = {
+  ADD: 'plan.add'
+}

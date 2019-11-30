@@ -11,6 +11,8 @@ import { Status } from '../common'
 import { Icon } from 'semantic-ui-react'
 import PlanTable from './PlanTable'
 import NewPlanButton from './NewPlanButton'
+import { canUserEdit } from '../common/PermissionsField'
+import { PLAN } from '../../constants/fields'
 
 const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
   const [plan] = agreement.plans
@@ -46,10 +48,10 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
           {handleNullValue(staffFullName)}
         </div>
         <div className="agrm__table__accordian__cell">
-          {agreement.plans.length !== 0 ? (
-            <Status user={user} status={status} />
-          ) : (
+          {agreement.plans.length === 0 && canUserEdit(PLAN.ADD, user) ? (
             <NewPlanButton agreement={agreement} />
+          ) : (
+            <Status user={user} status={status} />
           )}
         </div>
         <div className="agrm__table__accordian__cell">
