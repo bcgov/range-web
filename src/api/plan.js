@@ -20,6 +20,8 @@ import { PLAN_STATUS } from '../constants/variables'
  * @param {number} planId
  */
 export const getPlan = async planId => {
+  await initDeleteQueue()
+
   if (!uuid.isUUID(planId)) {
     await syncPlan(planId)
   }
@@ -36,7 +38,6 @@ export const getPlan = async planId => {
  */
 
 const syncPlan = async planId => {
-  await initDeleteQueue()
   const isOnline = await getNetworkStatus()
   const localPlan = getPlanFromLocalStorage(planId)
 
