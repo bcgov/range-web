@@ -85,6 +85,10 @@ const PastureBox = ({
                   displayValue={pasture.allowableAum}
                   label={strings.ALLOWABLE_AUMS}
                   fast
+                  inputProps={{
+                    placeholder:
+                      'Approved maximum AUM allocation for this pasture if applicable'
+                  }}
                 />
               </div>
               <div className="rup__cell-4">
@@ -97,7 +101,9 @@ const PastureBox = ({
                   inputProps={{
                     label: '%',
                     labelPosition: 'right',
-                    type: 'number'
+                    type: 'number',
+                    placeholder:
+                      'Percentage of use in this pasture occuring on private land'
                   }}
                   fast
                 />
@@ -110,6 +116,10 @@ const PastureBox = ({
                   displayValue={pasture.graceDays}
                   label={strings.GRACE_DAYS}
                   fast
+                  inputProps={{
+                    placeholder:
+                      'Acceptable +/- days for livestock movement. Can be tailored by staff in schedule rows.'
+                  }}
                 />
               </div>
             </div>
@@ -121,6 +131,10 @@ const PastureBox = ({
               label={strings.PASTURE_NOTES}
               fluid
               fast
+              inputProps={{
+                placeholder:
+                  "Pasture specific information (ie. not schedule, plant community or Minister's Issue specific). Ex. relevant history or topographical considerations."
+              }}
             />
 
             <PlantCommunities
