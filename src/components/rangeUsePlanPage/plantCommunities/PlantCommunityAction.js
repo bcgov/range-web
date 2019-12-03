@@ -13,7 +13,13 @@ import HelpfulDropdown from '../../common/form/HelpfulDropdown'
 
 const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
   const references = useReferences()
-  const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE]
+  const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE]
+  const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map(
+    type => ({
+      placeholder: placeholders.find(p => p.id === type.id).placeholder,
+      ...type
+    })
+  )
 
   const otherType = actionTypes.find(type => type.name === 'Other')
   const [otherOption, setOtherOption] = useState({
@@ -92,7 +98,13 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
           }}
           inputProps={{
             rows: 5,
-            ref: valueInputRef
+            ref: valueInputRef,
+            placeholder: actionTypes.find(
+              type => type.id === action.actionTypeId
+            )
+              ? actionTypes.find(type => type.id === action.actionTypeId)
+                  .placeholder
+              : otherType.placeholder
           }}
         />
 
