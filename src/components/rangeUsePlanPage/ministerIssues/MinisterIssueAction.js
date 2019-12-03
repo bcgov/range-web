@@ -111,6 +111,11 @@ const MinisterIssueAction = ({
           component={TextArea}
           displayValue={detail || NO_DESCRIPTION}
           label="Description"
+          inputProps={{
+            placeholder: types.find(t => t.id === actionTypeId)
+              ? types.find(t => t.id === actionTypeId).placeholder
+              : types.find(t => t.name === 'Other').placeholder
+          }}
         />
       </div>
     </div>

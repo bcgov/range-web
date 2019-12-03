@@ -132,6 +132,10 @@ const MinisterIssueBox = ({
             component={TextArea}
             displayValue={detail}
             fast
+            inputProps={{
+              placeholder:
+                'Accurate description of the issue including WHAT and WHERE the issue is and, if relevant, the TIMING of the issue'
+            }}
           />
           <PermissionsField
             permission={MINISTER_ISSUES.OBJECTIVE}
@@ -140,6 +144,10 @@ const MinisterIssueBox = ({
             component={TextArea}
             displayValue={objective}
             fast
+            inputProps={{
+              placeholder:
+                'Description of the conditions that will exist when the issue has been resolved (desired state).'
+            }}
           />
 
           <FieldArray
