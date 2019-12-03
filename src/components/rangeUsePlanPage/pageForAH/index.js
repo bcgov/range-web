@@ -239,7 +239,7 @@ class PageForAH extends Component {
       user,
       confirmations
     )
-    const canSubmit = utils.isStatusRecommendForSubmission(status)
+    const canSubmit = utils.canUserSubmitPlan(plan, user)
     const {
       header: bannerHeader,
       content: bannerContent
