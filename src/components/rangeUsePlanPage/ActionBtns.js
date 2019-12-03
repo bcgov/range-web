@@ -85,6 +85,9 @@ const ActionBtns = ({
     </Button>
   )
 
+  if (canSubmit && !canEdit) {
+    return [downloadPDFBtn, submitBtn]
+  }
   if (canEdit && !canSubmit) {
     return [downloadPDFBtn, saveDraftBtn]
   }
