@@ -4,8 +4,9 @@ import { STUBBLE_HEIGHT } from '../../../constants/fields'
 import { Dropdown, Icon, Grid } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
-import { Dropdown as FormikDropdown, Form } from 'formik-semantic-ui'
+import { Form } from 'formik-semantic-ui'
 import DecimalField from '../../common/form/DecimalField'
+import HelpfulDropdown from '../../common/form/HelpfulDropdown'
 
 const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
   const references = useReferences()
@@ -48,7 +49,8 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
           <PermissionsField
             permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
             name={`${namespace}.plantSpeciesId`}
-            component={FormikDropdown}
+            component={HelpfulDropdown}
+            help="To select a value, start typing. If a predefined option doesn't exist, you can provide your own value"
             placeholder="Indicator Plant"
             options={options}
             displayValue={
@@ -56,6 +58,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
                 ? options.find(o => o.key === plant.plantSpeciesId).text
                 : ''
             }
+            fieldProps={{ inline: true, fluid: true }}
             inputProps={{
               search: true,
               allowAdditions: true,
@@ -76,8 +79,8 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
                     formik.setFieldValue(`${namespace}.value`, plantValue)
                   }
                 }
-              },
-              fluid: true
+              }
+              // fluid: true
             }}
           />
 
