@@ -131,6 +131,9 @@ const PlantCommunityBox = ({
               displayValue={aspect}
               label={ASPECT}
               fast
+              inputProps={{
+                placeholder: 'Ex. NW'
+              }}
             />
 
             <PermissionsField
@@ -167,6 +170,10 @@ const PlantCommunityBox = ({
             displayValue={notes}
             label={PLANT_COMMUNITY_NOTES}
             fast
+            inputProps={{
+              placeholder:
+                'Description of the CURRENT community. Include a description of the INTENDED plant community if actions to establish a plant community are required. As basic or detailed as needed for the purposes required.'
+            }}
             fieldProps={{ required: true }}
           />
 
@@ -178,6 +185,9 @@ const PlantCommunityBox = ({
               displayValue={url}
               label={COMMUNITY_URL}
               fast
+              inputProps={{
+                placeholder: 'Link to provincial plant community description'
+              }}
             />
 
             <PermissionsField

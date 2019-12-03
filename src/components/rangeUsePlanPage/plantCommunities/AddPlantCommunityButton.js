@@ -62,6 +62,7 @@ const PlantCommunityPicker = React.memo(
             setModalOpen(false)
             onSubmit({ ...otherType, name: input })
           }}
+          placeholder="Provincial community name or descriptive"
           onClose={() => setModalOpen(false)}
           title="Other Name"
         />
