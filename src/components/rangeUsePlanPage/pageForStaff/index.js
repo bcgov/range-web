@@ -169,7 +169,7 @@ class PageForStaff extends Component {
     const { agreementId, status, rangeName } = plan
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
-    const canSubmit = utils.isStatusRecommendForSubmission(status)
+    const canSubmit = utils.canUserSubmitPlan(plan, user)
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     const planTypeDescription = utils.getPlanTypeDescription(

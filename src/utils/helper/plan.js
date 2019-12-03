@@ -142,6 +142,18 @@ export const isStatusIndicatingStaffFeedbackNeeded = status =>
 export const isNoteRequired = statusCode =>
   REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode)
 
+export const canUserSubmitPlan = (plan = {}, user = {}) => {
+  const { status } = plan
+  if (!status || !status.code || !user || !user.roles) return false
+
+  if (user.roles.includes('myra_range_officer')) {
+    return status.code === PLAN_STATUS.STAFF_DRAFT
+  }
+  if (user.roles.includes('myra_client')) {
+    return canUserEditThisPlan(plan, user)
+  }
+}
+
 export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
   if (isStatusAwaitingConfirmation(status) && user) {
     let isConfirmed = false
