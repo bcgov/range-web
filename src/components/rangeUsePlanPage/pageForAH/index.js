@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { PLAN_STATUS, REFERENCE_KEY } from '../../../constants/variables'
-import { RANGE_USE_PLAN } from '../../../constants/routes'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import { Status, Banner } from '../../common'
@@ -22,7 +21,8 @@ import {
   saveManagementConsiderations,
   saveMinisterIssues,
   saveAdditionalRequirements,
-  savePastures
+  savePastures,
+  createAmendment
 } from '../../../api'
 import RUPSchema from '../schema'
 import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
@@ -132,11 +132,11 @@ class PageForAH extends Component {
   }
 
   onAmendPlanClicked = () => {
-    const { plan, createAmendment, history, toastSuccessMessage } = this.props
+    const { plan, fetchPlan, toastSuccessMessage, references } = this.props
 
-    createAmendment(plan).then(amendment => {
+    createAmendment(plan, references).then(() => {
       toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS)
-      history.push(`${RANGE_USE_PLAN}/${amendment.id}`)
+      fetchPlan()
     })
   }
 
