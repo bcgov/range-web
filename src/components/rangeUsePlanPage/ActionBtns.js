@@ -68,9 +68,12 @@ const ActionBtns = ({
       {SUBMIT}
     </Button>
   )
-  const amendMenuItem = (
-    <Menu.Item
+  const amendBtn = (
+    <Button
       key="amendBtn"
+      inverted
+      compact
+      type="button"
       loading={isCreatingAmendment}
       disabled={!isOnline}
       onClick={() => {
@@ -84,7 +87,7 @@ const ActionBtns = ({
       }}>
       <Icon name="edit" />
       {AMEND_PLAN}
-    </Menu.Item>
+    </Button>
   )
   const confirmSubmissionMenuItem = (
     <Menu.Item
@@ -105,6 +108,7 @@ const ActionBtns = ({
     <>
       {canEdit && saveDraftBtn}
       {canSubmit && submitBtn}
+      {canAmend && amendBtn}
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
         closeOnBlur
@@ -116,7 +120,6 @@ const ActionBtns = ({
           {downloadPDFBtn}
           {viewVersionsMenuItem}
           {canConfirm && confirmSubmissionMenuItem}
-          {canAmend && amendMenuItem}
           {canUpdateStatus && (
             <UpdateStatusDropdown
               plan={plan}
