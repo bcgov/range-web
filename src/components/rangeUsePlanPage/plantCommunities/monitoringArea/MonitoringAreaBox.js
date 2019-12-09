@@ -102,6 +102,9 @@ const MonitoringAreaBox = ({
           component={Input}
           displayValue={location}
           label="Location"
+          inputProps={{
+            placeholder: 'Descriptive'
+          }}
           fieldProps={{ required: true }}
         />
 

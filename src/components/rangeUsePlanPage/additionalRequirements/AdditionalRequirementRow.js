@@ -40,7 +40,10 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           name={`${namespace}.detail`}
           component={TextArea}
           displayValue={detail}
-          inputProps={{ placeholder: 'Details' }}
+          inputProps={{
+            placeholder:
+              'Name, date, summary (ex. WHA Badger #8-329/#8-330, 2009, attractants and stubble heights)'
+          }}
           label="Details"
           fast
         />
