@@ -28,7 +28,6 @@ import { connect, getIn } from 'formik'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import Import from './criteria/Import'
-import EditableProvider from '../../../providers/EditableProvider'
 
 const PlantCommunityBox = ({
   plantCommunity,
@@ -83,214 +82,209 @@ const PlantCommunityBox = ({
   const isError = !!getIn(formik.errors, namespace)
 
   return (
-    <EditableProvider editable={uuid.isUUID(id)}>
-      <CollapsibleBox
-        key={communityType}
-        contentIndex={index}
-        activeContentIndex={activeIndex}
-        onContentClick={onClick}
-        scroll={true}
-        error={isError}
-        header={
-          <div className="rup__plant-community__title">
-            <div className="rup__plant-community__title__left">
-              <div style={{ width: '30px' }}>
-                {isError ? (
-                  <Icon name="warning sign" />
-                ) : (
-                  <img
-                    src={IMAGE_SRC.PLANT_COMMUNITY_ICON}
-                    alt="community icon"
-                  />
-                )}
-              </div>
-              <div style={{ textAlign: 'left' }}>
-                Plant Community: {communityTypeName}
-              </div>
+    <CollapsibleBox
+      key={communityType}
+      contentIndex={index}
+      activeContentIndex={activeIndex}
+      onContentClick={onClick}
+      scroll={true}
+      error={isError}
+      header={
+        <div className="rup__plant-community__title">
+          <div className="rup__plant-community__title__left">
+            <div style={{ width: '30px' }}>
+              {isError ? (
+                <Icon name="warning sign" />
+              ) : (
+                <img
+                  src={IMAGE_SRC.PLANT_COMMUNITY_ICON}
+                  alt="community icon"
+                />
+              )}
             </div>
-            <div className="rup__plant-community__title__right">
-              <div>
-                {'Minister approval for inclusion obtained: '}
-                {approved ? (
-                  <Icon name="check circle" color="green" />
-                ) : (
-                  <Icon name="remove circle" color="red" />
-                )}
-              </div>
+            <div style={{ textAlign: 'left' }}>
+              Plant Community: {communityTypeName}
             </div>
           </div>
-        }
-        collapsibleContent={
-          <>
-            <div className="rup__plant-community__content-title">
-              <span>Basic Plant Community Information</span>
+          <div className="rup__plant-community__title__right">
+            <div>
+              {'Minister approval for inclusion obtained: '}
+              {approved ? (
+                <Icon name="check circle" color="green" />
+              ) : (
+                <Icon name="remove circle" color="red" />
+              )}
             </div>
+          </div>
+        </div>
+      }
+      collapsibleContent={
+        <>
+          <div className="rup__plant-community__content-title">
+            <span>Basic Plant Community Information</span>
+          </div>
 
-            <Form.Group widths="2">
-              <PermissionsField
-                name={`${namespace}.aspect`}
-                permission={PLANT_COMMUNITY.ASPECT}
-                component={Input}
-                displayValue={aspect}
-                label={ASPECT}
-                fast
-                inputProps={{
-                  placeholder: 'Ex. NW'
-                }}
-              />
-
-              <PermissionsField
-                permission={PLANT_COMMUNITY.ELEVATION}
-                name={`${namespace}.elevationId`}
-                component={Dropdown}
-                options={elevationOptions}
-                displayValue={
-                  elevationTypes.find(t => t.id === elevationId)
-                    ? elevationTypes.find(t => t.id === elevationId).name
-                    : ''
-                }
-                label={ELEVATION}
-                fast
-              />
-            </Form.Group>
-
+          <Form.Group widths="2">
             <PermissionsField
-              name={`${namespace}.approved`}
-              permission={PLANT_COMMUNITY.APPROVED}
-              component={Checkbox}
-              displayValue={approved}
-              label={APPROVED_BY_MINISTER}
-              inputProps={{
-                toggle: true
-              }}
+              name={`${namespace}.aspect`}
+              permission={PLANT_COMMUNITY.ASPECT}
+              component={Input}
+              displayValue={aspect}
+              label={ASPECT}
               fast
+              inputProps={{
+                placeholder: 'Ex. NW'
+              }}
             />
 
             <PermissionsField
-              name={`${namespace}.notes`}
-              permission={PLANT_COMMUNITY.NOTES}
-              component={TextArea}
-              displayValue={notes}
-              label={PLANT_COMMUNITY_NOTES}
+              permission={PLANT_COMMUNITY.ELEVATION}
+              name={`${namespace}.elevationId`}
+              component={Dropdown}
+              options={elevationOptions}
+              displayValue={
+                elevationTypes.find(t => t.id === elevationId)
+                  ? elevationTypes.find(t => t.id === elevationId).name
+                  : ''
+              }
+              label={ELEVATION}
+              fast
+            />
+          </Form.Group>
+
+          <PermissionsField
+            name={`${namespace}.approved`}
+            permission={PLANT_COMMUNITY.APPROVED}
+            component={Checkbox}
+            displayValue={approved}
+            label={APPROVED_BY_MINISTER}
+            inputProps={{
+              toggle: true
+            }}
+            fast
+          />
+
+          <PermissionsField
+            name={`${namespace}.notes`}
+            permission={PLANT_COMMUNITY.NOTES}
+            component={TextArea}
+            displayValue={notes}
+            label={PLANT_COMMUNITY_NOTES}
+            fast
+            inputProps={{
+              placeholder:
+                'Description of the CURRENT community. Include a description of the INTENDED plant community if actions to establish a plant community are required. As basic or detailed as needed for the purposes required.'
+            }}
+            fieldProps={{ required: true }}
+          />
+
+          <Form.Group widths="2">
+            <PermissionsField
+              name={`${namespace}.url`}
+              permission={PLANT_COMMUNITY.COMMUNITY_URL}
+              component={Input}
+              displayValue={url}
+              label={COMMUNITY_URL}
               fast
               inputProps={{
-                placeholder:
-                  'Description of the CURRENT community. Include a description of the INTENDED plant community if actions to establish a plant community are required. As basic or detailed as needed for the purposes required.'
+                placeholder: 'Link to provincial plant community description'
               }}
+            />
+
+            <PermissionsField
+              permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
+              name={`${namespace}.purposeOfAction`}
+              component={Dropdown}
+              options={purposeOptions}
+              displayValue={purposeOfAction}
+              label={PURPOSE_OF_ACTION}
+              fast
               fieldProps={{ required: true }}
             />
+          </Form.Group>
 
-            <Form.Group widths="2">
-              <PermissionsField
-                name={`${namespace}.url`}
-                permission={PLANT_COMMUNITY.COMMUNITY_URL}
-                component={Input}
-                displayValue={url}
-                label={COMMUNITY_URL}
-                fast
-                inputProps={{
-                  placeholder: 'Link to provincial plant community description'
+          {purposeOfAction !== PurposeOfAction.NONE && (
+            <>
+              <div className="rup__plant-community__content-title">
+                <span>Plant Community Actions</span>
+              </div>
+              <PlantCommunityActionsBox
+                actions={plantCommunityActions}
+                namespace={namespace}
+              />
+            </>
+          )}
+
+          <div className="rup__plant-community__content-title">
+            <span>Criteria</span>
+            <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
+              <Import
+                excludedPlantCommunityId={plantCommunity.id}
+                onSubmit={({ plantCommunity, criteria }) => {
+                  const indicatorPlants = plantCommunity.indicatorPlants.filter(
+                    ip => {
+                      return (
+                        (criteria.includes('rangeReadiness') &&
+                          ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
+                        (criteria.includes('stubbleHeight') &&
+                          ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                      )
+                    }
+                  )
+
+                  formik.setFieldValue(
+                    `${namespace}.indicatorPlants`,
+                    indicatorPlants.map(ip => ({ ...ip, id: uuid() }))
+                  )
+
+                  if (criteria.includes('rangeReadiness')) {
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessDay`,
+                      plantCommunity.rangeReadinessDay
+                    )
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessMonth`,
+                      plantCommunity.rangeReadinessMonth
+                    )
+                    formik.setFieldValue(
+                      `${namespace}.rangeReadinessNote`,
+                      plantCommunity.rangeReadinessNote
+                    )
+                  }
+
+                  if (criteria.includes('shrubUse')) {
+                    formik.setFieldValue(
+                      `${namespace}.shrubUse`,
+                      plantCommunity.shrubUse
+                    )
+                  }
                 }}
               />
+            </IfEditable>
+          </div>
 
-              <PermissionsField
-                permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
-                name={`${namespace}.purposeOfAction`}
-                component={Dropdown}
-                options={purposeOptions}
-                displayValue={purposeOfAction}
-                label={PURPOSE_OF_ACTION}
-                fast
-                fieldProps={{ required: true }}
-              />
-            </Form.Group>
+          <RangeReadinessBox
+            plantCommunity={plantCommunity}
+            namespace={namespace}
+          />
 
-            {purposeOfAction !== PurposeOfAction.NONE && (
-              <>
-                <div className="rup__plant-community__content-title">
-                  <span>Plant Community Actions</span>
-                </div>
-                <PlantCommunityActionsBox
-                  actions={plantCommunityActions}
-                  namespace={namespace}
-                />
-              </>
-            )}
+          <StubbleHeightBox
+            plantCommunity={plantCommunity}
+            namespace={namespace}
+          />
 
-            <div className="rup__plant-community__content-title">
-              <span>Criteria</span>
-              <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
-                <Import
-                  excludedPlantCommunityId={plantCommunity.id}
-                  onSubmit={({ plantCommunity, criteria }) => {
-                    const indicatorPlants = plantCommunity.indicatorPlants.filter(
-                      ip => {
-                        return (
-                          (criteria.includes('rangeReadiness') &&
-                            ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
-                          (criteria.includes('stubbleHeight') &&
-                            ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
-                        )
-                      }
-                    )
+          <ShrubUseBox plantCommunity={plantCommunity} namespace={namespace} />
 
-                    formik.setFieldValue(
-                      `${namespace}.indicatorPlants`,
-                      indicatorPlants.map(ip => ({ ...ip, id: uuid() }))
-                    )
-
-                    if (criteria.includes('rangeReadiness')) {
-                      formik.setFieldValue(
-                        `${namespace}.rangeReadinessDay`,
-                        plantCommunity.rangeReadinessDay
-                      )
-                      formik.setFieldValue(
-                        `${namespace}.rangeReadinessMonth`,
-                        plantCommunity.rangeReadinessMonth
-                      )
-                      formik.setFieldValue(
-                        `${namespace}.rangeReadinessNote`,
-                        plantCommunity.rangeReadinessNote
-                      )
-                    }
-
-                    if (criteria.includes('shrubUse')) {
-                      formik.setFieldValue(
-                        `${namespace}.shrubUse`,
-                        plantCommunity.shrubUse
-                      )
-                    }
-                  }}
-                />
-              </IfEditable>
-            </div>
-
-            <RangeReadinessBox
-              plantCommunity={plantCommunity}
-              namespace={namespace}
-            />
-
-            <StubbleHeightBox
-              plantCommunity={plantCommunity}
-              namespace={namespace}
-            />
-
-            <ShrubUseBox
-              plantCommunity={plantCommunity}
-              namespace={namespace}
-            />
-
-            <div className="rup__plant-community__content-title">
-              <span>Monitoring Areas</span>
-            </div>
-            <MonitoringAreaList
-              monitoringAreas={monitoringAreas}
-              namespace={`${namespace}.monitoringAreas`}
-            />
-          </>
-        }
-      />
-    </EditableProvider>
+          <div className="rup__plant-community__content-title">
+            <span>Monitoring Areas</span>
+          </div>
+          <MonitoringAreaList
+            monitoringAreas={monitoringAreas}
+            namespace={`${namespace}.monitoringAreas`}
+          />
+        </>
+      }
+    />
   )
 }
 

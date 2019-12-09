@@ -8,7 +8,6 @@ import { FieldArray } from 'formik'
 import { NOT_PROVIDED } from '../../../constants/strings'
 import { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { Message, Icon } from 'semantic-ui-react'
 
 const PlantCommunities = ({ plantCommunities = [], namespace }) => {
   const isEmpty = plantCommunities.length === 0
@@ -21,45 +20,28 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
         <div className="rup__plant-communities">
           <div className="rup__plant-communities__title">Plant Communities</div>
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
-            <>
-              <Message warning style={{ display: 'flex' }} icon>
-                <Icon name="warning" />
-                <Message.Content>
-                  <Message.Header>
-                    Heads up! Plant communities can <em>not</em> be edited once
-                    created
-                  </Message.Header>
-                  <p>
-                    Don&apos;t worry, this is only temporary. If this is a staff
-                    draft you can make and save updates on the iPad. If it is
-                    not a staff draft contact myrangebc@gov.bc.ca for a manual
-                    fix.
-                  </p>
-                </Message.Content>
-              </Message>
-              <AddPlantCommunityButton
-                onSubmit={plantCommunity => {
-                  push({
-                    ...plantCommunity,
-                    communityTypeId: plantCommunity.id,
-                    indicatorPlants: [],
-                    plantCommunityActions: [],
-                    purposeOfAction: 'none',
-                    monitoringAreas: [],
-                    aspect: '',
-                    elevationId: null,
-                    url: '',
-                    approved: false,
-                    notes: '',
-                    rangeReadinessDay: null,
-                    rangeReadinessMonth: null,
-                    rangeReadinessNote: null,
-                    shrubUse: '',
-                    id: uuid()
-                  })
-                }}
-              />
-            </>
+            <AddPlantCommunityButton
+              onSubmit={plantCommunity => {
+                push({
+                  ...plantCommunity,
+                  communityTypeId: plantCommunity.id,
+                  indicatorPlants: [],
+                  plantCommunityActions: [],
+                  purposeOfAction: 'none',
+                  monitoringAreas: [],
+                  aspect: '',
+                  elevationId: null,
+                  url: '',
+                  approved: false,
+                  notes: '',
+                  rangeReadinessDay: null,
+                  rangeReadinessMonth: null,
+                  rangeReadinessNote: null,
+                  shrubUse: '',
+                  id: uuid()
+                })
+              }}
+            />
           </IfEditable>
 
           <IfEditable permission={PLANT_COMMUNITY.NAME} invert>
