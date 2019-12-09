@@ -25,7 +25,7 @@ import {
   savePastures
 } from '../../../api'
 import RUPSchema from '../schema'
-import { getAuthHeaderConfig } from '../../../utils'
+import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -166,6 +166,11 @@ class PageForAH extends Component {
     this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
   }
 
+  onViewVersionsClicked = () => {
+    const { id: planId } = this.props.plan || {}
+    this.props.history.push(`/range-use-plan/${planId}/versions`)
+  }
+
   openSubmissionModal = () => {
     const { plan } = this.props
     const error = this.validateRup(plan)
@@ -204,6 +209,7 @@ class PageForAH extends Component {
         isSubmitting={isSubmitting}
         isCreatingAmendment={isCreatingAmendment}
         onViewPDFClicked={this.onViewPDFClicked}
+        onViewVersionsClicked={this.onViewVersionsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
         onAmendPlanClicked={this.onAmendPlanClicked}
         openSubmissionModal={this.openSubmissionModal}
@@ -308,7 +314,12 @@ class PageForAH extends Component {
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
-          {plan && <PlanForm plan={plan} />}
+          {plan && (
+            <PlanForm
+              plan={plan}
+              isEditable={canUserEditThisPlan(plan, user)}
+            />
+          )}
         </ContentsContainer>
       </section>
     )

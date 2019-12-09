@@ -13,6 +13,7 @@ import TabsForSingleAH from './tabs/TabsForSingleAH'
 import { findConfirmationWithClientId } from '../../../utils'
 import TabsForMultipleAH from './tabs/TabsForMultipleAH'
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
+import { createVersion } from '../../../api'
 
 class SubmissionModal extends Component {
   static propTypes = {
@@ -80,7 +81,6 @@ class SubmissionModal extends Component {
       )
       const confirmed = true
       const isMinorAmendment = false
-
       if (status.id === 14) {
         await updateRUPConfirmation(
           plan,
@@ -89,6 +89,8 @@ class SubmissionModal extends Component {
           isMinorAmendment
         )
       }
+
+      await createVersion(plan.id)
       await fetchPlan()
       this.setState({ isSubmitting: false })
     }

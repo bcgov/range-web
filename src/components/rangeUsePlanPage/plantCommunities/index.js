@@ -47,12 +47,14 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                     purposeOfAction: 'none',
                     monitoringAreas: [],
                     aspect: '',
-                    elevation: 0,
+                    elevationId: null,
                     url: '',
                     approved: false,
                     notes: '',
-                    rangeReadinessDate: '',
-                    rangeReadinessNote: '',
+                    rangeReadinessDay: null,
+                    rangeReadinessMonth: null,
+                    rangeReadinessNote: null,
+                    shrubUse: '',
                     id: uuid()
                   })
                 }}

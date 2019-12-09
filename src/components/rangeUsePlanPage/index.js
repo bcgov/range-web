@@ -50,7 +50,8 @@ import {
   saveMinisterIssues,
   getPlan,
   savePastures,
-  savePlantCommunities
+  savePlantCommunities,
+  createVersion
 } from '../../api'
 import PDFView from './pdf/PDFView'
 
@@ -132,6 +133,8 @@ const Base = ({
       await saveManagementConsiderations(plan.id, managementConsiderations)
       await saveMinisterIssues(plan.id, ministerIssues, newPastures)
       await saveAdditionalRequirements(plan.id, additionalRequirements)
+
+      await createVersion(plan.id)
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')

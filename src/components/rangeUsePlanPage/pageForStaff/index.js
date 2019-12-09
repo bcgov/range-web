@@ -7,7 +7,6 @@ import * as utils from '../../../utils'
 import BackBtn from '../BackBtn'
 import * as API from '../../../constants/api'
 import ContentsContainer from '../ContentsContainer'
-import UpdateStatusDropdown from './UpdateStatusDropdown'
 import StickyHeader from '../StickyHeader'
 import Notifications from '../notifications'
 import { defaultProps, propTypes } from './props'
@@ -15,7 +14,7 @@ import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
 import RUPSchema from '../schema'
-import { getAuthHeaderConfig } from '../../../utils'
+import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
 import {
   savePastures,
   savePlantCommunities,
@@ -130,6 +129,11 @@ class PageForStaff extends Component {
     this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
   }
 
+  onViewVersionsClicked = () => {
+    const { id: planId } = this.props.plan || {}
+    this.props.history.push(`/range-use-plan/${planId}/versions`)
+  }
+
   openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
   closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
   openPlanSubmissionModal = () =>
@@ -147,8 +151,13 @@ class PageForStaff extends Component {
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}
+        onViewVersionsClicked={this.onViewVersionsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
         openSubmissionModal={this.openPlanSubmissionModal}
+        plan={this.props.plan}
+        isFetchingPlan={this.props.isFetchingPlan}
+        fetchPlan={this.props.fetchPlan}
+        canUpdateStatus
       />
     )
   }
@@ -161,7 +170,6 @@ class PageForStaff extends Component {
       plan,
       planStatusHistoryMap,
       fetchPlan,
-      isFetchingPlan,
       updateRUPStatus
     } = this.props
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
@@ -215,11 +223,6 @@ class PageForStaff extends Component {
               </div>
               <div className="rup__actions__btns">
                 {this.renderActionBtns(canEdit, canSubmit)}
-                <UpdateStatusDropdown
-                  plan={plan}
-                  fetchPlan={fetchPlan}
-                  isFetchingPlan={isFetchingPlan}
-                />
               </div>
             </div>
           </div>
@@ -234,7 +237,12 @@ class PageForStaff extends Component {
             planTypeDescription={planTypeDescription}
           />
 
-          {plan && <PlanForm plan={plan} />}
+          {plan && (
+            <PlanForm
+              plan={plan}
+              isEditable={canUserEditThisPlan(plan, user)}
+            />
+          )}
         </ContentsContainer>
       </section>
     )

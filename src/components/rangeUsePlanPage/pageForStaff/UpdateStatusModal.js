@@ -83,6 +83,8 @@ class UpdateStatusModal extends Component {
         size="tiny"
         open={open}
         onClose={onClose}
+        onFocus={e => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         closeIcon={<Icon name="close" color="black" />}>
         <Modal.Header as="h2" content={header} />
         <Modal.Content>

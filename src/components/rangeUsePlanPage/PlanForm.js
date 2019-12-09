@@ -10,14 +10,9 @@ import InvasivePlantChecklist from './invasivePlantChecklist'
 import ManagementConsiderations from './managementConsiderations'
 import MinisterIssues from './ministerIssues'
 import AdditionalRequirements from './additionalRequirements'
-import { canUserEditThisPlan } from '../../utils'
-import { useUser } from '../../providers/UserProvider'
 import EditableProvider from '../../providers/EditableProvider'
 
-const PlanForm = ({ plan }) => {
-  const user = useUser()
-  const isEditable = canUserEditThisPlan(plan, user)
-
+const PlanForm = ({ plan, isEditable = true }) => {
   return (
     <EditableProvider editable={isEditable}>
       <Element name={ELEMENT_ID.BASIC_INFORMATION}>

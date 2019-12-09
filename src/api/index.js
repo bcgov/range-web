@@ -8,6 +8,10 @@ export const getPlan = async planId => {
   return data
 }
 
+export const createVersion = async planId => {
+  await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig())
+}
+
 export const saveGrazingSchedules = (planId, grazingSchedules) => {
   return Promise.all(
     grazingSchedules.map(async schedule => {
@@ -119,6 +123,14 @@ export const saveAdditionalRequirements = (planId, additionalRequirements) => {
           ...requirement,
           id: data.id
         }
+      } else {
+        await axios.put(
+          API.UPDATE_RUP_ADDITIONAL_REQUIREMENT(planId, requirement.id),
+          requirement,
+          getAuthHeaderConfig()
+        )
+
+        return requirement
       }
     })
   )
@@ -250,6 +262,12 @@ export const savePlantCommunities = (planId, pastureId, plantCommunities) => {
           values,
           getAuthHeaderConfig()
         )).data.id
+      } else {
+        await axios.put(
+          API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
+          values,
+          getAuthHeaderConfig()
+        )
       }
 
       await savePlantCommunityActions(
@@ -289,8 +307,18 @@ const savePlantCommunityActions = (
           values,
           getAuthHeaderConfig()
         )
+      } else {
+        return axios.put(
+          API.UPDATE_RUP_PLANT_COMMUNITY_ACTION(
+            planId,
+            pastureId,
+            communityId,
+            actionId
+          ),
+          values,
+          getAuthHeaderConfig()
+        )
       }
-      return Promise.resolve()
     })
   )
 }
@@ -310,8 +338,18 @@ const saveIndicatorPlants = (
           values,
           getAuthHeaderConfig()
         )
+      } else {
+        return axios.put(
+          API.UPDATE_RUP_INDICATOR_PLANT(
+            planId,
+            pastureId,
+            communityId,
+            plantId
+          ),
+          values,
+          getAuthHeaderConfig()
+        )
       }
-      return Promise.resolve()
     })
   )
 }
@@ -331,8 +369,18 @@ const saveMonitoringAreas = (
           values,
           getAuthHeaderConfig()
         )
+      } else {
+        return axios.put(
+          API.UPDATE_RUP_MONITORING_AREA(
+            planId,
+            pastureId,
+            communityId,
+            areaId
+          ),
+          values,
+          getAuthHeaderConfig()
+        )
       }
-      return Promise.resolve()
     })
   )
 }

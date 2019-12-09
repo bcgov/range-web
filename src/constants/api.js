@@ -106,6 +106,11 @@ export const UPDATE_RUP = planId => `/v1/plan/${planId}`
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`
 
+export const CREATE_RUP_VERSION = planId => `/v1/plan/${planId}/version`
+export const GET_RUP_VERSIONS = planId => `/v1/plan/${planId}/version`
+export const GET_RUP_VERSION = (planId, version) =>
+  `/v1/plan/${planId}/version/${version}`
+
 export const CREATE_RUP_STATUS_RECORD = planId =>
   `/v1/plan/${planId}/status-record`
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`
@@ -141,17 +146,40 @@ export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) =>
 
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community`
+export const UPDATE_RUP_PLANT_COMMUNITY = (planId, pastureId, plantId) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${plantId}`
 export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (
   planId,
   pastureId,
   communityId
 ) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action`
+export const UPDATE_RUP_PLANT_COMMUNITY_ACTION = (
+  planId,
+  pastureId,
+  communityId,
+  actionId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action/${actionId}`
 
 export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`
+export const UPDATE_RUP_INDICATOR_PLANT = (
+  planId,
+  pastureId,
+  communityId,
+  plantId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant/${plantId}`
 export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area`
+export const UPDATE_RUP_MONITORING_AREA = (
+  planId,
+  pastureId,
+  communityId,
+  areaId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area/${areaId}`
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId =>
   `/v1/plan/${planId}/invasive-plant-checklist`
 export const UPDATE_RUP_INVASIVE_PLANT_CHECKLIST = (planId, checklistId) =>
@@ -164,3 +192,5 @@ export const DELETE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) =>
   `/v1/plan/${planId}/management-consideration/${considerationId}`
 export const CREATE_RUP_ADDITIONAL_REQUIREMENT = planId =>
   `/v1/plan/${planId}/additional-requirement`
+export const UPDATE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
+  `/v1/plan/${planId}/additional-requirement/${requirementId}`

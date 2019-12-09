@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Button, Icon } from 'semantic-ui-react'
+import { Icon, Menu } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { DOWNLOAD_PDF } from '../../constants/strings'
 
@@ -14,27 +14,10 @@ const defaultProps = {
 
 const DownloadPDFBtn = ({ onClick, disabled }) => (
   <Fragment>
-    <Button
-      className="rup__download-pdf-btn--short"
-      compact
-      inverted
-      disabled={disabled}
-      onClick={onClick}
-      type="button"
-      icon="file pdf outline"
-      style={{ marginRight: '0' }}
-    />
-    <Button
-      className="rup__download-pdf-btn--long"
-      compact
-      inverted
-      disabled={disabled}
-      onClick={onClick}
-      type="button"
-      style={{ marginRight: '0' }}>
+    <Menu.Item disabled={disabled} onClick={onClick}>
       <Icon name="file pdf outline" />
       {DOWNLOAD_PDF}
-    </Button>
+    </Menu.Item>
   </Fragment>
 )
 
