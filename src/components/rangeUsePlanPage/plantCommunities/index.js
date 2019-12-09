@@ -30,9 +30,10 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                     created
                   </Message.Header>
                   <p>
-                    Don&apos;t worry, this is only temporary. If you need to
-                    change the information for a plant community after creating
-                    it, you are still able to use the iPad app.
+                    Don&apos;t worry, this is only temporary. If this is a staff
+                    draft you can make and save updates on the iPad. If it is
+                    not a staff draft contact myrangebc@gov.bc.ca for a manual
+                    fix.
                   </p>
                 </Message.Content>
               </Message>
