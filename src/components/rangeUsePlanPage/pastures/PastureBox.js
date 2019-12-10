@@ -12,7 +12,10 @@ import { getIn, connect } from 'formik'
 import PercentField from '../../common/form/PercentField'
 import InputModal from '../../common/InputModal'
 
-const dropdownOptions = [{ key: 'copy', value: 'copy', text: 'Copy' }]
+const dropdownOptions = [
+  { key: 'copy', value: 'copy', text: 'Copy' },
+  { key: 'delete', value: 'delete', text: 'Delete' }
+]
 
 const PastureBox = ({
   pasture,
@@ -20,6 +23,7 @@ const PastureBox = ({
   activeIndex,
   onClick,
   onCopy,
+  onDelete,
   namespace,
   formik
 }) => {
@@ -67,6 +71,7 @@ const PastureBox = ({
                   onClick={e => e.stopPropagation()}
                   onChange={(e, { value }) => {
                     if (value === 'copy') onCopy()
+                    if (value === 'delete') onDelete()
                   }}
                   selectOnBlur={false}
                 />
