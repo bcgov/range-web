@@ -419,3 +419,10 @@ export const deleteGrazingScheduleEntry = async (
     getAuthHeaderConfig()
   )
 }
+
+export const deletePasture = async (planId, pastureId) => {
+  await axios.delete(
+    API.DELETE_RUP_PASTURE(planId, pastureId),
+    getAuthHeaderConfig()
+  )
+}
