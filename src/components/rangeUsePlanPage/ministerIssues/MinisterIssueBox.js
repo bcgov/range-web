@@ -80,6 +80,7 @@ const MinisterIssueBox = ({
                 : ''
             }
             fast
+            fieldProps={{ required: true }}
           />
         </div>
       }
@@ -136,6 +137,7 @@ const MinisterIssueBox = ({
               placeholder:
                 'Accurate description of the issue including WHAT and WHERE the issue is and, if relevant, the TIMING of the issue'
             }}
+            fieldProps={{ required: true }}
           />
           <PermissionsField
             permission={MINISTER_ISSUES.OBJECTIVE}
@@ -148,6 +150,7 @@ const MinisterIssueBox = ({
               placeholder:
                 'Description of the conditions that will exist when the issue has been resolved (desired state).'
             }}
+            fieldProps={{ required: true }}
           />
 
           <FieldArray
