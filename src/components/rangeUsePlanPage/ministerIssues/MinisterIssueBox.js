@@ -106,6 +106,7 @@ const MinisterIssueBox = ({
               toggle: true
             }}
             fast
+            fieldProps={{ required: true }}
           />
           <PermissionsField
             name={`${namespace}.pastures`}
