@@ -33,6 +33,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
         }
         label="Category"
         fast
+        fieldProps={{ required: true }}
       />
       <div>
         <PermissionsField
@@ -46,6 +47,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           }}
           label="Details"
           fast
+          fieldProps={{ required: true }}
         />
 
         <PermissionsField

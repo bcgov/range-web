@@ -1,16 +1,20 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { Button } from 'semantic-ui-react'
-import { FieldArray } from 'formik'
+import _ from 'lodash'
+import { Button, Confirm } from 'semantic-ui-react'
+import { FieldArray, connect } from 'formik'
+import uuid from 'uuid-v4'
 import PastureBox from './PastureBox'
 import { IfEditable } from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
 import InputModal from '../../common/InputModal'
+import { deletePasture } from '../../../api'
 
-const Pastures = ({ pastures }) => {
+const Pastures = ({ pastures, formik }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
+  const [indexToRemove, setIndexToRemove] = useState(null)
   const handlePastureClick = useCallback(index => {
     setActiveIndex(activeIndex === index ? -1 : index)
   })
@@ -21,7 +25,7 @@ const Pastures = ({ pastures }) => {
   return (
     <FieldArray
       name="pastures"
-      render={({ push }) => (
+      render={({ push, remove }) => (
         <div className="rup__pastures">
           <div className="rup__content-title--editable">
             Pastures
@@ -51,12 +55,42 @@ const Pastures = ({ pastures }) => {
                 pldPercent: 0,
                 notes: '',
                 plantCommunities: [],
-                id: new Date().toISOString()
+                id: uuid()
               })
               setModalOpen(false)
             }}
             title="Add pasture"
             placeholder="Pasture name"
+          />
+
+          <Confirm
+            header={`Delete pasture '${pastures[indexToRemove] &&
+              pastures[indexToRemove].name}'`}
+            content="Are you sure? All related plant communities, monitoring areas and criteria, as well as any associated grazing schedule rows, will be deleted"
+            open={indexToRemove !== null}
+            onCancel={() => {
+              setIndexToRemove(null)
+            }}
+            onConfirm={async () => {
+              const pasture = pastures[indexToRemove]
+
+              const schedules = _.flatten(
+                formik.values.grazingSchedules.map(schedule => ({
+                  ...schedule,
+                  grazingScheduleEntries: schedule.grazingScheduleEntries.filter(
+                    entry => entry.pastureId !== pasture.id
+                  )
+                }))
+              )
+              formik.setFieldValue('grazingSchedules', schedules)
+
+              if (!uuid.isUUID(pasture.id)) {
+                await deletePasture(pasture.planId, pasture.id)
+              }
+
+              remove(indexToRemove)
+              setIndexToRemove(null)
+            }}
           />
 
           <div className="rup__divider" />
@@ -75,6 +109,7 @@ const Pastures = ({ pastures }) => {
                   activeIndex={activeIndex}
                   onClick={handlePastureClick}
                   onCopy={handlePastureCopy}
+                  onDelete={() => setIndexToRemove(index)}
                   namespace={`pastures.${index}`}
                 />
               ))}
@@ -90,4 +125,4 @@ Pastures.propTypes = {
   pastures: PropTypes.array.isRequired
 }
 
-export default React.memo(Pastures)
+export default connect(Pastures)

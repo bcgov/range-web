@@ -116,6 +116,8 @@ export const CREATE_RUP_STATUS_RECORD = planId =>
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`
 export const UPDATE_RUP_PASTURE = (planId, pastureId) =>
   `/v1/plan/${planId}/pasture/${pastureId}`
+export const DELETE_RUP_PASTURE = (planId, pastureId) =>
+  `/v1/plan/${planId}/pasture/${pastureId}`
 
 export const CREATE_RUP_GRAZING_SCHEDULE = planId =>
   `/v1/plan/${planId}/schedule`
@@ -147,6 +149,8 @@ export const DELETE_RUP_MINISTER_ISSUE_ACTION = (planId, issueId, actionId) =>
 export const CREATE_RUP_PLANT_COMMUNITY = (planId, pastureId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community`
 export const UPDATE_RUP_PLANT_COMMUNITY = (planId, pastureId, plantId) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${plantId}`
+export const DELETE_RUP_PLANT_COMMUNITY = (planId, pastureId, plantId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${plantId}`
 export const CREATE_RUP_PLANT_COMMUNITY_ACTION = (
   planId,

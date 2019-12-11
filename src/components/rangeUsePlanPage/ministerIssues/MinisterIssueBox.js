@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import uuid from 'uuid-v4'
-import { Icon, Confirm } from 'semantic-ui-react'
+import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings'
 import { oxfordComma } from '../../../utils'
@@ -16,13 +16,16 @@ import AddMinisterIssueActionButton from './AddMinisterIssueActionButton'
 import moment from 'moment'
 import { deleteMinisterIssueAction } from '../../../api'
 
+const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
+
 const MinisterIssueBox = ({
   issue,
   ministerIssueIndex,
   activeMinisterIssueIndex,
   onMinisterIssueClicked,
   namespace,
-  formik
+  formik,
+  onDelete
 }) => {
   const [toRemove, setToRemove] = useState(null)
 
@@ -80,18 +83,35 @@ const MinisterIssueBox = ({
                 : ''
             }
             fast
+            fieldProps={{ required: true }}
           />
         </div>
       }
       headerRight={
-        <div className="rup__missue__identified">
-          {'Identified: '}
-          {identified ? (
-            <Icon name="check circle" color="green" />
-          ) : (
-            <Icon name="remove circle" color="red" />
-          )}
-        </div>
+        <>
+          <IfEditable permission={MINISTER_ISSUES.TYPE}>
+            <div className="rup__missue__identified">
+              {'Identified: '}
+              {identified ? (
+                <Icon name="check circle" color="green" />
+              ) : (
+                <Icon name="remove circle" color="red" />
+              )}
+            </div>
+            <PlainDropdown
+              className="rup__pasture__actions"
+              trigger={<i className="ellipsis vertical icon" />}
+              options={dropdownOptions}
+              icon={null}
+              pointing="right"
+              onClick={e => e.stopPropagation()}
+              onChange={(e, { value }) => {
+                if (value === 'delete') onDelete()
+              }}
+              selectOnBlur={false}
+            />
+          </IfEditable>
+        </>
       }
       collapsibleContent={
         <>
@@ -105,6 +125,7 @@ const MinisterIssueBox = ({
               toggle: true
             }}
             fast
+            fieldProps={{ required: true }}
           />
           <PermissionsField
             name={`${namespace}.pastures`}
@@ -136,6 +157,7 @@ const MinisterIssueBox = ({
               placeholder:
                 'Accurate description of the issue including WHAT and WHERE the issue is and, if relevant, the TIMING of the issue'
             }}
+            fieldProps={{ required: true }}
           />
           <PermissionsField
             permission={MINISTER_ISSUES.OBJECTIVE}
@@ -148,6 +170,7 @@ const MinisterIssueBox = ({
               placeholder:
                 'Description of the conditions that will exist when the issue has been resolved (desired state).'
             }}
+            fieldProps={{ required: true }}
           />
 
           <FieldArray

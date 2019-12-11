@@ -8,58 +8,48 @@ import { FieldArray } from 'formik'
 import { NOT_PROVIDED } from '../../../constants/strings'
 import { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { Message, Icon } from 'semantic-ui-react'
+import { Confirm } from 'semantic-ui-react'
+import { deletePlantCommunity } from '../../../api'
 
-const PlantCommunities = ({ plantCommunities = [], namespace }) => {
+const PlantCommunities = ({
+  plantCommunities = [],
+  namespace,
+  planId,
+  pastureId
+}) => {
   const isEmpty = plantCommunities.length === 0
   const [activeIndex, setActiveIndex] = useState(-1)
+  const [indexToRemove, setIndexToRemove] = useState(null)
 
   return (
     <FieldArray
       name={`${namespace}.plantCommunities`}
-      render={({ push }) => (
+      render={({ push, remove }) => (
         <div className="rup__plant-communities">
           <div className="rup__plant-communities__title">Plant Communities</div>
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
-            <>
-              <Message warning style={{ display: 'flex' }} icon>
-                <Icon name="warning" />
-                <Message.Content>
-                  <Message.Header>
-                    Heads up! Plant communities can <em>not</em> be edited once
-                    created
-                  </Message.Header>
-                  <p>
-                    Don&apos;t worry, this is only temporary. If this is a staff
-                    draft you can make and save updates on the iPad. If it is
-                    not a staff draft contact myrangebc@gov.bc.ca for a manual
-                    fix.
-                  </p>
-                </Message.Content>
-              </Message>
-              <AddPlantCommunityButton
-                onSubmit={plantCommunity => {
-                  push({
-                    ...plantCommunity,
-                    communityTypeId: plantCommunity.id,
-                    indicatorPlants: [],
-                    plantCommunityActions: [],
-                    purposeOfAction: 'none',
-                    monitoringAreas: [],
-                    aspect: '',
-                    elevationId: null,
-                    url: '',
-                    approved: false,
-                    notes: '',
-                    rangeReadinessDay: null,
-                    rangeReadinessMonth: null,
-                    rangeReadinessNote: null,
-                    shrubUse: '',
-                    id: uuid()
-                  })
-                }}
-              />
-            </>
+            <AddPlantCommunityButton
+              onSubmit={plantCommunity => {
+                push({
+                  ...plantCommunity,
+                  communityTypeId: plantCommunity.id,
+                  indicatorPlants: [],
+                  plantCommunityActions: [],
+                  purposeOfAction: 'none',
+                  monitoringAreas: [],
+                  aspect: '',
+                  elevationId: null,
+                  url: '',
+                  approved: false,
+                  notes: '',
+                  rangeReadinessDay: null,
+                  rangeReadinessMonth: null,
+                  rangeReadinessNote: null,
+                  shrubUse: '',
+                  id: uuid()
+                })
+              }}
+            />
           </IfEditable>
 
           <IfEditable permission={PLANT_COMMUNITY.NAME} invert>
@@ -69,6 +59,26 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
               </div>
             )}
           </IfEditable>
+
+          <Confirm
+            header={`Delete plant community '${plantCommunities[
+              indexToRemove
+            ] && plantCommunities[indexToRemove].name}'`}
+            open={indexToRemove !== null}
+            onCancel={() => {
+              setIndexToRemove(null)
+            }}
+            onConfirm={async () => {
+              const community = plantCommunities[indexToRemove]
+
+              if (!uuid.isUUID(community.id)) {
+                await deletePlantCommunity(planId, pastureId, community.id)
+              }
+
+              remove(indexToRemove)
+              setIndexToRemove(null)
+            }}
+          />
 
           <ul
             className={classnames('collaspible-boxes', {
@@ -85,6 +95,7 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                     ? setActiveIndex(-1)
                     : setActiveIndex(index)
                 }}
+                onDelete={() => setIndexToRemove(index)}
                 namespace={`${namespace}.plantCommunities.${index}`}
               />
             ))}
