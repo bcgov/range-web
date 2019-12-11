@@ -86,7 +86,7 @@ const ActionBtns = ({
       {AMEND_PLAN}
     </Menu.Item>
   )
-  const confirmSubmissionBtn = (
+  const confirmSubmissionMenuItem = (
     <Menu.Item
       key="confirmSubmissionBtn"
       disabled={!isOnline}
