@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { CollapsibleBox } from '../../common'
 import uuid from 'uuid-v4'
@@ -29,6 +29,7 @@ import { Dropdown as PlainDropdown } from 'semantic-ui-react'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import Import from './criteria/Import'
+import InputModal from '../../common/InputModal'
 
 const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
 
@@ -50,11 +51,36 @@ const PlantCommunityBox = ({
     url,
     approved,
     notes,
-    communityType,
-    monitoringAreas,
-    id
+    communityTypeId,
+    monitoringAreas
   } = plantCommunity
-  const communityTypeName = (communityType && communityType.name) || name
+
+  const [isModalOpen, setModalOpen] = useState(false)
+
+  const communityTypes =
+    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
+  const otherType = communityTypes.find(t => t.name === 'Other')
+
+  const communityTypeOptions = communityTypes
+    .map(type =>
+      type.id === otherType.id
+        ? {
+            ...type,
+            name:
+              communityTypeId === otherType.id ? `Other: ${name}` : type.name
+          }
+        : type
+    )
+    .map(type => ({
+      key: type.id,
+      value: type.id,
+      text: type.name,
+      id: type.id
+    }))
+
+  const communityType = communityTypeOptions.find(
+    t => t.value === communityTypeId
+  )
 
   const elevationTypes = useReferences()[
     REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION
@@ -87,7 +113,7 @@ const PlantCommunityBox = ({
 
   return (
     <CollapsibleBox
-      key={communityType}
+      key={communityTypeId}
       contentIndex={index}
       activeContentIndex={activeIndex}
       onContentClick={onClick}
@@ -106,9 +132,29 @@ const PlantCommunityBox = ({
                 />
               )}
             </div>
-            <div style={{ textAlign: 'left' }}>
-              Plant Community: {communityTypeName}
-            </div>
+            <PermissionsField
+              permission={index !== activeIndex ? '' : PLANT_COMMUNITY.NAME}
+              name={`${namespace}.communityTypeId`}
+              component={Dropdown}
+              options={communityTypeOptions}
+              displayValue={
+                communityType.id === otherType.id ? name : communityType.name
+              }
+              fast
+              inputProps={{
+                onChange: (e, { value }) => {
+                  if (value === otherType.id) {
+                    setModalOpen(true)
+                    formik.setFieldValue(
+                      `${namespace}.communityTypeId`,
+                      communityTypeId
+                    )
+                  } else {
+                    formik.setFieldValue(`${namespace}.name`, null)
+                  }
+                }
+              }}
+            />
           </div>
           <div className="rup__plant-community__title__right">
             <div>
@@ -305,6 +351,18 @@ const PlantCommunityBox = ({
             monitoringAreas={monitoringAreas}
             namespace={`${namespace}.monitoringAreas`}
           />
+
+          <InputModal
+            open={isModalOpen}
+            onClose={() => setModalOpen(false)}
+            onSubmit={name => {
+              formik.setFieldValue(`${namespace}.name`, name)
+              formik.setFieldValue(`${namespace}.communityTypeId`, otherType.id)
+              setModalOpen(false)
+            }}
+            title="Other plant community type"
+            placeholder="Plant community name"
+          />
         </>
       }
     />
@@ -313,7 +371,7 @@ const PlantCommunityBox = ({
 
 PlantCommunityBox.propTypes = {
   plantCommunity: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     plantCommunityActions: PropTypes.array.isRequired,
     purposeOfAction: PropTypes.string,
     aspect: PropTypes.string,
