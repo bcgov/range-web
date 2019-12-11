@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import uuid from 'uuid-v4'
-import { Icon, Confirm } from 'semantic-ui-react'
+import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings'
 import { oxfordComma } from '../../../utils'
@@ -16,13 +16,16 @@ import AddMinisterIssueActionButton from './AddMinisterIssueActionButton'
 import moment from 'moment'
 import { deleteMinisterIssueAction } from '../../../api'
 
+const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
+
 const MinisterIssueBox = ({
   issue,
   ministerIssueIndex,
   activeMinisterIssueIndex,
   onMinisterIssueClicked,
   namespace,
-  formik
+  formik,
+  onDelete
 }) => {
   const [toRemove, setToRemove] = useState(null)
 
@@ -85,14 +88,30 @@ const MinisterIssueBox = ({
         </div>
       }
       headerRight={
-        <div className="rup__missue__identified">
-          {'Identified: '}
-          {identified ? (
-            <Icon name="check circle" color="green" />
-          ) : (
-            <Icon name="remove circle" color="red" />
-          )}
-        </div>
+        <>
+          <IfEditable permission={MINISTER_ISSUES.TYPE}>
+            <div className="rup__missue__identified">
+              {'Identified: '}
+              {identified ? (
+                <Icon name="check circle" color="green" />
+              ) : (
+                <Icon name="remove circle" color="red" />
+              )}
+            </div>
+            <PlainDropdown
+              className="rup__pasture__actions"
+              trigger={<i className="ellipsis vertical icon" />}
+              options={dropdownOptions}
+              icon={null}
+              pointing="right"
+              onClick={e => e.stopPropagation()}
+              onChange={(e, { value }) => {
+                if (value === 'delete') onDelete()
+              }}
+              selectOnBlur={false}
+            />
+          </IfEditable>
+        </>
       }
       collapsibleContent={
         <>
