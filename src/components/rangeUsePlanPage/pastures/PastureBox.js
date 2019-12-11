@@ -146,6 +146,8 @@ const PastureBox = ({
               plantCommunities={pasture.plantCommunities}
               namespace={namespace}
               canEdit={true}
+              planId={pasture.planId}
+              pastureId={pasture.id}
             />
           </>
         }

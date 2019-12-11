@@ -25,9 +25,12 @@ import PlantCommunityActionsBox from './PlantCommunityActionsBox'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
 import { connect, getIn } from 'formik'
+import { Dropdown as PlainDropdown } from 'semantic-ui-react'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import Import from './criteria/Import'
+
+const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
 
 const PlantCommunityBox = ({
   plantCommunity,
@@ -35,7 +38,8 @@ const PlantCommunityBox = ({
   index,
   onClick,
   namespace,
-  formik
+  formik,
+  onDelete
 }) => {
   const {
     name,
@@ -116,6 +120,25 @@ const PlantCommunityBox = ({
               )}
             </div>
           </div>
+
+          <IfEditable permission={PLANT_COMMUNITY.NAME}>
+            <div>
+              {activeIndex === index && (
+                <PlainDropdown
+                  className="rup__pasture__actions"
+                  trigger={<i className="ellipsis vertical icon" />}
+                  options={dropdownOptions}
+                  icon={null}
+                  pointing="right"
+                  onClick={e => e.stopPropagation()}
+                  onChange={(e, { value }) => {
+                    if (value === 'delete') onDelete()
+                  }}
+                  selectOnBlur={false}
+                />
+              )}
+            </div>
+          </IfEditable>
         </div>
       }
       collapsibleContent={

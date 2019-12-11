@@ -8,15 +8,23 @@ import { FieldArray } from 'formik'
 import { NOT_PROVIDED } from '../../../constants/strings'
 import { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
+import { Confirm } from 'semantic-ui-react'
+import { deletePlantCommunity } from '../../../api'
 
-const PlantCommunities = ({ plantCommunities = [], namespace }) => {
+const PlantCommunities = ({
+  plantCommunities = [],
+  namespace,
+  planId,
+  pastureId
+}) => {
   const isEmpty = plantCommunities.length === 0
   const [activeIndex, setActiveIndex] = useState(-1)
+  const [indexToRemove, setIndexToRemove] = useState(null)
 
   return (
     <FieldArray
       name={`${namespace}.plantCommunities`}
-      render={({ push }) => (
+      render={({ push, remove }) => (
         <div className="rup__plant-communities">
           <div className="rup__plant-communities__title">Plant Communities</div>
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
@@ -52,6 +60,26 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
             )}
           </IfEditable>
 
+          <Confirm
+            header={`Delete plant community '${plantCommunities[
+              indexToRemove
+            ] && plantCommunities[indexToRemove].name}'`}
+            open={indexToRemove !== null}
+            onCancel={() => {
+              setIndexToRemove(null)
+            }}
+            onConfirm={async () => {
+              const community = plantCommunities[indexToRemove]
+
+              if (!uuid.isUUID(community.id)) {
+                await deletePlantCommunity(planId, pastureId, community.id)
+              }
+
+              remove(indexToRemove)
+              setIndexToRemove(null)
+            }}
+          />
+
           <ul
             className={classnames('collaspible-boxes', {
               'collaspible-boxes--empty': isEmpty
@@ -67,6 +95,7 @@ const PlantCommunities = ({ plantCommunities = [], namespace }) => {
                     ? setActiveIndex(-1)
                     : setActiveIndex(index)
                 }}
+                onDelete={() => setIndexToRemove(index)}
                 namespace={`${namespace}.plantCommunities.${index}`}
               />
             ))}

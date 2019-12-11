@@ -426,3 +426,10 @@ export const deletePasture = async (planId, pastureId) => {
     getAuthHeaderConfig()
   )
 }
+
+export const deletePlantCommunity = async (planId, pastureId, communityId) => {
+  await axios.delete(
+    API.DELETE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
+    getAuthHeaderConfig()
+  )
+}
