@@ -83,7 +83,9 @@ export const SCHEDULE = {
   DATE_IN: 'schedule.dateIn',
   DATE_OUT: 'schedule.dateOut',
   DESCRIPTION: 'schedule.description',
-  GRACE_DAYS: 'schedule.graceDays'
+  GRACE_DAYS: 'schedule.graceDays',
+  COPY: 'schedule.copy',
+  DELETE: 'schedule.delete'
 }
 export const INVASIVE_PLANTS = {
   ITEMS: 'invasivePlants.items'

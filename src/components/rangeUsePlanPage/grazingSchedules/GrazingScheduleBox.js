@@ -77,7 +77,7 @@ const GrazingScheduleBox = ({
             }
             shouldHideHeaderRightWhenNotActive
             headerRight={
-              <IfEditable permission={SCHEDULE.TYPE}>
+              <IfEditable permission={[SCHEDULE.COPY, SCHEDULE.DELETE]} any>
                 <Dropdown
                   trigger={<Icon name="ellipsis vertical" />}
                   icon={null}
@@ -85,20 +85,24 @@ const GrazingScheduleBox = ({
                   loading={false}
                   disabled={false}>
                   <Dropdown.Menu>
-                    <Dropdown
-                      header="Years"
-                      text="Copy"
-                      pointing="left"
-                      className="link item"
-                      options={copyOptions}
-                      disabled={copyOptions.length === 0}
-                      data-testid={`copy-button-${schedule.year}`}
-                    />
-                    <Dropdown.Item
-                      onClick={() => onScheduleDelete()}
-                      data-testid={`delete-button-${schedule.year}`}>
-                      Delete
-                    </Dropdown.Item>
+                    <IfEditable permission={SCHEDULE.COPY}>
+                      <Dropdown
+                        header="Years"
+                        text="Copy"
+                        pointing="left"
+                        className="link item"
+                        options={copyOptions}
+                        disabled={copyOptions.length === 0}
+                        data-testid={`copy-button-${schedule.year}`}
+                      />
+                    </IfEditable>
+                    <IfEditable permission={SCHEDULE.DELETE}>
+                      <Dropdown.Item
+                        onClick={() => onScheduleDelete()}
+                        data-testid={`delete-button-${schedule.year}`}>
+                        Delete
+                      </Dropdown.Item>
+                    </IfEditable>
                   </Dropdown.Menu>
                 </Dropdown>
               </IfEditable>
