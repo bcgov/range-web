@@ -14,6 +14,7 @@ import {
   Dropdown as PlainDropdown,
   Form
 } from 'semantic-ui-react'
+import InputModal from '../../../common/InputModal'
 
 const MonitoringAreaBox = ({
   monitoringArea,
@@ -32,6 +33,7 @@ const MonitoringAreaBox = ({
   } = monitoringArea
 
   const [removeDialogOpen, setDialogOpen] = useState(false)
+  const [isEditModalOpen, setEditModalOpen] = useState(false)
 
   const references = useReferences()
 
@@ -52,37 +54,50 @@ const MonitoringAreaBox = ({
   return (
     <div className="rup__plant-community__m-area__box">
       <div className="rup__plant-community__m-area__header">
-        {/* <Icon name="map marker alternate" /> */}
+        <span>
+          <Icon name="map marker alternate" />
+          Monitoring Area: {name}
+        </span>
 
-        <span>Monitoring Area: {name}</span>
+        <div>
+          <IfEditable permission={MONITORING_AREAS.NAME}>
+            <Icon
+              name="edit"
+              onClick={e => {
+                e.stopPropagation()
+                setEditModalOpen(true)
+              }}
+            />
+          </IfEditable>
 
-        <PlainDropdown
-          trigger={<Icon name="ellipsis vertical" />}
-          options={[
-            {
-              key: 'copy',
-              value: 'copy',
-              text: 'Copy'
-            },
-            {
-              key: 'delete',
-              value: 'delete',
-              text: 'Delete'
-            }
-          ]}
-          icon={null}
-          pointing="right"
-          onClick={e => e.stopPropagation()}
-          onChange={(e, { value }) => {
-            if (value === 'delete') {
-              setDialogOpen(true)
-            }
-            if (value === 'copy') {
-              onCopy()
-            }
-          }}
-          selectOnBlur={false}
-        />
+          <PlainDropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={[
+              {
+                key: 'copy',
+                value: 'copy',
+                text: 'Copy'
+              },
+              {
+                key: 'delete',
+                value: 'delete',
+                text: 'Delete'
+              }
+            ]}
+            icon={null}
+            pointing="right"
+            onClick={e => e.stopPropagation()}
+            onChange={(e, { value }) => {
+              if (value === 'delete') {
+                setDialogOpen(true)
+              }
+              if (value === 'copy') {
+                onCopy()
+              }
+            }}
+            selectOnBlur={false}
+          />
+        </div>
 
         <Confirm
           open={removeDialogOpen}
@@ -172,6 +187,17 @@ const MonitoringAreaBox = ({
           </LocationButton>
         </IfEditable>
       </Form.Group>
+
+      <InputModal
+        open={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onSubmit={name => {
+          formik.setFieldValue(`${namespace}.name`, name)
+          setEditModalOpen(false)
+        }}
+        title="Edit monitoring area name"
+        placeholder="Monitoring area name"
+      />
     </div>
   )
 }
