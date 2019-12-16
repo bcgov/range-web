@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { some, every } from 'lodash'
 import permissions from '../../constants/permissions'
 import { useUser } from '../../providers/UserProvider'
 import { Input } from 'formik-semantic-ui'
@@ -47,11 +48,16 @@ PermissionsField.propTypes = {
   fluid: PropTypes.bool
 }
 
-export const IfEditable = ({ children, permission, invert }) => {
+export const IfEditable = ({ children, permission, invert, any = false }) => {
   const user = useUser()
   const globalIsEditable = useEditable()
 
-  const canEdit = canUserEdit(permission, user) && globalIsEditable
+  const arrayFn = any ? some : every
+
+  const canEdit =
+    (Array.isArray(permission)
+      ? arrayFn(permission, p => canUserEdit(p, user))
+      : canUserEdit(permission, user)) && globalIsEditable
 
   if (!invert && canEdit) return children
   if (invert && !canEdit) return children
