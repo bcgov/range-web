@@ -29,7 +29,9 @@ const PlantCommunityPicker = React.memo(
         return setModalOpen(true)
       }
 
-      const plantCommunity = types.find(t => t.id === communityTypeId)
+      const { name, ...plantCommunity } = types.find(
+        t => t.id === communityTypeId
+      )
 
       onSubmit(plantCommunity)
     }
