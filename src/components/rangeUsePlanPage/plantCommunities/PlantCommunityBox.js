@@ -138,7 +138,7 @@ const PlantCommunityBox = ({
               component={Dropdown}
               options={communityTypeOptions}
               displayValue={
-                communityType.id === otherType.id ? name : communityType.name
+                communityType.id === otherType.id ? name : communityType.text
               }
               fast
               inputProps={{
