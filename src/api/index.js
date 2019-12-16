@@ -416,3 +416,15 @@ export const deleteGrazingScheduleEntry = async (
 
 export * from './delete'
 export * from './plan'
+
+export const deleteMonitoringArea = async (
+  planId,
+  pastureId,
+  communityId,
+  areaId
+) => {
+  await axios.delete(
+    API.DELETE_RUP_MONITORING_AREA(planId, pastureId, communityId, areaId),
+    getAuthHeaderConfig()
+  )
+}

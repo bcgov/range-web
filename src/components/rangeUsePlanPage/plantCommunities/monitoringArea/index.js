@@ -7,8 +7,15 @@ import AddMonitoringAreaButton from './AddMonitoringAreaButton'
 import InputModal from '../../../common/InputModal'
 import { IfEditable } from '../../../common/PermissionsField'
 import { MONITORING_AREAS } from '../../../../constants/fields'
+import { deleteMonitoringArea } from '../../../../api'
 
-const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
+const MonitoringAreaList = ({
+  monitoringAreas,
+  planId,
+  pastureId,
+  communityId,
+  namespace
+}) => {
   const [areaToCopy, setAreaToCopy] = useState()
 
   return (
@@ -41,7 +48,20 @@ const MonitoringAreaList = ({ monitoringAreas, namespace }) => {
                 key={monitoringArea.id}
                 monitoringArea={monitoringArea}
                 namespace={`${namespace}.${index}`}
-                onRemove={() => remove(index)}
+                onRemove={async () => {
+                  const area = monitoringAreas[index]
+
+                  if (!uuid.isUUID(area.id)) {
+                    await deleteMonitoringArea(
+                      planId,
+                      pastureId,
+                      communityId,
+                      area.id
+                    )
+                  }
+
+                  remove(index)
+                }}
                 onCopy={() => setAreaToCopy(monitoringArea)}
               />
             ))}
