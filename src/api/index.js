@@ -440,3 +440,15 @@ export const deleteMinisterIssue = async (planId, issueId) => {
     getAuthHeaderConfig()
   )
 }
+
+export const deleteMonitoringArea = async (
+  planId,
+  pastureId,
+  communityId,
+  areaId
+) => {
+  await axios.delete(
+    API.DELETE_RUP_MONITORING_AREA(planId, pastureId, communityId, areaId),
+    getAuthHeaderConfig()
+  )
+}

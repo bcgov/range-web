@@ -90,6 +90,8 @@ const PlantCommunities = ({
                 plantCommunity={plantCommunity}
                 activeIndex={activeIndex}
                 index={index}
+                planId={planId}
+                pastureId={pastureId}
                 onClick={() => {
                   index === activeIndex
                     ? setActiveIndex(-1)
