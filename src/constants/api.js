@@ -184,6 +184,13 @@ export const UPDATE_RUP_MONITORING_AREA = (
   areaId
 ) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area/${areaId}`
+export const DELETE_RUP_MONITORING_AREA = (
+  planId,
+  pastureId,
+  communityId,
+  areaId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area/${areaId}`
 export const CREATE_RUP_INVASIVE_PLANT_CHECKLIST = planId =>
   `/v1/plan/${planId}/invasive-plant-checklist`
 export const UPDATE_RUP_INVASIVE_PLANT_CHECKLIST = (planId, checklistId) =>

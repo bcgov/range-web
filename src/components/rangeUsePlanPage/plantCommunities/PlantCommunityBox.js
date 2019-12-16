@@ -37,6 +37,8 @@ const PlantCommunityBox = ({
   plantCommunity,
   activeIndex,
   index,
+  planId,
+  pastureId,
   onClick,
   namespace,
   formik,
@@ -349,6 +351,9 @@ const PlantCommunityBox = ({
           </div>
           <MonitoringAreaList
             monitoringAreas={monitoringAreas}
+            planId={planId}
+            pastureId={pastureId}
+            communityId={plantCommunity.id}
             namespace={`${namespace}.monitoringAreas`}
           />
 
