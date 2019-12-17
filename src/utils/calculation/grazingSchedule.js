@@ -70,7 +70,7 @@ export const calcCrownTotalAUMs = (
       const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
       const auFactor = livestockType && livestockType.auFactor
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor)
-      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent)
+      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent) * -1
       return calcCrownAUMs(totalAUMs, pldAUMs)
     })
     .reduce(reducer)
