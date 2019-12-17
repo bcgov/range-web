@@ -205,3 +205,5 @@ export const CREATE_RUP_ADDITIONAL_REQUIREMENT = planId =>
   `/v1/plan/${planId}/additional-requirement`
 export const UPDATE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
   `/v1/plan/${planId}/additional-requirement/${requirementId}`
+export const DELETE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
+  `/v1/plan/${planId}/additional-requirement/${requirementId}`
