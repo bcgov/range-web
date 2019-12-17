@@ -281,6 +281,9 @@ const PlantCommunityBox = ({
               </div>
               <PlantCommunityActionsBox
                 actions={plantCommunityActions}
+                planId={planId}
+                pastureId={pastureId}
+                communityId={plantCommunity.id}
                 namespace={namespace}
               />
             </>

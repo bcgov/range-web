@@ -6,8 +6,15 @@ import { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
 import { Button, Confirm } from 'semantic-ui-react'
 import PlantCommunityAction from './PlantCommunityAction'
+import { deletePlantCommunityAction } from '../../../api'
 
-const PlantCommunityActionsBox = ({ actions, namespace }) => {
+const PlantCommunityActionsBox = ({
+  actions,
+  planId,
+  pastureId,
+  communityId,
+  namespace
+}) => {
   const [toRemove, setToRemove] = useState(null)
 
   return (
@@ -30,7 +37,18 @@ const PlantCommunityActionsBox = ({ actions, namespace }) => {
             onCancel={() => {
               setToRemove(null)
             }}
-            onConfirm={() => {
+            onConfirm={async () => {
+              const action = actions[toRemove]
+
+              if (!uuid.isUUID(action.id)) {
+                await deletePlantCommunityAction(
+                  planId,
+                  pastureId,
+                  communityId,
+                  action.id
+                )
+              }
+
               remove(toRemove)
               setToRemove(null)
             }}

@@ -453,6 +453,23 @@ export const deleteMonitoringArea = async (
   )
 }
 
+export const deletePlantCommunityAction = async (
+  planId,
+  pastureId,
+  communityId,
+  actionId
+) => {
+  await axios.delete(
+    API.DELETE_RUP_PLANT_COMMUNITY_ACTION(
+      planId,
+      pastureId,
+      communityId,
+      actionId
+    ),
+    getAuthHeaderConfig()
+  )
+}
+    
 export const deleteAdditionalRequirement = async (planId, requirementId) => {
   await axios.delete(
     API.DELETE_RUP_ADDITIONAL_REQUIREMENT(planId, requirementId),
