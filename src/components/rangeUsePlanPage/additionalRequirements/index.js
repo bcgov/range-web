@@ -4,12 +4,20 @@ import AdditionalRequirementRow from './AdditionalRequirementRow'
 import { IfEditable } from '../../common/PermissionsField'
 import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
 import { FieldArray } from 'formik'
-import { Button } from 'semantic-ui-react'
+import { Button, Confirm } from 'semantic-ui-react'
 import uuid from 'uuid-v4'
+import { deleteAdditionalRequirement } from '../../../api'
 
 class AdditionalRequirements extends Component {
   static propTypes = {
     additionalRequirements: PropTypes.arrayOf(PropTypes.object).isRequired
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      indexToRemove: null
+    }
   }
 
   renderAdditionalRequirement = (additionalRequirement, i) => {
@@ -17,6 +25,7 @@ class AdditionalRequirements extends Component {
       <AdditionalRequirementRow
         key={additionalRequirement.id}
         additionalRequirement={additionalRequirement}
+        onDelete={() => this.setState({ indexToRemove: i })}
         namespace={`additionalRequirements.${i}`}
       />
     )
@@ -36,11 +45,12 @@ class AdditionalRequirements extends Component {
 
   render() {
     const { additionalRequirements } = this.props
+    const { indexToRemove } = this.state
 
     return (
       <FieldArray
         name="additionalRequirements"
-        render={({ push }) => (
+        render={({ push, remove }) => (
           <div className="rup__a-requirements">
             <div className="rup__content-title--editable">
               Additional Requirements
@@ -72,6 +82,28 @@ class AdditionalRequirements extends Component {
             <div className="rup__a-requirements__box">
               {this.renderAdditionalRequirements(additionalRequirements)}
             </div>
+
+            <Confirm
+              header="Delete additional requirement"
+              content="Are you sure?"
+              open={indexToRemove !== null}
+              onCancel={() => {
+                this.setState({ indexToRemove: null })
+              }}
+              onConfirm={async () => {
+                const requirement = additionalRequirements[indexToRemove]
+
+                if (!uuid.isUUID(requirement.id)) {
+                  await deleteAdditionalRequirement(
+                    requirement.planId,
+                    requirement.id
+                  )
+                }
+
+                remove(indexToRemove)
+                this.setState({ indexToRemove: null })
+              }}
+            />
           </div>
         )}
       />
