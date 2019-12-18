@@ -469,7 +469,7 @@ export const deletePlantCommunityAction = async (
     getAuthHeaderConfig()
   )
 }
-    
+
 export const deleteAdditionalRequirement = async (planId, requirementId) => {
   await axios.delete(
     API.DELETE_RUP_ADDITIONAL_REQUIREMENT(planId, requirementId),
