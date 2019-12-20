@@ -89,6 +89,7 @@ const PastureBox = ({
                   component={Input}
                   displayValue={pasture.allowableAum}
                   label={strings.ALLOWABLE_AUMS}
+                  tip={strings.ALLOWABLE_AUMS_TIP}
                   fast
                   inputProps={{
                     placeholder:
@@ -103,6 +104,7 @@ const PastureBox = ({
                   component={PercentField}
                   displayValue={pasture.pldPercent}
                   label={strings.PRIVATE_LAND_DEDUCTION}
+                  tip={strings.PRIVATE_LAND_DEDUCTION_TIP}
                   inputProps={{
                     label: '%',
                     labelPosition: 'right',
