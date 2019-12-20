@@ -1,17 +1,12 @@
 import { useState, useEffect } from 'react'
 import * as API from '../../constants/api'
-import {
-  getLocalPlans,
-  savePlanToLocalStorage,
-  getPlan,
-  getPlans
-} from '../../api'
+import { savePlanToLocalStorage, getPlans } from '../../api'
 import { axios } from '..'
 import useSWR from 'swr'
 import { getAuthHeaderConfig } from '../authentication'
 
 export const usePlans = agreementId => {
-  const [plans, setPlans] = useState([])
+  const [plans] = useState([])
   const { data: agreement, isValidating, revalidate, error } = useSWR(
     agreementId && API.GET_AGREEMENT(agreementId),
     key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
