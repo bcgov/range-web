@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import uuid from 'uuid-v4'
 import MinisterIssueBox from './MinisterIssueBox'
 import { FieldArray } from 'formik'
+import { InfoTip } from '../../common'
 import { IfEditable } from '../../common/PermissionsField'
+import {
+  MINISTERS_ISSUES_AND_ACTIONS,
+  MINISTERS_ISSUES_AND_ACTIONS_TIP
+} from '../../../constants/strings'
 import { MINISTER_ISSUES } from '../../../constants/fields'
 import AddMinisterIssueButton from './AddMinisterIssueButton'
 import { Confirm } from 'semantic-ui-react'
@@ -20,7 +25,15 @@ const MinisterIssues = ({ issues }) => {
       render={({ push, remove }) => (
         <div className="rup__missues">
           <div className="rup__content-title--editable">
-            {"Minister's Issues and Actions"}
+            <div className="rup__popup-header">
+              <div className="rup__content-title">
+                {MINISTERS_ISSUES_AND_ACTIONS}
+              </div>
+              <InfoTip
+                header={MINISTERS_ISSUES_AND_ACTIONS}
+                content={MINISTERS_ISSUES_AND_ACTIONS_TIP}
+              />
+            </div>
             <IfEditable permission={MINISTER_ISSUES.TYPE}>
               <AddMinisterIssueButton
                 onSubmit={ministerIssue => {
