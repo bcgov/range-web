@@ -13,6 +13,8 @@ import PermissionsField from '../../common/PermissionsField'
 import { BASIC_INFORMATION } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
+import { useReferences } from '../../../providers/ReferencesProvider'
+import { REFERENCE_KEY } from '../../../constants/variables'
 
 const BasicInformation = ({ plan, agreement }) => {
   const zone = agreement && agreement.zone
@@ -24,6 +26,8 @@ const BasicInformation = ({ plan, agreement }) => {
   const contactEmail = staff && staff.email
   const contactPhoneNumber = staff && staff.phoneNumber
   const contactName = getUserFullName(staff)
+
+  const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE]
 
   const { rangeName, altBusinessName, planStartDate, planEndDate, extension } =
     plan || {}
@@ -52,7 +56,13 @@ const BasicInformation = ({ plan, agreement }) => {
           <div className="rup__divider" />
           <div className="rup__info-title">Agreement Information</div>
           <TextField label={strings.RANGE_NUMBER} text={agreementId} />
-          <TextField label={strings.AGREEMENT_TYPE} text="Primary" />
+          <TextField
+            label={strings.AGREEMENT_TYPE}
+            text={
+              agreementTypes.find(a => a.id === agreement.agreementTypeId)
+                .description
+            }
+          />
           <TextField
             label={strings.AGREEMENT_DATE}
             text={`${formatDateFromServer(
