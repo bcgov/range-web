@@ -40,8 +40,11 @@ export const VIEW_VERSIONS = 'View Versions'
 // RUP tabs
 export const BASIC_INFORMATION = 'Basic Information'
 export const PASTURES = 'Pastures'
+export const USAGE = 'Usage'
 export const SCHEDULES = 'Schedules'
+export const YEARLY_SCHEDULES = 'Yearly Schedules'
 export const MINISTER_ISSUES = "Minister's Issues"
+export const MINISTERS_ISSUES_AND_ACTIONS = "Minister's Issues and Actions"
 export const INVASIVE_PLANTS = 'Invasive Plants'
 export const ADDITIONAL_REQUIREMENTS = 'Additional Requirements'
 export const MANAGEMENT_CONSIDERATIONS = 'Management Considerations'
@@ -245,3 +248,43 @@ export const MANAGE_ZONE_BANNER_CONTENT =
 export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Clients'
 export const MANAGE_CLIENT_BANNER_CONTENT =
   'Search for agreement holders and link them to their corresponding client.'
+
+// tips
+export const BASIC_INFORMATION_TIP =
+  'Agreement specifics from FTA (including usage) and plan specifics entered by staff. If there is agreement information that is incorrect, update FTA and wait until next FTA sync (daily).'
+export const RANGE_NAME_TIP =
+  "Each agreement needs to have a common name (descriptive or nickname) to easily distinguish between ranges when an agreement holder has more than one. If the agreement holder has only one agreement the range name might be simply 'crown.'"
+export const PASTURES_TIP =
+  "FRPA section 33 indicates that an RUP for grazing must include both a map showing pastures and a schedule having livestock class, number and period of use for each pasture. Where an agreement area is not subdivided into pastures there is a single pastures whose boundary matches that of the agreement. Pastures may be one of two types: 1. Closed: those having the entire boundary accurately defined by physical barriers (ex. fence or NRB) 2. Open: those not having the entire boundary accurately defined by physical barriers (i.e. at least a portion of the boundary reflects an approximate transition between one pasture and the next). You might choose to select a 'grace days' value appropriate for the pasture type."
+export const PRIVATE_LAND_DEDUCTION_TIP =
+  'Percentage of total forage grazed from this pasture attributed to private land.'
+export const ALLOWABLE_AUMS_TIP =
+  "Approved maximum AUM allocation for this pasture. The default is 'not set' to indicate that there is not an approved AUM allocation for the pasture. Overwrite this value if there is an approved AUM allocation."
+export const PLANT_COMMUNITY_ACTIONS_TIP =
+  'RPPR section 13(1) allows the minister to specify actions to establish or maintain a described plant community. Actions are to be determined by staff and accepted by the decision maker before sending the RUP or amendment to the agreement holder. In some situations it may be appropriate to discuss the specifics of the plant community with the agreement holder before determining the actions and seeking acceptance from the decision maker.'
+export const CRITERIA_TIP =
+  'RPPR section 13 allows the minister to specify range readiness and stubble height criteria that are either described in the Schedule or consistent with objectives set by government. Readiness defaults for species in this app are consistent with the schedule.'
+export const RANGE_READINESS_OTHER_TIP =
+  "Readiness may be expressed as a statement such as 'Soil sufficiently dry to prevent pugging'."
+export const SHRUB_USE_TIP =
+  'RPPR section 29 indicates that unless otherwise specified in the RUP acceptable average browse is 25% of current annual grown.'
+export const MONITORING_AREAS_TIP =
+  'Every plant community must have at least one monitoring area. Rather than an extensive sampling approach to determine an average criteria measurement (ex. leaf stage or stubble height), monitoring areas are selected in locations that reflect an average condition within the plant community for the purpose selected. The location of monitoring areas should be carefully selected based on the purpose(s) of the monitoring area. An appropriate location for sampling for average readiness criteria may not be appropriate for sampling for average stubble height. Recognizing that management occurs primarily at the pasture level, where a pasture includes multiple plant communities you will likely want to select monitoring areas within the plant communities that are most relevant for the various criteria included.'
+export const MONITOING_AREA_PURPOSE_TIP =
+  'Each monitoring area must be selected carefully based on the purpose it is needed. Range Readiness: date, average plant growth or text statement that identifies when range is ready to be grazed. Stubble Height: the average height of plants remaining after grazing. Shrub Use: average browse use level of current annual growth. Key Area: a relatively small portion of a range selected because of its location, use or grazing values as a monitoring point for grazing use. It is assumed that, if properly selected, key areas will reflect the overall acceptability of current grazing management over the range. Other: text description of why a monitoring area is selected (ex. tracking an issue).'
+export const USAGE_TIP =
+  'Authorized usaged entered in FTA. If incorrect or incomplete, update FTA and wait for daily sync of MyRangeBC with FTA.'
+export const YEARLY_SCHEDULES_TIP =
+  'FRPA section 33 states that every RUP must include a schedule that includes livestock class, number and period of use for each pasture. Every schedule must have at least one row in the schedule grid. The schedule description/narrative is optional but when included is legal content. On/off schedules (off being on private land) are addressed using PLD % at the pasture level. Straggler clause is recorded using the schedule narrative. Staff may either require that a schedule be provided for all plan years at the time of RUP approval OR that a new schedule be provided every year. Options to copy an entire schedule to another year or to copy a single schedule row are available by selecting the three dots at the right.'
+export const MINISTERS_ISSUES_AND_ACTIONS_TIP =
+  'FRPA section 33 indicates that actions to deal with issues identified by the minister must be specified in the RUP. Issues must be identified by the delegated decision maker (either on a site-specific basis or as a set of issues and conditions when they apply in a district) and documentation included on file before an RUP can be sent to an agreement holder for their input. Refer to the Minister’s Issue Policy for details on identifying issues for RUP content.'
+export const IDENTIFIED_BY_MINISTER_TOGGLE_TIP =
+  'Do not move the toggle to “identified” until documentation regarding the identification by the delegated decision maker is on file.'
+export const INVASIVE_PLANTS_TIP =
+  'RPPR 15 indicates that an RUP must include measures to prevent the introduction and spread of invasive plant species if the introduction, spread, or both are likely to be the result of the person’s range pracitices. This content is specific to the practices of the agreement holder not other crown land users. All range practices have the potential to result in introduction or spread of invasive plants and this is a required section of the plan.'
+export const ADDITIONAL_REQUIREMENTS_TIP =
+  'Other orders, agreements, plans etc. may have content that is relevant to range related activities. Inclusion of that content in the RUP is redundant and creates potential for inconsistency or error. This section is included to inform the agreement holder and the decision maker of other agreements for consideration/review when preparing and making a decision on an RUP. When an agreement is available online include the URL for convenience.'
+export const MANAGEMENT_CONSIDERATIONS_TIP =
+  'Agreement holders may have information related to their operations that they want to have documented with their RUP. While not legal, this content can help explain the context for operations. This section is completely optional and fully within the domain of the agreement holder.'
+export const APPROVED_BY_MINISTER_TIP =
+  'Place documentation of descision makers approval to include this plant community information on file before updating & sending to agreement holders.'

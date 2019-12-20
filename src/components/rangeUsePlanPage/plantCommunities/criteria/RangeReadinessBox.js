@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import IndicatorPlantsForm from '../IndicatorPlantsForm'
 import { PLANT_CRITERIA } from '../../../../constants/variables'
 import { RANGE_READINESS } from '../../../../constants/fields'
+import { RANGE_READINESS_OTHER_TIP } from '../../../../constants/strings'
 import PermissionsField from '../../../common/PermissionsField'
 import DayMonthPicker from '../../../common/form/DayMonthPicker'
 import { TextArea } from 'formik-semantic-ui'
@@ -41,6 +42,7 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
       <PermissionsField
         name={`${namespace}.rangeReadinessNote`}
         permission={RANGE_READINESS.NOTE}
+        tip={RANGE_READINESS_OTHER_TIP}
         component={TextArea}
         displayValue={rangeReadinessNote}
         label="Other"

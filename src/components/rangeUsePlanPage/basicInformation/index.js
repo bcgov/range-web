@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '../../common'
+import { TextField, InfoTip } from '../../common'
 import * as strings from '../../../constants/strings'
 import {
   formatDateFromServer,
@@ -50,7 +50,13 @@ const BasicInformation = ({ plan, agreement }) => {
 
   return (
     <div className="rup__basic_information">
-      <div className="rup__content-title">Basic Information</div>
+      <div className="rup__popup-header">
+        <div className="rup__content-title">{strings.BASIC_INFORMATION}</div>
+        <InfoTip
+          header={strings.BASIC_INFORMATION}
+          content={strings.BASIC_INFORMATION_TIP}
+        />
+      </div>
       <div className="rup__row">
         <div className="rup__agreement-info rup__cell-6">
           <div className="rup__divider" />
@@ -71,12 +77,12 @@ const BasicInformation = ({ plan, agreement }) => {
           />
           <PermissionsField
             permission={BASIC_INFORMATION.RANGE_NAME}
+            tip={strings.RANGE_NAME_TIP}
             name="rangeName"
             displayValue={capitalize(rangeName)}
             label={strings.RANGE_NAME}
             fast
           />
-
           <PermissionsField
             permission={BASIC_INFORMATION.ALTERNATE_BUSINESS_NAME}
             name="altBusinessName"

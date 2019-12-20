@@ -66,8 +66,12 @@
         justify-content: space-between;
         align-items: center;
 
-        > span {
+        > * {
           padding: 10px 0;
+        }
+
+        > div > i {
+          font-size: 10.5px !important;
         }
       }
       &__label {
@@ -161,6 +165,10 @@
       margin-top: 5px;
     }
     &__sh {
+      > .rup__popup-header > div {
+        width: 100%;
+      }
+
       &__label {
         margin-top: 5px;
       }
@@ -199,6 +207,10 @@
         border-radius: 5px;
         border: 2px solid gainsboro;
         padding: 10px;
+
+        > .rup__popup-header > div {
+          width: 100%;
+        }
       }
       &__header {
         font-size: 1.2rem;

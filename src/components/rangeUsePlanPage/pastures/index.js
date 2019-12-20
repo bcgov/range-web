@@ -7,8 +7,9 @@ import { FieldArray, connect } from 'formik'
 import uuid from 'uuid-v4'
 import PastureBox from './PastureBox'
 import { IfEditable } from '../../common/PermissionsField'
+import * as strings from '../../../constants/strings'
 import { PASTURES } from '../../../constants/fields'
-import InputModal from '../../common/InputModal'
+import { InfoTip, InputModal } from '../../common'
 import { deletePasture } from '../../../api'
 
 const Pastures = ({ pastures, formik }) => {
@@ -28,7 +29,13 @@ const Pastures = ({ pastures, formik }) => {
       render={({ push, remove }) => (
         <div className="rup__pastures">
           <div className="rup__content-title--editable">
-            Pastures
+            <div className="rup__popup-header">
+              <div className="rup__content-title">{strings.PASTURES}</div>
+              <InfoTip
+                header={strings.PASTURES}
+                content={strings.PASTURES_TIP}
+              />
+            </div>
             <IfEditable permission={PASTURES.NAME}>
               <Button
                 type="button"

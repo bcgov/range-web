@@ -7,7 +7,9 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { FieldArray } from 'formik'
 import ManagementConsiderationRow from './ManagementConsiderationRow'
+import { InfoTip } from '../../common'
 import { IfEditable } from '../../common/PermissionsField'
+import * as strings from '../../../constants/strings'
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
 import { deleteManagementConsideration } from '../../../api'
 
@@ -29,7 +31,15 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
       render={({ push, remove }) => (
         <>
           <div className="rup__m-considerations">
-            <div className="rup__content-title">Management Considerations</div>
+            <div className="rup__popup-header">
+              <div className="rup__content-title">
+                {strings.MANAGEMENT_CONSIDERATIONS}
+              </div>
+              <InfoTip
+                header={strings.MANAGEMENT_CONSIDERATIONS}
+                content={strings.MANAGEMENT_CONSIDERATIONS_TIP}
+              />
+            </div>
             <div className="rup__divider" />
 
             <div className="rup__m-considerations__note">

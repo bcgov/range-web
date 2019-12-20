@@ -4,7 +4,12 @@ import { Dropdown, Confirm } from 'semantic-ui-react'
 import classnames from 'classnames'
 import { FieldArray } from 'formik'
 import uuid from 'uuid-v4'
+import { InfoTip } from '../../common'
 import { IfEditable } from '../../common/PermissionsField'
+import {
+  YEARLY_SCHEDULES,
+  YEARLY_SCHEDULES_TIP
+} from '../../../constants/strings'
 import { SCHEDULE } from '../../../constants/fields'
 import * as utils from '../../../utils'
 import GrazingScheduleBox from './GrazingScheduleBox'
@@ -55,7 +60,13 @@ const GrazingSchedules = ({ plan }) => {
         <>
           <div className="rup__grazing-schedules">
             <div className="rup__content-title--editable">
-              Yearly Schedules
+              <div className="rup__popup-header">
+                <div className="rup__content-title">{YEARLY_SCHEDULES}</div>
+                <InfoTip
+                  header={YEARLY_SCHEDULES}
+                  content={YEARLY_SCHEDULES_TIP}
+                />
+              </div>
               <IfEditable permission={SCHEDULE.TYPE}>
                 <Dropdown
                   className="icon rup__grazing-schedules__add-dropdown"

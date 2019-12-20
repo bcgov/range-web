@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import uuid from 'uuid-v4'
 import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
-import { NOT_PROVIDED, ACTION_NOTE } from '../../../constants/strings'
+import {
+  NOT_PROVIDED,
+  ACTION_NOTE,
+  IDENTIFIED_BY_MINISTER_TOGGLE_TIP
+} from '../../../constants/strings'
 import { oxfordComma } from '../../../utils'
 import MinisterIssueAction from './MinisterIssueAction'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
@@ -121,6 +125,7 @@ const MinisterIssueBox = ({
             component={Checkbox}
             displayValue={identified}
             label="Identified by Minister"
+            tip={IDENTIFIED_BY_MINISTER_TOGGLE_TIP}
             inputProps={{
               toggle: true
             }}
