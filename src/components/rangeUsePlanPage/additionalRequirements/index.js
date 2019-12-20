@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AdditionalRequirementRow from './AdditionalRequirementRow'
+import { InfoTip } from '../../common'
 import { IfEditable } from '../../common/PermissionsField'
 import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
+import * as strings from '../../../constants/strings'
 import { FieldArray } from 'formik'
 import { Button, Confirm } from 'semantic-ui-react'
 import uuid from 'uuid-v4'
@@ -53,7 +55,15 @@ class AdditionalRequirements extends Component {
         render={({ push, remove }) => (
           <div className="rup__a-requirements">
             <div className="rup__content-title--editable">
-              Additional Requirements
+              <div className="rup__popup-header">
+                <div className="rup__content-title">
+                  {strings.ADDITIONAL_REQUIREMENTS}
+                </div>
+                <InfoTip
+                  header={strings.ADDITIONAL_REQUIREMENTS}
+                  content={strings.ADDITIONAL_REQUIREMENTS_TIP}
+                />
+              </div>
               <IfEditable permission={ADDITIONAL_REQUIREMENTS.CATEGORY}>
                 <Button
                   type="button"
