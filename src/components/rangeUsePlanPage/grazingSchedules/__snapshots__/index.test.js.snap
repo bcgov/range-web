@@ -7,7 +7,19 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
   <div
     class="rup__content-title--editable"
   >
-    Yearly Schedules
+    <div
+      class="rup__popup-header"
+    >
+      <div
+        class="rup__content-title"
+      >
+        Yearly Schedules
+      </div>
+      <i
+        aria-hidden="true"
+        class="grey question small circular icon"
+      />
+    </div>
     <div
       aria-disabled="false"
       aria-expanded="false"
