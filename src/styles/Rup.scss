@@ -191,6 +191,13 @@
     }
   }
 
+  &__add-button {
+    > .add.circle.icon {
+      background-color: #003366 !important;
+      color: white;
+    }
+  }
+
   &__back-btn {
     margin-right: 7px;
     color: white;

@@ -1,13 +1,6 @@
 .rup {
   &__missues {
     margin-bottom: $rup-content-margin-bottom;
-
-    &__add-button {
-      > .add.circle.icon {
-        background-color: #003366 !important;
-        color: white;
-      }
-    }
   }
   &__missue {
     &__identified {

@@ -103,3 +103,9 @@ export const ADDITIONAL_REQUIREMENTS = {
   LINK: 'additionalRequirements.link',
   URL: 'additionalRequirements.url'
 }
+
+export const ATTACHMENTS = {
+  FILENAME: 'attachment.file.name',
+  CREATED_AT: 'attachment.createdAt',
+  CREATOR: 'attachment.creator'
+}

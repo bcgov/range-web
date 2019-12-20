@@ -476,3 +476,5 @@ export const deleteAdditionalRequirement = async (planId, requirementId) => {
     getAuthHeaderConfig()
   )
 }
+
+export const deleteAttachment = async attachmentId => {}
