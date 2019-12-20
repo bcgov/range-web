@@ -38,11 +38,6 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
             </div>
 
             <div className="rup__m-considerations__box">
-              <div className="rup__m-consideration__header">
-                <div>Considerations</div>
-                <div>Details</div>
-              </div>
-
               {managementConsiderations.length === 0 ? (
                 <div className="rup__m-considerations__no-content">
                   No management considerations provided
