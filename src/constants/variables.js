@@ -197,7 +197,8 @@ export const IMAGE_SRC = {
   PLANT_COMMUNITY_ACTIONS_ICON: '/images/icon_plantcommunityaction.svg',
   INFO_ICON: '/images/icon_info.svg',
   PASTURE_ICON: '/images/icon_pasture.svg',
-  PLANT_COMMUNITY_ICON: '/images/icon_plantcommunity.svg'
+  PLANT_COMMUNITY_ICON: '/images/icon_plantcommunity.svg',
+  ATTACHMENTS: '/images/icon_attachment.svg'
 }
 
 export const ELEMENT_ID = {
@@ -218,5 +219,6 @@ export const ELEMENT_ID = {
   LOGIN_BCEID_BUTTON: 'login_bceid_button',
   SEARCH_TERM: 'agr_search_term',
   MANAGE_CLIENT_USERS_DROPDOWN: 'mc_users_dropdown',
-  MANAGE_CLIENT_CLIENTS_DROPDOWN: 'mc_clients_dropdown'
+  MANAGE_CLIENT_CLIENTS_DROPDOWN: 'mc_clients_dropdown',
+  ATTACHMENTS: 'rup_attachments'
 }

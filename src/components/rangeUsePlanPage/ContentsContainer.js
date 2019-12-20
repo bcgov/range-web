@@ -88,6 +88,15 @@ class ContentsContainer extends Component {
             <img src={IMAGE_SRC.MANAGEMENT_ICON} alt="icon" />
             <span>{strings.MANAGEMENT_CONSIDERATIONS}</span>
           </Link>
+          <Link
+            offset={-100}
+            spy={true}
+            to={ELEMENT_ID.ATTACHMENTS}
+            className="rup__contents__tab"
+            activeClass="rup__contents__tab--active">
+            <img src={IMAGE_SRC.ATTACHMENTS} alt="icon" />
+            <span>{strings.ATTACHMENTS}</span>
+          </Link>
         </div>
         <div className="rup__contents">{children.map(this.renderChild)}</div>
       </div>
