@@ -66,7 +66,8 @@ export const IfEditable = ({ children, permission, invert, any = false }) => {
 
 IfEditable.propTypes = {
   children: PropTypes.node,
-  permission: PropTypes.string.isRequired,
+  permission: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+    .isRequired,
   invert: PropTypes.bool
 }
 
