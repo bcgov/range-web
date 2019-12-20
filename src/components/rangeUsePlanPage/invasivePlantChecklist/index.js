@@ -2,7 +2,9 @@ import React, { useEffect, memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
 import { connect } from 'formik'
+import { InfoTip } from '../../common'
 import PermissionsField, { canUserEdit } from '../../common/PermissionsField'
+import * as strings from '../../../constants/strings'
 import { INVASIVE_PLANTS } from '../../../constants/fields'
 import { Checkbox, TextArea } from 'formik-semantic-ui'
 import { useUser } from '../../../providers/UserProvider'
@@ -33,7 +35,13 @@ const InvasivePlantChecklist = ({
 
   return (
     <div className="rup__ip-checklist">
-      <div className="rup__content-title">Invasive Plants</div>
+      <div className="rup__popup-header">
+        <div className="rup__content-title">{strings.INVASIVE_PLANTS}</div>
+        <InfoTip
+          header={strings.INVASIVE_PLANTS}
+          content={strings.INVASIVE_PLANTS_TIP}
+        />
+      </div>
       <div className="rup__divider" />
       <div className="rup__ip-checklist__header">
         I commit to carry out the following measures to prevent the introduction
