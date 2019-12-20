@@ -26,7 +26,7 @@ export const client = new schema.Entity(
   'clients',
   {},
   {
-    idAttribute: 'clientNumber' // 'clientNumber' is the unique id of Client
+    idAttribute: 'id' // 'clientNumber' is the unique id of Client
   }
 )
 export const arrayOfClients = new schema.Array(client)

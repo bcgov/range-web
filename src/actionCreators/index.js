@@ -72,14 +72,14 @@ export const fetchAgreement = agreementId => (dispatch, getState) => {
     )
 }
 
-export const updateClientIdOfUser = (userId, clientNumber) => (
+export const updateClientIdOfUser = (userId, clientId) => (
   dispatch,
   getState
 ) => {
   dispatch(actions.request(reducerTypes.UPDATE_CLIENT_ID_OF_USER))
   return axios
     .put(
-      API.UPDATE_CLIENT_ID_OF_USER(userId, clientNumber),
+      API.UPDATE_CLIENT_ID_OF_USER(userId, clientId),
       {},
       createConfigWithHeader(getState)
     )
