@@ -108,3 +108,9 @@ export const ADDITIONAL_REQUIREMENTS = {
 export const PLAN = {
   ADD: 'plan.add'
 }
+
+export const ATTACHMENTS = {
+  FILENAME: 'attachment.file.name',
+  CREATED_AT: 'attachment.createdAt',
+  CREATOR: 'attachment.creator'
+}

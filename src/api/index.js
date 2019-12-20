@@ -363,3 +363,11 @@ const saveMonitoringAreas = (
 export * from './delete'
 export * from './plan'
 export * from './user'
+export const deleteAdditionalRequirement = async (planId, requirementId) => {
+  await axios.delete(
+    API.DELETE_RUP_ADDITIONAL_REQUIREMENT(planId, requirementId),
+    getAuthHeaderConfig()
+  )
+}
+
+export const deleteAttachment = async attachmentId => {}

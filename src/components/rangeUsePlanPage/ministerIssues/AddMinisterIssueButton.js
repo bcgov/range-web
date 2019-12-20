@@ -32,7 +32,7 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
             basic
             primary
             type="button"
-            className="icon labeled rup__missues__add-button">
+            className="icon labeled rup__add-button">
             <i className="add circle icon" />
             Add Minister Issue
           </Button>

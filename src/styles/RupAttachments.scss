@@ -1,0 +1,36 @@
+.rup {
+  &__attachments {
+    .rup__content-title--editable > button > label:hover {
+      cursor: pointer
+    }
+
+    &__box {
+      margin-top: 10px;
+      padding: 5px 10px 10px 10px;
+      border: 1px solid gainsboro;
+      border-radius: 5px;
+    }
+
+    &__no-content {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+
+    &__row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid gainsboro;
+      font-size: 1.1rem;
+
+      &:last-child {
+        padding-bottom: 0px;
+        border-bottom: 0px;
+      }
+    }
+
+    &__file-button {
+      display: none;
+    }
+  }
+}

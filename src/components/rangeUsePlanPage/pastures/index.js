@@ -44,7 +44,7 @@ const Pastures = ({ pastures, formik }) => {
                 onClick={() => {
                   setModalOpen(true)
                 }}
-                className="icon labeled rup__pastures__add-button">
+                className="icon labeled rup__add-button">
                 <i className="add circle icon" />
                 Add Pasture
               </Button>

@@ -10,6 +10,7 @@ import InvasivePlantChecklist from './invasivePlantChecklist'
 import ManagementConsiderations from './managementConsiderations'
 import MinisterIssues from './ministerIssues'
 import AdditionalRequirements from './additionalRequirements'
+import Attachments from './attachments'
 import EditableProvider from '../../providers/EditableProvider'
 
 const PlanForm = ({ plan, isEditable = true }) => {
@@ -48,6 +49,9 @@ const PlanForm = ({ plan, isEditable = true }) => {
           planId={plan.id}
           managementConsiderations={plan.managementConsiderations}
         />
+      </Element>
+      <Element name={ELEMENT_ID.ATTACHMENTS}>
+        <Attachments attachments={plan.attachments} />
       </Element>
     </EditableProvider>
   )
