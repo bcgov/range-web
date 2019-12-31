@@ -715,7 +715,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
           <div
             class="rup__grazing-schedule__AUM-label"
           >
-            Authorized AUMs
+            Annual Authorized AUMs
           </div>
           <div
             class="rup__grazing-schedule__AUM-number"
