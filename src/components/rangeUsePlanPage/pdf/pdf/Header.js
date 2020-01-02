@@ -35,6 +35,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     color: '#000000'
+  },
+  subtitle: {
+    fontWeight: 'normal',
+    fontSize: 15,
+    color: '#000000'
   }
 })
 
@@ -46,9 +51,10 @@ const Header = ({ plan }) => (
       <Text>
         {plan.agreement.id} | {getPrimaryClientFullName(plan.agreement.clients)}
       </Text>
+      <Text style={styles.subtitle}>Plan Term</Text>
       <Text>
-        {moment(plan.agreement.agreementStartDate).format('MMMM DD, YYYY')} -{' '}
-        {moment(plan.agreement.agreementEndDate).format('MMMM DD, YYYY')}
+        {moment(plan.planStartDate).format('MMMM DD, YYYY')} -{' '}
+        {moment(plan.planEndDate).format('MMMM DD, YYYY')}
       </Text>
     </View>
   </View>
