@@ -11,12 +11,14 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install oc client v3.11.0
       run: |
+        cd $HOME
         curl -LO https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
         tar -xf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
         cd openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
         chmod +x oc
-        echo "export PATH=$PATH:$(pwd)" >> ../.env
+        echo "::set-env name=PATH_TO_OC::$PATH:$(pwd)"
     - name: Login to openshift
       run: |
-        source ./env
+        cd $HOME
+        export PATH=$PATH_TO_OC
         oc login https://console.pathfinder.gov.bc.ca:8443 --username=${{ secrets.sa_username }} --token=${{ secrets.sa_token }}
