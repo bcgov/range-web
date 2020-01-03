@@ -21,4 +21,4 @@ jobs:
       run: |
         cd $HOME
         export PATH=$PATH_TO_OC
-        oc login https://console.pathfinder.gov.bc.ca:8443 --username=${{ secrets.sa_username }} --token=${{ secrets.sa_token }}
+        oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
