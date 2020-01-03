@@ -18,4 +18,4 @@ jobs:
         export PATH=$PATH:$(pwd)
     - name: Login to openshift
       run: |
-        oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.test_sa_token }}
+        oc login https://console.pathfinder.gov.bc.ca:8443 --username=${{ secrets.sa_username }} --token=${{ secrets.sa_token }}
