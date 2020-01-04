@@ -33,4 +33,4 @@ jobs:
         #TODO: cache session token in secret?
         oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
         cd $GITHUB_WORKSPACE
-        oc start-build ../range-web
+        oc start-build ./range-web
