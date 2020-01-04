@@ -22,3 +22,15 @@ jobs:
         cd $HOME
         export PATH=$PATH_TO_OC
         oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
+    - name: Build image
+      env:
+        APP_NAME: range-myra-web-ghactiontest
+        IMAGE_STREAM_NAME: $APP_NAME
+        GIT_BRANCH_NAME: ${GITHUB_REF##*/}
+      run: | 
+        cd $HOME
+        export PATH=$PATH_TO_OC
+        #TODO: cache session token in secret?
+        oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
+        cd $GITHUB_WORKSPACE
+        oc start-build ../range-web
