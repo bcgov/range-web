@@ -35,5 +35,5 @@ jobs:
         cd $GITHUB_WORKSPACE
         oc project range-myra-tools
         oc start-build range-myra-web-dev-build -F
-        oc start-build range-myra-web-caddy-dev-build -F
+        oc start-build range-myra-web-caddy-dev-build -w
         oc tag range-myra-web-caddy:latest range-myra-web-caddy:dev
