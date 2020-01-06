@@ -1,6 +1,9 @@
 name: Openshift deployer
 
-on: [push]
+on:
+  push:
+    branches:
+    - dev
 
 jobs:
   build:
@@ -30,11 +33,9 @@ jobs:
       run: | 
         cd $HOME
         export PATH=$PATH_TO_OC
-        #TODO: cache session token in secret?
-        #oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
         cd $GITHUB_WORKSPACE
         oc project range-myra-tools
-        oc start-build range-myra-web-dev-build -F
+        oc start-build range-myra-web-test-build -F
     - name: Build caddy image & tag image
       env:
         APP_NAME: range-myra-web-ghactiontest
@@ -43,8 +44,6 @@ jobs:
       run: | 
         cd $HOME
         export PATH=$PATH_TO_OC
-        #TODO: cache session token in secret?
-        oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
         oc project range-myra-tools
-        oc start-build range-myra-web-caddy-dev-build -w
-        oc tag range-myra-web-caddy:latest range-myra-web-caddy:dev
+        oc start-build range-myra-web-caddy-test-build -w
+        oc tag range-myra-web-caddy:latest range-myra-web-caddy:test
