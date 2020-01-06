@@ -34,6 +34,6 @@ jobs:
         oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
         cd $GITHUB_WORKSPACE
         oc project range-myra-tools
-        oc start-build range-myra-web-dev-build -F
-        oc start-build range-myra-web-caddy -F
+        oc start-build range-myra-web-dev-build -w
+        oc start-build range-myra-web-caddy -w
         oc tag range-myra-web-caddy:latest range-myra-web-caddy:dev
