@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '../../common'
+import { TextField, InfoTip } from '../../common'
 import * as strings from '../../../constants/strings'
 import {
   formatDateFromServer,
@@ -13,6 +13,8 @@ import PermissionsField from '../../common/PermissionsField'
 import { BASIC_INFORMATION } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
+import { useReferences } from '../../../providers/ReferencesProvider'
+import { REFERENCE_KEY } from '../../../constants/variables'
 
 const BasicInformation = ({ plan, agreement }) => {
   const zone = agreement && agreement.zone
@@ -24,6 +26,8 @@ const BasicInformation = ({ plan, agreement }) => {
   const contactEmail = staff && staff.email
   const contactPhoneNumber = staff && staff.phoneNumber
   const contactName = getUserFullName(staff)
+
+  const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE]
 
   const { rangeName, altBusinessName, planStartDate, planEndDate, extension } =
     plan || {}
@@ -46,13 +50,25 @@ const BasicInformation = ({ plan, agreement }) => {
 
   return (
     <div className="rup__basic_information">
-      <div className="rup__content-title">Basic Information</div>
+      <div className="rup__popup-header">
+        <div className="rup__content-title">{strings.BASIC_INFORMATION}</div>
+        <InfoTip
+          header={strings.BASIC_INFORMATION}
+          content={strings.BASIC_INFORMATION_TIP}
+        />
+      </div>
       <div className="rup__row">
         <div className="rup__agreement-info rup__cell-6">
           <div className="rup__divider" />
           <div className="rup__info-title">Agreement Information</div>
           <TextField label={strings.RANGE_NUMBER} text={agreementId} />
-          <TextField label={strings.AGREEMENT_TYPE} text="Primary" />
+          <TextField
+            label={strings.AGREEMENT_TYPE}
+            text={
+              agreementTypes.find(a => a.id === agreement.agreementTypeId)
+                .description
+            }
+          />
           <TextField
             label={strings.AGREEMENT_DATE}
             text={`${formatDateFromServer(
@@ -61,12 +77,12 @@ const BasicInformation = ({ plan, agreement }) => {
           />
           <PermissionsField
             permission={BASIC_INFORMATION.RANGE_NAME}
+            tip={strings.RANGE_NAME_TIP}
             name="rangeName"
             displayValue={capitalize(rangeName)}
             label={strings.RANGE_NAME}
             fast
           />
-
           <PermissionsField
             permission={BASIC_INFORMATION.ALTERNATE_BUSINESS_NAME}
             name="altBusinessName"

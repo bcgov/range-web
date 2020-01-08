@@ -165,6 +165,13 @@ export const UPDATE_RUP_PLANT_COMMUNITY_ACTION = (
   actionId
 ) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action/${actionId}`
+export const DELETE_RUP_PLANT_COMMUNITY_ACTION = (
+  planId,
+  pastureId,
+  communityId,
+  actionId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/action/${actionId}`
 
 export const CREATE_RUP_INDICATOR_PLANT = (planId, pastureId, communityId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant`
@@ -204,4 +211,6 @@ export const DELETE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) =>
 export const CREATE_RUP_ADDITIONAL_REQUIREMENT = planId =>
   `/v1/plan/${planId}/additional-requirement`
 export const UPDATE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
+  `/v1/plan/${planId}/additional-requirement/${requirementId}`
+export const DELETE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
   `/v1/plan/${planId}/additional-requirement/${requirementId}`

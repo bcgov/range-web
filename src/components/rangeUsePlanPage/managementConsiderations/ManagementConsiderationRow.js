@@ -5,7 +5,7 @@ import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { TextArea } from 'formik-semantic-ui'
-import { Dropdown, Icon, Form } from 'semantic-ui-react'
+import { Dropdown, Icon } from 'semantic-ui-react'
 import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
 
 const ManagementConsiderationRow = ({
@@ -32,59 +32,48 @@ const ManagementConsiderationRow = ({
 
   return (
     <div className="rup__m-consideration__row">
+      <PermissionsField
+        permission={MANAGEMENT_CONSIDERATIONS.TYPE}
+        name={`${namespace}.considerationTypeId`}
+        component={FormikDropdown}
+        options={considerTypeOptions}
+        label={'Considerations'}
+        displayValue={
+          considerTypes.find(type => type.id === considerationTypeId)
+            ? considerTypes.find(type => type.id === considerationTypeId).name
+            : ''
+        }
+        inputProps={{
+          fluid: true
+        }}
+      />
       <div>
         <PermissionsField
-          permission={MANAGEMENT_CONSIDERATIONS.TYPE}
-          name={`${namespace}.considerationTypeId`}
-          component={FormikDropdown}
-          options={considerTypeOptions}
-          displayValue={
-            considerTypes.find(type => type.id === considerationTypeId)
-              ? considerTypes.find(type => type.id === considerationTypeId).name
-              : ''
-          }
-          inputProps={{
-            fluid: true
-          }}
+          permission={MANAGEMENT_CONSIDERATIONS.DESCRIPTION}
+          name={`${namespace}.detail`}
+          component={TextArea}
+          displayValue={detail}
+          label={'Details'}
+        />
+        <PermissionsField
+          permission={MANAGEMENT_CONSIDERATIONS.DESCRIPTION}
+          name={`${namespace}.url`}
+          displayValue={url}
+          label={'URL'}
         />
       </div>
-      <div>
-        <Form.Group widths="equal">
-          <div style={{ width: '100%', marginLeft: '5px' }}>
-            <PermissionsField
-              permission={MANAGEMENT_CONSIDERATIONS.DESCRIPTION}
-              name={`${namespace}.detail`}
-              component={TextArea}
-              displayValue={detail}
-            />
-            <PermissionsField
-              permission={MANAGEMENT_CONSIDERATIONS.DESCRIPTION}
-              name={`${namespace}.url`}
-              displayValue={url}
-              label="URL"
-              fieldProps={{
-                style: {
-                  marginTop: '5px'
-                }
-              }}
-            />
-          </div>
 
-          <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
-            <div className="rup__m-consideration__ellipsis">
-              <Dropdown
-                trigger={
-                  <Icon name="ellipsis vertical" style={{ margin: '0' }} />
-                }
-                options={ellipsisOptions}
-                icon={null}
-                pointing="right"
-                style={{ marginLeft: '5px', marginTop: '10px' }}
-              />
-            </div>
-          </IfEditable>
-        </Form.Group>
-      </div>
+      <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
+        <div className="rup__m-consideration__ellipsis">
+          <Dropdown
+            trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
+            options={ellipsisOptions}
+            icon={null}
+            pointing="right"
+            style={{ marginLeft: '5px', marginTop: '10px' }}
+          />
+        </div>
+      </IfEditable>
     </div>
   )
 }

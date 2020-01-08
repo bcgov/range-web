@@ -12,10 +12,10 @@ class ManageClientPage extends Component {
     super(props)
     this.state = {
       userId: null,
-      clientNumber: null,
+      clientId: null,
       searchQuery: ''
     }
-    this.searchClientsWithDebounce = debounce(this.handleSearchChange, 1000)
+    this.searchClientsWithDebounce = debounce(this.handleSearchChange, 500)
   }
 
   static propTypes = {
@@ -35,8 +35,8 @@ class ManageClientPage extends Component {
     this.setState({ userId })
   }
 
-  onClientChanged = (e, { value: clientNumber }) => {
-    this.setState({ clientNumber })
+  onClientChanged = (e, { value: clientId }) => {
+    this.setState({ clientId })
   }
 
   openUpdateConfirmationModal = () => {
@@ -55,24 +55,25 @@ class ManageClientPage extends Component {
   }
 
   linkUserToClient = () => {
-    const { userId, clientNumber } = this.state
+    const { userId, clientId } = this.state
     const { usersMap, userUpdated, updateClientIdOfUser } = this.props
 
     const onSuccess = newUser => {
       const user = {
         ...usersMap[userId],
-        clientId: newUser.clientId
+        clientId: newUser.clientId,
+        clientNumber: newUser.clientNumber
       }
 
       userUpdated(user)
 
       this.setState({
         userId: null,
-        clientNumber: null
+        clientId: null
       })
     }
 
-    updateClientIdOfUser(userId, clientNumber).then(onSuccess)
+    updateClientIdOfUser(userId, clientId).then(onSuccess)
   }
 
   render() {
@@ -83,12 +84,12 @@ class ManageClientPage extends Component {
       isUpdatingClientIdOfUser,
       errorOccuredGettingUsers
     } = this.props
-    const { userId, clientNumber, searchQuery } = this.state
+    const { userId, clientId, searchQuery } = this.state
 
-    const userOptions = users.map(user => getUserOption(user))
+    const userOptions = users.map(user => getUserOption(user, clients))
     const clientOptions = clients.map(client => getClientOption(client))
 
-    const isUpdateBtnEnabled = userId && clientNumber
+    const isUpdateBtnEnabled = userId && clientId
 
     let noResultsMessage = strings.NO_RESULTS_FOUND
     if (isFetchingClients) {
@@ -131,7 +132,7 @@ class ManageClientPage extends Component {
               id={ELEMENT_ID.MANAGE_CLIENT_CLIENTS_DROPDOWN}
               placeholder={strings.TYPE_CLIENT_NAME}
               options={clientOptions}
-              value={clientNumber}
+              value={clientId}
               search
               selection
               loading={isFetchingClients}

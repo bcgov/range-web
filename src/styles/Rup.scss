@@ -11,6 +11,14 @@
     @extend .row;
   }
 
+  &__popup-header {
+    display: flex;
+
+    > .icon {
+      margin-left: 10px;
+    }
+  }
+
   &__basic_information {
     margin-bottom: calc(#{$rup-content-margin-bottom} - 15px);
   }
@@ -57,6 +65,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      > div > i {
+        font-size: 10.5px !important;
+      }
     }
   }
 

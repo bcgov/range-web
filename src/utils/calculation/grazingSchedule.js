@@ -53,7 +53,7 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => totalAUMs - pldAUMs
  */
 export const calcCrownTotalAUMs = (
   entries = [],
-  pasturesMap = {},
+  pastures = [],
   livestockTypes = []
 ) => {
   const reducer = (accumulator, currentValue) => accumulator + currentValue
@@ -66,11 +66,12 @@ export const calcCrownTotalAUMs = (
       const { pastureId, livestockTypeId, livestockCount, dateIn, dateOut } =
         entry || {}
       const days = calcDateDiff(dateOut, dateIn, false)
-      const pasture = pasturesMap[pastureId]
+      const pasture = pastures.find(p => p.id === pastureId)
       const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
       const auFactor = livestockType && livestockType.auFactor
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor)
       const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent)
+
       return calcCrownAUMs(totalAUMs, pldAUMs)
     })
     .reduce(reducer)

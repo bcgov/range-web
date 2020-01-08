@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PermissionsField from '../../common/PermissionsField'
+import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react'
 import { Dropdown, TextArea } from 'formik-semantic-ui'
 
-const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
+const AdditionalRequirementRow = ({
+  additionalRequirement,
+  namespace,
+  onDelete
+}) => {
   const references = useReferences()
 
   const categories = references[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY]
@@ -59,13 +64,43 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace }) => {
           fast
         />
       </div>
+      <IfEditable permission={ADDITIONAL_REQUIREMENTS.NAME}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: 15
+          }}>
+          <PlainDropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={[
+              {
+                key: 'delete',
+                value: 'delete',
+                text: 'Delete'
+              }
+            ]}
+            icon={null}
+            pointing="right"
+            onClick={e => e.stopPropagation()}
+            onChange={(e, { value }) => {
+              if (value === 'delete') {
+                onDelete()
+              }
+            }}
+            selectOnBlur={false}
+          />
+        </div>
+      </IfEditable>
     </div>
   )
 }
 
 AdditionalRequirementRow.propTypes = {
   additionalRequirement: PropTypes.shape({}).isRequired,
-  namespace: PropTypes.string.isRequired
+  namespace: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired
 }
 
 export default React.memo(AdditionalRequirementRow)

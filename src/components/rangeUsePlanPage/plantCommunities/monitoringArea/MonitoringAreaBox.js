@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { oxfordComma } from '../../../../utils'
 import { MONITORING_AREAS } from '../../../../constants/fields'
+import { MONITOING_AREA_PURPOSE_TIP } from '../../../../constants/strings'
 import { Input, Dropdown } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField'
 import { REFERENCE_KEY } from '../../../../constants/variables'
@@ -141,6 +142,7 @@ const MonitoringAreaBox = ({
       <PermissionsField
         name={`${namespace}.purposeTypeIds`}
         permission={MONITORING_AREAS.PURPOSE}
+        tip={MONITOING_AREA_PURPOSE_TIP}
         component={Dropdown}
         options={purposeOptions}
         fieldProps={{ required: true }}

@@ -8,7 +8,6 @@ import {
   REFERENCE_KEY
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
-import { isPlanAmendment } from '../validation'
 import { isUserAgreementHolder } from './user'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {

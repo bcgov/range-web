@@ -5,6 +5,7 @@ import permissions from '../../constants/permissions'
 import { useUser } from '../../providers/UserProvider'
 import { Input } from 'formik-semantic-ui'
 import { Input as PlainInput, Form } from 'semantic-ui-react'
+import InfoTip from './InfoTip'
 import { handleNullValue } from '../../utils'
 import { useEditable } from '../../providers/EditableProvider'
 
@@ -22,10 +23,24 @@ const PermissionsField = ({
   const globalIsEditable = useEditable()
 
   return globalIsEditable && !editable && canUserEdit(permission, user) ? (
-    <Component {...props} />
+    <>
+      {props.tip ? (
+        <div className="rup__popup-header">
+          <Component {...props} />
+          {props.tip && <InfoTip header={props.label} content={props.tip} />}
+        </div>
+      ) : (
+        <Component {...props} />
+      )}
+    </>
   ) : (
     <Form.Field inline={props.inline}>
-      {props.label && <label>{props.label}</label>}
+      {props.label && (
+        <div className="rup__popup-header">
+          <label>{props.label}</label>
+          {props.tip && <InfoTip header={props.label} content={props.tip} />}
+        </div>
+      )}
       <PlainInput
         aria-label={
           props['aria-label'] ||
@@ -66,7 +81,8 @@ export const IfEditable = ({ children, permission, invert, any = false }) => {
 
 IfEditable.propTypes = {
   children: PropTypes.node,
-  permission: PropTypes.string.isRequired,
+  permission: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+    .isRequired,
   invert: PropTypes.bool
 }
 

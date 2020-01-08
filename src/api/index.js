@@ -2,6 +2,12 @@ import uuid from 'uuid-v4'
 import { axios, getAuthHeaderConfig } from '../utils'
 import * as API from '../constants/api'
 
+export const getPlan = async planId => {
+  const { data } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig())
+
+  return data
+}
+
 export const createVersion = async planId => {
   await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig())
 }
@@ -416,6 +422,26 @@ export const deleteGrazingScheduleEntry = async (
 
 export * from './delete'
 export * from './plan'
+export const deletePasture = async (planId, pastureId) => {
+  await axios.delete(
+    API.DELETE_RUP_PASTURE(planId, pastureId),
+    getAuthHeaderConfig()
+  )
+}
+
+export const deletePlantCommunity = async (planId, pastureId, communityId) => {
+  await axios.delete(
+    API.DELETE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
+    getAuthHeaderConfig()
+  )
+}
+
+export const deleteMinisterIssue = async (planId, issueId) => {
+  await axios.delete(
+    API.DELETE_RUP_MINISTER_ISSUE(planId, issueId),
+    getAuthHeaderConfig()
+  )
+}
 
 export const deleteMonitoringArea = async (
   planId,
@@ -425,6 +451,30 @@ export const deleteMonitoringArea = async (
 ) => {
   await axios.delete(
     API.DELETE_RUP_MONITORING_AREA(planId, pastureId, communityId, areaId),
+    getAuthHeaderConfig()
+  )
+}
+
+export const deletePlantCommunityAction = async (
+  planId,
+  pastureId,
+  communityId,
+  actionId
+) => {
+  await axios.delete(
+    API.DELETE_RUP_PLANT_COMMUNITY_ACTION(
+      planId,
+      pastureId,
+      communityId,
+      actionId
+    ),
+    getAuthHeaderConfig()
+  )
+}
+
+export const deleteAdditionalRequirement = async (planId, requirementId) => {
+  await axios.delete(
+    API.DELETE_RUP_ADDITIONAL_REQUIREMENT(planId, requirementId),
     getAuthHeaderConfig()
   )
 }

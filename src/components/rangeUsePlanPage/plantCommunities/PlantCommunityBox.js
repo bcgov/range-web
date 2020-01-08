@@ -8,19 +8,13 @@ import {
   REFERENCE_KEY,
   PLANT_CRITERIA
 } from '../../../constants/variables'
+import { CRITERIA_TIP } from '../../../constants/strings'
 import { Icon, Form } from 'semantic-ui-react'
 import RangeReadinessBox from './criteria/RangeReadinessBox'
 import StubbleHeightBox from './criteria/StubbleHeightBox'
 import ShrubUseBox from './criteria/ShrubUseBox'
 import MonitoringAreaList from './monitoringArea'
-import {
-  ASPECT,
-  ELEVATION,
-  APPROVED_BY_MINISTER,
-  PLANT_COMMUNITY_NOTES,
-  COMMUNITY_URL,
-  PURPOSE_OF_ACTION
-} from '../../../constants/strings'
+import * as strings from '../../../constants/strings'
 import PlantCommunityActionsBox from './PlantCommunityActionsBox'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PLANT_COMMUNITY } from '../../../constants/fields'
@@ -29,7 +23,7 @@ import { Dropdown as PlainDropdown } from 'semantic-ui-react'
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import Import from './criteria/Import'
-import InputModal from '../../common/InputModal'
+import { InfoTip, InputModal } from '../../common'
 
 const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
 
@@ -201,7 +195,7 @@ const PlantCommunityBox = ({
               permission={PLANT_COMMUNITY.ASPECT}
               component={Input}
               displayValue={aspect}
-              label={ASPECT}
+              label={strings.ASPECT}
               fast
               inputProps={{
                 placeholder: 'Ex. NW'
@@ -218,7 +212,7 @@ const PlantCommunityBox = ({
                   ? elevationTypes.find(t => t.id === elevationId).name
                   : ''
               }
-              label={ELEVATION}
+              label={strings.ELEVATION}
               fast
             />
           </Form.Group>
@@ -228,7 +222,8 @@ const PlantCommunityBox = ({
             permission={PLANT_COMMUNITY.APPROVED}
             component={Checkbox}
             displayValue={approved}
-            label={APPROVED_BY_MINISTER}
+            label={strings.APPROVED_BY_MINISTER}
+            tip={strings.APPROVED_BY_MINISTER_TIP}
             inputProps={{
               toggle: true
             }}
@@ -240,7 +235,7 @@ const PlantCommunityBox = ({
             permission={PLANT_COMMUNITY.NOTES}
             component={TextArea}
             displayValue={notes}
-            label={PLANT_COMMUNITY_NOTES}
+            label={strings.PLANT_COMMUNITY_NOTES}
             fast
             inputProps={{
               placeholder:
@@ -255,7 +250,7 @@ const PlantCommunityBox = ({
               permission={PLANT_COMMUNITY.COMMUNITY_URL}
               component={Input}
               displayValue={url}
-              label={COMMUNITY_URL}
+              label={strings.COMMUNITY_URL}
               fast
               inputProps={{
                 placeholder: 'Link to provincial plant community description'
@@ -268,7 +263,7 @@ const PlantCommunityBox = ({
               component={Dropdown}
               options={purposeOptions}
               displayValue={purposeOfAction}
-              label={PURPOSE_OF_ACTION}
+              label={strings.PURPOSE_OF_ACTION}
               fast
               fieldProps={{ required: true }}
             />
@@ -277,17 +272,29 @@ const PlantCommunityBox = ({
           {purposeOfAction !== PurposeOfAction.NONE && (
             <>
               <div className="rup__plant-community__content-title">
-                <span>Plant Community Actions</span>
+                <div className="rup__popup-header">
+                  <span>Plant Community Actions</span>
+                  <InfoTip
+                    header={'Plant Community Actions'}
+                    content={strings.PLANT_COMMUNITY_ACTIONS_TIP}
+                  />
+                </div>
               </div>
               <PlantCommunityActionsBox
                 actions={plantCommunityActions}
+                planId={planId}
+                pastureId={pastureId}
+                communityId={plantCommunity.id}
                 namespace={namespace}
               />
             </>
           )}
 
           <div className="rup__plant-community__content-title">
-            <span>Criteria</span>
+            <div className="rup__popup-header">
+              <span>Criteria</span>
+              <InfoTip header={'Criteria'} content={CRITERIA_TIP} />
+            </div>
             <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
                 excludedPlantCommunityId={plantCommunity.id}
@@ -347,7 +354,13 @@ const PlantCommunityBox = ({
           <ShrubUseBox plantCommunity={plantCommunity} namespace={namespace} />
 
           <div className="rup__plant-community__content-title">
-            <span>Monitoring Areas</span>
+            <div className="rup__popup-header">
+              <span>Monitoring Areas</span>
+              <InfoTip
+                header={'Monitoring Areas'}
+                content={strings.MONITORING_AREAS_TIP}
+              />
+            </div>
           </div>
           <MonitoringAreaList
             monitoringAreas={monitoringAreas}

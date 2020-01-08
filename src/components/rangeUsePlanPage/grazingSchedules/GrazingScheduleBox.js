@@ -208,7 +208,7 @@ const GrazingScheduleBox = ({
                 </IfEditable>
                 <div className="rup__grazing-schedule__AUMs">
                   <div className="rup__grazing-schedule__AUM-label">
-                    Authorized AUMs
+                    Annual Authorized AUMs
                   </div>
                   <div className="rup__grazing-schedule__AUM-number">
                     {authorizedAUMs}

@@ -213,7 +213,7 @@ export const calcTotalAUMs = (numberOfAnimals = 0, totalDays, auFactor = 0) =>
  */
 export const calcDateDiff = (first, second, isUserFriendly) => {
   if (first && second) {
-    return moment(first).diff(moment(second), 'days')
+    return moment(first).diff(moment(second), 'days') + 1
   }
   return isUserFriendly ? 'N/P' : 0
 }

@@ -74,4 +74,9 @@
       }
     }
   }
+  &__m-consideration__row {
+    > div > .rup__m-consideration__header {
+      padding-bottom: 12px;
+    }
+  }
 }
