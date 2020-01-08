@@ -1,44 +1,6 @@
 import * as API from '../constants/api'
 import { getAuthHeaderConfig, axios } from '../utils'
 
-export const initDeleteQueue = () => {
-  if (!loadDeleteQueue()) {
-    saveDeleteQueue({
-      ministerIssueActions: [],
-      ministerIssues: [],
-      pastures: [],
-      plantCommunities: []
-    })
-  }
-}
-
-export const deleteFromQueue = async () => {
-  const deleteQueue = loadDeleteQueue()
-  await Promise.all(
-    deleteQueue.ministerIssueActions.map(action =>
-      deleteMinisterIssueAction(action.planId, action.issueId, action.actionId)
-    )
-  )
-
-  await Promise.all(
-    deleteQueue.ministerIssues.map(action =>
-      deleteMinisterIssue(action.planId, action.issueId)
-    )
-  )
-
-  await Promise.all(
-    deleteQueue.pastures.map(action =>
-      deletePasture(action.planId, action.pastureId)
-    )
-  )
-
-  await Promise.all(
-    deleteQueue.plantCommunities.map(action =>
-      deletePlantCommunity(action.planId, action.pastureId, action.communityId)
-    )
-  )
-}
-
 const saveDeleteQueue = deleteQueue => {
   localStorage.setItem('delete-queue', JSON.stringify(deleteQueue))
 }
@@ -47,74 +9,162 @@ const loadDeleteQueue = () => {
   return JSON.parse(localStorage.getItem('delete-queue'))
 }
 
-export const deleteMinisterIssueAction = async (planId, issueId, actionId) => {
-  const deleteQueue = loadDeleteQueue()
+const loadOrInitDeleteQueue = () => {
+  const queue = loadDeleteQueue()
+  if (!queue) {
+    saveDeleteQueue({})
+    return {}
+  }
+  return queue
+}
 
-  try {
+const deleteHandlers = {}
+
+const addDeleteHandler = (key, handler) => {
+  deleteHandlers[key] = handler
+}
+
+export const deleteFromQueue = async () => {
+  const deleteQueue = loadOrInitDeleteQueue()
+
+  const deletePromises = Object.entries(deleteQueue).map(
+    async ([key, queue]) => {
+      const handler = deleteHandlers[key]
+
+      return Promise.all(queue.map(args => handler(...args)))
+    }
+  )
+
+  await deletePromises
+}
+
+export const createDeleteHandler = (key, cb) => {
+  const handler = async (...args) => {
+    const deleteQueue = loadOrInitDeleteQueue()
+
+    if (!Array.isArray(deleteQueue[key])) {
+      deleteQueue[key] = []
+    }
+
+    deleteQueue[key] = deleteQueue[key].filter(
+      queuedArgs => queuedArgs !== args
+    )
+
+    try {
+      await cb(...args)
+    } catch (e) {
+      deleteQueue[key].push(args)
+    }
+
+    saveDeleteQueue(deleteQueue)
+  }
+
+  addDeleteHandler(key, handler)
+
+  return handler
+}
+
+export const deleteMinisterIssueAction = createDeleteHandler(
+  'ministerIssueAction',
+  async (planId, issueId, actionId) => {
     await axios.delete(
       API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
       getAuthHeaderConfig()
     )
-    deleteQueue.ministerIssueActions = deleteQueue.ministerIssueActions.filter(
-      action => action.actionId !== actionId
-    )
-  } catch (e) {
-    deleteQueue.ministerIssueActions.push({ planId, issueId, actionId })
   }
+)
 
-  saveDeleteQueue(deleteQueue)
-}
-
-export const deletePasture = async (planId, pastureId) => {
-  const deleteQueue = loadDeleteQueue()
-
-  try {
+export const deletePasture = createDeleteHandler(
+  'pasture',
+  async (planId, pastureId) => {
     await axios.delete(
       API.DELETE_RUP_PASTURE(planId, pastureId),
       getAuthHeaderConfig()
     )
-    deleteQueue.pastures = deleteQueue.pastures.filter(
-      pasture => pasture.pastureId !== pastureId
-    )
-  } catch (e) {
-    deleteQueue.pastures.push({ planId, pastureId })
   }
+)
 
-  saveDeleteQueue(deleteQueue)
-}
-
-export const deletePlantCommunity = async (planId, pastureId, communityId) => {
-  const deleteQueue = loadDeleteQueue()
-
-  try {
+export const deletePlantCommunity = createDeleteHandler(
+  'plantCommunity',
+  async (planId, pastureId, communityId) => {
     await axios.delete(
       API.DELETE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
       getAuthHeaderConfig()
     )
-    deleteQueue.plantCommunities = deleteQueue.plantCommunities.filter(
-      community => community.communityId !== communityId
-    )
-  } catch (e) {
-    deleteQueue.pastures.push({ planId, pastureId, communityId })
   }
+)
 
-  saveDeleteQueue(deleteQueue)
-}
-
-export const deleteMinisterIssue = async (planId, issueId) => {
-  const deleteQueue = loadDeleteQueue()
-
-  try {
+export const deleteMinisterIssue = createDeleteHandler(
+  'ministerIssue',
+  async (planId, issueId) => {
     await axios.delete(
       API.DELETE_RUP_MINISTER_ISSUE(planId, issueId),
       getAuthHeaderConfig()
     )
-    deleteQueue.ministerIssues = deleteQueue.ministerIssues.filter(
-      issue => issue.issueId !== issueId
-    )
-  } catch (e) {
-    deleteQueue.ministerIssues.push({ planId, issueId })
   }
+)
 
-  saveDeleteQueue(deleteQueue)
-}
+export const deleteMonitoringArea = createDeleteHandler(
+  'monitoringArea',
+  async (planId, pastureId, communityId, areaId) => {
+    await axios.delete(
+      API.DELETE_RUP_MONITORING_AREA(planId, pastureId, communityId, areaId),
+      getAuthHeaderConfig()
+    )
+  }
+)
+
+export const deletePlantCommunityAction = createDeleteHandler(
+  'plantCommunityAction',
+  async (planId, pastureId, communityId, actionId) => {
+    await axios.delete(
+      API.DELETE_RUP_PLANT_COMMUNITY_ACTION(
+        planId,
+        pastureId,
+        communityId,
+        actionId
+      ),
+      getAuthHeaderConfig()
+    )
+  }
+)
+
+export const deleteAdditionalRequirement = createDeleteHandler(
+  'additionalRequirement',
+  async (planId, requirementId) => {
+    await axios.delete(
+      API.DELETE_RUP_ADDITIONAL_REQUIREMENT(planId, requirementId),
+      getAuthHeaderConfig()
+    )
+  }
+)
+
+export const deleteManagementConsideration = createDeleteHandler(
+  'managementConsideration',
+  async (planId, considerationId) => {
+    await axios.delete(
+      API.DELETE_RUP_MANAGEMENT_CONSIDERATION(planId, considerationId),
+      getAuthHeaderConfig()
+    )
+  }
+)
+
+export const deleteGrazingSchedule = createDeleteHandler(
+  'grazingSchedule',
+  async (planId, scheduleId) => {
+    await axios.delete(
+      API.DELETE_RUP_GRAZING_SCHEDULE(planId, scheduleId),
+      getAuthHeaderConfig()
+    )
+  }
+)
+
+export const deleteGrazingScheduleEntry = createDeleteHandler(
+  'grazingScheduleEntry',
+  async (planId, scheduleId, entryId) => {
+    await axios.delete(
+      API.DELETE_RUP_GRAZING_SCHEDULE_ENTRY(planId, scheduleId, entryId),
+      getAuthHeaderConfig()
+    )
+  }
+)

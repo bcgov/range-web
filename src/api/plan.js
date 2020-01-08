@@ -3,7 +3,7 @@ import { axios, getAuthHeaderConfig } from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
-import { deleteFromQueue, initDeleteQueue } from './delete'
+import { deleteFromQueue } from './delete'
 import {
   saveGrazingSchedules,
   saveInvasivePlantChecklist,
@@ -20,8 +20,6 @@ import { PLAN_STATUS } from '../constants/variables'
  * @param {number} planId
  */
 export const getPlan = async planId => {
-  await initDeleteQueue()
-
   if (!uuid.isUUID(planId)) {
     await syncPlan(planId)
   }
