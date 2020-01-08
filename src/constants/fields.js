@@ -94,7 +94,8 @@ export const MANAGEMENT_CONSIDERATIONS = {
   NAME: 'managementConsiderations.name',
   TYPE: 'managementConsiderations.type',
   DESCRIPTION: 'managementConsiderations.description',
-  ATTACHMENT: 'managementConsiderations.attachment'
+  ATTACHMENT: 'managementConsiderations.attachment',
+  DELETE: 'managementConsiderations.delete'
 }
 export const ADDITIONAL_REQUIREMENTS = {
   CATEGORY: 'additionalRequirements.category',
