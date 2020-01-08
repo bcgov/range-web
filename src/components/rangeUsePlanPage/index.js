@@ -98,8 +98,6 @@ const Base = ({
       // Update Plan
       const planId = await savePlan(plan)
 
-      await createVersion(plan.id)
-
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
 
