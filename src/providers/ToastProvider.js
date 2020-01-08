@@ -11,24 +11,29 @@ export const useToast = () => useContext(ToastContext)
 const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([])
 
-  const addToast = (message, success, timeout = 3000) => {
+  const addToast = (message, status, timeout = 3000) => {
     const id = uuid.random()
     setToasts([
       ...toasts,
       {
         id,
         message,
-        success
+        status
       }
     ])
 
     setTimeout(() => {
       removeToast(id)
     }, timeout)
+
+    return id
   }
 
-  const successToast = message => addToast(message, true)
-  const errorToast = message => addToast(message, false)
+  const successToast = (message, timeout) =>
+    addToast(message, 'success', timeout)
+  const errorToast = (message, timeout) => addToast(message, 'error', timeout)
+  const warningToast = (message, timeout) =>
+    addToast(message, 'warning', timeout)
 
   const removeToast = id => setToasts(toasts.filter(t => t.id !== id))
 
@@ -37,18 +42,28 @@ const ToastProvider = ({ children }) => {
       value={{
         addToast,
         successToast,
-        errorToast
+        errorToast,
+        warningToast,
+        removeToast
       }}>
       <section className="toasts">
         {toasts.map(toast => (
           <div key={toast.id} className="toast">
             <div
               className={classnames('toast__icon', {
-                toast__icon__success: toast.success,
-                toast__icon__error: !toast.success
+                toast__icon__success: toast.status === 'success',
+                toast__icon__error: toast.status === 'error',
+                toast__icon__warning: toast.status === 'warning'
               })}>
-              {toast.success && <Icon name="check circle" size="large" />}
-              {!toast.success && <Icon name="warning circle" size="large" />}
+              {toast.status === 'sucess' && (
+                <Icon name="check circle" size="large" />
+              )}
+              {toast.status === 'error' && (
+                <Icon name="warning circle" size="large" />
+              )}
+              {toast.status === 'warning' && (
+                <Icon name="warning" size="large" />
+              )}
             </div>
             <div className="toast__content">{toast.message}</div>
             <button

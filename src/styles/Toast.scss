@@ -36,6 +36,9 @@
     &__error {
       background-color: $error-color;
     }
+    &__warning {
+      background-color: $warning-color;
+    }
   }
 
   &__content {

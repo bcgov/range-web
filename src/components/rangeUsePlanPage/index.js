@@ -15,9 +15,7 @@ import {
 import {
   isUserAgreementHolder,
   isUserAdmin,
-  isUserRangeOfficer,
-  axios,
-  getAuthHeaderConfig
+  isUserRangeOfficer
 } from '../../utils'
 import { appendUsage } from '../../utils/helper/plan'
 import * as selectors from '../../reducers/rootReducer'
@@ -36,24 +34,15 @@ import {
   createOrUpdateRUPInvasivePlantChecklist,
   createOrUpdateRUPManagementConsideration
 } from '../../actionCreators'
-import * as API from '../../constants/api'
 import { Form } from 'formik-semantic-ui'
 import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
-import {
-  saveGrazingSchedules,
-  saveInvasivePlantChecklist,
-  saveManagementConsiderations,
-  saveAdditionalRequirements,
-  saveMinisterIssues,
-  getPlan,
-  savePastures,
-  savePlantCommunities,
-  createVersion
-} from '../../api'
+import { getPlan, savePlan, createVersion } from '../../api'
 import PDFView from './pdf/PDFView'
+import { getNetworkStatus } from '../../utils/helper/network'
+import { RANGE_USE_PLAN } from '../../constants/routes'
 
 const Base = ({
   user,
@@ -75,9 +64,9 @@ const Base = ({
   const getPlanId = () =>
     match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
 
-  const fetchPlan = async () => {
+  const fetchPlan = async planId => {
     setFetching(true)
-    const planId = getPlanId()
+    planId = planId || getPlanId()
 
     try {
       const tempPlan = await getPlan(planId)
@@ -89,7 +78,11 @@ const Base = ({
 
     setFetching(false)
 
-    return fetchRUP(planId)
+    // TODO: remove redux
+    const isOnline = await getNetworkStatus()
+    if (isOnline) {
+      return fetchRUP(planId)
+    }
   }
 
   useEffect(() => {
@@ -101,45 +94,18 @@ const Base = ({
   }
 
   const handleSubmit = async (plan, formik) => {
-    const {
-      pastures,
-      grazingSchedules,
-      invasivePlantChecklist,
-      managementConsiderations,
-      ministerIssues,
-      additionalRequirements
-    } = RUPSchema.cast(plan)
-
-    const config = getAuthHeaderConfig()
-
     try {
       // Update Plan
-      await axios.put(API.UPDATE_RUP(plan.id), plan, config)
-
-      const newPastures = await savePastures(plan.id, pastures)
-
-      await Promise.all(
-        newPastures.map(async pasture => {
-          await savePlantCommunities(
-            plan.id,
-            pasture.id,
-            pasture.plantCommunities
-          )
-        })
-      )
-
-      await saveGrazingSchedules(plan.id, grazingSchedules)
-      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
-      await saveManagementConsiderations(plan.id, managementConsiderations)
-      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
-      await saveAdditionalRequirements(plan.id, additionalRequirements)
+      const planId = await savePlan(plan)
 
       await createVersion(plan.id)
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
 
-      fetchPlan()
+      await history.push(`${RANGE_USE_PLAN}/${planId}`)
+
+      fetchPlan(planId)
     } catch (err) {
       formik.setStatus('error')
       formik.setSubmitting(false)

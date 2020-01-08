@@ -35,7 +35,7 @@ beforeEach(() => {
   mockAxios.reset()
 })
 
-describe('Integration testing', () => {
+describe.skip('Integration testing', () => {
   it('Component initializes properly', async () => {
     const config = {
       ...requestMockHeader(store.getState)

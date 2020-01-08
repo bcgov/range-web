@@ -13,6 +13,7 @@ import {
 import { CONFIRMATION_MODAL_ID } from '../../constants/variables'
 import DownloadPDFBtn from './DownloadPDFBtn'
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
+import { useNetworkStatus } from '../../utils/hooks/network'
 
 const ActionBtns = ({
   canEdit,
@@ -33,6 +34,8 @@ const ActionBtns = ({
   isFetchingPlan,
   fetchPlan
 }) => {
+  const isOnline = useNetworkStatus()
+
   const downloadPDFBtn = (
     <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
   )
@@ -59,6 +62,7 @@ const ActionBtns = ({
       type="button"
       loading={isSubmitting}
       onClick={openSubmissionModal}
+      disabled={!isOnline}
       style={{ marginRight: '0', marginLeft: '10px' }}>
       <Icon name="check" />
       {SUBMIT}
@@ -68,6 +72,7 @@ const ActionBtns = ({
     <Menu.Item
       key="amendBtn"
       loading={isCreatingAmendment}
+      disabled={!isOnline}
       onClick={() => {
         openConfirmationModal({
           id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
@@ -82,7 +87,10 @@ const ActionBtns = ({
     </Menu.Item>
   )
   const confirmSubmissionMenuItem = (
-    <Menu.Item key="confirmSubmissionBtn" onClick={openAHSignatureModal}>
+    <Menu.Item
+      key="confirmSubmissionBtn"
+      disabled={!isOnline}
+      onClick={openAHSignatureModal}>
       {SIGN_SUBMISSION}
     </Menu.Item>
   )

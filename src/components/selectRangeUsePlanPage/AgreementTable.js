@@ -1,207 +1,102 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
 import { Pagination, Icon, Segment } from 'semantic-ui-react'
-import AgreementTableRow from './AgreementTableRow'
 import * as strings from '../../constants/strings'
-import * as selectors from '../../reducers/rootReducer'
-import { Loading, PrimaryButton, ErrorMessage } from '../common'
-import { isUserAgreementHolder } from '../../utils'
+import { Loading } from '../common'
+import AgreementTableRow from './AgreementTableRow'
+import AHWarning from './AHWarning'
+import { useQueryParam, StringParam } from 'use-query-params'
 
-export class AgreementTable extends Component {
-  static propTypes = {
-    agreements: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isFetchingAgreements: PropTypes.bool.isRequired,
-    agreementPagination: PropTypes.shape({
-      currentPage: PropTypes.number,
-      totalPages: PropTypes.number
-    }).isRequired,
-    errorGettingAgreements: PropTypes.bool.isRequired,
-    user: PropTypes.shape({}).isRequired,
-    handlePaginationChange: PropTypes.func.isRequired,
-    activeIndex: PropTypes.number.isRequired,
-    handleActiveIndexChange: PropTypes.func.isRequired,
-    references: PropTypes.shape({}).isRequired,
-    agreementsMapWithAllPlan: PropTypes.shape({}).isRequired,
-    isFetchingAgreementWithAllPlan: PropTypes.bool.isRequired,
-    searchAgreementsWithOrWithoutParams: PropTypes.func.isRequired
-  }
+const AgreementTable = ({
+  agreements,
+  loading,
+  currentPage,
+  totalPages,
+  onPageChange
+}) => {
+  const [activeId, setActiveId] = useQueryParam('selected', StringParam)
 
-  handlePaginationChange = (e, { activePage: currentPage }) => {
-    this.props.handlePaginationChange(currentPage)
-  }
+  const [currentAgreements, setCurrentAgreements] = useState([])
+  const [currentTotalPages, setCurrentTotalPages] = useState(0)
 
-  renderAgreements = (
-    agreements,
-    errorGettingAgreements,
-    isFetchingAgreements
-  ) => {
-    if (errorGettingAgreements) {
-      return (
-        <div className="agrm__table__row">
-          <div className="agrm__message agrm__message--error">
-            {strings.ERROR_OCCUR}
-            <PrimaryButton
-              inverted
-              onClick={() => {
-                this.props.searchAgreementsWithOrWithoutParams()
-              }}
-              style={{ marginLeft: '10px' }}>
-              Retry
-            </PrimaryButton>
+  useEffect(() => {
+    if (agreements) {
+      setActiveId(null)
+      setCurrentAgreements(agreements)
+    }
+  }, [agreements])
+
+  useEffect(() => {
+    if (!isNaN(totalPages)) {
+      setCurrentTotalPages(totalPages)
+    }
+  }, [totalPages])
+
+  return (
+    <Segment basic style={{ marginTop: '0' }}>
+      <Loading active={loading && !agreements} />
+
+      <AHWarning />
+
+      <div className="agrm__table">
+        <div className="agrm__table__header-row">
+          <div className="agrm__table__header-row__cell">
+            {strings.RANGE_NUMBER}
+          </div>
+          <div className="agrm__table__header-row__cell">
+            {strings.RANGE_NAME}
+          </div>
+          <div className="agrm__table__header-row__cell">
+            {strings.AGREEMENT_HOLDER}
+          </div>
+          <div className="agrm__table__header-row__cell">
+            {strings.STAFF_CONTACT}
+          </div>
+          <div className="agrm__table__header-row__cell">{strings.STATUS}</div>
+          <div className="agrm__table__header-row__cell">
+            <Icon name="plus circle" size="large" />
           </div>
         </div>
-      )
-    }
 
-    if (!isFetchingAgreements && agreements.length === 0) {
-      return (
-        <div className="agrm__table__row">
-          <div className="agrm__message">{strings.NO_RESULTS_FOUND}</div>
-        </div>
-      )
-    }
-
-    return agreements.map(this.renderAgreementTableRow)
-  }
-
-  renderAgreementTableRow = (agreement, index) => {
-    const {
-      user,
-      activeIndex,
-      references,
-      agreementsMapWithAllPlan,
-      isFetchingAgreementWithAllPlan,
-      handleActiveIndexChange
-    } = this.props
-
-    return (
-      <AgreementTableRow
-        user={user}
-        key={index}
-        index={index}
-        activeIndex={activeIndex}
-        agreement={agreement}
-        references={references}
-        agreementsMapWithAllPlan={agreementsMapWithAllPlan}
-        isFetchingAgreementWithAllPlan={isFetchingAgreementWithAllPlan}
-        handleActiveIndexChange={handleActiveIndexChange}
-      />
-    )
-  }
-
-  renderWarningMsgForAgreementHolder = (
-    errorGettingAgreements,
-    isFetchingAgreements
-  ) => {
-    const { user } = this.props
-    const clientNumber = user && user.clientId
-
-    if (
-      isUserAgreementHolder(user) &&
-      !clientNumber &&
-      !isFetchingAgreements &&
-      !errorGettingAgreements
-    ) {
-      return (
-        <ErrorMessage
-          warning
-          style={{ margin: '10px 0' }}
-          message={strings.NO_CLIENT_NUMBER_ASSIGNED}
-        />
-      )
-    }
-
-    return null
-  }
-
-  render() {
-    const {
-      agreements,
-      isFetchingAgreements,
-      agreementPagination,
-      errorGettingAgreements
-    } = this.props
-    const { currentPage, totalPages } = agreementPagination || {}
-
-    return (
-      <Segment basic style={{ marginTop: '0' }}>
-        <Loading active={isFetchingAgreements} />
-
-        {this.renderWarningMsgForAgreementHolder(
-          errorGettingAgreements,
-          isFetchingAgreements
-        )}
-
-        <div className="agrm__table">
-          <div className="agrm__table__header-row">
-            <div className="agrm__table__header-row__cell">
-              {strings.RANGE_NUMBER}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.RANGE_NAME}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.AGREEMENT_HOLDER}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.STAFF_CONTACT}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.STATUS}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              <Icon name="plus circle" size="large" />
-            </div>
-          </div>
-
-          {this.renderAgreements(
-            agreements,
-            errorGettingAgreements,
-            isFetchingAgreements
-          )}
-        </div>
-
-        <div className="agrm__pagination">
-          <Pagination
-            size="mini"
-            siblingRange="2"
-            activePage={currentPage}
-            onPageChange={this.handlePaginationChange}
-            totalPages={totalPages}
-            ellipsisItem={{
-              content: <Icon name="ellipsis horizontal" />,
-              icon: true
-            }}
-            firstItem={{
-              content: <Icon name="angle double left" />,
-              icon: true
-            }}
-            lastItem={{
-              content: <Icon name="angle double right" />,
-              icon: true
-            }}
-            prevItem={{ content: <Icon name="angle left" />, icon: true }}
-            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+        {currentAgreements.map(agreement => (
+          <AgreementTableRow
+            key={agreement.id}
+            agreement={agreement}
+            active={agreement.id === activeId}
+            onSelect={() =>
+              agreement.id !== activeId
+                ? setActiveId(agreement.id)
+                : setActiveId(null)
+            }
+            noneSelected={!activeId}
           />
-        </div>
-      </Segment>
-    )
-  }
+        ))}
+      </div>
+
+      <div className="agrm__pagination">
+        <Pagination
+          size="mini"
+          siblingRange="2"
+          activePage={currentPage}
+          onPageChange={onPageChange}
+          totalPages={currentTotalPages}
+          ellipsisItem={{
+            content: <Icon name="ellipsis horizontal" />,
+            icon: true
+          }}
+          firstItem={{
+            content: <Icon name="angle double left" />,
+            icon: true
+          }}
+          lastItem={{
+            content: <Icon name="angle double right" />,
+            icon: true
+          }}
+          prevItem={{ content: <Icon name="angle left" />, icon: true }}
+          nextItem={{ content: <Icon name="angle right" />, icon: true }}
+        />
+      </div>
+    </Segment>
+  )
 }
 
-const mapStateToProps = state => ({
-  agreements: selectors.getAgreements(state),
-  agreementPagination: selectors.getAgreementsPagination(state),
-  isFetchingAgreementWithAllPlan: selectors.getIsFetchingAgreementWithAllPlan(
-    state
-  ),
-  agreementsMapWithAllPlan: selectors.getAgreementsMapWithAllPlan(state),
-  user: selectors.getUser(state),
-  references: selectors.getReferences(state)
-})
-
-export default connect(
-  mapStateToProps,
-  null
-)(AgreementTable)
+export default AgreementTable

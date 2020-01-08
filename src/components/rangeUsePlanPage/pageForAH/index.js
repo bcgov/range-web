@@ -26,6 +26,7 @@ import {
 } from '../../../api'
 import RUPSchema from '../schema'
 import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
+import NetworkStatus from '../../common/NetworkStatus'
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -292,6 +293,7 @@ class PageForAH extends Component {
                 <BackBtn className="rup__back-btn" />
                 <div>{agreementId}</div>
                 <Status status={status} user={user} />
+                <NetworkStatus planId={plan.id} />
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
