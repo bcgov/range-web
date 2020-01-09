@@ -24,6 +24,7 @@ import {
   saveMinisterIssues,
   saveAdditionalRequirements
 } from '../../../api'
+import NetworkStatus from '../../common/NetworkStatus'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -219,6 +220,7 @@ class PageForStaff extends Component {
                 <BackBtn className="rup__back-btn" />
                 <div>{agreementId}</div>
                 <Status status={status} user={user} />
+                <NetworkStatus planId={plan.id} />
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
