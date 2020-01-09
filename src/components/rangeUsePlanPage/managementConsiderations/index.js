@@ -65,7 +65,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                 )
               )}
 
-              <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
+              <IfEditable permission={MANAGEMENT_CONSIDERATIONS.ADD}>
                 <Dropdown
                   trigger={
                     <PrimaryButton

@@ -22,13 +22,6 @@ const ManagementConsiderationRow = ({
     value: ct.id,
     text: ct.name
   }))
-  const ellipsisOptions = [
-    {
-      key: 'delete',
-      text: 'Delete',
-      onClick: onDelete
-    }
-  ]
 
   return (
     <div className="rup__m-consideration__row">
@@ -63,15 +56,19 @@ const ManagementConsiderationRow = ({
         />
       </div>
 
-      <IfEditable permission={MANAGEMENT_CONSIDERATIONS.NAME}>
+      <IfEditable permission={[MANAGEMENT_CONSIDERATIONS.DELETE]} any>
         <div className="rup__m-consideration__ellipsis">
           <Dropdown
             trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
-            options={ellipsisOptions}
             icon={null}
             pointing="right"
-            style={{ marginLeft: '5px', marginTop: '10px' }}
-          />
+            style={{ marginLeft: '5px', marginTop: '10px' }}>
+            <Dropdown.Menu>
+              <IfEditable permission={MANAGEMENT_CONSIDERATIONS.DELETE}>
+                <Dropdown.Item onClick={() => onDelete()}>Delete</Dropdown.Item>
+              </IfEditable>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </IfEditable>
     </div>
