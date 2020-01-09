@@ -41,7 +41,7 @@ const plan = {
 }
 
 describe('Grazing Schedules', () => {
-  it("doesn't render an 'Add Schedule' button if the user is a range officer", () => {
+  it("renders an 'Add Schedule' button for range officers and agreement holders", () => {
     const user = {
       roles: ['myra_range_officer']
     }
@@ -55,7 +55,7 @@ describe('Grazing Schedules', () => {
       </UserContext.Provider>
     )
 
-    expect(queryByText('Add Schedule')).toBeNull()
+    expect(queryByText('Add Schedule')).toBeInTheDocument()
   })
 
   it('adds a new schedule on button press', () => {
