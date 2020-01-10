@@ -104,7 +104,7 @@ class AdditionalRequirements extends Component {
                 const requirement = additionalRequirements[indexToRemove]
 
                 if (!uuid.isUUID(requirement.id)) {
-                  await deleteAdditionalRequirement(
+                  deleteAdditionalRequirement(
                     requirement.planId,
                     requirement.id
                   )

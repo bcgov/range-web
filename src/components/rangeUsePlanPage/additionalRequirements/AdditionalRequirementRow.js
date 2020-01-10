@@ -82,6 +82,7 @@ const AdditionalRequirementRow = ({
               }
             ]}
             icon={null}
+            value={null}
             pointing="right"
             onClick={e => e.stopPropagation()}
             onChange={(e, { value }) => {
