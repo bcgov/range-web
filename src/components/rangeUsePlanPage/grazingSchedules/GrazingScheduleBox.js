@@ -13,6 +13,7 @@ import { TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import { deleteGrazingScheduleEntry } from '../../../api'
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const GrazingScheduleBox = ({
   schedule,
@@ -237,6 +238,7 @@ const GrazingScheduleBox = ({
                       style: { marginTop: '5px' }
                     }}
                     displayValue={narative}
+                    displayComponent={MultiParagraphDisplay}
                     fast
                   />
                 </div>

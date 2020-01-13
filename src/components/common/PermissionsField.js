@@ -16,6 +16,7 @@ const PermissionsField = ({
   permission,
   displayValue,
   component: Component = Input,
+  displayComponent: DisplayComponent = PlainInput,
   editable = false,
   ...props
 }) => {
@@ -41,7 +42,7 @@ const PermissionsField = ({
           {props.tip && <InfoTip header={props.label} content={props.tip} />}
         </div>
       )}
-      <PlainInput
+      <DisplayComponent
         aria-label={
           props['aria-label'] ||
           (props.inputProps && props.inputProps['aria-label'])
