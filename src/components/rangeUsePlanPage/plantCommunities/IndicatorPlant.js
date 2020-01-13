@@ -111,6 +111,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             icon={null}
             pointing="right"
             onClick={e => e.stopPropagation()}
+            value={null}
             onChange={(e, { value }) => {
               if (value === 'delete') {
                 onDelete()
