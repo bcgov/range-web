@@ -171,6 +171,7 @@ const PlantCommunityBox = ({
                   trigger={<i className="ellipsis vertical icon" />}
                   options={dropdownOptions}
                   icon={null}
+                  value={null}
                   pointing="right"
                   onClick={e => e.stopPropagation()}
                   onChange={(e, { value }) => {
