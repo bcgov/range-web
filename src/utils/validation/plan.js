@@ -12,7 +12,7 @@ import { handleGrazingScheduleValidation } from './grazingSchedule'
  */
 export const handleRupValidation = (
   plan = {},
-  pasturesMap = {},
+  pastures = [],
   livestockTypes = [],
   usage = []
 ) => {
@@ -24,7 +24,7 @@ export const handleRupValidation = (
       ...errors,
       ...handleGrazingScheduleValidation(
         schedule,
-        pasturesMap,
+        pastures,
         livestockTypes,
         usage
       )

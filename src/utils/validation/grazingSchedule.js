@@ -40,7 +40,7 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
  */
 export const handleGrazingScheduleValidation = (
   schedule = {},
-  pasturesMap = {},
+  pastures = [],
   livestockTypes = [],
   usage = []
 ) => {
@@ -50,7 +50,7 @@ export const handleGrazingScheduleValidation = (
   const authorizedAUMs = yearUsage && yearUsage.authorizedAum
   const crownTotalAUMs = calcCrownTotalAUMs(
     grazingScheduleEntries,
-    pasturesMap,
+    pastures,
     livestockTypes
   )
 
