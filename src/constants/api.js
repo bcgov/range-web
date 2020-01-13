@@ -182,6 +182,13 @@ export const UPDATE_RUP_INDICATOR_PLANT = (
   plantId
 ) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant/${plantId}`
+export const DELETE_RUP_INDICATOR_PLANT = (
+  planId,
+  pastureId,
+  communityId,
+  plantId
+) =>
+  `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/indicator-plant/${plantId}`
 export const CREATE_RUP_MONITERING_AREA = (planId, pastureId, communityId) =>
   `/v1/plan/${planId}/pasture/${pastureId}/plant-community/${communityId}/monitoring-area`
 export const UPDATE_RUP_MONITORING_AREA = (

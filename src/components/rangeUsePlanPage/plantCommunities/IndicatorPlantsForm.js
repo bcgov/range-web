@@ -7,12 +7,16 @@ import { STUBBLE_HEIGHT } from '../../../constants/fields'
 import { Button, Confirm } from 'semantic-ui-react'
 import { FieldArray, connect } from 'formik'
 import IndicatorPlant from './IndicatorPlant'
+import { deleteIndicatorPlant } from '../../../api'
 
 const IndicatorPlantsForm = ({
   indicatorPlants,
   valueLabel,
   valueType,
   criteria,
+  planId,
+  pastureId,
+  communityId,
   namespace,
   formik
 }) => {
@@ -84,10 +88,21 @@ const IndicatorPlantsForm = ({
                 setToRemove()
                 setDialogOpen(false)
               }}
-              onConfirm={() => {
-                setToRemove()
-                setDialogOpen(false)
+              onConfirm={async () => {
+                const indicatorPlant = indicatorPlants[toRemove]
+
+                if (!uuid.isUUID(indicatorPlant.id)) {
+                  deleteIndicatorPlant(
+                    planId,
+                    pastureId,
+                    communityId,
+                    indicatorPlant.id
+                  )
+                }
+
                 remove(toRemove)
+                setToRemove(null)
+                setDialogOpen(false)
               }}
             />
           </>

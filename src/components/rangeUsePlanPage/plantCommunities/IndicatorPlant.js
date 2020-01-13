@@ -97,30 +97,28 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
       </Grid.Column>
 
       <Grid.Column mobile="1" verticalAlign="middle">
-        {!Number.isInteger(plant.id) && (
-          <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-            <Dropdown
-              trigger={<Icon name="ellipsis vertical" />}
-              options={[
-                {
-                  key: 'delete',
-                  value: 'delete',
-                  text: 'Delete'
-                }
-              ]}
-              style={{ display: 'flex', alignItems: 'center' }}
-              icon={null}
-              pointing="right"
-              onClick={e => e.stopPropagation()}
-              onChange={(e, { value }) => {
-                if (value === 'delete') {
-                  onDelete()
-                }
-              }}
-              selectOnBlur={false}
-            />
-          </IfEditable>
-        )}
+        <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
+          <Dropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={[
+              {
+                key: 'delete',
+                value: 'delete',
+                text: 'Delete'
+              }
+            ]}
+            style={{ display: 'flex', alignItems: 'center' }}
+            icon={null}
+            pointing="right"
+            onClick={e => e.stopPropagation()}
+            onChange={(e, { value }) => {
+              if (value === 'delete') {
+                onDelete()
+              }
+            }}
+            selectOnBlur={false}
+          />
+        </IfEditable>
       </Grid.Column>
     </Grid>
   )

@@ -10,7 +10,12 @@ import DayMonthPicker from '../../../common/form/DayMonthPicker'
 import { TextArea } from 'formik-semantic-ui'
 import moment from 'moment'
 
-const RangeReadinessBox = ({ plantCommunity, namespace }) => {
+const RangeReadinessBox = ({
+  plantCommunity,
+  planId,
+  pastureId,
+  namespace
+}) => {
   const {
     rangeReadinessMonth,
     rangeReadinessDay,
@@ -54,6 +59,9 @@ const RangeReadinessBox = ({ plantCommunity, namespace }) => {
         valueLabel="Criteria (Leaf Stage)"
         valueType="leafStage"
         criteria={PLANT_CRITERIA.RANGE_READINESS}
+        planId={planId}
+        pastureId={pastureId}
+        communityId={plantCommunity.id}
         fast
       />
     </div>

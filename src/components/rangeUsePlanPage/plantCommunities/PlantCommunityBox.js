@@ -344,11 +344,15 @@ const PlantCommunityBox = ({
           <RangeReadinessBox
             plantCommunity={plantCommunity}
             namespace={namespace}
+            planId={planId}
+            pastureId={pastureId}
           />
 
           <StubbleHeightBox
             plantCommunity={plantCommunity}
             namespace={namespace}
+            planId={planId}
+            pastureId={pastureId}
           />
 
           <ShrubUseBox plantCommunity={plantCommunity} namespace={namespace} />

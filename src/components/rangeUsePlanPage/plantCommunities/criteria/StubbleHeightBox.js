@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import IndicatorPlantsForm from '../IndicatorPlantsForm'
 import { PLANT_CRITERIA } from '../../../../constants/variables'
 
-const StubbleHeightBox = ({ plantCommunity, namespace }) => {
+const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
   return (
     <div className="rup__plant-community__sh">
       <div className="rup__plant-community__sh__title">
@@ -16,6 +16,8 @@ const StubbleHeightBox = ({ plantCommunity, namespace }) => {
         namespace={namespace}
         valueLabel="Height After Grazing (cm)"
         valueType="stubbleHeight"
+        planId={planId}
+        pastureId={pastureId}
         criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}
       />
     </div>

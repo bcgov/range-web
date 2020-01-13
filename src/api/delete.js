@@ -168,3 +168,13 @@ export const deleteGrazingScheduleEntry = createDeleteHandler(
     )
   }
 )
+
+export const deleteIndicatorPlant = createDeleteHandler(
+  'indicatorPlant',
+  async (planId, pastureId, communityId, plantId) => {
+    await axios.delete(
+      API.DELETE_RUP_INDICATOR_PLANT(planId, pastureId, communityId, plantId),
+      getAuthHeaderConfig()
+    )
+  }
+)
