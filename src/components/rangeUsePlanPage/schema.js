@@ -12,7 +12,13 @@ const RUPSchema = Yup.object().shape({
   planEndDate: Yup.string()
     .required('Required field')
     .nullable()
-    .transform(handleNull()),
+    .transform(handleNull())
+    .when('planStartDate', (planStartDate, schema) =>
+      schema.test({
+        test: planEndDate => new Date(planEndDate) > new Date(planStartDate),
+        message: 'Plan end date should be after start date'
+      })
+    ),
   pastures: Yup.array().of(
     Yup.object().shape({
       allowableAum: Yup.number()
