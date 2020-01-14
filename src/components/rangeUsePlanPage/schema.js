@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
 
 const RUPSchema = Yup.object().shape({
-  rangeName: Yup.string(),
+  rangeName: Yup.string().required('Required field'),
   altBusinessName: Yup.string().transform(handleNull()),
   planStartDate: Yup.string()
     .required('Required field')
