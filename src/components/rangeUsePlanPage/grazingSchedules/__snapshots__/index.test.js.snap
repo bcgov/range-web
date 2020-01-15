@@ -739,6 +739,9 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
           Schedule Description
         </div>
         <div>
+          Schedule description is optional but if included is legal content
+        </div>
+        <div>
           <div
             class="field"
           >
@@ -927,6 +930,9 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
           class="rup__grazing-schedule__narrative__title"
         >
           Schedule Description
+        </div>
+        <div>
+          Schedule description is optional but if included is legal content
         </div>
         <div>
           <div
