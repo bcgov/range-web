@@ -58,7 +58,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         returnStdout: true).trim()
     }
 
-    stage('Install') {
+/*    stage('Install') {
       echo "Setup: ${BUILD_ID}"
 
       sh "npm ci"
@@ -93,6 +93,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
 
           notifySlack("${APP_NAME}, Build #${BUILD_ID}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
         }
+*/
 
         //
         // Run our unit tests et al.
@@ -133,7 +134,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
     // }
 
     // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
-      stage('Image Build') {
+    /*  stage('Image Build') {
         try {
           echo "Build: ${BUILD_ID}"
 
@@ -184,6 +185,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
       }
     // }
 
+*/
     // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
       stage('Test Approval') {
         node('master') {
