@@ -59,9 +59,10 @@ const FrontPage = ({ plan }) => (
     </View>
     <View style={styles.section}>
       <Text style={styles.header}>{plan.agreement.id}</Text>
+      <Text style={styles.subtitle}>Plan Term</Text>
       <Text>
-        {moment(plan.agreement.agreementStartDate).format('MMMM DD, YYYY')} -{' '}
-        {moment(plan.agreement.agreementEndDate).format('MMMM DD, YYYY')}
+        {moment(plan.planStartDate).format('MMMM DD, YYYY')} -{' '}
+        {moment(plan.planEndDate).format('MMMM DD, YYYY')}
       </Text>
     </View>
     <View style={styles.section}>
