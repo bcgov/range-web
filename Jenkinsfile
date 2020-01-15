@@ -187,12 +187,11 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
     // if ("master".equalsIgnoreCase(GIT_BRANCH_NAME)) {
       stage('Test Approval') {
         node('master') {
-          /* 
-	    timeout(time: 4, unit: 'HOURS') {
+	        timeout(time: 4, unit: 'HOURS') {
             input message: "Promote this image to test?", submitter: 'authenticated'
           }
-		*/
-			echo "auto promote to test woop woop" // PO says they are cool with things rolling in to test as soon as GH says it is ready to test
+		
+			    echo "auto promote to test woop woop" // PO says they are cool with things rolling in to test as soon as GH says it is ready to test
 
       /*    stage('Promotion') {
 
