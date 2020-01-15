@@ -194,7 +194,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
 		*/
 			echo "auto promote to test woop woop" // PO says they are cool with things rolling in to test as soon as GH says it is ready to test
 
-          stage('Promotion') {
+      /*    stage('Promotion') {
 
             // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
             // Tag the images for deployment based on the image's hash
@@ -222,6 +222,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
            // notifySlack("${env.JOB_NAME}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
            slackSend(channel: "ext-range", message: "commit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}", sendAsText: true)
           }
+*/
 
           stage('Prod Approval') {
             timeout(time: 4, unit: 'HOURS') {
