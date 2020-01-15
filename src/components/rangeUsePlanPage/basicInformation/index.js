@@ -81,6 +81,7 @@ const BasicInformation = ({ plan, agreement }) => {
             name="rangeName"
             displayValue={capitalize(rangeName)}
             label={strings.RANGE_NAME}
+            fieldProps={{ required: true }}
             fast
           />
           <PermissionsField
@@ -112,6 +113,7 @@ const BasicInformation = ({ plan, agreement }) => {
             displayValue={moment(planStartDate).format('MMMM DD, YYYY')}
             label={strings.PLAN_START_DATE}
             dateFormat="MMMM DD, YYYY"
+            required
           />
           <PermissionsField
             name="planEndDate"
@@ -120,6 +122,7 @@ const BasicInformation = ({ plan, agreement }) => {
             displayValue={moment(planEndDate).format('MMMM DD, YYYY')}
             label={strings.PLAN_END_DATE}
             dateFormat="MMMM DD, YYYY"
+            required
           />
 
           {isFutureDatedPlan && (
