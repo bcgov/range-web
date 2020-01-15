@@ -1,5 +1,5 @@
 import uuid from 'uuid-v4'
-import { axios, getAuthHeaderConfig } from '../utils'
+import { axios, getAuthHeaderConfig, findStatusWithCode } from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
@@ -11,9 +11,14 @@ import {
   saveMinisterIssues,
   saveAdditionalRequirements,
   savePlantCommunities,
-  savePastures
+  savePastures,
+  createVersion
 } from '.'
-import { PLAN_STATUS } from '../constants/variables'
+import {
+  REFERENCE_KEY,
+  AMENDMENT_TYPE,
+  PLAN_STATUS
+} from '../constants/variables'
 
 /**
  * Syncs plan and then returns locally stored record
@@ -180,4 +185,26 @@ export const createNewPlan = agreement => {
   savePlanToLocalStorage(newPlan)
 
   return newPlan
+}
+
+export const createAmendment = async (plan, references) => {
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+  const initialAmendment = amendmentTypes.find(
+    at => at.code === AMENDMENT_TYPE.INITIAL
+  )
+  const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED)
+
+  await createVersion(plan.id)
+
+  await axios.put(
+    API.UPDATE_RUP(plan.id),
+    {
+      ...plan,
+      statusId: createdStatus.id,
+      amendmentTypeId: initialAmendment.id
+    },
+    getAuthHeaderConfig()
+  )
+
+  return getPlan(plan.id)
 }
