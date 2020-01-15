@@ -228,6 +228,10 @@ const GrazingScheduleBox = ({
                   Schedule Description
                 </div>
                 <div>
+                  Schedule description is optional but if included is legal
+                  content
+                </div>
+                <div>
                   <PermissionsField
                     permission={SCHEDULE.DESCRIPTION}
                     name={`${namespace}.narative`}
