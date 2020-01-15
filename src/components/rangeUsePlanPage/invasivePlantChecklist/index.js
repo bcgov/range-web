@@ -8,6 +8,7 @@ import * as strings from '../../../constants/strings'
 import { INVASIVE_PLANTS } from '../../../constants/fields'
 import { Checkbox, TextArea } from 'formik-semantic-ui'
 import { useUser } from '../../../providers/UserProvider'
+import { useEditable } from '../../../providers/EditableProvider'
 
 const InvasivePlantChecklist = ({
   namespace,
@@ -23,9 +24,10 @@ const InvasivePlantChecklist = ({
   } = invasivePlantChecklist
 
   const [otherChecked, setOtherChecked] = useState(!!other)
+  const globalIsEditable = useEditable()
 
   const user = useUser()
-  const canEdit = canUserEdit(INVASIVE_PLANTS.ITEMS, user)
+  const canEdit = canUserEdit(INVASIVE_PLANTS.ITEMS, user) && globalIsEditable
 
   useEffect(() => {
     if (invasivePlantChecklist.other) {
