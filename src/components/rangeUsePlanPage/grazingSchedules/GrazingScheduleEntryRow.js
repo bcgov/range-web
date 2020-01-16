@@ -150,7 +150,7 @@ const GrazingScheduleEntryRow = ({
         <PermissionsField
           permission={SCHEDULE.GRACE_DAYS}
           name={`${namespace}.graceDays`}
-          displayValue={graceDays || (pasture ? pasture.graceDays : '')}
+          displayValue={graceDays || (pasture && pasture.graceDays) || 0}
           inputProps={{
             type: 'number',
             fluid: true,
