@@ -11,16 +11,15 @@ import * as strings from '../../../constants/strings'
 import { PASTURES } from '../../../constants/fields'
 import { InfoTip, InputModal } from '../../common'
 import { deletePasture } from '../../../api'
+import { resetPastureId, generatePasture } from '../../../utils'
 
 const Pastures = ({ pastures, formik }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const [indexToRemove, setIndexToRemove] = useState(null)
+  const [indexToCopy, setIndexToCopy] = useState(null)
   const handlePastureClick = useCallback(index => {
     setActiveIndex(activeIndex === index ? -1 : index)
-  })
-  const handlePastureCopy = useCallback(index => {
-    console.log('copy', index)
   })
 
   return (
@@ -55,18 +54,27 @@ const Pastures = ({ pastures, formik }) => {
             open={isModalOpen}
             onClose={() => setModalOpen(false)}
             onSubmit={name => {
-              push({
-                name,
-                allowableAum: '',
-                graceDays: 1,
-                pldPercent: 0,
-                notes: '',
-                plantCommunities: [],
-                id: uuid()
-              })
+              const pasture = generatePasture(name)
+
+              push(pasture)
+
               setModalOpen(false)
             }}
             title="Add pasture"
+            placeholder="Pasture name"
+          />
+
+          <InputModal
+            open={indexToCopy !== null}
+            onClose={() => setIndexToCopy(-1)}
+            onSubmit={name => {
+              const pasture = pastures[indexToCopy]
+
+              push(resetPastureId({ ...pasture, name }))
+
+              setIndexToCopy(null)
+            }}
+            title="Copy pasture"
             placeholder="Pasture name"
           />
 
@@ -115,7 +123,7 @@ const Pastures = ({ pastures, formik }) => {
                   index={index}
                   activeIndex={activeIndex}
                   onClick={handlePastureClick}
-                  onCopy={handlePastureCopy}
+                  onCopy={() => setIndexToCopy(index)}
                   onDelete={() => setIndexToRemove(index)}
                   namespace={`pastures.${index}`}
                 />
