@@ -140,6 +140,7 @@ export const SUBMIT_PLAN_SUCCESS =
   'You have successfully submitted the range use plan to the range staff.'
 export const EMPTY_GRAZING_SCHEDULE_ENTRIES =
   'Schedule must have at least 1 entry.'
+export const EMPTY_PASTURES = 'Plan must have at least one pasture.'
 export const INVALID_GRAZING_SCHEDULE_ENTRY =
   'Schedule has one or more invalid entries.'
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.'

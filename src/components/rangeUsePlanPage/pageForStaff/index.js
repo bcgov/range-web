@@ -138,8 +138,14 @@ class PageForStaff extends Component {
 
   openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
   closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
-  openPlanSubmissionModal = () =>
-    this.setState({ isPlanSubmissionModalOpen: true })
+  openPlanSubmissionModal = () => {
+    const error = this.validateRup(this.props.plan)
+    if (!error) {
+      this.setState({ isPlanSubmissionModalOpen: true })
+    } else {
+      this.props.toastErrorMessage(error)
+    }
+  }
   closePlanSubmissionModal = () =>
     this.setState({ isPlanSubmissionModalOpen: false })
 
