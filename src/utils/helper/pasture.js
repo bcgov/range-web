@@ -1,4 +1,6 @@
 import { NOT_PROVIDED } from '../../constants/strings'
+import uuid from 'uuid-v4'
+import { resetPlantCommunityId } from './plantCommunity'
 
 export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
   const pastureNames = pastureIds.map(pId => {
@@ -19,3 +21,19 @@ export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
       }`
   }
 }
+
+export const resetPastureId = pasture => ({
+  ...pasture,
+  id: uuid(),
+  plantCommunities: pasture.plantCommunities.map(resetPlantCommunityId)
+})
+
+export const generatePasture = (name = '') => ({
+  name,
+  allowableAum: '',
+  graceDays: 1,
+  pldPercent: 0,
+  notes: '',
+  plantCommunities: [],
+  id: uuid()
+})
