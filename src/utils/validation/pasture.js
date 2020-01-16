@@ -11,4 +11,6 @@ export const handlePastureValidation = pastures => {
       }
     ]
   }
+
+  return []
 }
