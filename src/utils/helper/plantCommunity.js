@@ -1,4 +1,5 @@
 import moment from 'moment'
+import uuid from 'uuid-v4'
 import { NOT_PROVIDED } from '../../constants/strings'
 
 export const getRangeReadinessMonthAndDate = (month, day) => {
@@ -38,3 +39,28 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
       }`
   }
 }
+
+export const resetPlantCommunityId = plantCommunity => ({
+  ...plantCommunity,
+  id: uuid(),
+  indicatorPlants: plantCommunity.indicatorPlants.map(resetIndicatorPlantId),
+  monitoringAreas: plantCommunity.monitoringAreas.map(resetMonitoringAreaId),
+  plantCommunityActions: plantCommunity.plantCommunityActions.map(
+    resetPlantCommunityActionId
+  )
+})
+
+export const resetIndicatorPlantId = indicatorPlant => ({
+  ...indicatorPlant,
+  id: uuid()
+})
+
+export const resetMonitoringAreaId = monitoringArea => ({
+  ...monitoringArea,
+  id: uuid()
+})
+
+export const resetPlantCommunityActionId = plantCommunityAction => ({
+  ...plantCommunityAction,
+  id: uuid()
+})
