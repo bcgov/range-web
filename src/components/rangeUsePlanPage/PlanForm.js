@@ -18,8 +18,8 @@ const PlanForm = ({ plan, isEditable = true }) => {
       <Element name={ELEMENT_ID.BASIC_INFORMATION}>
         <BasicInformation plan={plan} agreement={plan.agreement} />
       </Element>
-      <Element name={ELEMENT_ID.PASTURES}>
-        <Pastures pastures={plan.pastures} elementId={ELEMENT_ID.PASTURES} />
+      <Element name={ELEMENT_ID.PASTURES} id={ELEMENT_ID.PASTURES}>
+        <Pastures pastures={plan.pastures} />
       </Element>
 
       <Usage plan={plan} usage={plan.agreement.usage} />

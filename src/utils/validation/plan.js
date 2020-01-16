@@ -1,4 +1,5 @@
 import { handleGrazingScheduleValidation } from './grazingSchedule'
+import { handlePastureValidation } from './pasture'
 
 /**
  * Validate a range use plan
@@ -31,6 +32,8 @@ export const handleRupValidation = (
     ]
     return undefined
   })
+
+  errors = [...errors, ...handlePastureValidation(pastures)]
 
   return errors
 }
