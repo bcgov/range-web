@@ -29,7 +29,8 @@ class UpdateStatusModal extends Component {
   }
 
   state = {
-    note: ''
+    note: '',
+    loading: false
   }
 
   onNoteChange = (e, { value: note }) => {
@@ -53,10 +54,10 @@ class UpdateStatusModal extends Component {
     const { note } = this.state
     const requireNote = isNoteRequired(statusCode)
 
-    this.onClose()
     const status = findStatusWithCode(references, statusCode)
 
     try {
+      this.setState({ loading: true })
       const body = { planId: plan.id, statusId: status.id }
       if (requireNote && note) {
         body.note = note
@@ -64,13 +65,17 @@ class UpdateStatusModal extends Component {
 
       await updateRUPStatus(body)
       await fetchPlan()
+
+      this.onClose()
     } catch (err) {
       throw err
     }
+
+    this.setState({ loading: false })
   }
 
   render() {
-    const { note } = this.state
+    const { note, loading } = this.state
     const { header, content, onClose, open, statusCode } = this.props
     const lengthOfNote = note
       ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
@@ -116,7 +121,8 @@ class UpdateStatusModal extends Component {
             <PrimaryButton
               style={{ marginLeft: '15px', marginRight: '0' }}
               onClick={this.onSubmit}
-              disabled={requireNote && !note}>
+              disabled={requireNote && !note}
+              loading={loading}>
               <Icon name="checkmark" />
               Confirm
             </PrimaryButton>
