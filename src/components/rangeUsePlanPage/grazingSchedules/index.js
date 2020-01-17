@@ -109,7 +109,7 @@ const GrazingSchedules = ({ plan }) => {
                     u => u.year === schedule.year
                   )
                   const authorizedAUMs =
-                    (yearUsage && yearUsage.authorizedAum) || 0
+                    (yearUsage && yearUsage.totalAnnualUse) || 0
                   const crownTotalAUMs = utils.calcCrownTotalAUMs(
                     schedule.grazingScheduleEntries,
                     plan.pastures,
