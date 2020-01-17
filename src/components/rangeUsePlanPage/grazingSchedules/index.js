@@ -51,7 +51,7 @@ const GrazingSchedules = ({ plan }) => {
         })
       setYearOptions(options)
     }
-  }, [grazingSchedules.length])
+  }, [grazingSchedules.length, plan.planStartDate, plan.planEndDate])
 
   return (
     <FieldArray
@@ -78,6 +78,7 @@ const GrazingSchedules = ({ plan }) => {
                   button
                   item
                   options={yearOptions}
+                  value={null}
                   disabled={yearOptions.length === 0}
                   onChange={(e, { value }) => {
                     push({
