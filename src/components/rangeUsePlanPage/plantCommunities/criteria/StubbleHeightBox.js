@@ -19,6 +19,7 @@ const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
         planId={planId}
         pastureId={pastureId}
         criteria={PLANT_CRITERIA.STUBBLE_HEIGHT}
+        communityId={plantCommunity.id}
       />
     </div>
   )
