@@ -81,6 +81,12 @@ const GrazingScheduleEntryRow = ({
         <PasturesDropdown
           name={`${namespace}.pastureId`}
           pastureId={pastureId}
+          onChange={(e, { pasture }) => {
+            formik.setFieldValue(
+              `${namespace}.graceDays`,
+              pasture.graceDays || 0
+            )
+          }}
         />
       </Table.Cell>
       <Table.Cell>

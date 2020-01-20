@@ -4,7 +4,7 @@ import { SCHEDULE } from '../../../constants/fields'
 import { connect } from 'formik'
 import { Dropdown } from 'formik-semantic-ui'
 
-const PasturesDropdown = ({ name, formik, pastureId }) => {
+const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
   const pastureOptions = formik.values.pastures.map(pasture => {
     const { id, name } = pasture || {}
     return {
@@ -26,9 +26,17 @@ const PasturesDropdown = ({ name, formik, pastureId }) => {
       }
       fluid
       inputProps={{
+        floating: true,
         fluid: true,
         search: true,
-        'aria-label': 'pasture'
+        'aria-label': 'pasture',
+        onChange: (e, { value }) => {
+          if (onChange)
+            onChange(e, {
+              value,
+              pasture: formik.values.pastures.find(p => p.id === value)
+            })
+        }
       }}
       fast
     />
