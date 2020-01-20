@@ -70,7 +70,16 @@ const Pastures = ({ pastures, formik }) => {
             onSubmit={name => {
               const pasture = pastures[indexToCopy]
 
-              push(resetPastureId({ ...pasture, name }))
+              push(
+                resetPastureId({
+                  ...pasture,
+                  name,
+                  plantCommunities: pasture.plantCommunities.map(pc => ({
+                    ...pc,
+                    monitoringAreas: []
+                  }))
+                })
+              )
 
               setIndexToCopy(null)
             }}
