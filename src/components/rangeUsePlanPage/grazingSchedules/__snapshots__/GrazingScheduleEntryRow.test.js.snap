@@ -15,7 +15,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           <div
             aria-expanded="false"
             aria-label="pasture"
-            class="ui fluid search selection dropdown"
+            class="ui fluid floating search selection dropdown"
             id="field_dropdown_schedule.grazingScheduleEntries.0.pastureId"
             name="schedule.grazingScheduleEntries.0.pastureId"
             role="combobox"
@@ -83,7 +83,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           <div
             aria-expanded="false"
             aria-label="livestock type"
-            class="ui fluid search selection dropdown"
+            class="ui search selection dropdown"
             id="field_dropdown_schedule.grazingScheduleEntries.0.livestockTypeId"
             name="schedule.grazingScheduleEntries.0.livestockTypeId"
             role="combobox"
@@ -253,7 +253,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           class="field"
         >
           <div
-            class="ui fluid input"
+            class="ui input"
           >
             <input
               aria-label="livestock count"
@@ -272,7 +272,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           class="field calendar-input--no-icon"
         >
           <div
-            class="ui fluid icon input"
+            class="ui icon input"
           >
             <i
               aria-hidden="true"
@@ -295,7 +295,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           class="field calendar-input--no-icon"
         >
           <div
-            class="ui fluid icon input"
+            class="ui icon input"
           >
             <i
               aria-hidden="true"
@@ -323,7 +323,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           class="field"
         >
           <div
-            class="ui fluid transparent input"
+            class="ui transparent input"
           >
             <input
               aria-label="grace days"
