@@ -100,9 +100,7 @@ const GrazingScheduleEntryRow = ({
               ? livestockTypeOptions.find(o => o.value === livestockTypeId).text
               : ''
           }
-          fluid
           inputProps={{
-            fluid: true,
             search: true,
             'aria-label': 'livestock type'
           }}
@@ -115,7 +113,6 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.livestockCount`}
           displayValue={livestockCount}
           inputProps={{
-            fluid: true,
             'aria-label': 'livestock count'
           }}
           fast
@@ -127,7 +124,6 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.dateIn`}
           component={DateInputField}
           displayValue={moment(dateIn).format('MMM D')}
-          fluid
           dateFormat="MMM D YYYY"
           icon={null}
           initialDate={initialDate}
@@ -143,7 +139,6 @@ const GrazingScheduleEntryRow = ({
           component={DateInputField}
           displayValue={moment(dateOut).format('MMM D')}
           dateFormat="MMM D YYYY"
-          fluid
           icon={null}
           initialDate={initialDate}
           minDate={initialDate}
@@ -159,10 +154,8 @@ const GrazingScheduleEntryRow = ({
           displayValue={graceDays || (pasture && pasture.graceDays) || 0}
           inputProps={{
             type: 'number',
-            fluid: true,
             'aria-label': 'grace days'
           }}
-          fluid
           fast
         />
       </Table.Cell>

@@ -119,60 +119,66 @@ const GrazingScheduleBox = ({
                     attached
                   />
                 )}
-                <Table
-                  unstackable
-                  attached={isError || scheduleError ? 'bottom' : false}>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>
-                        <div className="rup__grazing-schedule__pasture">
-                          {strings.PASTURE}
-                        </div>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        <div className="rup__grazing-schedule__l-type">
-                          {strings.LIVESTOCK_TYPE}
-                        </div>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        {strings.NUM_OF_ANIMALS}
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        <div className="rup__grazing-schedule__dates">
-                          {strings.DATE_IN}
-                        </div>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        <div className="rup__grazing-schedule__dates">
-                          {strings.DATE_OUT}
-                        </div>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
-                      <Table.HeaderCell>
-                        <div className="rup__grazing-schedule__grace-days">
-                          {strings.GRACE_DAYS}
-                        </div>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
-                      <Table.HeaderCell>{strings.CROWN_AUMS}</Table.HeaderCell>
-                      <Table.HeaderCell />
-                    </Table.Row>
-                    {schedule.grazingScheduleEntries.map(
-                      (entry, entryIndex) => (
-                        <GrazingScheduleEntryRow
-                          key={entry.id || entry.key}
-                          schedule={schedule}
-                          entry={entry}
-                          entryIndex={entryIndex}
-                          scheduleIndex={index}
-                          namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
-                          onDelete={() => setToRemove(entryIndex)}
-                          onCopy={() => push({ ...entry, id: uuid() })}
-                        />
-                      )
-                    )}
-                  </Table.Header>
-                </Table>
+                <div style={{ overflowX: 'scroll' }}>
+                  <Table
+                    unstackable
+                    columns={10}
+                    attached={isError || scheduleError ? 'bottom' : false}>
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.HeaderCell>
+                          <div className="rup__grazing-schedule__pasture">
+                            {strings.PASTURE}
+                          </div>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          <div className="rup__grazing-schedule__l-type">
+                            {strings.LIVESTOCK_TYPE}
+                          </div>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          {strings.NUM_OF_ANIMALS}
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          <div className="rup__grazing-schedule__dates">
+                            {strings.DATE_IN}
+                          </div>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          <div className="rup__grazing-schedule__dates">
+                            {strings.DATE_OUT}
+                          </div>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
+                        <Table.HeaderCell>
+                          <div className="rup__grazing-schedule__grace-days">
+                            {strings.GRACE_DAYS}
+                          </div>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
+                        <Table.HeaderCell>
+                          {strings.CROWN_AUMS}
+                        </Table.HeaderCell>
+                        <Table.HeaderCell />
+                      </Table.Row>
+                      {schedule.grazingScheduleEntries.map(
+                        (entry, entryIndex) => (
+                          <GrazingScheduleEntryRow
+                            key={entry.id || entry.key}
+                            schedule={schedule}
+                            entry={entry}
+                            entryIndex={entryIndex}
+                            scheduleIndex={index}
+                            namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
+                            onDelete={() => setToRemove(entryIndex)}
+                            onCopy={() => push({ ...entry, id: uuid() })}
+                          />
+                        )
+                      )}
+                    </Table.Header>
+                  </Table>
+                </div>
+
                 <IfEditable permission={SCHEDULE.TYPE}>
                   <PrimaryButton
                     style={{ margin: '10px 0' }}
