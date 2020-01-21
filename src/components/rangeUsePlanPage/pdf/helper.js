@@ -291,7 +291,7 @@ export const formatGrazingSchedules = ({
         } = entry
         const days = calcDateDiff(dateOut, dateIn, false)
         const pasture = pastures.find(p => p.id === pastureId)
-        const graceDays = pasture && pasture.graceDays
+        const graceDays = entry.graceDays || (pasture && pasture.graceDays)
         const pldPercent = pasture && pasture.pldPercent
         const auFactor = livestockType && livestockType.auFactor
 
