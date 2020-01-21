@@ -156,6 +156,13 @@ const GrazingScheduleEntryRow = ({
             type: 'number',
             'aria-label': 'grace days'
           }}
+          fieldProps={{
+            onBlur: e => {
+              if (e.target.value.trim() === '') {
+                formik.setFieldValue(`${namespace}.graceDays`, 0)
+              }
+            }
+          }}
           fast
         />
       </Table.Cell>
