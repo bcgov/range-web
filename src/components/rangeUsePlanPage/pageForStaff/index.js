@@ -22,7 +22,8 @@ import {
   saveInvasivePlantChecklist,
   saveManagementConsiderations,
   saveMinisterIssues,
-  saveAdditionalRequirements
+  saveAdditionalRequirements,
+  savePlan
 } from '../../../api'
 import NetworkStatus from '../../common/NetworkStatus'
 
@@ -166,6 +167,18 @@ class PageForStaff extends Component {
         isFetchingPlan={this.props.isFetchingPlan}
         fetchPlan={this.props.fetchPlan}
         canUpdateStatus
+        beforeUpdateStatus={async () => {
+          await savePlan(this.props.plan)
+
+          const error = this.validateRup(this.props.plan)
+
+          if (error) {
+            this.props.toastErrorMessage(error)
+            return false
+          }
+
+          return true
+        }}
       />
     )
   }
