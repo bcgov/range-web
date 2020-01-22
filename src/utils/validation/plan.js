@@ -1,5 +1,6 @@
 import { handleGrazingScheduleValidation } from './grazingSchedule'
 import { handlePastureValidation } from './pasture'
+import { handlePlantCommunityValidation } from './plantCommunity'
 
 /**
  * Validate a range use plan
@@ -34,6 +35,15 @@ export const handleRupValidation = (
   })
 
   errors = [...errors, ...handlePastureValidation(pastures)]
+  errors = [
+    ...errors,
+    ...handlePlantCommunityValidation(
+      pastures.reduce(
+        (communities, pasture) => [...communities, ...pasture.plantCommunities],
+        []
+      )
+    )
+  ]
 
   return errors
 }

@@ -143,6 +143,8 @@ export const EMPTY_GRAZING_SCHEDULE_ENTRIES =
 export const EMPTY_PASTURES = 'Plan must have at least one pasture.'
 export const INVALID_GRAZING_SCHEDULE_ENTRY =
   'Schedule has one or more invalid entries.'
+export const UNAPPROVED_PLANT_COMMUNITIES =
+  'There are one or more plant communities that have not been approved by the minister'
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.'
 export const USER_NOT_ACTIVE =
   'This account is not active yet. Please contact the administrator (MyRangeBC@gov.bc.ca).'
