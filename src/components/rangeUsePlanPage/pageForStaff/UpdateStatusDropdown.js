@@ -47,7 +47,9 @@ class UpdateStatusDropdown extends Component {
   }
 
   openConfirmModalForUpdatingPlanStatus = modal => {
-    this.openUpdateStatusModalOpen(modal)
+    if (this.props.beforeUpdateStatus(modal.statusCode)) {
+      this.openUpdateStatusModalOpen(modal)
+    }
   }
 
   openCompletedConfirmModal = () => {
