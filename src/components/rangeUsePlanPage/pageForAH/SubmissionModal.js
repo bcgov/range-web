@@ -81,7 +81,7 @@ class SubmissionModal extends Component {
       )
       const confirmed = true
       const isMinorAmendment = false
-      if (status.id === 14) {
+      if (status.id === 14 || status.id === 18) {
         await updateRUPConfirmation(
           plan,
           currUserConfirmation.id,
