@@ -18,17 +18,24 @@ const defaultProps = {
   size: 'large'
 }
 
-const Loading = ({ size, active, inverted, message, onlySpinner }) => {
+const Loading = ({
+  size,
+  active,
+  inverted,
+  message,
+  onlySpinner,
+  containerProps
+}) => {
   if (onlySpinner) {
     return (
-      <div className="loading-spinner__container">
+      <div className="loading-spinner__container" {...containerProps}>
         <Loader active={active} size={size} content={message} />
       </div>
     )
   }
 
   return (
-    <Dimmer active={active} inverted={inverted}>
+    <Dimmer active={active} inverted={inverted} {...containerProps}>
       <Loader size={size} content={message} />
     </Dimmer>
   )

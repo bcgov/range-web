@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Menu, Divider } from 'semantic-ui-react'
+import { Menu, Divider, Loader, Portal } from 'semantic-ui-react'
 import {
   isStatusStands,
   isStatusCreated,
@@ -20,6 +20,7 @@ import {
 import { updateRUPStatus } from '../../../actionCreators'
 import * as strings from '../../../constants/strings'
 import UpdateStatusModal from './UpdateStatusModal'
+import { Loading } from '../../common'
 
 class UpdateStatusDropdown extends Component {
   static propTypes = {
@@ -34,7 +35,8 @@ class UpdateStatusDropdown extends Component {
 
   state = {
     updateStatusModalOpen: false,
-    modal: null
+    modal: null,
+    loading: false
   }
 
   closeUpdateStatusModalOpen = () =>
@@ -46,8 +48,19 @@ class UpdateStatusDropdown extends Component {
     })
   }
 
-  openConfirmModalForUpdatingPlanStatus = modal => {
-    this.openUpdateStatusModalOpen(modal)
+  openConfirmModalForUpdatingPlanStatus = async modal => {
+    this.setState({ loading: true })
+
+    try {
+      const canUpdate = await this.props.beforeUpdateStatus(modal.statusCode)
+      if (canUpdate) {
+        this.openUpdateStatusModalOpen(modal)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
+    this.setState({ loading: false })
   }
 
   openCompletedConfirmModal = () => {
@@ -243,6 +256,12 @@ class UpdateStatusDropdown extends Component {
           {...this.props}
           {...modal}
         />
+        <Portal open={this.state.loading}>
+          <Loading
+            active={this.state.loading}
+            containerProps={{ page: true }}
+          />
+        </Portal>
       </Fragment>
     )
   }

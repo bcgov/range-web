@@ -32,7 +32,8 @@ const ActionBtns = ({
   formik,
   plan,
   isFetchingPlan,
-  fetchPlan
+  fetchPlan,
+  beforeUpdateStatus
 }) => {
   const isOnline = useNetworkStatus()
 
@@ -125,6 +126,7 @@ const ActionBtns = ({
               plan={plan}
               fetchPlan={fetchPlan}
               isFetchingPlan={isFetchingPlan}
+              beforeUpdateStatus={beforeUpdateStatus}
             />
           )}
         </Dropdown.Menu>
