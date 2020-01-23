@@ -10,7 +10,8 @@ import { Dropdown, TextArea } from 'formik-semantic-ui'
 const AdditionalRequirementRow = ({
   additionalRequirement,
   namespace,
-  onDelete
+  onDelete,
+  onCopy
 }) => {
   const references = useReferences()
 
@@ -79,6 +80,11 @@ const AdditionalRequirementRow = ({
                 key: 'delete',
                 value: 'delete',
                 text: 'Delete'
+              },
+              {
+                key: 'copy',
+                value: 'copy',
+                text: 'Copy'
               }
             ]}
             icon={null}
@@ -88,6 +94,9 @@ const AdditionalRequirementRow = ({
             onChange={(e, { value }) => {
               if (value === 'delete') {
                 onDelete()
+              }
+              if (value === 'copy') {
+                onCopy()
               }
             }}
             selectOnBlur={false}

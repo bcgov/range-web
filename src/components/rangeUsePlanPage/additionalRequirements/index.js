@@ -9,6 +9,7 @@ import { FieldArray } from 'formik'
 import { Button, Confirm } from 'semantic-ui-react'
 import uuid from 'uuid-v4'
 import { deleteAdditionalRequirement } from '../../../api'
+import { resetAdditionalRequirementId } from '../../../utils/helper/additionalRequirement'
 
 class AdditionalRequirements extends Component {
   static propTypes = {
@@ -20,29 +21,6 @@ class AdditionalRequirements extends Component {
     this.state = {
       indexToRemove: null
     }
-  }
-
-  renderAdditionalRequirement = (additionalRequirement, i) => {
-    return (
-      <AdditionalRequirementRow
-        key={additionalRequirement.id}
-        additionalRequirement={additionalRequirement}
-        onDelete={() => this.setState({ indexToRemove: i })}
-        namespace={`additionalRequirements.${i}`}
-      />
-    )
-  }
-
-  renderAdditionalRequirements = (additionalRequirements = []) => {
-    const isEmpty = additionalRequirements.length === 0
-
-    return isEmpty ? (
-      <div className="rup__a-requirements__no-content">
-        No additional requirements provided
-      </div>
-    ) : (
-      additionalRequirements.map(this.renderAdditionalRequirement)
-    )
   }
 
   render() {
@@ -90,7 +68,25 @@ class AdditionalRequirements extends Component {
               information.
             </div>
             <div className="rup__a-requirements__box">
-              {this.renderAdditionalRequirements(additionalRequirements)}
+              {additionalRequirements.length === 0 ? (
+                <div className="rup__a-requirements__no-content">
+                  No additional requirements provided
+                </div>
+              ) : (
+                additionalRequirements.map((additionalRequirement, i) => (
+                  <AdditionalRequirementRow
+                    key={additionalRequirement.id}
+                    additionalRequirement={additionalRequirement}
+                    onDelete={() => this.setState({ indexToRemove: i })}
+                    onCopy={() =>
+                      push(
+                        resetAdditionalRequirementId(additionalRequirements[i])
+                      )
+                    }
+                    namespace={`additionalRequirements.${i}`}
+                  />
+                ))
+              )}
             </div>
 
             <Confirm
