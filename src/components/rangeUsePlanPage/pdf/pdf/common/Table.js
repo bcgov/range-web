@@ -2,6 +2,10 @@ import React from 'react'
 import { View, StyleSheet, Text } from '@react-pdf/renderer'
 import { config } from './config'
 
+const specialCharsRegex = /-|_/g
+const insertSoftHyphens = string =>
+  string.replace(specialCharsRegex, match => `\u00ad${match}`)
+
 const styles = StyleSheet.create({
   table: {
     width: '100%'
@@ -53,7 +57,11 @@ const TableBody = ({ children }) => <View style={styles.body}>{children}</View>
 
 const TableRow = ({ children }) => <View style={styles.row}>{children}</View>
 
-const TableCell = ({ children }) => <Text style={styles.cell}>{children}</Text>
+const TableCell = ({ children }) => (
+  <Text style={styles.cell}>
+    {typeof children === 'string' ? insertSoftHyphens(children) : children}
+  </Text>
+)
 
 Table.Header = TableHeader
 Table.Body = TableBody
