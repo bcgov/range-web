@@ -20,7 +20,9 @@ const AgreementTable = ({
 
   useEffect(() => {
     if (agreements) {
-      setActiveId(null)
+      if (!agreements.find(a => a.forestFileId === activeId)) {
+        setActiveId(null)
+      }
       setCurrentAgreements(agreements)
     }
   }, [agreements])
