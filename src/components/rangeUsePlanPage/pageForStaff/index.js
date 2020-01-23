@@ -169,6 +169,7 @@ class PageForStaff extends Component {
         canUpdateStatus
         beforeUpdateStatus={async () => {
           await savePlan(this.props.plan)
+          await this.props.fetchPlan()
 
           const error = this.validateRup(this.props.plan)
 
