@@ -49,7 +49,7 @@ const PlanTable = ({ agreementId }) => {
     )
   }
 
-  if (plans.length === 0) {
+  if (plans.length === 0 && !isValidating) {
     return <div className="agrm__ptable__message">{NO_RESULTS_FOUND}</div>
   }
 
