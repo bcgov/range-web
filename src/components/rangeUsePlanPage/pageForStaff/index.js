@@ -5,7 +5,6 @@ import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import BackBtn from '../BackBtn'
-import * as API from '../../../constants/api'
 import ContentsContainer from '../ContentsContainer'
 import StickyHeader from '../StickyHeader'
 import Notifications from '../notifications'
@@ -13,18 +12,8 @@ import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
-import RUPSchema from '../schema'
-import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
-import {
-  savePastures,
-  savePlantCommunities,
-  saveGrazingSchedules,
-  saveInvasivePlantChecklist,
-  saveManagementConsiderations,
-  saveMinisterIssues,
-  saveAdditionalRequirements,
-  savePlan
-} from '../../../api'
+import { canUserEditThisPlan } from '../../../utils'
+import { savePlan } from '../../../api'
 import NetworkStatus from '../../common/NetworkStatus'
 
 // Range Staff Page
@@ -58,43 +47,12 @@ class PageForStaff extends Component {
   updateContent = async (onRequested, onSuccess, onError) => {
     const { plan, toastErrorMessage } = this.props
 
-    const {
-      pastures,
-      grazingSchedules,
-      invasivePlantChecklist,
-      managementConsiderations,
-      ministerIssues,
-      additionalRequirements
-    } = RUPSchema.cast(plan)
-
     onRequested()
-
-    const config = getAuthHeaderConfig()
 
     if (this.validateRup(plan)) return onError()
 
     try {
-      // Update Plan
-      // TODO: replace with single function to save plan
-      await utils.axios.put(API.UPDATE_RUP(plan.id), plan, config)
-
-      const newPastures = await savePastures(plan.id, pastures)
-
-      await Promise.all(
-        newPastures.map(async pasture => {
-          await savePlantCommunities(
-            plan.id,
-            pasture.id,
-            pasture.plantCommunities
-          )
-        })
-      )
-
-      await saveGrazingSchedules(plan.id, grazingSchedules)
-      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
-      await saveManagementConsiderations(plan.id, managementConsiderations)
-      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
-      await saveAdditionalRequirements(plan.id, additionalRequirements)
+      await savePlan(plan)
 
       await onSuccess()
     } catch (err) {

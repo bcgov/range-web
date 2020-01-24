@@ -9,23 +9,12 @@ import Notifications from '../notifications'
 import StickyHeader from '../StickyHeader'
 import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
-import * as API from '../../../constants/api'
 import PlanSubmissionModal from './SubmissionModal'
 import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
 import PlanForm from '../PlanForm'
-import {
-  savePlantCommunities,
-  saveGrazingSchedules,
-  saveInvasivePlantChecklist,
-  saveManagementConsiderations,
-  saveMinisterIssues,
-  saveAdditionalRequirements,
-  savePastures,
-  createAmendment
-} from '../../../api'
-import RUPSchema from '../schema'
-import { getAuthHeaderConfig, canUserEditThisPlan } from '../../../utils'
+import { createAmendment, savePlan } from '../../../api'
+import { canUserEditThisPlan } from '../../../utils'
 import NetworkStatus from '../../common/NetworkStatus'
 
 // Agreement Holder page
@@ -75,18 +64,7 @@ class PageForAH extends Component {
   ) => {
     const { plan, updateRUPStatus, toastErrorMessage } = this.props
 
-    const {
-      pastures,
-      grazingSchedules,
-      invasivePlantChecklist,
-      managementConsiderations,
-      ministerIssues,
-      additionalRequirements
-    } = RUPSchema.cast(plan)
-
     onRequested()
-
-    const config = getAuthHeaderConfig()
 
     const error = this.validateRup(plan)
 
@@ -96,29 +74,10 @@ class PageForAH extends Component {
     }
 
     try {
-      // TODO: replace with single function to save plan
-      await utils.axios.put(API.UPDATE_RUP(plan.id), plan, config)
-
-      const newPastures = await savePastures(plan.id, pastures)
-
-      await Promise.all(
-        newPastures.map(async pasture => {
-          await savePlantCommunities(
-            plan.id,
-            pasture.id,
-            pasture.plantCommunities
-          )
-        })
-      )
-
-      await saveGrazingSchedules(plan.id, grazingSchedules)
-      await saveInvasivePlantChecklist(plan.id, invasivePlantChecklist)
-      await saveManagementConsiderations(plan.id, managementConsiderations)
-      await saveMinisterIssues(plan.id, ministerIssues, newPastures)
-      await saveAdditionalRequirements(plan.id, additionalRequirements)
+      const planId = await savePlan(plan)
 
       await updateRUPStatus({
-        planId: plan.id,
+        planId,
         statusId: status.id,
         note,
         shouldToast: false
@@ -149,7 +108,8 @@ class PageForAH extends Component {
       plan,
       pastures,
       livestockTypes,
-      usage
+      usage,
+      true
     )
 
     // errors have been found
