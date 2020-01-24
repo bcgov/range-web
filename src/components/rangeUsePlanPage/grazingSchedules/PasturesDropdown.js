@@ -3,6 +3,7 @@ import PermissionsField from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import { connect } from 'formik'
 import { Dropdown } from 'formik-semantic-ui'
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
   const pastureOptions = formik.values.pastures.map(pasture => {
@@ -19,6 +20,7 @@ const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
       name={name}
       options={pastureOptions}
       component={Dropdown}
+      displayComponent={MultiParagraphDisplay}
       displayValue={
         pastureOptions.find(p => p.value === pastureId)
           ? pastureOptions.find(p => p.value === pastureId).text

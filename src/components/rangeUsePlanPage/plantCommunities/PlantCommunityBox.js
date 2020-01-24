@@ -24,6 +24,7 @@ import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import Import from './criteria/Import'
 import { InfoTip, InputModal } from '../../common'
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
 
@@ -235,6 +236,7 @@ const PlantCommunityBox = ({
             name={`${namespace}.notes`}
             permission={PLANT_COMMUNITY.NOTES}
             component={TextArea}
+            displayComponent={MultiParagraphDisplay}
             displayValue={notes}
             label={strings.PLANT_COMMUNITY_NOTES}
             fast

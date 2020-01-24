@@ -11,6 +11,7 @@ import PlantCommunities from '../plantCommunities'
 import { getIn, connect } from 'formik'
 import PercentField from '../../common/form/PercentField'
 import InputModal from '../../common/InputModal'
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const dropdownOptions = [
   { key: 'copy', value: 'copy', text: 'Copy' },
@@ -136,6 +137,7 @@ const PastureBox = ({
               permission={PASTURES.NOTES}
               displayValue={pasture.notes}
               component={Input}
+              displayComponent={MultiParagraphDisplay}
               label={strings.PASTURE_NOTES}
               fluid
               fast
