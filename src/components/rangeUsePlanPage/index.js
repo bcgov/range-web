@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Icon, Modal, Header, Button } from 'semantic-ui-react'
-import { Route } from 'react-router-dom'
+import { Route, Prompt } from 'react-router-dom'
 import { Loading, PrimaryButton } from '../common'
 import {
   planUpdated,
@@ -39,7 +39,7 @@ import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
-import { getPlan, savePlan, createVersion } from '../../api'
+import { getPlan, savePlan } from '../../api'
 import PDFView from './pdf/PDFView'
 import { getNetworkStatus } from '../../utils/helper/network'
 import { RANGE_USE_PLAN } from '../../constants/routes'
@@ -101,7 +101,9 @@ const Base = ({
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
 
-      await history.push(`${RANGE_USE_PLAN}/${planId}`)
+      await history.push(`${RANGE_USE_PLAN}/${planId}`, {
+        saved: true
+      })
 
       fetchPlan(planId)
     } catch (err) {
@@ -189,8 +191,17 @@ const Base = ({
           validateOnChange={true}
           validationSchema={RUPSchema}
           onSubmit={handleSubmit}
-          render={({ values: plan }) => (
+          render={({ values: plan, dirty }) => (
             <>
+              <Prompt
+                when={dirty}
+                message={location => {
+                  return (
+                    (location.state && location.state.saved) ||
+                    'This RUP has unsaved changes that will be lost if you leave this page. Are you sure you want to continue?'
+                  )
+                }}
+              />
               <OnSubmitValidationError callback={handleValidationError} />
 
               {(isUserAdmin(user) || isUserRangeOfficer(user)) && (
