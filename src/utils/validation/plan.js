@@ -10,13 +10,15 @@ import { handlePlantCommunityValidation } from './plantCommunity'
  * @param {Object} grazingSchedulesMap
  * @param {Array} livestockTypes the array of live stock types
  * @param {Array} usage the array of usage from the agreement
+ * @param {Boolean} isAgreementHolder is the current user an agreement holder?
  * @returns {Array} An array of errors
  */
 export const handleRupValidation = (
   plan = {},
   pastures = [],
   livestockTypes = [],
-  usage = []
+  usage = [],
+  isAgreementHolder = false
 ) => {
   const { grazingSchedules = [] } = plan
 
@@ -28,7 +30,8 @@ export const handleRupValidation = (
         schedule,
         pastures,
         livestockTypes,
-        usage
+        usage,
+        isAgreementHolder
       )
     ]
     return undefined

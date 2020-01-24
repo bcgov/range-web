@@ -36,13 +36,15 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
  * @param {Object} pasturesMap the array of pastures from the plan
  * @param {Array} livestockTypes the array of live stock types
  * @param {Array} usage the array of usage from the agreement
+ * @param {Boolean} isAgreementHolder is the current user an agreement holder?
  * @returns {Array} An array of errors
  */
 export const handleGrazingScheduleValidation = (
   schedule = {},
   pastures = [],
   livestockTypes = [],
-  usage = []
+  usage = [],
+  isAgreementHolder = false
 ) => {
   const { year, grazingScheduleEntries: gse } = schedule
   const grazingScheduleEntries = gse || []
@@ -58,11 +60,13 @@ export const handleGrazingScheduleValidation = (
   const errors = []
 
   if (grazingScheduleEntries.length === 0) {
-    errors.push({
-      error: true,
-      message: EMPTY_GRAZING_SCHEDULE_ENTRIES,
-      elementId
-    })
+    if (isAgreementHolder) {
+      errors.push({
+        error: true,
+        message: EMPTY_GRAZING_SCHEDULE_ENTRIES,
+        elementId
+      })
+    }
   }
 
   grazingScheduleEntries.map(entry => {
