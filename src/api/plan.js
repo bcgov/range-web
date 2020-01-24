@@ -103,7 +103,7 @@ export const savePlan = async plan => {
     })
   )
 
-  await saveGrazingSchedules(planId, grazingSchedules)
+  await saveGrazingSchedules(planId, grazingSchedules, newPastures)
   await saveInvasivePlantChecklist(planId, invasivePlantChecklist)
   await saveManagementConsiderations(planId, managementConsiderations)
   await saveMinisterIssues(planId, ministerIssues, newPastures)

@@ -6,13 +6,14 @@ export const createVersion = async planId => {
   await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig())
 }
 
-export const saveGrazingSchedules = (planId, grazingSchedules) => {
+export const saveGrazingSchedules = (planId, grazingSchedules, newPastures) => {
   return Promise.all(
     grazingSchedules.map(async schedule => {
       const grazingScheduleEntries = schedule.grazingScheduleEntries.map(
         ({ id: entryId, ...entry }) => ({
           ...entry,
-          ...(!uuid.isUUID(entryId) && { id: entryId })
+          ...(!uuid.isUUID(entryId) && { id: entryId }),
+          pastureId: newPastures.find(p => p.oldId === entry.pastureId).id
         })
       )
       const { id, ...grazingSchedule } = schedule
