@@ -14,6 +14,7 @@ import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import { deleteGrazingScheduleEntry } from '../../../api'
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
+import { useUser } from '../../../providers/UserProvider'
 
 const GrazingScheduleBox = ({
   schedule,
@@ -29,6 +30,7 @@ const GrazingScheduleBox = ({
   formik
 }) => {
   const { id, year } = schedule
+  const user = useUser()
   const narative = (schedule && schedule.narative) || ''
   const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs)
   const copyOptions =
@@ -44,10 +46,15 @@ const GrazingScheduleBox = ({
 
   const getScheduleError = () => {
     if (schedule.grazingScheduleEntries.length === 0) {
-      return strings.EMPTY_GRAZING_SCHEDULE_ENTRIES
+      if (user.roles.includes('myra_range_officer'))
+        return {
+          message: 'This schedule has no associated rows.',
+          type: 'warning'
+        }
+      return { message: strings.EMPTY_GRAZING_SCHEDULE_ENTRIES, type: 'error' }
     }
     if (isCrownTotalAUMsError) {
-      return strings.TOTAL_AUMS_EXCEEDS
+      return { message: strings.TOTAL_AUMS_EXCEEDS, type: 'error' }
     }
   }
 
@@ -113,8 +120,10 @@ const GrazingScheduleBox = ({
                 {(isError || scheduleError) && (
                   <ErrorMessage
                     message={
-                      scheduleError || strings.INVALID_GRAZING_SCHEDULE_ENTRY
+                      (scheduleError && scheduleError.message) ||
+                      strings.INVALID_GRAZING_SCHEDULE_ENTRY
                     }
+                    warning={scheduleError && scheduleError.type === 'warning'}
                     visible
                     attached
                   />
