@@ -9,6 +9,7 @@ import { INVASIVE_PLANTS } from '../../../constants/fields'
 import { Checkbox, TextArea } from 'formik-semantic-ui'
 import { useUser } from '../../../providers/UserProvider'
 import { useEditable } from '../../../providers/EditableProvider'
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const InvasivePlantChecklist = ({
   namespace,
@@ -116,6 +117,7 @@ const InvasivePlantChecklist = ({
                 name={`${namespace}.other`}
                 displayValue={other}
                 component={TextArea}
+                displayComponent={MultiParagraphDisplay}
               />
             </div>
           )}
