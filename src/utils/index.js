@@ -17,6 +17,7 @@
 //
 // Created by Kyubin Han.
 //
+import { reduce } from 'lodash'
 import {
   NOT_PROVIDED,
   NP,
@@ -189,3 +190,15 @@ export const detectIE = () => {
   // other browser
   return false
 }
+
+export const sequentialAsyncMap = async (array, iteratee) =>
+  reduce(
+    array,
+    async (resolvedValuesP, ...args) => {
+      const resolvedValues = await resolvedValuesP
+      const nextValue = await iteratee(...args)
+
+      return [...resolvedValues, nextValue]
+    },
+    []
+  )

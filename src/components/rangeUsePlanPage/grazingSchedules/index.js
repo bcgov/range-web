@@ -18,6 +18,12 @@ import { REFERENCE_KEY } from '../../../constants/variables'
 import moment from 'moment'
 import { deleteGrazingSchedule } from '../../../api'
 
+const sortYears = (a, b) => {
+  if (a.year > b.year) return 1
+  if (a.year < b.year) return -1
+  return 0
+}
+
 const GrazingSchedules = ({ plan }) => {
   const [yearOptions, setYearOptions] = useState([])
   const [activeIndex, setActiveIndex] = useState(0)
@@ -104,7 +110,7 @@ const GrazingSchedules = ({ plan }) => {
                 className={classnames('collaspible-boxes', {
                   'collaspible-boxes--empty': isEmpty
                 })}>
-                {grazingSchedules.map((schedule, index) => {
+                {grazingSchedules.sort(sortYears).map((schedule, index) => {
                   const yearUsage = plan.agreement.usage.find(
                     u => u.year === schedule.year
                   )
