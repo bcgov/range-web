@@ -22,7 +22,8 @@ const schedule = {
       graceDays: 4,
       livestockTypeId: 5,
       livestockCount: 10,
-      id: uuid()
+      id: uuid(),
+      pasture: { id: 1, name: 'Pasture 1', graceDays: 50 }
     }
   ]
 }
