@@ -36,7 +36,7 @@ const Criteria = ({ plantCommunity }) => (
 
     <Text style={styles.subtext}>
       If more than one readiness criteria is provided, all such criteria must be
-      met before grazing may accur
+      met before grazing may occur
     </Text>
 
     <Row>
