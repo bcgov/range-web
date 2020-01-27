@@ -17,6 +17,7 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import moment from 'moment'
 import { deleteGrazingSchedule } from '../../../api'
+import { populateGrazingScheduleFields } from '../../../utils/helper/grazingSchedule'
 
 const sortYears = (a, b) => {
   if (a.year > b.year) return 1
@@ -126,7 +127,11 @@ const GrazingSchedules = ({ plan }) => {
                     <GrazingScheduleBox
                       key={schedule.id}
                       yearOptions={yearOptions}
-                      schedule={schedule}
+                      schedule={populateGrazingScheduleFields(
+                        schedule,
+                        plan,
+                        references
+                      )}
                       index={index}
                       onScheduleClicked={() =>
                         setActiveIndex(index !== activeIndex ? index : -1)

@@ -314,7 +314,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
       <td
         class="collapsing"
       >
-        43
+        N/P
       </td>
       <td
         class="collapsing"
@@ -336,12 +336,12 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
       <td
         class="collapsing"
       >
-        0
+        N/P
       </td>
       <td
         class="collapsing"
       >
-        2.8
+        N/P
       </td>
       <td
         class="collapsing center aligned"

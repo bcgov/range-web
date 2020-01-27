@@ -255,7 +255,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
           style="overflow-x: scroll;"
         >
           <table
-            class="ui unstackable ten column table"
+            class="ui sortable unstackable ten column table"
           >
             <thead
               class=""
@@ -305,7 +305,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   </div>
                 </th>
                 <th
-                  class=""
+                  class="no-sort-tableheader"
                 >
                   Days
                 </th>
@@ -319,12 +319,12 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   </div>
                 </th>
                 <th
-                  class=""
+                  class="no-sort-tableheader"
                 >
                   PLD
                 </th>
                 <th
-                  class=""
+                  class="no-sort-tableheader"
                 >
                   Crown AUMs
                 </th>
@@ -332,6 +332,10 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   class=""
                 />
               </tr>
+            </thead>
+            <tbody
+              class=""
+            >
               <tr
                 class=""
               >
@@ -695,7 +699,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   </div>
                 </td>
               </tr>
-            </thead>
+            </tbody>
           </table>
         </div>
         <div
@@ -815,7 +819,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
           style="overflow-x: scroll;"
         >
           <table
-            class="ui unstackable bottom attached ten column table"
+            class="ui sortable unstackable bottom attached ten column table"
           >
             <thead
               class=""
@@ -865,7 +869,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   </div>
                 </th>
                 <th
-                  class=""
+                  class="no-sort-tableheader"
                 >
                   Days
                 </th>
@@ -879,12 +883,12 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   </div>
                 </th>
                 <th
-                  class=""
+                  class="no-sort-tableheader"
                 >
                   PLD
                 </th>
                 <th
-                  class=""
+                  class="no-sort-tableheader"
                 >
                   Crown AUMs
                 </th>
@@ -893,6 +897,9 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                 />
               </tr>
             </thead>
+            <tbody
+              class=""
+            />
           </table>
         </div>
         <div

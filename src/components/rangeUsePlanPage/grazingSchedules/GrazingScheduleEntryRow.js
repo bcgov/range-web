@@ -18,15 +18,19 @@ const GrazingScheduleEntryRow = ({
   namespace,
   onDelete,
   onCopy,
-  schedule
+  schedule,
+  onChange
 }) => {
   const {
     pastureId,
-    livestockTypeId,
     livestockCount,
     dateIn,
     dateOut,
-    graceDays
+    graceDays,
+    days,
+    pasture,
+    pldAUMs,
+    crownAUMs
   } = entry || {}
 
   const references = useReferences()
@@ -40,21 +44,6 @@ const GrazingScheduleEntryRow = ({
       text: name
     }
   })
-
-  const days = utils.calcDateDiff(dateOut, dateIn, false)
-  const pasture = formik.values.pastures.find(p => p.id === pastureId)
-
-  const pldPercent = pasture && pasture.pldPercent
-  const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
-  const auFactor = livestockType && livestockType.auFactor
-
-  const totalAUMs = utils.calcTotalAUMs(livestockCount, days, auFactor)
-  const pldAUMs = utils.roundTo1Decimal(
-    utils.calcPldAUMs(totalAUMs, pldPercent)
-  )
-  const crownAUMs = utils.roundTo1Decimal(
-    utils.calcCrownAUMs(totalAUMs, pldAUMs)
-  )
 
   const entryOptions = [
     { key: 'copy', text: 'Duplicate', onClick: onCopy },
@@ -86,6 +75,7 @@ const GrazingScheduleEntryRow = ({
               `${namespace}.graceDays`,
               pasture.graceDays || 0
             )
+            onChange()
           }}
         />
       </Table.Cell>
@@ -95,14 +85,11 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.livestockTypeId`}
           options={livestockTypeOptions}
           component={FormikDropdown}
-          displayValue={
-            livestockTypeOptions.find(o => o.value === livestockTypeId)
-              ? livestockTypeOptions.find(o => o.value === livestockTypeId).text
-              : ''
-          }
+          displayValue={entry.livestockType && entry.livestockType.name}
           inputProps={{
             search: true,
-            'aria-label': 'livestock type'
+            'aria-label': 'livestock type',
+            onChange
           }}
           fast
         />
@@ -113,7 +100,8 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.livestockCount`}
           displayValue={livestockCount}
           inputProps={{
-            'aria-label': 'livestock count'
+            'aria-label': 'livestock count',
+            onChange
           }}
           fast
         />
@@ -130,6 +118,7 @@ const GrazingScheduleEntryRow = ({
           minDate={initialDate}
           maxDate={maxDate}
           aria-label="date in"
+          onChange
         />
       </Table.Cell>
       <Table.Cell collapsing>
@@ -144,6 +133,7 @@ const GrazingScheduleEntryRow = ({
           minDate={initialDate}
           maxDate={maxDate}
           aria-label="date out"
+          onChange
         />
       </Table.Cell>
       <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
@@ -154,7 +144,8 @@ const GrazingScheduleEntryRow = ({
           displayValue={graceDays || (pasture && pasture.graceDays) || 0}
           inputProps={{
             type: 'number',
-            'aria-label': 'grace days'
+            'aria-label': 'grace days',
+            onChange
           }}
           fieldProps={{
             onBlur: e => {

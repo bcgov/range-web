@@ -449,3 +449,10 @@
     }
   }
 }
+
+.no-sort-tableheader {
+  &:hover {
+    background-color: #f9fafb !important;
+    cursor: default !important;
+  }
+}

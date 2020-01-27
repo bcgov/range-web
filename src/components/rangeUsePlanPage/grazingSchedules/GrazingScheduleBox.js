@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react'
+import * as _ from 'lodash/fp'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 import { roundTo1Decimal } from '../../../utils'
 import * as strings from '../../../constants/strings'
@@ -15,6 +16,7 @@ import { SCHEDULE } from '../../../constants/fields'
 import { deleteGrazingScheduleEntry } from '../../../api'
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 import { useUser } from '../../../providers/UserProvider'
+import SortableTableHeaderCell from '../../common/SortableTableHeaderCell'
 
 const GrazingScheduleBox = ({
   schedule,
@@ -29,7 +31,7 @@ const GrazingScheduleBox = ({
   onScheduleDelete,
   formik
 }) => {
-  const { id, year } = schedule
+  const { id, year, sortBy, sortOrder } = schedule
   const user = useUser()
   const narative = (schedule && schedule.narative) || ''
   const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs)
@@ -59,6 +61,39 @@ const GrazingScheduleBox = ({
   }
 
   const scheduleError = getScheduleError()
+
+  const setSortBy = column =>
+    formik.setFieldValue(`${namespace}.sortBy`, column)
+  const setSortOrder = order =>
+    formik.setFieldValue(`${namespace}.sortOrder`, order)
+
+  const handleHeaderClick = column => {
+    const orderByColumn = _.orderBy([column, 'createdAtDate'])
+
+    if (column !== sortBy) {
+      setSortBy(column)
+      setSortOrder('asc')
+
+      formik.setFieldValue(
+        `${namespace}.grazingScheduleEntries`,
+        orderByColumn('asc', schedule.grazingScheduleEntries)
+      )
+    } else {
+      const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'
+      setSortOrder(newSortOrder)
+
+      formik.setFieldValue(
+        `${namespace}.grazingScheduleEntries`,
+        orderByColumn(newSortOrder, schedule.grazingScheduleEntries)
+      )
+    }
+  }
+
+  const headerCellProps = {
+    currentSortBy: sortBy,
+    currentSortOrder: sortOrder === 'asc' ? 'ascending' : 'descending',
+    onClick: handleHeaderClick
+  }
 
   return (
     <FieldArray
@@ -130,46 +165,65 @@ const GrazingScheduleBox = ({
                 )}
                 <div style={{ overflowX: 'scroll' }}>
                   <Table
+                    sortable
                     unstackable
                     columns={10}
                     attached={isError || scheduleError ? 'bottom' : false}>
                     <Table.Header>
                       <Table.Row>
-                        <Table.HeaderCell>
+                        <SortableTableHeaderCell
+                          column="pasture"
+                          {...headerCellProps}>
                           <div className="rup__grazing-schedule__pasture">
                             {strings.PASTURE}
                           </div>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell
+                          column="livestockType.name"
+                          {...headerCellProps}>
                           <div className="rup__grazing-schedule__l-type">
                             {strings.LIVESTOCK_TYPE}
                           </div>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell
+                          column="livestockCount"
+                          {...headerCellProps}>
                           {strings.NUM_OF_ANIMALS}
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell
+                          column="dateIn"
+                          {...headerCellProps}>
                           <div className="rup__grazing-schedule__dates">
                             {strings.DATE_IN}
                           </div>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell
+                          column="dateOut"
+                          {...headerCellProps}>
                           <div className="rup__grazing-schedule__dates">
                             {strings.DATE_OUT}
                           </div>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>{strings.DAYS}</Table.HeaderCell>
-                        <Table.HeaderCell>
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell noSort>
+                          {strings.DAYS}
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell
+                          column="graceDays"
+                          {...headerCellProps}>
                           <div className="rup__grazing-schedule__grace-days">
                             {strings.GRACE_DAYS}
                           </div>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>{strings.PLD}</Table.HeaderCell>
-                        <Table.HeaderCell>
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell noSort>
+                          {strings.PLD}
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell noSort>
                           {strings.CROWN_AUMS}
-                        </Table.HeaderCell>
-                        <Table.HeaderCell />
+                        </SortableTableHeaderCell>
+                        <SortableTableHeaderCell />
                       </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
                       {schedule.grazingScheduleEntries.map(
                         (entry, entryIndex) => (
                           <GrazingScheduleEntryRow
@@ -181,10 +235,13 @@ const GrazingScheduleBox = ({
                             namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
                             onDelete={() => setToRemove(entryIndex)}
                             onCopy={() => push({ ...entry, id: uuid() })}
+                            onChange={() => {
+                              setSortBy(null)
+                            }}
                           />
                         )
                       )}
-                    </Table.Header>
+                    </Table.Body>
                   </Table>
                 </div>
 
