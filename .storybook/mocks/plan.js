@@ -81,6 +81,24 @@ export default {
           monitoringAreas: []
         }
       ]
+    },
+    {
+      id: 113,
+      name: 'A different pasture',
+      allowableAum: null,
+      graceDays: null,
+      pldPercent: null,
+      notes: null,
+      planId: 45
+    },
+    {
+      id: 114,
+      name: 'My second pasture',
+      allowableAum: null,
+      graceDays: null,
+      pldPercent: null,
+      notes: null,
+      planId: 45
     }
   ],
   grazingSchedules: [
@@ -96,10 +114,29 @@ export default {
           livestockCount: 1,
           dateIn: '2018-01-16T08:00:00.000Z',
           dateOut: '2018-01-19T08:00:00.000Z',
-          pastureId: 41,
+          pastureId: 1120,
           livestockTypeId: 5,
-          grazingScheduleId: 101,
-          livestockType: { id: 5, name: 'Sheep', auFactor: 0.2, active: true }
+          grazingScheduleId: 101
+        },
+        {
+          id: 111,
+          graceDays: 2,
+          livestockCount: 5,
+          dateIn: '2018-01-11T08:00:00.000Z',
+          dateOut: '2018-03-20T08:00:00.000Z',
+          pastureId: 112,
+          livestockTypeId: 2,
+          grazingScheduleId: 101
+        },
+        {
+          id: 112,
+          graceDays: 5,
+          livestockCount: 2,
+          dateIn: '2018-05-04T08:00:00.000Z',
+          dateOut: '2018-08-04T08:00:00.000Z',
+          pastureId: 114,
+          livestockTypeId: 2,
+          grazingScheduleId: 101
         }
       ]
     },
