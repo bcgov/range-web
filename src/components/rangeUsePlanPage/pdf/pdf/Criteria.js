@@ -5,6 +5,7 @@ import SectionHeader from './common/SectionHeader'
 import { View, Text, StyleSheet } from '@react-pdf/renderer'
 import { config } from './common/config'
 import IndicatorPlants from './IndicatorPlants'
+import moment from 'moment'
 
 const styles = StyleSheet.create({
   container: {
@@ -39,8 +40,13 @@ const Criteria = ({ plantCommunity }) => (
     </Text>
 
     <Row>
-      <Field label="Readiness Date"></Field>
-      <Field label="Notes"></Field>
+      <Field label="Readiness Date">
+        {moment()
+          .set('month', plantCommunity.rangeReadinessMonth - 1)
+          .set('date', plantCommunity.rangeReadinessDay)
+          .format('MMMM D')}
+      </Field>
+      <Field label="Notes">{plantCommunity.notes}</Field>
     </Row>
 
     <IndicatorPlants
