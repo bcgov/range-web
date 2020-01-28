@@ -1,5 +1,6 @@
 import React from 'react'
 import { TableHeaderCell } from 'semantic-ui-react'
+import { useEditable } from '../../providers/EditableProvider'
 
 const SortableTableHeaderCell = ({
   column,
@@ -8,8 +9,10 @@ const SortableTableHeaderCell = ({
   currentSortOrder,
   onClick,
   noSort = false
-}) =>
-  noSort ? (
+}) => {
+  const isEditable = useEditable()
+
+  return noSort || !isEditable ? (
     <TableHeaderCell className="no-sort-tableheader">
       {children}
     </TableHeaderCell>
@@ -20,5 +23,5 @@ const SortableTableHeaderCell = ({
       {children}
     </TableHeaderCell>
   )
-
+}
 export default SortableTableHeaderCell
