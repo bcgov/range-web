@@ -101,7 +101,7 @@ const Base = ({
       formik.setSubmitting(false)
       successToast('Successfully saved draft')
 
-      await history.push(`${RANGE_USE_PLAN}/${planId}`, {
+      await history.replace(`${RANGE_USE_PLAN}/${planId}`, {
         saved: true
       })
 
