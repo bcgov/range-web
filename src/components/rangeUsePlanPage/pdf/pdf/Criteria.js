@@ -41,10 +41,12 @@ const Criteria = ({ plantCommunity }) => (
 
     <Row>
       <Field label="Readiness Date">
-        {moment()
-          .set('month', plantCommunity.rangeReadinessMonth - 1)
-          .set('date', plantCommunity.rangeReadinessDay)
-          .format('MMMM D')}
+        {plantCommunity.rangeReadinessMonth &&
+          plantCommunity.rangeReadinessDay &&
+          moment()
+            .set('month', plantCommunity.rangeReadinessMonth - 1)
+            .set('date', plantCommunity.rangeReadinessDay)
+            .format('MMMM D')}
       </Field>
       <Field label="Notes">{plantCommunity.notes}</Field>
     </Row>
