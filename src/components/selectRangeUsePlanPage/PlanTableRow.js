@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import { formatDateFromServer, canUserEditThisPlan } from '../../utils'
 import { useUser } from '../../providers/UserProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
@@ -12,6 +12,9 @@ import { RANGE_USE_PLAN } from '../../constants/routes'
 const PlanTableRow = ({ plan }) => {
   const user = useUser()
   const references = useReferences()
+  const { page } = useParams()
+  const location = useLocation()
+  // console.log(loc)
 
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
   const amendmentType = amendmentTypes.find(
@@ -40,7 +43,10 @@ const PlanTableRow = ({ plan }) => {
           inverted
           compact
           as={Link}
-          to={`${RANGE_USE_PLAN}/${plan.id}`}>
+          to={{
+            pathname: `${RANGE_USE_PLAN}/${plan.id}`,
+            state: { page, prevSearch: location.search }
+          }}>
           {canUserEditThisPlan(plan, user) ? 'Edit' : VIEW}
         </PrimaryButton>
       </div>

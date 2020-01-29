@@ -196,7 +196,7 @@ class PageForStaff extends Component {
           <div className="rup__actions__background">
             <div className="rup__actions__container">
               <div className="rup__actions__left">
-                <BackBtn className="rup__back-btn" />
+                <BackBtn className="rup__back-btn" agreementId={agreementId} />
                 <div>{agreementId}</div>
                 <Status status={status} user={user} />
                 <NetworkStatus planId={plan.id} />
