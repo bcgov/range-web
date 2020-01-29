@@ -12,11 +12,11 @@ import {
   AGREEMENT_SEARCH_PLACEHOLDER
 } from '../../constants/strings'
 import { useToast } from '../../providers/ToastProvider'
-import { useQueryParam, StringParam, NumberParam } from 'use-query-params'
+import { useQueryParam, StringParam } from 'use-query-params'
 
-const SelectRangeUsePlanPage = () => {
+const SelectRangeUsePlanPage = ({ match, history }) => {
+  const { page = 1 } = match.params
   const [term = '', setTerm] = useQueryParam('term', StringParam)
-  const [page = 1, setPage] = useQueryParam('page', NumberParam)
   const [toastId, setToastId] = useState()
   const { warningToast, removeToast, errorToast } = useToast()
 
@@ -30,6 +30,9 @@ const SelectRangeUsePlanPage = () => {
       onSuccess: () => removeToast(toastId)
     }
   )
+
+  const setPage = page =>
+    history.replace(`/home/${page}/${history.location.search}`)
 
   const { agreements, totalPages, currentPage } = data || {}
 

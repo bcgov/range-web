@@ -65,7 +65,7 @@ const Router = () => {
           <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
           <ProtectedRoute
-            path={Routes.HOME}
+            path={`${Routes.HOME}/:page?`}
             component={SelectRangeUsePlan}
             user={user}
           />
