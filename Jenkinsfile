@@ -11,6 +11,7 @@ def GIT_BRANCH_NAME = ("${env.JOB_BASE_NAME}".contains("master")) ? "master" : "
 def SLACK_CHANNEL = '#rangedevteam'
 def POD_LABEL = "${APP_NAME}-${UUID.randomUUID().toString()}"
 
+
 def notifySlack(text, channel, url, attachments, icon) {
   def slackURL = url
   def jenkinsIcon = icon
