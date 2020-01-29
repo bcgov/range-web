@@ -93,7 +93,7 @@ export const PASTURE_NOTES = 'Pasture Notes (non legal content)'
 
 // RUP Plant Communities
 export const ASPECT = 'Aspect'
-export const ELEVATION = 'Elevation'
+export const ELEVATION = 'Elevation (m)'
 export const APPROVED_BY_MINISTER = 'Approved by minister'
 export const PLANT_COMMUNITY_NOTES = 'Plant Community Description'
 export const COMMUNITY_URL = 'Community URL'
