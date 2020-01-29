@@ -33,7 +33,7 @@ const PlantCommunity = ({ plantCommunity }) => {
       <Row>
         <Field>
           {plantCommunity.aspect || 'No aspect'}
-          {plantCommunity.elevation && ` | ${plantCommunity.elevation.name} FT`}
+          {plantCommunity.elevation && ` | ${plantCommunity.elevation.name} m`}
           {plantCommunity.approved && ' | Approved By Minister'}
         </Field>
       </Row>
