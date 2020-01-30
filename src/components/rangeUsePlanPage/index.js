@@ -198,7 +198,7 @@ const Base = ({
                 message={location => {
                   return (
                     (location.state && location.state.saved) ||
-                    'This RUP has unsaved changes that will be lost if you leave this page. Are you sure you want to continue?'
+                    'This RUP has unsaved changes that will be lost if you leave this page.'
                   )
                 }}
               />
