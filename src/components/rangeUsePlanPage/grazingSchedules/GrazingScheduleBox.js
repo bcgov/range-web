@@ -180,7 +180,7 @@ const GrazingScheduleBox = ({
                     <Table.Header>
                       <Table.Row>
                         <SortableTableHeaderCell
-                          column="pasture"
+                          column="pasture.name"
                           {...headerCellProps}>
                           <div className="rup__grazing-schedule__pasture">
                             {strings.PASTURE}
