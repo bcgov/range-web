@@ -322,14 +322,15 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
         <div
           class="field"
         >
-          <div
-            class="ui transparent input"
-          >
-            <input
-              aria-label="grace days"
-              type="text"
-              value="4"
-            />
+          <input
+            aria-label="grace days"
+            type="hidden"
+            value="4"
+          />
+          <div>
+            <p>
+              4
+            </p>
           </div>
         </div>
       </td>
