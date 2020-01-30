@@ -58,7 +58,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
         script: """git show -s --pretty=%an""",
         returnStdout: true).trim()
     }
-
+/*
    stage('Install') {
       echo "Setup: ${BUILD_ID}"
 
@@ -224,7 +224,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
            // notifySlack("${env.JOB_NAME}", "${SLACK_CHANNEL}", "https://hooks.slack.com/services/${SLACK_TOKEN}", [attachment], JENKINS_ICO)
            slackSend(channel: "ext-range", message: "commit ${GIT_COMMIT_SHORT_HASH} by ${GIT_COMMIT_AUTHOR}", sendAsText: true)
           }
-*/
+
 
           stage('Prod Approval') {
             timeout(time: 4, unit: 'HOURS') {
@@ -245,6 +245,6 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
           }
         }
       }
-    // }
+    // }*/
   }
 }
