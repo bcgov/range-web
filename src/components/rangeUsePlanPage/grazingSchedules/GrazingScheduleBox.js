@@ -79,13 +79,21 @@ const GrazingScheduleBox = ({
         orderByColumn('asc', schedule.grazingScheduleEntries)
       )
     } else {
-      const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'
-      setSortOrder(newSortOrder)
+      if (sortOrder === 'asc') {
+        setSortOrder('desc')
 
-      formik.setFieldValue(
-        `${namespace}.grazingScheduleEntries`,
-        orderByColumn(newSortOrder, schedule.grazingScheduleEntries)
-      )
+        formik.setFieldValue(
+          `${namespace}.grazingScheduleEntries`,
+          orderByColumn('desc', schedule.grazingScheduleEntries)
+        )
+      } else {
+        setSortOrder(null)
+        setSortBy(null)
+        formik.setFieldValue(
+          `${namespace}.grazingScheduleEntries`,
+          _.orderBy('createdAtDate', 'asc', schedule.grazingScheduleEntries)
+        )
+      }
     }
   }
 
