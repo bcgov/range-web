@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
-import { Input } from 'formik-semantic-ui'
+import { Input, TextArea } from 'formik-semantic-ui'
 import { Dropdown, Icon } from 'semantic-ui-react'
 import { CollapsibleBox } from '../../common'
 import * as strings from '../../../constants/strings'
@@ -136,7 +136,7 @@ const PastureBox = ({
               name={`${namespace}.notes`}
               permission={PASTURES.NOTES}
               displayValue={pasture.notes}
-              component={Input}
+              component={TextArea}
               displayComponent={MultiParagraphDisplay}
               label={strings.PASTURE_NOTES}
               fluid
