@@ -4,10 +4,11 @@ import { some, every } from 'lodash'
 import permissions from '../../constants/permissions'
 import { useUser } from '../../providers/UserProvider'
 import { Input } from 'formik-semantic-ui'
-import { Input as PlainInput, Form } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 import InfoTip from './InfoTip'
 import { handleNullValue } from '../../utils'
 import { useEditable } from '../../providers/EditableProvider'
+import MultiParagraphDisplay from './MultiParagraphDisplay'
 
 export const canUserEdit = (field, user) =>
   permissions[user.roles[0]].includes(field)
@@ -16,7 +17,7 @@ const PermissionsField = ({
   permission,
   displayValue,
   component: Component = Input,
-  displayComponent: DisplayComponent = PlainInput,
+  displayComponent: DisplayComponent = MultiParagraphDisplay,
   editable = false,
   ...props
 }) => {
