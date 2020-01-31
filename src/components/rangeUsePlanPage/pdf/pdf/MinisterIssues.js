@@ -9,6 +9,7 @@ import SectionHeader from './common/SectionHeader'
 import Field from './common/Field'
 import { formatMinisterIssues } from '../helper'
 import MinisterIssueActions from './MinisterIssueActions'
+import Row from './common/Row'
 
 const styles = StyleSheet.create({
   page: {
@@ -24,20 +25,22 @@ const MinisterIssues = ({ plan }) => (
 
     <Title>Minister&apos;s Issues and Actions</Title>
 
-    <Subtext>
-      If more than one readiness criteria is provided, all such criteria must be
-      met before grazing may accur.
-    </Subtext>
-
     {formatMinisterIssues(plan).map(ministerIssue => (
       <View key={ministerIssue.id}>
         <SectionHeader>
           Issue Type: {ministerIssue.ministerIssueType.name}
         </SectionHeader>
 
-        <Field label="Details">{ministerIssue.detail}</Field>
-        <Field label="Objectives">{ministerIssue.objective}</Field>
-        <Field label="Pastures">{ministerIssue.pastureNames}</Field>
+        <Row>
+          <Field label="Details">{ministerIssue.detail}</Field>
+        </Row>
+        <Row>
+          <Field label="Objectives">{ministerIssue.objective}</Field>
+        </Row>
+        <Row>
+          <Field label="Pastures">{ministerIssue.pastureNames}</Field>
+        </Row>
+
         <SectionHeader secondary>Actions</SectionHeader>
         {ministerIssue.ministerIssueActions.length > 0 ? (
           <MinisterIssueActions actions={ministerIssue.ministerIssueActions} />
