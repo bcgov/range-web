@@ -48,7 +48,9 @@ const Criteria = ({ plantCommunity }) => (
             .set('date', plantCommunity.rangeReadinessDay)
             .format('MMMM D')}
       </Field>
-      <Field label="Notes">{plantCommunity.notes}</Field>
+    </Row>
+    <Row>
+      <Field label="Other">{plantCommunity.notes}</Field>
     </Row>
 
     <IndicatorPlants
