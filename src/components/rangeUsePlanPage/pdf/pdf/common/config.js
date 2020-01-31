@@ -9,5 +9,6 @@ export const config = {
   fieldTitleFontSize: 11,
   normalFontSize: 10,
   fontFamily: 'Lato',
-  dateFormat: 'MMMM DD, YYYY'
+  dateFormat: 'MMMM DD, YYYY',
+  pagePadding: '80 50 50 50'
 }
