@@ -82,11 +82,13 @@ const Schedules = ({ plan }) => {
               <Text>Total AUMs: {schedule.crownTotalAUMs}</Text>
             </Row>
             <Row>
-              <Field label="Schedule Description">{schedule.narative}</Field>
               <Text>
                 Schedule description is optional but if included is legal
                 content
               </Text>
+            </Row>
+            <Row>
+              <Field label="Schedule Description">{schedule.narative}</Field>
             </Row>
             {i + 1 !== schedules.length && <Line color={config.primaryColor} />}
           </React.Fragment>
