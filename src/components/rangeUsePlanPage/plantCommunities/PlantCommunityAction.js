@@ -34,8 +34,8 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
       value: type.id,
       text: type.name
     }))
-    .filter(o => o.text !== 'Other')
     .concat(otherOption)
+    .filter(o => o.text !== 'Other')
 
   const valueInputRef = useRef(null)
 
@@ -72,7 +72,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             },
             onAddItem: (e, { value }) => {
               setOtherOption({
-                ...otherOption,
+                ...otherType,
                 text: value
               })
 
