@@ -12,6 +12,7 @@ import SectionHeader from './common/SectionHeader'
 import Row from './common/Row'
 import Field from './common/Field'
 import Line from './common/Line'
+import ExplanatoryText from './common/ExplanatoryText'
 
 const styles = StyleSheet.create({
   page: {
@@ -81,12 +82,11 @@ const Schedules = ({ plan }) => {
               </Text>
               <Text>Total AUMs: {schedule.crownTotalAUMs}</Text>
             </Row>
-            <Row>
-              <Text>
-                Schedule description is optional but if included is legal
-                content
-              </Text>
-            </Row>
+
+            <ExplanatoryText>
+              Schedule description is optional but if included is legal content
+            </ExplanatoryText>
+
             <Row>
               <Field label="Schedule Description">{schedule.narative}</Field>
             </Row>

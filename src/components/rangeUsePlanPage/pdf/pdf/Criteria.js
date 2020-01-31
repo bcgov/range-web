@@ -6,6 +6,7 @@ import { View, Text, StyleSheet } from '@react-pdf/renderer'
 import { config } from './common/config'
 import IndicatorPlants from './IndicatorPlants'
 import moment from 'moment'
+import ExplanatoryText from './common/ExplanatoryText'
 
 const styles = StyleSheet.create({
   container: {
@@ -34,10 +35,10 @@ const Criteria = ({ plantCommunity }) => (
       <SectionHeader style={styles.header}>Range Readiness</SectionHeader>
     </Row>
 
-    <Text style={styles.subtext}>
+    <ExplanatoryText>
       If more than one readiness criteria is provided, all such criteria must be
       met before grazing may occur
-    </Text>
+    </ExplanatoryText>
 
     <Row>
       <Field label="Readiness Date">
@@ -62,10 +63,10 @@ const Criteria = ({ plantCommunity }) => (
       <SectionHeader style={styles.header}>Stubble Height</SectionHeader>
     </Row>
 
-    <Text style={styles.subtext}>
+    <ExplanatoryText>
       Livestock must be removed on the first to occur of the date in the plan
       (ex. schedule), stubble height criteria or average browse criteria.
-    </Text>
+    </ExplanatoryText>
 
     <IndicatorPlants
       indicatorPlants={plantCommunity.indicatorPlants}
@@ -76,10 +77,10 @@ const Criteria = ({ plantCommunity }) => (
       <SectionHeader style={styles.header}>Shrub Use</SectionHeader>
     </Row>
 
-    <Text style={styles.subtext}>
+    <ExplanatoryText>
       Unless otherwise indicated above, shrub species may be browsed at 25% of
       current annual growth.
-    </Text>
+    </ExplanatoryText>
 
     <Field label="% of Current Annual Growth">{plantCommunity.shrubUse}</Field>
   </View>
