@@ -58,22 +58,26 @@ const PlantCommunityActions = ({ actions }) => (
         <View style={styles.detailsSection}>
           <Text style={styles.details}>{action.details}</Text>
           <Row>
-            <Text style={styles.bold}>No Graze Period: </Text>
-            <Text style={styles.grazePeriod}>
-              {action.noGrazeStartMonth && action.noGrazeStartDay
-                ? moment()
-                    .set('month', action.noGrazeStartMonth)
-                    .set('date', action.noGrazeStartDay)
-                    .format('MMMM Do')
-                : 'Not Provided'}{' '}
-              -{' '}
-              {action.noGrazeEndMonth && action.noGrazeEndDay
-                ? moment()
-                    .set('month', action.noGrazeEndMonth)
-                    .set('date', action.noGrazeEndDay)
-                    .format('MMMM Do')
-                : 'Not Provided'}
-            </Text>
+            {action.actionType.name === 'Timing' && (
+              <>
+                <Text style={styles.bold}>No Graze Period: </Text>
+                <Text style={styles.grazePeriod}>
+                  {action.noGrazeStartMonth && action.noGrazeStartDay
+                    ? moment()
+                        .set('month', action.noGrazeStartMonth - 1)
+                        .set('date', action.noGrazeStartDay)
+                        .format('MMMM Do')
+                    : 'Not Provided'}{' '}
+                  -{' '}
+                  {action.noGrazeEndMonth && action.noGrazeEndDay
+                    ? moment()
+                        .set('month', action.noGrazeEndMonth - 1)
+                        .set('date', action.noGrazeEndDay)
+                        .format('MMMM Do')
+                    : 'Not Provided'}
+                </Text>
+              </>
+            )}
           </Row>
         </View>
       </View>

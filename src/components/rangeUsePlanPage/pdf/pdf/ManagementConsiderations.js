@@ -8,11 +8,11 @@ import Subtext from './common/Subtext'
 import { handleNullValue } from '../helper'
 import Label from './common/Label'
 import Row from './common/Row'
+import ExplanatoryText from './common/ExplanatoryText'
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
-    paddingTop: 70,
+    padding: config.pagePadding,
     fontFamily: config.fontFamily,
     fontSize: config.normalFontSize
   },
@@ -34,10 +34,10 @@ const ManagementConsiderations = ({ plan }) => {
 
       <Title>Management Considerations</Title>
 
-      <Subtext>
+      <ExplanatoryText>
         Content in this section is non-legal and is intended to provide
         additional information about management within the agreement area.
-      </Subtext>
+      </ExplanatoryText>
       <Row>
         <Label>Considerations</Label>
         <Label style={{ flex: 2 }}>Details</Label>

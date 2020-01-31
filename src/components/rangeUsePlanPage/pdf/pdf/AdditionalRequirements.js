@@ -11,8 +11,7 @@ import Row from './common/Row'
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
-    paddingTop: 70,
+    padding: config.pagePadding,
     fontFamily: config.fontFamily,
     fontSize: config.normalFontSize
   },

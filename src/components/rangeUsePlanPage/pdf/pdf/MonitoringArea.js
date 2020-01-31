@@ -13,6 +13,9 @@ const MonitoringArea = ({ monitoringArea }) => (
 
     <Row>
       <Field label="Location">{monitoringArea.location}</Field>
+    </Row>
+
+    <Row>
       <Field label="Latitude/Longitude">
         {monitoringArea.latitude}/{monitoringArea.longitude}
       </Field>

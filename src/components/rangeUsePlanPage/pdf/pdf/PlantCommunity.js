@@ -19,6 +19,13 @@ const styles = StyleSheet.create({
 })
 
 const PlantCommunity = ({ plantCommunity }) => {
+  const description = [
+    plantCommunity.aspect,
+    plantCommunity.elevation && `${plantCommunity.elevation.name} m`
+  ]
+    .filter(d => d)
+    .join(' | ')
+
   const communityType =
     (plantCommunity.communityType && plantCommunity.communityType.name) ||
     'Not provided'
@@ -31,11 +38,7 @@ const PlantCommunity = ({ plantCommunity }) => {
       </Row>
 
       <Row>
-        <Field>
-          {plantCommunity.aspect || 'No aspect'}
-          {plantCommunity.elevation && ` | ${plantCommunity.elevation.name} m`}
-          {plantCommunity.approved && ' | Approved By Minister'}
-        </Field>
+        <Field>{description}</Field>
       </Row>
 
       <Row>

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#444444',
     fontFamily: 'Lato',
-    height: 50
+    height: 60
   },
   image: {
     height: '110%',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontWeight: 'normal',
-    fontSize: 15,
+    fontSize: 11,
     color: '#000000'
   }
 })
