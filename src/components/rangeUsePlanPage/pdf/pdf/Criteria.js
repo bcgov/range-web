@@ -73,14 +73,16 @@ const Criteria = ({ plantCommunity }) => (
       criteria="stubbleheight"
     />
 
-    <Row>
-      <SectionHeader style={styles.header}>Shrub Use</SectionHeader>
-    </Row>
+    <View wrap={false}>
+      <Row>
+        <SectionHeader style={styles.header}>Shrub Use</SectionHeader>
+      </Row>
 
-    <ExplanatoryText>
-      Unless otherwise indicated above, shrub species may be browsed at 25% of
-      current annual growth.
-    </ExplanatoryText>
+      <ExplanatoryText>
+        Unless otherwise indicated above, shrub species may be browsed at 25% of
+        current annual growth.
+      </ExplanatoryText>
+    </View>
 
     <Field label="% of Current Annual Growth">{plantCommunity.shrubUse}</Field>
   </View>
