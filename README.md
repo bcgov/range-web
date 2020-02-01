@@ -108,15 +108,15 @@ Create React App allows us to dynamically import parts of our app using the `imp
 ## Openshift Deployment Cheatsheet:
 * image-stream: range-myra-web
 * app build-config: range-myra-web-dev-build
-*     outputs to: range-myra-web:latest
+* outputs to: range-myra-web:latest
 
 * image-stream: range-myra-web-caddy
 * caddy build-config: range-myra-web-caddy-dev-build
-*     input image stream tag: range-myra-web:latest
-*     output image stream tag: range-myra-web-caddy:latest
+* input image stream tag: range-myra-web:latest
+* output image stream tag: range-myra-web-caddy:latest
 
 * deploy-config: range-myra-web-caddy
-*     trigger: range-myra-web-caddy:test
+* trigger: range-myra-web-caddy:test
 
 
 - [Github Action Openshift image build + tag](https://github.com/bcgov/range-web/blob/dev/.github/workflows/deploy-test.yml)
