@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const IndicatorPlants = ({ indicatorPlants, criteria }) => (
+const IndicatorPlants = ({ indicatorPlants, criteria, valueLabel }) => (
   <View>
     <Row>
       <Text style={styles.label}>Indicator Plant</Text>
-      <Text style={styles.label}>Criteria (Leaf Stage)</Text>
+      <Text style={styles.label}>{valueLabel}</Text>
     </Row>
 
     {indicatorPlants
