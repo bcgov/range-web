@@ -57,6 +57,7 @@ const Criteria = ({ plantCommunity }) => (
     <IndicatorPlants
       indicatorPlants={plantCommunity.indicatorPlants}
       criteria="rangereadiness"
+      valueLabel="Criteria (Leaf Stage)"
     />
 
     <Row>
@@ -71,6 +72,7 @@ const Criteria = ({ plantCommunity }) => (
     <IndicatorPlants
       indicatorPlants={plantCommunity.indicatorPlants}
       criteria="stubbleheight"
+      valueLabel="Height After Grazing (cm)"
     />
 
     <View wrap={false}>
