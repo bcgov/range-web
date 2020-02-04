@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Dropdown, Icon } from 'semantic-ui-react'
-import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
+import { Table } from 'semantic-ui-react'
 import { connect } from 'formik'
 import * as utils from '../../../utils'
 import { useReferences } from '../../../providers/ReferencesProvider'
@@ -12,6 +11,7 @@ import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
 import PasturesDropdown from './PasturesDropdown'
 import Select from '../../common/Select'
+import RowMenu from './RowMenu'
 
 const GrazingScheduleEntryRow = ({
   entry,
@@ -45,15 +45,6 @@ const GrazingScheduleEntryRow = ({
       label: name
     }
   })
-
-  const entryOptions = [
-    { key: 'copy', text: 'Duplicate', onClick: onCopy },
-    {
-      key: 'delete',
-      text: 'Delete',
-      onClick: onDelete
-    }
-  ]
 
   const initialDate = moment()
     .set('year', schedule.year)
@@ -162,12 +153,7 @@ const GrazingScheduleEntryRow = ({
       </Table.Cell>
       <IfEditable permission={SCHEDULE.TYPE}>
         <Table.Cell collapsing textAlign="center">
-          <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={entryOptions}
-            icon={null}
-            pointing="right"
-          />
+          <RowMenu onCopy={onCopy} onDelete={onDelete} />
         </Table.Cell>
       </IfEditable>
     </Table.Row>
