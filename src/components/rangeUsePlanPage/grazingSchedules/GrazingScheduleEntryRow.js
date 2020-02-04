@@ -11,6 +11,7 @@ import { SCHEDULE } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
 import PasturesDropdown from './PasturesDropdown'
+import Select from '../../common/Select'
 
 const GrazingScheduleEntryRow = ({
   entry,
@@ -41,7 +42,7 @@ const GrazingScheduleEntryRow = ({
     return {
       key: id,
       value: id,
-      text: name
+      label: name
     }
   })
 
@@ -70,7 +71,7 @@ const GrazingScheduleEntryRow = ({
         <PasturesDropdown
           name={`${namespace}.pastureId`}
           pastureId={pastureId}
-          onChange={(e, { pasture }) => {
+          onChange={({ pasture }) => {
             formik.setFieldValue(
               `${namespace}.graceDays`,
               pasture.graceDays || 0
@@ -84,13 +85,9 @@ const GrazingScheduleEntryRow = ({
           permission={SCHEDULE.TYPE}
           name={`${namespace}.livestockTypeId`}
           options={livestockTypeOptions}
-          component={FormikDropdown}
+          component={Select}
           displayValue={entry.livestockType && entry.livestockType.name}
-          inputProps={{
-            search: true,
-            'aria-label': 'livestock type',
-            onChange
-          }}
+          onChange={onChange}
           fast
         />
       </Table.Cell>
