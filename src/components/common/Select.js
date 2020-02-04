@@ -14,7 +14,7 @@ const Select = ({ name, formik, onChange, options = [], inputProps }) => {
       value={selectedOption}
       onChange={({ value }) => {
         formik.setFieldValue(name, value)
-        if (onChange) {
+        if (onChange && typeof onChange === 'function') {
           onChange(value)
         }
       }}
