@@ -2,7 +2,7 @@ import React from 'react'
 import PermissionsField from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
 import Select from '../../common/Select'
-import { connect, getIn } from 'formik'
+import { connect } from 'formik'
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
@@ -14,8 +14,6 @@ const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
       label: name
     }
   })
-
-  const currentValue = getIn(formik.values, name)
 
   return (
     <PermissionsField
@@ -29,11 +27,11 @@ const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
           : ''
       }
       options={pastureOptions}
-      onChange={({ value }) => {
+      onChange={value => {
         if (onChange) {
           onChange({
             value,
-            pasture: formik.values.pastures.find(p => p.id === currentValue)
+            pasture: formik.values.pastures.find(p => p.id === value)
           })
         }
       }}
