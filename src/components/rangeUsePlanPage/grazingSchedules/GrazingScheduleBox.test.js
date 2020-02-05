@@ -1,11 +1,7 @@
 import React from 'react'
 import uuid from 'uuid-v4'
 import { Formik } from 'formik'
-import {
-  render,
-  getSemanticDropdownValue,
-  fireEvent
-} from '../../../tests/helpers/test-utils'
+import { render, fireEvent, wait } from '../../../tests/helpers/test-utils'
 import GrazingScheduleBox from './GrazingScheduleBox'
 import moment from 'moment'
 
@@ -58,22 +54,25 @@ const WrappedComponent = ({
 )
 
 describe('Grazing Schedule Entry Box', () => {
-  it('duplicates a row when the duplicate button is pressed', () => {
-    const { getByText, getAllByLabelText } = render(<WrappedComponent />)
+  it('duplicates a row when the duplicate button is pressed', async () => {
+    const { getByText, getAllByLabelText, getAllByTestId } = render(
+      <WrappedComponent />
+    )
+
+    const firstMenu = getAllByTestId('schedule-row-menu')[0].firstChild
+    fireEvent.click(firstMenu)
 
     fireEvent.click(getByText('Duplicate'))
 
+    await wait()
+
     const pastureDropdowns = getAllByLabelText('pasture')
     expect(pastureDropdowns).toHaveLength(2)
-    expect(getSemanticDropdownValue(pastureDropdowns[0])).toBe(
-      getSemanticDropdownValue(pastureDropdowns[1])
-    )
+    expect(pastureDropdowns[0].value).toBe(pastureDropdowns[1].value)
 
     const livestockTypes = getAllByLabelText('livestock type')
     expect(livestockTypes).toHaveLength(2)
-    expect(getSemanticDropdownValue(livestockTypes[0])).toBe(
-      getSemanticDropdownValue(livestockTypes[1])
-    )
+    expect(livestockTypes[0].value).toBe(livestockTypes[1].value)
 
     const livestockCounts = getAllByLabelText('livestock count')
     expect(livestockCounts).toHaveLength(2)
@@ -88,16 +87,25 @@ describe('Grazing Schedule Entry Box', () => {
     expect(dateOuts[0].value).toBe(dateOuts[1].value)
   })
 
-  it('deletes a row when the delete button is pressed', () => {
-    const { getAllByText, getByText, queryAllByLabelText } = render(
-      <WrappedComponent />
-    )
+  it('deletes a row when the delete button is pressed', async () => {
+    const {
+      getAllByText,
+      getByText,
+      queryAllByLabelText,
+      getAllByTestId
+    } = render(<WrappedComponent />)
+
+    const firstMenu = getAllByTestId('schedule-row-menu')[0].firstChild
+    fireEvent.click(firstMenu)
 
     // The first delete button is for the whole schedule. We want the button for
     // just the row.
     const rowDeleteButton = getAllByText('Delete')[1]
     expect(rowDeleteButton).not.toHaveClass('disabled')
     fireEvent.click(rowDeleteButton)
+
+    await wait()
+
     // Click 'OK' in confirmation modal
     fireEvent.click(getByText('OK'))
 
@@ -118,7 +126,7 @@ describe('Grazing Schedule Entry Box', () => {
   })
 
   it('does not disable the delete button when an entry is persisted', () => {
-    const { getAllByText } = render(
+    const { getAllByText, getAllByTestId } = render(
       <WrappedComponent
         initialValues={{
           grazingSchedules: [
@@ -133,6 +141,9 @@ describe('Grazing Schedule Entry Box', () => {
         }}
       />
     )
+
+    const firstMenu = getAllByTestId('schedule-row-menu')[0].firstChild
+    fireEvent.click(firstMenu)
 
     // The first delete button is for the whole schedule. We want the button for
     // just the row.

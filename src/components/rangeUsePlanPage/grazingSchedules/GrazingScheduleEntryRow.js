@@ -79,6 +79,7 @@ const GrazingScheduleEntryRow = ({
           component={Select}
           displayValue={entry.livestockType && entry.livestockType.name}
           onChange={onChange}
+          aria-label="livestock type"
           fast
         />
       </Table.Cell>

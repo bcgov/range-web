@@ -1,15 +1,10 @@
 import React from 'react'
 import uuid from 'uuid-v4'
 import { Formik } from 'formik'
-import {
-  render,
-  getSemanticDropdownValue,
-  fireEvent
-} from '../../../tests/helpers/test-utils'
+import { render, fireEvent, wait } from '../../../tests/helpers/test-utils'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 import { UserContext } from '../../../providers/UserProvider'
 import moment from 'moment'
-import mockReference from '../../../tests/intergration/mockData/mockReference'
 
 const schedule = {
   id: 1,
@@ -41,19 +36,21 @@ const WrappedComponent = ({
 }) => (
   <Formik
     initialValues={initialValues}
-    render={({ values }) => (
-      <table>
-        <tbody>
-          <GrazingScheduleEntryRow
-            schedule={values.schedule}
-            entry={values.schedule.grazingScheduleEntries[0]}
-            namespace={namespace}
-            onCopy={jest.fn()}
-            onDelete={jest.fn()}
-            {...props}
-          />
-        </tbody>
-      </table>
+    render={({ values, handleSubmit }) => (
+      <form onSubmit={handleSubmit} data-testid="form">
+        <table>
+          <tbody>
+            <GrazingScheduleEntryRow
+              schedule={values.schedule}
+              entry={values.schedule.grazingScheduleEntries[0]}
+              namespace={namespace}
+              onCopy={jest.fn()}
+              onDelete={jest.fn()}
+              {...props}
+            />
+          </tbody>
+        </table>
+      </form>
     )}
   />
 )
@@ -65,62 +62,70 @@ describe('Grazing Schedule Entry Row', () => {
     expect(container.firstChild).toMatchSnapshot()
   })
 
-  it('shows an input for each schedule entry field', () => {
-    const { queryByLabelText, getByLabelText } = render(<WrappedComponent />)
+  it('shows an input for each schedule entry field', async () => {
+    const { queryByLabelText, getByLabelText, debug, getByTestId } = render(
+      <WrappedComponent />
+    )
 
     const [entry] = schedule.grazingScheduleEntries
 
     const pasture = getByLabelText('pasture')
     expect(pasture).toBeInTheDocument()
-    expect(getSemanticDropdownValue(pasture)).toBe(
-      pastures.find(p => p.id === entry.pastureId).name
-    )
+    debug(pasture.parentElement)
 
-    const livestockType = getByLabelText('livestock type')
-    expect(livestockType).toBeInTheDocument()
-    expect(getSemanticDropdownValue(livestockType)).toBe(
-      mockReference.LIVESTOCK_TYPE.find(
-        type => type.id === entry.livestockTypeId
-      ).name
-    )
+    const form = getByTestId('form')
 
-    const livestockCount = getByLabelText('livestock count')
-    expect(livestockCount).toBeInTheDocument()
-    expect(livestockCount.value).toBe(entry.livestockCount.toString())
-
-    const dateIn = getByLabelText('date in')
-    expect(dateIn).toBeInTheDocument()
-    expect(dateIn.value).toBe(entry.dateIn.format('MMM D YYYY'))
-
-    const dateOut = getByLabelText('date out')
-    expect(dateOut).toBeInTheDocument()
-    expect(dateOut.value).toBe(entry.dateOut.format('MMM D YYYY'))
+    expect(form).toHaveFormValues({
+      'schedule.grazingScheduleEntries.0.pastureId': entry.pastureId.toString(),
+      'schedule.grazingScheduleEntries.0.livestockTypeId': entry.livestockTypeId.toString(),
+      'schedule.grazingScheduleEntries.0.livestockCount': entry.livestockCount.toString(),
+      'schedule.grazingScheduleEntries.0.dateIn': entry.dateIn.format(
+        'MMM D YYYY'
+      ),
+      'schedule.grazingScheduleEntries.0.dateOut': entry.dateOut.format(
+        'MMM D YYYY'
+      )
+    })
 
     expect(queryByLabelText('grace days').value).toBe(
       entry.graceDays.toString()
     )
   })
 
-  it('calls the onCopy handler when the duplicate button is pressed', () => {
+  it('calls the onCopy handler when the duplicate button is pressed', async () => {
     const handleCopy = jest.fn()
 
-    const { getByText } = render(<WrappedComponent onCopy={handleCopy} />)
+    const { getByText, getByTestId } = render(
+      <WrappedComponent onCopy={handleCopy} />
+    )
+
+    const menu = getByTestId('schedule-row-menu').firstChild
+    fireEvent.click(menu)
 
     const duplicateBtn = getByText('Duplicate')
 
     fireEvent.click(duplicateBtn)
 
+    await wait()
+
     expect(handleCopy).toHaveBeenCalled()
   })
 
-  it('calls the onDelete handler when the delete button is pressed', () => {
+  it('calls the onDelete handler when the delete button is pressed', async () => {
     const handleDelete = jest.fn()
 
-    const { getByText } = render(<WrappedComponent onDelete={handleDelete} />)
+    const { getByText, getByTestId } = render(
+      <WrappedComponent onDelete={handleDelete} />
+    )
+
+    const menu = getByTestId('schedule-row-menu').firstChild
+    fireEvent.click(menu)
 
     const deleteBtn = getByText('Delete')
 
     fireEvent.click(deleteBtn)
+
+    await wait()
 
     expect(handleDelete).toHaveBeenCalled()
   })

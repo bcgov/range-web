@@ -26,6 +26,7 @@ const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
           ? pastureOptions.find(p => p.value === pastureId).text
           : ''
       }
+      aria-label="pasture"
       options={pastureOptions}
       onChange={value => {
         if (onChange) {

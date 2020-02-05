@@ -10,7 +10,7 @@ const RowMenu = ({ onCopy, onDelete }) => {
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div ref={ref}>
+          <div ref={ref} data-testid="schedule-row-menu">
             <Icon name="ellipsis vertical" onClick={() => setIsOpen(!isOpen)} />
           </div>
         )}
@@ -48,7 +48,7 @@ const RowMenu = ({ onCopy, onDelete }) => {
                           onCopy()
                         }, 0)
                       }}>
-                      Copy
+                      Duplicate
                     </Menu.Item>
                     <Menu.Item
                       onClick={() => {

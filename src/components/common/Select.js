@@ -2,7 +2,14 @@ import React from 'react'
 import ReactSelect from 'react-select'
 import { connect, getIn } from 'formik'
 
-const Select = ({ name, formik, onChange, options = [], inputProps }) => {
+const Select = ({
+  name,
+  formik,
+  onChange,
+  options = [],
+  inputProps,
+  ...props
+}) => {
   const currentValue = getIn(formik.values, name)
   const selectedOption = options.find(f => f.value === currentValue)
 
@@ -11,6 +18,7 @@ const Select = ({ name, formik, onChange, options = [], inputProps }) => {
 
   return (
     <ReactSelect
+      {...props}
       {...inputProps}
       name={name}
       options={options}
