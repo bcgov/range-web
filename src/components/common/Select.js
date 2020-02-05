@@ -6,6 +6,9 @@ const Select = ({ name, formik, onChange, options = [], inputProps }) => {
   const currentValue = getIn(formik.values, name)
   const selectedOption = options.find(f => f.value === currentValue)
 
+  const error = getIn(formik.errors, name)
+  const isError = Boolean(error)
+
   return (
     <ReactSelect
       {...inputProps}
@@ -23,6 +26,12 @@ const Select = ({ name, formik, onChange, options = [], inputProps }) => {
         container: styles => ({
           ...styles,
           width: '170px'
+        }),
+        control: styles => ({
+          ...styles,
+          borderColor: isError ? '#e0b4b4' : styles.borderColor,
+          background: isError ? '#fff6f6' : styles.background,
+          color: isError ? '#9f3a38' : styles.color
         })
       }}
       menuPortalTarget={document.body}
