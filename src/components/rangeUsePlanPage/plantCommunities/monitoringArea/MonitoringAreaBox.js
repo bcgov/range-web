@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { oxfordComma } from '../../../../utils'
 import { MONITORING_AREAS } from '../../../../constants/fields'
 import { MONITOING_AREA_PURPOSE_TIP } from '../../../../constants/strings'
-import { Input, Dropdown } from 'formik-semantic-ui'
+import { Input, Dropdown, TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField'
 import { REFERENCE_KEY } from '../../../../constants/variables'
 import { connect } from 'formik'
@@ -111,33 +111,31 @@ const MonitoringAreaBox = ({
           }}
         />
       </div>
-      <Form.Group widths="equal">
-        <PermissionsField
-          name={`${namespace}.location`}
-          permission={MONITORING_AREAS.LOCATION}
-          component={Input}
-          displayValue={location}
-          label="Location"
-          inputProps={{
-            placeholder: 'Descriptive'
-          }}
-          fieldProps={{ required: true }}
-        />
+      <PermissionsField
+        name={`${namespace}.location`}
+        permission={MONITORING_AREAS.LOCATION}
+        component={TextArea}
+        displayValue={location}
+        label="Location"
+        inputProps={{
+          placeholder: 'Descriptive'
+        }}
+        fieldProps={{ required: true }}
+      />
 
-        <PermissionsField
-          name={`${namespace}.rangelandHealthId`}
-          permission={MONITORING_AREAS.RANGELAND_HEALTH}
-          component={Dropdown}
-          options={rangelandHealthOptions}
-          displayValue={
-            rangelandHealthTypes.find(r => r.id === rangelandHealthId)
-              ? rangelandHealthTypes.find(r => r.id === rangelandHealthId).name
-              : ''
-          }
-          label="Rangeland Health"
-          fieldProps={{ required: true }}
-        />
-      </Form.Group>
+      <PermissionsField
+        name={`${namespace}.rangelandHealthId`}
+        permission={MONITORING_AREAS.RANGELAND_HEALTH}
+        component={Dropdown}
+        options={rangelandHealthOptions}
+        displayValue={
+          rangelandHealthTypes.find(r => r.id === rangelandHealthId)
+            ? rangelandHealthTypes.find(r => r.id === rangelandHealthId).name
+            : ''
+        }
+        label="Rangeland Health"
+        fieldProps={{ required: true }}
+      />
 
       <PermissionsField
         name={`${namespace}.purposeTypeIds`}
