@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import uuid from 'uuid-v4'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
@@ -10,11 +10,17 @@ export const useToast = () => useContext(ToastContext)
 
 const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([])
+  const toastsRef = useRef()
+
+  useEffect(() => {
+    toastsRef.current = toasts
+  }, [toasts])
 
   const addToast = (message, status, timeout = 3000) => {
-    const id = uuid.random()
+    const id = uuid()
+
     setToasts([
-      ...toasts,
+      ...toastsRef.current,
       {
         id,
         message,
@@ -35,7 +41,8 @@ const ToastProvider = ({ children }) => {
   const warningToast = (message, timeout) =>
     addToast(message, 'warning', timeout)
 
-  const removeToast = id => setToasts(toasts.filter(t => t.id !== id))
+  const removeToast = id =>
+    setToasts(toastsRef.current.filter(t => t.id !== id))
 
   return (
     <ToastContext.Provider
@@ -68,7 +75,7 @@ const ToastProvider = ({ children }) => {
             <div className="toast__content">{toast.message}</div>
             <button
               className="toast__dismiss"
-              onClick={() => removeToast(toast)}>
+              onClick={() => removeToast(toast.id)}>
               <Icon name="times" size="small" />
             </button>
           </div>
