@@ -1,8 +1,8 @@
 import React from 'react'
 import PermissionsField from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
+import Select from '../../common/Select'
 import { connect } from 'formik'
-import { Dropdown } from 'formik-semantic-ui'
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 
 const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
@@ -11,36 +11,31 @@ const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
     return {
       key: id,
       value: id,
-      text: name
+      label: name
     }
   })
+
   return (
     <PermissionsField
       permission={SCHEDULE.PASTURE}
       name={name}
-      options={pastureOptions}
-      component={Dropdown}
+      component={Select}
       displayComponent={MultiParagraphDisplay}
       displayValue={
         pastureOptions.find(p => p.value === pastureId)
           ? pastureOptions.find(p => p.value === pastureId).text
           : ''
       }
-      fluid
-      inputProps={{
-        floating: true,
-        fluid: true,
-        search: true,
-        'aria-label': 'pasture',
-        onChange: (e, { value }) => {
-          if (onChange)
-            onChange(e, {
-              value,
-              pasture: formik.values.pastures.find(p => p.id === value)
-            })
+      aria-label="pasture"
+      options={pastureOptions}
+      onChange={value => {
+        if (onChange) {
+          onChange({
+            value,
+            pasture: formik.values.pastures.find(p => p.id === value)
+          })
         }
       }}
-      fast
     />
   )
 }

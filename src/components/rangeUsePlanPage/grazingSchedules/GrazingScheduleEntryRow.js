@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Dropdown, Icon } from 'semantic-ui-react'
-import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
+import { Table } from 'semantic-ui-react'
 import { connect } from 'formik'
 import * as utils from '../../../utils'
 import { useReferences } from '../../../providers/ReferencesProvider'
@@ -11,6 +10,8 @@ import { SCHEDULE } from '../../../constants/fields'
 import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
 import PasturesDropdown from './PasturesDropdown'
+import Select from '../../common/Select'
+import RowMenu from './RowMenu'
 
 const GrazingScheduleEntryRow = ({
   entry,
@@ -41,18 +42,9 @@ const GrazingScheduleEntryRow = ({
     return {
       key: id,
       value: id,
-      text: name
+      label: name
     }
   })
-
-  const entryOptions = [
-    { key: 'copy', text: 'Duplicate', onClick: onCopy },
-    {
-      key: 'delete',
-      text: 'Delete',
-      onClick: onDelete
-    }
-  ]
 
   const initialDate = moment()
     .set('year', schedule.year)
@@ -70,7 +62,7 @@ const GrazingScheduleEntryRow = ({
         <PasturesDropdown
           name={`${namespace}.pastureId`}
           pastureId={pastureId}
-          onChange={(e, { pasture }) => {
+          onChange={({ pasture }) => {
             formik.setFieldValue(
               `${namespace}.graceDays`,
               pasture.graceDays || 0
@@ -84,13 +76,10 @@ const GrazingScheduleEntryRow = ({
           permission={SCHEDULE.TYPE}
           name={`${namespace}.livestockTypeId`}
           options={livestockTypeOptions}
-          component={FormikDropdown}
+          component={Select}
           displayValue={entry.livestockType && entry.livestockType.name}
-          inputProps={{
-            search: true,
-            'aria-label': 'livestock type',
-            onChange
-          }}
+          onChange={onChange}
+          aria-label="livestock type"
           fast
         />
       </Table.Cell>
@@ -165,12 +154,7 @@ const GrazingScheduleEntryRow = ({
       </Table.Cell>
       <IfEditable permission={SCHEDULE.TYPE}>
         <Table.Cell collapsing textAlign="center">
-          <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={entryOptions}
-            icon={null}
-            pointing="right"
-          />
+          <RowMenu onCopy={onCopy} onDelete={onDelete} />
         </Table.Cell>
       </IfEditable>
     </Table.Row>
