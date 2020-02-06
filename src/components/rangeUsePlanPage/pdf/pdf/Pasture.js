@@ -16,7 +16,6 @@ const Pasture = ({ pasture }) => (
       <Field label="Private Land Deduction">
         {pasture.pldPercent && `${pasture.pldPercent * 100}%`}
       </Field>
-      <Field label="Grace Days">{pasture.graceDays}</Field>
     </Row>
 
     <Row>
