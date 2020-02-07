@@ -49,7 +49,7 @@ const MinisterIssueAction = ({
         monthName={`${namespace}.noGrazeStartMonth`}
         dayName={`${namespace}.noGrazeStartDay`}
         component={DayMonthPicker}
-        label="Grazing Period Start"
+        label="No Grazing Period Start"
         displayValue={moment(
           `${noGrazeStartMonth} ${noGrazeStartDay}`,
           'MM DD'
@@ -61,7 +61,7 @@ const MinisterIssueAction = ({
         monthName={`${namespace}.noGrazeEndMonth`}
         dayName={`${namespace}.noGrazeEndDay`}
         component={DayMonthPicker}
-        label="Grazing Period End"
+        label="No Grazing Period End"
         displayValue={moment(
           `${noGrazeEndMonth} ${noGrazeEndDay}`,
           'MM DD'
