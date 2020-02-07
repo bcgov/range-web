@@ -15,7 +15,7 @@ const MinisterIssueActions = ({ actions }) => (
               : action.ministerIssueActionType.name +
                 (action.ministerIssueActionType.name === 'Timing'
                   ? ` - No Graze Period (${moment()
-                      .set('month', action.noGrazeStartMonth)
+                      .set('month', action.noGrazeStartMonth - 1)
                       .set('date', action.noGrazeStartDay)
                       .format('MMM DD')} - ${moment()
                       .set('month', action.noGrazeEndMonth - 1)
