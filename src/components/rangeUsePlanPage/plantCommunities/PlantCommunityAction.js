@@ -72,7 +72,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             },
             onAddItem: (e, { value }) => {
               setOtherOption({
-                ...otherType,
+                ...otherOption,
                 text: value
               })
 
