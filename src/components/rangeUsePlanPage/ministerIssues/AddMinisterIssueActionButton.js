@@ -44,6 +44,7 @@ const AddMinisterIssueActionButton = ({ onSubmit }) => {
         pointing="left"
         onChange={onOptionClicked}
         selectOnBlur={false}
+        value={null}
       />
       <InputModal
         open={isModalOpen}
