@@ -1,6 +1,6 @@
-import React, { useEffect, memo, useState } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Form } from 'semantic-ui-react'
+import { Form, Checkbox as PlainCheckbox } from 'semantic-ui-react'
 import { connect } from 'formik'
 import { InfoTip } from '../../common'
 import PermissionsField, { canUserEdit } from '../../common/PermissionsField'
@@ -29,12 +29,6 @@ const InvasivePlantChecklist = ({
 
   const user = useUser()
   const canEdit = canUserEdit(INVASIVE_PLANTS.ITEMS, user) && globalIsEditable
-
-  useEffect(() => {
-    if (invasivePlantChecklist.other) {
-      formik.setFieldValue(`${namespace}.otherChecked`, true)
-    }
-  }, [])
 
   return (
     <div className="rup__ip-checklist">
@@ -95,18 +89,14 @@ const InvasivePlantChecklist = ({
             }}
           />
 
-          <Checkbox
-            name={`${namespace}.otherChecked`}
-            component={Checkbox}
+          <PlainCheckbox
             inline
+            checked={otherChecked}
             label="Other: (Please Describe)"
-            displayValue={otherChecked}
-            inputProps={{
-              disabled: !canEdit,
-              onClick: e => {
-                setOtherChecked(e.target.checked)
-                formik.setFieldValue(`${namespace}.other`, '')
-              }
+            disabled={!canEdit}
+            onChange={() => {
+              setOtherChecked(!otherChecked)
+              formik.setFieldValue(`${namespace}.other`, '')
             }}
           />
 
