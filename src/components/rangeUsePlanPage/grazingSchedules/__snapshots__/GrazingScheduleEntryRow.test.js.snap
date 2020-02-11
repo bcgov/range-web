@@ -7,7 +7,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
   <table>
     <tbody>
       <tr
-        class=""
+        class="rup__grazing-schedule__row"
       >
         <td
           class=""

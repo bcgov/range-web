@@ -337,7 +337,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
               class=""
             >
               <tr
-                class=""
+                class="rup__grazing-schedule__row"
               >
                 <td
                   class=""
