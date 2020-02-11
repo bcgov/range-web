@@ -50,10 +50,7 @@ const DecimalInput = ({
   const id = `decimal_field_${name}`
 
   const error = getIn(form.errors, name)
-
-  useEffect(() => {
-    form.setFieldValue(field.name, parseFloat(field.value).toFixed(1))
-  }, [])
+  const touched = getIn(form.touched, name)
 
   return (
     <Form.Field error={!!error} {...fieldProps}>
@@ -65,7 +62,7 @@ const DecimalInput = ({
           name={name}
           type="number"
           {...safeInputProps}
-          value={field.value}
+          value={touched ? field.value : parseFloat(field.value).toFixed(1)}
           onBlur={(...args) => {
             if (!isNaN(parseFloat(field.value))) {
               form.setFieldValue(field.name, parseFloat(field.value).toFixed(1))
@@ -75,6 +72,7 @@ const DecimalInput = ({
           }}
           onChange={(e, { name, value }) => {
             form.setFieldValue(field.name, value)
+            form.setFieldTouched(field.name, true)
             Promise.resolve().then(() => {
               onChange && onChange(e, { name, value })
             })
