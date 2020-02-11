@@ -62,7 +62,7 @@ const ToastProvider = ({ children }) => {
                 toast__icon__error: toast.status === 'error',
                 toast__icon__warning: toast.status === 'warning'
               })}>
-              {toast.status === 'sucess' && (
+              {toast.status === 'success' && (
                 <Icon name="check circle" size="large" />
               )}
               {toast.status === 'error' && (
