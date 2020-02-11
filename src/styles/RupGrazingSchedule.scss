@@ -38,6 +38,11 @@
     &__warning-message {
       padding: 0px 15px 10px 15px;
     }
+    &__row {
+      & td {
+        vertical-align: top;
+      }
+    }
     &__l-type,
     &__pasture {
       min-width: 90px;

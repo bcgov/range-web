@@ -57,7 +57,7 @@ const GrazingScheduleEntryRow = ({
     .set('date', 31)
 
   return (
-    <Table.Row>
+    <Table.Row className="rup__grazing-schedule__row">
       <Table.Cell>
         <PasturesDropdown
           name={`${namespace}.pastureId`}
