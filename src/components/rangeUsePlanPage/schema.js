@@ -24,6 +24,7 @@ const RUPSchema = Yup.object().shape({
       allowableAum: Yup.number()
         .nullable()
         .transform((v, originalValue) => (originalValue === '' ? null : v))
+        .integer('Value must be a whole number')
         .typeError('Please enter a number'),
       graceDays: Yup.number()
         .transform((v, originalValue) => (originalValue === '' ? null : v))
