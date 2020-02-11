@@ -149,7 +149,14 @@ const RUPSchema = Yup.object().shape({
       grazingScheduleEntries: Yup.array().of(
         Yup.object().shape({
           dateIn: Yup.string().required(true),
-          dateOut: Yup.string().required(true),
+          dateOut: Yup.string()
+            .required(true)
+            .when('dateIn', (dateIn, schema) =>
+              schema.test({
+                test: dateOut => new Date(dateOut) > new Date(dateIn),
+                message: 'Date out should be after date in'
+              })
+            ),
           livestockCount: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
