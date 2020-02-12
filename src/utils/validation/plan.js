@@ -52,3 +52,25 @@ export const handleRupValidation = (
 }
 
 export const isPlanAmendment = plan => plan && plan.amendmentTypeId
+
+/**
+ * Gets the path of the first error in the formik errors object.
+ *
+ * @param {object} errors Formik errors object
+ * @returns {string} Path to first error in errors object
+ */
+export const getFirstFormikError = (errors, path = []) => {
+  const [key, value] = Object.entries(errors)[0]
+
+  if (
+    typeof value !== 'string' &&
+    typeof value !== 'boolean' &&
+    value !== undefined
+  ) {
+    return getFirstFormikError(value, path.concat(key))
+  }
+  return [
+    path.concat(key).join('.'),
+    typeof value === 'boolean' ? 'Required' : value
+  ]
+}
