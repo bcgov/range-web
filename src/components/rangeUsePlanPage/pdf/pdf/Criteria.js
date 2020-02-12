@@ -51,7 +51,7 @@ const Criteria = ({ plantCommunity }) => (
       </Field>
     </Row>
     <Row>
-      <Field label="Other">{plantCommunity.notes}</Field>
+      <Field label="Other">{plantCommunity.rangeReadinessNote}</Field>
     </Row>
 
     <IndicatorPlants
