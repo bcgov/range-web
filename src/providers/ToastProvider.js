@@ -16,7 +16,8 @@ const ToastProvider = ({ children }) => {
     toastsRef.current = toasts
   }, [toasts])
 
-  const addToast = (message, status, timeout = 3000) => {
+  const addToast = (message, status, config = {}) => {
+    const { timeout = 3000, content } = config
     const id = uuid()
 
     setToasts([
@@ -24,7 +25,8 @@ const ToastProvider = ({ children }) => {
       {
         id,
         message,
-        status
+        status,
+        content
       }
     ])
 
@@ -35,11 +37,9 @@ const ToastProvider = ({ children }) => {
     return id
   }
 
-  const successToast = (message, timeout) =>
-    addToast(message, 'success', timeout)
-  const errorToast = (message, timeout) => addToast(message, 'error', timeout)
-  const warningToast = (message, timeout) =>
-    addToast(message, 'warning', timeout)
+  const successToast = (message, config) => addToast(message, 'success', config)
+  const errorToast = (message, config) => addToast(message, 'error', config)
+  const warningToast = (message, config) => addToast(message, 'warning', config)
 
   const removeToast = id =>
     setToasts(toastsRef.current.filter(t => t.id !== id))
@@ -72,7 +72,10 @@ const ToastProvider = ({ children }) => {
                 <Icon name="warning" size="large" />
               )}
             </div>
-            <div className="toast__content">{toast.message}</div>
+            <div className="toast__content">
+              {toast.message}
+              {toast.content}
+            </div>
             <button
               className="toast__dismiss"
               onClick={() => removeToast(toast.id)}>
