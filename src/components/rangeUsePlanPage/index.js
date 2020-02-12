@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Icon, Modal, Header, Button } from 'semantic-ui-react'
 import { Route, Prompt } from 'react-router-dom'
+import { startCase } from 'lodash'
 import { Loading, PrimaryButton } from '../common'
 import {
   planUpdated,
@@ -15,7 +16,8 @@ import {
 import {
   isUserAgreementHolder,
   isUserAdmin,
-  isUserRangeOfficer
+  isUserRangeOfficer,
+  getFirstFormikError
 } from '../../utils'
 import { appendUsage } from '../../utils/helper/plan'
 import * as selectors from '../../reducers/rootReducer'
@@ -43,6 +45,7 @@ import { getPlan, savePlan } from '../../api'
 import PDFView from './pdf/PDFView'
 import { getNetworkStatus } from '../../utils/helper/network'
 import { RANGE_USE_PLAN } from '../../constants/routes'
+import { getIn } from 'formik'
 
 const Base = ({
   user,
@@ -89,8 +92,59 @@ const Base = ({
     fetchPlan()
   }, [])
 
-  const handleValidationError = () => {
-    errorToast('Could not submit due to invalid fields.')
+  const handleValidationError = formik => {
+    // Get the first field path in the formik errors object
+    const [errorPathString, error] = getFirstFormikError(formik.errors)
+
+    /**
+     * Convert a field "path" in the form of
+     *
+     * 'pastures.0.plantCommunities.3.notes'
+     *
+     * into something more human-usable like:
+     *
+     * ['Pastures: My Pasture', 'Plant Communities: 3', 'Notes: Required field']
+     *
+     * By doing a lookup in `formik.values` based on the error path, by iterating
+     * through ever-increasing chunks of the path. ie.
+     * ['pastures', 'pastures.0', 'pastures.0.plantCommunities', ...]
+     */
+    const errorPath = errorPathString
+      .split('.')
+      .reduce((acc, value, i, paths) => {
+        // Get previous chunk of path based on index
+        const path = paths.slice(0, i + 1).join('.')
+        const parentKey = paths[i - 1]
+
+        if (!isNaN(parseFloat(value))) {
+          const object = getIn(formik.values, path)
+          return [...acc, `${startCase(parentKey)}: ${object.name || value}`]
+        }
+
+        if (i === paths.length - 1) {
+          return [...acc, `${startCase(value)}: ${error}`]
+        }
+
+        return acc
+      }, [])
+
+    // Add "RUP" to the beginning of the error message
+    const formattedPath = ['RUP'].concat(errorPath)
+
+    errorToast(`Could not submit due to invalid fields.\n\n`, {
+      timeout: 5000,
+      content: (
+        <code>
+          {formattedPath.map((line, i) => (
+            <div
+              key={i}
+              style={{ marginLeft: i * 20, fontFamily: 'monospace' }}>
+              &gt; {line}
+            </div>
+          ))}
+        </code>
+      )
+    })
   }
 
   const handleSubmit = async (plan, formik) => {
