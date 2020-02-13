@@ -134,7 +134,6 @@ const MonitoringAreaBox = ({
             : ''
         }
         label="Rangeland Health"
-        fieldProps={{ required: true }}
       />
 
       <PermissionsField
