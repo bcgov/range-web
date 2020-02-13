@@ -56,7 +56,13 @@ const GrazingScheduleBox = ({
       return { message: strings.EMPTY_GRAZING_SCHEDULE_ENTRIES, type: 'error' }
     }
     if (isCrownTotalAUMsError) {
-      return { message: strings.TOTAL_AUMS_EXCEEDS, type: 'error' }
+      return {
+        message:
+          strings.TOTAL_AUMS_EXCEEDS +
+          ' Over by: ' +
+          (crownTotalAUMs - authorizedAUMs).toString(),
+        type: 'error'
+      }
     }
   }
 
