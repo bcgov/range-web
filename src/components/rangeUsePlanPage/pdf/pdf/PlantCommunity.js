@@ -20,15 +20,14 @@ const styles = StyleSheet.create({
 
 const PlantCommunity = ({ plantCommunity }) => {
   const description = [
-    plantCommunity.aspect,
-    plantCommunity.elevation && `${plantCommunity.elevation.name} m`
+    plantCommunity.aspect && `Aspect: ${plantCommunity.aspect}`,
+    plantCommunity.elevation && `Elevation: ${plantCommunity.elevation.name} m`
   ]
-    .filter(d => d)
+    .filter(d => typeof d === 'string')
     .join(' | ')
 
   const communityType =
-    (plantCommunity.communityType && plantCommunity.communityType.name) ||
-    'Not provided'
+    plantCommunity.communityType && plantCommunity.communityType.name
   return (
     <View style={styles.container}>
       <Row>
@@ -37,9 +36,11 @@ const PlantCommunity = ({ plantCommunity }) => {
         </SectionHeader>
       </Row>
 
-      <Row>
-        <Field>{description}</Field>
-      </Row>
+      {description ? (
+        <Row>
+          <Field>{description}</Field>
+        </Row>
+      ) : null}
 
       <Row>
         <Field label="Plant Community Description">
