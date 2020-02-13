@@ -62,7 +62,7 @@ const InvasivePlantChecklist = ({
             name={`${namespace}.beginInUninfestedArea`}
             component={Checkbox}
             inline
-            label="Any work will being in un-infested areas before moving to infested locations"
+            label="Any work will begin in un-infested areas before moving to infested locations"
             displayValue={beginInUninfestedArea}
             inputProps={{
               disabled: !canEdit

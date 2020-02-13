@@ -62,7 +62,7 @@ const InvasivePlants = ({ plan }) => {
 
       {beginInUninfestedArea && (
         <Text style={styles.listItem}>
-          Any work will being in un-infested areas before moving to infested
+          Any work will begin in un-infested areas before moving to infested
           locations
         </Text>
       )}
