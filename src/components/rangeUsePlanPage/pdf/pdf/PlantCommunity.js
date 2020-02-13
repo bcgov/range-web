@@ -42,7 +42,9 @@ const PlantCommunity = ({ plantCommunity }) => {
       </Row>
 
       <Row>
-        <Field label="Plant Community Notes">{plantCommunity.notes}</Field>
+        <Field label="Plant Community Description">
+          {plantCommunity.notes}
+        </Field>
       </Row>
       <Row>
         <Field label="Plant Community URL">{plantCommunity.url}</Field>
