@@ -133,8 +133,7 @@ const RUPSchema = Yup.object().shape({
                 .transform((v, originalValue) =>
                   originalValue === '' ? null : v
                 )
-                .nullable()
-                .required('Required field'),
+                .nullable(),
               purposeTypeIds: Yup.array()
                 .of(Yup.number())
                 .required('Required field')
