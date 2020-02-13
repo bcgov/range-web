@@ -239,7 +239,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
     }
   }
   if (isStatusStaffDraft(status)) {
-    header = 'Staff Draft (Synced from iOS)'
+    header = 'Staff Draft'
     content =
       'This range use plan draft is currently in progress and synced to the server. Use the "Save" button to save your draft or "Submit" when ready for the agreement holder to add content.'
   }
