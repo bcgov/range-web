@@ -208,3 +208,23 @@ export const createAmendment = async (plan, references) => {
 
   return getPlan(plan.id)
 }
+
+export const updateStatus = async ({ planId, note, statusId }) => {
+  await axios.put(
+    API.UPDATE_PLAN_STATUS(planId),
+    { note, statusId },
+    getAuthHeaderConfig()
+  )
+}
+
+export const updateConfirmation = async ({
+  planId,
+  confirmationId,
+  confirmed
+}) => {
+  return axios.put(
+    API.UPDATE_CONFIRMATION(planId, confirmationId),
+    { confirmed },
+    getAuthHeaderConfig()
+  )
+}
