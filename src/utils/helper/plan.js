@@ -199,10 +199,18 @@ export const findStatusWithCode = (references, statusCode) => {
   return undefined
 }
 
-export const getBannerHeaderAndContentForAH = (plan, user) => {
+export const getBannerHeaderAndContentForAH = (plan, user, references) => {
   const { status, amendmentTypeId } = plan
   let header = ''
   let content = ''
+
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+  const amendmentType =
+    getAmendmentTypeDescription(amendmentTypeId, amendmentTypes) || 'Amendment'
+
+  const planType = isAmendment(amendmentTypeId)
+    ? amendmentType
+    : 'Initial Range Use Plan'
 
   if (isStatusDraft(status)) {
     if (isUserAgreementHolder(user)) {
@@ -304,16 +312,8 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
       content =
         'Staff were asked to provide feedback on this submission. You will be notified when the review is complete.'
     } else {
-      header = `Provide ${
-        isAmendment(amendmentTypeId)
-          ? 'Mandatory Amendment'
-          : 'Initial Range Use Plan'
-      } Feedback`
-      content = `The agreement holder has requested your feedback for this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } Use the Plan Actions menu to respond to the agreement holder by selecting "Request Changes" or "Recommend For Submission".`
+      header = `Provide ${planType} Feedback`
+      content = `The agreement holder has requested your feedback for this ${planType.toLowerCase()} Use the Plan Actions menu to respond to the agreement holder by selecting "Request Changes" or "Recommend For Submission".`
     }
   }
   if (isStatusSubmittedForFD(status)) {
@@ -322,58 +322,26 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
       content =
         'This plan has been submitted for final decision. You will be notified if a decision has been made or if more changes are needed.'
     } else {
-      header = `${
-        isAmendment(amendmentTypeId)
-          ? 'Mandatory Amendment'
-          : 'Initial Range Use Plan'
-      } Decision Required`
-      content = `This ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } has been submitted for final decision. If change are required select "Request Changes" from the Plan Actions menu. If the plan is ready for decision prepare your recommendation package. Once submitted to the decision maker select "Recommend Ready" or "Recommend not Ready" in the Plan Actions menu to reflect your recommendation.`
+      header = `${planType} Decision Required`
+      content = `This ${planType.toLowerCase()} has been submitted for final decision. If change are required select "Request Changes" from the Plan Actions menu. If the plan is ready for decision prepare your recommendation package. Once submitted to the decision maker select "Recommend Ready" or "Recommend not Ready" in the Plan Actions menu to reflect your recommendation.`
     }
   }
   if (isStatusAwaitingConfirmation(status)) {
     if (isUserAgreementHolder(user)) {
       header = 'Awaiting Signatures'
-      content = `This ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } submission process has been started and is awaiting confirmation from all agreement holders. Once all signatures have been received it will be sent to Range staff for final decision.`
+      content = `This ${planType.toLowerCase()} submission process has been started and is awaiting confirmation from all agreement holders. Once all signatures have been received it will be sent to Range staff for final decision.`
     } else {
-      header = `${
-        isAmendment(amendmentTypeId)
-          ? 'Mandatory Amendment'
-          : 'Initial Range Use Plan'
-      } AH Signatures Pending`
-      content = `This ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      }'s submission process has been started and is awaiting signatures from all agreement holders. You will be notified when the submission is ready for review.`
+      header = `${planType} AH Signatures Pending`
+      content = `This ${planType.toLowerCase()}'s submission process has been started and is awaiting signatures from all agreement holders. You will be notified when the submission is ready for review.`
     }
   }
   if (isStatusRecommendForSubmission(status)) {
     if (isUserAgreementHolder(user)) {
-      header = `Your ${
-        isAmendment(amendmentTypeId)
-          ? 'Mandatory Amendment'
-          : 'Initial Range Use Plan'
-      } is ready for final decision`
-      content = `Staff have reviewed this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } and recommend that it be submitted for final decision. Select "Submit" to begin the submission process.`
+      header = `Your ${planType} is ready for final decision`
+      content = `Staff have reviewed this ${planType.toLowerCase()} and recommend that it be submitted for final decision. Select "Submit" to begin the submission process.`
     } else {
       header = 'Recommended for Submission'
-      content = `A staff person has provided feedback to the agreement holder that this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } is ready for final signatures and decision. You will be notified when it has been signed and submitted.`
+      content = `A staff person has provided feedback to the agreement holder that this ${planType.toLowerCase()} is ready for final signatures and decision. You will be notified when it has been signed and submitted.`
     }
   }
   if (isStatusRecommendReady(status)) {
@@ -382,20 +350,8 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
       content =
         'This plan has been submitted for final decision. You will be notified if a decision has been made or if more changes are needed.'
     } else {
-      header = `${
-        isAmendment(amendmentTypeId)
-          ? 'Mandatory Amendment'
-          : 'Initial Range Use Plan'
-      } - Recommended Ready`
-      content = `Staff have recommended to the decision maker that this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } be approved. You will be notified when the decision has been made. If the ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } is not approved you must notify the AH before recording the decision in the Plan Actions menu.`
+      header = `${planType} - Recommended Ready`
+      content = `Staff have recommended to the decision maker that this ${planType.toLowerCase()} be approved. You will be notified when the decision has been made. If the ${planType.toLowerCase()} is not approved you must notify the AH before recording the decision in the Plan Actions menu.`
     }
   }
   if (isStatusRecommendNotReady(status)) {
@@ -404,20 +360,8 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
       content =
         'This plan has been submitted for final decision. You will be notified if a decision has been made or if more changes are needed.'
     } else {
-      header = `${
-        isAmendment(amendmentTypeId)
-          ? 'Mandatory Amendment'
-          : 'Initial Range Use Plan'
-      } - Recommended Not Ready`
-      content = `Staff have recommended to the decision maker that this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } not be approved. You will be notified when the decision has been made. If the ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } is not approved you must notify the AH before recording the decision in the Plan Actions menu.  `
+      header = `${planType} - Recommended Not Ready`
+      content = `Staff have recommended to the decision maker that this ${planType.toLowerCase()} not be approved. You will be notified when the decision has been made. If the ${planType.toLowerCase()} is not approved you must notify the AH before recording the decision in the Plan Actions menu.  `
     }
   }
   if (isStatusNotApprovedFWR(status)) {
@@ -427,11 +371,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
         'The decision maker has requested changes to your plan. Please review the plan notes and make the requested changes prior to submission.'
     } else {
       header = 'Plan Not Approved - Further Work Required'
-      content = `The agreement holder has been notified that this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } is not approved and further work is required.  You will be notified when a submission is received.`
+      content = `The agreement holder has been notified that this ${planType.toLowerCase()} is not approved and further work is required.  You will be notified when a submission is received.`
     }
   }
   if (isStatusNotApproved(status)) {
@@ -451,11 +391,7 @@ export const getBannerHeaderAndContentForAH = (plan, user) => {
       content = 'This range use plan has been approved by the decision maker.'
     } else {
       header = 'Plan Approved'
-      content = `The agreement holder has been notified that this ${
-        isAmendment(amendmentTypeId)
-          ? 'mandatory amendment'
-          : 'initial range use plan'
-      } * is approved.`
+      content = `The agreement holder has been notified that this ${planType.toLowerCase()} * is approved.`
     }
   }
 

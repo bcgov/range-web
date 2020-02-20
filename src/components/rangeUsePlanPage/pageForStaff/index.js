@@ -167,7 +167,7 @@ class PageForStaff extends Component {
     const {
       header: bannerHeader,
       content: bannerContent
-    } = utils.getBannerHeaderAndContentForAH(plan, user)
+    } = utils.getBannerHeaderAndContentForAH(plan, user, references)
 
     return (
       <section className="rup">

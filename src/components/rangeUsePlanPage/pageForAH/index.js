@@ -211,8 +211,8 @@ class PageForAH extends Component {
     const {
       header: bannerHeader,
       content: bannerContent
-    } = utils.getBannerHeaderAndContentForAH(plan, user)
-    // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+    } = utils.getBannerHeaderAndContentForAH(plan, user, references)
+    // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
 
     return (
