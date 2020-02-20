@@ -19,7 +19,6 @@ import {
   isUserRangeOfficer,
   getFirstFormikError
 } from '../../utils'
-import { appendUsage } from '../../utils/helper/plan'
 import * as selectors from '../../reducers/rootReducer'
 import PageForStaff from './pageForStaff'
 import PageForAH from './pageForAH'
@@ -41,11 +40,10 @@ import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
-import { getPlan, savePlan } from '../../api'
 import PDFView from './pdf/PDFView'
-import { getNetworkStatus } from '../../utils/helper/network'
 import { RANGE_USE_PLAN } from '../../constants/routes'
 import { getIn } from 'formik'
+import { useCurrentPlan } from '../../providers/PlanProvider'
 
 const Base = ({
   user,
@@ -56,41 +54,25 @@ const Base = ({
   location,
   ...props
 }) => {
-  const [isFetchingPlan, setFetching] = useState(false)
-  const [errorFetchingPlan, setError] = useState()
-  const [plan, setPlan] = useState()
+  const {
+    setCurrentPlanId,
+    currentPlan,
+    fetchPlan,
+    isFetchingPlan,
+    errorFetchingPlan,
+    savePlan
+  } = useCurrentPlan()
 
   const references = useReferences()
 
   const { successToast, errorToast } = useToast()
 
-  const getPlanId = () =>
+  const planId =
     match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
 
-  const fetchPlan = async planId => {
-    setFetching(true)
-    planId = planId || getPlanId()
-
-    try {
-      const tempPlan = await getPlan(planId)
-      const plan = appendUsage(tempPlan)
-      setPlan(RUPSchema.cast(plan))
-    } catch (e) {
-      setError(e)
-    }
-
-    setFetching(false)
-
-    // TODO: remove redux
-    const isOnline = await getNetworkStatus()
-    if (isOnline) {
-      return fetchRUP(planId)
-    }
-  }
-
   useEffect(() => {
-    fetchPlan()
-  }, [])
+    setCurrentPlanId(planId)
+  }, [planId])
 
   const handleValidationError = formik => {
     // Get the first field path in the formik errors object
@@ -158,8 +140,6 @@ const Base = ({
       await history.replace(`${RANGE_USE_PLAN}/${planId}`, {
         saved: true
       })
-
-      fetchPlan(planId)
     } catch (err) {
       formik.setStatus('error')
       formik.setSubmitting(false)
@@ -168,8 +148,8 @@ const Base = ({
     }
   }
 
-  const agreement = plan && plan.agreement
-  const isFetchingPlanForTheFirstTime = !plan && isFetchingPlan
+  const agreement = currentPlan && currentPlan.agreement
+  const isFetchingPlanForTheFirstTime = !currentPlan && isFetchingPlan
   // const doneFetching = !isFetchingPlanForTheFirstTime;
 
   if (errorFetchingPlan) {
@@ -202,7 +182,7 @@ const Base = ({
     <Fragment>
       <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-      {!plan && !isFetchingPlan && (
+      {!currentPlan && !isFetchingPlan && (
         <div className="rup__no-plan-shown">
           {"Don't see any plan?"}
           <PrimaryButton
@@ -238,9 +218,9 @@ const Base = ({
         }}
       />
 
-      {plan && (
+      {currentPlan && (
         <Form
-          initialValues={plan}
+          initialValues={currentPlan}
           enableReinitialize
           validateOnChange={true}
           validationSchema={RUPSchema}
