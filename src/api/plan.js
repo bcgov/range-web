@@ -169,7 +169,7 @@ export const createNewPlan = agreement => {
     planStatusHistory: [],
     pastures: [],
     ministerIssues: [],
-    invasivePlanChecklist: {
+    invasivePlantChecklist: {
       beginInUninfestedArea: false,
       equipmentAndVehiclesParking: false,
       other: null,
