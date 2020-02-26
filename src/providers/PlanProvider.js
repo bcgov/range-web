@@ -5,8 +5,25 @@ import { getNetworkStatus } from '../utils/helper/network'
 import { connect } from 'react-redux'
 import { appendUsage } from '../utils'
 
+/**
+ * @typedef {Object} PlanContext
+ * @property {string|number} currentPlanId ID of the current plan
+ * @property {object|null} currentPlan Current plan
+ * @property {boolean} isFetchingPlan Is the plan currently being fetched
+ * @property {boolean} isSavingPlan Is the plan saving
+ * @property {string|null} errorFetchingPlan Defined if there was an error fetching the plan
+ * @property {(id?: number) => Promise<object>} fetchPlan Fetches by default the plan with id `currentPlanId`. Returns the plan, as well as sets `currentPlan`. If no network connectivity, fallbacks to local storage.
+ * @property {(plan: object) => Promise<number>} savePlan Saves `plan` to either the remote backend or local storage, depending on network connectivity.
+ */
+
+/**
+ * @type {React.Context<PlanContext>}
+ */
 const PlanContext = React.createContext()
 
+/**
+ * @returns {PlanContext}
+ */
 export const useCurrentPlan = () => useContext(PlanContext)
 
 export const PlanProvider = ({ children, fetchRUP }) => {
