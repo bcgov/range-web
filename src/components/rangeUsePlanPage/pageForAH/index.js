@@ -157,7 +157,7 @@ class PageForAH extends Component {
   closeAmendmentSubmissionModal = () =>
     this.setState({ isAmendmentSubmissionModalOpen: false })
 
-  renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit) => {
+  renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit, canDiscard) => {
     const { isSavingAsDraft, isSubmitting } = this.state
     const { isCreatingAmendment, openConfirmationModal } = this.props
 
@@ -167,6 +167,7 @@ class PageForAH extends Component {
         canAmend={canAmend}
         canConfirm={canConfirm}
         canSubmit={canSubmit}
+        canDiscard={canDiscard}
         isSavingAsDraft={isSavingAsDraft}
         isSubmitting={isSubmitting}
         isCreatingAmendment={isCreatingAmendment}
@@ -214,6 +215,7 @@ class PageForAH extends Component {
     } = utils.getBannerHeaderAndContentForAH(plan, user, references)
     // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
+    const canDiscard = utils.canUserDiscardAmendment(plan, user)
 
     return (
       <section className="rup">
@@ -262,7 +264,8 @@ class PageForAH extends Component {
                   canEdit,
                   canAmend,
                   canConfirm,
-                  canSubmit
+                  canSubmit,
+                  canDiscard
                 )}
               </div>
             </div>

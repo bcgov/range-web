@@ -15,6 +15,7 @@ import DownloadPDFBtn from './DownloadPDFBtn'
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
 import { useNetworkStatus } from '../../utils/hooks/network'
 import { useCurrentPlan } from '../../providers/PlanProvider'
+import DiscardAmendmentButton from './DiscardAmendmentButton'
 
 const ActionBtns = ({
   canEdit,
@@ -22,6 +23,7 @@ const ActionBtns = ({
   canConfirm,
   canSubmit,
   canUpdateStatus,
+  canDiscard,
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
@@ -113,6 +115,7 @@ const ActionBtns = ({
       {canEdit && saveDraftBtn}
       {canSubmit && submitBtn}
       {canAmend && amendBtn}
+      {canDiscard && <DiscardAmendmentButton />}
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
         closeOnBlur

@@ -9,6 +9,7 @@ import {
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
 import { isUserAgreementHolder } from './user'
+import { isPlanAmendment } from '../validation'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -188,6 +189,16 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   }
 
   return false
+}
+
+export const canUserDiscardAmendment = plan => {
+  const isAmendment = isPlanAmendment(plan)
+
+  return (
+    isAmendment &&
+    !isStatusStands(plan.status) &&
+    !isStatusStandsWM(plan.status)
+  )
 }
 
 export const findStatusWithCode = (references, statusCode) => {

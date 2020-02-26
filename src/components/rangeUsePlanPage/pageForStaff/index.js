@@ -115,6 +115,7 @@ class PageForStaff extends Component {
       <ActionBtns
         canEdit={canEdit}
         canSubmit={canSubmit}
+        canDiscard={false}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}

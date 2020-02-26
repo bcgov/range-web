@@ -32,6 +32,7 @@ export const PLAN_ACTIONS = 'Plan Actions'
 export const SAVE_DRAFT = 'Save Draft'
 export const SUBMIT = 'Submit'
 export const AMEND_PLAN = 'Amend Plan'
+export const DISCARD_AMENDMENT = 'Discard Amendment'
 export const SIGN_SUBMISSION = 'Sign Submission'
 export const VIEW = 'View'
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation'
@@ -180,6 +181,9 @@ export const CHANGE_REQUEST_CONFIRM_CONTENT =
 export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_HEADER =
   'Update Status: Wrongly Made - Without Effect'
 export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_CONTENT =
+  'Are you sure you want to update the status?'
+export const STANDS_CONFIRM_HEADER = 'Update Status: Stands'
+export const STANDS_CONFIRM_CONTENT =
   'Are you sure you want to update the status?'
 export const STANDS_WRONGLY_MADE_CONFIRM_HEADER =
   'Update Status: Stands - Wrongly Made'
