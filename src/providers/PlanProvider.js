@@ -15,6 +15,7 @@ import { appendUsage } from '../utils'
  * @property {boolean} isFetchingPlan Is the plan currently being fetched
  * @property {boolean} isSavingPlan Is the plan saving
  * @property {string|null} errorFetchingPlan Defined if there was an error fetching the plan
+ * @property {string|null} errorSavingPlan Defined if there was an error saving the plan
  * @property {(id?: number) => Promise<object>} fetchPlan Fetches by default the plan with id `currentPlanId`. Returns the plan, as well as sets `currentPlan`. If no network connectivity, fallbacks to local storage.
  * @property {(plan: object) => Promise<number>} savePlan Saves `plan` to either the remote backend or local storage, depending on network connectivity.
  */
@@ -59,14 +60,18 @@ export const PlanProvider = ({ children, storePlan }) => {
   }
 
   const savePlan = async plan => {
-    setSavingPlan(true)
+    try {
+      setSavingPlan(true)
 
-    const planId = await API.savePlan(plan)
-    await fetchPlan(planId)
+      const planId = await API.savePlan(plan)
+      await fetchPlan(planId)
 
-    setSavingPlan(false)
-
-    return planId
+      return planId
+    } catch (e) {
+      setErrorSavingPlan(e)
+    } finally {
+      setSavingPlan(false)
+    }
   }
 
   useEffect(() => {
@@ -83,6 +88,7 @@ export const PlanProvider = ({ children, storePlan }) => {
         isFetchingPlan,
         isSavingPlan,
         errorFetchingPlan,
+        errorSavingPlan,
         fetchPlan,
         savePlan
       }}>
