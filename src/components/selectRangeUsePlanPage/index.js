@@ -34,7 +34,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const setPage = page =>
     history.replace(`/home/${page}/${history.location.search}`)
 
-  const { agreements, totalPages, currentPage } = data || {}
+  const { agreements, totalPages, currentPage = page } = data || {}
 
   return (
     <section className="agreement">
