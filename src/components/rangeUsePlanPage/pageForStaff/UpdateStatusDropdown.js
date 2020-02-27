@@ -9,7 +9,8 @@ import {
   isStatusSubmittedForReview,
   isStatusRecommendReady,
   isPlanAmendment,
-  isStatusRecommendNotReady
+  isStatusRecommendNotReady,
+  isStatusStandsReview
 } from '../../../utils'
 import { PLAN_STATUS } from '../../../constants/variables'
 import {
@@ -143,6 +144,14 @@ class UpdateStatusDropdown extends Component {
     })
   }
 
+  openStandsConfirmModal = () => {
+    this.openConfirmModalForUpdatingPlanStatus({
+      header: strings.STANDS_CONFIRM_HEADER,
+      content: strings.STANDS_CONFIRM_CONTENT,
+      statusCode: PLAN_STATUS.STANDS
+    })
+  }
+
   getStatusDropdownOptions = (plan, isFetchingPlan, status) => {
     if (isFetchingPlan) {
       return [
@@ -198,6 +207,11 @@ class UpdateStatusDropdown extends Component {
       text: 'Stands - Wrongly Made',
       onClick: this.openSWMConfirmModal
     }
+    const stands = {
+      key: PLAN_STATUS.STANDS,
+      text: 'Stands',
+      onClick: this.openStandsConfirmModal
+    }
     const noOption = {
       key: 'noOption',
       text: 'No plan actions available at this time'
@@ -205,6 +219,8 @@ class UpdateStatusDropdown extends Component {
 
     if (isStatusStands(status)) {
       return [wronglyMadeWithoutEffect, standsWronglyMade]
+    } else if (isStatusStandsReview(status)) {
+      return [stands, standsWronglyMade]
     } else if (isStatusSubmittedForReview(status)) {
       return [requestChanges, recommendForSubmission]
     } else if (isStatusSubmittedForFD(status)) {

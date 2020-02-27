@@ -14,6 +14,8 @@ import { CONFIRMATION_MODAL_ID } from '../../constants/variables'
 import DownloadPDFBtn from './DownloadPDFBtn'
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
 import { useNetworkStatus } from '../../utils/hooks/network'
+import { useCurrentPlan } from '../../providers/PlanProvider'
+import DiscardAmendmentButton from './DiscardAmendmentButton'
 
 const ActionBtns = ({
   canEdit,
@@ -21,6 +23,7 @@ const ActionBtns = ({
   canConfirm,
   canSubmit,
   canUpdateStatus,
+  canDiscard,
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
@@ -36,6 +39,7 @@ const ActionBtns = ({
   beforeUpdateStatus
 }) => {
   const isOnline = useNetworkStatus()
+  const { isSavingPlan } = useCurrentPlan()
 
   const downloadPDFBtn = (
     <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
@@ -46,6 +50,7 @@ const ActionBtns = ({
       type="button"
       inverted
       compact
+      disabled={isSavingPlan}
       loading={formik.isSubmitting}
       onClick={() => {
         formik.submitForm()
@@ -110,6 +115,7 @@ const ActionBtns = ({
       {canEdit && saveDraftBtn}
       {canSubmit && submitBtn}
       {canAmend && amendBtn}
+      {canDiscard && <DiscardAmendmentButton />}
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
         closeOnBlur

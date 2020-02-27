@@ -1,5 +1,12 @@
 import uuid from 'uuid-v4'
-import { axios, getAuthHeaderConfig, findStatusWithCode } from '../utils'
+import {
+  axios,
+  getAuthHeaderConfig,
+  findStatusWithCode,
+  isStatusApproved,
+  isStatusStands,
+  isStatusStandsWM
+} from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
@@ -169,7 +176,7 @@ export const createNewPlan = agreement => {
     planStatusHistory: [],
     pastures: [],
     ministerIssues: [],
-    invasivePlanChecklist: {
+    invasivePlantChecklist: {
       beginInUninfestedArea: false,
       equipmentAndVehiclesParking: false,
       other: null,
@@ -207,4 +214,63 @@ export const createAmendment = async (plan, references) => {
   )
 
   return getPlan(plan.id)
+}
+
+export const updateStatus = async ({ planId, note, statusId }) => {
+  await axios.put(
+    API.UPDATE_PLAN_STATUS(planId),
+    { note, statusId },
+    getAuthHeaderConfig()
+  )
+}
+
+export const updateConfirmation = async ({
+  planId,
+  confirmationId,
+  confirmed
+}) => {
+  return axios.put(
+    API.UPDATE_CONFIRMATION(planId, confirmationId),
+    { confirmed },
+    getAuthHeaderConfig()
+  )
+}
+
+export const getMostRecentLegalPlan = async planId => {
+  const {
+    data: { versions }
+  } = await axios.get(API.GET_RUP_VERSIONS(planId), getAuthHeaderConfig())
+
+  const legalVersion = versions
+    .filter(
+      plan =>
+        isStatusApproved(plan.status) ||
+        isStatusStands(plan.status) ||
+        isStatusStandsWM(plan.status)
+    )
+    .map(plan => ({ ...plan, createdAt: new Date(plan.createdAt) }))
+    .reduce(
+      (mostRecent, plan) =>
+        mostRecent.createdAt && mostRecent.createdAt > plan.createdAt
+          ? mostRecent
+          : plan,
+      {}
+    )
+
+  const { data } = await axios.get(
+    API.GET_RUP_VERSION(planId, legalVersion.version),
+    getAuthHeaderConfig()
+  )
+
+  return data
+}
+
+export const discardAmendment = async planId => {
+  const { version } = await getMostRecentLegalPlan(planId)
+
+  return axios.post(
+    API.RESTORE_RUP_VERSION(planId, version),
+    {},
+    getAuthHeaderConfig()
+  )
 }

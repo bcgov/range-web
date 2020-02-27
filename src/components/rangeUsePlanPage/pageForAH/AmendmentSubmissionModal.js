@@ -87,7 +87,7 @@ class AmendmentSubmissionModal extends Component {
   }
 
   submitAmendment = (plan, status, amendmentType) => {
-    const { updateStatusAndContent, updateRUP } = this.props
+    const { updateStatusAndContent, updateRUP, fetchPlan } = this.props
     const { note } = this.state
 
     const onRequest = () => {
@@ -97,9 +97,9 @@ class AmendmentSubmissionModal extends Component {
       // update amendment type of the plan
       await updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id
-      }).then(() => {
-        this.setState({ isSubmitting: false })
       })
+      await fetchPlan()
+      this.setState({ isSubmitting: false })
     }
     const onError = () => {
       this.onClose()
@@ -143,7 +143,7 @@ class AmendmentSubmissionModal extends Component {
     )
 
     if (isMinor && isSingleClient(clients)) {
-      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS)
+      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS_REVIEW)
       return this.submitAmendment(plan, stands, minor)
     }
 

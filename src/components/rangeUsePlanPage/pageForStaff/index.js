@@ -115,6 +115,7 @@ class PageForStaff extends Component {
       <ActionBtns
         canEdit={canEdit}
         canSubmit={canSubmit}
+        canDiscard={false}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}
@@ -167,7 +168,7 @@ class PageForStaff extends Component {
     const {
       header: bannerHeader,
       content: bannerContent
-    } = utils.getBannerHeaderAndContentForAH(plan, user)
+    } = utils.getBannerHeaderAndContentForAH(plan, user, references)
 
     return (
       <section className="rup">
