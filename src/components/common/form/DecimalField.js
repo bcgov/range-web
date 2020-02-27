@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Field, FastField, getIn } from 'formik'
 import { Form, Input } from 'semantic-ui-react'
 import { InputRef } from './InputRef'

@@ -50,7 +50,6 @@ const InvasivePlantChecklist = ({
           <Checkbox
             name={`${namespace}.equipmentAndVehiclesParking`}
             component={Checkbox}
-            inline
             label="Equipment and vehicles will not be parked on invasive plant infestations"
             displayValue={equipmentAndVehiclesParking}
             inputProps={{
@@ -61,7 +60,6 @@ const InvasivePlantChecklist = ({
           <Checkbox
             name={`${namespace}.beginInUninfestedArea`}
             component={Checkbox}
-            inline
             label="Any work will begin in un-infested areas before moving to infested locations"
             displayValue={beginInUninfestedArea}
             inputProps={{
@@ -71,7 +69,6 @@ const InvasivePlantChecklist = ({
           <Checkbox
             name={`${namespace}.undercarrigesInspected`}
             component={Checkbox}
-            inline
             label="Clothing and vehicle/equipment undercarriages will be regularly inspected for plant parts or propagules if working in an area known to contain invasive plants"
             displayValue={undercarrigesInspected}
             inputProps={{
@@ -81,7 +78,6 @@ const InvasivePlantChecklist = ({
           <Checkbox
             name={`${namespace}.revegetate`}
             component={Checkbox}
-            inline
             label="Revegetate disturbed areas that have exposed mineral soil within one year of disturbance by seeding using Common #1 Forage Mixture or better. The certificate of seed analysis will be requested and seed that contains weed seeds of listed invasive plants and/or invasive plants that are high priority to the area will be rejected. Seeding will occur around range developments and areas of cattle congregation where bare soil is exposed. Revegetated areas will be monitored and revegetated as necessary until exposed soil is eliminated."
             displayValue={revegetate}
             inputProps={{
@@ -90,7 +86,6 @@ const InvasivePlantChecklist = ({
           />
 
           <PlainCheckbox
-            inline
             checked={otherChecked}
             label="Other: (Please Describe)"
             disabled={!canEdit}

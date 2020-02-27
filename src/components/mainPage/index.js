@@ -38,7 +38,7 @@ import { reauthenticate, storeAuthData } from '../../actions'
 
 export class MainPage extends Component {
   static propTypes = {
-    component: PropTypes.func.isRequired,
+    component: PropTypes.elementType.isRequired,
     signOut: PropTypes.func.isRequired,
     fetchReferences: PropTypes.func.isRequired,
     reauthenticate: PropTypes.func.isRequired,
