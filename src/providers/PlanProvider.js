@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { normalize } from 'normalizr'
 import * as API from '../api'
 import { storePlan } from '../actions'
-import * as schema from '../actionCreators/schema'
-// import * as schema from '../schema'
+import * as reduxSchema from '../actionCreators/schema'
+import schema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
 import { connect } from 'react-redux'
 import { appendUsage } from '../utils'
@@ -36,19 +36,19 @@ export const PlanProvider = ({ children, storePlan }) => {
   const [isFetchingPlan, setFetchingPlan] = useState(false)
   const [isSavingPlan, setSavingPlan] = useState(false)
   const [errorFetchingPlan, setErrorFetchingPlan] = useState(null)
+  const [errorSavingPlan, setErrorSavingPlan] = useState(null)
 
   const fetchPlan = async (planId = currentPlanId) => {
     setFetchingPlan(true)
 
     try {
       const plan = await API.getPlan(planId)
-      setCurrentPlan(appendUsage(plan))
+      setCurrentPlan(schema.cast(appendUsage(plan)))
 
       // TODO: remove redux
       const isOnline = await getNetworkStatus()
       if (isOnline) {
-        // fetchRUP(planId)
-        storePlan(normalize(plan, schema.plan))
+        storePlan(normalize(plan, reduxSchema.plan))
       }
 
       return plan
