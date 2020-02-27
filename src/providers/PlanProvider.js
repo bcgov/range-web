@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { normalize } from 'normalizr'
 import * as API from '../api'
-import { fetchRUP } from '../actionCreators'
+import { storePlan } from '../actions'
+import * as schema from '../actionCreators/schema'
+// import * as schema from '../schema'
 import { getNetworkStatus } from '../utils/helper/network'
 import { connect } from 'react-redux'
 import { appendUsage } from '../utils'
@@ -26,7 +29,7 @@ const PlanContext = React.createContext()
  */
 export const useCurrentPlan = () => useContext(PlanContext)
 
-export const PlanProvider = ({ children, fetchRUP }) => {
+export const PlanProvider = ({ children, storePlan }) => {
   const [currentPlanId, setCurrentPlanId] = useState(null)
   const [currentPlan, setCurrentPlan] = useState(null)
   const [isFetchingPlan, setFetchingPlan] = useState(false)
@@ -43,7 +46,8 @@ export const PlanProvider = ({ children, fetchRUP }) => {
       // TODO: remove redux
       const isOnline = await getNetworkStatus()
       if (isOnline) {
-        fetchRUP(planId)
+        // fetchRUP(planId)
+        storePlan(normalize(plan, schema.plan))
       }
 
       return plan
@@ -89,5 +93,5 @@ export const PlanProvider = ({ children, fetchRUP }) => {
 
 export default connect(
   null,
-  { fetchRUP }
+  { storePlan }
 )(PlanProvider)
