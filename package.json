@@ -7,6 +7,7 @@
   "license": "Apache-2.0",
   "homepage": "https://web-range-myra-prod.pathfinder.gov.bc.ca",
   "dependencies": {
+    "@loadable/component": "^5.12.0",
     "@react-pdf/renderer": "^1.6.7",
     "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/react": "^9.3.2",
@@ -36,7 +37,6 @@
     "react": "^16.6.1",
     "react-app-polyfill": "^0.2.0",
     "react-dom": "^16.6.1",
-    "react-loadable": "^5.5.0",
     "react-pdf": "^3.0.6",
     "react-popper": "^1.3.7",
     "react-redux": "^7.1.1",
