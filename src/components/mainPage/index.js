@@ -56,10 +56,6 @@ export class MainPage extends Component {
     )
   }
 
-  componentDidMount() {
-    this.props.fetchReferences()
-  }
-
   render() {
     const { component: Component, ...rest } = this.props
 
