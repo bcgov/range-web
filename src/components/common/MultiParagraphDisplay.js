@@ -1,8 +1,8 @@
 import React from 'react'
 
-const MultiParagraphDisplay = ({ value }) => (
+const MultiParagraphDisplay = ({ value, ...props }) => (
   <>
-    <input type="hidden" value={value} />
+    <input type="hidden" value={value} aria-label={props['aria-label']} />
     <div>
       {value
         .toString()
