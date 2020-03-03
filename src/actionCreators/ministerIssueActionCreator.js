@@ -88,20 +88,14 @@ export const createOrUpdateRUPMinisterIssueActions = (
   actions
 ) => dispatch => {
   const makeRequest = async () => {
-    try {
-      return await Promise.all(
-        actions.map(action => {
-          if (uuid.isUUID(action.id)) {
-            return dispatch(
-              createRUPMinisterIssueAction(planId, issueId, action)
-            )
-          }
-          return dispatch(updateRUPMinisterIssueAction(planId, issueId, action))
-        })
-      )
-    } catch (err) {
-      throw err
-    }
+    return await Promise.all(
+      actions.map(action => {
+        if (uuid.isUUID(action.id)) {
+          return dispatch(createRUPMinisterIssueAction(planId, issueId, action))
+        }
+        return dispatch(updateRUPMinisterIssueAction(planId, issueId, action))
+      })
+    )
   }
 
   return makeRequest()

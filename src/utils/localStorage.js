@@ -8,13 +8,8 @@ import { LOCAL_STORAGE_KEY } from '../constants/variables'
  * @returns undefined
  */
 export const saveDataInLocalStorage = (key, data) => {
-  try {
-    const serializedData =
-      typeof data === 'object' ? JSON.stringify(data) : data
-    localStorage.setItem(key, serializedData)
-  } catch (err) {
-    throw err
-  }
+  const serializedData = typeof data === 'object' ? JSON.stringify(data) : data
+  localStorage.setItem(key, serializedData)
 }
 
 /**
@@ -36,11 +31,7 @@ export const getDataFromLocalStorage = key => {
 }
 
 export const deleteDataFromLocalStorage = key => {
-  try {
-    localStorage.removeItem(key)
-  } catch (err) {
-    throw err
-  }
+  localStorage.removeItem(key)
   return undefined
 }
 

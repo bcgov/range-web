@@ -32,21 +32,17 @@ export const createRUPGrazingSchedule = (planId, schedule) => (
   getState
 ) => {
   const makeRequest = async () => {
-    try {
-      const { data: newSchedule } = await axios.post(
-        API.CREATE_RUP_GRAZING_SCHEDULE(planId),
-        { ...schedule, plan_id: planId },
-        createConfigWithHeader(getState)
-      )
-      // const newGses = await Promise.all(schedule.grazingScheduleEntries
-      //   .map(gse => dispatch(createRUPGrazingScheduleEntry(planId, newSchedule.id, gse))));
+    const { data: newSchedule } = await axios.post(
+      API.CREATE_RUP_GRAZING_SCHEDULE(planId),
+      { ...schedule, plan_id: planId },
+      createConfigWithHeader(getState)
+    )
+    // const newGses = await Promise.all(schedule.grazingScheduleEntries
+    //   .map(gse => dispatch(createRUPGrazingScheduleEntry(planId, newSchedule.id, gse))));
 
-      return {
-        ...newSchedule
-        // grazingScheduleEntries: newGses,
-      }
-    } catch (err) {
-      throw err
+    return {
+      ...newSchedule
+      // grazingScheduleEntries: newGses,
     }
   }
   return makeRequest()

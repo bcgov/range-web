@@ -56,20 +56,16 @@ class UpdateStatusModal extends Component {
 
     const status = findStatusWithCode(references, statusCode)
 
-    try {
-      this.setState({ loading: true })
-      const body = { planId: plan.id, statusId: status.id }
-      if (requireNote && note) {
-        body.note = note
-      }
-
-      await updateRUPStatus(body)
-      await fetchPlan()
-
-      this.onClose()
-    } catch (err) {
-      throw err
+    this.setState({ loading: true })
+    const body = { planId: plan.id, statusId: status.id }
+    if (requireNote && note) {
+      body.note = note
     }
+
+    await updateRUPStatus(body)
+    await fetchPlan()
+
+    this.onClose()
 
     this.setState({ loading: false })
   }
