@@ -21,11 +21,7 @@ const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
       name={name}
       component={Select}
       displayComponent={MultiParagraphDisplay}
-      displayValue={
-        pastureOptions.find(p => p.value === pastureId)
-          ? pastureOptions.find(p => p.value === pastureId).text
-          : ''
-      }
+      displayValue={pastureOptions.find(p => p.value === pastureId)?.label}
       aria-label="pasture"
       options={pastureOptions}
       onChange={value => {
