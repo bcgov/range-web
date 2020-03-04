@@ -46,8 +46,8 @@ class Base extends Component {
   fetchUsers = () => {
     this.props.fetchUsers({
       orderCId: 'desc',
-      excludeBy: 'email',
-      exclude: '@gov.bc.ca'
+      excludeBy: 'username',
+      exclude: 'idir'
     })
   }
 
@@ -57,7 +57,7 @@ class Base extends Component {
 }
 
 const mapStateToProps = state => ({
-  users: getUsers(state),
+  users: getUsers(state).filter(u => u.username !== 'myrangebc'),
   usersMap: getUsersMap(state),
   errorOccuredGettingUsers: getUsersErrorOccured(state),
   clients: getClients(state),
