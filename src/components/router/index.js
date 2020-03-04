@@ -28,6 +28,7 @@ import * as Routes from '../../constants/routes'
 import { LoadableComponent } from './LoadableComponent'
 import VersionsList from '../rangeUsePlanPage/versionsList/VersionsList'
 import { QueryParamProvider } from 'use-query-params'
+import ErrorBoundary from '../common/ErrorBoundary'
 
 const SelectRangeUsePlan = LoadableComponent(() =>
   import('../selectRangeUsePlanPage')
@@ -46,53 +47,67 @@ const Router = () => {
   const user = useUser()
 
   return (
-    <BrowserRouter>
-      <QueryParamProvider ReactRouterRoute={Route}>
-        <Switch>
-          {/* Admin Routes */}
-          <ProtectedRoute
-            path={Routes.MANAGE_ZONE}
-            component={ManageZone}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.MANAGE_CLIENT}
-            component={ManageClient}
-            user={user}
-          />
-          {/* Admin Routes End */}
+    <ErrorBoundary>
+      <BrowserRouter>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <Switch>
+            {/* Admin Routes */}
+            <ProtectedRoute
+              path={Routes.MANAGE_ZONE}
+              component={ManageZone}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.MANAGE_CLIENT}
+              component={ManageClient}
+              user={user}
+            />
+            {/* Admin Routes End */}
 
-          <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
+            <PublicRoute
+              path={Routes.LOGIN}
+              component={LoginPage}
+              user={user}
+            />
 
-          <ProtectedRoute
-            path={`${Routes.HOME}/:page?`}
-            component={SelectRangeUsePlan}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.VIEW_PLAN_VERSIONS}
-            component={VersionsList}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.RANGE_USE_PLAN_WITH_PARAM}
-            component={RangeUsePlan}
-            user={user}
-          />
-          <ProtectedRoute
-            path={Routes.EXPORT_PDF_WITH_PARAM}
-            component={PDFView}
-            user={user}
-          />
+            <ProtectedRoute
+              path={`${Routes.HOME}/:page?`}
+              component={SelectRangeUsePlan}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.VIEW_PLAN_VERSIONS}
+              component={VersionsList}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.RANGE_USE_PLAN_WITH_PARAM}
+              component={RangeUsePlan}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.EXPORT_PDF_WITH_PARAM}
+              component={PDFView}
+              user={user}
+            />
 
-          <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
+            <PublicRoute
+              path={Routes.LOGIN}
+              component={LoginPage}
+              user={user}
+            />
 
-          <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
-          <Route path="/" exact render={() => <Redirect to={Routes.LOGIN} />} />
-          <Route component={PageNotFound} />
-        </Switch>
-      </QueryParamProvider>
-    </BrowserRouter>
+            <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
+            <Route
+              path="/"
+              exact
+              render={() => <Redirect to={Routes.LOGIN} />}
+            />
+            <Route component={PageNotFound} />
+          </Switch>
+        </QueryParamProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
 

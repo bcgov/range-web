@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom'
 import { HOME } from '../../constants/routes'
 
 const propTypes = {
-  component: PropTypes.func,
+  component: PropTypes.elementType,
   user: PropTypes.object
 }
 
