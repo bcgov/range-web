@@ -5,6 +5,8 @@ import { Loading } from '../common'
 import AgreementTableRow from './AgreementTableRow'
 import AHWarning from './AHWarning'
 import { useQueryParam, StringParam } from 'use-query-params'
+import SortableAgreementTable from './SortableAgreementTable'
+
 
 const AgreementTable = ({
   agreements,
@@ -34,6 +36,8 @@ const AgreementTable = ({
   }, [totalPages])
 
   return (
+      <>
+	<SortableAgreementTable agreements={agreements}/>
     <Segment basic style={{ marginTop: '0' }}>
       <Loading active={loading && !agreements} />
 
@@ -98,6 +102,7 @@ const AgreementTable = ({
         />
       </div>
     </Segment>
+      </>
   )
 }
 
