@@ -7,6 +7,8 @@
   "license": "Apache-2.0",
   "homepage": "https://web-range-myra-prod.pathfinder.gov.bc.ca",
   "dependencies": {
+    "@material-ui/core": "^4.9.4",
+    "@material-ui/icons": "^4.9.1",
     "@react-pdf/renderer": "^1.6.7",
     "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/react": "^9.3.2",
@@ -27,6 +29,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "lodash.debounce": "^4.0.8",
+    "material-ui": "^0.20.2",
     "moment": "^2.22.2",
     "node-sass": "^4.10.0",
     "normalizr": "^3.4.0",
