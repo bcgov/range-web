@@ -10,5 +10,6 @@ module.exports = {
     react: {
       version: packageConfig.dependencies.react
     }
-  }
+  },
+  plugins: ['jsx-a11y', 'import']
 }

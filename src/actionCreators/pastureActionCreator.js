@@ -140,57 +140,53 @@ export const createRUPPlantCommunityAndOthers = (
   community
 ) => (dispatch, getState) => {
   const makeRequest = async () => {
-    try {
-      const { id, pastureId: pId, ...data } = community
-      let plantCommunity = community
+    const { id, pastureId: pId, ...data } = community
+    let plantCommunity = community
 
-      if (!Number(id)) {
-        const { data: newPlantCommunity } = await axios.post(
-          API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId),
-          data,
-          createConfigWithHeader(getState)
-        )
-        plantCommunity = newPlantCommunity
-      }
+    if (!Number(id)) {
+      const { data: newPlantCommunity } = await axios.post(
+        API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId),
+        data,
+        createConfigWithHeader(getState)
+      )
+      plantCommunity = newPlantCommunity
+    }
 
-      const newPcas = await Promise.all(
-        community.plantCommunityActions.map(pca =>
-          dispatch(
-            createRUPPlantCommunityAction(
-              planId,
-              pastureId,
-              plantCommunity.id,
-              pca
-            )
+    const newPcas = await Promise.all(
+      community.plantCommunityActions.map(pca =>
+        dispatch(
+          createRUPPlantCommunityAction(
+            planId,
+            pastureId,
+            plantCommunity.id,
+            pca
           )
         )
       )
-      const newIps = await Promise.all(
-        community.indicatorPlants.map(ip => {
-          if (!ip.id) {
-            return dispatch(
-              createRUPIndicatorPlant(planId, pastureId, plantCommunity.id, ip)
-            )
-          }
-          return Promise.resolve()
-        })
-      )
-      const newMas = await Promise.all(
-        community.monitoringAreas.map(ma =>
-          dispatch(
-            createRUPMonitoringArea(planId, pastureId, plantCommunity.id, ma)
+    )
+    const newIps = await Promise.all(
+      community.indicatorPlants.map(ip => {
+        if (!ip.id) {
+          return dispatch(
+            createRUPIndicatorPlant(planId, pastureId, plantCommunity.id, ip)
           )
+        }
+        return Promise.resolve()
+      })
+    )
+    const newMas = await Promise.all(
+      community.monitoringAreas.map(ma =>
+        dispatch(
+          createRUPMonitoringArea(planId, pastureId, plantCommunity.id, ma)
         )
       )
+    )
 
-      return {
-        ...plantCommunity,
-        plantCommunityActions: newPcas,
-        indicatorPlants: newIps,
-        monitoringAreas: newMas
-      }
-    } catch (err) {
-      throw err
+    return {
+      ...plantCommunity,
+      plantCommunityActions: newPcas,
+      indicatorPlants: newIps,
+      monitoringAreas: newMas
     }
   }
 

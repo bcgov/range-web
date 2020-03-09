@@ -3,7 +3,7 @@ import { Link, useParams, useLocation } from 'react-router-dom'
 import { formatDateFromServer, canUserEditThisPlan } from '../../utils'
 import { useUser } from '../../providers/UserProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Loader } from 'semantic-ui-react'
 import { REFERENCE_KEY } from '../../constants/variables'
 import { INITIAL_PLAN, VIEW } from '../../constants/strings'
 import { Status, PrimaryButton } from '../common'
@@ -17,6 +17,7 @@ const PlanTableRow = ({ plan }) => {
   // console.log(loc)
 
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+  if (!amendmentTypes) return <Loader />
   const amendmentType = amendmentTypes.find(
     at => at.id === plan.amendmentTypeId
   )
