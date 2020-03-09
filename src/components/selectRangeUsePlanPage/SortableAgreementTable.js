@@ -153,7 +153,8 @@ EnhancedTableToolbar.propTypes = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%'
+    width: '100%',
+    marginTop: theme.spacing(2)
   },
   paper: {
     width: '100%',
@@ -221,7 +222,7 @@ export default function SortableAgreementTable({
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <EnhancedTableToolbar loading={loading} />
         <TableContainer>
           <Table
