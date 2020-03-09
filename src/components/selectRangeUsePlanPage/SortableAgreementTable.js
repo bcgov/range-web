@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import clsx from 'clsx'
 import { lighten, makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -13,104 +12,57 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import Checkbox from '@material-ui/core/Checkbox'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
-import DeleteIcon from '@material-ui/icons/Delete'
-import FilterListIcon from '@material-ui/icons/FilterList'
-
+import Skeleton from '@material-ui/lab/Skeleton'
+import { Link, useLocation } from 'react-router-dom'
+import { RANGE_USE_PLAN } from '../../constants/routes'
 import * as strings from '../../constants/strings'
-import { Loading } from '../common'
-import AgreementTableRow from './AgreementTableRow'
-import AHWarning from './AHWarning'
-import { useQueryParam, StringParam } from 'use-query-params'
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein }
-}
-
-const rows = [
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0)
-]
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) return order
-    return a[1] - b[1]
-  })
-  return stabilizedThis.map(el => el[0])
-}
+import { Status } from '../common'
+import { Button, CircularProgress } from '@material-ui/core'
+import { useUser } from '../../providers/UserProvider'
+import NewPlanButton from './NewPlanButton'
+import { canUserEditThisPlan } from '../../utils'
+import { canUserEdit } from '../common/PermissionsField'
+import { PLAN } from '../../constants/fields'
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'RAN #' },
   {
-    id: 'range_name',
+    id: 'agreement.forest_file_id',
     numeric: false,
     disablePadding: false,
-    label: 'Range Name'
+    label: 'RAN #',
+    sortable: true
   },
   {
-    id: 'agreement_holder',
+    id: 'plan.range_name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Range Name',
+    sortable: true
+  },
+  {
+    id: 'agreement-holder',
     numeric: false,
     disablePadding: false,
     label: 'Agreement Holder'
   },
   {
-    id: 'staff_contact',
+    id: 'plan_creator.given_name',
     numeric: false,
     disablePadding: false,
-    label: 'Staff Contact'
+    label: 'Staff Contact',
+    sortable: true
   },
   {
-    id: 'agreement_status',
+    id: 'plan.status',
     numeric: false,
     disablePadding: false,
     label: 'Status'
   },
-  { id: 'plus_button_cell', numeric: false, disablePadding: false, label: '' }
+  { id: 'actions' }
 ]
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort
-  } = props
+  const { classes, order, orderBy, onRequestSort } = props
   const createSortHandler = property => event => {
     onRequestSort(event, property)
   }
@@ -127,7 +79,9 @@ function EnhancedTableHead(props) {
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}>
+              onClick={headCell.sortable && createSortHandler(headCell.id)}
+              hideSortIcon={!headCell.sortable}
+              disabled={!headCell.sortable}>
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
@@ -144,12 +98,9 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired
+  orderBy: PropTypes.string.isRequired
 }
 
 const useToolbarStyles = makeStyles(theme => ({
@@ -169,50 +120,35 @@ const useToolbarStyles = makeStyles(theme => ({
         },
   title: {
     flex: '1 1 100%'
+  },
+  spinner: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing() * 2
+  },
+  spinnerContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }))
 
-const EnhancedTableToolbar = props => {
+const EnhancedTableToolbar = ({ loading }) => {
   const classes = useToolbarStyles()
-  const { numSelected } = props
 
   return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0
-      })}>
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle">
-          I am an out of place title
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+    <Toolbar className={classes.root}>
+      <Typography className={classes.title} variant="h6" id="tableTitle">
+        Range Use Plans
+      </Typography>
+      <span className={classes.spinnerContainer}>
+        {loading && <CircularProgress className={classes.spinner} size={22} />}
+      </span>
     </Toolbar>
   )
 }
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired
+  loading: PropTypes.bool
 }
 
 const useStyles = makeStyles(theme => ({
@@ -236,143 +172,161 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 20,
     width: 1
+  },
+  skeletonRow: {
+    height: 20,
+    width: '100%'
+  },
+  skeletonButton: {
+    width: '130px',
+    height: 33.4
+  },
+  skeletonRowContainer: {
+    padding: 0
   }
 }))
 
-export default function EnhancedTable({ agreements = [] }) {
+export default function SortableAgreementTable({
+  agreements = [],
+  currentPage,
+  onPageChange,
+  onLimitChange,
+  loading,
+  totalAgreements,
+  perPage,
+  onOrderChange,
+  orderBy,
+  order
+}) {
   const classes = useStyles()
-  const [order, setOrder] = React.useState('asc')
-  //todo
-  const [orderBy, setOrderBy] = React.useState('calories')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [dense, setDense] = React.useState(false)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const user = useUser()
+  const location = useLocation()
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
 
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      //todo
-      const newSelecteds = agreements.map(n => n.name)
-      setSelected(newSelecteds)
-      return
-    }
-    setSelected([])
-  }
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name)
-    let newSelected = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
-    }
-
-    setSelected(newSelected)
+    onOrderChange(property, isAsc ? 'desc' : 'asc')
   }
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage)
+    onPageChange(newPage)
   }
 
   const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+    onLimitChange(parseInt(event.target.value, 10))
+    onPageChange(0)
   }
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked)
-  }
-
-  const isSelected = name => selected.indexOf(name) !== -1
-
-  //todo
-  console.log(
-    'rowsPerPage: ' +
-      rowsPerPage +
-      ' agreements.length: ' +
-      agreements.length +
-      ' page: ' +
-      page
-  )
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, agreements.length - page * rowsPerPage)
+  const emptyRows = Math.abs(agreements.length - perPage)
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar loading={loading} />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size="medium"
             aria-label="enhanced table">
             <EnhancedTableHead
               classes={classes}
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={agreements.length}
             />
             <TableBody>
-              {stableSort(agreements, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((agreement, index) => {
-                  const isItemSelected = isSelected(agreement.name)
-                  const labelId = `enhanced-table-checkbox-${index}`
-                  console.log(JSON.stringify(agreement))
-
+              {agreements.length === 0 &&
+                loading &&
+                Array.from({ length: perPage }).map((_, i) => (
+                  <TableRow
+                    key={`agreement_skeleton_${i}`}
+                    className={classes.skeletonRowContainer}>
+                    <TableCell colSpan={5}>
+                      <Skeleton
+                        variant="text"
+                        className={classes.skeletonRow}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton
+                        variant="text"
+                        className={classes.skeletonButton}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              {agreements.length > 0 &&
+                agreements.map(agreement => {
                   return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, agreement.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={agreement.name}
-                      selected={isItemSelected}>
+                    <TableRow hover tabIndex={-1} key={agreement.id}>
                       <TableCell align="left">
                         {agreement.forestFileId}
                       </TableCell>
                       <TableCell align="left">
-                        {agreement.plans[0].rangeName}
+                        {agreement.plans[0]?.rangeName ?? '-'}
                       </TableCell>
                       <TableCell align="left">
-                        {agreement.clients[0].name}
+                        {agreement.clients[0]?.name}
+                      </TableCell>
+
+                      <TableCell align="left">
+                        {agreement.plans[0]?.creator
+                          ? `${agreement.plans[0]?.creator?.givenName} ${agreement.plans[0]?.creator?.familyName}`
+                          : 'Not provided'}
                       </TableCell>
                       <TableCell align="left">
-                        {agreement.plans[0].creator.givenName +
-                          ' ' +
-                          agreement.plans[0].creator.familyName}
+                        {agreement.plans[0] ? (
+                          <Status
+                            user={user}
+                            status={agreement.plans[0]?.status}
+                          />
+                        ) : (
+                          <span>-</span>
+                        )}
                       </TableCell>
-                      <TableCell align="left">
-                        {agreement.plans.length == 1
-                          ? agreement.plans[0].status.name
-                          : 'No plan'}
+                      <TableCell>
+                        {agreement.plans.length === 0 ? (
+                          canUserEdit(PLAN.ADD, user) ? (
+                            <NewPlanButton agreement={agreement} />
+                          ) : (
+                            <div style={{ padding: '6px 16px' }}>No plan</div>
+                          )
+                        ) : (
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            component={Link}
+                            to={{
+                              pathname: `${RANGE_USE_PLAN}/${agreement.plans[0].id}`,
+                              state: {
+                                page: currentPage,
+                                prevSearch: location.search
+                              }
+                            }}>
+                            {canUserEditThisPlan(agreement.plans[0], user)
+                              ? 'Edit'
+                              : strings.VIEW}
+                          </Button>
+                        )}
                       </TableCell>
                     </TableRow>
                   )
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+              {agreements.length > 0 && emptyRows > 0 && (
+                <TableRow style={{ height: 66.4 * emptyRows }}>
                   <TableCell colSpan={6} />
+                </TableRow>
+              )}
+
+              {agreements.length === 0 && !loading && (
+                <TableRow>
+                  <TableCell align="center" colSpan={6}>
+                    <Typography color="textSecondary">
+                      No matching agreements
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               )}
             </TableBody>
@@ -381,17 +335,13 @@ export default function EnhancedTable({ agreements = [] }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={agreements.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          count={totalAgreements ?? -1}
+          rowsPerPage={perPage}
+          page={currentPage}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </div>
   )
 }

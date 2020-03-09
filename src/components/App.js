@@ -19,6 +19,7 @@
 //
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from '@material-ui/core'
 import configureStore from '../configureStore'
 import Router from './router'
 import UserProvider from '../providers/UserProvider'
@@ -26,6 +27,7 @@ import ReferencesProvider from '../providers/ReferencesProvider'
 import ToastProvider from '../providers/ToastProvider'
 import EditableProvider from '../providers/EditableProvider'
 import PlanProvider from '../providers/PlanProvider'
+import theme from './theme'
 
 const store = configureStore()
 
@@ -33,17 +35,19 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <UserProvider>
-          <PlanProvider>
-            <EditableProvider editable={true}>
-              <ReferencesProvider>
-                <ToastProvider>
-                  <Router />
-                </ToastProvider>
-              </ReferencesProvider>
-            </EditableProvider>
-          </PlanProvider>
-        </UserProvider>
+        <ThemeProvider theme={theme}>
+          <UserProvider>
+            <PlanProvider>
+              <EditableProvider editable={true}>
+                <ReferencesProvider>
+                  <ToastProvider>
+                    <Router />
+                  </ToastProvider>
+                </ReferencesProvider>
+              </EditableProvider>
+            </PlanProvider>
+          </UserProvider>
+        </ThemeProvider>
       </Provider>
     )
   }

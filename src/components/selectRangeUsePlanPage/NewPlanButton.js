@@ -1,7 +1,7 @@
 import React from 'react'
-import { PrimaryButton } from '../common'
-import { Icon } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
+import AddIcon from '@material-ui/icons/Add'
+import { Button } from '@material-ui/core'
 import { createNewPlan } from '../../api'
 import { RANGE_USE_PLAN } from '../../constants/routes'
 
@@ -15,9 +15,9 @@ const NewPlanButton = ({ agreement }) => {
   }
 
   return (
-    <PrimaryButton icon onClick={handleClick}>
-      New plan <Icon name="add" />
-    </PrimaryButton>
+    <Button fullWidth variant="contained" color="primary" onClick={handleClick}>
+      New plan <AddIcon fontSize="small" />
+    </Button>
   )
 }
 
