@@ -34,74 +34,70 @@ const AgreementTable = ({
   }, [totalPages])
 
   return (
-    <>
-      <Segment basic style={{ marginTop: '0' }}>
-        <Loading active={loading && !agreements} />
+    <Segment basic style={{ marginTop: '0' }}>
+      <Loading active={loading && !agreements} />
 
-        <AHWarning />
+      <AHWarning />
 
-        <div className="agrm__table">
-          <div className="agrm__table__header-row">
-            <div className="agrm__table__header-row__cell">
-              {strings.RANGE_NUMBER}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.RANGE_NAME}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.AGREEMENT_HOLDER}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.STAFF_CONTACT}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              {strings.STATUS}
-            </div>
-            <div className="agrm__table__header-row__cell">
-              <Icon name="plus circle" size="large" />
-            </div>
+      <div className="agrm__table">
+        <div className="agrm__table__header-row">
+          <div className="agrm__table__header-row__cell">
+            {strings.RANGE_NUMBER}
           </div>
-
-          {currentAgreements.map(agreement => (
-            <AgreementTableRow
-              key={agreement.id}
-              agreement={agreement}
-              active={agreement.id === activeId}
-              onSelect={() =>
-                agreement.id !== activeId
-                  ? setActiveId(agreement.id)
-                  : setActiveId(null)
-              }
-              noneSelected={!activeId}
-            />
-          ))}
+          <div className="agrm__table__header-row__cell">
+            {strings.RANGE_NAME}
+          </div>
+          <div className="agrm__table__header-row__cell">
+            {strings.AGREEMENT_HOLDER}
+          </div>
+          <div className="agrm__table__header-row__cell">
+            {strings.STAFF_CONTACT}
+          </div>
+          <div className="agrm__table__header-row__cell">{strings.STATUS}</div>
+          <div className="agrm__table__header-row__cell">
+            <Icon name="plus circle" size="large" />
+          </div>
         </div>
 
-        <div className="agrm__pagination">
-          <Pagination
-            size="mini"
-            siblingRange="2"
-            activePage={currentPage}
-            onPageChange={onPageChange}
-            totalPages={currentTotalPages}
-            ellipsisItem={{
-              content: <Icon name="ellipsis horizontal" />,
-              icon: true
-            }}
-            firstItem={{
-              content: <Icon name="angle double left" />,
-              icon: true
-            }}
-            lastItem={{
-              content: <Icon name="angle double right" />,
-              icon: true
-            }}
-            prevItem={{ content: <Icon name="angle left" />, icon: true }}
-            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+        {currentAgreements.map(agreement => (
+          <AgreementTableRow
+            key={agreement.id}
+            agreement={agreement}
+            active={agreement.id === activeId}
+            onSelect={() =>
+              agreement.id !== activeId
+                ? setActiveId(agreement.id)
+                : setActiveId(null)
+            }
+            noneSelected={!activeId}
           />
-        </div>
-      </Segment>
-    </>
+        ))}
+      </div>
+
+      <div className="agrm__pagination">
+        <Pagination
+          size="mini"
+          siblingRange="2"
+          activePage={currentPage}
+          onPageChange={onPageChange}
+          totalPages={currentTotalPages}
+          ellipsisItem={{
+            content: <Icon name="ellipsis horizontal" />,
+            icon: true
+          }}
+          firstItem={{
+            content: <Icon name="angle double left" />,
+            icon: true
+          }}
+          lastItem={{
+            content: <Icon name="angle double right" />,
+            icon: true
+          }}
+          prevItem={{ content: <Icon name="angle left" />, icon: true }}
+          nextItem={{ content: <Icon name="angle right" />, icon: true }}
+        />
+      </div>
+    </Segment>
   )
 }
 
