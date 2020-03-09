@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Menu, Divider, Loader, Portal } from 'semantic-ui-react'
+import { Menu, Divider, Portal } from 'semantic-ui-react'
 import {
   isStatusStands,
   isStatusCreated,

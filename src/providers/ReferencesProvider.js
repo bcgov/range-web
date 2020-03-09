@@ -1,13 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getReferences } from '../reducers/rootReducer'
+import { fetchReferences } from '../actionCreators'
 
 export const ReferencesContext = React.createContext({})
 
 export const useReferences = () => useContext(ReferencesContext)
 
-const ReferencesProvider = ({ references, children }) => {
+const ReferencesProvider = ({ references, fetchReferences, children }) => {
+  useEffect(() => {
+    fetchReferences()
+  }, [])
+
   return (
     <ReferencesContext.Provider value={references}>
       {children}
@@ -17,6 +22,7 @@ const ReferencesProvider = ({ references, children }) => {
 
 ReferencesProvider.propTypes = {
   references: PropTypes.shape({}).isRequired,
+  fetchReferences: PropTypes.func.isRequired,
   children: PropTypes.node
 }
 
@@ -26,4 +32,11 @@ const mapStateToProps = state => ({
   references: getReferences(state)
 })
 
-export default connect(mapStateToProps)(ReferencesProvider)
+const mapDispatchToProps = {
+  fetchReferences
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReferencesProvider)

@@ -170,6 +170,7 @@ export const createNewPlan = agreement => {
   const newPlan = {
     id: uuid(),
     agreementId: agreement.id,
+    rangeName: '',
     statusId: 6,
     status: { code: PLAN_STATUS.STAFF_DRAFT },
     agreement,

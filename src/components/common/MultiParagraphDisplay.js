@@ -2,7 +2,7 @@ import React from 'react'
 
 const MultiParagraphDisplay = ({ value, ...props }) => (
   <>
-    <input type="hidden" value={value} {...props} />
+    <input type="hidden" value={value} aria-label={props['aria-label']} />
     <div>
       {value
         .toString()

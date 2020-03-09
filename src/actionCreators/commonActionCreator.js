@@ -45,18 +45,20 @@ export const fetchUsers = params => (dispatch, getState) => {
 }
 
 export const fetchReferences = () => (dispatch, getState) => {
-  return axios.get(API.GET_REFERENCES, createConfigWithHeader(getState)).then(
-    response => {
+  return axios
+    .get(API.GET_REFERENCES, createConfigWithHeader(getState))
+    .then(response => {
       const references = response.data
       saveReferencesInLocalStorage(references)
       dispatch(storeReferences(references))
 
       return references
-    },
-    err => {
-      throw err
-    }
-  )
+    })
+    .catch(err => {
+      console.warn(
+        `Error fetching references, '${err}'. Falling back to locally stored references`
+      )
+    })
 }
 
 export const fetchZones = districtId => (dispatch, getState) => {

@@ -11,7 +11,7 @@ import {
 import { isUserAdmin } from '../../utils'
 
 const propTypes = {
-  component: PropTypes.func,
+  component: PropTypes.elementType,
   user: PropTypes.object,
   match: PropTypes.shape({ path: PropTypes.string })
 }
