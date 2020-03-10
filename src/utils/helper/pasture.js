@@ -25,6 +25,7 @@ export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
 export const resetPastureId = pasture => ({
   ...pasture,
   id: uuid(),
+  createdAt: undefined,
   plantCommunities: pasture.plantCommunities.map(resetPlantCommunityId)
 })
 

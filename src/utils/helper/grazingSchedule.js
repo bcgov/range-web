@@ -7,6 +7,7 @@ import {
   calcPldAUMs
 } from '../calculation'
 import moment from 'moment'
+import uuid from 'uuid-v4'
 
 export const populateGrazingScheduleFields = (
   grazingSchedule,
@@ -46,3 +47,9 @@ export const populateGrazingScheduleFields = (
     )
   }
 }
+
+export const resetGrazingScheduleEntryId = schedule => ({
+  ...schedule,
+  id: uuid(),
+  createdAt: undefined
+})
