@@ -8,6 +8,7 @@ import InputModal from '../../../common/InputModal'
 import { IfEditable } from '../../../common/PermissionsField'
 import { MONITORING_AREAS } from '../../../../constants/fields'
 import { deleteMonitoringArea } from '../../../../api'
+import { resetMonitoringAreaId } from '../../../../utils/helper'
 
 const MonitoringAreaList = ({
   monitoringAreas,
@@ -67,13 +68,15 @@ const MonitoringAreaList = ({
             ))}
 
             <InputModal
-              open={!!areaToCopy}
+              open={Boolean(areaToCopy)}
               onSubmit={name => {
                 setAreaToCopy()
-                push({
-                  ...areaToCopy,
-                  name
-                })
+                push(
+                  resetMonitoringAreaId({
+                    ...areaToCopy,
+                    name
+                  })
+                )
               }}
               onClose={() => setAreaToCopy()}
               title="Monitoring Area Name"
