@@ -43,6 +43,7 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
 export const resetPlantCommunityId = plantCommunity => ({
   ...plantCommunity,
   id: uuid(),
+  createdAt: undefined,
   indicatorPlants: plantCommunity.indicatorPlants.map(resetIndicatorPlantId),
   monitoringAreas: plantCommunity.monitoringAreas.map(resetMonitoringAreaId),
   plantCommunityActions: plantCommunity.plantCommunityActions.map(
@@ -52,15 +53,18 @@ export const resetPlantCommunityId = plantCommunity => ({
 
 export const resetIndicatorPlantId = indicatorPlant => ({
   ...indicatorPlant,
+  createdAt: undefined,
   id: uuid()
 })
 
 export const resetMonitoringAreaId = monitoringArea => ({
   ...monitoringArea,
+  createdAt: undefined,
   id: uuid()
 })
 
 export const resetPlantCommunityActionId = plantCommunityAction => ({
   ...plantCommunityAction,
+  createdAt: undefined,
   id: uuid()
 })

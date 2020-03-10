@@ -17,6 +17,7 @@ import { deleteGrazingScheduleEntry } from '../../../api'
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 import { useUser } from '../../../providers/UserProvider'
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell'
+import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule'
 
 const GrazingScheduleBox = ({
   schedule,
@@ -248,7 +249,9 @@ const GrazingScheduleBox = ({
                             scheduleIndex={index}
                             namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
                             onDelete={() => setToRemove(entryIndex)}
-                            onCopy={() => push({ ...entry, id: uuid() })}
+                            onCopy={() =>
+                              push(resetGrazingScheduleEntryId(entry))
+                            }
                             onChange={() => {
                               setSortBy(null)
                             }}
