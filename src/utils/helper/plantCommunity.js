@@ -57,6 +57,7 @@ export const resetIndicatorPlantId = indicatorPlant => ({
 
 export const resetMonitoringAreaId = monitoringArea => ({
   ...monitoringArea,
+  createdAt: undefined,
   id: uuid()
 })
 
