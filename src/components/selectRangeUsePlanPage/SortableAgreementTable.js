@@ -53,6 +53,12 @@ const headCells = [
     sortable: true
   },
   {
+    id: 'plan_status.code',
+    disablePadding: false,
+    label: 'Status Code',
+    sortable: true
+  },
+  {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
@@ -244,7 +250,7 @@ export default function SortableAgreementTable({
                   <TableRow
                     key={`agreement_skeleton_${i}`}
                     className={classes.skeletonRowContainer}>
-                    <TableCell colSpan={5}>
+                    <TableCell colSpan={6}>
                       <Skeleton
                         variant="text"
                         className={classes.skeletonRow}
@@ -276,6 +282,13 @@ export default function SortableAgreementTable({
                         {agreement.plans[0]?.creator
                           ? `${agreement.plans[0]?.creator?.givenName} ${agreement.plans[0]?.creator?.familyName}`
                           : 'Not provided'}
+                      </TableCell>
+                      <TableCell align="left">
+                        {agreement.plans[0] ? (
+                          agreement.plans[0]?.status.code
+                        ) : (
+                          <span>-</span>
+                        )}
                       </TableCell>
                       <TableCell align="left">
                         {agreement.plans[0] ? (
