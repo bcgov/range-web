@@ -40,10 +40,11 @@ const headCells = [
     sortable: true
   },
   {
-    id: 'agreement-holder',
+    id: 'agreement_holder.given_name',
     numeric: false,
     disablePadding: false,
-    label: 'Agreement Holder'
+    label: 'Agreement Holder',
+    sortable: true
   },
   {
     id: 'plan_creator.given_name',
