@@ -13,6 +13,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import Skeleton from '@material-ui/lab/Skeleton'
+import EditIcon from '@material-ui/icons/Edit'
+import ViewIcon from '@material-ui/icons/Visibility'
 import { Link, useLocation } from 'react-router-dom'
 import { RANGE_USE_PLAN } from '../../constants/routes'
 import * as strings from '../../constants/strings'
@@ -65,7 +67,7 @@ const headCells = [
     disablePadding: false,
     label: 'Status'
   },
-  { id: 'actions' }
+  { id: 'actions', disablePadding: true }
 ]
 
 function EnhancedTableHead(props) {
@@ -319,7 +321,14 @@ export default function SortableAgreementTable({
                                 page: currentPage,
                                 prevSearch: location.search
                               }
-                            }}>
+                            }}
+                            endIcon={
+                              canUserEditThisPlan(agreement.plans[0], user) ? (
+                                <EditIcon />
+                              ) : (
+                                <ViewIcon />
+                              )
+                            }>
                             {canUserEditThisPlan(agreement.plans[0], user)
                               ? 'Edit'
                               : strings.VIEW}
