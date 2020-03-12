@@ -61,9 +61,7 @@ const PlantCommunities = ({
           </IfEditable>
 
           <Confirm
-            header={`Delete plant community '${plantCommunities[
-              indexToRemove
-            ] && plantCommunities[indexToRemove].name}'`}
+            header={`Delete plant community '${plantCommunities[indexToRemove]?.communityType?.name}'`}
             open={indexToRemove !== null}
             onCancel={() => {
               setIndexToRemove(null)
