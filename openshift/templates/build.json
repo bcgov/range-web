@@ -278,7 +278,7 @@
             "displayName": "Resources Memory Limit",
             "description": "The resources Memory limit (in Mi, Gi, etc) for this build.",
             "required": true,
-            "value": "2Gi"
+            "value": "2500Mi"
         },
         {
             "name": "CPU_REQUEST",
@@ -292,7 +292,7 @@
             "displayName": "Resources Memory Request",
             "description": "The resources Memory request (in Mi, Gi, etc) for this build.",
             "required": true,
-            "value": "2Gi"
+            "value": "2500Mi"
         },
         {
             "name": "GITHUB_SECRET",
