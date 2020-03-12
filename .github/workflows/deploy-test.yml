@@ -35,6 +35,7 @@ jobs:
         export PATH=$PATH_TO_OC
         cd $GITHUB_WORKSPACE
         oc project range-myra-tools
+        oc cancel-build bc/range-myra-web-dev-build
         oc start-build range-myra-web-dev-build -F
     - name: Build caddy image & tag image
       env:
@@ -45,5 +46,6 @@ jobs:
         cd $HOME
         export PATH=$PATH_TO_OC
         oc project range-myra-tools
+        oc cancel-build bc/range-myra-web-caddy-dev-build
         oc start-build range-myra-web-caddy-dev-build --wait=true
         oc tag range-myra-web-caddy:latest range-myra-web-caddy:test
