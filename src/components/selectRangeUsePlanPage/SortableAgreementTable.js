@@ -42,10 +42,10 @@ const headCells = [
     sortable: true
   },
   {
-    id: 'agreement_holder.given_name',
+    id: 'agreement_holder.name',
     numeric: false,
     disablePadding: false,
-    label: 'Agreement Holder',
+    label: 'Primary Agreement Holder',
     sortable: true
   },
   {
@@ -278,7 +278,11 @@ export default function SortableAgreementTable({
                         {agreement.plans[0]?.rangeName ?? '-'}
                       </TableCell>
                       <TableCell align="left">
-                        {agreement.clients[0]?.name}
+                        {
+                          agreement.clients.find(
+                            client => client.clientTypeCode === 'A'
+                          )?.name
+                        }
                       </TableCell>
 
                       <TableCell align="left">
