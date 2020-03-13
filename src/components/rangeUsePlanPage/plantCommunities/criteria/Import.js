@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { connect, getIn } from 'formik'
 import ListModal from '../../../common/ListModal'
 import { Button, Confirm, Modal } from 'semantic-ui-react'
 import { oxfordComma } from '../../../../utils'
+import { useReferences } from '../../../../providers/ReferencesProvider'
+import { REFERENCE_KEY } from '../../../../constants/variables'
 
 const initialState = {
   pasture: null,
@@ -19,10 +21,17 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
   const [state, setState] = useState(initialState)
 
   const pastures = getIn(formik.values, 'pastures') || []
+  const communityTypes =
+    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
+
   const pasturesOptions = pastures.map((pasture, index) => ({
     value: pasture.id,
     text: pasture.name || `Unnamed pasture ${index + 1}`,
     key: pasture.id,
+    disabled:
+      pasture.plantCommunities.filter(
+        community => community.id !== excludedPlantCommunityId
+      ).length === 0,
     pasture
   }))
 
@@ -36,7 +45,9 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
       .filter(community => community.id !== excludedPlantCommunityId)
       .map(pc => ({
         value: pc.id,
-        text: pc.name,
+        text:
+          pc.name ??
+          communityTypes.find(type => type.id === pc.communityTypeId)?.name,
         key: pc.id,
         plantCommunity: pc
       }))
@@ -79,12 +90,12 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         }
         onClose={close}
         onOptionClick={({ plantCommunity }) => {
-          setState({
-            ...state,
+          setState(oldState => ({
+            ...oldState,
             plantCommunity,
             showPlantCommunityModal: false,
             showCriteriaModal: true
-          })
+          }))
         }}
       />
       <ListModal
@@ -110,12 +121,12 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         ]}
         onClose={close}
         onSubmit={criteria => {
-          setState({
-            ...state,
+          setState(oldState => ({
+            ...oldState,
             showCriteriaModal: false,
             showConfirm: true,
             criteria
-          })
+          }))
         }}
       />
       <Confirm
