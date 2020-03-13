@@ -301,17 +301,31 @@ const PlantCommunityBox = ({
             <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
                 excludedPlantCommunityId={plantCommunity.id}
-                onSubmit={({ plantCommunity, criteria }) => {
-                  const indicatorPlants = plantCommunity.indicatorPlants.filter(
-                    ip => {
+                onSubmit={({
+                  plantCommunity: sourcePlantCommunity,
+                  criteria
+                }) => {
+                  const indicatorPlants = sourcePlantCommunity.indicatorPlants
+                    // Filter indicator plants from source plant community based on selected criteria
+                    .filter(ip => {
                       return (
                         (criteria.includes('rangeReadiness') &&
                           ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
                         (criteria.includes('stubbleHeight') &&
                           ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
                       )
-                    }
-                  )
+                    })
+                    // Filter indicator plants from this plant community based on selected criteria
+                    .concat(
+                      plantCommunity.indicatorPlants.filter(ip => {
+                        return (
+                          criteria.includes('rangeReadiness') &&
+                          ip.criteria !== PLANT_CRITERIA.RANGE_READINESS &&
+                          (criteria.includes('stubbleHeight') &&
+                            ip.criteria !== PLANT_CRITERIA.STUBBLE_HEIGHT)
+                        )
+                      })
+                    )
 
                   formik.setFieldValue(
                     `${namespace}.indicatorPlants`,
@@ -321,22 +335,22 @@ const PlantCommunityBox = ({
                   if (criteria.includes('rangeReadiness')) {
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessDay`,
-                      plantCommunity.rangeReadinessDay
+                      sourcePlantCommunity.rangeReadinessDay
                     )
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessMonth`,
-                      plantCommunity.rangeReadinessMonth
+                      sourcePlantCommunity.rangeReadinessMonth
                     )
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessNote`,
-                      plantCommunity.rangeReadinessNote
+                      sourcePlantCommunity.rangeReadinessNote
                     )
                   }
 
                   if (criteria.includes('shrubUse')) {
                     formik.setFieldValue(
                       `${namespace}.shrubUse`,
-                      plantCommunity.shrubUse
+                      sourcePlantCommunity.shrubUse
                     )
                   }
                 }}
