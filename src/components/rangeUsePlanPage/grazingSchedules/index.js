@@ -44,7 +44,7 @@ const GrazingSchedules = ({ plan }) => {
       const planEndYear = new Date(planEndDate).getFullYear()
       const length = planEndYear - planStartYear + 1
       const options = utils
-        .createEmptyArray(length)
+        .createEmptyArray(length >= 0 ? length : 0)
         .map((v, i) => ({
           key: planStartYear + i,
           text: planStartYear + i,
@@ -56,6 +56,7 @@ const GrazingSchedules = ({ plan }) => {
           const years = grazingSchedules.map(s => s.year)
           return !(years.indexOf(option.value) >= 0)
         })
+
       setYearOptions(options)
     }
   }, [grazingSchedules.length, plan.planStartDate, plan.planEndDate])
