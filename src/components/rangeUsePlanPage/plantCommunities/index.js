@@ -19,7 +19,9 @@ const PlantCommunities = ({
 }) => {
   const isEmpty = plantCommunities.length === 0
   const [activeIndex, setActiveIndex] = useState(-1)
-  const [indexToRemove, setIndexToRemove] = useState(null)
+  const [idToRemove, setIdToRemove] = useState(null)
+
+  const communityToRemove = plantCommunities.find(c => c.id === idToRemove)
 
   return (
     <FieldArray
@@ -61,22 +63,18 @@ const PlantCommunities = ({
           </IfEditable>
 
           <Confirm
-            header={`Delete plant community '${plantCommunities[
-              indexToRemove
-            ] && plantCommunities[indexToRemove].name}'`}
-            open={indexToRemove !== null}
+            header={`Delete plant community '${communityToRemove?.communityType?.name}'`}
+            open={idToRemove !== null}
             onCancel={() => {
-              setIndexToRemove(null)
+              setIdToRemove(null)
             }}
             onConfirm={async () => {
-              const community = plantCommunities[indexToRemove]
-
-              if (!uuid.isUUID(community.id)) {
-                await deletePlantCommunity(planId, pastureId, community.id)
+              if (!uuid.isUUID(idToRemove)) {
+                await deletePlantCommunity(planId, pastureId, idToRemove)
               }
 
-              remove(indexToRemove)
-              setIndexToRemove(null)
+              remove(plantCommunities.indexOf(communityToRemove))
+              setIdToRemove(null)
             }}
           />
 
@@ -97,7 +95,7 @@ const PlantCommunities = ({
                     ? setActiveIndex(-1)
                     : setActiveIndex(index)
                 }}
-                onDelete={() => setIndexToRemove(index)}
+                onDelete={() => setIdToRemove(plantCommunity.id)}
                 namespace={`${namespace}.plantCommunities.${index}`}
               />
             ))}
