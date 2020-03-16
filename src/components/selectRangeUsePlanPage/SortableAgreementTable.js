@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { lighten, makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -9,9 +9,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
 import Skeleton from '@material-ui/lab/Skeleton'
 import EditIcon from '@material-ui/icons/Edit'
 import ViewIcon from '@material-ui/icons/Visibility'
@@ -19,7 +17,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { RANGE_USE_PLAN } from '../../constants/routes'
 import * as strings from '../../constants/strings'
 import { Status } from '../common'
-import { Button, CircularProgress } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { useUser } from '../../providers/UserProvider'
 import NewPlanButton from './NewPlanButton'
 import { canUserEditThisPlan } from '../../utils'
@@ -84,7 +82,8 @@ function EnhancedTableHead(props) {
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}>
+            sortDirection={orderBy === headCell.id ? order : false}
+            className={classes.headerCell}>
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
@@ -110,54 +109,6 @@ EnhancedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired
-}
-
-const useToolbarStyles = makeStyles(theme => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1)
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark
-        },
-  title: {
-    flex: '1 1 100%'
-  },
-  spinner: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing() * 2
-  },
-  spinnerContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-}))
-
-const EnhancedTableToolbar = ({ loading }) => {
-  const classes = useToolbarStyles()
-
-  return (
-    <Toolbar className={classes.root}>
-      <Typography className={classes.title} variant="h6" id="tableTitle">
-        Range Use Plans
-      </Typography>
-      <span className={classes.spinnerContainer}>
-        {loading && <CircularProgress className={classes.spinner} size={22} />}
-      </span>
-    </Toolbar>
-  )
-}
-
-EnhancedTableToolbar.propTypes = {
-  loading: PropTypes.bool
 }
 
 const useStyles = makeStyles(theme => ({
@@ -193,6 +144,10 @@ const useStyles = makeStyles(theme => ({
   },
   skeletonRowContainer: {
     padding: 0
+  },
+  headerCell: {
+    borderBottomColor: theme.palette.secondary.main,
+    borderBottomWidth: 2
   }
 }))
 
@@ -231,8 +186,7 @@ export default function SortableAgreementTable({
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper} variant="outlined">
-        <EnhancedTableToolbar loading={loading} />
+      <div className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
             className={classes.table}
@@ -369,7 +323,7 @@ export default function SortableAgreementTable({
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
     </div>
   )
 }

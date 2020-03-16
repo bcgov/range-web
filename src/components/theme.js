@@ -2,7 +2,8 @@ import { createMuiTheme } from '@material-ui/core'
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: 'Lato, sans-serif'
+    fontFamily: 'Lato, sans-serif',
+    fontSize: '1rem'
   },
   palette: {
     primary: {
@@ -14,9 +15,16 @@ const theme = createMuiTheme({
   },
   overrides: {
     MuiButton: {
+      disableElevation: true,
       root: {
         textTransform: 'none'
+      },
+      containedPrimary: {
+        fontWeight: 'bold'
       }
+    },
+    MuiButtonBase: {
+      disableRipple: true
     }
   }
 })
