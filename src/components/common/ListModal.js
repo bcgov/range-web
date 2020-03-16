@@ -30,6 +30,7 @@ const ListModal = ({
         {options.map(option => (
           <List.Item
             key={option.key}
+            disabled={option.disabled}
             onClick={() => {
               if (multiselect) {
                 if (selected.includes(option)) {
