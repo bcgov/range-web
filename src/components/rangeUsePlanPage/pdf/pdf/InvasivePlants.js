@@ -86,9 +86,7 @@ const InvasivePlants = ({ plan }) => {
           revegetated as necessary until exposed soil is eliminated.
         </Text>
       )}
-      {other ? (
-        <Text style={styles.listItem}>Other: {other.toString()}</Text>
-      ) : null}
+      {other ? <Text style={styles.listItem}>{other.toString()}</Text> : null}
 
       <Footer />
     </Page>
