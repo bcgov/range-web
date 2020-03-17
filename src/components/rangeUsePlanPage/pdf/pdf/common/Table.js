@@ -2,7 +2,8 @@ import React from 'react'
 import { View, StyleSheet, Text } from '@react-pdf/renderer'
 import { config } from './config'
 
-const specialCharsRegex = /-|_/g
+const specialCharsRegex = /-|_|\\|\//g
+
 const insertSoftHyphens = string =>
   string.replace(specialCharsRegex, match => `\u00ad${match}`)
 
