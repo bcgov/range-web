@@ -4,7 +4,7 @@ import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { PASTURES } from '../../../constants/fields'
 import { Input, TextArea } from 'formik-semantic-ui'
 import { Dropdown, Icon } from 'semantic-ui-react'
-import { CollapsibleBox } from '../../common'
+import { ErrorMessage, CollapsibleBox } from '../../common'
 import * as strings from '../../../constants/strings'
 import { IMAGE_SRC } from '../../../constants/variables'
 import PlantCommunities from '../plantCommunities'
@@ -29,6 +29,18 @@ const PastureBox = ({
   formik
 }) => {
   const [isModalOpen, setModalOpen] = useState(false)
+
+  const getPLDError = () => {
+      alert('pld: mod' + (pasture.pldPercent % 1))
+    if (pasture.pldPercent % 1 !== 0) {
+        return {
+          message: 'Only enter whole numbers for PLD %, decimals will be rounded.',
+          type: 'warning'
+        }
+    }
+  }
+
+  const PLDError = getPLDError() 
 
   const isError = !!getIn(formik.errors, namespace)
   return (
@@ -100,6 +112,17 @@ const PastureBox = ({
                 />
               </div>
               <div className="rup__cell-4">
+
+                {( PLDError ) && (
+                  <ErrorMessage
+                    message={
+                      PLDError 
+                    }
+                    warning={PLDError && PLDError.type === 'warning'}
+                    visible
+                    attached
+                  />
+                )}
                 <PermissionsField
                   name={`${namespace}.pldPercent`}
                   permission={PASTURES.PLD}

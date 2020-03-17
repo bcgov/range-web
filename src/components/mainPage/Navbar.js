@@ -10,7 +10,7 @@ import { isUserAdmin, signOutFromSSOAndSiteMinder } from '../../utils'
 import { signOut } from '../../actionCreators'
 import {
   SELECT_RUP,
-  MANAGE_ZONES,
+ // MANAGE_ZONES,
   MANAGE_CLIENTS
 } from '../../constants/strings'
 
@@ -55,6 +55,7 @@ export class Navbar extends Component {
 
             {isUserAdmin(user) && (
               <Fragment>
+                {/*
                 <NavLink
                   to={Routes.MANAGE_ZONE}
                   className="navbar__link"
@@ -62,6 +63,7 @@ export class Navbar extends Component {
                   {MANAGE_ZONES}
                   <div className="navbar__link__underline" />
                 </NavLink>
+                */}
                 <NavLink
                   to={Routes.MANAGE_CLIENT}
                   className="navbar__link"
