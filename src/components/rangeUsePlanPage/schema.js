@@ -38,6 +38,7 @@ const RUPSchema = Yup.object().shape({
       pldPercent: Yup.number()
         .min(0, 'Please enter a value between 0 and 100')
         .max(1, 'Please enter a value between 0 and 100')
+        .integer('Value must be a whole number')
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
         .typeError('Please enter a number'),
