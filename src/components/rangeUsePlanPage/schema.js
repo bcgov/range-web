@@ -29,6 +29,7 @@ const RUPSchema = Yup.object().shape({
       graceDays: Yup.number()
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
+        .integer('Value must be a whole number')
         .typeError('Please enter a number'),
       name: Yup.string().required('Please enter a name'),
       notes: Yup.string()
