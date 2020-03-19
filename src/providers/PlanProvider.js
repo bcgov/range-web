@@ -76,6 +76,7 @@ export const PlanProvider = ({ children, storePlan }) => {
 
   useEffect(() => {
     if (currentPlanId !== null) {
+      setCurrentPlan(null)
       fetchPlan()
     }
   }, [currentPlanId])

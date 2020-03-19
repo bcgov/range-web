@@ -3,7 +3,6 @@ import useSWR from 'swr'
 import * as API from '../../constants/api'
 import { axios, getAuthHeaderConfig } from '../../utils'
 import Error from './Error'
-import AgreementTable from './AgreementTable'
 import SearchBar from './SearchBar'
 import { Banner } from '../common'
 import {
@@ -13,15 +12,22 @@ import {
 } from '../../constants/strings'
 import { useToast } from '../../providers/ToastProvider'
 import { useQueryParam, StringParam } from 'use-query-params'
+import SortableAgreementTable from './SortableAgreementTable'
 
 const SelectRangeUsePlanPage = ({ match, history }) => {
   const { page = 1 } = match.params
   const [term = '', setTerm] = useQueryParam('term', StringParam)
   const [toastId, setToastId] = useState()
+  const [limit = 10, setLimit] = useQueryParam('limit', StringParam)
+  const [orderBy = 'agreement.forest_file_id', setOrderBy] = useQueryParam(
+    'orderBy',
+    StringParam
+  )
+  const [order = 'asc', setOrder] = useQueryParam('order', StringParam)
   const { warningToast, removeToast, errorToast } = useToast()
 
   const { data, error, revalidate, isValidating } = useSWR(
-    `${API.SEARCH_AGREEMENTS}?page=${page}&term=${term}&limit=10`,
+    `${API.SEARCH_AGREEMENTS}?page=${page}&term=${term}&limit=${limit}&orderBy=${orderBy}&order=${order}`,
     key => axios.get(key, getAuthHeaderConfig()).then(res => res.data),
     {
       onLoadingSlow: () =>
@@ -34,7 +40,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const setPage = page =>
     history.replace(`/home/${page}/${history.location.search}`)
 
-  const { agreements, totalPages, currentPage = page } = data || {}
+  const { agreements, totalPages, currentPage = page, totalItems } = data || {}
 
   return (
     <section className="agreement">
@@ -55,13 +61,24 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
         {error ? (
           <Error onRetry={revalidate} />
         ) : (
-          <AgreementTable
-            agreements={agreements}
-            loading={isValidating}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(e, { activePage }) => setPage(activePage)}
-          />
+          <>
+            <SortableAgreementTable
+              agreements={agreements}
+              currentPage={currentPage - 1}
+              totalPages={totalPages}
+              totalAgreements={totalItems}
+              perPage={limit}
+              onPageChange={page => setPage(page + 1)}
+              onLimitChange={setLimit}
+              loading={isValidating}
+              onOrderChange={(orderBy, order) => {
+                setOrder(order)
+                setOrderBy(orderBy)
+              }}
+              orderBy={orderBy}
+              order={order}
+            />
+          </>
         )}
       </div>
     </section>

@@ -9,12 +9,12 @@ const BackBtn = ({ className = '', agreementId }) => {
 
   const { page = 1, prevSearch } = history.location.state || {}
 
-  const search = prevSearch || `?selected=${agreementId}`
+  const search = prevSearch ?? `?selected=${agreementId}`
 
   return (
     <div
       className={className}
-      onClick={() => history.push(`${HOME}/${page}${search}`)}
+      onClick={() => history.push(`${HOME}/${page + 1}${search}`)}
       role="button"
       tabIndex="0">
       <Icon name="arrow circle left" size="large" />
