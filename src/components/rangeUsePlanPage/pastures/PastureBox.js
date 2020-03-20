@@ -30,8 +30,6 @@ const PastureBox = ({
 }) => {
   const [isModalOpen, setModalOpen] = useState(false)
 
-
-
   const isError = !!getIn(formik.errors, namespace)
   return (
     <>
@@ -102,7 +100,6 @@ const PastureBox = ({
                 />
               </div>
               <div className="rup__cell-4">
-
                 <PermissionsField
                   name={`${namespace}.pldPercent`}
                   permission={PASTURES.PLD}

@@ -10,7 +10,7 @@ import { isUserAdmin, signOutFromSSOAndSiteMinder } from '../../utils'
 import { signOut } from '../../actionCreators'
 import {
   SELECT_RUP,
- // MANAGE_ZONES,
+  // MANAGE_ZONES,
   MANAGE_CLIENTS
 } from '../../constants/strings'
 

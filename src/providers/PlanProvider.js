@@ -38,8 +38,12 @@ export const PlanProvider = ({ children, storePlan }) => {
   const [errorFetchingPlan, setErrorFetchingPlan] = useState(null)
   const [errorSavingPlan, setErrorSavingPlan] = useState(null)
 
-  const fetchPlan = async (planId = currentPlanId) => {
+  const fetchPlan = async (planId = currentPlanId, hard = false) => {
     setFetchingPlan(true)
+
+    if (hard) {
+      setCurrentPlan(null)
+    }
 
     try {
       const plan = await API.getPlan(planId)

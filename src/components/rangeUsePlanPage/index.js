@@ -74,6 +74,12 @@ const Base = ({
     setCurrentPlanId(planId)
   }, [planId])
 
+  useEffect(() => {
+    // Hard refetch plan when RUP page is navigated back to, to ensure no stale
+    // data
+    fetchPlan(planId, true)
+  }, [location])
+
   const handleValidationError = formik => {
     // Get the first field path in the formik errors object
     const [errorPathString, error] = getFirstFormikError(formik.errors)
