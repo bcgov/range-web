@@ -173,6 +173,7 @@ const GrazingSchedules = ({ plan }) => {
             onCancel={() => {
               setIndexToRemove(null)
             }}
+            content="Are you sure you want delete the entire year from the schedule?  You will lose all the rows for this year."
             onConfirm={async () => {
               const schedule = grazingSchedules[indexToRemove]
 
