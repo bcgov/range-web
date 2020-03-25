@@ -96,7 +96,11 @@ describe('Grazing Schedules', () => {
 
     fireEvent.click(deleteButton)
 
-    expect(getByText('Are you sure?')).toBeInTheDocument()
+    expect(
+      getByText(
+        /Are you sure you want delete the entire year from the schedule?/g
+      )
+    ).toBeInTheDocument()
     fireEvent.click(getByText('OK'))
 
     expect(queryByText('2025 Grazing Schedule')).toBeNull()
