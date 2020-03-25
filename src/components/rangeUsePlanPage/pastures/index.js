@@ -66,7 +66,7 @@ const Pastures = ({ pastures, formik }) => {
 
           <InputModal
             open={indexToCopy !== null}
-            onClose={() => setIndexToCopy(-1)}
+            onClose={() => setIndexToCopy(null)}
             onSubmit={name => {
               const pasture = pastures[indexToCopy]
 
