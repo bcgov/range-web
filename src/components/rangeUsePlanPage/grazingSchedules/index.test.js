@@ -98,7 +98,7 @@ describe('Grazing Schedules', () => {
 
     expect(
       getByText(
-        'Are you sure you want delete the entire year from the schedule?  You will lose all the rows for this year.'
+        /Are you sure you want delete the entire year from the schedule?/g
       )
     ).toBeInTheDocument()
     fireEvent.click(getByText('OK'))
