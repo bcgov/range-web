@@ -95,13 +95,16 @@ const ActionBtns = ({
       {AMEND_PLAN}
     </Button>
   )
-  const confirmSubmissionMenuItem = (
-    <Menu.Item
+  const confirmSubmissionBtn = (
+    <Button
       key="confirmSubmissionBtn"
       disabled={!isOnline}
-      onClick={openAHSignatureModal}>
+      onClick={openAHSignatureModal}
+      inverted
+      compact
+      type="button">
       {SIGN_SUBMISSION}
-    </Menu.Item>
+    </Button>
   )
   const viewVersionsMenuItem = (
     <Menu.Item key="viewVersionBtn" onClick={onViewVersionsClicked}>
@@ -115,6 +118,7 @@ const ActionBtns = ({
       {canEdit && saveDraftBtn}
       {canSubmit && submitBtn}
       {canAmend && amendBtn}
+      {canConfirm && confirmSubmissionBtn}
       {canDiscard && <DiscardAmendmentButton />}
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
@@ -126,7 +130,6 @@ const ActionBtns = ({
         <Dropdown.Menu>
           {downloadPDFBtn}
           {viewVersionsMenuItem}
-          {canConfirm && confirmSubmissionMenuItem}
           {canUpdateStatus && (
             <UpdateStatusDropdown
               plan={plan}
