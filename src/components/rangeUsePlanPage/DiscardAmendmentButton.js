@@ -51,7 +51,7 @@ const DiscardAmendmentButton = () => {
       <Confirm
         open={isModalOpen}
         onConfirm={handleDiscard}
-        onClose={closeModal}
+        onCancel={closeModal}
         header="Discard this amendment?"
         content="If you discard this amendment, the RUP will be reverted to the most recently approved version and all changes will be lost."
         confirmButton={<Button loading={isDiscarding}>Discard</Button>}
