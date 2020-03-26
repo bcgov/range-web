@@ -240,8 +240,8 @@ export default function SortableAgreementTable({
                       </TableCell>
 
                       <TableCell align="left">
-                        {agreement.plans[0]?.creator
-                          ? `${agreement.plans[0]?.creator?.givenName} ${agreement.plans[0]?.creator?.familyName}`
+                        {agreement.zone?.user
+                          ? `${agreement?.zone?.user?.givenName} ${agreement?.zone?.user?.familyName}`
                           : 'Not provided'}
                       </TableCell>
                       <TableCell align="left">
