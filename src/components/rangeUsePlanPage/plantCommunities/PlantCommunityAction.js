@@ -23,9 +23,9 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
 
   const otherType = actionTypes.find(type => type.name === 'Other')
   const [otherOption, setOtherOption] = useState({
-    key: otherType.id,
-    value: otherType.id,
-    text: action.name || otherType.name
+    key: otherType?.id,
+    value: otherType?.id,
+    text: action?.name || otherType?.name || 'Other'
   })
 
   const actionOptions = actionTypes
@@ -99,12 +99,9 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
           inputProps={{
             rows: 5,
             ref: valueInputRef,
-            placeholder: actionTypes.find(
-              type => type.id === action.actionTypeId
-            )
-              ? actionTypes.find(type => type.id === action.actionTypeId)
-                  .placeholder
-              : otherType.placeholder
+            placeholder:
+              actionTypes?.find(type => type.id === action.actionTypeId)
+                ?.placeholder ?? otherType?.placeholder
           }}
         />
 

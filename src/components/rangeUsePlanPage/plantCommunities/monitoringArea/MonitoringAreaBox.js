@@ -129,9 +129,7 @@ const MonitoringAreaBox = ({
         component={Dropdown}
         options={rangelandHealthOptions}
         displayValue={
-          rangelandHealthTypes.find(r => r.id === rangelandHealthId)
-            ? rangelandHealthTypes.find(r => r.id === rangelandHealthId).name
-            : ''
+          rangelandHealthTypes.find(r => r.id === rangelandHealthId)?.name ?? ''
         }
         label="Rangeland Health"
       />
@@ -148,7 +146,8 @@ const MonitoringAreaBox = ({
         }}
         displayValue={oxfordComma(
           purposeTypeIds.map(
-            purposeTypeId => purposeTypes.find(p => p.id === purposeTypeId).name
+            purposeTypeId =>
+              purposeTypes.find(p => p.id === purposeTypeId)?.name
           )
         )}
         label="Purposes"
