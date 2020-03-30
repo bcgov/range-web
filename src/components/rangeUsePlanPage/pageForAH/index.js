@@ -28,7 +28,8 @@ class PageForAH extends Component {
     isPlanSubmissionModalOpen: false,
     isAHSignatureModalOpen: false,
     isSavingAsDraft: false,
-    isSubmitting: false
+    isSubmitting: false,
+    isCreatingAmendment: false
   }
 
   onSaveDraftClick = () => {
@@ -93,10 +94,20 @@ class PageForAH extends Component {
   onAmendPlanClicked = () => {
     const { plan, fetchPlan, toastSuccessMessage, references } = this.props
 
-    createAmendment(plan, references).then(() => {
-      toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS)
-      fetchPlan()
+    this.setState({
+      isCreatingAmendment: true
     })
+
+    createAmendment(plan, references)
+      .then(() => {
+        toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS)
+        return fetchPlan()
+      })
+      .then(() => {
+        this.setState({
+          isCreatingAmendment: false
+        })
+      })
   }
 
   validateRup = plan => {
@@ -158,8 +169,8 @@ class PageForAH extends Component {
     this.setState({ isAmendmentSubmissionModalOpen: false })
 
   renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit, canDiscard) => {
-    const { isSavingAsDraft, isSubmitting } = this.state
-    const { isCreatingAmendment, openConfirmationModal } = this.props
+    const { isSavingAsDraft, isSubmitting, isCreatingAmendment } = this.state
+    const { openConfirmationModal } = this.props
 
     return (
       <ActionBtns

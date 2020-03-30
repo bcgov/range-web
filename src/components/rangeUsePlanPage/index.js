@@ -301,7 +301,6 @@ const mapStateToProps = state => ({
   errorFetchingPlan: selectors.getPlanErrorOccured(state),
   references: selectors.getReferences(state),
   isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
-  isCreatingAmendment: selectors.getIsCreatingAmendment(state),
   reAuthRequired: selectors.getReAuthRequired(state)
 })
 
