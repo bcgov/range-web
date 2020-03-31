@@ -14,7 +14,7 @@ import { isPlanAmendment } from '../validation'
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
     const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId)
-    return amendmentType.description
+    return amendmentType?.description ?? ''
   }
   return ''
 }

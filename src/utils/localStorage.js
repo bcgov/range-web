@@ -40,4 +40,4 @@ export const saveReferencesInLocalStorage = data => {
 }
 
 export const getReferencesFromLocalStorage = () =>
-  getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE) || {}
+  getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE)

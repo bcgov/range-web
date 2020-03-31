@@ -1,10 +1,20 @@
 import * as actionTypes from '../constants/actionTypes'
 import { getReferencesFromLocalStorage } from '../utils'
+import { REFERENCE_KEY } from '../constants/variables'
+
+const initialReferences = Object.keys(REFERENCE_KEY).reduce(
+  (object, key) => ({
+    ...object,
+    [key]: []
+  }),
+  {}
+)
 
 const initialState = {
-  references: getReferencesFromLocalStorage
-    ? getReferencesFromLocalStorage()
-    : {},
+  references:
+    getReferencesFromLocalStorage && getReferencesFromLocalStorage()
+      ? getReferencesFromLocalStorage()
+      : initialReferences,
   zones: {},
   zoneIds: [],
   users: {},

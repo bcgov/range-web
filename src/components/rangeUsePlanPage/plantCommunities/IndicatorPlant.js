@@ -16,9 +16,9 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
 
   const otherSpecies = species.find(s => s.name === 'Other')
   const [otherType, setOtherType] = useState({
-    key: otherSpecies.id,
-    value: otherSpecies.id,
-    text: plant.name || otherSpecies.name
+    key: otherSpecies?.id,
+    value: otherSpecies?.id,
+    text: plant?.name || otherSpecies?.name || 'Other'
   })
 
   const options = species

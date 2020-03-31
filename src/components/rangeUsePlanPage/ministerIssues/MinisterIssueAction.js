@@ -21,9 +21,7 @@ const MinisterIssueAction = ({
   onDelete
 }) => {
   const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
-  const type = types.find(t => t.id === actionTypeId)
-    ? types.find(t => t.id === actionTypeId).name
-    : ''
+  const type = types.find(t => t.id === actionTypeId)?.name ?? ''
   const options = types.map(type => ({
     key: type.id,
     value: type.id,
@@ -112,9 +110,9 @@ const MinisterIssueAction = ({
           displayValue={detail || NO_DESCRIPTION}
           label="Description"
           inputProps={{
-            placeholder: types.find(t => t.id === actionTypeId)
-              ? types.find(t => t.id === actionTypeId).placeholder
-              : types.find(t => t.name === 'Other').placeholder
+            placeholder:
+              types.find(t => t.id === actionTypeId)?.placeholder ??
+              types.find(t => t.name === 'Other')?.placeholder
           }}
         />
       </div>

@@ -66,7 +66,7 @@ const BasicInformation = ({ plan, agreement }) => {
             label={strings.AGREEMENT_TYPE}
             text={
               agreementTypes.find(a => a.id === agreement.agreementTypeId)
-                .description
+                ?.description
             }
           />
           <TextField
