@@ -97,6 +97,9 @@ export const UPDATE_USER_PROFILE = '/v1/user/me'
 export const UPDATE_USER_ID_OF_ZONE = zoneId => `/v1/zone/${zoneId}/user`
 export const UPDATE_CLIENT_ID_OF_USER = (userId, clientId) =>
   `/v1/user/${userId}/client/${clientId}`
+export const CREATE_USER_CLIENT_LINK = userId => `/v1/user/${userId}/client`
+export const DELETE_USER_CLIENT_LINK = (userId, clientId) =>
+  `/v1/user/${userId}/client/${clientId}`
 
 export const CREATE_RUP = '/v1/plan'
 export const GET_RUP = planId => `/v1/plan/${planId}`
