@@ -3,7 +3,7 @@ import { createMuiTheme } from '@material-ui/core'
 const theme = createMuiTheme({
   typography: {
     fontFamily: 'Lato, sans-serif',
-    fontSize: '1rem'
+    fontSize: 16
   },
   palette: {
     primary: {
