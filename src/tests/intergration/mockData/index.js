@@ -5,6 +5,7 @@ export { default as mockPlan } from './mockPlan'
 export { default as mockReference } from './mockReference'
 export { default as mockUsers } from './mockUsers'
 export { default as mockZones } from './mockZones'
+export { default as mockClients } from './mockClients'
 
 export const mockAgreementPagination = {
   perPage: 10,

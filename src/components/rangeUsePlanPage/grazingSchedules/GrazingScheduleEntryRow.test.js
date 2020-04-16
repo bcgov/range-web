@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'uuid-v4'
 import { Formik } from 'formik'
-import { render, fireEvent, wait } from '../../../tests/helpers/test-utils'
+import { render, fireEvent, waitFor } from '../../../tests/helpers/test-utils'
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
 import { UserContext } from '../../../providers/UserProvider'
 import moment from 'moment'
@@ -63,7 +63,7 @@ describe('Grazing Schedule Entry Row', () => {
   })
 
   it('shows an input for each schedule entry field', async () => {
-    const { queryByLabelText, getByLabelText, debug, getByTestId } = render(
+    const { queryByLabelText, getByLabelText, getByTestId } = render(
       <WrappedComponent />
     )
 
@@ -71,7 +71,6 @@ describe('Grazing Schedule Entry Row', () => {
 
     const pasture = getByLabelText('pasture')
     expect(pasture).toBeInTheDocument()
-    debug(pasture.parentElement)
 
     const form = getByTestId('form')
 
@@ -106,9 +105,7 @@ describe('Grazing Schedule Entry Row', () => {
 
     fireEvent.click(duplicateBtn)
 
-    await wait()
-
-    expect(handleCopy).toHaveBeenCalled()
+    await waitFor(() => expect(handleCopy).toHaveBeenCalled())
   })
 
   it('calls the onDelete handler when the delete button is pressed', async () => {
@@ -125,9 +122,7 @@ describe('Grazing Schedule Entry Row', () => {
 
     fireEvent.click(deleteBtn)
 
-    await wait()
-
-    expect(handleDelete).toHaveBeenCalled()
+    await waitFor(() => expect(handleDelete).toHaveBeenCalled())
   })
 
   it('does not allow the grace days to be edited by agreement holders', () => {

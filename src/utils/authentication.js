@@ -36,12 +36,15 @@ import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables'
 export const getAuthHeaderConfig = () => {
   const { authData } = getAuthAndUserFromLocal()
 
-  return {
-    headers: {
-      Authorization: `Bearer ${authData.access_token}`,
-      'content-type': 'application/json'
+  if (authData) {
+    return {
+      headers: {
+        Authorization: `Bearer ${authData.access_token}`,
+        'content-type': 'application/json'
+      }
     }
   }
+  return {}
 }
 
 /**

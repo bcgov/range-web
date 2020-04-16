@@ -1,79 +1,118 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import ManageClientPage from './ManageClientPage'
+import React, { useState } from 'react'
+import useSWR from 'swr'
 import {
-  fetchUsers,
-  searchClients,
-  updateClientIdOfUser
-} from '../../actionCreators'
-import { userUpdated, openConfirmationModal } from '../../actions'
-import {
-  getUsers,
-  getClients,
-  getIsFetchingClients,
-  getIsUpdatingClientIdOfUser,
-  getUsersMap,
-  getUsersErrorOccured,
-  getReAuthRequired
-} from '../../reducers/rootReducer'
-import { MANAGE_CLIENT_TITLE } from '../../constants/strings'
+  CircularProgress,
+  TextField,
+  Grid,
+  Typography,
+  makeStyles,
+  Paper
+} from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab'
+import PersonIcon from '@material-ui/icons/Person'
+import * as strings from '../../constants/strings'
+import * as API from '../../constants/api'
+import { axios, getAuthHeaderConfig, getUserFullName } from '../../utils'
+import { Banner } from '../common'
+import ClientLinkList from './ClientLinkList'
 
-const propTypes = {
-  fetchUsers: PropTypes.func.isRequired,
-  reAuthRequired: PropTypes.bool.isRequired,
-  errorOccuredGettingUsers: PropTypes.bool.isRequired
+const useStyles = makeStyles(theme => ({
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2)
+  },
+  progress: {
+    marginLeft: theme.spacing(2)
+  },
+  noSelection: {
+    padding: theme.spacing(2)
+  }
+}))
+
+const ManageClientPage = () => {
+  const classes = useStyles()
+
+  const { data: users, error, isValidating } = useSWR(
+    `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`,
+    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
+  )
+
+  const [user, setUser] = useState(null)
+
+  return (
+    <section className="manage-client">
+      <Banner
+        header={strings.MANAGE_CLIENT_BANNER_HEADER}
+        content={strings.MANAGE_CLIENT_BANNER_CONTENT}
+      />
+
+      <div className="manage-client__content">
+        <div className="manage-client__steps">
+          <h3>
+            Step 1: Search and select the user (agreement holder) you&apos;d
+            like to link:
+          </h3>
+          {error && (
+            <Typography color="error">
+              Error occurred fetching user:{' '}
+              {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+            </Typography>
+          )}
+          {isValidating && !users && <CircularProgress />}
+          {users && (
+            <>
+              <Autocomplete
+                id="user-autocomplete-select"
+                options={users}
+                value={user}
+                openOnFocus
+                onChange={(e, user) => {
+                  setUser(user)
+                }}
+                getOptionLabel={option => getUserFullName(option)}
+                getOptionSelected={option => option.id === user.id}
+                style={{ width: 300 }}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    label="Select user"
+                    variant="outlined"
+                  />
+                )}
+                renderOption={option => {
+                  return (
+                    <Grid container alignItems="center">
+                      <Grid item>
+                        <PersonIcon className={classes.icon} />
+                      </Grid>
+                      <Grid item xs>
+                        {getUserFullName(option)}
+
+                        <Typography variant="body2" color="textSecondary">
+                          {option.email}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  )
+                }}
+              />
+            </>
+          )}
+
+          <h3>Step 2: Search for and select the corresponding clients:</h3>
+          {user ? (
+            <ClientLinkList userId={user.id} />
+          ) : (
+            <Paper className={classes.noSelection}>
+              <Typography color="textSecondary">
+                Please select a user
+              </Typography>
+            </Paper>
+          )}
+        </div>
+      </div>
+    </section>
+  )
 }
 
-class Base extends Component {
-  UNSAFE_componentWillMount() {
-    document.title = MANAGE_CLIENT_TITLE
-
-    this.fetchUsers()
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { reAuthRequired, errorOccuredGettingUsers } = nextProps
-
-    // fetch users if the user just reauthenticate and there was an error occurred
-    const justReAuthenticated =
-      this.props.reAuthRequired === true && reAuthRequired === false
-    if (justReAuthenticated && errorOccuredGettingUsers) {
-      this.fetchUsers()
-    }
-  }
-
-  fetchUsers = () => {
-    this.props.fetchUsers({
-      orderCId: 'desc',
-      excludeBy: 'username',
-      exclude: 'idir'
-    })
-  }
-
-  render() {
-    return <ManageClientPage {...this.props} />
-  }
-}
-
-const mapStateToProps = state => ({
-  users: getUsers(state).filter(u => u.username !== 'myrangebc'),
-  usersMap: getUsersMap(state),
-  errorOccuredGettingUsers: getUsersErrorOccured(state),
-  clients: getClients(state),
-  isFetchingClients: getIsFetchingClients(state),
-  isUpdatingClientIdOfUser: getIsUpdatingClientIdOfUser(state),
-  reAuthRequired: getReAuthRequired(state)
-})
-
-Base.propTypes = propTypes
-export default connect(
-  mapStateToProps,
-  {
-    fetchUsers,
-    searchClients,
-    updateClientIdOfUser,
-    userUpdated,
-    openConfirmationModal
-  }
-)(Base)
+export default ManageClientPage
