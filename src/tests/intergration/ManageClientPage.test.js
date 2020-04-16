@@ -19,6 +19,8 @@ const usersByName = groupBy(mockUsers, user => getUserFullName(user))
 
 const mockAxios = new MockAdapter(axios)
 
+jest.useFakeTimers()
+
 beforeEach(() => {
   mockAxios.reset()
 })
@@ -34,7 +36,7 @@ describe('Manage client page', () => {
       </MemoryRouter>
     )
 
-    expect(getByRole('progressbar')).toBeInTheDocument()
+    await waitFor(() => expect(getByRole('progressbar')).toBeInTheDocument())
 
     const userSelect = await waitFor(() => getByLabelText('Select user'))
     expect(userSelect).toBeInTheDocument()
@@ -58,13 +60,13 @@ describe('Manage client page', () => {
     mockAxios.onGet(new RegExp(API.GET_USERS)).reply(200, mockUsers)
 
     const ManageClientWithRouter = withRouter(ManageClientPage)
-    const { getByLabelText, getByRole } = render(
+    const { getByRole, findByLabelText } = render(
       <MemoryRouter initialEntries={['manage-client']}>
         <ManageClientWithRouter />
       </MemoryRouter>
     )
 
-    const userSelect = await waitFor(() => getByLabelText('Select user'))
+    const userSelect = await findByLabelText('Select user')
     expect(userSelect).toBeInTheDocument()
 
     // Search for a user
@@ -92,13 +94,13 @@ describe('Manage client page', () => {
     mockAxios.onGet(new RegExp(API.SEARCH_CLIENTS)).reply(200, mockClients)
 
     const ManageClientWithRouter = withRouter(ManageClientPage)
-    const { getByLabelText, getByRole } = render(
+    const { getByLabelText, findByLabelText, getByRole } = render(
       <MemoryRouter initialEntries={['manage-client']}>
         <ManageClientWithRouter />
       </MemoryRouter>
     )
 
-    const userSelect = await waitFor(() => getByLabelText('Select user'))
+    const userSelect = await findByLabelText('Select user')
     expect(userSelect).toBeInTheDocument()
     expect(userSelect).not.toHaveValue()
 
