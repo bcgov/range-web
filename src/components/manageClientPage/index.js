@@ -55,7 +55,7 @@ const ManageClientPage = () => {
           {error && (
             <Typography color="error">
               Error occurred fetching user:{' '}
-              {error?.message ?? error?.data?.error}
+              {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
           {isValidating && !users && <CircularProgress />}

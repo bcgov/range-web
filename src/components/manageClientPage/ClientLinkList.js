@@ -178,7 +178,7 @@ const ClientLinkList = ({ userId }) => {
 
           {user && (
             <List className={classes.list}>
-              {user.clients.map(client => (
+              {user.clients?.map(client => (
                 <div key={client.id}>
                   <ListItem key={client.id}>
                     <ListItemText
