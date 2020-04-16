@@ -63,7 +63,7 @@ describe('Grazing Schedule Entry Row', () => {
   })
 
   it('shows an input for each schedule entry field', async () => {
-    const { queryByLabelText, getByLabelText, debug, getByTestId } = render(
+    const { queryByLabelText, getByLabelText, getByTestId } = render(
       <WrappedComponent />
     )
 
@@ -71,7 +71,6 @@ describe('Grazing Schedule Entry Row', () => {
 
     const pasture = getByLabelText('pasture')
     expect(pasture).toBeInTheDocument()
-    debug(pasture.parentElement)
 
     const form = getByTestId('form')
 
