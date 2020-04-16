@@ -19,15 +19,6 @@ const usersByName = groupBy(mockUsers, user => getUserFullName(user))
 
 const mockAxios = new MockAdapter(axios)
 
-// global.document.createRange = () => ({
-//   setStart: () => {},
-//   setEnd: () => {},
-//   commonAncestorContainer: {
-//     nodeName: 'BODY',
-//     ownerDocument: document
-//   }
-// })
-
 beforeEach(() => {
   mockAxios.reset()
 })
@@ -101,13 +92,7 @@ describe('Manage client page', () => {
     mockAxios.onGet(new RegExp(API.SEARCH_CLIENTS)).reply(200, mockClients)
 
     const ManageClientWithRouter = withRouter(ManageClientPage)
-    const {
-      getByLabelText,
-      getAllByRole,
-      getByRole,
-      debug,
-      queryByText
-    } = render(
+    const { getByLabelText, getByRole } = render(
       <MemoryRouter initialEntries={['manage-client']}>
         <ManageClientWithRouter />
       </MemoryRouter>
