@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'uuid-v4'
 import { Formik } from 'formik'
-import { render, fireEvent, wait } from '../../../tests/helpers/test-utils'
+import { render, fireEvent, waitFor } from '../../../tests/helpers/test-utils'
 import GrazingScheduleBox from './GrazingScheduleBox'
 import moment from 'moment'
 
@@ -64,11 +64,11 @@ describe('Grazing Schedule Entry Box', () => {
 
     fireEvent.click(getByText('Duplicate'))
 
-    await wait()
-
-    const pastureDropdowns = getAllByLabelText('pasture')
-    expect(pastureDropdowns).toHaveLength(2)
-    expect(pastureDropdowns[0].value).toBe(pastureDropdowns[1].value)
+    await waitFor(() => {
+      const pastureDropdowns = getAllByLabelText('pasture')
+      expect(pastureDropdowns).toHaveLength(2)
+      expect(pastureDropdowns[0].value).toBe(pastureDropdowns[1].value)
+    })
 
     const livestockTypes = getAllByLabelText('livestock type')
     expect(livestockTypes).toHaveLength(2)
@@ -104,7 +104,7 @@ describe('Grazing Schedule Entry Box', () => {
     expect(rowDeleteButton).not.toHaveClass('disabled')
     fireEvent.click(rowDeleteButton)
 
-    await wait()
+    await waitFor(() => getByText('OK'))
 
     // Click 'OK' in confirmation modal
     fireEvent.click(getByText('OK'))
