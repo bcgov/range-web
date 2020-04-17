@@ -3,15 +3,18 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getReferences } from '../reducers/rootReducer'
 import { fetchReferences } from '../actionCreators'
+import { useUser } from './UserProvider'
 
 export const ReferencesContext = React.createContext({})
 
 export const useReferences = () => useContext(ReferencesContext)
 
 const ReferencesProvider = ({ references, fetchReferences, children }) => {
+  const user = useUser()
+
   useEffect(() => {
     fetchReferences()
-  }, [])
+  }, [user])
 
   return (
     <ReferencesContext.Provider value={references}>
