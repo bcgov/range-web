@@ -55,9 +55,13 @@ export const fetchReferences = () => (dispatch, getState) => {
       return references
     })
     .catch(err => {
-      console.warn(
-        `Error fetching references, '${err}'. Falling back to locally stored references`
-      )
+      if (err?.status === 401) {
+        // Request was unauthorized, user probably hasn't logged in yet.
+      } else {
+        console.warn(
+          `Error fetching references, '${err}'. Falling back to locally stored references`
+        )
+      }
     })
 }
 
