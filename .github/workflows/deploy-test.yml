@@ -24,7 +24,7 @@ jobs:
       run: |
         cd $HOME
         export PATH=$PATH_TO_OC
-        oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
+        oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token2 }}
     - name: Build image
       env:
         APP_NAME: range-myra-web-ghactiontest
