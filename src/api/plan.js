@@ -116,6 +116,7 @@ export const savePlan = async plan => {
   await saveMinisterIssues(planId, ministerIssues, newPastures)
   await saveAdditionalRequirements(planId, additionalRequirements)
 
+  await createVersion(planId)
   return planId
 }
 
@@ -202,7 +203,7 @@ export const createAmendment = async (plan, references) => {
   )
   const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED)
 
-  await createVersion(plan.id)
+  //await createVersion(plan.id)
 
   await axios.put(
     API.UPDATE_RUP(plan.id),
