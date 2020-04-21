@@ -29,6 +29,7 @@ const VersionsList = ({ match }) => {
   const formattedVersions = versions
     .sort(sortVersions)
     .filter(v => v.version !== -1)
+    .filter(v => v.effectiveLegalStart !== null)
 
   if (error) return <div>Error: {JSON.stringify(error.message)}</div>
   return (
