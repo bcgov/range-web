@@ -192,17 +192,6 @@ const Base = ({
     <Fragment>
       <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-      {!currentPlan && !isFetchingPlan && (
-        <div className="rup__no-plan-shown">
-          {"Don't see any plan?"}
-          <PrimaryButton
-            onClick={fetchPlan}
-            content="Fetch Plan"
-            style={{ marginLeft: '15px' }}
-          />
-        </div>
-      )}
-
       <Route
         path={`${match.url}/export-pdf`}
         render={() => {
