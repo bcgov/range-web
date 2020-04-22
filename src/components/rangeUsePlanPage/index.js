@@ -57,6 +57,7 @@ const Base = ({
   const {
     setCurrentPlanId,
     currentPlan,
+    currentPlanId,
     fetchPlan,
     isFetchingPlan,
     errorFetchingPlan,
@@ -158,7 +159,7 @@ const Base = ({
   const isFetchingPlanForTheFirstTime = !currentPlan && isFetchingPlan
   // const doneFetching = !isFetchingPlanForTheFirstTime;
 
-  if (errorFetchingPlan) {
+  if (errorFetchingPlan && !isFetchingPlan) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(errorFetchingPlan)
     }
@@ -178,7 +179,10 @@ const Base = ({
             Go Back
           </PrimaryButton>
           <span className="rup__fetching-error__or-message">or</span>
-          <PrimaryButton onClick={fetchPlan} content="Retry" />
+          <PrimaryButton
+            onClick={() => fetchPlan(currentPlanId, true)}
+            content="Retry"
+          />
         </div>
       </div>
     )
