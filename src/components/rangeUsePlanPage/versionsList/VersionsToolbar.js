@@ -75,10 +75,21 @@ const VersionsToolbar = ({
                 <Avatar>v{option.version.version}</Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={moment(option.version.createdAt).format(
-                  'MMM DD, YYYY, h:mm:ss a'
-                )}
-                secondary={option.version.status?.name}
+                primary={
+                  'Legal Start: ' +
+                  moment(option.version.effectiveLegalStart).format(
+                    'MMM DD, YYYY, h:mm:ss a'
+                  ) +
+                  ' -  Legal End: ' +
+                  (option.version.effectiveLegalEnd == null
+                    ? 'Present'
+                    : moment(option.version.effectiveLegalEnd).format(
+                        'MMM DD, YYYY, h:mm:ss a'
+                      ))
+                }
+                secondary={
+                  option.version.status?.name + ' ' + option.version.userId
+                }
               />
             </MuiMenuItem>
           ))}
