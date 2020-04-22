@@ -6,9 +6,9 @@ import { isUserAgreementHolder } from '../../utils'
 
 const AHWarning = () => {
   const user = useUser()
-  const clientNumber = user && user.clientId
+  const hasClients = user && user.clients?.length !== 0
 
-  if (isUserAgreementHolder(user) && !clientNumber) {
+  if (isUserAgreementHolder(user) && !hasClients) {
     return (
       <ErrorMessage
         warning
