@@ -2,7 +2,7 @@ const mockUsers = [
   {
     id: 5,
     username: 'bceid\\nackyu711',
-    clientId: null,
+    clients: [],
     givenName: 'han',
     familyName: 'Han Nackyu',
     email: 'nackyu711@gmail.com',
@@ -13,7 +13,7 @@ const mockUsers = [
   {
     id: 6,
     username: 'shellhan',
-    clientId: null,
+    clients: [],
     givenName: 'Shelly',
     familyName: 'Han',
     email: 'shelly+1@freshworks.io',
@@ -24,7 +24,7 @@ const mockUsers = [
   {
     id: 7,
     username: 'bceid\\jasoncleach',
-    clientId: null,
+    clients: [],
     givenName: 'Jason',
     familyName: 'Leach',
     email: 'jason.leach@fullboar.ca',
@@ -35,7 +35,7 @@ const mockUsers = [
   {
     id: 8,
     username: 'bceid\\myraah1',
-    clientId: null,
+    clients: [],
     givenName: 'Agreement Holder 1',
     familyName: 'Range',
     email: 'roop@freshworks.io',
@@ -46,7 +46,7 @@ const mockUsers = [
   {
     id: 9,
     username: 'bceid\\phillbillips',
-    clientId: null,
+    clients: [],
     givenName: 'Phill',
     familyName: 'Billips',
     email: 'pb@example.com',
@@ -57,7 +57,7 @@ const mockUsers = [
   {
     id: 11,
     username: 'idir\\lujones',
-    clientId: null,
+    clients: [],
     givenName: 'Lucy',
     familyName: 'Jones',
     email: 'lucy.jones@gov.bc.ca',
@@ -68,7 +68,7 @@ const mockUsers = [
   {
     id: 43,
     username: 'idir\\slarade',
-    clientId: null,
+    clients: [],
     givenName: 'Shawna',
     familyName: 'Larade',
     email: 'shawna.larade@gov.bc.ca',
@@ -79,7 +79,7 @@ const mockUsers = [
   {
     id: 16,
     username: 'idir\\hmcintyr',
-    clientId: null,
+    clients: [],
     givenName: 'Hanna',
     familyName: 'McIntyre',
     email: 'hanna.mcintyre@gov.bc.ca',
@@ -90,7 +90,7 @@ const mockUsers = [
   {
     id: 17,
     username: 'idir\\cahaywoo',
-    clientId: null,
+    clients: [],
     givenName: 'Cara',
     familyName: 'Haywood-Farmer',
     email: 'cara.haywood-farmer@gov.bc.ca',
@@ -101,7 +101,7 @@ const mockUsers = [
   {
     id: 18,
     username: 'idir\\pgyug',
-    clientId: null,
+    clients: [],
     givenName: 'Philip',
     familyName: 'Gyug',
     email: 'philip.gyug@gov.bc.ca',
@@ -112,7 +112,7 @@ const mockUsers = [
   {
     id: 44,
     username: 'idir\\keastwoo',
-    clientId: null,
+    clients: [],
     givenName: 'Kevin',
     familyName: 'Eastwood',
     email: 'kevin.eastwood@gov.bc.ca',
@@ -123,7 +123,7 @@ const mockUsers = [
   {
     id: 25,
     username: 'idir\\marcamer',
-    clientId: null,
+    clients: [],
     givenName: 'Marika',
     familyName: 'Cameron',
     email: 'marika.cameron@gov.bc.ca',
@@ -134,7 +134,7 @@ const mockUsers = [
   {
     id: 24,
     username: 'idir\\mkc',
-    clientId: null,
+    clients: [],
     givenName: 'Mahesh',
     familyName: 'Kc',
     email: 'mahesh.kc@gov.bc.ca',
@@ -145,7 +145,7 @@ const mockUsers = [
   {
     id: 26,
     username: 'idir\\ebasset',
-    clientId: null,
+    clients: [],
     givenName: 'Eleanor',
     familyName: 'Bassett',
     email: 'eleanor.bassett@gov.bc.ca',
@@ -156,7 +156,7 @@ const mockUsers = [
   {
     id: 28,
     username: 'idir\\kjchalme',
-    clientId: null,
+    clients: [],
     givenName: 'Ken',
     familyName: 'Chalmers',
     email: 'ken.chalmers@gov.bc.ca',
@@ -167,7 +167,7 @@ const mockUsers = [
   {
     id: 29,
     username: 'idir\\sllatin',
-    clientId: null,
+    clients: [],
     givenName: 'Sandra',
     familyName: 'Latin',
     email: 'sandra.latin@gov.bc.ca',
@@ -178,7 +178,7 @@ const mockUsers = [
   {
     id: 30,
     username: 'idir\\tsinger',
-    clientId: null,
+    clients: [],
     givenName: 'Tim',
     familyName: 'Singer',
     email: 'tim.singer@gov.bc.ca',
@@ -189,7 +189,7 @@ const mockUsers = [
   {
     id: 31,
     username: 'idir\\msalzl',
-    clientId: null,
+    clients: [],
     givenName: 'Mark',
     familyName: 'Salzl',
     email: 'mark.salzl@gov.bc.ca',
@@ -200,7 +200,7 @@ const mockUsers = [
   {
     id: 32,
     username: 'idir\\kwitt',
-    clientId: null,
+    clients: [],
     givenName: 'Kyra',
     familyName: 'Witt',
     email: 'kyra.witt@gov.bc.ca',
@@ -211,7 +211,7 @@ const mockUsers = [
   {
     id: 33,
     username: 'idir\\smort',
-    clientId: null,
+    clients: [],
     givenName: 'Sarah',
     familyName: 'Mortenson',
     email: 'sarah.mortenson@gov.bc.ca',
@@ -222,7 +222,7 @@ const mockUsers = [
   {
     id: 34,
     username: 'idir\\hhethering',
-    clientId: null,
+    clients: [],
     givenName: 'Harold',
     familyName: 'Hetherington',
     email: 'harold.hetherington@gov.bc.ca',
@@ -233,7 +233,7 @@ const mockUsers = [
   {
     id: 35,
     username: 'idir\\coduro',
-    clientId: null,
+    clients: [],
     givenName: 'Charles',
     familyName: 'Oduro',
     email: 'charles.oduro@gov.bc.ca',
@@ -244,7 +244,7 @@ const mockUsers = [
   {
     id: 36,
     username: 'idir\\amsmeeth',
-    clientId: null,
+    clients: [],
     givenName: 'Aaron',
     familyName: 'Smeeth',
     email: 'aaron.smeeth@gov.bc.ca',
@@ -255,7 +255,7 @@ const mockUsers = [
   {
     id: 45,
     username: 'idir\\jawoods',
-    clientId: null,
+    clients: [],
     givenName: 'Jane',
     familyName: 'Woods',
     email: 'jane.woods@gov.bc.ca',
@@ -266,7 +266,7 @@ const mockUsers = [
   {
     id: 37,
     username: 'idir\\kltabe',
-    clientId: null,
+    clients: [],
     givenName: 'Karen',
     familyName: 'Tabe',
     email: 'karen.tabe@gov.bc.ca',
@@ -277,7 +277,7 @@ const mockUsers = [
   {
     id: 38,
     username: 'idir\\kbarton',
-    clientId: null,
+    clients: [],
     givenName: 'Krista',
     familyName: 'Barton',
     email: 'krista.barton@gov.bc.ca',
@@ -288,7 +288,7 @@ const mockUsers = [
   {
     id: 46,
     username: 'idir\\carussel',
-    clientId: null,
+    clients: [],
     givenName: 'Caitlin',
     familyName: 'Russell',
     email: 'caitlin.russell@gov.bc.ca',
@@ -299,7 +299,7 @@ const mockUsers = [
   {
     id: 48,
     username: 'idir\\dmbuis',
-    clientId: null,
+    clients: [],
     givenName: 'Drew',
     familyName: 'Buis',
     email: 'drew.buis@gov.bc.ca',
@@ -310,7 +310,7 @@ const mockUsers = [
   {
     id: 49,
     username: 'idir\\rdinwood',
-    clientId: null,
+    clients: [],
     givenName: 'Rob',
     familyName: 'Dinwoodie',
     email: 'rob.dinwoodie@gov.bc.ca',
@@ -321,7 +321,7 @@ const mockUsers = [
   {
     id: 50,
     username: 'idir\\cdumais',
-    clientId: null,
+    clients: [],
     givenName: 'Cardell',
     familyName: 'Dumais',
     email: 'cardell.dumais@gov.bc.ca',
@@ -332,7 +332,7 @@ const mockUsers = [
   {
     id: 19,
     username: 'idir\\rawhiteh',
-    clientId: null,
+    clients: [],
     givenName: 'Rachel',
     familyName: 'Whitehouse',
     email: 'rachel.whitehouse@gov.bc.ca',
@@ -343,7 +343,7 @@ const mockUsers = [
   {
     id: 51,
     username: 'idir\\cfell',
-    clientId: null,
+    clients: [],
     givenName: 'Cynthia',
     familyName: 'Fell',
     email: 'cynthia.fell@gov.bc.ca',
@@ -354,7 +354,7 @@ const mockUsers = [
   {
     id: 53,
     username: 'idir\\smortens',
-    clientId: null,
+    clients: [],
     givenName: 'Sarah',
     familyName: 'Mortenson',
     email: 'sarah.mortenson@gov.bc.ca',
@@ -365,7 +365,7 @@ const mockUsers = [
   {
     id: 21,
     username: 'idir\\rgarciad',
-    clientId: null,
+    clients: [],
     givenName: 'Rene',
     familyName: 'Garcia-Daguer',
     email: 'rene.garciadaguer@gov.bc.ca',
@@ -376,7 +376,7 @@ const mockUsers = [
   {
     id: 22,
     username: 'idir\\asiemen',
-    clientId: null,
+    clients: [],
     givenName: 'Alisa',
     familyName: 'Siemens',
     email: 'alisa.siemens@gov.bc.ca',
@@ -387,7 +387,7 @@ const mockUsers = [
   {
     id: 41,
     username: 'idir\\zoesimon',
-    clientId: null,
+    clients: [],
     givenName: 'Zoe',
     familyName: 'Simon',
     email: 'zoe.simon@gov.bc.ca',
@@ -398,7 +398,7 @@ const mockUsers = [
   {
     id: 3,
     username: 'kyubinhan',
-    clientId: null,
+    clients: [],
     givenName: 'Kyubin',
     familyName: 'Han',
     email: 'kyubinhan@freshworks.io',
@@ -409,7 +409,7 @@ const mockUsers = [
   {
     id: 12,
     username: 'idir\\carmes',
-    clientId: null,
+    clients: [],
     givenName: 'Chris',
     familyName: 'Armes',
     email: 'chris.armes@gov.bc.ca',
@@ -420,7 +420,7 @@ const mockUsers = [
   {
     id: 39,
     username: 'idir\\bwheatle',
-    clientId: null,
+    clients: [],
     givenName: 'Barb',
     familyName: 'Wheatley',
     email: 'barb.wheatley@gov.bc.ca',
@@ -431,7 +431,7 @@ const mockUsers = [
   {
     id: 27,
     username: 'idir\\dilbrown',
-    clientId: null,
+    clients: [],
     givenName: 'Diane',
     familyName: 'Brown',
     email: 'diane.l.brown@gov.bc.ca',
@@ -442,7 +442,7 @@ const mockUsers = [
   {
     id: 13,
     username: 'idir\\kjames',
-    clientId: null,
+    clients: [],
     givenName: 'Kassia',
     familyName: 'James',
     email: 'kassia.james@gov.bc.ca',
@@ -453,7 +453,7 @@ const mockUsers = [
   {
     id: 65,
     username: 'bceid\\rangeadmin',
-    clientId: null,
+    clients: [],
     givenName: 'range',
     familyName: 'admin',
     email: 'rangeadmin@myrangebc.gov.ca',
@@ -464,7 +464,7 @@ const mockUsers = [
   {
     id: 52,
     username: 'idir\\krbarton',
-    clientId: null,
+    clients: [],
     givenName: 'Krista',
     familyName: 'Barton',
     email: 'krista.barton@gov.bc.ca',
@@ -475,7 +475,7 @@ const mockUsers = [
   {
     id: 14,
     username: 'idir\\momuelle',
-    clientId: null,
+    clients: [],
     givenName: 'Morgan',
     familyName: 'Mueller',
     email: 'morgan.mueller@gov.bc.ca',
@@ -486,7 +486,7 @@ const mockUsers = [
   {
     id: 42,
     username: 'idir\\saschwar',
-    clientId: null,
+    clients: [],
     givenName: 'Sarah',
     familyName: 'Schwarz',
     email: 'sarah.schwarz@gov.bc.ca',
@@ -497,7 +497,7 @@ const mockUsers = [
   {
     id: 15,
     username: 'idir\\maschuff',
-    clientId: null,
+    clients: [],
     givenName: 'Marc',
     familyName: 'Schuffert',
     email: 'marc.schuffert@gov.bc.ca',
@@ -508,7 +508,7 @@ const mockUsers = [
   {
     id: 10,
     username: 'idir\\tnairn',
-    clientId: null,
+    clients: [],
     givenName: 'Trish',
     familyName: 'Nairn',
     email: 'trish.nairn@gov.bc.ca',
@@ -519,7 +519,7 @@ const mockUsers = [
   {
     id: 23,
     username: 'idir\\tgrafton',
-    clientId: null,
+    clients: [],
     givenName: 'Taylor',
     familyName: 'Grafton',
     email: 'taylor.grafton@gov.bc.ca',
@@ -530,7 +530,7 @@ const mockUsers = [
   {
     id: 1,
     username: 'rangestaff',
-    clientId: null,
+    clients: [],
     givenName: 'Range',
     familyName: 'Staff',
     email: 'amir+1@freshworks.io',
@@ -541,7 +541,7 @@ const mockUsers = [
   {
     id: 47,
     username: 'idir\\willshaw',
-    clientId: null,
+    clients: [],
     givenName: 'William',
     familyName: 'Shaw',
     email: 'william.shaw@gov.bc.ca',
@@ -552,7 +552,7 @@ const mockUsers = [
   {
     id: 66,
     username: 'idir\\lmoore',
-    clientId: null,
+    clients: [],
     givenName: 'Lisa',
     familyName: 'Moore',
     email: 'lisa.moore@gov.bc.ca',
@@ -563,7 +563,7 @@ const mockUsers = [
   {
     id: 40,
     username: 'idir\\avolo',
-    clientId: null,
+    clients: [],
     givenName: 'Andrew',
     familyName: 'Volo',
     email: 'andrew.volo@gov.bc.ca',
@@ -574,7 +574,7 @@ const mockUsers = [
   {
     id: 63,
     username: 'bceid\\rangestaff',
-    clientId: null,
+    clients: [],
     givenName: 'Range',
     familyName: 'Staff',
     email: 'rangestaff@myrange.gov.ca',
@@ -585,7 +585,7 @@ const mockUsers = [
   {
     id: 2,
     username: 'rangeadmin',
-    clientId: null,
+    clients: [],
     givenName: 'Range',
     familyName: 'Admin',
     email: 'kyubin+1@freshworks.io',
@@ -596,7 +596,7 @@ const mockUsers = [
   {
     id: 4,
     username: 'bceid\\kyubinhan711',
-    clientId: null,
+    clients: [],
     givenName: 'Kyub',
     familyName: 'Han',
     email: 'kyubin@freshworks.io',
@@ -607,7 +607,7 @@ const mockUsers = [
   {
     id: 20,
     username: 'idir\\rmctavis',
-    clientId: null,
+    clients: [],
     givenName: 'Ried',
     familyName: 'McTavish',
     email: 'ried.mctavish@gov.bc.ca',

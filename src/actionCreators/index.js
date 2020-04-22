@@ -72,32 +72,6 @@ export const fetchAgreement = agreementId => (dispatch, getState) => {
     )
 }
 
-export const updateClientIdOfUser = (userId, clientId) => (
-  dispatch,
-  getState
-) => {
-  dispatch(actions.request(reducerTypes.UPDATE_CLIENT_ID_OF_USER))
-  return axios
-    .put(
-      API.UPDATE_CLIENT_ID_OF_USER(userId, clientId),
-      {},
-      createConfigWithHeader(getState)
-    )
-    .then(
-      response => {
-        const client = response.data
-        dispatch(actions.success(reducerTypes.UPDATE_CLIENT_ID_OF_USER, client))
-        dispatch(toastSuccessMessage(LINK_CLIENT_SUCCESS))
-        return client
-      },
-      err => {
-        dispatch(actions.error(reducerTypes.UPDATE_CLIENT_ID_OF_USER, err))
-        dispatch(toastErrorMessage(err))
-        throw err
-      }
-    )
-}
-
 export const searchClients = term => (dispatch, getState) => {
   if (!term) {
     return dispatch(actions.storeClients(normalize([], schema.arrayOfClients)))

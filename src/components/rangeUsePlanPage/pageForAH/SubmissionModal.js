@@ -8,9 +8,12 @@ import {
 } from '../../../constants/variables'
 import { getReferences, getUser } from '../../../reducers/rootReducer'
 import { planUpdated } from '../../../actions'
-import { isSingleClient, findStatusWithCode } from '../../../utils'
+import {
+  isSingleClient,
+  findStatusWithCode,
+  findConfirmationWithUser
+} from '../../../utils'
 import TabsForSingleAH from './tabs/TabsForSingleAH'
-import { findConfirmationWithClientId } from '../../../utils'
 import TabsForMultipleAH from './tabs/TabsForMultipleAH'
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
 
@@ -74,8 +77,8 @@ class SubmissionModal extends Component {
       this.setState({ isSubmitting: true })
     }
     const onSuccess = async () => {
-      const currUserConfirmation = findConfirmationWithClientId(
-        user.clientId,
+      const currUserConfirmation = findConfirmationWithUser(
+        user,
         plan.confirmations
       )
       const confirmed = true

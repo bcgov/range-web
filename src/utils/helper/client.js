@@ -22,7 +22,7 @@ export const isSingleClient = (clients = []) => {
 
 export const isClientCurrentUser = (client, user) => {
   if (client && user) {
-    return user.clientId === client.id
+    return user.clients.some(c => c.id === client.id)
   }
 
   return false
@@ -35,6 +35,23 @@ export const findConfirmationWithClientId = (clientId, confirmations) => {
     )
   }
   return undefined
+}
+
+export const findConfirmationWithUser = (user, confirmations) => {
+  const { clients = [] } = user
+
+  const linkedConfirmations = confirmations.filter(confirmation =>
+    clients.some(client => client.id === confirmation.clientId)
+  )
+
+  if (linkedConfirmations.length > 1) {
+    console.warn(
+      'There are multiple clients assigned to this user that share a plan.',
+      linkedConfirmations
+    )
+  }
+
+  return linkedConfirmations[0]
 }
 
 export const getClientFullName = contact => {
