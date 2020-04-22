@@ -5,7 +5,7 @@ module.exports = {
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
     'react/prop-types': 0
   },
-  extends: ['@twostoryrobot/eslint-config/React', 'prettier'],
+  extends: ['@twostoryrobot/eslint-config/react', 'prettier'],
   settings: {
     react: {
       version: packageConfig.dependencies.react
