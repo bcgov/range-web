@@ -116,7 +116,6 @@ export const savePlan = async plan => {
   await saveMinisterIssues(planId, ministerIssues, newPastures)
   await saveAdditionalRequirements(planId, additionalRequirements)
 
-  await createVersion(planId)
   return planId
 }
 
