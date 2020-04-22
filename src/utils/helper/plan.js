@@ -10,6 +10,7 @@ import {
 import { isAmendment } from './amendment'
 import { isUserAgreementHolder } from './user'
 import { isPlanAmendment } from '../validation'
+import { findConfirmationWithUser } from './client'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -156,13 +157,8 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
 
 export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
   if (isStatusAwaitingConfirmation(status) && user) {
-    let isConfirmed = false
-    confirmations.map(confirmation => {
-      if (user.clientId && user.clientId === confirmation.clientId) {
-        isConfirmed = confirmation.confirmed
-      }
-      return undefined
-    })
+    const isConfirmed =
+      findConfirmationWithUser(user, confirmations)?.confirmed ?? false
 
     // users who haven't confirmed yet can submit the confirmation
     return !isConfirmed

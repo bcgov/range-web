@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Modal, Icon } from 'semantic-ui-react'
 import { getUser } from '../../../reducers/rootReducer'
 import { CONFIRMATION_OPTION } from '../../../constants/variables'
-import { findConfirmationWithClientId } from '../../../utils'
+import { findConfirmationWithUser } from '../../../utils'
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
 import { planUpdated, confirmationUpdated } from '../../../actions'
 import ConfirmationTabs from './tabs/ConfirmationTabs'
@@ -70,10 +70,12 @@ class AHSignatureModal extends Component {
       throw err
     }
 
-    const currUserConfirmation = findConfirmationWithClientId(
-      user.clientId,
+    const currUserConfirmation = findConfirmationWithUser(
+      user,
       plan.confirmations
     )
+    console.log(currUserConfirmation)
+
     const confirmed = true
     const isMinorAmendment = false
 

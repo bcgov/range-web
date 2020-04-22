@@ -47,18 +47,3 @@ export const getClientOption = client => {
     description: `Client #: ${clientNumber}`
   }
 }
-
-export const getUserOption = user => {
-  const { email, clientId, clientNumber } = user
-
-  let description = `${email}`
-  if (clientId) {
-    description = `Client #: ${clientNumber}, ${email}`
-  }
-
-  return {
-    value: user.id,
-    text: getUserFullName(user),
-    description
-  }
-}
