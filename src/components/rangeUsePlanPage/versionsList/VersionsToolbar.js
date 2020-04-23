@@ -7,6 +7,8 @@ import {
   ListItemAvatar,
   Avatar
 } from '@material-ui/core'
+import Chip from '@material-ui/core/Chip'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { RANGE_USE_PLAN } from '../../../constants/routes'
@@ -43,6 +45,22 @@ const VersionsToolbar = ({
     version: v
   }))
 
+  const StyledMenuItem = withStyles(() => ({
+    root: {
+      width: 500,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start'
+    }
+  }))(MuiMenuItem)
+
+  const ApprovedChip = withStyles(() => ({
+    root: {
+      backgroundColor: '#8bc34a',
+      color: 'white'
+    }
+  }))(Chip)
+
   return (
     <>
       <Menu attached="top">
@@ -63,8 +81,8 @@ const VersionsToolbar = ({
           onClose={handleClose}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}>
-          {versionOptions.map(option => (
-            <MuiMenuItem
+          {versionOptions.map((option, index) => (
+            <StyledMenuItem
               key={option.key}
               selected={selectedVersion === option.value}
               onClick={e => {
@@ -72,26 +90,38 @@ const VersionsToolbar = ({
                 handleClose()
               }}>
               <ListItemAvatar>
-                <Avatar>v{option.version.version}</Avatar>
+                <Avatar>{versionOptions.length - index}</Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  'Legal Start: ' +
-                  moment(option.version.effectiveLegalStart).format(
-                    'MMM DD, YYYY, h:mm:ss a'
-                  ) +
-                  ' -  Legal End: ' +
-                  (option.version.effectiveLegalEnd == null
-                    ? 'Present'
-                    : moment(option.version.effectiveLegalEnd).format(
-                        'MMM DD, YYYY, h:mm:ss a'
-                      ))
+                  <div style={{ color: 'grey', width: 200 }}>Legal Start</div>
                 }
                 secondary={
-                  option.version.status?.name + ' ' + option.version.userId
+                  <div style={{ color: 'black' }}>
+                    {moment(option.version.effectiveLegalStart).format(
+                      'MMM DD YYYY h:mm a'
+                    )}
+                  </div>
                 }
               />
-            </MuiMenuItem>
+              <ListItemText
+                primary={
+                  <div style={{ color: 'grey', width: 200 }}>Legal End</div>
+                }
+                secondary={
+                  <div style={{ color: 'black' }}>
+                    {option.version.effectiveLegalEnd == null
+                      ? 'Present'
+                      : moment(option.version.effectiveLegalEnd).format(
+                          'MMM DD YYYY h:mm a'
+                        )}
+                  </div>
+                }
+              />
+              {option.version.status?.name === 'Approved' && (
+                <ApprovedChip label="Approved" />
+              )}
+            </StyledMenuItem>
           ))}
         </MuiMenu>
 
