@@ -61,6 +61,20 @@ const VersionsToolbar = ({
     }
   }))(Chip)
 
+  const DisabledApprovedChip = withStyles(() => ({
+    root: {
+      backgroundColor: '#9e9e9e',
+      color: 'white'
+    }
+  }))(Chip)
+
+  const createApprovedChip = current =>
+    current ? (
+      <ApprovedChip label="Approved" />
+    ) : (
+      <DisabledApprovedChip label="Approved" disabled />
+    )
+
   return (
     <>
       <Menu attached="top">
@@ -75,7 +89,6 @@ const VersionsToolbar = ({
           {selectedVersion ? `v${selectedVersion.version}` : 'Select a version'}{' '}
           <Icon name="caret down" />
         </Menu.Item>
-
         <MuiMenu
           placeholder="Select a version"
           onClose={handleClose}
@@ -118,9 +131,8 @@ const VersionsToolbar = ({
                   </div>
                 }
               />
-              {option.version.status?.name === 'Approved' && (
-                <ApprovedChip label="Approved" />
-              )}
+              {option.version.status?.name === 'Approved' &&
+                createApprovedChip(option.version.effectiveLegalEnd == null)}
             </StyledMenuItem>
           ))}
         </MuiMenu>
