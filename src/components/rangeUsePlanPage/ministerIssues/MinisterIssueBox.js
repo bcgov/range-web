@@ -181,6 +181,7 @@ const MinisterIssueBox = ({
 
           <FieldArray
             name={`${namespace}.ministerIssueActions`}
+            validateOnChange={false}
             render={({ push, remove }) => (
               <>
                 <div className="text-field__label" style={{ marginBottom: 10 }}>

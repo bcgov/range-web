@@ -22,6 +22,7 @@ const MinisterIssues = ({ issues }) => {
   return (
     <FieldArray
       name={'ministerIssues'}
+      validateOnChange={false}
       render={({ push, remove }) => (
         <div className="rup__missues">
           <div className="rup__content-title--editable">
