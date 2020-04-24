@@ -58,7 +58,7 @@ export class LoginPage extends Component {
         <article className="login__paragraph2">
           <div className="login__paragraph2__title">What is {APP_NAME}?</div>
           <div className="login__paragraph2__text">
-            {APP_NAME} PIPELINE NOT BROKEN is the home for electronic tools and
+            {APP_NAME} is the home for electronic tools and
             information relating to crown grazing and hay-cutting activities.
             New tools and information will be added as they become available.
             <br></br>
