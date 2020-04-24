@@ -23,6 +23,7 @@ const MonitoringAreaList = ({
     <div className="rup__plant-community__m-areas">
       <FieldArray
         name={namespace}
+        validateOnChange={false}
         render={({ push, remove }) => (
           <>
             <IfEditable permission={MONITORING_AREAS.NAME}>

@@ -36,6 +36,7 @@ const IndicatorPlantsForm = ({
 
       <FieldArray
         name={`${namespace}.indicatorPlants`}
+        validateOnChange={false}
         render={({ push, remove }) => (
           <>
             {indicatorPlants.length === 0 && (

@@ -64,6 +64,7 @@ const GrazingSchedules = ({ plan }) => {
   return (
     <FieldArray
       name="grazingSchedules"
+      validateOnChange={false}
       render={({ push, remove }) => (
         <>
           <div className="rup__grazing-schedules">

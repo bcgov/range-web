@@ -113,6 +113,7 @@ const GrazingScheduleBox = ({
   return (
     <FieldArray
       name={`${namespace}.grazingScheduleEntries`}
+      validateOnChange={false}
       render={({ push, remove }) => (
         <>
           <CollapsibleBox

@@ -26,6 +26,7 @@ const PlantCommunities = ({
   return (
     <FieldArray
       name={`${namespace}.plantCommunities`}
+      validateOnChange={false}
       render={({ push, remove }) => (
         <div className="rup__plant-communities">
           <div className="rup__plant-communities__title">Plant Communities</div>
