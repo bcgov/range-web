@@ -159,4 +159,65 @@ describe('Manage client page', () => {
     expect(queryByText('No clients linked')).not.toBeInTheDocument()
     expect(getByText(/Tom Haverford/g)).toBeInTheDocument()
   })
+
+  it('Displays if there was an error linking clients, and hides the error if a different client is selected', async () => {
+    const mockUser = mockUsers.find(
+      user => getUserFullName(user) === 'April Ludgate'
+    )
+
+    mockAxios.onGet(new RegExp(`${API.GET_USERS}/\\?.*`)).reply(200, mockUsers)
+    mockAxios.onGet(new RegExp(API.SEARCH_CLIENTS)).reply(200, mockClients)
+    mockAxios.onGet(`${API.GET_USERS}/${mockUser.id}`).reply(200, {
+      ...mockUser,
+      clients: mockUser.clients.map(clientId =>
+        mockClients.find(c => c.id === clientId)
+      )
+    })
+    mockAxios.onPost(`${API.CREATE_USER_CLIENT_LINK(mockUser.id)}`).reply(400, {
+      error: 'Error linking client'
+    })
+
+    const ManageClientWithRouter = withRouter(ManageClientPage)
+    const {
+      findByLabelText,
+      getByRole,
+      getByText,
+      queryByText,
+      debug
+    } = render(
+      <MemoryRouter initialEntries={['manage-client']}>
+        <ManageClientWithRouter />
+      </MemoryRouter>
+    )
+
+    // Chose April Ludgate as the user to manage
+    const userSelect = await findByLabelText('Select user')
+    userEvent.click(userSelect)
+
+    const userListbox = getByRole('listbox')
+    userEvent.click(within(userListbox).queryByText(/April Ludgate/g))
+
+    await waitFor(() => {
+      expect(userSelect).toHaveValue('April Ludgate')
+    })
+
+    // Open the select client dropdown
+    const clientSelect = await findByLabelText('Select client')
+    expect(clientSelect).toBeInTheDocument()
+    userEvent.click(clientSelect)
+
+    // Try to add a link
+    userEvent.click(within(getByRole('listbox')).getByText(/Tom Haverford/g))
+    userEvent.click(getByText('Add link'))
+
+    await waitFor(() =>
+      expect(getByText(/Error linking client/g)).toBeInTheDocument()
+    )
+
+    // Error message should disappear after selecting a different client
+    userEvent.click(clientSelect)
+    userEvent.click(within(getByRole('listbox')).getByText(/April Ludgate/g))
+
+    expect(queryByText(/Error linking client/g)).not.toBeInTheDocument()
+  })
 })
