@@ -5,7 +5,8 @@ import {
   render,
   queryAllByText as globalQueryAllByText,
   queryByText as globalQueryByText,
-  waitFor
+  waitFor,
+  within
 } from '../helpers/test-utils'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, withRouter } from 'react-router-dom'
@@ -118,5 +119,44 @@ describe('Manage client page', () => {
     await waitFor(() => {
       expect(userSelect).toHaveValue('Agreement Holder 1 Range')
     })
+  })
+
+  it('Shows existing links for a user', async () => {
+    const mockUser = mockUsers.find(
+      user => getUserFullName(user) === 'April Ludgate'
+    )
+
+    mockAxios.onGet(new RegExp(`${API.GET_USERS}/\\?.*`)).reply(200, mockUsers)
+    mockAxios.onGet(new RegExp(API.SEARCH_CLIENTS)).reply(200, mockClients)
+    mockAxios.onGet(`${API.GET_USERS}/${mockUser.id}`).reply(200, {
+      ...mockUser,
+      clients: mockUser.clients.map(clientId =>
+        mockClients.find(c => c.id === clientId)
+      )
+    })
+
+    const ManageClientWithRouter = withRouter(ManageClientPage)
+    const { findByLabelText, getByRole, queryByText, getByText } = render(
+      <MemoryRouter initialEntries={['manage-client']}>
+        <ManageClientWithRouter />
+      </MemoryRouter>
+    )
+
+    const userSelect = await findByLabelText('Select user')
+    userEvent.click(userSelect)
+
+    const listBox = getByRole('listbox')
+
+    const userOption = within(listBox).queryByText(/April Ludgate/g)
+    expect(userOption).not.toBeNull()
+
+    userEvent.click(userOption)
+
+    await waitFor(() => {
+      expect(userSelect).toHaveValue('April Ludgate')
+    })
+
+    expect(queryByText('No clients linked')).not.toBeInTheDocument()
+    expect(getByText(/Tom Haverford/g)).toBeInTheDocument()
   })
 })
