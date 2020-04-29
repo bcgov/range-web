@@ -154,7 +154,6 @@ const translateStatusBasedOnUser = (status, user) => {
       statusName = 'Approved'
       modifier += '--green'
       break
-
     default:
       modifier += '--not-provided'
       break
