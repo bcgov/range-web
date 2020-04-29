@@ -221,7 +221,8 @@ const Base = ({
         <Form
           initialValues={currentPlan}
           enableReinitialize
-          validateOnChange={true}
+          validateOnChange={false}
+          validateOnBlur={false}
           validationSchema={RUPSchema}
           onSubmit={handleSubmit}
           render={({ values: plan, dirty }) => (

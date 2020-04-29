@@ -28,6 +28,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
   return (
     <FieldArray
       name={`managementConsiderations`}
+      validateOnChange={false}
       render={({ push, remove }) => (
         <>
           <div className="rup__m-considerations">

@@ -30,6 +30,7 @@ class AdditionalRequirements extends Component {
     return (
       <FieldArray
         name="additionalRequirements"
+        validateOnChange={false}
         render={({ push, remove }) => (
           <div className="rup__a-requirements">
             <div className="rup__content-title--editable">

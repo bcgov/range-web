@@ -25,6 +25,7 @@ const Pastures = ({ pastures, formik }) => {
   return (
     <FieldArray
       name="pastures"
+      validateOnChange={false}
       render={({ push, remove }) => (
         <div className="rup__pastures">
           <div className="rup__content-title--editable">

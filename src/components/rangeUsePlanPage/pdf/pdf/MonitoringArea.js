@@ -23,7 +23,7 @@ const MonitoringArea = ({ monitoringArea }) => (
 
     <Row>
       <Field label="Rangeland Health">
-        {monitoringArea.rangelandHealth.name}
+        {monitoringArea.rangelandHealth?.name}
       </Field>
     </Row>
 

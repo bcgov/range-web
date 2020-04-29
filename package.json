@@ -24,7 +24,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.2",
-    "formik": "^1.5.8",
+    "formik": "^2.1.4",
     "formik-semantic-ui": "^0.10.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-localstorage-mock": "^2.3.0",

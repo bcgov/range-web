@@ -20,6 +20,7 @@ const PlantCommunityActionsBox = ({
   return (
     <FieldArray
       name={`${namespace}.plantCommunityActions`}
+      validateOnChange={false}
       render={({ push, remove }) => (
         <>
           {actions.map((action, index) => (
