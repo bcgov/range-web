@@ -119,9 +119,6 @@ const VersionsToolbar = ({
               />
               <Status
                 status={option.version.status}
-                // className={
-                //   option.version.effectiveLegalEnd !== null ? 'greyed' : ''
-                // }
                 className={classnames('versions_status_icon', {
                   greyed: option.version.effectiveLegalEnd !== null
                 })}
