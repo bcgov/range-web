@@ -18,8 +18,7 @@ import {
   saveMinisterIssues,
   saveAdditionalRequirements,
   savePlantCommunities,
-  savePastures,
-  createVersion
+  savePastures
 } from '.'
 import {
   REFERENCE_KEY,
@@ -198,21 +197,34 @@ export const createNewPlan = agreement => {
 export const updatePlan = async (planId, data) => {
   return await axios.put(API.UPDATE_RUP(planId), data, getAuthHeaderConfig())
 }
+
+export const createAmendment = async (
+  plan,
+  references,
+  staffInitiated = false
+) => {
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
   const initialAmendment = amendmentTypes.find(
     at => at.code === AMENDMENT_TYPE.INITIAL
   )
   const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED)
-
-  //await createVersion(plan.id)
+  const staffDraftStatus = findStatusWithCode(
+    references,
+    PLAN_STATUS.STAFF_DRAFT
+  )
 
   await axios.put(
     API.UPDATE_RUP(plan.id),
     {
       ...plan,
-      statusId: createdStatus.id,
       amendmentTypeId: initialAmendment.id
     },
+    getAuthHeaderConfig()
+  )
+
+  await axios.put(
+    API.UPDATE_PLAN_STATUS(plan.id),
+    { statusId: staffInitiated ? staffDraftStatus.id : createdStatus.id },
     getAuthHeaderConfig()
   )
 
