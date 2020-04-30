@@ -195,7 +195,9 @@ export const createNewPlan = agreement => {
   return newPlan
 }
 
-export const createAmendment = async (plan, references) => {
+export const updatePlan = async (planId, data) => {
+  return await axios.put(API.UPDATE_RUP(planId), data, getAuthHeaderConfig())
+}
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
   const initialAmendment = amendmentTypes.find(
     at => at.code === AMENDMENT_TYPE.INITIAL
