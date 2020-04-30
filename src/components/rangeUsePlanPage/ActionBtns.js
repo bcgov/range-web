@@ -117,8 +117,7 @@ const ActionBtns = ({
     <>
       {canEdit && saveDraftBtn}
       {canSubmit && submitBtn}
-      {/* TODO: Re-enable amendment buttons once workflows have been completed */}
-      {/* {canAmend && amendBtn} */}
+      {canAmend && amendBtn}
       {canConfirm && confirmSubmissionBtn}
       {canDiscard && <DiscardAmendmentButton />}
       <Dropdown
