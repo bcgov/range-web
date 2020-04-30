@@ -147,7 +147,7 @@ class PageForStaff extends Component {
   closePlanSubmissionModal = () =>
     this.setState({ isPlanSubmissionModalOpen: false })
 
-  renderActionBtns = (canEdit, canSubmit, canAmend) => {
+  renderActionBtns = (canEdit, canSubmit, canAmend, canDiscard) => {
     const { isSavingAsDraft, isSubmitting } = this.state
     const { openConfirmationModal } = this.props
 
@@ -156,7 +156,7 @@ class PageForStaff extends Component {
         canEdit={canEdit}
         canSubmit={canSubmit}
         canAmend={canAmend}
-        canDiscard={false}
+        canDiscard={canDiscard}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}
@@ -203,6 +203,7 @@ class PageForStaff extends Component {
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canSubmit = utils.canUserSubmitPlan(plan, user)
     const canAmend = utils.isStatusAmongApprovedStatuses(status)
+    const canDiscard = utils.canUserDiscardAmendment(plan, user)
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     const planTypeDescription = utils.getPlanTypeDescription(
@@ -252,7 +253,12 @@ class PageForStaff extends Component {
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(canEdit, canSubmit, canAmend)}
+                {this.renderActionBtns(
+                  canEdit,
+                  canSubmit,
+                  canAmend,
+                  canDiscard
+                )}
               </div>
             </div>
           </div>
