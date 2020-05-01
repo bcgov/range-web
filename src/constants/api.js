@@ -27,8 +27,8 @@ import { isBundled, RETURN_PAGE_TYPE } from './variables'
   API_BASE_URL: 'https://web-range-myra-prod.pathfinder.gov.bc.ca/api'
 }*/
 
-//const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api'
-const DEV_API_BASE_URL = 'http://localhost:8080/api'
+const DEV_API_BASE_URL = 'https://web-range-myra-dev.pathfinder.gov.bc.ca/api'
+// const DEV_API_BASE_URL = 'http://localhost:8000/api';
 const DEV = {
   // eslint-disable-line no-unused-vars
   SSO_BASE_URL: 'https://sso-dev.pathfinder.gov.bc.ca',
@@ -36,17 +36,17 @@ const DEV = {
   API_BASE_URL: DEV_API_BASE_URL
 }
 
-const TEST = {
+/*const TEST = {
   // eslint-disable-line no-unused-vars
   SSO_BASE_URL: 'https://sso-test.pathfinder.gov.bc.ca',
   SITEMINDER_BASE_URL: 'https://logontest.gov.bc.ca',
   API_BASE_URL: 'https://web-range-myra-test.pathfinder.gov.bc.ca/api'
-}
+}*/
 
 export const DEV_ENV = {
   // ...PROD,
-  //.DEV
-  ...TEST
+  ...DEV
+  // ...TEST,
 }
 
 export const SSO_BASE_URL = isBundled
