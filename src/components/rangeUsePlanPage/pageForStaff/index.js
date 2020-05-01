@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import UpdateZoneModal from './UpdateZoneModal'
-import { REFERENCE_KEY, PLAN_STATUS } from '../../../constants/variables'
+import {
+  REFERENCE_KEY,
+  PLAN_STATUS,
+  AMENDMENT_TYPE
+} from '../../../constants/variables'
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
@@ -13,7 +17,7 @@ import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
 import { canUserEditThisPlan } from '../../../utils'
-import { savePlan } from '../../../api'
+import { createAmendment, savePlan, updatePlan } from '../../../api'
 import NetworkStatus from '../../common/NetworkStatus'
 
 // Range Staff Page
@@ -95,6 +99,41 @@ class PageForStaff extends Component {
     this.props.history.push(`/range-use-plan/${planId}/versions`)
   }
 
+  onAmendPlanClicked = async () => {
+    const {
+      plan,
+      fetchPlan,
+      toastSuccessMessage,
+      toastErrorMessage,
+      references
+    } = this.props
+
+    this.setState({
+      isCreatingAmendment: true
+    })
+
+    try {
+      const amendmentType = references[REFERENCE_KEY.AMENDMENT_TYPE]?.find(
+        type => type.code === AMENDMENT_TYPE.MANDATORY
+      )
+
+      await createAmendment(plan, references, true)
+      await updatePlan(plan.id, {
+        amendmentTypeId: amendmentType.id
+      })
+
+      toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS)
+    } catch (e) {
+      toastErrorMessage(`Couldn't create amendment: ${e.message}`)
+    } finally {
+      this.setState({
+        isCreatingAmendment: false
+      })
+
+      await fetchPlan()
+    }
+  }
+
   openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
   closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
   openPlanSubmissionModal = () => {
@@ -108,13 +147,15 @@ class PageForStaff extends Component {
   closePlanSubmissionModal = () =>
     this.setState({ isPlanSubmissionModalOpen: false })
 
-  renderActionBtns = (canEdit, canSubmit) => {
+  renderActionBtns = (canEdit, canSubmit, canAmend) => {
     const { isSavingAsDraft, isSubmitting } = this.state
+    const { openConfirmationModal } = this.props
 
     return (
       <ActionBtns
         canEdit={canEdit}
         canSubmit={canSubmit}
+        canAmend={canAmend}
         canDiscard={false}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
@@ -126,6 +167,8 @@ class PageForStaff extends Component {
         isFetchingPlan={this.props.isFetchingPlan}
         fetchPlan={this.props.fetchPlan}
         canUpdateStatus
+        openConfirmationModal={openConfirmationModal}
+        onAmendPlanClicked={this.onAmendPlanClicked}
         beforeUpdateStatus={async () => {
           await savePlan(this.props.plan)
           await this.props.fetchPlan()
@@ -159,6 +202,7 @@ class PageForStaff extends Component {
 
     const canEdit = utils.canUserEditThisPlan(plan, user)
     const canSubmit = utils.canUserSubmitPlan(plan, user)
+    const canAmend = utils.isStatusAmongApprovedStatuses(status)
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     const planTypeDescription = utils.getPlanTypeDescription(
@@ -204,7 +248,7 @@ class PageForStaff extends Component {
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(canEdit, canSubmit)}
+                {this.renderActionBtns(canEdit, canSubmit, canAmend)}
               </div>
             </div>
           </div>
