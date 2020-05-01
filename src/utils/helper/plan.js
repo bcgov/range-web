@@ -5,7 +5,8 @@ import {
   FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES,
   REQUIRE_NOTES_PLAN_STATUSES,
   NOT_DOWNLOADABLE_PLAN_STATUSES,
-  REFERENCE_KEY
+  REFERENCE_KEY,
+  USER_ROLE
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
 import { isUserAgreementHolder } from './user'
@@ -187,14 +188,20 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   return false
 }
 
-export const canUserDiscardAmendment = plan => {
+export const canUserDiscardAmendment = (plan, user) => {
   const isAmendment = isPlanAmendment(plan)
 
-  return (
-    isAmendment &&
-    !isStatusStands(plan.status) &&
-    !isStatusStandsWM(plan.status)
-  )
+  if (!user || !plan) return false
+
+  if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
+    return isAmendment && isStatusStaffDraft(plan.status)
+  }
+
+  if (user.roles.includes(USER_ROLE.AGREEMENT_HOLDER)) {
+    return isAmendment && isStatusCreated(plan.status)
+  }
+
+  return false
 }
 
 export const findStatusWithCode = (references, statusCode) => {
