@@ -22,7 +22,7 @@ const defaultProps = {
   style: {}
 }
 
-const Status = ({ status, className, style, user }) => {
+const translateStatusBasedOnUser = (status, user) => {
   let modifier = 'status__icon'
   let statusName = status.code ? 'Unknown_status' : NO_PLAN
 
@@ -154,11 +154,16 @@ const Status = ({ status, className, style, user }) => {
       statusName = 'Approved'
       modifier += '--green'
       break
-
     default:
       modifier += '--not-provided'
       break
   }
+
+  return { modifier, statusName }
+}
+
+const Status = ({ status, className, style, user }) => {
+  const { modifier, statusName } = translateStatusBasedOnUser(status, user)
 
   return (
     <div className={classnames('status', className)} style={style}>

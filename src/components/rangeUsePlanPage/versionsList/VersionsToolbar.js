@@ -7,13 +7,14 @@ import {
   ListItemAvatar,
   Avatar
 } from '@material-ui/core'
-import Chip from '@material-ui/core/Chip'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import classnames from 'classnames'
 import { RANGE_USE_PLAN } from '../../../constants/routes'
 import { PrimaryButton } from '../../common'
 import VersionToolbar from './VersionToolbar'
+import Status from '../../common/Status'
 
 const VersionsToolbar = ({
   versions,
@@ -47,33 +48,12 @@ const VersionsToolbar = ({
 
   const StyledMenuItem = withStyles(() => ({
     root: {
-      width: 500,
+      width: 550,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-start'
     }
   }))(MuiMenuItem)
-
-  const ApprovedChip = withStyles(() => ({
-    root: {
-      backgroundColor: '#8bc34a',
-      color: 'white'
-    }
-  }))(Chip)
-
-  const DisabledApprovedChip = withStyles(() => ({
-    root: {
-      backgroundColor: '#9e9e9e',
-      color: 'white'
-    }
-  }))(Chip)
-
-  const createApprovedChip = current =>
-    current ? (
-      <ApprovedChip label="Approved" />
-    ) : (
-      <DisabledApprovedChip label="Approved" disabled />
-    )
 
   return (
     <>
@@ -103,11 +83,17 @@ const VersionsToolbar = ({
                 handleClose()
               }}>
               <ListItemAvatar>
-                <Avatar>{versionOptions.length - index}</Avatar>
+                <Avatar
+                  style={{
+                    background:
+                      option.version.effectiveLegalEnd === null ? 'green' : null
+                  }}>
+                  {versionOptions.length - index}
+                </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  <div style={{ color: 'grey', width: 200 }}>Legal Start</div>
+                  <div style={{ color: 'grey', width: 250 }}>Legal Start</div>
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
@@ -119,7 +105,7 @@ const VersionsToolbar = ({
               />
               <ListItemText
                 primary={
-                  <div style={{ color: 'grey', width: 200 }}>Legal End</div>
+                  <div style={{ color: 'grey', width: 250 }}>Legal End</div>
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
@@ -131,8 +117,13 @@ const VersionsToolbar = ({
                   </div>
                 }
               />
-              {option.version.status?.name === 'Approved' &&
-                createApprovedChip(option.version.effectiveLegalEnd == null)}
+              <Status
+                status={option.version.status}
+                className={classnames('versions_status_icon', {
+                  greyed: option.version.effectiveLegalEnd !== null
+                })}
+                style={{ marginRight: 25 }}
+              />
             </StyledMenuItem>
           ))}
         </MuiMenu>
