@@ -28,7 +28,8 @@ class PageForStaff extends Component {
   state = {
     isUpdateZoneModalOpen: false,
     isPlanSubmissionModalOpen: false,
-    isSavingAsDraft: false
+    isSavingAsDraft: false,
+    isCreatingAmendment: false
   }
 
   onSaveDraftClick = () => {
@@ -169,6 +170,7 @@ class PageForStaff extends Component {
         canUpdateStatus
         openConfirmationModal={openConfirmationModal}
         onAmendPlanClicked={this.onAmendPlanClicked}
+        isCreatingAmendment={this.state.isCreatingAmendment}
         beforeUpdateStatus={async () => {
           await savePlan(this.props.plan)
           await this.props.fetchPlan()
