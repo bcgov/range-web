@@ -614,6 +614,17 @@ const mockUsers = [
     phoneNumber: '250-378-8487',
     active: true,
     lastLoginAt: '2018-12-05T00:02:13.135Z'
+  },
+  {
+    id: 54,
+    username: 'bceid\\april.ludgate',
+    clients: [4],
+    givenName: 'April',
+    familyName: 'Ludgate',
+    email: 'april.ludgate@example.com',
+    phoneNumber: null,
+    active: true,
+    lastLoginAt: null
   }
 ]
 
