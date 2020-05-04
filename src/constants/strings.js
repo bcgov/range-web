@@ -185,6 +185,9 @@ export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_CONTENT =
 export const STANDS_CONFIRM_HEADER = 'Update Status: Stands'
 export const STANDS_CONFIRM_CONTENT =
   'Are you sure you want to update the status?'
+export const STANDS_REVIEW_HEADER = 'Stands - Requires Review'
+export const STANDS_REVIEW_CONTENT =
+  'Are you sure you want to update the status?'
 export const STANDS_WRONGLY_MADE_CONFIRM_HEADER =
   'Update Status: Stands - Wrongly Made'
 export const STANDS_WRONGLY_MADE_CONFIRM_CONTENT =

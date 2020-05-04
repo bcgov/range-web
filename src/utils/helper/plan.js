@@ -100,6 +100,9 @@ export const isStatusStands = status =>
 export const isStatusStandsReview = status =>
   status && status.code === PLAN_STATUS.STANDS_REVIEW
 
+export const isStatusStandsNotReviewed = status =>
+  status && status.code === PLAN_STATUS.STANDS_NOT_REVIEWED
+
 export const isStatusStandsWM = status =>
   status && status.code === PLAN_STATUS.STANDS_WRONGLY_MADE
 
@@ -305,6 +308,16 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
         'This range use plan minor amendment is now the current legal version. It may be reviewed by range staff to confirm that it meets requirements.'
     } else {
       header = 'Minor Amendment - Review Required'
+      content = 'This minor amendment was submitted and is under review.'
+    }
+  }
+  if (isStatusStandsNotReviewed(status)) {
+    if (isUserAgreementHolder(user)) {
+      header = 'Minor Amendment Accepted'
+      content =
+        'This range use plan minor amendment is now the current legal version. It may be reviewed by range staff to confirm that it meets requirements.'
+    } else {
+      header = 'Minor Amendment - Not Reviewed'
       content =
         'This minor amendment was submitted and will be the current legal version unless you review and the decision maker deems it wrongly made.'
     }

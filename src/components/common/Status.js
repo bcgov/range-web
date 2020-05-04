@@ -79,6 +79,15 @@ const translateStatusBasedOnUser = (status, user) => {
         modifier += '--orange'
       }
       break
+    case PLAN_STATUS.STANDS_NOT_REVIEWED:
+      if (isUserAgreementHolder(user)) {
+        statusName = 'Stands'
+        modifier += '--green'
+      } else {
+        statusName = 'Stands - Not Reviewed'
+        modifier += '--green'
+      }
+      break
     case PLAN_STATUS.STANDS:
       statusName = 'Stands'
       modifier += '--green'

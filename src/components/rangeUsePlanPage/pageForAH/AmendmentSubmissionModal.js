@@ -143,8 +143,11 @@ class AmendmentSubmissionModal extends Component {
     )
 
     if (isMinor && isSingleClient(clients)) {
-      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS_REVIEW)
-      return this.submitAmendment(plan, stands, minor)
+      const standsNotReviewed = findStatusWithCode(
+        references,
+        PLAN_STATUS.STANDS_NOT_REVIEWED
+      )
+      return this.submitAmendment(plan, standsNotReviewed, minor)
     }
 
     if (isMinor && !isSingleClient(clients)) {
