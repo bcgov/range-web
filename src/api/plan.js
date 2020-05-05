@@ -207,10 +207,13 @@ export const createAmendment = async (
   const initialAmendment = amendmentTypes.find(
     at => at.code === AMENDMENT_TYPE.INITIAL
   )
-  const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED)
-  const staffDraftStatus = findStatusWithCode(
+  const ahAmendmentStatus = findStatusWithCode(
     references,
-    PLAN_STATUS.STAFF_DRAFT
+    PLAN_STATUS.AMENDMENT_AH
+  )
+  const staffAmendmentStatus = findStatusWithCode(
+    references,
+    PLAN_STATUS.MANDATORY_AMENDMENT_STAFF
   )
 
   await axios.put(
@@ -224,7 +227,9 @@ export const createAmendment = async (
 
   await axios.put(
     API.UPDATE_PLAN_STATUS(plan.id),
-    { statusId: staffInitiated ? staffDraftStatus.id : createdStatus.id },
+    {
+      statusId: staffInitiated ? staffAmendmentStatus.id : ahAmendmentStatus.id
+    },
     getAuthHeaderConfig()
   )
 

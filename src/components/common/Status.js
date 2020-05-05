@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { PLAN_STATUS } from '../../constants/variables'
 import { NO_PLAN } from '../../constants/strings'
-import { isUserAgreementHolder } from '../../utils'
+import { isUserAgreementHolder, isUserStaff } from '../../utils'
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -162,6 +162,14 @@ const translateStatusBasedOnUser = (status, user) => {
     case PLAN_STATUS.APPROVED:
       statusName = 'Approved'
       modifier += '--green'
+      break
+    case PLAN_STATUS.AMENDMENT_AH:
+      statusName = 'Amendment Created'
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray'
+      break
+    case PLAN_STATUS.MANDATORY_AMENDMENT_STAFF:
+      statusName = 'Mandatory Amendment Created'
+      modifier += isUserStaff(user) ? '--orange' : '--gray'
       break
     default:
       modifier += '--not-provided'

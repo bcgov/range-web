@@ -9,8 +9,7 @@ import {
   USER_ROLE
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
-import { isUserAgreementHolder } from './user'
-import { isPlanAmendment } from '../validation'
+import { isUserAgreementHolder, isUserStaff } from './user'
 import { findConfirmationWithUser } from './client'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
@@ -144,6 +143,12 @@ export const isStatusIndicatingStaffFeedbackNeeded = status =>
   status.code &&
   FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code)
 
+export const isStatusMandatoryAmendmentStaff = status =>
+  status && status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF
+
+export const isStatusAmendmentAH = status =>
+  status && status.code === PLAN_STATUS.AMENDMENT_AH
+
 export const isNoteRequired = statusCode =>
   REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode)
 
@@ -152,7 +157,10 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
   if (!status || !status.code || !user || !user.roles) return false
 
   if (user.roles.includes('myra_range_officer')) {
-    return status.code === PLAN_STATUS.STAFF_DRAFT
+    return (
+      status.code === PLAN_STATUS.STAFF_DRAFT ||
+      status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF
+    )
   }
   if (user.roles.includes('myra_client')) {
     return canUserEditThisPlan(plan, user)
@@ -173,7 +181,11 @@ export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
 export const canUserEditThisPlan = (plan = {}, user = {}) => {
   const { status } = plan
 
-  if (isStatusStaffDraft(status) || isStatusSubmittedForReview(status)) {
+  if (
+    isStatusStaffDraft(status) ||
+    isStatusSubmittedForReview(status) ||
+    isStatusMandatoryAmendmentStaff(status)
+  ) {
     return user.roles.includes('myra_range_officer')
   }
 
@@ -183,7 +195,8 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusChangedRequested(status) ||
     isStatusNotApproved(status) ||
     isStatusNotApprovedFWR(status) ||
-    isStatusRecommendForSubmission(status)
+    isStatusRecommendForSubmission(status) ||
+    isStatusAmendmentAH(status)
   ) {
     return user.roles.includes('myra_client')
   }
@@ -192,16 +205,14 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
 }
 
 export const canUserDiscardAmendment = (plan, user) => {
-  const isAmendment = isPlanAmendment(plan)
-
   if (!user || !plan) return false
 
   if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
-    return isAmendment && isStatusStaffDraft(plan.status)
+    return isStatusMandatoryAmendmentStaff(plan.status)
   }
 
   if (user.roles.includes(USER_ROLE.AGREEMENT_HOLDER)) {
-    return isAmendment && isStatusCreated(plan.status)
+    return isStatusAmendmentAH(plan.status)
   }
 
   return false
@@ -419,6 +430,26 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
     } else {
       header = 'Plan Approved'
       content = `The agreement holder has been notified that this ${planType.toLowerCase()} * is approved.`
+    }
+  }
+  if (isStatusMandatoryAmendmentStaff(status)) {
+    if (isUserStaff(user)) {
+      header = 'Mandatory Amendment Created'
+      content =
+        'A mandatory amendment has been initiated by staff. Submit to the agreement holder when ready.'
+    } else {
+      header = 'Mandatory Amendment Created by Staff'
+      content = 'Staff is working on a mandatory amendment.'
+    }
+  }
+  if (isStatusAmendmentAH(status)) {
+    if (isUserAgreementHolder(user)) {
+      header = 'Amendment Created'
+      content =
+        'Please add content to this amendment. Read through any plan notes left by the assigned staff contact below. Make changes to the content on this screen and select "Save Draft". Press "Submit" to submit your amendment as either a minor or mandatory amendment. Your changes will not be viewable by range staff until submission.'
+    } else {
+      header = 'Amendment Created by Agreement Holder'
+      content = 'The agreement holder is working on an amendment.'
     }
   }
 
