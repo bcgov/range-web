@@ -286,11 +286,5 @@ export const getMostRecentLegalPlan = async planId => {
 }
 
 export const discardAmendment = async planId => {
-  const { version } = await getMostRecentLegalPlan(planId)
-
-  return axios.post(
-    API.RESTORE_RUP_VERSION(planId, version),
-    {},
-    getAuthHeaderConfig()
-  )
+  return axios.post(API.DISCARD_AMENDMENT(planId), {}, getAuthHeaderConfig())
 }
