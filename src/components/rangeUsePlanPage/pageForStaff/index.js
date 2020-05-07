@@ -160,7 +160,8 @@ class PageForStaff extends Component {
           submit: utils.canUserSubmitPlan(plan, user),
           amend: utils.isStatusAmongApprovedStatuses(status),
           discard: utils.canUserDiscardAmendment(plan, user),
-          updateStatus: true
+          updateStatus: true,
+          submitAsMandatory: utils.canUserSubmitAsMandatory(plan, user)
         }}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
