@@ -129,6 +129,9 @@ export const isStatusAwaitingConfirmation = status =>
 export const isStatusRecommendForSubmission = status =>
   status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION
 
+export const isStatusSubmittedAsMandatory = status =>
+  status && status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY
+
 export const cannotDownloadPDF = status =>
   status && status.code && NOT_DOWNLOADABLE_PLAN_STATUSES.includes(status.code)
 
@@ -159,7 +162,8 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
   if (user.roles.includes('myra_range_officer')) {
     return (
       status.code === PLAN_STATUS.STAFF_DRAFT ||
-      status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF
+      status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF ||
+      status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY
     )
   }
   if (user.roles.includes('myra_client')) {
@@ -213,6 +217,16 @@ export const canUserDiscardAmendment = (plan, user) => {
 
   if (user.roles.includes(USER_ROLE.AGREEMENT_HOLDER)) {
     return isStatusAmendmentAH(plan.status)
+  }
+
+  return false
+}
+
+export const canUserSubmitAsMandatory = (plan, user) => {
+  if (!user || !plan) return false
+
+  if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
+    return isStatusStandsReview(plan.status)
   }
 
   return false

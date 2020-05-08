@@ -171,6 +171,10 @@ const translateStatusBasedOnUser = (status, user) => {
       statusName = 'Mandatory Amendment Created'
       modifier += isUserStaff(user) ? '--orange' : '--gray'
       break
+    case PLAN_STATUS.SUBMITTED_AS_MANDATORY:
+      statusName = 'Submitted as Mandatory'
+      modifier += isUserStaff(user) ? '--orange' : '--gray'
+      break
     default:
       modifier += '--not-provided'
       break

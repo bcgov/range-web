@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Icon, Menu, Dropdown } from 'semantic-ui-react'
 import { connect } from 'formik'
 import {
@@ -16,14 +17,10 @@ import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
 import { useNetworkStatus } from '../../utils/hooks/network'
 import { useCurrentPlan } from '../../providers/PlanProvider'
 import DiscardAmendmentButton from './DiscardAmendmentButton'
+import SubmitAsMandatoryButton from './SubmitAsMandatoryButton'
 
 const ActionBtns = ({
-  canEdit,
-  canAmend,
-  canConfirm,
-  canSubmit,
-  canUpdateStatus,
-  canDiscard,
+  permissions: permissionsOptions,
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
@@ -113,13 +110,26 @@ const ActionBtns = ({
     </Menu.Item>
   )
 
+  const permissions = {
+    edit: false,
+    amend: false,
+    confirm: false,
+    submit: false,
+    updateStatus: false,
+    discard: false,
+    submitAsMandatory: false,
+    ...permissionsOptions
+  }
+
   return (
     <>
-      {canEdit && saveDraftBtn}
-      {canSubmit && submitBtn}
-      {canAmend && amendBtn}
-      {canConfirm && confirmSubmissionBtn}
-      {canDiscard && <DiscardAmendmentButton />}
+      {permissions.edit && saveDraftBtn}
+      {permissions.submit && submitBtn}
+      {permissions.amend && amendBtn}
+      {permissions.confirm && confirmSubmissionBtn}
+      {permissions.discard && <DiscardAmendmentButton />}
+      {permissions.submitAsMandatory && <SubmitAsMandatoryButton />}
+
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
         closeOnBlur
@@ -130,7 +140,7 @@ const ActionBtns = ({
         <Dropdown.Menu>
           {downloadPDFBtn}
           {viewVersionsMenuItem}
-          {canUpdateStatus && (
+          {permissions.updateStatus && (
             <UpdateStatusDropdown
               plan={plan}
               fetchPlan={fetchPlan}
@@ -142,6 +152,18 @@ const ActionBtns = ({
       </Dropdown>
     </>
   )
+}
+
+ActionBtns.propTypes = {
+  permissions: PropTypes.shape({
+    edit: PropTypes.bool,
+    amend: PropTypes.bool,
+    confirm: PropTypes.bool,
+    submit: PropTypes.bool,
+    updateStatus: PropTypes.bool,
+    discard: PropTypes.bool,
+    submitAsMandatory: PropTypes.bool
+  })
 }
 
 export default connect(ActionBtns)
