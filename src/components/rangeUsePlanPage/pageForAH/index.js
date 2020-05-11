@@ -239,6 +239,7 @@ class PageForAH extends Component {
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
           onSuccess={() => fetchPlan()}
+          references={references}
         />
 
         <AmendmentSubmissionModal
