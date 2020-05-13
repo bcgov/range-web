@@ -18,6 +18,7 @@ import { useNetworkStatus } from '../../utils/hooks/network'
 import { useCurrentPlan } from '../../providers/PlanProvider'
 import DiscardAmendmentButton from './DiscardAmendmentButton'
 import SubmitAsMandatoryButton from './SubmitAsMandatoryButton'
+import AmendFromLegalButton from './AmendFromLegalButton'
 
 const ActionBtns = ({
   permissions: permissionsOptions,
@@ -113,6 +114,7 @@ const ActionBtns = ({
   const permissions = {
     edit: false,
     amend: false,
+    amendFromLegal: false,
     confirm: false,
     submit: false,
     updateStatus: false,
@@ -129,6 +131,7 @@ const ActionBtns = ({
       {permissions.confirm && confirmSubmissionBtn}
       {permissions.discard && <DiscardAmendmentButton />}
       {permissions.submitAsMandatory && <SubmitAsMandatoryButton />}
+      {permissions.amendFromLegal && <AmendFromLegalButton />}
 
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
@@ -153,7 +156,6 @@ const ActionBtns = ({
     </>
   )
 }
-
 ActionBtns.propTypes = {
   permissions: PropTypes.shape({
     edit: PropTypes.bool,
@@ -162,7 +164,8 @@ ActionBtns.propTypes = {
     submit: PropTypes.bool,
     updateStatus: PropTypes.bool,
     discard: PropTypes.bool,
-    submitAsMandatory: PropTypes.bool
+    submitAsMandatory: PropTypes.bool,
+    amendFromLegal: PropTypes.bool
   })
 }
 

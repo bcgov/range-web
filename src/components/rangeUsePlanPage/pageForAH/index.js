@@ -180,7 +180,8 @@ class PageForAH extends Component {
           amend: utils.isStatusAmongApprovedStatuses(status),
           confirm: utils.canUserSubmitConfirmation(status, user, confirmations),
           submit: utils.canUserSubmitPlan(plan, user),
-          discard: utils.canUserDiscardAmendment(plan, user)
+          discard: utils.canUserDiscardAmendment(plan, user),
+          amendFromLegal: utils.canUserAmendFromLegal(plan, user)
         }}
         isSavingAsDraft={isSavingAsDraft}
         isSubmitting={isSubmitting}
