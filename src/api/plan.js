@@ -247,12 +247,19 @@ export const updateStatus = async ({ planId, note, statusId }) => {
 export const updateConfirmation = async ({
   planId,
   confirmationId,
-  confirmed
+  confirmed,
+  isMinorAmendment = false
 }) => {
+  const config = {
+    ...getAuthHeaderConfig(),
+    params: {
+      isMinorAmendment
+    }
+  }
   return axios.put(
     API.UPDATE_CONFIRMATION(planId, confirmationId),
     { confirmed },
-    getAuthHeaderConfig()
+    config
   )
 }
 
