@@ -222,6 +222,12 @@ export const canUserDiscardAmendment = (plan, user) => {
   return false
 }
 
+export const canUserAmendFromLegal = (plan, user) => {
+  if (!user || !plan) return false
+
+  return isStatusWronglyMakeWE(plan.status)
+}
+
 export const canUserSubmitAsMandatory = (plan, user) => {
   if (!user || !plan) return false
 
