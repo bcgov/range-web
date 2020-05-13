@@ -109,7 +109,7 @@ const VersionsToolbar = ({
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
-                    {option.version.effectiveLegalEnd == null
+                    {option.version.iscurrentlegalversion === true
                       ? 'Present'
                       : moment(option.version.effectiveLegalEnd).format(
                           'MMM DD YYYY h:mm a'
@@ -120,7 +120,7 @@ const VersionsToolbar = ({
               <Status
                 status={option.version.status}
                 className={classnames('versions_status_icon', {
-                  greyed: option.version.effectiveLegalEnd !== null
+                  greyed: option.version.iscurrentlegalversion === false
                 })}
                 style={{ marginRight: 25 }}
               />
