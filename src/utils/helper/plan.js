@@ -188,7 +188,8 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   if (
     isStatusStaffDraft(status) ||
     isStatusSubmittedForReview(status) ||
-    isStatusMandatoryAmendmentStaff(status)
+    isStatusMandatoryAmendmentStaff(status) ||
+    isStatusSubmittedAsMandatory(status)
   ) {
     return user.roles.includes('myra_range_officer')
   }
