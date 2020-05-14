@@ -121,11 +121,9 @@ const VersionsToolbar = ({
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
-                    {option.version.isCurrentLegalVersion === true
-                      ? 'Present'
-                      : moment(option.version.effectiveLegalEnd).format(
-                          'MMM DD YYYY'
-                        )}
+                    {moment(option.version.effectiveLegalStart).format(
+                      'MMM DD YYYY'
+                    )}
                   </div>
                 }
               />
