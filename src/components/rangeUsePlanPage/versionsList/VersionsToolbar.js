@@ -86,11 +86,23 @@ const VersionsToolbar = ({
                 <Avatar
                   style={{
                     background:
-                      option.version.effectiveLegalEnd === null ? 'green' : null
+                      option.version.isCurrentLegalVersion === true
+                        ? 'green'
+                        : null
                   }}>
                   {versionOptions.length - index}
                 </Avatar>
               </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <div style={{ color: 'grey', width: 250 }}>Reason</div>
+                }
+                secondary={
+                  <div style={{ color: 'black' }}>
+                    {option.version.legalReason}
+                  </div>
+                }
+              />
               <ListItemText
                 primary={
                   <div style={{ color: 'grey', width: 250 }}>Legal Start</div>
@@ -98,7 +110,7 @@ const VersionsToolbar = ({
                 secondary={
                   <div style={{ color: 'black' }}>
                     {moment(option.version.effectiveLegalStart).format(
-                      'MMM DD YYYY h:mm a'
+                      'MMM DD YYYY'
                     )}
                   </div>
                 }
@@ -109,10 +121,10 @@ const VersionsToolbar = ({
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
-                    {option.version.iscurrentlegalversion === true
+                    {option.version.isCurrentLegalVersion === true
                       ? 'Present'
                       : moment(option.version.effectiveLegalEnd).format(
-                          'MMM DD YYYY h:mm a'
+                          'MMM DD YYYY'
                         )}
                   </div>
                 }
@@ -120,7 +132,7 @@ const VersionsToolbar = ({
               <Status
                 status={option.version.status}
                 className={classnames('versions_status_icon', {
-                  greyed: option.version.iscurrentlegalversion === false
+                  greyed: option.version.isCurrentLegalVersion === false
                 })}
                 style={{ marginRight: 25 }}
               />
