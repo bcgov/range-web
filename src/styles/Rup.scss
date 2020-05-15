@@ -122,6 +122,7 @@
       font-weight: 600;
       line-height: 16px;
       color: white;
+      flex: 2;
 
       > div:nth-child(n + 2) {
         display: flex;
@@ -140,15 +141,19 @@
       align-items: center;
       justify-content: flex-end;
       width: 100%;
+      flex: 1;
 
       &__buttons {
         width: 100%;
         max-width: 400px;
         display: flex;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        grid-row-gap: 10px;
-        grid-column-gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        button {
+          min-width: 100px;
+          margin: 5px !important;
+        }
       }
     }
   }
