@@ -16,7 +16,7 @@ import { defaultProps, propTypes } from './props'
 import ActionBtns from '../ActionBtns'
 import UpdateStatusModal from './UpdateStatusModal'
 import PlanForm from '../PlanForm'
-import { canUserEditThisPlan } from '../../../utils'
+import { canUserEditThisPlan, isPlanAmendment } from '../../../utils'
 import { createAmendment, savePlan, updatePlan } from '../../../api'
 import NetworkStatus from '../../common/NetworkStatus'
 
@@ -246,7 +246,11 @@ class PageForStaff extends Component {
               <div className="rup__actions__left">
                 <BackBtn className="rup__back-btn" agreementId={agreementId} />
                 <div>{agreementId}</div>
-                <Status status={status} user={user} />
+                <Status
+                  status={status}
+                  user={user}
+                  isAmendment={isPlanAmendment(plan)}
+                />
                 <NetworkStatus planId={plan.id} />
                 <div>{utils.capitalize(rangeName)}</div>
               </div>

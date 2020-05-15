@@ -13,7 +13,8 @@ const propTypes = {
     name: PropTypes.string
   }),
   className: PropTypes.string,
-  style: PropTypes.shape({})
+  style: PropTypes.shape({}),
+  isAmendment: PropTypes.bool
 }
 
 const defaultProps = {
@@ -183,13 +184,16 @@ const translateStatusBasedOnUser = (status, user) => {
   return { modifier, statusName }
 }
 
-const Status = ({ status, className, style, user }) => {
+const Status = ({ status, className, style, user, isAmendment = false }) => {
   const { modifier, statusName } = translateStatusBasedOnUser(status, user)
 
   return (
     <div className={classnames('status', className)} style={style}>
       <span className={classnames('status__icon', modifier)} />
       <span className="status__label">{statusName}</span>
+      {isAmendment && (
+        <span className="status__amendment-label">Amendment</span>
+      )}
     </div>
   )
 }

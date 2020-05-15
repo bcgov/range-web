@@ -52,8 +52,7 @@ const ActionBtns = ({
       loading={formik.isSubmitting}
       onClick={() => {
         formik.submitForm()
-      }}
-      style={{ marginRight: '0', marginLeft: '10px' }}>
+      }}>
       <Icon name="save" />
       {SAVE_DRAFT}
     </Button>
@@ -66,8 +65,7 @@ const ActionBtns = ({
       type="button"
       loading={isSubmitting}
       onClick={openSubmissionModal}
-      disabled={!isOnline}
-      style={{ marginRight: '0', marginLeft: '10px' }}>
+      disabled={!isOnline}>
       <Icon name="check" />
       {SUBMIT}
     </Button>
@@ -125,13 +123,15 @@ const ActionBtns = ({
 
   return (
     <>
-      {permissions.edit && saveDraftBtn}
-      {permissions.submit && submitBtn}
-      {permissions.amend && amendBtn}
-      {permissions.confirm && confirmSubmissionBtn}
-      {permissions.discard && <DiscardAmendmentButton />}
-      {permissions.submitAsMandatory && <SubmitAsMandatoryButton />}
-      {permissions.amendFromLegal && <AmendFromLegalButton />}
+      <div className="rup__actions__btns__buttons">
+        {permissions.edit && saveDraftBtn}
+        {permissions.submit && submitBtn}
+        {permissions.amend && amendBtn}
+        {permissions.confirm && confirmSubmissionBtn}
+        {permissions.discard && <DiscardAmendmentButton />}
+        {permissions.submitAsMandatory && <SubmitAsMandatoryButton />}
+        {permissions.amendFromLegal && <AmendFromLegalButton />}
+      </div>
 
       <Dropdown
         trigger={<Icon name="ellipsis vertical" inverted />}
