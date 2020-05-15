@@ -168,17 +168,21 @@ class PageForAH extends Component {
   closeAmendmentSubmissionModal = () =>
     this.setState({ isAmendmentSubmissionModalOpen: false })
 
-  renderActionBtns = (canEdit, canAmend, canConfirm, canSubmit, canDiscard) => {
+  renderActionBtns = () => {
     const { isSavingAsDraft, isSubmitting, isCreatingAmendment } = this.state
-    const { openConfirmationModal } = this.props
+    const { openConfirmationModal, plan, user } = this.props
+    const { confirmations, status } = plan
 
     return (
       <ActionBtns
-        canEdit={canEdit}
-        canAmend={canAmend}
-        canConfirm={canConfirm}
-        canSubmit={canSubmit}
-        canDiscard={canDiscard}
+        permissions={{
+          edit: utils.canUserEditThisPlan(plan, user),
+          amend: utils.isStatusAmongApprovedStatuses(status),
+          confirm: utils.canUserSubmitConfirmation(status, user, confirmations),
+          submit: utils.canUserSubmitPlan(plan, user),
+          discard: utils.canUserDiscardAmendment(plan, user),
+          amendFromLegal: utils.canUserAmendFromLegal(plan, user)
+        }}
         isSavingAsDraft={isSavingAsDraft}
         isSubmitting={isSubmitting}
         isCreatingAmendment={isCreatingAmendment}
@@ -209,24 +213,13 @@ class PageForAH extends Component {
       fetchPlan
     } = this.props
 
-    const { agreementId, status, confirmations, rangeName } = plan
+    const { agreementId, status, rangeName } = plan
     const { clients } = agreement
 
-    const canEdit = utils.canUserEditThisPlan(plan, user)
-    const canAmend = utils.isStatusAmongApprovedStatuses(status)
-    const canConfirm = utils.canUserSubmitConfirmation(
-      status,
-      user,
-      confirmations
-    )
-    const canSubmit = utils.canUserSubmitPlan(plan, user)
     const {
       header: bannerHeader,
       content: bannerContent
     } = utils.getBannerHeaderAndContentForAH(plan, user, references)
-    // const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
-    // const header = utils.getPlanTypeDescription(plan, amendmentTypes);
-    const canDiscard = utils.canUserDiscardAmendment(plan, user)
 
     return (
       <section className="rup">
@@ -247,6 +240,7 @@ class PageForAH extends Component {
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
           onSuccess={() => fetchPlan()}
+          references={references}
         />
 
         <AmendmentSubmissionModal
@@ -271,13 +265,7 @@ class PageForAH extends Component {
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(
-                  canEdit,
-                  canAmend,
-                  canConfirm,
-                  canSubmit,
-                  canDiscard
-                )}
+                {this.renderActionBtns()}
               </div>
             </div>
           </div>

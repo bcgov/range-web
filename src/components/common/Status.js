@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { PLAN_STATUS } from '../../constants/variables'
 import { NO_PLAN } from '../../constants/strings'
-import { isUserAgreementHolder } from '../../utils'
+import { isUserAgreementHolder, isUserStaff } from '../../utils'
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -77,6 +77,15 @@ const translateStatusBasedOnUser = (status, user) => {
       } else {
         statusName = 'Review Amendment'
         modifier += '--orange'
+      }
+      break
+    case PLAN_STATUS.STANDS_NOT_REVIEWED:
+      if (isUserAgreementHolder(user)) {
+        statusName = 'Stands'
+        modifier += '--green'
+      } else {
+        statusName = 'Stands - Not Reviewed'
+        modifier += '--green'
       }
       break
     case PLAN_STATUS.STANDS:
@@ -153,6 +162,18 @@ const translateStatusBasedOnUser = (status, user) => {
     case PLAN_STATUS.APPROVED:
       statusName = 'Approved'
       modifier += '--green'
+      break
+    case PLAN_STATUS.AMENDMENT_AH:
+      statusName = 'Amendment Created'
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray'
+      break
+    case PLAN_STATUS.MANDATORY_AMENDMENT_STAFF:
+      statusName = 'Mandatory Amendment Created'
+      modifier += isUserStaff(user) ? '--orange' : '--gray'
+      break
+    case PLAN_STATUS.SUBMITTED_AS_MANDATORY:
+      statusName = 'Submitted as Mandatory'
+      modifier += isUserStaff(user) ? '--orange' : '--gray'
       break
     default:
       modifier += '--not-provided'

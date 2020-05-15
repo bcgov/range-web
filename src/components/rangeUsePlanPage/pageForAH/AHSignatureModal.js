@@ -3,8 +3,12 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal, Icon } from 'semantic-ui-react'
 import { getUser } from '../../../reducers/rootReducer'
-import { CONFIRMATION_OPTION } from '../../../constants/variables'
-import { findConfirmationWithUser } from '../../../utils'
+import {
+  CONFIRMATION_OPTION,
+  REFERENCE_KEY,
+  AMENDMENT_TYPE
+} from '../../../constants/variables'
+import { findConfirmationWithUser, isPlanAmendment } from '../../../utils'
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
 import { planUpdated, confirmationUpdated } from '../../../actions'
 import ConfirmationTabs from './tabs/ConfirmationTabs'
@@ -50,7 +54,8 @@ class AHSignatureModal extends Component {
       plan,
       user,
       confirmationUpdated,
-      planUpdated
+      planUpdated,
+      references
     } = this.props
 
     const onRequest = () => this.setState({ isConfirming: true })
@@ -74,10 +79,14 @@ class AHSignatureModal extends Component {
       user,
       plan.confirmations
     )
-    console.log(currUserConfirmation)
 
     const confirmed = true
-    const isMinorAmendment = false
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+    const minorAmendmentType = amendmentTypes.find(
+      a => a.code === AMENDMENT_TYPE.MINOR
+    )
+    const isMinorAmendment =
+      isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id
 
     onRequest()
 

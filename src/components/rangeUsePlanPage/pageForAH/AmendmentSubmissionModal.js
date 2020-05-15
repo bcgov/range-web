@@ -17,13 +17,15 @@ import {
   isSubmittedAsMinor,
   isSubmittedAsMandatory,
   findStatusWithCode,
-  isSingleClient
+  isSingleClient,
+  findConfirmationWithUser
 } from '../../../utils'
 import MandatoryTabsForSingleAH from './tabs/MandatoryTabsForSingleAH'
 import MandatoryTabsForMultipleAH from './tabs/MandatoryTabsForMultipleAH'
 import MinorTabsForSingleAH from './tabs/MinorTabsForSingleAH'
 import MinorTabsForMultipleAH from './tabs/MinorTabsForMultipleAH'
 import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab'
+import { updateConfirmation } from '../../../api'
 
 class AmendmentSubmissionModal extends Component {
   static propTypes = {
@@ -87,13 +89,28 @@ class AmendmentSubmissionModal extends Component {
   }
 
   submitAmendment = (plan, status, amendmentType) => {
-    const { updateStatusAndContent, updateRUP, fetchPlan } = this.props
+    const { updateStatusAndContent, updateRUP, fetchPlan, user } = this.props
     const { note } = this.state
 
     const onRequest = () => {
       this.setState({ isSubmitting: true })
     }
     const onSuccess = async () => {
+      // awaiting confirmation
+      if (status.id === 18) {
+        const currUserConfirmation = findConfirmationWithUser(
+          user,
+          plan.confirmations
+        )
+
+        await updateConfirmation({
+          planId: plan.id,
+          confirmationId: currUserConfirmation.id,
+          confirmed: true,
+          isMinorAmendment: true
+        })
+      }
+
       // update amendment type of the plan
       await updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id
@@ -143,8 +160,11 @@ class AmendmentSubmissionModal extends Component {
     )
 
     if (isMinor && isSingleClient(clients)) {
-      const stands = findStatusWithCode(references, PLAN_STATUS.STANDS_REVIEW)
-      return this.submitAmendment(plan, stands, minor)
+      const standsNotReviewed = findStatusWithCode(
+        references,
+        PLAN_STATUS.STANDS_NOT_REVIEWED
+      )
+      return this.submitAmendment(plan, standsNotReviewed, minor)
     }
 
     if (isMinor && !isSingleClient(clients)) {

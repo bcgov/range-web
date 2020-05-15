@@ -114,6 +114,7 @@ const MinisterIssueAction = ({
               types.find(t => t.id === actionTypeId)?.placeholder ??
               types.find(t => t.name === 'Other')?.placeholder
           }}
+          fieldProps={{ required: true }}
         />
       </div>
     </div>

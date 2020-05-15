@@ -28,7 +28,8 @@ class PageForStaff extends Component {
   state = {
     isUpdateZoneModalOpen: false,
     isPlanSubmissionModalOpen: false,
-    isSavingAsDraft: false
+    isSavingAsDraft: false,
+    isCreatingAmendment: false
   }
 
   onSaveDraftClick = () => {
@@ -147,16 +148,22 @@ class PageForStaff extends Component {
   closePlanSubmissionModal = () =>
     this.setState({ isPlanSubmissionModalOpen: false })
 
-  renderActionBtns = (canEdit, canSubmit, canAmend, canDiscard) => {
+  renderActionBtns = () => {
     const { isSavingAsDraft, isSubmitting } = this.state
-    const { openConfirmationModal } = this.props
+    const { openConfirmationModal, plan, user } = this.props
+    const { status } = plan
 
     return (
       <ActionBtns
-        canEdit={canEdit}
-        canSubmit={canSubmit}
-        canAmend={canAmend}
-        canDiscard={canDiscard}
+        permissions={{
+          edit: utils.canUserEditThisPlan(plan, user),
+          submit: utils.canUserSubmitPlan(plan, user),
+          amend: utils.isStatusAmongApprovedStatuses(status),
+          discard: utils.canUserDiscardAmendment(plan, user),
+          updateStatus: true,
+          submitAsMandatory: utils.canUserSubmitAsMandatory(plan, user),
+          amendFromLegal: utils.canUserAmendFromLegal(plan, user)
+        }}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
         onViewPDFClicked={this.onViewPDFClicked}
@@ -166,9 +173,9 @@ class PageForStaff extends Component {
         plan={this.props.plan}
         isFetchingPlan={this.props.isFetchingPlan}
         fetchPlan={this.props.fetchPlan}
-        canUpdateStatus
         openConfirmationModal={openConfirmationModal}
         onAmendPlanClicked={this.onAmendPlanClicked}
+        isCreatingAmendment={this.state.isCreatingAmendment}
         beforeUpdateStatus={async () => {
           await savePlan(this.props.plan)
           await this.props.fetchPlan()
@@ -199,11 +206,6 @@ class PageForStaff extends Component {
     const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
 
     const { agreementId, status, rangeName } = plan
-
-    const canEdit = utils.canUserEditThisPlan(plan, user)
-    const canSubmit = utils.canUserSubmitPlan(plan, user)
-    const canAmend = utils.isStatusAmongApprovedStatuses(status)
-    const canDiscard = utils.canUserDiscardAmendment(plan, user)
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
     const planTypeDescription = utils.getPlanTypeDescription(
@@ -249,12 +251,7 @@ class PageForStaff extends Component {
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
               <div className="rup__actions__btns">
-                {this.renderActionBtns(
-                  canEdit,
-                  canSubmit,
-                  canAmend,
-                  canDiscard
-                )}
+                {this.renderActionBtns()}
               </div>
             </div>
           </div>

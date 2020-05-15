@@ -106,6 +106,7 @@ export const UPDATE_PLAN_STATUS = planId => `/v1/plan/${planId}/status`
 export const UPDATE_RUP = planId => `/v1/plan/${planId}`
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`
+export const DISCARD_AMENDMENT = planId => `v1/plan/${planId}/discard-amendment`
 
 export const CREATE_RUP_VERSION = planId => `/v1/plan/${planId}/version`
 export const GET_RUP_VERSIONS = planId => `/v1/plan/${planId}/version`

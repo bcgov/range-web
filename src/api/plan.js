@@ -207,10 +207,13 @@ export const createAmendment = async (
   const initialAmendment = amendmentTypes.find(
     at => at.code === AMENDMENT_TYPE.INITIAL
   )
-  const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED)
-  const staffDraftStatus = findStatusWithCode(
+  const ahAmendmentStatus = findStatusWithCode(
     references,
-    PLAN_STATUS.STAFF_DRAFT
+    PLAN_STATUS.AMENDMENT_AH
+  )
+  const staffAmendmentStatus = findStatusWithCode(
+    references,
+    PLAN_STATUS.MANDATORY_AMENDMENT_STAFF
   )
 
   await axios.put(
@@ -224,7 +227,9 @@ export const createAmendment = async (
 
   await axios.put(
     API.UPDATE_PLAN_STATUS(plan.id),
-    { statusId: staffInitiated ? staffDraftStatus.id : createdStatus.id },
+    {
+      statusId: staffInitiated ? staffAmendmentStatus.id : ahAmendmentStatus.id
+    },
     getAuthHeaderConfig()
   )
 
@@ -242,12 +247,19 @@ export const updateStatus = async ({ planId, note, statusId }) => {
 export const updateConfirmation = async ({
   planId,
   confirmationId,
-  confirmed
+  confirmed,
+  isMinorAmendment = false
 }) => {
+  const config = {
+    ...getAuthHeaderConfig(),
+    params: {
+      isMinorAmendment
+    }
+  }
   return axios.put(
     API.UPDATE_CONFIRMATION(planId, confirmationId),
     { confirmed },
-    getAuthHeaderConfig()
+    config
   )
 }
 
@@ -255,22 +267,7 @@ export const getMostRecentLegalPlan = async planId => {
   const {
     data: { versions }
   } = await axios.get(API.GET_RUP_VERSIONS(planId), getAuthHeaderConfig())
-
-  const legalVersion = versions
-    .filter(
-      plan =>
-        isStatusApproved(plan.status) ||
-        isStatusStands(plan.status) ||
-        isStatusStandsWM(plan.status)
-    )
-    .map(plan => ({ ...plan, createdAt: new Date(plan.createdAt) }))
-    .reduce(
-      (mostRecent, plan) =>
-        mostRecent.createdAt && mostRecent.createdAt > plan.createdAt
-          ? mostRecent
-          : plan,
-      {}
-    )
+  const legalVersion = versions.find(v => v.iscurrentlegalversion)
 
   const { data } = await axios.get(
     API.GET_RUP_VERSION(planId, legalVersion.version),
@@ -281,11 +278,16 @@ export const getMostRecentLegalPlan = async planId => {
 }
 
 export const discardAmendment = async planId => {
-  const { version } = await getMostRecentLegalPlan(planId)
+  return axios.post(API.DISCARD_AMENDMENT(planId), {}, getAuthHeaderConfig())
+}
 
-  return axios.post(
-    API.RESTORE_RUP_VERSION(planId, version),
+export const amendFromLegal = async (plan, references, staffInitiated) => {
+  const { version } = await getMostRecentLegalPlan(plan.id)
+
+  await axios.post(
+    API.RESTORE_RUP_VERSION(plan.id, version),
     {},
     getAuthHeaderConfig()
   )
+  await createAmendment(plan, references, staffInitiated)
 }

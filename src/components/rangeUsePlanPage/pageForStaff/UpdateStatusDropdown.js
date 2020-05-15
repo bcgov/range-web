@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Menu, Divider, Portal } from 'semantic-ui-react'
 import {
-  isStatusStands,
   isStatusCreated,
   isStatusSubmittedForFD,
   isStatusSubmittedForReview,
   isStatusRecommendReady,
   isPlanAmendment,
   isStatusRecommendNotReady,
-  isStatusStandsReview
+  isStatusStandsReview,
+  isStatusStandsNotReviewed
 } from '../../../utils'
 import { PLAN_STATUS } from '../../../constants/variables'
 import {
@@ -152,6 +152,14 @@ class UpdateStatusDropdown extends Component {
     })
   }
 
+  openStandsReviewConfirmModal = () => {
+    this.openConfirmModalForUpdatingPlanStatus({
+      header: strings.STANDS_REVIEW_HEADER,
+      content: strings.STANDS_REVIEW_CONTENT,
+      statusCode: PLAN_STATUS.STANDS_REVIEW
+    })
+  }
+
   getStatusDropdownOptions = (plan, isFetchingPlan, status) => {
     if (isFetchingPlan) {
       return [
@@ -212,15 +220,20 @@ class UpdateStatusDropdown extends Component {
       text: 'Stands',
       onClick: this.openStandsConfirmModal
     }
+    const standsReview = {
+      key: PLAN_STATUS.STANDS_REVIEW,
+      text: 'Stands - Requires Review',
+      onClick: this.openStandsReviewConfirmModal
+    }
     const noOption = {
       key: 'noOption',
       text: 'No plan actions available at this time'
     }
 
-    if (isStatusStands(status)) {
-      return [wronglyMadeWithoutEffect, standsWronglyMade]
+    if (isStatusStandsNotReviewed(status)) {
+      return [stands, standsReview]
     } else if (isStatusStandsReview(status)) {
-      return [stands, standsWronglyMade]
+      return [stands, standsWronglyMade, wronglyMadeWithoutEffect]
     } else if (isStatusSubmittedForReview(status)) {
       return [requestChanges, recommendForSubmission]
     } else if (isStatusSubmittedForFD(status)) {

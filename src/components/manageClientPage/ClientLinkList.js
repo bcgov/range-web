@@ -211,7 +211,10 @@ const ClientLinkList = ({ userId }) => {
           <div className={classes.actionSection}>
             <div className={classes.actions}>
               <ClientDropdown
-                onChange={client => setSelectedClient(client)}
+                onChange={client => {
+                  setSelectedClient(client)
+                  setCreateError(null)
+                }}
                 value={selectedClient}
               />
 
