@@ -14,7 +14,7 @@ import AHSignatureModal from './AHSignatureModal'
 import AmendmentSubmissionModal from './AmendmentSubmissionModal'
 import PlanForm from '../PlanForm'
 import { createAmendment, savePlan } from '../../../api'
-import { canUserEditThisPlan } from '../../../utils'
+import { canUserEditThisPlan, isPlanAmendment } from '../../../utils'
 import NetworkStatus from '../../common/NetworkStatus'
 
 // Agreement Holder page
@@ -260,7 +260,11 @@ class PageForAH extends Component {
               <div className="rup__actions__left">
                 <BackBtn className="rup__back-btn" agreementId={agreementId} />
                 <div>{agreementId}</div>
-                <Status status={status} user={user} />
+                <Status
+                  status={status}
+                  user={user}
+                  isAmendment={isPlanAmendment(plan)}
+                />
                 <NetworkStatus planId={plan.id} />
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
