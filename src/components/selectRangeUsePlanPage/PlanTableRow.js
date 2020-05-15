@@ -1,6 +1,10 @@
 import React from 'react'
 import { Link, useParams, useLocation } from 'react-router-dom'
-import { formatDateFromServer, canUserEditThisPlan } from '../../utils'
+import {
+  formatDateFromServer,
+  canUserEditThisPlan,
+  isPlanAmendment
+} from '../../utils'
 import { useUser } from '../../providers/UserProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import { Icon, Loader } from 'semantic-ui-react'
@@ -37,7 +41,11 @@ const PlanTableRow = ({ plan }) => {
       <div className="agrm__ptable__row__cell">{submittedAt}</div>
       <div className="agrm__ptable__row__cell">{amendment}</div>
       <div className="agrm__ptable__row__cell">
-        <Status user={user} status={plan.status} />
+        <Status
+          user={user}
+          status={plan.status}
+          isAmendment={isPlanAmendment(plan)}
+        />
       </div>
       <div className="agrm__ptable__row__cell">
         <PrimaryButton
