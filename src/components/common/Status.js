@@ -23,7 +23,11 @@ const defaultProps = {
   style: {}
 }
 
-const translateStatusBasedOnUser = (status, user) => {
+const translateStatusBasedOnUser = (
+  status,
+  user,
+  isForVersionsList = false
+) => {
   let modifier = 'status__icon'
   let statusName = status.code ? 'Unknown_status' : NO_PLAN
 
@@ -68,7 +72,11 @@ const translateStatusBasedOnUser = (status, user) => {
       modifier += '--red'
       break
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
-      statusName = 'Wrongly Made Stands'
+      if (isForVersionsList) {
+        statusName = 'Stands'
+      } else {
+        statusName = 'Wrongly Made Stands'
+      }
       modifier += '--green'
       break
     case PLAN_STATUS.STANDS_REVIEW:
@@ -81,12 +89,17 @@ const translateStatusBasedOnUser = (status, user) => {
       }
       break
     case PLAN_STATUS.STANDS_NOT_REVIEWED:
-      if (isUserAgreementHolder(user)) {
+      if (isForVersionsList) {
         statusName = 'Stands'
         modifier += '--green'
       } else {
-        statusName = 'Stands - Not Reviewed'
-        modifier += '--green'
+        if (isUserAgreementHolder(user)) {
+          statusName = 'Stands'
+          modifier += '--green'
+        } else {
+          statusName = 'Stands - Not Reviewed'
+          modifier += '--green'
+        }
       }
       break
     case PLAN_STATUS.STANDS:

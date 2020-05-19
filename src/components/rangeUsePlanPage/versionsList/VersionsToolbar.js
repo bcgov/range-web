@@ -15,6 +15,7 @@ import { RANGE_USE_PLAN } from '../../../constants/routes'
 import { PrimaryButton } from '../../common'
 import VersionToolbar from './VersionToolbar'
 import Status from '../../common/Status'
+import { useUser } from '../../../providers/UserProvider'
 
 const VersionsToolbar = ({
   versions,
@@ -23,6 +24,7 @@ const VersionsToolbar = ({
   planId
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const user = useUser()
 
   const handleClose = () => setAnchorEl(null)
   const handleOpen = event => setAnchorEl(event.currentTarget)
@@ -31,18 +33,6 @@ const VersionsToolbar = ({
     key: v.version,
     value: v,
     text: `v${v.version}`,
-    content: (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '40px repeat(2, auto)',
-          gridTemplateRows: '1fr'
-        }}>
-        <span>v{v.version}</span>
-        <span>{v.status.name}</span>
-        <span>{moment(v.createdAt).format('MMM DD, YYYY, h:mm:ss a')}</span>
-      </div>
-    ),
     version: v
   }))
 
@@ -121,7 +111,7 @@ const VersionsToolbar = ({
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
-                    {moment(option.version.effectiveLegalStart).format(
+                    {moment(option.version.effectiveLegalEnd).format(
                       'MMM DD YYYY'
                     )}
                   </div>
@@ -129,6 +119,8 @@ const VersionsToolbar = ({
               />
               <Status
                 status={option.version.status}
+                user={user}
+                isForVersionsList={true}
                 className={classnames('versions_status_icon', {
                   greyed: option.version.isCurrentLegalVersion === false
                 })}
