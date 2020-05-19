@@ -33,18 +33,6 @@ const VersionsToolbar = ({
     key: v.version,
     value: v,
     text: `v${v.version}`,
-    content: (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '40px repeat(2, auto)',
-          gridTemplateRows: '1fr'
-        }}>
-        <span>v{v.version}</span>
-        <span>{v.status.name}</span>
-        <span>{moment(v.createdAt).format('MMM DD, YYYY, h:mm:ss a')}</span>
-      </div>
-    ),
     version: v
   }))
 
