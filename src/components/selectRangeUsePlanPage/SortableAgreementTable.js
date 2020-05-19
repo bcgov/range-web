@@ -23,7 +23,7 @@ import NewPlanButton from './NewPlanButton'
 import { canUserEditThisPlan } from '../../utils'
 import { canUserEdit } from '../common/PermissionsField'
 import { PLAN } from '../../constants/fields'
-import VersionsDropDown from '../rangeUsePlanPage/versionsList/VersionsDropDown'
+import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
 import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
@@ -240,11 +240,11 @@ function PlanRow({ agreement, location, user, currentPage }) {
         </TableCell>
       </TableRow>
       {agreement?.plans.length > 0 && (
-        <VersionsDropDown
+        <VersionsDropdown
           open={open}
           match={{
             params: { planId: agreement?.plans[0]?.id }
-          }}></VersionsDropDown>
+          }}></VersionsDropdown>
       )}{' '}
     </>
   )

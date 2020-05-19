@@ -11,7 +11,7 @@ const sortVersions = (a, b) => {
   return 0
 }
 
-const VersionsDropDown = ({ match, open }) => {
+const VersionsDropdown = ({ match, open }) => {
   const { planId } = match.params
   const [selectedVersion, setSelectedVersion] = useState(null)
   const endpoint = API.GET_RUP_VERSIONS(planId)
@@ -38,4 +38,4 @@ const VersionsDropDown = ({ match, open }) => {
   )
 }
 
-export default VersionsDropDown
+export default VersionsDropdown
