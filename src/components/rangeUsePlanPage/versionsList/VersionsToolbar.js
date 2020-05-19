@@ -129,6 +129,8 @@ const VersionsToolbar = ({
               />
               <Status
                 status={option.version.status}
+		user={user}
+		isForVersionsList={true}
                 className={classnames('versions_status_icon', {
                   greyed: option.version.isCurrentLegalVersion === false
                 })}
