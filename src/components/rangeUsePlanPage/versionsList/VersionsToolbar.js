@@ -121,7 +121,7 @@ const VersionsToolbar = ({
                 }
                 secondary={
                   <div style={{ color: 'black' }}>
-                    {moment(option.version.effectiveLegalStart).format(
+                    {moment(option.version.effectiveLegalEnd).format(
                       'MMM DD YYYY'
                     )}
                   </div>
