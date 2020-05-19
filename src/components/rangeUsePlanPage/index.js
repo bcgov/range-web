@@ -79,7 +79,7 @@ const Base = ({
     // Hard refetch plan when RUP page is navigated back to, to ensure no stale
     // data
     fetchPlan(planId, true)
-  }, [location])
+  }, [location.pathname])
 
   const handleValidationError = formik => {
     // Get the first field path in the formik errors object
