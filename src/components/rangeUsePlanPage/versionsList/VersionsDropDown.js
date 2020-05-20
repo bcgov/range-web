@@ -5,7 +5,6 @@ import { axios, getAuthHeaderConfig } from '../../../utils'
 import VersionsDropDownList from './VersionsDropDownList'
 
 const sortVersions = (a, b) => {
-  if (b.version === -1) return 1
   if (b.version > a.version) return 1
   if (b.version < a.version) return -1
   return 0
