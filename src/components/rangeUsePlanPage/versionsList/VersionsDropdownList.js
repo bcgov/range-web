@@ -10,8 +10,11 @@ import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 import classnames from 'classnames'
 import Status from '../../common/Status'
+import { useUser } from '../../../providers/UserProvider'
 
 const VersionsDropdownList = ({ versions, open }) => {
+  const user = useUser()
+
   const versionOptions = versions.map(v => ({
     key: v.version,
     value: v,
@@ -54,10 +57,11 @@ const VersionsDropdownList = ({ versions, open }) => {
                     </TableCell>
                     <TableCell>
                       <Status
-                        status={option.version.status}
                         className={classnames({
                           greyed: option.version.effectiveLegalEnd !== null
                         })}
+                        status={option.version.status}
+                        user={user}
                       />
                     </TableCell>
                   </TableRow>
