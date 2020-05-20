@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import useSWR from 'swr'
 import * as API from '../../../constants/api'
 import { axios, getAuthHeaderConfig } from '../../../utils'
-import VersionsDropDownList from './VersionsDropDownList'
+import VersionsDropdownList from './VersionsDropdownList'
 
 const sortVersions = (a, b) => {
   if (b.version > a.version) return 1
@@ -26,7 +26,7 @@ const VersionsDropdown = ({ match, open }) => {
 
   if (error) return <div>Error: {JSON.stringify(error.message)}</div>
   return (
-    <VersionsDropDownList
+    <VersionsDropdownList
       planId={planId}
       versions={formattedVersions}
       selectedVersion={selectedVersion}

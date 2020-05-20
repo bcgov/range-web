@@ -11,7 +11,7 @@ import moment from 'moment'
 import classnames from 'classnames'
 import Status from '../../common/Status'
 
-const VersionsDropDownList = ({ versions, open }) => {
+const VersionsDropdownList = ({ versions, open }) => {
   const versionOptions = versions.map(v => ({
     key: v.version,
     value: v,
@@ -78,4 +78,4 @@ const VersionsDropDownList = ({ versions, open }) => {
   )
 }
 
-export default VersionsDropDownList
+export default VersionsDropdownList
