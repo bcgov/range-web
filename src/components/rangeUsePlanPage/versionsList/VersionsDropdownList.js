@@ -34,7 +34,7 @@ const VersionsDropDownList = ({ versions, open }) => {
             <Typography variant="h6" gutterBottom component="div">
               Versions
             </Typography>
-            <Table size="small" aria-label="purchases">
+            <Table size="small" aria-label="dates">
               <TableHead>
                 <TableRow>
                   <TableCell style={{ color: 'grey' }}>Legal Start</TableCell>
