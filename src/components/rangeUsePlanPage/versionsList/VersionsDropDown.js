@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import useSWR from 'swr'
 import * as API from '../../../constants/api'
 import { axios, getAuthHeaderConfig } from '../../../utils'
