@@ -198,7 +198,14 @@ const translateStatusBasedOnUser = (
   return { modifier, statusName }
 }
 
-const Status = ({ status, className, style, user, isAmendment = false }) => {
+const Status = ({
+  status,
+  className,
+  style,
+  user,
+  isAmendment = false,
+  isForVersionsList = false
+}) => {
   const { modifier, statusName } = translateStatusBasedOnUser(
     status,
     user,
