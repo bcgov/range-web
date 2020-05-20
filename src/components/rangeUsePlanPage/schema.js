@@ -1,4 +1,5 @@
 import * as Yup from 'yup'
+import { moveDecimalsRight } from '../common/form/PercentField'
 
 const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
 
@@ -40,7 +41,7 @@ const RUPSchema = Yup.object().shape({
         .min(0, 'Please enter a value between 0 and 100')
         .max(1, 'Please enter a value between 0 and 100')
         .test('whole percent', 'Value must be a whole number', item => {
-          return (item * 100) % 1 === 0 ? true : false
+          return moveDecimalsRight(item) % 1 === 0 ? true : false
         })
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()

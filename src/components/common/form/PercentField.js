@@ -4,6 +4,12 @@ import { Form, Input } from 'semantic-ui-react'
 import { InputRef } from './InputRef'
 import ErrorMessage from './ErrorMessage'
 
+export function moveDecimalsRight(inputNum) {
+  let numAsStr = inputNum.toString()
+  let numAfterDecimalsStr = numAsStr.substring(2, 4)
+  return parseFloat(numAfterDecimalsStr)
+}
+
 const PercentField = ({
   name,
   label,
@@ -37,7 +43,7 @@ const PercentField = ({
                 {...safeInputProps}
                 value={
                   !isNaN(parseFloat(field.value))
-                    ? (field.value * 100).toFixed(allowDecimals ? 2 : 0)
+                    ? moveDecimalsRight(field.value)
                     : field.value
                 }
                 onChange={(e, { name, value }) => {
@@ -54,7 +60,7 @@ const PercentField = ({
                     form.setFieldValue(
                       field.name,
                       !isNaN(parseFloat(field.value))
-                        ? Math.trunc(parseFloat(field.value) * 100) / 100
+                        ? moveDecimalsRight(field.value) / 100
                         : field.value
                     )
                   }
