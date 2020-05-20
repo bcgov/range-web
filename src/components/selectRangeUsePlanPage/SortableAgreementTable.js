@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -23,6 +23,10 @@ import NewPlanButton from './NewPlanButton'
 import { canUserEditThisPlan } from '../../utils'
 import { canUserEdit } from '../common/PermissionsField'
 import { PLAN } from '../../constants/fields'
+import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
+import IconButton from '@material-ui/core/IconButton'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 
 const headCells = [
   {
@@ -114,7 +118,10 @@ EnhancedTableHead.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    '& > *': {
+      borderBottom: 'unset'
+    }
   },
   paper: {
     width: '100%',
@@ -150,6 +157,96 @@ const useStyles = makeStyles(theme => ({
     borderBottomWidth: 2
   }
 }))
+
+function PlanRow({ agreement, location, user, currentPage }) {
+  const classes = useStyles()
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <TableRow className={classes.root} hover tabIndex={-1} key={agreement.id}>
+        <TableCell align="left" style={{ minWidth: 150 }}>
+          {agreement.forestFileId}
+          {agreement?.plans[0]?.id && (
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              style={{ marginLeft: '3px' }}
+              onClick={() => setOpen(!open)}>
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          )}
+        </TableCell>
+
+        <TableCell align="left">
+          {agreement.plans[0]?.rangeName ?? '-'}
+        </TableCell>
+        <TableCell align="left">
+          {
+            agreement.clients.find(client => client.clientTypeCode === 'A')
+              ?.name
+          }
+        </TableCell>
+
+        <TableCell align="left">
+          {agreement.zone?.user
+            ? `${agreement?.zone?.user?.givenName} ${agreement?.zone?.user?.familyName}`
+            : 'Not provided'}
+        </TableCell>
+        <TableCell align="left">
+          {agreement.plans[0] ? (
+            agreement.plans[0]?.status.code
+          ) : (
+            <span>-</span>
+          )}
+        </TableCell>
+        <TableCell align="left">
+          {agreement.plans[0] ? (
+            <Status user={user} status={agreement.plans[0]?.status} />
+          ) : (
+            <span>-</span>
+          )}
+        </TableCell>
+        <TableCell>
+          {agreement.plans.length === 0 ? (
+            canUserEdit(PLAN.ADD, user) ? (
+              <NewPlanButton agreement={agreement} />
+            ) : (
+              <div style={{ padding: '6px 16px' }}>No plan</div>
+            )
+          ) : (
+            <Button
+              fullWidth
+              variant="outlined"
+              component={Link}
+              to={{
+                pathname: `${RANGE_USE_PLAN}/${agreement.plans[0].id}`,
+                state: {
+                  page: currentPage,
+                  prevSearch: location.search
+                }
+              }}
+              endIcon={
+                canUserEditThisPlan(agreement.plans[0], user) ? (
+                  <EditIcon />
+                ) : (
+                  <ViewIcon />
+                )
+              }>
+              {canUserEditThisPlan(agreement.plans[0], user)
+                ? 'Edit'
+                : strings.VIEW}
+            </Button>
+          )}
+        </TableCell>
+      </TableRow>
+      {agreement?.plans.length > 0 && (
+        <VersionsDropdown
+          open={open}
+          planId={agreement?.plans[0]?.id}></VersionsDropdown>
+      )}
+    </>
+  )
+}
 
 export default function SortableAgreementTable({
   agreements = [],
@@ -222,78 +319,15 @@ export default function SortableAgreementTable({
                   </TableRow>
                 ))}
               {agreements.length > 0 &&
-                agreements.map(agreement => {
+                agreements.map((agreement, index) => {
                   return (
-                    <TableRow hover tabIndex={-1} key={agreement.id}>
-                      <TableCell align="left">
-                        {agreement.forestFileId}
-                      </TableCell>
-                      <TableCell align="left">
-                        {agreement.plans[0]?.rangeName ?? '-'}
-                      </TableCell>
-                      <TableCell align="left">
-                        {
-                          agreement.clients.find(
-                            client => client.clientTypeCode === 'A'
-                          )?.name
-                        }
-                      </TableCell>
-
-                      <TableCell align="left">
-                        {agreement.zone?.user
-                          ? `${agreement?.zone?.user?.givenName} ${agreement?.zone?.user?.familyName}`
-                          : 'Not provided'}
-                      </TableCell>
-                      <TableCell align="left">
-                        {agreement.plans[0] ? (
-                          agreement.plans[0]?.status.code
-                        ) : (
-                          <span>-</span>
-                        )}
-                      </TableCell>
-                      <TableCell align="left">
-                        {agreement.plans[0] ? (
-                          <Status
-                            user={user}
-                            status={agreement.plans[0]?.status}
-                          />
-                        ) : (
-                          <span>-</span>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {agreement.plans.length === 0 ? (
-                          canUserEdit(PLAN.ADD, user) ? (
-                            <NewPlanButton agreement={agreement} />
-                          ) : (
-                            <div style={{ padding: '6px 16px' }}>No plan</div>
-                          )
-                        ) : (
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            component={Link}
-                            to={{
-                              pathname: `${RANGE_USE_PLAN}/${agreement.plans[0].id}`,
-                              state: {
-                                page: currentPage,
-                                prevSearch: location.search
-                              }
-                            }}
-                            endIcon={
-                              canUserEditThisPlan(agreement.plans[0], user) ? (
-                                <EditIcon />
-                              ) : (
-                                <ViewIcon />
-                              )
-                            }>
-                            {canUserEditThisPlan(agreement.plans[0], user)
-                              ? 'Edit'
-                              : strings.VIEW}
-                          </Button>
-                        )}
-                      </TableCell>
-                    </TableRow>
+                    <PlanRow
+                      key={index}
+                      agreement={agreement}
+                      location={location}
+                      user={user}
+                      currentPage={currentPage}
+                    />
                   )
                 })}
               {agreements.length > 0 && emptyRows > 0 && (
