@@ -245,7 +245,7 @@ function PlanRow({ agreement, location, user, currentPage }) {
           match={{
             params: { planId: agreement?.plans[0]?.id }
           }}></VersionsDropdown>
-      )}{' '}
+      )}
     </>
   )
 }
