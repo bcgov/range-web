@@ -10,12 +10,11 @@ const sortVersions = (a, b) => {
   return 0
 }
 
-const VersionsDropdown = ({ match, open }) => {
-  const { planId } = match.params
+const VersionsDropdown = ({ planId, open }) => {
   const [selectedVersion, setSelectedVersion] = useState(null)
   const endpoint = API.GET_RUP_VERSIONS(planId)
 
-  const { data, error, isValidating } = useSWR(endpoint, key =>
+  const { data, error } = useSWR(endpoint, key =>
     axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )
 
