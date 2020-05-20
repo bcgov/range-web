@@ -1,0 +1,5 @@
+.versions-dropdown-grid {
+  display: 'grid';
+  grid-template-columns: '40px repeat(2, auto)';
+  grid-template-rows: '1fr';
+}
