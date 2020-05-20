@@ -14,7 +14,8 @@ const propTypes = {
   }),
   className: PropTypes.string,
   style: PropTypes.shape({}),
-  isAmendment: PropTypes.bool
+  isAmendment: PropTypes.bool,
+  isForVersionsList: PropTypes.bool
 }
 
 const defaultProps = {
@@ -198,7 +199,11 @@ const translateStatusBasedOnUser = (
 }
 
 const Status = ({ status, className, style, user, isAmendment = false }) => {
-  const { modifier, statusName } = translateStatusBasedOnUser(status, user)
+  const { modifier, statusName } = translateStatusBasedOnUser(
+    status,
+    user,
+    isForVersionsList
+  )
 
   return (
     <div className={classnames('status', className)} style={style}>
