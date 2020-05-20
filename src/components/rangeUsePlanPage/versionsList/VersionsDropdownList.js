@@ -16,13 +16,6 @@ const VersionsDropdownList = ({ versions, open }) => {
     key: v.version,
     value: v,
     text: `v${v.version}`,
-    content: (
-      <div className="versions-dropdown-grid">
-        <span>v{v.version}</span>
-        <span>{v.status.name}</span>
-        <span>{moment(v.createdAt).format('MMM DD, YYYY, h:mm:ss a')}</span>
-      </div>
-    ),
     version: v
   }))
 
