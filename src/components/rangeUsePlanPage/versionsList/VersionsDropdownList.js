@@ -33,6 +33,7 @@ const VersionsDropdownList = ({ versions, open }) => {
             <Table size="small" aria-label="dates">
               <TableHead>
                 <TableRow>
+                  <TableCell style={{ color: 'grey' }}>Reason</TableCell>
                   <TableCell style={{ color: 'grey' }}>Legal Start</TableCell>
                   <TableCell style={{ color: 'grey' }}>Legal End</TableCell>
                   <TableCell style={{ color: 'grey', align: 'left' }}>
@@ -43,7 +44,9 @@ const VersionsDropdownList = ({ versions, open }) => {
               <TableBody>
                 {versionOptions.map((option, index) => (
                   <TableRow key={index} hover={true}>
-                    <TableCell component="th" scope="row">
+                    <TableCell>{option.version.legalReason}</TableCell>
+
+                    <TableCell>
                       {moment(option.version.effectiveLegalStart).format(
                         'MMM DD YYYY h:mm a'
                       )}
@@ -57,8 +60,8 @@ const VersionsDropdownList = ({ versions, open }) => {
                     </TableCell>
                     <TableCell>
                       <Status
-                        className={classnames({
-                          greyed: option.version.effectiveLegalEnd !== null
+                        className={classnames('versions_status_icon', {
+                          greyed: option.version.isCurrentLegalVersion === false
                         })}
                         status={option.version.status}
                         user={user}
