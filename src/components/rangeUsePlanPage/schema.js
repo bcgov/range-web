@@ -41,7 +41,11 @@ const RUPSchema = Yup.object().shape({
         .min(0, 'Please enter a value between 0 and 100')
         .max(1, 'Please enter a value between 0 and 100')
         .test('whole percent', 'Value must be a whole number', item => {
-          return moveDecimalsRight(item) % 1 === 0 ? true : false
+          return item
+            ? moveDecimalsRight(item) % 1 === 0
+              ? true
+              : false
+            : true
         })
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()

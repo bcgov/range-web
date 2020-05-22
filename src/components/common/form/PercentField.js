@@ -5,7 +5,7 @@ import { InputRef } from './InputRef'
 import ErrorMessage from './ErrorMessage'
 
 export function moveDecimalsRight(inputNum) {
-  let numAsStr = inputNum.toString()
+  let numAsStr = inputNum.toFixed(2)
   let numAfterDecimalsStr = numAsStr.substring(2, 4)
   return parseFloat(numAfterDecimalsStr)
 }
@@ -17,7 +17,6 @@ const PercentField = ({
   inputProps = {},
   fieldProps = {},
   errorComponent = ErrorMessage,
-  allowDecimals = false,
   inputRef,
   fast
 }) => {
@@ -56,14 +55,12 @@ const PercentField = ({
                   })
                 }}
                 onBlur={(...args) => {
-                  if (!allowDecimals) {
-                    form.setFieldValue(
-                      field.name,
-                      !isNaN(parseFloat(field.value))
-                        ? moveDecimalsRight(field.value) / 100
-                        : field.value
-                    )
-                  }
+                  form.setFieldValue(
+                    field.name,
+                    !isNaN(parseFloat(field.value))
+                      ? moveDecimalsRight(field.value) / 100
+                      : field.value
+                  )
                   form.handleBlur(...args)
                 }}
               />
