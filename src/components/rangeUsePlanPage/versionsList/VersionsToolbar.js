@@ -84,7 +84,7 @@ const VersionsToolbar = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                style={{ width: 60, marginLeft: 5 }}
+                style={{ width: 65, marginLeft: 5 }}
                 primary={<div style={{ color: 'grey' }}>Reason</div>}
                 secondary={
                   <div style={{ color: 'black', height: 20 }}>
