@@ -84,19 +84,15 @@ const VersionsToolbar = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={
-                  <div style={{ color: 'grey', width: 250 }}>Reason</div>
-                }
+                primary={<div style={{ color: 'grey' }}>Reason</div>}
                 secondary={
-                  <div style={{ color: 'black' }}>
+                  <div style={{ color: 'black', height: 20 }}>
                     {option.version.legalReason}
                   </div>
                 }
               />
               <ListItemText
-                primary={
-                  <div style={{ color: 'grey', width: 250 }}>Legal Start</div>
-                }
+                primary={<div style={{ color: 'grey' }}>Legal Start</div>}
                 secondary={
                   <div style={{ color: 'black' }}>
                     {moment(option.version.effectiveLegalStart).format(
@@ -106,9 +102,7 @@ const VersionsToolbar = ({
                 }
               />
               <ListItemText
-                primary={
-                  <div style={{ color: 'grey', width: 250 }}>Legal End</div>
-                }
+                primary={<div style={{ color: 'grey' }}>Legal End</div>}
                 secondary={
                   <div style={{ color: 'black' }}>
                     {moment(option.version.effectiveLegalEnd).format(
