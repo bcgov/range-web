@@ -18,6 +18,7 @@
     "axios": "^0.19.0",
     "axios-mock-adapter": "^1.17.0",
     "classnames": "^2.2.6",
+    "cypress": "^4.6.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint-config-airbnb": "^17.1.1",
