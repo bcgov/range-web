@@ -26,3 +26,6 @@ sonar-runner/build/
 .vscode/*
 Todo
 .env
+
+cypress/videos
+cypress/screenshots

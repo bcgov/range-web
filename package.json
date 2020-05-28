@@ -101,6 +101,7 @@
     "@storybook/react": "^5.2.6",
     "@twostoryrobot/eslint-config": "^2.2.0",
     "@twostoryrobot/prettier-config": "^2.0.1",
+    "cypress-log-to-output": "^1.0.8",
     "eslint-config-prettier": "^2.10.0",
     "eslint-plugin-jest": "^21.27.2",
     "findup-sync": "^4.0.0",
