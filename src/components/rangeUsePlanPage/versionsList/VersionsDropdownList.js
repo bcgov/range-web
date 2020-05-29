@@ -11,9 +11,11 @@ import moment from 'moment'
 import classnames from 'classnames'
 import Status from '../../common/Status'
 import { useUser } from '../../../providers/UserProvider'
+import { useHistory } from 'react-router-dom'
 
 const VersionsDropdownList = ({ versions, open }) => {
   const user = useUser()
+  const history = useHistory()
 
   const versionOptions = versions.map(v => ({
     key: v.version,
@@ -43,7 +45,14 @@ const VersionsDropdownList = ({ versions, open }) => {
               </TableHead>
               <TableBody>
                 {versionOptions.map((option, index) => (
-                  <TableRow key={index} hover={true}>
+                  <TableRow
+                    key={index}
+                    hover={true}
+                    onClick={() =>
+                      history.push(
+                        `/range-use-plan/${option.value.planId}/versions/${option.value.version}`
+                      )
+                    }>
                     <TableCell>{option.version.legalReason}</TableCell>
 
                     <TableCell>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import useSWR from 'swr'
 import { Segment, Sticky, Ref, Container } from 'semantic-ui-react'
 import * as API from '../../../constants/api'
@@ -6,6 +6,7 @@ import { axios, getAuthHeaderConfig } from '../../../utils'
 import Version from './Version'
 import NoVersions from './NoVersions'
 import VersionsToolbar from './VersionsToolbar'
+import { useHistory } from 'react-router-dom'
 
 const sortVersions = (a, b) => {
   if (b.version === -1) return 1
@@ -24,8 +25,20 @@ const VersionsList = ({ match }) => {
   )
 
   const contextRef = useRef()
+  const history = useHistory()
 
   const { versions = [] } = data || {}
+
+  useEffect(() => {
+    const version = versions.find(
+      e => e?.version === parseInt(match.params.version)
+    )
+
+    if (match.params.version !== undefined) {
+      setSelectedVersion(version)
+    }
+  }, [match, versions])
+
   const formattedVersions = versions
     .sort(sortVersions)
     .filter(v => v.version !== -1)
@@ -43,7 +56,11 @@ const VersionsList = ({ match }) => {
               planId={planId}
               versions={formattedVersions}
               selectedVersion={selectedVersion}
-              onSelectVersion={(e, { value }) => setSelectedVersion(value)}
+              onSelectVersion={(e, { value }) => {
+                history.push(
+                  `/range-use-plan/${value.planId}/versions/${value.version}`
+                )
+              }}
             />
           </Sticky>
 

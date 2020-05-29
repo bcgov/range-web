@@ -5,7 +5,7 @@ export const RETURN_PAGE = '/return-page'
 export const RANGE_USE_PLAN = '/range-use-plan'
 export const EXPORT_PDF = '/export-pdf'
 export const EXPORT_PDF_WITH_PARAM = '/range-use-plan/:planId/export-pdf/'
-export const VIEW_PLAN_VERSIONS = '/range-use-plan/:planId/versions'
+export const VIEW_PLAN_VERSIONS = '/range-use-plan/:planId/versions/:version?'
 export const RANGE_USE_PLAN_WITH_PARAM = '/range-use-plan/:planId'
 
 export const MANAGE_ZONE = '/manage-zone'
