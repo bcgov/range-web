@@ -198,7 +198,6 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusCreated(status) ||
     isStatusDraft(status) ||
     isStatusChangedRequested(status) ||
-    isStatusNotApproved(status) ||
     isStatusNotApprovedFWR(status) ||
     isStatusRecommendForSubmission(status) ||
     isStatusAmendmentAH(status)
@@ -226,7 +225,7 @@ export const canUserDiscardAmendment = (plan, user) => {
 export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false
 
-  return isStatusWronglyMakeWE(plan.status)
+  return isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status)
 }
 
 export const canUserSubmitAsMandatory = (plan, user) => {
