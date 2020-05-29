@@ -267,7 +267,11 @@ export const getMostRecentLegalPlan = async planId => {
   const {
     data: { versions }
   } = await axios.get(API.GET_RUP_VERSIONS(planId), getAuthHeaderConfig())
-  const legalVersion = versions.find(v => v.iscurrentlegalversion)
+  const legalVersion = versions.find(v => v.isCurrentLegalVersion)
+
+  if (!legalVersion) {
+    throw new Error('Could not find legal version')
+  }
 
   const { data } = await axios.get(
     API.GET_RUP_VERSION(planId, legalVersion.version),
