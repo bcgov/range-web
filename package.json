@@ -103,6 +103,7 @@
     "@twostoryrobot/prettier-config": "^2.0.1",
     "cypress-log-to-output": "^1.0.8",
     "eslint-config-prettier": "^2.10.0",
+    "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-jest": "^21.27.2",
     "findup-sync": "^4.0.0",
     "husky": "^2.7.0",

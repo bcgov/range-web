@@ -34,7 +34,7 @@ Cypress.Commands.add('svcClientLogin', () => {
   const password = Cypress.env('password')
   const url = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/token/`
 
-	//changed grant_type to idir from password
+  //changed grant_type to idir from password
   return cy
     .request({
       method: 'POST',
