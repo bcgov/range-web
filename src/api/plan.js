@@ -219,7 +219,6 @@ export const createAmendment = async (
   await axios.put(
     API.UPDATE_RUP(plan.id),
     {
-      ...plan,
       amendmentTypeId: initialAmendment.id
     },
     getAuthHeaderConfig()
