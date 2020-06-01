@@ -1,4 +1,6 @@
-describe('/add', () => {
+
+describe('Login', () => {
+  const app_base_url = Cypress.env('app_base_url')
   beforeEach(() => {
     cy.svcClientLogout()
     cy.svcClientLogin().as('tokens')
@@ -6,7 +8,7 @@ describe('/add', () => {
   })
 
   it('Signs in', () => {
-    cy.visit('https://web-range-myra-test.pathfinder.gov.bc.ca/home')
+    cy.visit(app_base_url + '/home')
     cy.url().should('not.include', 'login')
   })
 })

@@ -1,4 +1,3 @@
-
 describe('/add', () => {
   beforeEach(() => {
     cy.svcClientLogout()

@@ -19,7 +19,9 @@ module.exports = (on, config) => {
 
   // modify config values
   config.defaultCommandTimeout = 10000
-  config.baseUrl = 'https://web-range-myra-test.pathfinder.gov.bc.ca/home'
+  //const app_base_url = Cypress.env('app_base_url')
+  //config.baseUrl = app_base_url + '/home'
+  config.baseUrl = 'http://localhost:3000/home'
 
   // modify env var value
   config.env.ENVIRONMENT = 'dev'
