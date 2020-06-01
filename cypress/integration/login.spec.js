@@ -1,4 +1,3 @@
-
 describe('Login', () => {
   const app_base_url = Cypress.env('app_base_url')
   beforeEach(() => {
