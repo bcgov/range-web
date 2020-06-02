@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import { PLAN_STATUS, REFERENCE_KEY } from '../../../constants/variables'
+import {
+  PLAN_STATUS,
+  REFERENCE_KEY,
+  CONFIRMATION_MODAL_ID
+} from '../../../constants/variables'
 import * as strings from '../../../constants/strings'
 import * as utils from '../../../utils'
 import { Status, Banner } from '../../common'
@@ -189,10 +193,25 @@ class PageForAH extends Component {
         onViewPDFClicked={this.onViewPDFClicked}
         onViewVersionsClicked={this.onViewVersionsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
-        onAmendPlanClicked={this.onAmendPlanClicked}
-        openSubmissionModal={this.openSubmissionModal}
-        openAHSignatureModal={this.openAHSignatureModal}
-        openConfirmationModal={openConfirmationModal}
+        onAmend={() =>
+          openConfirmationModal({
+            id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
+            header: strings.AMEND_PLAN_CONFIRM_HEADER,
+            content: strings.AMEND_PLAN_CONFIRM_CONTENT,
+            onYesBtnClicked: this.onAmendPlanClicked,
+            closeAfterYesBtnClicked: true
+          })
+        }
+        onSubmit={async () => {
+          this.setState({ isSubmitting: true })
+
+          await savePlan(this.props.plan)
+
+          this.setState({ isSubmitting: false })
+
+          this.openSubmissionModal()
+        }}
+        onSignSubmission={this.openAHSignatureModal}
       />
     )
   }
