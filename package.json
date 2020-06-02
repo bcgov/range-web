@@ -99,6 +99,7 @@
     "@storybook/addon-links": "^5.2.6",
     "@storybook/addons": "^5.2.6",
     "@storybook/react": "^5.2.6",
+    "@testing-library/cypress": "^6.0.0",
     "@twostoryrobot/eslint-config": "^2.2.0",
     "@twostoryrobot/prettier-config": "^2.0.1",
     "cypress-log-to-output": "^1.0.8",
