@@ -67,6 +67,7 @@ Cypress.Commands.add('svcClientLogout', () => {
 
   window.localStorage.removeItem('range-web-auth')
   window.localStorage.removeItem('range-web-user')
+  cy.clearLocalStorage()
 
   return cy.request({
     url: `${authBaseUrl}/realms/${realm}/protocol/openid-connect/logout`
