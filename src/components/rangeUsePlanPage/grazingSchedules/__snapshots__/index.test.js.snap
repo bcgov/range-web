@@ -512,6 +512,9 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   <div
                     class="field calendar-input--no-icon"
                   >
+                    <label
+                      for="grazingSchedules.0.grazingScheduleEntries.0.dateIn-datepicker"
+                    />
                     <div
                       class="ui icon input"
                     >
@@ -521,6 +524,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                       />
                       <input
                         aria-label="date in"
+                        id="grazingSchedules.0.grazingScheduleEntries.0.dateIn-datepicker"
                         name="grazingSchedules.0.grazingScheduleEntries.0.dateIn"
                         tabindex="0"
                         type="text"
@@ -535,6 +539,9 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                   <div
                     class="field calendar-input--no-icon"
                   >
+                    <label
+                      for="grazingSchedules.0.grazingScheduleEntries.0.dateOut-datepicker"
+                    />
                     <div
                       class="ui icon input"
                     >
@@ -544,6 +551,7 @@ exports[`Grazing Schedules renders and matches the snapshot 1`] = `
                       />
                       <input
                         aria-label="date out"
+                        id="grazingSchedules.0.grazingScheduleEntries.0.dateOut-datepicker"
                         name="grazingSchedules.0.grazingScheduleEntries.0.dateOut"
                         tabindex="0"
                         type="text"
