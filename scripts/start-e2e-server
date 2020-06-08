@@ -1,0 +1,43 @@
+#!/bin/bash
+
+function fancy_print {
+  echo -e '\e[92m==>\e[39m' $1
+}
+
+mkdir -p .tmp
+
+if [ -d ".tmp/range-api" ]; 
+then
+  fancy_print 'range-api is already cloned locally, pulling new changes'
+  cd .tmp/range-api
+  git checkout dev -f
+  git pull origin dev -f
+else
+  fancy_print '\e[92m==>\e[39m Cloning range-api'
+  git clone https://github.com/bcgov/range-api .tmp/range-api
+  cd .tmp/range-api
+fi
+
+fancy_print 'Installing dependencies'
+npm i 
+
+cat > .env <<EOF
+POSTGRESQL_DATABASE=myra_e2e 
+POSTGRESQL_DATABASE_TEST=myra_test
+POSTGRESQL_HOST=db
+POSTGRESQL_PORT=5432
+
+PROJECT=myra_range
+ENVIRONMENT=development
+API_PORT=8080
+BUILD_TARGET=base
+
+POSTGRESQL_PASSWORD=banana
+POSTGRESQL_USER=app_dv_myra
+EOF
+
+fancy_print 'Setting up and seeding local API'
+make local-setup
+
+fancy_print 'Running local API'
+make run-local
