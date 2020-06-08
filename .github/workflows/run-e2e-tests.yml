@@ -10,9 +10,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 8.17.0
+      - run: npm run test:e2e:server:start
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
-          start: npm run test:e2e:server:start && npm start
+          start: npm start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 500
