@@ -3,10 +3,13 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-16.04
-    container: cypress/browsers:node8.9.3-npm6.10.1-chrome76-ff68
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 8.17.0
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
