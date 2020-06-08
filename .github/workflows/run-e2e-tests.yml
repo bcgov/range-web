@@ -15,4 +15,4 @@ jobs:
         with:
           start: npm run test:e2e:server:start && npm start
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 360
+          wait-on-timeout: 500
