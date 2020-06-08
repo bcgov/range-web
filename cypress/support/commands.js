@@ -31,14 +31,24 @@ import jwtDecode from 'jwt-decode'
 import '@testing-library/cypress/add-commands'
 
 Cypress.Commands.add(
-  'svcClientLogin',
-  (username, password) => {
-    //Cypress.log({ name: 'KeyClock Login' })
+  'login',
+  (user = 'range_officer') => {
     const authBaseUrl = Cypress.env('auth_base_url')
     const realm = Cypress.env('auth_realm')
     const client_id = Cypress.env('auth_client_id')
     const url = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/token/`
-    const app_base_url = Cypress.env('app_base_url')
+
+    const username = Cypress.env(`${user}_username`)
+    const password = Cypress.env(`${user}_password`)
+
+    if (!username)
+      throw new Error(
+        `Username was not provided for user '${user}'. Please set the CYPRESS_${user}_username environment variable`
+      )
+    if (!password)
+      throw new Error(
+        `Password was not provided for user '${user}' Please set the CYPRESS_${user}_password environment variable`
+      )
 
     //changed grant_type to idir from password
     return cy
@@ -56,63 +66,23 @@ Cypress.Commands.add(
         }
       })
       .its('body')
+      .then(tokens => {
+        tokens.jwtData = jwtDecode(tokens.access_token)
+        window.localStorage.setItem('range-web-auth', JSON.stringify(tokens))
+      })
   },
   { log: false }
 )
 
-Cypress.Commands.add('svcClientLogout', () => {
+Cypress.Commands.add('logout', () => {
   Cypress.log({ name: 'KeyClock Logout' })
   const authBaseUrl = Cypress.env('auth_base_url')
   const realm = Cypress.env('auth_realm')
 
   window.localStorage.removeItem('range-web-auth')
   window.localStorage.removeItem('range-web-user')
-  cy.clearLocalStorage()
 
   return cy.request({
     url: `${authBaseUrl}/realms/${realm}/protocol/openid-connect/logout`
   })
-})
-
-Cypress.Commands.add('svcClientSetCookie', tokens => {
-  Cypress.log({ name: 'Set Application Cookie' })
-
-  tokens.jwtData = jwtDecode(tokens.access_token)
-  window.localStorage.setItem('range-web-auth', JSON.stringify(tokens))
-})
-
-Cypress.Commands.add('getCreds', role => {
-  const staff_range_officer_username = Cypress.env(
-    'staff_range_officer_username'
-  )
-  const staff_range_officer_password = Cypress.env(
-    'staff_range_officer_password'
-  )
-
-  const agreement_holder_primary_username = Cypress.env(
-    'agreement_holder_primary_username'
-  )
-  const agreement_holder_primary_password = Cypress.env(
-    'agreement_holder_primary_password'
-  )
-
-  const agreement_holder_secondary_1_username = Cypress.env(
-    'agreement_holder_secondary_1_username'
-  )
-  const agreement_holder_secondary_1_password = Cypress.env(
-    'agreement_holder_secondary_1_password'
-  )
-
-  switch (role) {
-    case 'range officer':
-      return [staff_range_officer_username, staff_range_officer_password]
-      break
-    case 'agreement holder primary':
-      return [
-        agreement_holder_primary_username,
-        agreement_holder_primary_password
-      ]
-    default:
-      break
-  }
 })
