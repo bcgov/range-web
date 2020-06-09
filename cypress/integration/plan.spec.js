@@ -4,6 +4,7 @@ describe('Login', () => {
   })
 
   it('starts a range use plan and saves + submits it', () => {
+    cy.login('range_officer')
     cy.visit('/home')
     cy.url().should('not.include', 'login')
 
@@ -89,4 +90,11 @@ describe('Login', () => {
 
     cy.findByText(/successfully updated the status/g).should('exist')
   })
+
+
+  it('submits back to staff to sign', () => {
+    cy.login('agreement_holder_1')
+    cy.visit('/home')
+    cy.url().should('not.include', 'login')
+
 })
