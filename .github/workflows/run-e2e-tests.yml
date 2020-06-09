@@ -14,12 +14,12 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v1
         env:
-          auth_base_url: 'https://sso-dev.pathfinder.gov.bc.ca/auth'
-          auth_realm: range
-          auth_client_id: myrangebc
-          app_base_url: http://localhost:3000
-          range_officer_username: ${{ secrets.RANGE_OFFICER_USERNAME }}
-          range_officer_password: ${{ secrets.RANGE_OFFICER_PASSWORD }}
+          CYPRESS_auth_base_url: 'https://sso-dev.pathfinder.gov.bc.ca/auth'
+          CYPRESS_auth_realm: range
+          CYPRESS_auth_client_id: myrangebc
+          CYPRESS_app_base_url: http://localhost:3000
+          CYPRESS_range_officer_username: ${{ secrets.RANGE_OFFICER_USERNAME }}
+          CYPRESS_range_officer_password: ${{ secrets.RANGE_OFFICER_PASSWORD }}
         with:
           start: npm start
           wait-on: 'http://localhost:3000'
