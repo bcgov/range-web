@@ -20,7 +20,9 @@ jobs:
           CYPRESS_app_base_url: http://localhost:3000
           CYPRESS_range_officer_username: ${{ secrets.RANGE_OFFICER_USERNAME }}
           CYPRESS_range_officer_password: ${{ secrets.RANGE_OFFICER_PASSWORD }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_PROJECT_KEY }}
         with:
           start: npm start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 500
+          record: true
