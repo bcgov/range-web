@@ -18,8 +18,8 @@ jobs:
           auth_realm: range
           auth_client_id: myrangebc
           app_base_url: http://localhost:3000
-          range_officer_username: ${{ secret.RANGE_OFFICER_USERNAME }}
-          range_officer_password: ${{ secret.RANGE_OFFICER_PASSWORD }}
+          range_officer_username: ${{ secrets.RANGE_OFFICER_USERNAME }}
+          range_officer_password: ${{ secrets.RANGE_OFFICER_PASSWORD }}
         with:
           start: npm start
           wait-on: 'http://localhost:3000'
