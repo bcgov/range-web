@@ -13,6 +13,13 @@ jobs:
       - run: npm run test:e2e:server:start
       - name: Cypress run
         uses: cypress-io/github-action@v1
+        env:
+          auth_base_url: "https://sso-dev.pathfinder.gov.bc.ca/auth"
+          auth_realm: "range"
+          auth_client_id: "myrangebc",
+          app_base_url: "http://localhost:3000"
+          range_officer_username: ${{ secret.RANGE_OFFICER_USERNAME }}
+          range_officer_password: ${{ secret.RANGE_OFFICER_PASSWORD }}
         with:
           start: npm start
           wait-on: 'http://localhost:3000'
