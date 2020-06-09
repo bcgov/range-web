@@ -1,7 +1,7 @@
 describe('Login', () => {
   beforeEach(() => {
-    cy.login()
     cy.logout()
+    cy.login()
   })
 
   it('Signs in', () => {
