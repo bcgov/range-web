@@ -92,9 +92,10 @@ describe('Login', () => {
   })
 
 
-  it('submits back to staff to sign', () => {
+  it.skip('submits back to staff to sign', () => {
     cy.login('agreement_holder_1')
     cy.visit('/home')
     cy.url().should('not.include', 'login')
+  })
 
 })
