@@ -13,7 +13,7 @@ then
   git checkout dev -f
   git pull origin dev -f
 else
-  fancy_print '\e[92m==>\e[39m Cloning range-api'
+  fancy_print 'Cloning range-api'
   git clone https://github.com/bcgov/range-api .tmp/range-api
   cd .tmp/range-api
 fi
@@ -37,7 +37,7 @@ POSTGRESQL_USER=app_dv_myra
 EOF
 
 fancy_print 'Setting up and seeding local API'
-make local-setup
+make e2e-setup
 
 fancy_print 'Running local API'
-make run-local
+make run-e2e
