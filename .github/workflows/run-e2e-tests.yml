@@ -21,8 +21,9 @@ jobs:
           CYPRESS_range_officer_password: ${{ secrets.RANGE_OFFICER_PASSWORD }}
           CYPRESS_BASE_URL: http://localhost:3000
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_PROJECT_KEY }}
+          REACT_APP_API_URL: http://localhost:8081/api
         with:
-          start: REACT_APP_API_URL=http://localhost:8081/api npm start
+          start: npm start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 500
           record: true
