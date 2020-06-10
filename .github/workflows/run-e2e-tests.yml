@@ -10,19 +10,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 8.17.0
-      - run: npm run test:e2e:server:start
+      - run: npm run test:e2e:api:start
       - name: Cypress run
         uses: cypress-io/github-action@v1
         env:
           CYPRESS_auth_base_url: 'https://sso-dev.pathfinder.gov.bc.ca/auth'
           CYPRESS_auth_realm: range
           CYPRESS_auth_client_id: myrangebc
-          CYPRESS_app_base_url: http://localhost:3000
           CYPRESS_range_officer_username: ${{ secrets.RANGE_OFFICER_USERNAME }}
           CYPRESS_range_officer_password: ${{ secrets.RANGE_OFFICER_PASSWORD }}
+          CYPRESS_BASE_URL: http://localhost:3000
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_PROJECT_KEY }}
         with:
-          start: npm start
+          start: REACT_APP_API_URL=http://localhost:8081/api npm start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 500
           record: true

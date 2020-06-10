@@ -19,9 +19,6 @@ module.exports = (on, config) => {
 
   // modify config values
   config.defaultCommandTimeout = 10000
-  //const app_base_url = Cypress.env('app_base_url')
-  //config.baseUrl = app_base_url + '/home'
-  config.baseUrl = 'http://localhost:3000/home'
 
   // modify env var value
   config.env.ENVIRONMENT = 'dev'
