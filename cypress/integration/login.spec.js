@@ -1,12 +1,11 @@
-describe('/add', () => {
+describe('Login', () => {
   beforeEach(() => {
-    cy.svcClientLogout()
-    cy.svcClientLogin().as('tokens')
-    cy.get('@tokens').then(cy.svcClientSetCookie)
+    cy.logout()
+    cy.login()
   })
 
   it('Signs in', () => {
-    cy.visit('https://web-range-myra-test.pathfinder.gov.bc.ca/home')
+    cy.visit('/home')
     cy.url().should('not.include', 'login')
   })
 })
