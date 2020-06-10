@@ -3,7 +3,7 @@ describe('Login', () => {
     cy.login('range_officer')
   })
 
-  it('Signs in, and shows privacy message on first login', () => {
+  it.skip('Signs in, and shows privacy message on first login', () => {
     cy.visit('/home')
 
     cy.get('[class=privacy-info]').should('contain', 'Privacy') //contains('Continue to').click()
