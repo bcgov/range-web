@@ -472,6 +472,11 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
       content = 'The agreement holder is working on an amendment.'
     }
   }
+  if (isStatusSubmittedAsMandatory(status)) {
+    header = 'Submit as Mandatory'
+    content =
+      'Staff have initiated this mandatory amendment based on a minor amendment that, while deemed wrongly made, could be considered for decision as a mandatory amendment.'
+  }
 
   return { header, content }
 }
