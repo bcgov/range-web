@@ -183,7 +183,7 @@ const ClientLinkList = ({ userId }) => {
                   <ListItem key={client.id}>
                     <ListItemText
                       primary={client.name}
-                      secondary={`Client # ${client.clientNumber} - ${client.locationCode}`}
+                      secondary={`Client # ${client.clientNumber}`}
                     />
                     <ListItemSecondaryAction>
                       <IconButton
@@ -252,13 +252,12 @@ const ClientLinkList = ({ userId }) => {
           onClose={handleCloseDialog}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description">
-          <DialogTitle id="alert-dialog-title">Delete client link?</DialogTitle>
+          <DialogTitle id="alert-dialog-title">Delete client links?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete the link between the user{' '}
+              Are you sure you want to delete the links between the user{' '}
               {getUserFullName(user)} ({user.email}) and the client{' '}
               {clientToDelete?.name} (Client #{clientToDelete?.clientNumber} -{' '}
-              {clientToDelete?.locationCode})?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
