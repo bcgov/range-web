@@ -25,9 +25,20 @@ import * as API from '../../constants/api'
 import { axios, getAuthHeaderConfig, getUserFullName } from '../../utils'
 import { useToast } from '../../providers/ToastProvider'
 import ClientDropdown from './ClientDropdown'
-import { createClientLink, deleteClientLink } from '../../api'
+import { deleteClientLink, createAllClientLinks } from '../../api'
 import { green } from '@material-ui/core/colors'
 import { useEffect } from 'react'
+
+const groupClients = (clients, { id, locationCode, ...client }) => {
+  if (clients.find(c => c.clientNumber === client.clientNumber)) {
+    return clients.map(c => ({
+      ...c,
+      locationCodes: [...c.locationCodes, locationCode],
+      ids: [...c.ids, id]
+    }))
+  }
+  return [...clients, { ...client, ids: [id], locationCodes: [locationCode] }]
+}
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
@@ -91,11 +102,14 @@ const ClientLinkList = ({ userId }) => {
     setIsCreating(true)
     setCreateError(null)
     try {
-      await createClientLink(userId, selectedClient.id)
+      const newClients = await createAllClientLinks(
+        userId,
+        selectedClient.clientNumber
+      )
 
       mutate({
         ...user,
-        clients: [...(user.clients ?? []), selectedClient]
+        clients: [...(user.clients ?? []), ...newClients]
       })
 
       setSelectedClient(null)
@@ -112,11 +126,13 @@ const ClientLinkList = ({ userId }) => {
     setIsDeleting(true)
 
     try {
-      await deleteClientLink(userId, client.id)
+      for (const id of client.ids) {
+        await deleteClientLink(userId, id)
+      }
 
       mutate({
         ...user,
-        clients: (user.clients ?? []).filter(client => client.id !== client.id)
+        clients: (user.clients ?? []).filter(c => !client.ids.includes(c.id))
       })
 
       setClientToDelete(null)
@@ -178,12 +194,14 @@ const ClientLinkList = ({ userId }) => {
 
           {user && (
             <List className={classes.list}>
-              {user.clients?.map(client => (
-                <div key={client.id}>
-                  <ListItem key={client.id}>
+              {user.clients?.reduce(groupClients, []).map(client => (
+                <div key={client.clientNumber}>
+                  <ListItem>
                     <ListItemText
                       primary={client.name}
-                      secondary={`Client # ${client.clientNumber} - ${client.locationCode}`}
+                      secondary={`Client # ${
+                        client.clientNumber
+                      } - ${client.locationCodes.join(', ')}`}
                     />
                     <ListItemSecondaryAction>
                       <IconButton
@@ -258,7 +276,7 @@ const ClientLinkList = ({ userId }) => {
               Are you sure you want to delete the link between the user{' '}
               {getUserFullName(user)} ({user.email}) and the client{' '}
               {clientToDelete?.name} (Client #{clientToDelete?.clientNumber} -{' '}
-              {clientToDelete?.locationCode})?
+              {clientToDelete?.locationCodes?.join(', ')})?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
