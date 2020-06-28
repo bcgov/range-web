@@ -43,8 +43,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const references = useReferences()
   const user = useUser()
 
-  // zones, userZones, zoneUserNames
-  const zones = references.ZONES
+  const zones = references.ZONES || []
   const userZones = zones.filter(zone => user.id === zone.userId)
   const districtId = userZones[0]?.districtId
   const unassignedZones = zones.filter(
