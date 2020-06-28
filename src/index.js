@@ -19,6 +19,7 @@
 //
 
 /* eslint-disable import/first */
+/* eslint-disable no-unused-expressions */
 
 import 'react-app-polyfill/ie9' // includes IE10 and IE11 support.
 
