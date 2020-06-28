@@ -7,6 +7,7 @@ const SearchBar = ({ onSearch, loading, placeholder, initialValue = '' }) => {
 
   return (
     <form
+      style={{ width: '100%' }}
       onSubmit={e => {
         e.preventDefault()
         e.stopPropagation()
@@ -15,7 +16,7 @@ const SearchBar = ({ onSearch, loading, placeholder, initialValue = '' }) => {
       }}>
       <div className="agrm__search">
         <Input
-          fluid
+          style={{ width: '100%' }}
           icon
           loading={loading}
           iconPosition="left"

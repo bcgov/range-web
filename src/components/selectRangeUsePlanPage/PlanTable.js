@@ -20,9 +20,13 @@ import {
 import useSWR from 'swr'
 
 const PlanTable = ({ agreementId }) => {
-  const { data: agreement, isValidating, revalidate, error } = useSWR(
-    agreementId && API.GET_AGREEMENT(agreementId),
-    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
+  const {
+    data: agreement,
+    isValidating,
+    revalidate,
+    error
+  } = useSWR(agreementId && API.GET_AGREEMENT(agreementId), key =>
+    axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )
 
   const { plans = [] } = agreement || {}
