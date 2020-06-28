@@ -32,7 +32,11 @@ const useStyles = makeStyles(theme => ({
 const ManageClientPage = () => {
   const classes = useStyles()
 
-  const { data: users, error, isValidating } = useSWR(
+  const {
+    data: users,
+    error,
+    isValidating
+  } = useSWR(
     `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`,
     key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )

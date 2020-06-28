@@ -321,8 +321,8 @@ const PlantCommunityBox = ({
                         return (
                           criteria.includes('rangeReadiness') &&
                           ip.criteria !== PLANT_CRITERIA.RANGE_READINESS &&
-                          (criteria.includes('stubbleHeight') &&
-                            ip.criteria !== PLANT_CRITERIA.STUBBLE_HEIGHT)
+                          criteria.includes('stubbleHeight') &&
+                          ip.criteria !== PLANT_CRITERIA.STUBBLE_HEIGHT
                         )
                       })
                     )

@@ -79,9 +79,6 @@ class Footer extends Component {
   }
 }
 
-export default connect(
-  null,
-  {
-    openPiaModal
-  }
-)(Footer)
+export default connect(null, {
+  openPiaModal
+})(Footer)

@@ -143,13 +143,13 @@ const DayMonthPicker = connect(
                           </Table.Cell>
                         ))}
                         {days.length < 7 &&
-                          Array.from({ length: 7 - days.length }).map(
-                            (_, i) => (
-                              <Table.Cell
-                                key={`${currentMonth}_emptycell_${i}`}
-                              />
-                            )
-                          )}
+                          Array.from({
+                            length: 7 - days.length
+                          }).map((_, i) => (
+                            <Table.Cell
+                              key={`${currentMonth}_emptycell_${i}`}
+                            />
+                          ))}
                       </>
                     </Table.Row>
                   ))}

@@ -81,13 +81,10 @@ export class MainPage extends Component {
   }
 }
 
-export default connect(
-  null,
-  {
-    signOut,
-    reauthenticate,
-    fetchReferences,
-    resetTimeoutForReAuth,
-    storeAuthData
-  }
-)(MainPage)
+export default connect(null, {
+  signOut,
+  reauthenticate,
+  fetchReferences,
+  resetTimeoutForReAuth,
+  storeAuthData
+})(MainPage)

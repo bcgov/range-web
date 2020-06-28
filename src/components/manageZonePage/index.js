@@ -62,13 +62,10 @@ const mapStateToProps = state => ({
   reAuthRequired: getReAuthRequired(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchUsers,
-    fetchZones,
-    updateUserIdOfZone,
-    zoneUpdated,
-    openConfirmationModal
-  }
-)(Base)
+export default connect(mapStateToProps, {
+  fetchUsers,
+  fetchZones,
+  updateUserIdOfZone,
+  zoneUpdated,
+  openConfirmationModal
+})(Base)

@@ -23,7 +23,10 @@ const grazingSchedules = [
   }
 ]
 
-const pastures = [{ id: 1, name: 'Pasture 1' }, { id: 2, name: 'Pasture 2' }]
+const pastures = [
+  { id: 1, name: 'Pasture 1' },
+  { id: 2, name: 'Pasture 2' }
+]
 
 const namespace = 'grazingSchedules.0'
 

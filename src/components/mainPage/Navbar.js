@@ -101,7 +101,4 @@ export class Navbar extends Component {
   }
 }
 
-export default connect(
-  null,
-  { signOut }
-)(Navbar)
+export default connect(null, { signOut })(Navbar)

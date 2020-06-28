@@ -52,7 +52,4 @@ class Toasts extends Component {
 const mapStateToProps = state => ({
   toastsMap: getToastsMap(state)
 })
-export default connect(
-  mapStateToProps,
-  { removeToast }
-)(Toasts)
+export default connect(mapStateToProps, { removeToast })(Toasts)

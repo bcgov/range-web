@@ -113,9 +113,6 @@ const mapStateToProps = state => ({
   UpdatingUserErrorOccured: getUpdatingUserErrorOccured(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    updateUser
-  }
-)(UsernameInputModal)
+export default connect(mapStateToProps, {
+  updateUser
+})(UsernameInputModal)

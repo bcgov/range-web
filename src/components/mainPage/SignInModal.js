@@ -53,7 +53,4 @@ class SignInModal extends Component {
 const mapStateToProps = state => ({
   reAuthRequired: getReAuthRequired(state)
 })
-export default connect(
-  mapStateToProps,
-  { signOut }
-)(SignInModal)
+export default connect(mapStateToProps, { signOut })(SignInModal)

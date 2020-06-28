@@ -152,10 +152,7 @@ const mapStateToProps = state => ({
   zones: getZones(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    updateAgreementZone,
-    planUpdated
-  }
-)(UpdateZoneModal)
+export default connect(mapStateToProps, {
+  updateAgreementZone,
+  planUpdated
+})(UpdateZoneModal)

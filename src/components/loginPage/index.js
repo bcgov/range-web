@@ -164,9 +164,6 @@ export class LoginPage extends Component {
   }
 }
 
-export default connect(
-  null,
-  {
-    fetchUser
-  }
-)(LoginPage)
+export default connect(null, {
+  fetchUser
+})(LoginPage)

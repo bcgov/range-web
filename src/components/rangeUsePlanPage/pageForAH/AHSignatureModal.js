@@ -150,11 +150,8 @@ const mapStateToProps = state => ({
   user: getUser(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    updateRUPConfirmation,
-    planUpdated,
-    confirmationUpdated
-  }
-)(AHSignatureModal)
+export default connect(mapStateToProps, {
+  updateRUPConfirmation,
+  planUpdated,
+  confirmationUpdated
+})(AHSignatureModal)

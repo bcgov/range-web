@@ -302,9 +302,6 @@ const mapStateToProps = state => ({
   confirmationModalsMap: getConfirmationModalsMap(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    updateRUPStatus
-  }
-)(UpdateStatusDropdown)
+export default connect(mapStateToProps, {
+  updateRUPStatus
+})(UpdateStatusDropdown)

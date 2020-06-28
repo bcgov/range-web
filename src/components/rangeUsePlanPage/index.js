@@ -298,25 +298,22 @@ const mapStateToProps = state => ({
   reAuthRequired: selectors.getReAuthRequired(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchRUP,
-    updateRUP,
-    updateRUPStatus,
-    planUpdated,
-    pastureAdded,
-    pastureUpdated,
-    pastureCopied,
-    createOrUpdateRUPPasture,
-    grazingScheduleUpdated,
-    createOrUpdateRUPGrazingSchedule,
-    toastSuccessMessage,
-    toastErrorMessage,
-    createAmendment,
-    openConfirmationModal,
-    createOrUpdateRUPMinisterIssueAndActions,
-    createOrUpdateRUPInvasivePlantChecklist,
-    createOrUpdateRUPManagementConsideration
-  }
-)(Base)
+export default connect(mapStateToProps, {
+  fetchRUP,
+  updateRUP,
+  updateRUPStatus,
+  planUpdated,
+  pastureAdded,
+  pastureUpdated,
+  pastureCopied,
+  createOrUpdateRUPPasture,
+  grazingScheduleUpdated,
+  createOrUpdateRUPGrazingSchedule,
+  toastSuccessMessage,
+  toastErrorMessage,
+  createAmendment,
+  openConfirmationModal,
+  createOrUpdateRUPMinisterIssueAndActions,
+  createOrUpdateRUPInvasivePlantChecklist,
+  createOrUpdateRUPManagementConsideration
+})(Base)

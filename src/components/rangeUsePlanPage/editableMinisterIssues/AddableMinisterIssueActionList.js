@@ -165,12 +165,9 @@ class AddableMinisterIssueActionList extends Component {
   }
 }
 
-export default connect(
-  null,
-  {
-    ministerIssueUpdated,
-    openInputModal,
-    openConfirmationModal,
-    deleteRUPMinisterIssueAction
-  }
-)(AddableMinisterIssueActionList)
+export default connect(null, {
+  ministerIssueUpdated,
+  openInputModal,
+  openConfirmationModal,
+  deleteRUPMinisterIssueAction
+})(AddableMinisterIssueActionList)

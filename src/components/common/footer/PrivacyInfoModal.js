@@ -92,10 +92,7 @@ const mapStateToProps = state => ({
   isModalOpen: getIsPiaModalOpen(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    openPiaModal,
-    closePiaModal
-  }
-)(PrivacyInfoModal)
+export default connect(mapStateToProps, {
+  openPiaModal,
+  closePiaModal
+})(PrivacyInfoModal)
