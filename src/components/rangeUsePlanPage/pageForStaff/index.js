@@ -3,7 +3,8 @@ import UpdateZoneModal from './UpdateZoneModal'
 import {
   REFERENCE_KEY,
   PLAN_STATUS,
-  AMENDMENT_TYPE
+  AMENDMENT_TYPE,
+  CONFIRMATION_MODAL_ID
 } from '../../../constants/variables'
 import { Status, Banner } from '../../common'
 import * as strings from '../../../constants/strings'
@@ -166,16 +167,31 @@ class PageForStaff extends Component {
         }}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
+        isFetchingPlan={this.props.isFetchingPlan}
+        isCreatingAmendment={this.state.isCreatingAmendment}
         onViewPDFClicked={this.onViewPDFClicked}
         onViewVersionsClicked={this.onViewVersionsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
-        openSubmissionModal={this.openPlanSubmissionModal}
+        onSubmit={async () => {
+          this.setState({ isSubmitting: true })
+
+          await savePlan(this.props.plan)
+
+          this.setState({ isSubmitting: false })
+
+          this.openPlanSubmissionModal()
+        }}
+        onAmend={() =>
+          openConfirmationModal({
+            id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
+            header: strings.AMEND_PLAN_CONFIRM_HEADER,
+            content: strings.AMEND_PLAN_CONFIRM_CONTENT,
+            onYesBtnClicked: this.onAmendPlanClicked,
+            closeAfterYesBtnClicked: true
+          })
+        }
         plan={this.props.plan}
-        isFetchingPlan={this.props.isFetchingPlan}
         fetchPlan={this.props.fetchPlan}
-        openConfirmationModal={openConfirmationModal}
-        onAmendPlanClicked={this.onAmendPlanClicked}
-        isCreatingAmendment={this.state.isCreatingAmendment}
         beforeUpdateStatus={async () => {
           await savePlan(this.props.plan)
           await this.props.fetchPlan()

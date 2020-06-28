@@ -1,0 +1,20 @@
+#!/bin/bash
+function fancy_print {
+  echo -e '\e[92m==>\e[39m' $1
+}
+
+if [ ! -d ".tmp/range-api" ];
+then
+  echo "Could not find range-api repository in .tmp/range-api"
+  exit 1
+fi
+
+cd .tmp/range-api
+
+fancy_print "Bringing down docker-compose environment"
+docker-compose -p myra-e2e down -v
+
+cd ../../
+
+fancy_print "Removing range-api"
+rm -rf .tmp/range-api

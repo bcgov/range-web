@@ -7,11 +7,8 @@ import {
   SUBMIT,
   AMEND_PLAN,
   SIGN_SUBMISSION,
-  AMEND_PLAN_CONFIRM_HEADER,
-  AMEND_PLAN_CONFIRM_CONTENT,
   VIEW_VERSIONS
 } from '../../constants/strings'
-import { CONFIRMATION_MODAL_ID } from '../../constants/variables'
 import DownloadPDFBtn from './DownloadPDFBtn'
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
 import { useNetworkStatus } from '../../utils/hooks/network'
@@ -25,11 +22,10 @@ const ActionBtns = ({
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
-  onAmendPlanClicked,
   onViewVersionsClicked,
-  openSubmissionModal,
-  openAHSignatureModal,
-  openConfirmationModal,
+  onSubmit,
+  onSignSubmission,
+  onAmend,
   formik,
   plan,
   isFetchingPlan,
@@ -64,7 +60,7 @@ const ActionBtns = ({
       compact
       type="button"
       loading={isSubmitting}
-      onClick={openSubmissionModal}
+      onClick={onSubmit}
       disabled={!isOnline}>
       <Icon name="check" />
       {SUBMIT}
@@ -79,13 +75,7 @@ const ActionBtns = ({
       loading={isCreatingAmendment}
       disabled={!isOnline}
       onClick={() => {
-        openConfirmationModal({
-          id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
-          header: AMEND_PLAN_CONFIRM_HEADER,
-          content: AMEND_PLAN_CONFIRM_CONTENT,
-          onYesBtnClicked: onAmendPlanClicked,
-          closeAfterYesBtnClicked: true
-        })
+        onAmend()
       }}>
       <Icon name="edit" />
       {AMEND_PLAN}
@@ -95,7 +85,7 @@ const ActionBtns = ({
     <Button
       key="confirmSubmissionBtn"
       disabled={!isOnline}
-      onClick={openAHSignatureModal}
+      onClick={onSignSubmission}
       inverted
       compact
       type="button">
@@ -166,7 +156,12 @@ ActionBtns.propTypes = {
     discard: PropTypes.bool,
     submitAsMandatory: PropTypes.bool,
     amendFromLegal: PropTypes.bool
-  })
+  }),
+  onViewPDFClicked: PropTypes.func,
+  onViewVersionsClicked: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onSignSubmission: PropTypes.func,
+  onAmend: PropTypes.func
 }
 
 export default connect(ActionBtns)

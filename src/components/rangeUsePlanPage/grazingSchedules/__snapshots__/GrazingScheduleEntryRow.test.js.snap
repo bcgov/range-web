@@ -184,6 +184,9 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           <div
             class="field calendar-input--no-icon"
           >
+            <label
+              for="schedule.grazingScheduleEntries.0.dateIn-datepicker"
+            />
             <div
               class="ui icon input"
             >
@@ -193,6 +196,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
               />
               <input
                 aria-label="date in"
+                id="schedule.grazingScheduleEntries.0.dateIn-datepicker"
                 name="schedule.grazingScheduleEntries.0.dateIn"
                 tabindex="0"
                 type="text"
@@ -207,6 +211,9 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
           <div
             class="field calendar-input--no-icon"
           >
+            <label
+              for="schedule.grazingScheduleEntries.0.dateOut-datepicker"
+            />
             <div
               class="ui icon input"
             >
@@ -216,6 +223,7 @@ exports[`Grazing Schedule Entry Row Displays each grazing schedule entry 1`] = `
               />
               <input
                 aria-label="date out"
+                id="schedule.grazingScheduleEntries.0.dateOut-datepicker"
                 name="schedule.grazingScheduleEntries.0.dateOut"
                 tabindex="0"
                 type="text"

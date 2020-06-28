@@ -4,7 +4,7 @@ import { DateInput } from 'semantic-ui-calendar-react'
 import { Field, getIn } from 'formik'
 import moment from 'moment'
 
-const DateInputField = ({ inline, ...props }) => (
+const DateInputField = ({ inline, label, ...props }) => (
   <Field
     {...props}
     inline={inline}
@@ -18,6 +18,7 @@ const DateInputField = ({ inline, ...props }) => (
             {...props}
             inlineLabel={inline}
             hideMobileKeyboard
+            closeOnMouseLeave={false}
             onChange={(e, { value }) => {
               const date = moment(value, props.dateFormat).toISOString()
               form.setFieldValue(field.name, date)
@@ -32,6 +33,8 @@ const DateInputField = ({ inline, ...props }) => (
             }}
             error={!!error}
             className={props.icon === null ? 'calendar-input--no-icon' : ''}
+            id={`${props.name}-datepicker`}
+            label={<label htmlFor={`${props.name}-datepicker`}>{label}</label>}
           />
           {error && typeof error === 'string' && (
             <span

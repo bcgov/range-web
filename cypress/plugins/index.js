@@ -19,7 +19,6 @@ module.exports = (on, config) => {
 
   // modify config values
   config.defaultCommandTimeout = 10000
-  config.baseUrl = 'https://web-range-myra-test.pathfinder.gov.bc.ca/home'
 
   // modify env var value
   config.env.ENVIRONMENT = 'dev'

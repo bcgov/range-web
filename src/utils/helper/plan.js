@@ -198,7 +198,6 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusCreated(status) ||
     isStatusDraft(status) ||
     isStatusChangedRequested(status) ||
-    isStatusNotApproved(status) ||
     isStatusNotApprovedFWR(status) ||
     isStatusRecommendForSubmission(status) ||
     isStatusAmendmentAH(status)
@@ -226,7 +225,7 @@ export const canUserDiscardAmendment = (plan, user) => {
 export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false
 
-  return isStatusWronglyMakeWE(plan.status)
+  return isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status)
 }
 
 export const canUserSubmitAsMandatory = (plan, user) => {
@@ -472,6 +471,11 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
       header = 'Amendment Created by Agreement Holder'
       content = 'The agreement holder is working on an amendment.'
     }
+  }
+  if (isStatusSubmittedAsMandatory(status)) {
+    header = 'Submit as Mandatory'
+    content =
+      'Staff have initiated this mandatory amendment based on a minor amendment that, while deemed wrongly made, could be considered for decision as a mandatory amendment.'
   }
 
   return { header, content }
