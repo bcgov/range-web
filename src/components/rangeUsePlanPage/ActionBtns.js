@@ -61,7 +61,14 @@ const ActionBtns = ({
       compact
       type="button"
       loading={isSubmitting}
-      onClick={onSubmit}
+      onClick={async () => {
+        await formik.submitForm()
+        const errors = await formik.validateForm()
+
+        if (Object.keys(errors).length === 0) {
+          onSubmit()
+        }
+      }}
       disabled={!isOnline}>
       <Icon name="check" />
       {SUBMIT}
