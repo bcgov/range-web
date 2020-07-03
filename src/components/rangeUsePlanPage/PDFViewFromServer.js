@@ -143,4 +143,7 @@ const mapStateToProps = state => ({
   errorFetchingPDF: getPlanPDFErrorOccured(state)
 })
 
-export default connect(mapStateToProps, { fetchRupPDF })(PDFView)
+export default connect(
+  mapStateToProps,
+  { fetchRupPDF }
+)(PDFView)

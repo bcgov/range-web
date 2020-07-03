@@ -75,13 +75,9 @@ const ClientLinkList = ({ userId }) => {
   const [clientToDelete, setClientToDelete] = useState(false)
   const { errorToast } = useToast()
 
-  const {
-    data: user,
-    error,
-    isValidating,
-    mutate
-  } = useSWR(`${API.GET_USERS}/${userId}`, key =>
-    axios.get(key, getAuthHeaderConfig()).then(res => res.data)
+  const { data: user, error, isValidating, mutate } = useSWR(
+    `${API.GET_USERS}/${userId}`,
+    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )
 
   useEffect(() => {

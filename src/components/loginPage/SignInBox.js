@@ -112,11 +112,14 @@ const mapStateToProps = state => ({
   errorOccuredFetchingUser: getFetchingUserErrorOccured(state)
 })
 
-export default connect(mapStateToProps, {
-  fetchUser,
-  storeAuthData,
-  signOut,
-  reauthenticate,
-  resetTimeoutForReAuth,
-  openPiaModal
-})(SignInBox)
+export default connect(
+  mapStateToProps,
+  {
+    fetchUser,
+    storeAuthData,
+    signOut,
+    reauthenticate,
+    resetTimeoutForReAuth,
+    openPiaModal
+  }
+)(SignInBox)

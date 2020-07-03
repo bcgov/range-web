@@ -247,13 +247,11 @@ export const savePlantCommunities = async (
     async plantCommunity => {
       let { id: communityId, ...values } = plantCommunity
       if (uuid.isUUID(communityId)) {
-        communityId = (
-          await axios.post(
-            API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId),
-            values,
-            getAuthHeaderConfig()
-          )
-        ).data.id
+        communityId = (await axios.post(
+          API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId),
+          values,
+          getAuthHeaderConfig()
+        )).data.id
       } else {
         await axios.put(
           API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),

@@ -264,7 +264,10 @@ const mapStateToProps = state => ({
   references: getReferences(state)
 })
 
-export default connect(mapStateToProps, {
-  planUpdated,
-  updateRUP
-})(AmendmentSubmissionModal)
+export default connect(
+  mapStateToProps,
+  {
+    planUpdated,
+    updateRUP
+  }
+)(AmendmentSubmissionModal)

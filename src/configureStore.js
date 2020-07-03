@@ -41,7 +41,10 @@ const configureStore = () => {
 
   return createStore(
     rootReducer,
-    compose(applyMiddleware(...middlewares), devTools())
+    compose(
+      applyMiddleware(...middlewares),
+      devTools()
+    )
   )
 }
 

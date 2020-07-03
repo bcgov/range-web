@@ -102,4 +102,7 @@ export const PlanProvider = ({ children, storePlan }) => {
   )
 }
 
-export default connect(null, { storePlan })(PlanProvider)
+export default connect(
+  null,
+  { storePlan }
+)(PlanProvider)

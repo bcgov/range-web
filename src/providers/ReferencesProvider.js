@@ -39,4 +39,7 @@ const mapDispatchToProps = {
   fetchReferences
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReferencesProvider)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReferencesProvider)

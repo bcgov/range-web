@@ -74,6 +74,7 @@ class ConfirmModals extends Component {
 const mapStateToProps = state => ({
   confirmationModalsMap: getConfirmationModalsMap(state)
 })
-export default connect(mapStateToProps, { closeConfirmationModal })(
-  ConfirmModals
-)
+export default connect(
+  mapStateToProps,
+  { closeConfirmationModal }
+)(ConfirmModals)

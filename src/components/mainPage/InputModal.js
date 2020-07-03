@@ -104,7 +104,10 @@ class InputModal extends Component {
 const mapStateToProps = state => ({
   inputModal: getInputModal(state)
 })
-export default connect(mapStateToProps, {
-  openInputModal,
-  closeInputModal
-})(InputModal)
+export default connect(
+  mapStateToProps,
+  {
+    openInputModal,
+    closeInputModal
+  }
+)(InputModal)
