@@ -202,15 +202,7 @@ class PageForAH extends Component {
             closeAfterYesBtnClicked: true
           })
         }
-        onSubmit={async () => {
-          this.setState({ isSubmitting: true })
-
-          await savePlan(this.props.plan)
-
-          this.setState({ isSubmitting: false })
-
-          this.openSubmissionModal()
-        }}
+        onSubmit={this.openSubmissionModal}
         onSignSubmission={this.openAHSignatureModal}
       />
     )

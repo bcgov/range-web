@@ -179,15 +179,7 @@ class PageForStaff extends Component {
         onViewVersionsClicked={this.onViewVersionsClicked}
         onManageAgentsClicked={this.onManageAgentsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
-        onSubmit={async () => {
-          this.setState({ isSubmitting: true })
-
-          await savePlan(this.props.plan)
-
-          this.setState({ isSubmitting: false })
-
-          this.openPlanSubmissionModal()
-        }}
+        onSubmit={this.openPlanSubmissionModal}
         onAmend={() =>
           openConfirmationModal({
             id: CONFIRMATION_MODAL_ID.AMEND_PLAN,
