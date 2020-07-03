@@ -29,6 +29,7 @@ import { LoadableComponent } from './LoadableComponent'
 import VersionsList from '../rangeUsePlanPage/versionsList/VersionsList'
 import { QueryParamProvider } from 'use-query-params'
 import ErrorBoundary from '../common/ErrorBoundary'
+import ManageAgentsPage from '../rangeUsePlanPage/manageAgentsPage'
 
 const SelectRangeUsePlan = LoadableComponent(() =>
   import('../selectRangeUsePlanPage')
@@ -78,6 +79,11 @@ const Router = () => {
             <ProtectedRoute
               path={Routes.VIEW_PLAN_VERSIONS}
               component={VersionsList}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.MANAGE_PLAN_AGENTS}
+              component={ManageAgentsPage}
               user={user}
             />
             <ProtectedRoute

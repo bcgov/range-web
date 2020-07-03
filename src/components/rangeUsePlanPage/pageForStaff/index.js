@@ -101,6 +101,11 @@ class PageForStaff extends Component {
     this.props.history.push(`/range-use-plan/${planId}/versions`)
   }
 
+  onManageAgentsClicked = () => {
+    const { id: planId } = this.props.plan || []
+    this.props.history.push(`/range-use-plan/${planId}/agents`)
+  }
+
   onAmendPlanClicked = async () => {
     const {
       plan,
@@ -163,7 +168,8 @@ class PageForStaff extends Component {
           discard: utils.canUserDiscardAmendment(plan, user),
           updateStatus: true,
           submitAsMandatory: utils.canUserSubmitAsMandatory(plan, user),
-          amendFromLegal: utils.canUserAmendFromLegal(plan, user)
+          amendFromLegal: utils.canUserAmendFromLegal(plan, user),
+          manageAgents: true
         }}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
@@ -171,6 +177,7 @@ class PageForStaff extends Component {
         isCreatingAmendment={this.state.isCreatingAmendment}
         onViewPDFClicked={this.onViewPDFClicked}
         onViewVersionsClicked={this.onViewVersionsClicked}
+        onManageAgentsClicked={this.onManageAgentsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
         onSubmit={async () => {
           this.setState({ isSubmitting: true })

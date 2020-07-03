@@ -23,6 +23,7 @@ const ActionBtns = ({
   isCreatingAmendment,
   onViewPDFClicked,
   onViewVersionsClicked,
+  onManageAgentsClicked,
   onSubmit,
   onSignSubmission,
   onAmend,
@@ -98,6 +99,12 @@ const ActionBtns = ({
       {VIEW_VERSIONS}
     </Menu.Item>
   )
+  const manageAgentsMenuItem = (
+    <Menu.Item key="manageAgentsBtn" onClick={onManageAgentsClicked}>
+      <Icon name="user" />
+      Manage Agents
+    </Menu.Item>
+  )
 
   const permissions = {
     edit: false,
@@ -108,6 +115,7 @@ const ActionBtns = ({
     updateStatus: false,
     discard: false,
     submitAsMandatory: false,
+    manageAgents: false,
     ...permissionsOptions
   }
 
@@ -133,6 +141,7 @@ const ActionBtns = ({
         <Dropdown.Menu>
           {downloadPDFBtn}
           {viewVersionsMenuItem}
+          {permissions.manageAgents && manageAgentsMenuItem}
           {permissions.updateStatus && (
             <UpdateStatusDropdown
               plan={plan}
@@ -155,7 +164,8 @@ ActionBtns.propTypes = {
     updateStatus: PropTypes.bool,
     discard: PropTypes.bool,
     submitAsMandatory: PropTypes.bool,
-    amendFromLegal: PropTypes.bool
+    amendFromLegal: PropTypes.bool,
+    manageAgents: PropTypes.bool
   }),
   onViewPDFClicked: PropTypes.func,
   onViewVersionsClicked: PropTypes.func,
