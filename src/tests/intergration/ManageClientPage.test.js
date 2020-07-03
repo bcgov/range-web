@@ -131,7 +131,7 @@ describe('Manage client page', () => {
     mockAxios.onGet(`${API.GET_USERS}/${mockUser.id}`).reply(200, {
       ...mockUser,
       clients: mockUser.clients.map(clientId =>
-        mockClients.find(c => c.id === clientId)
+        mockClients.find(c => c.ids.includes(clientId))
       )
     })
 
@@ -170,7 +170,7 @@ describe('Manage client page', () => {
     mockAxios.onGet(`${API.GET_USERS}/${mockUser.id}`).reply(200, {
       ...mockUser,
       clients: mockUser.clients.map(clientId =>
-        mockClients.find(c => c.id === clientId)
+        mockClients.find(c => c.ids.includes(clientId))
       )
     })
     mockAxios.onPost(`${API.CREATE_USER_CLIENT_LINK(mockUser.id)}`).reply(400, {
@@ -178,13 +178,7 @@ describe('Manage client page', () => {
     })
 
     const ManageClientWithRouter = withRouter(ManageClientPage)
-    const {
-      findByLabelText,
-      getByRole,
-      getByText,
-      queryByText,
-      debug
-    } = render(
+    const { findByLabelText, getByRole, getByText, queryByText } = render(
       <MemoryRouter initialEntries={['manage-client']}>
         <ManageClientWithRouter />
       </MemoryRouter>
