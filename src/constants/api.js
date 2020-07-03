@@ -87,6 +87,9 @@ export const DELETE_USER_CLIENT_LINK = (userId, clientId) =>
 export const CREATE_RUP = '/v1/plan'
 export const GET_RUP = planId => `/v1/plan/${planId}`
 export const GET_PLAN_PDF = planId => `/v1/report/${planId}`
+export const GET_CLIENT_AGREEMENTS = planId => `/v1/client/agreements/${planId}`
+export const UPDATE_CLIENT_AGREEMENT = (planId, clientAgreementId) =>
+  `/v1/client/agreements/${planId}/${clientAgreementId}`
 export const UPDATE_PLAN_STATUS = planId => `/v1/plan/${planId}/status`
 export const UPDATE_RUP = planId => `/v1/plan/${planId}`
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
