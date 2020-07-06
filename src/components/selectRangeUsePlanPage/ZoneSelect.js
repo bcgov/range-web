@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles'
+import React, { useState, useEffect } from 'react'
+import useSWR from 'swr'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import ListItemText from '@material-ui/core/ListItemText'
 import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
+import { getUserFullName, axios, getAuthHeaderConfig } from '../../utils'
+import * as API from '../../constants/api'
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -35,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const checkBoxStyles = theme => ({
+const checkBoxStyles = () => ({
   root: {
     '&$checked': {
       color: 'rgb(0, 30, 79)'
@@ -62,14 +65,18 @@ const MenuProps = {
 export default function ZoneSelect({
   zones,
   userZones,
-  zoneUsers,
   unassignedZones,
   setSearchSelectedZones
 }) {
   const classes = useStyles()
-  const theme = useTheme()
   const [selectedZones, setSelectedZones] = useState([])
   const [zoneMap, setZoneMap] = useState()
+
+  const { data: users, error, isValidating } = useSWR(
+    `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
+    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
+  )
+  console.log(users)
 
   useEffect(() => {
     if (userZones) {
@@ -98,6 +105,14 @@ export default function ZoneSelect({
     setSearchSelectedZones(selectedZones)
   }
 
+  if (isValidating && !users) {
+    return <span>Loading zones</span>
+  }
+
+  if (error) {
+    return <span>Error fetching users</span>
+  }
+
   return (
     <FormControl className={classes.formControl}>
       <InputLabel>Select Zones</InputLabel>
@@ -117,10 +132,10 @@ export default function ZoneSelect({
           <span style={{ color: 'black', opacity: 2.0 }}>Assigned Zones</span>
         </MenuItem>
 
-        {zoneUsers &&
+        {users &&
           userZones &&
           userZones.map(zone => {
-            const user = zoneUsers.find(user => user.id === zone.userId)
+            const user = users.find(user => user.id === zone.userId)
 
             return (
               <MenuItem
@@ -136,7 +151,7 @@ export default function ZoneSelect({
                   }}
                   primary={
                     <span style={{ color: '#002C71' }}>
-                      {user.givenName} {user.familyName}
+                      {getUserFullName(user)}
                     </span>
                   }
                   secondary={<span>{zone.description}</span>}
@@ -149,10 +164,10 @@ export default function ZoneSelect({
           <span style={{ color: 'black', opacity: 2.0 }}>Unassigned Zones</span>
         </MenuItem>
 
-        {zoneUsers &&
+        {users &&
           unassignedZones &&
           unassignedZones.map(zone => {
-            const user = zoneUsers.find(user => user.id === zone.userId)
+            const user = users.find(user => user.id === zone.userId)
 
             return (
               <MenuItem
@@ -160,10 +175,7 @@ export default function ZoneSelect({
                 key={zone.id}
                 value={zone.id}
                 style={{ backgroundColor: 'transparent' }}>
-                <CustomCheckbox
-                  //onChange={handleChange}
-                  checked={selectedZones.indexOf(zone.id) > -1}
-                />
+                <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
                 <ListItemText
                   classes={{
                     primary: classes.listItemTextPrimary,
@@ -171,7 +183,7 @@ export default function ZoneSelect({
                   }}
                   primary={
                     <span style={{ color: '#002C71' }}>
-                      {user.givenName} {user.familyName}
+                      {getUserFullName(user)}
                     </span>
                   }
                   secondary={<span>{zone.description}</span>}
