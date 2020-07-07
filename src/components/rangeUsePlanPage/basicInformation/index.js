@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useSWR from 'swr'
+import { CircularProgress } from '@material-ui/core'
+import * as API from '../../../constants/api'
 import { TextField, InfoTip } from '../../common'
 import * as strings from '../../../constants/strings'
 import {
@@ -7,7 +10,9 @@ import {
   capitalize,
   getUserFullName,
   getAgreementHolders,
-  getClientFullName
+  getClientFullName,
+  axios,
+  getAuthHeaderConfig
 } from '../../../utils'
 import PermissionsField from '../../common/PermissionsField'
 import { BASIC_INFORMATION } from '../../../constants/fields'
@@ -15,6 +20,12 @@ import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+
+const getAgentForClient = (client, clientAgreements) => {
+  const { agent } = clientAgreements.find(ca => ca.clientId === client.id)
+
+  return agent
+}
 
 const BasicInformation = ({ plan, agreement }) => {
   const zone = agreement && agreement.zone
@@ -39,6 +50,14 @@ const BasicInformation = ({ plan, agreement }) => {
     agreementExemptionStatus: aes,
     clients
   } = agreement || {}
+
+  const {
+    data: clientAgreements,
+    isValidating: isLoadingClientAgreements,
+    error: clientAgreementsError
+  } = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), key =>
+    axios.get(key, getAuthHeaderConfig()).then(res => res.data)
+  )
 
   const exemptionStatusName = aes && aes.description
   const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(
@@ -142,21 +161,44 @@ const BasicInformation = ({ plan, agreement }) => {
           />
         </div>
 
-        <div className="rup__plan-info rup__cell-6">
-          <div className="rup__divider" />
-          <div className="rup__info-title">Agreement Holders</div>
-          <TextField
-            label={strings.PRIMARY_AGREEMENT_HOLDER}
-            text={primaryAgreementHolderName}
-          />
-          {otherAgreementHolders.map(client => (
+        {isLoadingClientAgreements && !clientAgreements && <CircularProgress />}
+        {clientAgreementsError && (
+          <span>
+            Error fetching client agreements: {clientAgreementsError.message}
+          </span>
+        )}
+        {clientAgreements && (
+          <div className="rup__plan-info rup__cell-6">
+            <div className="rup__divider" />
+            <div className="rup__info-title">Agreement Holders</div>
             <TextField
-              key={client.id}
-              label={strings.OTHER_AGREEMENT_HOLDER}
-              text={getClientFullName(client)}
+              label={strings.PRIMARY_AGREEMENT_HOLDER}
+              text={`${primaryAgreementHolderName} ${
+                getAgentForClient(primaryAgreementHolder, clientAgreements)
+                  ? `- Agent: ${getUserFullName(
+                      getAgentForClient(
+                        primaryAgreementHolder,
+                        clientAgreements
+                      )
+                    )}`
+                  : ''
+              }`}
             />
-          ))}
-        </div>
+            {otherAgreementHolders.map(client => (
+              <TextField
+                key={client.id}
+                label={strings.OTHER_AGREEMENT_HOLDER}
+                text={`${getClientFullName(client)} ${
+                  getAgentForClient(client, clientAgreements)
+                    ? `- Agent: ${getUserFullName(
+                        getAgentForClient(client, clientAgreements)
+                      )}`
+                    : ''
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
