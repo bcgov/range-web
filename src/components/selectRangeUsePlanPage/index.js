@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import useSWR from 'swr'
 import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig } from '../../utils'
+import { axios, getAuthHeaderConfig, isUserRangeOfficer } from '../../utils'
 import Error from './Error'
 import { makeStyles } from '@material-ui/core/styles'
 import ZoneSelect from './ZoneSelect'
@@ -85,13 +85,15 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
             initialValue={term}
           />
-          <ZoneSelect
-            zones={zones}
-            userZones={userZones}
-            unassignedZones={unassignedZones}
-            zoneUsers={zoneUsers}
-            setSearchSelectedZones={setSearchSelectedZones}
-          />
+          {isUserRangeOfficer(user) && (
+            <ZoneSelect
+              zones={zones}
+              userZones={userZones}
+              unassignedZones={unassignedZones}
+              zoneUsers={zoneUsers}
+              setSearchSelectedZones={setSearchSelectedZones}
+            />
+          )}
         </div>
 
         {error ? (
