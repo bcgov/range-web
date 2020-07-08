@@ -52,8 +52,6 @@ const syncPlan = async planId => {
 
   if (isOnline) {
     if (localPlan && !localPlan.synced) {
-      console.log(localPlan)
-
       await savePlan(localPlan)
     }
 
