@@ -6,9 +6,11 @@ import {
   findConfirmationWithClientId,
   formatDateFromServer,
   isClientCurrentUser,
-  getClientFullName
+  getClientFullName,
+  isAgent
 } from '../../../../utils'
 import { AWAITING_CONFIRMATION } from '../../../../constants/strings'
+import { getUserFullName } from '../../pdf/helper'
 
 class AHConfirmationList extends Component {
   static propTypes = {
@@ -18,6 +20,7 @@ class AHConfirmationList extends Component {
   }
 
   renderConfirmation = (client, confirmation, user) => {
+    const { clientAgreements } = this.props
     const { confirmed, updatedAt } = confirmation || {}
     const confirmationDate = confirmed
       ? formatDateFromServer(updatedAt)
@@ -29,12 +32,15 @@ class AHConfirmationList extends Component {
           <Icon name="user outline" />
           <span
             className={classnames('rup__confirmation__ah-list__cname', {
-              'rup__confirmation__ah-list__cname--bold': isClientCurrentUser(
-                client,
-                user
-              )
+              'rup__confirmation__ah-list__cname--bold':
+                isClientCurrentUser(client, user) ||
+                (isAgent(clientAgreements, user, client) &&
+                  confirmation.user.id === user.id)
             })}>
-            {getClientFullName(client)}
+            {getClientFullName(client)}{' '}
+            {confirmed &&
+              !confirmation.isOwnSignature &&
+              `(by ${getUserFullName(confirmation.user)})`}
           </span>
         </div>
         <div>{confirmationDate}</div>

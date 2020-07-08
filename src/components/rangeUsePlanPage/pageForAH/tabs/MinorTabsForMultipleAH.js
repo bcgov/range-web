@@ -25,6 +25,7 @@ class MinorTabsForMultipleAH extends Component {
     const {
       user,
       clients,
+      clientAgreements,
       isAgreed,
       isSubmitting,
       handleAgreeCheckBoxChange,
@@ -93,6 +94,7 @@ class MinorTabsForMultipleAH extends Component {
           currTabId={currTabId}
           tab={tabsMap.requestSignatures}
           clients={clients}
+          clientAgreements={clientAgreements}
           user={user}
           isSubmitting={isSubmitting}
           handleTabChange={handleTabChange}

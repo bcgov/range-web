@@ -244,10 +244,12 @@ export const updateStatus = async ({ planId, note, statusId }) => {
 }
 
 export const updateConfirmation = async ({
+  user,
   planId,
   confirmationId,
   confirmed,
-  isMinorAmendment = false
+  isMinorAmendment = false,
+  isOwnSignature = true
 }) => {
   const config = {
     ...getAuthHeaderConfig(),
@@ -257,7 +259,7 @@ export const updateConfirmation = async ({
   }
   return axios.put(
     API.UPDATE_CONFIRMATION(planId, confirmationId),
-    { confirmed },
+    { confirmed, userId: user.id, isOwnSignature },
     config
   )
 }

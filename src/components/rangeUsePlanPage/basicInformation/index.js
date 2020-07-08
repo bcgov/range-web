@@ -20,6 +20,7 @@ import DateInputField from '../../common/form/DateInputField'
 import moment from 'moment'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
+import { isUUID } from 'uuid-v4'
 
 const getAgentForClient = (client, clientAgreements) => {
   const { agent } = clientAgreements.find(ca => ca.clientId === client.id)
@@ -54,7 +55,7 @@ const BasicInformation = ({ plan, agreement }) => {
   const {
     data: clientAgreements,
     isValidating: isLoadingClientAgreements,
-    error: clientAgreementsError
+    error: errorFetchingClientAgreements
   } = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), key =>
     axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )
@@ -162,10 +163,25 @@ const BasicInformation = ({ plan, agreement }) => {
         </div>
 
         {isLoadingClientAgreements && !clientAgreements && <CircularProgress />}
-        {clientAgreementsError && (
-          <span>
-            Error fetching client agreements: {clientAgreementsError.message}
-          </span>
+        {!isUUID(plan.id) && errorFetchingClientAgreements && (
+          <span>Error: {errorFetchingClientAgreements.message}</span>
+        )}
+        {!clientAgreements && isUUID(plan.id) && (
+          <div className="rup__plan-info rup__cell-6">
+            <div className="rup__divider" />
+            <div className="rup__info-title">Agreement Holders</div>
+            <TextField
+              label={strings.PRIMARY_AGREEMENT_HOLDER}
+              text={primaryAgreementHolderName}
+            />
+            {otherAgreementHolders.map(client => (
+              <TextField
+                key={client.id}
+                label={strings.OTHER_AGREEMENT_HOLDER}
+                text={getClientFullName(client)}
+              />
+            ))}
+          </div>
         )}
         {clientAgreements && (
           <div className="rup__plan-info rup__cell-6">

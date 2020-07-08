@@ -212,6 +212,7 @@ class PageForStaff extends Component {
     const {
       agreement,
       user,
+      clientAgreements,
       references,
       plan,
       planStatusHistoryMap,
@@ -280,6 +281,7 @@ class PageForStaff extends Component {
           <Notifications
             plan={plan}
             user={user}
+            clientAgreements={clientAgreements}
             references={references}
             planStatusHistoryMap={planStatusHistoryMap}
             planTypeDescription={planTypeDescription}

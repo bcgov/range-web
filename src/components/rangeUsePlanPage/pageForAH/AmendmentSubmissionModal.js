@@ -18,7 +18,7 @@ import {
   isSubmittedAsMandatory,
   findStatusWithCode,
   isSingleClient,
-  findConfirmationWithUser
+  findConfirmationsWithUser
 } from '../../../utils'
 import MandatoryTabsForSingleAH from './tabs/MandatoryTabsForSingleAH'
 import MandatoryTabsForMultipleAH from './tabs/MandatoryTabsForMultipleAH'
@@ -89,7 +89,13 @@ class AmendmentSubmissionModal extends Component {
   }
 
   submitAmendment = (plan, status, amendmentType) => {
-    const { updateStatusAndContent, updateRUP, fetchPlan, user } = this.props
+    const {
+      updateStatusAndContent,
+      updateRUP,
+      fetchPlan,
+      user,
+      clientAgreements
+    } = this.props
     const { note } = this.state
 
     const onRequest = () => {
@@ -98,17 +104,26 @@ class AmendmentSubmissionModal extends Component {
     const onSuccess = async () => {
       // awaiting confirmation
       if (status.id === 18) {
-        const currUserConfirmation = findConfirmationWithUser(
+        const currUserConfirmations = findConfirmationsWithUser(
           user,
-          plan.confirmations
+          plan.confirmations,
+          clientAgreements
         )
 
-        await updateConfirmation({
-          planId: plan.id,
-          confirmationId: currUserConfirmation.id,
-          confirmed: true,
-          isMinorAmendment: true
-        })
+        for (const currUserConfirmation of currUserConfirmations) {
+          const isOwnSignature = user.clients.some(
+            c => c.id === currUserConfirmation.clientId
+          )
+
+          await updateConfirmation({
+            planId: plan.id,
+            user,
+            confirmationId: currUserConfirmation.id,
+            confirmed: true,
+            isMinorAmendment: true,
+            isOwnSignature
+          })
+        }
       }
 
       // update amendment type of the plan
@@ -186,7 +201,14 @@ class AmendmentSubmissionModal extends Component {
   }
 
   render() {
-    const { open, references, plan, clients, user } = this.props
+    const {
+      open,
+      references,
+      plan,
+      clients,
+      user,
+      clientAgreements
+    } = this.props
     const { amendmentTypeCode, currTabId } = this.state
     const { amendmentTypeId } = plan
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
@@ -214,6 +236,7 @@ class AmendmentSubmissionModal extends Component {
       ...this.state,
       user,
       clients,
+      clientAgreements,
       isAmendmentTypeDecided,
       isMinor,
       isMandatory,
