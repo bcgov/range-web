@@ -18,7 +18,6 @@ const PlanTableRow = ({ plan }) => {
   const references = useReferences()
   const { page } = useParams()
   const location = useLocation()
-  // console.log(loc)
 
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
   if (!amendmentTypes) return <Loader />

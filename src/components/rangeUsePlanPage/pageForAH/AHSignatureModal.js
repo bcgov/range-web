@@ -8,7 +8,7 @@ import {
   REFERENCE_KEY,
   AMENDMENT_TYPE
 } from '../../../constants/variables'
-import { findConfirmationWithUser, isPlanAmendment } from '../../../utils'
+import { isPlanAmendment, findConfirmationsWithUser } from '../../../utils'
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
 import { planUpdated, confirmationUpdated } from '../../../actions'
 import ConfirmationTabs from './tabs/ConfirmationTabs'
@@ -47,12 +47,13 @@ class AHSignatureModal extends Component {
     this.props.onClose()
   }
 
-  handleConfirmation = e => {
+  handleConfirmation = async e => {
     e.preventDefault()
     const {
       updateRUPConfirmation,
       plan,
       user,
+      clientAgreements,
       confirmationUpdated,
       planUpdated,
       references
@@ -75,9 +76,10 @@ class AHSignatureModal extends Component {
       throw err
     }
 
-    const currUserConfirmation = findConfirmationWithUser(
+    const currUserConfirmations = findConfirmationsWithUser(
       user,
-      plan.confirmations
+      plan.confirmations,
+      clientAgreements
     )
 
     const confirmed = true
@@ -90,19 +92,29 @@ class AHSignatureModal extends Component {
 
     onRequest()
 
-    return updateRUPConfirmation(
-      plan,
-      currUserConfirmation.id,
-      confirmed,
-      isMinorAmendment
-    ).then(
-      data => {
-        onSuccess(data)
-      },
-      err => {
-        onError(err)
+    try {
+      let data
+      for (const currUserConfirmation of currUserConfirmations) {
+        if (!currUserConfirmation.confirmed) {
+          const isOwnSignature = user.clients.some(
+            c => c.id === currUserConfirmation.clientId
+          )
+          const res = await updateRUPConfirmation(
+            plan,
+            user,
+            currUserConfirmation.id,
+            confirmed,
+            isMinorAmendment,
+            isOwnSignature
+          )
+          data = res
+        }
       }
-    )
+
+      onSuccess(data)
+    } catch (e) {
+      onError(e)
+    }
   }
 
   handleSubmissionChoiceChange = (e, { value: confirmationOption }) => {

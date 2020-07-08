@@ -52,6 +52,7 @@ class ConfirmChoiceTab extends Component {
     const {
       user,
       clients,
+      clientAgreements,
       plan,
       currTabId,
       tab,
@@ -126,7 +127,12 @@ class ConfirmChoiceTab extends Component {
               />
             </Form.Field>
 
-            <AHConfirmationList user={user} clients={clients} plan={plan} />
+            <AHConfirmationList
+              user={user}
+              clients={clients}
+              plan={plan}
+              clientAgreements={clientAgreements}
+            />
 
             <Form.Checkbox
               label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker."

@@ -13,6 +13,7 @@ class TabsForMultipleAH extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object).isRequired,
+    clientAgreements: PropTypes.array.isRequired,
     statusCode: PropTypes.string,
     isSubmitting: PropTypes.bool.isRequired,
     isAgreed: PropTypes.bool.isRequired,
@@ -50,7 +51,8 @@ class TabsForMultipleAH extends Component {
       handleNoteChange,
       onSubmitClicked,
       onClose,
-      user
+      user,
+      clientAgreements
     } = this.props
     const { currTabId } = this.state
     const tabsMap = {
@@ -166,6 +168,7 @@ class TabsForMultipleAH extends Component {
           currTabId={currTabId}
           tab={tabsMap.requestSignatures}
           clients={clients}
+          clientAgreements={clientAgreements}
           user={user}
           isSubmitting={isSubmitting}
           handleTabChange={this.handleTabChange}

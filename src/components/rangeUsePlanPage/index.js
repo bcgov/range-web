@@ -57,6 +57,7 @@ const Base = ({
   const {
     setCurrentPlanId,
     currentPlan,
+    clientAgreements,
     currentPlanId,
     fetchPlan,
     isFetchingPlan,
@@ -243,6 +244,7 @@ const Base = ({
                   references={references}
                   agreement={agreement}
                   plan={plan}
+                  clientAgreements={clientAgreements}
                   fetchPlan={fetchPlan}
                   user={user}
                   history={history}
@@ -255,6 +257,7 @@ const Base = ({
                   references={references}
                   agreement={agreement}
                   plan={plan}
+                  clientAgreements={clientAgreements}
                   fetchPlan={fetchPlan}
                   user={user}
                   history={history}

@@ -59,7 +59,6 @@ export class SignInBox extends Component {
       resetTimeoutForReAuth(reauthenticate)
       fetchUser().then(({ piaSeen }) => {
         if (!piaSeen) {
-          console.log('open pia modal')
           openPiaModal()
         }
       })

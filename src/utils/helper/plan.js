@@ -10,7 +10,7 @@ import {
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
 import { isUserAgreementHolder, isUserStaff } from './user'
-import { findConfirmationWithUser } from './client'
+import { findConfirmationsWithUser } from './client'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -171,10 +171,19 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
   }
 }
 
-export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
+export const canUserSubmitConfirmation = (
+  status,
+  user,
+  confirmations = [],
+  clientAgreements = []
+) => {
   if (isStatusAwaitingConfirmation(status) && user) {
     const isConfirmed =
-      findConfirmationWithUser(user, confirmations)?.confirmed ?? false
+      findConfirmationsWithUser(
+        user,
+        confirmations,
+        clientAgreements ?? []
+      )?.every(ca => ca.confirmed) ?? false
 
     // users who haven't confirmed yet can submit the confirmation
     return !isConfirmed

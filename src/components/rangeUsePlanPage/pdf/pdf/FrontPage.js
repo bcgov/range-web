@@ -4,6 +4,7 @@ import { IMAGE_SRC } from '../../../../constants/variables'
 import Footer from './Footer'
 import moment from 'moment'
 import { config } from './common/config'
+import { getUserFullName } from '../helper'
 
 const styles = StyleSheet.create({
   page: {
@@ -78,6 +79,11 @@ const FrontPage = ({ plan }) => (
             {confirmation && confirmation.confirmed
               ? moment(confirmation.updatedAt).format('MMMM DD, YYYY')
               : 'Awaiting Signature'}
+            {confirmation &&
+              confirmation.confirmed &&
+              !confirmation.isOwnSignature && (
+                <Text> by {getUserFullName(confirmation.user)}</Text>
+              )}
           </Text>
         )
       })}

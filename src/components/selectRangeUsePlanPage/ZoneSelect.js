@@ -76,7 +76,6 @@ export default function ZoneSelect({
     `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
     key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )
-  console.log(users)
 
   useEffect(() => {
     if (userZones) {

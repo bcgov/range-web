@@ -4,7 +4,7 @@ import { Icon, Modal } from 'semantic-ui-react'
 import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList'
 import { PrimaryButton } from '../../common'
 
-const AHSignaturesStatusModal = ({ plan, user }) => {
+const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
   const [isModalOpen, setModalOpen] = useState(false)
 
   const openModal = () => setModalOpen(true)
@@ -38,7 +38,12 @@ const AHSignaturesStatusModal = ({ plan, user }) => {
               There are still agreement holders who have not yet confirmed their
               confirmation choice.
             </span>
-            <AHConfirmationList user={user} clients={clients} plan={plan} />
+            <AHConfirmationList
+              user={user}
+              clients={clients}
+              plan={plan}
+              clientAgreements={clientAgreements}
+            />
             <span>
               This amendment will not be submitted until all agreement holders
               have confirmed and eSigned.

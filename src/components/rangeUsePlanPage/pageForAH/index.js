@@ -174,7 +174,7 @@ class PageForAH extends Component {
 
   renderActionBtns = () => {
     const { isSavingAsDraft, isSubmitting, isCreatingAmendment } = this.state
-    const { openConfirmationModal, plan, user } = this.props
+    const { openConfirmationModal, plan, user, clientAgreements } = this.props
     const { confirmations, status } = plan
 
     return (
@@ -182,7 +182,12 @@ class PageForAH extends Component {
         permissions={{
           edit: utils.canUserEditThisPlan(plan, user),
           amend: utils.isStatusAmongApprovedStatuses(status),
-          confirm: utils.canUserSubmitConfirmation(status, user, confirmations),
+          confirm: utils.canUserSubmitConfirmation(
+            status,
+            user,
+            confirmations,
+            clientAgreements
+          ),
           submit: utils.canUserSubmitPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),
           amendFromLegal: utils.canUserAmendFromLegal(plan, user)
@@ -217,6 +222,7 @@ class PageForAH extends Component {
 
     const {
       plan,
+      clientAgreements,
       user,
       agreement,
       references,
@@ -239,6 +245,7 @@ class PageForAH extends Component {
           onClose={this.closePlanSubmissionModal}
           plan={plan}
           clients={clients}
+          clientAgreements={clientAgreements}
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
         />
@@ -248,6 +255,7 @@ class PageForAH extends Component {
           onClose={this.closeAHSignatureModal}
           plan={plan}
           clients={clients}
+          clientAgreements={clientAgreements}
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
           onSuccess={() => fetchPlan()}
@@ -259,6 +267,7 @@ class PageForAH extends Component {
           onClose={this.closeAmendmentSubmissionModal}
           plan={plan}
           clients={clients}
+          clientAgreements={clientAgreements}
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
         />
@@ -290,6 +299,7 @@ class PageForAH extends Component {
           <Notifications
             plan={plan}
             user={user}
+            clientAgreements={clientAgreements}
             references={references}
             planStatusHistoryMap={planStatusHistoryMap}
           />
