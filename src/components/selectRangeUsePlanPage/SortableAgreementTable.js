@@ -20,7 +20,7 @@ import { Status } from '../common'
 import { Button } from '@material-ui/core'
 import { useUser } from '../../providers/UserProvider'
 import NewPlanButton from './NewPlanButton'
-import { canUserEditThisPlan } from '../../utils'
+import { canUserEditThisPlan, doesStaffOwnPlan } from '../../utils'
 import { canUserEdit } from '../common/PermissionsField'
 import { PLAN } from '../../constants/fields'
 import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
@@ -212,7 +212,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
         </TableCell>
         <TableCell>
           {agreement.plans.length === 0 ? (
-            canUserEdit(PLAN.ADD, user) ? (
+            canUserEdit(PLAN.ADD, user) &&
+            doesStaffOwnPlan({ ...agreement.plans[0], agreement }, user) ? (
               <NewPlanButton agreement={agreement} />
             ) : (
               <div style={{ padding: '6px 16px' }}>No plan</div>
