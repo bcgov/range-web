@@ -161,6 +161,10 @@ const useStyles = makeStyles(theme => ({
 function PlanRow({ agreement, location, user, currentPage }) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
+  const canEdit = canUserEditThisPlan(
+    { ...agreement.plans[0], agreement },
+    user
+  )
   return (
     <>
       <TableRow className={classes.root} hover tabIndex={-1} key={agreement.id}>
@@ -225,16 +229,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
                   prevSearch: location.search
                 }
               }}
-              endIcon={
-                canUserEditThisPlan(agreement.plans[0], user) ? (
-                  <EditIcon />
-                ) : (
-                  <ViewIcon />
-                )
-              }>
-              {canUserEditThisPlan(agreement.plans[0], user)
-                ? 'Edit'
-                : strings.VIEW}
+              endIcon={canEdit ? <EditIcon /> : <ViewIcon />}>
+              {canEdit ? 'Edit' : strings.VIEW}
             </Button>
           )}
         </TableCell>

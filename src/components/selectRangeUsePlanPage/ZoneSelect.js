@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
 import { getUserFullName, axios, getAuthHeaderConfig } from '../../utils'
 import * as API from '../../constants/api'
+import { useQueryParam, DelimitedNumericArrayParam } from 'use-query-params'
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -69,7 +70,10 @@ export default function ZoneSelect({
   setSearchSelectedZones
 }) {
   const classes = useStyles()
-  const [selectedZones, setSelectedZones] = useState([])
+  const [selectedZones = [], setSelectedZones] = useQueryParam(
+    'selectedZones',
+    DelimitedNumericArrayParam
+  )
   const [zoneMap, setZoneMap] = useState()
 
   const { data: users, error, isValidating } = useSWR(
@@ -78,10 +82,12 @@ export default function ZoneSelect({
   )
 
   useEffect(() => {
-    if (userZones) {
+    if (userZones && selectedZones.length === 0) {
       const initialSelectedZones = userZones.map(zone => zone.id)
       setSelectedZones(initialSelectedZones)
     }
+
+    setSearchSelectedZones(selectedZones)
   }, [])
 
   useEffect(() => {
@@ -104,7 +110,7 @@ export default function ZoneSelect({
     setSearchSelectedZones(selectedZones)
   }
 
-  if (isValidating && !users) {
+  if ((isValidating && !users) || !zoneMap) {
     return <span>Loading zones</span>
   }
 
