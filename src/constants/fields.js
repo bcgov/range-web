@@ -112,5 +112,6 @@ export const PLAN = {
 export const ATTACHMENTS = {
   FILENAME: 'attachment.file.name',
   CREATED_AT: 'attachment.createdAt',
-  CREATOR: 'attachment.creator'
+  CREATOR: 'attachment.creator',
+  VIEWABLE_BY: 'attachment.viewableBy'
 }

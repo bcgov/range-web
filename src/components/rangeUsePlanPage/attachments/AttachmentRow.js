@@ -1,10 +1,29 @@
 import React from 'react'
 import { ATTACHMENTS } from '../../../constants/fields'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { Dropdown, Icon } from 'semantic-ui-react'
+import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react'
 import { formatDateFromServer } from '../../../utils'
+import { Dropdown, Form } from 'formik-semantic-ui'
 
-const AttachmentRow = ({ attachment, onDelete }) => (
+const options = [
+  {
+    key: 'userOnly',
+    value: 'userOnly',
+    text: 'Just me'
+  },
+  {
+    key: 'allStaff',
+    value: 'allStaff',
+    text: 'All staff'
+  },
+  {
+    key: 'everyone',
+    value: 'everyone',
+    text: 'All staff and agreement holders'
+  }
+]
+
+const AttachmentRow = ({ attachment, index, onDelete }) => (
   <div className="rup__attachments__row">
     <PermissionsField
       permission={ATTACHMENTS.FILENAME}
@@ -24,6 +43,27 @@ const AttachmentRow = ({ attachment, onDelete }) => (
       displayValue={`${attachment.creator.givenName} ${attachment.creator.familyName}`}
       label={'Uploaded By'}
     />
+    <PermissionsField
+      permission={ATTACHMENTS.VIEWABLE_BY}
+      inputProps={{ placeholder: 'Just me' }}
+      name={`attachments[${index}].viewableBy`}
+      component={Dropdown}
+      options={options}
+      label="Viewable by"
+      fast
+      //fieldProps={{ required: false }}
+    />
+    {/* <Form.Group grouped>
+      <Checkbox
+        name={`attachments[${index}].canAHview`}
+        component={Checkbox}
+        label="Can AH view"
+        displayValue={false}
+        inputProps={{
+          disabled: false
+        }}
+      />
+    </Form.Group> */}
     <IfEditable permission={ATTACHMENTS}>
       <div
         style={{
@@ -32,7 +72,7 @@ const AttachmentRow = ({ attachment, onDelete }) => (
           justifyContent: 'center',
           marginLeft: 15
         }}>
-        <Dropdown
+        <PlainDropdown
           trigger={<Icon name="ellipsis vertical" />}
           options={[
             {

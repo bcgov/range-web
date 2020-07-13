@@ -106,6 +106,8 @@ export const RESTORE_RUP_VERSION = (planId, version) =>
 export const CREATE_RUP_STATUS_RECORD = planId =>
   `/v1/plan/${planId}/status-record`
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`
+export const CREATE_RUP_ATTACHMENT = planId => `/v1/plan/${planId}/attachment`
+
 export const UPDATE_RUP_PASTURE = (planId, pastureId) =>
   `/v1/plan/${planId}/pasture/${pastureId}`
 export const DELETE_RUP_PASTURE = (planId, pastureId) =>
@@ -205,6 +207,8 @@ export const CREATE_RUP_MANAGEMENT_CONSIDERATION = planId =>
   `/v1/plan/${planId}/management-consideration`
 export const UPDATE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) =>
   `/v1/plan/${planId}/management-consideration/${considerationId}`
+export const UPDATE_RUP_ATTACHMENT = (planId, attachmentId) =>
+  `/v1/plan/${planId}/attachment/${attachmentId}`
 export const DELETE_RUP_MANAGEMENT_CONSIDERATION = (planId, considerationId) =>
   `/v1/plan/${planId}/management-consideration/${considerationId}`
 export const CREATE_RUP_ADDITIONAL_REQUIREMENT = planId =>

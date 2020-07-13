@@ -18,7 +18,8 @@ import {
   saveMinisterIssues,
   saveAdditionalRequirements,
   savePlantCommunities,
-  savePastures
+  savePastures,
+  saveAttachments
 } from '.'
 import {
   REFERENCE_KEY,
@@ -85,7 +86,8 @@ export const savePlan = async plan => {
     invasivePlantChecklist,
     managementConsiderations,
     ministerIssues,
-    additionalRequirements
+    additionalRequirements,
+    attachments
   } = RUPSchema.cast(plan)
 
   const config = getAuthHeaderConfig()
@@ -114,6 +116,7 @@ export const savePlan = async plan => {
   await saveManagementConsiderations(planId, managementConsiderations)
   await saveMinisterIssues(planId, ministerIssues, newPastures)
   await saveAdditionalRequirements(planId, additionalRequirements)
+  await saveAttachments(planId, attachments)
 
   return planId
 }
@@ -176,6 +179,7 @@ export const createNewPlan = agreement => {
     planStatusHistory: [],
     pastures: [],
     ministerIssues: [],
+    attachments: [],
     invasivePlantChecklist: {
       beginInUninfestedArea: false,
       equipmentAndVehiclesParking: false,
