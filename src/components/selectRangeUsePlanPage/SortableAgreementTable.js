@@ -20,7 +20,7 @@ import { Status } from '../common'
 import { Button } from '@material-ui/core'
 import { useUser } from '../../providers/UserProvider'
 import NewPlanButton from './NewPlanButton'
-import { canUserEditThisPlan } from '../../utils'
+import { canUserEditThisPlan, doesStaffOwnPlan } from '../../utils'
 import { canUserEdit } from '../common/PermissionsField'
 import { PLAN } from '../../constants/fields'
 import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
@@ -161,6 +161,10 @@ const useStyles = makeStyles(theme => ({
 function PlanRow({ agreement, location, user, currentPage }) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
+  const canEdit = canUserEditThisPlan(
+    { ...agreement.plans[0], agreement },
+    user
+  )
   return (
     <>
       <TableRow className={classes.root} hover tabIndex={-1} key={agreement.id}>
@@ -208,7 +212,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
         </TableCell>
         <TableCell>
           {agreement.plans.length === 0 ? (
-            canUserEdit(PLAN.ADD, user) ? (
+            canUserEdit(PLAN.ADD, user) &&
+            doesStaffOwnPlan({ ...agreement.plans[0], agreement }, user) ? (
               <NewPlanButton agreement={agreement} />
             ) : (
               <div style={{ padding: '6px 16px' }}>No plan</div>
@@ -225,16 +230,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
                   prevSearch: location.search
                 }
               }}
-              endIcon={
-                canUserEditThisPlan(agreement.plans[0], user) ? (
-                  <EditIcon />
-                ) : (
-                  <ViewIcon />
-                )
-              }>
-              {canUserEditThisPlan(agreement.plans[0], user)
-                ? 'Edit'
-                : strings.VIEW}
+              endIcon={canEdit ? <EditIcon /> : <ViewIcon />}>
+              {canEdit ? 'Edit' : strings.VIEW}
             </Button>
           )}
         </TableCell>

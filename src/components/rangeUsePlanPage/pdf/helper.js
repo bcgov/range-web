@@ -10,9 +10,6 @@ import {
 import { NOT_PROVIDED } from '../../../constants/strings'
 
 export const getPDFStatus = status => {
-  console.log(PDF_DRAFT_STATUSES)
-  console.log(PDF_DRAFT_STATUSES.includes(status.code))
-
   if (PDF_DRAFT_STATUSES.includes(status.code)) {
     return 'DRAFT'
   } else if (PDF_IN_EFFECT_STATUSES.includes(status.code)) {

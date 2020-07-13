@@ -126,9 +126,11 @@ export const createRUPStatusRecord = (plan, newStatus, note) => (
 
 export const updateRUPConfirmation = (
   plan,
+  user,
   confirmationId,
   confirmed,
-  isMinorAmendment
+  isMinorAmendment,
+  isOwnSignature = true
 ) => (dispatch, getState) => {
   const { id: planId } = plan
   const config = {
@@ -139,7 +141,11 @@ export const updateRUPConfirmation = (
   }
 
   return axios
-    .put(API.UPDATE_CONFIRMATION(planId, confirmationId), { confirmed }, config)
+    .put(
+      API.UPDATE_CONFIRMATION(planId, confirmationId),
+      { confirmed, userId: user.id, isOwnSignature },
+      config
+    )
     .then(
       response => {
         return response.data

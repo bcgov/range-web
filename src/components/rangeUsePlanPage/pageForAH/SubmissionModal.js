@@ -11,7 +11,7 @@ import { planUpdated } from '../../../actions'
 import {
   isSingleClient,
   findStatusWithCode,
-  findConfirmationWithUser
+  findConfirmationsWithUser
 } from '../../../utils'
 import TabsForSingleAH from './tabs/TabsForSingleAH'
 import TabsForMultipleAH from './tabs/TabsForMultipleAH'
@@ -69,7 +69,8 @@ class SubmissionModal extends Component {
       updateStatusAndContent,
       updateRUPConfirmation,
       fetchPlan,
-      user
+      user,
+      clientAgreements
     } = this.props
     const { note } = this.state
 
@@ -77,19 +78,27 @@ class SubmissionModal extends Component {
       this.setState({ isSubmitting: true })
     }
     const onSuccess = async () => {
-      const currUserConfirmation = findConfirmationWithUser(
+      const currUserConfirmations = findConfirmationsWithUser(
         user,
-        plan.confirmations
+        plan.confirmations,
+        clientAgreements
       )
       const confirmed = true
       const isMinorAmendment = false
       if (status.id === 14 || status.id === 18) {
-        await updateRUPConfirmation(
-          plan,
-          currUserConfirmation.id,
-          confirmed,
-          isMinorAmendment
-        )
+        for (const currUserConfirmation of currUserConfirmations) {
+          const isOwnSignature = user.clients.some(
+            c => c.id === currUserConfirmation.clientId
+          )
+          await updateRUPConfirmation(
+            plan,
+            user,
+            currUserConfirmation.id,
+            confirmed,
+            isMinorAmendment,
+            isOwnSignature
+          )
+        }
       }
 
       await fetchPlan()
@@ -127,7 +136,7 @@ class SubmissionModal extends Component {
   }
 
   render() {
-    const { open, clients, user } = this.props
+    const { open, clients, user, clientAgreements } = this.props
     const { isSubmitting, statusCode, isAgreed, note } = this.state
 
     return (
@@ -153,6 +162,7 @@ class SubmissionModal extends Component {
 
           <TabsForMultipleAH
             clients={clients}
+            clientAgreements={clientAgreements}
             statusCode={statusCode}
             isAgreed={isAgreed}
             note={note}

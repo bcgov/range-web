@@ -10,7 +10,7 @@ import {
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
 import { isUserAgreementHolder, isUserStaff } from './user'
-import { findConfirmationWithUser } from './client'
+import { findConfirmationsWithUser } from './client'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -161,9 +161,10 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
 
   if (user.roles.includes('myra_range_officer')) {
     return (
-      status.code === PLAN_STATUS.STAFF_DRAFT ||
-      status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF ||
-      status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY
+      doesStaffOwnPlan(plan, user) &&
+      (status.code === PLAN_STATUS.STAFF_DRAFT ||
+        status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF ||
+        status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY)
     )
   }
   if (user.roles.includes('myra_client')) {
@@ -171,15 +172,35 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
   }
 }
 
-export const canUserSubmitConfirmation = (status, user, confirmations = []) => {
+export const canUserSubmitConfirmation = (
+  status,
+  user,
+  confirmations = [],
+  clientAgreements = []
+) => {
   if (isStatusAwaitingConfirmation(status) && user) {
     const isConfirmed =
-      findConfirmationWithUser(user, confirmations)?.confirmed ?? false
+      findConfirmationsWithUser(
+        user,
+        confirmations,
+        clientAgreements ?? []
+      )?.every(ca => ca.confirmed) ?? false
 
     // users who haven't confirmed yet can submit the confirmation
     return !isConfirmed
   }
   return false
+}
+
+export const doesStaffOwnPlan = (plan = {}, user = {}) => {
+  return plan?.agreement?.zone?.userId === user.id
+}
+
+export const canUserAmendPlan = (plan = {}, user = {}) => {
+  return (
+    isStatusAmongApprovedStatuses(plan.status) &&
+    doesStaffOwnPlan(plan.agreement, user)
+  )
 }
 
 export const canUserEditThisPlan = (plan = {}, user = {}) => {
@@ -191,7 +212,9 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusMandatoryAmendmentStaff(status) ||
     isStatusSubmittedAsMandatory(status)
   ) {
-    return user.roles.includes('myra_range_officer')
+    return (
+      user.roles.includes('myra_range_officer') && doesStaffOwnPlan(plan, user)
+    )
   }
 
   if (
@@ -212,7 +235,10 @@ export const canUserDiscardAmendment = (plan, user) => {
   if (!user || !plan) return false
 
   if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
-    return isStatusMandatoryAmendmentStaff(plan.status)
+    return (
+      doesStaffOwnPlan(plan, user) &&
+      isStatusMandatoryAmendmentStaff(plan.status)
+    )
   }
 
   if (user.roles.includes(USER_ROLE.AGREEMENT_HOLDER)) {
@@ -225,14 +251,17 @@ export const canUserDiscardAmendment = (plan, user) => {
 export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false
 
-  return isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status)
+  return (
+    doesStaffOwnPlan(plan, user) &&
+    (isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status))
+  )
 }
 
 export const canUserSubmitAsMandatory = (plan, user) => {
   if (!user || !plan) return false
 
   if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
-    return isStatusStandsReview(plan.status)
+    return doesStaffOwnPlan(plan, user) && isStatusStandsReview(plan.status)
   }
 
   return false

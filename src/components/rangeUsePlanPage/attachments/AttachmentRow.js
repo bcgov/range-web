@@ -51,19 +51,8 @@ const AttachmentRow = ({ attachment, index, onDelete }) => (
       options={options}
       label="Viewable by"
       fast
-      //fieldProps={{ required: false }}
+      fieldProps={{ required: false }}
     />
-    {/* <Form.Group grouped>
-      <Checkbox
-        name={`attachments[${index}].canAHview`}
-        component={Checkbox}
-        label="Can AH view"
-        displayValue={false}
-        inputProps={{
-          disabled: false
-        }}
-      />
-    </Form.Group> */}
     <IfEditable permission={ATTACHMENTS}>
       <div
         style={{

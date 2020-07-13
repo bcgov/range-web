@@ -6,7 +6,9 @@ import * as reduxSchema from '../actionCreators/schema'
 import schema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
 import { connect } from 'react-redux'
-import { appendUsage } from '../utils'
+import { appendUsage, axios, getAuthHeaderConfig } from '../utils'
+import { GET_CLIENT_AGREEMENTS } from '../constants/api'
+import { isUUID } from 'uuid-v4'
 
 /**
  * @typedef {Object} PlanContext
@@ -37,6 +39,7 @@ export const PlanProvider = ({ children, storePlan }) => {
   const [isSavingPlan, setSavingPlan] = useState(false)
   const [errorFetchingPlan, setErrorFetchingPlan] = useState(null)
   const [errorSavingPlan, setErrorSavingPlan] = useState(null)
+  const [clientAgreements, setClientAgreements] = useState(null)
 
   const fetchPlan = async (planId = currentPlanId, hard = false) => {
     setFetchingPlan(true)
@@ -48,6 +51,14 @@ export const PlanProvider = ({ children, storePlan }) => {
     try {
       const plan = await API.getPlan(planId)
       setCurrentPlan(schema.cast(appendUsage(plan)))
+
+      if (!isUUID(plan.id)) {
+        const { data: clientAgreements } = await axios.get(
+          GET_CLIENT_AGREEMENTS(plan.id),
+          getAuthHeaderConfig()
+        )
+        setClientAgreements(clientAgreements)
+      }
 
       // TODO: remove redux
       const isOnline = await getNetworkStatus()
@@ -90,6 +101,7 @@ export const PlanProvider = ({ children, storePlan }) => {
       value={{
         setCurrentPlanId,
         currentPlan,
+        clientAgreements,
         isFetchingPlan,
         isSavingPlan,
         errorFetchingPlan,

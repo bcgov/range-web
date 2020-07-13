@@ -56,8 +56,6 @@ const SubmitAsMandatoryButton = () => {
 
       await fetchPlan()
     } catch (e) {
-      console.log(e)
-
       errorToast(e.message)
     }
 

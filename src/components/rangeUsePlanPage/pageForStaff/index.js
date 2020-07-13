@@ -157,19 +157,18 @@ class PageForStaff extends Component {
   renderActionBtns = () => {
     const { isSavingAsDraft, isSubmitting } = this.state
     const { openConfirmationModal, plan, user } = this.props
-    const { status } = plan
 
     return (
       <ActionBtns
         permissions={{
           edit: utils.canUserEditThisPlan(plan, user),
           submit: utils.canUserSubmitPlan(plan, user),
-          amend: utils.isStatusAmongApprovedStatuses(status),
+          amend: utils.canUserAmendPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),
-          updateStatus: true,
+          updateStatus: utils.doesStaffOwnPlan(plan, user),
           submitAsMandatory: utils.canUserSubmitAsMandatory(plan, user),
           amendFromLegal: utils.canUserAmendFromLegal(plan, user),
-          manageAgents: true
+          manageAgents: utils.doesStaffOwnPlan(plan, user)
         }}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
@@ -212,6 +211,7 @@ class PageForStaff extends Component {
     const {
       agreement,
       user,
+      clientAgreements,
       references,
       plan,
       planStatusHistoryMap,
@@ -280,6 +280,7 @@ class PageForStaff extends Component {
           <Notifications
             plan={plan}
             user={user}
+            clientAgreements={clientAgreements}
             references={references}
             planStatusHistoryMap={planStatusHistoryMap}
             planTypeDescription={planTypeDescription}

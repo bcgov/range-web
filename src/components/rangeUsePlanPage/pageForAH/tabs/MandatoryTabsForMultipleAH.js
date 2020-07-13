@@ -32,6 +32,7 @@ class MandatoryTabsForMultipleAH extends Component {
     const {
       user,
       clients,
+      clientAgreements,
       statusCode,
       isAgreed,
       isSubmitting,
@@ -144,6 +145,7 @@ class MandatoryTabsForMultipleAH extends Component {
           currTabId={currTabId}
           tab={tabsMap.requestSignatures}
           clients={clients}
+          clientAgreements={clientAgreements}
           user={user}
           isSubmitting={isSubmitting}
           handleTabChange={handleTabChange}

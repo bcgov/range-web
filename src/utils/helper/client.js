@@ -28,6 +28,15 @@ export const isClientCurrentUser = (client, user) => {
   return false
 }
 
+export const isAgent = (clientAgreements, user, client) => {
+  if (!user || !client || !clientAgreements) return false
+
+  const agencyAgreements = clientAgreements.filter(a => a.agentId === user.id)
+  const isAgent = !!agencyAgreements.find(ca => ca.clientId === client.id)
+
+  return isAgent
+}
+
 export const findConfirmationWithClientId = (clientId, confirmations) => {
   if (clientId && confirmations) {
     return confirmations.find(
@@ -52,6 +61,24 @@ export const findConfirmationWithUser = (user, confirmations) => {
   }
 
   return linkedConfirmations[0]
+}
+
+export const findConfirmationsWithUser = (
+  user,
+  confirmations,
+  clientAgreements
+) => {
+  const { clients = [] } = user
+
+  const agencyAgreements = clientAgreements.filter(ca => ca.agentId === user.id)
+
+  const linkedConfirmations = confirmations.filter(
+    confirmation =>
+      clients.some(client => client.id === confirmation.clientId) ||
+      agencyAgreements.some(a => a.clientId === confirmation.clientId)
+  )
+
+  return linkedConfirmations
 }
 
 export const getClientFullName = contact => {
