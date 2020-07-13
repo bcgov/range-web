@@ -19,9 +19,6 @@ const Attachments = ({ attachments = [], label = '', propertyName }) => {
   const [toRemove, setToRemove] = useState(null)
   const user = useUser()
 
-  console.log('propertyName')
-  console.log(propertyName)
-
   return (
     <FieldArray
       name="attachments"
