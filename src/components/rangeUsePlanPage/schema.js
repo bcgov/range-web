@@ -210,19 +210,11 @@ const RUPSchema = Yup.object().shape({
       url: Yup.string().transform(handleNull())
     })
   ),
-
-  attachments: Yup.array().of(
+  files: Yup.array().of(
     Yup.object().shape({
-      id: Yup.string(),
-      name: Yup.string(),
-      url: Yup.string(),
-      type: Yup.string(),
-      plan_id: Yup.number().integer(),
-      user_id: Yup.number().integer(),
-      viewableBy: Yup.string()
+      url: Yup.string().required('File has not uploaded yet')
     })
   ),
-
   ministerIssues: Yup.array().of(
     Yup.object().shape({
       pastures: Yup.array(),

@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import uuid from 'uuid-v4'
 import { Icon, Confirm } from 'semantic-ui-react'
 import { PrimaryButton } from '../../common'
 import { IfEditable } from '../../common/PermissionsField'
-import { FieldArray } from 'formik'
+import { FieldArray, useFormikContext } from 'formik'
 import AttachmentRow from './AttachmentRow'
 import { useUser } from '../../../providers/UserProvider'
-import { deleteAttachment } from '../../../api'
+import { deleteAttachment, getSignedUploadUrl } from '../../../api'
 import { ATTACHMENTS } from '../../../constants/fields'
+import { axios } from '../../../utils'
 
 const sortByDate = (a, b) => {
   if (b.uploadDate > a.uploadDate) return -1
@@ -15,13 +16,32 @@ const sortByDate = (a, b) => {
   return 0
 }
 
-const Attachments = ({ attachments = [], label = '', propertyName }) => {
+const Attachments = ({
+  planId,
+  attachments = [],
+  label = '',
+  propertyName
+}) => {
   const [toRemove, setToRemove] = useState(null)
-  const user = useUser()
+  const formik = useFormikContext()
+
+  const handleUpload = async (file, attachment, index) => {
+    const fieldName = `files.${index}`
+    try {
+      const signedUrl = await getSignedUploadUrl(file.name)
+      const formData = new FormData()
+      formData.append(file.name, file)
+      await axios.put(signedUrl, formData)
+
+      formik.setFieldValue(`${fieldName}.url`, file.name)
+    } catch (e) {
+      formik.setFieldValue(`${fieldName}.error`, e)
+    }
+  }
 
   return (
     <FieldArray
-      name="attachments"
+      name="files"
       render={({ push, remove }) => (
         <>
           <div className="rup__attachments">
@@ -39,12 +59,13 @@ const Attachments = ({ attachments = [], label = '', propertyName }) => {
                         attachment={attachment}
                         onDelete={() => setToRemove(index)}
                         index={index}
+                        error={formik.errors?.files?.[index]?.url}
                       />
                     )
                   }
                 })
               )}
-              <IfEditable permission={ATTACHMENTS}>
+              <IfEditable permission={ATTACHMENTS.ADD}>
                 <PrimaryButton
                   inverted
                   compact
@@ -58,12 +79,20 @@ const Attachments = ({ attachments = [], label = '', propertyName }) => {
                 <input
                   name={propertyName}
                   onChange={event => {
-                    push({
-                      file: event.target.files[0],
-                      createdAt: new Date(),
-                      creator: user,
-                      type: propertyName
-                    })
+                    for (const [index, file] of Array.from(
+                      event.target.files
+                    ).entries()) {
+                      const attachment = {
+                        name: file.name,
+                        createdAt: new Date(),
+                        type: propertyName,
+                        access: 'staff_only',
+                        id: uuid()
+                      }
+
+                      push(attachment)
+                      handleUpload(file, attachment, attachments.length + index)
+                    }
                   }}
                   id={`fileInput${propertyName}`}
                   className="rup__attachments__file-button"
@@ -81,7 +110,7 @@ const Attachments = ({ attachments = [], label = '', propertyName }) => {
                 const attachment = attachments[toRemove]
 
                 if (!uuid.isUUID(attachment.id)) {
-                  await deleteAttachment(attachment.id)
+                  await deleteAttachment(planId, attachment.id)
                 }
 
                 remove(toRemove)

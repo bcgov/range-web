@@ -1,12 +1,5 @@
 import uuid from 'uuid-v4'
-import {
-  axios,
-  getAuthHeaderConfig,
-  findStatusWithCode,
-  isStatusApproved,
-  isStatusStands,
-  isStatusStandsWM
-} from '../utils'
+import { axios, getAuthHeaderConfig, findStatusWithCode } from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
@@ -85,7 +78,7 @@ export const savePlan = async plan => {
     managementConsiderations,
     ministerIssues,
     additionalRequirements,
-    attachments
+    files
   } = RUPSchema.cast(plan)
 
   const config = getAuthHeaderConfig()
@@ -114,7 +107,7 @@ export const savePlan = async plan => {
   await saveManagementConsiderations(planId, managementConsiderations)
   await saveMinisterIssues(planId, ministerIssues, newPastures)
   await saveAdditionalRequirements(planId, additionalRequirements)
-  await saveAttachments(planId, attachments)
+  await saveAttachments(planId, files)
 
   return planId
 }

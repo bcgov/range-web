@@ -1,7 +1,7 @@
 .rup {
   &__attachments {
     .rup__content-title--editable > button > label:hover {
-      cursor: pointer
+      cursor: pointer;
     }
 
     &__box {
@@ -31,6 +31,10 @@
 
     &__file-button {
       display: none;
+    }
+
+    &__error {
+      color: #9f3a38;
     }
   }
 }

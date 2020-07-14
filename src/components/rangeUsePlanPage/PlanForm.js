@@ -53,19 +53,22 @@ const PlanForm = ({ plan, isEditable = true }) => {
       <Element name={ELEMENT_ID.ATTACHMENTS}>
         <AttachmentsHeader />
         <Attachments
-          attachments={plan.attachments}
-          propertyName={'decisionAttachments'}
-          label={'Decision Material'}
+          planId={plan.id}
+          attachments={plan.files}
+          propertyName="decisionAttachments"
+          label="Decision Material"
         />
         <Attachments
-          attachments={plan.attachments}
-          propertyName={'mapAttachments'}
-          label={'Map'}
+          planId={plan.id}
+          attachments={plan.files}
+          propertyName="mapAttachments"
+          label="Map"
         />
         <Attachments
-          attachments={plan.attachments}
-          propertyName={'otherAttachments'}
-          label={'Other'}
+          planId={plan.id}
+          attachments={plan.files}
+          propertyName="otherAttachments"
+          label="Other"
         />
       </Element>
     </EditableProvider>

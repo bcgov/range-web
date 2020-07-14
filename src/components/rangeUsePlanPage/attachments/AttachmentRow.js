@@ -2,18 +2,20 @@ import React from 'react'
 import { ATTACHMENTS } from '../../../constants/fields'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react'
-import { formatDateFromServer } from '../../../utils'
-import { Dropdown, Form } from 'formik-semantic-ui'
+import { formatDateFromServer, getUserFullName } from '../../../utils'
+import { Dropdown } from 'formik-semantic-ui'
+import { TextField } from '../../common'
+import { CircularProgress } from '@material-ui/core'
 
 const options = [
   {
-    key: 'userOnly',
-    value: 'userOnly',
+    key: 'user_only',
+    value: 'user_only',
     text: 'Just me'
   },
   {
-    key: 'allStaff',
-    value: 'allStaff',
+    key: 'staff_only',
+    value: 'staff_only',
     text: 'All staff'
   },
   {
@@ -23,65 +25,63 @@ const options = [
   }
 ]
 
-const AttachmentRow = ({ attachment, index, onDelete }) => (
-  <div className="rup__attachments__row">
-    <PermissionsField
-      permission={ATTACHMENTS.FILENAME}
-      name={ATTACHMENTS.FILENAME}
-      displayValue={attachment.file.name}
-      label={'Name'}
-    />
-    <PermissionsField
-      permission={ATTACHMENTS.CREATED_AT}
-      name={ATTACHMENTS.CREATED_AT}
-      displayValue={formatDateFromServer(attachment.createdAt)}
-      label={'Upload Date'}
-    />
-    <PermissionsField
-      permission={ATTACHMENTS.CREATOR}
-      name={ATTACHMENTS.CREATOR}
-      displayValue={`${attachment.creator.givenName} ${attachment.creator.familyName}`}
-      label={'Uploaded By'}
-    />
-    <PermissionsField
-      permission={ATTACHMENTS.VIEWABLE_BY}
-      inputProps={{ placeholder: 'Just me' }}
-      name={`attachments[${index}].viewableBy`}
-      component={Dropdown}
-      options={options}
-      label="Viewable by"
-      fast
-      fieldProps={{ required: false }}
-    />
-    <IfEditable permission={ATTACHMENTS}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginLeft: 15
-        }}>
-        <PlainDropdown
-          trigger={<Icon name="ellipsis vertical" />}
-          options={[
-            {
-              key: 'delete',
-              value: 'delete',
-              text: 'Delete'
-            }
-          ]}
-          icon={null}
-          pointing="right"
-          onClick={e => e.stopPropagation()}
-          onChange={(e, { value }) => {
-            if (value === 'delete') {
-              onDelete()
-            }
-          }}
-          selectOnBlur={false}
-        />
-      </div>
-    </IfEditable>
+const AttachmentRow = ({ attachment, index, onDelete, error }) => (
+  <div>
+    <div className="rup__attachments__row">
+      <TextField text={attachment.name} label={'Name'} />
+      <TextField
+        text={formatDateFromServer(attachment.createdAt)}
+        label={'Upload Date'}
+      />
+      <TextField text={getUserFullName(attachment.user)} label="Uploaded By" />
+      <PermissionsField
+        permission={ATTACHMENTS.VIEWABLE_BY}
+        inputProps={{ placeholder: 'Just me' }}
+        name={`files.${index}.access`}
+        component={Dropdown}
+        options={options}
+        label="Viewable by"
+        displayValue={options.find(o => o.value === attachment.access)?.text}
+        fast
+        fieldProps={{ required: false }}
+      />
+      {!attachment.url && !attachment.error && <CircularProgress />}
+      {attachment.error && (
+        <span>Error uploading file: {attachment.error.message}</span>
+      )}
+      <IfEditable permission={ATTACHMENTS.DELETE}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: 15
+          }}>
+          <PlainDropdown
+            trigger={<Icon name="ellipsis vertical" />}
+            options={[
+              {
+                key: 'delete',
+                value: 'delete',
+                text: 'Delete'
+              }
+            ]}
+            icon={null}
+            pointing="right"
+            onClick={e => e.stopPropagation()}
+            onChange={(e, { value }) => {
+              if (value === 'delete') {
+                onDelete()
+              }
+            }}
+            selectOnBlur={false}
+          />
+        </div>
+      </IfEditable>
+    </div>
+    {error && (
+      <span className="sui-error-message rup__attachments__error">{error}</span>
+    )}
   </div>
 )
 
