@@ -178,3 +178,10 @@ export const deleteIndicatorPlant = createDeleteHandler(
     )
   }
 )
+
+export const deleteAttachment = async (planId, attachmentId) => {
+  await axios.delete(
+    API.DELETE_RUP_ATTACHMENT(planId, attachmentId),
+    getAuthHeaderConfig()
+  )
+}
