@@ -20,6 +20,7 @@ import PlanForm from '../PlanForm'
 import { canUserEditThisPlan, isPlanAmendment } from '../../../utils'
 import { createAmendment, savePlan, updatePlan } from '../../../api'
 import NetworkStatus from '../../common/NetworkStatus'
+import { connect } from 'formik'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -191,17 +192,14 @@ class PageForStaff extends Component {
         plan={this.props.plan}
         fetchPlan={this.props.fetchPlan}
         beforeUpdateStatus={async () => {
-          await savePlan(this.props.plan)
-          await this.props.fetchPlan()
+          const { formik } = this.props
+          await formik.submitForm()
+          const errors = await formik.validateForm()
 
-          const error = this.validateRup(this.props.plan)
-
-          if (error) {
-            this.props.toastErrorMessage(error)
-            return false
+          if (Object.keys(errors).length === 0) {
+            return true
           }
-
-          return true
+          return false
         }}
       />
     )
@@ -298,4 +296,4 @@ class PageForStaff extends Component {
   }
 }
 
-export default PageForStaff
+export default connect(PageForStaff)
