@@ -35,7 +35,7 @@ class AHConfirmationList extends Component {
               'rup__confirmation__ah-list__cname--bold':
                 isClientCurrentUser(client, user) ||
                 (isAgent(clientAgreements, user, client) &&
-                  confirmation.user.id === user.id)
+                  confirmation?.user?.id === user?.id)
             })}>
             {getClientFullName(client)}{' '}
             {confirmed &&
