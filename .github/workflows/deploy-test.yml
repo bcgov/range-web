@@ -34,6 +34,7 @@ jobs:
         cd $HOME
         export PATH=$PATH_TO_OC
         cd $GITHUB_WORKSPACE
+        oc version
         oc project range-myra-tools
         oc cancel-build bc/range-myra-web-dev-build
         oc start-build range-myra-web-dev-build -F
