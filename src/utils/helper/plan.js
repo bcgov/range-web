@@ -9,7 +9,12 @@ import {
   USER_ROLE
 } from '../../constants/variables'
 import { isAmendment } from './amendment'
-import { isUserAgreementHolder, isUserStaff } from './user'
+import {
+  isUserAgreementHolder,
+  isUserStaff,
+  isUserDecisionMaker,
+  isUserRangeOfficer
+} from './user'
 import { findConfirmationsWithUser } from './client'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
@@ -198,8 +203,7 @@ export const doesStaffOwnPlan = (plan = {}, user = {}) => {
 
 export const canUserAmendPlan = (plan = {}, user = {}) => {
   return (
-    isStatusAmongApprovedStatuses(plan.status) &&
-    doesStaffOwnPlan(plan.agreement, user)
+    isStatusAmongApprovedStatuses(plan.status) && doesStaffOwnPlan(plan, user)
   )
 }
 
@@ -231,6 +235,28 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   return false
 }
 
+export const canUserUpdateStatus = (plan = {}, user = {}) => {
+  const { status } = plan
+  if (!status) return false
+
+  if (isUserDecisionMaker(user)) {
+    return (
+      isStatusRecommendReady(status) ||
+      isStatusRecommendNotReady(status) ||
+      isStatusStandsReview(status)
+    )
+  } else if (isUserRangeOfficer(user)) {
+    return (
+      doesStaffOwnPlan(plan, user) &&
+      (isStatusStaffDraft(status) ||
+        isStatusApproved(status) ||
+        isStatusSubmittedForReview(status) ||
+        isStatusStandsNotReviewed(status))
+    )
+  }
+  return false
+}
+
 export const canUserDiscardAmendment = (plan, user) => {
   if (!user || !plan) return false
 
@@ -252,7 +278,7 @@ export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false
 
   return (
-    doesStaffOwnPlan(plan, user) &&
+    (isUserAgreementHolder(user) || doesStaffOwnPlan(plan, user)) &&
     (isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status))
   )
 }
@@ -260,8 +286,8 @@ export const canUserAmendFromLegal = (plan, user) => {
 export const canUserSubmitAsMandatory = (plan, user) => {
   if (!user || !plan) return false
 
-  if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
-    return doesStaffOwnPlan(plan, user) && isStatusStandsReview(plan.status)
+  if (user.roles.includes(USER_ROLE.DECISION_MAKER)) {
+    return isStatusStandsReview(plan.status)
   }
 
   return false

@@ -113,7 +113,8 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.DELETE,
     MANAGEMENT_CONSIDERATIONS.ADD
   ],
-  myra_admin: []
+  myra_admin: [],
+  myra_decision_maker: []
 }
 
 export default permissions

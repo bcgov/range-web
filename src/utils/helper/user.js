@@ -56,5 +56,8 @@ export const isUserStaff = user => isUserAdmin(user) || isUserRangeOfficer(user)
 export const isUserAgreementHolder = user =>
   user && user.roles && user.roles.indexOf(USER_ROLE.AGREEMENT_HOLDER) >= 0
 
+export const isUserDecisionMaker = user =>
+  user && user.roles && user.roles.indexOf(USER_ROLE.DECISION_MAKER) >= 0
+
 export const DoesUserHaveRole = user =>
   isUserAdmin(user) || isUserRangeOfficer(user) || isUserAgreementHolder(user)

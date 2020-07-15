@@ -125,7 +125,8 @@ export const DATE_FORMAT = {
 export const USER_ROLE = {
   ADMINISTRATOR: 'myra_admin',
   RANGE_OFFICER: 'myra_range_officer',
-  AGREEMENT_HOLDER: 'myra_client'
+  AGREEMENT_HOLDER: 'myra_client',
+  DECISION_MAKER: 'myra_decision_maker'
 }
 
 export const PURPOSE_OF_ACTION = {

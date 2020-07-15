@@ -17,7 +17,8 @@ import {
   isUserAgreementHolder,
   isUserAdmin,
   isUserRangeOfficer,
-  getFirstFormikError
+  getFirstFormikError,
+  isUserDecisionMaker
 } from '../../utils'
 import * as selectors from '../../reducers/rootReducer'
 import PageForStaff from './pageForStaff'
@@ -239,7 +240,9 @@ const Base = ({
               />
               <OnSubmitValidationError callback={handleValidationError} />
 
-              {(isUserAdmin(user) || isUserRangeOfficer(user)) && (
+              {(isUserAdmin(user) ||
+                isUserRangeOfficer(user) ||
+                isUserDecisionMaker(user)) && (
                 <PageForStaff
                   references={references}
                   agreement={agreement}
