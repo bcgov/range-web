@@ -103,6 +103,17 @@ export const GET_RUP_VERSION = (planId, version) =>
 export const RESTORE_RUP_VERSION = (planId, version) =>
   `v1/plan/${planId}/version/${version}/restore`
 
+export const CREATE_RUP_ATTACHMENT = planId => `/v1/plan/${planId}/attachment`
+export const DELETE_RUP_ATTACHMENT = (planId, attachmentId) =>
+  `/v1/plan/${planId}/attachment/${attachmentId}`
+export const UPDATE_RUP_ATTACHMENT = (planId, attachmentId) =>
+  `/v1/plan/${planId}/attachment/${attachmentId}`
+
+export const GET_SIGNED_URL = fileName =>
+  `/v1/files/upload-url?name=${fileName}`
+export const GET_SIGNED_DOWNLOAD_URL = fileId =>
+  `/v1/files/download-url?id=${fileId}`
+
 export const CREATE_RUP_STATUS_RECORD = planId =>
   `/v1/plan/${planId}/status-record`
 export const CREATE_RUP_PASTURE = planId => `/v1/plan/${planId}/pasture`

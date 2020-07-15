@@ -49,6 +49,7 @@ export const MINISTERS_ISSUES_AND_ACTIONS = "Minister's Issues and Actions"
 export const INVASIVE_PLANTS = 'Invasive Plants'
 export const ADDITIONAL_REQUIREMENTS = 'Additional Requirements'
 export const MANAGEMENT_CONSIDERATIONS = 'Management Considerations'
+export const ATTACHMENTS = 'Attachments'
 
 // RUP basic information
 export const PLAN_START = 'Plan Start Date'

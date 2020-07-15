@@ -1,12 +1,5 @@
 import uuid from 'uuid-v4'
-import {
-  axios,
-  getAuthHeaderConfig,
-  findStatusWithCode,
-  isStatusApproved,
-  isStatusStands,
-  isStatusStandsWM
-} from '../utils'
+import { axios, getAuthHeaderConfig, findStatusWithCode } from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
@@ -18,7 +11,8 @@ import {
   saveMinisterIssues,
   saveAdditionalRequirements,
   savePlantCommunities,
-  savePastures
+  savePastures,
+  saveAttachments
 } from '.'
 import {
   REFERENCE_KEY,
@@ -83,7 +77,8 @@ export const savePlan = async plan => {
     invasivePlantChecklist,
     managementConsiderations,
     ministerIssues,
-    additionalRequirements
+    additionalRequirements,
+    files
   } = RUPSchema.cast(plan)
 
   const config = getAuthHeaderConfig()
@@ -112,6 +107,7 @@ export const savePlan = async plan => {
   await saveManagementConsiderations(planId, managementConsiderations)
   await saveMinisterIssues(planId, ministerIssues, newPastures)
   await saveAdditionalRequirements(planId, additionalRequirements)
+  await saveAttachments(planId, files)
 
   return planId
 }
@@ -174,6 +170,7 @@ export const createNewPlan = agreement => {
     planStatusHistory: [],
     pastures: [],
     ministerIssues: [],
+    attachments: [],
     invasivePlantChecklist: {
       beginInUninfestedArea: false,
       equipmentAndVehiclesParking: false,

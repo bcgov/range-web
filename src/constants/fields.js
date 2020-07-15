@@ -108,3 +108,9 @@ export const ADDITIONAL_REQUIREMENTS = {
 export const PLAN = {
   ADD: 'plan.add'
 }
+
+export const ATTACHMENTS = {
+  ADD: 'attachment.add',
+  VIEWABLE_BY: 'attachment.viewableBy',
+  DELETE: 'attachment.delete'
+}

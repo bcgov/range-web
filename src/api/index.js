@@ -70,6 +70,32 @@ export const saveInvasivePlantChecklist = async (
   }
 }
 
+export const saveAttachments = async (planId, attachments) => {
+  return sequentialAsyncMap(attachments, async attachment => {
+    if (uuid.isUUID(attachment.id)) {
+      const { id, ...values } = attachment
+      const { data } = await axios.post(
+        API.CREATE_RUP_ATTACHMENT(planId),
+        values,
+        getAuthHeaderConfig()
+      )
+
+      return {
+        ...attachment,
+        id: data.id
+      }
+    } else {
+      await axios.put(
+        API.UPDATE_RUP_ATTACHMENT(planId, attachment.id),
+        attachment,
+        getAuthHeaderConfig()
+      )
+
+      return attachment
+    }
+  })
+}
+
 export const saveManagementConsiderations = (
   planId,
   managementConsiderations
@@ -363,3 +389,4 @@ const saveMonitoringAreas = (
 export * from './delete'
 export * from './plan'
 export * from './user'
+export * from './upload'
