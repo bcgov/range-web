@@ -165,7 +165,7 @@ class PageForStaff extends Component {
           submit: utils.canUserSubmitPlan(plan, user),
           amend: utils.canUserAmendPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),
-          updateStatus: utils.doesStaffOwnPlan(plan, user),
+          updateStatus: utils.canUserUpdateStatus(plan, user),
           submitAsMandatory: utils.canUserSubmitAsMandatory(plan, user),
           amendFromLegal: utils.canUserAmendFromLegal(plan, user),
           manageAgents: utils.doesStaffOwnPlan(plan, user)
