@@ -47,6 +47,7 @@ const ManagementConsiderationRow = ({
           component={TextArea}
           displayValue={detail}
           label={'Details'}
+          fieldProps={{ required: true }}
         />
         <PermissionsField
           permission={MANAGEMENT_CONSIDERATIONS.DESCRIPTION}

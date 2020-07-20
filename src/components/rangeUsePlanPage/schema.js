@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
 import { moveDecimalsRight } from '../common/form/PercentField'
+import { yupToFormErrors } from 'formik'
 
 const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
 
@@ -208,6 +209,13 @@ const RUPSchema = Yup.object().shape({
         .required('Please enter some details')
         .transform(handleNull()),
       url: Yup.string().transform(handleNull())
+    })
+  ),
+  managementConsiderations: Yup.array().of(
+    Yup.object().shape({
+      detail: Yup.string()
+        .required('Required field')
+        .transform(handleNull())
     })
   ),
   files: Yup.array().of(
