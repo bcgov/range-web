@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Page, StyleSheet, Text } from '@react-pdf/renderer'
+import { View, Page, StyleSheet, Text, Link } from '@react-pdf/renderer'
 import Footer from './Footer'
 import Header from './Header'
 import Title from './common/Title'
@@ -59,13 +59,14 @@ const ManagementConsiderations = ({ plan }) => {
                 alignItems: 'flex-end'
               }}>
               <Text style={{ fontWeight: 'bold', marginRight: 5 }}>URL:</Text>
-              <Text
+              <Link
+                src={consideration.url}
                 style={{
                   color: config.grayColor,
                   fontSize: config.normalFontSize + 1
                 }}>
                 {handleNullValue(consideration.url)}
-              </Text>
+              </Link>
             </View>
           </View>
         </View>

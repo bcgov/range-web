@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Page, StyleSheet, Text } from '@react-pdf/renderer'
+import { View, Page, StyleSheet, Text, Link } from '@react-pdf/renderer'
 import Footer from './Footer'
 import Header from './Header'
 import Title from './common/Title'
@@ -54,13 +54,14 @@ const AdditionalRequirements = ({ plan }) => (
               alignItems: 'flex-end'
             }}>
             <Text style={{ fontWeight: 'bold', marginRight: 5 }}>URL:</Text>
-            <Text
+            <Link
+              src={requirement.url}
               style={{
                 color: config.grayColor,
                 fontSize: config.normalFontSize + 1
               }}>
               {requirement.url}
-            </Text>
+            </Link>
           </View>
         </View>
       </View>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from '@react-pdf/renderer'
+import { StyleSheet, View, Link } from '@react-pdf/renderer'
 import Field from './common/Field'
 import { config } from './common/config'
 import { capitalize } from '../helper'
@@ -48,7 +48,9 @@ const PlantCommunity = ({ plantCommunity }) => {
         </Field>
       </Row>
       <Row>
-        <Field label="Plant Community URL">{plantCommunity.url}</Field>
+        <Field label="Plant Community URL">
+          <Link src={plantCommunity.url}>{plantCommunity.url}</Link>
+        </Field>
       </Row>
       <Row>
         <Field label="Purpose of Actions">
