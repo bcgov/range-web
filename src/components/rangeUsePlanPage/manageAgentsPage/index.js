@@ -46,6 +46,7 @@ const ManageAgentsPage = ({ match }) => {
   const classes = useStyles()
   const [clientAgreements, setClientAgreements] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
+  const [hasSaved, setHasSaved] = useState(false)
   const [errorSaving, setErrorSaving] = useState(null)
 
   const { planId } = match.params
@@ -68,6 +69,8 @@ const ManageAgentsPage = ({ match }) => {
 
   const handleSave = async () => {
     setIsSaving(true)
+    setHasSaved(false)
+
     try {
       for (const clientAgreement of clientAgreements) {
         await axios.put(
@@ -76,6 +79,8 @@ const ManageAgentsPage = ({ match }) => {
           getAuthHeaderConfig()
         )
       }
+
+      setHasSaved(true)
     } catch (e) {
       setErrorSaving(e)
     }
@@ -164,6 +169,9 @@ const ManageAgentsPage = ({ match }) => {
         </div>
         {isSaving && <Loading />}
         <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
+        {hasSaved && (
+          <span style={{ color: '#0a9600' }}>Successfully saved!</span>
+        )}
         {errorSaving && <span>Error: {errorSaving?.message}</span>}
       </div>
     )
