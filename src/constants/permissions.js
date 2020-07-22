@@ -13,7 +13,8 @@ import {
   MANAGEMENT_CONSIDERATIONS,
   ADDITIONAL_REQUIREMENTS,
   PLAN,
-  ATTACHMENTS
+  ATTACHMENTS,
+  CONDITIONS
 } from './fields'
 
 const permissions = {
@@ -114,7 +115,7 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.ADD
   ],
   myra_admin: [],
-  myra_decision_maker: []
+  myra_decision_maker: [CONDITIONS]
 }
 
 export default permissions

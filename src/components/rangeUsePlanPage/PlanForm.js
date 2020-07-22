@@ -4,6 +4,7 @@ import { Element } from 'react-scroll'
 import Pastures from './pastures'
 import { ELEMENT_ID } from '../../constants/variables'
 import BasicInformation from './basicInformation'
+import Conditions from './conditions'
 import GrazingSchedules from './grazingSchedules'
 import Usage from './usage'
 import InvasivePlantChecklist from './invasivePlantChecklist'
@@ -16,6 +17,10 @@ import EditableProvider from '../../providers/EditableProvider'
 const PlanForm = ({ plan, isEditable = true }) => {
   return (
     <EditableProvider editable={isEditable}>
+      <Element name={ELEMENT_ID.CONDITIONS}>
+        <Conditions plan={plan} agreement={plan.agreement} />
+      </Element>
+
       <Element name={ELEMENT_ID.BASIC_INFORMATION}>
         <BasicInformation plan={plan} agreement={plan.agreement} />
       </Element>
