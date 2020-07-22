@@ -5,8 +5,9 @@ import useSWR from 'swr'
 import { getAuthHeaderConfig, axios, getUserFullName } from '../../../utils'
 import { Autocomplete } from '@material-ui/lab'
 import PersonIcon from '@material-ui/icons/Person'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Icon } from 'semantic-ui-react'
 import { Typography, TextField, makeStyles } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +45,7 @@ const fetcher = key =>
 
 const ManageAgentsPage = ({ match }) => {
   const classes = useStyles()
+  const history = useHistory()
   const [clientAgreements, setClientAgreements] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
   const [hasSaved, setHasSaved] = useState(false)
@@ -103,7 +105,13 @@ const ManageAgentsPage = ({ match }) => {
     return (
       <div className={classes.root}>
         <div className={classes.container}>
-          <h1>Manage agents</h1>
+          <div
+            onClick={() => history.replace(`/range-use-plan/${planId}`)}
+            role="button"
+            tabIndex="0">
+            <Icon name="arrow circle left" size="large" />
+          </div>
+          <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
           {clientAgreements.map(clientAgreement => (
             <div key={clientAgreement.id} className={classes.row}>
               <div>
