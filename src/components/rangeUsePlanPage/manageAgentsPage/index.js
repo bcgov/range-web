@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 30
+  },
+  clearIndicatorDirty: {
+    visibility: 'visible'
   }
 }))
 
@@ -121,8 +124,9 @@ const ManageAgentsPage = ({ match }) => {
               </div>
               <div>
                 <Autocomplete
-                  id="user-autocomplete-select"
+                  id={`user-autocomplete-select-${clientAgreement.id}`}
                   options={users}
+                  classes={{ clearIndicatorDirty: classes.clearIndicatorDirty }}
                   value={clientAgreement.agent}
                   openOnFocus
                   onChange={(e, user) => {
