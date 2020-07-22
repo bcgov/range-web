@@ -5,8 +5,9 @@ import useSWR from 'swr'
 import { getAuthHeaderConfig, axios, getUserFullName } from '../../../utils'
 import { Autocomplete } from '@material-ui/lab'
 import PersonIcon from '@material-ui/icons/Person'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Icon } from 'semantic-ui-react'
 import { Typography, TextField, makeStyles } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,6 +37,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 30
+  },
+  clearIndicatorDirty: {
+    visibility: 'visible'
   }
 }))
 
@@ -44,8 +48,10 @@ const fetcher = key =>
 
 const ManageAgentsPage = ({ match }) => {
   const classes = useStyles()
+  const history = useHistory()
   const [clientAgreements, setClientAgreements] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
+  const [hasSaved, setHasSaved] = useState(false)
   const [errorSaving, setErrorSaving] = useState(null)
 
   const { planId } = match.params
@@ -68,6 +74,8 @@ const ManageAgentsPage = ({ match }) => {
 
   const handleSave = async () => {
     setIsSaving(true)
+    setHasSaved(false)
+
     try {
       for (const clientAgreement of clientAgreements) {
         await axios.put(
@@ -76,6 +84,8 @@ const ManageAgentsPage = ({ match }) => {
           getAuthHeaderConfig()
         )
       }
+
+      setHasSaved(true)
     } catch (e) {
       setErrorSaving(e)
     }
@@ -98,7 +108,13 @@ const ManageAgentsPage = ({ match }) => {
     return (
       <div className={classes.root}>
         <div className={classes.container}>
-          <h1>Manage agents</h1>
+          <div
+            onClick={() => history.replace(`/range-use-plan/${planId}`)}
+            role="button"
+            tabIndex="0">
+            <Icon name="arrow circle left" size="large" />
+          </div>
+          <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
           {clientAgreements.map(clientAgreement => (
             <div key={clientAgreement.id} className={classes.row}>
               <div>
@@ -108,8 +124,9 @@ const ManageAgentsPage = ({ match }) => {
               </div>
               <div>
                 <Autocomplete
-                  id="user-autocomplete-select"
+                  id={`user-autocomplete-select-${clientAgreement.id}`}
                   options={users}
+                  classes={{ clearIndicatorDirty: classes.clearIndicatorDirty }}
                   value={clientAgreement.agent}
                   openOnFocus
                   onChange={(e, user) => {
@@ -164,6 +181,9 @@ const ManageAgentsPage = ({ match }) => {
         </div>
         {isSaving && <Loading />}
         <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
+        {hasSaved && (
+          <span style={{ color: '#0a9600' }}>Successfully saved!</span>
+        )}
         {errorSaving && <span>Error: {errorSaving?.message}</span>}
       </div>
     )
