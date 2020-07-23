@@ -251,6 +251,7 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
       (isStatusStaffDraft(status) ||
         isStatusApproved(status) ||
         isStatusSubmittedForReview(status) ||
+        isStatusSubmittedForFD(status) ||
         isStatusStandsNotReviewed(status))
     )
   }
