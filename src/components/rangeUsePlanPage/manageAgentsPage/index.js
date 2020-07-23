@@ -7,7 +7,8 @@ import { Autocomplete } from '@material-ui/lab'
 import PersonIcon from '@material-ui/icons/Person'
 import { Grid, Icon } from 'semantic-ui-react'
 import { Typography, TextField, makeStyles } from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
+import { RANGE_USE_PLAN } from '../../../constants/routes'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -108,12 +109,10 @@ const ManageAgentsPage = ({ match }) => {
     return (
       <div className={classes.root}>
         <div className={classes.container}>
-          <div
-            onClick={() => history.replace(`/range-use-plan/${planId}`)}
-            role="button"
-            tabIndex="0">
-            <Icon name="arrow circle left" size="large" />
-          </div>
+          <PrimaryButton as={Link} to={`${RANGE_USE_PLAN}/${planId}`}>
+            <Icon name="arrow left" />
+            Back to RUP
+          </PrimaryButton>
           <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
           {clientAgreements.map(clientAgreement => (
             <div key={clientAgreement.id} className={classes.row}>
