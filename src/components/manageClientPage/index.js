@@ -79,22 +79,23 @@ const ManageClientPage = () => {
                     variant="outlined"
                   />
                 )}
-                renderOption={option => {
-                  return (
-                    <Grid container alignItems="center">
-                      <Grid item>
-                        <PersonIcon className={classes.icon} />
-                      </Grid>
-                      <Grid item xs>
-                        {getUserFullName(option)}
-
-                        <Typography variant="body2" color="textSecondary">
-                          {option.email}
-                        </Typography>
-                      </Grid>
+                renderOption={option => (
+                  <Grid container alignItems="center">
+                    <Grid item>
+                      <PersonIcon className={classes.icon} />
                     </Grid>
-                  )
-                }}
+                    <Grid item xs>
+                      {getUserFullName(option)}
+
+                      <Typography variant="body2" color="textSecondary">
+                        {option.email}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {option.username}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                )}
               />
             </>
           )}
