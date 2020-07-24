@@ -29,9 +29,12 @@ const Attachments = ({
     const fieldName = `files.${index}`
     try {
       const signedUrl = await getSignedUploadUrl(file.name)
-      const formData = new FormData()
-      formData.append(file.name, file)
-      await axios.put(signedUrl, formData)
+
+      await axios.put(signedUrl, file, {
+        headers: {
+          'Content-Type': file.type
+        }
+      })
 
       formik.setFieldValue(`${fieldName}.url`, file.name)
     } catch (e) {

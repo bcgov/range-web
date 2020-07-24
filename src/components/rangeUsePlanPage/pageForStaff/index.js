@@ -280,7 +280,7 @@ class PageForStaff extends Component {
           </div>
         </StickyHeader>
 
-        <ContentsContainer>
+        <ContentsContainer plan={plan}>
           <Notifications
             plan={plan}
             user={user}
