@@ -15,7 +15,7 @@ const ClientDropdown = ({ onChange, value }) => {
   const [inputValue, setInputValue] = useState('')
 
   const { data: clients = [], error, isValidating } = useSWR(
-    `${API.SEARCH_CLIENTS}/?term=${inputValue}&groupByClientNumber=true`,
+    `${API.SEARCH_CLIENTS}/?term=${inputValue}`,
     key => axios.get(key, getAuthHeaderConfig()).then(res => res.data),
     {
       revalidateOnFocus: false
@@ -76,7 +76,7 @@ const ClientDropdown = ({ onChange, value }) => {
                 Client # {client.clientNumber}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                Loc #s {client.locationCodes.join(', ')}
+                Loc # {client.locationCode}
               </Typography>
             </Grid>
           </Grid>
