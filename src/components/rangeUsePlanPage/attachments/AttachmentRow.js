@@ -12,6 +12,7 @@ import { Dropdown } from 'formik-semantic-ui'
 import { TextField } from '../../common'
 import { CircularProgress } from '@material-ui/core'
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api'
+import { isUUID } from 'uuid-v4'
 
 const options = [
   {
@@ -88,7 +89,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
         {attachment.error && (
           <span>Error uploading file: {attachment.error.message}</span>
         )}
-        {attachment.url && !isDownloading && (
+        {attachment.url && !isUUID(attachment.id) && !isDownloading && (
           <div>
             <button onClick={handleDownload}>Download</button>
             {errorDownloading && (
