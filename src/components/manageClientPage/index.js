@@ -71,7 +71,7 @@ const ManageClientPage = () => {
                 }}
                 getOptionLabel={option => getUserFullName(option)}
                 getOptionSelected={option => option.id === user.id}
-                style={{ width: 300 }}
+                style={{ width: 400 }}
                 renderInput={params => (
                   <TextField
                     {...params}
