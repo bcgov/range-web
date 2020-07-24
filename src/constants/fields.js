@@ -1,3 +1,5 @@
+export const CONDITIONS = 'conditions'
+
 export const BASIC_INFORMATION = {
   RANGE_NAME: 'basicInformation.rangeName',
   ALTERNATE_BUSINESS_NAME: 'basicInformation.alternateBusinessName',

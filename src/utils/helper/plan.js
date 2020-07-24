@@ -222,6 +222,14 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   }
 
   if (
+    isStatusRecommendReady(status) ||
+    isStatusRecommendNotReady(status) ||
+    isStatusStandsReview(status)
+  ) {
+    return user.roles.includes('myra_decision_maker')
+  }
+
+  if (
     isStatusCreated(status) ||
     isStatusDraft(status) ||
     isStatusChangedRequested(status) ||

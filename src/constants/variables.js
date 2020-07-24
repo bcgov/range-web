@@ -221,5 +221,6 @@ export const ELEMENT_ID = {
   SEARCH_TERM: 'agr_search_term',
   MANAGE_CLIENT_USERS_DROPDOWN: 'mc_users_dropdown',
   MANAGE_CLIENT_CLIENTS_DROPDOWN: 'mc_clients_dropdown',
-  ATTACHMENTS: 'rup_attachments'
+  ATTACHMENTS: 'rup_attachments',
+  CONDITIONS: 'rup_conditions '
 }
