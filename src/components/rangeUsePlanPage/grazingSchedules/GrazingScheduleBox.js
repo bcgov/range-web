@@ -250,9 +250,11 @@ const GrazingScheduleBox = ({
                             scheduleIndex={index}
                             namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
                             onDelete={() => setToRemove(entryIndex)}
-                            onCopy={() =>
+                            onCopy={() => {
+                              setSortOrder(null)
+                              setSortBy(null)
                               push(resetGrazingScheduleEntryId(entry))
-                            }
+                            }}
                             onChange={() => {
                               setSortBy(null)
                             }}
@@ -269,6 +271,8 @@ const GrazingScheduleBox = ({
                     inverted
                     compact
                     onClick={() => {
+                      setSortOrder(null)
+                      setSortBy(null)
                       push({
                         dateIn: '',
                         dateOut: '',
