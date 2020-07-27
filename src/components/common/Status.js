@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { PLAN_STATUS } from '../../constants/variables'
 import { NO_PLAN } from '../../constants/strings'
-import { isUserAgreementHolder, isUserStaff } from '../../utils'
+import {
+  isUserAgreementHolder,
+  isUserRangeOfficer,
+  isUserDecisionMaker
+} from '../../utils'
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -81,12 +85,12 @@ const translateStatusBasedOnUser = (
       modifier += '--green'
       break
     case PLAN_STATUS.STANDS_REVIEW:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Stands'
-        modifier += '--green'
-      } else {
+      if (isUserRangeOfficer(user)) {
         statusName = 'Review Amendment'
         modifier += '--orange'
+      } else {
+        statusName = 'Stands'
+        modifier += '--green'
       }
       break
     case PLAN_STATUS.STANDS_NOT_REVIEWED:
@@ -109,12 +113,12 @@ const translateStatusBasedOnUser = (
       break
 
     case PLAN_STATUS.SUBMITTED_FOR_REVIEW:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Feedback'
-        modifier += '--gray'
-      } else {
+      if (isUserRangeOfficer(user)) {
         statusName = 'Provide Feedback'
         modifier += '--orange'
+      } else {
+        statusName = 'Awaiting Feedback'
+        modifier += '--gray'
       }
       break
     case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
@@ -146,20 +150,22 @@ const translateStatusBasedOnUser = (
       }
       break
     case PLAN_STATUS.RECOMMEND_READY:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Decision'
-      } else {
+      if (isUserDecisionMaker(user)) {
         statusName = 'Approval Recommended'
+        modifier += '--orange'
+      } else {
+        statusName = 'Awaiting Decision'
+        modifier += '--gray'
       }
-      modifier += '--gray'
       break
     case PLAN_STATUS.RECOMMEND_NOT_READY:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Decision'
-      } else {
+      if (isUserDecisionMaker(user)) {
         statusName = 'Approval Not Recommended'
+        modifier += '--orange'
+      } else {
+        statusName = 'Awaiting Decision'
+        modifier += '--gray'
       }
-      modifier += '--gray'
       break
 
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
@@ -184,11 +190,11 @@ const translateStatusBasedOnUser = (
       break
     case PLAN_STATUS.MANDATORY_AMENDMENT_STAFF:
       statusName = 'Mandatory Amendment Created'
-      modifier += isUserStaff(user) ? '--orange' : '--gray'
+      modifier += isUserRangeOfficer(user) ? '--orange' : '--gray'
       break
     case PLAN_STATUS.SUBMITTED_AS_MANDATORY:
       statusName = 'Submitted as Mandatory'
-      modifier += isUserStaff(user) ? '--orange' : '--gray'
+      modifier += isUserRangeOfficer(user) ? '--orange' : '--gray'
       break
     default:
       modifier += '--not-provided'

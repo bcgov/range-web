@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables'
 import * as strings from '../../constants/strings'
+import { isUUID } from 'uuid-v4'
 
 class ContentsContainer extends Component {
   static propTypes = {
@@ -20,7 +21,7 @@ class ContentsContainer extends Component {
   }
 
   render() {
-    const { children } = this.props
+    const { children, plan } = this.props
 
     return (
       <div className="rup__contents__container">
@@ -88,15 +89,17 @@ class ContentsContainer extends Component {
             <img src={IMAGE_SRC.MANAGEMENT_ICON} alt="icon" />
             <span>{strings.MANAGEMENT_CONSIDERATIONS}</span>
           </Link>
-          <Link
-            offset={-100}
-            spy={true}
-            to={ELEMENT_ID.ATTACHMENTS}
-            className="rup__contents__tab"
-            activeClass="rup__contents__tab--active">
-            <img src={IMAGE_SRC.ATTACHMENTS} alt="icon" />
-            <span>{strings.ATTACHMENTS}</span>
-          </Link>
+          {!isUUID(plan?.id) && (
+            <Link
+              offset={-100}
+              spy={true}
+              to={ELEMENT_ID.ATTACHMENTS}
+              className="rup__contents__tab"
+              activeClass="rup__contents__tab--active">
+              <img src={IMAGE_SRC.ATTACHMENTS} alt="icon" />
+              <span>{strings.ATTACHMENTS}</span>
+            </Link>
+          )}
         </div>
         <div className="rup__contents">{children.map(this.renderChild)}</div>
       </div>

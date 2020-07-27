@@ -12,6 +12,7 @@ import { Dropdown } from 'formik-semantic-ui'
 import { TextField } from '../../common'
 import { CircularProgress } from '@material-ui/core'
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api'
+import { isUUID } from 'uuid-v4'
 
 const options = [
   {
@@ -43,7 +44,17 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
         GET_SIGNED_DOWNLOAD_URL(attachment.id),
         getAuthHeaderConfig()
       )
-      window.open(res.data.url)
+      const fileRes = await axios.get(res.data.url, {
+        responseType: 'blob'
+      })
+
+      const url = window.URL.createObjectURL(fileRes.data)
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', attachment.name)
+      document.body.appendChild(link)
+      link.click()
+      link.parentNode.removeChild(link)
     } catch (e) {
       setErrorDownloading(e)
     }
@@ -78,7 +89,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
         {attachment.error && (
           <span>Error uploading file: {attachment.error.message}</span>
         )}
-        {attachment.url && !isDownloading && (
+        {attachment.url && !isUUID(attachment.id) && !isDownloading && (
           <div>
             <button onClick={handleDownload}>Download</button>
             {errorDownloading && (

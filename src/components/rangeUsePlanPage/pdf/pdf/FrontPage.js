@@ -82,7 +82,7 @@ const FrontPage = ({ plan }) => (
             {confirmation &&
               confirmation.confirmed &&
               !confirmation.isOwnSignature && (
-                <Text> by {getUserFullName(confirmation.user)}</Text>
+                <Text> by agent {getUserFullName(confirmation.user)}</Text>
               )}
           </Text>
         )

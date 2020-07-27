@@ -195,10 +195,16 @@ class PageForStaff extends Component {
           const { formik } = this.props
           await formik.submitForm()
           const errors = await formik.validateForm()
+          const error = this.validateRup(this.props.plan)
 
-          if (Object.keys(errors).length === 0) {
+          if (Object.keys(errors).length === 0 && !error) {
             return true
           }
+
+          if (error) {
+            this.props.toastErrorMessage(error)
+          }
+
           return false
         }}
       />
@@ -274,7 +280,7 @@ class PageForStaff extends Component {
           </div>
         </StickyHeader>
 
-        <ContentsContainer>
+        <ContentsContainer plan={plan}>
           <Notifications
             plan={plan}
             user={user}

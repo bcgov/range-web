@@ -13,6 +13,7 @@ import MinisterIssues from './ministerIssues'
 import AdditionalRequirements from './additionalRequirements'
 import { Attachments, AttachmentsHeader } from './attachments'
 import EditableProvider from '../../providers/EditableProvider'
+import { isUUID } from 'uuid-v4'
 
 const PlanForm = ({ plan, isEditable = true }) => {
   return (
@@ -55,27 +56,31 @@ const PlanForm = ({ plan, isEditable = true }) => {
           managementConsiderations={plan.managementConsiderations}
         />
       </Element>
-      <Element name={ELEMENT_ID.ATTACHMENTS}>
-        <AttachmentsHeader />
-        <Attachments
-          planId={plan.id}
-          attachments={plan.files}
-          propertyName="decisionAttachments"
-          label="Decision Material"
-        />
-        <Attachments
-          planId={plan.id}
-          attachments={plan.files}
-          propertyName="mapAttachments"
-          label="Map"
-        />
-        <Attachments
-          planId={plan.id}
-          attachments={plan.files}
-          propertyName="otherAttachments"
-          label="Other"
-        />
-      </Element>
+      {!isUUID(plan.id) && (
+        <>
+          <Element name={ELEMENT_ID.ATTACHMENTS}>
+            <AttachmentsHeader />
+            <Attachments
+              planId={plan.id}
+              attachments={plan.files}
+              propertyName="decisionAttachments"
+              label="Decision Material"
+            />
+            <Attachments
+              planId={plan.id}
+              attachments={plan.files}
+              propertyName="mapAttachments"
+              label="Map"
+            />
+            <Attachments
+              planId={plan.id}
+              attachments={plan.files}
+              propertyName="otherAttachments"
+              label="Other"
+            />
+          </Element>
+        </>
+      )}
     </EditableProvider>
   )
 }
