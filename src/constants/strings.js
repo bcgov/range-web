@@ -262,8 +262,10 @@ export const MANAGE_CLIENT_BANNER_CONTENT =
   'Search for agreement holders and link them to their corresponding client.'
 
 // tips
-export const CONDITIONS_TIP =
+export const CONDITIONS_TIP_DECISION_MAKER =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision'
+export const CONDITIONS_TIP_RANGE_OFFICER =
+  'Enter the approval conditions you recommend the DM impose as part of RUP approval consistent with FRPA 112'
 export const BASIC_INFORMATION_TIP =
   'Agreement specifics from FTA (including usage) and plan specifics entered by staff. If there is agreement information that is incorrect, update FTA and wait until next FTA sync (daily).'
 export const RANGE_NAME_TIP =

@@ -7,22 +7,56 @@ import PermissionsField from '../../common/PermissionsField'
 import { TextArea } from 'formik-semantic-ui'
 
 const Conditions = ({ plan }) => {
-  const { conditions = '' } = plan || {}
+  const { conditions = '', proposedConditions = '' } = plan || {}
 
   return (
     <div className="rup__conditions">
       <div className="rup__popup-header">
         <div className="rup__content-title">{strings.CONDITIONS}</div>
-        <InfoTip header={strings.CONDITIONS} content={strings.CONDITIONS_TIP} />
       </div>
       <div className="rup__divider" style={{ marginBottom: 10 }} />
       <div className="rup__row">
         <div className="rup__cell-6" style={{ marginBottom: 40 }}>
+          <div className="rup__info-title">
+            <div className="rup__popup-header">
+              Decision Maker
+              <InfoTip
+                header={strings.CONDITIONS}
+                content={strings.CONDITIONS_TIP_DECISION_MAKER}
+                size="tiny"
+              />
+            </div>
+          </div>
           <PermissionsField
-            permission={CONDITIONS}
+            permission={CONDITIONS.DECISION_MAKER_CONDITIONS}
             name="conditions"
             component={TextArea}
             displayValue={conditions !== null ? '\n' + conditions : ''}
+            label={
+              'Consistent with FRPA 112 the following conditions are imposed and form part of the RUP approval:'
+            }
+            fieldProps={{ required: false }}
+            fast
+          />
+        </div>
+        <div className="rup__cell-6" style={{ marginBottom: 40 }}>
+          <div className="rup__info-title" style={{ width: 500 }}>
+            <div className="rup__popup-header">
+              Range Officer Recommendations
+              <InfoTip
+                header={strings.CONDITIONS}
+                content={strings.CONDITIONS_TIP_RANGE_OFFICER}
+                size="tiny"
+              />
+            </div>
+          </div>
+          <PermissionsField
+            permission={CONDITIONS.RANGE_OFFICER_CONDITIONS}
+            name="proposedConditions"
+            component={TextArea}
+            displayValue={
+              proposedConditions !== null ? '\n' + proposedConditions : ''
+            }
             label={
               'Consistent with FRPA 112 the following conditions are imposed and form part of the RUP approval:'
             }
