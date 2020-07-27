@@ -1,6 +1,6 @@
 export const CONDITIONS = {
-  DECISION_MAKER_CONDITIONS: 'conditions.decisionMaker',
-  RANGE_OFFICER_CONDITIONS: 'conditions.rangeOfficer'
+  CONDITIONS: 'conditions.decisionMaker',
+  PROPOSED_CONDITIONS: 'conditions.rangeOfficer'
 }
 
 export const BASIC_INFORMATION = {

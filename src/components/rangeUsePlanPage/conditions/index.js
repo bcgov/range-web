@@ -21,16 +21,16 @@ const Conditions = ({ plan }) => {
         <div className="rup__cell-6" style={{ marginBottom: 40 }}>
           <div className="rup__info-title">
             <div className="rup__popup-header">
-              Decision Maker
+              Conditions
               <InfoTip
                 header={strings.CONDITIONS}
-                content={strings.CONDITIONS_TIP_DECISION_MAKER}
+                content={strings.CONDITIONS_TIP}
                 size="tiny"
               />
             </div>
           </div>
           <PermissionsField
-            permission={CONDITIONS.DECISION_MAKER_CONDITIONS}
+            permission={CONDITIONS.CONDITIONS}
             name="conditions"
             component={TextArea}
             displayValue={conditions !== null ? '\n' + conditions : ''}
@@ -48,21 +48,19 @@ const Conditions = ({ plan }) => {
                 Range Officer Recommendations
                 <InfoTip
                   header={strings.CONDITIONS}
-                  content={strings.CONDITIONS_TIP_RANGE_OFFICER}
+                  content={strings.PROPOSED_CONDITIONS_TIP}
                   size="tiny"
                 />
               </div>
             </div>
             <PermissionsField
-              permission={CONDITIONS.RANGE_OFFICER_CONDITIONS}
+              permission={CONDITIONS.PROPOSED_CONDITIONS}
               name="proposedConditions"
               component={TextArea}
               displayValue={
                 proposedConditions !== null ? '\n' + proposedConditions : ''
               }
-              label={
-                'Consistent with FRPA 112 the following conditions are imposed and form part of the RUP approval:'
-              }
+              label={'Proposed Conditions:'}
               fieldProps={{ required: false }}
               fast
             />
