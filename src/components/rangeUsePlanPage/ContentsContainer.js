@@ -89,7 +89,7 @@ class ContentsContainer extends Component {
             <img src={IMAGE_SRC.MANAGEMENT_ICON} alt="icon" />
             <span>{strings.MANAGEMENT_CONSIDERATIONS}</span>
           </Link>
-          {!isUUID(plan.id) && (
+          {!isUUID(plan?.id) && (
             <Link
               offset={-100}
               spy={true}
