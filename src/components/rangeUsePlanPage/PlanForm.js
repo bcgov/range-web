@@ -18,7 +18,7 @@ import { isUUID } from 'uuid-v4'
 const PlanForm = ({ plan, isEditable = true }) => {
   return (
     <EditableProvider editable={isEditable}>
-      {plan?.contitions !== '' && (
+      {plan?.conditions !== '' && (
         <Element name={ELEMENT_ID.CONDITIONS}>
           <Conditions plan={plan} agreement={plan.agreement} />
         </Element>
