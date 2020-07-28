@@ -40,6 +40,7 @@ export const VIEW_VERSIONS = 'View Versions'
 
 // RUP tabs
 export const CONDITIONS = 'Conditions'
+export const RECOMENDATIONS = 'Recommendations'
 export const BASIC_INFORMATION = 'Basic Information'
 export const PASTURES = 'Pastures'
 export const USAGE = 'Usage'

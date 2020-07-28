@@ -17,6 +17,10 @@ const Conditions = ({ plan }) => {
         <div className="rup__content-title">{strings.CONDITIONS}</div>
       </div>
       <div className="rup__divider" style={{ marginBottom: 10 }} />
+      <div>
+        Consistent with FRPA section 112 the following conditions are imposed
+        and form part of the RUP approval:
+      </div>
       <div className="rup__row">
         <div className="rup__cell-6" style={{ marginBottom: 40 }}>
           <div className="rup__info-title">
@@ -33,9 +37,10 @@ const Conditions = ({ plan }) => {
             permission={CONDITIONS.CONDITIONS}
             name="conditions"
             component={TextArea}
-            displayValue={conditions !== null ? '\n' + conditions : ''}
-            label={
-              'Consistent with FRPA 112 the following conditions are imposed and form part of the RUP approval:'
+            displayValue={
+              conditions !== '' && conditions !== null
+                ? '\n' + conditions
+                : '\nNo conditions'
             }
             fieldProps={{ required: false }}
             fast
@@ -47,7 +52,7 @@ const Conditions = ({ plan }) => {
               <div className="rup__popup-header">
                 Range Officer Recommendations
                 <InfoTip
-                  header={strings.CONDITIONS}
+                  header={strings.RECOMENDATIONS}
                   content={strings.PROPOSED_CONDITIONS_TIP}
                   size="tiny"
                 />
@@ -58,9 +63,10 @@ const Conditions = ({ plan }) => {
               name="proposedConditions"
               component={TextArea}
               displayValue={
-                proposedConditions !== null ? '\n' + proposedConditions : ''
+                proposedConditions !== '' && proposedConditions !== null
+                  ? '\n' + proposedConditions
+                  : '\nNo conditions'
               }
-              label={'Proposed Conditions:'}
               fieldProps={{ required: false }}
               fast
             />
