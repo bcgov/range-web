@@ -11,4 +11,6 @@ export const handleMinisterIssueValidation = grazingSchedules => {
       }
     ]
   }
+
+  return []
 }
