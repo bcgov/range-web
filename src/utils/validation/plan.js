@@ -1,6 +1,7 @@
 import { handleGrazingScheduleValidation } from './grazingSchedule'
 import { handlePastureValidation } from './pasture'
 import { handlePlantCommunityValidation } from './plantCommunity'
+import { handleMinisterIssueValidation } from './ministerIssue'
 
 /**
  * Validate a range use plan
@@ -20,7 +21,7 @@ export const handleRupValidation = (
   usage = [],
   isAgreementHolder = false
 ) => {
-  const { grazingSchedules = [] } = plan
+  const { grazingSchedules = [], ministerIssues = [] } = plan
 
   let errors = []
   grazingSchedules.map(schedule => {
@@ -47,6 +48,8 @@ export const handleRupValidation = (
       )
     )
   ]
+
+  errors = [...errors, ...handleMinisterIssueValidation(ministerIssues)]
 
   return errors
 }
