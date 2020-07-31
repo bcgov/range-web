@@ -243,6 +243,20 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
   return false
 }
 
+export const canUserAddAttachments = (plan = {}, user = {}) => {
+  return canUserEditThisPlan(plan, user) || canUserUpdateStatus(plan, user)
+}
+
+export const canUserAttachMaps = (plan = {}, user = {}) => {
+  if (!plan || !plan.status || !user) {
+    return false
+  }
+
+  if (user.roles.includes('myra_range_officer')) {
+    return canUserEditThisPlan(plan, user)
+  }
+}
+
 export const canUserUpdateStatus = (plan = {}, user = {}) => {
   const { status } = plan
   if (!status) return false

@@ -23,9 +23,11 @@ import { REFERENCE_KEY } from '../../../constants/variables'
 import { isUUID } from 'uuid-v4'
 
 const getAgentForClient = (client, clientAgreements) => {
-  const { agent } = clientAgreements.find(ca => ca.clientId === client.id)
+  const clientAgreement = clientAgreements.find(
+    ca => ca.clientId === client.clientNumber
+  )
 
-  return agent
+  return clientAgreement?.agent
 }
 
 const BasicInformation = ({ plan, agreement }) => {
@@ -176,7 +178,7 @@ const BasicInformation = ({ plan, agreement }) => {
             />
             {otherAgreementHolders.map(client => (
               <TextField
-                key={client.id}
+                key={client.clientNumber}
                 label={strings.OTHER_AGREEMENT_HOLDER}
                 text={getClientFullName(client)}
               />
@@ -202,7 +204,7 @@ const BasicInformation = ({ plan, agreement }) => {
             />
             {otherAgreementHolders.map(client => (
               <TextField
-                key={client.id}
+                key={client.clientNumber}
                 label={strings.OTHER_AGREEMENT_HOLDER}
                 text={`${getClientFullName(client)} ${
                   getAgentForClient(client, clientAgreements)

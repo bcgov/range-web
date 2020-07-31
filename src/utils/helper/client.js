@@ -22,7 +22,7 @@ export const isSingleClient = (clients = []) => {
 
 export const isClientCurrentUser = (client, user) => {
   if (client && user) {
-    return user.clients.some(c => c.id === client.id)
+    return user.clients.some(c => c.clientNumber === client.id)
   }
 
   return false
@@ -32,15 +32,20 @@ export const isAgent = (clientAgreements, user, client) => {
   if (!user || !client || !clientAgreements) return false
 
   const agencyAgreements = clientAgreements.filter(a => a.agentId === user.id)
-  const isAgent = !!agencyAgreements.find(ca => ca.clientId === client.id)
+  const isAgent = !!agencyAgreements.find(
+    ca => ca.clientId === client.clientNumber
+  )
 
   return isAgent
 }
 
-export const findConfirmationWithClientId = (clientId, confirmations) => {
-  if (clientId && confirmations) {
+export const findConfirmationWithClientNumber = (
+  clientNumber,
+  confirmations
+) => {
+  if (clientNumber && confirmations) {
     return confirmations.find(
-      confirmation => confirmation.clientId === clientId
+      confirmation => confirmation.clientId === clientNumber
     )
   }
   return undefined
@@ -50,7 +55,7 @@ export const findConfirmationWithUser = (user, confirmations) => {
   const { clients = [] } = user
 
   const linkedConfirmations = confirmations.filter(confirmation =>
-    clients.some(client => client.id === confirmation.clientId)
+    clients.some(client => client.clientNumber === confirmation.clientId)
   )
 
   if (linkedConfirmations.length > 1) {
@@ -74,7 +79,7 @@ export const findConfirmationsWithUser = (
 
   const linkedConfirmations = confirmations.filter(
     confirmation =>
-      clients.some(client => client.id === confirmation.clientId) ||
+      clients.some(client => client.clientNumber === confirmation.clientId) ||
       agencyAgreements.some(a => a.clientId === confirmation.clientId)
   )
 

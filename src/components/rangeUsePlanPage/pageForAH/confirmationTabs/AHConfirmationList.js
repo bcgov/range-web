@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import { Icon } from 'semantic-ui-react'
 import {
-  findConfirmationWithClientId,
+  findConfirmationWithClientNumber,
   formatDateFromServer,
   isClientCurrentUser,
   getClientFullName,
@@ -27,7 +27,7 @@ class AHConfirmationList extends Component {
       : AWAITING_CONFIRMATION
 
     return (
-      <div key={client.id} className="rup__confirmation__ah-list">
+      <div key={client.clientNumber} className="rup__confirmation__ah-list">
         <div>
           <Icon name="user outline" />
           <span
@@ -75,7 +75,8 @@ class AHConfirmationList extends Component {
     // create confirmation views for each client then
     // push to the view lists based on whether it's confirmed or not
     clients.map(client => {
-      const confirmation = findConfirmationWithClientId(
+      console.log(client)
+      const confirmation = findConfirmationWithClientNumber(
         client.id,
         plan.confirmations
       )

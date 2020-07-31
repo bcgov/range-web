@@ -112,7 +112,7 @@ class AmendmentSubmissionModal extends Component {
 
         for (const currUserConfirmation of currUserConfirmations) {
           const isOwnSignature = user.clients.some(
-            c => c.id === currUserConfirmation.clientId
+            c => c.clientNumber === currUserConfirmation.clientId
           )
 
           await updateConfirmation({
