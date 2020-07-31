@@ -58,6 +58,13 @@ const headCells = [
     sortable: true
   },
   {
+    id: 'ref_district.code',
+    numeric: false,
+    disablePadding: false,
+    label: 'District',
+    sortable: true
+  },
+  {
     id: 'plan_status.code',
     disablePadding: false,
     label: 'Status Code',
@@ -196,6 +203,7 @@ function PlanRow({ agreement, location, user, currentPage }) {
             ? `${agreement?.zone?.user?.givenName} ${agreement?.zone?.user?.familyName}`
             : 'Not provided'}
         </TableCell>
+        <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
         <TableCell align="left">
           {agreement.plans[0] ? (
             agreement.plans[0]?.status.code
