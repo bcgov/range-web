@@ -22,9 +22,11 @@ const PlanForm = ({ plan, isEditable = true }) => {
 
   return (
     <EditableProvider editable={isEditable}>
-      <Element name={ELEMENT_ID.CONDITIONS}>
-        <Conditions plan={plan} agreement={plan.agreement} />
-      </Element>
+      {plan?.conditions !== '' && (
+        <Element name={ELEMENT_ID.CONDITIONS}>
+          <Conditions plan={plan} agreement={plan.agreement} />
+        </Element>
+      )}
 
       <Element name={ELEMENT_ID.BASIC_INFORMATION}>
         <BasicInformation plan={plan} agreement={plan.agreement} />

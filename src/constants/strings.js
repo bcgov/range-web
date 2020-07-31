@@ -40,6 +40,7 @@ export const VIEW_VERSIONS = 'View Versions'
 
 // RUP tabs
 export const CONDITIONS = 'Conditions'
+export const RECOMENDATIONS = 'Recommendations'
 export const BASIC_INFORMATION = 'Basic Information'
 export const PASTURES = 'Pastures'
 export const USAGE = 'Usage'
@@ -266,6 +267,8 @@ export const MANAGE_CLIENT_BANNER_CONTENT =
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision'
+export const PROPOSED_CONDITIONS_TIP =
+  'Enter the approval conditions you recommend the DM impose as part of RUP approval consistent with FRPA 112'
 export const BASIC_INFORMATION_TIP =
   'Agreement specifics from FTA (including usage) and plan specifics entered by staff. If there is agreement information that is incorrect, update FTA and wait until next FTA sync (daily).'
 export const RANGE_NAME_TIP =

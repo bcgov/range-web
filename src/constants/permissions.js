@@ -92,7 +92,8 @@ const permissions = {
     PLAN.ADD,
     ATTACHMENTS.VIEWABLE_BY,
     ATTACHMENTS.DELETE,
-    ATTACHMENTS.ADD
+    ATTACHMENTS.ADD,
+    CONDITIONS.RANGE_OFFICER_CONDITIONS
   ],
   myra_client: [
     SCHEDULE.PASTURE,
@@ -115,7 +116,7 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.ADD
   ],
   myra_admin: [],
-  myra_decision_maker: [CONDITIONS]
+  myra_decision_maker: [CONDITIONS.DECISION_MAKER_CONDITIONS]
 }
 
 export default permissions
