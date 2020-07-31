@@ -47,27 +47,15 @@ For the project to build, **these files must exist with exact filenames**:
 - `public/index.html` is the page template;
 - `src/index.js` is the JavaScript entry point.
 
-## Running E2E tests with Cypress
-
-To begin, start the E2E API. This is a separate docker-compose environment from what you may use normally for local development, and must be running for the end-to-end tests to work.
+## Environment variables
 
 ```bash
-npm run test:e2e:api:start
+REACT_APP_SSO_REALM_NAME= # Realm name for SSo
+REACT_APP_SSO_CLIENT_ID= # Client ID for SSO
+REACT_APP_API_URL= # API URL. Hosted dev API is at https://web-range-myra-dev.pathfinder.gov.bc.ca/api.
 ```
 
-> If you want to completely remove the end-to-end API, you can run `npm run test:e2e:api:clean`.
-
-Then, to open Cypress in development mode:
-
-```bash
-npm run test:e2e:dev
-```
-
-Alternatively, if you just want to run the E2E tests in a headless environment:
-
-```bash
-npm run test:e2e:run
-```
+There are example environment variables in `.env.example` that you can copy into `.env`.
 
 ## Available Scripts
 
@@ -92,6 +80,28 @@ Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.<br><br>
 
 In `/semantic` directory, you can also run:
+
+## Running E2E tests with Cypress
+
+To begin, start the E2E API. This is a separate docker-compose environment from what you may use normally for local development, and must be running for the end-to-end tests to work.
+
+```bash
+npm run test:e2e:api:start
+```
+
+> If you want to completely remove the end-to-end API, you can run `npm run test:e2e:api:clean`.
+
+Then, to open Cypress in development mode:
+
+```bash
+npm run test:e2e:dev
+```
+
+Alternatively, if you just want to run the E2E tests in a headless environment:
+
+```bash
+npm run test:e2e:run
+```
 
 ### `gulp build`
 
