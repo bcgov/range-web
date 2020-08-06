@@ -141,7 +141,7 @@ const Base = ({
   const handleSubmit = async (plan, formik) => {
     try {
       // Update Plan
-      const planId = await savePlan(plan)
+      const planId = await savePlan(plan, user)
 
       formik.setSubmitting(false)
       successToast('Successfully saved draft')

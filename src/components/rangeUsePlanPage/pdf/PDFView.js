@@ -3,14 +3,16 @@ import RUPDocument from './pdf'
 import { getPlan } from '../../../api'
 import { Button, Icon } from 'semantic-ui-react'
 import { usePDF } from '../../../utils/hooks/pdf'
+import { useUser } from '../../../providers/UserProvider'
 
 const PDFView = ({ match }) => {
   const [agreementId, setAgreementId] = useState(null)
+  const user = useUser()
   const { planId } = match.params
 
   const [pdfUrl, loading, error, retry] = usePDF(async () => {
     setAgreementId(null)
-    const plan = await getPlan(planId)
+    const plan = await getPlan(planId, user)
 
     if (plan && plan.agreement && plan.agreement.id) {
       setAgreementId(plan.agreement.id)

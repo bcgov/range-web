@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { appendUsage, axios, getAuthHeaderConfig } from '../utils'
 import { GET_CLIENT_AGREEMENTS } from '../constants/api'
 import { isUUID } from 'uuid-v4'
+import { useUser } from './UserProvider'
 
 /**
  * @typedef {Object} PlanContext
@@ -41,6 +42,8 @@ export const PlanProvider = ({ children, storePlan }) => {
   const [errorSavingPlan, setErrorSavingPlan] = useState(null)
   const [clientAgreements, setClientAgreements] = useState(null)
 
+  const user = useUser()
+
   const fetchPlan = async (planId = currentPlanId, hard = false) => {
     setFetchingPlan(true)
 
@@ -49,7 +52,7 @@ export const PlanProvider = ({ children, storePlan }) => {
     }
 
     try {
-      const plan = await API.getPlan(planId)
+      const plan = await API.getPlan(planId, user)
       setCurrentPlan(schema.cast(appendUsage(plan)))
 
       if (!isUUID(plan.id)) {
@@ -78,7 +81,7 @@ export const PlanProvider = ({ children, storePlan }) => {
     try {
       setSavingPlan(true)
 
-      const planId = await API.savePlan(plan)
+      const planId = await API.savePlan(plan, user)
       await fetchPlan(planId)
 
       return planId
