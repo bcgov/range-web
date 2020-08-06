@@ -1,5 +1,11 @@
 import uuid from 'uuid-v4'
-import { axios, getAuthHeaderConfig, findStatusWithCode } from '../utils'
+import {
+  axios,
+  getAuthHeaderConfig,
+  findStatusWithCode,
+  isUserRangeOfficer,
+  canUserAddAttachments
+} from '../utils'
 import * as API from '../constants/api'
 import RUPSchema from '../components/rangeUsePlanPage/schema'
 import { getNetworkStatus } from '../utils/helper/network'
@@ -24,9 +30,9 @@ import {
  * Syncs plan and then returns locally stored record
  * @param {number} planId
  */
-export const getPlan = async planId => {
+export const getPlan = async (planId, user = {}) => {
   if (!uuid.isUUID(planId)) {
-    await syncPlan(planId)
+    await syncPlan(planId, user)
   }
   const plan = getPlanFromLocalStorage(planId)
 
@@ -40,13 +46,13 @@ export const getPlan = async planId => {
  * @returns {void}
  */
 
-const syncPlan = async planId => {
+const syncPlan = async (planId, user) => {
   const isOnline = await getNetworkStatus()
   const localPlan = getPlanFromLocalStorage(planId)
 
   if (isOnline) {
     if (localPlan && !localPlan.synced) {
-      await savePlan(localPlan)
+      await savePlan(localPlan, user)
     }
 
     const { data: serverPlan } = await axios.get(
@@ -61,7 +67,7 @@ const syncPlan = async planId => {
  * If online, uploads the plan to the API. Otherwise, saves the plan to local storage
  * @param {object} plan
  */
-export const savePlan = async plan => {
+export const savePlan = async (plan, user = {}) => {
   const isOnline = await getNetworkStatus()
 
   if (!isOnline) {
@@ -107,7 +113,9 @@ export const savePlan = async plan => {
   await saveManagementConsiderations(planId, managementConsiderations)
   await saveMinisterIssues(planId, ministerIssues, newPastures)
   await saveAdditionalRequirements(planId, additionalRequirements)
-  await saveAttachments(planId, files)
+  if (isUserRangeOfficer(user) && canUserAddAttachments(plan, user)) {
+    await saveAttachments(planId, files)
+  }
 
   return planId
 }

@@ -67,7 +67,7 @@ class PageForAH extends Component {
     onSuccess,
     onError
   ) => {
-    const { plan, updateRUPStatus, toastErrorMessage } = this.props
+    const { plan, updateRUPStatus, toastErrorMessage, user } = this.props
 
     onRequested()
 
@@ -79,7 +79,7 @@ class PageForAH extends Component {
     }
 
     try {
-      const planId = await savePlan(plan)
+      const planId = await savePlan(plan, user)
 
       await updateRUPStatus({
         planId,

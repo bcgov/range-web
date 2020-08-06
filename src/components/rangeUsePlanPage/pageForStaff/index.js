@@ -52,14 +52,14 @@ class PageForStaff extends Component {
   }
 
   updateContent = async (onRequested, onSuccess, onError) => {
-    const { plan, toastErrorMessage } = this.props
+    const { plan, toastErrorMessage, user } = this.props
 
     onRequested()
 
     if (this.validateRup(plan)) return onError()
 
     try {
-      await savePlan(plan)
+      await savePlan(plan, user)
 
       await onSuccess()
     } catch (err) {
