@@ -120,7 +120,7 @@ class AmendmentSubmissionModal extends Component {
             user,
             confirmationId: currUserConfirmation.id,
             confirmed: true,
-            isMinorAmendment: true,
+            isMinorAmendment: amendmentType.code === AMENDMENT_TYPE.MINOR,
             isOwnSignature
           })
         }
