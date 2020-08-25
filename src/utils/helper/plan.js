@@ -207,6 +207,16 @@ export const canUserAmendPlan = (plan = {}, user = {}) => {
   )
 }
 
+export const canUserSaveDraft = (plan = {}, user = {}) => {
+  const canEdit = canUserEditThisPlan(plan, user)
+
+  if (isUserRangeOfficer(user)) {
+    return canEdit || isStatusSubmittedForFD(plan?.status)
+  }
+
+  return canEdit
+}
+
 export const canUserEditThisPlan = (plan = {}, user = {}) => {
   const { status } = plan
 
