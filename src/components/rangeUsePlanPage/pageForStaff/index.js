@@ -162,7 +162,7 @@ class PageForStaff extends Component {
     return (
       <ActionBtns
         permissions={{
-          edit: utils.canUserEditThisPlan(plan, user),
+          edit: utils.canUserSaveDraft(plan, user),
           submit: utils.canUserSubmitPlan(plan, user),
           amend: utils.canUserAmendPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),
