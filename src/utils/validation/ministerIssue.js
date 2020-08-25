@@ -1,8 +1,8 @@
 import { UNIDENTIFIED_MINISTER_ISSUES } from '../../constants/strings'
 import { ELEMENT_ID } from '../../constants/variables'
 
-export const handleMinisterIssueValidation = grazingSchedules => {
-  if (grazingSchedules.find(schedule => !schedule.approved)) {
+export const handleMinisterIssueValidation = ministerIssues => {
+  if (ministerIssues.find(issue => !issue.identified)) {
     return [
       {
         error: true,
