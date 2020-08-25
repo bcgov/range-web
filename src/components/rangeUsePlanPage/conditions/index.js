@@ -6,6 +6,8 @@ import * as strings from '../../../constants/strings'
 import PermissionsField from '../../common/PermissionsField'
 import { TextArea } from 'formik-semantic-ui'
 import { useUser } from '../../../providers/UserProvider'
+import EditableProvider from '../../../providers/EditableProvider'
+import { isStatusSubmittedForFD } from '../../../utils'
 
 const Conditions = ({ plan }) => {
   const user = useUser()
@@ -58,18 +60,20 @@ const Conditions = ({ plan }) => {
                 />
               </div>
             </div>
-            <PermissionsField
-              permission={CONDITIONS.PROPOSED_CONDITIONS}
-              name="proposedConditions"
-              component={TextArea}
-              displayValue={
-                proposedConditions !== '' && proposedConditions !== null
-                  ? '\n' + proposedConditions
-                  : '\nNo conditions'
-              }
-              fieldProps={{ required: false }}
-              fast
-            />
+            <EditableProvider editable={isStatusSubmittedForFD(plan?.status)}>
+              <PermissionsField
+                permission={CONDITIONS.PROPOSED_CONDITIONS}
+                name="proposedConditions"
+                component={TextArea}
+                displayValue={
+                  proposedConditions !== '' && proposedConditions !== null
+                    ? '\n' + proposedConditions
+                    : '\nNo conditions'
+                }
+                fieldProps={{ required: false }}
+                fast
+              />
+            </EditableProvider>
           </div>
         )}
       </div>
