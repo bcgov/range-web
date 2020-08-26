@@ -25,20 +25,9 @@ import * as API from '../../constants/api'
 import { axios, getAuthHeaderConfig, getUserFullName } from '../../utils'
 import { useToast } from '../../providers/ToastProvider'
 import ClientDropdown from './ClientDropdown'
-import { deleteClientLink, createAllClientLinks } from '../../api'
+import { deleteClientLink, createClientLink } from '../../api'
 import { green } from '@material-ui/core/colors'
 import { useEffect } from 'react'
-
-const groupClients = (clients, { id, locationCode, ...client }) => {
-  if (clients.find(c => c.clientNumber === client.clientNumber)) {
-    return clients.map(c => ({
-      ...c,
-      locationCodes: [...c.locationCodes, locationCode],
-      ids: [...c.ids, id]
-    }))
-  }
-  return [...clients, { ...client, ids: [id], locationCodes: [locationCode] }]
-}
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
@@ -102,14 +91,11 @@ const ClientLinkList = ({ userId }) => {
     setIsCreating(true)
     setCreateError(null)
     try {
-      const newClients = await createAllClientLinks(
-        userId,
-        selectedClient.clientNumber
-      )
+      await createClientLink(userId, selectedClient.clientNumber)
 
       mutate({
         ...user,
-        clients: [...(user.clients ?? []), ...newClients]
+        clients: [...(user.clients ?? []), selectedClient]
       })
 
       setSelectedClient(null)
@@ -126,13 +112,11 @@ const ClientLinkList = ({ userId }) => {
     setIsDeleting(true)
 
     try {
-      for (const id of client.ids) {
-        await deleteClientLink(userId, id)
-      }
+      await deleteClientLink(userId, client.clientNumber)
 
       mutate({
         ...user,
-        clients: (user.clients ?? []).filter(c => !client.ids.includes(c.id))
+        clients: (user.clients ?? []).filter(c => c === c.clientNumber)
       })
 
       setClientToDelete(null)
@@ -194,7 +178,7 @@ const ClientLinkList = ({ userId }) => {
 
           {user && (
             <List className={classes.list}>
-              {user.clients?.reduce(groupClients, []).map(client => (
+              {user.clients?.map(client => (
                 <div key={client.clientNumber}>
                   <ListItem>
                     <ListItemText

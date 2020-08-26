@@ -5,7 +5,6 @@ const mockClients = [
     name: 'BLANABBA, FREWT',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [1],
     clientType: {}
   },
   {
@@ -14,7 +13,6 @@ const mockClients = [
     name: 'Leslie Knope',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [2],
     clientType: {}
   },
   {
@@ -23,7 +21,6 @@ const mockClients = [
     name: 'Ann Perkins',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [3],
     clientType: {}
   },
   {
@@ -32,7 +29,6 @@ const mockClients = [
     name: 'Tom Haverford',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [4],
     clientType: {}
   },
   {
@@ -41,7 +37,6 @@ const mockClients = [
     name: 'April Ludgate',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [5],
     clientType: {}
   },
   {
@@ -50,7 +45,6 @@ const mockClients = [
     name: 'Andy Dwyer',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [6],
     clientType: {}
   },
   {
@@ -59,7 +53,6 @@ const mockClients = [
     name: 'Nackyu Han',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [7],
     clientType: {}
   },
   {
@@ -68,7 +61,6 @@ const mockClients = [
     name: 'Ben Wyatt',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [8],
     clientType: {}
   },
   {
@@ -77,7 +69,6 @@ const mockClients = [
     name: 'Ron Swanson',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [9],
     clientType: {}
   },
   {
@@ -86,7 +77,6 @@ const mockClients = [
     name: 'Chris Traeger',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    ids: [10],
     clientType: {}
   }
 ]

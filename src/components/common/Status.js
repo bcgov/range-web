@@ -122,12 +122,12 @@ const translateStatusBasedOnUser = (
       }
       break
     case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Decision'
-        modifier += '--gray'
-      } else {
+      if (isUserRangeOfficer(user)) {
         statusName = 'Decision Required'
         modifier += '--orange'
+      } else {
+        statusName = 'Awaiting Decision'
+        modifier += '--gray'
       }
       break
     case PLAN_STATUS.AWAITING_CONFIRMATION:

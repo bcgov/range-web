@@ -130,8 +130,8 @@ describe('Manage client page', () => {
     mockAxios.onGet(new RegExp(API.SEARCH_CLIENTS)).reply(200, mockClients)
     mockAxios.onGet(`${API.GET_USERS}/${mockUser.id}`).reply(200, {
       ...mockUser,
-      clients: mockUser.clients.map(clientId =>
-        mockClients.find(c => c.ids.includes(clientId))
+      clients: mockUser.clients.map(clientNumber =>
+        mockClients.find(c => c.clientNumber === clientNumber)
       )
     })
 
@@ -169,8 +169,8 @@ describe('Manage client page', () => {
     mockAxios.onGet(new RegExp(API.SEARCH_CLIENTS)).reply(200, mockClients)
     mockAxios.onGet(`${API.GET_USERS}/${mockUser.id}`).reply(200, {
       ...mockUser,
-      clients: mockUser.clients.map(clientId =>
-        mockClients.find(c => c.ids.includes(clientId))
+      clients: mockUser.clients.map(clientNumber =>
+        mockClients.find(c => c.clientNumber === clientNumber)
       )
     })
     mockAxios.onPost(`${API.CREATE_USER_CLIENT_LINK(mockUser.id)}`).reply(400, {

@@ -88,7 +88,7 @@ class SubmissionModal extends Component {
       if (status.id === 14 || status.id === 18) {
         for (const currUserConfirmation of currUserConfirmations) {
           const isOwnSignature = user.clients.some(
-            c => c.id === currUserConfirmation.clientId
+            c => c.clientNumber === currUserConfirmation.clientId
           )
           await updateRUPConfirmation(
             plan,

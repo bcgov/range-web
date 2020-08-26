@@ -97,7 +97,7 @@ class AHSignatureModal extends Component {
       for (const currUserConfirmation of currUserConfirmations) {
         if (!currUserConfirmation.confirmed) {
           const isOwnSignature = user.clients.some(
-            c => c.id === currUserConfirmation.clientId
+            c => c.clientNumber === currUserConfirmation.clientId
           )
           const res = await updateRUPConfirmation(
             plan,

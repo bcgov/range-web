@@ -43,10 +43,12 @@ class RequestSignaturesTab extends Component {
   renderAgreementHolder = client => {
     const { user, clientAgreements } = this.props
     const agencyAgreements = clientAgreements.filter(a => a.agentId === user.id)
-    const isAgent = !!agencyAgreements.find(ca => ca.clientId === client.id)
+    const isAgent = !!agencyAgreements.find(
+      ca => ca.clientId === client.clientNumber
+    )
 
     return (
-      <div key={client.id} className="rup__multi-tab__ah-list">
+      <div key={client.clientNumber} className="rup__multi-tab__ah-list">
         <Icon name="user outline" />
         <span
           className={classnames('rup__multi-tab__ah-list__cname', {

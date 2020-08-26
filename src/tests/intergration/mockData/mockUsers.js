@@ -618,7 +618,7 @@ const mockUsers = [
   {
     id: 54,
     username: 'bceid\\april.ludgate',
-    clients: [4],
+    clients: ['09999903'],
     givenName: 'April',
     familyName: 'Ludgate',
     email: 'april.ludgate@example.com',

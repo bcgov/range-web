@@ -109,7 +109,7 @@ const BasicInformation = ({ plan }) => (
     </Row>
 
     {plan.agreement.clients.map(client => (
-      <Row key={client.id}>
+      <Row key={client.clientNumber}>
         <Field label="Name">{getClientFullName(client)}</Field>
         <Field label="Type">{getContactRole(client)}</Field>
       </Row>

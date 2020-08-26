@@ -74,7 +74,7 @@ const FrontPage = ({ plan }) => (
         )
 
         return (
-          <Text key={client.id}>
+          <Text key={client.clientNumber}>
             {client.name} -{' '}
             {confirmation && confirmation.confirmed
               ? moment(confirmation.updatedAt).format('MMMM DD, YYYY')
