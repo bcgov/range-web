@@ -23,9 +23,7 @@ import { REFERENCE_KEY } from '../../../constants/variables'
 import { isUUID } from 'uuid-v4'
 
 const getAgentForClient = (client, clientAgreements) => {
-  const clientAgreement = clientAgreements.find(
-    ca => ca.clientId === client.clientNumber
-  )
+  const clientAgreement = clientAgreements.find(ca => ca.clientId === client.id)
 
   return clientAgreement?.agent
 }
