@@ -52,14 +52,14 @@ class PageForStaff extends Component {
   }
 
   updateContent = async (onRequested, onSuccess, onError) => {
-    const { plan, toastErrorMessage } = this.props
+    const { plan, toastErrorMessage, user } = this.props
 
     onRequested()
 
     if (this.validateRup(plan)) return onError()
 
     try {
-      await savePlan(plan)
+      await savePlan(plan, user)
 
       await onSuccess()
     } catch (err) {
@@ -162,7 +162,7 @@ class PageForStaff extends Component {
     return (
       <ActionBtns
         permissions={{
-          edit: utils.canUserEditThisPlan(plan, user),
+          edit: utils.canUserSaveDraft(plan, user),
           submit: utils.canUserSubmitPlan(plan, user),
           amend: utils.canUserAmendPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),

@@ -14,15 +14,23 @@ import AdditionalRequirements from './additionalRequirements'
 import { Attachments, AttachmentsHeader } from './attachments'
 import EditableProvider from '../../providers/EditableProvider'
 import { isUUID } from 'uuid-v4'
+import { useUser } from '../../providers/UserProvider'
+import { canUserAttachMaps, canUserAddAttachments } from '../../utils'
 
 const PlanForm = ({ plan, isEditable = true }) => {
+  const user = useUser()
+
   return (
     <EditableProvider editable={isEditable}>
-      <Element name={ELEMENT_ID.CONDITIONS}>
-        <Conditions plan={plan} agreement={plan.agreement} />
-      </Element>
+      {plan?.conditions !== '' && (
+        <Element name={ELEMENT_ID.CONDITIONS} id={ELEMENT_ID.CONDITIONS}>
+          <Conditions plan={plan} agreement={plan.agreement} />
+        </Element>
+      )}
 
-      <Element name={ELEMENT_ID.BASIC_INFORMATION}>
+      <Element
+        name={ELEMENT_ID.BASIC_INFORMATION}
+        id={ELEMENT_ID.BASIC_INFORMATION}>
         <BasicInformation plan={plan} agreement={plan.agreement} />
       </Element>
       <Element name={ELEMENT_ID.PASTURES} id={ELEMENT_ID.PASTURES}>
@@ -36,29 +44,37 @@ const PlanForm = ({ plan, isEditable = true }) => {
         id={ELEMENT_ID.GRAZING_SCHEDULE}>
         <GrazingSchedules plan={plan} />
       </Element>
-      <Element name={ELEMENT_ID.MINISTER_ISSUES}>
+      <Element
+        name={ELEMENT_ID.MINISTER_ISSUES}
+        id={ELEMENT_ID.MINISTER_ISSUES}>
         <MinisterIssues issues={plan.ministerIssues} />
       </Element>
-      <Element name={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}>
+      <Element
+        name={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}
+        id={ELEMENT_ID.INVASIVE_PLANT_CHECKLIST}>
         <InvasivePlantChecklist
           namespace="invasivePlantChecklist"
           invasivePlantChecklist={plan.invasivePlantChecklist}
         />
       </Element>
-      <Element name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
+      <Element
+        name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
+        id={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}>
         <AdditionalRequirements
           additionalRequirements={plan.additionalRequirements}
         />
       </Element>
-      <Element name={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}>
+      <Element
+        name={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
+        id={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}>
         <ManagementConsiderations
           planId={plan.id}
           managementConsiderations={plan.managementConsiderations}
         />
       </Element>
       {!isUUID(plan.id) && (
-        <>
-          <Element name={ELEMENT_ID.ATTACHMENTS}>
+        <EditableProvider editable={canUserAddAttachments(plan, user)}>
+          <Element name={ELEMENT_ID.ATTACHMENTS} id={ELEMENT_ID.ATTACHMENTS}>
             <AttachmentsHeader />
             <Attachments
               planId={plan.id}
@@ -66,12 +82,14 @@ const PlanForm = ({ plan, isEditable = true }) => {
               propertyName="decisionAttachments"
               label="Decision Material"
             />
-            <Attachments
-              planId={plan.id}
-              attachments={plan.files}
-              propertyName="mapAttachments"
-              label="Map"
-            />
+            <EditableProvider editable={canUserAttachMaps(plan, user)}>
+              <Attachments
+                planId={plan.id}
+                attachments={plan.files}
+                propertyName="mapAttachments"
+                label="Map"
+              />
+            </EditableProvider>
             <Attachments
               planId={plan.id}
               attachments={plan.files}
@@ -79,7 +97,7 @@ const PlanForm = ({ plan, isEditable = true }) => {
               label="Other"
             />
           </Element>
-        </>
+        </EditableProvider>
       )}
     </EditableProvider>
   )

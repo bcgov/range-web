@@ -1,4 +1,7 @@
-export const CONDITIONS = 'conditions'
+export const CONDITIONS = {
+  CONDITIONS: 'conditions.decisionMaker',
+  PROPOSED_CONDITIONS: 'conditions.rangeOfficer'
+}
 
 export const BASIC_INFORMATION = {
   RANGE_NAME: 'basicInformation.rangeName',
