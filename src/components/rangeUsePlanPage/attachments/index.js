@@ -40,6 +40,7 @@ const Attachments = ({
       formik.setFieldValue(`${fieldName}.error`, e)
     }
   }
+  console.log(attachments)
 
   return (
     <FieldArray
@@ -47,8 +48,9 @@ const Attachments = ({
       render={({ push, remove }) => (
         <>
           <div className="rup__attachments">
+            <div className="rup__attachments__title">{label} Attachments</div>
             <div className="rup__attachments__box">
-              {attachments.length === 0 ? (
+              {attachments.filter(a => a.type === propertyName).length === 0 ? (
                 <div className="rup__attachments__no-content">
                   No {label.toLocaleLowerCase()} attachments provided
                 </div>
