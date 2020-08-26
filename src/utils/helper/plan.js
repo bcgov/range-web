@@ -231,11 +231,7 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     )
   }
 
-  if (
-    isStatusRecommendReady(status) ||
-    isStatusRecommendNotReady(status) ||
-    isStatusStandsReview(status)
-  ) {
+  if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
     return user.roles.includes('myra_decision_maker')
   }
 
