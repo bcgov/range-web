@@ -40,7 +40,6 @@ const Attachments = ({
       formik.setFieldValue(`${fieldName}.error`, e)
     }
   }
-  console.log(attachments)
 
   return (
     <FieldArray
