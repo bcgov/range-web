@@ -257,6 +257,7 @@ export const canUserAddAttachments = (plan = {}, user = {}) => {
   return (
     (canUserEditThisPlan(plan, user) || canUserUpdateStatus(plan, user)) &&
     !isStatusApproved(plan.status)
+  )
 }
 
 export const canUserAttachMaps = (plan = {}, user = {}) => {
