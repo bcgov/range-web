@@ -4,7 +4,7 @@ import { getAuthHeaderConfig, axios } from '../utils'
 export const createClientLink = async (userId, clientNumber) => {
   return axios.post(
     API.CREATE_USER_CLIENT_LINK(userId),
-    { clientNumber },
+    { clientId: clientNumber },
     getAuthHeaderConfig()
   )
 }
