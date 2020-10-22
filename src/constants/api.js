@@ -67,6 +67,8 @@ export const API_BASE_URL = isBundled
   ? `${window.location.origin}/api`
   : DEV_ENV.API_BASE_URL
 
+export const GET_NOTIFICATIONS = userid => 'v1/notification'
+
 export const SEARCH_AGREEMENTS = '/v1/agreement/search'
 export const GET_AGREEMENT = agreementId => `/v1/agreement/${agreementId}`
 export const UPDATE_AGREEMENT_ZONE = agreementId =>

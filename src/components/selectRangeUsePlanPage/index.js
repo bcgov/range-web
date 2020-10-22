@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import * as API from '../../constants/api'
 import { axios, getAuthHeaderConfig, isUserRangeOfficer } from '../../utils'
@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import ZoneSelect from './ZoneSelect'
 import SearchBar from './SearchBar'
 import { Banner } from '../common'
+import { getNotifications } from '../../api/index'
 import {
   SELECT_RUP_BANNER_HEADER,
   SELECT_RUP_BANNER_CONTENT,
@@ -67,12 +68,26 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
   const { agreements, totalPages, currentPage = page, totalItems } = data || {}
   const classes = useStyles()
+  const [displayNotifications, setDisplayNotifications] = useState([])
+
+  useEffect(() => {
+    getNotifications(user).then(result => {
+      if (result) {
+        if (result.data.notifications.examples) {
+          console.log('got there)')
+          setDisplayNotifications(result.data.notifications.examples)
+        }
+      }
+    })
+  }, [])
+
   return (
     <section className="agreement">
       <Banner
         header={SELECT_RUP_BANNER_HEADER}
         content={SELECT_RUP_BANNER_CONTENT}
       />
+      <div>{JSON.stringify(displayNotifications)}</div>
       <div className="agrm__table-container">
         <div className={classes.searchFilterContainer}>
           <SearchBar

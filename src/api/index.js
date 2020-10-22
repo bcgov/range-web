@@ -389,4 +389,5 @@ const saveMonitoringAreas = (
 export * from './delete'
 export * from './plan'
 export * from './user'
+export * from './notification'
 export * from './upload'
