@@ -116,7 +116,7 @@ class UpdateStatusDropdown extends Component {
     this.openConfirmModalForUpdatingPlanStatus({
       header: strings.NOT_APPROVED_FWR_CONFIRM_HEADER,
       content: strings.NOT_APPROVED_CONFIRM_CONTENT,
-      statusCode: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED
+      statusCode: PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION
     })
   }
 
