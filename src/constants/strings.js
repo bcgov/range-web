@@ -204,7 +204,7 @@ export const NOT_APPROVED_CONFIRM_HEADER = 'Update Status: Not Approved'
 export const NOT_APPROVED_CONFIRM_CONTENT =
   'Are you sure you want to update the status?'
 export const NOT_APPROVED_FWR_CONFIRM_HEADER =
-  'Update Status: Not Approved - Further Work Required'
+  'Return to staff to request changes from agreement holder'
 export const NOT_APPROVED_FWR_CONFIRM_CONTENT =
   'Are you sure you want to update the status?'
 export const RECOMMEND_READY_CONFIRM_HEADER = 'Update Status: Recommend Ready'
