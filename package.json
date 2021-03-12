@@ -29,7 +29,7 @@
     "formik-semantic-ui": "^0.10.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-localstorage-mock": "^2.3.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.0.10",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
