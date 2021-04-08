@@ -43,7 +43,9 @@ export const createConfigWithHeader = getState => {
     headers: {
       Authorization: `Bearer ${token}`,
       'content-type': 'application/json'
-    }
+    },
+    maxContentLength: 100000000,
+    maxBodyLength: 1000000000
   }
 }
 
