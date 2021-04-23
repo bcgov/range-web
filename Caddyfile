@@ -1,15 +1,13 @@
-0.0.0.0:2015
-
-root /var/www/html
-
-log stdout
-
-errors stdout
-
-rewrite {
-  if    {path} not_match ^\/0.0.0.0
-  to    {path} {path}/ /?_url={uri}
+{
+    auto_https off
+    debug
 }
+:2015
+
+root * /srv
+file_server
+
+log
 
 header /service-worker.js {
   Cache-Control max-age=0,no-cache,no-store,must-revalidate
@@ -18,3 +16,4 @@ header /service-worker.js {
 header /index.html {
   Cache-Control max-age=0,no-cache,no-store,must-revalidate
 }
+
