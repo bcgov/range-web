@@ -1,0 +1,22 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+  name: node
+  namespace: 3187b2-tools
+  labels:
+    base-name: node
+    shared: 'true'
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: '10'
+      annotations: null
+      from:
+        kind: DockerImage
+        name: >-
+          docker-remote.artifacts.developer.gov.bc.ca/node:10
+      importPolicy: {}
+      referencePolicy:
+        type: Local

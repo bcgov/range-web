@@ -1,0 +1,84 @@
+kind: Template
+apiVersion: v1
+labels:
+  template: nginx-minio-template
+metadata:
+  name: nginx-minio-dc
+  creationTimestamp:
+objects:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: nginx-minio
+      labels:
+        name: nginx-minio
+    spec:
+      ports:
+        - name: nginx-minio
+          protocol: TCP
+          port: 9000
+          targetPort: 9000
+      selector:
+        name: nginx-minio
+      type: ClusterIP
+      sessionAffinity: None
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: nginx-minio
+      labels:
+        name: nginx-minio
+        app: nginx-minio
+    spec:
+      replicas: 1
+      strategy:
+        type: Recreate
+      triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+          - nginx-minio
+          from:
+            kind: ImageStreamTag
+            name: nginx-minio:latest
+            namespace: 3187b2-tools
+        type: ImageChange
+      test: false
+      selector:
+        name: nginx-minio
+      template:
+        metadata:
+          creationTimestamp:
+          labels:
+            name: nginx-minio
+        spec:
+          containers:
+            - name: nginx-minio
+              image: ''
+              ports:
+                - containerPort: 9000
+                  protocol: TCP
+              resources:
+                request:
+                  cpu: 250m
+                  memory: 256Mi
+                limits:
+                  cpu: 1
+                  memory: 1G
+              readinessProbe:
+                tcpSocket:
+                  port: 9000
+                initialDelaySeconds: 25
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              imagePullPolicy: Always
+              securityContext:
+                capabilities: {}
+                privileged: false
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+    

@@ -1,0 +1,13 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+  name: postgres-postgis
+  namespace: 3187b2-tools
+  labels:
+    base-name: postgres-postgis
+    shared: 'true'
+spec:
+  lookupPolicy:
+    local: true
+
