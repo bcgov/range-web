@@ -42,7 +42,7 @@ export const SSO_REALM_NAME = isBundled
   ? '{{env "SSO_REALM_NAME"}}'
   : process.env.REACT_APP_SSO_REALM_NAME
 export const SSO_CLIENT_ID = isBundled
-  ? '{{env."SSO_CLIENT_ID"}}'
+  ? '{{env "SSO_CLIENT_ID"}}'
   : process.env.REACT_APP_SSO_CLIENT_ID
 export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`
 export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`
