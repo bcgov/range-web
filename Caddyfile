@@ -7,6 +7,7 @@
 root * /srv
 file_server
 
+templates
 log
 
 header /service-worker.js {
