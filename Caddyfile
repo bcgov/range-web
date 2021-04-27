@@ -8,7 +8,12 @@ root * /srv
 file_server
 
 templates
-log
+log {
+  level INFO
+}
+encode gzip
+try_files {path}.html {path}
+
 
 header /service-worker.js {
   Cache-Control max-age=0,no-cache,no-store,must-revalidate
