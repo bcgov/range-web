@@ -1,0 +1,68 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    cronjob: fta-data-importer
+  name: fta-data-importer
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      labels:
+        cronjob: fta-data-importer
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          activeDeadlineSeconds: 1800
+          containers:
+          - command:
+            - npm
+            - run
+            - import
+            env:
+            - name: PATH
+              value: /opt/rh/rh-nodejs10/root/usr/bin:/opt/app-root/src/node_modules/.bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+            - name: FTA_API_STORE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: nrs-api-store-credentials
+            - name: FTA_API_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: nrs-api-store-credentials
+            - name: FTA_BASE_URL
+              value: https://api.nrs.gov.bc.ca
+            - name: POSTGRESQL_HOST
+              value: postgresql
+            - name: POSTGRESQL_DATABASE
+              value: myra
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: postgresql
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: postgresql
+            image: image-registry.openshift-image-registry.svc:5000/3187b2-tools/range-api:dev
+            imagePullPolicy: IfNotPresent
+            name: fta-data-importer
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  schedule: 0 12 * * *
+  successfulJobsHistoryLimit: 3
+  suspend: false
+

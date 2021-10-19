@@ -1,0 +1,125 @@
+kind: Template
+apiVersion: v1
+labels:
+  template: minio-template
+metadata:
+  name: minio-dc
+  creationTimestamp:
+parameters:
+  - name: PVC_SIZE
+    value: 30G
+    displayName: PVC Size
+    description: PVC Size
+    required: true
+objects:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: minio
+      labels:
+        name: minio
+    spec:
+      ports:
+        - name: minio
+          protocol: TCP
+          port: 9000
+          targetPort: 9000
+      selector:
+        name: minio
+      type: ClusterIP
+      sessionAffinity: None
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: minio
+      annotations:
+        volume.beta.kubernetes.io/storage-class: netapp-block-standard
+        template.openshift.io.bcgov/create: 'true'
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: "${PVC_SIZE}"
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: minio
+      labels:
+        name: minio
+        app: minio
+    spec:
+      replicas: 1
+      strategy:
+        type: Recreate
+      triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+          - minio
+          from:
+            kind: ImageStreamTag
+            name: minio:latest
+            namespace: 3187b2-tools
+        type: ImageChange
+      test: false
+      selector:
+        name: minio
+      template:
+        metadata:
+          creationTimestamp:
+          labels:
+            name: minio
+        spec:
+          volumes:
+            - name: minio-data
+              persistentVolumeClaim:
+                claimName: minio
+          containers:
+            - name: minio
+              image: ''
+              command:
+                - minio
+                - server
+                - /export
+              ports:
+                - containerPort: 9000
+                  protocol: TCP
+              env:
+                - name: MINIO_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: minio
+                      key: minioAccessKey
+                - name: MINIO_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: minio
+                      key: minioSecretKey
+              resources:
+                request:
+                  cpu: 250m
+                  memory: 2G
+                limits:
+                  cpu: 1
+                  memory: 2G
+              volumeMounts:
+                - name: minio-data
+                  mountPath: "/export"
+              readinessProbe:
+                tcpSocket:
+                  port: 9000
+                initialDelaySeconds: 25
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              imagePullPolicy: Always
+              securityContext:
+                capabilities: {}
+                privileged: false
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+    

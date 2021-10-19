@@ -1,0 +1,65 @@
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: "range-web-caddy"
+  creationTimestamp: null
+  annotations:
+    description: Caddy Web Image
+  labels:
+    shared: 'true'
+spec:
+  lookupPolicy:
+    local: false
+---
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: "range-web-caddy"
+  creationTimestamp: 
+  labels: {}
+  annotations: {}
+spec:
+  nodeSelector: 
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "range-web-caddy:latest"
+  postCommit: {}
+  resources:
+    limits:
+      cpu: 2
+      memory: 6Gi
+    requests:
+      cpu: 2
+      memory: 6Gi
+  runPolicy: Serial
+  source:
+    dockerfile: |-
+      FROM caddy:2-alpine
+      EXPOSE 2015
+      COPY Caddyfile /etc/caddy
+      COPY build/ /srv/
+    images:
+        - from: 
+            kind: ImageStreamTag
+            name: range-web:latest
+          paths: 
+          - sourcePath: /opt/app-root/src/Caddyfile
+            destinationDir: "."
+          - sourcePath: /opt/app-root/src/build
+            destinationDir: "."
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: caddy:2-alpine
+    type: Docker
+  failedBuildsHistoryLimit: 1
+  successfulBuildsHistoryLimit: 1
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+    imageChange:
+    from:
+      kind: "ImageStreamTag"
+      name: "range-web:latest"

@@ -5,7 +5,9 @@ ENV PATH /opt/rh/rh-nodejs8/root/usr/bin:/opt/app-root/src/node_modules/.bin/:/o
 
 WORKDIR /opt/app-root/src
 COPY ./package*.json ./
+COPY ./semantic.json ./
+COPY semantic .
 RUN npm ci
-COPY ./ .
+COPY . .
 RUN npm run build
 

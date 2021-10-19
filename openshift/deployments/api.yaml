@@ -1,0 +1,170 @@
+kind: Template
+apiVersion: v1
+labels:
+  template: api-template
+metadata:
+  name: api-dc
+  creationTimestamp:
+parameters:
+  - name: TAG
+    value: "dev"
+    required: true
+  - name: SSO_URL
+    value: "https://oidc.gov.bc.ca/auth/realms/range/protocol/openid-connect"
+    required: true
+  - name: APP_URL
+    value: "https://myrangebc-dev.apps.silver.devops.gov.bc.ca"
+    required: true
+  - name: MINIO_PUBLIC_ENDPOINT
+    value: "https://myrangebc-minio-dev.apps.silver.devops.gov.bc.ca"
+    required: true
+objects:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: myra-api
+      labels:
+        name: myra-api
+    spec:
+      ports:
+        - name: myra-api
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: myra-api
+      type: ClusterIP
+      sessionAffinity: None
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: myra-api
+      labels:
+        name: myra-api
+        app: myra-api
+    spec:
+      replicas: 1
+      strategy:
+        activeDeadlineSeconds: 21600
+        resources: {}
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+          - myra-api
+          from:
+            kind: ImageStreamTag
+            name: "range-api:${TAG}"
+            namespace: 3187b2-tools
+        type: ImageChange
+      test: false
+      selector: 
+        name: myra-api
+      template:
+        metadata:
+          creationTimestamp:
+          labels:
+            name: myra-api
+        spec:
+          containers:
+            - name: myra-api
+              image: ''
+              ports:
+                - containerPort: 9000
+                  protocol: TCP
+              env:
+                - name: POSTGRESQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: user
+                      name: postgresql
+                - name: POSTGRESQL_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: postgresql
+                - name: POSTGRESQL_DATABASE
+                  value: myra
+                - name: POSTGRESQL_HOST
+                  value: postgresql
+                - name: SSO_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: secret
+                      name: sso-credentials
+                - name: MINIO_ENDPOINT
+                  value: minio
+                - name: MINIO_PORT
+                  value: '9000'
+                - name: MINIO_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: minioAccessKey
+                      name: minio
+                - name: MINIO_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: minioSecretKey
+                      name: minio
+                - name: MINIO_BUCKET
+                  value: myra
+                - name: PORT
+                  value: '8080'
+                - name: NODE_ENV
+                  value: production
+                - name: APP_URL
+                  value: '${APP_URL}'
+                - name: POSTGRESQL_PORT
+                  value: '5432'
+                - name: MINIO_PUBLIC_ENDPOINT
+                  value: "${MINIO_PUBLIC_ENDPOINT}"
+                - name: SSO_URL
+                  value: "${SSO_URL}"
+              resources:
+                limits:
+                  cpu: 100m
+                  memory: 256Mi
+                requests:
+                  cpu: 10m
+                  memory: 160Mi
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /api/v1/ehlo
+                  port: 8080
+                  scheme: HTTP
+                initialDelaySeconds: 300
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 3
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /api/v1/ehlo
+                  port: 8080
+                  scheme: HTTP
+                initialDelaySeconds: 3
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 3
+              imagePullPolicy: Always
+              securityContext:
+                capabilities: {}
+                privileged: false
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+    

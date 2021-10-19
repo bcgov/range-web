@@ -16,7 +16,7 @@
     "clean": "src/semantic/"
   },
   "permission": false,
-  "autoInstall": false,
+  "autoInstall": true,
   "rtl": false,
   "version": "2.4.2"
 }
