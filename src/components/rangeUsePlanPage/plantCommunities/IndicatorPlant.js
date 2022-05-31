@@ -4,7 +4,7 @@ import { STUBBLE_HEIGHT } from '../../../constants/fields'
 import { Dropdown, Icon, Grid } from 'semantic-ui-react'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
-import { Form } from 'formik-semantic-ui'
+import { Form } from 'formik-semantic-ui-react'
 import DecimalField from '../../common/form/DecimalField'
 import HelpfulDropdown from '../../common/form/HelpfulDropdown'
 

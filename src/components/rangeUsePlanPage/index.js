@@ -36,7 +36,7 @@ import {
   createOrUpdateRUPInvasivePlantChecklist,
   createOrUpdateRUPManagementConsideration
 } from '../../actionCreators'
-import { Form } from 'formik-semantic-ui'
+import { Form } from 'formik-semantic-ui-react'
 import { useToast } from '../../providers/ToastProvider'
 import { useReferences } from '../../providers/ReferencesProvider'
 import RUPSchema from './schema'

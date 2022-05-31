@@ -7,7 +7,7 @@ import { RANGE_READINESS } from '../../../../constants/fields'
 import { RANGE_READINESS_OTHER_TIP } from '../../../../constants/strings'
 import PermissionsField from '../../../common/PermissionsField'
 import DayMonthPicker from '../../../common/form/DayMonthPicker'
-import { TextArea } from 'formik-semantic-ui'
+import { TextArea } from 'formik-semantic-ui-react'
 import moment from 'moment'
 
 const RangeReadinessBox = ({

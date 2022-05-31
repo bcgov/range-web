@@ -1,11 +1,11 @@
 import React from 'react'
-import { Dropdown } from 'formik-semantic-ui'
+import { Select } from 'formik-semantic-ui-react'
 import { Popup, Icon } from 'semantic-ui-react'
 
 const HelpfulDropdown = ({ help, ...props }) => {
   return (
     <>
-      <Dropdown
+      <Select
         {...props}
         label={
           <>

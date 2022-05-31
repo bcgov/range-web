@@ -5,7 +5,7 @@ import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react'
-import { Dropdown, TextArea } from 'formik-semantic-ui'
+import { Select, TextArea } from 'formik-semantic-ui-react'
 
 const AdditionalRequirementRow = ({
   additionalRequirement,
@@ -30,7 +30,7 @@ const AdditionalRequirementRow = ({
         permission={ADDITIONAL_REQUIREMENTS.CATEGORY}
         inputProps={{ placeholder: 'Category' }}
         name={`${namespace}.categoryId`}
-        component={Dropdown}
+        component={Select}
         options={options}
         displayValue={
           options.find(c => c.value === categoryId)

@@ -8,7 +8,7 @@ import {
   axios,
   getAuthHeaderConfig
 } from '../../../utils'
-import { Dropdown } from 'formik-semantic-ui'
+import { Select } from 'formik-semantic-ui-react'
 import { TextField } from '../../common'
 import { CircularProgress } from '@material-ui/core'
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api'
@@ -78,7 +78,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
           permission={ATTACHMENTS.VIEWABLE_BY}
           inputProps={{ placeholder: 'Just me' }}
           name={`files.${index}.access`}
-          component={Dropdown}
+          component={Select}
           options={options}
           label="Viewable by"
           displayValue={options.find(o => o.value === attachment.access)?.text}
