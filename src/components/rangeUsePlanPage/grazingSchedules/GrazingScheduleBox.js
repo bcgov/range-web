@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react'
-import * as _ from 'lodash/fp'
-import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
-import { roundTo1Decimal } from '../../../utils'
-import * as strings from '../../../constants/strings'
-import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common'
-import { IMAGE_SRC } from '../../../constants/variables'
-import { FieldArray, connect, getIn } from 'formik'
-import uuid from 'uuid-v4'
-import { TextArea } from 'formik-semantic-ui'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { SCHEDULE } from '../../../constants/fields'
-import { deleteGrazingScheduleEntry } from '../../../api'
-import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
-import { useUser } from '../../../providers/UserProvider'
-import SortableTableHeaderCell from '../../common/SortableTableHeaderCell'
-import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
+import * as _ from 'lodash/fp';
+import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
+import { roundTo1Decimal } from '../../../utils';
+import * as strings from '../../../constants/strings';
+import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common';
+import { IMAGE_SRC } from '../../../constants/variables';
+import { FieldArray, connect, getIn } from 'formik';
+import uuid from 'uuid-v4';
+import { TextArea } from 'formik-semantic-ui-react';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { SCHEDULE } from '../../../constants/fields';
+import { deleteGrazingScheduleEntry } from '../../../api';
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
+import { useUser } from '../../../providers/UserProvider';
+import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
+import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
 
 const GrazingScheduleBox = ({
   schedule,

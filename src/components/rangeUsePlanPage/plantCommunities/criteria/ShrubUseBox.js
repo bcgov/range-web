@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input } from 'formik-semantic-ui'
+import { Input } from 'formik-semantic-ui-react'
 import { RANGE_READINESS } from '../../../../constants/fields'
 import { SHRUB_USE_TIP } from '../../../../constants/strings'
 

@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import * as API from '../../../constants/api'
 import { axios, getAuthHeaderConfig } from '../../../utils'
 import PlanForm from '../PlanForm'
-import { Form } from 'formik-semantic-ui'
+import { Form } from 'formik-semantic-ui-react'
 import { Placeholder } from 'semantic-ui-react'
 
 const Version = ({ planId, version }) => {
