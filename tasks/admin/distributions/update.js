@@ -20,6 +20,8 @@ var
   fs             = require('fs'),
   path           = require('path'),
   git            = require('gulp-git'),
+  githubAPI      = require('github'),
+  requireDotFile = require('require-dot-file'),
 
   // admin files
   github         = require('../../config/admin/github.js'),

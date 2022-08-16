@@ -1,6 +1,6 @@
 /*!
- * # Fomantic-UI - Dimmer
- * http://github.com/fomantic/Fomantic-UI/
+ * # Semantic UI - Dimmer
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Released under the MIT license
@@ -11,10 +11,6 @@
 ;(function ($, window, document, undefined) {
 
 'use strict';
-
-$.isFunction = $.isFunction || function(obj) {
-  return typeof obj === "function" && typeof obj.nodeType !== "number";
-};
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -155,12 +151,12 @@ $.fn.dimmer = function(parameters) {
 
         event: {
           click: function(event) {
-            module.verbose('Determining if event occurred on dimmer', event);
+            module.verbose('Determining if event occured on dimmer', event);
             if( $dimmer.find(event.target).length === 0 || $(event.target).is(selector.content) ) {
               module.hide();
               event.stopImmediatePropagation();
             }
-          }
+          },
         },
 
         addContent: function(element) {
@@ -175,7 +171,7 @@ $.fn.dimmer = function(parameters) {
 
         create: function() {
           var
-            $element = $( settings.template.dimmer(settings) )
+            $element = $( settings.template.dimmer() )
           ;
           if(settings.dimmerName) {
             module.debug('Creating named dimmer', settings.dimmerName);
@@ -226,9 +222,7 @@ $.fn.dimmer = function(parameters) {
             module.show();
           }
           else {
-            if ( module.is.closable() ) {
-              module.hide();
-            }
+            module.hide();
           }
         },
 
@@ -255,7 +249,7 @@ $.fn.dimmer = function(parameters) {
                   displayType : settings.useFlex
                     ? 'flex'
                     : 'block',
-                  animation   : (settings.transition.showMethod || settings.transition) + ' in',
+                  animation   : settings.transition + ' in',
                   queue       : false,
                   duration    : module.get.duration(),
                   useFailSafe : true,
@@ -302,12 +296,14 @@ $.fn.dimmer = function(parameters) {
                   displayType : settings.useFlex
                     ? 'flex'
                     : 'block',
-                  animation   : (settings.transition.hideMethod || settings.transition) + ' out',
+                  animation   : settings.transition + ' out',
                   queue       : false,
                   duration    : module.get.duration(),
                   useFailSafe : true,
-                  onComplete  : function() {
+                  onStart     : function() {
                     module.remove.dimmed();
+                  },
+                  onComplete  : function() {
                     module.remove.variation();
                     module.remove.active();
                     callback();
@@ -317,10 +313,10 @@ $.fn.dimmer = function(parameters) {
             }
             else {
               module.verbose('Hiding dimmer with javascript');
+              module.remove.dimmed();
               $dimmer
                 .stop()
                 .fadeOut(module.get.duration(), function() {
-                  module.remove.dimmed();
                   module.remove.active();
                   $dimmer.removeAttr('style');
                   callback();
@@ -335,12 +331,15 @@ $.fn.dimmer = function(parameters) {
             return $dimmer;
           },
           duration: function() {
-            if( module.is.active() ) {
-              return settings.transition.hideDuration || settings.duration.hide || settings.duration;
+            if(typeof settings.duration == 'object') {
+              if( module.is.active() ) {
+                return settings.duration.hide;
+              }
+              else {
+                return settings.duration.show;
+              }
             }
-            else {
-              return settings.transition.showDuration || settings.duration.show || settings.duration;
-            }
+            return settings.duration;
           }
         },
 
@@ -405,11 +404,11 @@ $.fn.dimmer = function(parameters) {
             var
               color      = $dimmer.css('background-color'),
               colorArray = color.split(','),
-              isRGB      = (colorArray && colorArray.length >= 3)
+              isRGB      = (colorArray && colorArray.length == 3),
+              isRGBA     = (colorArray && colorArray.length == 4)
             ;
             opacity    = settings.opacity === 0 ? 0 : settings.opacity || opacity;
-            if(isRGB) {
-              colorArray[2] = colorArray[2].replace(')','');
+            if(isRGB || isRGBA) {
               colorArray[3] = opacity + ')';
               color         = colorArray.join(',');
             }
@@ -621,7 +620,7 @@ $.fn.dimmer = function(parameters) {
           else if(found !== undefined) {
             response = found;
           }
-          if(Array.isArray(returnedValue)) {
+          if($.isArray(returnedValue)) {
             returnedValue.push(response);
           }
           else if(returnedValue !== undefined) {
@@ -696,10 +695,6 @@ $.fn.dimmer.settings = {
     show : 500,
     hide : 500
   },
-// whether the dynamically created dimmer should have a loader
-  displayLoader: false,
-  loaderText  : false,
-  loaderVariation : '',
 
   onChange    : function(){},
   onShow      : function(){},
@@ -719,8 +714,7 @@ $.fn.dimmer.settings = {
     hide       : 'hide',
     legacy     : 'legacy',
     pageDimmer : 'page',
-    show       : 'show',
-    loader     : 'ui loader'
+    show       : 'show'
   },
 
   selector: {
@@ -729,19 +723,8 @@ $.fn.dimmer.settings = {
   },
 
   template: {
-    dimmer: function(settings) {
-        var d = $('<div/>').addClass('ui dimmer'),l;
-        if(settings.displayLoader) {
-          l = $('<div/>')
-              .addClass(settings.className.loader)
-              .addClass(settings.loaderVariation);
-          if(!!settings.loaderText){
-            l.text(settings.loaderText);
-            l.addClass('text');
-          }
-          d.append(l);
-        }
-        return d;
+    dimmer: function() {
+     return $('<div />').attr('class', 'ui dimmer');
     }
   }
 

@@ -37,15 +37,12 @@
 @iconFocusOpacity: 1;
 @iconOffset: -0.5em;
 
-@iconDistance: 0;
+@iconDistance: 0em;
 @iconMargin: @iconWidth + @iconDistance;
 @iconTransition: opacity 0.3s @defaultEasing;
 
 @transparentIconWidth: @glyphWidth;
 @transparentIconMargin: 2em;
-
-@textareaIconHeight: 3em;
-@transparentTextareaIconHeight: 1.3em;
 
 /* Circular Icon Input */
 @circularIconVerticalOffset: 0.35em;
@@ -82,6 +79,15 @@
 @focusColor: @hoveredTextColor;
 @focusBoxShadow: none;
 
+/* Error */
+@errorBackground: @negativeBackgroundColor;
+@errorColor: @negativeTextColor;
+@errorBorder: @negativeBorderColor;
+@errorBoxShadow: none;
+
+@placeholderErrorColor: lighten(@errorColor, 40);
+@placeholderErrorFocusColor: lighten(@errorColor, 30);
+
 /* Loader */
 @invertedLoaderFillColor: rgba(0, 0, 0, 0.15);
 
@@ -93,10 +99,3 @@
 @transparentInvertedPlaceholderColor: @invertedUnselectedTextColor;
 @transparentInvertedColor: @white;
 
-@miniInputSize: @relativeMini;
-@tinyInputSize: @relativeTiny;
-@smallInputSize: @relativeSmall;
-@largeInputSize: @relativeLarge;
-@bigInputSize: @relativeBig;
-@hugeInputSize: @relativeHuge;
-@massiveInputSize: @relativeMassive;

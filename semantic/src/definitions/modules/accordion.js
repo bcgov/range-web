@@ -1,6 +1,6 @@
 /*!
- * # Fomantic-UI - Accordion
- * http://github.com/fomantic/Fomantic-UI/
+ * # Semantic UI - Accordion
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Released under the MIT license
@@ -11,10 +11,6 @@
 ;(function ($, window, document, undefined) {
 
 'use strict';
-
-$.isFunction = $.isFunction || function(obj) {
-  return typeof obj === "function" && typeof obj.nodeType !== "number";
-};
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -33,6 +29,12 @@ $.fn.accordion = function(parameters) {
     query           = arguments[0],
     methodInvoked   = (typeof query == 'string'),
     queryArguments  = [].slice.call(arguments, 1),
+
+    requestAnimationFrame = window.requestAnimationFrame
+      || window.mozRequestAnimationFrame
+      || window.webkitRequestAnimationFrame
+      || window.msRequestAnimationFrame
+      || function(callback) { setTimeout(callback, 0); },
 
     returnedValue
   ;
@@ -183,16 +185,12 @@ $.fn.accordion = function(parameters) {
               $activeContent
                 .children()
                   .transition({
-                    animation        : 'fade in',
-                    queue            : false,
-                    useFailSafe      : true,
-                    debug            : settings.debug,
-                    verbose          : settings.verbose,
-                    duration         : settings.duration,
-                    skipInlineHidden : true,
-                    onComplete: function() {
-                      $activeContent.children().removeClass(className.transition);
-                    }
+                    animation   : 'fade in',
+                    queue       : false,
+                    useFailSafe : true,
+                    debug       : settings.debug,
+                    verbose     : settings.verbose,
+                    duration    : settings.duration
                   })
               ;
             }
@@ -248,13 +246,12 @@ $.fn.accordion = function(parameters) {
                 $activeContent
                   .children()
                     .transition({
-                      animation        : 'fade out',
-                      queue            : false,
-                      useFailSafe      : true,
-                      debug            : settings.debug,
-                      verbose          : settings.verbose,
-                      duration         : settings.duration,
-                      skipInlineHidden : true
+                      animation   : 'fade out',
+                      queue       : false,
+                      useFailSafe : true,
+                      debug       : settings.debug,
+                      verbose     : settings.verbose,
+                      duration    : settings.duration
                     })
                 ;
               }
@@ -319,12 +316,11 @@ $.fn.accordion = function(parameters) {
                 $openContents
                   .children()
                     .transition({
-                      animation        : 'fade out',
-                      useFailSafe      : true,
-                      debug            : settings.debug,
-                      verbose          : settings.verbose,
-                      duration         : settings.duration,
-                      skipInlineHidden : true
+                      animation   : 'fade out',
+                      useFailSafe : true,
+                      debug       : settings.debug,
+                      verbose     : settings.verbose,
+                      duration    : settings.duration
                     })
                 ;
               }
@@ -526,7 +522,7 @@ $.fn.accordion = function(parameters) {
           else if(found !== undefined) {
             response = found;
           }
-          if(Array.isArray(returnedValue)) {
+          if($.isArray(returnedValue)) {
             returnedValue.push(response);
           }
           else if(returnedValue !== undefined) {
@@ -594,8 +590,7 @@ $.fn.accordion.settings = {
 
   className   : {
     active    : 'active',
-    animating : 'animating',
-    transition: 'transition'
+    animating : 'animating'
   },
 
   selector    : {

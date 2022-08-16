@@ -13,16 +13,23 @@ var
   gulp            = require('gulp'),
 
   // node dependencies
+  console         = require('better-console'),
+  del             = require('del'),
   fs              = require('fs'),
   path            = require('path'),
+  runSequence     = require('run-sequence'),
   mergeStream     = require('merge-stream'),
 
   // admin dependencies
+  concatFileNames = require('gulp-concat-filenames'),
+  debug           = require('gulp-debug'),
   flatten         = require('gulp-flatten'),
+  git             = require('gulp-git'),
   jsonEditor      = require('gulp-json-editor'),
   plumber         = require('gulp-plumber'),
   rename          = require('gulp-rename'),
   replace         = require('gulp-replace'),
+  tap             = require('gulp-tap'),
 
   // config
   config          = require('../../config/user'),
@@ -122,23 +129,24 @@ module.exports = function(callback) {
         return filenames;
       };
 
-      tasks.push(function() {
-          var
-              files     = gatherFiles(outputDirectory),
-              filenames = createList(files)
-          ;
-          gulp.src(release.templates.meteor[distLowerCase])
-              .pipe(plumber())
-              .pipe(flatten())
-              .pipe(replace(regExp.match.version, version))
-              .pipe(replace(regExp.match.files, filenames))
-              .pipe(rename(release.files.meteor))
-              .pipe(gulp.dest(outputDirectory))
-          ;
+
+      gulp.task(task.meteor, function() {
+        var
+          files     = gatherFiles(outputDirectory),
+          filenames = createList(files)
+        ;
+        gulp.src(release.templates.meteor[distLowerCase])
+          .pipe(plumber())
+          .pipe(flatten())
+          .pipe(replace(regExp.match.version, version))
+          .pipe(replace(regExp.match.files, filenames))
+          .pipe(rename(release.files.meteor))
+          .pipe(gulp.dest(outputDirectory))
+        ;
       });
 
       if(distribution == 'CSS') {
-        tasks.push(function() {
+        gulp.task(task.repo, function() {
           var
             themes,
             components,
@@ -157,7 +165,7 @@ module.exports = function(callback) {
         });
       }
       else if(distribution == 'LESS') {
-        tasks.push(function() {
+        gulp.task(task.repo, function() {
           var
             definitions,
             themeImport,
@@ -188,7 +196,7 @@ module.exports = function(callback) {
       }
 
       // extend package.json
-      tasks.push(function() {
+      gulp.task(task.package, function() {
         return gulp.src(packageFile)
           .pipe(plumber())
           .pipe(jsonEditor(function(package) {
@@ -201,8 +209,11 @@ module.exports = function(callback) {
         ;
       });
 
+      tasks.push(task.meteor);
+      tasks.push(task.repo);
+      tasks.push(task.package);
+
     })(distribution);
   }
-
-  gulp.series(...tasks)(callback);
+  runSequence(tasks, callback);
 };

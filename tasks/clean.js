@@ -9,6 +9,6 @@ var
 ;
 
 // cleans distribution files
-module.exports = function() {
-  return del([config.paths.clean], tasks.settings.del);
+module.exports = function(callback) {
+  return del([config.paths.clean], tasks.settings.del, callback);
 };

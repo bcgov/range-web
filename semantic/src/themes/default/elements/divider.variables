@@ -6,8 +6,7 @@
        Element
 --------------------*/
 
-@margin: 1rem 0;
-@borderStyle: solid;
+@margin: 1rem 0rem;
 
 @highlightWidth: 1px;
 @highlightColor: @whiteBorderColor;
@@ -27,7 +26,7 @@
 
 /* Icon */
 @dividerIconSize: 1rem;
-@dividerIconMargin: 0;
+@dividerIconMargin: 0rem;
 
 
 /*******************************
@@ -37,10 +36,10 @@
 /* Horizontal / Vertical */
 @horizontalMargin: '';
 @horizontalDividerMargin: 1em;
-@horizontalRulerOffset: e(%("calc(-50%% - %d)", @horizontalDividerMargin));
+@horizontalRulerOffset: ~"calc(-50% - "(@horizontalDividerMargin)~")";
 
 @verticalDividerMargin: 1rem;
-@verticalDividerHeight: e(%("calc(100%% - %d)", @verticalDividerMargin));
+@verticalDividerHeight: ~"calc(100% - "(@verticalDividerMargin)~")";
 
 /* Inverted */
 @invertedTextColor: @white;

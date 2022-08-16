@@ -1,6 +1,6 @@
 /*!
- * # Fomantic-UI - Video
- * http://github.com/fomantic/Fomantic-UI/
+ * # Semantic UI - Video
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Released under the MIT license
@@ -24,8 +24,9 @@
 
 .ui.embed {
   position: relative;
+  position: relative;
   max-width: 100%;
-  height: 0;
+  height: 0px;
   overflow: hidden;
   background: @background;
   padding-bottom: @widescreenRatio;
@@ -42,11 +43,10 @@
   border: none;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  margin: 0em;
+  padding: 0em;
 }
 
 /*-----------------
@@ -64,8 +64,8 @@
 .ui.embed > .placeholder {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
   display: block;
   width: 100%;
   height: 100%;
@@ -76,19 +76,19 @@
       Icon
 ---------------*/
 
-.ui.embed > i.icon {
+.ui.embed > .icon {
   cursor: pointer;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 100%;
   z-index: 2;
 }
-.ui.embed > i.icon:after {
+.ui.embed > .icon:after {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0%;
+  left: 0%;
   width: 100%;
   height: 100%;
   z-index: 3;
@@ -97,10 +97,11 @@
   opacity: @placeholderBackgroundOpacity;
   transition: @placeholderBackgroundTransition;
 }
-.ui.embed > i.icon:before {
+.ui.embed > .icon:before {
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 4;
   transform: translateX(-50%) translateY(-50%);
 
   color: @iconColor;
@@ -118,11 +119,11 @@
      Hover
 ---------------*/
 
-.ui.embed i.icon:hover:after {
+.ui.embed .icon:hover:after {
   background: @hoverPlaceholderBackground;
   opacity: @hoverPlaceholderBackgroundOpacity;
 }
-.ui.embed i.icon:hover:before {
+.ui.embed .icon:hover:before {
   color: @hoverIconColor;
 }
 
@@ -130,7 +131,7 @@
      Active
 ---------------*/
 
-.ui.active.embed > i.icon,
+.ui.active.embed > .icon,
 .ui.active.embed > .placeholder {
   display: none;
 }
@@ -138,23 +139,25 @@
   display: block;
 }
 
+.loadUIOverrides();
+
+
 /*******************************
           Variations
 *******************************/
 
-& when (@variationEmbedRatio) {
-  .ui.square.embed {
-    padding-bottom: @squareRatio;
-  }
-  .ui[class*="4:3"].embed {
-    padding-bottom: @standardRatio;
-  }
-  .ui[class*="16:9"].embed {
-    padding-bottom: @widescreenRatio;
-  }
-  .ui[class*="21:9"].embed {
-    padding-bottom: @ultraWidescreenRatio;
-  }
+.ui.square.embed {
+  padding-bottom: @squareRatio;
+}
+.ui[class*="4:3"].embed {
+  padding-bottom: @standardRatio;
+}
+.ui[class*="16:9"].embed {
+  padding-bottom: @widescreenRatio;
+}
+.ui[class*="21:9"].embed {
+  padding-bottom: @ultraWidescreenRatio;
 }
 
-.loadUIOverrides();
+
+

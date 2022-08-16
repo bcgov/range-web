@@ -1,6 +1,6 @@
 /*!
- * # Fomantic-UI - Breadcrumb
- * http://github.com/fomantic/Fomantic-UI/
+ * # Semantic UI - Breadcrumb
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Released under the MIT license
@@ -23,16 +23,16 @@
 *******************************/
 
 .ui.breadcrumb {
-  line-height: @lineHeight;
+  line-height: 1;
   display: @display;
-  margin: @verticalMargin 0;
+  margin: @verticalMargin 0em;
   vertical-align: @verticalAlign;
 }
 .ui.breadcrumb:first-child {
-  margin-top: 0;
+  margin-top: 0em;
 }
 .ui.breadcrumb:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0em;
 }
 
 /*******************************
@@ -43,7 +43,7 @@
 .ui.breadcrumb .divider {
   display: inline-block;
   opacity: @dividerOpacity;
-  margin: 0 @dividerSpacing 0;
+  margin: 0em @dividerSpacing 0em;
 
   font-size: @dividerSize;
   color: @dividerColor;
@@ -81,19 +81,6 @@
   padding: @segmentPadding;
 }
 
-& when (@variationBreadcrumbInverted) {
-  /* Inverted */
-  .ui.inverted.breadcrumb {
-    color: @invertedColor;
-  }
-  .ui.inverted.breadcrumb > .active.section {
-    color: @invertedActiveColor;
-  }
-  .ui.inverted.breadcrumb > .divider {
-    color: @invertedDividerColor;
-  }
-}
-
 /*******************************
             States
 *******************************/
@@ -107,16 +94,29 @@
            Variations
 *******************************/
 
+.ui.mini.breadcrumb {
+  font-size: @mini;
+}
+.ui.tiny.breadcrumb {
+  font-size: @tiny;
+}
+.ui.small.breadcrumb {
+  font-size: @small;
+}
 .ui.breadcrumb {
   font-size: @medium;
 }
-& when not (@variationBreadcrumbSizes = false) {
-  each(@variationBreadcrumbSizes, {
-    @s: @@value;
-    .ui.@{value}.breadcrumb {
-      font-size: @s;
-    }
-  })
+.ui.large.breadcrumb {
+  font-size: @large;
+}
+.ui.big.breadcrumb {
+  font-size: @big;
+}
+.ui.huge.breadcrumb {
+  font-size: @huge;
+}
+.ui.massive.breadcrumb {
+  font-size: @massive;
 }
 
 .loadUIOverrides();

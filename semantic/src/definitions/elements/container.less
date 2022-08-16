@@ -1,6 +1,6 @@
 /*!
- * # Fomantic-UI - Container
- * http://github.com/fomantic/Fomantic-UI/
+ * # Semantic UI - Container
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Released under the MIT license
@@ -24,94 +24,78 @@
 /* All Sizes */
 .ui.container {
   display: block;
-  max-width: @maxWidth;
+  max-width: @maxWidth !important;
 }
 
 /* Mobile */
 @media only screen and (max-width: @largestMobileScreen) {
-  .ui.ui.ui.container:not(.fluid) {
-    width: @mobileWidth;
-    margin-left: @mobileGutter;
-    margin-right: @mobileGutter;
+  .ui.container {
+    width: @mobileWidth !important;
+    margin-left: @mobileGutter !important;
+    margin-right: @mobileGutter !important;
   }
-  & when (@variationContainerGrid) or (@variationContainerRelaxed) {
-    .ui.ui.ui.grid.container {
-      width: @mobileGridWidth;
-    }
-    & when (@variationContainerRelaxed) {
-      .ui.ui.ui.relaxed.grid.container {
-        width: @mobileRelaxedGridWidth;
-      }
-      .ui.ui.ui.very.relaxed.grid.container {
-        width: @mobileVeryRelaxedGridWidth;
-      }
-    }
+  .ui.grid.container {
+    width: @mobileGridWidth !important;
+  }
+  .ui.relaxed.grid.container {
+    width: @mobileRelaxedGridWidth !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: @mobileVeryRelaxedGridWidth !important;
   }
 }
 
 /* Tablet */
 @media only screen and (min-width: @tabletBreakpoint) and (max-width: @largestTabletScreen) {
-  .ui.ui.ui.container:not(.fluid) {
+  .ui.container {
     width: @tabletWidth;
-    margin-left: @tabletGutter;
-    margin-right: @tabletGutter;
+    margin-left: @tabletGutter !important;
+    margin-right: @tabletGutter !important;
   }
-  & when (@variationContainerGrid) or (@variationContainerRelaxed) {
-    .ui.ui.ui.grid.container {
-      width: @tabletGridWidth;
-    }
-    & when (@variationContainerRelaxed) {
-      .ui.ui.ui.relaxed.grid.container {
-        width: @tabletRelaxedGridWidth;
-      }
-      .ui.ui.ui.very.relaxed.grid.container {
-        width: @tabletVeryRelaxedGridWidth;
-      }
-    }
+  .ui.grid.container {
+    width: @tabletGridWidth !important;
+  }
+  .ui.relaxed.grid.container {
+    width: @tabletRelaxedGridWidth !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: @tabletVeryRelaxedGridWidth !important;
   }
 }
 
 /* Small Monitor */
 @media only screen and (min-width: @computerBreakpoint) and (max-width: @largestSmallMonitor) {
-  .ui.ui.ui.container:not(.fluid) {
+  .ui.container {
     width: @computerWidth;
-    margin-left: @computerGutter;
-    margin-right: @computerGutter;
+    margin-left: @computerGutter !important;
+    margin-right: @computerGutter !important;
   }
-  & when (@variationContainerGrid) or (@variationContainerRelaxed) {
-    .ui.ui.ui.grid.container {
-      width: @computerGridWidth;
-    }
-    & when (@variationContainerRelaxed) {
-      .ui.ui.ui.relaxed.grid.container {
-        width: @computerRelaxedGridWidth;
-      }
-      .ui.ui.ui.very.relaxed.grid.container {
-        width: @computerVeryRelaxedGridWidth;
-      }
-    }
+  .ui.grid.container {
+    width: @computerGridWidth !important;
+  }
+  .ui.relaxed.grid.container {
+    width: @computerRelaxedGridWidth !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: @computerVeryRelaxedGridWidth !important;
   }
 }
 
 /* Large Monitor */
 @media only screen and (min-width: @largeMonitorBreakpoint) {
-  .ui.ui.ui.container:not(.fluid) {
+  .ui.container {
     width: @largeMonitorWidth;
-    margin-left: @largeMonitorGutter;
-    margin-right: @largeMonitorGutter;
+    margin-left: @largeMonitorGutter !important;
+    margin-right: @largeMonitorGutter !important;
   }
-  & when (@variationContainerGrid) or (@variationContainerRelaxed) {
-    .ui.ui.ui.grid.container {
-      width: @largeMonitorGridWidth;
-    }
-    & when (@variationContainerRelaxed) {
-      .ui.ui.ui.relaxed.grid.container {
-        width: @largeMonitorRelaxedGridWidth;
-      }
-      .ui.ui.ui.very.relaxed.grid.container {
-        width: @largeMonitorVeryRelaxedGridWidth;
-      }
-    }
+  .ui.grid.container {
+    width: @largeMonitorGridWidth !important;
+  }
+  .ui.relaxed.grid.container {
+    width: @largeMonitorRelaxedGridWidth !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: @largeMonitorVeryRelaxedGridWidth !important;
   }
 }
 
@@ -119,42 +103,41 @@
              Types
 *******************************/
 
-& when (@variationContainerText) {
-  /* Text Container */
-  .ui.text.container {
-    font-family: @textFontFamily;
-    max-width: @textWidth;
-    line-height: @textLineHeight;
-    font-size: @textSize;
-  }
+
+/* Text Container */
+.ui.text.container {
+  font-family: @textFontFamily;
+  max-width: @textWidth !important;
+  line-height: @textLineHeight;
 }
 
-& when (@variationContainerFluid) {
-  /* Fluid */
-  .ui.fluid.container {
-    width: 100%;
-  }
+.ui.text.container {
+  font-size: @textSize;
 }
+
+/* Fluid */
+.ui.fluid.container {
+  width: 100%;
+}
+
 
 /*******************************
            Variations
 *******************************/
-& when (@variationContainerAligned) {
-  .ui[class*="left aligned"].container {
-    text-align: left;
-  }
-  .ui[class*="center aligned"].container {
-    text-align: center;
-  }
-  .ui[class*="right aligned"].container {
-    text-align: right;
-  }
+
+.ui[class*="left aligned"].container {
+  text-align: left;
 }
-& when (@variationContainerJustified) {
-  .ui.justified.container {
-    text-align: justify;
-    hyphens: auto;
-  }
+.ui[class*="center aligned"].container {
+  text-align: center;
 }
+.ui[class*="right aligned"].container {
+  text-align: right;
+}
+.ui.justified.container {
+  text-align: justify;
+  hyphens: auto;
+}
+
 
 .loadUIOverrides();
