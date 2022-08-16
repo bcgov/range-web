@@ -36,3 +36,5 @@ cypress/screenshots
 *~
 *.swp
 *.swo
+
+.idea

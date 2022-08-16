@@ -22,7 +22,8 @@ const Attachments = ({
   propertyName
 }) => {
   const [toRemove, setToRemove] = useState(null)
-  const formik = useFormikContext()
+  const formik = useFormikContext();
+
 
   const handleUpload = async (file, attachment, index) => {
     const fieldName = `files.${index}`
