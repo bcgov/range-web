@@ -6,7 +6,7 @@
 
 /* Title */
 @titleFont: @headerFont;
-@titlePadding: 0.5em 0;
+@titlePadding: 0.5em 0em;
 @titleFontSize: 1em;
 @titleColor: @textColor;
 
@@ -17,8 +17,8 @@
 @iconWidth: 1.25em;
 @iconHeight: 1em;
 @iconDisplay: inline-block;
-@iconMargin: 0 0.25rem 0 0;
-@iconPadding: 0;
+@iconMargin: 0em 0.25rem 0em 0rem;
+@iconPadding: 0em;
 @iconTransition:
   transform @defaultDuration @defaultEasing,
   opacity @defaultDuration @defaultEasing
@@ -27,20 +27,20 @@
 @iconTransform: none;
 
 /* Child Accordion */
-@childAccordionMargin: 1em 0 0;
-@childAccordionPadding: 0;
+@childAccordionMargin: 1em 0em 0em;
+@childAccordionPadding: 0em;
 
 /* Content */
 @contentMargin: '';
-@contentPadding: 0.5em 0 1em;
+@contentPadding: 0.5em 0em 1em;
 
 /*-------------------
        Coupling
 --------------------*/
 
-@menuTitlePadding: 0;
+@menuTitlePadding: 0em;
 @menuIconFloat: right;
-@menuIconMargin: @lineHeightOffset 0 0 1em;
+@menuIconMargin: @lineHeightOffset 0em 0em 1em;
 @menuIconTransform: rotate(180deg);
 
 
@@ -60,19 +60,19 @@
 @styledBorderRadius: @defaultBorderRadius;
 @styledBoxShadow:
   @subtleShadow,
-  0 0 0 1px @borderColor
+  0px 0px 0px 1px @borderColor
 ;
 
 /* Content */
-@styledContentMargin: 0;
+@styledContentMargin: 0em;
 @styledContentPadding: 0.5em 1em 1.5em;
 
 /* Child Content */
-@styledChildContentMargin: 0;
+@styledChildContentMargin: 0em;
 @styledChildContentPadding: @styledContentPadding;
 
 /* Styled Title */
-@styledTitleMargin: 0;
+@styledTitleMargin: 0em;
 @styledTitlePadding: 0.75em 1em;
 @styledTitleFontWeight: @bold;
 @styledTitleColor: @unselectedTextColor;

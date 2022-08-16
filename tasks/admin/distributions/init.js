@@ -21,6 +21,7 @@ var
   fs        = require('fs'),
   path      = require('path'),
   git       = require('gulp-git'),
+  githubAPI = require('github'),
   mkdirp    = require('mkdirp'),
 
   // admin files

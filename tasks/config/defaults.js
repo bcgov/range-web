@@ -10,8 +10,8 @@ module.exports = {
   // base path when installed with npm
   pmRoot: 'semantic/',
 
-  // octal permission for output files, i.e. 0o644 or '644' (false does not adjust)
-  permission : '744',
+  // octal permission for output files, i.e. 644 (false does not adjust)
+  permission : 744,
 
   // whether to generate rtl files
   rtl        : false,
@@ -51,7 +51,6 @@ module.exports = {
     'button',
     'container',
     'divider',
-    'emoji',
     'flag',
     'header',
     'icon',
@@ -65,7 +64,6 @@ module.exports = {
     'reveal',
     'segment',
     'step',
-    'text',
 
     // collections
     'breadcrumb',
@@ -85,7 +83,6 @@ module.exports = {
 
     // modules
     'accordion',
-    'calendar',
     'checkbox',
     'dimmer',
     'dropdown',
@@ -94,14 +91,12 @@ module.exports = {
     'nag',
     'popup',
     'progress',
-    'slider',
     'rating',
     'search',
     'shape',
     'sidebar',
     'sticky',
     'tab',
-    'toast',
     'transition',
 
     // behaviors

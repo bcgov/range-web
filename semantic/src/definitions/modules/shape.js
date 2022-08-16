@@ -1,6 +1,6 @@
 /*!
- * # Fomantic-UI - Shape
- * http://github.com/fomantic/Fomantic-UI/
+ * # Semantic UI - Shape
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
  * Released under the MIT license
@@ -12,10 +12,6 @@
 
 'use strict';
 
-$.isFunction = $.isFunction || function(obj) {
-  return typeof obj === "function" && typeof obj.nodeType !== "number";
-};
-
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
   : (typeof self != 'undefined' && self.Math == Math)
@@ -26,6 +22,7 @@ window = (typeof window != 'undefined' && window.Math == Math)
 $.fn.shape = function(parameters) {
   var
     $allModules     = $(this),
+    $body           = $('body'),
 
     time            = new Date().getTime(),
     performance     = [],
@@ -63,8 +60,8 @@ $.fn.shape = function(parameters) {
 
         // selector cache
         $module       = $(this),
-        $sides        = $module.find('>' + selector.sides),
-        $side         = $sides.find('>' + selector.side),
+        $sides        = $module.find(selector.sides),
+        $side         = $module.find(selector.side),
 
         // private variables
         nextIndex = false,
@@ -104,7 +101,7 @@ $.fn.shape = function(parameters) {
         refresh: function() {
           module.verbose('Refreshing selector cache for', element);
           $module = $(element);
-          $sides  = $(this).find(selector.sides);
+          $sides  = $(this).find(selector.shape);
           $side   = $(this).find(selector.side);
         },
 
@@ -193,19 +190,16 @@ $.fn.shape = function(parameters) {
           },
           animating: function() {
             return $module.hasClass(className.animating);
-          },
-          hidden: function() {
-            return $module.closest(':hidden').length > 0;
           }
         },
 
         set: {
 
           defaultSide: function() {
-            $activeSide = $side.filter('.' + settings.className.active);
+            $activeSide = $module.find('.' + settings.className.active);
             $nextSide   = ( $activeSide.next(selector.side).length > 0 )
               ? $activeSide.next(selector.side)
-              : $side.first()
+              : $module.find(selector.side).first()
             ;
             nextIndex = false;
             module.verbose('Active side set to', $activeSide);
@@ -234,7 +228,7 @@ $.fn.shape = function(parameters) {
 
           currentStageSize: function() {
             var
-              $activeSide = $side.filter('.' + settings.className.active),
+              $activeSide = $module.find('.' + settings.className.active),
               width       = $activeSide.outerWidth(true),
               height      = $activeSide.outerHeight(true)
             ;
@@ -249,21 +243,20 @@ $.fn.shape = function(parameters) {
           stageSize: function() {
             var
               $clone      = $module.clone().addClass(className.loading),
-              $side       = $clone.find('>' + selector.sides + '>' + selector.side),
-              $activeSide = $side.filter('.' + settings.className.active),
+              $activeSide = $clone.find('.' + settings.className.active),
               $nextSide   = (nextIndex)
-                ? $side.eq(nextIndex)
+                ? $clone.find(selector.side).eq(nextIndex)
                 : ( $activeSide.next(selector.side).length > 0 )
                   ? $activeSide.next(selector.side)
-                  : $side.first(),
-              newWidth    = (settings.width === 'next')
+                  : $clone.find(selector.side).first(),
+              newWidth    = (settings.width == 'next')
                 ? $nextSide.outerWidth(true)
-                : (settings.width === 'initial')
+                : (settings.width == 'initial')
                   ? $module.width()
                   : settings.width,
-              newHeight    = (settings.height === 'next')
+              newHeight    = (settings.height == 'next')
                 ? $nextSide.outerHeight(true)
-                : (settings.height === 'initial')
+                : (settings.height == 'initial')
                   ? $module.height()
                   : settings.height
             ;
@@ -271,11 +264,11 @@ $.fn.shape = function(parameters) {
             $nextSide.addClass(className.active);
             $clone.insertAfter($module);
             $clone.remove();
-            if(settings.width !== 'auto') {
+            if(settings.width != 'auto') {
               $module.css('width', newWidth + settings.jitter);
               module.verbose('Specifying width during animation', newWidth);
             }
-            if(settings.height !== 'auto') {
+            if(settings.height != 'auto') {
               $module.css('height', newHeight + settings.jitter);
               module.verbose('Specifying height during animation', newHeight);
             }
@@ -306,51 +299,113 @@ $.fn.shape = function(parameters) {
         },
 
         flip: {
-          to: function(type,stage){
-            if(module.is.hidden()) {
-              module.debug('Module not visible', $nextSide);
-              return;
-            }
+
+          up: function() {
             if(module.is.complete() && !module.is.animating() && !settings.allowRepeats) {
               module.debug('Side already visible', $nextSide);
               return;
             }
-            var
-              transform = module.get.transform[type]()
-            ;
             if( !module.is.animating()) {
-              module.debug('Flipping '+type, $nextSide);
+              module.debug('Flipping up', $nextSide);
+              var
+                transform = module.get.transform.up()
+              ;
               module.set.stageSize();
-              module.stage[stage]();
+              module.stage.above();
               module.animate(transform);
             }
             else {
-              module.queue('flip '+type);
+              module.queue('flip up');
             }
           },
 
-          up: function() {
-            module.flip.to('up','above');
-          },
-
           down: function() {
-            module.flip.to('down','below');
+            if(module.is.complete() && !module.is.animating() && !settings.allowRepeats) {
+              module.debug('Side already visible', $nextSide);
+              return;
+            }
+            if( !module.is.animating()) {
+              module.debug('Flipping down', $nextSide);
+              var
+                transform = module.get.transform.down()
+              ;
+              module.set.stageSize();
+              module.stage.below();
+              module.animate(transform);
+            }
+            else {
+              module.queue('flip down');
+            }
           },
 
           left: function() {
-            module.flip.to('left','left');
+            if(module.is.complete() && !module.is.animating() && !settings.allowRepeats) {
+              module.debug('Side already visible', $nextSide);
+              return;
+            }
+            if( !module.is.animating()) {
+              module.debug('Flipping left', $nextSide);
+              var
+                transform = module.get.transform.left()
+              ;
+              module.set.stageSize();
+              module.stage.left();
+              module.animate(transform);
+            }
+            else {
+              module.queue('flip left');
+            }
           },
 
           right: function() {
-            module.flip.to('right','right');
+            if(module.is.complete() && !module.is.animating() && !settings.allowRepeats) {
+              module.debug('Side already visible', $nextSide);
+              return;
+            }
+            if( !module.is.animating()) {
+              module.debug('Flipping right', $nextSide);
+              var
+                transform = module.get.transform.right()
+              ;
+              module.set.stageSize();
+              module.stage.right();
+              module.animate(transform);
+            }
+            else {
+              module.queue('flip right');
+            }
           },
 
           over: function() {
-            module.flip.to('over','behind');
+            if(module.is.complete() && !module.is.animating() && !settings.allowRepeats) {
+              module.debug('Side already visible', $nextSide);
+              return;
+            }
+            if( !module.is.animating()) {
+              module.debug('Flipping over', $nextSide);
+              module.set.stageSize();
+              module.stage.behind();
+              module.animate(module.get.transform.over() );
+            }
+            else {
+              module.queue('flip over');
+            }
           },
 
           back: function() {
-            module.flip.to('back','behind');
+            if(module.is.complete() && !module.is.animating() && !settings.allowRepeats) {
+              module.debug('Side already visible', $nextSide);
+              return;
+            }
+            if( !module.is.animating()) {
+              module.debug('Flipping back', $nextSide);
+              module.set.stageSize();
+              module.stage.behind();
+              module.animate(module.get.transform.back() );
+            }
+            else {
+              module.queue('flip back');
+            }
           }
 
         },
@@ -360,43 +415,49 @@ $.fn.shape = function(parameters) {
           transform: {
             up: function() {
               var
-                    translateZ = $activeSide.outerHeight(true) / 2,
-                translateY = $nextSide.outerHeight(true) - translateZ
+                translate = {
+                  y: -(($activeSide.outerHeight(true) - $nextSide.outerHeight(true)) / 2),
+                  z: -($activeSide.outerHeight(true) / 2)
+                }
               ;
               return {
-                transform: 'translateY(' + translateY + 'px) translateZ(-'+ translateZ + 'px) rotateX(-90deg)'
+                transform: 'translateY(' + translate.y + 'px) translateZ('+ translate.z + 'px) rotateX(-90deg)'
               };
             },
 
             down: function() {
               var
                 translate = {
-                  z: $activeSide.outerHeight(true) / 2
+                  y: -(($activeSide.outerHeight(true) - $nextSide.outerHeight(true)) / 2),
+                  z: -($activeSide.outerHeight(true) / 2)
                 }
               ;
               return {
-                transform: 'translateY(-' + translate.z + 'px) translateZ(-'+ translate.z + 'px) rotateX(90deg)'
+                transform: 'translateY(' + translate.y + 'px) translateZ('+ translate.z + 'px) rotateX(90deg)'
               };
             },
 
             left: function() {
               var
-                  translateZ = $activeSide.outerWidth(true) / 2,
-                  translateX = $nextSide.outerWidth(true) - translateZ
+                translate = {
+                  x : -(($activeSide.outerWidth(true) - $nextSide.outerWidth(true)) / 2),
+                  z : -($activeSide.outerWidth(true) / 2)
+                }
               ;
               return {
-                transform: 'translateX(' + translateX + 'px) translateZ(-' + translateZ + 'px) rotateY(90deg)'
+                transform: 'translateX(' + translate.x + 'px) translateZ(' + translate.z + 'px) rotateY(90deg)'
               };
             },
 
             right: function() {
               var
                 translate = {
-                  z : $activeSide.outerWidth(true) / 2
+                  x : -(($activeSide.outerWidth(true) - $nextSide.outerWidth(true)) / 2),
+                  z : -($activeSide.outerWidth(true) / 2)
                 }
               ;
               return {
-                transform: 'translateX(-' + translate.z + 'px) translateZ(-' + translate.z + 'px) rotateY(-90deg)'
+                transform: 'translateX(' + translate.x + 'px) translateZ(' + translate.z + 'px) rotateY(-90deg)'
               };
             },
 
@@ -444,7 +505,7 @@ $.fn.shape = function(parameters) {
           nextSide: function() {
             return ( $activeSide.next(selector.side).length > 0 )
               ? $activeSide.next(selector.side)
-              : $side.first()
+              : $module.find(selector.side).first()
             ;
           }
 
@@ -463,16 +524,21 @@ $.fn.shape = function(parameters) {
               }
             ;
             module.verbose('Setting the initial animation position as above', $nextSide, box);
+            $sides
+              .css({
+                'transform' : 'translateZ(-' + box.depth.active + 'px)'
+              })
+            ;
             $activeSide
               .css({
-                'transform' : 'rotateX(0deg)'
+                'transform' : 'rotateY(0deg) translateZ(' + box.depth.active + 'px)'
               })
             ;
             $nextSide
               .addClass(className.animating)
               .css({
                 'top'       : box.origin + 'px',
-                'transform' : 'rotateX(90deg) translateZ(' + box.depth.next + 'px) translateY(-' + box.depth.active + 'px)'
+                'transform' : 'rotateX(90deg) translateZ(' + box.depth.next + 'px)'
               })
             ;
           },
@@ -488,16 +554,21 @@ $.fn.shape = function(parameters) {
               }
             ;
             module.verbose('Setting the initial animation position as below', $nextSide, box);
+            $sides
+              .css({
+                'transform' : 'translateZ(-' + box.depth.active + 'px)'
+              })
+            ;
             $activeSide
               .css({
-                'transform' : 'rotateX(0deg)'
+                'transform' : 'rotateY(0deg) translateZ(' + box.depth.active + 'px)'
               })
             ;
             $nextSide
               .addClass(className.animating)
               .css({
                 'top'       : box.origin + 'px',
-                'transform' : 'rotateX(-90deg) translateZ(' + box.depth.next + 'px) translateY(' + box.depth.active + 'px)'
+                'transform' : 'rotateX(-90deg) translateZ(' + box.depth.next + 'px)'
               })
             ;
           },
@@ -517,16 +588,21 @@ $.fn.shape = function(parameters) {
               }
             ;
             module.verbose('Setting the initial animation position as left', $nextSide, box);
+            $sides
+              .css({
+                'transform' : 'translateZ(-' + box.depth.active + 'px)'
+              })
+            ;
             $activeSide
               .css({
-                'transform' : 'rotateY(0deg)'
+                'transform' : 'rotateY(0deg) translateZ(' + box.depth.active + 'px)'
               })
             ;
             $nextSide
               .addClass(className.animating)
               .css({
                 'left'      : box.origin + 'px',
-                'transform' : 'rotateY(-90deg) translateZ(' + box.depth.next + 'px) translateX(-' + box.depth.active + 'px)'
+                'transform' : 'rotateY(-90deg) translateZ(' + box.depth.next + 'px)'
               })
             ;
           },
@@ -545,17 +621,22 @@ $.fn.shape = function(parameters) {
                 }
               }
             ;
-            module.verbose('Setting the initial animation position as right', $nextSide, box);
+            module.verbose('Setting the initial animation position as left', $nextSide, box);
+            $sides
+              .css({
+                'transform' : 'translateZ(-' + box.depth.active + 'px)'
+              })
+            ;
             $activeSide
               .css({
-                'transform' : 'rotateY(0deg)'
+                'transform' : 'rotateY(0deg) translateZ(' + box.depth.active + 'px)'
               })
             ;
             $nextSide
               .addClass(className.animating)
               .css({
                 'left'      : box.origin + 'px',
-                'transform' : 'rotateY(90deg) translateZ(' + box.depth.next + 'px) translateX(' + box.depth.active + 'px)'
+                'transform' : 'rotateY(90deg) translateZ(' + box.depth.next + 'px)'
               })
             ;
           },
@@ -741,7 +822,7 @@ $.fn.shape = function(parameters) {
           else if(found !== undefined) {
             response = found;
           }
-          if(Array.isArray(returnedValue)) {
+          if($.isArray(returnedValue)) {
             returnedValue.push(response);
           }
           else if(returnedValue !== undefined) {
@@ -758,15 +839,7 @@ $.fn.shape = function(parameters) {
         if(instance === undefined) {
           module.initialize();
         }
-        var $inputs = $module.find('input');
-        if( $inputs.length > 0) {
-          $inputs.blur();
-          setTimeout(function(){
-            module.invoke(query);
-          }, 150);
-        } else {
-          module.invoke(query);
-        }
+        module.invoke(query);
       }
       else {
         if(instance !== undefined) {

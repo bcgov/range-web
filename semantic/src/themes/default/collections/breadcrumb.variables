@@ -6,7 +6,7 @@
      Breadcrumb
 --------------------*/
 
-@verticalMargin: 0;
+@verticalMargin: 0em;
 @display: inline-block;
 @verticalAlign: middle;
 
@@ -20,16 +20,11 @@
 @iconDividerSize: @relativeTiny;
 @iconDividerVerticalAlign: baseline;
 
-@sectionMargin: 0;
-@sectionPadding: 0;
+@sectionMargin: 0em;
+@sectionPadding: 0em;
 
 /* Coupling */
 @segmentPadding: @relativeMini @relativeMedium;
-
-/* Inverted */
-@invertedColor: @midWhite;
-@invertedActiveColor: @white;
-@invertedDividerColor: @invertedLightTextColor;
 
 /*-------------------
        States

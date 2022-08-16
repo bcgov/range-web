@@ -7,7 +7,7 @@
 --------------------*/
 
 @verticalAlign: baseline;
-@verticalMargin: 0;
+@verticalMargin: 0em;
 @horizontalMargin: @relative2px;
 @backgroundColor: #E8E8E8;
 @color: @mutedTextColor;
@@ -18,7 +18,7 @@
 @textTransform: none;
 @fontWeight: @bold;
 @borderWidth: 1px;
-@border: 0 solid transparent;
+@border: 0px solid transparent;
 
 @lineHeightOffset: -(@verticalPadding / 2);
 
@@ -71,7 +71,7 @@
 @imageLabelPadding: @imageLabelVerticalPadding @imageLabelHorizontalPadding @imageLabelVerticalPadding @imageLabelTextDistance;
 
 @imageLabelImageMargin: -@verticalPadding @imageLabelTextDistance -@verticalPadding -@imageLabelTextDistance;
-@imageLabelImageBorderRadius: @imageLabelBorderRadius 0 0 @imageLabelBorderRadius;
+@imageLabelImageBorderRadius: @imageLabelBorderRadius 0em 0em @imageLabelBorderRadius;
 @imageLabelImageHeight: @imageHeight;
 
 @imageLabelDetailBackground: @strongTransparentBlack;
@@ -105,8 +105,6 @@
 /* Basic */
 @basicBackground: none @white;
 @basicBorderWidth: 1px;
-@basicBorderWidthOffset: -@basicBorderWidth;
-@basicBorderFullWidthOffset: e(%("calc(100%% + %d)", @basicBorderWidth));
 @basicBorder: @basicBorderWidth solid @borderColor;
 @basicColor: @textColor;
 @basicBoxShadow: none;
@@ -116,16 +114,11 @@
 @basicHoverBorder: @basicBorder;
 @basicHoverBoxShadow: @basicBoxShadow;
 
-@basicVerticalPadding: e(%("calc(%d - %d)", @verticalPadding, @basicBorderWidth));
-@basicHorizontalPadding: e(%("calc(%d - %d)", @horizontalPadding, @basicBorderWidth));
-@basicImageLabelPadding: e(%("calc(%d - %d)", @imageLabelTextDistance, @basicBorderWidth));
-
 /* Tag */
 @tagCircleColor: @white;
 @tagCircleSize: 0.5em;
 @tagHorizontalPadding: 1.5em;
 @tagCircleBoxShadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
-@basicTagCircleBoxShadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.8);
 @tagTriangleRightOffset: 100%;
 @tagTriangleTopOffset: 50%;
 @tagTriangleSize: 1.56em;
@@ -134,32 +127,22 @@
 
 /* Ribbon */
 @ribbonTriangleSize: 1.2em;
-@basicRibbonTriangleSize: e(%("calc(%d - %d)", @ribbonTriangleSize, @basicBorderWidth));
-@basicRibbonTriangleSizeOffset: e(%("calc(1rem + %d - %d)", @ribbonTriangleSize, @basicBorderWidth));
 @ribbonShadowColor: rgba(0, 0, 0, 0.15);
 
 @ribbonMargin: 1rem;
-@ribbonOffset: e(%("calc(%d - %d)", -@ribbonMargin, @ribbonTriangleSize));
-@basicRibbonOffset: e(%("calc(%d - %d)", @verticalPadding, @basicBorderWidth));
-@ribbonDistance: e(%("calc(%d + %d)", @ribbonMargin, @ribbonTriangleSize));
-@rightRibbonOffset: e(%("calc(100%% + %d + %d)", @ribbonMargin, @ribbonTriangleSize));
+@ribbonOffset: calc(-@ribbonMargin - @ribbonTriangleSize);
+@ribbonDistance: calc(@ribbonMargin + @ribbonTriangleSize);
+@rightRibbonOffset:  calc(100% + @ribbonMargin + @ribbonTriangleSize);
 
 @ribbonImageTopDistance: 1rem;
 @ribbonImageMargin: -0.05rem; /* Rounding Offset on Triangle */
-@ribbonImageOffset: e(%("calc(%d - %d)", -@ribbonImageMargin, @ribbonTriangleSize));
-@rightRibbonImageOffset: e(%("calc(100%% + %d + %d)", @ribbonImageMargin, @ribbonTriangleSize));
+@ribbonImageOffset: calc(-@ribbonImageMargin - @ribbonTriangleSize);
+@rightRibbonImageOffset:  calc(100% + @ribbonImageMargin + @ribbonTriangleSize);
 
-@ribbonTableMargin: @relativeMedium; /* Rounding Offset on Triangle */
-@ribbonTableOffset: e(%("calc(%d - %d)", -@ribbonTableMargin, @ribbonTriangleSize));
-@rightRibbonTableOffset: e(%("calc(100%% + %d + %d)", @ribbonTableMargin, @ribbonTriangleSize));
+@ribbonTableMargin: @relativeMini; /* Rounding Offset on Triangle */
+@ribbonTableOffset: calc(-@ribbonTableMargin - @ribbonTriangleSize);
+@rightRibbonTableOffset:  calc(100% + @ribbonTableMargin + @ribbonTriangleSize);
 
-/* Inverted */
-@invertedBackgroundColor: darken(@backgroundColor,20);
-@invertedBackground: @black;
-@invertedBoxShadowSize: 2px;
-@invertedBorderSize: 1px;
-
-@basicInvertedBorderColor: rgba(255, 255, 255, 0.5);
 
 /* Colors */
 @redTextColor: @white;
@@ -190,11 +173,19 @@
 @greyHoverTextColor: @white;
 @blackHoverTextColor: @white;
 
-@primaryHoverTextColor: @white;
-@secondaryHoverTextColor: @white;
-
-@primaryTextColor: @invertedTextColor;
-@secondaryTextColor: @invertedTextColor;
+@redRibbonShadow: darken(@red, 10);
+@orangeRibbonShadow: darken(@orange, 10);
+@yellowRibbonShadow: darken(@yellow, 10);
+@oliveRibbonShadow: darken(@olive, 10);
+@greenRibbonShadow: darken(@green, 10);
+@tealRibbonShadow: darken(@teal, 10);
+@blueRibbonShadow: darken(@blue, 10);
+@violetRibbonShadow: darken(@violet, 10);
+@purpleRibbonShadow: darken(@purple, 10);
+@pinkRibbonShadow: darken(@pink, 10);
+@brownRibbonShadow: darken(@brown, 10);
+@greyRibbonShadow: darken(@grey, 10);
+@blackRibbonShadow: darken(@black, 10);
 
 /* Attached */
 @attachedSegmentPadding: 2rem;
@@ -203,9 +194,6 @@
 
 @attachedCornerBorderRadius: @3px;
 @attachedBorderRadius: @borderRadius;
-
-@attachedOffset: -@borderWidth;
-@attachedWidthOffset: e(%("calc(100%% + %d)", @borderWidth * 2));
 
 /* Corner */
 @cornerSizeRatio: 1;
@@ -216,8 +204,7 @@
 
 @cornerIconSize: @relativeLarge;
 @cornerIconTopOffset: @relative9px;
-@cornerIconLeftOffset: @relative8px;
-@cornerIconRightOffset: @relative8px;
+@cornerIconLeftOffset: @relative11px;
 
 /* Corner Text */
 @cornerTextWidth: 3em;
@@ -241,7 +228,7 @@
 @pointingTriangleSize: 0.6666em;
 @pointingHorizontalDistance: @pointingTriangleSize;
 
-@pointingTriangleTransition: none; /* Avoids error with background: inherit; on animation */
+@pointingTriangleTransition: background @labelTransitionDuration @labelTransitionEasing;
 @pointingTriangleZIndex: 2;
 
 /* Basic Pointing */
@@ -249,8 +236,7 @@
 
 /* Floating */
 @floatingTopOffset: -1em;
-@floatingBottomOffset: @floatingTopOffset;
-@floatingAlignOffset: 1.2em;
+@floatingLeftOffset: -1.5em;
 @floatingZIndex: 100;
 
 /*-------------------

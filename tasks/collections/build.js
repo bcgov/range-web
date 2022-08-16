@@ -1,32 +1,19 @@
 /*******************************
- *    Define Build Sub-Tasks
- *******************************/
+        Define Sub-Tasks
+*******************************/
 
-module.exports = function (gulp) {
+module.exports = function(gulp) {
 
-  // build sub-tasks
-  const
-    watch       = require('./../watch'),
-
-    build       = require('./../build'),
-    buildJS     = require('./../build/javascript'),
-    buildCSS    = require('./../build/css'),
-    buildAssets = require('./../build/assets')
+  var
+    // build sub-tasks
+    buildJS      = require('./../build/javascript'),
+    buildCSS     = require('./../build/css'),
+    buildAssets  = require('./../build/assets')
   ;
 
-  gulp.task('watch', watch);
-  gulp.task('watch').description = 'Watch for site/theme changes';
-
-  gulp.task('build', build);
-  gulp.task('build').description = 'Builds all files from source';
-
-  gulp.task('build-javascript', buildJS);
-  gulp.task('build-javascript').description = 'Builds all javascript from source';
-
-  gulp.task('build-css', buildCSS);
-  gulp.task('build-css').description = 'Builds all css from source';
-
-  gulp.task('build-assets', buildAssets);
-  gulp.task('build-assets').description = 'Copies all assets from source';
+  // in case these tasks are undefined during import, less make sure these are available in scope
+  gulp.task('build-javascript', 'Builds all javascript from source', buildJS);
+  gulp.task('build-css', 'Builds all css from source', buildCSS);
+  gulp.task('build-assets', 'Copies all assets from source', buildAssets);
 
 };
