@@ -202,6 +202,7 @@
     "@testing-library/cypress": "^6.0.1",
     "@twostoryrobot/eslint-config": "^2.2.2",
     "@twostoryrobot/prettier-config": "^2.0.1",
+    "buffer": "^6.0.3",
     "cypress-log-to-output": "^1.1.2",
     "cypress-plugin-tab": "^1.0.5",
     "cypress-testing-library": "^4.0.0",

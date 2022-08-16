@@ -302,7 +302,8 @@ module.exports = function (webpackEnv) {
       ),
       fallback: {
         "stream": require.resolve("stream-browserify"),
-        "zlib": require.resolve("browserify-zlib")
+        "zlib": require.resolve("browserify-zlib"),
+        "buffer": require.resolve('buffer/'),
       },
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
@@ -567,6 +568,9 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
