@@ -75,6 +75,7 @@ const GrazingScheduleBox = ({
     formik.setFieldValue(`${namespace}.sortOrder`, order)
 
   const handleHeaderClick = column => {
+    console.log('sorting by ' + column);
     const orderByColumn = _.orderBy([column, 'createdAtDate'])
 
     if (column !== sortBy) {
@@ -220,7 +221,7 @@ const GrazingScheduleBox = ({
                             {strings.DATE_OUT}
                           </div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell noSort>
+                        <SortableTableHeaderCell   {...headerCellProps} column="days">
                           {strings.DAYS}
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell
@@ -230,10 +231,10 @@ const GrazingScheduleBox = ({
                             {strings.GRACE_DAYS}
                           </div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell noSort>
+                        <SortableTableHeaderCell {...headerCellProps} column="pldAUMs">
                           {strings.PLD}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell noSort>
+                        <SortableTableHeaderCell {...headerCellProps} column="crownAUMs">
                           {strings.CROWN_AUMS}
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell />
