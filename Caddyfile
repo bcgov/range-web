@@ -16,15 +16,22 @@ templates /static/js/* {
   mime application/javascript
 }
 
-handle /service-worker.js {
-  header Cache-Control max-age=0,no-cache,no-store,must-revalidate
+header /service-worker.js {
+  Cache-Control max-age=0,no-cache,no-store,must-revalidate
 }
 
-handle /index.html {
-  header Cache-Control max-age=0,no-cache,no-store,must-revalidate
+header /index.html {
+  Cache-Control max-age=0,no-cache,no-store,must-revalidate
 }
 
-handle {
-  header Cache-Control max-age=3600
+header /static/* {
+ Cache-Control max-age=604800,public
 }
 
+header /images/* {
+ Cache-Control max-age=604800,public
+}
+
+header /manifest.json {
+ Cache-Control max-age=3600
+}
