@@ -162,9 +162,11 @@ const Base = ({
   // const doneFetching = !isFetchingPlanForTheFirstTime;
 
   if (errorFetchingPlan && !isFetchingPlan) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errorFetchingPlan)
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    console.dir(errorFetchingPlan)
+      console.dir(isFetchingPlanForTheFirstTime)
+      console.dir(isFetchingPlan)
+    // }
     return (
       <div className="rup__fetching-error">
         <Icon name="warning sign" size="large" color="red" />
