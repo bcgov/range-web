@@ -174,9 +174,9 @@ class UpdateStatusDropdown extends Component {
 			]
 		}
 		const draft = {
-			key: PLAN_STATUS.DRAFT,
+			key: PLAN_STATUS.STAFF_DRAFT,
 			text: 'Draft',
-			onClick: this.openChangeRequestConfirmModal
+			onClick: this.openDraftModal
 		}
 
 		const requestChanges = {
