@@ -253,6 +253,10 @@ export const SUBMIT_RUP_CHANGE_CONFIRM_HEADER = 'Ready to Submit?'
 export const SUBMIT_RUP_CHANGE_CONFIRM_CONTENT =
   'Once submitted you can no longer make edits to the Range Use Plan. Do not submit until you are satisfied with all content.'
 
+export const DRAFT_CONFIRM_HEADER = 'Change to draft status?'
+export const DRAFT_CONFIRM_CONTENT = 'Changing to draft will allow edits.'
+
+
 // banners
 export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan'
 export const SELECT_RUP_BANNER_CONTENT =
