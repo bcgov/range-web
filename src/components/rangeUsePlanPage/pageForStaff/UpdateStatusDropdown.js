@@ -156,6 +156,14 @@ class UpdateStatusDropdown extends Component {
 		})
 	}
 
+	openDraftModal = () => {
+		this.openConfirmModalForUpdatingPlanStatus({
+			header: strings.DRAFT_CONFIRM_HEADER,
+			content: strings.DRAFT_CONFIRM_CONTENT,
+			statusCode: PLAN_STATUS.STAFF_DRAFT
+		})
+	}
+
 	getStatusDropdownOptions = (plan, isFetchingPlan, status) => {
 		if (isFetchingPlan) {
 			return [
@@ -164,6 +172,11 @@ class UpdateStatusDropdown extends Component {
 					text: 'Checking RUP status...'
 				}
 			]
+		}
+		const draft = {
+			key: PLAN_STATUS.DRAFT,
+			text: 'Draft',
+			onClick: this.openChangeRequestConfirmModal
 		}
 
 		const requestChanges = {
@@ -229,7 +242,7 @@ class UpdateStatusDropdown extends Component {
 			key: 'warningDivider',
 			text: 'WARNING: Below entries are manual overrides.'
 		}
-		const overrides =  [warningDivider, stands,	standsWronglyMade, approved, notApproved,
+		const overrides =  [warningDivider,draft, stands,	standsWronglyMade, approved, notApproved,
 			requestChanges, recommendReady, recommendNotReady, recommendForSubmission];
 
 		if (isStatusStandsNotReviewed(status)) {
