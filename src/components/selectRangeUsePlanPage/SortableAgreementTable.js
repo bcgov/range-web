@@ -27,6 +27,9 @@ import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
 import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import {
+  formatDateFromServer,
+} from '../../utils'
 
 const headCells = [
   {
@@ -58,16 +61,24 @@ const headCells = [
     sortable: true
   },
   {
+    id: 'agreement.agreement_end_date',
+    numeric: false,
+    disablePadding: false,
+    label: 'Agreement End Date',
+    sortable: true
+  },
+  {
+    id: 'plan.plan_end_date',
+    numeric: false,
+    disablePadding: false,
+    label: 'Plan End Date',
+    sortable: true
+  },
+  {
     id: 'ref_district.code',
     numeric: false,
     disablePadding: false,
     label: 'District',
-    sortable: true
-  },
-  {
-    id: 'plan_status.code',
-    disablePadding: false,
-    label: 'Status Code',
     sortable: true
   },
   {
@@ -203,14 +214,24 @@ function PlanRow({ agreement, location, user, currentPage }) {
             ? `${agreement?.zone?.user?.givenName} ${agreement?.zone?.user?.familyName}`
             : 'Not provided'}
         </TableCell>
-        <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
+
         <TableCell align="left">
-          {agreement.plans[0] ? (
-            agreement.plans[0]?.status.code
+          {agreement.agreementEndDate ? (
+            formatDateFromServer(agreement?.agreementEndDate)
           ) : (
             <span>-</span>
           )}
         </TableCell>
+
+        <TableCell align="left">
+          {agreement.plans[0] ? (
+            formatDateFromServer(agreement.plans[0]?.planEndDate)
+          ) : (
+            <span>-</span>
+          )}
+        </TableCell>
+
+        <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
         <TableCell align="left">
           {agreement.plans[0] ? (
             <Status user={user} status={agreement.plans[0]?.status} />
