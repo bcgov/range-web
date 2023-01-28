@@ -29,7 +29,7 @@ import {
   SITEMINDER_LOGOUT_ENDPOINT,
   API_BASE_URL
 } from '../constants/api'
-import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage'
+import {saveDataInLocalStorage, getDataFromLocalStorage, deleteDataFromLocalStorage} from './localStorage'
 import { stringifyQuery } from './index'
 import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables'
 
@@ -94,12 +94,22 @@ export const saveUserProfileInLocal = newUser => {
  * @param {string} code the code received from Single Sign On
  */
 export const getTokenFromSSO = code => {
+  const storedCodes = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
+  if (!storedCodes || !storedCodes.codeVerifier) {
+    console.error('Cannot proceed without PKCE challenge code. Restart authentication');
+  }
+
   const data = {
     code,
     grant_type: 'authorization_code',
     redirect_uri: SSO_LOGIN_REDIRECT_URI,
-    client_id: SSO_CLIENT_ID
+    client_id: SSO_CLIENT_ID,
+    code_verifier: storedCodes.codeVerifier
   }
+
+  // no longer required
+  deleteDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
+
   // make an application/x-www-form-urlencoded request with axios
   return axios({
     method: 'post',
