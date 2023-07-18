@@ -12,7 +12,7 @@ import { Autocomplete } from '@material-ui/lab'
 import PersonIcon from '@material-ui/icons/Person'
 import * as strings from '../../constants/strings'
 import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig, getUserFullName } from '../../utils'
+import { axios, formatDateFromServer, getAuthHeaderConfig, getUserFullName } from '../../utils'
 import { Banner } from '../common'
 import ClientLinkList from './ClientLinkList'
 
@@ -45,7 +45,6 @@ const ManageClientPage = () => {
         header={strings.MANAGE_CLIENT_BANNER_HEADER}
         content={strings.MANAGE_CLIENT_BANNER_CONTENT}
       />
-
       <div className="manage-client__content">
         <div className="manage-client__steps">
           <h3>
@@ -86,12 +85,14 @@ const ManageClientPage = () => {
                     </Grid>
                     <Grid item xs>
                       {getUserFullName(option)}
-
-                      <Typography variant="body2" color="textSecondary">
+                     <Typography variant="body2" color="textSecondary">
                         {option.email}
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {option.username}
+                        {option.ssoId}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {formatDateFromServer(option.lastLoginAt)}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -99,7 +100,6 @@ const ManageClientPage = () => {
               />
             </>
           )}
-
           <h3>Step 2: Search for and select the corresponding clients:</h3>
           {user ? (
             <ClientLinkList userId={user.id} />

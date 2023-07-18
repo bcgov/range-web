@@ -13,6 +13,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@popperjs/core": "^2.11.8",
     "@react-pdf/renderer": "^1.6.17",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^4.2.4",
