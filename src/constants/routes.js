@@ -11,4 +11,5 @@ export const RANGE_USE_PLAN_WITH_PARAM = '/range-use-plan/:planId'
 
 export const MANAGE_ZONE = '/manage-zone'
 export const MANAGE_CLIENT = '/manage-client'
-export const ADMIN_ROUTES = [MANAGE_ZONE, MANAGE_CLIENT]
+export const MERGE_ACCOUNT = '/merge-account'
+export const ADMIN_ROUTES = [MANAGE_ZONE, MANAGE_CLIENT, MERGE_ACCOUNT]

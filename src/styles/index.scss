@@ -24,6 +24,7 @@
 @import './LoginPage.scss';
 @import './Agreement.scss';
 @import './ManageZoneAndClient.scss';
+@import './MergeAccount.scss';
 @import './MainPage.scss';
 @import './pikaday.scss';
 @import './Toast.scss';
@@ -53,3 +54,4 @@ main {
   flex-direction: column !important;
   min-width: $tablet-width !important;
 }
+

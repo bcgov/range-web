@@ -11,7 +11,8 @@ import { signOut } from '../../actionCreators'
 import {
   SELECT_RUP,
   // MANAGE_ZONES,
-  MANAGE_CLIENTS
+  MANAGE_CLIENTS,
+  MERGE_ACCOUNT
 } from '../../constants/strings'
 
 export class Navbar extends Component {
@@ -69,6 +70,13 @@ export class Navbar extends Component {
                   className="navbar__link"
                   activeClassName="navbar__link--active">
                   {MANAGE_CLIENTS}
+                  <div className="navbar__link__underline" />
+                </NavLink>
+                <NavLink
+                  to={Routes.MERGE_ACCOUNT}
+                  className="navbar__link"
+                  activeClassName="navbar__link--active">
+                  {MERGE_ACCOUNT}
                   <div className="navbar__link__underline" />
                 </NavLink>
               </Fragment>

@@ -12,6 +12,7 @@ export const PAGE_NOT_FOUND_TITLE = createTitle('Page Not Found')
 export const SELECT_RUP = 'Select RUP'
 export const MANAGE_ZONES = 'Manage Zones'
 export const MANAGE_CLIENTS = 'Manage Clients'
+export const MERGE_ACCOUNT = 'Merge Accounts'
 
 // Agreement Table
 export const RANGE_NUMBER = 'RAN'
@@ -265,9 +266,11 @@ export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zones'
 export const MANAGE_ZONE_BANNER_CONTENT =
   'Search for range staff and link them to their corresonding zone.'
 export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Clients'
+export const MERGE_ACCOUNT_HEADER = 'Merge Accounts'
 export const MANAGE_CLIENT_BANNER_CONTENT =
   'Search for agreement holders and link them to their corresponding client.'
-
+export const MERGE_ACCOUNT_BANNER_CONTENT =
+  'Merge multiple accounts by moving the content to a signle account'
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision'

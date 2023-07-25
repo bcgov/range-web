@@ -15,3 +15,11 @@ export const deleteClientLink = async (userId, clientNumber) => {
     getAuthHeaderConfig()
   )
 }
+
+export const mergeAccounts = async (sourceAccountIds, destinationAccountId) => {
+  return axios.post(
+    API.MERGE_ACCOUNTS(destinationAccountId),
+    { accountIds: sourceAccountIds },
+    getAuthHeaderConfig(),
+  )
+}

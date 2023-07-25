@@ -12,7 +12,7 @@ import { Autocomplete } from '@material-ui/lab'
 import PersonIcon from '@material-ui/icons/Person'
 import * as strings from '../../constants/strings'
 import * as API from '../../constants/api'
-import { axios, formatDateFromServer, getAuthHeaderConfig, getUserFullName } from '../../utils'
+import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName } from '../../utils'
 import { Banner } from '../common'
 import ClientLinkList from './ClientLinkList'
 
@@ -52,7 +52,7 @@ const ManageClientPage = () => {
             like to link:
           </h3>
           {error && (
-            <Typography color="error">
+            <Typography color="error">index.js
               Error occurred fetching user:{' '}
               {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
             </Typography>
@@ -85,14 +85,14 @@ const ManageClientPage = () => {
                     </Grid>
                     <Grid item xs>
                       {getUserFullName(option)}
-                     <Typography variant="body2" color="textSecondary">
+                      <Typography variant="body2" color="textSecondary">
                         {option.email}
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         {option.ssoId}
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {formatDateFromServer(option.lastLoginAt)}
+                        {formatDateToNow(option.lastLoginAt)}
                       </Typography>
                     </Grid>
                   </Grid>

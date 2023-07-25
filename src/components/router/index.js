@@ -39,6 +39,7 @@ const ReturnPage = LoadableComponent(() => import('../ReturnPage'))
 const PageNotFound = LoadableComponent(() => import('../PageNotFound'))
 const ManageZone = LoadableComponent(() => import('../manageZonePage'))
 const ManageClient = LoadableComponent(() => import('../manageClientPage'))
+const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'))
 const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'))
 const PDFView = LoadableComponent(() =>
   import('../rangeUsePlanPage/pdf/PDFView')
@@ -61,6 +62,11 @@ const Router = () => {
             <ProtectedRoute
               path={Routes.MANAGE_CLIENT}
               component={ManageClient}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.MERGE_ACCOUNT}
+              component={MergeAccount}
               user={user}
             />
             {/* Admin Routes End */}
