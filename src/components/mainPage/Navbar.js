@@ -12,7 +12,8 @@ import {
   SELECT_RUP,
   // MANAGE_ZONES,
   MANAGE_CLIENTS,
-  MERGE_ACCOUNT
+  MERGE_ACCOUNT,
+  EMAIL_TEMPLATE
 } from '../../constants/strings'
 
 export class Navbar extends Component {
@@ -77,6 +78,13 @@ export class Navbar extends Component {
                   className="navbar__link"
                   activeClassName="navbar__link--active">
                   {MERGE_ACCOUNT}
+                  <div className="navbar__link__underline" />
+                </NavLink>
+                <NavLink
+                  to={Routes.EMAIL_TEMPLATE}
+                  className="navbar__link"
+                  activeClassName="navbar__link--active">
+                  {EMAIL_TEMPLATE}
                   <div className="navbar__link__underline" />
                 </NavLink>
               </Fragment>

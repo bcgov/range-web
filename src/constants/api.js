@@ -225,3 +225,6 @@ export const UPDATE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
   `/v1/plan/${planId}/additional-requirement/${requirementId}`
 export const DELETE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
   `/v1/plan/${planId}/additional-requirement/${requirementId}`
+
+export const GET_EMAIL_TEMPLATE = `/v1/emailtemplate`
+export const UPDATE_EMAIL_TEMPLATE = templateId => `/v1/emailtemplate/${templateId}`

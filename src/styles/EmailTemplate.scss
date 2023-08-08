@@ -1,0 +1,15 @@
+$field-width: 35%;
+$field-min-width: 160px;
+$content-max-width: 600px;
+
+.email-template {
+  &__content {
+    @extend .container;
+  }
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    max-width: $content-max-width;
+    margin-top: $rup-content-margin-top;
+  }
+}

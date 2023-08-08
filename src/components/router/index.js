@@ -41,6 +41,7 @@ const ManageZone = LoadableComponent(() => import('../manageZonePage'))
 const ManageClient = LoadableComponent(() => import('../manageClientPage'))
 const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'))
 const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'))
+const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'))
 const PDFView = LoadableComponent(() =>
   import('../rangeUsePlanPage/pdf/PDFView')
 )
@@ -67,6 +68,11 @@ const Router = () => {
             <ProtectedRoute
               path={Routes.MERGE_ACCOUNT}
               component={MergeAccount}
+              user={user}
+            />
+            <ProtectedRoute
+              path={Routes.EMAIL_TEMPLATE}
+              component={EmailTemplate}
               user={user}
             />
             {/* Admin Routes End */}

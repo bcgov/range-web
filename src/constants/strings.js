@@ -314,3 +314,7 @@ export const MANAGEMENT_CONSIDERATIONS_TIP =
   'Agreement holders may have information related to their operations that they want to have documented with their RUP. While not legal, this content can help explain the context for operations. This section is completely optional and fully within the domain of the agreement holder.'
 export const APPROVED_BY_MINISTER_TIP =
   'Place documentation of descision makers approval to include this plant community information on file before updating & sending to agreement holders.'
+
+export const EMAIL_TEMPLATE = 'Email Template'
+export const UPDATE_EMAIL_TEMPLATE_BANNER_CONTENT =
+  'Update Email Template content'
