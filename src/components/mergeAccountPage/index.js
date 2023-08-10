@@ -82,7 +82,8 @@ const MergeAccountPage = () => {
     <section className="merge-account">
       <Banner
         header={strings.MERGE_ACCOUNT}
-        content={strings.MERGE_ACCOUNT_BANNER_CONTENT}
+        content={strings.MERGE_ACCOUNT_BANNER_CONTENT_LINE1}
+        contentLine2={strings.MERGE_ACCOUNT_BANNER_CONTENT_LINE2}
       />
       <div className="merge-account__content">
         <div className="merge-account__steps">

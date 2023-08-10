@@ -14,7 +14,7 @@ const defaultProps = {
   noDefaultHeight: false
 }
 
-const Banner = ({ header, content, style, noDefaultHeight }) => (
+const Banner = ({ header, content, style, noDefaultHeight, contentLine2 }) => (
   <div className="banner" style={style}>
     <div
       className={classnames('banner__container', {
@@ -23,6 +23,12 @@ const Banner = ({ header, content, style, noDefaultHeight }) => (
       <div>
         <h1 className="banner__header">{header}</h1>
         <div className="banner__content">{content}</div>
+        {contentLine2 && (
+          <>
+            <br /><br />
+            <div className="banner__content2">{contentLine2}</div>
+          </>
+        )}
       </div>
     </div>
   </div>
