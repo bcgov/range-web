@@ -61,7 +61,7 @@ const GrazingScheduleBox = ({
         message:
           strings.TOTAL_AUMS_EXCEEDS +
           ' Over by: ' +
-          (crownTotalAUMs - authorizedAUMs).toString(),
+          (crownTotalAUMs - authorizedAUMs).toFixed(1).toString(),
         type: 'error'
       }
     }
