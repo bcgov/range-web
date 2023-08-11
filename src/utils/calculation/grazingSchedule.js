@@ -57,7 +57,7 @@ export const calcCrownTotalAUMs = (
   livestockTypes = []
 ) => {
   const reducer = (accumulator, currentValue) => accumulator + currentValue
-  if (entries.length === 0) {
+  if (entries.lsength === 0) {
     return 0
   }
 
@@ -74,5 +74,6 @@ export const calcCrownTotalAUMs = (
 
       return calcCrownAUMs(totalAUMs, pldAUMs)
     })
-    .reduce(reducer)
+    .reduce(reducer, 0).toFixed(1);
+
 }
