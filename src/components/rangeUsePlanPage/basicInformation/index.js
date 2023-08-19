@@ -21,6 +21,8 @@ import moment from 'moment'
 import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { isUUID } from 'uuid-v4'
+import { useUser } from '../../../providers/UserProvider'
+import ManualConfirmation from './ManualConfirmation'
 
 const getAgentForClient = (client, clientAgreements) => {
   const clientAgreement = clientAgreements.find(ca => ca.clientId === client.id)
@@ -28,7 +30,7 @@ const getAgentForClient = (client, clientAgreements) => {
   return clientAgreement?.agent
 }
 
-const BasicInformation = ({ plan, agreement }) => {
+const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormessage, agreement }) => {
   const zone = agreement && agreement.zone
   const zoneCode = zone && zone.code
   const district = zone && zone.district
@@ -40,6 +42,7 @@ const BasicInformation = ({ plan, agreement }) => {
   const contactName = getUserFullName(staff)
 
   const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE]
+  const amendmentTypes = useReferences()[REFERENCE_KEY.AMENDMENT_TYPE]
 
   const { rangeName, altBusinessName, planStartDate, planEndDate, extension } =
     plan || {}
@@ -67,6 +70,8 @@ const BasicInformation = ({ plan, agreement }) => {
   const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder)
 
   const isFutureDatedPlan = plan.planEndDate > plan.agreement.agreementEndDate
+  const { confirmations } = plan
+  const user = useUser()
 
   return (
     <div className="rup__basic_information">
@@ -187,36 +192,64 @@ const BasicInformation = ({ plan, agreement }) => {
           <div className="rup__plan-info rup__cell-6">
             <div className="rup__divider" />
             <div className="rup__info-title">Agreement Holders</div>
-            <TextField
-              label={strings.PRIMARY_AGREEMENT_HOLDER}
-              text={`${primaryAgreementHolderName} ${
-                getAgentForClient(primaryAgreementHolder, clientAgreements)
-                  ? `- Agent: ${getUserFullName(
-                      getAgentForClient(
-                        primaryAgreementHolder,
-                        clientAgreements
-                      )
-                    )}`
-                  : ''
-              }`}
-            />
-            {otherAgreementHolders.map(client => (
+            <div className='rup__ah-container'>
               <TextField
-                key={client.clientNumber}
-                label={strings.OTHER_AGREEMENT_HOLDER}
-                text={`${getClientFullName(client)} ${
-                  getAgentForClient(client, clientAgreements)
-                    ? `- Agent: ${getUserFullName(
-                        getAgentForClient(client, clientAgreements)
-                      )}`
-                    : ''
-                }`}
+                label={strings.PRIMARY_AGREEMENT_HOLDER}
+                text={`${primaryAgreementHolderName} ${getAgentForClient(primaryAgreementHolder, clientAgreements)
+                  ? `- Agent: ${getUserFullName(
+                    getAgentForClient(
+                      primaryAgreementHolder,
+                      clientAgreements
+                    )
+                  )}`
+                  : ''
+                  }`}
               />
+              {confirmations && (
+                <ManualConfirmation
+                  user={user}
+                  confirmation={confirmations.find((confirmation) => {
+                    return confirmation.clientId === primaryAgreementHolder.id
+                  })}
+                  plan={plan}
+                  fetchPlan={fetchPlan}
+                  toastSuccessMessage={toastSuccessMessage}
+                  toastErrormessage={toastErrormessage}
+                  amendmentTypes={amendmentTypes}
+                />
+              )}
+            </div>
+            {otherAgreementHolders.map(client => (
+              <div className='rup__ah-container' key={client.id}>
+                <TextField
+                  label={strings.OTHER_AGREEMENT_HOLDER}
+                  text={`${getClientFullName(client)} ${getAgentForClient(client, clientAgreements)
+                    ? `- Agent: ${getUserFullName(
+                      getAgentForClient(client, clientAgreements)
+                    )}`
+                    : ''
+                    }`}
+                />
+                {confirmations && (
+                  <ManualConfirmation
+                    key={client.id}
+                    user={user}
+                    fetchPlan={fetchPlan}
+                    toastSuccessMessage={toastSuccessMessage}
+                    toastErrormessage={toastErrormessage}
+                    confirmation={confirmations.find((confirmation) => {
+                      return confirmation.clientId === client.id
+                    })}
+                    plan={plan}
+                    amendmentTypes={amendmentTypes}
+                  />
+                )}
+              </div>
             ))}
           </div>
         )}
       </div>
-    </div>
+    </div >
   )
 }
 

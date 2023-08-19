@@ -130,7 +130,8 @@ export const updateRUPConfirmation = (
   confirmationId,
   confirmed,
   isMinorAmendment,
-  isOwnSignature = true
+  isOwnSignature = true,
+  isManualConfirmation = false,
 ) => (dispatch, getState) => {
   const { id: planId } = plan
   const config = {
@@ -139,11 +140,10 @@ export const updateRUPConfirmation = (
       isMinorAmendment
     }
   }
-
   return axios
     .put(
       API.UPDATE_CONFIRMATION(planId, confirmationId),
-      { confirmed, userId: user.id, isOwnSignature },
+      { confirmed, userId: user.id, isOwnSignature, isManualConfirmation },
       config
     )
     .then(

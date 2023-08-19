@@ -164,8 +164,8 @@ const Base = ({
   if (errorFetchingPlan && !isFetchingPlan) {
     // if (process.env.NODE_ENV !== 'production') {
     console.dir(errorFetchingPlan)
-      console.dir(isFetchingPlanForTheFirstTime)
-      console.dir(isFetchingPlan)
+    console.dir(isFetchingPlanForTheFirstTime)
+    console.dir(isFetchingPlan)
     // }
     return (
       <div className="rup__fetching-error">
@@ -245,17 +245,17 @@ const Base = ({
               {(isUserAdmin(user) ||
                 isUserRangeOfficer(user) ||
                 isUserDecisionMaker(user)) && (
-                <PageForStaff
-                  references={references}
-                  agreement={agreement}
-                  plan={plan}
-                  clientAgreements={clientAgreements}
-                  fetchPlan={fetchPlan}
-                  user={user}
-                  history={history}
-                  {...props}
-                />
-              )}
+                  <PageForStaff
+                    references={references}
+                    agreement={agreement}
+                    plan={plan}
+                    clientAgreements={clientAgreements}
+                    fetchPlan={fetchPlan}
+                    user={user}
+                    history={history}
+                    {...props}
+                  />
+                )}
 
               {isUserAgreementHolder(user) && (
                 <PageForAH

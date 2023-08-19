@@ -21,6 +21,7 @@ import { canUserEditThisPlan, isPlanAmendment } from '../../../utils'
 import { createAmendment, savePlan, updatePlan } from '../../../api'
 import NetworkStatus from '../../common/NetworkStatus'
 import { connect } from 'formik'
+import { toastErrorMessage, toastSuccessMessage } from '../../../actionCreators'
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -293,6 +294,9 @@ class PageForStaff extends Component {
           {plan && (
             <PlanForm
               plan={plan}
+              fetchPlan={fetchPlan}
+              toastSuccessMessage={toastSuccessMessage}
+              toastErrorMessage={toastErrorMessage}
               isEditable={canUserEditThisPlan(plan, user)}
             />
           )}

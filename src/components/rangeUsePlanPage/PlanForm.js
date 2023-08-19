@@ -17,7 +17,7 @@ import { isUUID } from 'uuid-v4'
 import { useUser } from '../../providers/UserProvider'
 import { canUserAttachMaps, canUserAddAttachments } from '../../utils'
 
-const PlanForm = ({ plan, isEditable = true }) => {
+const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isEditable = true }) => {
   const user = useUser()
 
   return (
@@ -31,7 +31,13 @@ const PlanForm = ({ plan, isEditable = true }) => {
       <Element
         name={ELEMENT_ID.BASIC_INFORMATION}
         id={ELEMENT_ID.BASIC_INFORMATION}>
-        <BasicInformation plan={plan} agreement={plan.agreement} />
+        <BasicInformation
+          plan={plan}
+          fetchPlan={fetchPlan}
+          toastSuccessMessage={toastSuccessMessage}
+          toastErrorMessage={toastErrorMessage}
+          agreement={plan.agreement}
+        />
       </Element>
       <Element name={ELEMENT_ID.PASTURES} id={ELEMENT_ID.PASTURES}>
         <Pastures pastures={plan.pastures} />
