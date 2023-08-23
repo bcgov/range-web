@@ -82,6 +82,13 @@ const headCells = [
     sortable: true
   },
   {
+    id: 'plan.status_id',
+    numeric: false,
+    disablePadding: true,
+    label: 'Status Code',
+    sortable: true
+  },
+  {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
@@ -234,6 +241,13 @@ function PlanRow({ agreement, location, user, currentPage }) {
         <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
         <TableCell align="left">
           {agreement.plans[0] ? (
+            <span>{agreement.plans[0]?.status.code}</span>
+          ) : (
+            <span>-</span>
+          )}
+        </TableCell>
+        <TableCell align="left">
+          {agreement.plans[0] ? (
             <Status user={user} status={agreement.plans[0]?.status} />
           ) : (
             <span>-</span>
@@ -242,7 +256,7 @@ function PlanRow({ agreement, location, user, currentPage }) {
         <TableCell>
           {agreement.plans.length === 0 ? (
             canUserEdit(PLAN.ADD, user) &&
-            doesStaffOwnPlan({ ...agreement.plans[0], agreement }, user) ? (
+              doesStaffOwnPlan({ ...agreement.plans[0], agreement }, user) ? (
               <NewPlanButton agreement={agreement} />
             ) : (
               <div style={{ padding: '6px 16px' }}>No plan</div>
