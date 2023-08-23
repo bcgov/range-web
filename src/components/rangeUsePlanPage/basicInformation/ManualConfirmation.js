@@ -71,7 +71,9 @@ class ManualConfirmation extends Component {
   render() {
     const { confirmation, user } = this.props
     const { isConfirming } = this.state
-
+    if (!confirmation) {
+      return null
+    }
     return (
       <>{
         confirmation.confirmed ? (
