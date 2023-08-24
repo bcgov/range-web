@@ -76,7 +76,7 @@ const GrazingScheduleBox = ({
 
   const handleHeaderClick = column => {
     console.log('sorting by ' + column);
-    const orderByColumn = _.orderBy([column, 'createdAtDate'])
+    const orderByColumn = _.orderBy([column, 'id'])
 
     if (column !== sortBy) {
       setSortBy(column)
@@ -99,7 +99,7 @@ const GrazingScheduleBox = ({
         setSortBy(null)
         formik.setFieldValue(
           `${namespace}.grazingScheduleEntries`,
-          _.orderBy('createdAtDate', 'asc', schedule.grazingScheduleEntries)
+          _.orderBy('id', 'asc', schedule.grazingScheduleEntries)
         )
       }
     }
