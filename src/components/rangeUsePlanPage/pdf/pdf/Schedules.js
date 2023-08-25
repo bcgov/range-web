@@ -80,7 +80,8 @@ const Schedules = ({ plan }) => {
               <Text style={{ marginRight: 10 }}>
                 Authorized AUMs: {schedule.authorizedAUMs}
               </Text>
-              <Text>Total AUMs: {schedule.crownTotalAUMs}</Text>
+              <Text style={{ marginRight: 10 }}>Total AUMs: {schedule.crownTotalAUMs}</Text>
+              <Text>% Use: {((schedule.crownTotalAUMs / schedule.authorizedAUMs) * 100).toFixed(2)}</Text>
             </Row>
 
             <ExplanatoryText>

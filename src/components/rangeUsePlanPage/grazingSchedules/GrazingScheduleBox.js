@@ -318,6 +318,12 @@ const GrazingScheduleBox = ({
                     })}>
                     {roundedCrownTotalAUMs}
                   </div>
+                  <div className="rup__grazing-schedule__AUM-label">
+                    % Use
+                  </div>
+                  <div className="rup__grazing-schedule__AUM-number">
+                    {((roundedCrownTotalAUMs / authorizedAUMs) * 100).toFixed(2)}
+                  </div>
                 </div>
                 <div className="rup__grazing-schedule__narrative__title">
                   Schedule Description
