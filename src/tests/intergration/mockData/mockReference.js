@@ -1334,7 +1334,7 @@ const mockReference = {
   MONITORING_AREA_PURPOSE_TYPE: [
     {
       id: 1,
-      name: 'Range Readiness',
+      name: 'Range Readiness Criteria',
       active: true
     },
     {

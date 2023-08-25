@@ -106,7 +106,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
           {
             key: 'rangeReadiness',
             value: 'rangeReadiness',
-            text: 'Range Readiness'
+            text: 'Range Readiness Criteria'
           },
           {
             key: 'stubbleHeight',

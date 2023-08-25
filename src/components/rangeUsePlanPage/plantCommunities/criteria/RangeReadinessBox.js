@@ -26,7 +26,7 @@ const RangeReadinessBox = ({
     <div className="rup__plant-community__sh">
       <div className="rup__plant-community__rr__title">
         {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
-        Range Readiness
+        Range Readiness Criteria
       </div>
       <div>
         If more than one readiness criteria is provided, all such criteria must

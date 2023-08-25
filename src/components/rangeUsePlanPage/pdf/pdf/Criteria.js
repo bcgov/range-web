@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 const Criteria = ({ plantCommunity }) => (
   <View style={styles.container}>
     <Row>
-      <SectionHeader style={styles.header}>Range Readiness</SectionHeader>
+      <SectionHeader style={styles.header}>Range Readiness Criteria</SectionHeader>
     </Row>
 
     <ExplanatoryText>
@@ -43,12 +43,14 @@ const Criteria = ({ plantCommunity }) => (
     <Row>
       <Field label="Readiness Date">
         {plantCommunity.rangeReadinessMonth &&
-          plantCommunity.rangeReadinessDay &&
-          moment()
-            .set('month', plantCommunity.rangeReadinessMonth - 1)
-            .set('date', plantCommunity.rangeReadinessDay)
-            .format('MMMM D')}
-      </Field>
+          plantCommunity.rangeReadinessDay && (
+            <>Grazing will not occur before {moment()
+              .set('month', plantCommunity.rangeReadinessMonth - 1)
+              .set('date', plantCommunity.rangeReadinessDay)
+              .format('MMMM D')
+            } to allow sufficient growth of the plant and proper soil conditions to develop</>
+          )
+        }      </Field>
     </Row>
     <Row>
       <Field label="Other">{plantCommunity.rangeReadinessNote}</Field>

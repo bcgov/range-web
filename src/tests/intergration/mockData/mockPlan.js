@@ -264,7 +264,7 @@ const mockPlanWithAgreement = {
                   monitoringAreaId: 9,
                   purposeType: {
                     id: 1,
-                    name: 'Range Readiness',
+                    name: 'Range Readiness Criteria',
                     active: true
                   }
                 },
@@ -303,7 +303,7 @@ const mockPlanWithAgreement = {
                   monitoringAreaId: 16,
                   purposeType: {
                     id: 1,
-                    name: 'Range Readiness',
+                    name: 'Range Readiness Criteria',
                     active: true
                   }
                 }
