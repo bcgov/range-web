@@ -89,11 +89,6 @@ const FrontPage = ({ plan }) => (
       })}
     </View>
     <Text style={styles.header}>Confirmed by District Manager:</Text>
-    <View style={styles.signatures}>
-      <Text style={styles.signature}>Printed Name</Text>
-      <Text style={styles.signature}>Signature</Text>
-      <Text style={styles.signature}>Date</Text>
-    </View>
     <Footer />
   </Page>
 )
