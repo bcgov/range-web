@@ -22,7 +22,7 @@ import { useReferences } from '../../../providers/ReferencesProvider'
 import { REFERENCE_KEY } from '../../../constants/variables'
 import { isUUID } from 'uuid-v4'
 import { useUser } from '../../../providers/UserProvider'
-import ManualConfirmation from './ManualConfirmation'
+//import ManualConfirmation from './ManualConfirmation'
 
 const getAgentForClient = (client, clientAgreements) => {
   const clientAgreement = clientAgreements.find(ca => ca.clientId === client.id)
@@ -205,19 +205,19 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
                   : ''
                   }`}
               />
-              {confirmations && (
-                <ManualConfirmation
-                  user={user}
-                  confirmation={confirmations.find((confirmation) => {
-                    return confirmation.clientId === primaryAgreementHolder.id
-                  })}
-                  plan={plan}
-                  fetchPlan={fetchPlan}
-                  toastSuccessMessage={toastSuccessMessage}
-                  toastErrormessage={toastErrormessage}
-                  amendmentTypes={amendmentTypes}
-                />
-              )}
+              {/* {confirmations && ( */}
+              {/*   <ManualConfirmation */}
+              {/*     user={user} */}
+              {/*     confirmation={confirmations.find((confirmation) => { */}
+              {/*       return confirmation.clientId === primaryAgreementHolder.id */}
+              {/*     })} */}
+              {/*     plan={plan} */}
+              {/*     fetchPlan={fetchPlan} */}
+              {/*     toastSuccessMessage={toastSuccessMessage} */}
+              {/*     toastErrormessage={toastErrormessage} */}
+              {/*     amendmentTypes={amendmentTypes} */}
+              {/*   /> */}
+              {/* )} */}
             </div>
             {otherAgreementHolders.map(client => (
               <div className='rup__ah-container' key={client.id}>
@@ -230,20 +230,20 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
                     : ''
                     }`}
                 />
-                {confirmations && (
-                  <ManualConfirmation
-                    key={client.id}
-                    user={user}
-                    fetchPlan={fetchPlan}
-                    toastSuccessMessage={toastSuccessMessage}
-                    toastErrormessage={toastErrormessage}
-                    confirmation={confirmations.find((confirmation) => {
-                      return confirmation.clientId === client.id
-                    })}
-                    plan={plan}
-                    amendmentTypes={amendmentTypes}
-                  />
-                )}
+                {/* {confirmations && ( */}
+                {/*   <ManualConfirmation */}
+                {/*     key={client.id} */}
+                {/*     user={user} */}
+                {/*     fetchPlan={fetchPlan} */}
+                {/*     toastSuccessMessage={toastSuccessMessage} */}
+                {/*     toastErrormessage={toastErrormessage} */}
+                {/*     confirmation={confirmations.find((confirmation) => { */}
+                {/*       return confirmation.clientId === client.id */}
+                {/*     })} */}
+                {/*     plan={plan} */}
+                {/*     amendmentTypes={amendmentTypes} */}
+                {/*   /> */}
+                {/* )} */}
               </div>
             ))}
           </div>
