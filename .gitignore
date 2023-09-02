@@ -26,6 +26,7 @@ yarn-error.log*
 .tmp
 
 sonar-runner/build/
+sonar-runner/.gradle/
 .vscode/*
 Todo
 .env

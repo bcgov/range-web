@@ -44,21 +44,10 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
         GET_SIGNED_DOWNLOAD_URL(attachment.id),
         getAuthHeaderConfig()
       )
-      const fileRes = await axios.get(res.data.url, {
-        responseType: 'blob'
-      })
-
-      const url = window.URL.createObjectURL(fileRes.data)
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', attachment.name)
-      document.body.appendChild(link)
-      link.click()
-      link.parentNode.removeChild(link)
+      window.open(res.data.url)
     } catch (e) {
       setErrorDownloading(e)
     }
-
     setDownloading(false)
   }
 
