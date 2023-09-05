@@ -33,7 +33,8 @@ const Attachments = ({
       await axios.put(signedUrl, file, {
         headers: {
           'Content-Type': file.type
-        }
+        },
+        skipAuthorizationHeader: true
       })
 
       formik.setFieldValue(`${fieldName}.url`, file.name)

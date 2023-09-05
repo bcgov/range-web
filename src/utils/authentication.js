@@ -262,8 +262,9 @@ export const registerAxiosInterceptors = (
 ) => {
     axios.interceptors.request.use(config => {
         const isFirstTimeTry = !config.isRetry
+        const notExplicitlySkipped = !config.skipAuthorizationHeader
 
-        if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config)) {
+        if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config) && notExplicitlySkipped) {
             if (!isBundled)
                 console.log('Access token is expired. Trying to refresh it')
 

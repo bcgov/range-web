@@ -45,7 +45,8 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
         getAuthHeaderConfig()
       )
       const fileRes = await axios.get(res.data.url, {
-        responseType: 'blob'
+        responseType: 'blob',
+        skipAuthorizationHeader: true
       })
 
       const url = window.URL.createObjectURL(fileRes.data)
