@@ -276,7 +276,6 @@ export const registerAxiosInterceptors = (
 
                     const authData = saveAuthDataInLocal(response)
                     storeAuthData(authData)
-                    resetTimeoutForReAuth(reauthenticate)
 
                     const c = createConfigReplacingHeaderWithNewToken(config, response)
                     c.isRetry = true

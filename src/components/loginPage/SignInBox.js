@@ -56,7 +56,6 @@ export class SignInBox extends Component {
 
     if (authData) {
       storeAuthData(authData) // store the auth data in Redux store
-      resetTimeoutForReAuth(reauthenticate)
       fetchUser().then(({ piaSeen }) => {
         if (!piaSeen) {
           openPiaModal()
