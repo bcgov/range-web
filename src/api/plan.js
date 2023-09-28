@@ -299,3 +299,8 @@ export const amendFromLegal = async (plan, references, staffInitiated) => {
   )
   await createAmendment(plan, references, staffInitiated)
 }
+
+export const generatePDF = async planId => {
+  return await axios.get(API.GET_RUP_PDF(planId), getAuthHeaderConfig())
+}
+

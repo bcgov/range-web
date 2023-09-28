@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { pdf } from '@react-pdf/renderer'
 
 export const usePDF = (callback, deps = []) => {
   const [pdfUrl, setPdfUrl] = useState(null)
@@ -15,8 +14,8 @@ export const usePDF = (callback, deps = []) => {
         setPdfUrl(null)
       }
 
-      const doc = await callback()
-      const blob = await pdf(doc).toBlob()
+      const response = await callback();
+      const blob = new Blob([Buffer.from(response.data, 'base64')], { type: 'application/pdf' });
 
       setPdfUrl(URL.createObjectURL(blob))
       setLoading(false)

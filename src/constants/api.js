@@ -104,6 +104,7 @@ export const GET_RUP_VERSION = (planId, version) =>
 export const RESTORE_RUP_VERSION = (planId, version) =>
   `v1/plan/${planId}/version/${version}/restore`
 
+export const GET_RUP_PDF = planId => `/v1/plan/${planId}/PDF`
 export const CREATE_RUP_ATTACHMENT = planId => `/v1/plan/${planId}/attachment`
 export const DELETE_RUP_ATTACHMENT = (planId, attachmentId) =>
   `/v1/plan/${planId}/attachment/${attachmentId}`

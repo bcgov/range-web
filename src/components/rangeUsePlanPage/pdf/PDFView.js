@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import RUPDocument from './pdf'
-import { getPlan } from '../../../api'
+import { generatePDF, getPlan } from '../../../api'
 import { Button, Icon } from 'semantic-ui-react'
 import { usePDF } from '../../../utils/hooks/pdf'
 import { useUser } from '../../../providers/UserProvider'
@@ -17,7 +16,9 @@ const PDFView = ({ match }) => {
     if (plan && plan.agreement && plan.agreement.id) {
       setAgreementId(plan.agreement.id)
     }
-    return <RUPDocument plan={plan} />
+
+    const response = await generatePDF(planId);
+    return response
   }, [match.url])
 
   const hasError = !!error
@@ -31,19 +32,7 @@ const PDFView = ({ match }) => {
         loading={loading}
         as="a"
         href={pdfUrl}
-        download={`Range Use Plan - ${agreementId}`}
-        onClick={e => {
-          const iOS =
-            /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
-
-          if (iOS && !loading && !hasError && pdfUrl) {
-            e.preventDefault()
-            window.open(pdfUrl, '_blank')
-          }
-          if (hasError && !loading) {
-            retry()
-          }
-        }}>
+        download={`Range Use Plan - ${agreementId}`}>
         <Icon name="file pdf outline" />
         {error ? `Error loading PDF. Click to retry` : 'Download PDF'}
       </Button>
