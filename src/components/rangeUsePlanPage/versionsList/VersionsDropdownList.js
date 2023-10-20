@@ -12,6 +12,10 @@ import classnames from 'classnames'
 import Status from '../../common/Status'
 import { useUser } from '../../../providers/UserProvider'
 import { useHistory } from 'react-router-dom'
+import { Icon } from 'semantic-ui-react'
+import { PrimaryButton } from '../../common/'
+import { axios, getAuthHeaderConfig } from '../../../utils'
+import * as API from '../../../constants/api'
 
 const VersionsDropdownList = ({ versions, open }) => {
   const user = useUser()
@@ -23,6 +27,25 @@ const VersionsDropdownList = ({ versions, open }) => {
     text: `v${v.version}`,
     version: v
   }))
+
+
+  const onDownloadClicked = async (planId, version, agreementId) => {
+    await axios.get(
+      API.DOWNLOAD_RUP_VERSION(planId, version),
+      { ...getAuthHeaderConfig(), responseType: 'blob' }
+    ).then((response) => {
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${agreementId}_v${version}.pdf`;
+      link.style.display = 'none';
+      link.click();
+      window.URL.revokeObjectURL(url);
+      link.remove();
+    });
+  }
+
 
   return (
     <TableRow>
@@ -41,20 +64,16 @@ const VersionsDropdownList = ({ versions, open }) => {
                   <TableCell style={{ color: 'grey', align: 'left' }}>
                     Status
                   </TableCell>
+                  <TableCell style={{ color: 'grey' }}>Download</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {versionOptions.map((option, index) => (
-                  <TableRow
+                  < TableRow
                     key={index}
                     hover={true}
-                    onClick={() =>
-                      history.push(
-                        `/range-use-plan/${option.value.planId}/versions/${option.value.version}`
-                      )
-                    }>
+                  >
                     <TableCell>{option.version.legalReason}</TableCell>
-
                     <TableCell>
                       {moment(option.version.effectiveLegalStart).format(
                         'MMM DD YYYY h:mm a'
@@ -64,8 +83,8 @@ const VersionsDropdownList = ({ versions, open }) => {
                       {option.version.effectiveLegalEnd == null
                         ? 'Present'
                         : moment(option.version.effectiveLegalEnd).format(
-                            'MMM DD YYYY h:mm a'
-                          )}
+                          'MMM DD YYYY h:mm a'
+                        )}
                     </TableCell>
                     <TableCell>
                       <Status
@@ -76,6 +95,23 @@ const VersionsDropdownList = ({ versions, open }) => {
                         user={user}
                       />
                     </TableCell>
+                    <TableCell>
+                      <PrimaryButton
+                        inverted
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => {
+                          onDownloadClicked(
+                            option.version.planId,
+                            option.version.version,
+                            option.version.snapshot.agreementId
+                          );
+                        }}
+                      >
+                        <Icon name="print" />
+                        Download PDF
+
+                      </PrimaryButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -83,7 +119,7 @@ const VersionsDropdownList = ({ versions, open }) => {
           </Box>
         </Collapse>
       </TableCell>
-    </TableRow>
+    </TableRow >
   )
 }
 

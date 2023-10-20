@@ -101,6 +101,8 @@ export const CREATE_RUP_VERSION = planId => `/v1/plan/${planId}/version`
 export const GET_RUP_VERSIONS = planId => `/v1/plan/${planId}/version`
 export const GET_RUP_VERSION = (planId, version) =>
   `/v1/plan/${planId}/version/${version}`
+export const DOWNLOAD_RUP_VERSION = (planId, version) =>
+  `/v1/plan/${planId}/version/${version}/download`
 export const RESTORE_RUP_VERSION = (planId, version) =>
   `v1/plan/${planId}/version/${version}/restore`
 
