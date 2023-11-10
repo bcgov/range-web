@@ -282,7 +282,7 @@ function PlanRow({ agreement, location, user, currentPage }) {
       {agreement?.plans.length > 0 && (
         <VersionsDropdown
           open={open}
-          planId={agreement?.plans[0]?.id}></VersionsDropdown>
+          planId={agreement?.plans[0]?.id} />
       )}
     </>
   )

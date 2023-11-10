@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import useSWR from 'swr'
 import * as API from '../../../constants/api'
 import { axios, getAuthHeaderConfig } from '../../../utils'
@@ -17,13 +17,7 @@ const VersionsDropdown = ({ planId, open }) => {
   const { data, error, isValidating } = useSWR(() => open ? endpoint : null, key =>
     axios.get(key, {
       ...getAuthHeaderConfig(),
-    }).then(res => res.data),
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false
-    }
-  );
+    }).then(res => res.data));
 
   const { versions = [] } = data || {}
   const formattedVersions = versions

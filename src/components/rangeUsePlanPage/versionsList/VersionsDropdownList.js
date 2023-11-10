@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@material-ui/core/Box'
 import Collapse from '@material-ui/core/Collapse'
 import Table from '@material-ui/core/Table'
@@ -11,15 +11,14 @@ import moment from 'moment'
 import classnames from 'classnames'
 import Status from '../../common/Status'
 import { useUser } from '../../../providers/UserProvider'
-import { useHistory } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react'
 import { PrimaryButton } from '../../common/'
 import { axios, getAuthHeaderConfig } from '../../../utils'
 import * as API from '../../../constants/api'
+import AttachmentsList from './AttachmentsList'
 
 const VersionsDropdownList = ({ versions, open }) => {
   const user = useUser()
-  const history = useHistory()
 
   const versionOptions = versions.map(v => ({
     key: v.version,
@@ -49,7 +48,7 @@ const VersionsDropdownList = ({ versions, open }) => {
 
   return (
     <TableRow>
-      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box margin={0} style={{ marginBottom: '10px' }}>
             <Typography variant="h6" gutterBottom component="div">
@@ -65,55 +64,82 @@ const VersionsDropdownList = ({ versions, open }) => {
                     Status
                   </TableCell>
                   <TableCell style={{ color: 'grey' }}>Download</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Attachments</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {versionOptions.map((option, index) => (
-                  < TableRow
-                    key={index}
-                    hover={true}
-                  >
-                    <TableCell>{option.version.legalReason}</TableCell>
-                    <TableCell>
-                      {moment(option.version.effectiveLegalStart).format(
-                        'MMM DD YYYY h:mm a'
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {option.version.effectiveLegalEnd == null
-                        ? 'Present'
-                        : moment(option.version.effectiveLegalEnd).format(
-                          'MMM DD YYYY h:mm a'
-                        )}
-                    </TableCell>
-                    <TableCell>
-                      <Status
-                        className={classnames('versions_status_icon', {
-                          greyed: option.version.isCurrentLegalVersion === false
-                        })}
-                        status={option.version.status}
-                        user={user}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <PrimaryButton
-                        inverted
-                        style={{ marginLeft: '10px' }}
-                        onClick={() => {
-                          onDownloadClicked(
-                            option.version.planId,
-                            option.version.version,
-                            option.version.snapshot.agreementId
-                          );
-                        }}
+                {versionOptions.map((option, index) => {
+                  const [showAttachments, setShowAttachments] = useState(false);
+                  return (
+                    <>
+                      <TableRow
+                        key={index}
+                        hover={true}
                       >
-                        <Icon name="print" />
-                        Download PDF
-
-                      </PrimaryButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                        <TableCell>{option.version.legalReason}</TableCell>
+                        <TableCell>
+                          {moment(option.version.effectiveLegalStart).format(
+                            'MMM DD YYYY h:mm a'
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {option.version.effectiveLegalEnd == null
+                            ? 'Present'
+                            : moment(option.version.effectiveLegalEnd).format(
+                              'MMM DD YYYY h:mm a'
+                            )}
+                        </TableCell>
+                        <TableCell>
+                          <Status
+                            className={classnames('versions_status_icon', {
+                              greyed: option.version.isCurrentLegalVersion === false
+                            })}
+                            status={option.version.status}
+                            user={user}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <PrimaryButton
+                            inverted
+                            onClick={() => {
+                              onDownloadClicked(
+                                option.version.planId,
+                                option.version.version,
+                                option.version.snapshot.agreementId
+                              );
+                            }}
+                          >
+                            <Icon name="print" />
+                            Download PDF
+                          </PrimaryButton>
+                        </TableCell>
+                        <TableCell>
+                          <PrimaryButton
+                            inverted
+                            onClick={() => {
+                              setShowAttachments(!showAttachments)
+                            }}
+                          >
+                            <Icon name="paperclip" />
+                            Attachments
+                          </PrimaryButton>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                          <Collapse in={showAttachments} timeout="auto" unmountOnExit>
+                            <Box margin={0} style={{ marginBottom: '10px' }}>
+                              <Typography variant="h6" gutterBottom component="div">
+                                Attachments
+                              </Typography>
+                              <AttachmentsList attachments={option.version.snapshot.files} />
+                            </Box>
+                          </Collapse>
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  )
+                })}
               </TableBody>
             </Table>
           </Box>
