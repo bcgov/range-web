@@ -98,11 +98,6 @@ class PageForStaff extends Component {
     this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
   }
 
-  onViewVersionsClicked = () => {
-    const { id: planId } = this.props.plan || {}
-    this.props.history.push(`/range-use-plan/${planId}/versions`)
-  }
-
   onManageAgentsClicked = () => {
     const { id: planId } = this.props.plan || []
     this.props.history.push(`/range-use-plan/${planId}/agents`)
@@ -177,7 +172,6 @@ class PageForStaff extends Component {
         isFetchingPlan={this.props.isFetchingPlan}
         isCreatingAmendment={this.state.isCreatingAmendment}
         onViewPDFClicked={this.onViewPDFClicked}
-        onViewVersionsClicked={this.onViewVersionsClicked}
         onManageAgentsClicked={this.onManageAgentsClicked}
         onSaveDraftClick={this.onSaveDraftClick}
         onSubmit={this.openPlanSubmissionModal}

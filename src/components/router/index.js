@@ -26,7 +26,6 @@ import ProtectedRoute from './ProtectedRoute'
 import { useUser } from '../../providers/UserProvider'
 import * as Routes from '../../constants/routes'
 import { LoadableComponent } from './LoadableComponent'
-import VersionsList from '../rangeUsePlanPage/versionsList/VersionsList'
 import { QueryParamProvider } from 'use-query-params'
 import ErrorBoundary from '../common/ErrorBoundary'
 import ManageAgentsPage from '../rangeUsePlanPage/manageAgentsPage'
@@ -86,11 +85,6 @@ const Router = () => {
             <ProtectedRoute
               path={`${Routes.HOME}/:page?`}
               component={SelectRangeUsePlan}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.VIEW_PLAN_VERSIONS}
-              component={VersionsList}
               user={user}
             />
             <ProtectedRoute

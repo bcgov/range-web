@@ -48,7 +48,7 @@ const AttachmentsList = ({ attachments }) => {
           <TableCell style={{ color: 'grey', align: 'left' }}>
             Viewable By
           </TableCell>
-          <TableCell style={{ color: 'grey' }}>Download</TableCell>
+          <TableCell style={{ color: 'grey' }}></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -60,14 +60,12 @@ const AttachmentsList = ({ attachments }) => {
             <TableCell>{attachmentAccess.find(o => o.value === option.access)?.text}</TableCell>
             <TableCell>
               <PrimaryButton
-                inverted
-                style={{ marginLeft: '10px' }}
+                ui icon button inverted
                 onClick={() => {
                   onDownloadClicked(option);
                 }}
               >
-                <Icon name="print" />
-                Download
+                <i className='download icon' />
               </PrimaryButton>
             </TableCell>
           </TableRow>

@@ -11,7 +11,7 @@ import moment from 'moment'
 import classnames from 'classnames'
 import Status from '../../common/Status'
 import { useUser } from '../../../providers/UserProvider'
-import { Icon } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 import { PrimaryButton } from '../../common/'
 import { axios, getAuthHeaderConfig } from '../../../utils'
 import * as API from '../../../constants/api'
@@ -63,8 +63,8 @@ const VersionsDropdownList = ({ versions, open }) => {
                   <TableCell style={{ color: 'grey', align: 'left' }}>
                     Status
                   </TableCell>
-                  <TableCell style={{ color: 'grey' }}>Download</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Attachments</TableCell>
+                  <TableCell style={{ color: 'grey' }}></TableCell>
+                  <TableCell style={{ color: 'grey' }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -100,7 +100,7 @@ const VersionsDropdownList = ({ versions, open }) => {
                         </TableCell>
                         <TableCell>
                           <PrimaryButton
-                            inverted
+                            ui icon button inverted
                             onClick={() => {
                               onDownloadClicked(
                                 option.version.planId,
@@ -109,19 +109,17 @@ const VersionsDropdownList = ({ versions, open }) => {
                               );
                             }}
                           >
-                            <Icon name="print" />
-                            Download PDF
+                            <i className='download icon' />
                           </PrimaryButton>
                         </TableCell>
                         <TableCell>
                           <PrimaryButton
-                            inverted
+                            ui icon button inverted
                             onClick={() => {
                               setShowAttachments(!showAttachments)
                             }}
                           >
-                            <Icon name="paperclip" />
-                            Attachments
+                            <i className='paperclip icon' />
                           </PrimaryButton>
                         </TableCell>
                       </TableRow>
