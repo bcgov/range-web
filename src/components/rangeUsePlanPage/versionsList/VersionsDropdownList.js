@@ -11,7 +11,6 @@ import moment from 'moment'
 import classnames from 'classnames'
 import Status from '../../common/Status'
 import { useUser } from '../../../providers/UserProvider'
-import { Button, Icon } from 'semantic-ui-react'
 import { PrimaryButton } from '../../common/'
 import { axios, getAuthHeaderConfig } from '../../../utils'
 import * as API from '../../../constants/api'
@@ -58,8 +57,8 @@ const VersionsDropdownList = ({ versions, open }) => {
               <TableHead>
                 <TableRow>
                   <TableCell style={{ color: 'grey' }}>Reason</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Legal Start</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Legal End</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Originally Approved By</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Original Approval Date</TableCell>
                   <TableCell style={{ color: 'grey', align: 'left' }}>
                     Status
                   </TableCell>
@@ -78,14 +77,16 @@ const VersionsDropdownList = ({ versions, open }) => {
                       >
                         <TableCell>{option.version.legalReason}</TableCell>
                         <TableCell>
-                          {moment(option.version.effectiveLegalStart).format(
-                            'MMM DD YYYY h:mm a'
-                          )}
+                          {option.version.snapshot.originalApproval == null
+                            ? ''
+                            : option.version.snapshot.originalApproval.givenName + ' '
+                            + option.version.snapshot.originalApproval.familyName
+                          }
                         </TableCell>
                         <TableCell>
-                          {option.version.effectiveLegalEnd == null
-                            ? 'Present'
-                            : moment(option.version.effectiveLegalEnd).format(
+                          {option.version.snapshot.originalApproval == null
+                            ? ''
+                            : moment(option.version.snapshot.originalApproval.createdAt).format(
                               'MMM DD YYYY h:mm a'
                             )}
                         </TableCell>
