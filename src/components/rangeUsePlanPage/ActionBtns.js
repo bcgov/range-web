@@ -7,7 +7,6 @@ import {
   SUBMIT,
   AMEND_PLAN,
   SIGN_SUBMISSION,
-  VIEW_VERSIONS
 } from '../../constants/strings'
 import DownloadPDFBtn from './DownloadPDFBtn'
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
@@ -22,7 +21,6 @@ const ActionBtns = ({
   isSubmitting,
   isCreatingAmendment,
   onViewPDFClicked,
-  onViewVersionsClicked,
   onManageAgentsClicked,
   onSubmit,
   onSignSubmission,
@@ -100,12 +98,6 @@ const ActionBtns = ({
       {SIGN_SUBMISSION}
     </Button>
   )
-  const viewVersionsMenuItem = (
-    <Menu.Item key="viewVersionBtn" onClick={onViewVersionsClicked}>
-      <Icon name="history" />
-      {VIEW_VERSIONS}
-    </Menu.Item>
-  )
   const manageAgentsMenuItem = (
     <Menu.Item key="manageAgentsBtn" onClick={onManageAgentsClicked}>
       <Icon name="user" />
@@ -147,7 +139,6 @@ const ActionBtns = ({
         value={null}>
         <Dropdown.Menu>
           {downloadPDFBtn}
-          {viewVersionsMenuItem}
           {permissions.manageAgents && manageAgentsMenuItem}
           {permissions.updateStatus && (
             <UpdateStatusDropdown
@@ -175,7 +166,6 @@ ActionBtns.propTypes = {
     manageAgents: PropTypes.bool
   }),
   onViewPDFClicked: PropTypes.func,
-  onViewVersionsClicked: PropTypes.func,
   onSubmit: PropTypes.func,
   onSignSubmission: PropTypes.func,
   onAmend: PropTypes.func

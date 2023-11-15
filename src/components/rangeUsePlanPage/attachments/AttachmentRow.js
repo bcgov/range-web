@@ -14,7 +14,7 @@ import { CircularProgress } from '@material-ui/core'
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api'
 import { isUUID } from 'uuid-v4'
 
-const options = [
+export const attachmentAccess = [
   {
     key: 'user_only',
     value: 'user_only',
@@ -80,9 +80,9 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
           inputProps={{ placeholder: 'Just me' }}
           name={`files.${index}.access`}
           component={Dropdown}
-          options={options}
+          options={attachmentAccess}
           label="Viewable by"
-          displayValue={options.find(o => o.value === attachment.access)?.text}
+          displayValue={attachmentAccess.find(o => o.value === attachment.access)?.text}
           fast
           fieldProps={{ required: false }}
         />

@@ -40,7 +40,6 @@ export const PENDING_SUBMISSION = 'Pending Submission'
 export const ALREADY_SIGNED = 'Already Signed'
 export const VIEW = 'View'
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation'
-export const VIEW_VERSIONS = 'View Versions'
 
 // RUP tabs
 export const CONDITIONS = 'Conditions'

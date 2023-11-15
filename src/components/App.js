@@ -28,28 +28,34 @@ import ToastProvider from '../providers/ToastProvider'
 import EditableProvider from '../providers/EditableProvider'
 import PlanProvider from '../providers/PlanProvider'
 import theme from './theme'
+import { SWRConfig } from 'swr'
 
 const store = configureStore()
 
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <UserProvider>
-            <PlanProvider>
-              <EditableProvider editable={true}>
-                <ReferencesProvider>
-                  <ToastProvider>
-                    <Router />
-                  </ToastProvider>
-                </ReferencesProvider>
-              </EditableProvider>
-            </PlanProvider>
-          </UserProvider>
-        </ThemeProvider>
-      </Provider>
-    )
+      <SWRConfig value={{
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+      }} >
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <UserProvider>
+              <PlanProvider>
+                <EditableProvider editable={true}>
+                  <ReferencesProvider>
+                    <ToastProvider>
+                      <Router />
+                    </ToastProvider>
+                  </ReferencesProvider>
+                </EditableProvider>
+              </PlanProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </Provider>
+      </SWRConfig>)
   }
 }
 
