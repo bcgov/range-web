@@ -201,23 +201,24 @@ const Base = ({
         render={() => {
           const closePDFModal = () => history.push(match.url)
           return (
-            <Modal
-              size="tiny"
-              open={true}
-              onClose={closePDFModal}
-              dimmer="blurring">
-              <Header content="Download PDF" icon="file pdf" />
-              <Modal.Content>
-                The PDF may take a few minutes to generate.
-              </Modal.Content>
-              <Modal.Actions>
-                <Button type="button" onClick={closePDFModal}>
-                  Close
-                </Button>
-                <PDFView match={match} />
-              </Modal.Actions>
-            </Modal>
-          )
+            currentPlan && (
+              <Modal
+                size="tiny"
+                open={true}
+                onClose={closePDFModal}
+                dimmer="blurring">
+                <Header content="Download PDF" icon="file pdf" />
+                <Modal.Content>
+                  The PDF may take a few minutes to generate.
+                </Modal.Content>
+                <Modal.Actions>
+                  <Button type="button" onClick={closePDFModal}>
+                    Close
+                  </Button>
+                  <PDFView match={match} agreementId={currentPlan.agreement.id} />
+                </Modal.Actions>
+              </Modal>
+            ))
         }}
       />
 
