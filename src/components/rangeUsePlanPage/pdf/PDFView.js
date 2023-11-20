@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { generatePDF } from '../../../api'
 import { PrimaryButton } from '../../common'
+import { downloadAttachment } from '../attachments/AttachmentRow'
 
-const PDFView = ({ match, agreementId }) => {
+const PDFView = ({ match, agreementId, mapAttachments }) => {
   const { planId } = match.params
   const hasError = !!error
   const [loading, setLoading] = useState(false)
@@ -22,6 +23,9 @@ const PDFView = ({ match, agreementId }) => {
       link.click()
       link.parentNode.removeChild(link)
       setLoading(false)
+      mapAttachments.forEach(attachment => {
+        downloadAttachment(attachment.id, attachment.name);
+      });
     } catch (e) {
       setLoading(false)
       setError(e)
