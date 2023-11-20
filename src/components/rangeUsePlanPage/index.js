@@ -215,7 +215,9 @@ const Base = ({
                   <Button type="button" onClick={closePDFModal}>
                     Close
                   </Button>
-                  <PDFView match={match} agreementId={currentPlan.agreement.id} />
+                  <PDFView match={match} agreementId={currentPlan.agreement.id} mapAttachments={currentPlan.files.filter((item) => {
+                    return item.type === 'mapAttachments'
+                  })} />
                 </Modal.Actions>
               </Modal>
             ))

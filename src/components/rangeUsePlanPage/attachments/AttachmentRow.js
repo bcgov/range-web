@@ -32,6 +32,24 @@ export const attachmentAccess = [
   }
 ]
 
+export const downloadAttachment = async (attachmentId, attachmentName) => {
+  const res = await axios.get(
+    GET_SIGNED_DOWNLOAD_URL(attachmentId),
+    getAuthHeaderConfig()
+  )
+  const fileRes = await axios.get(res.data.url, {
+    responseType: 'blob',
+    skipAuthorizationHeader: true
+  })
+  const url = window.URL.createObjectURL(fileRes.data)
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', attachmentName)
+  document.body.appendChild(link)
+  link.click()
+  link.parentNode.removeChild(link)
+}
+
 const AttachmentRow = ({ attachment, index, onDelete, error }) => {
   const [isDownloading, setDownloading] = useState(false)
   const [errorDownloading, setErrorDownloading] = useState()
@@ -40,26 +58,10 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
     setErrorDownloading(null)
     setDownloading(true)
     try {
-      const res = await axios.get(
-        GET_SIGNED_DOWNLOAD_URL(attachment.id),
-        getAuthHeaderConfig()
-      )
-      const fileRes = await axios.get(res.data.url, {
-        responseType: 'blob',
-        skipAuthorizationHeader: true
-      })
-
-      const url = window.URL.createObjectURL(fileRes.data)
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', attachment.name)
-      document.body.appendChild(link)
-      link.click()
-      link.parentNode.removeChild(link)
+      downloadAttachment(attachment.id, attachment.name);
     } catch (e) {
       setErrorDownloading(e)
     }
-
     setDownloading(false)
   }
 
