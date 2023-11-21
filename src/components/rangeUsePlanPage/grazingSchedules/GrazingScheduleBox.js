@@ -13,7 +13,7 @@ import uuid from 'uuid-v4'
 import { TextArea } from 'formik-semantic-ui'
 import PermissionsField, { IfEditable } from '../../common/PermissionsField'
 import { SCHEDULE } from '../../../constants/fields'
-import { deleteGrazingScheduleEntry } from '../../../api'
+import { deleteGrazingScheduleEntry, updateSortOrder } from '../../../api'
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
 import { useUser } from '../../../providers/UserProvider'
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell'
@@ -81,6 +81,7 @@ const GrazingScheduleBox = ({
     if (column !== sortBy) {
       setSortBy(column)
       setSortOrder('asc')
+      updateSortOrder(schedule.planId, schedule.id, column, 'asc');
 
       formik.setFieldValue(
         `${namespace}.grazingScheduleEntries`,
@@ -90,6 +91,7 @@ const GrazingScheduleBox = ({
       if (sortOrder === 'asc') {
         setSortOrder('desc')
 
+        updateSortOrder(schedule.planId, schedule.id, column, 'desc');
         formik.setFieldValue(
           `${namespace}.grazingScheduleEntries`,
           orderByColumn('desc', schedule.grazingScheduleEntries)
@@ -97,6 +99,7 @@ const GrazingScheduleBox = ({
       } else {
         setSortOrder(null)
         setSortBy(null)
+        updateSortOrder(schedule.planId, schedule.id, null, null);
         formik.setFieldValue(
           `${namespace}.grazingScheduleEntries`,
           _.orderBy('id', 'asc', schedule.grazingScheduleEntries)
@@ -319,7 +322,7 @@ const GrazingScheduleBox = ({
                     {roundedCrownTotalAUMs}
                   </div>
                   <div className="rup__grazing-schedule__AUM-label">
-                    % Use
+                    % Used
                   </div>
                   <div className="rup__grazing-schedule__AUM-number">
                     {((roundedCrownTotalAUMs / authorizedAUMs) * 100).toFixed(2)}

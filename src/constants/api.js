@@ -231,3 +231,5 @@ export const DELETE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
 
 export const GET_EMAIL_TEMPLATE = `/v1/emailtemplate`
 export const UPDATE_EMAIL_TEMPLATE = templateId => `/v1/emailtemplate/${templateId}`
+export const UPDATE_SCHEDULE_SORT_ORDER = (planId, scheduleId) =>
+  `/v1/plan/${planId}/schedule/${scheduleId}/sortOrder`
