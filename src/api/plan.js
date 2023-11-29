@@ -304,3 +304,13 @@ export const generatePDF = async planId => {
   return await axios.get(API.GET_RUP_PDF(planId), getAuthHeaderConfig())
 }
 
+export const updateSortOrder = async (planId, scheduleId, sortBy, sortOrder) => {
+  return axios.put(
+    API.UPDATE_SCHEDULE_SORT_ORDER(planId, scheduleId),
+    {
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    },
+    getAuthHeaderConfig(),
+  )
+}
