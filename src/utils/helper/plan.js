@@ -271,8 +271,9 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
   if (!status) return false
 
   if (isUserStaff(user)) {
-    return true;
-  } if (isUserDecisionMaker(user)) {
+    return true
+  }
+  if (isUserDecisionMaker(user)) {
     return (
       isStatusRecommendReady(status) ||
       isStatusRecommendNotReady(status) ||
