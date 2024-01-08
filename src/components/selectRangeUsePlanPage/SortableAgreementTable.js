@@ -1,6 +1,3 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -10,26 +7,13 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 import Skeleton from '@material-ui/lab/Skeleton'
-import EditIcon from '@material-ui/icons/Edit'
-import ViewIcon from '@material-ui/icons/Visibility'
-import { Link, useLocation } from 'react-router-dom'
-import { RANGE_USE_PLAN } from '../../constants/routes'
-import * as strings from '../../constants/strings'
-import { Status } from '../common'
-import { Button } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { useLocation } from 'react-router-dom'
 import { useUser } from '../../providers/UserProvider'
-import NewPlanButton from './NewPlanButton'
-import { canUserEditThisPlan, doesStaffOwnPlan } from '../../utils'
-import { canUserEdit } from '../common/PermissionsField'
-import { PLAN } from '../../constants/fields'
-import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
-import IconButton from '@material-ui/core/IconButton'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import {
-  formatDateFromServer,
-} from '../../utils'
+import PlanRow from './PlanRow'
 
 const headCells = [
   {
@@ -75,6 +59,12 @@ const headCells = [
     sortable: true
   },
   {
+    id: 'plan.extension_of',
+    label: 'Extension Of',
+    disablePadding: true,
+    sortable: true
+  },
+  {
     id: 'ref_district.code',
     numeric: false,
     disablePadding: false,
@@ -94,7 +84,8 @@ const headCells = [
     disablePadding: false,
     label: 'Status'
   },
-  { id: 'actions', disablePadding: true }
+  { id: 'actions', disablePadding: true },
+  { id: 'extension', label: 'Extension Requests', disablePadding: true }
 ]
 
 function EnhancedTableHead(props) {
@@ -140,7 +131,7 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired
 }
 
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(2),
@@ -183,111 +174,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function PlanRow({ agreement, location, user, currentPage }) {
-  const classes = useStyles()
-  const [open, setOpen] = useState(false)
-  const canEdit = canUserEditThisPlan(
-    { ...agreement.plans[0], agreement },
-    user
-  )
-  return (
-    <>
-      <TableRow className={classes.root} hover tabIndex={-1} key={agreement.id}>
-        <TableCell align="left" style={{ minWidth: 150 }}>
-          {agreement.forestFileId}
-          {agreement?.plans[0]?.id && (
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              style={{ marginLeft: '3px' }}
-              onClick={() => setOpen(!open)}>
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          )}
-        </TableCell>
-
-        <TableCell align="left">
-          {agreement.plans[0]?.rangeName ?? '-'}
-        </TableCell>
-        <TableCell align="left">
-          {
-            agreement.clients.find(client => client.clientTypeCode === 'A')
-              ?.name
-          }
-        </TableCell>
-
-        <TableCell align="left">
-          {agreement.zone?.user
-            ? `${agreement?.zone?.user?.givenName} ${agreement?.zone?.user?.familyName}`
-            : 'Not provided'}
-        </TableCell>
-
-        <TableCell align="left">
-          {agreement.agreementEndDate ? (
-            formatDateFromServer(agreement?.agreementEndDate)
-          ) : (
-            <span>-</span>
-          )}
-        </TableCell>
-
-        <TableCell align="left">
-          {agreement.plans[0] ? (
-            formatDateFromServer(agreement.plans[0]?.planEndDate)
-          ) : (
-            <span>-</span>
-          )}
-        </TableCell>
-
-        <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
-        <TableCell align="left">
-          {agreement.plans[0] ? (
-            <span>{agreement.plans[0]?.status.code}</span>
-          ) : (
-            <span>-</span>
-          )}
-        </TableCell>
-        <TableCell align="left">
-          {agreement.plans[0] ? (
-            <Status user={user} status={agreement.plans[0]?.status} />
-          ) : (
-            <span>-</span>
-          )}
-        </TableCell>
-        <TableCell>
-          {agreement.plans.length === 0 ? (
-            canUserEdit(PLAN.ADD, user) &&
-              doesStaffOwnPlan({ ...agreement.plans[0], agreement }, user) ? (
-              <NewPlanButton agreement={agreement} />
-            ) : (
-              <div style={{ padding: '6px 16px' }}>No plan</div>
-            )
-          ) : (
-            <Button
-              fullWidth
-              variant="outlined"
-              component={Link}
-              to={{
-                pathname: `${RANGE_USE_PLAN}/${agreement.plans[0].id}`,
-                state: {
-                  page: currentPage,
-                  prevSearch: location.search
-                }
-              }}
-              endIcon={canEdit ? <EditIcon /> : <ViewIcon />}>
-              {canEdit ? 'Edit' : strings.VIEW}
-            </Button>
-          )}
-        </TableCell>
-      </TableRow>
-      {agreement?.plans.length > 0 && (
-        <VersionsDropdown
-          open={open}
-          planId={agreement?.plans[0]?.id} />
-      )}
-    </>
-  )
-}
-
 export default function SortableAgreementTable({
   agreements = [],
   currentPage,
@@ -319,7 +205,14 @@ export default function SortableAgreementTable({
     onPageChange(0)
   }
 
-  const emptyRows = Math.abs(agreements.length - perPage)
+  const getNumberOfRows = () => {
+    let rowCount = 0
+    agreements.forEach(agreement => {
+      rowCount = rowCount + agreement.plans?.length
+    })
+    return rowCount
+  }
+  const emptyRows = Math.abs(getNumberOfRows() - perPage)
 
   return (
     <div className={classes.root}>

@@ -26,24 +26,24 @@ const VersionsDropdownList = ({ versions, open }) => {
     version: v
   }))
 
-
   const onDownloadClicked = async (planId, version, agreementId) => {
-    await axios.get(
-      API.DOWNLOAD_RUP_VERSION(planId, version),
-      { ...getAuthHeaderConfig(), responseType: 'blob' }
-    ).then((response) => {
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${agreementId}_v${version}.pdf`;
-      link.style.display = 'none';
-      link.click();
-      window.URL.revokeObjectURL(url);
-      link.remove();
-    });
+    await axios
+      .get(API.DOWNLOAD_RUP_VERSION(planId, version), {
+        ...getAuthHeaderConfig(),
+        responseType: 'blob'
+      })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/pdf' })
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `${agreementId}_v${version}.pdf`
+        link.style.display = 'none'
+        link.click()
+        window.URL.revokeObjectURL(url)
+        link.remove()
+      })
   }
-
 
   return (
     <TableRow>
@@ -57,8 +57,12 @@ const VersionsDropdownList = ({ versions, open }) => {
               <TableHead>
                 <TableRow>
                   <TableCell style={{ color: 'grey' }}>Reason</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Originally Approved By</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Original Approval Date</TableCell>
+                  <TableCell style={{ color: 'grey' }}>
+                    Originally Approved By
+                  </TableCell>
+                  <TableCell style={{ color: 'grey' }}>
+                    Original Approval Date
+                  </TableCell>
                   <TableCell style={{ color: 'grey', align: 'left' }}>
                     Status
                   </TableCell>
@@ -68,70 +72,85 @@ const VersionsDropdownList = ({ versions, open }) => {
               </TableHead>
               <TableBody>
                 {versionOptions.map((option, index) => {
-                  const [showAttachments, setShowAttachments] = useState(false);
+                  const [showAttachments, setShowAttachments] = useState(false)
                   return (
                     <>
-                      <TableRow
-                        key={index}
-                        hover={true}
-                      >
+                      <TableRow key={index} hover={true}>
                         <TableCell>{option.version.legalReason}</TableCell>
                         <TableCell>
                           {option.version.snapshot.originalApproval == null
                             ? ''
-                            : option.version.snapshot.originalApproval.givenName + ' '
-                            + option.version.snapshot.originalApproval.familyName
-                          }
+                            : option.version.snapshot.originalApproval
+                                .givenName +
+                              ' ' +
+                              option.version.snapshot.originalApproval
+                                .familyName}
                         </TableCell>
                         <TableCell>
                           {option.version.snapshot.originalApproval == null
                             ? ''
-                            : moment(option.version.snapshot.originalApproval.createdAt).format(
-                              'MMM DD YYYY h:mm a'
-                            )}
+                            : moment(
+                                option.version.snapshot.originalApproval
+                                  .createdAt
+                              ).format('MMM DD YYYY h:mm a')}
                         </TableCell>
                         <TableCell>
                           <Status
                             className={classnames('versions_status_icon', {
-                              greyed: option.version.isCurrentLegalVersion === false
+                              greyed:
+                                option.version.isCurrentLegalVersion === false
                             })}
-                            status={option.version.status}
+                            status={option.version.snapshot.status}
                             user={user}
                           />
                         </TableCell>
                         <TableCell>
                           <PrimaryButton
-                            ui icon button inverted
+                            ui
+                            icon
+                            button
+                            inverted
                             onClick={() => {
                               onDownloadClicked(
                                 option.version.planId,
                                 option.version.version,
                                 option.version.snapshot.agreementId
-                              );
-                            }}
-                          >
-                            <i className='download icon' />
+                              )
+                            }}>
+                            <i className="download icon" />
                           </PrimaryButton>
                         </TableCell>
                         <TableCell>
                           <PrimaryButton
-                            ui icon button inverted
+                            ui
+                            icon
+                            button
+                            inverted
                             onClick={() => {
                               setShowAttachments(!showAttachments)
-                            }}
-                          >
-                            <i className='paperclip icon' />
+                            }}>
+                            <i className="paperclip icon" />
                           </PrimaryButton>
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                          <Collapse in={showAttachments} timeout="auto" unmountOnExit>
+                        <TableCell
+                          style={{ paddingBottom: 0, paddingTop: 0 }}
+                          colSpan={6}>
+                          <Collapse
+                            in={showAttachments}
+                            timeout="auto"
+                            unmountOnExit>
                             <Box margin={0} style={{ marginBottom: '10px' }}>
-                              <Typography variant="h6" gutterBottom component="div">
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                component="div">
                                 Attachments
                               </Typography>
-                              <AttachmentsList attachments={option.version.snapshot.files} />
+                              <AttachmentsList
+                                attachments={option.version.snapshot.files}
+                              />
                             </Box>
                           </Collapse>
                         </TableCell>
@@ -144,7 +163,7 @@ const VersionsDropdownList = ({ versions, open }) => {
           </Box>
         </Collapse>
       </TableCell>
-    </TableRow >
+    </TableRow>
   )
 }
 

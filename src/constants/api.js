@@ -93,6 +93,11 @@ export const UPDATE_CLIENT_AGREEMENT = (planId, clientAgreementId) =>
   `/v1/client/agreements/${planId}/${clientAgreementId}`
 export const UPDATE_PLAN_STATUS = planId => `/v1/plan/${planId}/status`
 export const UPDATE_RUP = planId => `/v1/plan/${planId}`
+export const EXTEND_PLAN = planId => `/v1/plan/${planId}/extension/extend`
+export const APPROVE_PLAN_EXTENSION = planId =>
+  `/v1/plan/${planId}/extension/approve`
+export const REJECT_PLAN_EXTENSION = planId =>
+  `/v1/plan/${planId}/extension/reject`
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`
 export const DISCARD_AMENDMENT = planId => `v1/plan/${planId}/discard-amendment`
@@ -230,6 +235,7 @@ export const DELETE_RUP_ADDITIONAL_REQUIREMENT = (planId, requirementId) =>
   `/v1/plan/${planId}/additional-requirement/${requirementId}`
 
 export const GET_EMAIL_TEMPLATE = `/v1/emailtemplate`
-export const UPDATE_EMAIL_TEMPLATE = templateId => `/v1/emailtemplate/${templateId}`
+export const UPDATE_EMAIL_TEMPLATE = templateId =>
+  `/v1/emailtemplate/${templateId}`
 export const UPDATE_SCHEDULE_SORT_ORDER = (planId, scheduleId) =>
   `/v1/plan/${planId}/schedule/${scheduleId}/sortOrder`

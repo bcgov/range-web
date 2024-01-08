@@ -8,6 +8,7 @@ $third_agrm_table_cell_rate: 1.9;
   }
   &__table-container {
     @extend .container;
+    @extend .table-container;
     margin-top: 5px;
   }
   &__ptable {
@@ -23,7 +24,7 @@ $third_agrm_table_cell_rate: 1.9;
       font-weight: bold;
       width: 100%;
       padding: 0 10px;
-      
+
       &__cell {
         flex: 1;
         padding-right: 10px;
@@ -64,7 +65,7 @@ $third_agrm_table_cell_rate: 1.9;
       padding: 5px 10px;
 
       &:not(:last-child) {
-        border-bottom: 1px solid rgba(34,36,38,.1);
+        border-bottom: 1px solid rgba(34, 36, 38, 0.1);
       }
       &__cell {
         flex: 1;
@@ -119,7 +120,7 @@ $third_agrm_table_cell_rate: 1.9;
       }
     }
     &__row {
-      border-bottom: 1px solid rgba(34,36,38,.1);
+      border-bottom: 1px solid rgba(34, 36, 38, 0.1);
 
       &--active {
         background-color: #eee;
