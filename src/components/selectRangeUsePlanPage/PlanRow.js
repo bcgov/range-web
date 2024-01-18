@@ -108,38 +108,12 @@ function PlanRow({ agreement, location, user, currentPage }) {
         </TableCell>
 
         <TableCell align="left">
-          {agreement.agreementEndDate ? (
-            formatDateFromServer(agreement?.agreementEndDate)
-          ) : (
-            <span>-</span>
-          )}
-        </TableCell>
-
-        <TableCell align="left">
           {agreement.plan?.id ? (
             formatDateFromServer(agreement.plan.planEndDate)
           ) : (
             <span>-</span>
           )}
         </TableCell>
-        <TableCell align="left">
-          {agreement.plan?.extensionOf ? (
-            <Button
-              component={Link}
-              to={{
-                pathname: `${RANGE_USE_PLAN}/${agreement.plan?.extensionOf}`,
-                state: {
-                  page: currentPage,
-                  prevSearch: location.search
-                }
-              }}>
-              link
-            </Button>
-          ) : (
-            <span></span>
-          )}
-        </TableCell>
-
         <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
         <TableCell align="left">
           {agreement.plan?.id ? (

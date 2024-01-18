@@ -45,23 +45,10 @@ const headCells = [
     sortable: true
   },
   {
-    id: 'agreement.agreement_end_date',
-    numeric: false,
-    disablePadding: false,
-    label: 'Agreement End Date',
-    sortable: true
-  },
-  {
     id: 'plan.plan_end_date',
     numeric: false,
     disablePadding: false,
     label: 'Plan End Date',
-    sortable: true
-  },
-  {
-    id: 'plan.extension_of',
-    label: 'Extension Of',
-    disablePadding: true,
     sortable: true
   },
   {
