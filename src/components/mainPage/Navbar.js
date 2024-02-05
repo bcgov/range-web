@@ -55,9 +55,8 @@ export class Navbar extends Component {
               <div className="navbar__link__underline" />
             </NavLink>
 
-            {isUserAdmin(user) && (
-              <Fragment>
-                {/*
+            <Fragment>
+              {/*
                 <NavLink
                   to={Routes.MANAGE_ZONE}
                   className="navbar__link"
@@ -66,20 +65,21 @@ export class Navbar extends Component {
                   <div className="navbar__link__underline" />
                 </NavLink>
                 */}
-                <NavLink
-                  to={Routes.MANAGE_CLIENT}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active">
-                  {MANAGE_CLIENTS}
-                  <div className="navbar__link__underline" />
-                </NavLink>
-                <NavLink
-                  to={Routes.MERGE_ACCOUNT}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active">
-                  {MERGE_ACCOUNT}
-                  <div className="navbar__link__underline" />
-                </NavLink>
+              <NavLink
+                to={Routes.MANAGE_CLIENT}
+                className="navbar__link"
+                activeClassName="navbar__link--active">
+                {MANAGE_CLIENTS}
+                <div className="navbar__link__underline" />
+              </NavLink>
+              <NavLink
+                to={Routes.MERGE_ACCOUNT}
+                className="navbar__link"
+                activeClassName="navbar__link--active">
+                {MERGE_ACCOUNT}
+                <div className="navbar__link__underline" />
+              </NavLink>
+              {isUserAdmin(user) && (
                 <NavLink
                   to={Routes.EMAIL_TEMPLATE}
                   className="navbar__link"
@@ -87,8 +87,8 @@ export class Navbar extends Component {
                   {EMAIL_TEMPLATE}
                   <div className="navbar__link__underline" />
                 </NavLink>
-              </Fragment>
-            )}
+              )}
+            </Fragment>
 
             <Dropdown
               className="navbar__avatar"
@@ -117,7 +117,4 @@ export class Navbar extends Component {
   }
 }
 
-export default connect(
-  null,
-  { signOut }
-)(Navbar)
+export default connect(null, { signOut })(Navbar)
