@@ -12,5 +12,10 @@ export const RANGE_USE_PLAN_WITH_PARAM = '/range-use-plan/:planId'
 export const MANAGE_ZONE = '/manage-zone'
 export const MANAGE_CLIENT = '/manage-client'
 export const MERGE_ACCOUNT = '/merge-account'
-export const EMAIL_TEMPLATE = '/email-templatet'
-export const ADMIN_ROUTES = [MANAGE_ZONE, MANAGE_CLIENT, MERGE_ACCOUNT, EMAIL_TEMPLATE]
+export const EMAIL_TEMPLATE = '/email-template'
+export const ADMIN_ROUTES = [
+  MANAGE_ZONE,
+  MANAGE_CLIENT,
+  MERGE_ACCOUNT,
+  EMAIL_TEMPLATE
+]
