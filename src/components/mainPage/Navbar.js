@@ -6,7 +6,11 @@ import { Dropdown, Icon } from 'semantic-ui-react'
 import { Avatar } from '../common'
 import * as Routes from '../../constants/routes'
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables'
-import { isUserAdmin, signOutFromSSOAndSiteMinder } from '../../utils'
+import {
+  isUserAdmin,
+  isUserAgreementHolder,
+  signOutFromSSOAndSiteMinder
+} from '../../utils'
 import { signOut } from '../../actionCreators'
 import {
   SELECT_RUP,
@@ -65,13 +69,15 @@ export class Navbar extends Component {
                   <div className="navbar__link__underline" />
                 </NavLink>
                 */}
-              <NavLink
-                to={Routes.MANAGE_CLIENT}
-                className="navbar__link"
-                activeClassName="navbar__link--active">
-                {MANAGE_CLIENTS}
-                <div className="navbar__link__underline" />
-              </NavLink>
+              {!isUserAgreementHolder(user) && (
+                <NavLink
+                  to={Routes.MANAGE_CLIENT}
+                  className="navbar__link"
+                  activeClassName="navbar__link--active">
+                  {MANAGE_CLIENTS}
+                  <div className="navbar__link__underline" />
+                </NavLink>
+              )}
               <NavLink
                 to={Routes.MERGE_ACCOUNT}
                 className="navbar__link"
