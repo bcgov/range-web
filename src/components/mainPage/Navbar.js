@@ -70,21 +70,23 @@ export class Navbar extends Component {
                 </NavLink>
                 */}
               {!isUserAgreementHolder(user) && (
-                <NavLink
-                  to={Routes.MANAGE_CLIENT}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active">
-                  {MANAGE_CLIENTS}
-                  <div className="navbar__link__underline" />
-                </NavLink>
+                <>
+                  <NavLink
+                    to={Routes.MANAGE_CLIENT}
+                    className="navbar__link"
+                    activeClassName="navbar__link--active">
+                    {MANAGE_CLIENTS}
+                    <div className="navbar__link__underline" />
+                  </NavLink>
+                  <NavLink
+                    to={Routes.MERGE_ACCOUNT}
+                    className="navbar__link"
+                    activeClassName="navbar__link--active">
+                    {MERGE_ACCOUNT}
+                    <div className="navbar__link__underline" />
+                  </NavLink>
+                </>
               )}
-              <NavLink
-                to={Routes.MERGE_ACCOUNT}
-                className="navbar__link"
-                activeClassName="navbar__link--active">
-                {MERGE_ACCOUNT}
-                <div className="navbar__link__underline" />
-              </NavLink>
               {isUserAdmin(user) && (
                 <NavLink
                   to={Routes.EMAIL_TEMPLATE}
