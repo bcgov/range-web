@@ -81,13 +81,31 @@ export default function ZoneSelect({
     key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
   )
 
-  useEffect(() => {
-    if (userZones && selectedZones.length === 0) {
-      const initialSelectedZones = userZones.map(zone => zone.id)
-      setSelectedZones(initialSelectedZones)
-    }
+  const setSelectedZonesToInitial = () => {
+    const initialSelectedZones = userZones.map(zone => zone.id)
+    setSelectedZones(initialSelectedZones)
+  }
 
-    setSearchSelectedZones(selectedZones)
+  useEffect(() => {
+    if (userZones) {
+      if (selectedZones.length === 0) {
+        setSelectedZonesToInitial();
+      } else {
+        const filteredSelectedZones = selectedZones.filter(zoneID => {
+          return (userZones.some((userZone) => userZone.id === zoneID) ||
+                 unassignedZones.some((unassignedZone) => unassignedZone.id === zoneID));
+        });
+
+        if (!filteredSelectedZones.length) {
+          setSelectedZonesToInitial();
+        } else {
+          setSelectedZones(filteredSelectedZones);
+          setSearchSelectedZones(filteredSelectedZones);
+        }
+      }
+    } else {
+      setSearchSelectedZones(selectedZones)
+    }
   }, [])
 
   useEffect(() => {
