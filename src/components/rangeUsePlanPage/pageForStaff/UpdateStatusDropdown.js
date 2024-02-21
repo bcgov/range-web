@@ -10,7 +10,8 @@ import {
   isStatusStandsNotReviewed,
   isStatusStandsReview,
   isStatusSubmittedForFD,
-  isStatusSubmittedForReview
+  isStatusSubmittedForReview,
+  isUserAdmin
 } from '../../../utils'
 import { PLAN_STATUS } from '../../../constants/variables'
 import { getConfirmationModalsMap, getIsUpdatingPlanStatus, getReferences } from '../../../reducers/rootReducer'
@@ -21,6 +22,7 @@ import { Loading } from '../../common'
 
 class UpdateStatusDropdown extends Component {
   static propTypes = {
+    user: PropTypes.shape({}).isRequired,
     plan: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
     confirmationModalsMap: PropTypes.shape({}).isRequired,
@@ -164,7 +166,7 @@ class UpdateStatusDropdown extends Component {
     })
   }
 
-  getStatusDropdownOptions = (plan, isFetchingPlan, status) => {
+  getStatusDropdownOptions = (user, plan, isFetchingPlan, status) => {
     if (isFetchingPlan) {
       return [
         {
@@ -242,8 +244,8 @@ class UpdateStatusDropdown extends Component {
       key: 'warningDivider',
       text: 'WARNING: Below entries are manual overrides.'
     }
-    const overrides = [warningDivider, draft, stands, standsWronglyMade, approved, notApproved,
-      requestChanges, recommendReady, recommendNotReady, recommendForSubmission];
+    const overrides = isUserAdmin(user) ? [warningDivider, draft, stands, standsWronglyMade, approved, notApproved,
+      requestChanges, recommendReady, recommendNotReady, recommendForSubmission] : [warningDivider, draft];
 
     if (isStatusStandsNotReviewed(status)) {
       return [stands, standsReview, ...overrides]
@@ -271,10 +273,11 @@ class UpdateStatusDropdown extends Component {
 
   render() {
     const { modal, updateStatusModalOpen } = this.state
-    const { plan, isFetchingPlan } = this.props
+    const { user, plan, isFetchingPlan } = this.props
     const status = plan && plan.status
 
     const statusDropdownOptions = this.getStatusDropdownOptions(
+      user,
       plan,
       isFetchingPlan,
       status

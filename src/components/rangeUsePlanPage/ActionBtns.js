@@ -26,6 +26,7 @@ const ActionBtns = ({
   onSignSubmission,
   onAmend,
   formik,
+  user,
   plan,
   isFetchingPlan,
   fetchPlan,
@@ -142,6 +143,7 @@ const ActionBtns = ({
           {permissions.manageAgents && manageAgentsMenuItem}
           {permissions.updateStatus && (
             <UpdateStatusDropdown
+              user={user}
               plan={plan}
               fetchPlan={fetchPlan}
               isFetchingPlan={isFetchingPlan}
