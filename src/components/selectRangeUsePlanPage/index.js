@@ -57,7 +57,9 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     {
       onLoadingSlow: () =>
         setToastId(warningToast('Agreements are taking a while to load', -1)),
-      onError: () => errorToast('Could not load agreements'),
+      onError: () => {
+        if (references.ZONES.lenght > 0) errorToast('Could not load agreements')
+      },
       onSuccess: () => removeToast(toastId)
     }
   )

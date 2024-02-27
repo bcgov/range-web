@@ -16,43 +16,4 @@ $content-max-width: 600px;
     margin-top: 25px;
   }
 }
-.manage-zone {
-  &__content {
-    @extend .container;
-  }
-  &__steps {
-    display: flex;
-    flex-direction: column;
-    max-width: $content-max-width;
-    margin-top: $rup-content-margin-top;
-  }
 
-  &__step-one,
-  &__step-two {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__update-btn {
-    margin-top: 25px;
-  }
-
-  &__dropdown {
-    min-width: $field-min-width;
-    width: $field-width;
-  }
-
-  &__text-field {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid black;
-    min-width: $field-min-width;
-    width: $field-width;
-
-    &__title{
-      color: gray;
-      font-size: 0.9rem;
-    }
-  }
-}

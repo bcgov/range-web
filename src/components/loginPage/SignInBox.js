@@ -44,23 +44,12 @@ export class SignInBox extends Component {
     window.removeEventListener('storage', this.storageEventListener)
   }
 
-  storageEventListener = () => {
-    const {
-      storeAuthData,
-      fetchUser,
-      resetTimeoutForReAuth,
-      reauthenticate,
-      openPiaModal
-    } = this.props
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
-
-    if (authData) {
-      storeAuthData(authData) // store the auth data in Redux store
-      fetchUser().then(({ piaSeen }) => {
-        if (!piaSeen) {
-          openPiaModal()
-        }
-      })
+  storageEventListener = event => {
+    if (JSON.parse(event.newValue)?.access_token) {
+      const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
+      if (authData) {
+        window.location.reload()
+      }
     }
   }
 
@@ -110,14 +99,11 @@ const mapStateToProps = state => ({
   errorOccuredFetchingUser: getFetchingUserErrorOccured(state)
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchUser,
-    storeAuthData,
-    signOut,
-    reauthenticate,
-    resetTimeoutForReAuth,
-    openPiaModal
-  }
-)(SignInBox)
+export default connect(mapStateToProps, {
+  fetchUser,
+  storeAuthData,
+  signOut,
+  reauthenticate,
+  resetTimeoutForReAuth,
+  openPiaModal
+})(SignInBox)
