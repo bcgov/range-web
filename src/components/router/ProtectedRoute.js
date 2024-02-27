@@ -5,8 +5,7 @@ import MainPage from '../mainPage'
 import {
   LOGIN,
   EXPORT_PDF_WITH_PARAM,
-  EMAIL_TEMPLATE,
-  MANAGE_ZONE
+  EMAIL_TEMPLATE
 } from '../../constants/routes'
 import { isUserAdmin } from '../../utils'
 
@@ -35,7 +34,6 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => (
           // Admin Routes
           // case MANAGE_CLIENT:
           case EMAIL_TEMPLATE:
-          case MANAGE_ZONE:
             if (isUserAdmin(user)) {
               return mainPage
             }

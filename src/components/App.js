@@ -35,11 +35,13 @@ const store = configureStore()
 class App extends Component {
   render() {
     return (
-      <SWRConfig value={{
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
-      }} >
+      <SWRConfig
+        value={{
+          revalidateIfStale: false,
+          revalidateOnFocus: false,
+          revalidateOnReconnect: false,
+          shouldRetryOnError: false
+        }}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
             <UserProvider>
@@ -55,7 +57,8 @@ class App extends Component {
             </UserProvider>
           </ThemeProvider>
         </Provider>
-      </SWRConfig>)
+      </SWRConfig>
+    )
   }
 }
 
