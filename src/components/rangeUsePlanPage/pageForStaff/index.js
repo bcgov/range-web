@@ -184,6 +184,7 @@ class PageForStaff extends Component {
             closeAfterYesBtnClicked: true
           })
         }
+        user={this.props.user}
         plan={this.props.plan}
         fetchPlan={this.props.fetchPlan}
         beforeUpdateStatus={async () => {
