@@ -36,7 +36,6 @@ const SelectRangeUsePlan = LoadableComponent(() =>
 const LoginPage = LoadableComponent(() => import('../loginPage'))
 const ReturnPage = LoadableComponent(() => import('../ReturnPage'))
 const PageNotFound = LoadableComponent(() => import('../PageNotFound'))
-const ManageZone = LoadableComponent(() => import('../manageZonePage'))
 const ManageClient = LoadableComponent(() => import('../manageClientPage'))
 const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'))
 const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'))
@@ -54,11 +53,6 @@ const Router = () => {
         <QueryParamProvider ReactRouterRoute={Route}>
           <Switch>
             {/* Admin Routes */}
-            <ProtectedRoute
-              path={Routes.MANAGE_ZONE}
-              component={ManageZone}
-              user={user}
-            />
             <ProtectedRoute
               path={Routes.MANAGE_CLIENT}
               component={ManageClient}
