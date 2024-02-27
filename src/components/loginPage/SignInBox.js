@@ -45,10 +45,23 @@ export class SignInBox extends Component {
   }
 
   storageEventListener = event => {
+    const {
+      storeAuthData,
+      fetchUser,
+      resetTimeoutForReAuth,
+      reauthenticate,
+      openPiaModal
+    } = this.props
     if (JSON.parse(event.newValue)?.access_token) {
       const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
       if (authData) {
-        window.location.reload()
+        storeAuthData(authData) // store the auth data in Redux store
+        fetchUser().then(({ piaSeen }) => {
+          if (!piaSeen) {
+            openPiaModal()
+          }
+          window.location.reload()
+        })
       }
     }
   }
