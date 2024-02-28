@@ -3,8 +3,8 @@ import {
   PASTURE_ADDED,
   PASTURE_UPDATED,
   PASTURE_SUBMITTED,
-  PASTURE_COPIED
-} from '../../constants/actionTypes'
+  PASTURE_COPIED,
+} from '../../constants/actionTypes';
 
 const initialPasture = {
   name: '',
@@ -12,86 +12,86 @@ const initialPasture = {
   pldPercent: 0,
   graceDays: 0,
   notes: '',
-  plantCommunities: []
-}
+  plantCommunities: [],
+};
 
 const storePastures = (state, action) => {
-  const { pastures } = action.payload.entities
+  const { pastures } = action.payload.entities;
 
   return {
     ...state,
-    ...pastures
-  }
-}
+    ...pastures,
+  };
+};
 
 const addPasture = (state, action) => {
   // Set temporary ID based on timestamp to track unsubmitted pastures
-  const id = new Date().toISOString()
+  const id = new Date().toISOString();
   return {
     ...state,
     [id]: {
       ...initialPasture,
       id,
-      planId: action.payload
-    }
-  }
-}
+      planId: action.payload,
+    },
+  };
+};
 
 const updatePasture = (state, action) => {
-  const { pasture } = action.payload
+  const { pasture } = action.payload;
   return {
     ...state,
     [pasture.id]: {
       ...initialPasture,
-      ...pasture
-    }
-  }
-}
+      ...pasture,
+    },
+  };
+};
 
 const submitPasture = (state, action) => {
-  const { id, pasture } = action.payload
-  const newState = { ...state }
-  delete newState[id]
+  const { id, pasture } = action.payload;
+  const newState = { ...state };
+  delete newState[id];
 
   return {
     ...newState,
     [pasture.id]: {
       ...initialPasture,
-      ...pasture
-    }
-  }
-}
+      ...pasture,
+    },
+  };
+};
 
 const copyPasture = (state, action) => {
-  const { pastureId, planId, name } = action.payload
+  const { pastureId, planId, name } = action.payload;
   // Set temporary ID based on timestamp to track unsubmitted pastures
-  const id = new Date().toISOString()
+  const id = new Date().toISOString();
   return {
     ...state,
     [id]: {
       ...state[pastureId],
       planId,
       id,
-      name
-    }
-  }
-}
+      name,
+    },
+  };
+};
 
 const pasturesReducer = (state = {}, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storePastures(state, action)
+      return storePastures(state, action);
     case PASTURE_ADDED:
-      return addPasture(state, action)
+      return addPasture(state, action);
     case PASTURE_UPDATED:
-      return updatePasture(state, action)
+      return updatePasture(state, action);
     case PASTURE_SUBMITTED:
-      return submitPasture(state, action)
+      return submitPasture(state, action);
     case PASTURE_COPIED:
-      return copyPasture(state, action)
+      return copyPasture(state, action);
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default pasturesReducer
+export default pasturesReducer;

@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { some, every } from 'lodash'
-import permissions from '../../constants/permissions'
-import { useUser } from '../../providers/UserProvider'
-import { Input } from 'formik-semantic-ui'
-import { Form } from 'semantic-ui-react'
-import InfoTip from './InfoTip'
-import { handleNullValue } from '../../utils'
-import { useEditable } from '../../providers/EditableProvider'
-import MultiParagraphDisplay from './MultiParagraphDisplay'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { some, every } from 'lodash';
+import permissions from '../../constants/permissions';
+import { useUser } from '../../providers/UserProvider';
+import { Input } from 'formik-semantic-ui';
+import { Form } from 'semantic-ui-react';
+import InfoTip from './InfoTip';
+import { handleNullValue } from '../../utils';
+import { useEditable } from '../../providers/EditableProvider';
+import MultiParagraphDisplay from './MultiParagraphDisplay';
 
 export const canUserEdit = (field, user) =>
-  permissions[user.roles[0]].includes(field)
+  permissions[user.roles[0]].includes(field);
 
 const PermissionsField = ({
   permission,
@@ -21,8 +21,8 @@ const PermissionsField = ({
   editable = false,
   ...props
 }) => {
-  const user = useUser()
-  const globalIsEditable = useEditable()
+  const user = useUser();
+  const globalIsEditable = useEditable();
 
   return globalIsEditable && !editable && canUserEdit(permission, user) ? (
     <>
@@ -53,8 +53,8 @@ const PermissionsField = ({
         fluid={props.fluid}
       />
     </Form.Field>
-  )
-}
+  );
+};
 
 PermissionsField.propTypes = {
   permission: PropTypes.string.isRequired,
@@ -62,30 +62,30 @@ PermissionsField.propTypes = {
   component: PropTypes.elementType,
   label: PropTypes.string,
   inline: PropTypes.bool,
-  fluid: PropTypes.bool
-}
+  fluid: PropTypes.bool,
+};
 
 export const IfEditable = ({ children, permission, invert, any = false }) => {
-  const user = useUser()
-  const globalIsEditable = useEditable()
+  const user = useUser();
+  const globalIsEditable = useEditable();
 
-  const arrayFn = any ? some : every
+  const arrayFn = any ? some : every;
 
   const canEdit =
     (Array.isArray(permission)
-      ? arrayFn(permission, p => canUserEdit(p, user))
-      : canUserEdit(permission, user)) && globalIsEditable
+      ? arrayFn(permission, (p) => canUserEdit(p, user))
+      : canUserEdit(permission, user)) && globalIsEditable;
 
-  if (!invert && canEdit) return children
-  if (invert && !canEdit) return children
-  return null
-}
+  if (!invert && canEdit) return children;
+  if (invert && !canEdit) return children;
+  return null;
+};
 
 IfEditable.propTypes = {
   children: PropTypes.node,
   permission: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
     .isRequired,
-  invert: PropTypes.bool
-}
+  invert: PropTypes.bool,
+};
 
-export default PermissionsField
+export default PermissionsField;

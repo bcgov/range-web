@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
-import { withKnobs, text, boolean } from '@storybook/addon-knobs'
-import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
-import TextField from './TextField'
+import TextField from './TextField';
 
 storiesOf('Text Field', module)
   .add('With label', () => <TextField label={'With Label'} />)
@@ -17,4 +17,4 @@ storiesOf('Text Field', module)
       isEditable={boolean('Is Editable', false)}
       isLabelHidden={boolean('Is Label Hidden', false)}
     />
-  ))
+  ));

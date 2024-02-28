@@ -1,15 +1,15 @@
-import * as actionTypes from '../constants/actionTypes'
+import * as actionTypes from '../constants/actionTypes';
 
-export const request = reducer => ({
+export const request = (reducer) => ({
   name: reducer,
-  type: actionTypes.REQUEST
-})
+  type: actionTypes.REQUEST,
+});
 
 export const success = (reducer, data) => ({
   name: reducer,
   type: actionTypes.SUCCESS,
-  data
-})
+  data,
+});
 
 export const successPagenated = (reducer, data) => ({
   name: reducer,
@@ -18,11 +18,11 @@ export const successPagenated = (reducer, data) => ({
   perPage: data.perPage,
   currentPage: data.currentPage,
   totalItems: data.totalItems,
-  totalPages: data.totalPages
-})
+  totalPages: data.totalPages,
+});
 
 export const error = (reducer, errorResponse) => ({
   name: reducer,
   type: actionTypes.ERROR,
-  errorResponse
-})
+  errorResponse,
+});

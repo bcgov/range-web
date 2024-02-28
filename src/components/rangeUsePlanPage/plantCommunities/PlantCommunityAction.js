@@ -1,43 +1,43 @@
-import React, { useState, useRef } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'formik'
-import { Form, Icon, Dropdown as PlainDropdown, Grid } from 'semantic-ui-react'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { TextArea } from 'formik-semantic-ui'
-import DayMonthPicker from '../../common/form/DayMonthPicker'
-import moment from 'moment'
-import HelpfulDropdown from '../../common/form/HelpfulDropdown'
+import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'formik';
+import { Form, Icon, Dropdown as PlainDropdown, Grid } from 'semantic-ui-react';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { PLANT_COMMUNITY } from '../../../constants/fields';
+import { TextArea } from 'formik-semantic-ui';
+import DayMonthPicker from '../../common/form/DayMonthPicker';
+import moment from 'moment';
+import HelpfulDropdown from '../../common/form/HelpfulDropdown';
 
 const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
-  const references = useReferences()
-  const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE]
+  const references = useReferences();
+  const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE];
   const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map(
-    type => ({
-      placeholder: placeholders.find(p => p.id === type.id).placeholder,
-      ...type
-    })
-  )
+    (type) => ({
+      placeholder: placeholders.find((p) => p.id === type.id).placeholder,
+      ...type,
+    }),
+  );
 
-  const otherType = actionTypes.find(type => type.name === 'Other')
+  const otherType = actionTypes.find((type) => type.name === 'Other');
   const [otherOption, setOtherOption] = useState({
     key: otherType?.id,
     value: otherType?.id,
-    text: action?.name || otherType?.name || 'Other'
-  })
+    text: action?.name || otherType?.name || 'Other',
+  });
 
   const actionOptions = actionTypes
-    .map(type => ({
+    .map((type) => ({
       key: type.id,
       value: type.id,
-      text: type.name
+      text: type.name,
     }))
     .concat(otherOption)
-    .filter(o => o.text !== 'Other')
+    .filter((o) => o.text !== 'Other');
 
-  const valueInputRef = useRef(null)
+  const valueInputRef = useRef(null);
 
   return (
     <Grid>
@@ -49,15 +49,15 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
           help="To select a value, start typing. If a predefined option doesn't exist, you can provide your own value"
           options={actionOptions}
           displayValue={
-            actionOptions.find(option => option.value === action.actionTypeId)
+            actionOptions.find((option) => option.value === action.actionTypeId)
               ? actionOptions.find(
-                  option => option.value === action.actionTypeId
+                  (option) => option.value === action.actionTypeId,
                 ).text
               : ''
           }
           label="Action"
           fieldProps={{
-            required: true
+            required: true,
           }}
           inputProps={{
             allowAdditions: true,
@@ -65,23 +65,23 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             fluid: true,
             additionLabel: 'Other: ',
             selectOnBlur: true,
-            onKeyDown: e => {
+            onKeyDown: (e) => {
               if (e.keyCode === 13) {
-                valueInputRef.current.focus()
+                valueInputRef.current.focus();
               }
             },
             onAddItem: (e, { value }) => {
               setOtherOption({
                 ...otherOption,
-                text: value
-              })
+                text: value,
+              });
 
               formik.setFieldValue(
                 `${namespace}.actionTypeId`,
-                otherOption.value
-              )
-              formik.setFieldValue(`${namespace}.name`, value)
-            }
+                otherOption.value,
+              );
+              formik.setFieldValue(`${namespace}.name`, value);
+            },
           }}
         />
       </Grid.Column>
@@ -94,19 +94,19 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
           component={TextArea}
           label="Details"
           fieldProps={{
-            required: true
+            required: true,
           }}
           inputProps={{
             rows: 5,
             ref: valueInputRef,
             placeholder:
-              actionTypes?.find(type => type.id === action.actionTypeId)
-                ?.placeholder ?? otherType?.placeholder
+              actionTypes?.find((type) => type.id === action.actionTypeId)
+                ?.placeholder ?? otherType?.placeholder,
           }}
         />
 
-        {actionOptions.find(option => option.value === action.actionTypeId) &&
-          actionOptions.find(option => option.value === action.actionTypeId)
+        {actionOptions.find((option) => option.value === action.actionTypeId) &&
+          actionOptions.find((option) => option.value === action.actionTypeId)
             .text === 'Timing' && (
             <Form.Group widths="equal">
               <PermissionsField
@@ -115,7 +115,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
                 permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
                 displayValue={moment(
                   `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
-                  'MM DD'
+                  'MM DD',
                 ).format('MMMM Do')}
                 component={DayMonthPicker}
                 label="No Graze Start"
@@ -128,7 +128,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
                 permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
                 displayValue={moment(
                   `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
-                  'MM DD'
+                  'MM DD',
                 ).format('MMMM Do')}
                 component={DayMonthPicker}
                 label="No Graze End"
@@ -146,16 +146,16 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
               {
                 key: 'delete',
                 value: 'delete',
-                text: 'Delete'
-              }
+                text: 'Delete',
+              },
             ]}
             style={{ display: 'flex', alignItems: 'center' }}
             icon={null}
             pointing="right"
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             onChange={(e, { value }) => {
               if (value === 'delete') {
-                onDelete()
+                onDelete();
               }
             }}
             selectOnBlur={false}
@@ -163,14 +163,14 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
         </Grid.Column>
       </IfEditable>
     </Grid>
-  )
-}
+  );
+};
 
 PlantCommunityAction.propTypes = {
   action: PropTypes.object.isRequired,
   namespace: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  formik: PropTypes.object.isRequired
-}
+  formik: PropTypes.object.isRequired,
+};
 
-export default connect(PlantCommunityAction)
+export default connect(PlantCommunityAction);

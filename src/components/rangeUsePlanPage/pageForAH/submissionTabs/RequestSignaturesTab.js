@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import { Icon } from 'semantic-ui-react'
-import RightBtn from '../tab/RightBtn'
-import LeftBtn from '../tab/LeftBtn'
-import TabTemplate from '../tab/TabTemplate'
-import { isClientCurrentUser, getClientFullName } from '../../../../utils'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { Icon } from 'semantic-ui-react';
+import RightBtn from '../tab/RightBtn';
+import LeftBtn from '../tab/LeftBtn';
+import TabTemplate from '../tab/TabTemplate';
+import { isClientCurrentUser, getClientFullName } from '../../../../utils';
 
 class RequestSignaturesTab extends Component {
   static propTypes = {
@@ -22,30 +22,32 @@ class RequestSignaturesTab extends Component {
       next: PropTypes.string.isRequired,
       text1: PropTypes.string.isRequired,
       text2: PropTypes.string.isRequired,
-      text3: PropTypes.string.isRequired
-    }).isRequired
-  }
+      text3: PropTypes.string.isRequired,
+    }).isRequired,
+  };
 
-  onBackClicked = e => {
-    const { handleTabChange, tab } = this.props
+  onBackClicked = (e) => {
+    const { handleTabChange, tab } = this.props;
 
-    handleTabChange(e, { value: tab.back })
-  }
+    handleTabChange(e, { value: tab.back });
+  };
 
-  onSubmitClicked = e => {
-    const { onSubmitClicked, handleTabChange, tab } = this.props
+  onSubmitClicked = (e) => {
+    const { onSubmitClicked, handleTabChange, tab } = this.props;
 
     onSubmitClicked(e).then(() => {
-      handleTabChange(e, { value: tab.next })
-    })
-  }
+      handleTabChange(e, { value: tab.next });
+    });
+  };
 
-  renderAgreementHolder = client => {
-    const { user, clientAgreements } = this.props
-    const agencyAgreements = clientAgreements.filter(a => a.agentId === user.id)
+  renderAgreementHolder = (client) => {
+    const { user, clientAgreements } = this.props;
+    const agencyAgreements = clientAgreements.filter(
+      (a) => a.agentId === user.id,
+    );
     const isAgent = !!agencyAgreements.find(
-      ca => ca.clientId === client.clientNumber
-    )
+      (ca) => ca.clientId === client.clientNumber,
+    );
 
     return (
       <div key={client.clientNumber} className="rup__multi-tab__ah-list">
@@ -53,23 +55,24 @@ class RequestSignaturesTab extends Component {
         <span
           className={classnames('rup__multi-tab__ah-list__cname', {
             'rup__multi-tab__ah-list__cname--bold':
-              isClientCurrentUser(client, user) || isAgent
-          })}>
+              isClientCurrentUser(client, user) || isAgent,
+          })}
+        >
           {getClientFullName(client)}
           {isClientCurrentUser(client, user) && ' (in progress)'}
           {isAgent && ' (signing for as agent)'}
         </span>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
-    const { currTabId, tab, isSubmitting, clients } = this.props
-    const { id, title, text1, text2, text3 } = tab
-    const isActive = id === currTabId
+    const { currTabId, tab, isSubmitting, clients } = this.props;
+    const { id, title, text1, text2, text3 } = tab;
+    const isActive = id === currTabId;
 
     if (!isActive) {
-      return null
+      return null;
     }
 
     return (
@@ -95,8 +98,8 @@ class RequestSignaturesTab extends Component {
           </div>
         }
       />
-    )
+    );
   }
 }
 
-export default RequestSignaturesTab
+export default RequestSignaturesTab;

@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import {
   useNetworkStatus,
-  usePlanSyncedStatus
-} from '../../utils/hooks/network'
+  usePlanSyncedStatus,
+} from '../../utils/hooks/network';
 
 const NetworkStatus = ({ planId }) => {
-  const online = useNetworkStatus()
-  const synced = usePlanSyncedStatus(planId)
+  const online = useNetworkStatus();
+  const synced = usePlanSyncedStatus(planId);
 
   return (
     <div className="status">
@@ -17,7 +17,7 @@ const NetworkStatus = ({ planId }) => {
         {online ? 'Online' : 'Offline'} ({synced ? 'Synced' : 'Not synced'})
       </span>
     </div>
-  )
-}
+  );
+};
 
-export default NetworkStatus
+export default NetworkStatus;

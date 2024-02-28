@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const useUrlState = (key, initialState) => {
   if (!key) {
-    throw new Error('`key` must be provided to useUrlState')
+    throw new Error('`key` must be provided to useUrlState');
   }
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const params = new URLSearchParams(history.location.search)
-  let paramValue = params.get(key)
+  const params = new URLSearchParams(history.location.search);
+  let paramValue = params.get(key);
   if (!isNaN(paramValue)) {
-    paramValue = parseFloat(paramValue)
+    paramValue = parseFloat(paramValue);
   }
 
-  const [value, setValue] = useState(paramValue || initialState)
+  const [value, setValue] = useState(paramValue || initialState);
 
-  const setValueAndParam = value => {
-    const params = new URLSearchParams(history.location.search)
+  const setValueAndParam = (value) => {
+    const params = new URLSearchParams(history.location.search);
 
     if (value === null) {
-      params.delete(key)
+      params.delete(key);
     } else {
-      params.set(key, value)
+      params.set(key, value);
     }
-    history.replace({ ...history.location, search: params.toString() })
-    setValue(value)
-  }
+    history.replace({ ...history.location, search: params.toString() });
+    setValue(value);
+  };
 
-  return [value, setValueAndParam]
-}
+  return [value, setValueAndParam];
+};

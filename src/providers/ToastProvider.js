@@ -1,24 +1,24 @@
-import React, { useContext, useState, useRef, useEffect } from 'react'
-import uuid from 'uuid-v4'
-import classnames from 'classnames'
-import PropTypes from 'prop-types'
-import { Icon } from 'semantic-ui-react'
+import React, { useContext, useState, useRef, useEffect } from 'react';
+import uuid from 'uuid-v4';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
 
-export const ToastContext = React.createContext({})
+export const ToastContext = React.createContext({});
 
-export const useToast = () => useContext(ToastContext)
+export const useToast = () => useContext(ToastContext);
 
 const ToastProvider = ({ children }) => {
-  const [toasts, setToasts] = useState([])
-  const toastsRef = useRef()
+  const [toasts, setToasts] = useState([]);
+  const toastsRef = useRef();
 
   useEffect(() => {
-    toastsRef.current = toasts
-  }, [toasts])
+    toastsRef.current = toasts;
+  }, [toasts]);
 
   const addToast = (message, status, config = {}) => {
-    const { timeout = 3000, content } = config
-    const id = uuid()
+    const { timeout = 3000, content } = config;
+    const id = uuid();
 
     setToasts([
       ...toastsRef.current,
@@ -26,23 +26,25 @@ const ToastProvider = ({ children }) => {
         id,
         message,
         status,
-        content
-      }
-    ])
+        content,
+      },
+    ]);
 
     setTimeout(() => {
-      removeToast(id)
-    }, timeout)
+      removeToast(id);
+    }, timeout);
 
-    return id
-  }
+    return id;
+  };
 
-  const successToast = (message, config) => addToast(message, 'success', config)
-  const errorToast = (message, config) => addToast(message, 'error', config)
-  const warningToast = (message, config) => addToast(message, 'warning', config)
+  const successToast = (message, config) =>
+    addToast(message, 'success', config);
+  const errorToast = (message, config) => addToast(message, 'error', config);
+  const warningToast = (message, config) =>
+    addToast(message, 'warning', config);
 
-  const removeToast = id =>
-    setToasts(toastsRef.current.filter(t => t.id !== id))
+  const removeToast = (id) =>
+    setToasts(toastsRef.current.filter((t) => t.id !== id));
 
   return (
     <ToastContext.Provider
@@ -51,17 +53,19 @@ const ToastProvider = ({ children }) => {
         successToast,
         errorToast,
         warningToast,
-        removeToast
-      }}>
+        removeToast,
+      }}
+    >
       <section className="toasts">
-        {toasts.map(toast => (
+        {toasts.map((toast) => (
           <div key={toast.id} className="toast">
             <div
               className={classnames('toast__icon', {
                 toast__icon__success: toast.status === 'success',
                 toast__icon__error: toast.status === 'error',
-                toast__icon__warning: toast.status === 'warning'
-              })}>
+                toast__icon__warning: toast.status === 'warning',
+              })}
+            >
               {toast.status === 'success' && (
                 <Icon name="check circle" size="large" />
               )}
@@ -78,7 +82,8 @@ const ToastProvider = ({ children }) => {
             </div>
             <button
               className="toast__dismiss"
-              onClick={() => removeToast(toast.id)}>
+              onClick={() => removeToast(toast.id)}
+            >
               <Icon name="times" size="small" />
             </button>
           </div>
@@ -86,8 +91,8 @@ const ToastProvider = ({ children }) => {
       </section>
       {children}
     </ToastContext.Provider>
-  )
-}
+  );
+};
 
 ToastProvider.propTypes = {
   user: PropTypes.shape({
@@ -96,9 +101,9 @@ ToastProvider.propTypes = {
     givenName: PropTypes.string.isRequired,
     familyName: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
-    roles: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+    roles: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }),
-  children: PropTypes.node
-}
+  children: PropTypes.node,
+};
 
-export default ToastProvider
+export default ToastProvider;

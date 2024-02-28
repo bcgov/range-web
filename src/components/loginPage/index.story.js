@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
-import { providerDecorator } from '../decorators'
+import { storiesOf } from '@storybook/react';
+import { providerDecorator } from '../decorators';
 
-import { LoginPage } from './'
+import { LoginPage } from './';
 
-const stories = storiesOf('loginPage/LoginPage', module)
-stories.addDecorator(providerDecorator)
-stories.add('Default', () => <LoginPage />)
+const stories = storiesOf('loginPage/LoginPage', module);
+stories.addDecorator(providerDecorator);
+stories.add('Default', () => <LoginPage />);

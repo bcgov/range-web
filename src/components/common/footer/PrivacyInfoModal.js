@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Modal } from 'semantic-ui-react'
-import { PrimaryButton } from '../index'
-import { APP_NAME } from '../../../constants/strings'
-import { openPiaModal, closePiaModal } from '../../../actions'
-import { getIsPiaModalOpen } from '../../../reducers/rootReducer'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Modal } from 'semantic-ui-react';
+import { PrimaryButton } from '../index';
+import { APP_NAME } from '../../../constants/strings';
+import { openPiaModal, closePiaModal } from '../../../actions';
+import { getIsPiaModalOpen } from '../../../reducers/rootReducer';
 
 class PrivacyInfoModal extends Component {
   static propTypes = {
     closePiaModal: PropTypes.func.isRequired,
-    isModalOpen: PropTypes.bool.isRequired
-  }
+    isModalOpen: PropTypes.bool.isRequired,
+  };
 
   render() {
-    const { closePiaModal, isModalOpen } = this.props
+    const { closePiaModal, isModalOpen } = this.props;
 
     return (
       <Modal
@@ -22,7 +22,8 @@ class PrivacyInfoModal extends Component {
         closeIcon
         onClose={closePiaModal}
         open={isModalOpen}
-        size="small">
+        size="small"
+      >
         <Modal.Content>
           <div className="privacy-info">
             <div className="privacy-info__title">Privacy Information</div>
@@ -72,7 +73,8 @@ class PrivacyInfoModal extends Component {
               className="privacy-info__gov-link"
               href="https://www2.gov.bc.ca/gov/content/home/privacy"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               Open B.C. Government Website Privacy
             </a>
           </div>
@@ -84,18 +86,15 @@ class PrivacyInfoModal extends Component {
           </div>
         </Modal.Content>
       </Modal>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
-  isModalOpen: getIsPiaModalOpen(state)
-})
+const mapStateToProps = (state) => ({
+  isModalOpen: getIsPiaModalOpen(state),
+});
 
-export default connect(
-  mapStateToProps,
-  {
-    openPiaModal,
-    closePiaModal
-  }
-)(PrivacyInfoModal)
+export default connect(mapStateToProps, {
+  openPiaModal,
+  closePiaModal,
+})(PrivacyInfoModal);

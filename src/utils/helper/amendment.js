@@ -1,28 +1,30 @@
-import { AMENDMENT_TYPE } from '../../constants/variables'
+import { AMENDMENT_TYPE } from '../../constants/variables';
 
 export const copyPlantCommunitiesToCreateAmendment = (
   plantCommunityIds,
   plantCommunitiesMap,
-  newPastureIdsMap
+  newPastureIdsMap,
 ) => {
-  const plantCommunities = plantCommunityIds.map(id => plantCommunitiesMap[id])
+  const plantCommunities = plantCommunityIds.map(
+    (id) => plantCommunitiesMap[id],
+  );
 
-  return plantCommunities.map(pc => {
-    const { id, pastureId: oldPastureId, ...plantCommunity } = pc
+  return plantCommunities.map((pc) => {
+    const { id, pastureId: oldPastureId, ...plantCommunity } = pc;
     // get the newly created pasture id
-    const pastureId = newPastureIdsMap[oldPastureId]
+    const pastureId = newPastureIdsMap[oldPastureId];
 
     return {
       ...plantCommunity,
-      pastureId
-    }
-  })
-}
+      pastureId,
+    };
+  });
+};
 
 export const copyPlanToCreateAmendment = (
   plan = {},
   statusId,
-  amendmentTypeId
+  amendmentTypeId,
 ) => {
   const copied = {
     ...plan,
@@ -30,161 +32,149 @@ export const copyPlanToCreateAmendment = (
     amendmentTypeId,
     uploaded: false, // set it to false because it still need to create more contents
     effectiveAt: null,
-    submittedAt: null
-  }
-  delete copied.id
-  delete copied.createdAt
-  delete copied.updatedAt
+    submittedAt: null,
+  };
+  delete copied.id;
+  delete copied.createdAt;
+  delete copied.updatedAt;
 
-  return copied
-}
+  return copied;
+};
 
 export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
   // extract all plantCommunities from pastures
-  let plantCommunities = []
+  let plantCommunities = [];
 
-  const pastures = plan.pastures.map(p => {
-    const { id: oldId, planId, ...pasture } = pasturesMap[p.id] || {}
+  const pastures = plan.pastures.map((p) => {
+    const { id: oldId, planId, ...pasture } = pasturesMap[p.id] || {};
 
-    const { plantCommunities: pcs } = pasture
+    const { plantCommunities: pcs } = pasture;
     if (pcs && pcs.length) {
-      plantCommunities = [...plantCommunities, ...pcs]
+      plantCommunities = [...plantCommunities, ...pcs];
     }
 
     // oldId will be used to match the relationships between
     // copied pastures and other contents referecing to those pastures
     // such as grazing schedule entries and minister issues
-    return { ...pasture, oldId }
-  })
+    return { ...pasture, oldId };
+  });
 
   return {
     pastures,
-    plantCommunities
-  }
-}
+    plantCommunities,
+  };
+};
 
 export const normalizePasturesWithOldId = (oldPastures, newPastures) => {
-  const pastureIdsMap = {}
-  newPastures.forEach(p => {
-    const match = oldPastures.find(old => p.name === old.name)
-    pastureIdsMap[match.oldId] = p.id
-  })
-  return pastureIdsMap
-}
+  const pastureIdsMap = {};
+  newPastures.forEach((p) => {
+    const match = oldPastures.find((old) => p.name === old.name);
+    pastureIdsMap[match.oldId] = p.id;
+  });
+  return pastureIdsMap;
+};
 
 export const copyGrazingSchedulesToCreateAmendment = (
   plan,
   grazingSchedulesMap,
-  newPastureIdsMap
+  newPastureIdsMap,
 ) => {
-  return plan.grazingSchedules.map(gs => {
-    const {
-      id,
-      planId,
-      grazingScheduleEntries,
-      ...grazingSchedule
-    } = grazingSchedulesMap[gs.id]
-    const newGrazingScheduleEntries = grazingScheduleEntries.map(gse => {
-      const { id, pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse
+  return plan.grazingSchedules.map((gs) => {
+    const { id, planId, grazingScheduleEntries, ...grazingSchedule } =
+      grazingSchedulesMap[gs.id];
+    const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
+      const { id, pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse;
       // replace the original pastureId with the newly created pastureId
-      const pastureId = newPastureIdsMap[oldPastureId]
-      return { ...newGrazingScheduleEntry, pastureId }
-    })
+      const pastureId = newPastureIdsMap[oldPastureId];
+      return { ...newGrazingScheduleEntry, pastureId };
+    });
 
     return {
       ...grazingSchedule,
-      grazingScheduleEntries: newGrazingScheduleEntries
-    }
-  })
-}
+      grazingScheduleEntries: newGrazingScheduleEntries,
+    };
+  });
+};
 
 export const copyMinisterIssuesToCreateAmendment = (
   plan,
   ministerIssuesMap,
-  newPastureIdsMap
+  newPastureIdsMap,
 ) => {
-  return plan.ministerIssues.map(mi => {
+  return plan.ministerIssues.map((mi) => {
     const {
       id,
       planId,
       pastures: oldPastureIds,
       ...ministerIssue
-    } = ministerIssuesMap[mi.id]
+    } = ministerIssuesMap[mi.id];
     // replace the pasture ids with the newly created pasture ids
-    const pastures = oldPastureIds.map(opId => newPastureIdsMap[opId])
-    return { ...ministerIssue, pastures }
-  })
-}
+    const pastures = oldPastureIds.map((opId) => newPastureIdsMap[opId]);
+    return { ...ministerIssue, pastures };
+  });
+};
 
-export const copyInvasivePlantChecklistToCreateAmendment = plan => {
-  if (!plan || !plan.invasivePlantChecklist) return null
+export const copyInvasivePlantChecklistToCreateAmendment = (plan) => {
+  if (!plan || !plan.invasivePlantChecklist) return null;
 
-  const { id, planId, ...invasivePlantChecklist } = plan.invasivePlantChecklist
-  return invasivePlantChecklist
-}
+  const { id, planId, ...invasivePlantChecklist } = plan.invasivePlantChecklist;
+  return invasivePlantChecklist;
+};
 
 export const copyManagementConsiderationsToCreateAmendment = (
   plan,
-  managementConsiderationsMap
+  managementConsiderationsMap,
 ) => {
-  return plan.managementConsiderations.map(mc => {
-    const {
-      id,
-      planId,
-      considerationType,
-      ...managementConsideration
-    } = managementConsiderationsMap[mc.id]
+  return plan.managementConsiderations.map((mc) => {
+    const { id, planId, considerationType, ...managementConsideration } =
+      managementConsiderationsMap[mc.id];
 
-    return managementConsideration
-  })
-}
+    return managementConsideration;
+  });
+};
 
 export const copyAdditionalRequirementsToCreateAmendment = (
   plan,
-  additionalRequirementsMap
+  additionalRequirementsMap,
 ) => {
-  return plan.additionalRequirements.map(ar => {
-    const {
-      id,
-      planId,
-      category,
-      ...additionalRequirement
-    } = additionalRequirementsMap[ar.id]
+  return plan.additionalRequirements.map((ar) => {
+    const { id, planId, category, ...additionalRequirement } =
+      additionalRequirementsMap[ar.id];
 
-    return additionalRequirement
-  })
-}
+    return additionalRequirement;
+  });
+};
 
-export const isAmendment = amendmentTypeId => amendmentTypeId > 0
+export const isAmendment = (amendmentTypeId) => amendmentTypeId > 0;
 
 export const isSubmittedAsMinor = (amendmentTypeId, amendmentTypes) => {
-  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId)
+  const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
   if (!amendmentType) {
-    return false
+    return false;
   }
-  return amendmentType && amendmentType.code === AMENDMENT_TYPE.MINOR
-}
+  return amendmentType && amendmentType.code === AMENDMENT_TYPE.MINOR;
+};
 
 export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
-  const amendmentType = amendmentTypes.find(at => at.id === amendmentTypeId)
+  const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
   if (!amendmentType) {
-    return false
+    return false;
   }
-  return amendmentType && amendmentType.code === AMENDMENT_TYPE.MANDATORY
-}
+  return amendmentType && amendmentType.code === AMENDMENT_TYPE.MANDATORY;
+};
 
 export const isMinorAmendment = (
   amendmentTypeId,
   amendmentTypes,
-  amendmentTypeCode
+  amendmentTypeCode,
 ) =>
   isSubmittedAsMinor(amendmentTypeId, amendmentTypes) ||
-  amendmentTypeCode === AMENDMENT_TYPE.MINOR
+  amendmentTypeCode === AMENDMENT_TYPE.MINOR;
 
 export const isMandatoryAmendment = (
   amendmentTypeId,
   amendmentTypes,
-  amendmentTypeCode
+  amendmentTypeCode,
 ) =>
   isSubmittedAsMandatory(amendmentTypeId, amendmentTypes) ||
-  amendmentTypeCode === AMENDMENT_TYPE.MANDATORY
+  amendmentTypeCode === AMENDMENT_TYPE.MANDATORY;

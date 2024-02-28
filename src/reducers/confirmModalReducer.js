@@ -1,35 +1,35 @@
 import {
   OPEN_CONFIRMATION_MODAL,
-  CLOSE_CONFIRMATION_MODAL
-} from '../constants/actionTypes'
+  CLOSE_CONFIRMATION_MODAL,
+} from '../constants/actionTypes';
 
 const openModal = (state, action) => {
-  const modal = action.payload
+  const modal = action.payload;
   return {
     ...state,
-    [modal.id]: modal
-  }
-}
+    [modal.id]: modal,
+  };
+};
 
 const closeModal = (state, action) => {
-  const { modalId } = action.payload
-  const newState = { ...state }
-  delete newState[modalId]
+  const { modalId } = action.payload;
+  const newState = { ...state };
+  delete newState[modalId];
 
-  return newState
-}
+  return newState;
+};
 
 const confirmModalReducer = (state = {}, action) => {
   switch (action.type) {
     case OPEN_CONFIRMATION_MODAL:
-      return openModal(state, action)
+      return openModal(state, action);
     case CLOSE_CONFIRMATION_MODAL:
-      return closeModal(state, action)
+      return closeModal(state, action);
     default:
-      return state
+      return state;
   }
-}
+};
 
-export const getConfirmationModalsMap = state => state
+export const getConfirmationModalsMap = (state) => state;
 
-export default confirmModalReducer
+export default confirmModalReducer;

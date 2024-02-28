@@ -1,5 +1,5 @@
-import moment from 'moment'
-import { NP } from '../../constants/strings'
+import moment from 'moment';
+import { NP } from '../../constants/strings';
 
 /**
  * Present user friendly string when getting null or undefined value
@@ -11,11 +11,11 @@ import { NP } from '../../constants/strings'
  */
 export const calcDateDiff = (first, second, isUserFriendly) => {
   if (first && second) {
-    return moment(first).diff(moment(second), 'days') + 1
+    return moment(first).diff(moment(second), 'days') + 1;
   }
 
-  return isUserFriendly ? NP : 0
-}
+  return isUserFriendly ? NP : 0;
+};
 
 /**
  *
@@ -25,7 +25,7 @@ export const calcDateDiff = (first, second, isUserFriendly) => {
  * @returns {float} the total AUMs
  */
 export const calcTotalAUMs = (numberOfAnimals = 0, totalDays, auFactor = 0) =>
-  (numberOfAnimals * totalDays * auFactor) / 30.44
+  (numberOfAnimals * totalDays * auFactor) / 30.44;
 
 /**
  *
@@ -34,7 +34,7 @@ export const calcTotalAUMs = (numberOfAnimals = 0, totalDays, auFactor = 0) =>
  * @returns {float} the pld AUMs
  */
 export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) =>
-  totalAUMs * pasturePldPercent
+  totalAUMs * pasturePldPercent;
 
 /**
  *
@@ -42,7 +42,7 @@ export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) =>
  * @param {number} pldAUMs
  * @returns {float} the crown AUMs
  */
-export const calcCrownAUMs = (totalAUMs, pldAUMs) => totalAUMs - pldAUMs
+export const calcCrownAUMs = (totalAUMs, pldAUMs) => totalAUMs - pldAUMs;
 
 /**
  *
@@ -54,26 +54,28 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => totalAUMs - pldAUMs
 export const calcCrownTotalAUMs = (
   entries = [],
   pastures = [],
-  livestockTypes = []
+  livestockTypes = [],
 ) => {
-  const reducer = (accumulator, currentValue) => accumulator + currentValue
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
   if (entries.lsength === 0) {
-    return 0
+    return 0;
   }
 
   return entries
-    .map(entry => {
+    .map((entry) => {
       const { pastureId, livestockTypeId, livestockCount, dateIn, dateOut } =
-        entry || {}
-      const days = calcDateDiff(dateOut, dateIn, false)
-      const pasture = pastures.find(p => p.id === pastureId)
-      const livestockType = livestockTypes.find(lt => lt.id === livestockTypeId)
-      const auFactor = livestockType && livestockType.auFactor
-      const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor)
-      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent)
+        entry || {};
+      const days = calcDateDiff(dateOut, dateIn, false);
+      const pasture = pastures.find((p) => p.id === pastureId);
+      const livestockType = livestockTypes.find(
+        (lt) => lt.id === livestockTypeId,
+      );
+      const auFactor = livestockType && livestockType.auFactor;
+      const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
+      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent);
 
-      return calcCrownAUMs(totalAUMs, pldAUMs)
+      return calcCrownAUMs(totalAUMs, pldAUMs);
     })
-    .reduce(reducer, 0).toFixed(1);
-
-}
+    .reduce(reducer, 0)
+    .toFixed(1);
+};

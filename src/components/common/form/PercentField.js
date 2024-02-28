@@ -1,13 +1,13 @@
-import React from 'react'
-import { Field, FastField, getIn } from 'formik'
-import { Form, Input } from 'semantic-ui-react'
-import { InputRef } from './InputRef'
-import ErrorMessage from './ErrorMessage'
+import React from 'react';
+import { Field, FastField, getIn } from 'formik';
+import { Form, Input } from 'semantic-ui-react';
+import { InputRef } from './InputRef';
+import ErrorMessage from './ErrorMessage';
 
 export function moveDecimalsRight(inputNum) {
-  let numAsStr = inputNum.toFixed(2)
-  let numAfterDecimalsStr = numAsStr.substring(2, 4)
-  return parseFloat(numAfterDecimalsStr)
+  let numAsStr = inputNum.toFixed(2);
+  let numAfterDecimalsStr = numAsStr.substring(2, 4);
+  return parseFloat(numAfterDecimalsStr);
 }
 
 const PercentField = ({
@@ -18,18 +18,18 @@ const PercentField = ({
   fieldProps = {},
   errorComponent = ErrorMessage,
   inputRef,
-  fast
+  fast,
 }) => {
-  const id = `percent_field_${name}`
-  const { onChange, ...safeInputProps } = inputProps
-  const DesiredField = fast === true ? FastField : Field
+  const id = `percent_field_${name}`;
+  const { onChange, ...safeInputProps } = inputProps;
+  const DesiredField = fast === true ? FastField : Field;
 
   return (
     <DesiredField
       name={name}
       validate={validate}
       render={({ field, form }) => {
-        const error = getIn(form.errors, name)
+        const error = getIn(form.errors, name);
 
         return (
           <Form.Field error={!!error} {...fieldProps}>
@@ -48,33 +48,33 @@ const PercentField = ({
                 onChange={(e, { name, value }) => {
                   form.setFieldValue(
                     field.name,
-                    !isNaN(parseFloat(value)) ? value / 100 : value.trim()
-                  )
+                    !isNaN(parseFloat(value)) ? value / 100 : value.trim(),
+                  );
                   Promise.resolve().then(() => {
-                    onChange && onChange(e, { name, value })
-                  })
+                    onChange && onChange(e, { name, value });
+                  });
                 }}
                 onBlur={(...args) => {
                   form.setFieldValue(
                     field.name,
                     !isNaN(parseFloat(field.value))
                       ? moveDecimalsRight(field.value) / 100
-                      : field.value
-                  )
-                  form.handleBlur(...args)
+                      : field.value,
+                  );
+                  form.handleBlur(...args);
                 }}
               />
             </InputRef>
 
             {error &&
               React.createElement(errorComponent, {
-                message: error
+                message: error,
               })}
           </Form.Field>
-        )
+        );
       }}
     />
-  )
-}
+  );
+};
 
-export default PercentField
+export default PercentField;

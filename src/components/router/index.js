@@ -18,34 +18,34 @@
 // Created by Kyubin Han.
 //
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import PublicRoute from './PublicRoute'
-import ProtectedRoute from './ProtectedRoute'
-import { useUser } from '../../providers/UserProvider'
-import * as Routes from '../../constants/routes'
-import { LoadableComponent } from './LoadableComponent'
-import { QueryParamProvider } from 'use-query-params'
-import ErrorBoundary from '../common/ErrorBoundary'
-import ManageAgentsPage from '../rangeUsePlanPage/manageAgentsPage'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import PublicRoute from './PublicRoute';
+import ProtectedRoute from './ProtectedRoute';
+import { useUser } from '../../providers/UserProvider';
+import * as Routes from '../../constants/routes';
+import { LoadableComponent } from './LoadableComponent';
+import { QueryParamProvider } from 'use-query-params';
+import ErrorBoundary from '../common/ErrorBoundary';
+import ManageAgentsPage from '../rangeUsePlanPage/manageAgentsPage';
 
-const SelectRangeUsePlan = LoadableComponent(() =>
-  import('../selectRangeUsePlanPage')
-)
-const LoginPage = LoadableComponent(() => import('../loginPage'))
-const ReturnPage = LoadableComponent(() => import('../ReturnPage'))
-const PageNotFound = LoadableComponent(() => import('../PageNotFound'))
-const ManageClient = LoadableComponent(() => import('../manageClientPage'))
-const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'))
-const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'))
-const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'))
-const PDFView = LoadableComponent(() =>
-  import('../rangeUsePlanPage/pdf/PDFView')
-)
+const SelectRangeUsePlan = LoadableComponent(
+  () => import('../selectRangeUsePlanPage'),
+);
+const LoginPage = LoadableComponent(() => import('../loginPage'));
+const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
+const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
+const ManageClient = LoadableComponent(() => import('../manageClientPage'));
+const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'));
+const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
+const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'));
+const PDFView = LoadableComponent(
+  () => import('../rangeUsePlanPage/pdf/PDFView'),
+);
 
 const Router = () => {
-  const user = useUser()
+  const user = useUser();
 
   return (
     <ErrorBoundary>
@@ -114,11 +114,11 @@ const Router = () => {
         </QueryParamProvider>
       </BrowserRouter>
     </ErrorBoundary>
-  )
-}
+  );
+};
 
 Router.propTypes = {
-  user: PropTypes.shape({})
-}
+  user: PropTypes.shape({}),
+};
 
-export default Router
+export default Router;

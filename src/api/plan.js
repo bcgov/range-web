@@ -1,15 +1,15 @@
-import uuid from 'uuid-v4'
+import uuid from 'uuid-v4';
 import {
   axios,
   getAuthHeaderConfig,
   findStatusWithCode,
   isUserRangeOfficer,
-  canUserAddAttachments
-} from '../utils'
-import * as API from '../constants/api'
-import RUPSchema from '../components/rangeUsePlanPage/schema'
-import { getNetworkStatus } from '../utils/helper/network'
-import { deleteFromQueue } from './delete'
+  canUserAddAttachments,
+} from '../utils';
+import * as API from '../constants/api';
+import RUPSchema from '../components/rangeUsePlanPage/schema';
+import { getNetworkStatus } from '../utils/helper/network';
+import { deleteFromQueue } from './delete';
 import {
   saveGrazingSchedules,
   saveInvasivePlantChecklist,
@@ -18,13 +18,13 @@ import {
   saveAdditionalRequirements,
   savePlantCommunities,
   savePastures,
-  saveAttachments
-} from '.'
+  saveAttachments,
+} from '.';
 import {
   REFERENCE_KEY,
   AMENDMENT_TYPE,
-  PLAN_STATUS
-} from '../constants/variables'
+  PLAN_STATUS,
+} from '../constants/variables';
 
 /**
  * Syncs plan and then returns locally stored record
@@ -32,12 +32,12 @@ import {
  */
 export const getPlan = async (planId, user = {}) => {
   if (!uuid.isUUID(planId)) {
-    await syncPlan(planId, user)
+    await syncPlan(planId, user);
   }
-  const plan = getPlanFromLocalStorage(planId)
+  const plan = getPlanFromLocalStorage(planId);
 
-  return plan
-}
+  return plan;
+};
 
 /**
  * If online, first updates any unsynced plan changes and then fetches and then
@@ -47,35 +47,35 @@ export const getPlan = async (planId, user = {}) => {
  */
 
 const syncPlan = async (planId, user) => {
-  const isOnline = await getNetworkStatus()
-  const localPlan = getPlanFromLocalStorage(planId)
+  const isOnline = await getNetworkStatus();
+  const localPlan = getPlanFromLocalStorage(planId);
 
   if (isOnline) {
     if (localPlan && !localPlan.synced) {
-      await savePlan(localPlan, user)
+      await savePlan(localPlan, user);
     }
 
     const { data: serverPlan } = await axios.get(
       API.GET_RUP(planId),
-      getAuthHeaderConfig()
-    )
-    savePlanToLocalStorage(serverPlan, true)
+      getAuthHeaderConfig(),
+    );
+    savePlanToLocalStorage(serverPlan, true);
   }
-}
+};
 
 /**
  * If online, uploads the plan to the API. Otherwise, saves the plan to local storage
  * @param {object} plan
  */
 export const savePlan = async (plan, user = {}) => {
-  const isOnline = await getNetworkStatus()
+  const isOnline = await getNetworkStatus();
 
   if (!isOnline) {
-    savePlanToLocalStorage(plan, false)
-    return plan.id
+    savePlanToLocalStorage(plan, false);
+    return plan.id;
   }
 
-  await deleteFromQueue()
+  await deleteFromQueue();
 
   const {
     pastures,
@@ -84,41 +84,41 @@ export const savePlan = async (plan, user = {}) => {
     managementConsiderations,
     ministerIssues,
     additionalRequirements,
-    files
-  } = RUPSchema.cast(plan)
+    files,
+  } = RUPSchema.cast(plan);
 
-  const config = getAuthHeaderConfig()
+  const config = getAuthHeaderConfig();
 
-  let planId = plan.id
+  let planId = plan.id;
 
   if (uuid.isUUID(planId)) {
-    const { id, ...planData } = plan
-    const { data } = await axios.post(API.CREATE_RUP, planData, config)
-    removePlanFromLocalStorage(planId)
-    planId = data.id
+    const { id, ...planData } = plan;
+    const { data } = await axios.post(API.CREATE_RUP, planData, config);
+    removePlanFromLocalStorage(planId);
+    planId = data.id;
   } else {
-    await axios.put(API.UPDATE_RUP(plan.id), plan, config)
+    await axios.put(API.UPDATE_RUP(plan.id), plan, config);
   }
 
-  const newPastures = await savePastures(planId, pastures)
+  const newPastures = await savePastures(planId, pastures);
 
   await Promise.all(
-    newPastures.map(async pasture => {
-      await savePlantCommunities(planId, pasture.id, pasture.plantCommunities)
-    })
-  )
+    newPastures.map(async (pasture) => {
+      await savePlantCommunities(planId, pasture.id, pasture.plantCommunities);
+    }),
+  );
 
-  await saveGrazingSchedules(planId, grazingSchedules, newPastures)
-  await saveInvasivePlantChecklist(planId, invasivePlantChecklist)
-  await saveManagementConsiderations(planId, managementConsiderations)
-  await saveMinisterIssues(planId, ministerIssues, newPastures)
-  await saveAdditionalRequirements(planId, additionalRequirements)
+  await saveGrazingSchedules(planId, grazingSchedules, newPastures);
+  await saveInvasivePlantChecklist(planId, invasivePlantChecklist);
+  await saveManagementConsiderations(planId, managementConsiderations);
+  await saveMinisterIssues(planId, ministerIssues, newPastures);
+  await saveAdditionalRequirements(planId, additionalRequirements);
   if (isUserRangeOfficer(user) && canUserAddAttachments(plan, user)) {
-    await saveAttachments(planId, files)
+    await saveAttachments(planId, files);
   }
 
-  return planId
-}
+  return planId;
+};
 
 /**
  * Saves the plan to local storage, with the key corresponding to its id
@@ -126,48 +126,48 @@ export const savePlan = async (plan, user = {}) => {
  * @param {boolean} synced - If the stored plan is to be marked as synced
  */
 export const savePlanToLocalStorage = (plan, synced = false) => {
-  localStorage.setItem(`plan-${plan.id}`, JSON.stringify({ ...plan, synced }))
-}
+  localStorage.setItem(`plan-${plan.id}`, JSON.stringify({ ...plan, synced }));
+};
 
 /**
  * Get a plan from local storage
  * @param {number} planId - ID of the plan
  */
-export const getPlanFromLocalStorage = planId => {
-  return JSON.parse(localStorage.getItem(`plan-${planId}`))
-}
+export const getPlanFromLocalStorage = (planId) => {
+  return JSON.parse(localStorage.getItem(`plan-${planId}`));
+};
 
-export const removePlanFromLocalStorage = planId => {
-  localStorage.removeItem(`plan-${planId}`)
-}
+export const removePlanFromLocalStorage = (planId) => {
+  localStorage.removeItem(`plan-${planId}`);
+};
 
-export const getLocalPlansForAgreement = agreementId => {
+export const getLocalPlansForAgreement = (agreementId) => {
   const plans = Object.entries(localStorage)
     .filter(([key]) => isPlanLocal({ id: key }))
-    .map(entry => JSON.parse(entry[1]))
-    .filter(plan => plan.agreementId === agreementId)
+    .map((entry) => JSON.parse(entry[1]))
+    .filter((plan) => plan.agreementId === agreementId);
 
-  return plans
-}
+  return plans;
+};
 
 export const getLocalPlans = () =>
   Object.entries(localStorage)
     .filter(([key]) => {
-      const res = /(plan-)(.*)/g.exec(key)
-      return res && uuid.isUUID(res[2])
+      const res = /(plan-)(.*)/g.exec(key);
+      return res && uuid.isUUID(res[2]);
     })
-    .map(entry => JSON.parse(entry[1]))
+    .map((entry) => JSON.parse(entry[1]));
 
-export const isPlanLocal = plan => {
-  return uuid.isUUID(plan && plan.id)
-}
+export const isPlanLocal = (plan) => {
+  return uuid.isUUID(plan && plan.id);
+};
 
 export const getPlans = () =>
   Object.entries(localStorage)
     .filter(([key]) => key.match(/(plan-)(.*)/g))
-    .map(entry => JSON.parse(entry[1]))
+    .map((entry) => JSON.parse(entry[1]));
 
-export const createNewPlan = agreement => {
+export const createNewPlan = (agreement) => {
   const newPlan = {
     id: uuid(),
     agreementId: agreement.id,
@@ -184,67 +184,67 @@ export const createNewPlan = agreement => {
       equipmentAndVehiclesParking: false,
       other: null,
       revegetate: false,
-      undercarrigesInspected: false
+      undercarrigesInspected: false,
     },
     grazingSchedules: [],
     managementConsiderations: [],
     additionalRequirements: [],
-    uploaded: true
-  }
+    uploaded: true,
+  };
 
-  savePlanToLocalStorage(newPlan)
+  savePlanToLocalStorage(newPlan);
 
-  return newPlan
-}
+  return newPlan;
+};
 
 export const updatePlan = async (planId, data) => {
-  return await axios.put(API.UPDATE_RUP(planId), data, getAuthHeaderConfig())
-}
+  return await axios.put(API.UPDATE_RUP(planId), data, getAuthHeaderConfig());
+};
 
 export const createAmendment = async (
   plan,
   references,
-  staffInitiated = false
+  staffInitiated = false,
 ) => {
-  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
   const initialAmendment = amendmentTypes.find(
-    at => at.code === AMENDMENT_TYPE.INITIAL
-  )
+    (at) => at.code === AMENDMENT_TYPE.INITIAL,
+  );
   const ahAmendmentStatus = findStatusWithCode(
     references,
-    PLAN_STATUS.AMENDMENT_AH
-  )
+    PLAN_STATUS.AMENDMENT_AH,
+  );
   const staffAmendmentStatus = findStatusWithCode(
     references,
-    PLAN_STATUS.MANDATORY_AMENDMENT_STAFF
-  )
+    PLAN_STATUS.MANDATORY_AMENDMENT_STAFF,
+  );
 
   await axios.put(
     API.UPDATE_RUP(plan.id),
     {
-      amendmentTypeId: initialAmendment.id
+      amendmentTypeId: initialAmendment.id,
     },
-    getAuthHeaderConfig()
-  )
+    getAuthHeaderConfig(),
+  );
 
   await axios.put(
     API.UPDATE_PLAN_STATUS(plan.id),
     {
-      statusId: staffInitiated ? staffAmendmentStatus.id : ahAmendmentStatus.id
+      statusId: staffInitiated ? staffAmendmentStatus.id : ahAmendmentStatus.id,
     },
-    getAuthHeaderConfig()
-  )
+    getAuthHeaderConfig(),
+  );
 
-  return getPlan(plan.id)
-}
+  return getPlan(plan.id);
+};
 
 export const updateStatus = async ({ planId, note, statusId }) => {
   await axios.put(
     API.UPDATE_PLAN_STATUS(planId),
     { note, statusId },
-    getAuthHeaderConfig()
-  )
-}
+    getAuthHeaderConfig(),
+  );
+};
 
 export const updateConfirmation = async ({
   user,
@@ -252,59 +252,64 @@ export const updateConfirmation = async ({
   confirmationId,
   confirmed,
   isMinorAmendment = false,
-  isOwnSignature = true
+  isOwnSignature = true,
 }) => {
   const config = {
     ...getAuthHeaderConfig(),
     params: {
-      isMinorAmendment
-    }
-  }
+      isMinorAmendment,
+    },
+  };
   return axios.put(
     API.UPDATE_CONFIRMATION(planId, confirmationId),
     { confirmed, userId: user.id, isOwnSignature },
-    config
-  )
-}
+    config,
+  );
+};
 
-export const getMostRecentLegalPlan = async planId => {
+export const getMostRecentLegalPlan = async (planId) => {
   const {
-    data: { versions }
-  } = await axios.get(API.GET_RUP_VERSIONS(planId), getAuthHeaderConfig())
-  const legalVersion = versions.find(v => v.isCurrentLegalVersion)
+    data: { versions },
+  } = await axios.get(API.GET_RUP_VERSIONS(planId), getAuthHeaderConfig());
+  const legalVersion = versions.find((v) => v.isCurrentLegalVersion);
 
   if (!legalVersion) {
-    throw new Error('Could not find legal version')
+    throw new Error('Could not find legal version');
   }
 
   const { data } = await axios.get(
     API.GET_RUP_VERSION(planId, legalVersion.version),
-    getAuthHeaderConfig()
-  )
+    getAuthHeaderConfig(),
+  );
 
-  return data
-}
+  return data;
+};
 
-export const discardAmendment = async planId => {
-  return axios.post(API.DISCARD_AMENDMENT(planId), {}, getAuthHeaderConfig())
-}
+export const discardAmendment = async (planId) => {
+  return axios.post(API.DISCARD_AMENDMENT(planId), {}, getAuthHeaderConfig());
+};
 
 export const amendFromLegal = async (plan, references, staffInitiated) => {
-  const { version } = await getMostRecentLegalPlan(plan.id)
+  const { version } = await getMostRecentLegalPlan(plan.id);
 
   await axios.post(
     API.RESTORE_RUP_VERSION(plan.id, version),
     {},
-    getAuthHeaderConfig()
-  )
-  await createAmendment(plan, references, staffInitiated)
-}
+    getAuthHeaderConfig(),
+  );
+  await createAmendment(plan, references, staffInitiated);
+};
 
-export const generatePDF = async planId => {
-  return await axios.get(API.GET_RUP_PDF(planId), getAuthHeaderConfig())
-}
+export const generatePDF = async (planId) => {
+  return await axios.get(API.GET_RUP_PDF(planId), getAuthHeaderConfig());
+};
 
-export const updateSortOrder = async (planId, scheduleId, sortBy, sortOrder) => {
+export const updateSortOrder = async (
+  planId,
+  scheduleId,
+  sortBy,
+  sortOrder,
+) => {
   return axios.put(
     API.UPDATE_SCHEDULE_SORT_ORDER(planId, scheduleId),
     {
@@ -312,5 +317,5 @@ export const updateSortOrder = async (planId, scheduleId, sortBy, sortOrder) => 
       sortOrder: sortOrder,
     },
     getAuthHeaderConfig(),
-  )
-}
+  );
+};

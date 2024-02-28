@@ -1,99 +1,107 @@
-import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import ListItemText from '@material-ui/core/ListItemText'
-import Select from '@material-ui/core/Select'
-import Checkbox from '@material-ui/core/Checkbox'
-import { getUserFullName, axios, getAuthHeaderConfig } from '../../utils'
-import * as API from '../../constants/api'
-import { useQueryParam, DelimitedNumericArrayParam } from 'use-query-params'
+import React, { useState, useEffect } from 'react';
+import useSWR from 'swr';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import { getUserFullName, axios, getAuthHeaderConfig } from '../../utils';
+import * as API from '../../constants/api';
+import { useQueryParam, DelimitedNumericArrayParam } from 'use-query-params';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 250,
     maxWidth: 400,
     marginTop: -3,
     marginRight: 0,
-    marginLeft: 20
+    marginLeft: 20,
   },
   chips: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   chip: {
-    margin: 2
+    margin: 2,
   },
   noLabel: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   listItemTextPrimary: {
     fontSize: '12px',
-    fontColor: '#002C71'
+    fontColor: '#002C71',
   },
   listItemTextSecondary: {
     fontSize: '16px',
-    color: 'grey'
-  }
-}))
+    color: 'grey',
+  },
+}));
 
 const checkBoxStyles = () => ({
   root: {
     '&$checked': {
-      color: 'rgb(0, 30, 79)'
+      color: 'rgb(0, 30, 79)',
     },
-    marginTop: '12.6px'
+    marginTop: '12.6px',
   },
-  checked: {}
-})
+  checked: {},
+});
 
-const CustomCheckbox = withStyles(checkBoxStyles)(Checkbox)
+const CustomCheckbox = withStyles(checkBoxStyles)(Checkbox);
 
-const ITEM_HEIGHT = 78
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 78;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
-      color: 'grey'
-    }
-  }
-}
+      color: 'grey',
+    },
+  },
+};
 
 export default function ZoneSelect({
   zones,
   userZones,
   unassignedZones,
-  setSearchSelectedZones
+  setSearchSelectedZones,
 }) {
-  const classes = useStyles()
+  const classes = useStyles();
   const [selectedZones = [], setSelectedZones] = useQueryParam(
     'selectedZones',
-    DelimitedNumericArrayParam
-  )
-  const [zoneMap, setZoneMap] = useState()
+    DelimitedNumericArrayParam,
+  );
+  const [zoneMap, setZoneMap] = useState();
 
-  const { data: users, error, isValidating } = useSWR(
+  const {
+    data: users,
+    error,
+    isValidating,
+  } = useSWR(
     `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
-    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
-  )
+    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  );
 
   const setSelectedZonesToInitial = () => {
-    const initialSelectedZones = userZones.map(zone => zone.id)
-    setSelectedZones(initialSelectedZones)
-  }
+    const initialSelectedZones = userZones.map((zone) => zone.id);
+    setSelectedZones(initialSelectedZones);
+  };
 
   useEffect(() => {
     if (userZones) {
       if (selectedZones.length === 0) {
         setSelectedZonesToInitial();
       } else {
-        const filteredSelectedZones = selectedZones.filter(zoneID => {
-          return (userZones.some((userZone) => userZone.id === zoneID) ||
-                 unassignedZones.some((unassignedZone) => unassignedZone.id === zoneID));
+        const filteredSelectedZones = selectedZones.filter((zoneID) => {
+          return (
+            userZones.some((userZone) => userZone.id === zoneID) ||
+            unassignedZones.some(
+              (unassignedZone) => unassignedZone.id === zoneID,
+            )
+          );
         });
 
         if (!filteredSelectedZones.length) {
@@ -104,36 +112,36 @@ export default function ZoneSelect({
         }
       }
     } else {
-      setSearchSelectedZones(selectedZones)
+      setSearchSelectedZones(selectedZones);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (zones) {
       const zoneMap = zones.reduce(
         (acc, zone) => ({ ...acc, [zone.id]: zone }),
-        {}
-      )
-      setZoneMap(zoneMap)
+        {},
+      );
+      setZoneMap(zoneMap);
     }
-  }, [zones])
+  }, [zones]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     if (event.target.value !== undefined && event.target.value.length !== 0) {
-      setSelectedZones(event.target.value)
+      setSelectedZones(event.target.value);
     }
-  }
+  };
 
   const handleClose = () => {
-    setSearchSelectedZones(selectedZones)
-  }
+    setSearchSelectedZones(selectedZones);
+  };
 
   if ((isValidating && !users) || !zoneMap) {
-    return <span>Loading zones</span>
+    return <span>Loading zones</span>;
   }
 
   if (error) {
-    return <span>Error fetching users</span>
+    return <span>Error fetching users</span>;
   }
 
   return (
@@ -144,33 +152,35 @@ export default function ZoneSelect({
         onClose={handleClose}
         value={selectedZones}
         multiple
-        renderValue={zoneIds =>
-          zoneIds.map(id => zoneMap[id].description).join(',  ')
+        renderValue={(zoneIds) =>
+          zoneIds.map((id) => zoneMap[id].description).join(',  ')
         }
         MenuProps={{
           getContentAnchorEl: () => null,
-          ...MenuProps
-        }}>
+          ...MenuProps,
+        }}
+      >
         <MenuItem value="" disabled>
           <span style={{ color: 'black', opacity: 2.0 }}>Assigned Zones</span>
         </MenuItem>
 
         {users &&
           userZones &&
-          userZones.map(zone => {
-            const user = users.find(user => user.id === zone.userId)
+          userZones.map((zone) => {
+            const user = users.find((user) => user.id === zone.userId);
 
             return (
               <MenuItem
                 alignItems="flex-start"
                 style={{ backgroundColor: 'transparent' }}
                 key={zone.id}
-                value={zone.id}>
+                value={zone.id}
+              >
                 <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
                 <ListItemText
                   classes={{
                     primary: classes.listItemTextPrimary,
-                    secondary: classes.listItemTextSecondary
+                    secondary: classes.listItemTextSecondary,
                   }}
                   primary={
                     <span style={{ color: '#002C71' }}>
@@ -180,7 +190,7 @@ export default function ZoneSelect({
                   secondary={<span>{zone.description}</span>}
                 />
               </MenuItem>
-            )
+            );
           })}
 
         <MenuItem disabled value="">
@@ -189,20 +199,21 @@ export default function ZoneSelect({
 
         {users &&
           unassignedZones &&
-          unassignedZones.map(zone => {
-            const user = users.find(user => user.id === zone.userId)
+          unassignedZones.map((zone) => {
+            const user = users.find((user) => user.id === zone.userId);
 
             return (
               <MenuItem
                 alignItems="flex-start"
                 key={zone.id}
                 value={zone.id}
-                style={{ backgroundColor: 'transparent' }}>
+                style={{ backgroundColor: 'transparent' }}
+              >
                 <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
                 <ListItemText
                   classes={{
                     primary: classes.listItemTextPrimary,
-                    secondary: classes.listItemTextSecondary
+                    secondary: classes.listItemTextSecondary,
                   }}
                   primary={
                     <span style={{ color: '#002C71' }}>
@@ -212,9 +223,9 @@ export default function ZoneSelect({
                   secondary={<span>{zone.description}</span>}
                 />
               </MenuItem>
-            )
+            );
           })}
       </Select>
     </FormControl>
-  )
+  );
 }

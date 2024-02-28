@@ -1,16 +1,16 @@
 .rup {
   &__grazing-schedules {
     margin-bottom: $rup-content-margin-bottom;
-    
+
     &__add-dropdown {
       > .add.circle.icon {
         background-color: #003366 !important;
         color: white;
       }
     }
-    & .ui.right.pointing.dropdown>.menu {
+    & .ui.right.pointing.dropdown > .menu {
       top: -10px !important;
-      right: 15px !important; 
+      right: 15px !important;
     }
 
     & .ui.basic.button {
@@ -89,7 +89,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #CCCCCC;
+      background: #cccccc;
       border-radius: 5px;
       margin-top: 10px;
     }

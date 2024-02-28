@@ -218,13 +218,8 @@
     "eslint-plugin-jest": "^21.27.2",
     "findup-sync": "^4.0.0",
     "husky": "^2.7.0",
-    "prettier": "^1.19.1",
+    "prettier": "^3.2.5",
     "start-server-and-test": "^1.14.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run pretest && npm run eslint"
-    }
   },
   "babel": {
     "presets": [

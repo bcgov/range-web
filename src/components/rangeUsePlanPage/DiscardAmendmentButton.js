@@ -1,38 +1,38 @@
-import React, { useState } from 'react'
-import { Button, Icon, Confirm } from 'semantic-ui-react'
-import { DISCARD_AMENDMENT } from '../../constants/strings'
-import { useCurrentPlan } from '../../providers/PlanProvider'
-import { useNetworkStatus } from '../../utils/hooks/network'
-import { discardAmendment } from '../../api'
-import { useToast } from '../../providers/ToastProvider'
+import React, { useState } from 'react';
+import { Button, Icon, Confirm } from 'semantic-ui-react';
+import { DISCARD_AMENDMENT } from '../../constants/strings';
+import { useCurrentPlan } from '../../providers/PlanProvider';
+import { useNetworkStatus } from '../../utils/hooks/network';
+import { discardAmendment } from '../../api';
+import { useToast } from '../../providers/ToastProvider';
 
 const DiscardAmendmentButton = () => {
-  const [isModalOpen, setModalOpen] = useState(false)
-  const [isDiscarding, setDiscarding] = useState(false)
-  const { errorToast } = useToast()
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isDiscarding, setDiscarding] = useState(false);
+  const { errorToast } = useToast();
 
-  const { currentPlan, fetchPlan } = useCurrentPlan()
+  const { currentPlan, fetchPlan } = useCurrentPlan();
 
-  const isOnline = useNetworkStatus()
+  const isOnline = useNetworkStatus();
 
   const handleDiscard = async () => {
-    setDiscarding(true)
+    setDiscarding(true);
 
     try {
-      await discardAmendment(currentPlan.id)
-      await fetchPlan()
+      await discardAmendment(currentPlan.id);
+      await fetchPlan();
     } catch (e) {
-      errorToast(e.message)
+      errorToast(e.message);
     }
 
     setTimeout(() => {
-      setDiscarding(false)
-      closeModal()
-    }, 1000)
-  }
+      setDiscarding(false);
+      closeModal();
+    }, 1000);
+  };
 
-  const openModal = () => setModalOpen(true)
-  const closeModal = () => setModalOpen(false)
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   return (
     <>
@@ -43,8 +43,9 @@ const DiscardAmendmentButton = () => {
         type="button"
         disabled={!isOnline}
         onClick={() => {
-          openModal()
-        }}>
+          openModal();
+        }}
+      >
         <Icon name="trash" />
         {DISCARD_AMENDMENT}
       </Button>
@@ -57,7 +58,7 @@ const DiscardAmendmentButton = () => {
         confirmButton={<Button loading={isDiscarding}>Discard</Button>}
       />
     </>
-  )
-}
+  );
+};
 
-export default DiscardAmendmentButton
+export default DiscardAmendmentButton;

@@ -1,31 +1,31 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   PLAN_STATUS,
   REFERENCE_KEY,
-  CONFIRMATION_MODAL_ID
-} from '../../../constants/variables'
-import * as strings from '../../../constants/strings'
-import * as utils from '../../../utils'
-import { Status, Banner } from '../../common'
-import ContentsContainer from '../ContentsContainer'
-import BackBtn from '../BackBtn'
-import Notifications from '../notifications'
-import StickyHeader from '../StickyHeader'
-import { defaultProps, propTypes } from './props'
-import ActionBtns from '../ActionBtns'
-import PlanSubmissionModal from './SubmissionModal'
-import AHSignatureModal from './AHSignatureModal'
-import AmendmentSubmissionModal from './AmendmentSubmissionModal'
-import PlanForm from '../PlanForm'
-import { createAmendment, savePlan } from '../../../api'
-import { canUserEditThisPlan, isPlanAmendment } from '../../../utils'
-import NetworkStatus from '../../common/NetworkStatus'
+  CONFIRMATION_MODAL_ID,
+} from '../../../constants/variables';
+import * as strings from '../../../constants/strings';
+import * as utils from '../../../utils';
+import { Status, Banner } from '../../common';
+import ContentsContainer from '../ContentsContainer';
+import BackBtn from '../BackBtn';
+import Notifications from '../notifications';
+import StickyHeader from '../StickyHeader';
+import { defaultProps, propTypes } from './props';
+import ActionBtns from '../ActionBtns';
+import PlanSubmissionModal from './SubmissionModal';
+import AHSignatureModal from './AHSignatureModal';
+import AmendmentSubmissionModal from './AmendmentSubmissionModal';
+import PlanForm from '../PlanForm';
+import { createAmendment, savePlan } from '../../../api';
+import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
+import NetworkStatus from '../../common/NetworkStatus';
 
 // Agreement Holder page
 class PageForAH extends Component {
-  static propTypes = propTypes
+  static propTypes = propTypes;
 
-  static defaultProps = defaultProps
+  static defaultProps = defaultProps;
 
   state = {
     isAmendmentSubmissionModalOpen: false,
@@ -33,144 +33,145 @@ class PageForAH extends Component {
     isAHSignatureModalOpen: false,
     isSavingAsDraft: false,
     isSubmitting: false,
-    isCreatingAmendment: false
-  }
+    isCreatingAmendment: false,
+  };
 
   onSaveDraftClick = () => {
-    const { references, toastSuccessMessage, fetchPlan } = this.props
-    const draft = utils.findStatusWithCode(references, PLAN_STATUS.DRAFT)
+    const { references, toastSuccessMessage, fetchPlan } = this.props;
+    const draft = utils.findStatusWithCode(references, PLAN_STATUS.DRAFT);
 
     const onRequested = () => {
-      this.setState({ isSavingAsDraft: true })
-    }
+      this.setState({ isSavingAsDraft: true });
+    };
     const onSuccess = () => {
       fetchPlan().then(() => {
-        this.setState({ isSavingAsDraft: false })
-        toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS)
-      })
-    }
+        this.setState({ isSavingAsDraft: false });
+        toastSuccessMessage(strings.SAVE_PLAN_AS_DRAFT_SUCCESS);
+      });
+    };
     const onError = () => {
-      this.setState({ isSavingAsDraft: false })
-    }
+      this.setState({ isSavingAsDraft: false });
+    };
 
     this.updateStatusAndContent(
       { status: draft },
       onRequested,
       onSuccess,
-      onError
-    )
-  }
+      onError,
+    );
+  };
 
   updateStatusAndContent = async (
     { status, note },
     onRequested,
     onSuccess,
-    onError
+    onError,
   ) => {
-    const { plan, updateRUPStatus, toastErrorMessage, user } = this.props
+    const { plan, updateRUPStatus, toastErrorMessage, user } = this.props;
 
-    onRequested()
+    onRequested();
 
-    const error = this.validateRup(plan)
+    const error = this.validateRup(plan);
 
     if (error) {
-      onError()
-      return
+      onError();
+      return;
     }
 
     try {
-      const planId = await savePlan(plan, user)
+      const planId = await savePlan(plan, user);
 
       await updateRUPStatus({
         planId,
         statusId: status.id,
         note,
-        shouldToast: false
-      })
-      await onSuccess()
+        shouldToast: false,
+      });
+      await onSuccess();
     } catch (err) {
-      onError()
-      toastErrorMessage(err)
-      throw err
+      onError();
+      toastErrorMessage(err);
+      throw err;
     }
-  }
+  };
 
   onAmendPlanClicked = () => {
-    const { plan, fetchPlan, toastSuccessMessage, references } = this.props
+    const { plan, fetchPlan, toastSuccessMessage, references } = this.props;
 
     this.setState({
-      isCreatingAmendment: true
-    })
+      isCreatingAmendment: true,
+    });
 
     createAmendment(plan, references)
       .then(() => {
-        toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS)
-        return fetchPlan()
+        toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS);
+        return fetchPlan();
       })
       .then(() => {
         this.setState({
-          isCreatingAmendment: false
-        })
-      })
-  }
+          isCreatingAmendment: false,
+        });
+      });
+  };
 
-  validateRup = plan => {
-    const { references, agreement } = this.props
-    const { pastures } = plan
-    const usage = agreement && agreement.usage
-    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
+  validateRup = (plan) => {
+    const { references, agreement } = this.props;
+    const { pastures } = plan;
+    const usage = agreement && agreement.usage;
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const errors = utils.handleRupValidation(
       plan,
       pastures,
       livestockTypes,
       usage,
-      true
-    )
+      true,
+    );
 
     // errors have been found
     if (errors.length !== 0) {
-      const [error] = errors
-      utils.scrollIntoView(error.elementId)
-      return error
+      const [error] = errors;
+      utils.scrollIntoView(error.elementId);
+      return error;
     }
 
     // no errors found
-    return false
-  }
+    return false;
+  };
 
   onViewPDFClicked = () => {
-    const { id: planId } = this.props.plan || {}
-    this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
-  }
+    const { id: planId } = this.props.plan || {};
+    this.props.history.push(`/range-use-plan/${planId}/export-pdf`);
+  };
 
   openSubmissionModal = () => {
-    const { plan } = this.props
-    const error = this.validateRup(plan)
+    const { plan } = this.props;
+    const error = this.validateRup(plan);
     if (!error) {
       if (utils.isPlanAmendment(plan)) {
-        this.openAmendmentSubmissionModal()
-        return
+        this.openAmendmentSubmissionModal();
+        return;
       }
 
-      this.openPlanSubmissionModal()
+      this.openPlanSubmissionModal();
     }
-  }
+  };
 
   openPlanSubmissionModal = () =>
-    this.setState({ isPlanSubmissionModalOpen: true })
+    this.setState({ isPlanSubmissionModalOpen: true });
   closePlanSubmissionModal = () =>
-    this.setState({ isPlanSubmissionModalOpen: false })
-  openAHSignatureModal = () => this.setState({ isAHSignatureModalOpen: true })
-  closeAHSignatureModal = () => this.setState({ isAHSignatureModalOpen: false })
+    this.setState({ isPlanSubmissionModalOpen: false });
+  openAHSignatureModal = () => this.setState({ isAHSignatureModalOpen: true });
+  closeAHSignatureModal = () =>
+    this.setState({ isAHSignatureModalOpen: false });
   openAmendmentSubmissionModal = () =>
-    this.setState({ isAmendmentSubmissionModalOpen: true })
+    this.setState({ isAmendmentSubmissionModalOpen: true });
   closeAmendmentSubmissionModal = () =>
-    this.setState({ isAmendmentSubmissionModalOpen: false })
+    this.setState({ isAmendmentSubmissionModalOpen: false });
 
   renderActionBtns = () => {
-    const { isSavingAsDraft, isSubmitting, isCreatingAmendment } = this.state
-    const { openConfirmationModal, plan, user, clientAgreements } = this.props
-    const { confirmations, status } = plan
+    const { isSavingAsDraft, isSubmitting, isCreatingAmendment } = this.state;
+    const { openConfirmationModal, plan, user, clientAgreements } = this.props;
+    const { confirmations, status } = plan;
 
     return (
       <ActionBtns
@@ -181,11 +182,11 @@ class PageForAH extends Component {
             status,
             user,
             confirmations,
-            clientAgreements
+            clientAgreements,
           ),
           submit: utils.canUserSubmitPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),
-          amendFromLegal: utils.canUserAmendFromLegal(plan, user)
+          amendFromLegal: utils.canUserAmendFromLegal(plan, user),
         }}
         isSavingAsDraft={isSavingAsDraft}
         isSubmitting={isSubmitting}
@@ -198,21 +199,21 @@ class PageForAH extends Component {
             header: strings.AMEND_PLAN_CONFIRM_HEADER,
             content: strings.AMEND_PLAN_CONFIRM_CONTENT,
             onYesBtnClicked: this.onAmendPlanClicked,
-            closeAfterYesBtnClicked: true
+            closeAfterYesBtnClicked: true,
           })
         }
         onSubmit={this.openSubmissionModal}
         onSignSubmission={this.openAHSignatureModal}
       />
-    )
-  }
+    );
+  };
 
   render() {
     const {
       isAmendmentSubmissionModalOpen,
       isPlanSubmissionModalOpen,
-      isAHSignatureModalOpen
-    } = this.state
+      isAHSignatureModalOpen,
+    } = this.state;
 
     const {
       plan,
@@ -221,16 +222,14 @@ class PageForAH extends Component {
       agreement,
       references,
       planStatusHistoryMap,
-      fetchPlan
-    } = this.props
+      fetchPlan,
+    } = this.props;
 
-    const { agreementId, status, rangeName } = plan
-    const { clients } = agreement
+    const { agreementId, status, rangeName } = plan;
+    const { clients } = agreement;
 
-    const {
-      header: bannerHeader,
-      content: bannerContent
-    } = utils.getBannerHeaderAndContentForAH(plan, user, references)
+    const { header: bannerHeader, content: bannerContent } =
+      utils.getBannerHeaderAndContentForAH(plan, user, references);
 
     return (
       <section className="rup">
@@ -306,8 +305,8 @@ class PageForAH extends Component {
           )}
         </ContentsContainer>
       </section>
-    )
+    );
   }
 }
 
-export default PageForAH
+export default PageForAH;

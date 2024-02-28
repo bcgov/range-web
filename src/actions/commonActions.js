@@ -6,42 +6,42 @@ import {
   OPEN_INPUT_MODAL,
   CLOSE_INPUT_MODAL,
   OPEN_PIA_MODAL,
-  CLOSE_PIA_MODAL
-} from '../constants/actionTypes'
+  CLOSE_PIA_MODAL,
+} from '../constants/actionTypes';
 
-export const addToast = payload => ({
+export const addToast = (payload) => ({
   type: ADD_TOAST,
-  payload
-})
+  payload,
+});
 
-export const removeToast = payload => ({
+export const removeToast = (payload) => ({
   type: REMOVE_TOAST,
-  payload
-})
+  payload,
+});
 
-export const openConfirmationModal = payload => ({
+export const openConfirmationModal = (payload) => ({
   type: OPEN_CONFIRMATION_MODAL,
-  payload
-})
+  payload,
+});
 
-export const closeConfirmationModal = payload => ({
+export const closeConfirmationModal = (payload) => ({
   type: CLOSE_CONFIRMATION_MODAL,
-  payload
-})
+  payload,
+});
 
-export const openInputModal = payload => ({
+export const openInputModal = (payload) => ({
   type: OPEN_INPUT_MODAL,
-  payload
-})
+  payload,
+});
 
 export const closeInputModal = () => ({
-  type: CLOSE_INPUT_MODAL
-})
+  type: CLOSE_INPUT_MODAL,
+});
 
 export const openPiaModal = () => ({
-  type: OPEN_PIA_MODAL
-})
+  type: OPEN_PIA_MODAL,
+});
 
 export const closePiaModal = () => ({
-  type: CLOSE_PIA_MODAL
-})
+  type: CLOSE_PIA_MODAL,
+});

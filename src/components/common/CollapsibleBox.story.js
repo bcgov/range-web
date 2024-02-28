@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
-import CollapsibleBox from './CollapsibleBox'
-import TextField from './TextField'
-import { Icon } from 'semantic-ui-react'
+import CollapsibleBox from './CollapsibleBox';
+import TextField from './TextField';
+import { Icon } from 'semantic-ui-react';
 
 storiesOf('Collapsible Box', module)
   .add('Open', () => (
@@ -113,7 +113,7 @@ storiesOf('Collapsible Box', module)
       collapsibleContent={<span>content..</span>}
       contentIndex={0}
       activeContentIndex={0}
-      onContentClicked={i => () => i}
+      onContentClicked={(i) => () => i}
     />
   ))
 
@@ -143,7 +143,7 @@ storiesOf('Collapsible Box', module)
       header={<div>Header</div>}
       collapsibleContent={
         <div>
-          {[1, 2, 3, 4, 5].map(index => (
+          {[1, 2, 3, 4, 5].map((index) => (
             <div key={index} style={{ paddingBottom: '20px' }}>
               {`
                 [${index}] Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -161,4 +161,4 @@ storiesOf('Collapsible Box', module)
       onContentClicked={() => action('on-content-clicked')}
       scroll={true}
     />
-  ))
+  ));

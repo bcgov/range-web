@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import useSWR from 'swr'
-import { CircularProgress } from '@material-ui/core'
-import * as API from '../../../constants/api'
-import { TextField, InfoTip } from '../../common'
-import * as strings from '../../../constants/strings'
+import React from 'react';
+import PropTypes from 'prop-types';
+import useSWR from 'swr';
+import { CircularProgress } from '@material-ui/core';
+import * as API from '../../../constants/api';
+import { TextField, InfoTip } from '../../common';
+import * as strings from '../../../constants/strings';
 import {
   formatDateFromServer,
   capitalize,
@@ -12,66 +12,73 @@ import {
   getAgreementHolders,
   getClientFullName,
   axios,
-  getAuthHeaderConfig
-} from '../../../utils'
-import PermissionsField from '../../common/PermissionsField'
-import { BASIC_INFORMATION } from '../../../constants/fields'
-import DateInputField from '../../common/form/DateInputField'
-import moment from 'moment'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { isUUID } from 'uuid-v4'
-import { useUser } from '../../../providers/UserProvider'
+  getAuthHeaderConfig,
+} from '../../../utils';
+import PermissionsField from '../../common/PermissionsField';
+import { BASIC_INFORMATION } from '../../../constants/fields';
+import DateInputField from '../../common/form/DateInputField';
+import moment from 'moment';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { isUUID } from 'uuid-v4';
+import { useUser } from '../../../providers/UserProvider';
 //import ManualConfirmation from './ManualConfirmation'
 
 const getAgentForClient = (client, clientAgreements) => {
-  const clientAgreement = clientAgreements.find(ca => ca.clientId === client.id)
+  const clientAgreement = clientAgreements.find(
+    (ca) => ca.clientId === client.id,
+  );
 
-  return clientAgreement?.agent
-}
+  return clientAgreement?.agent;
+};
 
-const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormessage, agreement }) => {
-  const zone = agreement && agreement.zone
-  const zoneCode = zone && zone.code
-  const district = zone && zone.district
-  const districtCode = district && district.code
+const BasicInformation = ({
+  plan,
+  fetchPlan,
+  toastSuccessMessage,
+  toastErrormessage,
+  agreement,
+}) => {
+  const zone = agreement && agreement.zone;
+  const zoneCode = zone && zone.code;
+  const district = zone && zone.district;
+  const districtCode = district && district.code;
 
-  const staff = zone && zone.user
-  const contactEmail = staff && staff.email
-  const contactPhoneNumber = staff && staff.phoneNumber
-  const contactName = getUserFullName(staff)
+  const staff = zone && zone.user;
+  const contactEmail = staff && staff.email;
+  const contactPhoneNumber = staff && staff.phoneNumber;
+  const contactName = getUserFullName(staff);
 
-  const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE]
-  const amendmentTypes = useReferences()[REFERENCE_KEY.AMENDMENT_TYPE]
+  const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE];
+  const amendmentTypes = useReferences()[REFERENCE_KEY.AMENDMENT_TYPE];
 
   const { rangeName, altBusinessName, planStartDate, planEndDate, extension } =
-    plan || {}
+    plan || {};
 
   const {
     id: agreementId,
     agreementStartDate,
     agreementEndDate,
     agreementExemptionStatus: aes,
-    clients
-  } = agreement || {}
+    clients,
+  } = agreement || {};
 
   const {
     data: clientAgreements,
     isValidating: isLoadingClientAgreements,
-    error: errorFetchingClientAgreements
-  } = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), key =>
-    axios.get(key, getAuthHeaderConfig()).then(res => res.data)
-  )
+    error: errorFetchingClientAgreements,
+  } = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  );
 
-  const exemptionStatusName = aes && aes.description
-  const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(
-    clients
-  )
-  const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder)
+  const exemptionStatusName = aes && aes.description;
+  const { primaryAgreementHolder, otherAgreementHolders } =
+    getAgreementHolders(clients);
+  const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder);
 
-  const isFutureDatedPlan = plan.planEndDate > plan.agreement.agreementEndDate
-  const { confirmations } = plan
-  const user = useUser()
+  const isFutureDatedPlan = plan.planEndDate > plan.agreement.agreementEndDate;
+  const { confirmations } = plan;
+  const user = useUser();
 
   return (
     <div className="rup__basic_information">
@@ -90,14 +97,14 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
           <TextField
             label={strings.AGREEMENT_TYPE}
             text={
-              agreementTypes.find(a => a.id === agreement.agreementTypeId)
+              agreementTypes.find((a) => a.id === agreement.agreementTypeId)
                 ?.description
             }
           />
           <TextField
             label={strings.AGREEMENT_DATE}
             text={`${formatDateFromServer(
-              agreementStartDate
+              agreementStartDate,
             )} to ${formatDateFromServer(agreementEndDate)}`}
           />
           <PermissionsField
@@ -179,7 +186,7 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
               label={strings.PRIMARY_AGREEMENT_HOLDER}
               text={primaryAgreementHolderName}
             />
-            {otherAgreementHolders.map(client => (
+            {otherAgreementHolders.map((client) => (
               <TextField
                 key={client.clientNumber}
                 label={strings.OTHER_AGREEMENT_HOLDER}
@@ -192,18 +199,19 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
           <div className="rup__plan-info rup__cell-6">
             <div className="rup__divider" />
             <div className="rup__info-title">Agreement Holders</div>
-            <div className='rup__ah-container'>
+            <div className="rup__ah-container">
               <TextField
                 label={strings.PRIMARY_AGREEMENT_HOLDER}
-                text={`${primaryAgreementHolderName} ${getAgentForClient(primaryAgreementHolder, clientAgreements)
-                  ? `- Agent: ${getUserFullName(
-                    getAgentForClient(
-                      primaryAgreementHolder,
-                      clientAgreements
-                    )
-                  )}`
-                  : ''
-                  }`}
+                text={`${primaryAgreementHolderName} ${
+                  getAgentForClient(primaryAgreementHolder, clientAgreements)
+                    ? `- Agent: ${getUserFullName(
+                        getAgentForClient(
+                          primaryAgreementHolder,
+                          clientAgreements,
+                        ),
+                      )}`
+                    : ''
+                }`}
               />
               {/* {confirmations && ( */}
               {/*   <ManualConfirmation */}
@@ -219,16 +227,17 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
               {/*   /> */}
               {/* )} */}
             </div>
-            {otherAgreementHolders.map(client => (
-              <div className='rup__ah-container' key={client.id}>
+            {otherAgreementHolders.map((client) => (
+              <div className="rup__ah-container" key={client.id}>
                 <TextField
                   label={strings.OTHER_AGREEMENT_HOLDER}
-                  text={`${getClientFullName(client)} ${getAgentForClient(client, clientAgreements)
-                    ? `- Agent: ${getUserFullName(
-                      getAgentForClient(client, clientAgreements)
-                    )}`
-                    : ''
-                    }`}
+                  text={`${getClientFullName(client)} ${
+                    getAgentForClient(client, clientAgreements)
+                      ? `- Agent: ${getUserFullName(
+                          getAgentForClient(client, clientAgreements),
+                        )}`
+                      : ''
+                  }`}
                 />
                 {/* {confirmations && ( */}
                 {/*   <ManualConfirmation */}
@@ -249,13 +258,13 @@ const BasicInformation = ({ plan, fetchPlan, toastSuccessMessage, toastErrormess
           </div>
         )}
       </div>
-    </div >
-  )
-}
+    </div>
+  );
+};
 
 BasicInformation.propTypes = {
   plan: PropTypes.shape({}).isRequired,
-  agreement: PropTypes.shape({}).isRequired
-}
+  agreement: PropTypes.shape({}).isRequired,
+};
 
-export default BasicInformation
+export default BasicInformation;

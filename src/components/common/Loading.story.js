@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
-import Loading from './Loading'
+import { storiesOf } from '@storybook/react';
+import Loading from './Loading';
 
 storiesOf('Loading', module)
   .add('Default', () => <Loading />)
@@ -16,4 +16,4 @@ storiesOf('Loading', module)
 
   .add('Small', () => <Loading size={'small'} />)
 
-  .add('Medium', () => <Loading size={'medium'} />)
+  .add('Medium', () => <Loading size={'medium'} />);

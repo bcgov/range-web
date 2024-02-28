@@ -1,15 +1,15 @@
-const packageConfig = require('./package.json')
+const packageConfig = require('./package.json');
 
 module.exports = {
   rules: {
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
-    'react/prop-types': 0
+    'react/prop-types': 0,
   },
   extends: ['@twostoryrobot/eslint-config/react', 'prettier'],
   settings: {
     react: {
-      version: packageConfig.dependencies.react
-    }
+      version: packageConfig.dependencies.react,
+    },
   },
-  plugins: ['jsx-a11y', 'import']
-}
+  plugins: ['jsx-a11y', 'import'],
+};

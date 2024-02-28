@@ -1,47 +1,46 @@
-import React, { useState, useEffect } from 'react'
-import uuid from 'uuid-v4'
-import { Icon, Confirm } from 'semantic-ui-react'
-import { PrimaryButton } from '../../common'
-import { IfEditable } from '../../common/PermissionsField'
-import { FieldArray, useFormikContext } from 'formik'
-import AttachmentRow from './AttachmentRow'
-import { deleteAttachment, getSignedUploadUrl } from '../../../api'
-import { ATTACHMENTS } from '../../../constants/fields'
-import { axios } from '../../../utils'
+import React, { useState, useEffect } from 'react';
+import uuid from 'uuid-v4';
+import { Icon, Confirm } from 'semantic-ui-react';
+import { PrimaryButton } from '../../common';
+import { IfEditable } from '../../common/PermissionsField';
+import { FieldArray, useFormikContext } from 'formik';
+import AttachmentRow from './AttachmentRow';
+import { deleteAttachment, getSignedUploadUrl } from '../../../api';
+import { ATTACHMENTS } from '../../../constants/fields';
+import { axios } from '../../../utils';
 
 const sortByDate = (a, b) => {
-  if (b.uploadDate > a.uploadDate) return -1
-  if (b.uploadDate < a.uploadDate) return 1
-  return 0
-}
+  if (b.uploadDate > a.uploadDate) return -1;
+  if (b.uploadDate < a.uploadDate) return 1;
+  return 0;
+};
 
 const Attachments = ({
   planId,
   attachments = [],
   label = '',
-  propertyName
+  propertyName,
 }) => {
-  const [toRemove, setToRemove] = useState(null)
+  const [toRemove, setToRemove] = useState(null);
   const formik = useFormikContext();
 
-
   const handleUpload = async (file, attachment, index) => {
-    const fieldName = `files.${index}`
+    const fieldName = `files.${index}`;
     try {
-      const signedUrl = await getSignedUploadUrl(file.name)
+      const signedUrl = await getSignedUploadUrl(file.name);
 
       await axios.put(signedUrl, file, {
         headers: {
-          'Content-Type': file.type
+          'Content-Type': file.type,
         },
-        skipAuthorizationHeader: true
-      })
+        skipAuthorizationHeader: true,
+      });
 
-      formik.setFieldValue(`${fieldName}.url`, file.name)
+      formik.setFieldValue(`${fieldName}.url`, file.name);
     } catch (e) {
-      formik.setFieldValue(`${fieldName}.error`, e)
+      formik.setFieldValue(`${fieldName}.error`, e);
     }
-  }
+  };
 
   return (
     <FieldArray
@@ -51,7 +50,8 @@ const Attachments = ({
           <div className="rup__attachments">
             <div className="rup__attachments__title">{label} Attachments</div>
             <div className="rup__attachments__box">
-              {attachments.filter(a => a.type === propertyName).length === 0 ? (
+              {attachments.filter((a) => a.type === propertyName).length ===
+              0 ? (
                 <div className="rup__attachments__no-content">
                   No {label.toLocaleLowerCase()} attachments provided
                 </div>
@@ -66,7 +66,7 @@ const Attachments = ({
                         index={index}
                         error={formik.errors?.files?.[index]?.url}
                       />
-                    )
+                    );
                   }
                 })
               )}
@@ -75,7 +75,8 @@ const Attachments = ({
                   inverted
                   compact
                   style={{ marginTop: '10px' }}
-                  type="button">
+                  type="button"
+                >
                   <Icon name="add circle" />
                   <label htmlFor={`fileInput${propertyName}`}>
                     Add {label} Attachment
@@ -83,20 +84,24 @@ const Attachments = ({
                 </PrimaryButton>
                 <input
                   name={propertyName}
-                  onChange={event => {
+                  onChange={(event) => {
                     for (const [index, file] of Array.from(
-                      event.target.files
+                      event.target.files,
                     ).entries()) {
                       const attachment = {
                         name: file.name,
                         createdAt: new Date(),
                         type: propertyName,
                         access: 'staff_only',
-                        id: uuid()
-                      }
+                        id: uuid(),
+                      };
 
-                      push(attachment)
-                      handleUpload(file, attachment, attachments.length + index)
+                      push(attachment);
+                      handleUpload(
+                        file,
+                        attachment,
+                        attachments.length + index,
+                      );
                     }
                   }}
                   id={`fileInput${propertyName}`}
@@ -109,25 +114,25 @@ const Attachments = ({
             <Confirm
               open={toRemove !== null}
               onCancel={() => {
-                setToRemove(null)
+                setToRemove(null);
               }}
               onConfirm={async () => {
-                const attachment = attachments[toRemove]
+                const attachment = attachments[toRemove];
 
                 if (!uuid.isUUID(attachment.id)) {
-                  await deleteAttachment(planId, attachment.id)
+                  await deleteAttachment(planId, attachment.id);
                 }
 
-                remove(toRemove)
-                setToRemove(null)
+                remove(toRemove);
+                setToRemove(null);
               }}
             />
           </div>
         </>
       )}
     />
-  )
-}
+  );
+};
 
 const AttachmentsHeader = () => (
   <>
@@ -136,6 +141,6 @@ const AttachmentsHeader = () => (
     </div>
     <div className="rup__divider" />
   </>
-)
+);
 
-export { Attachments, AttachmentsHeader }
+export { Attachments, AttachmentsHeader };

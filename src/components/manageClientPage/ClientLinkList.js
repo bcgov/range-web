@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import useSWR from 'swr'
+import React, { useState } from 'react';
+import useSWR from 'swr';
 import {
   CircularProgress,
   List,
@@ -18,120 +18,126 @@ import {
   DialogContentText,
   DialogActions,
   Toolbar,
-  Fade
-} from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
-import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig, getUserFullName } from '../../utils'
-import { useToast } from '../../providers/ToastProvider'
-import ClientDropdown from './ClientDropdown'
-import { deleteClientLink, createClientLink } from '../../api'
-import { green } from '@material-ui/core/colors'
-import { useEffect } from 'react'
+  Fade,
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import * as API from '../../constants/api';
+import { axios, getAuthHeaderConfig, getUserFullName } from '../../utils';
+import { useToast } from '../../providers/ToastProvider';
+import ClientDropdown from './ClientDropdown';
+import { deleteClientLink, createClientLink } from '../../api';
+import { green } from '@material-ui/core/colors';
+import { useEffect } from 'react';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   buttonProgress: {
     color: green[500],
     position: 'absolute',
     top: '50%',
     left: '50%',
     marginTop: -12,
-    marginLeft: -12
+    marginLeft: -12,
   },
   list: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   actionSection: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   actions: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   addButton: {
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
   },
   toolbar: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1)
+    paddingRight: theme.spacing(1),
   },
   toolbarTitle: { flex: '1 1 100%' },
   noClients: {
     padding: theme.spacing(2),
     width: '100%',
-    textAlign: 'center'
-  }
-}))
+    textAlign: 'center',
+  },
+}));
 
 const ClientLinkList = ({ userId }) => {
-  const classes = useStyles()
-  const [selectedClient, setSelectedClient] = useState(null)
-  const [isCreating, setIsCreating] = useState(false)
-  const [createError, setCreateError] = useState(null)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [clientToDelete, setClientToDelete] = useState(false)
-  const { errorToast } = useToast()
+  const classes = useStyles();
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [createError, setCreateError] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState(false);
+  const { errorToast } = useToast();
 
-  const { data: user, error, isValidating, mutate } = useSWR(
-    `${API.GET_USERS}/${userId}`,
-    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
-  )
+  const {
+    data: user,
+    error,
+    isValidating,
+    mutate,
+  } = useSWR(`${API.GET_USERS}/${userId}`, (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  );
 
   useEffect(() => {
-    setCreateError(null)
-    setSelectedClient(null)
-  }, [userId])
+    setCreateError(null);
+    setSelectedClient(null);
+  }, [userId]);
 
-  const handleCloseDialog = () => setClientToDelete(null)
+  const handleCloseDialog = () => setClientToDelete(null);
 
   const handleAddClick = async () => {
-    setIsCreating(true)
-    setCreateError(null)
+    setIsCreating(true);
+    setCreateError(null);
     try {
-      await createClientLink(userId, selectedClient.clientNumber)
+      await createClientLink(userId, selectedClient.clientNumber);
 
       mutate({
         ...user,
-        clients: [...(user.clients ?? []), selectedClient]
-      })
+        clients: [...(user.clients ?? []), selectedClient],
+      });
 
-      setSelectedClient(null)
+      setSelectedClient(null);
     } catch (e) {
-      const errorMessage = `Error linking client: ${e.message ??
-        e?.data?.error}`
-      setCreateError(errorMessage)
+      const errorMessage = `Error linking client: ${
+        e.message ?? e?.data?.error
+      }`;
+      setCreateError(errorMessage);
     } finally {
-      setIsCreating(false)
+      setIsCreating(false);
     }
-  }
+  };
 
-  const handleDeleteClick = async client => {
-    setIsDeleting(true)
+  const handleDeleteClick = async (client) => {
+    setIsDeleting(true);
 
     try {
-      await deleteClientLink(userId, client.clientNumber)
+      await deleteClientLink(userId, client.clientNumber);
 
       mutate({
         ...user,
-        clients: (user.clients ?? []).filter(c => c === c.clientNumber)
-      })
+        clients: (user.clients ?? []).filter((c) => c === c.clientNumber),
+      });
 
-      setClientToDelete(null)
+      setClientToDelete(null);
     } catch (e) {
-      const errorMessage = `Error removing client link: ${e.message ??
-        e?.data?.error}`
-      errorToast(errorMessage)
-      console.error(errorMessage)
+      const errorMessage = `Error removing client link: ${
+        e.message ?? e?.data?.error
+      }`;
+      errorToast(errorMessage);
+      console.error(errorMessage);
     } finally {
-      setIsDeleting(false)
+      setIsDeleting(false);
     }
-  }
+  };
 
   if (!userId) {
-    return <Paper>Please select a user</Paper>
+    return <Paper>Please select a user</Paper>;
   }
 
   if (error) {
@@ -139,7 +145,7 @@ const ClientLinkList = ({ userId }) => {
       <Paper>
         <div>Error fetching user: {error?.message ?? error?.data?.error}</div>
       </Paper>
-    )
+    );
   }
 
   if (isValidating && !user)
@@ -147,12 +153,13 @@ const ClientLinkList = ({ userId }) => {
       <Fade
         in={isValidating}
         style={{
-          transitionDelay: isValidating ? '800ms' : '0ms'
+          transitionDelay: isValidating ? '800ms' : '0ms',
         }}
-        unmountOnExit>
+        unmountOnExit
+      >
         <CircularProgress className={classes.buttonProgress} size={24} />
       </Fade>
-    )
+    );
 
   if (user) {
     return (
@@ -163,7 +170,8 @@ const ClientLinkList = ({ userId }) => {
               className={classes.toolbarTitle}
               variant="h6"
               id="tableTitle"
-              component="div">
+              component="div"
+            >
               Link clients
             </Typography>
 
@@ -178,7 +186,7 @@ const ClientLinkList = ({ userId }) => {
 
           {user && (
             <List className={classes.list}>
-              {user.clients?.map(client => (
+              {user.clients?.map((client) => (
                 <div key={client.clientNumber}>
                   <ListItem>
                     <ListItemText
@@ -191,7 +199,8 @@ const ClientLinkList = ({ userId }) => {
                       <IconButton
                         edge="end"
                         aria-label="delete"
-                        onClick={() => setClientToDelete(client)}>
+                        onClick={() => setClientToDelete(client)}
+                      >
                         <DeleteIcon disabled={isDeleting} />
                       </IconButton>
                     </ListItemSecondaryAction>
@@ -203,7 +212,8 @@ const ClientLinkList = ({ userId }) => {
                 <Typography
                   className={classes.noClients}
                   color="textSecondary"
-                  component="div">
+                  component="div"
+                >
                   No clients linked
                 </Typography>
               )}
@@ -213,9 +223,9 @@ const ClientLinkList = ({ userId }) => {
           <div className={classes.actionSection}>
             <div className={classes.actions}>
               <ClientDropdown
-                onChange={client => {
-                  setSelectedClient(client)
-                  setCreateError(null)
+                onChange={(client) => {
+                  setSelectedClient(client);
+                  setCreateError(null);
                 }}
                 value={selectedClient}
               />
@@ -226,15 +236,17 @@ const ClientLinkList = ({ userId }) => {
                 onClick={handleAddClick}
                 disabled={selectedClient === null || isCreating}
                 variant="contained"
-                color="primary">
+                color="primary"
+              >
                 Add link
                 {isCreating && (
                   <Fade
                     in={isCreating}
                     style={{
-                      transitionDelay: isCreating ? '800ms' : '0ms'
+                      transitionDelay: isCreating ? '800ms' : '0ms',
                     }}
-                    unmountOnExit>
+                    unmountOnExit
+                  >
                     <CircularProgress
                       className={classes.buttonProgress}
                       size={24}
@@ -253,7 +265,8 @@ const ClientLinkList = ({ userId }) => {
           open={Boolean(clientToDelete)}
           onClose={handleCloseDialog}
           aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description">
+          aria-describedby="alert-dialog-description"
+        >
           <DialogTitle id="alert-dialog-title">Delete client link?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -267,22 +280,25 @@ const ClientLinkList = ({ userId }) => {
             <Button
               onClick={handleCloseDialog}
               color="primary"
-              disabled={isDeleting}>
+              disabled={isDeleting}
+            >
               Cancel
             </Button>
             <Button
               onClick={() => handleDeleteClick(clientToDelete)}
               color="primary"
               autoFocus
-              disabled={isDeleting}>
+              disabled={isDeleting}
+            >
               Delete
               {isDeleting && (
                 <Fade
                   in={isDeleting}
                   style={{
-                    transitionDelay: isDeleting ? '800ms' : '0ms'
+                    transitionDelay: isDeleting ? '800ms' : '0ms',
                   }}
-                  unmountOnExit>
+                  unmountOnExit
+                >
                   <CircularProgress
                     className={classes.buttonProgress}
                     size={24}
@@ -293,10 +309,10 @@ const ClientLinkList = ({ userId }) => {
           </DialogActions>
         </Dialog>
       </>
-    )
+    );
   }
 
-  return null
-}
+  return null;
+};
 
-export default ClientLinkList
+export default ClientLinkList;

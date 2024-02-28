@@ -1,24 +1,24 @@
-import * as actionTypes from '../constants/actionTypes'
+import * as actionTypes from '../constants/actionTypes';
 
-export const storeAuthData = data => ({
+export const storeAuthData = (data) => ({
   type: actionTypes.STORE_SSO_AUTH_DATA,
-  data
-})
+  data,
+});
 
-export const storeUser = user => ({
+export const storeUser = (user) => ({
   type: actionTypes.STORE_USER,
-  user
-})
+  user,
+});
 
 export const removeAuthDataAndUser = () => ({
-  type: actionTypes.SIGN_OUT
-})
+  type: actionTypes.SIGN_OUT,
+});
 
 export const reauthenticate = () => ({
-  type: actionTypes.REAUTHENTICATE
-})
+  type: actionTypes.REAUTHENTICATE,
+});
 
-export const setTimeoutForAuthentication = timeoutId => ({
+export const setTimeoutForAuthentication = (timeoutId) => ({
   type: actionTypes.SET_TIMEOUT_FOR_REAUTHENTICATION,
-  timeoutId
-})
+  timeoutId,
+});

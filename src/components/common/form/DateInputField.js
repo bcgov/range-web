@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { DateInput } from 'semantic-ui-calendar-react'
-import { Field, getIn } from 'formik'
-import moment from 'moment'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { DateInput } from 'semantic-ui-calendar-react';
+import { Field, getIn } from 'formik';
+import moment from 'moment';
 
 const DateInputField = ({ inline, label, ...props }) => (
   <Field
     {...props}
     inline={inline}
     render={({ field, form }) => {
-      const error = getIn(form.errors, field.name)
+      const error = getIn(form.errors, field.name);
 
       return (
         <>
@@ -20,16 +20,16 @@ const DateInputField = ({ inline, label, ...props }) => (
             hideMobileKeyboard
             closeOnMouseLeave={false}
             onChange={(e, { value }) => {
-              const date = moment(value, props.dateFormat).toISOString()
-              form.setFieldValue(field.name, date)
+              const date = moment(value, props.dateFormat).toISOString();
+              form.setFieldValue(field.name, date);
             }}
             value={
               field.value ? moment(field.value).format(props.dateFormat) : ''
             }
             onBlur={() => form.setFieldTouched(field.name)}
-            onKeyDown={e => {
-              e.preventDefault()
-              e.stopPropagation()
+            onKeyDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
             }}
             error={!!error}
             className={props.icon === null ? 'calendar-input--no-icon' : ''}
@@ -39,17 +39,19 @@ const DateInputField = ({ inline, label, ...props }) => (
           {error && typeof error === 'string' && (
             <span
               className="sui-error-message"
-              style={{ position: 'relative', top: '-1em' }}>
+              style={{ position: 'relative', top: '-1em' }}
+            >
               {error}
             </span>
           )}
         </>
-      )
-    }}></Field>
-)
+      );
+    }}
+  ></Field>
+);
 
 DateInputField.propTypes = {
-  inline: PropTypes.bool
-}
+  inline: PropTypes.bool,
+};
 
-export default DateInputField
+export default DateInputField;

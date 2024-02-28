@@ -8,9 +8,9 @@ const mockZones = [
     district: {
       id: 22,
       code: 'DNI',
-      description: ''
+      description: '',
     },
-    user: null
+    user: null,
   },
   {
     id: 64,
@@ -21,9 +21,9 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
-    user: null
+    user: null,
   },
   {
     id: 65,
@@ -34,9 +34,9 @@ const mockZones = [
     district: {
       id: 13,
       code: 'DQU',
-      description: ''
+      description: '',
     },
-    user: null
+    user: null,
   },
   {
     id: 66,
@@ -47,9 +47,9 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
-    user: null
+    user: null,
   },
   {
     id: 2,
@@ -60,7 +60,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 10,
@@ -71,8 +71,8 @@ const mockZones = [
       email: 'trish.nairn@gov.bc.ca',
       phoneNumber: '250-398-4242',
       active: true,
-      lastLoginAt: '2018-11-22T23:10:58.284Z'
-    }
+      lastLoginAt: '2018-11-22T23:10:58.284Z',
+    },
   },
   {
     id: 3,
@@ -83,7 +83,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 10,
@@ -94,8 +94,8 @@ const mockZones = [
       email: 'trish.nairn@gov.bc.ca',
       phoneNumber: '250-398-4242',
       active: true,
-      lastLoginAt: '2018-11-22T23:10:58.284Z'
-    }
+      lastLoginAt: '2018-11-22T23:10:58.284Z',
+    },
   },
   {
     id: 7,
@@ -106,7 +106,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 11,
@@ -117,8 +117,8 @@ const mockZones = [
       email: 'lucy.jones@gov.bc.ca',
       phoneNumber: '250-394-4703',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 8,
@@ -129,7 +129,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 12,
@@ -140,8 +140,8 @@ const mockZones = [
       email: 'chris.armes@gov.bc.ca',
       phoneNumber: '250-398-4362',
       active: true,
-      lastLoginAt: '2018-11-28T17:12:58.723Z'
-    }
+      lastLoginAt: '2018-11-28T17:12:58.723Z',
+    },
   },
   {
     id: 9,
@@ -152,7 +152,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 11,
@@ -163,8 +163,8 @@ const mockZones = [
       email: 'lucy.jones@gov.bc.ca',
       phoneNumber: '250-394-4703',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 10,
@@ -175,7 +175,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 11,
@@ -186,8 +186,8 @@ const mockZones = [
       email: 'lucy.jones@gov.bc.ca',
       phoneNumber: '250-394-4703',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 11,
@@ -198,7 +198,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 11,
@@ -209,8 +209,8 @@ const mockZones = [
       email: 'lucy.jones@gov.bc.ca',
       phoneNumber: '250-394-4703',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 6,
@@ -221,7 +221,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 13,
@@ -232,8 +232,8 @@ const mockZones = [
       email: 'kassia.james@gov.bc.ca',
       phoneNumber: '250-398-4364',
       active: true,
-      lastLoginAt: '2018-11-27T18:24:25.960Z'
-    }
+      lastLoginAt: '2018-11-27T18:24:25.960Z',
+    },
   },
   {
     id: 1,
@@ -244,7 +244,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 13,
@@ -255,8 +255,8 @@ const mockZones = [
       email: 'kassia.james@gov.bc.ca',
       phoneNumber: '250-398-4364',
       active: true,
-      lastLoginAt: '2018-11-27T18:24:25.960Z'
-    }
+      lastLoginAt: '2018-11-27T18:24:25.960Z',
+    },
   },
   {
     id: 12,
@@ -267,7 +267,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 13,
@@ -278,8 +278,8 @@ const mockZones = [
       email: 'kassia.james@gov.bc.ca',
       phoneNumber: '250-398-4364',
       active: true,
-      lastLoginAt: '2018-11-27T18:24:25.960Z'
-    }
+      lastLoginAt: '2018-11-27T18:24:25.960Z',
+    },
   },
   {
     id: 5,
@@ -290,7 +290,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 14,
@@ -301,8 +301,8 @@ const mockZones = [
       email: 'morgan.mueller@gov.bc.ca',
       phoneNumber: '250-398-4364',
       active: true,
-      lastLoginAt: '2018-11-22T18:15:13.515Z'
-    }
+      lastLoginAt: '2018-11-22T18:15:13.515Z',
+    },
   },
   {
     id: 13,
@@ -313,7 +313,7 @@ const mockZones = [
     district: {
       id: 2,
       code: 'DSS',
-      description: ''
+      description: '',
     },
     user: {
       id: 15,
@@ -324,8 +324,8 @@ const mockZones = [
       email: 'marc.schuffert@gov.bc.ca',
       phoneNumber: '250-847-6329',
       active: true,
-      lastLoginAt: '2018-12-03T21:51:24.751Z'
-    }
+      lastLoginAt: '2018-12-03T21:51:24.751Z',
+    },
   },
   {
     id: 14,
@@ -336,7 +336,7 @@ const mockZones = [
     district: {
       id: 2,
       code: 'DSS',
-      description: ''
+      description: '',
     },
     user: {
       id: 15,
@@ -347,8 +347,8 @@ const mockZones = [
       email: 'marc.schuffert@gov.bc.ca',
       phoneNumber: '250-847-6329',
       active: true,
-      lastLoginAt: '2018-12-03T21:51:24.751Z'
-    }
+      lastLoginAt: '2018-12-03T21:51:24.751Z',
+    },
   },
   {
     id: 15,
@@ -359,7 +359,7 @@ const mockZones = [
     district: {
       id: 2,
       code: 'DSS',
-      description: ''
+      description: '',
     },
     user: {
       id: 15,
@@ -370,8 +370,8 @@ const mockZones = [
       email: 'marc.schuffert@gov.bc.ca',
       phoneNumber: '250-847-6329',
       active: true,
-      lastLoginAt: '2018-12-03T21:51:24.751Z'
-    }
+      lastLoginAt: '2018-12-03T21:51:24.751Z',
+    },
   },
   {
     id: 21,
@@ -382,7 +382,7 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
     user: {
       id: 16,
@@ -393,8 +393,8 @@ const mockZones = [
       email: 'hanna.mcintyre@gov.bc.ca',
       phoneNumber: '250-489-8548',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 22,
@@ -405,7 +405,7 @@ const mockZones = [
     district: {
       id: 4,
       code: 'DCS',
-      description: ''
+      description: '',
     },
     user: {
       id: 17,
@@ -416,8 +416,8 @@ const mockZones = [
       email: 'cara.haywood-farmer@gov.bc.ca',
       phoneNumber: '250-378-8404',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 23,
@@ -428,7 +428,7 @@ const mockZones = [
     district: {
       id: 4,
       code: 'DCS',
-      description: ''
+      description: '',
     },
     user: {
       id: 18,
@@ -439,8 +439,8 @@ const mockZones = [
       email: 'philip.gyug@gov.bc.ca',
       phoneNumber: '250-378-8476',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 24,
@@ -451,7 +451,7 @@ const mockZones = [
     district: {
       id: 4,
       code: 'DCS',
-      description: ''
+      description: '',
     },
     user: {
       id: 19,
@@ -462,8 +462,8 @@ const mockZones = [
       email: 'rachel.whitehouse@gov.bc.ca',
       phoneNumber: '250-378-8406',
       active: true,
-      lastLoginAt: '2018-11-21T20:51:06.127Z'
-    }
+      lastLoginAt: '2018-11-21T20:51:06.127Z',
+    },
   },
   {
     id: 25,
@@ -474,7 +474,7 @@ const mockZones = [
     district: {
       id: 4,
       code: 'DCS',
-      description: ''
+      description: '',
     },
     user: {
       id: 18,
@@ -485,8 +485,8 @@ const mockZones = [
       email: 'philip.gyug@gov.bc.ca',
       phoneNumber: '250-378-8476',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 26,
@@ -497,7 +497,7 @@ const mockZones = [
     district: {
       id: 4,
       code: 'DCS',
-      description: ''
+      description: '',
     },
     user: {
       id: 20,
@@ -508,8 +508,8 @@ const mockZones = [
       email: 'ried.mctavish@gov.bc.ca',
       phoneNumber: '250-378-8487',
       active: true,
-      lastLoginAt: '2018-12-05T00:02:13.135Z'
-    }
+      lastLoginAt: '2018-12-05T00:02:13.135Z',
+    },
   },
   {
     id: 27,
@@ -520,7 +520,7 @@ const mockZones = [
     district: {
       id: 5,
       code: 'DCK',
-      description: ''
+      description: '',
     },
     user: {
       id: 21,
@@ -531,8 +531,8 @@ const mockZones = [
       email: 'rene.garciadaguer@gov.bc.ca',
       phoneNumber: '250-378-8477',
       active: true,
-      lastLoginAt: '2018-11-27T21:25:03.790Z'
-    }
+      lastLoginAt: '2018-11-27T21:25:03.790Z',
+    },
   },
   {
     id: 28,
@@ -543,7 +543,7 @@ const mockZones = [
     district: {
       id: 6,
       code: 'DSQ',
-      description: ''
+      description: '',
     },
     user: {
       id: 21,
@@ -554,8 +554,8 @@ const mockZones = [
       email: 'rene.garciadaguer@gov.bc.ca',
       phoneNumber: '250-378-8477',
       active: true,
-      lastLoginAt: '2018-11-27T21:25:03.790Z'
-    }
+      lastLoginAt: '2018-11-27T21:25:03.790Z',
+    },
   },
   {
     id: 49,
@@ -566,7 +566,7 @@ const mockZones = [
     district: {
       id: 7,
       code: 'DSE',
-      description: ''
+      description: '',
     },
     user: {
       id: 22,
@@ -577,8 +577,8 @@ const mockZones = [
       email: 'alisa.siemens@gov.bc.ca',
       phoneNumber: '250-442-5426',
       active: true,
-      lastLoginAt: '2018-11-28T17:31:12.827Z'
-    }
+      lastLoginAt: '2018-11-28T17:31:12.827Z',
+    },
   },
   {
     id: 29,
@@ -589,7 +589,7 @@ const mockZones = [
     district: {
       id: 8,
       code: 'DPG',
-      description: ''
+      description: '',
     },
     user: {
       id: 23,
@@ -600,8 +600,8 @@ const mockZones = [
       email: 'taylor.grafton@gov.bc.ca',
       phoneNumber: '250-614-7427',
       active: true,
-      lastLoginAt: '2018-11-22T00:15:10.036Z'
-    }
+      lastLoginAt: '2018-11-22T00:15:10.036Z',
+    },
   },
   {
     id: 30,
@@ -612,7 +612,7 @@ const mockZones = [
     district: {
       id: 8,
       code: 'DPG',
-      description: ''
+      description: '',
     },
     user: {
       id: 23,
@@ -623,8 +623,8 @@ const mockZones = [
       email: 'taylor.grafton@gov.bc.ca',
       phoneNumber: '250-614-7427',
       active: true,
-      lastLoginAt: '2018-11-22T00:15:10.036Z'
-    }
+      lastLoginAt: '2018-11-22T00:15:10.036Z',
+    },
   },
   {
     id: 32,
@@ -635,7 +635,7 @@ const mockZones = [
     district: {
       id: 21,
       code: 'DPC',
-      description: ''
+      description: '',
     },
     user: {
       id: 24,
@@ -646,8 +646,8 @@ const mockZones = [
       email: 'mahesh.kc@gov.bc.ca',
       phoneNumber: '250-784-1200',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 33,
@@ -658,7 +658,7 @@ const mockZones = [
     district: {
       id: 21,
       code: 'DPC',
-      description: ''
+      description: '',
     },
     user: {
       id: 25,
@@ -669,8 +669,8 @@ const mockZones = [
       email: 'marika.cameron@gov.bc.ca',
       phoneNumber: '250-784-1293',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 34,
@@ -681,7 +681,7 @@ const mockZones = [
     district: {
       id: 10,
       code: 'DFN',
-      description: ''
+      description: '',
     },
     user: {
       id: 24,
@@ -692,8 +692,8 @@ const mockZones = [
       email: 'mahesh.kc@gov.bc.ca',
       phoneNumber: '250-784-1200',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 35,
@@ -704,7 +704,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 26,
@@ -715,8 +715,8 @@ const mockZones = [
       email: 'eleanor.bassett@gov.bc.ca',
       phoneNumber: '250-395-7874',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 36,
@@ -727,7 +727,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 27,
@@ -738,8 +738,8 @@ const mockZones = [
       email: 'diane.l.brown@gov.bc.ca',
       phoneNumber: '250-395-7815',
       active: true,
-      lastLoginAt: '2018-11-22T19:46:50.420Z'
-    }
+      lastLoginAt: '2018-11-22T19:46:50.420Z',
+    },
   },
   {
     id: 37,
@@ -750,7 +750,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 27,
@@ -761,8 +761,8 @@ const mockZones = [
       email: 'diane.l.brown@gov.bc.ca',
       phoneNumber: '250-395-7815',
       active: true,
-      lastLoginAt: '2018-11-22T19:46:50.420Z'
-    }
+      lastLoginAt: '2018-11-22T19:46:50.420Z',
+    },
   },
   {
     id: 42,
@@ -773,7 +773,7 @@ const mockZones = [
     district: {
       id: 12,
       code: 'DND',
-      description: ''
+      description: '',
     },
     user: {
       id: 28,
@@ -784,8 +784,8 @@ const mockZones = [
       email: 'ken.chalmers@gov.bc.ca',
       phoneNumber: '251-692-2238',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 43,
@@ -796,7 +796,7 @@ const mockZones = [
     district: {
       id: 12,
       code: 'DND',
-      description: ''
+      description: '',
     },
     user: {
       id: 28,
@@ -807,8 +807,8 @@ const mockZones = [
       email: 'ken.chalmers@gov.bc.ca',
       phoneNumber: '251-692-2238',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 45,
@@ -819,7 +819,7 @@ const mockZones = [
     district: {
       id: 13,
       code: 'DQU',
-      description: ''
+      description: '',
     },
     user: {
       id: 29,
@@ -830,8 +830,8 @@ const mockZones = [
       email: 'sandra.latin@gov.bc.ca',
       phoneNumber: '250-992-4482',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 46,
@@ -842,7 +842,7 @@ const mockZones = [
     district: {
       id: 13,
       code: 'DQU',
-      description: ''
+      description: '',
     },
     user: {
       id: 30,
@@ -853,8 +853,8 @@ const mockZones = [
       email: 'tim.singer@gov.bc.ca',
       phoneNumber: '250-992-4415',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 47,
@@ -865,7 +865,7 @@ const mockZones = [
     district: {
       id: 14,
       code: 'DQC',
-      description: ''
+      description: '',
     },
     user: {
       id: 31,
@@ -876,8 +876,8 @@ const mockZones = [
       email: 'mark.salzl@gov.bc.ca',
       phoneNumber: '250-559-6206',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 63,
@@ -888,7 +888,7 @@ const mockZones = [
     district: {
       id: 15,
       code: 'DOS',
-      description: ''
+      description: '',
     },
     user: {
       id: 32,
@@ -899,8 +899,8 @@ const mockZones = [
       email: 'kyra.witt@gov.bc.ca',
       phoneNumber: '250-550-2244',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 58,
@@ -911,7 +911,7 @@ const mockZones = [
     district: {
       id: 15,
       code: 'DOS',
-      description: ''
+      description: '',
     },
     user: {
       id: 33,
@@ -922,8 +922,8 @@ const mockZones = [
       email: 'sarah.mortenson@gov.bc.ca',
       phoneNumber: '250-550-2214',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 56,
@@ -934,7 +934,7 @@ const mockZones = [
     district: {
       id: 15,
       code: 'DOS',
-      description: ''
+      description: '',
     },
     user: {
       id: 34,
@@ -945,8 +945,8 @@ const mockZones = [
       email: 'harold.hetherington@gov.bc.ca',
       phoneNumber: '250-260-4605',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 57,
@@ -957,7 +957,7 @@ const mockZones = [
     district: {
       id: 15,
       code: 'DOS',
-      description: ''
+      description: '',
     },
     user: {
       id: 35,
@@ -968,8 +968,8 @@ const mockZones = [
       email: 'charles.oduro@gov.bc.ca',
       phoneNumber: '250-260-4614',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 48,
@@ -980,7 +980,7 @@ const mockZones = [
     district: {
       id: 16,
       code: 'DCR',
-      description: ''
+      description: '',
     },
     user: {
       id: 36,
@@ -991,8 +991,8 @@ const mockZones = [
       email: 'aaron.smeeth@gov.bc.ca',
       phoneNumber: '778-647-2002',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 55,
@@ -1003,7 +1003,7 @@ const mockZones = [
     district: {
       id: 20,
       code: 'DKA',
-      description: ''
+      description: '',
     },
     user: {
       id: 38,
@@ -1014,8 +1014,8 @@ const mockZones = [
       email: 'krista.barton@gov.bc.ca',
       phoneNumber: '250-371-6549',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 54,
@@ -1026,7 +1026,7 @@ const mockZones = [
     district: {
       id: 20,
       code: 'DKA',
-      description: ''
+      description: '',
     },
     user: {
       id: 39,
@@ -1037,8 +1037,8 @@ const mockZones = [
       email: 'barb.wheatley@gov.bc.ca',
       phoneNumber: '250-371-6500',
       active: true,
-      lastLoginAt: '2018-11-28T22:13:24.387Z'
-    }
+      lastLoginAt: '2018-11-28T22:13:24.387Z',
+    },
   },
   {
     id: 53,
@@ -1049,7 +1049,7 @@ const mockZones = [
     district: {
       id: 20,
       code: 'DKA',
-      description: ''
+      description: '',
     },
     user: {
       id: 40,
@@ -1060,8 +1060,8 @@ const mockZones = [
       email: 'andrew.volo@gov.bc.ca',
       phoneNumber: '250-371-6222',
       active: true,
-      lastLoginAt: '2018-11-28T17:51:15.953Z'
-    }
+      lastLoginAt: '2018-11-28T17:51:15.953Z',
+    },
   },
   {
     id: 60,
@@ -1072,7 +1072,7 @@ const mockZones = [
     district: {
       id: 20,
       code: 'DKA',
-      description: ''
+      description: '',
     },
     user: {
       id: 41,
@@ -1083,8 +1083,8 @@ const mockZones = [
       email: 'zoe.simon@gov.bc.ca',
       phoneNumber: '250-371-6500',
       active: true,
-      lastLoginAt: '2018-11-28T21:48:04.376Z'
-    }
+      lastLoginAt: '2018-11-28T21:48:04.376Z',
+    },
   },
   {
     id: 61,
@@ -1095,7 +1095,7 @@ const mockZones = [
     district: {
       id: 7,
       code: 'DSE',
-      description: ''
+      description: '',
     },
     user: {
       id: 42,
@@ -1106,8 +1106,8 @@ const mockZones = [
       email: 'sarah.schwarz@gov.bc.ca',
       phoneNumber: '250-442-4386',
       active: true,
-      lastLoginAt: '2018-12-04T19:32:29.909Z'
-    }
+      lastLoginAt: '2018-12-04T19:32:29.909Z',
+    },
   },
   {
     id: 19,
@@ -1118,7 +1118,7 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
     user: {
       id: 43,
@@ -1129,8 +1129,8 @@ const mockZones = [
       email: 'shawna.larade@gov.bc.ca',
       phoneNumber: '250-489-8555',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 20,
@@ -1141,7 +1141,7 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
     user: {
       id: 43,
@@ -1152,8 +1152,8 @@ const mockZones = [
       email: 'shawna.larade@gov.bc.ca',
       phoneNumber: '250-489-8555',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 16,
@@ -1164,7 +1164,7 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
     user: {
       id: 43,
@@ -1175,8 +1175,8 @@ const mockZones = [
       email: 'shawna.larade@gov.bc.ca',
       phoneNumber: '250-489-8555',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 40,
@@ -1187,7 +1187,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 44,
@@ -1198,8 +1198,8 @@ const mockZones = [
       email: 'kevin.eastwood@gov.bc.ca',
       phoneNumber: '250-317-7849',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 38,
@@ -1210,7 +1210,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 44,
@@ -1221,8 +1221,8 @@ const mockZones = [
       email: 'kevin.eastwood@gov.bc.ca',
       phoneNumber: '250-317-7849',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 39,
@@ -1233,7 +1233,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 44,
@@ -1244,8 +1244,8 @@ const mockZones = [
       email: 'kevin.eastwood@gov.bc.ca',
       phoneNumber: '250-317-7849',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 41,
@@ -1256,7 +1256,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 44,
@@ -1267,8 +1267,8 @@ const mockZones = [
       email: 'kevin.eastwood@gov.bc.ca',
       phoneNumber: '250-317-7849',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 44,
@@ -1279,7 +1279,7 @@ const mockZones = [
     district: {
       id: 12,
       code: 'DND',
-      description: ''
+      description: '',
     },
     user: {
       id: 45,
@@ -1290,8 +1290,8 @@ const mockZones = [
       email: 'jane.woods@gov.bc.ca',
       phoneNumber: '250-847-6364',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 18,
@@ -1302,7 +1302,7 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
     user: {
       id: 50,
@@ -1313,8 +1313,8 @@ const mockZones = [
       email: 'cardell.dumais@gov.bc.ca',
       phoneNumber: '250-371-6607',
       active: true,
-      lastLoginAt: '2018-11-20T21:28:38.412Z'
-    }
+      lastLoginAt: '2018-11-20T21:28:38.412Z',
+    },
   },
   {
     id: 17,
@@ -1325,7 +1325,7 @@ const mockZones = [
     district: {
       id: 3,
       code: 'DRM',
-      description: ''
+      description: '',
     },
     user: {
       id: 51,
@@ -1336,8 +1336,8 @@ const mockZones = [
       email: 'cynthia.fell@gov.bc.ca',
       phoneNumber: '250-398-4321',
       active: true,
-      lastLoginAt: '2018-11-22T22:27:46.912Z'
-    }
+      lastLoginAt: '2018-11-22T22:27:46.912Z',
+    },
   },
   {
     id: 31,
@@ -1348,7 +1348,7 @@ const mockZones = [
     district: {
       id: 8,
       code: 'DPG',
-      description: ''
+      description: '',
     },
     user: {
       id: 48,
@@ -1359,8 +1359,8 @@ const mockZones = [
       email: 'drew.buis@gov.bc.ca',
       phoneNumber: '250-395-7895',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 4,
@@ -1371,7 +1371,7 @@ const mockZones = [
     district: {
       id: 1,
       code: 'DCC',
-      description: ''
+      description: '',
     },
     user: {
       id: 46,
@@ -1382,8 +1382,8 @@ const mockZones = [
       email: 'caitlin.russell@gov.bc.ca',
       phoneNumber: '250-748-1275',
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 59,
@@ -1394,7 +1394,7 @@ const mockZones = [
     district: {
       id: 11,
       code: 'DMH',
-      description: ''
+      description: '',
     },
     user: {
       id: 8,
@@ -1405,8 +1405,8 @@ const mockZones = [
       email: 'roop@freshworks.io',
       phoneNumber: null,
       active: true,
-      lastLoginAt: null
-    }
+      lastLoginAt: null,
+    },
   },
   {
     id: 50,
@@ -1417,7 +1417,7 @@ const mockZones = [
     district: {
       id: 17,
       code: 'DVA',
-      description: ''
+      description: '',
     },
     user: {
       id: 1,
@@ -1428,8 +1428,8 @@ const mockZones = [
       email: 'amir+1@freshworks.io',
       phoneNumber: null,
       active: true,
-      lastLoginAt: '2018-12-03T20:18:22.840Z'
-    }
+      lastLoginAt: '2018-12-03T20:18:22.840Z',
+    },
   },
   {
     id: 51,
@@ -1440,7 +1440,7 @@ const mockZones = [
     district: {
       id: 18,
       code: 'DJA',
-      description: ''
+      description: '',
     },
     user: {
       id: 1,
@@ -1451,8 +1451,8 @@ const mockZones = [
       email: 'amir+1@freshworks.io',
       phoneNumber: null,
       active: true,
-      lastLoginAt: '2018-12-03T20:18:22.840Z'
-    }
+      lastLoginAt: '2018-12-03T20:18:22.840Z',
+    },
   },
   {
     id: 52,
@@ -1463,7 +1463,7 @@ const mockZones = [
     district: {
       id: 19,
       code: 'DMK',
-      description: ''
+      description: '',
     },
     user: {
       id: 1,
@@ -1474,9 +1474,9 @@ const mockZones = [
       email: 'amir+1@freshworks.io',
       phoneNumber: null,
       active: true,
-      lastLoginAt: '2018-12-03T20:18:22.840Z'
-    }
-  }
-]
+      lastLoginAt: '2018-12-03T20:18:22.840Z',
+    },
+  },
+];
 
-export default mockZones
+export default mockZones;

@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import uuid from 'uuid-v4'
-import MinisterIssueBox from './MinisterIssueBox'
-import { FieldArray } from 'formik'
-import { InfoTip } from '../../common'
-import { IfEditable } from '../../common/PermissionsField'
+import React, { useState } from 'react';
+import uuid from 'uuid-v4';
+import MinisterIssueBox from './MinisterIssueBox';
+import { FieldArray } from 'formik';
+import { InfoTip } from '../../common';
+import { IfEditable } from '../../common/PermissionsField';
 import {
   MINISTERS_ISSUES_AND_ACTIONS,
-  MINISTERS_ISSUES_AND_ACTIONS_TIP
-} from '../../../constants/strings'
-import { MINISTER_ISSUES } from '../../../constants/fields'
-import AddMinisterIssueButton from './AddMinisterIssueButton'
-import { Confirm } from 'semantic-ui-react'
-import { deleteMinisterIssue } from '../../../api'
+  MINISTERS_ISSUES_AND_ACTIONS_TIP,
+} from '../../../constants/strings';
+import { MINISTER_ISSUES } from '../../../constants/fields';
+import AddMinisterIssueButton from './AddMinisterIssueButton';
+import { Confirm } from 'semantic-ui-react';
+import { deleteMinisterIssue } from '../../../api';
 
 const MinisterIssues = ({ issues }) => {
   const [activeMinisterIssue, setActiveMinisterIssue] = useState(
-    issues[0] ? issues[0].id : -1
-  )
-  const [indexToRemove, setIndexToRemove] = useState(null)
+    issues[0] ? issues[0].id : -1,
+  );
+  const [indexToRemove, setIndexToRemove] = useState(null);
 
   return (
     <FieldArray
@@ -37,7 +37,7 @@ const MinisterIssues = ({ issues }) => {
             </div>
             <IfEditable permission={MINISTER_ISSUES.TYPE}>
               <AddMinisterIssueButton
-                onSubmit={ministerIssue => {
+                onSubmit={(ministerIssue) => {
                   push({
                     issueTypeId: ministerIssue.id,
                     detail: '',
@@ -45,8 +45,8 @@ const MinisterIssues = ({ issues }) => {
                     identified: false,
                     pastures: [],
                     ministerIssueActions: [],
-                    id: uuid()
-                  })
+                    id: uuid(),
+                  });
                 }}
               />
             </IfEditable>
@@ -56,17 +56,17 @@ const MinisterIssues = ({ issues }) => {
           <Confirm
             open={indexToRemove !== null}
             onCancel={() => {
-              setIndexToRemove(null)
+              setIndexToRemove(null);
             }}
             onConfirm={async () => {
-              const issue = issues[indexToRemove]
+              const issue = issues[indexToRemove];
 
               if (!uuid.isUUID(issue.id)) {
-                await deleteMinisterIssue(issue.planId, issue.id)
+                await deleteMinisterIssue(issue.planId, issue.id);
               }
 
-              remove(indexToRemove)
-              setIndexToRemove(null)
+              remove(indexToRemove);
+              setIndexToRemove(null);
             }}
           />
 
@@ -78,10 +78,11 @@ const MinisterIssues = ({ issues }) => {
                   issue={issue}
                   ministerIssueIndex={index}
                   activeMinisterIssueIndex={activeMinisterIssue}
-                  onMinisterIssueClicked={index => () =>
+                  onMinisterIssueClicked={(index) => () =>
                     setActiveMinisterIssue(
-                      index === activeMinisterIssue ? -1 : index
-                    )}
+                      index === activeMinisterIssue ? -1 : index,
+                    )
+                  }
                   namespace={`ministerIssues.${index}`}
                   onDelete={() => setIndexToRemove(index)}
                 />
@@ -93,7 +94,7 @@ const MinisterIssues = ({ issues }) => {
         </div>
       )}
     />
-  )
-}
+  );
+};
 
-export default MinisterIssues
+export default MinisterIssues;

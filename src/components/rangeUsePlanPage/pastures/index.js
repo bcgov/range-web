@@ -1,26 +1,26 @@
-import React, { useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import _ from 'lodash'
-import { Button, Confirm } from 'semantic-ui-react'
-import { FieldArray, connect } from 'formik'
-import uuid from 'uuid-v4'
-import PastureBox from './PastureBox'
-import { IfEditable } from '../../common/PermissionsField'
-import * as strings from '../../../constants/strings'
-import { PASTURES } from '../../../constants/fields'
-import { InfoTip, InputModal } from '../../common'
-import { deletePasture } from '../../../api'
-import { resetPastureId, generatePasture } from '../../../utils'
+import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import _ from 'lodash';
+import { Button, Confirm } from 'semantic-ui-react';
+import { FieldArray, connect } from 'formik';
+import uuid from 'uuid-v4';
+import PastureBox from './PastureBox';
+import { IfEditable } from '../../common/PermissionsField';
+import * as strings from '../../../constants/strings';
+import { PASTURES } from '../../../constants/fields';
+import { InfoTip, InputModal } from '../../common';
+import { deletePasture } from '../../../api';
+import { resetPastureId, generatePasture } from '../../../utils';
 
 const Pastures = ({ pastures, formik }) => {
-  const [isModalOpen, setModalOpen] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(-1)
-  const [indexToRemove, setIndexToRemove] = useState(null)
-  const [indexToCopy, setIndexToCopy] = useState(null)
-  const handlePastureClick = useCallback(index => {
-    setActiveIndex(activeIndex === index ? -1 : index)
-  })
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [indexToRemove, setIndexToRemove] = useState(null);
+  const [indexToCopy, setIndexToCopy] = useState(null);
+  const handlePastureClick = useCallback((index) => {
+    setActiveIndex(activeIndex === index ? -1 : index);
+  });
 
   return (
     <FieldArray
@@ -42,9 +42,10 @@ const Pastures = ({ pastures, formik }) => {
                 basic
                 primary
                 onClick={() => {
-                  setModalOpen(true)
+                  setModalOpen(true);
                 }}
-                className="icon labeled rup__add-button">
+                className="icon labeled rup__add-button"
+              >
                 <i className="add circle icon" />
                 Add Pasture
               </Button>
@@ -54,12 +55,12 @@ const Pastures = ({ pastures, formik }) => {
           <InputModal
             open={isModalOpen}
             onClose={() => setModalOpen(false)}
-            onSubmit={name => {
-              const pasture = generatePasture(name)
+            onSubmit={(name) => {
+              const pasture = generatePasture(name);
 
-              push(pasture)
+              push(pasture);
 
-              setModalOpen(false)
+              setModalOpen(false);
             }}
             title="Add pasture"
             placeholder="Pasture name"
@@ -68,53 +69,55 @@ const Pastures = ({ pastures, formik }) => {
           <InputModal
             open={indexToCopy !== null}
             onClose={() => setIndexToCopy(null)}
-            onSubmit={name => {
-              const pasture = pastures[indexToCopy]
+            onSubmit={(name) => {
+              const pasture = pastures[indexToCopy];
 
               push(
                 resetPastureId({
                   ...pasture,
                   name,
-                  plantCommunities: pasture.plantCommunities.map(pc => ({
+                  plantCommunities: pasture.plantCommunities.map((pc) => ({
                     ...pc,
-                    monitoringAreas: []
-                  }))
-                })
-              )
+                    monitoringAreas: [],
+                  })),
+                }),
+              );
 
-              setIndexToCopy(null)
+              setIndexToCopy(null);
             }}
             title="Copy pasture"
             placeholder="Pasture name"
           />
 
           <Confirm
-            header={`Delete pasture '${pastures[indexToRemove] &&
-              pastures[indexToRemove].name}'`}
+            header={`Delete pasture '${
+              pastures[indexToRemove] && pastures[indexToRemove].name
+            }'`}
             content="Are you sure? All related plant communities, monitoring areas and criteria, as well as any associated grazing schedule rows, will be deleted"
             open={indexToRemove !== null}
             onCancel={() => {
-              setIndexToRemove(null)
+              setIndexToRemove(null);
             }}
             onConfirm={async () => {
-              const pasture = pastures[indexToRemove]
+              const pasture = pastures[indexToRemove];
 
               const schedules = _.flatten(
-                formik.values.grazingSchedules.map(schedule => ({
+                formik.values.grazingSchedules.map((schedule) => ({
                   ...schedule,
-                  grazingScheduleEntries: schedule.grazingScheduleEntries.filter(
-                    entry => entry.pastureId !== pasture.id
-                  )
-                }))
-              )
-              formik.setFieldValue('grazingSchedules', schedules)
+                  grazingScheduleEntries:
+                    schedule.grazingScheduleEntries.filter(
+                      (entry) => entry.pastureId !== pasture.id,
+                    ),
+                })),
+              );
+              formik.setFieldValue('grazingSchedules', schedules);
 
               if (!uuid.isUUID(pasture.id)) {
-                await deletePasture(pasture.planId, pasture.id)
+                await deletePasture(pasture.planId, pasture.id);
               }
 
-              remove(indexToRemove)
-              setIndexToRemove(null)
+              remove(indexToRemove);
+              setIndexToRemove(null);
             }}
           />
 
@@ -124,8 +127,9 @@ const Pastures = ({ pastures, formik }) => {
           ) : (
             <ul
               className={classnames('collaspible-boxes', {
-                'collaspible-boxes--empty': pastures.length === 0
-              })}>
+                'collaspible-boxes--empty': pastures.length === 0,
+              })}
+            >
               {pastures.map((pasture, index) => (
                 <PastureBox
                   key={pasture.id}
@@ -143,11 +147,11 @@ const Pastures = ({ pastures, formik }) => {
         </div>
       )}
     />
-  )
-}
+  );
+};
 
 Pastures.propTypes = {
-  pastures: PropTypes.array.isRequired
-}
+  pastures: PropTypes.array.isRequired,
+};
 
-export default connect(Pastures)
+export default connect(Pastures);

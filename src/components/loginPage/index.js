@@ -1,39 +1,39 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
-import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables'
-import { LOGIN_TITLE, APP_NAME } from '../../constants/strings'
-import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils'
-import { fetchUser } from '../../actionCreators'
-import { Footer, PrimaryButton } from '../common'
-import SignInBox from './SignInBox'
-import BrowserWarningHeader from './BrowserWarningHeader'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Icon } from 'semantic-ui-react';
+import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
+import { LOGIN_TITLE, APP_NAME } from '../../constants/strings';
+import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
+import { fetchUser } from '../../actionCreators';
+import { Footer, PrimaryButton } from '../common';
+import SignInBox from './SignInBox';
+import BrowserWarningHeader from './BrowserWarningHeader';
 
 export class LoginPage extends Component {
   static propTypes = {
-    fetchUser: PropTypes.func.isRequired
-  }
+    fetchUser: PropTypes.func.isRequired,
+  };
 
   UNSAFE_componentWillMount() {
-    document.title = LOGIN_TITLE
+    document.title = LOGIN_TITLE;
   }
 
   componentDidMount() {
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
+    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
     if (authData && !isTokenExpired()) {
       // if there is an access token saved & not expired,
       // try to fetch the user from the server
-      this.props.fetchUser()
+      this.props.fetchUser();
     }
   }
 
   registerBtnClicked = () => {
-    window.open('https://www.bceid.ca/register/', '_blank')
-  }
+    window.open('https://www.bceid.ca/register/', '_blank');
+  };
 
   render() {
-    const isIE = detectIE()
+    const isIE = detectIE();
 
     return (
       <section className="login">
@@ -142,7 +142,8 @@ export class LoginPage extends Component {
                 <PrimaryButton
                   className="login__paragraph5__register-btn"
                   inverted
-                  onClick={this.registerBtnClicked}>
+                  onClick={this.registerBtnClicked}
+                >
                   Register for a BCeID
                 </PrimaryButton>
               </div>
@@ -160,13 +161,10 @@ export class LoginPage extends Component {
 
         <Footer />
       </section>
-    )
+    );
   }
 }
 
-export default connect(
-  null,
-  {
-    fetchUser
-  }
-)(LoginPage)
+export default connect(null, {
+  fetchUser,
+})(LoginPage);

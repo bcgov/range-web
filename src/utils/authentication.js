@@ -18,34 +18,39 @@
 // Created by Kyubin Han.
 //
 
-import jwtDecode from 'jwt-decode'
-import axios from './axios'
+import jwtDecode from 'jwt-decode';
+import axios from './axios';
 import {
-    SSO_BASE_URL,
-    SSO_LOGIN_REDIRECT_URI,
-    SSO_CLIENT_ID,
-    GET_TOKEN_FROM_SSO,
-    REFRESH_TOKEN_FROM_SSO,
-    SITEMINDER_LOGOUT_ENDPOINT,
-    API_BASE_URL, SSO_LOGOUT_ENDPOINT
-} from '../constants/api'
-import {saveDataInLocalStorage, getDataFromLocalStorage, deleteDataFromLocalStorage} from './localStorage'
-import {stringifyQuery} from './index'
-import {LOCAL_STORAGE_KEY, isBundled} from '../constants/variables'
+  SSO_BASE_URL,
+  SSO_LOGIN_REDIRECT_URI,
+  SSO_CLIENT_ID,
+  GET_TOKEN_FROM_SSO,
+  REFRESH_TOKEN_FROM_SSO,
+  SITEMINDER_LOGOUT_ENDPOINT,
+  API_BASE_URL,
+  SSO_LOGOUT_ENDPOINT,
+} from '../constants/api';
+import {
+  saveDataInLocalStorage,
+  getDataFromLocalStorage,
+  deleteDataFromLocalStorage,
+} from './localStorage';
+import { stringifyQuery } from './index';
+import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
 
 export const getAuthHeaderConfig = () => {
-    const {authData} = getAuthAndUserFromLocal()
+  const { authData } = getAuthAndUserFromLocal();
 
-    if (authData) {
-        return {
-            headers: {
-                Authorization: `Bearer ${authData.access_token}`,
-                'content-type': 'application/json'
-            }
-        }
-    }
-    return {}
-}
+  if (authData) {
+    return {
+      headers: {
+        Authorization: `Bearer ${authData.access_token}`,
+        'content-type': 'application/json',
+      },
+    };
+  }
+  return {};
+};
 
 /**
  * this method is called immediately at the very beginning in authReducer
@@ -53,10 +58,10 @@ export const getAuthHeaderConfig = () => {
  * @returns {object} the object that contains authData and user
  */
 export const getAuthAndUserFromLocal = () => {
-    const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER)
-    const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
-    return {authData, user}
-}
+  const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER);
+  const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  return { authData, user };
+};
 
 /**
  *
@@ -72,123 +77,125 @@ export const getAuthAndUserFromLocal = () => {
     token_type: "bearer"
   }
  */
-export const saveAuthDataInLocal = response => {
-    const data = {...response.data}
-    data.jwtData = jwtDecode(data.access_token)
+export const saveAuthDataInLocal = (response) => {
+  const data = { ...response.data };
+  data.jwtData = jwtDecode(data.access_token);
 
-    saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data)
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH, data);
 
-    return data
-}
+  return data;
+};
 
 /**
  *
  * @param {object} newUser the new user object
  */
-export const saveUserProfileInLocal = newUser => {
-    saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser)
-}
+export const saveUserProfileInLocal = (newUser) => {
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser);
+};
 
 /**
  *
  * @param {string} code the code received from Single Sign On
  */
-export const getTokenFromSSO = code => {
-    const storedCodes = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
-    if (!storedCodes || !storedCodes.codeVerifier) {
-        console.error('Cannot proceed without PKCE challenge code. Restart authentication');
-    }
+export const getTokenFromSSO = (code) => {
+  const storedCodes = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
+  if (!storedCodes || !storedCodes.codeVerifier) {
+    console.error(
+      'Cannot proceed without PKCE challenge code. Restart authentication',
+    );
+  }
 
-    const data = {
-        code,
-        grant_type: 'authorization_code',
-        redirect_uri: SSO_LOGIN_REDIRECT_URI,
-        client_id: SSO_CLIENT_ID,
-        code_verifier: storedCodes.codeVerifier
-    }
+  const data = {
+    code,
+    grant_type: 'authorization_code',
+    redirect_uri: SSO_LOGIN_REDIRECT_URI,
+    client_id: SSO_CLIENT_ID,
+    code_verifier: storedCodes.codeVerifier,
+  };
 
-    // no longer required
-    deleteDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
+  // no longer required
+  deleteDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
 
-    // make an application/x-www-form-urlencoded request with axios
-    return axios({
-        method: 'post',
-        baseURL: SSO_BASE_URL,
-        url: GET_TOKEN_FROM_SSO,
-        data: stringifyQuery(data)
-    })
-}
+  // make an application/x-www-form-urlencoded request with axios
+  return axios({
+    method: 'post',
+    baseURL: SSO_BASE_URL,
+    url: GET_TOKEN_FROM_SSO,
+    data: stringifyQuery(data),
+  });
+};
 
 /**
  *
  * @param {string} refreshToken the refreshToken saved in localStorage
  */
-export const refreshAccessToken = refreshToken => {
-    const data = {
-        refresh_token: refreshToken,
-        grant_type: 'refresh_token',
-        redirect_uri: SSO_LOGIN_REDIRECT_URI,
-        client_id: SSO_CLIENT_ID
-    }
+export const refreshAccessToken = (refreshToken) => {
+  const data = {
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+    redirect_uri: SSO_LOGIN_REDIRECT_URI,
+    client_id: SSO_CLIENT_ID,
+  };
 
-    // make an application/x-www-form-urlencoded request with axios
-    // pass isRetry in config so that it only tries to refresh once.
-    return axios({
-        method: 'post',
-        baseURL: SSO_BASE_URL,
-        url: REFRESH_TOKEN_FROM_SSO,
-        data: stringifyQuery(data),
-        isRetry: true
-    })
-}
+  // make an application/x-www-form-urlencoded request with axios
+  // pass isRetry in config so that it only tries to refresh once.
+  return axios({
+    method: 'post',
+    baseURL: SSO_BASE_URL,
+    url: REFRESH_TOKEN_FROM_SSO,
+    data: stringifyQuery(data),
+    isRetry: true,
+  });
+};
 
 /**
  * @returns {string} the refresh token
  */
 const getRefreshTokenFromLocal = () => {
-    const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
-    return data && data.refresh_token
-}
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  return data && data.refresh_token;
+};
 
 /**
  * @returns {object} the parsed data from Json Web Token
  */
 const getJWTDataFromLocal = () => {
-    const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
-    return data && data.jwtData
-}
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  return data && data.jwtData;
+};
 
 /**
  *
  * @returns {boolean}
  */
 export const isTokenExpired = () => {
-    const GRACE = 90 * 1000;
+  const GRACE = 90 * 1000;
 
-    const jstData = getJWTDataFromLocal()
+  const jstData = getJWTDataFromLocal();
 
-    if (jstData) {
-        return ((new Date()).getTime() / 1000) > (jstData.exp - GRACE)
-    }
-    return false
-}
+  if (jstData) {
+    return new Date().getTime() / 1000 > jstData.exp - GRACE;
+  }
+  return false;
+};
 
 /**
  *
  * @param {object} config Axios's config
  * @returns {boolean}
  */
-const isRangeAPI = config => {
-    if (config && config.baseURL) {
-        return config.baseURL === API_BASE_URL
-    }
+const isRangeAPI = (config) => {
+  if (config && config.baseURL) {
+    return config.baseURL === API_BASE_URL;
+  }
 
-    return false
-}
+  return false;
+};
 
 export const signOutFromSSOAndSiteMinder = () => {
-    window.open(SSO_LOGOUT_ENDPOINT, '_self');
-}
+  window.open(SSO_LOGOUT_ENDPOINT, '_self');
+};
 
 /**
  *
@@ -197,13 +204,13 @@ export const signOutFromSSOAndSiteMinder = () => {
  * @returns {object}
  */
 const createConfigReplacingHeaderWithNewToken = (config, response) => {
-    const data = response && response.data
-    const {token_type: type, access_token: token} = data
-    const c = {...config}
-    c.headers.Authorization = type && token && `${type} ${token}`
+  const data = response && response.data;
+  const { token_type: type, access_token: token } = data;
+  const c = { ...config };
+  c.headers.Authorization = type && token && `${type} ${token}`;
 
-    return c
-}
+  return c;
+};
 
 /* eslint-disable no-console */
 
@@ -213,34 +220,38 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
  *
  * @param {function} reauthenticate the action to re-authenticate
  */
-export const setTimeoutForReAuth = reauthenticate => {
-    if (!isBundled) console.log('set timeout for re-authentication')
+export const setTimeoutForReAuth = (reauthenticate) => {
+  if (!isBundled) console.log('set timeout for re-authentication');
 
-    const jstData = getJWTDataFromLocal()
+  const jstData = getJWTDataFromLocal();
 
-    if (!jstData) return undefined
+  if (!jstData) return undefined;
 
-    const refreshTokenData = getRefreshTokenFromLocal();
-    let refreshTokenValidPeriod = 0;
+  const refreshTokenData = getRefreshTokenFromLocal();
+  let refreshTokenValidPeriod = 0;
 
-    const GRACE = 10 * 1000;
+  const GRACE = 10 * 1000;
 
-    try {
-        const payload = refreshTokenData.split(".")[1];
+  try {
+    const payload = refreshTokenData.split('.')[1];
 
-        let parsedRefreshToken = JSON.parse(atob(payload));
-        refreshTokenValidPeriod = parsedRefreshToken.exp - new Date() / 1000;
-    } catch {
-        if (!isBundled) console.log('Error parsing refresh token, ignoring it.')
-    }
+    let parsedRefreshToken = JSON.parse(atob(payload));
+    refreshTokenValidPeriod = parsedRefreshToken.exp - new Date() / 1000;
+  } catch {
+    if (!isBundled) console.log('Error parsing refresh token, ignoring it.');
+  }
 
-    const accessTokenValidPeriod = jstData.exp - new Date() / 1000;
-    const latestTime = Math.max(accessTokenValidPeriod, refreshTokenValidPeriod) * 1000;
+  const accessTokenValidPeriod = jstData.exp - new Date() / 1000;
+  const latestTime =
+    Math.max(accessTokenValidPeriod, refreshTokenValidPeriod) * 1000;
 
-    return setTimeout(() => {
-        reauthenticate()
-    }, Math.max( latestTime - GRACE, 0));
-}
+  return setTimeout(
+    () => {
+      reauthenticate();
+    },
+    Math.max(latestTime - GRACE, 0),
+  );
+};
 
 /**
  *
@@ -256,46 +267,51 @@ export const setTimeoutForReAuth = reauthenticate => {
  * @returns {object} the network response config
  */
 export const registerAxiosInterceptors = (
-    resetTimeoutForReAuth,
-    reauthenticate,
-    storeAuthData
+  resetTimeoutForReAuth,
+  reauthenticate,
+  storeAuthData,
 ) => {
-    axios.interceptors.request.use(config => {
-        const isFirstTimeTry = !config.isRetry
-        const notExplicitlySkipped = !config.skipAuthorizationHeader
+  axios.interceptors.request.use((config) => {
+    const isFirstTimeTry = !config.isRetry;
+    const notExplicitlySkipped = !config.skipAuthorizationHeader;
 
-        if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config) && notExplicitlySkipped) {
-            if (!isBundled)
-                console.log('Access token is expired. Trying to refresh it')
+    if (
+      isTokenExpired() &&
+      isFirstTimeTry &&
+      isRangeAPI(config) &&
+      notExplicitlySkipped
+    ) {
+      if (!isBundled)
+        console.log('Access token is expired. Trying to refresh it');
 
-            const refreshToken = getRefreshTokenFromLocal()
+      const refreshToken = getRefreshTokenFromLocal();
 
-            return refreshAccessToken(refreshToken).then(
-                response => {
-                    if (!isBundled) console.log('Access token has been refreshed!')
+      return refreshAccessToken(refreshToken).then(
+        (response) => {
+          if (!isBundled) console.log('Access token has been refreshed!');
 
-                    const authData = saveAuthDataInLocal(response)
-                    storeAuthData(authData)
+          const authData = saveAuthDataInLocal(response);
+          storeAuthData(authData);
 
-                    const c = createConfigReplacingHeaderWithNewToken(config, response)
-                    c.isRetry = true
+          const c = createConfigReplacingHeaderWithNewToken(config, response);
+          c.isRetry = true;
 
-                    return c
-                },
-                err => {
-                    if (!isBundled) {
-                        console.log(
-                            'Refresh token is also expired. Request to re-authenticate.'
-                        )
-                        console.error(err)
-                    }
-                    reauthenticate()
+          return c;
+        },
+        (err) => {
+          if (!isBundled) {
+            console.log(
+              'Refresh token is also expired. Request to re-authenticate.',
+            );
+            console.error(err);
+          }
+          reauthenticate();
 
-                    return config
-                }
-            )
-        }
+          return config;
+        },
+      );
+    }
 
-        return config
-    })
-}
+    return config;
+  });
+};

@@ -1,6 +1,6 @@
-import React from 'react'
-import ReactSelect from 'react-select'
-import { connect, getIn } from 'formik'
+import React from 'react';
+import ReactSelect from 'react-select';
+import { connect, getIn } from 'formik';
 
 const Select = ({
   name,
@@ -10,11 +10,11 @@ const Select = ({
   inputProps,
   ...props
 }) => {
-  const currentValue = getIn(formik.values, name)
-  const selectedOption = options.find(f => f.value === currentValue)
+  const currentValue = getIn(formik.values, name);
+  const selectedOption = options.find((f) => f.value === currentValue);
 
-  const error = getIn(formik.errors, name)
-  const isError = Boolean(error)
+  const error = getIn(formik.errors, name);
+  const isError = Boolean(error);
 
   return (
     <ReactSelect
@@ -24,27 +24,27 @@ const Select = ({
       options={options}
       value={selectedOption}
       onChange={({ value }) => {
-        formik.setFieldValue(name, value)
+        formik.setFieldValue(name, value);
         if (onChange && typeof onChange === 'function') {
-          onChange(value)
+          onChange(value);
         }
       }}
       isSearchable
       styles={{
-        container: styles => ({
+        container: (styles) => ({
           ...styles,
-          width: '170px'
+          width: '170px',
         }),
-        control: styles => ({
+        control: (styles) => ({
           ...styles,
           borderColor: isError ? '#e0b4b4' : styles.borderColor,
           background: isError ? '#fff6f6' : styles.background,
-          color: isError ? '#9f3a38' : styles.color
-        })
+          color: isError ? '#9f3a38' : styles.color,
+        }),
       }}
       menuPortalTarget={document.body}
     />
-  )
-}
+  );
+};
 
-export default connect(Select)
+export default connect(Select);

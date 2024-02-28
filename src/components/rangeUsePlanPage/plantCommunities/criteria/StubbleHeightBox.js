@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import IndicatorPlantsForm from '../IndicatorPlantsForm'
-import { PLANT_CRITERIA } from '../../../../constants/variables'
+import React from 'react';
+import PropTypes from 'prop-types';
+import IndicatorPlantsForm from '../IndicatorPlantsForm';
+import { PLANT_CRITERIA } from '../../../../constants/variables';
 
 const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
   return (
@@ -22,14 +22,14 @@ const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
         communityId={plantCommunity.id}
       />
     </div>
-  )
-}
+  );
+};
 
 StubbleHeightBox.propTypes = {
   plantCommunity: PropTypes.shape({
-    indicatorPlants: PropTypes.arrayOf(PropTypes.object)
+    indicatorPlants: PropTypes.arrayOf(PropTypes.object),
   }),
-  namespace: PropTypes.string.isRequired
-}
+  namespace: PropTypes.string.isRequired,
+};
 
-export default StubbleHeightBox
+export default StubbleHeightBox;

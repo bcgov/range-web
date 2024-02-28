@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Icon } from 'semantic-ui-react'
-import { TextField, CollapsibleBox } from '../../common'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { getPastureNames } from '../../../utils'
-import AddableMinisterIssueActionList from './AddableMinisterIssueActionList'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
+import { TextField, CollapsibleBox } from '../../common';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { getPastureNames } from '../../../utils';
+import AddableMinisterIssueActionList from './AddableMinisterIssueActionList';
 
 class MinisterIssueBox extends Component {
   static propTypes = {
@@ -14,8 +14,8 @@ class MinisterIssueBox extends Component {
     pasturesMap: PropTypes.shape({}).isRequired,
     ministerIssuesMap: PropTypes.shape({}).isRequired,
     references: PropTypes.shape({}).isRequired,
-    onMinisterIssueClicked: PropTypes.func.isRequired
-  }
+    onMinisterIssueClicked: PropTypes.func.isRequired,
+  };
 
   render() {
     const {
@@ -24,8 +24,8 @@ class MinisterIssueBox extends Component {
       ministerIssue,
       ministerIssueIndex,
       activeMinisterIssueIndex,
-      onMinisterIssueClicked
-    } = this.props
+      onMinisterIssueClicked,
+    } = this.props;
 
     const {
       id,
@@ -33,13 +33,13 @@ class MinisterIssueBox extends Component {
       identified,
       issueTypeId,
       objective,
-      pastures: pastureIds
-    } = ministerIssue || {}
+      pastures: pastureIds,
+    } = ministerIssue || {};
 
-    const miTypes = references[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || []
-    const ministerIssueType = miTypes.find(i => i.id === issueTypeId)
-    const ministerIssueTypeName = ministerIssueType && ministerIssueType.name
-    const pastureNames = getPastureNames(pastureIds, pasturesMap)
+    const miTypes = references[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
+    const ministerIssueType = miTypes.find((i) => i.id === issueTypeId);
+    const ministerIssueTypeName = ministerIssueType && ministerIssueType.name;
+    const pastureNames = getPastureNames(pastureIds, pasturesMap);
 
     return (
       <CollapsibleBox
@@ -77,8 +77,8 @@ class MinisterIssueBox extends Component {
           </Fragment>
         }
       />
-    )
+    );
   }
 }
 
-export default MinisterIssueBox
+export default MinisterIssueBox;

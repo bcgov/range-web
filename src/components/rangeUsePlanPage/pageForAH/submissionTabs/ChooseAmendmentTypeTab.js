@@ -1,13 +1,13 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Radio, Form, TextArea } from 'semantic-ui-react'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Radio, Form, TextArea } from 'semantic-ui-react';
 import {
   AMENDMENT_TYPE,
-  NUMBER_OF_LIMIT_FOR_NOTE
-} from '../../../../constants/variables'
-import RightBtn from '../tab/RightBtn'
-import LeftBtn from '../tab/LeftBtn'
-import TabTemplate from '../tab/TabTemplate'
+  NUMBER_OF_LIMIT_FOR_NOTE,
+} from '../../../../constants/variables';
+import RightBtn from '../tab/RightBtn';
+import LeftBtn from '../tab/LeftBtn';
+import TabTemplate from '../tab/TabTemplate';
 
 /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
 
@@ -26,19 +26,19 @@ class ChooseAmendmentTypeTab extends Component {
     tab: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      next: PropTypes.string.isRequired
-    }).isRequired
-  }
+      next: PropTypes.string.isRequired,
+    }).isRequired,
+  };
 
   static defaultProps = {
-    amendmentTypeCode: null
-  }
+    amendmentTypeCode: null,
+  };
 
-  onNextClicked = e => {
-    const { handleTabChange, tab } = this.props
+  onNextClicked = (e) => {
+    const { handleTabChange, tab } = this.props;
 
-    handleTabChange(e, { value: tab.next })
-  }
+    handleTabChange(e, { value: tab.next });
+  };
 
   render() {
     const {
@@ -51,18 +51,18 @@ class ChooseAmendmentTypeTab extends Component {
       handleNoteChange,
       isMandatory,
       isMinor,
-      isAmendmentTypeDecided
-    } = this.props
-    const { id, title } = tab
-    const isActive = id === currTabId
+      isAmendmentTypeDecided,
+    } = this.props;
+    const { id, title } = tab;
+    const isActive = id === currTabId;
 
     if (!isActive) {
-      return null
+      return null;
     }
 
     const lengthOfNote = note
       ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
-      : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`
+      : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`;
 
     return (
       <TabTemplate
@@ -132,8 +132,8 @@ class ChooseAmendmentTypeTab extends Component {
           </Form>
         }
       />
-    )
+    );
   }
 }
 
-export default ChooseAmendmentTypeTab
+export default ChooseAmendmentTypeTab;

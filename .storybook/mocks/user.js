@@ -9,5 +9,5 @@ export default {
   active: true,
   piaSeen: true,
   lastLoginAt: '2019-08-13T22:01:52.224Z',
-  roles: ['myra_range_officer']
-}
+  roles: ['myra_range_officer'],
+};

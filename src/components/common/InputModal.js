@@ -1,30 +1,30 @@
-import React, { useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Button, Icon, Modal } from 'semantic-ui-react'
-import { Form } from 'semantic-ui-react'
-import { Formik, Field } from 'formik'
+import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Button, Icon, Modal } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
+import { Formik, Field } from 'formik';
 
 const InputModal = ({
   open = false,
   onSubmit,
   onClose,
   title = 'Enter a value',
-  placeholder = 'Type a value here...'
+  placeholder = 'Type a value here...',
 }) => {
-  const inputRef = useRef(null)
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (open) {
-      inputRef.current.focus()
+      inputRef.current.focus();
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Formik
       initialValues={{ input: '' }}
       onSubmit={({ input }, { resetForm }) => {
-        resetForm()
-        onSubmit(input)
+        resetForm();
+        onSubmit(input);
       }}
       render={({ resetForm, handleSubmit }) => (
         <Modal
@@ -32,16 +32,18 @@ const InputModal = ({
           size="mini"
           open={open}
           onClose={onClose}
-          closeIcon>
+          closeIcon
+        >
           <Modal.Header>{title}</Modal.Header>
 
           <Modal.Content>
             <Form
-              onSubmit={e => {
-                e.preventDefault()
-                e.stopPropagation()
-                handleSubmit()
-              }}>
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSubmit();
+              }}
+            >
               <Field
                 name="input"
                 placeholder={placeholder}
@@ -52,10 +54,11 @@ const InputModal = ({
           <Modal.Actions>
             <Button
               onClick={() => {
-                resetForm()
-                onClose()
+                resetForm();
+                onClose();
               }}
-              type="button">
+              type="button"
+            >
               <Icon name="remove" />
               Cancel
             </Button>
@@ -67,15 +70,15 @@ const InputModal = ({
         </Modal>
       )}
     />
-  )
-}
+  );
+};
 
 InputModal.propTypes = {
   open: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
-  placeholder: PropTypes.string
-}
+  placeholder: PropTypes.string,
+};
 
-export default InputModal
+export default InputModal;

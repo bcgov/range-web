@@ -1,8 +1,11 @@
-import * as Yup from 'yup'
-import { moveDecimalsRight } from '../common/form/PercentField'
-import { yupToFormErrors } from 'formik'
+import * as Yup from 'yup';
+import { moveDecimalsRight } from '../common/form/PercentField';
+import { yupToFormErrors } from 'formik';
 
-const handleNull = (defaultValue = '') => v => (v === null ? defaultValue : v)
+const handleNull =
+  (defaultValue = '') =>
+  (v) =>
+    v === null ? defaultValue : v;
 
 const RUPSchema = Yup.object().shape({
   rangeName: Yup.string().required('Required field'),
@@ -17,9 +20,9 @@ const RUPSchema = Yup.object().shape({
     .transform(handleNull())
     .when('planStartDate', (planStartDate, schema) =>
       schema.test({
-        test: planEndDate => new Date(planEndDate) > new Date(planStartDate),
-        message: 'Plan end date should be after start date'
-      })
+        test: (planEndDate) => new Date(planEndDate) > new Date(planStartDate),
+        message: 'Plan end date should be after start date',
+      }),
     ),
   pastures: Yup.array().of(
     Yup.object().shape({
@@ -34,19 +37,17 @@ const RUPSchema = Yup.object().shape({
         .integer('Value must be a whole number')
         .typeError('Please enter a number'),
       name: Yup.string().required('Please enter a name'),
-      notes: Yup.string()
-        .transform(handleNull())
-        .nullable(),
+      notes: Yup.string().transform(handleNull()).nullable(),
       planId: Yup.number(),
       pldPercent: Yup.number()
         .min(0, 'Please enter a value between 0 and 100')
         .max(1, 'Please enter a value between 0 and 100')
-        .test('whole percent', 'Value must be a whole number', item => {
+        .test('whole percent', 'Value must be a whole number', (item) => {
           return item
             ? moveDecimalsRight(item) % 1 === 0
               ? true
               : false
-            : true
+            : true;
         })
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
@@ -54,9 +55,7 @@ const RUPSchema = Yup.object().shape({
       plantCommunities: Yup.array().of(
         Yup.object().shape({
           approved: Yup.bool().required(),
-          aspect: Yup.string()
-            .nullable()
-            .transform(handleNull()),
+          aspect: Yup.string().nullable().transform(handleNull()),
           elevationId: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable(),
@@ -74,40 +73,36 @@ const RUPSchema = Yup.object().shape({
           rangeReadinessDay: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable(),
-          rangeReadinessNote: Yup.string()
-            .transform(handleNull())
-            .nullable(),
+          rangeReadinessNote: Yup.string().transform(handleNull()).nullable(),
           plantCommunityActions: Yup.array().of(
             Yup.object().shape({
               actionTypeId: Yup.number()
                 .transform((v, originalValue) =>
-                  originalValue === '' ? null : v
+                  originalValue === '' ? null : v,
                 )
                 .nullable()
                 .required('Required field'),
-              details: Yup.string()
-                .nullable()
-                .required('Required field'),
+              details: Yup.string().nullable().required('Required field'),
               name: Yup.string()
                 .nullable()
                 .when('actionTypeId', {
                   is: 6,
                   then: Yup.string().required('Required field'),
-                  otherwise: Yup.string()
-                })
-            })
+                  otherwise: Yup.string(),
+                }),
+            }),
           ),
           indicatorPlants: Yup.array().of(
             Yup.object().shape({
               plantSpeciesId: Yup.number()
                 .transform((v, originalValue) =>
-                  originalValue === '' ? null : v
+                  originalValue === '' ? null : v,
                 )
                 .nullable()
                 .required('Required field'),
               value: Yup.number()
                 .transform((v, originalValue) =>
-                  originalValue === '' ? null : v
+                  originalValue === '' ? null : v,
                 )
                 .nullable()
                 .required('Required field')
@@ -118,40 +113,38 @@ const RUPSchema = Yup.object().shape({
                 .when('plantSpeciesId', {
                   is: 81,
                   then: Yup.string().required('Required field'),
-                  otherwise: Yup.string()
-                })
-            })
+                  otherwise: Yup.string(),
+                }),
+            }),
           ),
           monitoringAreas: Yup.array().of(
             Yup.object().shape({
               latitude: Yup.number()
                 .transform((v, originalValue) =>
-                  originalValue === '' ? null : v
+                  originalValue === '' ? null : v,
                 )
                 .nullable()
                 .typeError('Please enter a number'),
               longitude: Yup.number()
                 .transform((v, originalValue) =>
-                  originalValue === '' ? null : v
+                  originalValue === '' ? null : v,
                 )
                 .nullable()
                 .typeError('Please enter a number'),
-              location: Yup.string()
-                .nullable()
-                .required('Required field'),
+              location: Yup.string().nullable().required('Required field'),
               rangelandHealthId: Yup.number()
                 .transform((v, originalValue) =>
-                  originalValue === '' ? null : v
+                  originalValue === '' ? null : v,
                 )
                 .nullable(),
               purposeTypeIds: Yup.array()
                 .of(Yup.number())
-                .required('Required field')
-            })
-          )
-        })
-      )
-    })
+                .required('Required field'),
+            }),
+          ),
+        }),
+      ),
+    }),
   ),
   grazingSchedules: Yup.array().of(
     Yup.object().shape({
@@ -163,9 +156,9 @@ const RUPSchema = Yup.object().shape({
             .required(true)
             .when('dateIn', (dateIn, schema) =>
               schema.test({
-                test: dateOut => new Date(dateOut) > new Date(dateIn),
-                message: 'Date out should be after date in'
-              })
+                test: (dateOut) => new Date(dateOut) > new Date(dateIn),
+                message: 'Date out should be after date in',
+              }),
             ),
           livestockCount: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
@@ -178,25 +171,17 @@ const RUPSchema = Yup.object().shape({
           livestockTypeId: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
-            .required(true)
-        })
-      )
-    })
+            .required(true),
+        }),
+      ),
+    }),
   ),
   invasivePlantChecklist: Yup.object().shape({
-    equipmentAndVehiclesParking: Yup.bool()
-      .required()
-      .default(false),
-    beginInUninfestedArea: Yup.bool()
-      .required()
-      .default(false),
-    undercarrigesInspected: Yup.bool()
-      .required()
-      .default(false),
-    revegetate: Yup.bool()
-      .required()
-      .default(false),
-    other: Yup.string().transform(handleNull())
+    equipmentAndVehiclesParking: Yup.bool().required().default(false),
+    beginInUninfestedArea: Yup.bool().required().default(false),
+    undercarrigesInspected: Yup.bool().required().default(false),
+    revegetate: Yup.bool().required().default(false),
+    other: Yup.string().transform(handleNull()),
   }),
   additionalRequirements: Yup.array().of(
     Yup.object().shape({
@@ -208,27 +193,23 @@ const RUPSchema = Yup.object().shape({
       detail: Yup.string()
         .required('Please enter some details')
         .transform(handleNull()),
-      url: Yup.string().transform(handleNull())
-    })
+      url: Yup.string().transform(handleNull()),
+    }),
   ),
   managementConsiderations: Yup.array().of(
     Yup.object().shape({
-      detail: Yup.string()
-        .required('Required field')
-        .transform(handleNull())
-    })
+      detail: Yup.string().required('Required field').transform(handleNull()),
+    }),
   ),
   files: Yup.array().of(
     Yup.object().shape({
-      url: Yup.string().required('File has not uploaded yet')
-    })
+      url: Yup.string().required('File has not uploaded yet'),
+    }),
   ),
   ministerIssues: Yup.array().of(
     Yup.object().shape({
       pastures: Yup.array(),
-      detail: Yup.string()
-        .required('Required field')
-        .transform(handleNull()),
+      detail: Yup.string().required('Required field').transform(handleNull()),
       objective: Yup.string()
         .required('Required field')
         .transform(handleNull()),
@@ -240,22 +221,14 @@ const RUPSchema = Yup.object().shape({
           actionTypeId: Yup.number()
             .required('Required field')
             .transform(handleNull(0)),
-          noGrazeStartMonth: Yup.number()
-            .nullable()
-            .transform(handleNull(0)),
-          noGrazeStartDay: Yup.number()
-            .nullable()
-            .transform(handleNull(0)),
-          noGrazeEndMonth: Yup.number()
-            .nullable()
-            .transform(handleNull(0)),
-          noGrazeEndDay: Yup.number()
-            .nullable()
-            .transform(handleNull(0))
-        })
-      )
-    })
-  )
-})
+          noGrazeStartMonth: Yup.number().nullable().transform(handleNull(0)),
+          noGrazeStartDay: Yup.number().nullable().transform(handleNull(0)),
+          noGrazeEndMonth: Yup.number().nullable().transform(handleNull(0)),
+          noGrazeEndDay: Yup.number().nullable().transform(handleNull(0)),
+        }),
+      ),
+    }),
+  ),
+});
 
-export default RUPSchema
+export default RUPSchema;

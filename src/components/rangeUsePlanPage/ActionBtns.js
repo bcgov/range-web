@@ -1,20 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Button, Icon, Menu, Dropdown } from 'semantic-ui-react'
-import { connect } from 'formik'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button, Icon, Menu, Dropdown } from 'semantic-ui-react';
+import { connect } from 'formik';
 import {
   SAVE_DRAFT,
   SUBMIT,
   AMEND_PLAN,
   SIGN_SUBMISSION,
-} from '../../constants/strings'
-import DownloadPDFBtn from './DownloadPDFBtn'
-import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown'
-import { useNetworkStatus } from '../../utils/hooks/network'
-import { useCurrentPlan } from '../../providers/PlanProvider'
-import DiscardAmendmentButton from './DiscardAmendmentButton'
-import SubmitAsMandatoryButton from './SubmitAsMandatoryButton'
-import AmendFromLegalButton from './AmendFromLegalButton'
+} from '../../constants/strings';
+import DownloadPDFBtn from './DownloadPDFBtn';
+import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown';
+import { useNetworkStatus } from '../../utils/hooks/network';
+import { useCurrentPlan } from '../../providers/PlanProvider';
+import DiscardAmendmentButton from './DiscardAmendmentButton';
+import SubmitAsMandatoryButton from './SubmitAsMandatoryButton';
+import AmendFromLegalButton from './AmendFromLegalButton';
 
 const ActionBtns = ({
   permissions: permissionsOptions,
@@ -30,14 +30,14 @@ const ActionBtns = ({
   plan,
   isFetchingPlan,
   fetchPlan,
-  beforeUpdateStatus
+  beforeUpdateStatus,
 }) => {
-  const isOnline = useNetworkStatus()
-  const { isSavingPlan } = useCurrentPlan()
+  const isOnline = useNetworkStatus();
+  const { isSavingPlan } = useCurrentPlan();
 
   const downloadPDFBtn = (
     <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
-  )
+  );
   const saveDraftBtn = (
     <Button
       key="saveDraftBtn"
@@ -47,12 +47,13 @@ const ActionBtns = ({
       disabled={isSavingPlan}
       loading={formik.isSubmitting}
       onClick={() => {
-        formik.submitForm()
-      }}>
+        formik.submitForm();
+      }}
+    >
       <Icon name="save" />
       {SAVE_DRAFT}
     </Button>
-  )
+  );
   const submitBtn = (
     <Button
       key="submitBtn"
@@ -61,18 +62,19 @@ const ActionBtns = ({
       type="button"
       loading={isSubmitting}
       onClick={async () => {
-        await formik.submitForm()
-        const errors = await formik.validateForm()
+        await formik.submitForm();
+        const errors = await formik.validateForm();
 
         if (Object.keys(errors).length === 0) {
-          onSubmit()
+          onSubmit();
         }
       }}
-      disabled={!isOnline}>
+      disabled={!isOnline}
+    >
       <Icon name="check" />
       {SUBMIT}
     </Button>
-  )
+  );
   const amendBtn = (
     <Button
       key="amendBtn"
@@ -82,12 +84,13 @@ const ActionBtns = ({
       loading={isCreatingAmendment}
       disabled={!isOnline}
       onClick={() => {
-        onAmend()
-      }}>
+        onAmend();
+      }}
+    >
       <Icon name="edit" />
       {AMEND_PLAN}
     </Button>
-  )
+  );
   const confirmSubmissionBtn = (
     <Button
       key="confirmSubmissionBtn"
@@ -95,16 +98,17 @@ const ActionBtns = ({
       onClick={onSignSubmission}
       inverted
       compact
-      type="button">
+      type="button"
+    >
       {SIGN_SUBMISSION}
     </Button>
-  )
+  );
   const manageAgentsMenuItem = (
     <Menu.Item key="manageAgentsBtn" onClick={onManageAgentsClicked}>
       <Icon name="user" />
       Manage Agents
     </Menu.Item>
-  )
+  );
 
   const permissions = {
     edit: false,
@@ -116,8 +120,8 @@ const ActionBtns = ({
     discard: false,
     submitAsMandatory: false,
     manageAgents: false,
-    ...permissionsOptions
-  }
+    ...permissionsOptions,
+  };
 
   return (
     <>
@@ -137,7 +141,8 @@ const ActionBtns = ({
         icon={null}
         pointing="top right"
         style={{ marginLeft: 10 }}
-        value={null}>
+        value={null}
+      >
         <Dropdown.Menu>
           {downloadPDFBtn}
           {permissions.manageAgents && manageAgentsMenuItem}
@@ -153,8 +158,8 @@ const ActionBtns = ({
         </Dropdown.Menu>
       </Dropdown>
     </>
-  )
-}
+  );
+};
 ActionBtns.propTypes = {
   permissions: PropTypes.shape({
     edit: PropTypes.bool,
@@ -165,12 +170,12 @@ ActionBtns.propTypes = {
     discard: PropTypes.bool,
     submitAsMandatory: PropTypes.bool,
     amendFromLegal: PropTypes.bool,
-    manageAgents: PropTypes.bool
+    manageAgents: PropTypes.bool,
   }),
   onViewPDFClicked: PropTypes.func,
   onSubmit: PropTypes.func,
   onSignSubmission: PropTypes.func,
-  onAmend: PropTypes.func
-}
+  onAmend: PropTypes.func,
+};
 
-export default connect(ActionBtns)
+export default connect(ActionBtns);

@@ -1,96 +1,96 @@
-import * as actionTypes from '../constants/actionTypes'
+import * as actionTypes from '../constants/actionTypes';
 
-export const agreementSearchChanged = payload => ({
+export const agreementSearchChanged = (payload) => ({
   type: actionTypes.AGREEMENT_SEARCH_CHANGED,
-  payload
-})
+  payload,
+});
 
-export const zoneUpdated = payload => ({
+export const zoneUpdated = (payload) => ({
   type: actionTypes.ZONE_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const userUpdated = payload => ({
+export const userUpdated = (payload) => ({
   type: actionTypes.USER_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const planUpdated = payload => ({
+export const planUpdated = (payload) => ({
   type: actionTypes.PLAN_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const planStatusHistoryRecordAdded = payload => ({
+export const planStatusHistoryRecordAdded = (payload) => ({
   type: actionTypes.PLAN_STATUS_HISTORY_RECORD_ADDED,
-  payload
-})
+  payload,
+});
 
-export const confirmationUpdated = payload => ({
+export const confirmationUpdated = (payload) => ({
   type: actionTypes.CONFIRMATION_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const grazingScheduleAdded = payload => ({
+export const grazingScheduleAdded = (payload) => ({
   type: actionTypes.GRAZING_SCHEDULE_ADDED,
-  payload
-})
+  payload,
+});
 
-export const grazingScheduleUpdated = payload => ({
+export const grazingScheduleUpdated = (payload) => ({
   type: actionTypes.GRAZING_SCHEDULE_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const grazingScheduleDeleted = payload => ({
+export const grazingScheduleDeleted = (payload) => ({
   type: actionTypes.GRAZING_SCHEDULE_DELETED,
-  payload
-})
+  payload,
+});
 
-export const ministerIssueUpdated = payload => ({
+export const ministerIssueUpdated = (payload) => ({
   type: actionTypes.MINISTER_ISSUE_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const managementConsiderationAdded = payload => ({
+export const managementConsiderationAdded = (payload) => ({
   type: actionTypes.MANAGEMENT_CONSIDERATION_ADDED,
-  payload
-})
+  payload,
+});
 
-export const managementConsiderationUpdated = payload => ({
+export const managementConsiderationUpdated = (payload) => ({
   type: actionTypes.MANAGEMENT_CONSIDERATION_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const managementConsiderationDeleted = payload => ({
+export const managementConsiderationDeleted = (payload) => ({
   type: actionTypes.MANAGEMENT_CONSIDERATION_DELETED,
-  payload
-})
+  payload,
+});
 
-export const pastureAdded = payload => ({
+export const pastureAdded = (payload) => ({
   type: actionTypes.PASTURE_ADDED,
-  payload
-})
+  payload,
+});
 
-export const pastureUpdated = payload => ({
+export const pastureUpdated = (payload) => ({
   type: actionTypes.PASTURE_UPDATED,
-  payload
-})
+  payload,
+});
 
-export const pastureSubmitted = payload => ({
+export const pastureSubmitted = (payload) => ({
   type: actionTypes.PASTURE_SUBMITTED,
-  payload
-})
+  payload,
+});
 
-export const pastureCopied = payload => ({
+export const pastureCopied = (payload) => ({
   type: actionTypes.PASTURE_COPIED,
-  payload
-})
+  payload,
+});
 
-export const plantCommunityAdded = payload => ({
+export const plantCommunityAdded = (payload) => ({
   type: actionTypes.PLANT_COMMUNITY_ADDED,
-  payload
-})
+  payload,
+});
 
-export const plantCommunityUpdated = payload => ({
+export const plantCommunityUpdated = (payload) => ({
   type: actionTypes.PLANT_COMMUNITY_UPDATED,
-  payload
-})
+  payload,
+});

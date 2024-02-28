@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Modal, Icon } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Modal, Icon } from 'semantic-ui-react';
 import {
   PLAN_STATUS,
-  NUMBER_OF_LIMIT_FOR_NOTE
-} from '../../../constants/variables'
-import { getReferences, getUser } from '../../../reducers/rootReducer'
-import { planUpdated } from '../../../actions'
+  NUMBER_OF_LIMIT_FOR_NOTE,
+} from '../../../constants/variables';
+import { getReferences, getUser } from '../../../reducers/rootReducer';
+import { planUpdated } from '../../../actions';
 import {
   isSingleClient,
   findStatusWithCode,
-  findConfirmationsWithUser
-} from '../../../utils'
-import TabsForSingleAH from './tabs/TabsForSingleAH'
-import TabsForMultipleAH from './tabs/TabsForMultipleAH'
-import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator'
+  findConfirmationsWithUser,
+} from '../../../utils';
+import TabsForSingleAH from './tabs/TabsForSingleAH';
+import TabsForMultipleAH from './tabs/TabsForMultipleAH';
+import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 
 class SubmissionModal extends Component {
   static propTypes = {
@@ -26,43 +26,43 @@ class SubmissionModal extends Component {
     references: PropTypes.shape({}).isRequired,
     clients: PropTypes.arrayOf(PropTypes.object),
     fetchPlan: PropTypes.func.isRequired,
-    updateStatusAndContent: PropTypes.func.isRequired
-  }
+    updateStatusAndContent: PropTypes.func.isRequired,
+  };
 
   static defaultProps = {
-    clients: []
-  }
+    clients: [],
+  };
 
   constructor(props) {
-    super(props)
-    this.state = this.getInitialState()
+    super(props);
+    this.state = this.getInitialState();
   }
 
   getInitialState = () => ({
     statusCode: null,
     isAgreed: false,
     note: '',
-    isSubmitting: false
-  })
+    isSubmitting: false,
+  });
 
   onClose = () => {
-    this.setState(this.getInitialState())
-    this.props.onClose()
-  }
+    this.setState(this.getInitialState());
+    this.props.onClose();
+  };
 
   handleStatusCodeChange = (e, { value: statusCode }) => {
-    this.setState({ statusCode })
-  }
+    this.setState({ statusCode });
+  };
 
   handleAgreeCheckBoxChange = (e, { checked }) => {
-    this.setState({ isAgreed: checked })
-  }
+    this.setState({ isAgreed: checked });
+  };
 
   handleNoteChange = (e, { value: note }) => {
     if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
-      this.setState({ note })
+      this.setState({ note });
     }
-  }
+  };
 
   submitPlan = (plan, status) => {
     const {
@@ -70,74 +70,74 @@ class SubmissionModal extends Component {
       updateRUPConfirmation,
       fetchPlan,
       user,
-      clientAgreements
-    } = this.props
-    const { note } = this.state
+      clientAgreements,
+    } = this.props;
+    const { note } = this.state;
 
     const onRequest = () => {
-      this.setState({ isSubmitting: true })
-    }
+      this.setState({ isSubmitting: true });
+    };
     const onSuccess = async () => {
       const currUserConfirmations = findConfirmationsWithUser(
         user,
         plan.confirmations,
-        clientAgreements
-      )
-      const confirmed = true
-      const isMinorAmendment = false
+        clientAgreements,
+      );
+      const confirmed = true;
+      const isMinorAmendment = false;
       if (status.id === 14 || status.id === 18) {
         for (const currUserConfirmation of currUserConfirmations) {
           const isOwnSignature = user.clients.some(
-            c => c.clientNumber === currUserConfirmation.clientId
-          )
+            (c) => c.clientNumber === currUserConfirmation.clientId,
+          );
           await updateRUPConfirmation(
             plan,
             user,
             currUserConfirmation.id,
             confirmed,
             isMinorAmendment,
-            isOwnSignature
-          )
+            isOwnSignature,
+          );
         }
       }
 
-      await fetchPlan()
-      this.setState({ isSubmitting: false })
-    }
+      await fetchPlan();
+      this.setState({ isSubmitting: false });
+    };
     const onError = () => {
-      this.onClose()
-    }
+      this.onClose();
+    };
 
     return updateStatusAndContent(
       { status, note },
       onRequest,
       onSuccess,
-      onError
-    )
-  }
+      onError,
+    );
+  };
 
-  onSubmitClicked = e => {
-    e.preventDefault()
-    const { plan, references, clients } = this.props
-    const { statusCode } = this.state
+  onSubmitClicked = (e) => {
+    e.preventDefault();
+    const { plan, references, clients } = this.props;
+    const { statusCode } = this.state;
     const confirmationAwaiting = findStatusWithCode(
       references,
-      PLAN_STATUS.AWAITING_CONFIRMATION
-    )
-    const status = findStatusWithCode(references, statusCode)
+      PLAN_STATUS.AWAITING_CONFIRMATION,
+    );
+    const status = findStatusWithCode(references, statusCode);
     const isSubmittedForFinal =
-      statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION
+      statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
 
     if (!isSingleClient(clients) && isSubmittedForFinal) {
-      return this.submitPlan(plan, confirmationAwaiting)
+      return this.submitPlan(plan, confirmationAwaiting);
     } else {
-      return this.submitPlan(plan, status)
+      return this.submitPlan(plan, status);
     }
-  }
+  };
 
   render() {
-    const { open, clients, user, clientAgreements } = this.props
-    const { isSubmitting, statusCode, isAgreed, note } = this.state
+    const { open, clients, user, clientAgreements } = this.props;
+    const { isSubmitting, statusCode, isAgreed, note } = this.state;
 
     return (
       <Modal
@@ -145,7 +145,8 @@ class SubmissionModal extends Component {
         size="tiny"
         open={open}
         onClose={this.onClose}
-        closeIcon={<Icon name="close" color="black" />}>
+        closeIcon={<Icon name="close" color="black" />}
+      >
         <Modal.Content>
           <TabsForSingleAH
             clients={clients}
@@ -176,19 +177,16 @@ class SubmissionModal extends Component {
           />
         </Modal.Content>
       </Modal>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: getUser(state),
-  references: getReferences(state)
-})
+  references: getReferences(state),
+});
 
-export default connect(
-  mapStateToProps,
-  {
-    planUpdated,
-    updateRUPConfirmation
-  }
-)(SubmissionModal)
+export default connect(mapStateToProps, {
+  planUpdated,
+  updateRUPConfirmation,
+})(SubmissionModal);

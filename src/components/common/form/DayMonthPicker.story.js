@@ -1,18 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
+import { storiesOf } from '@storybook/react';
 
-import { Form } from 'formik-semantic-ui'
-import DayMonthPicker from './DayMonthPicker'
-import PermissionsField from '../PermissionsField'
-import { RANGE_READINESS } from '../../../constants/fields'
-import moment from 'moment'
+import { Form } from 'formik-semantic-ui';
+import DayMonthPicker from './DayMonthPicker';
+import PermissionsField from '../PermissionsField';
+import { RANGE_READINESS } from '../../../constants/fields';
+import moment from 'moment';
 
 storiesOf('DayMonthPicker', module).add('Default', () => (
   <Form
     initialValues={{
       month: undefined,
-      day: undefined
+      day: undefined,
     }}
     render={({ values }) => (
       <Form.Group>
@@ -23,10 +23,10 @@ storiesOf('DayMonthPicker', module).add('Default', () => (
           component={DayMonthPicker}
           label="Range Readiness Date"
           displayValue={moment(`${values.month} ${values.day}`, 'MM DD').format(
-            'MMMM Do'
+            'MMMM Do',
           )}
         />
       </Form.Group>
     )}
   />
-))
+));

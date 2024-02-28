@@ -1,118 +1,118 @@
-import * as API from '../constants/api'
-import { getAuthHeaderConfig, axios } from '../utils'
+import * as API from '../constants/api';
+import { getAuthHeaderConfig, axios } from '../utils';
 
-const saveDeleteQueue = deleteQueue => {
-  localStorage.setItem('delete-queue', JSON.stringify(deleteQueue))
-}
+const saveDeleteQueue = (deleteQueue) => {
+  localStorage.setItem('delete-queue', JSON.stringify(deleteQueue));
+};
 
 const loadDeleteQueue = () => {
-  return JSON.parse(localStorage.getItem('delete-queue'))
-}
+  return JSON.parse(localStorage.getItem('delete-queue'));
+};
 
 const loadOrInitDeleteQueue = () => {
-  const queue = loadDeleteQueue()
+  const queue = loadDeleteQueue();
   if (!queue) {
-    saveDeleteQueue({})
-    return {}
+    saveDeleteQueue({});
+    return {};
   }
-  return queue
-}
+  return queue;
+};
 
-const deleteHandlers = {}
+const deleteHandlers = {};
 
 const addDeleteHandler = (key, handler) => {
-  deleteHandlers[key] = handler
-}
+  deleteHandlers[key] = handler;
+};
 
 export const deleteFromQueue = async () => {
-  const deleteQueue = loadOrInitDeleteQueue()
+  const deleteQueue = loadOrInitDeleteQueue();
 
   const deletePromises = Object.entries(deleteQueue).map(
     async ([key, queue]) => {
-      const handler = deleteHandlers[key]
+      const handler = deleteHandlers[key];
 
-      return Promise.all(queue.map(args => handler(...args)))
-    }
-  )
+      return Promise.all(queue.map((args) => handler(...args)));
+    },
+  );
 
-  await deletePromises
-}
+  await deletePromises;
+};
 
 export const createDeleteHandler = (key, cb) => {
   const handler = async (...args) => {
-    const deleteQueue = loadOrInitDeleteQueue()
+    const deleteQueue = loadOrInitDeleteQueue();
 
     if (!Array.isArray(deleteQueue[key])) {
-      deleteQueue[key] = []
+      deleteQueue[key] = [];
     }
 
     deleteQueue[key] = deleteQueue[key].filter(
-      queuedArgs => queuedArgs !== args
-    )
+      (queuedArgs) => queuedArgs !== args,
+    );
 
     try {
-      await cb(...args)
+      await cb(...args);
     } catch (e) {
-      deleteQueue[key].push(args)
+      deleteQueue[key].push(args);
     }
 
-    saveDeleteQueue(deleteQueue)
-  }
+    saveDeleteQueue(deleteQueue);
+  };
 
-  addDeleteHandler(key, handler)
+  addDeleteHandler(key, handler);
 
-  return handler
-}
+  return handler;
+};
 
 export const deleteMinisterIssueAction = createDeleteHandler(
   'ministerIssueAction',
   async (planId, issueId, actionId) => {
     await axios.delete(
       API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deletePasture = createDeleteHandler(
   'pasture',
   async (planId, pastureId) => {
     await axios.delete(
       API.DELETE_RUP_PASTURE(planId, pastureId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deletePlantCommunity = createDeleteHandler(
   'plantCommunity',
   async (planId, pastureId, communityId) => {
     await axios.delete(
       API.DELETE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteMinisterIssue = createDeleteHandler(
   'ministerIssue',
   async (planId, issueId) => {
     await axios.delete(
       API.DELETE_RUP_MINISTER_ISSUE(planId, issueId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteMonitoringArea = createDeleteHandler(
   'monitoringArea',
   async (planId, pastureId, communityId, areaId) => {
     await axios.delete(
       API.DELETE_RUP_MONITORING_AREA(planId, pastureId, communityId, areaId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deletePlantCommunityAction = createDeleteHandler(
   'plantCommunityAction',
@@ -122,66 +122,66 @@ export const deletePlantCommunityAction = createDeleteHandler(
         planId,
         pastureId,
         communityId,
-        actionId
+        actionId,
       ),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteAdditionalRequirement = createDeleteHandler(
   'additionalRequirement',
   async (planId, requirementId) => {
     await axios.delete(
       API.DELETE_RUP_ADDITIONAL_REQUIREMENT(planId, requirementId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteManagementConsideration = createDeleteHandler(
   'managementConsideration',
   async (planId, considerationId) => {
     await axios.delete(
       API.DELETE_RUP_MANAGEMENT_CONSIDERATION(planId, considerationId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteGrazingSchedule = createDeleteHandler(
   'grazingSchedule',
   async (planId, scheduleId) => {
     await axios.delete(
       API.DELETE_RUP_GRAZING_SCHEDULE(planId, scheduleId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteGrazingScheduleEntry = createDeleteHandler(
   'grazingScheduleEntry',
   async (planId, scheduleId, entryId) => {
     await axios.delete(
       API.DELETE_RUP_GRAZING_SCHEDULE_ENTRY(planId, scheduleId, entryId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteIndicatorPlant = createDeleteHandler(
   'indicatorPlant',
   async (planId, pastureId, communityId, plantId) => {
     await axios.delete(
       API.DELETE_RUP_INDICATOR_PLANT(planId, pastureId, communityId, plantId),
-      getAuthHeaderConfig()
-    )
-  }
-)
+      getAuthHeaderConfig(),
+    );
+  },
+);
 
 export const deleteAttachment = async (planId, attachmentId) => {
   await axios.delete(
     API.DELETE_RUP_ATTACHMENT(planId, attachmentId),
-    getAuthHeaderConfig()
-  )
-}
+    getAuthHeaderConfig(),
+  );
+};

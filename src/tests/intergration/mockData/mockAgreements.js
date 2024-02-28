@@ -21,7 +21,7 @@ const paginatedMockAgreements = {
         district: {
           id: 9,
           code: 'DCP',
-          description: ''
+          description: '',
         },
         user: {
           id: 18,
@@ -33,20 +33,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -54,15 +54,15 @@ const paginatedMockAgreements = {
           locationCode: '01',
           name: 'MULVAHILL, LANCE ',
           clientTypeCode: 'A',
-          startDate: null
+          startDate: null,
         },
         {
           id: '00065457',
           locationCode: '00',
           name: 'MULVAHILL, MICHAEL JOHN',
           clientTypeCode: 'B',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -72,7 +72,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 85,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 15003,
@@ -81,7 +81,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 85,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 15002,
@@ -90,7 +90,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 85,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 15001,
@@ -99,7 +99,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 85,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 15000,
@@ -108,7 +108,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 8,
           totalAnnualUse: 77,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 14999,
@@ -117,7 +117,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 21,
           totalAnnualUse: 64,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 14998,
@@ -126,7 +126,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 42,
           totalAnnualUse: 43,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 14997,
@@ -135,7 +135,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 85,
           totalAnnualUse: 0,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 14996,
@@ -144,7 +144,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 85,
           totalAnnualUse: 0,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 14995,
@@ -153,7 +153,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 3,
           totalAnnualUse: 82,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 9428,
@@ -162,7 +162,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 3,
           totalAnnualUse: 82,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 9427,
@@ -171,7 +171,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 85,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 9425,
@@ -180,7 +180,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 525,
           totalAnnualUse: 81,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3900,
@@ -189,7 +189,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 525,
           totalAnnualUse: 81,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3899,
@@ -198,7 +198,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 331,
           totalAnnualUse: 275,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3898,
@@ -207,7 +207,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 606,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3897,
@@ -216,7 +216,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 285,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3896,
@@ -225,7 +225,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 606,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3895,
@@ -234,7 +234,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 495,
-          agreementId: 'RAN075974'
+          agreementId: 'RAN075974',
         },
         {
           id: 3325,
@@ -243,12 +243,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 495,
-          agreementId: 'RAN075974'
-        }
+          agreementId: 'RAN075974',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN075974'
+      id: 'RAN075974',
     },
     {
       forestFileId: 'RAN076108',
@@ -266,7 +266,7 @@ const paginatedMockAgreements = {
         district: {
           id: 1,
           code: 'DCC',
-          description: ''
+          description: '',
         },
         user: {
           id: 30,
@@ -278,20 +278,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -299,8 +299,8 @@ const paginatedMockAgreements = {
           locationCode: '00',
           name: 'WATT, CYNTHIA ANN',
           clientTypeCode: 'A',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -310,7 +310,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16435,
@@ -319,7 +319,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16434,
@@ -328,7 +328,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16433,
@@ -337,7 +337,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16432,
@@ -346,7 +346,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16431,
@@ -355,7 +355,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16430,
@@ -364,7 +364,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 7,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 16429,
@@ -373,7 +373,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 25209,
@@ -382,7 +382,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 25210,
@@ -391,7 +391,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2910,
@@ -400,7 +400,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2909,
@@ -409,7 +409,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2914,
@@ -418,7 +418,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2908,
@@ -427,7 +427,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2913,
@@ -436,7 +436,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2907,
@@ -445,7 +445,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 33,
           totalAnnualUse: 0,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2912,
@@ -454,7 +454,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2906,
@@ -463,7 +463,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2911,
@@ -472,7 +472,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
+          agreementId: 'RAN076108',
         },
         {
           id: 2905,
@@ -481,12 +481,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 7,
-          agreementId: 'RAN076108'
-        }
+          agreementId: 'RAN076108',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN076108'
+      id: 'RAN076108',
     },
     {
       forestFileId: 'RAN076567',
@@ -504,7 +504,7 @@ const paginatedMockAgreements = {
         district: {
           id: 13,
           code: 'DQU',
-          description: ''
+          description: '',
         },
         user: {
           id: 20,
@@ -516,20 +516,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -537,15 +537,15 @@ const paginatedMockAgreements = {
           locationCode: '01',
           name: 'THIESSEN, IVAN DEAN',
           clientTypeCode: 'A',
-          startDate: null
+          startDate: null,
         },
         {
           id: '00166680',
           locationCode: '00',
           name: 'THIESSEN, BONITA ROSE',
           clientTypeCode: 'B',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -555,7 +555,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23567,
@@ -564,7 +564,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23566,
@@ -573,7 +573,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23565,
@@ -582,7 +582,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23564,
@@ -591,7 +591,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23563,
@@ -600,7 +600,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23562,
@@ -609,7 +609,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23561,
@@ -618,7 +618,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23560,
@@ -627,7 +627,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23559,
@@ -636,7 +636,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23558,
@@ -645,7 +645,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23557,
@@ -654,7 +654,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23556,
@@ -663,7 +663,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23555,
@@ -672,7 +672,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23554,
@@ -681,7 +681,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23553,
@@ -690,7 +690,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23552,
@@ -699,7 +699,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23551,
@@ -708,7 +708,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23550,
@@ -717,7 +717,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23549,
@@ -726,7 +726,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23548,
@@ -735,7 +735,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23547,
@@ -744,7 +744,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23546,
@@ -753,7 +753,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23545,
@@ -762,7 +762,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 23544,
@@ -771,7 +771,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 17664,
@@ -780,7 +780,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 2,
           totalAnnualUse: 436,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 21252,
@@ -789,7 +789,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 436,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6896,
@@ -798,7 +798,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 404,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6895,
@@ -807,7 +807,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 816,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6894,
@@ -816,7 +816,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 651,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6893,
@@ -825,7 +825,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6892,
@@ -834,7 +834,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6891,
@@ -843,7 +843,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 6890,
@@ -852,7 +852,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
+          agreementId: 'RAN076567',
         },
         {
           id: 21251,
@@ -861,12 +861,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 438,
-          agreementId: 'RAN076567'
-        }
+          agreementId: 'RAN076567',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN076567'
+      id: 'RAN076567',
     },
     {
       forestFileId: 'RAN077020',
@@ -884,7 +884,7 @@ const paginatedMockAgreements = {
         district: {
           id: 15,
           code: 'DOS',
-          description: ''
+          description: '',
         },
         user: {
           id: 34,
@@ -896,20 +896,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -917,8 +917,8 @@ const paginatedMockAgreements = {
           locationCode: '00',
           name: 'THOMSON, COLIN GIFFORD MAGNUS',
           clientTypeCode: 'A',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -928,7 +928,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25416,
@@ -937,7 +937,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25415,
@@ -946,7 +946,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25414,
@@ -955,7 +955,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25413,
@@ -964,7 +964,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25412,
@@ -973,7 +973,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25411,
@@ -982,7 +982,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25410,
@@ -991,7 +991,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25409,
@@ -1000,7 +1000,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25408,
@@ -1009,7 +1009,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25407,
@@ -1018,7 +1018,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25406,
@@ -1027,7 +1027,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25405,
@@ -1036,7 +1036,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25404,
@@ -1045,7 +1045,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25403,
@@ -1054,7 +1054,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25402,
@@ -1063,7 +1063,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25401,
@@ -1072,7 +1072,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25400,
@@ -1081,7 +1081,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25399,
@@ -1090,7 +1090,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25398,
@@ -1099,7 +1099,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25397,
@@ -1108,7 +1108,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25396,
@@ -1117,7 +1117,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25395,
@@ -1126,7 +1126,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 25394,
@@ -1135,7 +1135,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 23187,
@@ -1144,7 +1144,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 238,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 20498,
@@ -1153,7 +1153,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 1182,
           totalAnnualUse: 250,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 22835,
@@ -1162,7 +1162,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 1182,
           totalAnnualUse: 250,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 9084,
@@ -1171,7 +1171,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 9083,
@@ -1180,7 +1180,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 9082,
@@ -1189,7 +1189,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 9081,
@@ -1198,7 +1198,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 9080,
@@ -1207,7 +1207,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 7659,
@@ -1216,7 +1216,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 6969,
@@ -1225,7 +1225,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1182,
-          agreementId: 'RAN077020'
+          agreementId: 'RAN077020',
         },
         {
           id: 6506,
@@ -1234,12 +1234,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 735,
-          agreementId: 'RAN077020'
-        }
+          agreementId: 'RAN077020',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN077020'
+      id: 'RAN077020',
     },
     {
       forestFileId: 'RAN076861',
@@ -1257,7 +1257,7 @@ const paginatedMockAgreements = {
         district: {
           id: 9,
           code: 'DCP',
-          description: ''
+          description: '',
         },
         user: {
           id: 18,
@@ -1269,20 +1269,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -1290,15 +1290,15 @@ const paginatedMockAgreements = {
           locationCode: '01',
           name: 'ELLINGSON, JOHN ANDREW',
           clientTypeCode: 'A',
-          startDate: null
+          startDate: null,
         },
         {
           id: '00140214',
           locationCode: '00',
           name: 'ELLINGSON, BONNIE MARY',
           clientTypeCode: 'B',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -1308,7 +1308,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24076,
@@ -1317,7 +1317,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24075,
@@ -1326,7 +1326,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24074,
@@ -1335,7 +1335,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24073,
@@ -1344,7 +1344,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24072,
@@ -1353,7 +1353,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24071,
@@ -1362,7 +1362,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24070,
@@ -1371,7 +1371,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24069,
@@ -1380,7 +1380,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24068,
@@ -1389,7 +1389,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24067,
@@ -1398,7 +1398,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24066,
@@ -1407,7 +1407,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24065,
@@ -1416,7 +1416,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24064,
@@ -1425,7 +1425,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24063,
@@ -1434,7 +1434,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24062,
@@ -1443,7 +1443,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24016,
@@ -1452,7 +1452,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24015,
@@ -1461,7 +1461,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24014,
@@ -1470,7 +1470,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24013,
@@ -1479,7 +1479,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24012,
@@ -1488,7 +1488,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24011,
@@ -1497,7 +1497,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24010,
@@ -1506,7 +1506,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24009,
@@ -1515,7 +1515,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 24008,
@@ -1524,7 +1524,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 11745,
@@ -1533,7 +1533,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 11744,
@@ -1542,7 +1542,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 11741,
@@ -1551,7 +1551,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 11743,
@@ -1560,7 +1560,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 6430,
@@ -1569,7 +1569,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 6429,
@@ -1578,7 +1578,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 6428,
@@ -1587,7 +1587,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 6427,
@@ -1596,7 +1596,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 6426,
@@ -1605,7 +1605,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
+          agreementId: 'RAN076861',
         },
         {
           id: 6425,
@@ -1614,12 +1614,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 51,
-          agreementId: 'RAN076861'
-        }
+          agreementId: 'RAN076861',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN076861'
+      id: 'RAN076861',
     },
     {
       forestFileId: 'RAN076843',
@@ -1637,7 +1637,7 @@ const paginatedMockAgreements = {
         district: {
           id: 15,
           code: 'DOS',
-          description: ''
+          description: '',
         },
         user: {
           id: 34,
@@ -1649,20 +1649,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -1670,15 +1670,15 @@ const paginatedMockAgreements = {
           locationCode: '02',
           name: 'CULLIGAN, RYAN MCKNIGHT',
           clientTypeCode: 'A',
-          startDate: null
+          startDate: null,
         },
         {
           id: '00045960',
           locationCode: '00',
           name: 'THE NATURE TRUST OF BRITISH COLUMBIA',
           clientTypeCode: 'B',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -1688,7 +1688,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25442,
@@ -1697,7 +1697,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25441,
@@ -1706,7 +1706,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25440,
@@ -1715,7 +1715,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25439,
@@ -1724,7 +1724,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25438,
@@ -1733,7 +1733,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25437,
@@ -1742,7 +1742,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25436,
@@ -1751,7 +1751,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25435,
@@ -1760,7 +1760,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25434,
@@ -1769,7 +1769,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25433,
@@ -1778,7 +1778,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25432,
@@ -1787,7 +1787,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25431,
@@ -1796,7 +1796,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25430,
@@ -1805,7 +1805,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25429,
@@ -1814,7 +1814,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25428,
@@ -1823,7 +1823,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25427,
@@ -1832,7 +1832,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25426,
@@ -1841,7 +1841,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25425,
@@ -1850,7 +1850,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25424,
@@ -1859,7 +1859,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25423,
@@ -1868,7 +1868,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25422,
@@ -1877,7 +1877,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25421,
@@ -1886,7 +1886,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25420,
@@ -1895,7 +1895,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 25419,
@@ -1904,7 +1904,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 20659,
@@ -1913,7 +1913,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 20100,
@@ -1922,7 +1922,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 16324,
@@ -1931,7 +1931,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 14815,
@@ -1940,7 +1940,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 12539,
@@ -1949,7 +1949,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 499,
           totalAnnualUse: 2482,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 11109,
@@ -1958,7 +1958,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 926,
           totalAnnualUse: 2055,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 9231,
@@ -1967,7 +1967,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 1426,
           totalAnnualUse: 1555,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 7879,
@@ -1976,7 +1976,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 2381,
           totalAnnualUse: 600,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 7180,
@@ -1985,7 +1985,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 600,
           totalAnnualUse: 2981,
-          agreementId: 'RAN076843'
+          agreementId: 'RAN076843',
         },
         {
           id: 6519,
@@ -1994,12 +1994,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 600,
-          agreementId: 'RAN076843'
-        }
+          agreementId: 'RAN076843',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN076843'
+      id: 'RAN076843',
     },
     {
       forestFileId: 'RAN076506',
@@ -2017,7 +2017,7 @@ const paginatedMockAgreements = {
         district: {
           id: 15,
           code: 'DOS',
-          description: ''
+          description: '',
         },
         user: {
           id: 35,
@@ -2029,20 +2029,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -2050,22 +2050,22 @@ const paginatedMockAgreements = {
           locationCode: '01',
           name: 'DENNIS, THERESA MYRTLE',
           clientTypeCode: 'A',
-          startDate: null
+          startDate: null,
         },
         {
           id: '00068017',
           locationCode: '00',
           name: 'DENNIS, ROBERT KELLY',
           clientTypeCode: 'B',
-          startDate: null
+          startDate: null,
         },
         {
           id: '00046398',
           locationCode: '00',
           name: 'DENNIS, ROBERT ',
           clientTypeCode: 'B',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -2075,7 +2075,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23438,
@@ -2084,7 +2084,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23437,
@@ -2093,7 +2093,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23436,
@@ -2102,7 +2102,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23435,
@@ -2111,7 +2111,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23434,
@@ -2120,7 +2120,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23433,
@@ -2129,7 +2129,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23432,
@@ -2138,7 +2138,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23431,
@@ -2147,7 +2147,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 23430,
@@ -2156,7 +2156,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 20657,
@@ -2165,7 +2165,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 20656,
@@ -2174,7 +2174,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 908,
           totalAnnualUse: 240,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 20655,
@@ -2183,7 +2183,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 908,
           totalAnnualUse: 240,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 20654,
@@ -2192,7 +2192,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 1148,
           totalAnnualUse: 0,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 21419,
@@ -2201,7 +2201,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 1148,
           totalAnnualUse: 0,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 16325,
@@ -2210,7 +2210,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 7746,
@@ -2219,7 +2219,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1083,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 12531,
@@ -2228,7 +2228,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 230,
           totalAnnualUse: 918,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 7745,
@@ -2237,7 +2237,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 365,
           totalAnnualUse: 783,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 9317,
@@ -2246,7 +2246,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 307,
           totalAnnualUse: 776,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 7744,
@@ -2255,7 +2255,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 396,
           totalAnnualUse: 752,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 7147,
@@ -2264,7 +2264,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1083,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 21522,
@@ -2273,7 +2273,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 370,
-          agreementId: 'RAN076506'
+          agreementId: 'RAN076506',
         },
         {
           id: 7146,
@@ -2282,12 +2282,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 1148,
-          agreementId: 'RAN076506'
-        }
+          agreementId: 'RAN076506',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN076506'
+      id: 'RAN076506',
     },
     {
       forestFileId: 'RAN077003',
@@ -2305,7 +2305,7 @@ const paginatedMockAgreements = {
         district: {
           id: 15,
           code: 'DOS',
-          description: ''
+          description: '',
         },
         user: {
           id: 36,
@@ -2317,20 +2317,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -2338,8 +2338,8 @@ const paginatedMockAgreements = {
           locationCode: '00',
           name: 'BOPFINGER, WALTER HANS',
           clientTypeCode: 'A',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -2349,7 +2349,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 18598,
@@ -2358,7 +2358,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 18597,
@@ -2367,7 +2367,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 18596,
@@ -2376,7 +2376,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 18595,
@@ -2385,7 +2385,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 8609,
@@ -2394,7 +2394,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 8608,
@@ -2403,7 +2403,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 662,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 8607,
@@ -2412,7 +2412,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 682,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 8606,
@@ -2421,7 +2421,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 662,
-          agreementId: 'RAN077003'
+          agreementId: 'RAN077003',
         },
         {
           id: 8605,
@@ -2430,12 +2430,12 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 662,
-          agreementId: 'RAN077003'
-        }
+          agreementId: 'RAN077003',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN077003'
+      id: 'RAN077003',
     },
     {
       forestFileId: 'RAN077031',
@@ -2453,7 +2453,7 @@ const paginatedMockAgreements = {
         district: {
           id: 11,
           code: 'DMH',
-          description: ''
+          description: '',
         },
         user: {
           id: 22,
@@ -2465,20 +2465,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 3,
         code: 'H01',
         description: 'Haycutting Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -2486,8 +2486,8 @@ const paginatedMockAgreements = {
           locationCode: '00',
           name: 'CANABO CATTLE CO. LTD.',
           clientTypeCode: 'A',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -2497,7 +2497,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 21,
           totalAnnualUse: 0,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5961,
@@ -2506,7 +2506,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5960,
@@ -2515,7 +2515,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5959,
@@ -2524,7 +2524,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5958,
@@ -2533,7 +2533,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5957,
@@ -2542,7 +2542,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5956,
@@ -2551,7 +2551,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5955,
@@ -2560,7 +2560,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5954,
@@ -2569,7 +2569,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
+          agreementId: 'RAN077031',
         },
         {
           id: 5944,
@@ -2578,8 +2578,8 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 21,
-          agreementId: 'RAN077031'
-        }
+          agreementId: 'RAN077031',
+        },
       ],
       plans: [
         {
@@ -2592,7 +2592,7 @@ const paginatedMockAgreements = {
             username: 'rangeadmin',
             clientId: null,
             givenName: 'Range',
-            familyName: 'Admin'
+            familyName: 'Admin',
           },
           creatorId: 2,
           effectiveAt: null,
@@ -2606,11 +2606,11 @@ const paginatedMockAgreements = {
           statusId: 1,
           submittedAt: null,
           updatedAt: '2018-11-14T17:46:18.101Z',
-          uploaded: true
-        }
+          uploaded: true,
+        },
       ],
       livestockIdentifiers: [],
-      id: 'RAN077031'
+      id: 'RAN077031',
     },
     {
       forestFileId: 'RAN077046',
@@ -2628,7 +2628,7 @@ const paginatedMockAgreements = {
         district: {
           id: 8,
           code: 'DPG',
-          description: ''
+          description: '',
         },
         user: {
           id: 33,
@@ -2640,20 +2640,20 @@ const paginatedMockAgreements = {
           phoneNumber: null,
           active: false,
           lastLoginAt: null,
-          roles: []
-        }
+          roles: [],
+        },
       },
       agreementType: {
         id: 1,
         code: 'E01',
         description: 'Grazing Licence',
-        active: true
+        active: true,
       },
       agreementExemptionStatus: {
         id: 1,
         code: 'N',
         description: 'Not Exempt',
-        active: true
+        active: true,
       },
       clients: [
         {
@@ -2661,8 +2661,8 @@ const paginatedMockAgreements = {
           locationCode: '00',
           name: 'VAN DER MERWE, PETRUS JACOBUS',
           clientTypeCode: 'A',
-          startDate: null
-        }
+          startDate: null,
+        },
       ],
       usage: [
         {
@@ -2672,7 +2672,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 25068,
@@ -2681,7 +2681,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 13935,
@@ -2690,7 +2690,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 13934,
@@ -2699,7 +2699,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 13933,
@@ -2708,7 +2708,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 13932,
@@ -2717,7 +2717,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 13931,
@@ -2726,7 +2726,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 13930,
@@ -2735,7 +2735,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 25067,
@@ -2744,7 +2744,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 12364,
@@ -2753,7 +2753,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 10296,
@@ -2762,7 +2762,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 862,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 9254,
@@ -2771,7 +2771,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 362,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 7728,
@@ -2780,7 +2780,7 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 0,
           totalAnnualUse: 362,
-          agreementId: 'RAN077046'
+          agreementId: 'RAN077046',
         },
         {
           id: 21393,
@@ -2789,13 +2789,13 @@ const paginatedMockAgreements = {
           temporaryIncrease: 0,
           totalNonUse: 300,
           totalAnnualUse: 0,
-          agreementId: 'RAN077046'
-        }
+          agreementId: 'RAN077046',
+        },
       ],
       plans: [],
       livestockIdentifiers: [],
-      id: 'RAN077046'
-    }
-  ]
-}
-export default paginatedMockAgreements
+      id: 'RAN077046',
+    },
+  ],
+};
+export default paginatedMockAgreements;

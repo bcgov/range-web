@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { connect } from 'formik'
+import { useEffect } from 'react';
+import { connect } from 'formik';
 
 const OnSubmitValidationError = ({ callback, formik }) => {
   useEffect(() => {
@@ -9,11 +9,11 @@ const OnSubmitValidationError = ({ callback, formik }) => {
       !formik.isSubmitting &&
       !formik.isValid
     ) {
-      callback(formik)
+      callback(formik);
     }
-  }, [formik.submitCount, formik.isSubmitting, formik.isValid, formik.dirty])
+  }, [formik.submitCount, formik.isSubmitting, formik.isValid, formik.dirty]);
 
-  return null
-}
+  return null;
+};
 
-export default connect(OnSubmitValidationError)
+export default connect(OnSubmitValidationError);

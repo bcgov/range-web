@@ -19,7 +19,7 @@ const mockPlanWithAgreement = {
     id: 1,
     code: 'C',
     name: 'Created',
-    active: true
+    active: true,
   },
   extension: null,
   creator: {
@@ -31,7 +31,7 @@ const mockPlanWithAgreement = {
     email: 'marc.schuffert@gov.bc.ca',
     phoneNumber: '250-847-6329',
     active: true,
-    lastLoginAt: '2018-12-03T21:51:24.751Z'
+    lastLoginAt: '2018-12-03T21:51:24.751Z',
   },
   pastures: [
     {
@@ -42,7 +42,7 @@ const mockPlanWithAgreement = {
       pldPercent: 0.6,
       notes: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       planId: 1,
-      plantCommunities: []
+      plantCommunities: [],
     },
     {
       id: 1,
@@ -71,11 +71,11 @@ const mockPlanWithAgreement = {
           communityType: {
             id: 1,
             name: 'Alkali saltgrass',
-            active: true
+            active: true,
           },
           indicatorPlants: [],
           monitoringAreas: [],
-          plantCommunityActions: []
+          plantCommunityActions: [],
         },
         {
           id: 14,
@@ -94,12 +94,12 @@ const mockPlanWithAgreement = {
           elevation: {
             id: 1,
             name: '<500',
-            active: true
+            active: true,
           },
           communityType: {
             id: 3,
             name: 'Barclay willow',
-            active: true
+            active: true,
           },
           indicatorPlants: [
             {
@@ -116,8 +116,8 @@ const mockPlanWithAgreement = {
                 stubbleHeight: null,
                 annualGrowth: null,
                 active: true,
-                isShrubUse: false
-              }
+                isShrubUse: false,
+              },
             },
             {
               id: 31,
@@ -133,8 +133,8 @@ const mockPlanWithAgreement = {
                 stubbleHeight: 8,
                 annualGrowth: null,
                 active: true,
-                isShrubUse: false
-              }
+                isShrubUse: false,
+              },
             },
             {
               id: 36,
@@ -150,8 +150,8 @@ const mockPlanWithAgreement = {
                 stubbleHeight: 8,
                 annualGrowth: null,
                 active: true,
-                isShrubUse: false
-              }
+                isShrubUse: false,
+              },
             },
             {
               id: 40,
@@ -167,8 +167,8 @@ const mockPlanWithAgreement = {
                 stubbleHeight: 17,
                 annualGrowth: null,
                 active: true,
-                isShrubUse: false
-              }
+                isShrubUse: false,
+              },
             },
             {
               id: 41,
@@ -184,9 +184,9 @@ const mockPlanWithAgreement = {
                 stubbleHeight: 10,
                 annualGrowth: null,
                 active: true,
-                isShrubUse: false
-              }
-            }
+                isShrubUse: false,
+              },
+            },
           ],
           plantCommunityActions: [
             {
@@ -203,8 +203,8 @@ const mockPlanWithAgreement = {
               actionType: {
                 id: 1,
                 name: 'Herding',
-                active: true
-              }
+                active: true,
+              },
             },
             {
               id: 5,
@@ -220,8 +220,8 @@ const mockPlanWithAgreement = {
               actionType: {
                 id: 2,
                 name: 'Livestock Variables',
-                active: true
-              }
+                active: true,
+              },
             },
             {
               id: 6,
@@ -237,9 +237,9 @@ const mockPlanWithAgreement = {
               actionType: {
                 id: 3,
                 name: 'Salting',
-                active: true
-              }
-            }
+                active: true,
+              },
+            },
           ],
           monitoringAreas: [
             {
@@ -255,7 +255,7 @@ const mockPlanWithAgreement = {
               rangelandHealth: {
                 id: 1,
                 name: 'Properly Functioning Condition',
-                active: true
+                active: true,
               },
               purposes: [
                 {
@@ -265,8 +265,8 @@ const mockPlanWithAgreement = {
                   purposeType: {
                     id: 1,
                     name: 'Range Readiness Criteria',
-                    active: true
-                  }
+                    active: true,
+                  },
                 },
                 {
                   id: 4,
@@ -275,11 +275,11 @@ const mockPlanWithAgreement = {
                   purposeType: {
                     id: 2,
                     name: 'Stubble Height',
-                    active: true
-                  }
-                }
+                    active: true,
+                  },
+                },
               ],
-              purposeTypeIds: [1, 2]
+              purposeTypeIds: [1, 2],
             },
             {
               id: 16,
@@ -294,7 +294,7 @@ const mockPlanWithAgreement = {
               rangelandHealth: {
                 id: 3,
                 name: 'Moderately at Risk',
-                active: true
+                active: true,
               },
               purposes: [
                 {
@@ -304,16 +304,16 @@ const mockPlanWithAgreement = {
                   purposeType: {
                     id: 1,
                     name: 'Range Readiness Criteria',
-                    active: true
-                  }
-                }
+                    active: true,
+                  },
+                },
               ],
-              purposeTypeIds: [1]
-            }
-          ]
-        }
-      ]
-    }
+              purposeTypeIds: [1],
+            },
+          ],
+        },
+      ],
+    },
   ],
   grazingSchedules: [
     {
@@ -335,8 +335,8 @@ const mockPlanWithAgreement = {
             id: 2,
             name: 'Bull',
             auFactor: 1.5,
-            active: true
-          }
+            active: true,
+          },
         },
         {
           id: 2,
@@ -351,8 +351,8 @@ const mockPlanWithAgreement = {
             id: 1,
             name: 'Cow with Calf',
             auFactor: 1,
-            active: true
-          }
+            active: true,
+          },
         },
         {
           id: 3,
@@ -367,11 +367,11 @@ const mockPlanWithAgreement = {
             id: 3,
             name: 'Yearling',
             auFactor: 0.7,
-            active: true
-          }
-        }
-      ]
-    }
+            active: true,
+          },
+        },
+      ],
+    },
   ],
   ministerIssues: [
     {
@@ -384,11 +384,11 @@ const mockPlanWithAgreement = {
       ministerIssueType: {
         id: 1,
         name: 'Community Watershed',
-        active: true
+        active: true,
       },
       pastures: [1],
-      ministerIssueActions: []
-    }
+      ministerIssueActions: [],
+    },
   ],
   planStatusHistory: [],
   confirmations: [],
@@ -399,7 +399,7 @@ const mockPlanWithAgreement = {
     beginInUninfestedArea: true,
     undercarrigesInspected: true,
     revegetate: false,
-    other: 'Control Canada Thistle by mowing'
+    other: 'Control Canada Thistle by mowing',
   },
   additionalRequirements: [
     {
@@ -411,8 +411,8 @@ const mockPlanWithAgreement = {
       category: {
         id: 1,
         name: 'Notice or Order',
-        active: true
-      }
+        active: true,
+      },
     },
     {
       id: 16,
@@ -424,9 +424,9 @@ const mockPlanWithAgreement = {
       category: {
         id: 3,
         name: 'Memorandum of Understanding',
-        active: true
-      }
-    }
+        active: true,
+      },
+    },
   ],
   managementConsiderations: [
     {
@@ -439,9 +439,9 @@ const mockPlanWithAgreement = {
       considerationType: {
         id: 1,
         name: 'Concern',
-        active: true
-      }
-    }
+        active: true,
+      },
+    },
   ],
   agreement: {
     forestFileId: 'RAN074308',
@@ -459,7 +459,7 @@ const mockPlanWithAgreement = {
       district: {
         id: 2,
         code: 'DSS',
-        description: ''
+        description: '',
       },
       user: {
         id: 15,
@@ -470,20 +470,20 @@ const mockPlanWithAgreement = {
         email: 'marc.schuffert@gov.bc.ca',
         phoneNumber: '250-847-6329',
         active: true,
-        lastLoginAt: '2018-12-03T21:51:24.751Z'
-      }
+        lastLoginAt: '2018-12-03T21:51:24.751Z',
+      },
     },
     agreementType: {
       id: 1,
       code: 'E01',
       description: 'Grazing Licence',
-      active: true
+      active: true,
     },
     agreementExemptionStatus: {
       id: 1,
       code: 'N',
       description: 'Not Exempt',
-      active: true
+      active: true,
     },
     clients: [
       {
@@ -492,7 +492,7 @@ const mockPlanWithAgreement = {
         name: 'TRIGIANI, MICHAEL DAVID',
         clientTypeCode: 'A',
         startDate: null,
-        endDate: null
+        endDate: null,
       },
       {
         id: '00180909',
@@ -500,8 +500,8 @@ const mockPlanWithAgreement = {
         name: 'TRIGIANI, HEATHER DIANE',
         clientTypeCode: 'B',
         startDate: null,
-        endDate: null
-      }
+        endDate: null,
+      },
     ],
     usage: [
       {
@@ -511,7 +511,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 1022,
@@ -520,7 +520,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 1023,
@@ -529,7 +529,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 1024,
@@ -538,7 +538,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 1025,
@@ -547,7 +547,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 22472,
@@ -556,7 +556,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 1026,
@@ -565,7 +565,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 1027,
@@ -574,7 +574,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 6009,
@@ -583,7 +583,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 6010,
@@ -592,7 +592,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 8220,
@@ -601,7 +601,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 8221,
@@ -610,7 +610,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 8222,
@@ -619,7 +619,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 8223,
@@ -628,7 +628,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 8224,
@@ -637,7 +637,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 17515,
@@ -646,7 +646,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 17516,
@@ -655,7 +655,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 17517,
@@ -664,7 +664,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 17518,
@@ -673,7 +673,7 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
+        agreementId: 'RAN074308',
       },
       {
         id: 17519,
@@ -682,11 +682,11 @@ const mockPlanWithAgreement = {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 25,
-        agreementId: 'RAN074308'
-      }
+        agreementId: 'RAN074308',
+      },
     ],
     livestockIdentifiers: [],
-    id: 'RAN074308'
-  }
-}
-export default mockPlanWithAgreement
+    id: 'RAN074308',
+  },
+};
+export default mockPlanWithAgreement;

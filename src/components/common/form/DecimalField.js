@@ -1,8 +1,8 @@
-import React from 'react'
-import { Field, FastField, getIn } from 'formik'
-import { Form, Input } from 'semantic-ui-react'
-import { InputRef } from './InputRef'
-import ErrorMessage from './ErrorMessage'
+import React from 'react';
+import { Field, FastField, getIn } from 'formik';
+import { Form, Input } from 'semantic-ui-react';
+import { InputRef } from './InputRef';
+import ErrorMessage from './ErrorMessage';
 
 const DecimalField = ({
   name,
@@ -12,9 +12,9 @@ const DecimalField = ({
   fieldProps = {},
   errorComponent = ErrorMessage,
   inputRef,
-  fast
+  fast,
 }) => {
-  const DesiredField = fast === true ? FastField : Field
+  const DesiredField = fast === true ? FastField : Field;
 
   return (
     <DesiredField
@@ -33,8 +33,8 @@ const DecimalField = ({
         />
       )}
     />
-  )
-}
+  );
+};
 
 const DecimalInput = ({
   name,
@@ -44,13 +44,13 @@ const DecimalInput = ({
   errorComponent,
   inputRef,
   form,
-  field
+  field,
 }) => {
-  const { onChange, ...safeInputProps } = inputProps
-  const id = `decimal_field_${name}`
+  const { onChange, ...safeInputProps } = inputProps;
+  const id = `decimal_field_${name}`;
 
-  const error = getIn(form.errors, name)
-  const touched = getIn(form.touched, name)
+  const error = getIn(form.errors, name);
+  const touched = getIn(form.touched, name);
 
   return (
     <Form.Field error={!!error} {...fieldProps}>
@@ -65,27 +65,30 @@ const DecimalInput = ({
           value={touched ? field.value : parseFloat(field.value).toFixed(1)}
           onBlur={(...args) => {
             if (!isNaN(parseFloat(field.value))) {
-              form.setFieldValue(field.name, parseFloat(field.value).toFixed(1))
+              form.setFieldValue(
+                field.name,
+                parseFloat(field.value).toFixed(1),
+              );
             }
 
-            form.handleBlur(...args)
+            form.handleBlur(...args);
           }}
           onChange={(e, { name, value }) => {
-            form.setFieldValue(field.name, value)
-            form.setFieldTouched(field.name, true)
+            form.setFieldValue(field.name, value);
+            form.setFieldTouched(field.name, true);
             Promise.resolve().then(() => {
-              onChange && onChange(e, { name, value })
-            })
+              onChange && onChange(e, { name, value });
+            });
           }}
         />
       </InputRef>
 
       {error &&
         React.createElement(errorComponent, {
-          message: error
+          message: error,
         })}
     </Form.Field>
-  )
-}
+  );
+};
 
-export default DecimalField
+export default DecimalField;

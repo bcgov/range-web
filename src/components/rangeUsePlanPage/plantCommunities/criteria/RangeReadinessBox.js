@@ -1,26 +1,23 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import IndicatorPlantsForm from '../IndicatorPlantsForm'
-import { PLANT_CRITERIA } from '../../../../constants/variables'
-import { RANGE_READINESS } from '../../../../constants/fields'
-import { RANGE_READINESS_OTHER_TIP } from '../../../../constants/strings'
-import PermissionsField from '../../../common/PermissionsField'
-import DayMonthPicker from '../../../common/form/DayMonthPicker'
-import { TextArea } from 'formik-semantic-ui'
-import moment from 'moment'
+import IndicatorPlantsForm from '../IndicatorPlantsForm';
+import { PLANT_CRITERIA } from '../../../../constants/variables';
+import { RANGE_READINESS } from '../../../../constants/fields';
+import { RANGE_READINESS_OTHER_TIP } from '../../../../constants/strings';
+import PermissionsField from '../../../common/PermissionsField';
+import DayMonthPicker from '../../../common/form/DayMonthPicker';
+import { TextArea } from 'formik-semantic-ui';
+import moment from 'moment';
 
 const RangeReadinessBox = ({
   plantCommunity,
   planId,
   pastureId,
-  namespace
+  namespace,
 }) => {
-  const {
-    rangeReadinessMonth,
-    rangeReadinessDay,
-    rangeReadinessNote
-  } = plantCommunity
+  const { rangeReadinessMonth, rangeReadinessDay, rangeReadinessNote } =
+    plantCommunity;
 
   return (
     <div className="rup__plant-community__sh">
@@ -39,7 +36,7 @@ const RangeReadinessBox = ({
         component={DayMonthPicker}
         displayValue={moment(
           `${rangeReadinessMonth} ${rangeReadinessDay}`,
-          'MM DD'
+          'MM DD',
         ).format('MMMM DD')}
         label="Readiness Date"
         dateFormat="MMMM DD"
@@ -65,14 +62,14 @@ const RangeReadinessBox = ({
         fast
       />
     </div>
-  )
-}
+  );
+};
 
 RangeReadinessBox.propTypes = {
   plantCommunity: PropTypes.shape({
-    indicatorPlants: PropTypes.arrayOf(PropTypes.object)
+    indicatorPlants: PropTypes.arrayOf(PropTypes.object),
   }),
-  namespace: PropTypes.string.isRequired
-}
+  namespace: PropTypes.string.isRequired,
+};
 
-export default RangeReadinessBox
+export default RangeReadinessBox;

@@ -1,46 +1,46 @@
-import React, { useState, useRef } from 'react'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { STUBBLE_HEIGHT } from '../../../constants/fields'
-import { Dropdown, Icon, Grid } from 'semantic-ui-react'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { Form } from 'formik-semantic-ui'
-import DecimalField from '../../common/form/DecimalField'
-import HelpfulDropdown from '../../common/form/HelpfulDropdown'
+import React, { useState, useRef } from 'react';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { STUBBLE_HEIGHT } from '../../../constants/fields';
+import { Dropdown, Icon, Grid } from 'semantic-ui-react';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { Form } from 'formik-semantic-ui';
+import DecimalField from '../../common/form/DecimalField';
+import HelpfulDropdown from '../../common/form/HelpfulDropdown';
 
 const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
-  const references = useReferences()
+  const references = useReferences();
 
   const species =
-    references[REFERENCE_KEY.PLANT_SPECIES].filter(s => !s.isShrubUse) || []
+    references[REFERENCE_KEY.PLANT_SPECIES].filter((s) => !s.isShrubUse) || [];
 
-  const otherSpecies = species.find(s => s.name === 'Other')
+  const otherSpecies = species.find((s) => s.name === 'Other');
   const [otherType, setOtherType] = useState({
     key: otherSpecies?.id,
     value: otherSpecies?.id,
-    text: plant?.name || otherSpecies?.name || 'Other'
-  })
+    text: plant?.name || otherSpecies?.name || 'Other',
+  });
 
   const options = species
-    .map(species => ({
+    .map((species) => ({
       key: species.id,
       value: species.id,
-      text: species.name
+      text: species.name,
     }))
     .concat(otherType)
-    .filter(o => o.text !== 'Other')
+    .filter((o) => o.text !== 'Other');
 
   const onAddItem = (e, { value }) => {
     setOtherType({
       ...otherType,
-      text: value
-    })
+      text: value,
+    });
 
-    formik.setFieldValue(`${namespace}.plantSpeciesId`, otherType.value)
-    formik.setFieldValue(`${namespace}.name`, value)
-  }
+    formik.setFieldValue(`${namespace}.plantSpeciesId`, otherType.value);
+    formik.setFieldValue(`${namespace}.name`, value);
+  };
 
-  const valueInputRef = useRef(null)
+  const valueInputRef = useRef(null);
 
   return (
     <Grid key={plant.id}>
@@ -54,8 +54,8 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             placeholder="Indicator Plant"
             options={options}
             displayValue={
-              options.find(o => o.key === plant.plantSpeciesId)
-                ? options.find(o => o.key === plant.plantSpeciesId).text
+              options.find((o) => o.key === plant.plantSpeciesId)
+                ? options.find((o) => o.key === plant.plantSpeciesId).text
                 : ''
             }
             fieldProps={{ inline: true, fluid: true }}
@@ -65,21 +65,21 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               additionLabel: 'Other: ',
               onAddItem,
               selectOnBlur: true,
-              onKeyDown: e => {
+              onKeyDown: (e) => {
                 if (e.keyCode === 13) {
-                  valueInputRef.current.focus()
+                  valueInputRef.current.focus();
                 }
               },
               onChange: (e, { value }) => {
                 if (typeof value !== 'string') {
-                  const plantValue = species.find(s => s.id === value)[
+                  const plantValue = species.find((s) => s.id === value)[
                     valueType
-                  ]
+                  ];
                   if (plantValue) {
-                    formik.setFieldValue(`${namespace}.value`, plantValue)
+                    formik.setFieldValue(`${namespace}.value`, plantValue);
                   }
                 }
-              }
+              },
               // fluid: true
             }}
           />
@@ -90,7 +90,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             component={DecimalField}
             displayValue={plant.value}
             inputProps={{
-              ref: valueInputRef
+              ref: valueInputRef,
             }}
           />
         </Form.Group>
@@ -104,17 +104,17 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               {
                 key: 'delete',
                 value: 'delete',
-                text: 'Delete'
-              }
+                text: 'Delete',
+              },
             ]}
             style={{ display: 'flex', alignItems: 'center' }}
             icon={null}
             pointing="right"
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             value={null}
             onChange={(e, { value }) => {
               if (value === 'delete') {
-                onDelete()
+                onDelete();
               }
             }}
             selectOnBlur={false}
@@ -122,7 +122,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
         </IfEditable>
       </Grid.Column>
     </Grid>
-  )
-}
+  );
+};
 
-export default IndicatorPlant
+export default IndicatorPlant;

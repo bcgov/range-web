@@ -1,107 +1,110 @@
-import React, { Component } from 'react'
-import UpdateZoneModal from './UpdateZoneModal'
+import React, { Component } from 'react';
+import UpdateZoneModal from './UpdateZoneModal';
 import {
   REFERENCE_KEY,
   PLAN_STATUS,
   AMENDMENT_TYPE,
-  CONFIRMATION_MODAL_ID
-} from '../../../constants/variables'
-import { Status, Banner } from '../../common'
-import * as strings from '../../../constants/strings'
-import * as utils from '../../../utils'
-import BackBtn from '../BackBtn'
-import ContentsContainer from '../ContentsContainer'
-import StickyHeader from '../StickyHeader'
-import Notifications from '../notifications'
-import { defaultProps, propTypes } from './props'
-import ActionBtns from '../ActionBtns'
-import UpdateStatusModal from './UpdateStatusModal'
-import PlanForm from '../PlanForm'
-import { canUserEditThisPlan, isPlanAmendment } from '../../../utils'
-import { createAmendment, savePlan, updatePlan } from '../../../api'
-import NetworkStatus from '../../common/NetworkStatus'
-import { connect } from 'formik'
-import { toastErrorMessage, toastSuccessMessage } from '../../../actionCreators'
+  CONFIRMATION_MODAL_ID,
+} from '../../../constants/variables';
+import { Status, Banner } from '../../common';
+import * as strings from '../../../constants/strings';
+import * as utils from '../../../utils';
+import BackBtn from '../BackBtn';
+import ContentsContainer from '../ContentsContainer';
+import StickyHeader from '../StickyHeader';
+import Notifications from '../notifications';
+import { defaultProps, propTypes } from './props';
+import ActionBtns from '../ActionBtns';
+import UpdateStatusModal from './UpdateStatusModal';
+import PlanForm from '../PlanForm';
+import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
+import { createAmendment, savePlan, updatePlan } from '../../../api';
+import NetworkStatus from '../../common/NetworkStatus';
+import { connect } from 'formik';
+import {
+  toastErrorMessage,
+  toastSuccessMessage,
+} from '../../../actionCreators';
 
 // Range Staff Page
 class PageForStaff extends Component {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = propTypes;
+  static defaultProps = defaultProps;
 
   state = {
     isUpdateZoneModalOpen: false,
     isPlanSubmissionModalOpen: false,
     isSavingAsDraft: false,
-    isCreatingAmendment: false
-  }
+    isCreatingAmendment: false,
+  };
 
   onSaveDraftClick = () => {
     const onRequested = () => {
-      this.setState({ isSavingAsDraft: true })
-    }
+      this.setState({ isSavingAsDraft: true });
+    };
     const onSuccess = () => {
       this.props.fetchPlan().then(() => {
-        this.setState({ isSavingAsDraft: false })
-        this.props.toastSuccessMessage(strings.STAFF_SAVE_PLAN_DRAFT_SUCCESS)
-      })
-    }
+        this.setState({ isSavingAsDraft: false });
+        this.props.toastSuccessMessage(strings.STAFF_SAVE_PLAN_DRAFT_SUCCESS);
+      });
+    };
     const onError = () => {
-      this.setState({ isSavingAsDraft: false })
-    }
+      this.setState({ isSavingAsDraft: false });
+    };
 
-    this.updateContent(onRequested, onSuccess, onError)
-  }
+    this.updateContent(onRequested, onSuccess, onError);
+  };
 
   updateContent = async (onRequested, onSuccess, onError) => {
-    const { plan, toastErrorMessage, user } = this.props
+    const { plan, toastErrorMessage, user } = this.props;
 
-    onRequested()
+    onRequested();
 
-    if (this.validateRup(plan)) return onError()
+    if (this.validateRup(plan)) return onError();
 
     try {
-      await savePlan(plan, user)
+      await savePlan(plan, user);
 
-      await onSuccess()
+      await onSuccess();
     } catch (err) {
-      onError()
-      toastErrorMessage(err)
-      throw err
+      onError();
+      toastErrorMessage(err);
+      throw err;
     }
-  }
+  };
 
-  validateRup = plan => {
-    const { references, agreement } = this.props
-    const { pastures } = plan
-    const usage = agreement && agreement.usage
-    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
+  validateRup = (plan) => {
+    const { references, agreement } = this.props;
+    const { pastures } = plan;
+    const usage = agreement && agreement.usage;
+    const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
     const errors = utils.handleRupValidation(
       plan,
       pastures,
       livestockTypes,
-      usage
-    )
+      usage,
+    );
 
     // errors have been found
     if (errors.length !== 0) {
-      const [error] = errors
-      utils.scrollIntoView(error.elementId)
-      return error
+      const [error] = errors;
+      utils.scrollIntoView(error.elementId);
+      return error;
     }
 
     // no errors found
-    return false
-  }
+    return false;
+  };
 
   onViewPDFClicked = () => {
-    const { id: planId } = this.props.plan || {}
-    this.props.history.push(`/range-use-plan/${planId}/export-pdf`)
-  }
+    const { id: planId } = this.props.plan || {};
+    this.props.history.push(`/range-use-plan/${planId}/export-pdf`);
+  };
 
   onManageAgentsClicked = () => {
-    const { id: planId } = this.props.plan || []
-    this.props.history.push(`/range-use-plan/${planId}/agents`)
-  }
+    const { id: planId } = this.props.plan || [];
+    this.props.history.push(`/range-use-plan/${planId}/agents`);
+  };
 
   onAmendPlanClicked = async () => {
     const {
@@ -109,51 +112,51 @@ class PageForStaff extends Component {
       fetchPlan,
       toastSuccessMessage,
       toastErrorMessage,
-      references
-    } = this.props
+      references,
+    } = this.props;
 
     this.setState({
-      isCreatingAmendment: true
-    })
+      isCreatingAmendment: true,
+    });
 
     try {
       const amendmentType = references[REFERENCE_KEY.AMENDMENT_TYPE]?.find(
-        type => type.code === AMENDMENT_TYPE.MANDATORY
-      )
+        (type) => type.code === AMENDMENT_TYPE.MANDATORY,
+      );
 
-      await createAmendment(plan, references, true)
+      await createAmendment(plan, references, true);
       await updatePlan(plan.id, {
-        amendmentTypeId: amendmentType.id
-      })
+        amendmentTypeId: amendmentType.id,
+      });
 
-      toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS)
+      toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS);
     } catch (e) {
-      toastErrorMessage(`Couldn't create amendment: ${e.message}`)
+      toastErrorMessage(`Couldn't create amendment: ${e.message}`);
     } finally {
       this.setState({
-        isCreatingAmendment: false
-      })
+        isCreatingAmendment: false,
+      });
 
-      await fetchPlan()
+      await fetchPlan();
     }
-  }
+  };
 
-  openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true })
-  closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false })
+  openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true });
+  closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false });
   openPlanSubmissionModal = () => {
-    const error = this.validateRup(this.props.plan)
+    const error = this.validateRup(this.props.plan);
     if (!error) {
-      this.setState({ isPlanSubmissionModalOpen: true })
+      this.setState({ isPlanSubmissionModalOpen: true });
     } else {
-      this.props.toastErrorMessage(error)
+      this.props.toastErrorMessage(error);
     }
-  }
+  };
   closePlanSubmissionModal = () =>
-    this.setState({ isPlanSubmissionModalOpen: false })
+    this.setState({ isPlanSubmissionModalOpen: false });
 
   renderActionBtns = () => {
-    const { isSavingAsDraft, isSubmitting } = this.state
-    const { openConfirmationModal, plan, user } = this.props
+    const { isSavingAsDraft, isSubmitting } = this.state;
+    const { openConfirmationModal, plan, user } = this.props;
 
     return (
       <ActionBtns
@@ -165,7 +168,7 @@ class PageForStaff extends Component {
           updateStatus: utils.canUserUpdateStatus(plan, user),
           submitAsMandatory: utils.canUserSubmitAsMandatory(plan, user),
           amendFromLegal: utils.canUserAmendFromLegal(plan, user),
-          manageAgents: utils.doesStaffOwnPlan(plan, user)
+          manageAgents: utils.doesStaffOwnPlan(plan, user),
         }}
         isSubmitting={isSubmitting}
         isSavingAsDraft={isSavingAsDraft}
@@ -181,31 +184,31 @@ class PageForStaff extends Component {
             header: strings.AMEND_PLAN_CONFIRM_HEADER,
             content: strings.AMEND_PLAN_CONFIRM_CONTENT,
             onYesBtnClicked: this.onAmendPlanClicked,
-            closeAfterYesBtnClicked: true
+            closeAfterYesBtnClicked: true,
           })
         }
         user={this.props.user}
         plan={this.props.plan}
         fetchPlan={this.props.fetchPlan}
         beforeUpdateStatus={async () => {
-          const { formik } = this.props
-          await formik.submitForm()
-          const errors = await formik.validateForm()
-          const error = this.validateRup(this.props.plan)
+          const { formik } = this.props;
+          await formik.submitForm();
+          const errors = await formik.validateForm();
+          const error = this.validateRup(this.props.plan);
 
           if (Object.keys(errors).length === 0 && !error) {
-            return true
+            return true;
           }
 
           if (error) {
-            this.props.toastErrorMessage(error)
+            this.props.toastErrorMessage(error);
           }
 
-          return false
+          return false;
         }}
       />
-    )
-  }
+    );
+  };
 
   render() {
     const {
@@ -216,21 +219,19 @@ class PageForStaff extends Component {
       plan,
       planStatusHistoryMap,
       fetchPlan,
-      updateRUPStatus
-    } = this.props
-    const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state
+      updateRUPStatus,
+    } = this.props;
+    const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state;
 
-    const { agreementId, status, rangeName } = plan
+    const { agreementId, status, rangeName } = plan;
 
-    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE]
+    const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const planTypeDescription = utils.getPlanTypeDescription(
       plan,
-      amendmentTypes
-    )
-    const {
-      header: bannerHeader,
-      content: bannerContent
-    } = utils.getBannerHeaderAndContentForAH(plan, user, references)
+      amendmentTypes,
+    );
+    const { header: bannerHeader, content: bannerContent } =
+      utils.getBannerHeaderAndContentForAH(plan, user, references);
 
     return (
       <section className="rup">
@@ -297,8 +298,8 @@ class PageForStaff extends Component {
           )}
         </ContentsContainer>
       </section>
-    )
+    );
   }
 }
 
-export default connect(PageForStaff)
+export default connect(PageForStaff);

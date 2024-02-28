@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import { Icon, Menu } from 'semantic-ui-react'
-import { Manager, Reference, Popper } from 'react-popper'
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
+import { Icon, Menu } from 'semantic-ui-react';
+import { Manager, Reference, Popper } from 'react-popper';
 
 const RowMenu = ({ onCopy, onDelete }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Manager>
@@ -21,8 +21,9 @@ const RowMenu = ({ onCopy, onDelete }) => {
             placement="left"
             positionFixed
             modifiers={{
-              hide: { enabled: false }
-            }}>
+              hide: { enabled: false },
+            }}
+          >
             {({ ref, style, placement, arrowProps }) => (
               <>
                 <div
@@ -31,7 +32,7 @@ const RowMenu = ({ onCopy, onDelete }) => {
                     top: 0,
                     left: 0,
                     right: 0,
-                    bottom: 0
+                    bottom: 0,
                   }}
                   onClick={() => setIsOpen(false)}
                 />
@@ -40,23 +41,26 @@ const RowMenu = ({ onCopy, onDelete }) => {
                     vertical
                     onBlur={() => setIsOpen(false)}
                     pointing
-                    compact>
+                    compact
+                  >
                     <Menu.Item
                       onClick={() => {
-                        setIsOpen(false)
+                        setIsOpen(false);
                         setTimeout(() => {
-                          onCopy()
-                        }, 0)
-                      }}>
+                          onCopy();
+                        }, 0);
+                      }}
+                    >
                       Duplicate
                     </Menu.Item>
                     <Menu.Item
                       onClick={() => {
-                        setIsOpen(false)
+                        setIsOpen(false);
                         setTimeout(() => {
-                          onDelete()
-                        }, 0)
-                      }}>
+                          onDelete();
+                        }, 0);
+                      }}
+                    >
                       Delete
                     </Menu.Item>
                   </Menu>
@@ -65,10 +69,10 @@ const RowMenu = ({ onCopy, onDelete }) => {
               </>
             )}
           </Popper>,
-          document.body
+          document.body,
         )}
     </Manager>
-  )
-}
+  );
+};
 
-export default RowMenu
+export default RowMenu;

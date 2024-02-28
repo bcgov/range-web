@@ -1,7 +1,13 @@
-import * as API from '../constants/api'
-import { getAuthHeaderConfig, axios } from '../utils'
+import * as API from '../constants/api';
+import { getAuthHeaderConfig, axios } from '../utils';
 
-export const updateEmailTemplate = async (templateId, name, fromEmail, subject, body) => {
+export const updateEmailTemplate = async (
+  templateId,
+  name,
+  fromEmail,
+  subject,
+  body,
+) => {
   return axios.put(
     API.UPDATE_EMAIL_TEMPLATE(templateId),
     {
@@ -11,5 +17,5 @@ export const updateEmailTemplate = async (templateId, name, fromEmail, subject, 
       body: body,
     },
     getAuthHeaderConfig(),
-  )
-}
+  );
+};

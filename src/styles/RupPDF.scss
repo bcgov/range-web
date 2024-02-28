@@ -2,7 +2,7 @@
   padding: 10px;
   display: flex;
   justify-content: center;
-  
+
   &__link {
     display: none;
   }
@@ -28,12 +28,12 @@
       justify-content: space-between;
       margin: 10px 0;
       padding: 20px;
-      border: 1px solid #CCCCCC;
+      border: 1px solid #cccccc;
       border-radius: 3px;
     }
     .ReactPDF {
       &__Page {
-        box-shadow: 0 0 30px rgba(0, 0, 0, .3);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
         margin: 10px 0;
 
         canvas {

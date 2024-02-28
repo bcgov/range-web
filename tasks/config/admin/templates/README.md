@@ -10,20 +10,22 @@ An update in `2.0.8` has fixed an issue which may have prevented some single com
 If you're looking for the full version of Semantic including all components and build tools [check out the main project repository](https://github.com/Semantic-Org/Semantic-UI/tree/1.0)
 
 #### To install with Bower
+
 ```
 bower install semantic-ui-{component}
 ```
 
 #### To install with NPM
+
 ```
 npm install semantic-ui-{component}
 ```
 
 #### To install with Meteor
+
 ```
 meteor add semantic:ui-{component}
 ```
-
 
 ## Addendum
 

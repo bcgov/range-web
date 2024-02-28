@@ -1,8 +1,8 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
-import InputModal from './InputModal'
+import InputModal from './InputModal';
 
 storiesOf('InputModal', module).add('default', () => (
   <InputModal
@@ -11,4 +11,4 @@ storiesOf('InputModal', module).add('default', () => (
     onClose={action('close')}
     title="My Input Modal"
   />
-))
+));

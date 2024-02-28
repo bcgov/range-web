@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
-import PrimaryButton from './PrimaryButton'
+import { storiesOf } from '@storybook/react';
+import PrimaryButton from './PrimaryButton';
 
 storiesOf('Priamry Button', module)
   .add('Default', () => <PrimaryButton />)
@@ -28,4 +28,4 @@ storiesOf('Priamry Button', module)
       Maecenas laoreet est eu urna volutpat, vitae cursus justo dignissim.
       Maecenas venenatis condimentum nunc a cursus.
     </PrimaryButton>
-  ))
+  ));

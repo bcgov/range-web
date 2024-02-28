@@ -8,3 +8,4 @@
 /src/semantic
 /src/serviceWorker.js
 /.tmp
+/cypress

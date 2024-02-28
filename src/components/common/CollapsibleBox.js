@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import { Icon } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { Icon } from 'semantic-ui-react';
 
 class CollapsibleBox extends Component {
   static propTypes = {
@@ -15,14 +15,14 @@ class CollapsibleBox extends Component {
     onContentClicked: PropTypes.func,
     onContentClick: PropTypes.func,
     scroll: PropTypes.bool,
-    error: PropTypes.bool
-  }
+    error: PropTypes.bool,
+  };
 
   static defaultProps = {
     headerRight: null,
     shouldHideHeaderRightWhenNotActive: false,
-    message: null
-  }
+    message: null,
+  };
 
   render() {
     const {
@@ -36,12 +36,12 @@ class CollapsibleBox extends Component {
       message,
       collapsibleContent,
       scroll,
-      error
-    } = this.props
-    const isActive = activeContentIndex === contentIndex
-    let additionalHeaderRight = headerRight
+      error,
+    } = this.props;
+    const isActive = activeContentIndex === contentIndex;
+    let additionalHeaderRight = headerRight;
     if (shouldHideHeaderRightWhenNotActive) {
-      additionalHeaderRight = isActive ? headerRight : null
+      additionalHeaderRight = isActive ? headerRight : null;
     }
 
     return (
@@ -50,11 +50,12 @@ class CollapsibleBox extends Component {
           <div
             className={classnames('collaspible-box__header__title', {
               'collaspible-box__header__title--active': isActive,
-              'collaspible-box__header__title--error': error
+              'collaspible-box__header__title--error': error,
             })}
             onClick={
               onContentClick ? onContentClick : onContentClicked(contentIndex)
-            }>
+            }
+          >
             {header}
             <div className="collaspible-box__header__right">
               {additionalHeaderRight}
@@ -76,13 +77,14 @@ class CollapsibleBox extends Component {
         <div
           className={classnames('collaspible-box__content', {
             'collaspible-box__content--hidden': !isActive,
-            'collaspible-box__content--scroll': scroll
-          })}>
+            'collaspible-box__content--scroll': scroll,
+          })}
+        >
           {collapsibleContent}
         </div>
       </li>
-    )
+    );
   }
 }
 
-export default CollapsibleBox
+export default CollapsibleBox;

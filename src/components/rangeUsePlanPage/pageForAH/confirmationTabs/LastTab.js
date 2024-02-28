@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Icon } from 'semantic-ui-react'
-import AHConfirmationList from './AHConfirmationList'
-import { PrimaryButton } from '../../../common'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
+import AHConfirmationList from './AHConfirmationList';
+import { PrimaryButton } from '../../../common';
 
 class LastTab extends Component {
   static propTypes = {
@@ -13,17 +13,17 @@ class LastTab extends Component {
     onClose: PropTypes.func.isRequired,
     tab: PropTypes.shape({
       id: PropTypes.string,
-      title: PropTypes.string
-    }).isRequired
-  }
+      title: PropTypes.string,
+    }).isRequired,
+  };
 
   render() {
-    const { user, clients, plan, currTabId, tab, onClose } = this.props
-    const { id, title } = tab
-    const isActive = id === currTabId
+    const { user, clients, plan, currTabId, tab, onClose } = this.props;
+    const { id, title } = tab;
+    const isActive = id === currTabId;
 
     if (!isActive) {
-      return null
+      return null;
     }
 
     return (
@@ -45,8 +45,8 @@ class LastTab extends Component {
           style={{ marginTop: '15px' }}
         />
       </div>
-    )
+    );
   }
 }
 
-export default LastTab
+export default LastTab;

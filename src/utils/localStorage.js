@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY } from '../constants/variables'
+import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
 /**
  * Save data in local storage
@@ -8,9 +8,9 @@ import { LOCAL_STORAGE_KEY } from '../constants/variables'
  * @returns undefined
  */
 export const saveDataInLocalStorage = (key, data) => {
-  const serializedData = typeof data === 'object' ? JSON.stringify(data) : data
-  localStorage.setItem(key, serializedData)
-}
+  const serializedData = typeof data === 'object' ? JSON.stringify(data) : data;
+  localStorage.setItem(key, serializedData);
+};
 
 /**
  * Get data that was saved in local storage
@@ -18,26 +18,26 @@ export const saveDataInLocalStorage = (key, data) => {
  * @param {string} key
  * @returns {object} the data object
  */
-export const getDataFromLocalStorage = key => {
-  const data = localStorage.getItem(key)
+export const getDataFromLocalStorage = (key) => {
+  const data = localStorage.getItem(key);
   if (data) {
     try {
-      return JSON.parse(data)
+      return JSON.parse(data);
     } catch (err) {
-      return data
+      return data;
     }
   }
-  return undefined
-}
+  return undefined;
+};
 
-export const deleteDataFromLocalStorage = key => {
-  localStorage.removeItem(key)
-  return undefined
-}
+export const deleteDataFromLocalStorage = (key) => {
+  localStorage.removeItem(key);
+  return undefined;
+};
 
-export const saveReferencesInLocalStorage = data => {
-  saveDataInLocalStorage(LOCAL_STORAGE_KEY.REFERENCE, data)
-}
+export const saveReferencesInLocalStorage = (data) => {
+  saveDataInLocalStorage(LOCAL_STORAGE_KEY.REFERENCE, data);
+};
 
 export const getReferencesFromLocalStorage = () =>
-  getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE)
+  getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE);

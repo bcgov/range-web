@@ -5,7 +5,7 @@ const mockClients = [
     name: 'BLANABBA, FREWT',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999901',
@@ -13,7 +13,7 @@ const mockClients = [
     name: 'Leslie Knope',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999906',
@@ -21,7 +21,7 @@ const mockClients = [
     name: 'Ann Perkins',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999903',
@@ -29,7 +29,7 @@ const mockClients = [
     name: 'Tom Haverford',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999905',
@@ -37,7 +37,7 @@ const mockClients = [
     name: 'April Ludgate',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999909',
@@ -45,7 +45,7 @@ const mockClients = [
     name: 'Andy Dwyer',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999910',
@@ -53,7 +53,7 @@ const mockClients = [
     name: 'Nackyu Han',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999907',
@@ -61,7 +61,7 @@ const mockClients = [
     name: 'Ben Wyatt',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999902',
@@ -69,7 +69,7 @@ const mockClients = [
     name: 'Ron Swanson',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
+    clientType: {},
   },
   {
     clientNumber: '09999908',
@@ -77,8 +77,8 @@ const mockClients = [
     name: 'Chris Traeger',
     licenseeStartDate: null,
     licenseeEndDate: null,
-    clientType: {}
-  }
-]
+    clientType: {},
+  },
+];
 
-export default mockClients
+export default mockClients;

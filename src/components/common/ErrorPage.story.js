@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { storiesOf } from '@storybook/react'
-import ErrorPage from './ErrorPage'
+import { storiesOf } from '@storybook/react';
+import ErrorPage from './ErrorPage';
 
 storiesOf('Error Page', module).add('Message', () => (
   <ErrorPage
@@ -13,4 +13,4 @@ storiesOf('Error Page', module).add('Message', () => (
       est, at faucibus elit.
     `}
   />
-))
+));

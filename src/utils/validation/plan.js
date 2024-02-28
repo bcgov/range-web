@@ -1,7 +1,7 @@
-import { handleGrazingScheduleValidation } from './grazingSchedule'
-import { handlePastureValidation } from './pasture'
-import { handlePlantCommunityValidation } from './plantCommunity'
-import { handleMinisterIssueValidation } from './ministerIssue'
+import { handleGrazingScheduleValidation } from './grazingSchedule';
+import { handlePastureValidation } from './pasture';
+import { handlePlantCommunityValidation } from './plantCommunity';
+import { handleMinisterIssueValidation } from './ministerIssue';
 
 /**
  * Validate a range use plan
@@ -19,12 +19,12 @@ export const handleRupValidation = (
   pastures = [],
   livestockTypes = [],
   usage = [],
-  isAgreementHolder = false
+  isAgreementHolder = false,
 ) => {
-  const { grazingSchedules = [], ministerIssues = [] } = plan
+  const { grazingSchedules = [], ministerIssues = [] } = plan;
 
-  let errors = []
-  grazingSchedules.map(schedule => {
+  let errors = [];
+  grazingSchedules.map((schedule) => {
     errors = [
       ...errors,
       ...handleGrazingScheduleValidation(
@@ -32,29 +32,29 @@ export const handleRupValidation = (
         pastures,
         livestockTypes,
         usage,
-        isAgreementHolder
-      )
-    ]
-    return undefined
-  })
+        isAgreementHolder,
+      ),
+    ];
+    return undefined;
+  });
 
-  errors = [...errors, ...handlePastureValidation(pastures)]
+  errors = [...errors, ...handlePastureValidation(pastures)];
   errors = [
     ...errors,
     ...handlePlantCommunityValidation(
       pastures.reduce(
         (communities, pasture) => [...communities, ...pasture.plantCommunities],
-        []
-      )
-    )
-  ]
+        [],
+      ),
+    ),
+  ];
 
-  errors = [...errors, ...handleMinisterIssueValidation(ministerIssues)]
+  errors = [...errors, ...handleMinisterIssueValidation(ministerIssues)];
 
-  return errors
-}
+  return errors;
+};
 
-export const isPlanAmendment = plan => plan && plan.amendmentTypeId
+export const isPlanAmendment = (plan) => plan && plan.amendmentTypeId;
 
 /**
  * Gets the path of the first error in the formik errors object.
@@ -63,17 +63,17 @@ export const isPlanAmendment = plan => plan && plan.amendmentTypeId
  * @returns {string} Path to first error in errors object
  */
 export const getFirstFormikError = (errors, path = []) => {
-  const [key, value] = Object.entries(errors)[0]
+  const [key, value] = Object.entries(errors)[0];
 
   if (
     typeof value !== 'string' &&
     typeof value !== 'boolean' &&
     value !== undefined
   ) {
-    return getFirstFormikError(value, path.concat(key))
+    return getFirstFormikError(value, path.concat(key));
   }
   return [
     path.concat(key).join('.'),
-    typeof value === 'boolean' ? 'Required' : value
-  ]
-}
+    typeof value === 'boolean' ? 'Required' : value,
+  ];
+};

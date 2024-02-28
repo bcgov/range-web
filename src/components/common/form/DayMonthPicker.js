@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { getIn, connect } from 'formik'
-import moment from 'moment'
-import { chunk } from 'lodash'
+import React, { useState, useEffect } from 'react';
+import { getIn, connect } from 'formik';
+import moment from 'moment';
+import { chunk } from 'lodash';
 import {
   Input,
   Form,
@@ -11,37 +11,35 @@ import {
   Grid,
   Divider,
   Table,
-  Icon
-} from 'semantic-ui-react'
+  Icon,
+} from 'semantic-ui-react';
 
 const DayMonthPicker = connect(
   ({ dayName, monthName, label, formik, dateFormat = 'MMMM Do', ...props }) => {
-    const [open, setOpen] = useState(false)
-    const [currentMonth, setCurrentMonth] = useState(0)
+    const [open, setOpen] = useState(false);
+    const [currentMonth, setCurrentMonth] = useState(0);
 
     const previousMonth = () =>
-      setCurrentMonth(currentMonth > 0 ? currentMonth - 1 : 11)
+      setCurrentMonth(currentMonth > 0 ? currentMonth - 1 : 11);
     const nextMonth = () =>
-      setCurrentMonth(currentMonth < 11 ? currentMonth + 1 : 0)
+      setCurrentMonth(currentMonth < 11 ? currentMonth + 1 : 0);
 
-    const monthValue = getIn(formik.values, monthName)
-    const dayValue = getIn(formik.values, dayName)
-    const error = getIn(formik.errors, monthName)
+    const monthValue = getIn(formik.values, monthName);
+    const dayValue = getIn(formik.values, dayName);
+    const error = getIn(formik.errors, monthName);
 
     useEffect(() => {
       if (monthValue) {
-        setCurrentMonth(monthValue - 1)
+        setCurrentMonth(monthValue - 1);
       }
-    }, [open])
+    }, [open]);
 
-    const daysInMonth = moment()
-      .set('month', currentMonth)
-      .daysInMonth()
+    const daysInMonth = moment().set('month', currentMonth).daysInMonth();
 
     const weeksArray = chunk(
       Array.from({ length: daysInMonth }).map((_, i) => i + 1),
-      7
-    )
+      7,
+    );
 
     return (
       <>
@@ -69,8 +67,8 @@ const DayMonthPicker = connect(
                         name="close"
                         link
                         onClick={() => {
-                          formik.setFieldValue(monthName, '')
-                          formik.setFieldValue(dayName, '')
+                          formik.setFieldValue(monthName, '');
+                          formik.setFieldValue(dayName, '');
                         }}
                       />
                     ) : (
@@ -82,12 +80,14 @@ const DayMonthPicker = connect(
                 {error && (
                   <span
                     className="sui-error-message"
-                    style={{ position: 'relative', top: '-1em' }}>
+                    style={{ position: 'relative', top: '-1em' }}
+                  >
                     {error}
                   </span>
                 )}
               </>
-            }>
+            }
+          >
             <Popup.Content style={{ width: '300px' }}>
               <Grid>
                 <Grid.Column textAlign="left" width="4">
@@ -95,9 +95,7 @@ const DayMonthPicker = connect(
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle" width="8">
                   <Header as="h4" textAlign="center">
-                    {moment()
-                      .month(currentMonth)
-                      .format('MMMM')}
+                    {moment().month(currentMonth).format('MMMM')}
                   </Header>
                 </Grid.Column>
                 <Grid.Column textAlign="right" width="4">
@@ -110,7 +108,7 @@ const DayMonthPicker = connect(
                   {weeksArray.map((days, week) => (
                     <Table.Row key={`${currentMonth}_week_${week}`}>
                       <>
-                        {days.map(day => (
+                        {days.map((day) => (
                           <Table.Cell
                             selectable
                             textAlign="center"
@@ -119,11 +117,11 @@ const DayMonthPicker = connect(
                             onClick={() => {
                               const date = moment()
                                 .set('month', currentMonth)
-                                .set('date', day)
+                                .set('date', day);
 
-                              formik.setFieldValue(monthName, date.month() + 1)
-                              formik.setFieldValue(dayName, date.date())
-                              setOpen(false)
+                              formik.setFieldValue(monthName, date.month() + 1);
+                              formik.setFieldValue(dayName, date.date());
+                              setOpen(false);
                             }}
                             style={{
                               backgroundColor:
@@ -137,8 +135,9 @@ const DayMonthPicker = connect(
                                   ? '#ffffff'
                                   : 'black',
                               cursor: 'pointer',
-                              padding: '10px'
-                            }}>
+                              padding: '10px',
+                            }}
+                          >
                             {day}
                           </Table.Cell>
                         ))}
@@ -148,7 +147,7 @@ const DayMonthPicker = connect(
                               <Table.Cell
                                 key={`${currentMonth}_emptycell_${i}`}
                               />
-                            )
+                            ),
                           )}
                       </>
                     </Table.Row>
@@ -159,8 +158,8 @@ const DayMonthPicker = connect(
           </Popup>
         </Form.Field>
       </>
-    )
-  }
-)
+    );
+  },
+);
 
-export default connect(DayMonthPicker)
+export default connect(DayMonthPicker);

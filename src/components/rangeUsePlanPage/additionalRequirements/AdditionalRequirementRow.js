@@ -1,28 +1,28 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react'
-import { Dropdown, TextArea } from 'formik-semantic-ui'
+import React from 'react';
+import PropTypes from 'prop-types';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react';
+import { Dropdown, TextArea } from 'formik-semantic-ui';
 
 const AdditionalRequirementRow = ({
   additionalRequirement,
   namespace,
   onDelete,
-  onCopy
+  onCopy,
 }) => {
-  const references = useReferences()
+  const references = useReferences();
 
-  const categories = references[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY]
-  const options = categories.map(category => ({
+  const categories = references[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY];
+  const options = categories.map((category) => ({
     key: category.id,
     value: category.id,
-    text: category.name
-  }))
+    text: category.name,
+  }));
 
-  const { detail, url, categoryId } = additionalRequirement
+  const { detail, url, categoryId } = additionalRequirement;
 
   return (
     <div className="rup__a-requirement__row">
@@ -33,8 +33,8 @@ const AdditionalRequirementRow = ({
         component={Dropdown}
         options={options}
         displayValue={
-          options.find(c => c.value === categoryId)
-            ? options.find(c => c.value === categoryId).text
+          options.find((c) => c.value === categoryId)
+            ? options.find((c) => c.value === categoryId).text
             : ''
         }
         label="Category"
@@ -49,7 +49,7 @@ const AdditionalRequirementRow = ({
           displayValue={detail}
           inputProps={{
             placeholder:
-              'Name, date, summary (ex. WHA Badger #8-329/#8-330, 2009, attractants and stubble heights)'
+              'Name, date, summary (ex. WHA Badger #8-329/#8-330, 2009, attractants and stubble heights)',
           }}
           label="Details"
           fast
@@ -71,32 +71,33 @@ const AdditionalRequirementRow = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginLeft: 15
-          }}>
+            marginLeft: 15,
+          }}
+        >
           <PlainDropdown
             trigger={<Icon name="ellipsis vertical" />}
             options={[
               {
                 key: 'delete',
                 value: 'delete',
-                text: 'Delete'
+                text: 'Delete',
               },
               {
                 key: 'copy',
                 value: 'copy',
-                text: 'Copy'
-              }
+                text: 'Copy',
+              },
             ]}
             icon={null}
             value={null}
             pointing="right"
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             onChange={(e, { value }) => {
               if (value === 'delete') {
-                onDelete()
+                onDelete();
               }
               if (value === 'copy') {
-                onCopy()
+                onCopy();
               }
             }}
             selectOnBlur={false}
@@ -104,13 +105,13 @@ const AdditionalRequirementRow = ({
         </div>
       </IfEditable>
     </div>
-  )
-}
+  );
+};
 
 AdditionalRequirementRow.propTypes = {
   additionalRequirement: PropTypes.shape({}).isRequired,
   namespace: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired
-}
+  onDelete: PropTypes.func.isRequired,
+};
 
-export default React.memo(AdditionalRequirementRow)
+export default React.memo(AdditionalRequirementRow);

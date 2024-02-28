@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export const propTypes = {
   agreement: PropTypes.shape({ zone: PropTypes.object }),
@@ -14,7 +14,7 @@ export const propTypes = {
   fetchPlan: PropTypes.func.isRequired,
   isFetchingPlan: PropTypes.bool.isRequired,
   updateRUP: PropTypes.func.isRequired,
-  createOrUpdateRUPGrazingSchedule: PropTypes.func.isRequired
-}
+  createOrUpdateRUPGrazingSchedule: PropTypes.func.isRequired,
+};
 
-export { defaultProps } from '../pageForAH/props'
+export { defaultProps } from '../pageForAH/props';

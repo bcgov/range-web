@@ -1,36 +1,36 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { Form } from 'formik-semantic-ui'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { Form } from 'formik-semantic-ui';
 
-import IndicatorPlantsForm from './IndicatorPlantsForm'
+import IndicatorPlantsForm from './IndicatorPlantsForm';
 
 const indicatorPlants = [
   {
     id: 0,
     value: 15,
     plantSpeciesId: 2,
-    criteria: 'stubbleHeight'
+    criteria: 'stubbleHeight',
   },
   {
     id: 1,
     value: 2.5,
     plantSpeciesId: 2,
-    criteria: 'rangeReadiness'
+    criteria: 'rangeReadiness',
   },
   {
     id: 2,
     value: 2.5,
     plantSpeciesId: 56,
-    criteria: 'rangeReadiness'
+    criteria: 'rangeReadiness',
   },
   {
     id: 3,
     value: 2.5,
     plantSpeciesId: 56,
     criteria: 'stubbleHeight',
-    name: 'My plant'
-  }
-]
+    name: 'My plant',
+  },
+];
 
 storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add(
   'default',
@@ -38,8 +38,8 @@ storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add(
     <Form
       initialValues={{
         plantCommunity: {
-          indicatorPlants
-        }
+          indicatorPlants,
+        },
       }}
       render={({ values }) => (
         <>
@@ -60,5 +60,5 @@ storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add(
         </>
       )}
     />
-  )
-)
+  ),
+);

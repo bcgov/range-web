@@ -1,35 +1,42 @@
-import React, { useMemo, useState } from 'react'
-import useSWR from 'swr'
+import React, { useMemo, useState } from 'react';
+import useSWR from 'swr';
 import {
   CircularProgress,
   TextField,
   Typography,
-  Grid
-} from '@material-ui/core'
-import { throttle } from 'lodash'
-import { Autocomplete } from '@material-ui/lab'
-import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig } from '../../utils'
+  Grid,
+} from '@material-ui/core';
+import { throttle } from 'lodash';
+import { Autocomplete } from '@material-ui/lab';
+import * as API from '../../constants/api';
+import { axios, getAuthHeaderConfig } from '../../utils';
 
 const ClientDropdown = ({ onChange, value }) => {
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState('');
 
-  const { data: clients = [], error, isValidating } = useSWR(
+  const {
+    data: clients = [],
+    error,
+    isValidating,
+  } = useSWR(
     `${API.SEARCH_CLIENTS}/?term=${inputValue}&groupByClientNumber=true`,
-    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data),
+    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
     {
-      revalidateOnFocus: false
-    }
-  )
+      revalidateOnFocus: false,
+    },
+  );
 
-  const debouncedSetInputValue = useMemo(() => throttle(setInputValue, 300), [])
+  const debouncedSetInputValue = useMemo(
+    () => throttle(setInputValue, 300),
+    [],
+  );
 
-  const handleChange = event => {
-    debouncedSetInputValue(event.target.value)
-  }
+  const handleChange = (event) => {
+    debouncedSetInputValue(event.target.value);
+  };
 
   if (error) {
-    return <div>Error fetching clients: {JSON.stringify(error)}</div>
+    return <div>Error fetching clients: {JSON.stringify(error)}</div>;
   }
 
   return (
@@ -37,16 +44,16 @@ const ClientDropdown = ({ onChange, value }) => {
       id="client-autocomplete-select"
       options={clients}
       loading={isValidating}
-      getOptionLabel={option => option.name}
+      getOptionLabel={(option) => option.name}
       openOnFocus
       includeInputInList
       style={{ flexGrow: 1 }}
       onChange={(e, newValue) => {
-        onChange(newValue)
+        onChange(newValue);
       }}
       clearOnEscape
       value={value}
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField
           {...params}
           label="Select client"
@@ -62,11 +69,11 @@ const ClientDropdown = ({ onChange, value }) => {
                 ) : null}
                 {params.InputProps.endAdornment}
               </React.Fragment>
-            )
+            ),
           }}
         />
       )}
-      renderOption={client => {
+      renderOption={(client) => {
         return (
           <Grid container alignItems="center">
             <Grid item xs>
@@ -80,10 +87,10 @@ const ClientDropdown = ({ onChange, value }) => {
               </Typography>
             </Grid>
           </Grid>
-        )
+        );
       }}
     />
-  )
-}
+  );
+};
 
-export default ClientDropdown
+export default ClientDropdown;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const MultiParagraphDisplay = ({ value, ...props }) => (
   <>
@@ -12,6 +12,6 @@ const MultiParagraphDisplay = ({ value, ...props }) => (
         ))}
     </div>
   </>
-)
+);
 
-export default MultiParagraphDisplay
+export default MultiParagraphDisplay;

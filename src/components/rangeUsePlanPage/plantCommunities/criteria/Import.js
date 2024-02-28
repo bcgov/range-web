@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import { connect, getIn } from 'formik'
-import ListModal from '../../../common/ListModal'
-import { Button, Confirm, Modal } from 'semantic-ui-react'
-import { oxfordComma } from '../../../../utils'
-import { useReferences } from '../../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../../constants/variables'
+import React, { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { connect, getIn } from 'formik';
+import ListModal from '../../../common/ListModal';
+import { Button, Confirm, Modal } from 'semantic-ui-react';
+import { oxfordComma } from '../../../../utils';
+import { useReferences } from '../../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../../constants/variables';
 
 const initialState = {
   pasture: null,
@@ -14,15 +14,15 @@ const initialState = {
   showPlantCommunityModal: false,
   showCriteriaModal: false,
   criteria: [],
-  showConfirm: false
-}
+  showConfirm: false,
+};
 
 const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
-  const [state, setState] = useState(initialState)
+  const [state, setState] = useState(initialState);
 
-  const pastures = getIn(formik.values, 'pastures') || []
+  const pastures = getIn(formik.values, 'pastures') || [];
   const communityTypes =
-    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
+    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
 
   const pasturesOptions = pastures.map((pasture, index) => ({
     value: pasture.id,
@@ -30,27 +30,27 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
     key: pasture.id,
     disabled:
       pasture.plantCommunities.filter(
-        community => community.id !== excludedPlantCommunityId
+        (community) => community.id !== excludedPlantCommunityId,
       ).length === 0,
-    pasture
-  }))
+    pasture,
+  }));
 
   const close = () => {
-    setState(initialState)
-  }
+    setState(initialState);
+  };
 
-  let plantCommunityOptions = []
+  let plantCommunityOptions = [];
   if (state.pasture) {
     plantCommunityOptions = state.pasture.plantCommunities
-      .filter(community => community.id !== excludedPlantCommunityId)
-      .map(pc => ({
+      .filter((community) => community.id !== excludedPlantCommunityId)
+      .map((pc) => ({
         value: pc.id,
         text:
           pc.name ??
-          communityTypes.find(type => type.id === pc.communityTypeId)?.name,
+          communityTypes.find((type) => type.id === pc.communityTypeId)?.name,
         key: pc.id,
-        plantCommunity: pc
-      }))
+        plantCommunity: pc,
+      }));
   }
 
   return (
@@ -61,9 +61,10 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         onClick={() =>
           setState({
             ...state,
-            showPastureModal: true
+            showPastureModal: true,
           })
-        }>
+        }
+      >
         Import
       </Button>
       <ListModal
@@ -76,7 +77,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
             ...state,
             pasture,
             showPastureModal: false,
-            showPlantCommunityModal: true
+            showPlantCommunityModal: true,
           })
         }
       />
@@ -90,12 +91,12 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         }
         onClose={close}
         onOptionClick={({ plantCommunity }) => {
-          setState(oldState => ({
+          setState((oldState) => ({
             ...oldState,
             plantCommunity,
             showPlantCommunityModal: false,
-            showCriteriaModal: true
-          }))
+            showCriteriaModal: true,
+          }));
         }}
       />
       <ListModal
@@ -106,27 +107,27 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
           {
             key: 'rangeReadiness',
             value: 'rangeReadiness',
-            text: 'Range Readiness Criteria'
+            text: 'Range Readiness Criteria',
           },
           {
             key: 'stubbleHeight',
             value: 'stubbleHeight',
-            text: 'Stubble Height'
+            text: 'Stubble Height',
           },
           {
             key: 'shrubUse',
             value: 'shrubUse',
-            text: 'Shrub Use'
-          }
+            text: 'Shrub Use',
+          },
         ]}
         onClose={close}
-        onSubmit={criteria => {
-          setState(oldState => ({
+        onSubmit={(criteria) => {
+          setState((oldState) => ({
             ...oldState,
             showCriteriaModal: false,
             showConfirm: true,
-            criteria
-          }))
+            criteria,
+          }));
         }}
       />
       <Confirm
@@ -137,7 +138,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
               The following Criteria sections in the current plant community
               will be overwritten:
             </p>
-            <p>{oxfordComma(state.criteria.map(c => c.text))}.</p>
+            <p>{oxfordComma(state.criteria.map((c) => c.text))}.</p>
           </Modal.Content>
         }
         header="Overwrite Specified Criteria"
@@ -147,22 +148,22 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
           onSubmit({
             pasture: state.pasture,
             plantCommunity: state.plantCommunity,
-            criteria: state.criteria.map(c => c.value)
-          })
-          close()
+            criteria: state.criteria.map((c) => c.value),
+          });
+          close();
         }}
       />
     </>
-  )
-}
+  );
+};
 
 Import.propTypes = {
   formik: PropTypes.shape({
     values: PropTypes.shape({
-      pastures: PropTypes.array.isRequired
-    })
+      pastures: PropTypes.array.isRequired,
+    }),
   }),
-  onSubmit: PropTypes.func.isRequired
-}
+  onSubmit: PropTypes.func.isRequired,
+};
 
-export default connect(Import)
+export default connect(Import);

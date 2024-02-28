@@ -1,32 +1,32 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { CollapsibleBox } from '../../common'
-import uuid from 'uuid-v4'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { CollapsibleBox } from '../../common';
+import uuid from 'uuid-v4';
 import {
   IMAGE_SRC,
   PURPOSE_OF_ACTION as PurposeOfAction,
   REFERENCE_KEY,
-  PLANT_CRITERIA
-} from '../../../constants/variables'
-import { CRITERIA_TIP } from '../../../constants/strings'
-import { Icon, Form } from 'semantic-ui-react'
-import RangeReadinessBox from './criteria/RangeReadinessBox'
-import StubbleHeightBox from './criteria/StubbleHeightBox'
-import ShrubUseBox from './criteria/ShrubUseBox'
-import MonitoringAreaList from './monitoringArea'
-import * as strings from '../../../constants/strings'
-import PlantCommunityActionsBox from './PlantCommunityActionsBox'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { connect, getIn } from 'formik'
-import { Dropdown as PlainDropdown } from 'semantic-ui-react'
-import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import Import from './criteria/Import'
-import { InfoTip, InputModal } from '../../common'
-import MultiParagraphDisplay from '../../common/MultiParagraphDisplay'
+  PLANT_CRITERIA,
+} from '../../../constants/variables';
+import { CRITERIA_TIP } from '../../../constants/strings';
+import { Icon, Form } from 'semantic-ui-react';
+import RangeReadinessBox from './criteria/RangeReadinessBox';
+import StubbleHeightBox from './criteria/StubbleHeightBox';
+import ShrubUseBox from './criteria/ShrubUseBox';
+import MonitoringAreaList from './monitoringArea';
+import * as strings from '../../../constants/strings';
+import PlantCommunityActionsBox from './PlantCommunityActionsBox';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { PLANT_COMMUNITY } from '../../../constants/fields';
+import { connect, getIn } from 'formik';
+import { Dropdown as PlainDropdown } from 'semantic-ui-react';
+import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import Import from './criteria/Import';
+import { InfoTip, InputModal } from '../../common';
+import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 
-const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }]
+const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }];
 
 const PlantCommunityBox = ({
   plantCommunity,
@@ -37,7 +37,7 @@ const PlantCommunityBox = ({
   onClick,
   namespace,
   formik,
-  onDelete
+  onDelete,
 }) => {
   const {
     name,
@@ -49,64 +49,63 @@ const PlantCommunityBox = ({
     approved,
     notes,
     communityTypeId,
-    monitoringAreas
-  } = plantCommunity
+    monitoringAreas,
+  } = plantCommunity;
 
-  const [isModalOpen, setModalOpen] = useState(false)
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const communityTypes =
-    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || []
-  const otherType = communityTypes.find(t => t.name === 'Other')
+    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
+  const otherType = communityTypes.find((t) => t.name === 'Other');
 
   const communityTypeOptions = communityTypes
-    .map(type =>
+    .map((type) =>
       type.id === otherType.id
         ? {
             ...type,
             name:
-              communityTypeId === otherType.id ? `Other: ${name}` : type.name
+              communityTypeId === otherType.id ? `Other: ${name}` : type.name,
           }
-        : type
+        : type,
     )
-    .map(type => ({
+    .map((type) => ({
       key: type.id,
       value: type.id,
       text: type.name,
-      id: type.id
-    }))
+      id: type.id,
+    }));
 
   const communityType = communityTypeOptions.find(
-    t => t.value === communityTypeId
-  )
+    (t) => t.value === communityTypeId,
+  );
 
-  const elevationTypes = useReferences()[
-    REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION
-  ]
-  const elevationOptions = elevationTypes.map(type => ({
+  const elevationTypes =
+    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION];
+  const elevationOptions = elevationTypes.map((type) => ({
     key: type.id,
     value: type.id,
-    text: type.name
-  }))
+    text: type.name,
+  }));
 
   const purposeOptions = [
     {
       key: PurposeOfAction.NONE,
       value: PurposeOfAction.NONE,
-      text: 'None'
+      text: 'None',
     },
     {
       key: 'maintain',
       value: 'maintain',
-      text: 'Maintain Plant Community'
+      text: 'Maintain Plant Community',
     },
     {
       key: 'establish',
       value: 'establish',
-      text: 'Establish Plant Community'
-    }
-  ]
+      text: 'Establish Plant Community',
+    },
+  ];
 
-  const isError = !!getIn(formik.errors, namespace)
+  const isError = !!getIn(formik.errors, namespace);
 
   return (
     <CollapsibleBox
@@ -141,15 +140,15 @@ const PlantCommunityBox = ({
               inputProps={{
                 onChange: (e, { value }) => {
                   if (value === otherType.id) {
-                    setModalOpen(true)
+                    setModalOpen(true);
                     formik.setFieldValue(
                       `${namespace}.communityTypeId`,
-                      communityTypeId
-                    )
+                      communityTypeId,
+                    );
                   } else {
-                    formik.setFieldValue(`${namespace}.name`, null)
+                    formik.setFieldValue(`${namespace}.name`, null);
                   }
-                }
+                },
               }}
             />
           </div>
@@ -174,9 +173,9 @@ const PlantCommunityBox = ({
                   icon={null}
                   value={null}
                   pointing="right"
-                  onClick={e => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
                   onChange={(e, { value }) => {
-                    if (value === 'delete') onDelete()
+                    if (value === 'delete') onDelete();
                   }}
                   selectOnBlur={false}
                 />
@@ -200,7 +199,7 @@ const PlantCommunityBox = ({
               label={strings.ASPECT}
               fast
               inputProps={{
-                placeholder: 'Ex. NW'
+                placeholder: 'Ex. NW',
               }}
             />
 
@@ -210,8 +209,8 @@ const PlantCommunityBox = ({
               component={Dropdown}
               options={elevationOptions}
               displayValue={
-                elevationTypes.find(t => t.id === elevationId)
-                  ? elevationTypes.find(t => t.id === elevationId).name
+                elevationTypes.find((t) => t.id === elevationId)
+                  ? elevationTypes.find((t) => t.id === elevationId).name
                   : ''
               }
               label={strings.ELEVATION}
@@ -227,7 +226,7 @@ const PlantCommunityBox = ({
             label={strings.APPROVED_BY_MINISTER}
             tip={strings.APPROVED_BY_MINISTER_TIP}
             inputProps={{
-              toggle: true
+              toggle: true,
             }}
             fast
           />
@@ -242,7 +241,7 @@ const PlantCommunityBox = ({
             fast
             inputProps={{
               placeholder:
-                'Description of the CURRENT community. Include a description of the INTENDED plant community if actions to establish a plant community are required. As basic or detailed as needed for the purposes required.'
+                'Description of the CURRENT community. Include a description of the INTENDED plant community if actions to establish a plant community are required. As basic or detailed as needed for the purposes required.',
             }}
             fieldProps={{ required: true }}
           />
@@ -256,7 +255,7 @@ const PlantCommunityBox = ({
               label={strings.COMMUNITY_URL}
               fast
               inputProps={{
-                placeholder: 'Link to provincial plant community description'
+                placeholder: 'Link to provincial plant community description',
               }}
             />
 
@@ -303,55 +302,55 @@ const PlantCommunityBox = ({
                 excludedPlantCommunityId={plantCommunity.id}
                 onSubmit={({
                   plantCommunity: sourcePlantCommunity,
-                  criteria
+                  criteria,
                 }) => {
                   const indicatorPlants = sourcePlantCommunity.indicatorPlants
                     // Filter indicator plants from source plant community based on selected criteria
-                    .filter(ip => {
+                    .filter((ip) => {
                       return (
                         (criteria.includes('rangeReadiness') &&
                           ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
                         (criteria.includes('stubbleHeight') &&
                           ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
-                      )
+                      );
                     })
                     // Filter indicator plants from this plant community based on selected criteria
                     .concat(
-                      plantCommunity.indicatorPlants.filter(ip => {
+                      plantCommunity.indicatorPlants.filter((ip) => {
                         return (
                           criteria.includes('rangeReadiness') &&
                           ip.criteria !== PLANT_CRITERIA.RANGE_READINESS &&
-                          (criteria.includes('stubbleHeight') &&
-                            ip.criteria !== PLANT_CRITERIA.STUBBLE_HEIGHT)
-                        )
-                      })
-                    )
+                          criteria.includes('stubbleHeight') &&
+                          ip.criteria !== PLANT_CRITERIA.STUBBLE_HEIGHT
+                        );
+                      }),
+                    );
 
                   formik.setFieldValue(
                     `${namespace}.indicatorPlants`,
-                    indicatorPlants.map(ip => ({ ...ip, id: uuid() }))
-                  )
+                    indicatorPlants.map((ip) => ({ ...ip, id: uuid() })),
+                  );
 
                   if (criteria.includes('rangeReadiness')) {
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessDay`,
-                      sourcePlantCommunity.rangeReadinessDay
-                    )
+                      sourcePlantCommunity.rangeReadinessDay,
+                    );
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessMonth`,
-                      sourcePlantCommunity.rangeReadinessMonth
-                    )
+                      sourcePlantCommunity.rangeReadinessMonth,
+                    );
                     formik.setFieldValue(
                       `${namespace}.rangeReadinessNote`,
-                      sourcePlantCommunity.rangeReadinessNote
-                    )
+                      sourcePlantCommunity.rangeReadinessNote,
+                    );
                   }
 
                   if (criteria.includes('shrubUse')) {
                     formik.setFieldValue(
                       `${namespace}.shrubUse`,
-                      sourcePlantCommunity.shrubUse
-                    )
+                      sourcePlantCommunity.shrubUse,
+                    );
                   }
                 }}
               />
@@ -394,10 +393,13 @@ const PlantCommunityBox = ({
           <InputModal
             open={isModalOpen}
             onClose={() => setModalOpen(false)}
-            onSubmit={name => {
-              formik.setFieldValue(`${namespace}.name`, name)
-              formik.setFieldValue(`${namespace}.communityTypeId`, otherType.id)
-              setModalOpen(false)
+            onSubmit={(name) => {
+              formik.setFieldValue(`${namespace}.name`, name);
+              formik.setFieldValue(
+                `${namespace}.communityTypeId`,
+                otherType.id,
+              );
+              setModalOpen(false);
             }}
             title="Other plant community type"
             placeholder="Plant community name"
@@ -405,8 +407,8 @@ const PlantCommunityBox = ({
         </>
       }
     />
-  )
-}
+  );
+};
 
 PlantCommunityBox.propTypes = {
   plantCommunity: PropTypes.shape({
@@ -421,15 +423,15 @@ PlantCommunityBox.propTypes = {
     communityType: PropTypes.object,
     communityTypeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
-    monitoringAreas: PropTypes.array.isRequired
+    monitoringAreas: PropTypes.array.isRequired,
   }),
   index: PropTypes.number.isRequired,
   activeIndex: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
   namespace: PropTypes.string.isRequired,
   formik: PropTypes.shape({
-    setFieldValue: PropTypes.func.isRequired
-  })
-}
+    setFieldValue: PropTypes.func.isRequired,
+  }),
+};
 
-export default connect(PlantCommunityBox)
+export default connect(PlantCommunityBox);

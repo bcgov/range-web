@@ -1,17 +1,16 @@
 {
-    "name": "range-web",
-    "namespaceSuffix": "3187b2",
-    "namespace": {
-        "tools": "tools",
-        "dev": "dev",
-        "test": "test",
-	"prod": "prod"
-    },
-    "version": "1.0.0",
-    "previousVersion": "NA",
-    "olderVersions": [],
-    "module": {
-        "api": "range-web"
-    }
+  "name": "range-web",
+  "namespaceSuffix": "3187b2",
+  "namespace": {
+    "tools": "tools",
+    "dev": "dev",
+    "test": "test",
+    "prod": "prod"
+  },
+  "version": "1.0.0",
+  "previousVersion": "NA",
+  "olderVersions": [],
+  "module": {
+    "api": "range-web"
+  }
 }
-

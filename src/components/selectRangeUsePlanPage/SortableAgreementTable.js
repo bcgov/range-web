@@ -1,19 +1,19 @@
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TablePagination from '@material-ui/core/TablePagination'
-import TableRow from '@material-ui/core/TableRow'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
-import Skeleton from '@material-ui/lab/Skeleton'
-import PropTypes from 'prop-types'
-import React from 'react'
-import { useLocation } from 'react-router-dom'
-import { useUser } from '../../providers/UserProvider'
-import PlanRow from './PlanRow'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { useUser } from '../../providers/UserProvider';
+import PlanRow from './PlanRow';
 
 const headCells = [
   {
@@ -21,82 +21,84 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'RAN #',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'plan.range_name',
     numeric: false,
     disablePadding: false,
     label: 'Range Name',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'agreement_holder.name',
     numeric: false,
     disablePadding: false,
     label: 'Primary Agreement Holder',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'plan_creator.given_name',
     numeric: false,
     disablePadding: false,
     label: 'Staff Contact',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'plan.plan_end_date',
     numeric: false,
     disablePadding: false,
     label: 'Plan End Date',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'ref_district.code',
     numeric: false,
     disablePadding: false,
     label: 'District',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'plan.status_id',
     numeric: false,
     disablePadding: true,
     label: 'Status Code',
-    sortable: true
+    sortable: true,
   },
   {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
-    label: 'Status'
+    label: 'Status',
   },
   { id: 'actions', disablePadding: true },
-  { id: 'extension', label: 'Extension Requests', disablePadding: true }
-]
+  { id: 'extension', label: 'Extension Requests', disablePadding: true },
+];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
+  const { classes, order, orderBy, onRequestSort } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
       <TableRow>
-        {headCells.map(headCell => (
+        {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
-            className={classes.headerCell}>
+            className={classes.headerCell}
+          >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={headCell.sortable && createSortHandler(headCell.id)}
               hideSortIcon={!headCell.sortable}
-              disabled={!headCell.sortable}>
+              disabled={!headCell.sortable}
+            >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
@@ -108,30 +110,30 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  )
+  );
 }
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired
-}
+  orderBy: PropTypes.string.isRequired,
+};
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(2),
     '& > *': {
-      borderBottom: 'unset'
-    }
+      borderBottom: 'unset',
+    },
   },
   paper: {
     width: '100%',
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 750
+    minWidth: 750,
   },
   visuallyHidden: {
     border: 0,
@@ -142,24 +144,24 @@ export const useStyles = makeStyles(theme => ({
     padding: 0,
     position: 'absolute',
     top: 20,
-    width: 1
+    width: 1,
   },
   skeletonRow: {
     height: 20,
-    width: '100%'
+    width: '100%',
   },
   skeletonButton: {
     width: '130px',
-    height: 33.4
+    height: 33.4,
   },
   skeletonRowContainer: {
-    padding: 0
+    padding: 0,
   },
   headerCell: {
     borderBottomColor: theme.palette.secondary.main,
-    borderBottomWidth: 2
-  }
-}))
+    borderBottomWidth: 2,
+  },
+}));
 
 export default function SortableAgreementTable({
   agreements = [],
@@ -171,35 +173,35 @@ export default function SortableAgreementTable({
   perPage,
   onOrderChange,
   orderBy,
-  order
+  order,
 }) {
-  const classes = useStyles()
-  const user = useUser()
-  const location = useLocation()
+  const classes = useStyles();
+  const user = useUser();
+  const location = useLocation();
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc'
+    const isAsc = orderBy === property && order === 'asc';
 
-    onOrderChange(property, isAsc ? 'desc' : 'asc')
-  }
+    onOrderChange(property, isAsc ? 'desc' : 'asc');
+  };
 
   const handleChangePage = (event, newPage) => {
-    onPageChange(newPage)
-  }
+    onPageChange(newPage);
+  };
 
-  const handleChangeRowsPerPage = event => {
-    onLimitChange(parseInt(event.target.value, 10))
-    onPageChange(0)
-  }
+  const handleChangeRowsPerPage = (event) => {
+    onLimitChange(parseInt(event.target.value, 10));
+    onPageChange(0);
+  };
 
   const getNumberOfRows = () => {
-    let rowCount = 0
-    agreements.forEach(agreement => {
-      rowCount = rowCount + agreement.plans?.length
-    })
-    return rowCount
-  }
-  const emptyRows = Math.abs(getNumberOfRows() - perPage)
+    let rowCount = 0;
+    agreements.forEach((agreement) => {
+      rowCount = rowCount + agreement.plans?.length;
+    });
+    return rowCount;
+  };
+  const emptyRows = Math.abs(getNumberOfRows() - perPage);
 
   return (
     <div className={classes.root}>
@@ -209,7 +211,8 @@ export default function SortableAgreementTable({
             className={classes.table}
             aria-labelledby="tableTitle"
             size="medium"
-            aria-label="enhanced table">
+            aria-label="enhanced table"
+          >
             <EnhancedTableHead
               classes={classes}
               order={order}
@@ -223,7 +226,8 @@ export default function SortableAgreementTable({
                 Array.from({ length: perPage }).map((_, i) => (
                   <TableRow
                     key={`agreement_skeleton_${i}`}
-                    className={classes.skeletonRowContainer}>
+                    className={classes.skeletonRowContainer}
+                  >
                     <TableCell colSpan={6}>
                       <Skeleton
                         variant="text"
@@ -248,7 +252,7 @@ export default function SortableAgreementTable({
                       user={user}
                       currentPage={currentPage}
                     />
-                  )
+                  );
                 })}
               {agreements.length > 0 && emptyRows > 0 && (
                 <TableRow style={{ height: 66.4 * emptyRows }}>
@@ -279,5 +283,5 @@ export default function SortableAgreementTable({
         />
       </div>
     </div>
-  )
+  );
 }

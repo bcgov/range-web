@@ -1,6 +1,6 @@
-import React from 'react'
-import PlantCommunities from '.'
-import { Form } from 'formik-semantic-ui'
+import React from 'react';
+import PlantCommunities from '.';
+import { Form } from 'formik-semantic-ui';
 
 const plantCommunities = [
   {
@@ -12,7 +12,7 @@ const plantCommunities = [
     notes: '',
     pastureId: 1,
     indicatorPlants: [],
-    id: 1
+    id: 1,
   },
   {
     approved: false,
@@ -23,29 +23,29 @@ const plantCommunities = [
     notes: '',
     pastureId: 1,
     indicatorPlants: [],
-    id: 2
-  }
-]
+    id: 2,
+  },
+];
 
-const pastures = [{ id: 1, plantCommunities }]
+const pastures = [{ id: 1, plantCommunities }];
 
 export default {
   title: 'rangeUsePlanPage/PlantCommunities',
   decorators: [
-    storyFn => (
+    (storyFn) => (
       <Form
         initialValues={{
-          pastures
+          pastures,
         }}
         render={({ values }) => storyFn(values)}
       />
-    )
-  ]
-}
+    ),
+  ],
+};
 
-export const DefaultStory = values => (
+export const DefaultStory = (values) => (
   <PlantCommunities
     plantCommunities={values.pastures[0].plantCommunities}
     namespace="pastures.0"
   />
-)
+);

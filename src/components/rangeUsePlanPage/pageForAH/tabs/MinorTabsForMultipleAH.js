@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab'
-import RequestSignaturesTab from '../submissionTabs/RequestSignaturesTab'
-import LastTab from '../submissionTabs/LastTab'
-import { isSingleClient } from '../../../../utils'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab';
+import RequestSignaturesTab from '../submissionTabs/RequestSignaturesTab';
+import LastTab from '../submissionTabs/LastTab';
+import { isSingleClient } from '../../../../utils';
 
 class MinorTabsForMultipleAH extends Component {
   static propTypes = {
@@ -16,10 +16,10 @@ class MinorTabsForMultipleAH extends Component {
     onSubmitClicked: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     handleTabChange: PropTypes.func.isRequired,
-    currTabId: PropTypes.string.isRequired
-  }
+    currTabId: PropTypes.string.isRequired,
+  };
 
-  static defaultProps = {}
+  static defaultProps = {};
 
   render() {
     const {
@@ -33,8 +33,8 @@ class MinorTabsForMultipleAH extends Component {
       onClose,
       isMandatory,
       currTabId,
-      handleTabChange
-    } = this.props
+      handleTabChange,
+    } = this.props;
     const tabsMap = {
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
@@ -49,7 +49,7 @@ class MinorTabsForMultipleAH extends Component {
           'You will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.',
         checkbox1:
           'I understand that this submission constitues a legal document and eSignature.',
-        rightBtn1: 'Next'
+        rightBtn1: 'Next',
       },
       requestSignatures: {
         id: 'requestSignatures',
@@ -61,7 +61,7 @@ class MinorTabsForMultipleAH extends Component {
         text2:
           'Once all agreement holders have confirmed the submission and provided their eSignatures, your RUP will be updated as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.',
         text3:
-          'All other agreement holders required to sign this amendment are listed below.'
+          'All other agreement holders required to sign this amendment are listed below.',
       },
       last: {
         id: 'last',
@@ -70,12 +70,12 @@ class MinorTabsForMultipleAH extends Component {
         text1:
           'No approval is required for minor amendments. Your RUP will be automatically updated when all agreement holders have reviewed and signed the amendment. This amendment may be reviewed by range staff for consistency with minor amendment requirements.',
         text2:
-          'You only will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.'
-      }
-    }
+          'You only will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.',
+      },
+    };
 
     if (isMandatory || isSingleClient(clients)) {
-      return null
+      return null;
     }
 
     return (
@@ -103,8 +103,8 @@ class MinorTabsForMultipleAH extends Component {
 
         <LastTab currTabId={currTabId} tab={tabsMap.last} onClose={onClose} />
       </Fragment>
-    )
+    );
   }
 }
 
-export default MinorTabsForMultipleAH
+export default MinorTabsForMultipleAH;

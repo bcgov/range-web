@@ -18,34 +18,31 @@
 // Created by Kyubin Han.
 //
 
-import { createStore, applyMiddleware, compose } from 'redux'
-import logger from 'redux-logger'
-import thunk from 'redux-thunk'
-import rootReducer from './reducers/rootReducer'
-import { isBundled } from './constants/variables'
+import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers/rootReducer';
+import { isBundled } from './constants/variables';
 
-const dev = process.env.NODE_ENV === 'development'
+const dev = process.env.NODE_ENV === 'development';
 
 function devTools() {
   if (dev && window.__REDUX_DEVTOOLS_EXTENSION__) {
-    return window.__REDUX_DEVTOOLS_EXTENSION__()
+    return window.__REDUX_DEVTOOLS_EXTENSION__();
   }
-  return f => f
+  return (f) => f;
 }
 
 const configureStore = () => {
-  const middlewares = [thunk]
+  const middlewares = [thunk];
   if (!isBundled) {
-    middlewares.push(logger)
+    middlewares.push(logger);
   }
 
   return createStore(
     rootReducer,
-    compose(
-      applyMiddleware(...middlewares),
-      devTools()
-    )
-  )
-}
+    compose(applyMiddleware(...middlewares), devTools()),
+  );
+};
 
-export default configureStore
+export default configureStore;

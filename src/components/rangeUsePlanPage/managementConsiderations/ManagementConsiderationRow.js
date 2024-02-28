@@ -1,27 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { TextArea } from 'formik-semantic-ui'
-import { Dropdown, Icon } from 'semantic-ui-react'
-import { Dropdown as FormikDropdown } from 'formik-semantic-ui'
+import React from 'react';
+import PropTypes from 'prop-types';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { TextArea } from 'formik-semantic-ui';
+import { Dropdown, Icon } from 'semantic-ui-react';
+import { Dropdown as FormikDropdown } from 'formik-semantic-ui';
 
 const ManagementConsiderationRow = ({
   namespace,
   managementConsideration,
-  onDelete
+  onDelete,
 }) => {
-  const { detail, url, considerationTypeId } = managementConsideration
-  const references = useReferences()
+  const { detail, url, considerationTypeId } = managementConsideration;
+  const references = useReferences();
   const considerTypes =
-    references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || []
-  const considerTypeOptions = considerTypes.map(ct => ({
+    references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
+  const considerTypeOptions = considerTypes.map((ct) => ({
     key: ct.id,
     value: ct.id,
-    text: ct.name
-  }))
+    text: ct.name,
+  }));
 
   return (
     <div className="rup__m-consideration__row">
@@ -32,12 +32,12 @@ const ManagementConsiderationRow = ({
         options={considerTypeOptions}
         label={'Considerations'}
         displayValue={
-          considerTypes.find(type => type.id === considerationTypeId)
-            ? considerTypes.find(type => type.id === considerationTypeId).name
+          considerTypes.find((type) => type.id === considerationTypeId)
+            ? considerTypes.find((type) => type.id === considerationTypeId).name
             : ''
         }
         inputProps={{
-          fluid: true
+          fluid: true,
         }}
       />
       <div>
@@ -63,7 +63,8 @@ const ManagementConsiderationRow = ({
             trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
             icon={null}
             pointing="right"
-            style={{ marginLeft: '5px', marginTop: '10px' }}>
+            style={{ marginLeft: '5px', marginTop: '10px' }}
+          >
             <Dropdown.Menu>
               <IfEditable permission={MANAGEMENT_CONSIDERATIONS.DELETE}>
                 <Dropdown.Item onClick={() => onDelete()}>Delete</Dropdown.Item>
@@ -73,12 +74,12 @@ const ManagementConsiderationRow = ({
         </div>
       </IfEditable>
     </div>
-  )
-}
+  );
+};
 
 ManagementConsiderationRow.propTypes = {
   namespace: PropTypes.string.isRequired,
-  managementConsideration: PropTypes.object.isRequired
-}
+  managementConsideration: PropTypes.object.isRequired,
+};
 
-export default ManagementConsiderationRow
+export default ManagementConsiderationRow;

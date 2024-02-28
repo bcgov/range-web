@@ -1,18 +1,18 @@
-import { Button, CircularProgress, Tooltip } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import EditIcon from '@material-ui/icons/Edit'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import ViewIcon from '@material-ui/icons/Visibility'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
-import * as API from '../../constants/api'
-import { PLAN } from '../../constants/fields'
-import { RANGE_USE_PLAN } from '../../constants/routes'
-import * as strings from '../../constants/strings'
+import { Button, CircularProgress, Tooltip } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import EditIcon from '@material-ui/icons/Edit';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import ViewIcon from '@material-ui/icons/Visibility';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import * as API from '../../constants/api';
+import { PLAN } from '../../constants/fields';
+import { RANGE_USE_PLAN } from '../../constants/routes';
+import * as strings from '../../constants/strings';
 import {
   axios,
   canUserEditThisPlan,
@@ -20,66 +20,67 @@ import {
   formatDateFromServer,
   getAuthHeaderConfig,
   isUserAgreementHolder,
-  isUserStaff
-} from '../../utils'
-import { PrimaryButton, Status } from '../common'
-import { canUserEdit } from '../common/PermissionsField'
-import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
-import NewPlanButton from './NewPlanButton'
-import { useStyles } from './SortableAgreementTable'
-import { ThumbDown, ThumbUp } from '@material-ui/icons'
+  isUserStaff,
+} from '../../utils';
+import { PrimaryButton, Status } from '../common';
+import { canUserEdit } from '../common/PermissionsField';
+import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown';
+import NewPlanButton from './NewPlanButton';
+import { useStyles } from './SortableAgreementTable';
+import { ThumbDown, ThumbUp } from '@material-ui/icons';
 
 function PlanRow({ agreement, location, user, currentPage }) {
-  const classes = useStyles()
-  const [open, setOpen] = useState(false)
-  const canEdit = canUserEditThisPlan({ ...agreement.plan }, user)
-  const history = useHistory()
-  const [loading, setLoading] = useState(false)
-  const [voting, setVoting] = useState(false)
-  const extendPlan = async planId => {
-    setLoading(true)
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const canEdit = canUserEditThisPlan({ ...agreement.plan }, user);
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [voting, setVoting] = useState(false);
+  const extendPlan = async (planId) => {
+    setLoading(true);
     const response = await axios.put(
       API.EXTEND_PLAN(planId),
       {},
-      getAuthHeaderConfig()
-    )
-    setLoading(false)
+      getAuthHeaderConfig(),
+    );
+    setLoading(false);
     history.push({
       pathname: `/range-use-plan/${response.data.newPlanId}`,
       state: {
         page: currentPage,
-        prevSearch: location.search
-      }
-    })
-  }
+        prevSearch: location.search,
+      },
+    });
+  };
 
-  const handleApprove = async planId => {
-    setVoting(true)
+  const handleApprove = async (planId) => {
+    setVoting(true);
     await axios.put(
       API.APPROVE_PLAN_EXTENSION(planId),
       {},
-      getAuthHeaderConfig()
-    )
-    agreement.plan.requestedExtension = true
-    setVoting(false)
-  }
-  const handleReject = async planId => {
-    setVoting(true)
+      getAuthHeaderConfig(),
+    );
+    agreement.plan.requestedExtension = true;
+    setVoting(false);
+  };
+  const handleReject = async (planId) => {
+    setVoting(true);
     await axios.put(
       API.REJECT_PLAN_EXTENSION(planId),
       {},
-      getAuthHeaderConfig()
-    )
-    agreement.plan.requestedExtension = false
-    setVoting(false)
-  }
+      getAuthHeaderConfig(),
+    );
+    agreement.plan.requestedExtension = false;
+    setVoting(false);
+  };
   return (
     <>
       <TableRow
         className={classes.root}
         hover
         tabIndex={-1}
-        key={agreement.plan?.id}>
+        key={agreement.plan?.id}
+      >
         <TableCell align="left" style={{ minWidth: 150 }}>
           {agreement.forestFileId}
           {agreement.plan?.id && (
@@ -87,7 +88,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
               aria-label="expand row"
               size="small"
               style={{ marginLeft: '3px' }}
-              onClick={() => setOpen(!open)}>
+              onClick={() => setOpen(!open)}
+            >
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           )}
@@ -96,7 +98,7 @@ function PlanRow({ agreement, location, user, currentPage }) {
         <TableCell align="left">{agreement.plan?.rangeName ?? '-'}</TableCell>
         <TableCell align="left">
           {
-            agreement.clients.find(client => client.clientTypeCode === 'A')
+            agreement.clients.find((client) => client.clientTypeCode === 'A')
               ?.name
           }
         </TableCell>
@@ -146,10 +148,11 @@ function PlanRow({ agreement, location, user, currentPage }) {
                 pathname: `${RANGE_USE_PLAN}/${agreement.plan?.id}`,
                 state: {
                   page: currentPage,
-                  prevSearch: location.search
-                }
+                  prevSearch: location.search,
+                },
               }}
-              endIcon={canEdit ? <EditIcon /> : <ViewIcon />}>
+              endIcon={canEdit ? <EditIcon /> : <ViewIcon />}
+            >
               {canEdit ? 'Edit' : strings.VIEW}
             </Button>
           )}
@@ -162,7 +165,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
             agreement.plan?.extensionRequiredVotes ? (
               <PrimaryButton
                 loading={loading}
-                onClick={() => extendPlan(agreement.plan.id)}>
+                onClick={() => extendPlan(agreement.plan.id)}
+              >
                 Extend Plan
               </PrimaryButton>
             ) : (
@@ -180,7 +184,8 @@ function PlanRow({ agreement, location, user, currentPage }) {
                 <>
                   <Tooltip title="approve">
                     <IconButton
-                      onClick={() => handleApprove(agreement.plan.id)}>
+                      onClick={() => handleApprove(agreement.plan.id)}
+                    >
                       <ThumbUp />
                     </IconButton>
                   </Tooltip>
@@ -205,7 +210,7 @@ function PlanRow({ agreement, location, user, currentPage }) {
         <VersionsDropdown open={open} planId={agreement.plan.id} />
       )}
     </>
-  )
+  );
 }
 
-export default PlanRow
+export default PlanRow;

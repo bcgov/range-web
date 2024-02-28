@@ -21,11 +21,15 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 */
 .pika-single:before,
 .pika-single:after {
-  content: " ";
+  content: ' ';
   display: table;
 }
-.pika-single:after { clear: both }
-.pika-single { *zoom: 1 }
+.pika-single:after {
+  clear: both;
+}
+.pika-single {
+  *zoom: 1;
+}
 
 .pika-single.is-hidden {
   display: none;
@@ -33,7 +37,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 
 .pika-single.is-bound {
   position: absolute;
-  box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
 }
 
 .pika-lendar {
@@ -97,7 +101,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 75% 75%;
-  opacity: .5;
+  opacity: 0.5;
   *position: absolute;
   *top: 0;
 }
@@ -124,7 +128,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 .pika-prev.is-disabled,
 .pika-next.is-disabled {
   cursor: default;
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .pika-select {
@@ -197,12 +201,12 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 
 .is-disabled .pika-button,
 .is-inrange .pika-button {
-  background: #D5E9F7;
+  background: #d5e9f7;
 }
 
 .is-startrange .pika-button {
   color: #fff;
-  background: #6CB31D;
+  background: #6cb31d;
   box-shadow: none;
   border-radius: 3px;
 }
@@ -218,12 +222,12 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   pointer-events: none;
   cursor: default;
   color: #999;
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .is-outside-current-month .pika-button {
   color: #999;
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .is-selection-disabled {

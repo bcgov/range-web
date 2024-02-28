@@ -3,14 +3,14 @@
 # Specify actions for issues and pull requests
 actions:
   # Actions taken when the `XS` label is added
- # XS:
-    # Post a comment
-    #    comment: >
-    #  testing this github action.
-    #  Please follow our community guidelines.
+  # XS:
+  # Post a comment
+  #    comment: >
+  #  testing this github action.
+  #  Please follow our community guidelines.
 #  -XS:
-          # comment: >
-          # Resized!
+# comment: >
+# Resized!
 
 # Limit to only `issues` or `pulls`
 only: issues

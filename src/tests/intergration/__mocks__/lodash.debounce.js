@@ -1,3 +1,3 @@
-const debounce = jest.fn(fn => fn)
+const debounce = jest.fn((fn) => fn);
 
-export default debounce
+export default debounce;

@@ -1,16 +1,16 @@
-import React from 'react'
-import HelpfulDropdown from './HelpfulDropdown'
-import { Form } from 'formik-semantic-ui'
+import React from 'react';
+import HelpfulDropdown from './HelpfulDropdown';
+import { Form } from 'formik-semantic-ui';
 
 export default {
-  title: 'HelpfulDropdown'
-}
+  title: 'HelpfulDropdown',
+};
 
 const options = [
   { value: 'en', key: 'en', text: 'English' },
   { value: 'es', key: 'es', text: 'Spanish' },
-  { value: 'fr', key: 'fr', text: 'French' }
-]
+  { value: 'fr', key: 'fr', text: 'French' },
+];
 
 export const withInfoText = () => (
   <Form
@@ -24,4 +24,4 @@ export const withInfoText = () => (
       />
     )}
   />
-)
+);

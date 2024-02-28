@@ -2,8 +2,8 @@ import {
   REQUEST,
   SUCCESS,
   ERROR,
-  SUCCESS_PAGINATED
-} from '../constants/actionTypes'
+  SUCCESS_PAGINATED,
+} from '../constants/actionTypes';
 
 const initialState = {
   isFetching: false,
@@ -14,9 +14,9 @@ const initialState = {
     perPage: 10,
     currentPage: 1,
     totalItems: 0,
-    totalPages: 1
-  }
-}
+    totalPages: 1,
+  },
+};
 
 const networkReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -25,23 +25,23 @@ const networkReducer = (state = initialState, action) => {
         ...state,
         isFetching: true,
         errorOccured: false,
-        success: null
-      }
+        success: null,
+      };
     case SUCCESS:
       return {
         ...state,
         isFetching: false,
         errorOccured: false,
-        success: action.data
-      }
+        success: action.data,
+      };
     case ERROR:
       return {
         ...state,
         isFetching: false,
         errorOccured: true,
         errorResponse: action.errorResponse,
-        success: null
-      }
+        success: null,
+      };
     case SUCCESS_PAGINATED:
       return {
         ...state,
@@ -52,19 +52,19 @@ const networkReducer = (state = initialState, action) => {
           perPage: action.perPage,
           currentPage: action.currentPage,
           totalItems: action.totalItems,
-          totalPages: action.totalPages
-        }
-      }
+          totalPages: action.totalPages,
+        },
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default networkReducer
+export default networkReducer;
 
 // private selectors
-export const getIsFetching = state => state.isFetching
-export const getPagination = state => state.pagination
-export const getErrorOccured = state => state.errorOccured
-export const getErrorResponse = state => state.errorResponse
-export const getData = state => state.success
+export const getIsFetching = (state) => state.isFetching;
+export const getPagination = (state) => state.pagination;
+export const getErrorOccured = (state) => state.errorOccured;
+export const getErrorResponse = (state) => state.errorResponse;
+export const getData = (state) => state.success;

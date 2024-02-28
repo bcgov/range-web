@@ -1,10 +1,10 @@
-import React from 'react'
-import uuid from 'uuid-v4'
-import { Formik } from 'formik'
-import { render, fireEvent, waitFor } from '../../../tests/helpers/test-utils'
-import GrazingScheduleEntryRow from './GrazingScheduleEntryRow'
-import { UserContext } from '../../../providers/UserProvider'
-import moment from 'moment'
+import React from 'react';
+import uuid from 'uuid-v4';
+import { Formik } from 'formik';
+import { render, fireEvent, waitFor } from '../../../tests/helpers/test-utils';
+import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
+import { UserContext } from '../../../providers/UserProvider';
+import moment from 'moment';
 
 const schedule = {
   id: 1,
@@ -18,17 +18,17 @@ const schedule = {
       livestockTypeId: 5,
       livestockCount: 10,
       id: uuid(),
-      pasture: { id: 1, name: 'Pasture 1', graceDays: 50 }
-    }
-  ]
-}
+      pasture: { id: 1, name: 'Pasture 1', graceDays: 50 },
+    },
+  ],
+};
 
 const pastures = [
   { id: 1, name: 'Pasture 1', graceDays: 50 },
-  { id: 2, name: 'Pasture 2' }
-]
+  { id: 2, name: 'Pasture 2' },
+];
 
-const namespace = 'schedule.grazingScheduleEntries.0'
+const namespace = 'schedule.grazingScheduleEntries.0';
 
 const WrappedComponent = ({
   initialValues = { schedule, pastures },
@@ -53,110 +53,110 @@ const WrappedComponent = ({
       </form>
     )}
   />
-)
+);
 
 describe('Grazing Schedule Entry Row', () => {
   it('Displays each grazing schedule entry', () => {
-    const { container } = render(<WrappedComponent />)
+    const { container } = render(<WrappedComponent />);
 
-    expect(container.firstChild).toMatchSnapshot()
-  })
+    expect(container.firstChild).toMatchSnapshot();
+  });
 
   it('shows an input for each schedule entry field', async () => {
     const { queryByLabelText, getByLabelText, getByTestId } = render(
-      <WrappedComponent />
-    )
+      <WrappedComponent />,
+    );
 
-    const [entry] = schedule.grazingScheduleEntries
+    const [entry] = schedule.grazingScheduleEntries;
 
-    const pasture = getByLabelText('pasture')
-    expect(pasture).toBeInTheDocument()
+    const pasture = getByLabelText('pasture');
+    expect(pasture).toBeInTheDocument();
 
-    const form = getByTestId('form')
+    const form = getByTestId('form');
 
     expect(form).toHaveFormValues({
       'schedule.grazingScheduleEntries.0.pastureId': entry.pastureId.toString(),
-      'schedule.grazingScheduleEntries.0.livestockTypeId': entry.livestockTypeId.toString(),
-      'schedule.grazingScheduleEntries.0.livestockCount': entry.livestockCount.toString(),
-      'schedule.grazingScheduleEntries.0.dateIn': entry.dateIn.format(
-        'MMM D YYYY'
-      ),
-      'schedule.grazingScheduleEntries.0.dateOut': entry.dateOut.format(
-        'MMM D YYYY'
-      )
-    })
+      'schedule.grazingScheduleEntries.0.livestockTypeId':
+        entry.livestockTypeId.toString(),
+      'schedule.grazingScheduleEntries.0.livestockCount':
+        entry.livestockCount.toString(),
+      'schedule.grazingScheduleEntries.0.dateIn':
+        entry.dateIn.format('MMM D YYYY'),
+      'schedule.grazingScheduleEntries.0.dateOut':
+        entry.dateOut.format('MMM D YYYY'),
+    });
 
     expect(queryByLabelText('grace days').value).toBe(
-      entry.graceDays.toString()
-    )
-  })
+      entry.graceDays.toString(),
+    );
+  });
 
   it('calls the onCopy handler when the duplicate button is pressed', async () => {
-    const handleCopy = jest.fn()
+    const handleCopy = jest.fn();
 
     const { getByText, getByTestId } = render(
-      <WrappedComponent onCopy={handleCopy} />
-    )
+      <WrappedComponent onCopy={handleCopy} />,
+    );
 
-    const menu = getByTestId('schedule-row-menu').firstChild
-    fireEvent.click(menu)
+    const menu = getByTestId('schedule-row-menu').firstChild;
+    fireEvent.click(menu);
 
-    const duplicateBtn = getByText('Duplicate')
+    const duplicateBtn = getByText('Duplicate');
 
-    fireEvent.click(duplicateBtn)
+    fireEvent.click(duplicateBtn);
 
-    await waitFor(() => expect(handleCopy).toHaveBeenCalled())
-  })
+    await waitFor(() => expect(handleCopy).toHaveBeenCalled());
+  });
 
   it('calls the onDelete handler when the delete button is pressed', async () => {
-    const handleDelete = jest.fn()
+    const handleDelete = jest.fn();
 
     const { getByText, getByTestId } = render(
-      <WrappedComponent onDelete={handleDelete} />
-    )
+      <WrappedComponent onDelete={handleDelete} />,
+    );
 
-    const menu = getByTestId('schedule-row-menu').firstChild
-    fireEvent.click(menu)
+    const menu = getByTestId('schedule-row-menu').firstChild;
+    fireEvent.click(menu);
 
-    const deleteBtn = getByText('Delete')
+    const deleteBtn = getByText('Delete');
 
-    fireEvent.click(deleteBtn)
+    fireEvent.click(deleteBtn);
 
-    await waitFor(() => expect(handleDelete).toHaveBeenCalled())
-  })
+    await waitFor(() => expect(handleDelete).toHaveBeenCalled());
+  });
 
   it('does not allow the grace days to be edited by agreement holders', () => {
-    const { getByLabelText } = render(<WrappedComponent />)
+    const { getByLabelText } = render(<WrappedComponent />);
 
-    const [entry] = schedule.grazingScheduleEntries
+    const [entry] = schedule.grazingScheduleEntries;
 
-    const graceDays = getByLabelText('grace days')
+    const graceDays = getByLabelText('grace days');
 
-    expect(graceDays.value).toBe(entry.graceDays.toString())
-    fireEvent.change(graceDays, { value: '500' })
-    expect(graceDays.value).toBe(entry.graceDays.toString())
-  })
+    expect(graceDays.value).toBe(entry.graceDays.toString());
+    fireEvent.change(graceDays, { value: '500' });
+    expect(graceDays.value).toBe(entry.graceDays.toString());
+  });
 
   it('only shows the grace days input for range officers', () => {
     const user = {
-      roles: ['myra_range_officer']
-    }
+      roles: ['myra_range_officer'],
+    };
 
     const { getByLabelText } = render(
       <UserContext.Provider value={user}>
         <WrappedComponent />
-      </UserContext.Provider>
-    )
+      </UserContext.Provider>,
+    );
 
-    const [entry] = schedule.grazingScheduleEntries
+    const [entry] = schedule.grazingScheduleEntries;
 
-    const graceDays = getByLabelText('grace days')
-    expect(graceDays.value).toBe(entry.graceDays.toString())
+    const graceDays = getByLabelText('grace days');
+    expect(graceDays.value).toBe(entry.graceDays.toString());
 
-    const newGraceDays = '60'
-    fireEvent.change(graceDays, { target: { value: newGraceDays } })
-    expect(graceDays.value).toBe(newGraceDays)
-  })
+    const newGraceDays = '60';
+    fireEvent.change(graceDays, { target: { value: newGraceDays } });
+    expect(graceDays.value).toBe(newGraceDays);
+  });
 
   it('pulls the grace days from the selected pasture if not overridden', () => {
     const { getByLabelText } = render(
@@ -167,21 +167,21 @@ describe('Grazing Schedule Entry Row', () => {
             grazingScheduleEntries: [
               {
                 ...schedule.grazingScheduleEntries[0],
-                graceDays: null
-              }
-            ]
+                graceDays: null,
+              },
+            ],
           },
-          pastures
+          pastures,
         }}
-      />
-    )
+      />,
+    );
 
-    const [entry] = schedule.grazingScheduleEntries
+    const [entry] = schedule.grazingScheduleEntries;
 
-    const graceDays = getByLabelText('grace days')
-    expect(graceDays).toBeInTheDocument()
+    const graceDays = getByLabelText('grace days');
+    expect(graceDays).toBeInTheDocument();
     expect(graceDays.value).toBe(
-      pastures.find(p => p.id === entry.pastureId).graceDays.toString()
-    )
-  })
-})
+      pastures.find((p) => p.id === entry.pastureId).graceDays.toString(),
+    );
+  });
+});

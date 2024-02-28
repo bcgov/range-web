@@ -8,7 +8,7 @@ const mockUsers = [
     email: 'nackyu711@gmail.com',
     phoneNumber: null,
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 6,
@@ -19,7 +19,7 @@ const mockUsers = [
     email: 'shelly+1@freshworks.io',
     phoneNumber: null,
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 7,
@@ -30,7 +30,7 @@ const mockUsers = [
     email: 'jason.leach@fullboar.ca',
     phoneNumber: null,
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 8,
@@ -41,7 +41,7 @@ const mockUsers = [
     email: 'roop@freshworks.io',
     phoneNumber: null,
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 9,
@@ -52,7 +52,7 @@ const mockUsers = [
     email: 'pb@example.com',
     phoneNumber: null,
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 11,
@@ -63,7 +63,7 @@ const mockUsers = [
     email: 'lucy.jones@gov.bc.ca',
     phoneNumber: '250-394-4703',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 43,
@@ -74,7 +74,7 @@ const mockUsers = [
     email: 'shawna.larade@gov.bc.ca',
     phoneNumber: '250-489-8555',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 16,
@@ -85,7 +85,7 @@ const mockUsers = [
     email: 'hanna.mcintyre@gov.bc.ca',
     phoneNumber: '250-489-8548',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 17,
@@ -96,7 +96,7 @@ const mockUsers = [
     email: 'cara.haywood-farmer@gov.bc.ca',
     phoneNumber: '250-378-8404',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 18,
@@ -107,7 +107,7 @@ const mockUsers = [
     email: 'philip.gyug@gov.bc.ca',
     phoneNumber: '250-378-8476',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 44,
@@ -118,7 +118,7 @@ const mockUsers = [
     email: 'kevin.eastwood@gov.bc.ca',
     phoneNumber: '250-317-7849',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 25,
@@ -129,7 +129,7 @@ const mockUsers = [
     email: 'marika.cameron@gov.bc.ca',
     phoneNumber: '250-784-1293',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 24,
@@ -140,7 +140,7 @@ const mockUsers = [
     email: 'mahesh.kc@gov.bc.ca',
     phoneNumber: '250-784-1200',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 26,
@@ -151,7 +151,7 @@ const mockUsers = [
     email: 'eleanor.bassett@gov.bc.ca',
     phoneNumber: '250-395-7874',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 28,
@@ -162,7 +162,7 @@ const mockUsers = [
     email: 'ken.chalmers@gov.bc.ca',
     phoneNumber: '251-692-2238',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 29,
@@ -173,7 +173,7 @@ const mockUsers = [
     email: 'sandra.latin@gov.bc.ca',
     phoneNumber: '250-992-4482',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 30,
@@ -184,7 +184,7 @@ const mockUsers = [
     email: 'tim.singer@gov.bc.ca',
     phoneNumber: '250-992-4415',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 31,
@@ -195,7 +195,7 @@ const mockUsers = [
     email: 'mark.salzl@gov.bc.ca',
     phoneNumber: '250-559-6206',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 32,
@@ -206,7 +206,7 @@ const mockUsers = [
     email: 'kyra.witt@gov.bc.ca',
     phoneNumber: '250-550-2244',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 33,
@@ -217,7 +217,7 @@ const mockUsers = [
     email: 'sarah.mortenson@gov.bc.ca',
     phoneNumber: '250-550-2214',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 34,
@@ -228,7 +228,7 @@ const mockUsers = [
     email: 'harold.hetherington@gov.bc.ca',
     phoneNumber: '250-260-4605',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 35,
@@ -239,7 +239,7 @@ const mockUsers = [
     email: 'charles.oduro@gov.bc.ca',
     phoneNumber: '250-260-4614',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 36,
@@ -250,7 +250,7 @@ const mockUsers = [
     email: 'aaron.smeeth@gov.bc.ca',
     phoneNumber: '778-647-2002',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 45,
@@ -261,7 +261,7 @@ const mockUsers = [
     email: 'jane.woods@gov.bc.ca',
     phoneNumber: '250-847-6364',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 37,
@@ -272,7 +272,7 @@ const mockUsers = [
     email: 'karen.tabe@gov.bc.ca',
     phoneNumber: '238-409-2004',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 38,
@@ -283,7 +283,7 @@ const mockUsers = [
     email: 'krista.barton@gov.bc.ca',
     phoneNumber: '250-371-6549',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 46,
@@ -294,7 +294,7 @@ const mockUsers = [
     email: 'caitlin.russell@gov.bc.ca',
     phoneNumber: '250-748-1275',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 48,
@@ -305,7 +305,7 @@ const mockUsers = [
     email: 'drew.buis@gov.bc.ca',
     phoneNumber: '250-395-7895',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 49,
@@ -316,7 +316,7 @@ const mockUsers = [
     email: 'rob.dinwoodie@gov.bc.ca',
     phoneNumber: '250-558-1768',
     active: true,
-    lastLoginAt: null
+    lastLoginAt: null,
   },
   {
     id: 50,
@@ -327,7 +327,7 @@ const mockUsers = [
     email: 'cardell.dumais@gov.bc.ca',
     phoneNumber: '250-371-6607',
     active: true,
-    lastLoginAt: '2018-11-20T21:28:38.412Z'
+    lastLoginAt: '2018-11-20T21:28:38.412Z',
   },
   {
     id: 19,
@@ -338,7 +338,7 @@ const mockUsers = [
     email: 'rachel.whitehouse@gov.bc.ca',
     phoneNumber: '250-378-8406',
     active: true,
-    lastLoginAt: '2018-11-21T20:51:06.127Z'
+    lastLoginAt: '2018-11-21T20:51:06.127Z',
   },
   {
     id: 51,
@@ -349,7 +349,7 @@ const mockUsers = [
     email: 'cynthia.fell@gov.bc.ca',
     phoneNumber: '250-398-4321',
     active: true,
-    lastLoginAt: '2018-11-22T22:27:46.912Z'
+    lastLoginAt: '2018-11-22T22:27:46.912Z',
   },
   {
     id: 53,
@@ -360,7 +360,7 @@ const mockUsers = [
     email: 'sarah.mortenson@gov.bc.ca',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-11-21T20:53:20.750Z'
+    lastLoginAt: '2018-11-21T20:53:20.750Z',
   },
   {
     id: 21,
@@ -371,7 +371,7 @@ const mockUsers = [
     email: 'rene.garciadaguer@gov.bc.ca',
     phoneNumber: '250-378-8477',
     active: true,
-    lastLoginAt: '2018-11-27T21:25:03.790Z'
+    lastLoginAt: '2018-11-27T21:25:03.790Z',
   },
   {
     id: 22,
@@ -382,7 +382,7 @@ const mockUsers = [
     email: 'alisa.siemens@gov.bc.ca',
     phoneNumber: '250-442-5426',
     active: true,
-    lastLoginAt: '2018-11-28T17:31:12.827Z'
+    lastLoginAt: '2018-11-28T17:31:12.827Z',
   },
   {
     id: 41,
@@ -393,7 +393,7 @@ const mockUsers = [
     email: 'zoe.simon@gov.bc.ca',
     phoneNumber: '250-371-6500',
     active: true,
-    lastLoginAt: '2018-11-28T21:48:04.376Z'
+    lastLoginAt: '2018-11-28T21:48:04.376Z',
   },
   {
     id: 3,
@@ -404,7 +404,7 @@ const mockUsers = [
     email: 'kyubinhan@freshworks.io',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-11-20T00:41:20.213Z'
+    lastLoginAt: '2018-11-20T00:41:20.213Z',
   },
   {
     id: 12,
@@ -415,7 +415,7 @@ const mockUsers = [
     email: 'chris.armes@gov.bc.ca',
     phoneNumber: '250-398-4362',
     active: true,
-    lastLoginAt: '2018-11-28T17:12:58.723Z'
+    lastLoginAt: '2018-11-28T17:12:58.723Z',
   },
   {
     id: 39,
@@ -426,7 +426,7 @@ const mockUsers = [
     email: 'barb.wheatley@gov.bc.ca',
     phoneNumber: '250-371-6500',
     active: true,
-    lastLoginAt: '2018-11-28T22:13:24.387Z'
+    lastLoginAt: '2018-11-28T22:13:24.387Z',
   },
   {
     id: 27,
@@ -437,7 +437,7 @@ const mockUsers = [
     email: 'diane.l.brown@gov.bc.ca',
     phoneNumber: '250-395-7815',
     active: true,
-    lastLoginAt: '2018-11-22T19:46:50.420Z'
+    lastLoginAt: '2018-11-22T19:46:50.420Z',
   },
   {
     id: 13,
@@ -448,7 +448,7 @@ const mockUsers = [
     email: 'kassia.james@gov.bc.ca',
     phoneNumber: '250-398-4364',
     active: true,
-    lastLoginAt: '2018-11-27T18:24:25.960Z'
+    lastLoginAt: '2018-11-27T18:24:25.960Z',
   },
   {
     id: 65,
@@ -459,7 +459,7 @@ const mockUsers = [
     email: 'rangeadmin@myrangebc.gov.ca',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-11-27T19:38:43.406Z'
+    lastLoginAt: '2018-11-27T19:38:43.406Z',
   },
   {
     id: 52,
@@ -470,7 +470,7 @@ const mockUsers = [
     email: 'krista.barton@gov.bc.ca',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-11-26T16:47:15.965Z'
+    lastLoginAt: '2018-11-26T16:47:15.965Z',
   },
   {
     id: 14,
@@ -481,7 +481,7 @@ const mockUsers = [
     email: 'morgan.mueller@gov.bc.ca',
     phoneNumber: '250-398-4364',
     active: true,
-    lastLoginAt: '2018-11-22T18:15:13.515Z'
+    lastLoginAt: '2018-11-22T18:15:13.515Z',
   },
   {
     id: 42,
@@ -492,7 +492,7 @@ const mockUsers = [
     email: 'sarah.schwarz@gov.bc.ca',
     phoneNumber: '250-442-4386',
     active: true,
-    lastLoginAt: '2018-12-04T19:32:29.909Z'
+    lastLoginAt: '2018-12-04T19:32:29.909Z',
   },
   {
     id: 15,
@@ -503,7 +503,7 @@ const mockUsers = [
     email: 'marc.schuffert@gov.bc.ca',
     phoneNumber: '250-847-6329',
     active: true,
-    lastLoginAt: '2018-12-03T21:51:24.751Z'
+    lastLoginAt: '2018-12-03T21:51:24.751Z',
   },
   {
     id: 10,
@@ -514,7 +514,7 @@ const mockUsers = [
     email: 'trish.nairn@gov.bc.ca',
     phoneNumber: '250-398-4242',
     active: true,
-    lastLoginAt: '2018-11-22T23:10:58.284Z'
+    lastLoginAt: '2018-11-22T23:10:58.284Z',
   },
   {
     id: 23,
@@ -525,7 +525,7 @@ const mockUsers = [
     email: 'taylor.grafton@gov.bc.ca',
     phoneNumber: '250-614-7427',
     active: true,
-    lastLoginAt: '2018-11-22T00:15:10.036Z'
+    lastLoginAt: '2018-11-22T00:15:10.036Z',
   },
   {
     id: 1,
@@ -536,7 +536,7 @@ const mockUsers = [
     email: 'amir+1@freshworks.io',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-12-03T20:18:22.840Z'
+    lastLoginAt: '2018-12-03T20:18:22.840Z',
   },
   {
     id: 47,
@@ -547,7 +547,7 @@ const mockUsers = [
     email: 'william.shaw@gov.bc.ca',
     phoneNumber: '250-784-1239',
     active: true,
-    lastLoginAt: '2018-11-22T16:23:33.186Z'
+    lastLoginAt: '2018-11-22T16:23:33.186Z',
   },
   {
     id: 66,
@@ -558,7 +558,7 @@ const mockUsers = [
     email: 'lisa.moore@gov.bc.ca',
     phoneNumber: null,
     active: false,
-    lastLoginAt: '2018-11-27T17:15:27.602Z'
+    lastLoginAt: '2018-11-27T17:15:27.602Z',
   },
   {
     id: 40,
@@ -569,7 +569,7 @@ const mockUsers = [
     email: 'andrew.volo@gov.bc.ca',
     phoneNumber: '250-371-6222',
     active: true,
-    lastLoginAt: '2018-11-28T17:51:15.953Z'
+    lastLoginAt: '2018-11-28T17:51:15.953Z',
   },
   {
     id: 63,
@@ -580,7 +580,7 @@ const mockUsers = [
     email: 'rangestaff@myrange.gov.ca',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-11-27T00:47:12.364Z'
+    lastLoginAt: '2018-11-27T00:47:12.364Z',
   },
   {
     id: 2,
@@ -591,7 +591,7 @@ const mockUsers = [
     email: 'kyubin+1@freshworks.io',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-12-05T00:29:01.859Z'
+    lastLoginAt: '2018-12-05T00:29:01.859Z',
   },
   {
     id: 4,
@@ -602,7 +602,7 @@ const mockUsers = [
     email: 'kyubin@freshworks.io',
     phoneNumber: null,
     active: true,
-    lastLoginAt: '2018-12-04T23:35:24.812Z'
+    lastLoginAt: '2018-12-04T23:35:24.812Z',
   },
   {
     id: 20,
@@ -613,7 +613,7 @@ const mockUsers = [
     email: 'ried.mctavish@gov.bc.ca',
     phoneNumber: '250-378-8487',
     active: true,
-    lastLoginAt: '2018-12-05T00:02:13.135Z'
+    lastLoginAt: '2018-12-05T00:02:13.135Z',
   },
   {
     id: 54,
@@ -624,8 +624,8 @@ const mockUsers = [
     email: 'april.ludgate@example.com',
     phoneNumber: null,
     active: true,
-    lastLoginAt: null
-  }
-]
+    lastLoginAt: null,
+  },
+];
 
-export default mockUsers
+export default mockUsers;

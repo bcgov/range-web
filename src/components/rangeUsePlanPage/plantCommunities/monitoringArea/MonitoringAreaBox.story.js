@@ -1,9 +1,9 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { Form } from 'formik-semantic-ui'
-import { action } from '@storybook/addon-actions'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { Form } from 'formik-semantic-ui';
+import { action } from '@storybook/addon-actions';
 
-import MonitoringAreaBox from './MonitoringAreaBox'
+import MonitoringAreaBox from './MonitoringAreaBox';
 
 const monitoringArea = {
   latitude: '',
@@ -11,12 +11,12 @@ const monitoringArea = {
   longitude: '',
   name: 'My area',
   purposes: [],
-  rangelandHealth: ''
-}
+  rangelandHealth: '',
+};
 
 storiesOf(
   'rangeUsePlanPage/plantCommunities/monitoringAreas/MonitoringAreaBox',
-  module
+  module,
 ).add('default', () => (
   <Form
     initialValues={{ monitoringArea }}
@@ -29,4 +29,4 @@ storiesOf(
       />
     )}
   />
-))
+));

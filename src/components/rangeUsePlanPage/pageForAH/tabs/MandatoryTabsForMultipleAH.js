@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import ChooseSubmissionTypeTab from '../submissionTabs/ChooseSubmissionTypeTab'
-import SubmitForFeedbackTab from '../submissionTabs/SubmitForFeedbackTab'
-import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab'
-import LastTab from '../submissionTabs/LastTab'
-import { PLAN_STATUS } from '../../../../constants/variables'
-import { isSingleClient } from '../../../../utils'
-import RequestSignaturesTab from '../submissionTabs/RequestSignaturesTab'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import ChooseSubmissionTypeTab from '../submissionTabs/ChooseSubmissionTypeTab';
+import SubmitForFeedbackTab from '../submissionTabs/SubmitForFeedbackTab';
+import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab';
+import LastTab from '../submissionTabs/LastTab';
+import { PLAN_STATUS } from '../../../../constants/variables';
+import { isSingleClient } from '../../../../utils';
+import RequestSignaturesTab from '../submissionTabs/RequestSignaturesTab';
 
 class MandatoryTabsForMultipleAH extends Component {
   static propTypes = {
@@ -21,12 +21,12 @@ class MandatoryTabsForMultipleAH extends Component {
     onSubmitClicked: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     handleTabChange: PropTypes.func.isRequired,
-    currTabId: PropTypes.string.isRequired
-  }
+    currTabId: PropTypes.string.isRequired,
+  };
 
   static defaultProps = {
-    statusCode: null
-  }
+    statusCode: null,
+  };
 
   render() {
     const {
@@ -42,8 +42,8 @@ class MandatoryTabsForMultipleAH extends Component {
       onClose,
       isMinor,
       currTabId,
-      handleTabChange
-    } = this.props
+      handleTabChange,
+    } = this.props;
     const tabsMap = {
       chooseSubmissionType: {
         id: 'chooseSubmissionType',
@@ -57,7 +57,7 @@ class MandatoryTabsForMultipleAH extends Component {
           'Make this draft amendment available for the staff to review. ' +
           'They will advise you if the RUP is ready to submit to the decision maker for approval or make content suggestions.',
         radio2:
-          'Verify this amendment is correct and start submission for decision.'
+          'Verify this amendment is correct and start submission for decision.',
       },
       submitForFeedback: {
         id: 'submitForFeedback',
@@ -66,7 +66,7 @@ class MandatoryTabsForMultipleAH extends Component {
         next: 'last',
         text1:
           'You’re ready to submit mandatory amendment for Range staff review. ' +
-          'You will be notified once the submission has been reviewed.'
+          'You will be notified once the submission has been reviewed.',
       },
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
@@ -78,7 +78,7 @@ class MandatoryTabsForMultipleAH extends Component {
         checkbox1:
           'I understand that this submission constitues a legal ' +
           'document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker.',
-        rightBtn1: 'Next'
+        rightBtn1: 'Next',
       },
       requestSignatures: {
         id: 'requestSignatures',
@@ -90,7 +90,7 @@ class MandatoryTabsForMultipleAH extends Component {
           'You have signed your mandatory amendment submission. The agreement holders below will be notified to confirm the submission and provide eSignatures.',
         text2:
           'Once all agreement holders have confirmed the submission and provided their eSignature your amendment will be submitted for final decision by range staff.',
-        text3: 'Agreement holders needed to confirm submission:'
+        text3: 'Agreement holders needed to confirm submission:',
       },
       last: {
         id: 'last',
@@ -103,12 +103,12 @@ class MandatoryTabsForMultipleAH extends Component {
             ? 'Your mandatory amendment has been sent to range staff for review. Feel free to call your Range officer if you have any questions!'
             : 'Your mandatory amendment has been sent to agreement holders ' +
               'for confirmation. It will be sent to Range staff for final ' +
-              'approval once all agreement holders have viewed and confirmed the submission.'
-      }
-    }
+              'approval once all agreement holders have viewed and confirmed the submission.',
+      },
+    };
 
     if (isMinor || isSingleClient(clients)) {
-      return null
+      return null;
     }
 
     return (
@@ -154,8 +154,8 @@ class MandatoryTabsForMultipleAH extends Component {
 
         <LastTab currTabId={currTabId} tab={tabsMap.last} onClose={onClose} />
       </Fragment>
-    )
+    );
   }
 }
 
-export default MandatoryTabsForMultipleAH
+export default MandatoryTabsForMultipleAH;

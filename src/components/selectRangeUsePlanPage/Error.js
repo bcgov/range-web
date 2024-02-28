@@ -1,6 +1,6 @@
-import React from 'react'
-import { PrimaryButton } from '../common'
-import * as strings from '../../constants/strings'
+import React from 'react';
+import { PrimaryButton } from '../common';
+import * as strings from '../../constants/strings';
 
 const Error = ({ onRetry }) => (
   <div className="agrm__table__row">
@@ -11,6 +11,6 @@ const Error = ({ onRetry }) => (
       </PrimaryButton>
     </div>
   </div>
-)
+);
 
-export default Error
+export default Error;

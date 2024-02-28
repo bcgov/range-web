@@ -1,31 +1,31 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import AdditionalRequirementRow from './AdditionalRequirementRow'
-import { InfoTip } from '../../common'
-import { IfEditable } from '../../common/PermissionsField'
-import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields'
-import * as strings from '../../../constants/strings'
-import { FieldArray } from 'formik'
-import { Button, Confirm } from 'semantic-ui-react'
-import uuid from 'uuid-v4'
-import { deleteAdditionalRequirement } from '../../../api'
-import { resetAdditionalRequirementId } from '../../../utils/helper/additionalRequirement'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import AdditionalRequirementRow from './AdditionalRequirementRow';
+import { InfoTip } from '../../common';
+import { IfEditable } from '../../common/PermissionsField';
+import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields';
+import * as strings from '../../../constants/strings';
+import { FieldArray } from 'formik';
+import { Button, Confirm } from 'semantic-ui-react';
+import uuid from 'uuid-v4';
+import { deleteAdditionalRequirement } from '../../../api';
+import { resetAdditionalRequirementId } from '../../../utils/helper/additionalRequirement';
 
 class AdditionalRequirements extends Component {
   static propTypes = {
-    additionalRequirements: PropTypes.arrayOf(PropTypes.object).isRequired
-  }
+    additionalRequirements: PropTypes.arrayOf(PropTypes.object).isRequired,
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      indexToRemove: null
-    }
+      indexToRemove: null,
+    };
   }
 
   render() {
-    const { additionalRequirements } = this.props
-    const { indexToRemove } = this.state
+    const { additionalRequirements } = this.props;
+    const { indexToRemove } = this.state;
 
     return (
       <FieldArray
@@ -53,10 +53,11 @@ class AdditionalRequirements extends Component {
                       id: uuid(),
                       detail: '',
                       url: '',
-                      categoryId: undefined
-                    })
+                      categoryId: undefined,
+                    });
                   }}
-                  className="icon labeled rup__pastures__add-button">
+                  className="icon labeled rup__pastures__add-button"
+                >
                   <i className="add circle icon" />
                   Add Requirement
                 </Button>
@@ -81,7 +82,7 @@ class AdditionalRequirements extends Component {
                     onDelete={() => this.setState({ indexToRemove: i })}
                     onCopy={() =>
                       push(
-                        resetAdditionalRequirementId(additionalRequirements[i])
+                        resetAdditionalRequirementId(additionalRequirements[i]),
                       )
                     }
                     namespace={`additionalRequirements.${i}`}
@@ -95,27 +96,27 @@ class AdditionalRequirements extends Component {
               content="Are you sure?"
               open={indexToRemove !== null}
               onCancel={() => {
-                this.setState({ indexToRemove: null })
+                this.setState({ indexToRemove: null });
               }}
               onConfirm={async () => {
-                const requirement = additionalRequirements[indexToRemove]
+                const requirement = additionalRequirements[indexToRemove];
 
                 if (!uuid.isUUID(requirement.id)) {
                   deleteAdditionalRequirement(
                     requirement.planId,
-                    requirement.id
-                  )
+                    requirement.id,
+                  );
                 }
 
-                remove(indexToRemove)
-                this.setState({ indexToRemove: null })
+                remove(indexToRemove);
+                this.setState({ indexToRemove: null });
               }}
             />
           </div>
         )}
       />
-    )
+    );
   }
 }
 
-export default AdditionalRequirements
+export default AdditionalRequirements;

@@ -5,144 +5,144 @@ import {
   GRAZING_SCHEDULE_DELETED,
   PLAN_STATUS_HISTORY_RECORD_ADDED,
   MANAGEMENT_CONSIDERATION_ADDED,
-  MANAGEMENT_CONSIDERATION_DELETED
-} from '../../constants/actionTypes'
+  MANAGEMENT_CONSIDERATION_DELETED,
+} from '../../constants/actionTypes';
 
 const initialState = {
   byId: {},
-  allIds: []
-}
+  allIds: [],
+};
 
 const storePlan = (state, action) => {
-  const { entities, result: planId } = action.payload
-  const { plans: plan } = entities
+  const { entities, result: planId } = action.payload;
+  const { plans: plan } = entities;
   const handlePlanIds = (state, planId) => {
-    if (state.allIds.find(id => id === planId)) {
-      return [...state.allIds]
+    if (state.allIds.find((id) => id === planId)) {
+      return [...state.allIds];
     }
-    return [...state.allIds, planId]
-  }
+    return [...state.allIds, planId];
+  };
 
   return {
     byId: {
       ...state.byId,
-      ...plan
+      ...plan,
     },
-    allIds: handlePlanIds(state, planId)
-  }
-}
+    allIds: handlePlanIds(state, planId),
+  };
+};
 
 const updatePlan = (state, action) => {
-  const { plan } = action.payload
+  const { plan } = action.payload;
   return {
     ...state,
     byId: {
       ...state.byId,
-      [plan.id]: plan
-    }
-  }
-}
+      [plan.id]: plan,
+    },
+  };
+};
 
 const addGrazingSchedule = (state, action) => {
-  const { planId, grazingSchedules } = action.payload
+  const { planId, grazingSchedules } = action.payload;
   const plan = {
     ...state.byId[planId],
-    grazingSchedules
-  }
+    grazingSchedules,
+  };
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan
-    }
-  }
-}
+      [planId]: plan,
+    },
+  };
+};
 
 const deleteGrazingSchedule = (state, action) => {
-  const { planId, grazingSchedules } = action.payload
+  const { planId, grazingSchedules } = action.payload;
   const plan = {
     ...state.byId[planId],
-    grazingSchedules
-  }
+    grazingSchedules,
+  };
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan
-    }
-  }
-}
+      [planId]: plan,
+    },
+  };
+};
 
 const addPlanStatusHistoryRecord = (state, action) => {
-  const { planId, planStatusHistory } = action.payload
+  const { planId, planStatusHistory } = action.payload;
   const plan = {
     ...state.byId[planId],
-    planStatusHistory
-  }
+    planStatusHistory,
+  };
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan
-    }
-  }
-}
+      [planId]: plan,
+    },
+  };
+};
 
 const addManagementConsideration = (state, action) => {
-  const { planId, managementConsideration } = action.payload
-  const plan = { ...state.byId[planId] }
+  const { planId, managementConsideration } = action.payload;
+  const plan = { ...state.byId[planId] };
   plan.managementConsiderations = [
     ...plan.managementConsiderations,
-    managementConsideration.id
-  ]
+    managementConsideration.id,
+  ];
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan
-    }
-  }
-}
+      [planId]: plan,
+    },
+  };
+};
 
 const deleteManagementConsideration = (state, action) => {
-  const { planId, considerationId } = action.payload
-  const plan = { ...state.byId[planId] }
+  const { planId, considerationId } = action.payload;
+  const plan = { ...state.byId[planId] };
   plan.managementConsiderations = plan.managementConsiderations.filter(
-    c => c !== considerationId
-  )
+    (c) => c !== considerationId,
+  );
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan
-    }
-  }
-}
+      [planId]: plan,
+    },
+  };
+};
 
 const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAN:
-      return storePlan(state, action)
+      return storePlan(state, action);
     case PLAN_UPDATED:
-      return updatePlan(state, action)
+      return updatePlan(state, action);
     case GRAZING_SCHEDULE_ADDED:
-      return addGrazingSchedule(state, action)
+      return addGrazingSchedule(state, action);
     case GRAZING_SCHEDULE_DELETED:
-      return deleteGrazingSchedule(state, action)
+      return deleteGrazingSchedule(state, action);
     case PLAN_STATUS_HISTORY_RECORD_ADDED:
-      return addPlanStatusHistoryRecord(state, action)
+      return addPlanStatusHistoryRecord(state, action);
     case MANAGEMENT_CONSIDERATION_ADDED:
-      return addManagementConsideration(state, action)
+      return addManagementConsideration(state, action);
     case MANAGEMENT_CONSIDERATION_DELETED:
-      return deleteManagementConsideration(state, action)
+      return deleteManagementConsideration(state, action);
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default plansReducer
+export default plansReducer;

@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import uuid from 'uuid-v4'
-import { Dropdown, Icon, Confirm } from 'semantic-ui-react'
-import { PrimaryButton } from '../../common'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { FieldArray } from 'formik'
-import ManagementConsiderationRow from './ManagementConsiderationRow'
-import { InfoTip } from '../../common'
-import { IfEditable } from '../../common/PermissionsField'
-import * as strings from '../../../constants/strings'
-import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields'
-import { deleteManagementConsideration } from '../../../api'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import uuid from 'uuid-v4';
+import { Dropdown, Icon, Confirm } from 'semantic-ui-react';
+import { PrimaryButton } from '../../common';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { FieldArray } from 'formik';
+import ManagementConsiderationRow from './ManagementConsiderationRow';
+import { InfoTip } from '../../common';
+import { IfEditable } from '../../common/PermissionsField';
+import * as strings from '../../../constants/strings';
+import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields';
+import { deleteManagementConsideration } from '../../../api';
 
 const ManagementConsiderations = ({ planId, managementConsiderations }) => {
-  const references = useReferences()
+  const references = useReferences();
   const considerTypes =
-    references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || []
-  const considerTypeOptions = considerTypes.map(ct => ({
+    references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
+  const considerTypeOptions = considerTypes.map((ct) => ({
     key: ct.id,
     value: ct.id,
-    text: ct.name
-  }))
+    text: ct.name,
+  }));
 
-  const [toRemove, setToRemove] = useState(null)
+  const [toRemove, setToRemove] = useState(null);
 
   return (
     <FieldArray
@@ -62,7 +62,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                       namespace={`managementConsiderations.${index}`}
                       onDelete={() => setToRemove(index)}
                     />
-                  )
+                  ),
                 )
               )}
 
@@ -73,7 +73,8 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                       inverted
                       compact
                       style={{ marginTop: '10px' }}
-                      type="button">
+                      type="button"
+                    >
                       <Icon name="add circle" />
                       Add Consideration
                     </PrimaryButton>
@@ -87,8 +88,8 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                       id: uuid(),
                       considerationTypeId: value,
                       detail: '',
-                      url: ''
-                    })
+                      url: '',
+                    });
                   }}
                   selectOnBlur={false}
                 />
@@ -99,27 +100,27 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
           <Confirm
             open={toRemove !== null}
             onCancel={() => {
-              setToRemove(null)
+              setToRemove(null);
             }}
             onConfirm={async () => {
-              const consideration = managementConsiderations[toRemove]
+              const consideration = managementConsiderations[toRemove];
 
               if (!uuid.isUUID(consideration.id)) {
-                await deleteManagementConsideration(planId, consideration.id)
+                await deleteManagementConsideration(planId, consideration.id);
               }
 
-              remove(toRemove)
-              setToRemove(null)
+              remove(toRemove);
+              setToRemove(null);
             }}
           />
         </>
       )}
     />
-  )
-}
+  );
+};
 
 ManagementConsiderations.propTypes = {
-  managementConsiderations: PropTypes.array.isRequired
-}
+  managementConsiderations: PropTypes.array.isRequired,
+};
 
-export default ManagementConsiderations
+export default ManagementConsiderations;

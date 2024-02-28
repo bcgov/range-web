@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import * as API from '../../../constants/api'
-import { Loading, PrimaryButton } from '../../common'
-import useSWR from 'swr'
-import { getAuthHeaderConfig, axios, getUserFullName } from '../../../utils'
-import { Autocomplete } from '@material-ui/lab'
-import PersonIcon from '@material-ui/icons/Person'
-import { Grid, Icon } from 'semantic-ui-react'
-import { Typography, TextField, makeStyles } from '@material-ui/core'
-import { useHistory, Link } from 'react-router-dom'
-import { RANGE_USE_PLAN } from '../../../constants/routes'
+import React, { useEffect, useState } from 'react';
+import * as API from '../../../constants/api';
+import { Loading, PrimaryButton } from '../../common';
+import useSWR from 'swr';
+import { getAuthHeaderConfig, axios, getUserFullName } from '../../../utils';
+import { Autocomplete } from '@material-ui/lab';
+import PersonIcon from '@material-ui/icons/Person';
+import { Grid, Icon } from 'semantic-ui-react';
+import { Typography, TextField, makeStyles } from '@material-ui/core';
+import { useHistory, Link } from 'react-router-dom';
+import { RANGE_USE_PLAN } from '../../../constants/routes';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   icon: {
     color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   container: {
     maxWidth: 800,
-    width: '100%'
+    width: '100%',
   },
   autocomplete: {
-    width: 400
+    width: 400,
   },
   autocompleteOption: {
-    height: 100
+    height: 100,
   },
   row: {
     display: 'flex',
@@ -37,72 +37,73 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 30
+    marginBottom: 30,
   },
   clearIndicatorDirty: {
-    visibility: 'visible'
-  }
-}))
+    visibility: 'visible',
+  },
+}));
 
-const fetcher = key =>
-  axios.get(key, getAuthHeaderConfig()).then(res => res.data)
+const fetcher = (key) =>
+  axios.get(key, getAuthHeaderConfig()).then((res) => res.data);
 
 const ManageAgentsPage = ({ match }) => {
-  const classes = useStyles()
-  const history = useHistory()
-  const [clientAgreements, setClientAgreements] = useState(null)
-  const [isSaving, setIsSaving] = useState(false)
-  const [hasSaved, setHasSaved] = useState(false)
-  const [errorSaving, setErrorSaving] = useState(null)
+  const classes = useStyles();
+  const history = useHistory();
+  const [clientAgreements, setClientAgreements] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasSaved, setHasSaved] = useState(false);
+  const [errorSaving, setErrorSaving] = useState(null);
 
-  const { planId } = match.params
+  const { planId } = match.params;
 
-  const { data, isValidating: isValidatingClients, error } = useSWR(
-    API.GET_CLIENT_AGREEMENTS(planId),
-    fetcher
-  )
+  const {
+    data,
+    isValidating: isValidatingClients,
+    error,
+  } = useSWR(API.GET_CLIENT_AGREEMENTS(planId), fetcher);
 
   const { data: users, isValidating: isValidatingUsers } = useSWR(
     `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`,
-    fetcher
-  )
+    fetcher,
+  );
 
   useEffect(() => {
     if (!clientAgreements) {
-      setClientAgreements(data)
+      setClientAgreements(data);
     }
-  }, [data])
+  }, [data]);
 
   const handleSave = async () => {
-    setIsSaving(true)
-    setHasSaved(false)
+    setIsSaving(true);
+    setHasSaved(false);
 
     try {
       for (const clientAgreement of clientAgreements) {
         await axios.put(
           API.UPDATE_CLIENT_AGREEMENT(planId, clientAgreement.id),
           { agentId: clientAgreement.agent?.id ?? null },
-          getAuthHeaderConfig()
-        )
+          getAuthHeaderConfig(),
+        );
       }
 
-      setHasSaved(true)
+      setHasSaved(true);
     } catch (e) {
-      setErrorSaving(e)
+      setErrorSaving(e);
     }
 
-    setIsSaving(false)
-  }
+    setIsSaving(false);
+  };
 
   if (error) {
-    return <span>Error: {error?.message}</span>
+    return <span>Error: {error?.message}</span>;
   }
 
   if (
     (!clientAgreements && isValidatingClients) ||
     (!users && isValidatingUsers)
   ) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (clientAgreements) {
@@ -114,7 +115,7 @@ const ManageAgentsPage = ({ match }) => {
             Back to RUP
           </PrimaryButton>
           <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
-          {clientAgreements.map(clientAgreement => (
+          {clientAgreements.map((clientAgreement) => (
             <div key={clientAgreement.id} className={classes.row}>
               <div>
                 {clientAgreement.client.name}{' '}
@@ -129,23 +130,23 @@ const ManageAgentsPage = ({ match }) => {
                   value={clientAgreement.agent}
                   openOnFocus
                   onChange={(e, user) => {
-                    setClientAgreements(c =>
-                      c.map(ca =>
+                    setClientAgreements((c) =>
+                      c.map((ca) =>
                         ca.id === clientAgreement.id
                           ? {
                               ...ca,
-                              agent: user
+                              agent: user,
                             }
-                          : ca
-                      )
-                    )
+                          : ca,
+                      ),
+                    );
                   }}
-                  getOptionLabel={option => getUserFullName(option)}
-                  getOptionSelected={option =>
+                  getOptionLabel={(option) => getUserFullName(option)}
+                  getOptionSelected={(option) =>
                     option.id === clientAgreement.agentId
                   }
                   style={{ width: 300 }}
-                  renderInput={params => (
+                  renderInput={(params) => (
                     <TextField
                       {...params}
                       label="Select user"
@@ -154,12 +155,13 @@ const ManageAgentsPage = ({ match }) => {
                       className={classes.autocomplete}
                     />
                   )}
-                  renderOption={option => {
+                  renderOption={(option) => {
                     return (
                       <Grid
                         container
                         alignItems="center"
-                        className={classes.autocompleteOption}>
+                        className={classes.autocompleteOption}
+                      >
                         <Grid item>
                           <PersonIcon className={classes.icon} />
                         </Grid>
@@ -171,7 +173,7 @@ const ManageAgentsPage = ({ match }) => {
                           </Typography>
                         </Grid>
                       </Grid>
-                    )
+                    );
                   }}
                 />
               </div>
@@ -185,10 +187,10 @@ const ManageAgentsPage = ({ match }) => {
         )}
         {errorSaving && <span>Error: {errorSaving?.message}</span>}
       </div>
-    )
+    );
   }
 
-  return <Loading />
-}
+  return <Loading />;
+};
 
-export default ManageAgentsPage
+export default ManageAgentsPage;

@@ -1,27 +1,27 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import uuid from 'uuid-v4'
-import PlantCommunityBox from './PlantCommunityBox'
-import AddPlantCommunityButton from './AddPlantCommunityButton'
-import { FieldArray } from 'formik'
-import { NOT_PROVIDED } from '../../../constants/strings'
-import { IfEditable } from '../../common/PermissionsField'
-import { PLANT_COMMUNITY } from '../../../constants/fields'
-import { Confirm } from 'semantic-ui-react'
-import { deletePlantCommunity } from '../../../api'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import uuid from 'uuid-v4';
+import PlantCommunityBox from './PlantCommunityBox';
+import AddPlantCommunityButton from './AddPlantCommunityButton';
+import { FieldArray } from 'formik';
+import { NOT_PROVIDED } from '../../../constants/strings';
+import { IfEditable } from '../../common/PermissionsField';
+import { PLANT_COMMUNITY } from '../../../constants/fields';
+import { Confirm } from 'semantic-ui-react';
+import { deletePlantCommunity } from '../../../api';
 
 const PlantCommunities = ({
   plantCommunities = [],
   namespace,
   planId,
-  pastureId
+  pastureId,
 }) => {
-  const isEmpty = plantCommunities.length === 0
-  const [activeIndex, setActiveIndex] = useState(-1)
-  const [idToRemove, setIdToRemove] = useState(null)
+  const isEmpty = plantCommunities.length === 0;
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [idToRemove, setIdToRemove] = useState(null);
 
-  const communityToRemove = plantCommunities.find(c => c.id === idToRemove)
+  const communityToRemove = plantCommunities.find((c) => c.id === idToRemove);
 
   return (
     <FieldArray
@@ -32,7 +32,7 @@ const PlantCommunities = ({
           <div className="rup__plant-communities__title">Plant Communities</div>
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
             <AddPlantCommunityButton
-              onSubmit={plantCommunity => {
+              onSubmit={(plantCommunity) => {
                 push({
                   ...plantCommunity,
                   communityTypeId: plantCommunity.id,
@@ -49,8 +49,8 @@ const PlantCommunities = ({
                   rangeReadinessMonth: null,
                   rangeReadinessNote: null,
                   shrubUse: '',
-                  id: uuid()
-                })
+                  id: uuid(),
+                });
               }}
             />
           </IfEditable>
@@ -67,22 +67,23 @@ const PlantCommunities = ({
             header={`Delete plant community '${communityToRemove?.communityType?.name}'`}
             open={idToRemove !== null}
             onCancel={() => {
-              setIdToRemove(null)
+              setIdToRemove(null);
             }}
             onConfirm={async () => {
               if (!uuid.isUUID(idToRemove)) {
-                await deletePlantCommunity(planId, pastureId, idToRemove)
+                await deletePlantCommunity(planId, pastureId, idToRemove);
               }
 
-              remove(plantCommunities.indexOf(communityToRemove))
-              setIdToRemove(null)
+              remove(plantCommunities.indexOf(communityToRemove));
+              setIdToRemove(null);
             }}
           />
 
           <ul
             className={classnames('collaspible-boxes', {
-              'collaspible-boxes--empty': isEmpty
-            })}>
+              'collaspible-boxes--empty': isEmpty,
+            })}
+          >
             {plantCommunities.map((plantCommunity, index) => (
               <PlantCommunityBox
                 key={plantCommunity.id}
@@ -94,7 +95,7 @@ const PlantCommunities = ({
                 onClick={() => {
                   index === activeIndex
                     ? setActiveIndex(-1)
-                    : setActiveIndex(index)
+                    : setActiveIndex(index);
                 }}
                 onDelete={() => setIdToRemove(plantCommunity.id)}
                 namespace={`${namespace}.plantCommunities.${index}`}
@@ -104,12 +105,12 @@ const PlantCommunities = ({
         </div>
       )}
     />
-  )
-}
+  );
+};
 
 PlantCommunities.propTypes = {
   plantCommunities: PropTypes.array.isRequired,
-  namespace: PropTypes.string.isRequired
-}
+  namespace: PropTypes.string.isRequired,
+};
 
-export default PlantCommunities
+export default PlantCommunities;

@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { Pagination, Icon, Segment } from 'semantic-ui-react'
-import * as strings from '../../constants/strings'
-import { Loading } from '../common'
-import AgreementTableRow from './AgreementTableRow'
-import AHWarning from './AHWarning'
-import { useQueryParam, StringParam } from 'use-query-params'
+import React, { useState, useEffect } from 'react';
+import { Pagination, Icon, Segment } from 'semantic-ui-react';
+import * as strings from '../../constants/strings';
+import { Loading } from '../common';
+import AgreementTableRow from './AgreementTableRow';
+import AHWarning from './AHWarning';
+import { useQueryParam, StringParam } from 'use-query-params';
 
 const AgreementTable = ({
   agreements,
   loading,
   currentPage,
   totalPages,
-  onPageChange
+  onPageChange,
 }) => {
-  const [activeId, setActiveId] = useQueryParam('selected', StringParam)
+  const [activeId, setActiveId] = useQueryParam('selected', StringParam);
 
-  const [currentAgreements, setCurrentAgreements] = useState([])
-  const [currentTotalPages, setCurrentTotalPages] = useState(0)
+  const [currentAgreements, setCurrentAgreements] = useState([]);
+  const [currentTotalPages, setCurrentTotalPages] = useState(0);
 
   useEffect(() => {
     if (agreements) {
-      if (!agreements.find(a => a.forestFileId === activeId)) {
-        setActiveId(null)
+      if (!agreements.find((a) => a.forestFileId === activeId)) {
+        setActiveId(null);
       }
-      setCurrentAgreements(agreements)
+      setCurrentAgreements(agreements);
     }
-  }, [agreements])
+  }, [agreements]);
 
   useEffect(() => {
     if (!isNaN(totalPages)) {
-      setCurrentTotalPages(totalPages)
+      setCurrentTotalPages(totalPages);
     }
-  }, [totalPages])
+  }, [totalPages]);
 
   return (
     <Segment basic style={{ marginTop: '0' }}>
@@ -59,7 +59,7 @@ const AgreementTable = ({
           </div>
         </div>
 
-        {currentAgreements.map(agreement => (
+        {currentAgreements.map((agreement) => (
           <AgreementTableRow
             key={agreement.id}
             agreement={agreement}
@@ -83,22 +83,22 @@ const AgreementTable = ({
           totalPages={currentTotalPages}
           ellipsisItem={{
             content: <Icon name="ellipsis horizontal" />,
-            icon: true
+            icon: true,
           }}
           firstItem={{
             content: <Icon name="angle double left" />,
-            icon: true
+            icon: true,
           }}
           lastItem={{
             content: <Icon name="angle double right" />,
-            icon: true
+            icon: true,
           }}
           prevItem={{ content: <Icon name="angle left" />, icon: true }}
           nextItem={{ content: <Icon name="angle right" />, icon: true }}
         />
       </div>
     </Segment>
-  )
-}
+  );
+};
 
-export default AgreementTable
+export default AgreementTable;

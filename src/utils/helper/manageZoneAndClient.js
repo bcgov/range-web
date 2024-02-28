@@ -1,49 +1,49 @@
-import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings'
-import { getUserFullName } from './user'
+import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
+import { getUserFullName } from './user';
 
-export const getZoneOption = zone => {
+export const getZoneOption = (zone) => {
   const {
     id: zoneId,
     code: zoneCode,
     user: staff,
     description: zoneDescription,
-    district
-  } = zone
+    district,
+  } = zone;
   const option = {
     value: zoneId,
     text: zoneCode,
-    description: NOT_ASSIGNED
-  }
-  let description = zoneDescription
+    description: NOT_ASSIGNED,
+  };
+  let description = zoneDescription;
   if (
     zoneDescription === 'Please update contact and description' ||
     zoneDescription === 'Please update contact'
   ) {
-    description = NO_DESCRIPTION
+    description = NO_DESCRIPTION;
   }
-  option.text += ` (${description})`
-  option.text += ` - ${district.code}`
+  option.text += ` (${description})`;
+  option.text += ` - ${district.code}`;
 
   if (staff) {
-    option.description = getUserFullName(staff)
+    option.description = getUserFullName(staff);
   }
 
-  return option
-}
+  return option;
+};
 
-export const getContactOption = user => ({
+export const getContactOption = (user) => ({
   value: user.id,
   description: user.email,
-  text: getUserFullName(user)
-})
+  text: getUserFullName(user),
+});
 
-export const getClientOption = client => {
-  const { clientNumber, id, name } = client
+export const getClientOption = (client) => {
+  const { clientNumber, id, name } = client;
 
   return {
     key: id,
     value: id,
     text: `${name}`,
-    description: `Client #: ${clientNumber}`
-  }
-}
+    description: `Client #: ${clientNumber}`,
+  };
+};

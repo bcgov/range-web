@@ -14,8 +14,8 @@ import {
   ADDITIONAL_REQUIREMENTS,
   PLAN,
   ATTACHMENTS,
-  CONDITIONS
-} from './fields'
+  CONDITIONS,
+} from './fields';
 
 const permissions = {
   myra_range_officer: [
@@ -93,7 +93,7 @@ const permissions = {
     ATTACHMENTS.VIEWABLE_BY,
     ATTACHMENTS.DELETE,
     ATTACHMENTS.ADD,
-    CONDITIONS.PROPOSED_CONDITIONS
+    CONDITIONS.PROPOSED_CONDITIONS,
   ],
   myra_client: [
     SCHEDULE.PASTURE,
@@ -113,10 +113,10 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.DESCRIPTION,
     MANAGEMENT_CONSIDERATIONS.ATTACHMENT,
     MANAGEMENT_CONSIDERATIONS.DELETE,
-    MANAGEMENT_CONSIDERATIONS.ADD
+    MANAGEMENT_CONSIDERATIONS.ADD,
   ],
   myra_admin: [],
-  myra_decision_maker: [CONDITIONS.CONDITIONS]
-}
+  myra_decision_maker: [CONDITIONS.CONDITIONS],
+};
 
-export default permissions
+export default permissions;

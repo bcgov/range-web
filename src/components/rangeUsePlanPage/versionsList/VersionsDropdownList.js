@@ -1,49 +1,49 @@
-import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
-import Collapse from '@material-ui/core/Collapse'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
-import moment from 'moment'
-import classnames from 'classnames'
-import Status from '../../common/Status'
-import { useUser } from '../../../providers/UserProvider'
-import { PrimaryButton } from '../../common/'
-import { axios, getAuthHeaderConfig } from '../../../utils'
-import * as API from '../../../constants/api'
-import AttachmentsList from './AttachmentsList'
+import React, { useState } from 'react';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
+import classnames from 'classnames';
+import Status from '../../common/Status';
+import { useUser } from '../../../providers/UserProvider';
+import { PrimaryButton } from '../../common/';
+import { axios, getAuthHeaderConfig } from '../../../utils';
+import * as API from '../../../constants/api';
+import AttachmentsList from './AttachmentsList';
 
 const VersionsDropdownList = ({ versions, open }) => {
-  const user = useUser()
+  const user = useUser();
 
-  const versionOptions = versions.map(v => ({
+  const versionOptions = versions.map((v) => ({
     key: v.version,
     value: v,
     text: `v${v.version}`,
-    version: v
-  }))
+    version: v,
+  }));
 
   const onDownloadClicked = async (planId, version, agreementId) => {
     await axios
       .get(API.DOWNLOAD_RUP_VERSION(planId, version), {
         ...getAuthHeaderConfig(),
-        responseType: 'blob'
+        responseType: 'blob',
       })
-      .then(response => {
-        const blob = new Blob([response.data], { type: 'application/pdf' })
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = url
-        link.download = `${agreementId}_v${version}.pdf`
-        link.style.display = 'none'
-        link.click()
-        window.URL.revokeObjectURL(url)
-        link.remove()
-      })
-  }
+      .then((response) => {
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${agreementId}_v${version}.pdf`;
+        link.style.display = 'none';
+        link.click();
+        window.URL.revokeObjectURL(url);
+        link.remove();
+      });
+  };
 
   return (
     <TableRow>
@@ -72,7 +72,7 @@ const VersionsDropdownList = ({ versions, open }) => {
               </TableHead>
               <TableBody>
                 {versionOptions.map((option, index) => {
-                  const [showAttachments, setShowAttachments] = useState(false)
+                  const [showAttachments, setShowAttachments] = useState(false);
                   return (
                     <>
                       <TableRow key={index} hover={true}>
@@ -91,14 +91,14 @@ const VersionsDropdownList = ({ versions, open }) => {
                             ? ''
                             : moment(
                                 option.version.snapshot.originalApproval
-                                  .createdAt
+                                  .createdAt,
                               ).format('MMM DD YYYY h:mm a')}
                         </TableCell>
                         <TableCell>
                           <Status
                             className={classnames('versions_status_icon', {
                               greyed:
-                                option.version.isCurrentLegalVersion === false
+                                option.version.isCurrentLegalVersion === false,
                             })}
                             status={option.version.snapshot.status}
                             user={user}
@@ -114,9 +114,10 @@ const VersionsDropdownList = ({ versions, open }) => {
                               onDownloadClicked(
                                 option.version.planId,
                                 option.version.version,
-                                option.version.snapshot.agreementId
-                              )
-                            }}>
+                                option.version.snapshot.agreementId,
+                              );
+                            }}
+                          >
                             <i className="download icon" />
                           </PrimaryButton>
                         </TableCell>
@@ -127,8 +128,9 @@ const VersionsDropdownList = ({ versions, open }) => {
                             button
                             inverted
                             onClick={() => {
-                              setShowAttachments(!showAttachments)
-                            }}>
+                              setShowAttachments(!showAttachments);
+                            }}
+                          >
                             <i className="paperclip icon" />
                           </PrimaryButton>
                         </TableCell>
@@ -136,16 +138,19 @@ const VersionsDropdownList = ({ versions, open }) => {
                       <TableRow>
                         <TableCell
                           style={{ paddingBottom: 0, paddingTop: 0 }}
-                          colSpan={6}>
+                          colSpan={6}
+                        >
                           <Collapse
                             in={showAttachments}
                             timeout="auto"
-                            unmountOnExit>
+                            unmountOnExit
+                          >
                             <Box margin={0} style={{ marginBottom: '10px' }}>
                               <Typography
                                 variant="h6"
                                 gutterBottom
-                                component="div">
+                                component="div"
+                              >
                                 Attachments
                               </Typography>
                               <AttachmentsList
@@ -156,7 +161,7 @@ const VersionsDropdownList = ({ versions, open }) => {
                         </TableCell>
                       </TableRow>
                     </>
-                  )
+                  );
                 })}
               </TableBody>
             </Table>
@@ -164,7 +169,7 @@ const VersionsDropdownList = ({ versions, open }) => {
         </Collapse>
       </TableCell>
     </TableRow>
-  )
-}
+  );
+};
 
-export default VersionsDropdownList
+export default VersionsDropdownList;

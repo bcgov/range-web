@@ -26,7 +26,7 @@ export default {
     phoneNumber: null,
     active: true,
     piaSeen: true,
-    lastLoginAt: '2019-08-21T04:01:52.574Z'
+    lastLoginAt: '2019-08-21T04:01:52.574Z',
   },
   pastures: [
     {
@@ -57,7 +57,7 @@ export default {
           communityType: { id: 5, name: 'Cattail', active: true },
           indicatorPlants: [],
           monitoringAreas: [],
-          plantCommunityActions: []
+          plantCommunityActions: [],
         },
         {
           id: 42,
@@ -78,9 +78,9 @@ export default {
           communityType: { id: 5, name: 'Cattail', active: true },
           indicatorPlants: [],
           plantCommunityActions: [],
-          monitoringAreas: []
-        }
-      ]
+          monitoringAreas: [],
+        },
+      ],
     },
     {
       id: 113,
@@ -89,7 +89,7 @@ export default {
       graceDays: null,
       pldPercent: null,
       notes: null,
-      planId: 45
+      planId: 45,
     },
     {
       id: 114,
@@ -98,8 +98,8 @@ export default {
       graceDays: null,
       pldPercent: null,
       notes: null,
-      planId: 45
-    }
+      planId: 45,
+    },
   ],
   grazingSchedules: [
     {
@@ -116,7 +116,7 @@ export default {
           dateOut: '2018-01-19T08:00:00.000Z',
           pastureId: 1120,
           livestockTypeId: 5,
-          grazingScheduleId: 101
+          grazingScheduleId: 101,
         },
         {
           id: 111,
@@ -126,7 +126,7 @@ export default {
           dateOut: '2018-03-20T08:00:00.000Z',
           pastureId: 112,
           livestockTypeId: 2,
-          grazingScheduleId: 101
+          grazingScheduleId: 101,
         },
         {
           id: 112,
@@ -136,9 +136,9 @@ export default {
           dateOut: '2018-08-04T08:00:00.000Z',
           pastureId: 114,
           livestockTypeId: 2,
-          grazingScheduleId: 101
-        }
-      ]
+          grazingScheduleId: 101,
+        },
+      ],
     },
     {
       id: 113,
@@ -159,11 +159,11 @@ export default {
             id: 3,
             name: 'Yearling',
             auFactor: 0.7,
-            active: true
-          }
-        }
-      ]
-    }
+            active: true,
+          },
+        },
+      ],
+    },
   ],
   ministerIssues: [],
   planStatusHistory: [
@@ -186,8 +186,8 @@ export default {
         phoneNumber: null,
         active: true,
         piaSeen: true,
-        lastLoginAt: '2019-08-21T17:33:03.573Z'
-      }
+        lastLoginAt: '2019-08-21T17:33:03.573Z',
+      },
     },
     {
       id: 47,
@@ -208,8 +208,8 @@ export default {
         phoneNumber: null,
         active: true,
         piaSeen: true,
-        lastLoginAt: '2019-08-21T17:33:03.573Z'
-      }
+        lastLoginAt: '2019-08-21T17:33:03.573Z',
+      },
     },
     {
       id: 42,
@@ -230,9 +230,9 @@ export default {
         phoneNumber: null,
         active: true,
         piaSeen: true,
-        lastLoginAt: '2019-08-21T14:14:07.164Z'
-      }
-    }
+        lastLoginAt: '2019-08-21T14:14:07.164Z',
+      },
+    },
   ],
   confirmations: [
     {
@@ -241,7 +241,7 @@ export default {
       clientId: '09999902',
       confirmed: false,
       createdAt: '2019-05-07T00:10:26.755Z',
-      updatedAt: '2019-05-07T00:10:26.755Z'
+      updatedAt: '2019-05-07T00:10:26.755Z',
     },
     {
       id: 80,
@@ -249,8 +249,8 @@ export default {
       clientId: '09999906',
       confirmed: false,
       createdAt: '2019-05-07T00:10:26.761Z',
-      updatedAt: '2019-05-07T00:10:26.761Z'
-    }
+      updatedAt: '2019-05-07T00:10:26.761Z',
+    },
   ],
   invasivePlantChecklist: {
     id: 26,
@@ -259,7 +259,7 @@ export default {
     beginInUninfestedArea: false,
     undercarrigesInspected: false,
     revegetate: false,
-    other: null
+    other: null,
   },
   additionalRequirements: [
     {
@@ -268,8 +268,8 @@ export default {
       url: null,
       categoryId: 3,
       planId: 45,
-      category: { id: 3, name: 'Memorandum of Understanding', active: true }
-    }
+      category: { id: 3, name: 'Memorandum of Understanding', active: true },
+    },
   ],
   managementConsiderations: [],
   agreement: {
@@ -288,7 +288,7 @@ export default {
       district: {
         id: 23,
         code: 'TST',
-        description: 'Dummy district for testing'
+        description: 'Dummy district for testing',
       },
       user: {
         id: 66,
@@ -300,20 +300,20 @@ export default {
         phoneNumber: null,
         active: true,
         piaSeen: true,
-        lastLoginAt: '2019-08-21T15:48:54.581Z'
-      }
+        lastLoginAt: '2019-08-21T15:48:54.581Z',
+      },
     },
     agreementType: {
       id: 1,
       code: 'E01',
       description: 'Grazing Licence',
-      active: true
+      active: true,
     },
     agreementExemptionStatus: {
       id: 1,
       code: 'N',
       description: 'Not Exempt',
-      active: true
+      active: true,
     },
     clients: [
       {
@@ -322,7 +322,7 @@ export default {
         name: 'Ann Perkins',
         clientTypeCode: 'A',
         startDate: null,
-        endDate: null
+        endDate: null,
       },
       {
         id: '09999902',
@@ -330,8 +330,8 @@ export default {
         name: 'Ron Swanson',
         clientTypeCode: 'B',
         startDate: null,
-        endDate: null
-      }
+        endDate: null,
+      },
     ],
     usage: [
       {
@@ -341,7 +341,7 @@ export default {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 100,
-        agreementId: 'RAN099926'
+        agreementId: 'RAN099926',
       },
       {
         id: 28582,
@@ -350,7 +350,7 @@ export default {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 200,
-        agreementId: 'RAN099926'
+        agreementId: 'RAN099926',
       },
       {
         id: 28618,
@@ -359,7 +359,7 @@ export default {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 300,
-        agreementId: 'RAN099926'
+        agreementId: 'RAN099926',
       },
       {
         id: 28654,
@@ -368,7 +368,7 @@ export default {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 400,
-        agreementId: 'RAN099926'
+        agreementId: 'RAN099926',
       },
       {
         id: 28690,
@@ -377,7 +377,7 @@ export default {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 500,
-        agreementId: 'RAN099926'
+        agreementId: 'RAN099926',
       },
       {
         id: 28726,
@@ -386,10 +386,10 @@ export default {
         temporaryIncrease: 0,
         totalNonUse: 0,
         totalAnnualUse: 600,
-        agreementId: 'RAN099926'
-      }
+        agreementId: 'RAN099926',
+      },
     ],
     livestockIdentifiers: [],
-    id: 'RAN099926'
-  }
-}
+    id: 'RAN099926',
+  },
+};

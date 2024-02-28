@@ -1,69 +1,69 @@
-import React, { useState } from 'react'
-import { ATTACHMENTS } from '../../../constants/fields'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react'
+import React, { useState } from 'react';
+import { ATTACHMENTS } from '../../../constants/fields';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react';
 import {
   formatDateFromServer,
   getUserFullName,
   axios,
-  getAuthHeaderConfig
-} from '../../../utils'
-import { Dropdown } from 'formik-semantic-ui'
-import { TextField } from '../../common'
-import { CircularProgress } from '@material-ui/core'
-import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api'
-import { isUUID } from 'uuid-v4'
+  getAuthHeaderConfig,
+} from '../../../utils';
+import { Dropdown } from 'formik-semantic-ui';
+import { TextField } from '../../common';
+import { CircularProgress } from '@material-ui/core';
+import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api';
+import { isUUID } from 'uuid-v4';
 
 export const attachmentAccess = [
   {
     key: 'user_only',
     value: 'user_only',
-    text: 'Just me'
+    text: 'Just me',
   },
   {
     key: 'staff_only',
     value: 'staff_only',
-    text: 'All staff'
+    text: 'All staff',
   },
   {
     key: 'everyone',
     value: 'everyone',
-    text: 'All staff and agreement holders'
-  }
-]
+    text: 'All staff and agreement holders',
+  },
+];
 
 export const downloadAttachment = async (attachmentId, attachmentName) => {
   const res = await axios.get(
     GET_SIGNED_DOWNLOAD_URL(attachmentId),
-    getAuthHeaderConfig()
-  )
+    getAuthHeaderConfig(),
+  );
   const fileRes = await axios.get(res.data.url, {
     responseType: 'blob',
-    skipAuthorizationHeader: true
-  })
-  const url = window.URL.createObjectURL(fileRes.data)
-  const link = document.createElement('a')
-  link.href = url
-  link.setAttribute('download', attachmentName)
-  document.body.appendChild(link)
-  link.click()
-  link.parentNode.removeChild(link)
-}
+    skipAuthorizationHeader: true,
+  });
+  const url = window.URL.createObjectURL(fileRes.data);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', attachmentName);
+  document.body.appendChild(link);
+  link.click();
+  link.parentNode.removeChild(link);
+};
 
 const AttachmentRow = ({ attachment, index, onDelete, error }) => {
-  const [isDownloading, setDownloading] = useState(false)
-  const [errorDownloading, setErrorDownloading] = useState()
+  const [isDownloading, setDownloading] = useState(false);
+  const [errorDownloading, setErrorDownloading] = useState();
 
   const handleDownload = async () => {
-    setErrorDownloading(null)
-    setDownloading(true)
+    setErrorDownloading(null);
+    setDownloading(true);
     try {
       downloadAttachment(attachment.id, attachment.name);
     } catch (e) {
-      setErrorDownloading(e)
+      setErrorDownloading(e);
     }
-    setDownloading(false)
-  }
+    setDownloading(false);
+  };
 
   return (
     <div>
@@ -84,7 +84,9 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
           component={Dropdown}
           options={attachmentAccess}
           label="Viewable by"
-          displayValue={attachmentAccess.find(o => o.value === attachment.access)?.text}
+          displayValue={
+            attachmentAccess.find((o) => o.value === attachment.access)?.text
+          }
           fast
           fieldProps={{ required: false }}
         />
@@ -106,23 +108,24 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              marginLeft: 15
-            }}>
+              marginLeft: 15,
+            }}
+          >
             <PlainDropdown
               trigger={<Icon name="ellipsis vertical" />}
               options={[
                 {
                   key: 'delete',
                   value: 'delete',
-                  text: 'Delete'
-                }
+                  text: 'Delete',
+                },
               ]}
               icon={null}
               pointing="right"
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
               onChange={(e, { value }) => {
                 if (value === 'delete') {
-                  onDelete()
+                  onDelete();
                 }
               }}
               selectOnBlur={false}
@@ -136,7 +139,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
         </span>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default AttachmentRow
+export default AttachmentRow;

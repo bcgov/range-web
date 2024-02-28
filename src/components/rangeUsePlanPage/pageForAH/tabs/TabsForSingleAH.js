@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import ChooseSubmissionTypeTab from '../submissionTabs/ChooseSubmissionTypeTab'
-import SubmitForFeedbackTab from '../submissionTabs/SubmitForFeedbackTab'
-import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab'
-import AddDescriptionTab from '../submissionTabs/AddDescriptionTab'
-import LastTab from '../submissionTabs/LastTab'
-import { PLAN_STATUS } from '../../../../constants/variables'
-import { isSingleClient } from '../../../../utils'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import ChooseSubmissionTypeTab from '../submissionTabs/ChooseSubmissionTypeTab';
+import SubmitForFeedbackTab from '../submissionTabs/SubmitForFeedbackTab';
+import SubmitForFinalDecisionTab from '../submissionTabs/SubmitForFinalDecisionTab';
+import AddDescriptionTab from '../submissionTabs/AddDescriptionTab';
+import LastTab from '../submissionTabs/LastTab';
+import { PLAN_STATUS } from '../../../../constants/variables';
+import { isSingleClient } from '../../../../utils';
 
 class TabsForSingleAH extends Component {
   static propTypes = {
@@ -19,22 +19,22 @@ class TabsForSingleAH extends Component {
     handleAgreeCheckBoxChange: PropTypes.func.isRequired,
     handleNoteChange: PropTypes.func.isRequired,
     onSubmitClicked: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
-  }
+    onClose: PropTypes.func.isRequired,
+  };
 
   static defaultProps = {
-    statusCode: null
-  }
+    statusCode: null,
+  };
 
   state = {
-    currTabId: 'addDescription'
-  }
+    currTabId: 'addDescription',
+  };
 
   handleTabChange = (e, { value: tabId }) => {
     this.setState({
-      currTabId: tabId
-    })
-  }
+      currTabId: tabId,
+    });
+  };
 
   render() {
     const {
@@ -47,9 +47,9 @@ class TabsForSingleAH extends Component {
       handleAgreeCheckBoxChange,
       handleNoteChange,
       onSubmitClicked,
-      onClose
-    } = this.props
-    const { currTabId } = this.state
+      onClose,
+    } = this.props;
+    const { currTabId } = this.state;
     const tabsMap = {
       addDescription: {
         id: 'addDescription',
@@ -57,7 +57,7 @@ class TabsForSingleAH extends Component {
         next: 'chooseSubmissionType',
         placeholder:
           'Summarize what the proposed range use plan includes. ' +
-          'Ex. Grazing schedules reflect change in land use and additional livestock.'
+          'Ex. Grazing schedules reflect change in land use and additional livestock.',
       },
       chooseSubmissionType: {
         id: 'chooseSubmissionType',
@@ -70,7 +70,7 @@ class TabsForSingleAH extends Component {
         radio1:
           'Make this draft RUP available for the staff to review. ' +
           'They will advise you if the RUP is ready to submit to the decision maker for approval or make content suggestions.',
-        radio2: 'Verify this RUP is correct and start submission for decision.'
+        radio2: 'Verify this RUP is correct and start submission for decision.',
       },
       submitForFeedback: {
         id: 'submitForFeedback',
@@ -79,7 +79,7 @@ class TabsForSingleAH extends Component {
         next: 'last',
         text1:
           'You’re ready to submit an initial range use plan ' +
-          'for Range staff review. You will be notified once the submission has been reviewed.'
+          'for Range staff review. You will be notified once the submission has been reviewed.',
       },
       submitForFinalDecision: {
         id: 'submitForFinalDecision',
@@ -91,18 +91,18 @@ class TabsForSingleAH extends Component {
         checkbox1:
           'I understand that this submission constitues ' +
           'a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker.',
-        rightBtn1: 'Submit Initial RUP'
+        rightBtn1: 'Submit Initial RUP',
       },
       last: {
         id: 'last',
         title: 'Your range use plan has been sent for range staff review.',
         text1:
-          'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!'
-      }
-    }
+          'Your range use plan has been sent to Range staff for review. Feel free to call your Range officer if you have any questions!',
+      },
+    };
 
     if (!isSingleClient(clients)) {
-      return null
+      return null;
     }
 
     return (
@@ -145,8 +145,8 @@ class TabsForSingleAH extends Component {
 
         <LastTab currTabId={currTabId} tab={tabsMap.last} onClose={onClose} />
       </Fragment>
-    )
+    );
   }
 }
 
-export default TabsForSingleAH
+export default TabsForSingleAH;

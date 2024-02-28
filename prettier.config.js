@@ -1,1 +1,1 @@
-module.exports = require('@twostoryrobot/prettier-config')
+module.exports = require('@twostoryrobot/prettier-config');

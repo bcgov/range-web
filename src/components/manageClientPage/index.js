@@ -1,43 +1,52 @@
-import React, { useState } from 'react'
-import useSWR from 'swr'
+import React, { useState } from 'react';
+import useSWR from 'swr';
 import {
   CircularProgress,
   TextField,
   Grid,
   Typography,
   makeStyles,
-  Paper
-} from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import PersonIcon from '@material-ui/icons/Person'
-import * as strings from '../../constants/strings'
-import * as API from '../../constants/api'
-import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName } from '../../utils'
-import { Banner } from '../common'
-import ClientLinkList from './ClientLinkList'
+  Paper,
+} from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import PersonIcon from '@material-ui/icons/Person';
+import * as strings from '../../constants/strings';
+import * as API from '../../constants/api';
+import {
+  axios,
+  formatDateToNow,
+  getAuthHeaderConfig,
+  getUserFullName,
+} from '../../utils';
+import { Banner } from '../common';
+import ClientLinkList from './ClientLinkList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   progress: {
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
   },
   noSelection: {
-    padding: theme.spacing(2)
-  }
-}))
+    padding: theme.spacing(2),
+  },
+}));
 
 const ManageClientPage = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const { data: users, error, isValidating } = useSWR(
+  const {
+    data: users,
+    error,
+    isValidating,
+  } = useSWR(
     `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`,
-    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
-  )
+    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  );
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
   return (
     <section className="manage-client">
@@ -52,8 +61,8 @@ const ManageClientPage = () => {
             like to link:
           </h3>
           {error && (
-            <Typography color="error">index.js
-              Error occurred fetching user:{' '}
+            <Typography color="error">
+              index.js Error occurred fetching user:{' '}
               {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
@@ -66,19 +75,19 @@ const ManageClientPage = () => {
                 value={user}
                 openOnFocus
                 onChange={(e, user) => {
-                  setUser(user)
+                  setUser(user);
                 }}
-                getOptionLabel={option => getUserFullName(option)}
-                getOptionSelected={option => option.id === user.id}
+                getOptionLabel={(option) => getUserFullName(option)}
+                getOptionSelected={(option) => option.id === user.id}
                 style={{ width: 400 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Select user"
                     variant="outlined"
                   />
                 )}
-                renderOption={option => (
+                renderOption={(option) => (
                   <Grid container alignItems="center">
                     <Grid item>
                       <PersonIcon className={classes.icon} />
@@ -113,7 +122,7 @@ const ManageClientPage = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ManageClientPage
+export default ManageClientPage;

@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Icon } from 'semantic-ui-react'
-import { Status } from '../../common'
-import { getUserFullName, formatDateToNow } from '../../../utils'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { useUser } from '../../../providers/UserProvider'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
+import { Status } from '../../common';
+import { getUserFullName, formatDateToNow } from '../../../utils';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { useUser } from '../../../providers/UserProvider';
 
 const StatusHistory = ({ planStatusHistory }) => {
-  const references = useReferences()
-  const user = useUser()
-  const planStatuses = references[REFERENCE_KEY.PLAN_STATUS]
+  const references = useReferences();
+  const user = useUser();
+  const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
 
   return (
     <div className="rup__history">
@@ -21,10 +21,10 @@ const StatusHistory = ({ planStatusHistory }) => {
           createdAt,
           fromPlanStatusId,
           toPlanStatusId,
-          note
+          note,
         }) => {
-          const from = planStatuses.find(s => s.id === fromPlanStatusId)
-          const to = planStatuses.find(s => s.id === toPlanStatusId)
+          const from = planStatuses.find((s) => s.id === fromPlanStatusId);
+          const to = planStatuses.find((s) => s.id === toPlanStatusId);
 
           return (
             <div key={id} className="rup__history__record">
@@ -42,15 +42,15 @@ const StatusHistory = ({ planStatusHistory }) => {
               </div>
               {note}
             </div>
-          )
-        }
+          );
+        },
       )}
     </div>
-  )
-}
+  );
+};
 
 StatusHistory.propTypes = {
-  planStatusHistory: PropTypes.array.isRequired
-}
+  planStatusHistory: PropTypes.array.isRequired,
+};
 
-export default React.memo(StatusHistory)
+export default React.memo(StatusHistory);

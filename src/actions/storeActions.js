@@ -1,36 +1,36 @@
-import * as actionTypes from '../constants/actionTypes'
+import * as actionTypes from '../constants/actionTypes';
 
-export const storeAgreements = payload => ({
+export const storeAgreements = (payload) => ({
   type: actionTypes.STORE_AGREEMENTS,
-  payload
-})
+  payload,
+});
 
-export const storePlan = payload => ({
+export const storePlan = (payload) => ({
   type: actionTypes.STORE_PLAN,
-  payload
-})
+  payload,
+});
 
-export const storeZones = payload => ({
+export const storeZones = (payload) => ({
   type: actionTypes.STORE_ZONES,
-  payload
-})
+  payload,
+});
 
-export const storeReferences = payload => ({
+export const storeReferences = (payload) => ({
   type: actionTypes.STORE_REFERENCES,
-  payload
-})
+  payload,
+});
 
-export const storeUsers = payload => ({
+export const storeUsers = (payload) => ({
   type: actionTypes.STORE_USERS,
-  payload
-})
+  payload,
+});
 
-export const storeClients = payload => ({
+export const storeClients = (payload) => ({
   type: actionTypes.STORE_CLIENTS,
-  payload
-})
+  payload,
+});
 
-export const storeAgreementWithAllPlans = payload => ({
+export const storeAgreementWithAllPlans = (payload) => ({
   type: actionTypes.STORE_AGREEMENT_WITH_ALL_PLANS,
-  payload
-})
+  payload,
+});

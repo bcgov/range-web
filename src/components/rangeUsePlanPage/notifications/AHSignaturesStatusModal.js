@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Icon, Modal } from 'semantic-ui-react'
-import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList'
-import { PrimaryButton } from '../../common'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Icon, Modal } from 'semantic-ui-react';
+import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList';
+import { PrimaryButton } from '../../common';
 
 const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
-  const [isModalOpen, setModalOpen] = useState(false)
+  const [isModalOpen, setModalOpen] = useState(false);
 
-  const openModal = () => setModalOpen(true)
-  const closeModal = () => setModalOpen(false)
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
-  const { confirmations, agreement } = plan
-  const clients = (agreement && agreement.clients) || []
+  const { confirmations, agreement } = plan;
+  const clients = (agreement && agreement.clients) || [];
 
-  let numberOfConfirmed = 0
-  confirmations.forEach(confirmation => {
+  let numberOfConfirmed = 0;
+  confirmations.forEach((confirmation) => {
     if (confirmation && confirmation.confirmed) {
-      numberOfConfirmed += 1
+      numberOfConfirmed += 1;
     }
-  })
+  });
 
   return (
     <>
@@ -27,7 +27,8 @@ const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
         size="tiny"
         open={isModalOpen}
         onClose={closeModal}
-        closeIcon={<Icon name="close" color="black" />}>
+        closeIcon={<Icon name="close" color="black" />}
+      >
         <Modal.Content>
           <div className="rup__signatures-notification__modal">
             <Icon name="clock outline" size="huge" />
@@ -71,14 +72,14 @@ const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
         </PrimaryButton>
       </div>
     </>
-  )
-}
+  );
+};
 
 AHSignaturesStatusModal.propTypes = {
   plan: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
-  planStatusHistoryMap: PropTypes.shape({}).isRequired
-}
+  planStatusHistoryMap: PropTypes.shape({}).isRequired,
+};
 
-export default AHSignaturesStatusModal
+export default AHSignaturesStatusModal;

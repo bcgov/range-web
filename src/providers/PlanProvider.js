@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { normalize } from 'normalizr'
-import * as API from '../api'
-import { storePlan } from '../actions'
-import * as reduxSchema from '../actionCreators/schema'
-import schema from '../components/rangeUsePlanPage/schema'
-import { getNetworkStatus } from '../utils/helper/network'
-import { connect } from 'react-redux'
-import { appendUsage, axios, getAuthHeaderConfig } from '../utils'
-import { GET_CLIENT_AGREEMENTS } from '../constants/api'
-import { isUUID } from 'uuid-v4'
-import { useUser } from './UserProvider'
+import React, { useContext, useState, useEffect } from 'react';
+import { normalize } from 'normalizr';
+import * as API from '../api';
+import { storePlan } from '../actions';
+import * as reduxSchema from '../actionCreators/schema';
+import schema from '../components/rangeUsePlanPage/schema';
+import { getNetworkStatus } from '../utils/helper/network';
+import { connect } from 'react-redux';
+import { appendUsage, axios, getAuthHeaderConfig } from '../utils';
+import { GET_CLIENT_AGREEMENTS } from '../constants/api';
+import { isUUID } from 'uuid-v4';
+import { useUser } from './UserProvider';
 
 /**
  * @typedef {Object} PlanContext
@@ -26,78 +26,78 @@ import { useUser } from './UserProvider'
 /**
  * @type {React.Context<PlanContext>}
  */
-const PlanContext = React.createContext()
+const PlanContext = React.createContext();
 
 /**
  * @returns {PlanContext}
  */
-export const useCurrentPlan = () => useContext(PlanContext)
+export const useCurrentPlan = () => useContext(PlanContext);
 
 export const PlanProvider = ({ children, storePlan }) => {
-  const [currentPlanId, setCurrentPlanId] = useState(null)
-  const [currentPlan, setCurrentPlan] = useState(null)
-  const [isFetchingPlan, setFetchingPlan] = useState(false)
-  const [isSavingPlan, setSavingPlan] = useState(false)
-  const [errorFetchingPlan, setErrorFetchingPlan] = useState(null)
-  const [errorSavingPlan, setErrorSavingPlan] = useState(null)
-  const [clientAgreements, setClientAgreements] = useState(null)
+  const [currentPlanId, setCurrentPlanId] = useState(null);
+  const [currentPlan, setCurrentPlan] = useState(null);
+  const [isFetchingPlan, setFetchingPlan] = useState(false);
+  const [isSavingPlan, setSavingPlan] = useState(false);
+  const [errorFetchingPlan, setErrorFetchingPlan] = useState(null);
+  const [errorSavingPlan, setErrorSavingPlan] = useState(null);
+  const [clientAgreements, setClientAgreements] = useState(null);
 
-  const user = useUser()
+  const user = useUser();
 
   const fetchPlan = async (planId = currentPlanId, hard = false) => {
-    setFetchingPlan(true)
+    setFetchingPlan(true);
 
     if (hard) {
-      setCurrentPlan(null)
+      setCurrentPlan(null);
     }
 
     try {
-      const plan = await API.getPlan(planId, user)
-      setCurrentPlan(schema.cast(appendUsage(plan)))
+      const plan = await API.getPlan(planId, user);
+      setCurrentPlan(schema.cast(appendUsage(plan)));
 
       if (!isUUID(plan.id)) {
         const { data: clientAgreements } = await axios.get(
           GET_CLIENT_AGREEMENTS(plan.id),
-          getAuthHeaderConfig()
-        )
-        setClientAgreements(clientAgreements)
+          getAuthHeaderConfig(),
+        );
+        setClientAgreements(clientAgreements);
       }
 
       // TODO: remove redux
-      const isOnline = await getNetworkStatus()
+      const isOnline = await getNetworkStatus();
       if (isOnline) {
-        storePlan(normalize(plan, reduxSchema.plan))
+        storePlan(normalize(plan, reduxSchema.plan));
       }
 
-      return plan
+      return plan;
     } catch (e) {
-      setErrorFetchingPlan(e)
+      setErrorFetchingPlan(e);
     } finally {
-      setFetchingPlan(false)
+      setFetchingPlan(false);
     }
-  }
+  };
 
-  const savePlan = async plan => {
+  const savePlan = async (plan) => {
     try {
-      setSavingPlan(true)
+      setSavingPlan(true);
 
-      const planId = await API.savePlan(plan, user)
-      await fetchPlan(planId)
+      const planId = await API.savePlan(plan, user);
+      await fetchPlan(planId);
 
-      return planId
+      return planId;
     } catch (e) {
-      setErrorSavingPlan(e)
+      setErrorSavingPlan(e);
     } finally {
-      setSavingPlan(false)
+      setSavingPlan(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (currentPlanId !== null) {
-      setCurrentPlan(null)
-      fetchPlan()
+      setCurrentPlan(null);
+      fetchPlan();
     }
-  }, [currentPlanId])
+  }, [currentPlanId]);
 
   return (
     <PlanContext.Provider
@@ -110,14 +110,12 @@ export const PlanProvider = ({ children, storePlan }) => {
         errorFetchingPlan,
         errorSavingPlan,
         fetchPlan,
-        savePlan
-      }}>
+        savePlan,
+      }}
+    >
       {children}
     </PlanContext.Provider>
-  )
-}
+  );
+};
 
-export default connect(
-  null,
-  { storePlan }
-)(PlanProvider)
+export default connect(null, { storePlan })(PlanProvider);

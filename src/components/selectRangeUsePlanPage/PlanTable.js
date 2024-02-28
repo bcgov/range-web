@@ -1,7 +1,7 @@
-import React from 'react'
-import { Segment, Button } from 'semantic-ui-react'
-import { Loading, PrimaryButton } from '../common'
-import * as API from '../../constants/api'
+import React from 'react';
+import { Segment, Button } from 'semantic-ui-react';
+import { Loading, PrimaryButton } from '../common';
+import * as API from '../../constants/api';
 import {
   EFFECTIVE_DATE,
   SUBMITTED,
@@ -9,31 +9,37 @@ import {
   STATUS,
   VIEW,
   NO_RESULTS_FOUND,
-  ERROR_OCCUR
-} from '../../constants/strings'
-import PlanTableRow from './PlanTableRow'
+  ERROR_OCCUR,
+} from '../../constants/strings';
+import PlanTableRow from './PlanTableRow';
 import {
   axios,
   getAuthHeaderConfig,
-  isStatusAmongApprovedStatuses
-} from '../../utils'
-import useSWR from 'swr'
+  isStatusAmongApprovedStatuses,
+} from '../../utils';
+import useSWR from 'swr';
 
 const PlanTable = ({ agreementId }) => {
-  const { data: agreement, isValidating, revalidate, error } = useSWR(
-    agreementId && API.GET_AGREEMENT(agreementId),
-    key => axios.get(key, getAuthHeaderConfig()).then(res => res.data)
-  )
+  const {
+    data: agreement,
+    isValidating,
+    revalidate,
+    error,
+  } = useSWR(agreementId && API.GET_AGREEMENT(agreementId), (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  );
 
-  const { plans = [] } = agreement || {}
+  const { plans = [] } = agreement || {};
 
   const setFirstApproved = (p, i) => {
-    const index = plans.findIndex(p => isStatusAmongApprovedStatuses(p.status))
+    const index = plans.findIndex((p) =>
+      isStatusAmongApprovedStatuses(p.status),
+    );
     return {
       ...p,
-      recentApproved: index === i
-    }
-  }
+      recentApproved: index === i,
+    };
+  };
 
   if (error) {
     return (
@@ -42,15 +48,16 @@ const PlanTable = ({ agreementId }) => {
         <PrimaryButton
           inverted
           onClick={() => revalidate}
-          style={{ marginLeft: '10px' }}>
+          style={{ marginLeft: '10px' }}
+        >
           Refresh
         </PrimaryButton>
       </div>
-    )
+    );
   }
 
   if (plans.length === 0 && !isValidating) {
-    return <div className="agrm__ptable__message">{NO_RESULTS_FOUND}</div>
+    return <div className="agrm__ptable__message">{NO_RESULTS_FOUND}</div>;
   }
 
   return (
@@ -66,12 +73,12 @@ const PlanTable = ({ agreementId }) => {
             <Button disabled>{VIEW}</Button>
           </div>
         </div>
-        {plans.map(setFirstApproved).map(plan => (
+        {plans.map(setFirstApproved).map((plan) => (
           <PlanTableRow plan={plan} key={plan.id} />
         ))}
       </div>
     </Segment>
-  )
-}
+  );
+};
 
-export default PlanTable
+export default PlanTable;

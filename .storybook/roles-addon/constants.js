@@ -1,1 +1,1 @@
-export const ADDON_ID = 'user-role'
+export const ADDON_ID = 'user-role';

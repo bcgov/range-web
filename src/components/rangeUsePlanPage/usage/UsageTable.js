@@ -1,30 +1,30 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Table } from 'semantic-ui-react'
-import UsageTableRow from './UsageTableRow'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Table } from 'semantic-ui-react';
+import UsageTableRow from './UsageTableRow';
 import {
   YEAR,
   AUTH_AUMS,
   TEMP_INCREASE,
   BILLABLE_NON_USE,
-  TOTAL_ANNUAL_USE
-} from '../../../constants/strings'
+  TOTAL_ANNUAL_USE,
+} from '../../../constants/strings';
 
 class UsageTable extends Component {
   static propTypes = {
     plan: PropTypes.shape({}).isRequired,
-    usage: PropTypes.arrayOf(PropTypes.object).isRequired
-  }
+    usage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  };
 
-  renderTable = usage => {
-    const { plan } = this.props
-    const { planEndDate, planStartDate } = plan
-    const planStartYear = new Date(planStartDate).getFullYear()
-    const planEndYear = new Date(planEndDate).getFullYear()
+  renderTable = (usage) => {
+    const { plan } = this.props;
+    const { planEndDate, planStartDate } = plan;
+    const planStartYear = new Date(planStartDate).getFullYear();
+    const planEndYear = new Date(planEndDate).getFullYear();
 
     const filteredUsage = usage.filter(
-      u => u.year >= planStartYear && u.year <= planEndYear
-    )
+      (u) => u.year >= planStartYear && u.year <= planEndYear,
+    );
 
     if (filteredUsage.length === 0) {
       return (
@@ -34,18 +34,18 @@ class UsageTable extends Component {
             {`(${planStartYear} ~ ${planEndYear})`}
           </Table.Cell>
         </Table.Row>
-      )
+      );
     }
 
-    return filteredUsage.map(this.renderRow)
-  }
+    return filteredUsage.map(this.renderRow);
+  };
 
-  renderRow = singleUsage => (
+  renderRow = (singleUsage) => (
     <UsageTableRow key={singleUsage.id} singleUsage={singleUsage} />
-  )
+  );
 
   render() {
-    const { usage } = this.props
+    const { usage } = this.props;
 
     return (
       <Table style={{ marginTop: '10px' }} celled compact striped unstackable>
@@ -61,8 +61,8 @@ class UsageTable extends Component {
 
         <Table.Body>{this.renderTable(usage)}</Table.Body>
       </Table>
-    )
+    );
   }
 }
 
-export default UsageTable
+export default UsageTable;

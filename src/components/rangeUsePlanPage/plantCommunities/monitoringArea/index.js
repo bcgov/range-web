@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import uuid from 'uuid-v4'
-import MonitoringAreaRow from './MonitoringAreaBox'
-import { FieldArray } from 'formik'
-import AddMonitoringAreaButton from './AddMonitoringAreaButton'
-import InputModal from '../../../common/InputModal'
-import { IfEditable } from '../../../common/PermissionsField'
-import { MONITORING_AREAS } from '../../../../constants/fields'
-import { deleteMonitoringArea } from '../../../../api'
-import { resetMonitoringAreaId } from '../../../../utils/helper'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import uuid from 'uuid-v4';
+import MonitoringAreaRow from './MonitoringAreaBox';
+import { FieldArray } from 'formik';
+import AddMonitoringAreaButton from './AddMonitoringAreaButton';
+import InputModal from '../../../common/InputModal';
+import { IfEditable } from '../../../common/PermissionsField';
+import { MONITORING_AREAS } from '../../../../constants/fields';
+import { deleteMonitoringArea } from '../../../../api';
+import { resetMonitoringAreaId } from '../../../../utils/helper';
 
 const MonitoringAreaList = ({
   monitoringAreas,
   planId,
   pastureId,
   communityId,
-  namespace
+  namespace,
 }) => {
-  const [areaToCopy, setAreaToCopy] = useState()
+  const [areaToCopy, setAreaToCopy] = useState();
 
   return (
     <div className="rup__plant-community__m-areas">
@@ -37,8 +37,8 @@ const MonitoringAreaList = ({
                     longtitude: 0,
                     transect_azimuth: 0,
                     other_purpose: '',
-                    id: uuid()
-                  })
+                    id: uuid(),
+                  });
                 }}
               />
             </IfEditable>
@@ -51,18 +51,18 @@ const MonitoringAreaList = ({
                 monitoringArea={monitoringArea}
                 namespace={`${namespace}.${index}`}
                 onRemove={async () => {
-                  const area = monitoringAreas[index]
+                  const area = monitoringAreas[index];
 
                   if (!uuid.isUUID(area.id)) {
                     await deleteMonitoringArea(
                       planId,
                       pastureId,
                       communityId,
-                      area.id
-                    )
+                      area.id,
+                    );
                   }
 
-                  remove(index)
+                  remove(index);
                 }}
                 onCopy={() => setAreaToCopy(monitoringArea)}
               />
@@ -70,14 +70,14 @@ const MonitoringAreaList = ({
 
             <InputModal
               open={Boolean(areaToCopy)}
-              onSubmit={name => {
-                setAreaToCopy()
+              onSubmit={(name) => {
+                setAreaToCopy();
                 push(
                   resetMonitoringAreaId({
                     ...areaToCopy,
-                    name
-                  })
-                )
+                    name,
+                  }),
+                );
               }}
               onClose={() => setAreaToCopy()}
               title="Monitoring Area Name"
@@ -86,12 +86,12 @@ const MonitoringAreaList = ({
         )}
       />
     </div>
-  )
-}
+  );
+};
 
 MonitoringAreaList.propTypes = {
   monitoringAreas: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  namespace: PropTypes.string.isRequired
-}
+  namespace: PropTypes.string.isRequired,
+};
 
-export default MonitoringAreaList
+export default MonitoringAreaList;

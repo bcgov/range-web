@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { TextArea, Form } from 'semantic-ui-react'
-import RightBtn from '../tab/RightBtn'
-import LeftBtn from '../tab/LeftBtn'
-import TabTemplate from '../tab/TabTemplate'
-import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../../constants/variables'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { TextArea, Form } from 'semantic-ui-react';
+import RightBtn from '../tab/RightBtn';
+import LeftBtn from '../tab/LeftBtn';
+import TabTemplate from '../tab/TabTemplate';
+import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../../constants/variables';
 
 class AddDescriptionTab extends Component {
   static propTypes = {
@@ -17,26 +17,26 @@ class AddDescriptionTab extends Component {
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       next: PropTypes.string.isRequired,
-      placeholder: PropTypes.string.isRequired
-    }).isRequired
-  }
+      placeholder: PropTypes.string.isRequired,
+    }).isRequired,
+  };
 
-  static defaultProps = {}
+  static defaultProps = {};
 
-  onNextClicked = e => {
-    const { onNextClicked, tab } = this.props
+  onNextClicked = (e) => {
+    const { onNextClicked, tab } = this.props;
 
-    onNextClicked(e, { value: tab.next })
-  }
+    onNextClicked(e, { value: tab.next });
+  };
 
   render() {
-    const { currTabId, tab, onClose, handleNoteChange, note } = this.props
-    const { id, title, placeholder } = tab
-    const lengthOfNote = `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
-    const isActive = id === currTabId
+    const { currTabId, tab, onClose, handleNoteChange, note } = this.props;
+    const { id, title, placeholder } = tab;
+    const lengthOfNote = `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`;
+    const isActive = id === currTabId;
 
     if (!isActive) {
-      return null
+      return null;
     }
 
     return (
@@ -68,8 +68,8 @@ class AddDescriptionTab extends Component {
           </Form>
         }
       />
-    )
+    );
   }
 }
 
-export default AddDescriptionTab
+export default AddDescriptionTab;

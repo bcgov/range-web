@@ -1,10 +1,10 @@
-import React from 'react'
-import { Icon, Popup } from 'semantic-ui-react'
+import React from 'react';
+import { Icon, Popup } from 'semantic-ui-react';
 
 const style = {
   backgroundColor: '#002C71',
-  color: 'white'
-}
+  color: 'white',
+};
 
 const InfoTip = ({ header, content, size = 'small' }) => (
   <Popup
@@ -16,6 +16,6 @@ const InfoTip = ({ header, content, size = 'small' }) => (
     header={header}
     content={content}
   />
-)
+);
 
-export default InfoTip
+export default InfoTip;

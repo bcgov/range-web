@@ -1,5 +1,5 @@
-import React from 'react'
-import { TableHeaderCell } from 'semantic-ui-react'
+import React from 'react';
+import { TableHeaderCell } from 'semantic-ui-react';
 
 const SortableTableHeaderCell = ({
   column,
@@ -7,10 +7,8 @@ const SortableTableHeaderCell = ({
   currentSortBy,
   currentSortOrder,
   onClick,
-  noSort = false
+  noSort = false,
 }) => {
-
-
   if (noSort)
     return (
       <TableHeaderCell className="no-sort-tableheader">
@@ -19,11 +17,11 @@ const SortableTableHeaderCell = ({
     );
   return (
     <TableHeaderCell
-      sorted={currentSortBy === column ? currentSortOrder : null
-      }
-      onClick={() => onClick(column)}>
+      sorted={currentSortBy === column ? currentSortOrder : null}
+      onClick={() => onClick(column)}
+    >
       {children}
-    </TableHeaderCell >
+    </TableHeaderCell>
   );
-}
-export default SortableTableHeaderCell
+};
+export default SortableTableHeaderCell;

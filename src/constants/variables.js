@@ -1,24 +1,24 @@
-export const isBundled = process.env.NODE_ENV === 'production'
+export const isBundled = process.env.NODE_ENV === 'production';
 
 export const LOCAL_STORAGE_KEY = {
   AUTH: 'range-web-auth',
   AUTH_PKCE_CODE: 'range-web-auth-pkce',
   USER: 'range-web-user',
-  REFERENCE: 'range-web-reference'
-}
+  REFERENCE: 'range-web-reference',
+};
 export const RETURN_PAGE_TYPE = {
   LOGIN: 'login',
   SITEMINDER_LOGOUT: 'smlogout',
-  LOGOUT: 'logout'
-}
+  LOGOUT: 'logout',
+};
 
-export const SEARCH_DEBOUNCE_DELAY = 1000
-export const DEFAULT_SEARCH_LIMIT = 10
-export const TOAST_TIMEOUT = 15000
-export const NUMBER_OF_LIMIT_FOR_NOTE = 140
-export const STICKY_HEADER_HEIGHT = 55
-export const CONTENT_MARGIN_TOP = 20
-export const CONTENT_MARGIN_BOTTOM = 35
+export const SEARCH_DEBOUNCE_DELAY = 1000;
+export const DEFAULT_SEARCH_LIMIT = 10;
+export const TOAST_TIMEOUT = 15000;
+export const NUMBER_OF_LIMIT_FOR_NOTE = 140;
+export const STICKY_HEADER_HEIGHT = 55;
+export const CONTENT_MARGIN_TOP = 20;
+export const CONTENT_MARGIN_BOTTOM = 35;
 
 export const PLAN_STATUS = {
   PENDING: 'P',
@@ -44,8 +44,8 @@ export const PLAN_STATUS = {
   STANDS_NOT_REVIEWED: 'SNR',
   MANDATORY_AMENDMENT_STAFF: 'APS',
   AMENDMENT_AH: 'APA',
-  SUBMITTED_AS_MANDATORY: 'SAM'
-}
+  SUBMITTED_AS_MANDATORY: 'SAM',
+};
 
 export const PDF_DRAFT_STATUSES = [
   PLAN_STATUS.DRAFT,
@@ -58,38 +58,38 @@ export const PDF_DRAFT_STATUSES = [
   PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
   PLAN_STATUS.RECOMMEND_READY,
   PLAN_STATUS.RECOMMEND_NOT_READY,
-  PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED
-]
+  PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
+];
 
 export const PDF_IN_EFFECT_STATUSES = [
   PLAN_STATUS.STANDS_WRONGLY_MADE,
   PLAN_STATUS.STANDS,
-  PLAN_STATUS.APPROVED
-]
+  PLAN_STATUS.APPROVED,
+];
 
 export const PDF_NOT_IN_EFFECT_STATUSES = [
   PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT,
-  PLAN_STATUS.NOT_APPROVED
-]
+  PLAN_STATUS.NOT_APPROVED,
+];
 
 export const APPROVED_PLAN_STATUSES = [
   PLAN_STATUS.APPROVED,
   PLAN_STATUS.STANDS,
-  PLAN_STATUS.STANDS_WRONGLY_MADE
-]
+  PLAN_STATUS.STANDS_WRONGLY_MADE,
+];
 
 export const NOT_DOWNLOADABLE_PLAN_STATUSES = [
   PLAN_STATUS.DRAFT,
-  PLAN_STATUS.STAFF_DRAFT
-]
+  PLAN_STATUS.STAFF_DRAFT,
+];
 
 export const EDITABLE_PLAN_STATUSES = [
   PLAN_STATUS.STAFF_DRAFT,
   PLAN_STATUS.CREATED,
   PLAN_STATUS.DRAFT,
   PLAN_STATUS.CHANGE_REQUESTED,
-  PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED
-]
+  PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
+];
 
 export const REQUIRE_NOTES_PLAN_STATUSES = [
   PLAN_STATUS.CHANGE_REQUESTED,
@@ -97,56 +97,56 @@ export const REQUIRE_NOTES_PLAN_STATUSES = [
   PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
   PLAN_STATUS.RECOMMEND_NOT_READY,
   PLAN_STATUS.CREATED,
-  PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION
-]
+  PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION,
+];
 
 export const FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES = [
-  PLAN_STATUS.SUBMITTED_FOR_REVIEW
-]
+  PLAN_STATUS.SUBMITTED_FOR_REVIEW,
+];
 
 export const AMENDMENT_TYPE = {
   MINOR: 'MNA',
   MANDATORY: 'MA',
-  INITIAL: 'A'
-}
+  INITIAL: 'A',
+};
 
 export const CLIENT_TYPE = {
   PRIMARY: 'A',
-  OTHER: 'B'
-}
+  OTHER: 'B',
+};
 
-export const DAYS_ON_THE_AVERAGE = 30.44
+export const DAYS_ON_THE_AVERAGE = 30.44;
 
 export const DATE_FORMAT = {
   SERVER_SIDE: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   CLIENT_SIDE: 'MMMM D, YYYY',
   CLIENT_SIDE_WITH_HOURS: 'MMM D, YYYY (h:mma)',
-  CLIENT_SIDE_WITHOUT_YEAR: 'MMM D'
-}
+  CLIENT_SIDE_WITHOUT_YEAR: 'MMM D',
+};
 
 export const USER_ROLE = {
   ADMINISTRATOR: 'myra_admin',
   RANGE_OFFICER: 'myra_range_officer',
   AGREEMENT_HOLDER: 'myra_client',
-  DECISION_MAKER: 'myra_decision_maker'
-}
+  DECISION_MAKER: 'myra_decision_maker',
+};
 
 export const PURPOSE_OF_ACTION = {
   ESTABLISH: 'establish',
   MAINTAIN: 'maintain',
-  NONE: 'none'
-}
+  NONE: 'none',
+};
 
 export const PLANT_CRITERIA = {
   RANGE_READINESS: 'rangereadiness',
   STUBBLE_HEIGHT: 'stubbleheight',
-  SHRUBUSE: 'shrubuse'
-}
+  SHRUBUSE: 'shrubuse',
+};
 
 export const CONFIRMATION_OPTION = {
   CONFIRM: 'Confirm',
-  REQUEST: 'Request clarification or changes'
-}
+  REQUEST: 'Request clarification or changes',
+};
 
 export const CONFIRMATION_MODAL_ID = {
   MANAGE_ZONE: 'MANAGE_ZONE',
@@ -157,8 +157,8 @@ export const CONFIRMATION_MODAL_ID = {
   SUBMIT_PLAN: 'SUBMIT_PLAN',
   DELETE_MINISTER_ISSUE_ACTION: 'DELETE_MINISTER_ISSUE_ACTION',
   DELETE_MANAGEMENT_CONSIDERATION: 'DELETE_MANAGEMENT_CONSIDERATION',
-  AMEND_PLAN: 'AMEND_PLAN'
-}
+  AMEND_PLAN: 'AMEND_PLAN',
+};
 
 export const REFERENCE_KEY = {
   AGREEMENT_EXEMPTION_STATUS: 'AGREEMENT_EXEMPTION_STATUS',
@@ -177,8 +177,8 @@ export const REFERENCE_KEY = {
   CLIENT_TYPE: 'CLIENT_TYPE',
   AMENDMENT_TYPE: 'AMENDMENT_TYPE',
   MANAGEMENT_CONSIDERATION_TYPE: 'MANAGEMENT_CONSIDERATION_TYPE',
-  ADDITIONAL_REQUIREMENT_CATEGORY: 'ADDITIONAL_REQUIREMENT_CATEGORY'
-}
+  ADDITIONAL_REQUIREMENT_CATEGORY: 'ADDITIONAL_REQUIREMENT_CATEGORY',
+};
 
 export const IMAGE_SRC = {
   MYRANGEBC_LOGO_FOR_PDF: '/images/myrangebc_logo.png',
@@ -201,8 +201,8 @@ export const IMAGE_SRC = {
   INFO_ICON: '/images/icon_info.svg',
   PASTURE_ICON: '/images/icon_pasture.svg',
   PLANT_COMMUNITY_ICON: '/images/icon_plantcommunity.svg',
-  ATTACHMENTS: '/images/icon_attachment.svg'
-}
+  ATTACHMENTS: '/images/icon_attachment.svg',
+};
 
 export const ELEMENT_ID = {
   RUP_STICKY_HEADER: 'rup_sticky_header',
@@ -224,5 +224,5 @@ export const ELEMENT_ID = {
   MANAGE_CLIENT_USERS_DROPDOWN: 'mc_users_dropdown',
   MANAGE_CLIENT_CLIENTS_DROPDOWN: 'mc_clients_dropdown',
   ATTACHMENTS: 'rup_attachments',
-  CONDITIONS: 'rup_conditions '
-}
+  CONDITIONS: 'rup_conditions ',
+};

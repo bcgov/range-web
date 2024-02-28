@@ -1,32 +1,32 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import uuid from 'uuid-v4'
-import { Icon, Dropdown } from 'semantic-ui-react'
-import { ACTION_NOTE } from '../../../constants/strings'
-import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import uuid from 'uuid-v4';
+import { Icon, Dropdown } from 'semantic-ui-react';
+import { ACTION_NOTE } from '../../../constants/strings';
+import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
 import {
   ministerIssueUpdated,
   openInputModal,
-  openConfirmationModal
-} from '../../../actions'
-import { deleteRUPMinisterIssueAction } from '../../../actionCreators'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import { PrimaryButton } from '../../common'
+  openConfirmationModal,
+} from '../../../actions';
+import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import { PrimaryButton } from '../../common';
 
 class AddableMinisterIssueActionList extends Component {
   static propTypes = {
     ministerIssue: PropTypes.shape({
-      ministerIssueActions: PropTypes.arrayOf(PropTypes.object)
+      ministerIssueActions: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
     references: PropTypes.shape({}).isRequired,
     ministerIssueUpdated: PropTypes.func.isRequired,
     openInputModal: PropTypes.func.isRequired,
-    deleteRUPMinisterIssueAction: PropTypes.func.isRequired
-  }
+    deleteRUPMinisterIssueAction: PropTypes.func.isRequired,
+  };
 
   renderMinisterIssueAction = (action, actionIndex) => {
-    const { id } = action
+    const { id } = action;
 
     return (
       <EditableMinisterIssueActionBox
@@ -37,65 +37,65 @@ class AddableMinisterIssueActionList extends Component {
         handleActionDelete={this.handleMIActionDelete}
         {...this.props}
       />
-    )
-  }
+    );
+  };
 
   handleMIActionChange = (action, actionIndex) => {
-    const { ministerIssue: mi, ministerIssueUpdated } = this.props
-    const ministerIssue = { ...mi }
-    ministerIssue.ministerIssueActions[actionIndex] = action
+    const { ministerIssue: mi, ministerIssueUpdated } = this.props;
+    const ministerIssue = { ...mi };
+    ministerIssue.ministerIssueActions[actionIndex] = action;
 
-    ministerIssueUpdated({ ministerIssue })
-  }
+    ministerIssueUpdated({ ministerIssue });
+  };
 
-  handleMIActionDelete = actionIndex => {
+  handleMIActionDelete = (actionIndex) => {
     const {
       ministerIssue: mi,
       ministerIssueUpdated,
-      deleteRUPMinisterIssueAction
-    } = this.props
-    const ministerIssue = { ...mi }
+      deleteRUPMinisterIssueAction,
+    } = this.props;
+    const ministerIssue = { ...mi };
     const [deletedAction] = ministerIssue.ministerIssueActions.splice(
       actionIndex,
-      1
-    )
-    const planId = ministerIssue && ministerIssue.planId
-    const issueId = ministerIssue && ministerIssue.id
-    const actionId = deletedAction && deletedAction.id
+      1,
+    );
+    const planId = ministerIssue && ministerIssue.planId;
+    const issueId = ministerIssue && ministerIssue.id;
+    const actionId = deletedAction && deletedAction.id;
     const onDeleted = () => {
-      ministerIssueUpdated({ ministerIssue })
-    }
+      ministerIssueUpdated({ ministerIssue });
+    };
 
     // delete the action saved in server
     if (planId && issueId && actionId && !uuid.isUUID(actionId)) {
-      deleteRUPMinisterIssueAction(planId, issueId, actionId).then(onDeleted)
+      deleteRUPMinisterIssueAction(planId, issueId, actionId).then(onDeleted);
     } else {
       // or delete the action saved only in Redux
-      onDeleted()
+      onDeleted();
     }
-  }
+  };
 
   onActionTypeOptionClicked = (e, { value: actionTypeId }) => {
-    const { ministerIssue: mi, ministerIssueUpdated } = this.props
-    const ministerIssue = { ...mi }
+    const { ministerIssue: mi, ministerIssueUpdated } = this.props;
+    const ministerIssue = { ...mi };
     const action = {
       id: uuid(),
       detail: '',
       actionTypeId,
-      other: ''
-    }
-    ministerIssue.ministerIssueActions.push(action)
-    ministerIssueUpdated({ ministerIssue })
+      other: '',
+    };
+    ministerIssue.ministerIssueActions.push(action);
+    ministerIssueUpdated({ ministerIssue });
 
-    this.openInputModalWhenOtherTypeSelected(action)
-  }
+    this.openInputModalWhenOtherTypeSelected(action);
+  };
 
-  openInputModalWhenOtherTypeSelected = action => {
-    const actionTypeId = action && action.actionTypeId
-    const { openInputModal, references } = this.props
+  openInputModalWhenOtherTypeSelected = (action) => {
+    const actionTypeId = action && action.actionTypeId;
+    const { openInputModal, references } = this.props;
     const actionTypes =
-      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
-    const otherActionType = actionTypes.find(t => t.name === 'Other')
+      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const otherActionType = actionTypes.find((t) => t.name === 'Other');
 
     // open a modal when the option 'other' is selected
     if (otherActionType && actionTypeId === otherActionType.id) {
@@ -103,38 +103,38 @@ class AddableMinisterIssueActionList extends Component {
         id: 'minister_issue_action_other',
         title: 'Other Name',
         value: action,
-        onSubmit: this.onOtherSubmited
-      })
+        onSubmit: this.onOtherSubmited,
+      });
     }
-  }
+  };
 
   onOtherSubmited = (input, { value: action }) => {
-    const { ministerIssue } = this.props
+    const { ministerIssue } = this.props;
     const newAction = {
       ...action,
-      other: input
-    }
+      other: input,
+    };
     const actionIndex = ministerIssue.ministerIssueActions.findIndex(
-      a => a.id === action.id
-    )
-    if (actionIndex < 0) return
+      (a) => a.id === action.id,
+    );
+    if (actionIndex < 0) return;
 
-    this.handleMIActionChange(newAction, actionIndex)
-  }
+    this.handleMIActionChange(newAction, actionIndex);
+  };
 
   render() {
-    const { ministerIssue, references } = this.props
+    const { ministerIssue, references } = this.props;
     const ministerIssueActions =
-      (ministerIssue && ministerIssue.ministerIssueActions) || []
+      (ministerIssue && ministerIssue.ministerIssueActions) || [];
     const actionTypes =
-      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || []
-    const actionTypeOptions = actionTypes.map(miat => {
+      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const actionTypeOptions = actionTypes.map((miat) => {
       return {
         key: miat.id,
         value: miat.id,
-        text: miat.name
-      }
-    })
+        text: miat.name,
+      };
+    });
 
     return (
       <Fragment>
@@ -161,16 +161,13 @@ class AddableMinisterIssueActionList extends Component {
           selectOnBlur={false}
         />
       </Fragment>
-    )
+    );
   }
 }
 
-export default connect(
-  null,
-  {
-    ministerIssueUpdated,
-    openInputModal,
-    openConfirmationModal,
-    deleteRUPMinisterIssueAction
-  }
-)(AddableMinisterIssueActionList)
+export default connect(null, {
+  ministerIssueUpdated,
+  openInputModal,
+  openConfirmationModal,
+  deleteRUPMinisterIssueAction,
+})(AddableMinisterIssueActionList);

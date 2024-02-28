@@ -1,19 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import StatusHistory from './StatusHistory'
+import React from 'react';
+import PropTypes from 'prop-types';
+import StatusHistory from './StatusHistory';
 import {
   isStatusAwaitingConfirmation,
   isStatusIndicatingStaffFeedbackNeeded,
-  isUserStaff
-} from '../../../utils'
-import AHSignaturesStatusModal from './AHSignaturesStatusModal'
-import { useUser } from '../../../providers/UserProvider'
+  isUserStaff,
+} from '../../../utils';
+import AHSignaturesStatusModal from './AHSignaturesStatusModal';
+import { useUser } from '../../../providers/UserProvider';
 
-const Notifications = props => {
-  const { plan, planTypeDescription = '' } = props
-  const user = useUser()
+const Notifications = (props) => {
+  const { plan, planTypeDescription = '' } = props;
+  const user = useUser();
 
-  const { status, planStatusHistory } = plan
+  const { status, planStatusHistory } = plan;
 
   return (
     <div className="rup__notifications">
@@ -34,13 +34,13 @@ const Notifications = props => {
         <AHSignaturesStatusModal {...props} />
       )}
     </div>
-  )
-}
+  );
+};
 
 Notifications.propTypes = {
   plan: PropTypes.shape({}).isRequired,
   planStatusHistoryMap: PropTypes.shape({}).isRequired,
-  planTypeDescription: PropTypes.string
-}
+  planTypeDescription: PropTypes.string,
+};
 
-export default Notifications
+export default Notifications;

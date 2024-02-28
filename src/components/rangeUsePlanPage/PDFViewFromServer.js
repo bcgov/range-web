@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Icon } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
 // import { Document, Page } from 'react-pdf';
-import { connect } from 'react-redux'
-import { downloadPDFBlob } from '../../utils'
-import { fetchRupPDF } from '../../actionCreators'
-import { Loading, ErrorPage, PrimaryButton } from '../common'
+import { connect } from 'react-redux';
+import { downloadPDFBlob } from '../../utils';
+import { fetchRupPDF } from '../../actionCreators';
+import { Loading, ErrorPage, PrimaryButton } from '../common';
 import {
   getPlanPDF,
   getIsFetchingPlanPDF,
-  getPlanPDFErrorOccured
-} from '../../reducers/rootReducer'
+  getPlanPDFErrorOccured,
+} from '../../reducers/rootReducer';
 
 class PDFView extends Component {
   static propTypes = {
@@ -18,33 +18,33 @@ class PDFView extends Component {
     fetchRupPDF: PropTypes.func.isRequired,
     isFetchingPDF: PropTypes.bool.isRequired,
     errorFetchingPDF: PropTypes.bool.isRequired,
-    planPDFBlob: PropTypes.shape({})
-  }
+    planPDFBlob: PropTypes.shape({}),
+  };
 
   static defaultProps = {
-    planPDFBlob: null
-  }
+    planPDFBlob: null,
+  };
 
   state = {
     // numPages: 1,
-  }
+  };
 
   UNSAFE_componentWillMount() {
-    const { fetchRupPDF, match } = this.props
-    const { planId, agreementId } = match.params
+    const { fetchRupPDF, match } = this.props;
+    const { planId, agreementId } = match.params;
 
     if (planId && agreementId) {
       fetchRupPDF(planId).then(() => {
-        this.onDownloadClicked()
-      })
+        this.onDownloadClicked();
+      });
     }
   }
 
   onDownloadClicked = () => {
-    const { match, planPDFBlob } = this.props
-    const { agreementId } = match.params
-    downloadPDFBlob(planPDFBlob, this.donwloadPDFLink, `${agreementId}.pdf`)
-  }
+    const { match, planPDFBlob } = this.props;
+    const { agreementId } = match.params;
+    downloadPDFBlob(planPDFBlob, this.donwloadPDFLink, `${agreementId}.pdf`);
+  };
 
   // onLoadSuccess = ({ numPages }) => {
   //   this.setState({
@@ -52,12 +52,12 @@ class PDFView extends Component {
   //   });
   // }
 
-  setDownlaodPDFRef = ref => {
-    this.donwloadPDFLink = ref
-  }
+  setDownlaodPDFRef = (ref) => {
+    this.donwloadPDFLink = ref;
+  };
 
   render() {
-    const { planPDFBlob, isFetchingPDF, errorFetchingPDF } = this.props
+    const { planPDFBlob, isFetchingPDF, errorFetchingPDF } = this.props;
     // const { numPages } = this.state;
     // const pages = Array.from(
     //   new Array(numPages),
@@ -76,7 +76,8 @@ class PDFView extends Component {
         <a
           className="rup-pdf__link"
           href="download"
-          ref={this.setDownlaodPDFRef}>
+          ref={this.setDownlaodPDFRef}
+        >
           link
         </a>
 
@@ -93,14 +94,16 @@ class PDFView extends Component {
             <PrimaryButton
               inverted
               style={{ marginLeft: '10px' }}
-              onClick={this.onDownloadClicked}>
+              onClick={this.onDownloadClicked}
+            >
               <Icon name="print" />
               Download PDF
             </PrimaryButton>
             <div className="rup-pdf__close-btn__container">
               <button
                 className="rup-pdf__close-btn"
-                onClick={() => window.close()}>
+                onClick={() => window.close()}
+              >
                 Close window
               </button>
             </div>
@@ -133,17 +136,14 @@ class PDFView extends Component {
             </div>
           </div> */}
       </section>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   planPDFBlob: getPlanPDF(state),
   isFetchingPDF: getIsFetchingPlanPDF(state),
-  errorFetchingPDF: getPlanPDFErrorOccured(state)
-})
+  errorFetchingPDF: getPlanPDFErrorOccured(state),
+});
 
-export default connect(
-  mapStateToProps,
-  { fetchRupPDF }
-)(PDFView)
+export default connect(mapStateToProps, { fetchRupPDF })(PDFView);

@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 
 const propTypes = {
   inverted: PropTypes.bool,
-  children: PropTypes.node
-}
+  children: PropTypes.node,
+};
 
 const PrimaryButton = ({ inverted = false, children, ...props }) => {
   if (inverted) {
@@ -15,16 +15,16 @@ const PrimaryButton = ({ inverted = false, children, ...props }) => {
           {children}
         </Button>
       </div>
-    )
+    );
   }
 
   return (
     <Button primary {...props}>
       {children}
     </Button>
-  )
-}
+  );
+};
 
-PrimaryButton.propTypes = propTypes
+PrimaryButton.propTypes = propTypes;
 
-export default PrimaryButton
+export default PrimaryButton;

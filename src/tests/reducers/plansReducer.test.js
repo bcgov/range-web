@@ -1,20 +1,20 @@
-import { normalize } from 'normalizr'
-import plansReducer from '../../reducers/planReducer/plansReducer'
-import { storePlan, planUpdated, grazingScheduleAdded } from '../../actions'
-import * as schema from '../../actionCreators/schema'
+import { normalize } from 'normalizr';
+import plansReducer from '../../reducers/planReducer/plansReducer';
+import { storePlan, planUpdated, grazingScheduleAdded } from '../../actions';
+import * as schema from '../../actionCreators/schema';
 
 const initialState = {
   byId: {},
-  allIds: []
-}
+  allIds: [],
+};
 
 const mockPlanData = {
   id: 'plan_id',
   rangeName: 'hello',
   obj: {
-    prop: 'value'
-  }
-}
+    prop: 'value',
+  },
+};
 
 const mockState = {
   byId: {
@@ -22,31 +22,31 @@ const mockState = {
       id: 'plan_id',
       rangeName: 'hello',
       obj: {
-        prop: 'value'
-      }
-    }
+        prop: 'value',
+      },
+    },
   },
-  allIds: ['plan_id']
-}
+  allIds: ['plan_id'],
+};
 
 describe('Plan reducer', () => {
   it('Initialized with the initial state', () => {
-    expect(plansReducer(undefined, {})).toEqual(initialState)
-  })
+    expect(plansReducer(undefined, {})).toEqual(initialState);
+  });
 
   describe('Handles `STORE_PLAN`', () => {
     it('Correctly stores a plan with initial state', () => {
-      const normalized = normalize(mockPlanData, schema.plan)
+      const normalized = normalize(mockPlanData, schema.plan);
       expect(plansReducer(initialState, storePlan(normalized))).toEqual(
-        mockState
-      )
-    })
+        mockState,
+      );
+    });
 
     it('Correctly stores a plan with pre-existing state', () => {
-      const normalized = normalize(mockPlanData, schema.plan)
-      expect(plansReducer(mockState, storePlan(normalized))).toEqual(mockState)
-    })
-  })
+      const normalized = normalize(mockPlanData, schema.plan);
+      expect(plansReducer(mockState, storePlan(normalized))).toEqual(mockState);
+    });
+  });
 
   describe('Handles `PLAN_UPDATED`', () => {
     it('Correctly store a plan with initial state and update the plan', () => {
@@ -54,51 +54,53 @@ describe('Plan reducer', () => {
         id: 'plan_id',
         rangeName: 'changed',
         obj: {
-          prop: 'changed'
-        }
-      }
+          prop: 'changed',
+        },
+      };
       const mockStateForUpdatedPlanData = {
         byId: {
           plan_id: {
             id: 'plan_id',
             rangeName: 'changed',
             obj: {
-              prop: 'changed'
-            }
-          }
+              prop: 'changed',
+            },
+          },
         },
-        allIds: ['plan_id']
-      }
+        allIds: ['plan_id'],
+      };
       expect(
-        plansReducer(mockState, planUpdated({ plan: mockUpdatedPlanData }))
-      ).toEqual(mockStateForUpdatedPlanData)
-    })
-  })
+        plansReducer(mockState, planUpdated({ plan: mockUpdatedPlanData })),
+      ).toEqual(mockStateForUpdatedPlanData);
+    });
+  });
 
   describe('Handles `ADD_GRAZING_SCHEDULE`', () => {
     it("Correctly add a grazing schedule when the field doesn't exist and does exist", () => {
       const state = {
         byId: {
           plan_id: {
-            id: 'plan_id'
-          }
+            id: 'plan_id',
+          },
         },
-        allIds: ['plan_id']
-      }
+        allIds: ['plan_id'],
+      };
       const payload = {
         planId: 'plan_id',
-        grazingSchedules: ['grazing_schedule_id']
-      }
+        grazingSchedules: ['grazing_schedule_id'],
+      };
       const result = {
         byId: {
           plan_id: {
             id: 'plan_id',
-            grazingSchedules: ['grazing_schedule_id']
-          }
+            grazingSchedules: ['grazing_schedule_id'],
+          },
         },
-        allIds: ['plan_id']
-      }
-      expect(plansReducer(state, grazingScheduleAdded(payload))).toEqual(result)
-    })
-  })
-})
+        allIds: ['plan_id'],
+      };
+      expect(plansReducer(state, grazingScheduleAdded(payload))).toEqual(
+        result,
+      );
+    });
+  });
+});

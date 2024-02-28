@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Table } from 'semantic-ui-react'
-import { connect } from 'formik'
-import * as utils from '../../../utils'
-import { useReferences } from '../../../providers/ReferencesProvider'
-import { REFERENCE_KEY } from '../../../constants/variables'
-import PermissionsField, { IfEditable } from '../../common/PermissionsField'
-import { SCHEDULE } from '../../../constants/fields'
-import DateInputField from '../../common/form/DateInputField'
-import moment from 'moment'
-import PasturesDropdown from './PasturesDropdown'
-import Select from '../../common/Select'
-import RowMenu from './RowMenu'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Table } from 'semantic-ui-react';
+import { connect } from 'formik';
+import * as utils from '../../../utils';
+import { useReferences } from '../../../providers/ReferencesProvider';
+import { REFERENCE_KEY } from '../../../constants/variables';
+import PermissionsField, { IfEditable } from '../../common/PermissionsField';
+import { SCHEDULE } from '../../../constants/fields';
+import DateInputField from '../../common/form/DateInputField';
+import moment from 'moment';
+import PasturesDropdown from './PasturesDropdown';
+import Select from '../../common/Select';
+import RowMenu from './RowMenu';
 
 const GrazingScheduleEntryRow = ({
   entry,
@@ -20,7 +20,7 @@ const GrazingScheduleEntryRow = ({
   onDelete,
   onCopy,
   schedule,
-  onChange
+  onChange,
 }) => {
   const {
     pastureId,
@@ -31,30 +31,30 @@ const GrazingScheduleEntryRow = ({
     days,
     pasture,
     pldAUMs,
-    crownAUMs
-  } = entry || {}
+    crownAUMs,
+  } = entry || {};
 
-  const references = useReferences()
-  const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE]
+  const references = useReferences();
+  const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
 
-  const livestockTypeOptions = livestockTypes.map(lt => {
-    const { id, name } = lt || {}
+  const livestockTypeOptions = livestockTypes.map((lt) => {
+    const { id, name } = lt || {};
     return {
       key: id,
       value: id,
-      label: name
-    }
-  })
+      label: name,
+    };
+  });
 
   const initialDate = moment()
     .set('year', schedule.year)
     .set('month', 0)
-    .set('date', 1)
+    .set('date', 1);
 
   const maxDate = moment()
     .set('year', schedule.year)
     .set('month', 11)
-    .set('date', 31)
+    .set('date', 31);
 
   return (
     <Table.Row className="rup__grazing-schedule__row">
@@ -65,9 +65,9 @@ const GrazingScheduleEntryRow = ({
           onChange={({ pasture }) => {
             formik.setFieldValue(
               `${namespace}.graceDays`,
-              pasture.graceDays || 0
-            )
-            onChange()
+              pasture.graceDays || 0,
+            );
+            onChange();
           }}
         />
       </Table.Cell>
@@ -90,7 +90,7 @@ const GrazingScheduleEntryRow = ({
           displayValue={livestockCount}
           inputProps={{
             'aria-label': 'livestock count',
-            onChange
+            onChange,
           }}
           fast
         />
@@ -134,14 +134,14 @@ const GrazingScheduleEntryRow = ({
           inputProps={{
             type: 'number',
             'aria-label': 'grace days',
-            onChange
+            onChange,
           }}
           fieldProps={{
-            onBlur: e => {
+            onBlur: (e) => {
               if (e.target.value.trim() === '') {
-                formik.setFieldValue(`${namespace}.graceDays`, 0)
+                formik.setFieldValue(`${namespace}.graceDays`, 0);
               }
-            }
+            },
           }}
           fast
         />
@@ -158,15 +158,15 @@ const GrazingScheduleEntryRow = ({
         </Table.Cell>
       </IfEditable>
     </Table.Row>
-  )
-}
+  );
+};
 
 GrazingScheduleEntryRow.propTypes = {
   entry: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   namespace: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onCopy: PropTypes.func.isRequired
-}
+  onCopy: PropTypes.func.isRequired,
+};
 
-export default connect(GrazingScheduleEntryRow)
+export default connect(GrazingScheduleEntryRow);

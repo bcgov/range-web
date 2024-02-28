@@ -1,5 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const marginDecorator = story => <div style={{ margin: '10px' }}>{story()}</div>
+const marginDecorator = (story) => (
+  <div style={{ margin: '10px' }}>{story()}</div>
+);
 
-export default marginDecorator
+export default marginDecorator;

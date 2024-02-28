@@ -1,28 +1,28 @@
-import React, { Fragment, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Icon, Modal, Header, Button } from 'semantic-ui-react'
-import { Route, Prompt } from 'react-router-dom'
-import { startCase } from 'lodash'
-import { Loading, PrimaryButton } from '../common'
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Icon, Modal, Header, Button } from 'semantic-ui-react';
+import { Route, Prompt } from 'react-router-dom';
+import { startCase } from 'lodash';
+import { Loading, PrimaryButton } from '../common';
 import {
   planUpdated,
   pastureAdded,
   pastureUpdated,
   pastureCopied,
   grazingScheduleUpdated,
-  openConfirmationModal
-} from '../../actions'
+  openConfirmationModal,
+} from '../../actions';
 import {
   isUserAgreementHolder,
   isUserAdmin,
   isUserRangeOfficer,
   getFirstFormikError,
-  isUserDecisionMaker
-} from '../../utils'
-import * as selectors from '../../reducers/rootReducer'
-import PageForStaff from './pageForStaff'
-import PageForAH from './pageForAH'
+  isUserDecisionMaker,
+} from '../../utils';
+import * as selectors from '../../reducers/rootReducer';
+import PageForStaff from './pageForStaff';
+import PageForAH from './pageForAH';
 import {
   fetchRUP,
   updateRUP,
@@ -34,17 +34,17 @@ import {
   createAmendment,
   createOrUpdateRUPMinisterIssueAndActions,
   createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration
-} from '../../actionCreators'
-import { Form } from 'formik-semantic-ui'
-import { useToast } from '../../providers/ToastProvider'
-import { useReferences } from '../../providers/ReferencesProvider'
-import RUPSchema from './schema'
-import OnSubmitValidationError from '../common/form/OnSubmitValidationError'
-import PDFView from './pdf/PDFView'
-import { RANGE_USE_PLAN } from '../../constants/routes'
-import { getIn } from 'formik'
-import { useCurrentPlan } from '../../providers/PlanProvider'
+  createOrUpdateRUPManagementConsideration,
+} from '../../actionCreators';
+import { Form } from 'formik-semantic-ui';
+import { useToast } from '../../providers/ToastProvider';
+import { useReferences } from '../../providers/ReferencesProvider';
+import RUPSchema from './schema';
+import OnSubmitValidationError from '../common/form/OnSubmitValidationError';
+import PDFView from './pdf/PDFView';
+import { RANGE_USE_PLAN } from '../../constants/routes';
+import { getIn } from 'formik';
+import { useCurrentPlan } from '../../providers/PlanProvider';
 
 const Base = ({
   user,
@@ -63,29 +63,29 @@ const Base = ({
     fetchPlan,
     isFetchingPlan,
     errorFetchingPlan,
-    savePlan
-  } = useCurrentPlan()
+    savePlan,
+  } = useCurrentPlan();
 
-  const references = useReferences()
+  const references = useReferences();
 
-  const { successToast, errorToast } = useToast()
+  const { successToast, errorToast } = useToast();
 
   const planId =
-    match.params.planId || location.pathname.charAt('/range-use-plan/'.length)
+    match.params.planId || location.pathname.charAt('/range-use-plan/'.length);
 
   useEffect(() => {
-    setCurrentPlanId(planId)
-  }, [planId])
+    setCurrentPlanId(planId);
+  }, [planId]);
 
   useEffect(() => {
     // Hard refetch plan when RUP page is navigated back to, to ensure no stale
     // data
-    fetchPlan(planId, true)
-  }, [location.pathname])
+    fetchPlan(planId, true);
+  }, [location.pathname]);
 
-  const handleValidationError = formik => {
+  const handleValidationError = (formik) => {
     // Get the first field path in the formik errors object
-    const [errorPathString, error] = getFirstFormikError(formik.errors)
+    const [errorPathString, error] = getFirstFormikError(formik.errors);
 
     /**
      * Convert a field "path" in the form of
@@ -104,23 +104,23 @@ const Base = ({
       .split('.')
       .reduce((acc, value, i, paths) => {
         // Get previous chunk of path based on index
-        const path = paths.slice(0, i + 1).join('.')
-        const parentKey = paths[i - 1]
+        const path = paths.slice(0, i + 1).join('.');
+        const parentKey = paths[i - 1];
 
         if (!isNaN(parseFloat(value))) {
-          const object = getIn(formik.values, path)
-          return [...acc, `${startCase(parentKey)}: ${object.name || value}`]
+          const object = getIn(formik.values, path);
+          return [...acc, `${startCase(parentKey)}: ${object.name || value}`];
         }
 
         if (i === paths.length - 1) {
-          return [...acc, `${startCase(value)}: ${error}`]
+          return [...acc, `${startCase(value)}: ${error}`];
         }
 
-        return acc
-      }, [])
+        return acc;
+      }, []);
 
     // Add "RUP" to the beginning of the error message
-    const formattedPath = ['RUP'].concat(errorPath)
+    const formattedPath = ['RUP'].concat(errorPath);
 
     errorToast(`Could not submit due to invalid fields.\n\n`, {
       timeout: 5000,
@@ -129,43 +129,44 @@ const Base = ({
           {formattedPath.map((line, i) => (
             <div
               key={i}
-              style={{ marginLeft: i * 20, fontFamily: 'monospace' }}>
+              style={{ marginLeft: i * 20, fontFamily: 'monospace' }}
+            >
               &gt; {line}
             </div>
           ))}
         </code>
-      )
-    })
-  }
+      ),
+    });
+  };
 
   const handleSubmit = async (plan, formik) => {
     try {
       // Update Plan
-      const planId = await savePlan(plan, user)
+      const planId = await savePlan(plan, user);
 
-      formik.setSubmitting(false)
-      successToast('Successfully saved draft')
+      formik.setSubmitting(false);
+      successToast('Successfully saved draft');
 
       await history.replace(`${RANGE_USE_PLAN}/${planId}`, {
-        saved: true
-      })
+        saved: true,
+      });
     } catch (err) {
-      formik.setStatus('error')
-      formik.setSubmitting(false)
-      errorToast('Error saving draft')
-      throw err
+      formik.setStatus('error');
+      formik.setSubmitting(false);
+      errorToast('Error saving draft');
+      throw err;
     }
-  }
+  };
 
-  const agreement = currentPlan && currentPlan.agreement
-  const isFetchingPlanForTheFirstTime = !currentPlan && isFetchingPlan
+  const agreement = currentPlan && currentPlan.agreement;
+  const isFetchingPlanForTheFirstTime = !currentPlan && isFetchingPlan;
   // const doneFetching = !isFetchingPlanForTheFirstTime;
 
   if (errorFetchingPlan && !isFetchingPlan) {
     // if (process.env.NODE_ENV !== 'production') {
-    console.dir(errorFetchingPlan)
-    console.dir(isFetchingPlanForTheFirstTime)
-    console.dir(isFetchingPlan)
+    console.dir(errorFetchingPlan);
+    console.dir(isFetchingPlanForTheFirstTime);
+    console.dir(isFetchingPlan);
     // }
     return (
       <div className="rup__fetching-error">
@@ -189,7 +190,7 @@ const Base = ({
           />
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -199,14 +200,15 @@ const Base = ({
       <Route
         path={`${match.url}/export-pdf`}
         render={() => {
-          const closePDFModal = () => history.push(match.url)
+          const closePDFModal = () => history.push(match.url);
           return (
             currentPlan && (
               <Modal
                 size="tiny"
                 open={true}
                 onClose={closePDFModal}
-                dimmer="blurring">
+                dimmer="blurring"
+              >
                 <Header content="Download PDF" icon="file pdf" />
                 <Modal.Content>
                   The PDF may take a few minutes to generate.
@@ -215,12 +217,17 @@ const Base = ({
                   <Button type="button" onClick={closePDFModal}>
                     Close
                   </Button>
-                  <PDFView match={match} agreementId={currentPlan.agreement.id} mapAttachments={currentPlan.files.filter((item) => {
-                    return item.type === 'mapAttachments'
-                  })} />
+                  <PDFView
+                    match={match}
+                    agreementId={currentPlan.agreement.id}
+                    mapAttachments={currentPlan.files.filter((item) => {
+                      return item.type === 'mapAttachments';
+                    })}
+                  />
                 </Modal.Actions>
               </Modal>
-            ))
+            )
+          );
         }}
       />
 
@@ -236,11 +243,11 @@ const Base = ({
             <>
               <Prompt
                 when={dirty}
-                message={location => {
+                message={(location) => {
                   return (
                     (location.state && location.state.saved) ||
                     'This RUP has unsaved changes that will be lost if you leave this page.'
-                  )
+                  );
                 }}
               />
               <OnSubmitValidationError callback={handleValidationError} />
@@ -248,17 +255,17 @@ const Base = ({
               {(isUserAdmin(user) ||
                 isUserRangeOfficer(user) ||
                 isUserDecisionMaker(user)) && (
-                  <PageForStaff
-                    references={references}
-                    agreement={agreement}
-                    plan={plan}
-                    clientAgreements={clientAgreements}
-                    fetchPlan={fetchPlan}
-                    user={user}
-                    history={history}
-                    {...props}
-                  />
-                )}
+                <PageForStaff
+                  references={references}
+                  agreement={agreement}
+                  plan={plan}
+                  clientAgreements={clientAgreements}
+                  fetchPlan={fetchPlan}
+                  user={user}
+                  history={history}
+                  {...props}
+                />
+              )}
 
               {isUserAgreementHolder(user) && (
                 <PageForAH
@@ -277,12 +284,12 @@ const Base = ({
         />
       )}
     </Fragment>
-  )
-}
+  );
+};
 
 Base.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.shape({ planId: PropTypes.string })
+    params: PropTypes.shape({ planId: PropTypes.string }),
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
@@ -291,10 +298,10 @@ Base.propTypes = {
   isFetchingPlan: PropTypes.bool.isRequired,
   errorFetchingPlan: PropTypes.bool.isRequired,
   plansMap: PropTypes.shape({}).isRequired,
-  reAuthRequired: PropTypes.bool.isRequired
-}
+  reAuthRequired: PropTypes.bool.isRequired,
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   plansMap: selectors.getPlansMap(state),
   pasturesMap: selectors.getPasturesMap(state),
   grazingSchedulesMap: selectors.getGrazingSchedulesMap(state),
@@ -306,28 +313,25 @@ const mapStateToProps = state => ({
   errorFetchingPlan: selectors.getPlanErrorOccured(state),
   references: selectors.getReferences(state),
   isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
-  reAuthRequired: selectors.getReAuthRequired(state)
-})
+  reAuthRequired: selectors.getReAuthRequired(state),
+});
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchRUP,
-    updateRUP,
-    updateRUPStatus,
-    planUpdated,
-    pastureAdded,
-    pastureUpdated,
-    pastureCopied,
-    createOrUpdateRUPPasture,
-    grazingScheduleUpdated,
-    createOrUpdateRUPGrazingSchedule,
-    toastSuccessMessage,
-    toastErrorMessage,
-    createAmendment,
-    openConfirmationModal,
-    createOrUpdateRUPMinisterIssueAndActions,
-    createOrUpdateRUPInvasivePlantChecklist,
-    createOrUpdateRUPManagementConsideration
-  }
-)(Base)
+export default connect(mapStateToProps, {
+  fetchRUP,
+  updateRUP,
+  updateRUPStatus,
+  planUpdated,
+  pastureAdded,
+  pastureUpdated,
+  pastureCopied,
+  createOrUpdateRUPPasture,
+  grazingScheduleUpdated,
+  createOrUpdateRUPGrazingSchedule,
+  toastSuccessMessage,
+  toastErrorMessage,
+  createAmendment,
+  openConfirmationModal,
+  createOrUpdateRUPMinisterIssueAndActions,
+  createOrUpdateRUPInvasivePlantChecklist,
+  createOrUpdateRUPManagementConsideration,
+})(Base);

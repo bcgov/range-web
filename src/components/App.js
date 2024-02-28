@@ -17,20 +17,20 @@
 //
 // Created by Kyubin Han.
 //
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import { ThemeProvider } from '@material-ui/core'
-import configureStore from '../configureStore'
-import Router from './router'
-import UserProvider from '../providers/UserProvider'
-import ReferencesProvider from '../providers/ReferencesProvider'
-import ToastProvider from '../providers/ToastProvider'
-import EditableProvider from '../providers/EditableProvider'
-import PlanProvider from '../providers/PlanProvider'
-import theme from './theme'
-import { SWRConfig } from 'swr'
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core';
+import configureStore from '../configureStore';
+import Router from './router';
+import UserProvider from '../providers/UserProvider';
+import ReferencesProvider from '../providers/ReferencesProvider';
+import ToastProvider from '../providers/ToastProvider';
+import EditableProvider from '../providers/EditableProvider';
+import PlanProvider from '../providers/PlanProvider';
+import theme from './theme';
+import { SWRConfig } from 'swr';
 
-const store = configureStore()
+const store = configureStore();
 
 class App extends Component {
   render() {
@@ -40,8 +40,9 @@ class App extends Component {
           revalidateIfStale: false,
           revalidateOnFocus: false,
           revalidateOnReconnect: false,
-          shouldRetryOnError: false
-        }}>
+          shouldRetryOnError: false,
+        }}
+      >
         <Provider store={store}>
           <ThemeProvider theme={theme}>
             <UserProvider>
@@ -58,8 +59,8 @@ class App extends Component {
           </ThemeProvider>
         </Provider>
       </SWRConfig>
-    )
+    );
   }
 }
 
-export default App
+export default App;

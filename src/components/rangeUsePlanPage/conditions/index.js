@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { InfoTip } from '../../common'
-import { CONDITIONS } from '../../../constants/fields'
-import * as strings from '../../../constants/strings'
-import PermissionsField from '../../common/PermissionsField'
-import { TextArea } from 'formik-semantic-ui'
-import { useUser } from '../../../providers/UserProvider'
-import EditableProvider from '../../../providers/EditableProvider'
-import { isStatusSubmittedForFD } from '../../../utils'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { InfoTip } from '../../common';
+import { CONDITIONS } from '../../../constants/fields';
+import * as strings from '../../../constants/strings';
+import PermissionsField from '../../common/PermissionsField';
+import { TextArea } from 'formik-semantic-ui';
+import { useUser } from '../../../providers/UserProvider';
+import EditableProvider from '../../../providers/EditableProvider';
+import { isStatusSubmittedForFD } from '../../../utils';
 
 const Conditions = ({ plan }) => {
-  const user = useUser()
-  const { conditions = '', proposedConditions = '' } = plan || {}
+  const user = useUser();
+  const { conditions = '', proposedConditions = '' } = plan || {};
 
   return (
     <div className="rup__conditions">
@@ -78,11 +78,11 @@ const Conditions = ({ plan }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 Conditions.propTypes = {
-  plan: PropTypes.shape({}).isRequired
-}
+  plan: PropTypes.shape({}).isRequired,
+};
 
-export default Conditions
+export default Conditions;

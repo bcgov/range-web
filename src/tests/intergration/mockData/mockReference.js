@@ -5,256 +5,256 @@ const mockReference = {
       id: 1,
       code: 'E01',
       description: 'Grazing Licence',
-      active: true
+      active: true,
     },
     {
       id: 2,
       code: 'E02',
       description: 'Grazing Permit',
-      active: true
+      active: true,
     },
     {
       id: 3,
       code: 'H01',
       description: 'Haycutting Licence',
-      active: true
+      active: true,
     },
     {
       id: 4,
       code: 'H02',
       description: 'Haycutting Permit',
-      active: true
-    }
+      active: true,
+    },
   ],
   AGREEMENT_EXEMPTION_STATUS: [
     {
       id: 1,
       code: 'N',
       description: 'Not Exempt',
-      active: true
+      active: true,
     },
     {
       id: 2,
       code: 'PA',
       description: 'Preparing and Obtaining Approval',
-      active: true
+      active: true,
     },
     {
       id: 3,
       code: 'OA',
       description: 'Obtaining Approval',
-      active: true
-    }
+      active: true,
+    },
   ],
   LIVESTOCK_TYPE: [
     {
       id: 1,
       name: 'Cow with Calf',
       auFactor: 1,
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Bull',
       auFactor: 1.5,
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Yearling',
       auFactor: 0.7,
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Horse',
       auFactor: 1.25,
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Sheep',
       auFactor: 0.2,
-      active: true
+      active: true,
     },
     {
       id: 6,
       name: 'Alpaca',
       auFactor: 0.1,
-      active: true
+      active: true,
     },
     {
       id: 7,
       name: 'Ass',
       auFactor: 1.25,
-      active: true
+      active: true,
     },
     {
       id: 8,
       name: 'Goat',
       auFactor: 0.2,
-      active: true
+      active: true,
     },
     {
       id: 9,
       name: 'Llama',
       auFactor: 0.2,
-      active: true
+      active: true,
     },
     {
       id: 10,
       name: 'Mule',
       auFactor: 1.25,
-      active: true
-    }
+      active: true,
+    },
   ],
   PLAN_STATUS: [
     {
       id: 1,
       code: 'C',
       name: 'Created',
-      active: true
+      active: true,
     },
     {
       id: 2,
       code: 'O',
       name: 'Completed',
-      active: true
+      active: true,
     },
     {
       id: 3,
       code: 'P',
       name: 'Pending',
-      active: true
+      active: true,
     },
     {
       id: 4,
       code: 'D',
       name: 'Draft',
-      active: true
+      active: true,
     },
     {
       id: 5,
       code: 'R',
       name: 'Change Requested',
-      active: true
+      active: true,
     },
     {
       id: 6,
       code: 'SD',
       name: 'Staff Draft',
-      active: true
+      active: true,
     },
     {
       id: 7,
       code: 'WM',
       name: 'Wrongly Made - Without Effect',
-      active: true
+      active: true,
     },
     {
       id: 8,
       code: 'SW',
       name: 'Stands - Wrongly Made',
-      active: true
+      active: true,
     },
     {
       id: 9,
       code: 'S',
       name: 'Stands',
-      active: true
+      active: true,
     },
     {
       id: 10,
       code: 'NF',
       name: 'Not Approved - Further Work Required',
-      active: true
+      active: true,
     },
     {
       id: 11,
       code: 'NA',
       name: 'Not Approved',
-      active: true
+      active: true,
     },
     {
       id: 12,
       code: 'A',
       name: 'Approved',
-      active: true
+      active: true,
     },
     {
       id: 13,
       code: 'SR',
       name: 'Submitted For Review',
-      active: true
+      active: true,
     },
     {
       id: 14,
       code: 'SFD',
       name: 'Submitted For Final Decision',
-      active: true
+      active: true,
     },
     {
       id: 15,
       code: 'RR',
       name: 'Recommend Ready',
-      active: true
+      active: true,
     },
     {
       id: 16,
       code: 'RNR',
       name: 'Recommend Not Ready',
-      active: true
+      active: true,
     },
     {
       id: 17,
       code: 'RFD',
       name: 'Ready For Final Decision',
-      active: true
+      active: true,
     },
     {
       id: 18,
       code: 'AC',
       name: 'Awaiting Confirmation',
-      active: true
+      active: true,
     },
     {
       id: 19,
       code: 'RFS',
       name: 'Recommended For Submission',
-      active: true
+      active: true,
     },
     {
       id: 20,
       code: 'MSR',
       name: 'Stands - Review',
-      active: true
-    }
+      active: true,
+    },
   ],
   CLIENT_TYPE: [
     {
       id: 1,
       code: 'A',
       description: 'Licensee',
-      active: true
+      active: true,
     },
     {
       id: 2,
       code: 'B',
       description: 'Joint Venture/Partner',
-      active: true
-    }
+      active: true,
+    },
   ],
   LIVESTOCK_IDENTIFIER_TYPE: [
     {
       id: 1,
       description: 'Brand',
-      active: true
+      active: true,
     },
     {
       id: 2,
       description: 'Tag',
-      active: true
-    }
+      active: true,
+    },
   ],
   MINISTER_ISSUE_ACTION_TYPE: [
     {
@@ -262,110 +262,110 @@ const mockReference = {
       name: 'Herding',
       active: true,
       placeholder:
-        'Frequency, distance and direction livestock will be herded. Identify the high pressure area and/or lower use areas if relevant. Ex. livestock will be herded at least 1 km away from Fish Lake towards the north 3 times per week.'
+        'Frequency, distance and direction livestock will be herded. Identify the high pressure area and/or lower use areas if relevant. Ex. livestock will be herded at least 1 km away from Fish Lake towards the north 3 times per week.',
     },
     {
       id: 2,
       name: 'Livestock Variables',
       active: true,
       placeholder:
-        'Type and/or age of livestock to be used to address the issue. If necessary update the grazing schedule to reflect the livestock type. Ex. calves will be 5 months or older before grazing in the riparian area.'
+        'Type and/or age of livestock to be used to address the issue. If necessary update the grazing schedule to reflect the livestock type. Ex. calves will be 5 months or older before grazing in the riparian area.',
     },
     {
       id: 3,
       name: 'Salting',
       active: true,
       placeholder:
-        'Location and timing of salting using an identifiable location and a distance in metres. Ex. remove salt from the NE station (on map) after July 1st.'
+        'Location and timing of salting using an identifiable location and a distance in metres. Ex. remove salt from the NE station (on map) after July 1st.',
     },
     {
       id: 4,
       name: 'Supplemental Feeding',
       active: true,
       placeholder:
-        'Type, location and time frame of supplemental feed. Ex. locate protein tub in the south east block in the Pine pasture during the fall rotation.'
+        'Type, location and time frame of supplemental feed. Ex. locate protein tub in the south east block in the Pine pasture during the fall rotation.',
     },
     {
       id: 5,
       name: 'Timing',
       active: true,
       placeholder:
-        'How livestock use will be timed. Complete the dates for the no grazing window and update the schedule as needed.  Ex. rest the Owl pasture every other year.'
+        'How livestock use will be timed. Complete the dates for the no grazing window and update the schedule as needed.  Ex. rest the Owl pasture every other year.',
     },
     {
       id: 6,
       name: 'Other',
       active: true,
       placeholder:
-        'Describe the action to be taken including what, where and when.'
-    }
+        'Describe the action to be taken including what, where and when.',
+    },
   ],
   MINISTER_ISSUE_TYPE: [
     {
       id: 1,
       name: 'Community Watershed',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Conservation Areas',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'First Nations Values',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Fish - Wildlife',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Livestock Distribution',
-      active: true
+      active: true,
     },
     {
       id: 6,
       name: 'Rangeland Health',
-      active: true
+      active: true,
     },
     {
       id: 7,
       name: 'Recreation - Visual',
-      active: true
+      active: true,
     },
     {
       id: 8,
       name: 'Riparian',
-      active: true
+      active: true,
     },
     {
       id: 9,
       name: 'Other',
-      active: true
-    }
+      active: true,
+    },
   ],
   AMENDMENT_TYPE: [
     {
       id: 1,
       code: 'MNA',
       description: 'Minor Amendment',
-      active: true
+      active: true,
     },
     {
       id: 2,
       code: 'MA',
       description: 'Mandatory Amendment',
-      active: true
+      active: true,
     },
     {
       id: 3,
       code: 'A',
       description: 'Amendment',
-      active: true
-    }
+      active: true,
+    },
   ],
   PLANT_SPECIES: [
     {
@@ -375,7 +375,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 2,
@@ -384,7 +384,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 3,
@@ -393,7 +393,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 4,
@@ -402,7 +402,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 5,
@@ -411,7 +411,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 6,
@@ -420,7 +420,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 7,
@@ -429,7 +429,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 8,
@@ -438,7 +438,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 9,
@@ -447,7 +447,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 10,
@@ -456,7 +456,7 @@ const mockReference = {
       stubbleHeight: 10,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 11,
@@ -465,7 +465,7 @@ const mockReference = {
       stubbleHeight: 10,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 12,
@@ -474,7 +474,7 @@ const mockReference = {
       stubbleHeight: 10,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 13,
@@ -483,7 +483,7 @@ const mockReference = {
       stubbleHeight: 10,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 14,
@@ -492,7 +492,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 15,
@@ -501,7 +501,7 @@ const mockReference = {
       stubbleHeight: 17,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 16,
@@ -510,7 +510,7 @@ const mockReference = {
       stubbleHeight: 7,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 17,
@@ -519,7 +519,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 18,
@@ -528,7 +528,7 @@ const mockReference = {
       stubbleHeight: 17,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 19,
@@ -537,7 +537,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 20,
@@ -546,7 +546,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 21,
@@ -555,7 +555,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 22,
@@ -564,7 +564,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 23,
@@ -573,7 +573,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 24,
@@ -582,7 +582,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 25,
@@ -591,7 +591,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 26,
@@ -600,7 +600,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 27,
@@ -609,7 +609,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 28,
@@ -618,7 +618,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 29,
@@ -627,7 +627,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 30,
@@ -636,7 +636,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 31,
@@ -645,7 +645,7 @@ const mockReference = {
       stubbleHeight: 10,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 32,
@@ -654,7 +654,7 @@ const mockReference = {
       stubbleHeight: 15,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 33,
@@ -663,7 +663,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 34,
@@ -672,7 +672,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 35,
@@ -681,7 +681,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 36,
@@ -690,7 +690,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 37,
@@ -699,7 +699,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 38,
@@ -708,7 +708,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 39,
@@ -717,7 +717,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 40,
@@ -726,7 +726,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 41,
@@ -735,7 +735,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 42,
@@ -744,7 +744,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 43,
@@ -753,7 +753,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 44,
@@ -762,7 +762,7 @@ const mockReference = {
       stubbleHeight: 10,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 45,
@@ -771,7 +771,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 46,
@@ -780,7 +780,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 47,
@@ -789,7 +789,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 48,
@@ -798,7 +798,7 @@ const mockReference = {
       stubbleHeight: 15,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 49,
@@ -807,7 +807,7 @@ const mockReference = {
       stubbleHeight: 8,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 50,
@@ -816,7 +816,7 @@ const mockReference = {
       stubbleHeight: 15,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 51,
@@ -825,7 +825,7 @@ const mockReference = {
       stubbleHeight: 15,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 52,
@@ -834,7 +834,7 @@ const mockReference = {
       stubbleHeight: 12,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 53,
@@ -843,7 +843,7 @@ const mockReference = {
       stubbleHeight: 15,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 54,
@@ -852,7 +852,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 55,
@@ -861,7 +861,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 56,
@@ -870,7 +870,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: false
+      isShrubUse: false,
     },
     {
       id: 57,
@@ -879,7 +879,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 58,
@@ -888,7 +888,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 59,
@@ -897,7 +897,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 60,
@@ -906,7 +906,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 61,
@@ -915,7 +915,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 62,
@@ -924,7 +924,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 63,
@@ -933,7 +933,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 64,
@@ -942,7 +942,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 65,
@@ -951,7 +951,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 66,
@@ -960,7 +960,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 67,
@@ -969,7 +969,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 68,
@@ -978,7 +978,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 69,
@@ -987,7 +987,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 70,
@@ -996,7 +996,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 71,
@@ -1005,7 +1005,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 72,
@@ -1014,7 +1014,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 73,
@@ -1023,7 +1023,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 74,
@@ -1032,7 +1032,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 75,
@@ -1041,7 +1041,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 76,
@@ -1050,7 +1050,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 77,
@@ -1059,7 +1059,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 78,
@@ -1068,7 +1068,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 79,
@@ -1077,7 +1077,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 80,
@@ -1086,7 +1086,7 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
+      isShrubUse: true,
     },
     {
       id: 81,
@@ -1095,312 +1095,312 @@ const mockReference = {
       stubbleHeight: null,
       annualGrowth: null,
       active: true,
-      isShrubUse: true
-    }
+      isShrubUse: true,
+    },
   ],
   PLANT_COMMUNITY_TYPE: [
     {
       id: 1,
       name: 'Alkali saltgrass',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Awned sedge',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Barclay willow',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Beaked sedge',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Cattail',
-      active: true
+      active: true,
     },
     {
       id: 6,
       name: 'Crested Wheat Grass seeded lower grassland',
-      active: true
+      active: true,
     },
     {
       id: 7,
       name: 'Douglas fir bunchgrass',
-      active: true
+      active: true,
     },
     {
       id: 8,
       name: 'Douglas fir pinegrass',
-      active: true
+      active: true,
     },
     {
       id: 9,
       name: 'Great bulrush',
-      active: true
+      active: true,
     },
     {
       id: 10,
       name: 'Grey leaved willow - glow moss',
-      active: true
+      active: true,
     },
     {
       id: 11,
       name: 'Kootenay middle grassland',
-      active: true
+      active: true,
     },
     {
       id: 12,
       name: 'Lodgepole pine pinegrass',
-      active: true
+      active: true,
     },
     {
       id: 13,
       name: "Nuttall's salt grass",
-      active: true
+      active: true,
     },
     {
       id: 14,
       name: 'Okanagan lower grassland',
-      active: true
+      active: true,
     },
     {
       id: 15,
       name: 'Peace aspen forest',
-      active: true
+      active: true,
     },
     {
       id: 16,
       name: 'Peace grassland',
-      active: true
+      active: true,
     },
     {
       id: 17,
       name: 'Peace shrubland',
-      active: true
+      active: true,
     },
     {
       id: 18,
       name: 'Scrub birch',
-      active: true
+      active: true,
     },
     {
       id: 19,
       name: 'Southern Interior yellow pine forest',
-      active: true
+      active: true,
     },
     {
       id: 20,
       name: 'Spike rush',
-      active: true
+      active: true,
     },
     {
       id: 21,
       name: 'Sub-alpine fescue grassland',
-      active: true
+      active: true,
     },
     {
       id: 22,
       name: 'Sub-alpine tall forb',
-      active: true
+      active: true,
     },
     {
       id: 23,
       name: 'Thompson Nicola lower grassland',
-      active: true
+      active: true,
     },
     {
       id: 24,
       name: 'Thompson Nicola middle grassland',
-      active: true
+      active: true,
     },
     {
       id: 25,
       name: 'Thompson Nicola upper grassland',
-      active: true
+      active: true,
     },
     {
       id: 26,
       name: 'Tufted hairgrass',
-      active: true
+      active: true,
     },
     {
       id: 27,
       name: 'Other',
-      active: true
-    }
+      active: true,
+    },
   ],
   PLANT_COMMUNITY_ELEVATION: [
     {
       id: 1,
       name: '<500',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: '500-699',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: '700-899',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: '900-1099',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: '1100-1299',
-      active: true
+      active: true,
     },
     {
       id: 6,
       name: '1300-1500',
-      active: true
+      active: true,
     },
     {
       id: 7,
       name: '>1500',
-      active: true
-    }
+      active: true,
+    },
   ],
   PLANT_COMMUNITY_ACTION_TYPE: [
     {
       id: 1,
       name: 'Herding',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Livestock Variables',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Salting',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Supplemental Feeding',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Timing',
-      active: true
+      active: true,
     },
     {
       id: 6,
       name: 'Other',
-      active: true
-    }
+      active: true,
+    },
   ],
   MONITORING_AREA_HEALTH: [
     {
       id: 1,
       name: 'Properly Functioning Condition',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Slightly at Risk',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Moderately at Risk',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Highly at Risk',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Non-functional',
-      active: true
-    }
+      active: true,
+    },
   ],
   MONITORING_AREA_PURPOSE_TYPE: [
     {
       id: 1,
       name: 'Range Readiness Criteria',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Stubble Height',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Shrub Usage',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Key Area',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Other',
-      active: true
-    }
+      active: true,
+    },
   ],
   MANAGEMENT_CONSIDERATION_TYPE: [
     {
       id: 1,
       name: 'Concern',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Opportunity',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Other',
-      active: true
-    }
+      active: true,
+    },
   ],
   ADDITIONAL_REQUIREMENT_CATEGORY: [
     {
       id: 1,
       name: 'Notice or Order',
-      active: true
+      active: true,
     },
     {
       id: 2,
       name: 'Land Use Plan',
-      active: true
+      active: true,
     },
     {
       id: 3,
       name: 'Memorandum of Understanding',
-      active: true
+      active: true,
     },
     {
       id: 4,
       name: 'Agreement',
-      active: true
+      active: true,
     },
     {
       id: 5,
       name: 'Other',
-      active: true
-    }
-  ]
-}
-export default mockReference
+      active: true,
+    },
+  ],
+};
+export default mockReference;

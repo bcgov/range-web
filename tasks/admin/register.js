@@ -8,48 +8,37 @@
   * Registers component with NPM
 */
 
-var
-  // node dependencies
+var // node dependencies
   process = require('child_process'),
-
   // config
   release = require('../config/admin/release'),
-
   // register components and distributions
-  repos   = release.distributions.concat(release.components),
-  total   = repos.length,
-  index   = -1,
-
+  repos = release.distributions.concat(release.components),
+  total = repos.length,
+  index = -1,
   stream,
-  stepRepo
-;
+  stepRepo;
 
-module.exports = function(callback) {
-
+module.exports = function (callback) {
   console.log('Registering repos with package managers');
 
   // Do Git commands synchronously per component, to avoid issues
-  stepRepo = function() {
+  stepRepo = function () {
     index = index + 1;
-    if(index >= total) {
+    if (index >= total) {
       callback();
       return;
     }
-    var
-      repo            = repos[index].toLowerCase(),
+    var repo = repos[index].toLowerCase(),
       outputDirectory = release.outputRoot + repo + '/',
-      exec            = process.exec,
-      execSettings    = {cwd: outputDirectory},
-      updateNPM       = 'npm publish;meteor publish;'
-    ;
-
+      exec = process.exec,
+      execSettings = { cwd: outputDirectory },
+      updateNPM = 'npm publish;meteor publish;';
     /* Register with NPM */
-    exec(updateNPM, execSettings, function(err, stdout, stderr) {
+    exec(updateNPM, execSettings, function (err, stdout, stderr) {
       console.log(err, stdout, stderr);
       stepRepo();
     });
-
   };
   stepRepo();
 };
-

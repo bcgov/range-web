@@ -1,20 +1,24 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Segment } from 'semantic-ui-react'
-import { Loading } from '../common'
-import { LOCAL_STORAGE_KEY } from '../../constants/variables'
-import { getDataFromLocalStorage } from '../../utils'
-import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators'
-import { storeAuthData, reauthenticate, openPiaModal } from '../../actions'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Segment } from 'semantic-ui-react';
+import { Loading } from '../common';
+import { LOCAL_STORAGE_KEY } from '../../constants/variables';
+import { getDataFromLocalStorage } from '../../utils';
+import {
+  fetchUser,
+  signOut,
+  resetTimeoutForReAuth,
+} from '../../actionCreators';
+import { storeAuthData, reauthenticate, openPiaModal } from '../../actions';
 import {
   getIsFetchingUser,
   getFetchingUserErrorResponse,
-  getFetchingUserErrorOccured
-} from '../../reducers/rootReducer'
-import SignInButtons from './SignInButtons'
-import SignInErrorMessage from './SignInErrorMessage'
-import { APP_NAME } from '../../constants/strings'
+  getFetchingUserErrorOccured,
+} from '../../reducers/rootReducer';
+import SignInButtons from './SignInButtons';
+import SignInErrorMessage from './SignInErrorMessage';
+import { APP_NAME } from '../../constants/strings';
 
 export class SignInBox extends Component {
   static propTypes = {
@@ -26,53 +30,53 @@ export class SignInBox extends Component {
     storeAuthData: PropTypes.func.isRequired,
     resetTimeoutForReAuth: PropTypes.func.isRequired,
     reauthenticate: PropTypes.func.isRequired,
-    openPiaModal: PropTypes.func.isRequired
-  }
+    openPiaModal: PropTypes.func.isRequired,
+  };
 
   static defaultProps = {
-    errorFetchingUser: null
-  }
+    errorFetchingUser: null,
+  };
 
   componentDidMount() {
     // Sets up localstorage listener for cross-tab communication
     // since the authentication requires the user to be redirected to a new tab
     // and then redirected back to a return URL(land in ReturnPage.js) with the token.
-    window.addEventListener('storage', this.storageEventListener)
+    window.addEventListener('storage', this.storageEventListener);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('storage', this.storageEventListener)
+    window.removeEventListener('storage', this.storageEventListener);
   }
 
-  storageEventListener = event => {
+  storageEventListener = (event) => {
     const {
       storeAuthData,
       fetchUser,
       resetTimeoutForReAuth,
       reauthenticate,
-      openPiaModal
-    } = this.props
+      openPiaModal,
+    } = this.props;
     if (JSON.parse(event.newValue)?.access_token) {
-      const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH)
+      const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
       if (authData) {
-        storeAuthData(authData) // store the auth data in Redux store
+        storeAuthData(authData); // store the auth data in Redux store
         fetchUser().then(({ piaSeen }) => {
           if (!piaSeen) {
-            openPiaModal()
+            openPiaModal();
           }
-          window.location.reload()
-        })
+          window.location.reload();
+        });
       }
     }
-  }
+  };
 
   render() {
     const {
       isFetchingUser,
       errorOccuredFetchingUser,
       errorFetchingUser,
-      signOut
-    } = this.props
+      signOut,
+    } = this.props;
 
     return (
       <Segment basic>
@@ -88,7 +92,8 @@ export class SignInBox extends Component {
             className="signin__text3"
             href="https://portal.nrs.gov.bc.ca/web/client/bceid"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             Learn more about BCeID.
           </a>
 
@@ -102,15 +107,15 @@ export class SignInBox extends Component {
           {!errorOccuredFetchingUser && <SignInButtons />}
         </div>
       </Segment>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isFetchingUser: getIsFetchingUser(state),
   errorFetchingUser: getFetchingUserErrorResponse(state),
-  errorOccuredFetchingUser: getFetchingUserErrorOccured(state)
-})
+  errorOccuredFetchingUser: getFetchingUserErrorOccured(state),
+});
 
 export default connect(mapStateToProps, {
   fetchUser,
@@ -118,5 +123,5 @@ export default connect(mapStateToProps, {
   signOut,
   reauthenticate,
   resetTimeoutForReAuth,
-  openPiaModal
-})(SignInBox)
+  openPiaModal,
+})(SignInBox);

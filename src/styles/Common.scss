@@ -50,7 +50,7 @@
   .status__icon {
     margin-top: 2px;
     min-width: 11px;
-    min-height: 11px; 
+    min-height: 11px;
   }
 
   .status__label {
@@ -59,10 +59,9 @@
 }
 
 .greyed {
-  
   .status__icon {
     background-color: grey;
-   }
+  }
 
   .status__label {
     color: grey;
