@@ -61,7 +61,7 @@ const headCells = [
   {
     id: 'plan.status_id',
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: 'Status Code',
     sortable: true,
   },
@@ -72,7 +72,7 @@ const headCells = [
     label: 'Status',
   },
   { id: 'actions', disablePadding: true },
-  { id: 'extension', label: 'Extension Requests', disablePadding: true },
+  { id: 'extension', label: 'Extension Requests', disablePadding: false },
 ];
 
 function EnhancedTableHead(props) {
@@ -228,7 +228,7 @@ export default function SortableAgreementTable({
                     key={`agreement_skeleton_${i}`}
                     className={classes.skeletonRowContainer}
                   >
-                    <TableCell colSpan={6}>
+                    <TableCell colSpan={10}>
                       <Skeleton
                         variant="text"
                         className={classes.skeletonRow}
@@ -256,13 +256,13 @@ export default function SortableAgreementTable({
                 })}
               {agreements.length > 0 && emptyRows > 0 && (
                 <TableRow style={{ height: 66.4 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={10} />
                 </TableRow>
               )}
 
               {agreements.length === 0 && !loading && (
                 <TableRow>
-                  <TableCell align="center" colSpan={6}>
+                  <TableCell align="center" colSpan={10}>
                     <Typography color="textSecondary">
                       No matching agreements
                     </Typography>

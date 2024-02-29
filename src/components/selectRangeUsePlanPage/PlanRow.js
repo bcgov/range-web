@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Tooltip } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -7,71 +7,27 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import ViewIcon from '@material-ui/icons/Visibility';
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import * as API from '../../constants/api';
+import { Link } from 'react-router-dom';
 import { PLAN } from '../../constants/fields';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import * as strings from '../../constants/strings';
 import {
-  axios,
   canUserEditThisPlan,
   doesStaffOwnPlan,
   formatDateFromServer,
-  getAuthHeaderConfig,
-  isUserAgreementHolder,
-  isUserStaff,
 } from '../../utils';
-import { PrimaryButton, Status } from '../common';
+import { Status } from '../common';
 import { canUserEdit } from '../common/PermissionsField';
 import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown';
 import NewPlanButton from './NewPlanButton';
 import { useStyles } from './SortableAgreementTable';
-import { ThumbDown, ThumbUp } from '@material-ui/icons';
+import ExtensionColumn from './ExtensionColumn';
 
 function PlanRow({ agreement, location, user, currentPage }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const canEdit = canUserEditThisPlan({ ...agreement.plan }, user);
-  const history = useHistory();
-  const [loading, setLoading] = useState(false);
-  const [voting, setVoting] = useState(false);
-  const extendPlan = async (planId) => {
-    setLoading(true);
-    const response = await axios.put(
-      API.EXTEND_PLAN(planId),
-      {},
-      getAuthHeaderConfig(),
-    );
-    setLoading(false);
-    history.push({
-      pathname: `/range-use-plan/${response.data.newPlanId}`,
-      state: {
-        page: currentPage,
-        prevSearch: location.search,
-      },
-    });
-  };
 
-  const handleApprove = async (planId) => {
-    setVoting(true);
-    await axios.put(
-      API.APPROVE_PLAN_EXTENSION(planId),
-      {},
-      getAuthHeaderConfig(),
-    );
-    agreement.plan.requestedExtension = true;
-    setVoting(false);
-  };
-  const handleReject = async (planId) => {
-    setVoting(true);
-    await axios.put(
-      API.REJECT_PLAN_EXTENSION(planId),
-      {},
-      getAuthHeaderConfig(),
-    );
-    agreement.plan.requestedExtension = false;
-    setVoting(false);
-  };
   return (
     <>
       <TableRow
@@ -157,49 +113,12 @@ function PlanRow({ agreement, location, user, currentPage }) {
           )}
         </TableCell>
         <TableCell>
-          {isUserStaff(user) &&
-          doesStaffOwnPlan({ ...agreement.plan, agreement }, user) &&
-          agreement.plan?.extensionStatus === 1 ? (
-            agreement.plan?.extensionReceivedVotes ===
-            agreement.plan?.extensionRequiredVotes ? (
-              <PrimaryButton
-                loading={loading}
-                onClick={() => extendPlan(agreement.plan.id)}
-              >
-                Extend Plan
-              </PrimaryButton>
-            ) : (
-              <div>
-                {agreement.plan?.extensionReceivedVotes}/
-                {agreement.plan?.extensionRequiredVotes}
-              </div>
-            )
-          ) : isUserAgreementHolder(user) &&
-            agreement.plan?.extensionStatus === 1 ? (
-            agreement.plan?.requestedExtension === null ? (
-              voting === true ? (
-                <CircularProgress />
-              ) : (
-                <>
-                  <Tooltip title="approve">
-                    <IconButton
-                      onClick={() => handleApprove(agreement.plan.id)}
-                    >
-                      <ThumbUp />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="reject">
-                    <IconButton onClick={() => handleReject(agreement.plan.id)}>
-                      <ThumbDown />
-                    </IconButton>
-                  </Tooltip>
-                </>
-              )
-            ) : agreement.plan?.requestedExtension === true ? (
-              <>Requested</>
-            ) : (
-              <>Rejected</>
-            )
+          {agreement.plan?.extensionStatus ? (
+            <ExtensionColumn
+              user={user}
+              currentPage={currentPage}
+              agreement={agreement}
+            />
           ) : (
             <div>-</div>
           )}
