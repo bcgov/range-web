@@ -5,7 +5,12 @@ module.exports = {
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
     'react/prop-types': 0,
   },
-  extends: ['eslint:recommended', 'prettier', 'plugin:import/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'prettier',
+    'plugin:import/recommended',
+  ],
   settings: {
     react: {
       version: packageConfig.dependencies.react,
