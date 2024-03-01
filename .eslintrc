@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "plugin:import/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  }
+}
