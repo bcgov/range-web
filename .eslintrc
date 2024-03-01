@@ -5,8 +5,10 @@
     "prettier",
     "plugin:import/recommended"
   ],
+  "parser": "@babel/eslint-parser",  
   "parserOptions": {
-    "ecmaVersion": 2020
+    "ecmaVersion": 6,
+    "requireConfigFile": false
   },
   "env": {
 		"browser": true,

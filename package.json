@@ -200,6 +200,7 @@
     "resetMocks": true
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.23.10",
     "@storybook/addon-actions": "^5.3.21",
     "@storybook/addon-knobs": "^5.3.21",
     "@storybook/addon-links": "^5.3.21",
