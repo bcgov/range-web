@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon, Modal } from 'semantic-ui-react';
-import { Form } from 'semantic-ui-react';
+import { Button, Icon, Modal, Form } from 'semantic-ui-react';
 import { Formik, Field } from 'formik';
 
 const InputModal = ({

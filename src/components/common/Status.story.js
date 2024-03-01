@@ -1,8 +1,7 @@
 import React from 'react';
 
 import Status from './Status';
-import { PLAN_STATUS } from '../../constants/variables';
-import { USER_ROLE } from '../../constants/variables';
+import { PLAN_STATUS, USER_ROLE } from '../../constants/variables';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, select } from '@storybook/addon-knobs';

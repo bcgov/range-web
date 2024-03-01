@@ -48,7 +48,7 @@ const createRUPGrazingScheduleAndEntries =
     dispatch(request(reducerTypes.CREATE_GRAZING_SCHEDULE_AND_ENTRIES));
     const makeRequest = async () => {
       try {
-        const { id, ...grazingSchedule } = schedule;
+        const { ...grazingSchedule } = schedule;
         const { data } = await axios.post(
           API.CREATE_RUP_GRAZING_SCHEDULE(planId),
           { ...grazingSchedule, plan_id: planId },

@@ -35,7 +35,6 @@ import {
 } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import {
-  LINK_CLIENT_SUCCESS,
   ASSIGN_STAFF_TO_ZONE_SUCCESS,
   UPDATE_USER_PROFILE_SUCCESS,
 } from '../constants/strings';

@@ -4,7 +4,6 @@ import { HOME } from '../constants/routes';
 import { IMAGE_SRC } from '../constants/variables';
 import { PAGE_NOT_FOUND_TITLE, APP_NAME } from '../constants/strings';
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
 class PageNotFound extends Component {
   state = {
     redirectToHome: false,

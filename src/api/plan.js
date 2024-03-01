@@ -92,7 +92,7 @@ export const savePlan = async (plan, user = {}) => {
   let planId = plan.id;
 
   if (uuid.isUUID(planId)) {
-    const { id, ...planData } = plan;
+    const { ...planData } = plan;
     const { data } = await axios.post(API.CREATE_RUP, planData, config);
     removePlanFromLocalStorage(planId);
     planId = data.id;

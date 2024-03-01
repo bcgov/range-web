@@ -4,9 +4,8 @@ import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { TextArea } from 'formik-semantic-ui';
+import { TextArea, Dropdown as FormikDropdown } from 'formik-semantic-ui';
 import { Dropdown, Icon } from 'semantic-ui-react';
-import { Dropdown as FormikDropdown } from 'formik-semantic-ui';
 
 const ManagementConsiderationRow = ({
   namespace,

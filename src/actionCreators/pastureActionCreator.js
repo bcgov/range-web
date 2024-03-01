@@ -1,9 +1,14 @@
 import * as API from '../constants/api';
 import { axios, createConfigWithHeader } from '../utils';
-import { request, success, error } from '../actions';
+import {
+  request,
+  success,
+  error,
+  pastureUpdated,
+  pastureSubmitted,
+} from '../actions';
 import { toastErrorMessage } from './toastActionCreator';
 import { CREATE_PASTURE, UPDATE_PASTURE } from '../constants/reducerTypes';
-import { pastureUpdated, pastureSubmitted } from '../actions';
 
 export const createRUPPasture = (planId, pasture) => (dispatch, getState) => {
   dispatch(request(CREATE_PASTURE));
@@ -64,7 +69,7 @@ export const createOrUpdateRUPPasture = (planId, pasture) => (dispatch) => {
 
 export const createRUPPlantCommunityAction =
   (planId, pastureId, communityId, action) => (dispatch, getState) => {
-    const { id, plantCommunityId, ...data } = action;
+    const { ...data } = action;
 
     return axios
       .post(
@@ -84,7 +89,7 @@ export const createRUPPlantCommunityAction =
 
 export const createRUPIndicatorPlant =
   (planId, pastureId, communityId, plant) => (dispatch, getState) => {
-    const { id, plantCommunityId, ...data } = plant;
+    const { ...data } = plant;
 
     return axios
       .post(
@@ -104,7 +109,7 @@ export const createRUPIndicatorPlant =
 
 export const createRUPMonitoringArea =
   (planId, pastureId, communityId, area) => (dispatch, getState) => {
-    const { id, plantCommunityId, purposes, ...data } = area;
+    const { ...data } = area;
 
     return axios
       .post(
@@ -125,7 +130,7 @@ export const createRUPMonitoringArea =
 export const createRUPPlantCommunityAndOthers =
   (planId, pastureId, community) => (dispatch, getState) => {
     const makeRequest = async () => {
-      const { id, pastureId: pId, ...data } = community;
+      const { id, ...data } = community;
       let plantCommunity = community;
 
       if (!Number(id)) {

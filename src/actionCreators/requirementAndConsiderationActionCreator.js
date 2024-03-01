@@ -10,7 +10,7 @@ import { success, request, error } from '../actions';
 import { DELETE_MANAGEMENT_CONSIDERATION } from '../constants/reducerTypes';
 
 export const createRUPAdditionalRequirement =
-  (planId, { id, ...requirement }) =>
+  (planId, { ...requirement }) =>
   (dispatch, getState) => {
     return axios
       .post(
@@ -29,7 +29,7 @@ export const createRUPAdditionalRequirement =
   };
 
 export const createRUPManagementConsideration =
-  (planId, { id, ...consideration }) =>
+  (planId, { ...consideration }) =>
   (dispatch, getState) => {
     return axios
       .post(

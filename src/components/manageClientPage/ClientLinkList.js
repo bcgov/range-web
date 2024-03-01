@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import {
   CircularProgress,
@@ -27,7 +27,6 @@ import { useToast } from '../../providers/ToastProvider';
 import ClientDropdown from './ClientDropdown';
 import { deleteClientLink, createClientLink } from '../../api';
 import { green } from '@material-ui/core/colors';
-import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   buttonProgress: {

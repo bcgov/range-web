@@ -15,7 +15,7 @@ export const saveGrazingSchedules = (planId, grazingSchedules, newPastures) => {
         pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
       }),
     );
-    const { id, ...grazingSchedule } = schedule;
+    const { ...grazingSchedule } = schedule;
 
     if (uuid.isUUID(schedule.id)) {
       const { data } = await axios.post(
@@ -56,7 +56,7 @@ export const saveInvasivePlantChecklist = async (
 
     return invasivePlantChecklist;
   } else {
-    const { id, ...values } = invasivePlantChecklist;
+    const { ...values } = invasivePlantChecklist;
     const { data } = await axios.post(
       API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
       values,
@@ -73,7 +73,7 @@ export const saveInvasivePlantChecklist = async (
 export const saveAttachments = async (planId, attachments) => {
   return sequentialAsyncMap(attachments, async (attachment) => {
     if (uuid.isUUID(attachment.id)) {
-      const { id, ...values } = attachment;
+      const { ...values } = attachment;
       const { data } = await axios.post(
         API.CREATE_RUP_ATTACHMENT(planId),
         values,
@@ -102,7 +102,7 @@ export const saveManagementConsiderations = (
 ) => {
   return sequentialAsyncMap(managementConsiderations, async (consideration) => {
     if (uuid.isUUID(consideration.id)) {
-      const { id, ...values } = consideration;
+      const { ...values } = consideration;
       const { data } = await axios.post(
         API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
         values,
@@ -128,7 +128,7 @@ export const saveManagementConsiderations = (
 export const saveAdditionalRequirements = (planId, additionalRequirements) => {
   return sequentialAsyncMap(additionalRequirements, async (requirement) => {
     if (uuid.isUUID(requirement.id)) {
-      const { id, ...values } = requirement;
+      const { ...values } = requirement;
       const { data } = await axios.post(
         API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
         values,
@@ -161,7 +161,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
   );
 
   return sequentialAsyncMap(ministerIssues, async (issue) => {
-    const { id, ...issueBody } = issue;
+    const { ...issueBody } = issue;
 
     if (uuid.isUUID(issue.id)) {
       const { data: newIssue } = await axios.post(
@@ -210,7 +210,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
 
 const saveMinisterIssueActions = (planId, issueId, actions) => {
   return sequentialAsyncMap(actions, async (action) => {
-    const { id, ...actionBody } = action;
+    const { ...actionBody } = action;
     if (uuid.isUUID(action.id)) {
       const { data } = await axios.post(
         API.CREATE_RUP_MINISTER_ISSUE_ACTION(planId, issueId),
@@ -246,7 +246,7 @@ export const savePastures = async (planId, pastures) => {
 
       return { ...pasture, oldId: pasture.id };
     } else {
-      const { id, ...values } = pasture;
+      const { ...values } = pasture;
       const { data } = await axios.post(
         API.CREATE_RUP_PASTURE(planId),
         values,

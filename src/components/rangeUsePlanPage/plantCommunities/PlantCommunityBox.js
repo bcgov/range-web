@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CollapsibleBox } from '../../common';
+import { CollapsibleBox, InfoTip, InputModal } from '../../common';
 import uuid from 'uuid-v4';
 import {
   IMAGE_SRC,
@@ -9,7 +9,7 @@ import {
   PLANT_CRITERIA,
 } from '../../../constants/variables';
 import { CRITERIA_TIP } from '../../../constants/strings';
-import { Icon, Form } from 'semantic-ui-react';
+import { Icon, Form, Dropdown as PlainDropdown } from 'semantic-ui-react';
 import RangeReadinessBox from './criteria/RangeReadinessBox';
 import StubbleHeightBox from './criteria/StubbleHeightBox';
 import ShrubUseBox from './criteria/ShrubUseBox';
@@ -19,11 +19,9 @@ import PlantCommunityActionsBox from './PlantCommunityActionsBox';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { PLANT_COMMUNITY } from '../../../constants/fields';
 import { connect, getIn } from 'formik';
-import { Dropdown as PlainDropdown } from 'semantic-ui-react';
 import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import Import from './criteria/Import';
-import { InfoTip, InputModal } from '../../common';
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 
 const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }];
