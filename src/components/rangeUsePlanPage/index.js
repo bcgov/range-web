@@ -46,15 +46,7 @@ import { RANGE_USE_PLAN } from '../../constants/routes';
 import { getIn } from 'formik';
 import { useCurrentPlan } from '../../providers/PlanProvider';
 
-const Base = ({
-  user,
-  plansMap,
-  history,
-  fetchRUP,
-  match,
-  location,
-  ...props
-}) => {
+const Base = ({ user, history, match, location, ...props }) => {
   const {
     setCurrentPlanId,
     currentPlan,

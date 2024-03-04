@@ -19,7 +19,7 @@ import { useUser } from '../../providers/UserProvider';
 
 import SortableAgreementTable from './SortableAgreementTable';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   searchFilterContainer: {
     display: 'flex',
     flexDirection: 'row',

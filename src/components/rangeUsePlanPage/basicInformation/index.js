@@ -21,7 +21,6 @@ import moment from 'moment';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { isUUID } from 'uuid-v4';
-import { useUser } from '../../../providers/UserProvider';
 //import ManualConfirmation from './ManualConfirmation'
 
 const getAgentForClient = (client, clientAgreements) => {
@@ -32,13 +31,7 @@ const getAgentForClient = (client, clientAgreements) => {
   return clientAgreement?.agent;
 };
 
-const BasicInformation = ({
-  plan,
-  fetchPlan,
-  toastSuccessMessage,
-  toastErrormessage,
-  agreement,
-}) => {
+const BasicInformation = ({ plan, agreement }) => {
   const zone = agreement && agreement.zone;
   const zoneCode = zone && zone.code;
   const district = zone && zone.district;
@@ -50,7 +43,6 @@ const BasicInformation = ({
   const contactName = getUserFullName(staff);
 
   const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE];
-  const amendmentTypes = useReferences()[REFERENCE_KEY.AMENDMENT_TYPE];
 
   const { rangeName, altBusinessName, planStartDate, planEndDate, extension } =
     plan || {};
@@ -77,8 +69,6 @@ const BasicInformation = ({
   const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder);
 
   const isFutureDatedPlan = plan.planEndDate > plan.agreement.agreementEndDate;
-  const { confirmations } = plan;
-  const user = useUser();
 
   return (
     <div className="rup__basic_information">

@@ -52,5 +52,5 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
 AddMinisterIssueButton.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
-
+MinisterIssuePicker.displayName = 'MinisterIssuePicker';
 export default AddMinisterIssueButton;

@@ -7,7 +7,7 @@ import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
 import { Grid, Icon } from 'semantic-ui-react';
 import { Typography, TextField, makeStyles } from '@material-ui/core';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +49,6 @@ const fetcher = (key) =>
 
 const ManageAgentsPage = ({ match }) => {
   const classes = useStyles();
-  const history = useHistory();
   const [clientAgreements, setClientAgreements] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);

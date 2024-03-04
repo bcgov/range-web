@@ -7,8 +7,6 @@ import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
 import AHConfirmationList from './AHConfirmationList';
 
-/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
-
 class ConfirmChoiceTab extends Component {
   static propTypes = {
     user: PropTypes.shape({}).isRequired,

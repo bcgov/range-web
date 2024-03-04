@@ -240,10 +240,6 @@ class UpdateStatusDropdown extends Component {
       text: 'Stands - Requires Review',
       onClick: this.openStandsReviewConfirmModal,
     };
-    const noOption = {
-      key: 'noOption',
-      text: 'No plan actions available at this time',
-    };
     const warningDivider = {
       key: 'warningDivider',
       text: 'WARNING: Below entries are manual overrides.',

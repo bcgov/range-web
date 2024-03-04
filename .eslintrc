@@ -5,7 +5,7 @@
     "prettier",
     "plugin:import/recommended"
   ],
-  "parser": "@babel/eslint-parser",  
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 6,
     "requireConfigFile": false

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid-v4';
 import { Icon, Confirm } from 'semantic-ui-react';
 import { PrimaryButton } from '../../common';

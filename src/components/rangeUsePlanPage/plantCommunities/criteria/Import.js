@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, getIn } from 'formik';
 import ListModal from '../../../common/ListModal';

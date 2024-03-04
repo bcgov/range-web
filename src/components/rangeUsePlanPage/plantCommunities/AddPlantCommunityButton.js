@@ -29,9 +29,7 @@ const PlantCommunityPicker = React.memo(
         return setModalOpen(true);
       }
 
-      const { name, ...plantCommunity } = types.find(
-        (t) => t.id === communityTypeId,
-      );
+      const { ...plantCommunity } = types.find((t) => t.id === communityTypeId);
 
       onSubmit(plantCommunity);
     };
@@ -78,5 +76,5 @@ const PlantCommunityPicker = React.memo(
 AddPlantCommunityButton.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
-
+PlantCommunityPicker.displayName = 'PlantCommunityPicker';
 export default AddPlantCommunityButton;

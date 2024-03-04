@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { moveDecimalsRight } from '../common/form/PercentField';
-import { yupToFormErrors } from 'formik';
 
 const handleNull =
   (defaultValue = '') =>

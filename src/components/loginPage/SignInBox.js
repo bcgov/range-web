@@ -49,13 +49,7 @@ export class SignInBox extends Component {
   }
 
   storageEventListener = (event) => {
-    const {
-      storeAuthData,
-      fetchUser,
-      resetTimeoutForReAuth,
-      reauthenticate,
-      openPiaModal,
-    } = this.props;
+    const { storeAuthData, fetchUser, openPiaModal } = this.props;
     if (JSON.parse(event.newValue)?.access_token) {
       const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
       if (authData) {

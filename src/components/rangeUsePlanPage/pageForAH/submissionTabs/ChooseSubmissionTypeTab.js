@@ -6,8 +6,6 @@ import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
 
-/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
-
 class ChooseSubmissionTypeTab extends Component {
   static propTypes = {
     currTabId: PropTypes.string.isRequired,

@@ -205,7 +205,7 @@ export default function SortableAgreementTable({
 
   return (
     <div className={classes.root}>
-      <div className={classes.paper} variant="outlined">
+      <div className={classes.paper}>
         <TableContainer>
           <Table
             className={classes.table}

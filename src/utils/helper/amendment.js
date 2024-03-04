@@ -10,7 +10,7 @@ export const copyPlantCommunitiesToCreateAmendment = (
   );
 
   return plantCommunities.map((pc) => {
-    const { id, pastureId: oldPastureId, ...plantCommunity } = pc;
+    const { pastureId: oldPastureId, ...plantCommunity } = pc;
     // get the newly created pasture id
     const pastureId = newPastureIdsMap[oldPastureId];
 
@@ -46,7 +46,7 @@ export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
   let plantCommunities = [];
 
   const pastures = plan.pastures.map((p) => {
-    const { id: oldId, planId, ...pasture } = pasturesMap[p.id] || {};
+    const { id: oldId, ...pasture } = pasturesMap[p.id] || {};
 
     const { plantCommunities: pcs } = pasture;
     if (pcs && pcs.length) {
@@ -80,10 +80,10 @@ export const copyGrazingSchedulesToCreateAmendment = (
   newPastureIdsMap,
 ) => {
   return plan.grazingSchedules.map((gs) => {
-    const { id, planId, grazingScheduleEntries, ...grazingSchedule } =
+    const { grazingScheduleEntries, ...grazingSchedule } =
       grazingSchedulesMap[gs.id];
     const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
-      const { id, pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse;
+      const { pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse;
       // replace the original pastureId with the newly created pastureId
       const pastureId = newPastureIdsMap[oldPastureId];
       return { ...newGrazingScheduleEntry, pastureId };
@@ -102,12 +102,8 @@ export const copyMinisterIssuesToCreateAmendment = (
   newPastureIdsMap,
 ) => {
   return plan.ministerIssues.map((mi) => {
-    const {
-      id,
-      planId,
-      pastures: oldPastureIds,
-      ...ministerIssue
-    } = ministerIssuesMap[mi.id];
+    const { pastures: oldPastureIds, ...ministerIssue } =
+      ministerIssuesMap[mi.id];
     // replace the pasture ids with the newly created pasture ids
     const pastures = oldPastureIds.map((opId) => newPastureIdsMap[opId]);
     return { ...ministerIssue, pastures };
@@ -117,7 +113,7 @@ export const copyMinisterIssuesToCreateAmendment = (
 export const copyInvasivePlantChecklistToCreateAmendment = (plan) => {
   if (!plan || !plan.invasivePlantChecklist) return null;
 
-  const { id, planId, ...invasivePlantChecklist } = plan.invasivePlantChecklist;
+  const { ...invasivePlantChecklist } = plan.invasivePlantChecklist;
   return invasivePlantChecklist;
 };
 
@@ -126,8 +122,7 @@ export const copyManagementConsiderationsToCreateAmendment = (
   managementConsiderationsMap,
 ) => {
   return plan.managementConsiderations.map((mc) => {
-    const { id, planId, considerationType, ...managementConsideration } =
-      managementConsiderationsMap[mc.id];
+    const { ...managementConsideration } = managementConsiderationsMap[mc.id];
 
     return managementConsideration;
   });
@@ -138,8 +133,7 @@ export const copyAdditionalRequirementsToCreateAmendment = (
   additionalRequirementsMap,
 ) => {
   return plan.additionalRequirements.map((ar) => {
-    const { id, planId, category, ...additionalRequirement } =
-      additionalRequirementsMap[ar.id];
+    const { ...additionalRequirement } = additionalRequirementsMap[ar.id];
 
     return additionalRequirement;
   });
