@@ -8,6 +8,7 @@ import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
 import {
   canManageClients,
+  canManageEmails,
   signOutFromSSOAndSiteMinder
 } from '../../utils'
 import { signOut } from '../../actionCreators'

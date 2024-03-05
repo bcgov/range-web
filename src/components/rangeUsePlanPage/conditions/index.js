@@ -7,7 +7,7 @@ import PermissionsField from '../../common/PermissionsField';
 import { TextArea } from 'formik-semantic-ui';
 import { useUser } from '../../../providers/UserProvider';
 import EditableProvider from '../../../providers/EditableProvider';
-import { isStatusSubmittedForFD } from '../../../utils';
+import { isStatusSubmittedForFD, isUserAgreementHolder } from '../../../utils';
 
 const Conditions = ({ plan }) => {
   const user = useUser();
