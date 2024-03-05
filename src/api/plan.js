@@ -3,6 +3,7 @@ import {
   axios,
   getAuthHeaderConfig,
   findStatusWithCode,
+<<<<<<< Updated upstream
   isUserRangeOfficer,
   canUserAddAttachments,
 } from '../utils';
@@ -10,6 +11,15 @@ import * as API from '../constants/api';
 import RUPSchema from '../components/rangeUsePlanPage/schema';
 import { getNetworkStatus } from '../utils/helper/network';
 import { deleteFromQueue } from './delete';
+=======
+  isUserAgrologist,
+  canUserAddAttachments
+} from '../utils'
+import * as API from '../constants/api'
+import RUPSchema from '../components/rangeUsePlanPage/schema'
+import { getNetworkStatus } from '../utils/helper/network'
+import { deleteFromQueue } from './delete'
+>>>>>>> Stashed changes
 import {
   saveGrazingSchedules,
   saveInvasivePlantChecklist,
@@ -109,6 +119,7 @@ export const savePlan = async (plan, user = {}) => {
     }),
   );
 
+<<<<<<< Updated upstream
   await saveGrazingSchedules(planId, grazingSchedules, newPastures);
   await saveInvasivePlantChecklist(planId, invasivePlantChecklist);
   await saveManagementConsiderations(planId, managementConsiderations);
@@ -116,6 +127,15 @@ export const savePlan = async (plan, user = {}) => {
   await saveAdditionalRequirements(planId, additionalRequirements);
   if (isUserRangeOfficer(user) && canUserAddAttachments(plan, user)) {
     await saveAttachments(planId, files);
+=======
+  await saveGrazingSchedules(planId, grazingSchedules, newPastures)
+  await saveInvasivePlantChecklist(planId, invasivePlantChecklist)
+  await saveManagementConsiderations(planId, managementConsiderations)
+  await saveMinisterIssues(planId, ministerIssues, newPastures)
+  await saveAdditionalRequirements(planId, additionalRequirements)
+  if (isUserAgrologist(user) && canUserAddAttachments(plan, user)) {
+    await saveAttachments(planId, files)
+>>>>>>> Stashed changes
   }
 
   return planId;

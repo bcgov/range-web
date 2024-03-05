@@ -45,20 +45,28 @@ export const getUserInitial = (user) => {
 
 export const isUserActive = (user) => user && user.active;
 
-export const isUserAdmin = (user) =>
-  user && user.roles && user.roles.indexOf(USER_ROLE.ADMINISTRATOR) >= 0;
+export const isUserAdmin = user =>
+  user && user.roleId && user.roleId === 1;
 
-export const isUserRangeOfficer = (user) =>
-  user && user.roles && user.roles.indexOf(USER_ROLE.RANGE_OFFICER) >= 0;
+export const isUserReadOnly = user =>
+  user && user.roleId && user.roleId === 5;
 
-export const isUserStaff = (user) =>
-  isUserAdmin(user) || isUserRangeOfficer(user);
+export const isUserAgrologist = user =>
+  user && user.roleId && user.roleId === 3;
 
-export const isUserAgreementHolder = (user) =>
-  user && user.roles && user.roles.indexOf(USER_ROLE.AGREEMENT_HOLDER) >= 0;
+export const isUserStaff = user => isUserAdmin(user) || isUserAgrologist(user)
 
-export const isUserDecisionMaker = (user) =>
-  user && user.roles && user.roles.indexOf(USER_ROLE.DECISION_MAKER) >= 0;
+export const isUserAgreementHolder = user =>
+user && user.roleId && user.roleId === 4;
 
-export const DoesUserHaveRole = (user) =>
-  isUserAdmin(user) || isUserRangeOfficer(user) || isUserAgreementHolder(user);
+export const isUserDecisionMaker = user =>
+user && user.roleId && user.roleId === 2;
+
+export const DoesUserHaveRole = user =>
+  isUserAdmin(user) || isUserAgrologist(user) || isUserAgreementHolder(user)
+
+export const canManageClients = user =>
+  user && user.permissions && user.permissions.find(p => p.id === 8);
+
+export const canManageEmails = user =>
+  user && user.permissions && user.permissions.find(p => p.id === 9);

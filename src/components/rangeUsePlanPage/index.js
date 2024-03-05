@@ -16,7 +16,7 @@ import {
 import {
   isUserAgreementHolder,
   isUserAdmin,
-  isUserRangeOfficer,
+  isUserAgrologist,
   getFirstFormikError,
   isUserDecisionMaker,
 } from '../../utils';
@@ -245,7 +245,7 @@ const Base = ({ user, history, match, location, ...props }) => {
               <OnSubmitValidationError callback={handleValidationError} />
 
               {(isUserAdmin(user) ||
-                isUserRangeOfficer(user) ||
+                isUserAgrologist(user) ||
                 isUserDecisionMaker(user)) && (
                 <PageForStaff
                   references={references}

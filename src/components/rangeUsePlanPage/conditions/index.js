@@ -48,7 +48,7 @@ const Conditions = ({ plan }) => {
             fast
           />
         </div>
-        {!user.roles.includes('myra_client') && (
+        {!isUserAgreementHolder(user) && (
           <div className="rup__cell-6" style={{ marginBottom: 40 }}>
             <div className="rup__info-title" style={{ width: 500 }}>
               <div className="rup__popup-header">

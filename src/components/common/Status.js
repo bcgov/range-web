@@ -5,9 +5,9 @@ import { PLAN_STATUS } from '../../constants/variables';
 import { NO_PLAN } from '../../constants/strings';
 import {
   isUserAgreementHolder,
-  isUserRangeOfficer,
-  isUserDecisionMaker,
-} from '../../utils';
+  isUserAgrologist,
+  isUserDecisionMaker
+} from '../../utils'
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -85,9 +85,9 @@ const translateStatusBasedOnUser = (
       modifier += '--green';
       break;
     case PLAN_STATUS.STANDS_REVIEW:
-      if (isUserRangeOfficer(user)) {
-        statusName = 'Review Amendment';
-        modifier += '--orange';
+      if (isUserAgrologist(user)) {
+        statusName = 'Review Amendment'
+        modifier += '--orange'
       } else {
         statusName = 'Stands';
         modifier += '--green';
@@ -113,18 +113,18 @@ const translateStatusBasedOnUser = (
       break;
 
     case PLAN_STATUS.SUBMITTED_FOR_REVIEW:
-      if (isUserRangeOfficer(user)) {
-        statusName = 'Provide Feedback';
-        modifier += '--orange';
+      if (isUserAgrologist(user)) {
+        statusName = 'Provide Feedback'
+        modifier += '--orange'
       } else {
         statusName = 'Awaiting Feedback';
         modifier += '--gray';
       }
       break;
     case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
-      if (isUserRangeOfficer(user)) {
-        statusName = 'Decision Required';
-        modifier += '--orange';
+      if (isUserAgrologist(user)) {
+        statusName = 'Decision Required'
+        modifier += '--orange'
       } else {
         statusName = 'Awaiting Decision';
         modifier += '--gray';
@@ -189,13 +189,13 @@ const translateStatusBasedOnUser = (
       modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.MANDATORY_AMENDMENT_STAFF:
-      statusName = 'Mandatory Amendment Created';
-      modifier += isUserRangeOfficer(user) ? '--orange' : '--gray';
-      break;
+      statusName = 'Mandatory Amendment Created'
+      modifier += isUserAgrologist(user) ? '--orange' : '--gray'
+      break
     case PLAN_STATUS.SUBMITTED_AS_MANDATORY:
-      statusName = 'Submitted as Mandatory';
-      modifier += isUserRangeOfficer(user) ? '--orange' : '--gray';
-      break;
+      statusName = 'Submitted as Mandatory'
+      modifier += isUserAgrologist(user) ? '--orange' : '--gray'
+      break
     default:
       modifier += '--not-provided';
       break;
