@@ -18,7 +18,7 @@ import {
 } from './fields';
 
 const permissions = {
-  myra_range_officer: [
+  3: [ // Staff Agrologist
     BASIC_INFORMATION.RANGE_NAME,
     BASIC_INFORMATION.ALTERNATE_BUSINESS_NAME,
     BASIC_INFORMATION.PLAN_START_DATE,
@@ -95,7 +95,7 @@ const permissions = {
     ATTACHMENTS.ADD,
     CONDITIONS.PROPOSED_CONDITIONS,
   ],
-  myra_client: [
+  4: [ // Range Agreement Holder
     SCHEDULE.PASTURE,
     SCHEDULE.TYPE,
     SCHEDULE.ANIMALS,
@@ -115,8 +115,9 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.DELETE,
     MANAGEMENT_CONSIDERATIONS.ADD,
   ],
-  myra_admin: [],
-  myra_decision_maker: [CONDITIONS.CONDITIONS],
+  1: [], // Admin
+  5: [], // External Auditor (read only)
+  2: [CONDITIONS.CONDITIONS], // Decision Maker
 };
 
 export default permissions;
