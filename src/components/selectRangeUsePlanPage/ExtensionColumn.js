@@ -15,6 +15,8 @@ import {
 import { useHistory } from 'react-router-dom';
 import * as API from '../../constants/api';
 import DatePickerDialog from './DatePickerDialog';
+import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
+import { Button } from 'formik-semantic-ui';
 
 export default function ExtensionColumn({ user, currentPage, agreement }) {
   const history = useHistory();
@@ -38,7 +40,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
       getAuthHeaderConfig(),
     );
     if (response.status === 200) {
-      agreement.plan.extensionStatus = 3;
+      agreement.plan.extensionStatus = PLAN_EXTENSION_STATUS.AWAITING_EXTENSION;
     }
     setLoading(false);
   };
@@ -71,6 +73,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
     setVoting(false);
   };
+
   const handleReject = async (planId) => {
     setVoting(true);
     const response = await axios.put(
@@ -79,41 +82,57 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
       getAuthHeaderConfig(),
     );
     if (response.status === 200) {
+      agreement.plan.extensionStatus = response.data.extensionStatus;
       agreement.plan.requestedExtension = false;
     }
     setVoting(false);
   };
+
   const renderExtensionForDecisionMaker = (user, agreement) => {
     if (isUserDecisionMaker(user)) {
       switch (agreement.plan?.extensionStatus) {
-        case 1:
+        case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           return (
             <div>
               {agreement.plan?.extensionReceivedVotes}/
               {agreement.plan?.extensionRequiredVotes}
             </div>
           );
-        case 2:
+        case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
-        case 6:
+        case PLAN_EXTENSION_STATUS.STAFF_REJECTED:
           return <div>Staff Rejected</div>;
-        case 7:
+        case PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED:
           return <div>District Manager Rejected</div>;
-        case 3:
+        case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           if (
             agreement.plan?.extensionReceivedVotes ===
             agreement.plan?.extensionRequiredVotes
           ) {
             return (
-              <PrimaryButton
-                loading={loading}
-                onClick={() => {
-                  setFutureDate(getPlanFutureDate(agreement.plan?.planEndDate));
-                  setDialogOpen(true);
-                }}
-              >
-                Approve Extension
-              </PrimaryButton>
+              <>
+                <PrimaryButton
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => {
+                    setFutureDate(
+                      getPlanFutureDate(agreement.plan?.planEndDate),
+                    );
+                    setDialogOpen(true);
+                  }}
+                >
+                  Approve Extension
+                </PrimaryButton>
+                <Button
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => {
+                    handleReject(agreement.plan.id);
+                  }}
+                >
+                  Reject Extension
+                </Button>
+              </>
             );
           }
           return (
@@ -122,7 +141,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               {agreement.plan?.extensionRequiredVotes}
             </div>
           );
-        case 4:
+        case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
               Extended
@@ -133,29 +152,42 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               </div>
             </div>
           );
-        case 5:
+        case PLAN_EXTENSION_STATUS.IS_EXTENSION:
           return <div>Is Extension</div>;
         default:
           return <div>-</div>;
       }
     }
   };
+
   const renderExtensionForStaff = (user, agreement) => {
     if (isUserStaff(user)) {
       switch (agreement.plan?.extensionStatus) {
-        case 1:
+        case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
             doesStaffOwnPlan({ ...agreement.plan, agreement }, user) &&
             agreement.plan?.extensionReceivedVotes ===
               agreement.plan?.extensionRequiredVotes
           ) {
             return (
-              <PrimaryButton
-                loading={loading}
-                onClick={() => requestExtension(agreement.plan.id)}
-              >
-                Recommend Extension
-              </PrimaryButton>
+              <>
+                <PrimaryButton
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => requestExtension(agreement.plan.id)}
+                >
+                  Recommend Extension
+                </PrimaryButton>
+                <Button
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => {
+                    handleReject(agreement.plan.id);
+                  }}
+                >
+                  Reject Extension
+                </Button>
+              </>
             );
           }
           return (
@@ -164,15 +196,15 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               {agreement.plan?.extensionRequiredVotes}
             </div>
           );
-        case 2:
+        case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
-        case 6:
+        case PLAN_EXTENSION_STATUS.STAFF_REJECTED:
           return <div>Staff Rejected</div>;
-        case 7:
+        case PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED:
           return <div>District Manager Rejected</div>;
-        case 3:
+        case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           return <div>Awaiting Extension</div>;
-        case 4:
+        case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
               Extended
@@ -183,17 +215,18 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               </div>
             </div>
           );
-        case 5:
+        case PLAN_EXTENSION_STATUS.IS_EXTENSION:
           return <div>Is Extension</div>;
         default:
           return <div>-</div>;
       }
     }
   };
+
   const renderExtensionForAgreementHolder = (user, agreement) => {
     if (isUserAgreementHolder(user) && !isUserDecisionMaker(user)) {
       switch (agreement.plan?.extensionStatus) {
-        case 1:
+        case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (agreement.plan?.requestedExtension === null) {
             if (voting === true) return <CircularProgress />;
             return (
@@ -215,15 +248,15 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               return <>Requested</>;
             return <>Rejected</>;
           }
-        case 2:
+        case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
-        case 6:
+        case PLAN_EXTENSION_STATUS.STAFF_REJECTED:
           return <div>Staff Rejected</div>;
-        case 7:
+        case PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED:
           return <div>District Manager Rejected</div>;
-        case 3:
+        case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           return <div>Awaiting Extension</div>;
-        case 4:
+        case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
               Extended
@@ -234,13 +267,14 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               </div>
             </div>
           );
-        case 5:
+        case PLAN_EXTENSION_STATUS.IS_EXTENSION:
           return <div>Is Extension</div>;
         default:
           return <div>-</div>;
       }
     }
   };
+
   return (
     <>
       {renderExtensionForStaff(user, agreement)}
