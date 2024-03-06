@@ -17,6 +17,7 @@ import {
   isUserAgreementHolder,
   isUserAdmin,
   isUserAgrologist,
+  canReadAll,
   getFirstFormikError,
   isUserDecisionMaker,
 } from '../../utils';
@@ -246,7 +247,8 @@ const Base = ({ user, history, match, location, ...props }) => {
 
               {(isUserAdmin(user) ||
                 isUserAgrologist(user) ||
-                isUserDecisionMaker(user)) && (
+                isUserDecisionMaker(user)) ||
+                canReadAll(user) && (
                 <PageForStaff
                   references={references}
                   agreement={agreement}
