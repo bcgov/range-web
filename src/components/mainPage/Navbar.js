@@ -99,6 +99,16 @@ export class Navbar extends Component {
                   <div className="navbar__link__underline" />
                 </NavLink>
               )}
+              {canAssignRoles(user) && (
+                <NavLink
+                to={Routes.MANAGE_CLIENT}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                {MANAGE_CLIENTS}
+                <div className="navbar__link__underline" />
+              </NavLink>
+              )}
             </Fragment>
 
             <Dropdown

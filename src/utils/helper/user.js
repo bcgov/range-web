@@ -71,5 +71,8 @@ export const canManageClients = user =>
 export const canManageEmails = user =>
   user && user.permissions && user.permissions.find(p => p.id === 9);
 
+export const canAssignRoles = user =>
+  user && user.permissions && user.permissions.find(p => p.id === 11);
+
 export const canReadAll = user =>
   user && user.permissions && user.permissions.find(p => p.id === 1);
