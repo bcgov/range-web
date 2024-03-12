@@ -49,7 +49,7 @@ const GrazingScheduleBox = ({
 
   const getScheduleError = () => {
     if (schedule.grazingScheduleEntries.length === 0) {
-      if (user.roles.includes('myra_range_officer'))
+      if (isUserAgrologist(user))
         return {
           message: 'This schedule has no associated rows.',
           type: 'warning',
