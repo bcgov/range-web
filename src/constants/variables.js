@@ -125,11 +125,11 @@ export const DATE_FORMAT = {
 };
 
 export const USER_ROLE = {
-  ADMINISTRATOR: 'myra_admin',
-  RANGE_OFFICER: 'myra_range_officer',
-  AGREEMENT_HOLDER: 'myra_client',
-  DECISION_MAKER: 'myra_decision_maker',
-  READ_ONLY: 'myra_read_only'
+  1: 'Admin',
+  2: 'Staff Decision Maker',
+  3: 'Staff Agrologist',
+  4: 'Range Agreement Holder',
+  5: 'External Auditor'
 };
 
 export const PURPOSE_OF_ACTION = {

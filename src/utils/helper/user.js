@@ -19,6 +19,14 @@ export const getUserFullName = (user) => {
   return username;
 };
 
+export const getUserRole = (user) => {
+  const { roleId } = user || null;
+  if (roleId) {
+    return USER_ROLE[roleId];
+  }
+  return "No role in database yet";
+}
+
 export const getUserEmail = (user) => user && user.email;
 
 const getUserFamilyName = (user) =>

@@ -9,6 +9,7 @@ import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
 import {
   canManageClients,
   canManageEmails,
+  canAssignRoles,
   signOutFromSSOAndSiteMinder
 } from '../../utils'
 import { signOut } from '../../actionCreators'
@@ -17,6 +18,7 @@ import {
   MANAGE_CLIENTS,
   MERGE_ACCOUNT,
   EMAIL_TEMPLATE,
+  ASSIGN_ROLES
 } from '../../constants/strings';
 
 export class Navbar extends Component {
@@ -101,11 +103,11 @@ export class Navbar extends Component {
               )}
               {canAssignRoles(user) && (
                 <NavLink
-                to={Routes.MANAGE_CLIENT}
+                to={Routes.ASSIGN_ROLES}
                 className="navbar__link"
                 activeClassName="navbar__link--active"
               >
-                {MANAGE_CLIENTS}
+                {ASSIGN_ROLES}
                 <div className="navbar__link__underline" />
               </NavLink>
               )}

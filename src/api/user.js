@@ -23,3 +23,11 @@ export const mergeAccounts = async (sourceAccountIds, destinationAccountId) => {
     getAuthHeaderConfig(),
   );
 };
+
+export const assignRole = async (userId, roleId) => {
+  return axios.post(
+    API.ASSIGN_ROLE(userId),
+    { roleId: roleId },
+    getAuthHeaderConfig(),
+  )
+}

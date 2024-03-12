@@ -6,7 +6,6 @@ import {
   REQUIRE_NOTES_PLAN_STATUSES,
   NOT_DOWNLOADABLE_PLAN_STATUSES,
   REFERENCE_KEY,
-  USER_ROLE,
 } from '../../constants/variables';
 import { isAmendment } from './amendment';
 import {

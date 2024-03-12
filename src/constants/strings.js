@@ -13,6 +13,7 @@ export const SELECT_RUP = 'Select RUP';
 export const MANAGE_ZONES = 'Manage Zones';
 export const MANAGE_CLIENTS = 'Manage Clients';
 export const MERGE_ACCOUNT = 'Merge Accounts';
+export const ASSIGN_ROLES = 'Assign Roles';
 
 // Agreement Table
 export const RANGE_NUMBER = 'RAN';
@@ -274,6 +275,10 @@ export const MERGE_ACCOUNT_BANNER_CONTENT_LINE1 =
   'If an agreement holder has logged in to MyRange with multiple BCEIDS, it is advisable to merge these accounts into their most current BCEID user account.  This will make sure they see all the correct agreements on sign in, and all signatures will be marked as their own.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE2 =
   'Note that you can filter using the table below by hitting the 3 dots in each column, you may also select multiple FROM accounts in step 1, and one TO account in step 2.';
+export const ASSIGN_ROLES_BANNER_HEADER = 
+  'Assign Roles';
+export const ASSIGN_ROLES_BANNER_CONTENT = 
+  'Assign roles to user accounts';
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision';
