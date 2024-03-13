@@ -18,6 +18,7 @@ import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 import { useUser } from '../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
 import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
+import { isUserAgrologist } from '../../../utils';
 
 const GrazingScheduleBox = ({
   schedule,
