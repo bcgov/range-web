@@ -59,7 +59,7 @@ const BasicInformation = ({ plan, agreement }) => {
   let isLoadingClientAgreements = false;
   let errorFetchingClientAgreements = false;
   let response = null;
-  if (!isUUID(plan.id)) {
+  if (Number(plan.id)) {
     response = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), (key) =>
       axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
     );
