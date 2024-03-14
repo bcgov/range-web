@@ -55,13 +55,18 @@ const BasicInformation = ({ plan, agreement }) => {
     clients,
   } = agreement || {};
 
-  const {
-    data: clientAgreements,
-    isValidating: isLoadingClientAgreements,
-    error: errorFetchingClientAgreements,
-  } = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
-  );
+  let clientAgreements = null;
+  let isLoadingClientAgreements = false;
+  let errorFetchingClientAgreements = false;
+  let response = null;
+  if (!isUUID(plan.id)) {
+    response = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), (key) =>
+      axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+    );
+    clientAgreements = response.data;
+    isLoadingClientAgreements = response.isValidating;
+    errorFetchingClientAgreements = response.error;
+  }
 
   const exemptionStatusName = aes && aes.description;
   const { primaryAgreementHolder, otherAgreementHolders } =

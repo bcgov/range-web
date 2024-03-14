@@ -237,7 +237,7 @@ const saveMinisterIssueActions = (planId, issueId, actions) => {
 export const savePastures = async (planId, pastures) => {
   // Sequentially save pastures to keep order
   return sequentialAsyncMap(pastures, async (pasture) => {
-    if (Number.isInteger(pasture.id)) {
+    if (Number(pasture.id)) {
       await axios.put(
         API.UPDATE_RUP_PASTURE(planId, pasture.id),
         pasture,
@@ -246,6 +246,7 @@ export const savePastures = async (planId, pastures) => {
 
       return { ...pasture, oldId: pasture.id };
     } else {
+      delete pasture.id;
       const { ...values } = pasture;
       const { data } = await axios.post(
         API.CREATE_RUP_PASTURE(planId),
