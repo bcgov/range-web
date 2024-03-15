@@ -1,3 +1,5 @@
+// TODO: need to enable eslint and check what is causing plan creation issues
+/* eslint-disable */
 import uuid from 'uuid-v4';
 import { axios, getAuthHeaderConfig, sequentialAsyncMap } from '../utils';
 import * as API from '../constants/api';
@@ -15,7 +17,7 @@ export const saveGrazingSchedules = (planId, grazingSchedules, newPastures) => {
         pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
       }),
     );
-    const { ...grazingSchedule } = schedule;
+    const { id, ...grazingSchedule } = schedule;
 
     if (uuid.isUUID(schedule.id)) {
       const { data } = await axios.post(
@@ -56,7 +58,7 @@ export const saveInvasivePlantChecklist = async (
 
     return invasivePlantChecklist;
   } else {
-    const { ...values } = invasivePlantChecklist;
+    const { id, ...values } = invasivePlantChecklist;
     const { data } = await axios.post(
       API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
       values,
@@ -73,7 +75,7 @@ export const saveInvasivePlantChecklist = async (
 export const saveAttachments = async (planId, attachments) => {
   return sequentialAsyncMap(attachments, async (attachment) => {
     if (uuid.isUUID(attachment.id)) {
-      const { ...values } = attachment;
+      const { id, ...values } = attachment;
       const { data } = await axios.post(
         API.CREATE_RUP_ATTACHMENT(planId),
         values,
@@ -102,7 +104,7 @@ export const saveManagementConsiderations = (
 ) => {
   return sequentialAsyncMap(managementConsiderations, async (consideration) => {
     if (uuid.isUUID(consideration.id)) {
-      const { ...values } = consideration;
+      const { id, ...values } = consideration;
       const { data } = await axios.post(
         API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
         values,
@@ -128,7 +130,7 @@ export const saveManagementConsiderations = (
 export const saveAdditionalRequirements = (planId, additionalRequirements) => {
   return sequentialAsyncMap(additionalRequirements, async (requirement) => {
     if (uuid.isUUID(requirement.id)) {
-      const { ...values } = requirement;
+      const { id, ...values } = requirement;
       const { data } = await axios.post(
         API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
         values,
@@ -161,7 +163,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
   );
 
   return sequentialAsyncMap(ministerIssues, async (issue) => {
-    const { ...issueBody } = issue;
+    const { id, ...issueBody } = issue;
 
     if (uuid.isUUID(issue.id)) {
       const { data: newIssue } = await axios.post(
@@ -210,7 +212,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
 
 const saveMinisterIssueActions = (planId, issueId, actions) => {
   return sequentialAsyncMap(actions, async (action) => {
-    const { ...actionBody } = action;
+    const { id, ...actionBody } = action;
     if (uuid.isUUID(action.id)) {
       const { data } = await axios.post(
         API.CREATE_RUP_MINISTER_ISSUE_ACTION(planId, issueId),
@@ -246,8 +248,7 @@ export const savePastures = async (planId, pastures) => {
 
       return { ...pasture, oldId: pasture.id };
     } else {
-      delete pasture.id;
-      const { ...values } = pasture;
+      const { id, ...values } = pasture;
       const { data } = await axios.post(
         API.CREATE_RUP_PASTURE(planId),
         values,
