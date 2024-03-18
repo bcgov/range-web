@@ -46,7 +46,8 @@ export const PlanProvider = ({ children, storePlan }) => {
 
   const fetchPlan = async (planId = currentPlanId, hard = false) => {
     setFetchingPlan(true);
-
+    
+    if (errorFetchingPlan) setErrorFetchingPlan(null);
     if (hard) {
       setCurrentPlan(null);
     }
