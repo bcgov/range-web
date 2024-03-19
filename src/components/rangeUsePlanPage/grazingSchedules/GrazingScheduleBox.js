@@ -152,7 +152,7 @@ const GrazingScheduleBox = ({
                     <IfEditable permission={SCHEDULE.COPY}>
                       <Dropdown
                         header="Years"
-                        text="Copy"
+                        text="Copy To"
                         pointing="left"
                         className="link item"
                         options={copyOptions}

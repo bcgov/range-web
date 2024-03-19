@@ -325,3 +325,6 @@ export const MANUAL_SIGNING_SUCCESS =
   'Plan has been successfully signed on behalf of the agreement holder.';
 export const MANUAL_SIGNING_FAILUTE =
   'Error signing the plan on behalf of the agreement holder.';
+
+export const PLAN_EXTENSION_CONFIRMATION_QUESTION = (action) =>
+  `Are you sure you want to ${action} extension?`;

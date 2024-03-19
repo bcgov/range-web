@@ -94,11 +94,12 @@ export const UPDATE_CLIENT_AGREEMENT = (planId, clientAgreementId) =>
   `/v1/client/agreements/${planId}/${clientAgreementId}`;
 export const UPDATE_PLAN_STATUS = (planId) => `/v1/plan/${planId}/status`;
 export const UPDATE_RUP = (planId) => `/v1/plan/${planId}`;
-export const EXTEND_PLAN = (planId) => `/v1/plan/${planId}/extension/extend`;
-export const APPROVE_PLAN_EXTENSION = (planId) =>
-  `/v1/plan/${planId}/extension/approve`;
-export const REJECT_PLAN_EXTENSION = (planId) =>
-  `/v1/plan/${planId}/extension/reject`;
+export const EXTEND_PLAN = (planId, endDate) =>
+  `/v1/plan/${planId}/extension/extend?endDate=${endDate}`;
+export const REQUEST_EXTENSION = (planId) =>
+  `/v1/plan/${planId}/extension/request`;
+export const APPROVE_VOTE = (planId) => `/v1/plan/${planId}/extension/approve`;
+export const REJECT_VOTE = (planId) => `/v1/plan/${planId}/extension/reject`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`;
 export const DISCARD_AMENDMENT = (planId) =>
