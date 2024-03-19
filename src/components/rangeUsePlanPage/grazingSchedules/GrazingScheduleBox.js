@@ -18,6 +18,7 @@ import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 import { useUser } from '../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
 import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
+import { isUserAgrologist } from '../../../utils';
 
 const GrazingScheduleBox = ({
   schedule,
@@ -49,7 +50,7 @@ const GrazingScheduleBox = ({
 
   const getScheduleError = () => {
     if (schedule.grazingScheduleEntries.length === 0) {
-      if (user.roles.includes('myra_range_officer'))
+      if (isUserAgrologist(user))
         return {
           message: 'This schedule has no associated rows.',
           type: 'warning',

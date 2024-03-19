@@ -15,7 +15,7 @@ import { Attachments, AttachmentsHeader } from './attachments';
 import EditableProvider from '../../providers/EditableProvider';
 import { isUUID } from 'uuid-v4';
 import { useUser } from '../../providers/UserProvider';
-import { canUserAttachMaps, canUserAddAttachments } from '../../utils';
+import { canUserAttachMaps, canUserAddAttachments, canUserConsiderManagement, canUserAddAdditionalReqs } from '../../utils';
 
 const PlanForm = ({
   plan,
@@ -77,43 +77,47 @@ const PlanForm = ({
         name={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
         id={ELEMENT_ID.ADDITIONAL_REQUIREMENTS}
       >
-        <AdditionalRequirements
-          additionalRequirements={plan.additionalRequirements}
-        />
+        <EditableProvider editable={canUserAddAdditionalReqs(plan, user)}>
+          <AdditionalRequirements
+            additionalRequirements={plan.additionalRequirements}
+          />
+        </EditableProvider>
       </Element>
       <Element
         name={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
         id={ELEMENT_ID.MANAGEMENT_CONSIDERATIONS}
       >
-        <ManagementConsiderations
-          planId={plan.id}
-          managementConsiderations={plan.managementConsiderations}
-        />
+        <EditableProvider editable={canUserConsiderManagement(plan, user)}>
+          <ManagementConsiderations
+            planId={plan.id}
+            managementConsiderations={plan.managementConsiderations}
+          />
+        </EditableProvider>
       </Element>
       {!isUUID(plan.id) && (
         <EditableProvider editable={canUserAddAttachments(plan, user)}>
           <Element name={ELEMENT_ID.ATTACHMENTS} id={ELEMENT_ID.ATTACHMENTS}>
             <AttachmentsHeader />
-            <Attachments
-              planId={plan.id}
-              attachments={plan.files}
-              propertyName="decisionAttachments"
-              label="Decision Material"
-            />
             <EditableProvider editable={canUserAttachMaps(plan, user)}>
+              <Attachments
+                planId={plan.id}
+                attachments={plan.files}
+                propertyName="decisionAttachments"
+                label="Decision Material"
+              />
               <Attachments
                 planId={plan.id}
                 attachments={plan.files}
                 propertyName="mapAttachments"
                 label="Map"
               />
+              <Attachments
+                planId={plan.id}
+                attachments={plan.files}
+                propertyName="otherAttachments"
+                label="Other"
+              />
             </EditableProvider>
-            <Attachments
-              planId={plan.id}
-              attachments={plan.files}
-              propertyName="otherAttachments"
-              label="Other"
-            />
           </Element>
         </EditableProvider>
       )}

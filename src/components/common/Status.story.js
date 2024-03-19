@@ -7,7 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, select } from '@storybook/addon-knobs';
 
 const userPropOptions = {
-  'Agreement Holder': { roles: [USER_ROLE.AGREEMENT_HOLDER] },
+  'Agreement Holder': { roles: [USER_ROLE[4]] },
   'Not Agreement Holder': { roles: [] },
 };
 

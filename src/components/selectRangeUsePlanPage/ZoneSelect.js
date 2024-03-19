@@ -63,6 +63,120 @@ const MenuProps = {
   },
 };
 
+export function ZoneSelectAll({
+  zones,
+  setSearchSelectedZones,
+}) {
+  const classes = useStyles();
+  const [selectedZones = [], setSelectedZones] = useQueryParam(
+    'selectedZones',
+    DelimitedNumericArrayParam,
+  );
+  const [zoneMap, setZoneMap] = useState();
+
+  const {
+    data: users,
+    error,
+    isValidating,
+  } = useSWR(
+    `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
+    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  );
+
+  useEffect(() => {
+    if (selectedZones.length === 0) {
+      // setSelectedZonesToInitial();
+    } else {
+      if (!selectedZones.length) {
+        // setSelectedZonesToInitial();
+      } else {
+        setSelectedZones(selectedZones);
+        setSearchSelectedZones(selectedZones);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (zones) {
+      const zoneMap = zones.reduce(
+        (acc, zone) => ({ ...acc, [zone.id]: zone }),
+        {},
+      );
+      setZoneMap(zoneMap);
+    }
+  }, [zones]);
+
+  const handleChange = (event) => {
+    if (event.target.value !== undefined && event.target.value.length !== 0) {
+      setSelectedZones(event.target.value);
+    }
+  };
+
+  const handleClose = () => {
+    setSearchSelectedZones(selectedZones);
+  };
+
+  if ((isValidating && !users) || !zoneMap) {
+    return <span>Loading zones</span>;
+  }
+
+  if (error) {
+    return <span>Error fetching users</span>;
+  }
+
+  return (
+    <FormControl className={classes.formControl}>
+      <InputLabel>Select Zones</InputLabel>
+      <Select
+        onClick={handleChange}
+        onClose={handleClose}
+        value={selectedZones}
+        multiple
+        renderValue={(zoneIds) =>
+          zoneIds.map((id) => zoneMap[id].description).join(',  ')
+        }
+        MenuProps={{
+          getContentAnchorEl: () => null,
+          ...MenuProps,
+        }}
+      >
+        <MenuItem value="" disabled>
+          <span style={{ color: 'black', opacity: 2.0 }}>All Zones</span>
+        </MenuItem>
+
+        {users &&
+          zones &&
+          zones.map((zone) => {
+            const user = users.find((user) => user.id === zone.userId);
+
+            return (
+              <MenuItem
+                alignItems="flex-start"
+                key={zone.id}
+                value={zone.id}
+                style={{ backgroundColor: 'transparent' }}
+              >
+                <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
+                <ListItemText
+                  classes={{
+                    primary: classes.listItemTextPrimary,
+                    secondary: classes.listItemTextSecondary,
+                  }}
+                  primary={
+                    <span style={{ color: '#002C71' }}>
+                      {getUserFullName(user)}
+                    </span>
+                  }
+                  secondary={<span>{zone.description}</span>}
+                />
+              </MenuItem>
+            );
+          })}
+      </Select>
+    </FormControl>
+  );
+}
+
 export default function ZoneSelect({
   zones,
   userZones,

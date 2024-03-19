@@ -6,16 +6,15 @@ import {
   REQUIRE_NOTES_PLAN_STATUSES,
   NOT_DOWNLOADABLE_PLAN_STATUSES,
   REFERENCE_KEY,
-  USER_ROLE,
 } from '../../constants/variables';
 import { isAmendment } from './amendment';
 import {
   isUserAgreementHolder,
   isUserStaff,
   isUserDecisionMaker,
-  isUserRangeOfficer,
-} from './user';
-import { findConfirmationsWithUser } from './client';
+  isUserAgrologist
+} from './user'
+import { findConfirmationsWithUser } from './client'
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -163,10 +162,10 @@ export const isNoteRequired = (statusCode) =>
   REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode);
 
 export const canUserSubmitPlan = (plan = {}, user = {}) => {
-  const { status } = plan;
-  if (!status || !status.code || !user || !user.roles) return false;
+  const { status } = plan
+  if (!status || !status.code || !user || !user.roleId) return false
 
-  if (user.roles.includes('myra_range_officer')) {
+  if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
       (status.code === PLAN_STATUS.STAFF_DRAFT ||
@@ -174,8 +173,8 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
         status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY)
     );
   }
-  if (user.roles.includes('myra_client')) {
-    return canUserEditThisPlan(plan, user);
+  if (isUserAgreementHolder(user)) {
+    return canUserEditThisPlan(plan, user)
   }
 };
 
@@ -212,8 +211,8 @@ export const canUserAmendPlan = (plan = {}, user = {}) => {
 export const canUserSaveDraft = (plan = {}, user = {}) => {
   const canEdit = canUserEditThisPlan(plan, user);
 
-  if (isUserRangeOfficer(user)) {
-    return canEdit || isStatusSubmittedForFD(plan?.status);
+  if (isUserAgrologist(user)) {
+    return canEdit || isStatusSubmittedForFD(plan?.status)
   }
 
   return canEdit;
@@ -229,12 +228,12 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusSubmittedAsMandatory(status)
   ) {
     return (
-      user.roles.includes('myra_range_officer') && doesStaffOwnPlan(plan, user)
+      isUserAgrologist(user) && doesStaffOwnPlan(plan, user)
     );
   }
 
   if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
-    return user.roles.includes('myra_decision_maker');
+    return isUserDecisionMaker(user);
   }
 
   if (
@@ -245,7 +244,7 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusRecommendForSubmission(status) ||
     isStatusAmendmentAH(status)
   ) {
-    return user.roles.includes('myra_client');
+    return isUserAgreementHolder(user);
   }
 
   return false;
@@ -263,10 +262,30 @@ export const canUserAttachMaps = (plan = {}, user = {}) => {
     return false;
   }
 
-  if (user.roles.includes('myra_range_officer')) {
-    return canUserEditThisPlan(plan, user);
+  if (isUserAgrologist(user)) {
+    return canUserEditThisPlan(plan, user)
   }
 };
+
+export const canUserAddAdditionalReqs = (plan = {}, user = {}) => {
+  if (!plan || !plan.status || !user) {
+    return false;
+  }
+
+  if (isUserAgrologist(user)) {
+    return canUserEditThisPlan(plan, user)
+  }
+};
+
+export const canUserConsiderManagement = (plan = {}, user = {}) => {
+  if (!plan || !plan.status || !user) {
+    return false;
+  }
+
+  if (isUserAgreementHolder(user)) {
+    return canUserEditThisPlan(plan, user);
+  }
+}
 
 export const canUserUpdateStatus = (plan = {}, user = {}) => {
   const { status } = plan;
@@ -280,8 +299,8 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
       isStatusRecommendReady(status) ||
       isStatusRecommendNotReady(status) ||
       isStatusStandsReview(status)
-    );
-  } else if (isUserRangeOfficer(user)) {
+    )
+  } else if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
       (isStatusStaffDraft(status) ||
@@ -297,15 +316,15 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
 export const canUserDiscardAmendment = (plan, user) => {
   if (!user || !plan) return false;
 
-  if (user.roles.includes(USER_ROLE.RANGE_OFFICER)) {
+  if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
       isStatusMandatoryAmendmentStaff(plan.status)
     );
   }
 
-  if (user.roles.includes(USER_ROLE.AGREEMENT_HOLDER)) {
-    return isStatusAmendmentAH(plan.status);
+  if (isUserAgreementHolder(user)) {
+    return isStatusAmendmentAH(plan.status)
   }
 
   return false;
@@ -323,8 +342,8 @@ export const canUserAmendFromLegal = (plan, user) => {
 export const canUserSubmitAsMandatory = (plan, user) => {
   if (!user || !plan) return false;
 
-  if (user.roles.includes(USER_ROLE.DECISION_MAKER)) {
-    return isStatusStandsReview(plan.status);
+  if (isUserDecisionMaker(user)) {
+    return isStatusStandsReview(plan.status)
   }
 
   return false;

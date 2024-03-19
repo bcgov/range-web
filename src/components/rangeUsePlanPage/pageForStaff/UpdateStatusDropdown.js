@@ -257,7 +257,7 @@ class UpdateStatusDropdown extends Component {
           recommendNotReady,
           recommendForSubmission,
         ]
-      : [warningDivider, draft];
+      : [];
 
     if (isStatusStandsNotReviewed(status)) {
       return [stands, standsReview, ...overrides];

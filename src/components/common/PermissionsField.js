@@ -11,7 +11,7 @@ import { useEditable } from '../../providers/EditableProvider';
 import MultiParagraphDisplay from './MultiParagraphDisplay';
 
 export const canUserEdit = (field, user) =>
-  permissions[user.roles[0]].includes(field);
+  permissions[user.roleId].includes(field);
 
 const PermissionsField = ({
   permission,

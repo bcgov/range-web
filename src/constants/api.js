@@ -75,6 +75,7 @@ export const UPDATE_AGREEMENT_ZONE = (agreementId) =>
 export const GET_REFERENCES = '/v1/reference';
 export const GET_ZONES = '/v1/zone';
 export const GET_USERS = '/v1/user';
+export const GET_ROLES = '/v1/roles';
 export const SEARCH_CLIENTS = '/v1/client/search';
 export const GET_USER_PROFILE = '/v1/user/me';
 export const UPDATE_USER_PROFILE = '/v1/user/me';
@@ -82,8 +83,9 @@ export const UPDATE_USER_PROFILE = '/v1/user/me';
 export const UPDATE_USER_ID_OF_ZONE = (zoneId) => `/v1/zone/${zoneId}/user`;
 export const CREATE_USER_CLIENT_LINK = (userId) => `/v1/user/${userId}/client`;
 export const DELETE_USER_CLIENT_LINK = (userId, clientId) =>
-  `/v1/user/${userId}/client/${clientId}`;
+`/v1/user/${userId}/client/${clientId}`;
 export const MERGE_ACCOUNTS = (userId) => `/v1/user/${userId}/merge`;
+export const ASSIGN_ROLE = (userId) => `/v1/user/${userId}/assignRole`;
 
 export const CREATE_RUP = '/v1/plan';
 export const GET_RUP = (planId) => `/v1/plan/${planId}`;

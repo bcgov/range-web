@@ -7,16 +7,18 @@ import { Avatar } from '../common';
 import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
 import {
-  isUserAdmin,
-  isUserAgreementHolder,
-  signOutFromSSOAndSiteMinder,
-} from '../../utils';
-import { signOut } from '../../actionCreators';
+  canManageClients,
+  canManageEmails,
+  canAssignRoles,
+  signOutFromSSOAndSiteMinder
+} from '../../utils'
+import { signOut } from '../../actionCreators'
 import {
   SELECT_RUP,
   MANAGE_CLIENTS,
   MERGE_ACCOUNT,
   EMAIL_TEMPLATE,
+  ASSIGN_ROLES
 } from '../../constants/strings';
 
 export class Navbar extends Component {
@@ -69,7 +71,7 @@ export class Navbar extends Component {
                   <div className="navbar__link__underline" />
                 </NavLink>
                 */}
-              {!isUserAgreementHolder(user) && (
+              {canManageClients(user) && (
                 <>
                   <NavLink
                     to={Routes.MANAGE_CLIENT}
@@ -89,7 +91,7 @@ export class Navbar extends Component {
                   </NavLink>
                 </>
               )}
-              {isUserAdmin(user) && (
+              {canManageEmails(user) && (
                 <NavLink
                   to={Routes.EMAIL_TEMPLATE}
                   className="navbar__link"
@@ -98,6 +100,16 @@ export class Navbar extends Component {
                   {EMAIL_TEMPLATE}
                   <div className="navbar__link__underline" />
                 </NavLink>
+              )}
+              {canAssignRoles(user) && (
+                <NavLink
+                to={Routes.ASSIGN_ROLES}
+                className="navbar__link"
+                activeClassName="navbar__link--active"
+              >
+                {ASSIGN_ROLES}
+                <div className="navbar__link__underline" />
+              </NavLink>
               )}
             </Fragment>
 
