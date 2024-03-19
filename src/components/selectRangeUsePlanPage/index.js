@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import useSWR from 'swr'
 import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig, isUserAgrologist } from '../../utils'
+import { axios, getAuthHeaderConfig, isUserAgrologist, isUserReadOnly, isUserAdmin } from '../../utils'
 import Error from './Error'
 import { makeStyles } from '@material-ui/core/styles'
-import ZoneSelect from './ZoneSelect'
+import ZoneSelect, { ZoneSelectAll } from './ZoneSelect'
 import SearchBar from './SearchBar'
 import { Banner } from '../common'
 import {
@@ -58,7 +58,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       onLoadingSlow: () =>
         setToastId(warningToast('Agreements are taking a while to load', -1)),
       onError: () => {
-        if (references.ZONES?.lenght > 0)
+        if (references.ZONES.length > 0)
           errorToast('Could not load agreements');
       },
       onSuccess: () => removeToast(toastId),
@@ -93,6 +93,13 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               zones={zones}
               userZones={userZones}
               unassignedZones={unassignedZones}
+              zoneUsers={zoneUsers}
+              setSearchSelectedZones={setSearchSelectedZones}
+            />
+          )}
+          {(isUserAdmin(user) || isUserReadOnly(user)) && (
+            <ZoneSelectAll
+              zones={zones}
               zoneUsers={zoneUsers}
               setSearchSelectedZones={setSearchSelectedZones}
             />
