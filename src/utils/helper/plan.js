@@ -267,6 +267,26 @@ export const canUserAttachMaps = (plan = {}, user = {}) => {
   }
 };
 
+export const canUserAddAdditionalReqs = (plan = {}, user = {}) => {
+  if (!plan || !plan.status || !user) {
+    return false;
+  }
+
+  if (isUserAgrologist(user)) {
+    return canUserEditThisPlan(plan, user)
+  }
+};
+
+export const canUserConsiderManagement = (plan = {}, user = {}) => {
+  if (!plan || !plan.status || !user) {
+    return false;
+  }
+
+  if (isUserAgreementHolder(user)) {
+    return canUserEditThisPlan(plan, user);
+  }
+}
+
 export const canUserUpdateStatus = (plan = {}, user = {}) => {
   const { status } = plan;
   if (!status) return false;
