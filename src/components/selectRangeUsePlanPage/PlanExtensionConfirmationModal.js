@@ -8,8 +8,6 @@ class PlanExtensionConfirmationModal extends Component {
     header: PropTypes.string,
     content: PropTypes.string,
     open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
