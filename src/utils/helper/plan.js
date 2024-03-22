@@ -12,7 +12,8 @@ import {
   isUserAgreementHolder,
   isUserStaff,
   isUserDecisionMaker,
-  isUserAgrologist
+  isUserAgrologist,
+  isUserAdmin
 } from './user'
 import { findConfirmationsWithUser } from './client'
 
@@ -165,6 +166,10 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
   const { status } = plan
   if (!status || !status.code || !user || !user.roleId) return false
 
+  if (isUserAdmin(user)) {
+    return true;
+  }
+
   if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
@@ -185,6 +190,7 @@ export const canUserSubmitConfirmation = (
   clientAgreements = [],
 ) => {
   if (isStatusAwaitingConfirmation(status) && user) {
+    if (isUserAdmin(user)) return true;
     const isConfirmed =
       findConfirmationsWithUser(
         user,
@@ -199,12 +205,14 @@ export const canUserSubmitConfirmation = (
 };
 
 export const doesStaffOwnPlan = (plan = {}, user = {}) => {
+  if (isUserAdmin(user)) return true;
   return plan?.agreement?.zone?.userId === user.id;
 };
 
 export const canUserAmendPlan = (plan = {}, user = {}) => {
   return (
-    isStatusAmongApprovedStatuses(plan.status) && doesStaffOwnPlan(plan, user)
+    isStatusAmongApprovedStatuses(plan.status) && 
+    (doesStaffOwnPlan(plan, user) || isUserAdmin(user))
   );
 };
 
@@ -227,13 +235,14 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusMandatoryAmendmentStaff(status) ||
     isStatusSubmittedAsMandatory(status)
   ) {
+    if (isUserAdmin(user)) return true;
     return (
       isUserAgrologist(user) && doesStaffOwnPlan(plan, user)
     );
   }
 
   if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
-    return isUserDecisionMaker(user);
+    return (isUserDecisionMaker(user) || isUserAdmin(user));
   }
 
   if (
@@ -244,7 +253,7 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusRecommendForSubmission(status) ||
     isStatusAmendmentAH(status)
   ) {
-    return isUserAgreementHolder(user);
+    return (isUserAgreementHolder(user) || isUserAdmin(user));
   }
 
   return false;
@@ -262,6 +271,8 @@ export const canUserAttachMaps = (plan = {}, user = {}) => {
     return false;
   }
 
+  if (isUserAdmin(user)) return true;
+  
   if (isUserAgrologist(user)) {
     return canUserEditThisPlan(plan, user)
   }
@@ -271,6 +282,8 @@ export const canUserAddAdditionalReqs = (plan = {}, user = {}) => {
   if (!plan || !plan.status || !user) {
     return false;
   }
+
+  if (isUserAdmin(user)) return true;
 
   if (isUserAgrologist(user)) {
     return canUserEditThisPlan(plan, user)
@@ -282,6 +295,8 @@ export const canUserConsiderManagement = (plan = {}, user = {}) => {
     return false;
   }
 
+  if (isUserAdmin(user)) return true;
+
   if (isUserAgreementHolder(user)) {
     return canUserEditThisPlan(plan, user);
   }
@@ -290,6 +305,8 @@ export const canUserConsiderManagement = (plan = {}, user = {}) => {
 export const canUserUpdateStatus = (plan = {}, user = {}) => {
   const { status } = plan;
   if (!status) return false;
+
+  if (isUserAdmin(user)) return true;
 
   if (isUserStaff(user)) {
     return true;
@@ -316,6 +333,11 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
 export const canUserDiscardAmendment = (plan, user) => {
   if (!user || !plan) return false;
 
+  if (isUserAdmin(user)) {
+    return (isStatusMandatoryAmendmentStaff(plan.status) ||
+            isStatusAmendmentAH(plan.status));
+  }
+
   if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
@@ -334,7 +356,7 @@ export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false;
 
   return (
-    (isUserAgreementHolder(user) || doesStaffOwnPlan(plan, user)) &&
+    (isUserAgreementHolder(user) || doesStaffOwnPlan(plan, user) || isUserAdmin(user)) &&
     (isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status))
   );
 };
@@ -342,7 +364,7 @@ export const canUserAmendFromLegal = (plan, user) => {
 export const canUserSubmitAsMandatory = (plan, user) => {
   if (!user || !plan) return false;
 
-  if (isUserDecisionMaker(user)) {
+  if (isUserDecisionMaker(user) || isUserAdmin(user)) {
     return isStatusStandsReview(plan.status)
   }
 
