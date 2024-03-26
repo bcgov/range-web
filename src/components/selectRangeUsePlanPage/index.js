@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useSWR from 'swr'
 import * as API from '../../constants/api'
 import { axios, getAuthHeaderConfig, isUserAgrologist, isUserReadOnly, isUserAdmin } from '../../utils'
@@ -13,11 +13,21 @@ import {
   AGREEMENT_SEARCH_PLACEHOLDER,
 } from '../../constants/strings';
 import { useToast } from '../../providers/ToastProvider';
-import { useQueryParam, StringParam } from 'use-query-params';
+import { useQueryParam, StringParam, encodeObject, decodeObject } from 'use-query-params';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 
 import SortableAgreementTable from './SortableAgreementTable';
+
+const keyValueSeparator = '-' // default is "-"
+const entrySeparator = '~' // default is "_"
+const NewObjectParam = {
+  encode: (obj) =>
+    encodeObject(obj, keyValueSeparator, entrySeparator),
+
+  decode: (str) =>
+    decodeObject(str, keyValueSeparator, entrySeparator)
+};
 
 const useStyles = makeStyles(() => ({
   searchFilterContainer: {
@@ -38,6 +48,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     StringParam,
   );
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
+  const [filters = {}, setFilters] = useQueryParam('filters', NewObjectParam);
+  useEffect(() => {
+    console.log("filters: ", filters);
+  }, [filters])
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();
@@ -52,7 +66,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const zoneUsers = references.USERS;
 
   const { data, error, revalidate, isValidating } = useSWR(
-    `${API.SEARCH_AGREEMENTS}?page=${page}&term=${term}&selectedZones=${searchSelectedZones}&limit=${limit}&orderBy=${orderBy}&order=${order}`,
+    `${API.SEARCH_AGREEMENTS}?page=${page}&term=${term}&selectedZones=${searchSelectedZones}&limit=${limit}&orderBy=${orderBy}&order=${order}&filterString=${JSON.stringify(filters)}`,
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
     {
       onLoadingSlow: () =>
@@ -122,6 +136,13 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               onOrderChange={(orderBy, order) => {
                 setOrder(order);
                 setOrderBy(orderBy);
+              }}
+              onFilterChange={(filterCol, filterVal) => {
+                let newFilter = {
+                  ...filters
+                }
+                newFilter[filterCol] = filterVal;
+                setFilters(newFilter);
               }}
               orderBy={orderBy}
               order={order}

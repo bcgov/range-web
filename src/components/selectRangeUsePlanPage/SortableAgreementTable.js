@@ -22,6 +22,7 @@ const headCells = [
     disablePadding: false,
     label: 'RAN #',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.range_name',
@@ -29,6 +30,7 @@ const headCells = [
     disablePadding: false,
     label: 'Range Name',
     sortable: true,
+    filterable: true
   },
   {
     id: 'agreement_holder.name',
@@ -36,6 +38,7 @@ const headCells = [
     disablePadding: false,
     label: 'Primary Agreement Holder',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan_creator.given_name',
@@ -43,6 +46,7 @@ const headCells = [
     disablePadding: false,
     label: 'Staff Contact',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.plan_end_date',
@@ -50,6 +54,7 @@ const headCells = [
     disablePadding: false,
     label: 'Plan End Date',
     sortable: true,
+    filterable: true
   },
   {
     id: 'ref_district.code',
@@ -57,6 +62,7 @@ const headCells = [
     disablePadding: false,
     label: 'District',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.status_id',
@@ -64,22 +70,28 @@ const headCells = [
     disablePadding: false,
     label: 'Status Code',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
     label: 'Status',
+    filterable: true
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort, onRequestFilter } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
+  const filterHandler = (event, property) => {
+    onRequestFilter(event, property);
+  }
 
   return (
     <TableHead>
@@ -106,6 +118,7 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
+            {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
           </TableCell>
         ))}
       </TableRow>
@@ -172,6 +185,7 @@ export default function SortableAgreementTable({
   totalAgreements,
   perPage,
   onOrderChange,
+  onFilterChange,
   orderBy,
   order,
 }) {
@@ -184,6 +198,10 @@ export default function SortableAgreementTable({
 
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
+
+  const handleFilterChange = (event, property) => {
+    onFilterChange(property, event.target.value);
+  }
 
   const handleChangePage = (event, newPage) => {
     onPageChange(newPage);
@@ -218,6 +236,7 @@ export default function SortableAgreementTable({
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
+              onRequestFilter={handleFilterChange}
               rowCount={agreements.length}
             />
             <TableBody>
