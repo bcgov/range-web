@@ -211,20 +211,26 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
             return (
               <>
                 <PrimaryButton
+                  size="small"
                   style={{ margin: '4px' }}
                   loading={loading}
                   onClick={() => handleRecommend(agreement.plan.id)}
                 >
-                  Recommend Extension
+                  Recommend
+                  <br />
+                  Extension
                 </PrimaryButton>
                 <Button
+                  size="small"
                   style={{ margin: '4px' }}
                   loading={loading}
                   onClick={() => {
                     handleReject(agreement.plan.id);
                   }}
                 >
-                  Reject Extension
+                  Reject
+                  <br />
+                  Extension
                 </Button>
               </>
             );
