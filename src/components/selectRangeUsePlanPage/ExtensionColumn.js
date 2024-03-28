@@ -85,7 +85,9 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
       getAuthHeaderConfig(),
     );
     if (response.status === 200) {
-      agreement.plan.requestedExtension = true;
+      agreement.plan.planExtensionRequests = [
+        { userId: user.id, requestedExtension: true },
+      ];
     }
     setVoting(false);
   };
@@ -110,7 +112,9 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     );
     if (response.status === 200) {
       agreement.plan.extensionStatus = response.data.extensionStatus;
-      agreement.plan.requestedExtension = false;
+      agreement.plan.planExtensionRequests = [
+        { userId: user.id, requestedExtension: false },
+      ];
     }
     setVoting(false);
   };
@@ -272,7 +276,14 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     if (isUserAgreementHolder(user) && !isUserDecisionMaker(user)) {
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
-          if (agreement.plan?.requestedExtension === null) {
+          if (
+            agreement.plan?.planExtensionRequests.filter((request) => {
+              return (
+                request.userId === user.id &&
+                request.requestedExtension === null
+              );
+            }).length !== 0
+          ) {
             if (voting === true) return <CircularProgress />;
             return (
               <>
@@ -289,9 +300,13 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
               </>
             );
           } else {
-            if (agreement.plan?.requestedExtension === true)
-              return <>Requested</>;
-            return <>Rejected</>;
+            if (
+              agreement.plan?.planExtensionRequests.filter((request) => {
+                return request.userId === user.id && request.requestedExtension;
+              }).length === 0
+            )
+              return <>Rejected</>;
+            return <>Requested</>;
           }
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
