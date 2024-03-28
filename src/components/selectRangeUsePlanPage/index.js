@@ -52,6 +52,9 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   useEffect(() => {
     console.log("filters: ", filters);
   }, [filters])
+  useEffect(() => {
+    setFilters({});
+  }, [])
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();

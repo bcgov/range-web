@@ -145,7 +145,7 @@ const translateStatusBasedOnUser = (
         statusName = 'Ready to Submit';
         modifier += '--orange';
       } else {
-        statusName = 'Recommended for Submission';
+        statusName = 'Recommended For Submission';
         modifier += '--gray';
       }
       break;
@@ -225,6 +225,7 @@ const Status = ({
       {isAmendment && (
         <span className="status__amendment-label">Amendment</span>
       )}
+      <h6>{statusName !== status.name && `(${status.name})`}</h6>
     </div>
   );
 };
