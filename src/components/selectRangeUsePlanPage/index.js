@@ -50,9 +50,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
   const [filters = {}, setFilters] = useQueryParam('filters', NewObjectParam);
   useEffect(() => {
-    console.log("filters: ", filters);
-  }, [filters])
-  useEffect(() => {
+    // Make sure filters don't carry over 
     setFilters({});
   }, [])
   const { warningToast, removeToast, errorToast } = useToast();
@@ -145,6 +143,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
                   ...filters
                 }
                 newFilter[filterCol] = filterVal;
+                setPage(1);
                 setFilters(newFilter);
               }}
               orderBy={orderBy}
