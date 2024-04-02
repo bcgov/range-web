@@ -1,16 +1,10 @@
-import { Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import EditIcon from '@material-ui/icons/Edit';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ViewIcon from '@material-ui/icons/Visibility';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { PLAN } from '../../constants/fields';
-import { RANGE_USE_PLAN } from '../../constants/routes';
-import * as strings from '../../constants/strings';
 import {
   canUserEditThisPlan,
   doesStaffOwnPlan,
@@ -19,11 +13,11 @@ import {
 import { Status } from '../common';
 import { canUserEdit } from '../common/PermissionsField';
 import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown';
-import NewPlanButton from './NewPlanButton';
 import { useStyles } from './SortableAgreementTable';
 import ExtensionColumn from './ExtensionColumn';
+import PlanActions from './PlanActions';
 
-function PlanRow({ agreement, location, user, currentPage }) {
+function PlanRow({ agreement, user, currentPage }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const canEdit = canUserEditThisPlan({ ...agreement.plan }, user);
@@ -87,29 +81,22 @@ function PlanRow({ agreement, location, user, currentPage }) {
           )}
         </TableCell>
         <TableCell>
-          {!agreement.plan?.id ? (
-            canUserEdit(PLAN.ADD, user) &&
-            doesStaffOwnPlan({ agreement }, user) ? (
-              <NewPlanButton agreement={agreement} />
-            ) : (
-              <div style={{ padding: '6px 16px' }}>No plan</div>
-            )
+          {!agreement.plan?.id &&
+          !(
+            canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)
+          ) ? (
+            <div style={{ padding: '6px 16px' }}>No plan</div>
           ) : (
-            <Button
-              fullWidth
-              variant="outlined"
-              component={Link}
-              to={{
-                pathname: `${RANGE_USE_PLAN}/${agreement.plan?.id}`,
-                state: {
-                  page: currentPage,
-                  prevSearch: location.search,
-                },
-              }}
-              endIcon={canEdit ? <EditIcon /> : <ViewIcon />}
-            >
-              {canEdit ? 'Edit' : strings.VIEW}
-            </Button>
+            <PlanActions
+              agreement={agreement}
+              planId={agreement.plan?.id}
+              canEdit={canEdit}
+              currentPage={currentPage}
+              canCreatePlan={
+                canUserEdit(PLAN.ADD, user) &&
+                doesStaffOwnPlan({ agreement }, user)
+              }
+            ></PlanActions>
           )}
         </TableCell>
         <TableCell>
