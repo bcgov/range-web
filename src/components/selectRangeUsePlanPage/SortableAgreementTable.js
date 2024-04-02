@@ -76,8 +76,7 @@ const headCells = [
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
-    label: 'Status',
-    filterable: true
+    label: 'Status'
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
