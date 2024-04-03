@@ -76,7 +76,8 @@ const headCells = [
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
-    label: 'Status'
+    label: 'Status',
+    statusCheckbox: true
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
@@ -118,6 +119,14 @@ function EnhancedTableHead(props) {
               ) : null}
             </TableSortLabel>
             {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
+            {headCell.statusCheckbox && 
+            <div className={classes.checkboxBorder}>
+              <input type="checkbox" name="withPlan" onChange={e => filterHandler(e, "withPlan")}/>
+              <label htmlFor="withPlan"> Has plan</label>
+              <input type="checkbox" name="onlyActive" onChange={e => filterHandler(e, "onlyActive")} checked/>
+              <label htmlFor="withPlan"> Active</label>
+            </div>
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -173,6 +182,10 @@ export const useStyles = makeStyles((theme) => ({
     borderBottomColor: theme.palette.secondary.main,
     borderBottomWidth: 2,
   },
+  checkboxBorder: {
+    border: "1px solid black",
+    padding: "4px",
+  }
 }));
 
 export default function SortableAgreementTable({

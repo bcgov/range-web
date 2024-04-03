@@ -48,7 +48,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     StringParam,
   );
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
-  const [filters = {}, setFilters] = useQueryParam('filters', NewObjectParam);
+  const [filters = {'onlyActive': 'true'}, setFilters] = useQueryParam('filters', NewObjectParam);
   useEffect(() => {
     // Make sure filters don't carry over 
     setFilters({});
