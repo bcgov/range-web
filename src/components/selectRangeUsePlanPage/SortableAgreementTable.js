@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
@@ -89,6 +89,14 @@ function EnhancedTableHead(props) {
     onRequestSort(event, property);
   };
 
+  const [planCheck, setPlanCheck] = useState(false);
+  const [activeCheck, setActiveCheck] = useState(true);
+  useEffect(() => {
+    filterHandler(planCheck, 'withPlan');
+  }, [planCheck]);
+  useEffect(() => {
+    filterHandler(activeCheck, 'onlyActive');
+  }, [activeCheck]);
   const filterHandler = (event, property) => {
     onRequestFilter(event, property);
   }
@@ -121,9 +129,9 @@ function EnhancedTableHead(props) {
             {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
             {headCell.statusCheckbox && 
             <div className={classes.checkboxBorder}>
-              <input type="checkbox" name="withPlan" onChange={e => filterHandler(e, "withPlan")}/>
+              <input type="checkbox" name="withPlan" onChange={() => setPlanCheck(!planCheck)} checked={planCheck}/>
               <label htmlFor="withPlan"> Has plan</label>
-              <input type="checkbox" name="onlyActive" onChange={e => filterHandler(e, "onlyActive")} checked/>
+              <input type="checkbox" name="onlyActive" onChange={() => setActiveCheck(!activeCheck)} checked={activeCheck}/>
               <label htmlFor="withPlan"> Active</label>
             </div>
             }
@@ -211,8 +219,8 @@ export default function SortableAgreementTable({
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
 
-  const handleFilterChange = (event, property) => {
-    onFilterChange(property, event.target.value);
+  const handleFilterChange = (eventOrCheck, property) => {
+    onFilterChange(property, eventOrCheck?.target?.value ? eventOrCheck.target.value : eventOrCheck);
   }
 
   const handleChangePage = (event, newPage) => {
