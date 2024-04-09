@@ -83,12 +83,17 @@ export function ZoneSelectAll({
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
+  const setSelectedZonesToInitial = () => {
+    const initialSelectedZones = zones.map((zone) => zone.id);
+    setSelectedZones(initialSelectedZones);
+  };
+
   useEffect(() => {
     if (selectedZones.length === 0) {
-      // setSelectedZonesToInitial();
+      setSelectedZonesToInitial();
     } else {
       if (!selectedZones.length) {
-        // setSelectedZonesToInitial();
+        setSelectedZonesToInitial();
       } else {
         setSelectedZones(selectedZones);
         setSearchSelectedZones(selectedZones);
