@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Divider, Menu, Portal } from 'semantic-ui-react';
 import {
   isPlanAmendment,
+  isStatusApproved,
   isStatusCreated,
   isStatusRecommendNotReady,
   isStatusRecommendReady,
@@ -12,6 +13,7 @@ import {
   isStatusSubmittedForFD,
   isStatusSubmittedForReview,
   isUserAdmin,
+  isUserAgrologist,
 } from '../../../utils';
 import { PLAN_STATUS } from '../../../constants/variables';
 import {
@@ -244,20 +246,23 @@ class UpdateStatusDropdown extends Component {
       key: 'warningDivider',
       text: 'WARNING: Below entries are manual overrides.',
     };
-    const overrides = isUserAdmin(user)
-      ? [
-          warningDivider,
-          draft,
-          stands,
-          standsWronglyMade,
-          approved,
-          notApproved,
-          requestChanges,
-          recommendReady,
-          recommendNotReady,
-          recommendForSubmission,
-        ]
-      : [];
+    let overrides = [];
+    if (isUserAdmin(user)) {
+      overrides = [
+        warningDivider,
+        draft,
+        stands,
+        standsWronglyMade,
+        approved,
+        notApproved,
+        requestChanges,
+        recommendReady,
+        recommendNotReady,
+        recommendForSubmission,
+      ]
+    } else if (isUserAgrologist(user) && !isStatusApproved(status) && !isPlanAmendment(plan)) {
+      overrides = [draft];
+    }
 
     if (isStatusStandsNotReviewed(status)) {
       return [stands, standsReview, ...overrides];
