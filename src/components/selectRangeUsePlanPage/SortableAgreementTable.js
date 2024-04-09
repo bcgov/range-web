@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
@@ -22,6 +22,7 @@ const headCells = [
     disablePadding: false,
     label: 'RAN #',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.range_name',
@@ -29,6 +30,7 @@ const headCells = [
     disablePadding: false,
     label: 'Range Name',
     sortable: true,
+    filterable: true
   },
   {
     id: 'agreement_holder.name',
@@ -36,6 +38,7 @@ const headCells = [
     disablePadding: false,
     label: 'Primary Agreement Holder',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan_creator.given_name',
@@ -43,6 +46,7 @@ const headCells = [
     disablePadding: false,
     label: 'Staff Contact',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.plan_end_date',
@@ -50,6 +54,7 @@ const headCells = [
     disablePadding: false,
     label: 'Plan End Date',
     sortable: true,
+    filterable: true
   },
   {
     id: 'ref_district.code',
@@ -57,6 +62,7 @@ const headCells = [
     disablePadding: false,
     label: 'District',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.status_id',
@@ -64,22 +70,36 @@ const headCells = [
     disablePadding: false,
     label: 'Status Code',
     sortable: true,
+    filterable: true
   },
   {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
     label: 'Status',
+    statusCheckbox: true
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort, onRequestFilter } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
+  const [planCheck, setPlanCheck] = useState(false);
+  const [activeCheck, setActiveCheck] = useState(true);
+  useEffect(() => {
+    filterHandler(planCheck, 'withPlan');
+  }, [planCheck]);
+  useEffect(() => {
+    filterHandler(activeCheck, 'onlyActive');
+  }, [activeCheck]);
+  const filterHandler = (event, property) => {
+    onRequestFilter(event, property);
+  }
 
   return (
     <TableHead>
@@ -106,6 +126,15 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
+            {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
+            {headCell.statusCheckbox && 
+            <div className={classes.checkboxBorder}>
+              <input type="checkbox" name="withPlan" onChange={() => setPlanCheck(!planCheck)} checked={planCheck}/>
+              <label htmlFor="withPlan"> Has plan</label>
+              <input type="checkbox" name="onlyActive" onChange={() => setActiveCheck(!activeCheck)} checked={activeCheck}/>
+              <label htmlFor="withPlan"> Active</label>
+            </div>
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -161,6 +190,10 @@ export const useStyles = makeStyles((theme) => ({
     borderBottomColor: theme.palette.secondary.main,
     borderBottomWidth: 2,
   },
+  checkboxBorder: {
+    border: "1px solid black",
+    padding: "4px",
+  }
 }));
 
 export default function SortableAgreementTable({
@@ -172,6 +205,7 @@ export default function SortableAgreementTable({
   totalAgreements,
   perPage,
   onOrderChange,
+  onFilterChange,
   orderBy,
   order,
 }) {
@@ -184,6 +218,10 @@ export default function SortableAgreementTable({
 
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
+
+  const handleFilterChange = (eventOrCheck, property) => {
+    onFilterChange(property, eventOrCheck?.target?.value ? eventOrCheck.target.value : eventOrCheck);
+  }
 
   const handleChangePage = (event, newPage) => {
     onPageChange(newPage);
@@ -218,6 +256,7 @@ export default function SortableAgreementTable({
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
+              onRequestFilter={handleFilterChange}
               rowCount={agreements.length}
             />
             <TableBody>
