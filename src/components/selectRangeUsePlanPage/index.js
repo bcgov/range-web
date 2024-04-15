@@ -51,7 +51,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const [filters = {'onlyActive': 'true'}, setFilters] = useQueryParam('filters', NewObjectParam);
   useEffect(() => {
     // Make sure filters don't carry over 
-    setFilters({});
+    setFilters({'onlyActive': 'true'});
   }, [])
   const { warningToast, removeToast, errorToast } = useToast();
 
@@ -73,7 +73,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       onLoadingSlow: () =>
         setToastId(warningToast('Agreements are taking a while to load', -1)),
       onError: () => {
-        if (references.ZONES.length > 0)
+        if (references?.ZONES?.length > 0)
           errorToast('Could not load agreements');
       },
       onSuccess: () => removeToast(toastId),
