@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
-import useSWR from 'swr'
-import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig, isUserAgrologist, isUserReadOnly, isUserAdmin } from '../../utils'
-import Error from './Error'
-import { makeStyles } from '@material-ui/core/styles'
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect'
-import SearchBar from './SearchBar'
-import { Banner } from '../common'
+import React, { useState } from 'react';
+import useSWR from 'swr';
+import * as API from '../../constants/api';
+import {
+  axios,
+  getAuthHeaderConfig,
+  isUserAgrologist,
+  isUserReadOnly,
+  isUserAdmin,
+} from '../../utils';
+import Error from './Error';
+import { makeStyles } from '@material-ui/core/styles';
+import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
+import SearchBar from './SearchBar';
+import { Banner } from '../common';
 import {
   SELECT_RUP_BANNER_HEADER,
   SELECT_RUP_BANNER_CONTENT,
@@ -45,9 +51,13 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
   const zones = references.ZONES || [];
   const userZones = zones.filter((zone) => user.id === zone.userId);
-  const districtId = userZones[0]?.districtId;
+  const districtIds = userZones.map((userZone) => {
+    return userZone.districtId;
+  });
+  console.log(districtIds);
   const unassignedZones = zones.filter(
-    (zone) => user.id !== zone.userId && zone.districtId === districtId,
+    (zone) =>
+      user.id !== zone.userId && districtIds.indexOf(zone.districtId) != -1,
   );
   const zoneUsers = references.USERS;
 
