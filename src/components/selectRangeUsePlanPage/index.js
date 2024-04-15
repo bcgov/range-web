@@ -1,32 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
-import * as API from '../../constants/api'
-import { axios, getAuthHeaderConfig, isUserAgrologist, isUserReadOnly, isUserAdmin } from '../../utils'
-import Error from './Error'
-import { makeStyles } from '@material-ui/core/styles'
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect'
-import SearchBar from './SearchBar'
-import { Banner } from '../common'
+import React, { useState, useEffect } from 'react';
+import useSWR from 'swr';
+import * as API from '../../constants/api';
+import {
+  axios,
+  getAuthHeaderConfig,
+  isUserAgrologist,
+  isUserReadOnly,
+  isUserAdmin,
+} from '../../utils';
+import Error from './Error';
+import { makeStyles } from '@material-ui/core/styles';
+import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
+import SearchBar from './SearchBar';
+import { Banner } from '../common';
 import {
   SELECT_RUP_BANNER_HEADER,
   SELECT_RUP_BANNER_CONTENT,
   AGREEMENT_SEARCH_PLACEHOLDER,
 } from '../../constants/strings';
 import { useToast } from '../../providers/ToastProvider';
-import { useQueryParam, StringParam, encodeObject, decodeObject } from 'use-query-params';
+import {
+  useQueryParam,
+  StringParam,
+  encodeObject,
+  decodeObject,
+} from 'use-query-params';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 
 import SortableAgreementTable from './SortableAgreementTable';
 
-const keyValueSeparator = '-' // default is "-"
-const entrySeparator = '~' // default is "_"
+const keyValueSeparator = '-'; // default is "-"
+const entrySeparator = '~'; // default is "_"
 const NewObjectParam = {
-  encode: (obj) =>
-    encodeObject(obj, keyValueSeparator, entrySeparator),
+  encode: (obj) => encodeObject(obj, keyValueSeparator, entrySeparator),
 
-  decode: (str) =>
-    decodeObject(str, keyValueSeparator, entrySeparator)
+  decode: (str) => decodeObject(str, keyValueSeparator, entrySeparator),
 };
 
 const useStyles = makeStyles(() => ({
@@ -48,11 +57,14 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     StringParam,
   );
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
-  const [filters = {'onlyActive': 'true'}, setFilters] = useQueryParam('filters', NewObjectParam);
+  const [filters = { onlyActive: 'true' }, setFilters] = useQueryParam(
+    'filters',
+    NewObjectParam,
+  );
   useEffect(() => {
-    // Make sure filters don't carry over 
+    // Make sure filters don't carry over
     setFilters({});
-  }, [])
+  }, []);
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();
@@ -60,9 +72,13 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
   const zones = references.ZONES || [];
   const userZones = zones.filter((zone) => user.id === zone.userId);
-  const districtId = userZones[0]?.districtId;
+  const districtIds = userZones.map((userZone) => {
+    return userZone.districtId;
+  });
+  console.log(districtIds);
   const unassignedZones = zones.filter(
-    (zone) => user.id !== zone.userId && zone.districtId === districtId,
+    (zone) =>
+      user.id !== zone.userId && districtIds.indexOf(zone.districtId) != -1,
   );
   const zoneUsers = references.USERS;
 
@@ -140,8 +156,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               }}
               onFilterChange={(filterCol, filterVal) => {
                 let newFilter = {
-                  ...filters
-                }
+                  ...filters,
+                };
                 newFilter[filterCol] = filterVal;
                 setPage(1);
                 setFilters(newFilter);
