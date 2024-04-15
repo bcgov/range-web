@@ -220,7 +220,7 @@ export default function SortableAgreementTable({
   };
 
   const handleFilterChange = (eventOrCheck, property) => {
-    onFilterChange(property, eventOrCheck?.target?.value ? eventOrCheck.target.value : eventOrCheck);
+    onFilterChange(property, eventOrCheck?.target ? eventOrCheck.target.value : eventOrCheck);
   }
 
   const handleChangePage = (event, newPage) => {
