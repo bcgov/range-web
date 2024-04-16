@@ -76,8 +76,7 @@ const headCells = [
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
-    label: 'Status',
-    statusCheckbox: true,
+    label: 'Status'
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
@@ -88,9 +87,6 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
-  const [planCheck, setPlanCheck] = useState(false);
-  const [activeCheck, setActiveCheck] = useState(true);
   const filterHandler = (event, property) => {
     onRequestFilter(event, property);
   };
@@ -120,38 +116,7 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-            {headCell.filterable && (
-              <input
-                type="text"
-                onChange={(e) => {
-                  filterHandler(e, headCell.id);
-                }}
-              />
-            )}
-            {headCell.statusCheckbox && (
-              <div className={classes.checkboxBorder}>
-                <input
-                  type="checkbox"
-                  name="withPlan"
-                  onChange={() => {
-                    setPlanCheck(!planCheck);
-                    onRequestFilter(planCheck, 'onlyActive');
-                  }}
-                  checked={planCheck}
-                />
-                <label htmlFor="withPlan"> Has plan</label>
-                <input
-                  type="checkbox"
-                  name="onlyActive"
-                  onChange={() => {
-                    setActiveCheck(!activeCheck);
-                    onRequestFilter(activeCheck, 'withPlan');
-                  }}
-                  checked={activeCheck}
-                />
-                <label htmlFor="withPlan"> Active</label>
-              </div>
-            )}
+            {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
           </TableCell>
         ))}
       </TableRow>
@@ -236,12 +201,9 @@ export default function SortableAgreementTable({
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
 
-  const handleFilterChange = (eventOrCheck, property) => {
-    onFilterChange(
-      property,
-      eventOrCheck?.target ? eventOrCheck.target.value : eventOrCheck,
-    );
-  };
+  const handleFilterChange = (event, property) => {
+    onFilterChange(property, event.target.value);
+  }
 
   const handleChangePage = (event, newPage) => {
     onPageChange(newPage);
