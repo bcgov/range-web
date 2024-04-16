@@ -13,9 +13,9 @@ import {
   isUserStaff,
   isUserDecisionMaker,
   isUserAgrologist,
-  isUserAdmin
-} from './user'
-import { findConfirmationsWithUser } from './client'
+  isUserAdmin,
+} from './user';
+import { findConfirmationsWithUser } from './client';
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
@@ -163,8 +163,8 @@ export const isNoteRequired = (statusCode) =>
   REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode);
 
 export const canUserSubmitPlan = (plan = {}, user = {}) => {
-  const { status } = plan
-  if (!status || !status.code || !user || !user.roleId) return false
+  const { status } = plan;
+  if (!status || !status.code || !user || !user.roleId) return false;
 
   if (isUserAdmin(user)) {
     return true;
@@ -179,7 +179,7 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
     );
   }
   if (isUserAgreementHolder(user)) {
-    return canUserEditThisPlan(plan, user)
+    return canUserEditThisPlan(plan, user);
   }
 };
 
@@ -211,7 +211,7 @@ export const doesStaffOwnPlan = (plan = {}, user = {}) => {
 
 export const canUserAmendPlan = (plan = {}, user = {}) => {
   return (
-    isStatusAmongApprovedStatuses(plan.status) && 
+    isStatusAmongApprovedStatuses(plan.status) &&
     (doesStaffOwnPlan(plan, user) || isUserAdmin(user))
   );
 };
@@ -220,7 +220,7 @@ export const canUserSaveDraft = (plan = {}, user = {}) => {
   const canEdit = canUserEditThisPlan(plan, user);
 
   if (isUserAgrologist(user)) {
-    return canEdit || isStatusSubmittedForFD(plan?.status)
+    return canEdit || isStatusSubmittedForFD(plan?.status);
   }
 
   return canEdit;
@@ -236,13 +236,11 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusSubmittedAsMandatory(status)
   ) {
     if (isUserAdmin(user)) return true;
-    return (
-      isUserAgrologist(user) && doesStaffOwnPlan(plan, user)
-    );
+    return isUserAgrologist(user) && doesStaffOwnPlan(plan, user);
   }
 
   if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
-    return (isUserDecisionMaker(user) || isUserAdmin(user));
+    return isUserDecisionMaker(user) || isUserAdmin(user);
   }
 
   if (
@@ -253,7 +251,7 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
     isStatusRecommendForSubmission(status) ||
     isStatusAmendmentAH(status)
   ) {
-    return (isUserAgreementHolder(user) || isUserAdmin(user));
+    return isUserAgreementHolder(user) || isUserAdmin(user);
   }
 
   return false;
@@ -272,9 +270,9 @@ export const canUserAttachMaps = (plan = {}, user = {}) => {
   }
 
   if (isUserAdmin(user)) return true;
-  
+
   if (isUserAgrologist(user)) {
-    return canUserEditThisPlan(plan, user)
+    return canUserEditThisPlan(plan, user);
   }
 };
 
@@ -286,7 +284,7 @@ export const canUserAddAdditionalReqs = (plan = {}, user = {}) => {
   if (isUserAdmin(user)) return true;
 
   if (isUserAgrologist(user)) {
-    return canUserEditThisPlan(plan, user)
+    return canUserEditThisPlan(plan, user);
   }
 };
 
@@ -300,7 +298,7 @@ export const canUserConsiderManagement = (plan = {}, user = {}) => {
   if (isUserAgreementHolder(user)) {
     return canUserEditThisPlan(plan, user);
   }
-}
+};
 
 export const canUserUpdateStatus = (plan = {}, user = {}) => {
   const { status } = plan;
@@ -316,7 +314,7 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
       isStatusRecommendReady(status) ||
       isStatusRecommendNotReady(status) ||
       isStatusStandsReview(status)
-    )
+    );
   } else if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
@@ -334,8 +332,10 @@ export const canUserDiscardAmendment = (plan, user) => {
   if (!user || !plan) return false;
 
   if (isUserAdmin(user)) {
-    return (isStatusMandatoryAmendmentStaff(plan.status) ||
-            isStatusAmendmentAH(plan.status));
+    return (
+      isStatusMandatoryAmendmentStaff(plan.status) ||
+      isStatusAmendmentAH(plan.status)
+    );
   }
 
   if (isUserAgrologist(user)) {
@@ -346,7 +346,7 @@ export const canUserDiscardAmendment = (plan, user) => {
   }
 
   if (isUserAgreementHolder(user)) {
-    return isStatusAmendmentAH(plan.status)
+    return isStatusAmendmentAH(plan.status);
   }
 
   return false;
@@ -356,7 +356,9 @@ export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false;
 
   return (
-    (isUserAgreementHolder(user) || doesStaffOwnPlan(plan, user) || isUserAdmin(user)) &&
+    (isUserAgreementHolder(user) ||
+      doesStaffOwnPlan(plan, user) ||
+      isUserAdmin(user)) &&
     (isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status))
   );
 };
@@ -365,7 +367,7 @@ export const canUserSubmitAsMandatory = (plan, user) => {
   if (!user || !plan) return false;
 
   if (isUserDecisionMaker(user) || isUserAdmin(user)) {
-    return isStatusStandsReview(plan.status)
+    return isStatusStandsReview(plan.status);
   }
 
   return false;
@@ -378,6 +380,14 @@ export const findStatusWithCode = (references, statusCode) => {
   }
 
   return undefined;
+};
+
+export const isPlanActive = (plan) => {
+  if (!plan) return false;
+  if ([8, 9, 12, 20, 21, 22].indexOf(plan.status.id) !== -1) return true;
+  if (plan.amendmentTypeId && [11, 13, 18].indexOf(plan.status.id) !== -1)
+    return true;
+  return false;
 };
 
 export const getBannerHeaderAndContentForAH = (plan, user, references) => {
