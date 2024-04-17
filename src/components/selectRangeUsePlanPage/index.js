@@ -77,7 +77,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     addToFilters('agreementCheck', agreementCheck);
   }, [agreementCheck]);
   useEffect(() => {
-    // addToFilters('activeCheck', activeCheck);
+    addToFilters('activeCheck', activeCheck);
   }, [activeCheck]);
   const { warningToast, removeToast, errorToast } = useToast();
 
