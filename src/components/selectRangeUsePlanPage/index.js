@@ -62,8 +62,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     NewObjectParam,
   );
   useEffect(() => {
-    // Make sure filters don't carry over 
-    setFilters({'onlyActive': 'true'});
+    // Make sure filters don't carry over
+    setFilters({ onlyActive: 'true' });
   }, []);
   const { warningToast, removeToast, errorToast } = useToast();
 
@@ -75,7 +75,6 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const districtIds = userZones.map((userZone) => {
     return userZone.districtId;
   });
-  console.log(districtIds);
   const unassignedZones = zones.filter(
     (zone) =>
       user.id !== zone.userId && districtIds.indexOf(zone.districtId) != -1,
