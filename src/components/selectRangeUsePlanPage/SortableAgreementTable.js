@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
@@ -22,7 +22,7 @@ const headCells = [
     disablePadding: false,
     label: 'RAN #',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'plan.range_name',
@@ -30,7 +30,7 @@ const headCells = [
     disablePadding: false,
     label: 'Range Name',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'agreement_holder.name',
@@ -38,7 +38,7 @@ const headCells = [
     disablePadding: false,
     label: 'Primary Agreement Holder',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'plan_creator.given_name',
@@ -46,7 +46,7 @@ const headCells = [
     disablePadding: false,
     label: 'Staff Contact',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'plan.plan_end_date',
@@ -54,7 +54,7 @@ const headCells = [
     disablePadding: false,
     label: 'Plan End Date',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'ref_district.code',
@@ -62,7 +62,7 @@ const headCells = [
     disablePadding: false,
     label: 'District',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'plan.status_id',
@@ -70,14 +70,14 @@ const headCells = [
     disablePadding: false,
     label: 'Status Code',
     sortable: true,
-    filterable: true
+    filterable: true,
   },
   {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
     label: 'Status',
-    statusCheckbox: true
+    statusCheckbox: true,
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
@@ -91,15 +91,9 @@ function EnhancedTableHead(props) {
 
   const [planCheck, setPlanCheck] = useState(false);
   const [activeCheck, setActiveCheck] = useState(true);
-  useEffect(() => {
-    filterHandler(planCheck, 'withPlan');
-  }, [planCheck]);
-  useEffect(() => {
-    filterHandler(activeCheck, 'onlyActive');
-  }, [activeCheck]);
   const filterHandler = (event, property) => {
     onRequestFilter(event, property);
-  }
+  };
 
   return (
     <TableHead>
@@ -126,15 +120,38 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-            {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
-            {headCell.statusCheckbox && 
-            <div className={classes.checkboxBorder}>
-              <input type="checkbox" name="withPlan" onChange={() => setPlanCheck(!planCheck)} checked={planCheck}/>
-              <label htmlFor="withPlan"> Has plan</label>
-              <input type="checkbox" name="onlyActive" onChange={() => setActiveCheck(!activeCheck)} checked={activeCheck}/>
-              <label htmlFor="withPlan"> Active</label>
-            </div>
-            }
+            {headCell.filterable && (
+              <input
+                type="text"
+                onChange={(e) => {
+                  filterHandler(e, headCell.id);
+                }}
+              />
+            )}
+            {headCell.statusCheckbox && (
+              <div className={classes.checkboxBorder}>
+                <input
+                  type="checkbox"
+                  name="withPlan"
+                  onChange={() => {
+                    setPlanCheck(!planCheck);
+                    onRequestFilter(planCheck, 'onlyActive');
+                  }}
+                  checked={planCheck}
+                />
+                <label htmlFor="withPlan"> Has plan</label>
+                <input
+                  type="checkbox"
+                  name="onlyActive"
+                  onChange={() => {
+                    setActiveCheck(!activeCheck);
+                    onRequestFilter(activeCheck, 'withPlan');
+                  }}
+                  checked={activeCheck}
+                />
+                <label htmlFor="withPlan"> Active</label>
+              </div>
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -191,9 +208,9 @@ export const useStyles = makeStyles((theme) => ({
     borderBottomWidth: 2,
   },
   checkboxBorder: {
-    border: "1px solid black",
-    padding: "4px",
-  }
+    border: '1px solid black',
+    padding: '4px',
+  },
 }));
 
 export default function SortableAgreementTable({
@@ -220,8 +237,11 @@ export default function SortableAgreementTable({
   };
 
   const handleFilterChange = (eventOrCheck, property) => {
-    onFilterChange(property, eventOrCheck?.target ? eventOrCheck.target.value : eventOrCheck);
-  }
+    onFilterChange(
+      property,
+      eventOrCheck?.target ? eventOrCheck.target.value : eventOrCheck,
+    );
+  };
 
   const handleChangePage = (event, newPage) => {
     onPageChange(newPage);

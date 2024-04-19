@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { getUserFullName, axios, getAuthHeaderConfig } from '../../utils';
 import * as API from '../../constants/api';
 import { useQueryParam, DelimitedNumericArrayParam } from 'use-query-params';
+import { FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -17,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 400,
     marginTop: -3,
     marginRight: 0,
-    marginLeft: 20,
   },
   chips: {
     display: 'flex',
@@ -63,16 +63,15 @@ const MenuProps = {
   },
 };
 
-export function ZoneSelectAll({
-  zones,
-  setSearchSelectedZones,
-}) {
+export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   const classes = useStyles();
   const [selectedZones = [], setSelectedZones] = useQueryParam(
     'selectedZones',
     DelimitedNumericArrayParam,
   );
   const [zoneMap, setZoneMap] = useState();
+  const [selectAllZones, setSelectAllZones] = useState(true);
+  const [deselectAllZones, setDeselectAllZones] = useState(false);
 
   const {
     data: users,
@@ -83,17 +82,18 @@ export function ZoneSelectAll({
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
-  const setSelectedZonesToInitial = () => {
+  const setAllZonesSelected = () => {
     const initialSelectedZones = zones.map((zone) => zone.id);
     setSelectedZones(initialSelectedZones);
+    setSearchSelectedZones(initialSelectedZones);
   };
 
   useEffect(() => {
     if (selectedZones.length === 0) {
-      setSelectedZonesToInitial();
+      setAllZonesSelected();
     } else {
       if (!selectedZones.length) {
-        setSelectedZonesToInitial();
+        setAllZonesSelected();
       } else {
         setSelectedZones(selectedZones);
         setSearchSelectedZones(selectedZones);
@@ -108,6 +108,7 @@ export function ZoneSelectAll({
         {},
       );
       setZoneMap(zoneMap);
+      setAllZonesSelected();
     }
   }, [zones]);
 
@@ -119,6 +120,14 @@ export function ZoneSelectAll({
 
   const handleClose = () => {
     setSearchSelectedZones(selectedZones);
+    if (zones?.length === selectedZones?.length) {
+      setSelectAllZones(true);
+    } else {
+      setSelectAllZones(false);
+    }
+    if (selectedZones?.length > 0) {
+      setDeselectAllZones(false);
+    }
   };
 
   if ((isValidating && !users) || !zoneMap) {
@@ -130,55 +139,94 @@ export function ZoneSelectAll({
   }
 
   return (
-    <FormControl className={classes.formControl}>
-      <InputLabel>Select Zones</InputLabel>
-      <Select
-        onClick={handleChange}
-        onClose={handleClose}
-        value={selectedZones}
-        multiple
-        renderValue={(zoneIds) =>
-          zoneIds.map((id) => zoneMap[id].description).join(',  ')
+    <div className={classes.formControl}>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={selectAllZones}
+            onChange={(event) => {
+              setSelectAllZones(event.target.checked);
+              if (event.target.checked) {
+                setAllZonesSelected();
+                setDeselectAllZones(!event.target.checked);
+              }
+            }}
+            name="selectAllZones"
+            color="primary"
+          />
         }
-        MenuProps={{
-          getContentAnchorEl: () => null,
-          ...MenuProps,
-        }}
-      >
-        <MenuItem value="" disabled>
-          <span style={{ color: 'black', opacity: 2.0 }}>All Zones</span>
-        </MenuItem>
+        label="Select All Zones"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={deselectAllZones}
+            onChange={(event) => {
+              setDeselectAllZones(event.target.checked);
+              if (event.target.checked) {
+                setSearchSelectedZones([]);
+                setSelectedZones([]);
+                setSelectAllZones(!event.target.checked);
+              }
+            }}
+            name="deselectAllZones"
+            color="primary"
+          />
+        }
+        label="Deselect All Zones"
+      />
+      <FormControl className={classes.formControl}>
+        <InputLabel>Select Individual Zones</InputLabel>
+        <Select
+          onClick={handleChange}
+          onClose={handleClose}
+          value={selectedZones}
+          multiple
+          renderValue={(zoneIds) =>
+            zoneIds.map((id) => zoneMap[id].description).join(',  ')
+          }
+          MenuProps={{
+            getContentAnchorEl: () => null,
+            ...MenuProps,
+          }}
+        >
+          <MenuItem value="" disabled>
+            <span style={{ color: 'black', opacity: 2.0 }}>All Zones</span>
+          </MenuItem>
 
-        {users &&
-          zones &&
-          zones.map((zone) => {
-            const user = users.find((user) => user.id === zone.userId);
+          {users &&
+            zones &&
+            zones.map((zone) => {
+              const user = users.find((user) => user.id === zone.userId);
 
-            return (
-              <MenuItem
-                alignItems="flex-start"
-                key={zone.id}
-                value={zone.id}
-                style={{ backgroundColor: 'transparent' }}
-              >
-                <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
-                <ListItemText
-                  classes={{
-                    primary: classes.listItemTextPrimary,
-                    secondary: classes.listItemTextSecondary,
-                  }}
-                  primary={
-                    <span style={{ color: '#002C71' }}>
-                      {getUserFullName(user)}
-                    </span>
-                  }
-                  secondary={<span>{zone.description}</span>}
-                />
-              </MenuItem>
-            );
-          })}
-      </Select>
-    </FormControl>
+              return (
+                <MenuItem
+                  alignItems="flex-start"
+                  key={zone.id}
+                  value={zone.id}
+                  style={{ backgroundColor: 'transparent' }}
+                >
+                  <CustomCheckbox
+                    checked={selectedZones.indexOf(zone.id) > -1}
+                  />
+                  <ListItemText
+                    classes={{
+                      primary: classes.listItemTextPrimary,
+                      secondary: classes.listItemTextSecondary,
+                    }}
+                    primary={
+                      <span style={{ color: '#002C71' }}>
+                        {getUserFullName(user)}
+                      </span>
+                    }
+                    secondary={<span>{zone.description}</span>}
+                  />
+                </MenuItem>
+              );
+            })}
+        </Select>
+      </FormControl>
+    </div>
   );
 }
 
@@ -194,6 +242,8 @@ export default function ZoneSelect({
     DelimitedNumericArrayParam,
   );
   const [zoneMap, setZoneMap] = useState();
+  const [selectAllZones, setSelectAllZones] = useState(true);
+  const [deselectAllZones, setDeselectAllZones] = useState(false);
 
   const {
     data: users,
@@ -204,15 +254,15 @@ export default function ZoneSelect({
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
-  const setSelectedZonesToInitial = () => {
-    const initialSelectedZones = userZones.map((zone) => zone.id);
-    setSelectedZones(initialSelectedZones);
-  };
+  // const setAllZonesSelected = () => {
+  //   const initialSelectedZones = userZones.map((zone) => zone.id);
+  //   setSelectedZones(initialSelectedZones);
+  // };
 
   useEffect(() => {
-    if (userZones) {
+    if (userZones && userZones.length > 0) {
       if (selectedZones.length === 0) {
-        setSelectedZonesToInitial();
+        setAllZonesSelected();
       } else {
         const filteredSelectedZones = selectedZones.filter((zoneID) => {
           return (
@@ -224,7 +274,7 @@ export default function ZoneSelect({
         });
 
         if (!filteredSelectedZones.length) {
-          setSelectedZonesToInitial();
+          setAllZonesSelected();
         } else {
           setSelectedZones(filteredSelectedZones);
           setSearchSelectedZones(filteredSelectedZones);
@@ -242,6 +292,7 @@ export default function ZoneSelect({
         {},
       );
       setZoneMap(zoneMap);
+      setAllZonesSelected();
     }
   }, [zones]);
 
@@ -255,6 +306,12 @@ export default function ZoneSelect({
     setSearchSelectedZones(selectedZones);
   };
 
+  const setAllZonesSelected = () => {
+    const initialSelectedZones = zones.map((zone) => zone.id);
+    setSelectedZones(initialSelectedZones);
+    setSearchSelectedZones(initialSelectedZones);
+  };
+
   if ((isValidating && !users) || !zoneMap) {
     return <span>Loading zones</span>;
   }
@@ -264,87 +321,130 @@ export default function ZoneSelect({
   }
 
   return (
-    <FormControl className={classes.formControl}>
-      <InputLabel>Select Zones</InputLabel>
-      <Select
-        onClick={handleChange}
-        onClose={handleClose}
-        value={selectedZones}
-        multiple
-        renderValue={(zoneIds) =>
-          zoneIds.map((id) => zoneMap[id].description).join(',  ')
+    <div className={classes.formControl}>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={selectAllZones}
+            onChange={(event) => {
+              setSelectAllZones(event.target.checked);
+              if (event.target.checked) {
+                setAllZonesSelected();
+                setDeselectAllZones(!event.target.checked);
+              }
+            }}
+            name="selectAllZones"
+            color="primary"
+          />
         }
-        MenuProps={{
-          getContentAnchorEl: () => null,
-          ...MenuProps,
-        }}
-      >
-        <MenuItem value="" disabled>
-          <span style={{ color: 'black', opacity: 2.0 }}>Assigned Zones</span>
-        </MenuItem>
+        label="Select All Zones"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={deselectAllZones}
+            onChange={(event) => {
+              setDeselectAllZones(event.target.checked);
+              if (event.target.checked) {
+                setSearchSelectedZones([]);
+                setSelectedZones([]);
+                setSelectAllZones(!event.target.checked);
+              }
+            }}
+            name="deselectAllZones"
+            color="primary"
+          />
+        }
+        label="Deselect All Zones"
+      />
+      <FormControl className={classes.formControl}>
+        <InputLabel>Select Individual Zones</InputLabel>
+        <Select
+          onClick={handleChange}
+          onClose={handleClose}
+          value={selectedZones}
+          multiple
+          renderValue={(zoneIds) =>
+            zoneIds.map((id) => zoneMap[id].description).join(',  ')
+          }
+          MenuProps={{
+            getContentAnchorEl: () => null,
+            ...MenuProps,
+          }}
+        >
+          <MenuItem value="" disabled>
+            <span style={{ color: 'black', opacity: 2.0 }}>Assigned Zones</span>
+          </MenuItem>
 
-        {users &&
-          userZones &&
-          userZones.map((zone) => {
-            const user = users.find((user) => user.id === zone.userId);
+          {users &&
+            userZones &&
+            userZones.map((zone) => {
+              const user = users.find((user) => user.id === zone.userId);
 
-            return (
-              <MenuItem
-                alignItems="flex-start"
-                style={{ backgroundColor: 'transparent' }}
-                key={zone.id}
-                value={zone.id}
-              >
-                <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
-                <ListItemText
-                  classes={{
-                    primary: classes.listItemTextPrimary,
-                    secondary: classes.listItemTextSecondary,
-                  }}
-                  primary={
-                    <span style={{ color: '#002C71' }}>
-                      {getUserFullName(user)}
-                    </span>
-                  }
-                  secondary={<span>{zone.description}</span>}
-                />
-              </MenuItem>
-            );
-          })}
+              return (
+                <MenuItem
+                  alignItems="flex-start"
+                  style={{ backgroundColor: 'transparent' }}
+                  key={zone.id}
+                  value={zone.id}
+                >
+                  <CustomCheckbox
+                    checked={selectedZones.indexOf(zone.id) > -1}
+                  />
+                  <ListItemText
+                    classes={{
+                      primary: classes.listItemTextPrimary,
+                      secondary: classes.listItemTextSecondary,
+                    }}
+                    primary={
+                      <span style={{ color: '#002C71' }}>
+                        {getUserFullName(user)}
+                      </span>
+                    }
+                    secondary={<span>{zone.description}</span>}
+                  />
+                </MenuItem>
+              );
+            })}
 
-        <MenuItem disabled value="">
-          <span style={{ color: 'black', opacity: 2.0 }}>Unassigned Zones</span>
-        </MenuItem>
+          <MenuItem disabled value="">
+            <span style={{ color: 'black', opacity: 2.0 }}>
+              Unassigned Zones
+            </span>
+          </MenuItem>
 
-        {users &&
-          unassignedZones &&
-          unassignedZones.map((zone) => {
-            const user = users.find((user) => user.id === zone.userId);
+          {users &&
+            unassignedZones &&
+            unassignedZones.map((zone) => {
+              const user = users.find((user) => user.id === zone.userId);
 
-            return (
-              <MenuItem
-                alignItems="flex-start"
-                key={zone.id}
-                value={zone.id}
-                style={{ backgroundColor: 'transparent' }}
-              >
-                <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
-                <ListItemText
-                  classes={{
-                    primary: classes.listItemTextPrimary,
-                    secondary: classes.listItemTextSecondary,
-                  }}
-                  primary={
-                    <span style={{ color: '#002C71' }}>
-                      {getUserFullName(user)}
-                    </span>
-                  }
-                  secondary={<span>{zone.description}</span>}
-                />
-              </MenuItem>
-            );
-          })}
-      </Select>
-    </FormControl>
+              return (
+                <MenuItem
+                  alignItems="flex-start"
+                  key={zone.id}
+                  value={zone.id}
+                  style={{ backgroundColor: 'transparent' }}
+                >
+                  <CustomCheckbox
+                    checked={selectedZones.indexOf(zone.id) > -1}
+                  />
+                  <ListItemText
+                    classes={{
+                      primary: classes.listItemTextPrimary,
+                      secondary: classes.listItemTextSecondary,
+                    }}
+                    primary={
+                      <span style={{ color: '#002C71' }}>
+                        {getUserFullName(user)}
+                      </span>
+                    }
+                    secondary={<span>{zone.description}</span>}
+                  />
+                </MenuItem>
+              );
+            })}
+        </Select>
+      </FormControl>
+    </div>
   );
 }
