@@ -113,7 +113,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   }, [zones]);
 
   const handleChange = (event) => {
-    if (event.target.value !== undefined && event.target.value.length !== 0) {
+    if (event.target.value !== undefined) {
       setSelectedZones(event.target.value);
     }
   };
@@ -254,11 +254,6 @@ export default function ZoneSelect({
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
-  // const setAllZonesSelected = () => {
-  //   const initialSelectedZones = userZones.map((zone) => zone.id);
-  //   setSelectedZones(initialSelectedZones);
-  // };
-
   useEffect(() => {
     if (userZones && userZones.length > 0) {
       if (selectedZones.length === 0) {
@@ -297,13 +292,21 @@ export default function ZoneSelect({
   }, [zones]);
 
   const handleChange = (event) => {
-    if (event.target.value !== undefined && event.target.value.length !== 0) {
+    if (event.target.value !== undefined) {
       setSelectedZones(event.target.value);
     }
   };
 
   const handleClose = () => {
     setSearchSelectedZones(selectedZones);
+    if (zones?.length === selectedZones?.length) {
+      setSelectAllZones(true);
+    } else {
+      setSelectAllZones(false);
+    }
+    if (selectedZones?.length > 0) {
+      setDeselectAllZones(false);
+    }
   };
 
   const setAllZonesSelected = () => {
