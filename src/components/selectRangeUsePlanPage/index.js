@@ -22,6 +22,7 @@ import {
   StringParam,
   encodeObject,
   decodeObject,
+  BooleanParam,
 } from 'use-query-params';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
@@ -69,9 +70,18 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     // Make sure filters don't carry over 
     setFilters({'agreementCheck': 'true'});
   }, []);
-  const [planCheck, setPlanCheck] = useState(false);
-  const [agreementCheck, setAgreementCheck] = useState(true);
-  const [activeCheck, setActiveCheck] = useState(false);
+  const [planCheck = false, setPlanCheck] = useQueryParam(
+    'planCheck',
+    BooleanParam
+  );
+  const [agreementCheck = true, setAgreementCheck] = useQueryParam(
+    'agreementCheck',
+    BooleanParam
+  );
+  const [activeCheck = false, setActiveCheck] = useQueryParam(
+    'activeCheck',
+    BooleanParam
+  );
   useEffect(() => {
     addToFilters('planCheck', planCheck);
   }, [planCheck]);
