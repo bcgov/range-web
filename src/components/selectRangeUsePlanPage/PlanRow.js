@@ -9,6 +9,7 @@ import {
   canUserEditThisPlan,
   doesStaffOwnPlan,
   formatDateFromServer,
+  isPlanActive,
 } from '../../utils';
 import { Status } from '../common';
 import { canUserEdit } from '../common/PermissionsField';
@@ -100,7 +101,7 @@ function PlanRow({ agreement, user, currentPage }) {
           )}
         </TableCell>
         <TableCell>
-          {agreement.plan?.extensionStatus ? (
+          {isPlanActive(agreement.plan) && agreement.plan?.extensionStatus ? (
             <ExtensionColumn
               user={user}
               currentPage={currentPage}
