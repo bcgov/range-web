@@ -44,7 +44,9 @@ const useStyles = makeStyles(() => ({
   },
   checkboxBorder: {
     border: "1px solid black",
+    borderRadius: "3px",
     padding: "4px",
+    margin: "0 1rem"
   }
 }));
 
@@ -181,6 +183,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               }}
               orderBy={orderBy}
               order={order}
+              filters={filters}
             />
           </>
         )}

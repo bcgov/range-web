@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
@@ -83,7 +83,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort, onRequestFilter } = props;
+  const { classes, order, orderBy, onRequestSort, onRequestFilter, filters } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -116,7 +116,14 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-            {headCell.filterable && <input type="text" onChange={e => filterHandler(e, headCell.id)}/>}
+            {
+              headCell.filterable && 
+              <input
+                type="text"
+                onChange={e => filterHandler(e, headCell.id)}
+                value={Object.hasOwn(filters, headCell.id) ? props.filters[headCell.id] : ""}
+              />
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -190,6 +197,7 @@ export default function SortableAgreementTable({
   onFilterChange,
   orderBy,
   order,
+  filters
 }) {
   const classes = useStyles();
   const user = useUser();
@@ -239,6 +247,7 @@ export default function SortableAgreementTable({
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
               onRequestFilter={handleFilterChange}
+              filters={filters}
               rowCount={agreements.length}
             />
             <TableBody>
