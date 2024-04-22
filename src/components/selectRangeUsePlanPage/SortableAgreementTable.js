@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
@@ -76,21 +76,17 @@ const headCells = [
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
-    label: 'Status',
-    statusCheckbox: true,
+    label: 'Status'
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort, onRequestFilter } = props;
+  const { classes, order, orderBy, onRequestSort, onRequestFilter, filters } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
-  const [planCheck, setPlanCheck] = useState(false);
-  const [activeCheck, setActiveCheck] = useState(true);
   const filterHandler = (event, property) => {
     onRequestFilter(event, property);
   };
@@ -120,38 +116,14 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-            {headCell.filterable && (
+            {
+              headCell.filterable && 
               <input
                 type="text"
-                onChange={(e) => {
-                  filterHandler(e, headCell.id);
-                }}
+                onChange={e => filterHandler(e, headCell.id)}
+                value={Object.hasOwn(filters, headCell.id) ? props.filters[headCell.id] : ""}
               />
-            )}
-            {headCell.statusCheckbox && (
-              <div className={classes.checkboxBorder}>
-                <input
-                  type="checkbox"
-                  name="withPlan"
-                  onChange={() => {
-                    setPlanCheck(!planCheck);
-                    onRequestFilter(planCheck, 'onlyActive');
-                  }}
-                  checked={planCheck}
-                />
-                <label htmlFor="withPlan"> Has plan</label>
-                <input
-                  type="checkbox"
-                  name="onlyActive"
-                  onChange={() => {
-                    setActiveCheck(!activeCheck);
-                    onRequestFilter(activeCheck, 'withPlan');
-                  }}
-                  checked={activeCheck}
-                />
-                <label htmlFor="withPlan"> Active</label>
-              </div>
-            )}
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -225,6 +197,7 @@ export default function SortableAgreementTable({
   onFilterChange,
   orderBy,
   order,
+  filters
 }) {
   const classes = useStyles();
   const user = useUser();
@@ -236,12 +209,9 @@ export default function SortableAgreementTable({
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
 
-  const handleFilterChange = (eventOrCheck, property) => {
-    onFilterChange(
-      property,
-      eventOrCheck?.target ? eventOrCheck.target.value : eventOrCheck,
-    );
-  };
+  const handleFilterChange = (event, property) => {
+    onFilterChange(property, event.target.value);
+  }
 
   const handleChangePage = (event, newPage) => {
     onPageChange(newPage);
@@ -277,6 +247,7 @@ export default function SortableAgreementTable({
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
               onRequestFilter={handleFilterChange}
+              filters={filters}
               rowCount={agreements.length}
             />
             <TableBody>

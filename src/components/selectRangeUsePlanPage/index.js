@@ -11,12 +11,10 @@ import {
 import Error from './Error';
 import { makeStyles } from '@material-ui/core/styles';
 import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
-import SearchBar from './SearchBar';
 import { Banner } from '../common';
 import {
   SELECT_RUP_BANNER_HEADER,
   SELECT_RUP_BANNER_CONTENT,
-  AGREEMENT_SEARCH_PLACEHOLDER,
 } from '../../constants/strings';
 import { useToast } from '../../providers/ToastProvider';
 import {
@@ -24,6 +22,7 @@ import {
   StringParam,
   encodeObject,
   decodeObject,
+  BooleanParam,
 } from 'use-query-params';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
@@ -44,11 +43,17 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'row',
     marginTop: '15px',
   },
+  checkboxBorder: {
+    border: "1px solid black",
+    borderRadius: "3px",
+    padding: "4px",
+    margin: "0 1rem"
+  }
 }));
 
 const SelectRangeUsePlanPage = ({ match, history }) => {
   const { page = 1 } = match.params;
-  const [term = '', setTerm] = useQueryParam('term', StringParam);
+  const term = '';
   const [toastId, setToastId] = useState();
   const [limit = 10, setLimit] = useQueryParam('limit', StringParam);
   const [searchSelectedZones, setSearchSelectedZones] = useState([]);
@@ -57,14 +62,35 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     StringParam,
   );
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
-  const [filters = { onlyActive: 'true' }, setFilters] = useQueryParam(
+  const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
     'filters',
     NewObjectParam,
   );
   useEffect(() => {
-    // Make sure filters don't carry over
-    setFilters({ onlyActive: 'true' });
+    // Make sure filters don't carry over 
+    setFilters({'agreementCheck': 'true'});
   }, []);
+  const [planCheck = false, setPlanCheck] = useQueryParam(
+    'planCheck',
+    BooleanParam
+  );
+  const [agreementCheck = true, setAgreementCheck] = useQueryParam(
+    'agreementCheck',
+    BooleanParam
+  );
+  const [activeCheck = false, setActiveCheck] = useQueryParam(
+    'activeCheck',
+    BooleanParam
+  );
+  useEffect(() => {
+    addToFilters('planCheck', planCheck);
+  }, [planCheck]);
+  useEffect(() => {
+    addToFilters('agreementCheck', agreementCheck);
+  }, [agreementCheck]);
+  useEffect(() => {
+    addToFilters('activeCheck', activeCheck);
+  }, [activeCheck]);
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();
@@ -95,6 +121,15 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     },
   );
 
+  const addToFilters = (filterCol, filterVal) => {
+    let newFilter = {
+      ...filters
+    }
+    newFilter[filterCol] = filterVal;
+    setPage(1);
+    setFilters(newFilter);
+  }
+
   const setPage = (page) =>
     history.replace(`/home/${page}/${history.location.search}`);
 
@@ -108,16 +143,16 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       />
       <div className="agrm__table-container">
         <div className={classes.searchFilterContainer}>
-          <SearchBar
-            className={classes.searchBar}
-            onSearch={(value) => {
-              setPage(1);
-              setTerm(value);
-            }}
-            loading={isValidating}
-            placeholder={AGREEMENT_SEARCH_PLACEHOLDER}
-            initialValue={term}
-          />
+          <div className={classes.checkboxBorder}>
+            <input type="checkbox" name="planCheck" onChange={() => setPlanCheck(!planCheck)} checked={planCheck}/>
+            <label htmlFor="planCheck"> RUP Created</label>
+            <br/>
+            <input type="checkbox" name="agreementCheck" onChange={() => setAgreementCheck(!agreementCheck)} checked={agreementCheck}/>
+            <label htmlFor="agreementCheck"> Range Agreement</label>
+            <br/>
+            <input type="checkbox" name="activeCheck" onChange={() => setActiveCheck(!activeCheck)} checked={activeCheck}/>
+            <label htmlFor="activeCheck"> Active RUP</label>
+          </div>
           {isUserAgrologist(user) && (
             <ZoneSelect
               zones={zones}
@@ -154,15 +189,11 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
                 setOrderBy(orderBy);
               }}
               onFilterChange={(filterCol, filterVal) => {
-                let newFilter = {
-                  ...filters,
-                };
-                newFilter[filterCol] = filterVal;
-                setPage(1);
-                setFilters(newFilter);
+                addToFilters(filterCol, filterVal);
               }}
               orderBy={orderBy}
               order={order}
+              filters={filters}
             />
           </>
         )}
