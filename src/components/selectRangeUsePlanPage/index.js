@@ -28,6 +28,7 @@ import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 
 import SortableAgreementTable from './SortableAgreementTable';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const keyValueSeparator = '-'; // default is "-"
 const entrySeparator = '~'; // default is "_"
@@ -42,13 +43,14 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'row',
     marginTop: '15px',
+    justifyContent: 'space-between',
   },
   checkboxBorder: {
-    border: "1px solid black",
-    borderRadius: "3px",
-    padding: "4px",
-    margin: "0 1rem"
-  }
+    border: '1px solid black',
+    borderRadius: '3px',
+    padding: '4px',
+    margin: '0 1rem',
+  },
 }));
 
 const SelectRangeUsePlanPage = ({ match, history }) => {
@@ -67,20 +69,20 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     NewObjectParam,
   );
   useEffect(() => {
-    // Make sure filters don't carry over 
-    setFilters({'agreementCheck': 'true'});
+    // Make sure filters don't carry over
+    setFilters({ agreementCheck: 'true' });
   }, []);
   const [planCheck = false, setPlanCheck] = useQueryParam(
     'planCheck',
-    BooleanParam
+    BooleanParam,
   );
   const [agreementCheck = true, setAgreementCheck] = useQueryParam(
     'agreementCheck',
-    BooleanParam
+    BooleanParam,
   );
   const [activeCheck = false, setActiveCheck] = useQueryParam(
     'activeCheck',
-    BooleanParam
+    BooleanParam,
   );
   useEffect(() => {
     addToFilters('planCheck', planCheck);
@@ -123,12 +125,12 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
   const addToFilters = (filterCol, filterVal) => {
     let newFilter = {
-      ...filters
-    }
+      ...filters,
+    };
     newFilter[filterCol] = filterVal;
     setPage(1);
     setFilters(newFilter);
-  }
+  };
 
   const setPage = (page) =>
     history.replace(`/home/${page}/${history.location.search}`);
@@ -141,63 +143,86 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
         header={SELECT_RUP_BANNER_HEADER}
         content={SELECT_RUP_BANNER_CONTENT}
       />
-      <div className="agrm__table-container">
-        <div className={classes.searchFilterContainer}>
-          <div className={classes.checkboxBorder}>
-            <input type="checkbox" name="planCheck" onChange={() => setPlanCheck(!planCheck)} checked={planCheck}/>
-            <label htmlFor="planCheck"> RUP Created</label>
-            <br/>
-            <input type="checkbox" name="agreementCheck" onChange={() => setAgreementCheck(!agreementCheck)} checked={agreementCheck}/>
-            <label htmlFor="agreementCheck"> Range Agreement</label>
-            <br/>
-            <input type="checkbox" name="activeCheck" onChange={() => setActiveCheck(!activeCheck)} checked={activeCheck}/>
-            <label htmlFor="activeCheck"> Active RUP</label>
-          </div>
-          {isUserAgrologist(user) && (
-            <ZoneSelect
-              zones={zones}
-              userZones={userZones}
-              unassignedZones={unassignedZones}
-              zoneUsers={zoneUsers}
-              setSearchSelectedZones={setSearchSelectedZones}
-            />
-          )}
-          {(isUserAdmin(user) || isUserReadOnly(user)) && (
-            <ZoneSelectAll
-              zones={zones}
-              zoneUsers={zoneUsers}
-              setSearchSelectedZones={setSearchSelectedZones}
-            />
-          )}
+      <div className={classes.searchFilterContainer}>
+        <div className={classes.checkboxBorder}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={planCheck}
+                onChange={() => setPlanCheck(!planCheck)}
+                name="planCheck"
+                color="primary"
+              />
+            }
+            label="RUP Created"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={agreementCheck}
+                onChange={() => setAgreementCheck(!agreementCheck)}
+                name="agreementCheck"
+                color="primary"
+              />
+            }
+            label="Range Agreement"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={activeCheck}
+                onChange={() => setActiveCheck(!activeCheck)}
+                name="activeCheck"
+                color="primary"
+              />
+            }
+            label="Active RUP"
+          />
         </div>
-
-        {error ? (
-          <Error onRetry={revalidate} />
-        ) : (
-          <>
-            <SortableAgreementTable
-              agreements={agreements}
-              currentPage={currentPage - 1}
-              totalPages={totalPages}
-              totalAgreements={totalItems}
-              perPage={limit}
-              onPageChange={(page) => setPage(page + 1)}
-              onLimitChange={setLimit}
-              loading={isValidating}
-              onOrderChange={(orderBy, order) => {
-                setOrder(order);
-                setOrderBy(orderBy);
-              }}
-              onFilterChange={(filterCol, filterVal) => {
-                addToFilters(filterCol, filterVal);
-              }}
-              orderBy={orderBy}
-              order={order}
-              filters={filters}
-            />
-          </>
+        {isUserAgrologist(user) && (
+          <ZoneSelect
+            zones={zones}
+            userZones={userZones}
+            unassignedZones={unassignedZones}
+            zoneUsers={zoneUsers}
+            setSearchSelectedZones={setSearchSelectedZones}
+          />
+        )}
+        {(isUserAdmin(user) || isUserReadOnly(user)) && (
+          <ZoneSelectAll
+            zones={zones}
+            zoneUsers={zoneUsers}
+            setSearchSelectedZones={setSearchSelectedZones}
+          />
         )}
       </div>
+
+      {error ? (
+        <Error onRetry={revalidate} />
+      ) : (
+        <>
+          <SortableAgreementTable
+            agreements={agreements}
+            currentPage={currentPage - 1}
+            totalPages={totalPages}
+            totalAgreements={totalItems}
+            perPage={limit}
+            onPageChange={(page) => setPage(page + 1)}
+            onLimitChange={setLimit}
+            loading={isValidating}
+            onOrderChange={(orderBy, order) => {
+              setOrder(order);
+              setOrderBy(orderBy);
+            }}
+            onFilterChange={(filterCol, filterVal) => {
+              addToFilters(filterCol, filterVal);
+            }}
+            orderBy={orderBy}
+            order={order}
+            filters={filters}
+          />
+        </>
+      )}
     </section>
   );
 };
