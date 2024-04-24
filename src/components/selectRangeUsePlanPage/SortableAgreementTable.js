@@ -10,10 +10,17 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
 
 const headCells = [
   {
@@ -70,7 +77,7 @@ const headCells = [
     disablePadding: false,
     label: 'Status Code',
     sortable: true,
-    filterable: true,
+    multiSelectable: true
   },
   {
     id: 'plan.status',
@@ -83,7 +90,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort, onRequestFilter, filters } = props;
+  const { classes, order, orderBy, onRequestSort, onRequestFilter, filters, onStatusCodeChange } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -124,10 +131,73 @@ function EnhancedTableHead(props) {
                 value={Object.hasOwn(filters, headCell.id) ? props.filters[headCell.id] : ""}
               />
             }
+            {
+              headCell.multiSelectable &&
+              <StatusCodesMultiSelect 
+                onStatusCodeChange={onStatusCodeChange}
+              />
+            }
           </TableCell>
         ))}
       </TableRow>
     </TableHead>
+  );
+}
+
+function StatusCodesMultiSelect(props) {
+  const { onStatusCodeChange } = props;
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+  const status_codes = ['C', 'O', 'P', 'D', 'R', 'SD', 'WM', 'SW', 'S', 'NF', 'NA', 'A', 'SR', 'SFD', 'RR', 'RNR', 'RFD', 'AC', 'RFS', 'MSR', 'SNR', 'APS', 'APA', 'SAM'];
+  const [selectedCodes, setSelectedCodes] = React.useState([]);
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedCodes(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+  useEffect(() => {
+    onStatusCodeChange(selectedCodes);
+  }, [selectedCodes])
+
+  return (
+    <FormControl sx={{ width: 125 }}>
+      <InputLabel>Filter</InputLabel>
+      <Select
+        labelId="multiple-chip-label"
+        id="multiple-chip"
+        multiple
+        value={selectedCodes}
+        onChange={handleChange}
+        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+        renderValue={(selected) => (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            {selected.map((value) => (
+              <Chip key={value} label={value} />
+            ))}
+          </Box>
+        )}
+        MenuProps={MenuProps}
+      >
+        {status_codes.map((code) => (
+          <MenuItem
+            key={code}
+            value={code}
+          >{code}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 
@@ -197,7 +267,8 @@ export default function SortableAgreementTable({
   onFilterChange,
   orderBy,
   order,
-  filters
+  filters,
+  onStatusCodeChange
 }) {
   const classes = useStyles();
   const user = useUser();
@@ -211,6 +282,10 @@ export default function SortableAgreementTable({
 
   const handleFilterChange = (event, property) => {
     onFilterChange(property, event.target.value);
+  }
+
+  const handleStatusFilterChange = (codes) => {
+    onStatusCodeChange('plan.status_id', codes)
   }
 
   const handleChangePage = (event, newPage) => {
@@ -249,6 +324,7 @@ export default function SortableAgreementTable({
               onRequestFilter={handleFilterChange}
               filters={filters}
               rowCount={agreements.length}
+              onStatusCodeChange={handleStatusFilterChange}
             />
             <TableBody>
               {agreements.length === 0 &&
