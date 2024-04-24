@@ -135,6 +135,8 @@ function EnhancedTableHead(props) {
               headCell.multiSelectable &&
               <StatusCodesMultiSelect 
                 onStatusCodeChange={onStatusCodeChange}
+                filters={filters}
+                headCellID={headCell.id}
               />
             }
           </TableCell>
@@ -145,7 +147,7 @@ function EnhancedTableHead(props) {
 }
 
 function StatusCodesMultiSelect(props) {
-  const { onStatusCodeChange } = props;
+  const { onStatusCodeChange, filters, headCellID } = props;
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -177,7 +179,7 @@ function StatusCodesMultiSelect(props) {
         labelId="multiple-chip-label"
         id="multiple-chip"
         multiple
-        value={selectedCodes}
+        value={filters[headCellID] ? filters[headCellID].split(",") : []}
         onChange={handleChange}
         input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
         renderValue={(selected) => (
