@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import * as _ from 'lodash/fp';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
-import { roundTo1Decimal } from '../../../utils';
+import { roundTo1Decimal, isUserAgrologist } from '../../../utils';
 import * as strings from '../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common';
 import { IMAGE_SRC } from '../../../constants/variables';
@@ -18,7 +18,6 @@ import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 import { useUser } from '../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
 import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
-import { isUserAgrologist } from '../../../utils';
 
 const GrazingScheduleBox = ({
   schedule,
