@@ -14,13 +14,10 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+import { Checkbox, ListItemText } from '@material-ui/core';
 
 const headCells = [
   {
@@ -77,20 +74,28 @@ const headCells = [
     disablePadding: false,
     label: 'Status Code',
     sortable: true,
-    multiSelectable: true
+    multiSelectable: true,
   },
   {
     id: 'plan.status',
     numeric: false,
     disablePadding: false,
-    label: 'Status'
+    label: 'Status',
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort, onRequestFilter, filters, onStatusCodeChange } = props;
+  const {
+    classes,
+    order,
+    orderBy,
+    onRequestSort,
+    onRequestFilter,
+    filters,
+    onStatusCodeChange,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -123,22 +128,24 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-            {
-              headCell.filterable && 
+            {headCell.filterable && (
               <input
                 type="text"
-                onChange={e => filterHandler(e, headCell.id)}
-                value={Object.hasOwn(filters, headCell.id) ? props.filters[headCell.id] : ""}
+                onChange={(e) => filterHandler(e, headCell.id)}
+                value={
+                  Object.hasOwn(filters, headCell.id)
+                    ? props.filters[headCell.id]
+                    : ''
+                }
               />
-            }
-            {
-              headCell.multiSelectable &&
-              <StatusCodesMultiSelect 
+            )}
+            {headCell.multiSelectable && (
+              <StatusCodesMultiSelect
                 onStatusCodeChange={onStatusCodeChange}
                 filters={filters}
                 headCellID={headCell.id}
               />
-            }
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -158,44 +165,56 @@ function StatusCodesMultiSelect(props) {
       },
     },
   };
-  const status_codes = ['C', 'O', 'P', 'D', 'R', 'SD', 'WM', 'SW', 'S', 'NF', 'NA', 'A', 'SR', 'SFD', 'RR', 'RNR', 'RFD', 'AC', 'RFS', 'MSR', 'SNR', 'APS', 'APA', 'SAM'];
+  const status_codes = [
+    'C',
+    'O',
+    'P',
+    'D',
+    'R',
+    'SD',
+    'WM',
+    'SW',
+    'S',
+    'NF',
+    'NA',
+    'A',
+    'SR',
+    'SFD',
+    'RR',
+    'RNR',
+    'RFD',
+    'AC',
+    'RFS',
+    'MSR',
+    'SNR',
+    'APS',
+    'APA',
+    'SAM',
+  ];
   const [selectedCodes, setSelectedCodes] = React.useState([]);
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setSelectedCodes(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setSelectedCodes(typeof value === 'string' ? value.split(',') : value);
   };
   useEffect(() => {
     onStatusCodeChange(selectedCodes);
-  }, [selectedCodes])
+  }, [selectedCodes]);
 
   return (
     <FormControl sx={{ width: 125 }}>
-      <InputLabel>Filter</InputLabel>
       <Select
-        labelId="multiple-chip-label"
-        id="multiple-chip"
         multiple
-        value={filters[headCellID] ? filters[headCellID].split(",") : []}
+        value={filters[headCellID] ? filters[headCellID].split(',') : []}
         onChange={handleChange}
-        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-        renderValue={(selected) => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {selected.map((value) => (
-              <Chip key={value} label={value} />
-            ))}
-          </Box>
-        )}
+        renderValue={(selected) => selected.join(', ')}
         MenuProps={MenuProps}
       >
         {status_codes.map((code) => (
-          <MenuItem
-            key={code}
-            value={code}
-          >{code}
+          <MenuItem key={code} value={code}>
+            <Checkbox checked={selectedCodes.indexOf(code) > -1} />
+            <ListItemText primary={code} />
           </MenuItem>
         ))}
       </Select>
@@ -270,7 +289,7 @@ export default function SortableAgreementTable({
   orderBy,
   order,
   filters,
-  onStatusCodeChange
+  onStatusCodeChange,
 }) {
   const classes = useStyles();
   const user = useUser();
@@ -284,11 +303,11 @@ export default function SortableAgreementTable({
 
   const handleFilterChange = (event, property) => {
     onFilterChange(property, event.target.value);
-  }
+  };
 
   const handleStatusFilterChange = (codes) => {
-    onStatusCodeChange('plan.status_id', codes)
-  }
+    onStatusCodeChange('plan.status_id', codes);
+  };
 
   const handleChangePage = (event, newPage) => {
     onPageChange(newPage);
