@@ -220,6 +220,9 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             orderBy={orderBy}
             order={order}
             filters={filters}
+            onStatusCodeChange={(filterCol, filterVal) => {
+              addToFilters(filterCol, filterVal);
+            }}
           />
         </>
       )}
