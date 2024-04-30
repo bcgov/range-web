@@ -13,4 +13,5 @@ export const MANAGE_CLIENT = '/manage-client';
 export const MERGE_ACCOUNT = '/merge-account';
 export const EMAIL_TEMPLATE = '/email-template';
 export const ASSIGN_ROLES = '/assign-roles';
-export const ADMIN_ROUTES = [MANAGE_CLIENT, MERGE_ACCOUNT, EMAIL_TEMPLATE, ASSIGN_ROLES];
+export const ASSIGN_DISTRICT = '/assign-district';
+export const ADMIN_ROUTES = [MANAGE_CLIENT, MERGE_ACCOUNT, EMAIL_TEMPLATE, ASSIGN_ROLES, ASSIGN_DISTRICT];
