@@ -22,7 +22,7 @@ const Notifications = (props) => {
           <div className="rup__feedback-notification__title">
             {`Provide input for ${planTypeDescription} Submission`}
           </div>
-          Review the Range Use Plan and provide for feedback
+          Review the Range Use Plan and provide feedback
         </div>
       )}
 
