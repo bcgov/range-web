@@ -31,3 +31,11 @@ export const assignRole = async (userId, roleId) => {
     getAuthHeaderConfig(),
   )
 }
+
+export const assignDistrict = async (userId, districtId) => {
+  return axios.post(
+    API.ASSIGN_DISTRICT(userId),
+    { districtId: districtId },
+    getAuthHeaderConfig(),
+  )
+}
