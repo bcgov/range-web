@@ -7,6 +7,8 @@ import {
   isUserAgrologist,
   isUserReadOnly,
   isUserAdmin,
+  getDataFromLocalStorage,
+  saveDataInLocalStorage
 } from '../../utils';
 import Error from './Error';
 import { makeStyles } from '@material-ui/core/styles';
@@ -67,9 +69,17 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     'filters',
     NewObjectParam,
   );
+  // startup
   useEffect(() => {
     // Make sure filters don't carry over
     setFilters({ agreementCheck: 'true' });
+
+    // Set initial page info from localstorage
+    const pageInfo = getDataFromLocalStorage("page-info");
+    if (pageInfo && pageInfo.pageNumber) {
+      console.log("setting page to: ", pageInfo);
+      setPage(pageInfo.pageNumber);
+    }
   }, []);
   const [planCheck = false, setPlanCheck] = useQueryParam(
     'planCheck',
@@ -127,12 +137,22 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       ...filters,
     };
     newFilter[filterCol] = filterVal;
-    setPage(1);
     setFilters(newFilter);
   };
 
-  const setPage = (page) =>
+  const setPage = (page) => {
     history.replace(`/home/${page}/${history.location.search}`);
+  }
+
+  const setPageAndSave = (page) => {
+    history.replace(`/home/${page}/${history.location.search}`);
+    const currPageInfo = getDataFromLocalStorage("page-info");
+    const pageInfo = {
+      ...currPageInfo,
+      pageNumber: page
+    }
+    saveDataInLocalStorage("page-info", pageInfo);
+  }
 
   const { agreements, totalPages, currentPage = page, totalItems } = data || {};
   const classes = useStyles();
@@ -206,7 +226,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             totalPages={totalPages}
             totalAgreements={totalItems}
             perPage={limit}
-            onPageChange={(page) => setPage(page + 1)}
+            onPageChange={(page) => setPageAndSave(page + 1)}
             onLimitChange={setLimit}
             loading={isValidating}
             onOrderChange={(orderBy, order) => {
@@ -215,12 +235,14 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             }}
             onFilterChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setPage(1);
             }}
             orderBy={orderBy}
             order={order}
             filters={filters}
             onStatusCodeChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setPage(1);
             }}
           />
         </>
