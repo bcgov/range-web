@@ -76,9 +76,15 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
     // Set initial page info from localstorage
     const pageInfo = getDataFromLocalStorage("page-info");
-    if (pageInfo && pageInfo.pageNumber) {
-      console.log("setting page to: ", pageInfo);
-      setPage(pageInfo.pageNumber);
+    if (pageInfo) {
+      if (pageInfo.pageNumber) {
+        console.log("setting page to: ", pageInfo);
+        setPage(pageInfo.pageNumber);
+      }
+      if (pageInfo.pageLimit) {
+        console.log("setting page amout to: ", pageInfo.pageLimit);
+        setLimit(pageInfo.pageLimit);
+      }
     }
   }, []);
   const [planCheck = false, setPlanCheck] = useQueryParam(
@@ -154,6 +160,16 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     saveDataInLocalStorage("page-info", pageInfo);
   }
 
+  const setPageLimitAndSave = (limit) => {
+    const currPageInfo = getDataFromLocalStorage("page-info");
+    const pageInfo = {
+      ...currPageInfo,
+      pageLimit: limit
+    }
+    saveDataInLocalStorage("page-info", pageInfo);
+    setLimit(limit);
+  }
+
   const { agreements, totalPages, currentPage = page, totalItems } = data || {};
   const classes = useStyles();
   return (
@@ -227,7 +243,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             totalAgreements={totalItems}
             perPage={limit}
             onPageChange={(page) => setPageAndSave(page + 1)}
-            onLimitChange={setLimit}
+            onLimitChange={setPageLimitAndSave}
             loading={isValidating}
             onOrderChange={(orderBy, order) => {
               setOrder(order);
