@@ -299,7 +299,7 @@ export default function ZoneSelect({
 
   const handleClose = () => {
     setSearchSelectedZones(selectedZones);
-    if (zones?.length === selectedZones?.length) {
+    if (userZones.concat(unassignedZones)?.length === selectedZones?.length) {
       setSelectAllZones(true);
     } else {
       setSelectAllZones(false);
@@ -310,7 +310,9 @@ export default function ZoneSelect({
   };
 
   const setAllZonesSelected = () => {
-    const initialSelectedZones = zones.map((zone) => zone.id);
+    const initialSelectedZones = userZones
+      .concat(unassignedZones)
+      .map((zone) => zone.id);
     setSelectedZones(initialSelectedZones);
     setSearchSelectedZones(initialSelectedZones);
   };

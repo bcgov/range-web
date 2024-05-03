@@ -179,7 +179,7 @@ export const updateUser = (data) => (dispatch, getState) => {
 };
 
 export const searchAgreements = (params) => (dispatch, getState) => {
-  const { term = '', page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;
+  const { page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;
 
   if (getIsFetchingAgreements(getState())) {
     return Promise.resolve();
@@ -189,7 +189,6 @@ export const searchAgreements = (params) => (dispatch, getState) => {
   const config = {
     ...createConfigWithHeader(getState),
     params: {
-      term,
       page: Number(page),
       limit: Number(limit),
     },

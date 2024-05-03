@@ -55,7 +55,6 @@ const useStyles = makeStyles(() => ({
 
 const SelectRangeUsePlanPage = ({ match, history }) => {
   const { page = 1 } = match.params;
-  const term = '';
   const [toastId, setToastId] = useState();
   const [limit = 10, setLimit] = useQueryParam('limit', StringParam);
   const [searchSelectedZones, setSearchSelectedZones] = useState([]);
@@ -110,7 +109,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const zoneUsers = references.USERS;
 
   const { data, error, revalidate, isValidating } = useSWR(
-    `${API.SEARCH_AGREEMENTS}?page=${page}&term=${term}&selectedZones=${searchSelectedZones}&limit=${limit}&orderBy=${orderBy}&order=${order}&filterString=${JSON.stringify(filters)}`,
+    `${API.SEARCH_AGREEMENTS}?page=${page}&selectedZones=${searchSelectedZones}&limit=${limit}&orderBy=${orderBy}&order=${order}&filterString=${JSON.stringify(filters)}`,
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
     {
       onLoadingSlow: () =>
