@@ -65,6 +65,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     StringParam,
   );
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
+  const filterInfo = getDataFromLocalStorage("filter-info");
   const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
     'filters',
     NewObjectParam,
@@ -77,25 +78,19 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     // Set initial page info from localstorage
     const pageInfo = getDataFromLocalStorage("page-info");
     if (pageInfo) {
-      if (pageInfo.pageNumber) {
-        console.log("setting page to: ", pageInfo);
-        setPage(pageInfo.pageNumber);
-      }
-      if (pageInfo.pageLimit) {
-        console.log("setting page amout to: ", pageInfo.pageLimit);
-        setLimit(pageInfo.pageLimit);
-      }
+      if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
+      if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
     }
   }, []);
-  const [planCheck = false, setPlanCheck] = useQueryParam(
+  const [planCheck = filterInfo?.planCheck || false, setPlanCheck] = useQueryParam(
     'planCheck',
     BooleanParam,
   );
-  const [agreementCheck = true, setAgreementCheck] = useQueryParam(
+  const [agreementCheck = filterInfo?.agreementCheck !== undefined ? filterInfo.agreementCheck : true, setAgreementCheck] = useQueryParam(
     'agreementCheck',
     BooleanParam,
   );
-  const [activeCheck = false, setActiveCheck] = useQueryParam(
+  const [activeCheck = filterInfo?.activeCheck || false, setActiveCheck] = useQueryParam(
     'activeCheck',
     BooleanParam,
   );
@@ -170,6 +165,15 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     setLimit(limit);
   }
 
+  const setSaveFilterInfo = (filterCol, value) => {
+    const currFilterInfo = getDataFromLocalStorage("filter-info");
+    const filterInfo = {
+      ...currFilterInfo
+    }
+    filterInfo[filterCol] = value;
+    saveDataInLocalStorage("filter-info", filterInfo);
+  }
+
   const { agreements, totalPages, currentPage = page, totalItems } = data || {};
   const classes = useStyles();
   return (
@@ -184,7 +188,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             control={
               <Checkbox
                 checked={planCheck}
-                onChange={() => setPlanCheck(!planCheck)}
+                onChange={() => {
+                  setPlanCheck(!planCheck);
+                  setSaveFilterInfo("planCheck", !planCheck);
+                }}
                 name="planCheck"
                 color="primary"
               />
@@ -195,7 +202,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             control={
               <Checkbox
                 checked={agreementCheck}
-                onChange={() => setAgreementCheck(!agreementCheck)}
+                onChange={() => {
+                  setAgreementCheck(!agreementCheck);
+                  setSaveFilterInfo("agreementCheck", !agreementCheck);
+                }}
                 name="agreementCheck"
                 color="primary"
               />
@@ -206,7 +216,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             control={
               <Checkbox
                 checked={activeCheck}
-                onChange={() => setActiveCheck(!activeCheck)}
+                onChange={() => {
+                  setActiveCheck(!activeCheck);
+                  setSaveFilterInfo("activeCheck", !activeCheck);
+                }}
                 name="activeCheck"
                 color="primary"
               />
