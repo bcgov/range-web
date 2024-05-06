@@ -171,6 +171,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   }
 
   const setSaveFilterInfo = (filterCol, value) => {
+    if (!filtersInitialized) return; // Avoid empty update
+
     const currFilterInfo = getDataFromLocalStorage("filter-info");
     const filterInfo = {
       ...currFilterInfo
@@ -277,6 +279,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             filters={filters}
             onStatusCodeChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setSaveFilterInfo(filterCol, filterVal);
               setPage(1);
             }}
           />
