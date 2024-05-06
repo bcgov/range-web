@@ -70,17 +70,21 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     'filters',
     NewObjectParam,
   );
+  const [filtersInitialized, setFiltersInitialized] = useState(false);
   // startup
   useEffect(() => {
-    // Make sure filters don't carry over
-    setFilters({ agreementCheck: 'true' });
-
     // Set initial page info from localstorage
     const pageInfo = getDataFromLocalStorage("page-info");
     if (pageInfo) {
       if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
       if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
     }
+    // Initialize filters
+    setFilters({ 
+      ...filterInfo,
+      agreementCheck: 'true',
+    });
+    setFiltersInitialized(true);  // Workaround flag for checkbox racing the filter initialization
   }, []);
   const [planCheck = filterInfo?.planCheck || false, setPlanCheck] = useQueryParam(
     'planCheck',
@@ -95,14 +99,15 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     BooleanParam,
   );
   useEffect(() => {
-    addToFilters('planCheck', planCheck);
+    if (filtersInitialized) addToFilters('planCheck', planCheck);
   }, [planCheck]);
   useEffect(() => {
-    addToFilters('agreementCheck', agreementCheck);
+    if (filtersInitialized) addToFilters('agreementCheck', agreementCheck);
   }, [agreementCheck]);
   useEffect(() => {
-    addToFilters('activeCheck', activeCheck);
+    if (filtersInitialized) addToFilters('activeCheck', activeCheck);
   }, [activeCheck]);
+
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();
@@ -264,6 +269,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             }}
             onFilterChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setSaveFilterInfo(filterCol, filterVal);
               setPage(1);
             }}
             orderBy={orderBy}
