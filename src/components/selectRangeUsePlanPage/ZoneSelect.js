@@ -7,7 +7,13 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import { getUserFullName, axios, getAuthHeaderConfig } from '../../utils';
+import { 
+  getUserFullName, 
+  axios, 
+  getAuthHeaderConfig, 
+  getDataFromLocalStorage,
+  saveDataInLocalStorage 
+} from '../../utils';
 import * as API from '../../constants/api';
 import { useQueryParam, DelimitedNumericArrayParam } from 'use-query-params';
 import { FormControlLabel } from '@material-ui/core';
@@ -63,6 +69,18 @@ const MenuProps = {
   },
 };
 
+// Persisting zone  information in localstorage
+const setSaveZoneInfo = (allSelected, allDeselected, zones) => {
+  const currZoneInfo = getDataFromLocalStorage("zone-info");
+  const zoneInfo = {
+    ...currZoneInfo,
+    allSelected: allSelected,
+    allDeselected: allDeselected,
+    zones: zones
+  }
+  saveDataInLocalStorage("zone-info", zoneInfo);
+}
+
 export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   const classes = useStyles();
   const [selectedZones = [], setSelectedZones] = useQueryParam(
@@ -72,6 +90,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   const [zoneMap, setZoneMap] = useState();
   const [selectAllZones, setSelectAllZones] = useState(true);
   const [deselectAllZones, setDeselectAllZones] = useState(false);
+  const zoneInfo = getDataFromLocalStorage("zone-info");
 
   const {
     data: users,
@@ -89,7 +108,24 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   };
 
   useEffect(() => {
-    if (selectedZones.length === 0) {
+    if (zoneInfo?.allSelected) {
+      setAllZonesSelected();
+      setSelectAllZones(true);
+      setDeselectAllZones(false);
+    } else {
+      setSelectAllZones(false);
+    }
+    if (zoneInfo?.allDeselected) {
+      setSearchSelectedZones([]);
+      setSelectedZones([]);
+      setSelectAllZones(false);
+      setDeselectAllZones(true);
+    }
+
+    if (zoneInfo?.zones) {
+      setSelectedZones(zoneInfo.zones);
+      setSearchSelectedZones(zoneInfo.zones);
+    } else if (selectedZones.length === 0) {
       setAllZonesSelected();
     } else {
       if (!selectedZones.length) {
@@ -108,13 +144,14 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
         {},
       );
       setZoneMap(zoneMap);
-      setAllZonesSelected();
+      if (!zoneInfo) setAllZonesSelected();
     }
   }, [zones]);
 
   const handleChange = (event) => {
     if (event.target.value !== undefined) {
       setSelectedZones(event.target.value);
+      setSaveZoneInfo(false, false, event.target.value);
     }
   };
 
@@ -149,6 +186,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
               if (event.target.checked) {
                 setAllZonesSelected();
                 setDeselectAllZones(!event.target.checked);
+                setSaveZoneInfo(true, false, zones.map((zone) => zone.id));
               }
             }}
             name="selectAllZones"
@@ -167,6 +205,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
                 setSearchSelectedZones([]);
                 setSelectedZones([]);
                 setSelectAllZones(!event.target.checked);
+                setSaveZoneInfo(false, true, []);
               }
             }}
             name="deselectAllZones"
