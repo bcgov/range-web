@@ -359,6 +359,7 @@ export default function ZoneSelect({
     setSearchSelectedZones(selectedZones);
     if (userZones.concat(unassignedZones)?.length === selectedZones?.length) {
       setSelectAllZones(true);
+      setSaveZoneInfo(true, false, selectedZones);
     } else {
       setSelectAllZones(false);
     }
