@@ -283,6 +283,7 @@ export default function ZoneSelect({
   const [zoneMap, setZoneMap] = useState();
   const [selectAllZones, setSelectAllZones] = useState(true);
   const [deselectAllZones, setDeselectAllZones] = useState(false);
+  const zoneInfo = getDataFromLocalStorage("zone-info");
 
   const {
     data: users,
@@ -294,7 +295,24 @@ export default function ZoneSelect({
   );
 
   useEffect(() => {
-    if (userZones && userZones.length > 0) {
+    if (zoneInfo?.allSelected) {
+      setAllZonesSelected();
+      setSelectAllZones(true);
+      setDeselectAllZones(false);
+    } else if(zoneInfo) {
+      setSelectAllZones(false);
+    }
+    if (zoneInfo?.allDeselected) {
+      setSearchSelectedZones([]);
+      setSelectedZones([]);
+      setSelectAllZones(false);
+      setDeselectAllZones(true);
+    }
+
+    if (zoneInfo?.zones) {
+      setSelectedZones(zoneInfo.zones);
+      setSearchSelectedZones(zoneInfo.zones);
+    } else if (userZones && userZones.length > 0) {
       if (selectedZones.length === 0) {
         setAllZonesSelected();
       } else {
@@ -326,13 +344,14 @@ export default function ZoneSelect({
         {},
       );
       setZoneMap(zoneMap);
-      setAllZonesSelected();
+      if (!zoneInfo) setAllZonesSelected();
     }
   }, [zones]);
 
   const handleChange = (event) => {
     if (event.target.value !== undefined) {
       setSelectedZones(event.target.value);
+      setSaveZoneInfo(false, false, event.target.value);
     }
   };
 
@@ -375,6 +394,7 @@ export default function ZoneSelect({
               if (event.target.checked) {
                 setAllZonesSelected();
                 setDeselectAllZones(!event.target.checked);
+                setSaveZoneInfo(true, false, zones.map((zone) => zone.id));
               }
             }}
             name="selectAllZones"
@@ -393,6 +413,7 @@ export default function ZoneSelect({
                 setSearchSelectedZones([]);
                 setSelectedZones([]);
                 setSelectAllZones(!event.target.checked);
+                setSaveZoneInfo(false, true, []);
               }
             }}
             name="deselectAllZones"
