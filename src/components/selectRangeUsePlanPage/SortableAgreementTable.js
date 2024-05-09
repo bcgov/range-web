@@ -45,7 +45,7 @@ const headCells = [
     filterable: true,
   },
   {
-    id: 'plan_creator.given_name',
+    id: 'user_account.family_name',
     numeric: false,
     disablePadding: false,
     label: 'Staff Contact',

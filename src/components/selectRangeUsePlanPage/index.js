@@ -7,6 +7,8 @@ import {
   isUserAgrologist,
   isUserReadOnly,
   isUserAdmin,
+  getDataFromLocalStorage,
+  saveDataInLocalStorage
 } from '../../utils';
 import Error from './Error';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,35 +65,49 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
     StringParam,
   );
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
+  const filterInfo = getDataFromLocalStorage("filter-info");
   const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
     'filters',
     NewObjectParam,
   );
+  const [filtersInitialized, setFiltersInitialized] = useState(false);
+  // startup
   useEffect(() => {
-    // Make sure filters don't carry over
-    setFilters({ agreementCheck: 'true' });
+    // Set initial page info from localstorage
+    const pageInfo = getDataFromLocalStorage("page-info");
+    if (pageInfo) {
+      if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
+      if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
+    }
+    // Initialize filters
+    setFilters({ 
+      ...filterInfo,
+      agreementCheck: 'true',
+    });
+    setFiltersInitialized(true);  // Workaround flag for checkbox racing the filter initialization
   }, []);
-  const [planCheck = false, setPlanCheck] = useQueryParam(
+  const [planCheck = filterInfo?.planCheck || false, setPlanCheck] = useQueryParam(
     'planCheck',
     BooleanParam,
   );
-  const [agreementCheck = true, setAgreementCheck] = useQueryParam(
+  const [agreementCheck = filterInfo?.agreementCheck !== undefined ? filterInfo.agreementCheck : true, setAgreementCheck] = useQueryParam(
     'agreementCheck',
     BooleanParam,
   );
-  const [activeCheck = false, setActiveCheck] = useQueryParam(
+  const [activeCheck = filterInfo?.activeCheck || false, setActiveCheck] = useQueryParam(
     'activeCheck',
     BooleanParam,
   );
   useEffect(() => {
-    addToFilters('planCheck', planCheck);
+    if (filtersInitialized) addToFilters('planCheck', planCheck);
   }, [planCheck]);
   useEffect(() => {
-    addToFilters('agreementCheck', agreementCheck);
+    if (filtersInitialized) addToFilters('agreementCheck', agreementCheck);
   }, [agreementCheck]);
   useEffect(() => {
-    addToFilters('activeCheck', activeCheck);
+    if (filtersInitialized) addToFilters('activeCheck', activeCheck);
   }, [activeCheck]);
+
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();
@@ -127,12 +143,43 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       ...filters,
     };
     newFilter[filterCol] = filterVal;
-    setPage(1);
     setFilters(newFilter);
   };
 
-  const setPage = (page) =>
+  const setPage = (page) => {
     history.replace(`/home/${page}/${history.location.search}`);
+  }
+
+  const setPageAndSave = (page) => {
+    history.replace(`/home/${page}/${history.location.search}`);
+    const currPageInfo = getDataFromLocalStorage("page-info");
+    const pageInfo = {
+      ...currPageInfo,
+      pageNumber: page
+    }
+    saveDataInLocalStorage("page-info", pageInfo);
+  }
+
+  const setPageLimitAndSave = (limit) => {
+    const currPageInfo = getDataFromLocalStorage("page-info");
+    const pageInfo = {
+      ...currPageInfo,
+      pageLimit: limit
+    }
+    saveDataInLocalStorage("page-info", pageInfo);
+    setLimit(limit);
+  }
+
+  const setSaveFilterInfo = (filterCol, value) => {
+    if (!filtersInitialized) return; // Avoid empty update
+
+    const currFilterInfo = getDataFromLocalStorage("filter-info");
+    const filterInfo = {
+      ...currFilterInfo
+    }
+    filterInfo[filterCol] = value;
+    saveDataInLocalStorage("filter-info", filterInfo);
+  }
 
   const { agreements, totalPages, currentPage = page, totalItems } = data || {};
   const classes = useStyles();
@@ -148,7 +195,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             control={
               <Checkbox
                 checked={planCheck}
-                onChange={() => setPlanCheck(!planCheck)}
+                onChange={() => {
+                  setPlanCheck(!planCheck);
+                  setSaveFilterInfo("planCheck", !planCheck);
+                }}
                 name="planCheck"
                 color="primary"
               />
@@ -159,7 +209,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             control={
               <Checkbox
                 checked={agreementCheck}
-                onChange={() => setAgreementCheck(!agreementCheck)}
+                onChange={() => {
+                  setAgreementCheck(!agreementCheck);
+                  setSaveFilterInfo("agreementCheck", !agreementCheck);
+                }}
                 name="agreementCheck"
                 color="primary"
               />
@@ -170,7 +223,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             control={
               <Checkbox
                 checked={activeCheck}
-                onChange={() => setActiveCheck(!activeCheck)}
+                onChange={() => {
+                  setActiveCheck(!activeCheck);
+                  setSaveFilterInfo("activeCheck", !activeCheck);
+                }}
                 name="activeCheck"
                 color="primary"
               />
@@ -206,8 +262,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             totalPages={totalPages}
             totalAgreements={totalItems}
             perPage={limit}
-            onPageChange={(page) => setPage(page + 1)}
-            onLimitChange={setLimit}
+            onPageChange={(page) => setPageAndSave(page + 1)}
+            onLimitChange={setPageLimitAndSave}
             loading={isValidating}
             onOrderChange={(orderBy, order) => {
               setOrder(order);
@@ -215,12 +271,16 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             }}
             onFilterChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setSaveFilterInfo(filterCol, filterVal);
+              setPage(1);
             }}
             orderBy={orderBy}
             order={order}
             filters={filters}
             onStatusCodeChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setSaveFilterInfo(filterCol, filterVal);
+              setPage(1);
             }}
           />
         </>
