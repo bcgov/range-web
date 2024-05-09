@@ -49,7 +49,7 @@ export const handleGrazingScheduleValidation = (
   const { year, grazingScheduleEntries: gse } = schedule;
   const grazingScheduleEntries = gse || [];
   const yearUsage = usage.find((u) => u.year === year);
-  const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
+  const totalAnnualUse = yearUsage && yearUsage.totalAnnualUse;
   const crownTotalAUMs = calcCrownTotalAUMs(
     grazingScheduleEntries,
     pastures,
@@ -77,7 +77,7 @@ export const handleGrazingScheduleValidation = (
     return undefined;
   });
 
-  if (crownTotalAUMs > authorizedAUMs) {
+  if (crownTotalAUMs > totalAnnualUse) {
     errors.push({
       error: true,
       message: TOTAL_AUMS_EXCEEDS,
