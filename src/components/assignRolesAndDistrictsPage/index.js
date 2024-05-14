@@ -21,7 +21,7 @@ import {
   getUserRole,
 } from '../../utils';
 import { Banner } from '../common';
-import { assignRole, assignDistrict } from '../../api';
+import { assignRole, assignDistricts } from '../../api';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -83,30 +83,30 @@ const AssignRolesAndDistrictsPage = () => {
     }
   }
 
-  const handleAddDistrict = async () => {
-    setAssigningDistrict(true);
-    setAssigningDistrictError(null);
-    setAssigningDistrictSuccess(null);
+  const handleAddDistricts = async () => {
+    setAssigningDistricts(true);
+    setAssigningDistrictsError(null);
+    setAssigningDistrictsSuccess(null);
     try {
-      await assignDistrict(user.id, district.id);
-      setAssigningDistrictSuccess('District assigned to account successfully');
+      await assignDistricts(user.id, selectedDistricts.map((district) => district.id));
+      setAssigningDistrictsSuccess('Districts assigned to account successfully');
     } catch (e) {
-      setAssigningDistrictError(`Error assigning district to account: ${e.message ?? e?.data?.error}`);
+      setAssigningDistrictsError(`Error assigning districts to account: ${e.message ?? e?.data?.error}`);
     } finally {
-      setAssigningDistrict(false);
+      setAssigningDistricts(false);
     }
   }
 
   const [user, setUser] = useState(null);
   const [whatToAssign, setWhatToAssign] = useState(null);
   const [role, setRole] = useState(null);
-  const [district, setDistrict] = useState(null);
+  const [selectedDistricts, setSelectedDistricts] = useState(null);
   const [assigningRole, setAssigningRole] = useState(false);
   const [assigningError, setAssigningError] = useState(null);
   const [assigningSuccess, setAssigningSuccess] = useState(null);
-  const [assigningDistrict, setAssigningDistrict] = useState(false);
-  const [assigningDistrictError, setAssigningDistrictError] = useState(null);
-  const [assigningDistrictSuccess, setAssigningDistrictSuccess] = useState(null);
+  const [assigningDistricts, setAssigningDistricts] = useState(false);
+  const [assigningDistrictsError, setAssigningDistrictsError] = useState(null);
+  const [assigningDistrictsSuccess, setAssigningDistrictsSuccess] = useState(null);
 
   return (
     <section className="manage-client">
@@ -117,7 +117,7 @@ const AssignRolesAndDistrictsPage = () => {
       <div className="manage-client__content">
         <div className="manage-client__steps">
           <h2>
-            Would you like to assign a role or district?:
+            Would you like to assign a role or districts?:
           </h2>
           <div className="button-container">
             <Button 
@@ -130,7 +130,7 @@ const AssignRolesAndDistrictsPage = () => {
               variant="contained"
               onClick={() => setWhatToAssign("District")}
               disabled={whatToAssign === "District"}>
-              District
+              Districts
             </Button>
           </div>
 
@@ -262,21 +262,22 @@ const AssignRolesAndDistrictsPage = () => {
 
           {whatToAssign === "District" &&
           <>
-            <h3>Step 2: Search for and select the corresponding district you&apos;d like to assign:</h3>
+            <h3>Step 2: Search for and select the corresponding districts you&apos;d like to assign:</h3>
             <Autocomplete
               id="user-autocomplete-select"
+              multiple
               options={districts}
-              value={district}
+              // value={district}
               openOnFocus
-              onChange={(e, district) => {
-                setDistrict(district);
+              onChange={(e, districts) => {
+                setSelectedDistricts(districts);
               }}
               getOptionLabel={(option) => `${option.userId} - ${option.code}`}
               style={{ width: 400 }}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Select District"
+                  label="Select Districts"
                   variant="outlined"
                 />
               )}
@@ -299,23 +300,23 @@ const AssignRolesAndDistrictsPage = () => {
                 </Grid>
               )}
             />
-            {district && user && (
+            {selectedDistricts && user && (
             <>
-              <h3>Step 3: Confirm assigning of district</h3>
+              <h3>Step 3: Confirm assigning of districts</h3>
               <Button
                 className={classes.addButton}
                 type="button"
-                onClick={handleAddDistrict}
-                disabled={user === null || district === null || assigningDistrict}
+                onClick={handleAddDistricts}
+                disabled={user === null || selectedDistricts === null || assigningDistricts}
                 variant="contained"
                 color="primary"
               >
-                Assign District
-                {assigningDistrict && (
+                Assign Districts
+                {assigningDistricts && (
                   <Fade
-                    in={assigningDistrict}
+                    in={assigningDistricts}
                     style={{
-                      transitionDelay: assigningDistrict ? '800ms' : '0ms',
+                      transitionDelay: assigningDistricts ? '800ms' : '0ms',
                     }}
                     unmountOnExit
                   >
@@ -328,10 +329,10 @@ const AssignRolesAndDistrictsPage = () => {
               </Button>
             </>
             )}
-            {assigningDistrictError && <Typography color="error">{assigningDistrictError}</Typography>}
-            {assigningDistrictSuccess && (
+            {assigningDistrictsError && <Typography color="error">{assigningDistrictsError}</Typography>}
+            {assigningDistrictsSuccess && (
               <Typography className={classes.successMessage}>
-                {assigningDistrictSuccess}
+                {assigningDistrictsSuccess}
               </Typography>
             )}
           </>
