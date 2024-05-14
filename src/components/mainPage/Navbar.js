@@ -18,8 +18,7 @@ import {
   MANAGE_CLIENTS,
   MERGE_ACCOUNT,
   EMAIL_TEMPLATE,
-  ASSIGN_ROLES,
-  ASSIGN_DISTRICT
+  ASSIGN_ROLES_AND_DISTRICTS
 } from '../../constants/strings';
 
 export class Navbar extends Component {
@@ -105,19 +104,11 @@ export class Navbar extends Component {
               {canAssignRoles(user) && (
                 <>
                   <NavLink
-                  to={Routes.ASSIGN_ROLES}
+                  to={Routes.ASSIGN_ROLES_AND_DISTRICTS}
                   className="navbar__link"
                   activeClassName="navbar__link--active"
                   >
-                    {ASSIGN_ROLES}
-                    <div className="navbar__link__underline" />
-                  </NavLink>
-                  <NavLink
-                  to={Routes.ASSIGN_DISTRICT}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active"
-                  >
-                    {ASSIGN_DISTRICT}
+                    {ASSIGN_ROLES_AND_DISTRICTS}
                     <div className="navbar__link__underline" />
                   </NavLink>
                 </>
