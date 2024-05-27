@@ -41,7 +41,7 @@ export const SIGN_MANUALLY = 'Sign Manually';
 export const PENDING_SUBMISSION = 'Pending Submission';
 export const ALREADY_SIGNED = 'Already Signed';
 export const VIEW = 'View';
-export const EDIT = 'EDIT';
+export const EDIT = 'Edit';
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
 // RUP tabs
