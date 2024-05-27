@@ -20,6 +20,7 @@ import PlanForm from '../PlanForm';
 import { createAmendment, savePlan } from '../../../api';
 import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
 import NetworkStatus from '../../common/NetworkStatus';
+import permissions from '../../../constants/permissions';
 
 // Agreement Holder page
 class PageForAH extends Component {
@@ -172,7 +173,7 @@ class PageForAH extends Component {
     const { isSavingAsDraft, isSubmitting, isCreatingAmendment } = this.state;
     const { openConfirmationModal, plan, user, clientAgreements } = this.props;
     const { confirmations, status } = plan;
-
+    console.log(permissions + '****************************');
     return (
       <ActionBtns
         permissions={{

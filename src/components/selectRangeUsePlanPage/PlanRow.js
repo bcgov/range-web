@@ -17,11 +17,13 @@ import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
 import { useStyles } from './SortableAgreementTable';
 import ExtensionColumn from './ExtensionColumn';
 import PlanActions from './PlanActions';
+import FuturePlansDropdown from '../rangeUsePlanPage/futurePlans/FuturePlansDropdown';
 
 function PlanRow({ agreement, user, currentPage }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const canEdit = canUserEditThisPlan({ ...agreement.plan }, user);
+  console.log('--->' + JSON.stringify(agreement.plan));
 
   return (
     <>
@@ -113,7 +115,10 @@ function PlanRow({ agreement, user, currentPage }) {
         </TableCell>
       </TableRow>
       {agreement.plan?.id && (
-        <VersionsDropdown open={open} planId={agreement.plan.id} />
+        <>
+          <VersionsDropdown open={open} planId={agreement.plan.id} />
+          <FuturePlansDropdown open={open} planId={agreement.plan.id} />
+        </>
       )}
     </>
   );

@@ -1,73 +1,80 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { Button } from '@material-ui/core';
-import { RANGE_USE_PLAN } from '../../constants/routes';
-import * as strings from '../../constants/strings';
+import { IconButton } from '@material-ui/core';
+import { MoreVert } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
 import ViewIcon from '@material-ui/icons/Visibility';
 import { Link } from 'react-router-dom';
-import NewPlanMenuItem from './NewPlanMenuItem';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import { RANGE_USE_PLAN } from '../../../constants/routes';
+import { EDIT, VIEW } from '../../../constants/strings';
 
-export default function PlanActions({
-  agreement,
-  planId,
-  canEdit,
-  canCreatePlan,
-  currentPage,
-}) {
+export default function FuturePlanActions({ planId, canEdit, currentPage }) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+  const prevOpen = React.useRef(open);
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+    prevOpen.current = open;
+  }, [open]);
+
   return (
     <div>
-      <Button
-        aria-controls="customized-menu"
-        aria-haspopup="true"
-        variant="contained"
-        color="primary"
-        onClick={handleToggle}
+      <IconButton
         ref={anchorRef}
-        endIcon={<KeyboardArrowDown />}
+        aria-controls={open ? 'menu-list-grow' : undefined}
+        aria-haspopup="true"
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
       >
-        Actions
-      </Button>
+        <MoreVert />
+      </IconButton>
       <Popper
         open={open}
         anchorEl={anchorRef.current}
         role={undefined}
         transition
         disablePortal
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
         style={{ zIndex: 1 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
+              boxShadow: '1px 1px 5px 1px grey',
               transformOrigin:
                 placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MenuList autoFocusItem={open} id="menu-list-grow">
+                <MenuList
+                  autoFocusItem={open}
+                  id="menu-list-grow"
+                  onKeyDown={handleListKeyDown}
+                >
                   {planId && (
                     <MenuItem
                       fullWidth
@@ -80,29 +87,10 @@ export default function PlanActions({
                           prevSearch: location.search,
                         },
                       }}
+                      endIcon={canEdit ? <EditIcon /> : <ViewIcon />}
                     >
-                      {canEdit ? (
-                        <>
-                          <EditIcon fontSize="small" />
-                          {strings.EDIT}
-                        </>
-                      ) : (
-                        <>
-                          <ViewIcon fontSize="small" />
-                          {strings.VIEW}
-                        </>
-                      )}
+                      {canEdit ? EDIT : VIEW}
                     </MenuItem>
-                  )}
-                  {canCreatePlan && !planId && (
-                    <NewPlanMenuItem agreement={agreement} />
-                  )}
-                  {[
-                    PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
-                    PLAN_EXTENSION_STATUS.STAFF_REJECTED,
-                    PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED,
-                  ].includes(agreement.plan?.extensionStatus) && (
-                    <CreateExtensionPlan planId={planId} />
                   )}
                 </MenuList>
               </ClickAwayListener>

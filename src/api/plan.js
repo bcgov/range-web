@@ -4,12 +4,12 @@ import {
   getAuthHeaderConfig,
   findStatusWithCode,
   isUserAgrologist,
-  canUserAddAttachments
-} from '../utils'
-import * as API from '../constants/api'
-import RUPSchema from '../components/rangeUsePlanPage/schema'
-import { getNetworkStatus } from '../utils/helper/network'
-import { deleteFromQueue } from './delete'
+  canUserAddAttachments,
+} from '../utils';
+import * as API from '../constants/api';
+import RUPSchema from '../components/rangeUsePlanPage/schema';
+import { getNetworkStatus } from '../utils/helper/network';
+import { deleteFromQueue } from './delete';
 import {
   saveGrazingSchedules,
   saveInvasivePlantChecklist,
@@ -109,13 +109,13 @@ export const savePlan = async (plan, user = {}) => {
     }),
   );
 
-  await saveGrazingSchedules(planId, grazingSchedules, newPastures)
-  await saveInvasivePlantChecklist(planId, invasivePlantChecklist)
-  await saveManagementConsiderations(planId, managementConsiderations)
-  await saveMinisterIssues(planId, ministerIssues, newPastures)
-  await saveAdditionalRequirements(planId, additionalRequirements)
+  await saveGrazingSchedules(planId, grazingSchedules, newPastures);
+  await saveInvasivePlantChecklist(planId, invasivePlantChecklist);
+  await saveManagementConsiderations(planId, managementConsiderations);
+  await saveMinisterIssues(planId, ministerIssues, newPastures);
+  await saveAdditionalRequirements(planId, additionalRequirements);
   if (isUserAgrologist(user) && canUserAddAttachments(plan, user)) {
-    await saveAttachments(planId, files)
+    await saveAttachments(planId, files);
   }
 
   return planId;
@@ -245,6 +245,11 @@ export const updateStatus = async ({ planId, note, statusId }) => {
     { note, statusId },
     getAuthHeaderConfig(),
   );
+};
+
+export const createExtensionPlan = async (planId) => {
+  return (await axios.put(API.EXTENSION_PLAN(planId), getAuthHeaderConfig()))
+    .data.extensionPlan;
 };
 
 export const updateConfirmation = async ({

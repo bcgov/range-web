@@ -302,11 +302,14 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           } else {
             if (
               agreement.plan?.planExtensionRequests.filter((request) => {
-                return request.userId === user.id && request.requestedExtension;
-              }).length === 0
+                return (
+                  request.userId === user.id &&
+                  request.requestedExtension === true
+                );
+              }).length !== 0
             )
-              return <>Rejected</>;
-            return <>Requested</>;
+              return <>Requested</>;
+            return <>-</>;
           }
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
