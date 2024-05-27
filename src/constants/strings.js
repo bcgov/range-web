@@ -41,6 +41,7 @@ export const SIGN_MANUALLY = 'Sign Manually';
 export const PENDING_SUBMISSION = 'Pending Submission';
 export const ALREADY_SIGNED = 'Already Signed';
 export const VIEW = 'View';
+export const EDIT = 'EDIT';
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
 // RUP tabs
@@ -276,14 +277,10 @@ export const MERGE_ACCOUNT_BANNER_CONTENT_LINE1 =
   'If an agreement holder has logged in to MyRange with multiple BCEIDS, it is advisable to merge these accounts into their most current BCEID user account.  This will make sure they see all the correct agreements on sign in, and all signatures will be marked as their own.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE2 =
   'Note that you can filter using the table below by hitting the 3 dots in each column, you may also select multiple FROM accounts in step 1, and one TO account in step 2.';
-  export const ASSIGN_ROLES_BANNER_HEADER = 
-  'Assign Roles';
-export const ASSIGN_ROLES_BANNER_CONTENT = 
-  'Assign roles to user accounts';
-  export const ASSIGN_DISTRICT_BANNER_HEADER = 
-  'Assign District';
-export const ASSIGN_DISTRICT_BANNER_CONTENT = 
-  'Assign District to user account';
+export const ASSIGN_ROLES_BANNER_HEADER = 'Assign Roles';
+export const ASSIGN_ROLES_BANNER_CONTENT = 'Assign roles to user accounts';
+export const ASSIGN_DISTRICT_BANNER_HEADER = 'Assign District';
+export const ASSIGN_DISTRICT_BANNER_CONTENT = 'Assign District to user account';
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision';
