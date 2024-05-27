@@ -6,8 +6,8 @@ import {
   Grid,
   Typography,
   makeStyles,
-  Button,
-  Fade,
+  // Button,
+  // Fade,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
@@ -19,9 +19,10 @@ import {
   getAuthHeaderConfig,
   getUserFullName,
   getUserRole,
+  getUserRoleObj,
 } from '../../utils';
 import { Banner } from '../common';
-import { assignRole, assignDistricts } from '../../api';
+// import { assignRole, assignDistricts } from '../../api';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -59,54 +60,56 @@ const AssignRolesAndDistrictsPage = () => {
     }),
   );
 
-  const handleAddRole = async () => {
-    setAssigningRole(true);
-    setAssigningError(null);
-    setAssigningSuccess(null);
-    try {
-      await assignRole(user.id, role.id);
-      setAssigningSuccess('Role assigned to account successfully');
-    } catch (e) {
-      setAssigningError(
-        `Error assigning role to account: ${e.message ?? e?.data?.error}`,
-      );
-    } finally {
-      setAssigningRole(false);
-    }
-  };
+  // const handleAddRole = async () => {
+  //   setAssigningRole(true);
+  //   setAssigningError(null);
+  //   setAssigningSuccess(null);
+  //   try {
+  //     await assignRole(user.id, role.id);
+  //     setAssigningSuccess('Role assigned to account successfully');
+  //   } catch (e) {
+  //     setAssigningError(`Error assigning role to account: ${e.message ?? e?.data?.error}`);
+  //   } finally {
+  //     setAssigningRole(false);
+  //   }
+  // }
 
-  const handleAddDistricts = async () => {
-    setAssigningDistricts(true);
-    setAssigningDistrictsError(null);
-    setAssigningDistrictsSuccess(null);
-    try {
-      await assignDistricts(
-        user.id,
-        selectedDistricts.map((district) => district.id),
-      );
-      setAssigningDistrictsSuccess(
-        'Districts assigned to account successfully',
-      );
-    } catch (e) {
-      setAssigningDistrictsError(
-        `Error assigning districts to account: ${e.message ?? e?.data?.error}`,
-      );
-    } finally {
-      setAssigningDistricts(false);
-    }
-  };
+  // const handleAddDistricts = async () => {
+  //   setAssigningDistricts(true);
+  //   setAssigningDistrictsError(null);
+  //   setAssigningDistrictsSuccess(null);
+  //   try {
+  //     await assignDistricts(user.id, selectedDistricts.map((district) => district.id));
+  //     setAssigningDistrictsSuccess('Districts assigned to account successfully');
+  //   } catch (e) {
+  //     setAssigningDistrictsError(`Error assigning districts to account: ${e.message ?? e?.data?.error}`);
+  //   } finally {
+  //     setAssigningDistricts(false);
+  //   }
+  // }
+
+  const pullRoleAndDistrict = (user) => {
+    // Role
+    setRole(getUserRoleObj(user));
+
+    // District
+    axios.get(`${API.GET_DISTRICTS}/${user.id}`, getAuthHeaderConfig()).then((res) => {
+      setSelectedDistricts([...res.data]);
+      return res.data
+    })
+
+  }
 
   const [user, setUser] = useState(null);
-  const [whatToAssign, setWhatToAssign] = useState(null);
   const [role, setRole] = useState(null);
-  const [selectedDistricts, setSelectedDistricts] = useState(null);
-  const [assigningRole, setAssigningRole] = useState(false);
-  const [assigningError, setAssigningError] = useState(null);
-  const [assigningSuccess, setAssigningSuccess] = useState(null);
-  const [assigningDistricts, setAssigningDistricts] = useState(false);
-  const [assigningDistrictsError, setAssigningDistrictsError] = useState(null);
-  const [assigningDistrictsSuccess, setAssigningDistrictsSuccess] =
-    useState(null);
+  const [selectedDistricts, setSelectedDistricts] = useState([]);
+  // const [assigningRole, setAssigningRole] = useState(false);
+  // const [assigningError, setAssigningError] = useState(null);
+  // const [assigningSuccess, setAssigningSuccess] = useState(null);
+  // const [assigningDistricts, setAssigningDistricts] = useState(false);
+  // const [assigningDistrictsError, setAssigningDistrictsError] = useState(null);
+  // const [assigningDistrictsSuccess, setAssigningDistrictsSuccess] = useState(null);
+
 
   return (
     <section className="manage-client">
@@ -116,99 +119,83 @@ const AssignRolesAndDistrictsPage = () => {
       />
       <div className="manage-client__content">
         <div className="manage-client__steps">
-          <h2>Would you like to assign a role or districts?:</h2>
-          <div className="button-container">
-            <Button
-              variant="contained"
-              onClick={() => setWhatToAssign('Role')}
-              disabled={whatToAssign === 'Role'}
-            >
-              Role
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => setWhatToAssign('District')}
-              disabled={whatToAssign === 'District'}
-            >
-              Districts
-            </Button>
-          </div>
 
-          {whatToAssign && (
+          <h3>
+            Select the user who you&apos;d like to edit:
+          </h3>
+          {error && (
+            <Typography color="error">
+            index.js Error occurred fetching user:{' '}
+            {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+            </Typography>
+          )}
+          {isValidating && !users && <CircularProgress />}
+          {users && (
             <>
-              <h3>Step 1: Select the user who you&apos;d like to edit:</h3>
-              {error && (
-                <Typography color="error">
-                  index.js Error occurred fetching user:{' '}
-                  {error?.message ??
-                    error?.data?.error ??
-                    JSON.stringify(error)}
-                </Typography>
-              )}
-              {isValidating && !users && <CircularProgress />}
-              {users && (
-                <>
-                  <Autocomplete
-                    id="user-autocomplete-select"
-                    options={users}
-                    value={user}
-                    openOnFocus
-                    onChange={(e, user) => {
-                      setUser(user);
-                    }}
-                    getOptionLabel={(option) => getUserFullName(option)}
-                    getOptionSelected={(option) => option.id === user.id}
-                    style={{ width: 400 }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Select user"
-                        variant="outlined"
-                      />
-                    )}
-                    renderOption={(option) => (
-                      <Grid container alignItems="center">
-                        <Grid item>
-                          <PersonIcon className={classes.icon} />
-                        </Grid>
-                        <Grid item xs>
-                          {option.id} - {getUserFullName(option)}
-                          <Typography color="textSecondary">
-                            {getUserRole(option)}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {formatDateToNow(option.lastLoginAt)}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {option.ssoId}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    )}
+              <Autocomplete
+                id="user-autocomplete-select"
+                options={users}
+                value={user}
+                openOnFocus
+                onChange={(e, user) => {
+                  setUser(user);
+                  pullRoleAndDistrict(user);
+                }}
+                getOptionLabel={(option) => getUserFullName(option)}
+                getOptionSelected={(option) => option.id === user.id}
+                style={{ width: 400 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select user"
+                    variant="outlined"
                   />
-                </>
-              )}
+                )}
+                renderOption={(option) => (
+                  <Grid container alignItems="center">
+                    <Grid item>
+                      <PersonIcon className={classes.icon} />
+                    </Grid>
+                    <Grid item xs>
+                    {option.id} - {getUserFullName(option)}
+                      <Typography color="textSecondary">
+                        {getUserRole(option)}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {formatDateToNow(option.lastLoginAt)}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {option.ssoId}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                )}
+              />
             </>
           )}
 
-          {whatToAssign === 'Role' && (
-            <>
-              <h3>Step 2: Choose role you would like to assign:</h3>
-              <Autocomplete
+
+          {user && selectedDistricts && <>
+            {/* Roles */}
+            <Autocomplete
                 id="user-autocomplete-select"
-                options={roles}
+                options={
+                  [
+                    ...roles, 
+                    {id: -1, description: 'No role in database yet'}
+                  ]
+                }
                 value={role}
                 openOnFocus
                 onChange={(e, role) => {
                   setRole(role);
                 }}
                 getOptionLabel={(option) => option.description}
-                // getOptionSelected={(option) => option.id === user.id}
                 style={{ width: 400 }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Select Role"
+                    label="Role"
                     variant="outlined"
                   />
                 )}
@@ -300,50 +287,48 @@ const AssignRolesAndDistrictsPage = () => {
                     </Grid>
                   </Grid>
                 )}
-              />
-              {selectedDistricts && user && (
-                <>
-                  <h3>Step 3: Confirm assigning of districts</h3>
-                  <Button
-                    className={classes.addButton}
-                    type="button"
-                    onClick={handleAddDistricts}
-                    disabled={
-                      user === null ||
-                      selectedDistricts === null ||
-                      assigningDistricts
-                    }
-                    variant="contained"
-                    color="primary"
-                  >
-                    Assign Districts
-                    {assigningDistricts && (
-                      <Fade
-                        in={assigningDistricts}
-                        style={{
-                          transitionDelay: assigningDistricts ? '800ms' : '0ms',
-                        }}
-                        unmountOnExit
-                      >
-                        <CircularProgress
-                          className={classes.buttonProgress}
-                          size={24}
-                        />
-                      </Fade>
-                    )}
-                  </Button>
-                </>
+            />
+
+            {/* Districts */}
+            <Autocomplete
+              id="user-autocomplete-select"
+              multiple
+              options={districts}
+              value={selectedDistricts}
+              openOnFocus
+              onChange={(e, districts) => {
+                setSelectedDistricts(districts);
+              }}
+              getOptionLabel={(option) => `${option.userId} - ${option.code}`}
+              style={{ width: 400 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Districts"
+                  variant="outlined"
+                />
               )}
-              {assigningDistrictsError && (
-                <Typography color="error">{assigningDistrictsError}</Typography>
+              renderOption={(option) => (
+                <Grid container alignItems="center">
+                  <Grid item xs>
+                  <Typography variant="body2" color="textPrimary">
+                      {option.code}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      ID: {option.id}
+                    </Typography>
+                    <Typography>
+                      {option.description}
+                    </Typography>
+                    <Typography>
+                      Current user ID associated: {option.userId}
+                    </Typography>
+                  </Grid>
+                </Grid>
               )}
-              {assigningDistrictsSuccess && (
-                <Typography className={classes.successMessage}>
-                  {assigningDistrictsSuccess}
-                </Typography>
-              )}
-            </>
-          )}
+            />
+          </>}
+
         </div>
       </div>
     </section>
