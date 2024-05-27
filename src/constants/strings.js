@@ -14,7 +14,8 @@ export const MANAGE_ZONES = 'Manage Zones';
 export const MANAGE_CLIENTS = 'Manage Clients';
 export const MERGE_ACCOUNT = 'Merge Accounts';
 export const ASSIGN_ROLES_AND_DISTRICTS = 'Assign Roles/Districts';
-
+export const ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT =
+  'Assign roles or districts to user accounts';
 // Agreement Table
 export const RANGE_NUMBER = 'RAN';
 export const RANGE_NAME = 'Range Name';
@@ -40,7 +41,7 @@ export const SIGN_MANUALLY = 'Sign Manually';
 export const PENDING_SUBMISSION = 'Pending Submission';
 export const ALREADY_SIGNED = 'Already Signed';
 export const VIEW = 'View';
-export const EDIT = 'EDIT';
+export const EDIT = 'Edit';
 export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 
 // RUP tabs
