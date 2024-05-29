@@ -1,18 +1,20 @@
-import React from 'react';
+import { Button } from '@material-ui/core';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { Button } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import EditIcon from '@material-ui/icons/Edit';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import ViewIcon from '@material-ui/icons/Visibility';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 import * as strings from '../../constants/strings';
-import EditIcon from '@material-ui/icons/Edit';
-import ViewIcon from '@material-ui/icons/Visibility';
-import { Link } from 'react-router-dom';
+import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
+import CreateExtensionPlan from './CreateExtensionPlan';
 import NewPlanMenuItem from './NewPlanMenuItem';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 
 export default function PlanActions({
   agreement,

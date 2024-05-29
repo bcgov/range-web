@@ -23,7 +23,6 @@ function PlanRow({ agreement, user, currentPage }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const canEdit = canUserEditThisPlan({ ...agreement.plan }, user);
-  console.log('--->' + JSON.stringify(agreement.plan));
 
   return (
     <>
