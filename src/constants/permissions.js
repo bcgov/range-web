@@ -18,7 +18,8 @@ import {
 } from './fields';
 
 const permissions = {
-  3: [ // Staff Agrologist
+  3: [
+    // Staff Agrologist
     BASIC_INFORMATION.RANGE_NAME,
     BASIC_INFORMATION.ALTERNATE_BUSINESS_NAME,
     BASIC_INFORMATION.PLAN_START_DATE,
@@ -95,7 +96,8 @@ const permissions = {
     ATTACHMENTS.ADD,
     CONDITIONS.PROPOSED_CONDITIONS,
   ],
-  4: [ // Range Agreement Holder
+  4: [
+    // Range Agreement Holder
     SCHEDULE.PASTURE,
     SCHEDULE.TYPE,
     SCHEDULE.ANIMALS,
@@ -114,10 +116,14 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.ATTACHMENT,
     MANAGEMENT_CONSIDERATIONS.DELETE,
     MANAGEMENT_CONSIDERATIONS.ADD,
+    ATTACHMENTS.VIEWABLE_BY,
+    ATTACHMENTS.DELETE,
+    ATTACHMENTS.ADD,
   ],
   5: [], // External Auditor (read only)
   2: [CONDITIONS.CONDITIONS], // Decision Maker
-  1: [  // Admin
+  1: [
+    // Admin
     BASIC_INFORMATION.RANGE_NAME,
     BASIC_INFORMATION.ALTERNATE_BUSINESS_NAME,
     BASIC_INFORMATION.PLAN_START_DATE,
@@ -211,8 +217,8 @@ const permissions = {
     MANAGEMENT_CONSIDERATIONS.ATTACHMENT,
     MANAGEMENT_CONSIDERATIONS.DELETE,
     MANAGEMENT_CONSIDERATIONS.ADD,
-    CONDITIONS.CONDITIONS
-  ]
+    CONDITIONS.CONDITIONS,
+  ],
 };
 
 export default permissions;

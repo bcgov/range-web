@@ -15,7 +15,12 @@ import { Attachments, AttachmentsHeader } from './attachments';
 import EditableProvider from '../../providers/EditableProvider';
 import { isUUID } from 'uuid-v4';
 import { useUser } from '../../providers/UserProvider';
-import { canUserAttachMaps, canUserAddAttachments, canUserConsiderManagement, canUserAddAdditionalReqs } from '../../utils';
+import {
+  canUserAttachMaps,
+  canUserAddAttachments,
+  canUserConsiderManagement,
+  canUserAddAdditionalReqs,
+} from '../../utils';
 
 const PlanForm = ({
   plan,
@@ -98,26 +103,26 @@ const PlanForm = ({
         <EditableProvider editable={canUserAddAttachments(plan, user)}>
           <Element name={ELEMENT_ID.ATTACHMENTS} id={ELEMENT_ID.ATTACHMENTS}>
             <AttachmentsHeader />
+            <Attachments
+              planId={plan.id}
+              attachments={plan.files}
+              propertyName="decisionAttachments"
+              label="Decision Material"
+            />
             <EditableProvider editable={canUserAttachMaps(plan, user)}>
-              <Attachments
-                planId={plan.id}
-                attachments={plan.files}
-                propertyName="decisionAttachments"
-                label="Decision Material"
-              />
               <Attachments
                 planId={plan.id}
                 attachments={plan.files}
                 propertyName="mapAttachments"
                 label="Map"
               />
-              <Attachments
-                planId={plan.id}
-                attachments={plan.files}
-                propertyName="otherAttachments"
-                label="Other"
-              />
             </EditableProvider>
+            <Attachments
+              planId={plan.id}
+              attachments={plan.files}
+              propertyName="otherAttachments"
+              label="Other"
+            />
           </Element>
         </EditableProvider>
       )}

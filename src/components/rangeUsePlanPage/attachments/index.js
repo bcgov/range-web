@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import uuid from 'uuid-v4';
-import { Icon, Confirm } from 'semantic-ui-react';
-import { PrimaryButton } from '../../common';
-import { IfEditable } from '../../common/PermissionsField';
 import { FieldArray, useFormikContext } from 'formik';
-import AttachmentRow from './AttachmentRow';
+import React, { useState } from 'react';
+import { Confirm, Icon } from 'semantic-ui-react';
+import uuid from 'uuid-v4';
 import { deleteAttachment, getSignedUploadUrl } from '../../../api';
 import { ATTACHMENTS } from '../../../constants/fields';
 import { axios } from '../../../utils';
+import { PrimaryButton } from '../../common';
+import { IfEditable } from '../../common/PermissionsField';
+import AttachmentRow from './AttachmentRow';
 
 const sortByDate = (a, b) => {
   if (b.uploadDate > a.uploadDate) return -1;
@@ -24,7 +24,7 @@ const Attachments = ({
   const [toRemove, setToRemove] = useState(null);
   const formik = useFormikContext();
 
-  const handleUpload = async (file, attachment, index) => {
+  const handleUpload = async (file, _attachment, index) => {
     const fieldName = `files.${index}`;
     try {
       const signedUrl = await getSignedUploadUrl(file.name);
