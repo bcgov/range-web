@@ -88,7 +88,8 @@ export const DELETE_USER_CLIENT_LINK = (userId, clientId) =>
 export const MERGE_ACCOUNTS = (userId) => `/v1/user/${userId}/merge`;
 export const ASSIGN_ROLE = (userId) => `/v1/user/${userId}/assignRole`;
 export const ASSIGN_DISTRICT = (userId) => `/v1/user/${userId}/assignDistrict`;
-export const ASSIGN_DISTRICTS = (userId) => `/v1/user/${userId}/assignDistricts`;
+export const ASSIGN_DISTRICTS = (userId) =>
+  `/v1/user/${userId}/assignDistricts`;
 
 export const CREATE_RUP = '/v1/plan';
 export const GET_RUP = (planId) => `/v1/plan/${planId}`;
@@ -105,8 +106,8 @@ export const REQUEST_EXTENSION = (planId) =>
   `/v1/plan/${planId}/extension/request`;
 export const APPROVE_VOTE = (planId) => `/v1/plan/${planId}/extension/approve`;
 export const GET_EXTENSION_PLAN = (planId) => `/v1/plan/${planId}/extension`;
-export const EXTENSION_PLAN = (planId) =>
-  `/v1/plan/${planId}/extension/createExtensionPlan`;
+export const REPLACEMENT_PLAN = (planId) =>
+  `/v1/plan/${planId}/extension/createReplacementPlan`;
 export const REJECT_VOTE = (planId) => `/v1/plan/${planId}/extension/reject`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`;

@@ -247,9 +247,9 @@ export const updateStatus = async ({ planId, note, statusId }) => {
   );
 };
 
-export const createExtensionPlan = async (planId) => {
-  return (await axios.put(API.EXTENSION_PLAN(planId), getAuthHeaderConfig()))
-    .data.extensionPlan;
+export const createReplacementPlan = async (planId) => {
+  return (await axios.put(API.REPLACEMENT_PLAN(planId), getAuthHeaderConfig()))
+    .data.replacementPlan;
 };
 
 export const updateConfirmation = async ({

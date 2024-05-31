@@ -17,7 +17,6 @@ import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
 import { useStyles } from './SortableAgreementTable';
 import ExtensionColumn from './ExtensionColumn';
 import PlanActions from './PlanActions';
-import FuturePlansDropdown from '../rangeUsePlanPage/futurePlans/FuturePlansDropdown';
 
 function PlanRow({ agreement, user, currentPage }) {
   const classes = useStyles();
@@ -116,7 +115,6 @@ function PlanRow({ agreement, user, currentPage }) {
       {agreement.plan?.id && (
         <>
           <VersionsDropdown open={open} planId={agreement.plan.id} />
-          <FuturePlansDropdown open={open} planId={agreement.plan.id} />
         </>
       )}
     </>

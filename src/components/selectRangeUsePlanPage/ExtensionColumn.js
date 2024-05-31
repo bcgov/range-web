@@ -147,6 +147,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>Staff Rejected</div>;
         case PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED:
           return <div>District Manager Rejected</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
+          return <div>Replacement Plan Created</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           if (
             agreement.plan?.extensionReceivedVotes ===
@@ -253,6 +255,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>District Manager Rejected</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           return <div>Awaiting Extension</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
+          return <div>Replacement Plan Created</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
@@ -319,6 +323,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>District Manager Rejected</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           return <div>Awaiting Extension</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
+          return <div>Replacement Plan Created</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
