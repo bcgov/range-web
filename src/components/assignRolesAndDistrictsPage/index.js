@@ -75,7 +75,7 @@ const AssignRolesAndDistrictsPage = () => {
         return;
       }
       await assignRole(user.id, role.id);
-      await assignDistricts(user.id, selectedDistricts.map((district) => district.id));
+      await assignDistricts(user.id, selectedDistricts);
       setAssigningSuccess('Role and Districts assigned to account successfully');
       axios.get(`${API.GET_USERS}/?orderCId=desc`, getAuthHeaderConfig()).then((res) => {
         setUsers([...res.data]);
@@ -223,7 +223,7 @@ const AssignRolesAndDistrictsPage = () => {
               onChange={(e, districts) => {
                 setSelectedDistricts(districts);
               }}
-              getOptionLabel={(option) => `${option.userId ? option.userId : 'No user'} - ${option.code}`}
+              getOptionLabel={(option) => `${option.code}`}
               style={{ width: 400 }}
               renderInput={(params) => (
                 <TextField
@@ -243,9 +243,6 @@ const AssignRolesAndDistrictsPage = () => {
                     </Typography>
                     <Typography>
                       {option.description}
-                    </Typography>
-                    <Typography>
-                      Current user ID associated: {option.userId}
                     </Typography>
                   </Grid>
                 </Grid>
