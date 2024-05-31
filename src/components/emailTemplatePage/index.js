@@ -110,7 +110,6 @@ const EmailTemplatePage = () => {
               <TextField
                 label="From Email"
                 variant="outlined"
-                fullWidth
                 value={selectedTemplate.fromEmail}
                 onChange={(event) =>
                   setSelectedTemplate({
@@ -124,7 +123,6 @@ const EmailTemplatePage = () => {
               <TextField
                 label="Subject"
                 variant="outlined"
-                fullWidth
                 value={selectedTemplate.subject}
                 onChange={(event) => {
                   setSelectedTemplate({
