@@ -5,7 +5,6 @@ import {
   axios,
   getAuthHeaderConfig,
   isUserAgrologist,
-  isUserReadOnly,
   isUserAdmin,
   getDataFromLocalStorage,
   saveDataInLocalStorage
@@ -243,7 +242,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             setSearchSelectedZones={setSearchSelectedZones}
           />
         )}
-        {(isUserAdmin(user) || isUserReadOnly(user)) && (
+        {(isUserAdmin(user)) && (
           <ZoneSelectAll
             zones={zones}
             zoneUsers={zoneUsers}
