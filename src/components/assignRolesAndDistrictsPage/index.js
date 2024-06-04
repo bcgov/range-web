@@ -291,7 +291,7 @@ const AssignRolesAndDistrictsPage = () => {
 
           {assigningError && <Typography color="error">{assigningError}</Typography>}
           {
-            (role?.description === 'Range Agreement Holder' && selectedDistricts?.length > 0)&&
+            (role?.id === 4 && selectedDistricts?.length > 0)&&
             <Typography color="error">Range Agreement Holders cannot be assigned districts.</Typography>
           }
 
