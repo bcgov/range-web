@@ -262,7 +262,7 @@ const AssignRolesAndDistrictsPage = () => {
                   selectedDistricts === null ||
                   role === null ||
                   (
-                    role?.description === 'Range Agreement Holder' &&
+                    role?.id === 4 &&
                     selectedDistricts?.length > 0
                   )
                 }
