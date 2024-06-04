@@ -257,7 +257,15 @@ const AssignRolesAndDistrictsPage = () => {
                 className={classes.addButton}
                 type="button"
                 onClick={handleSave}
-                disabled={user === null || selectedDistricts === null || role === null}
+                disabled={
+                  user === null ||
+                  selectedDistricts === null ||
+                  role === null ||
+                  (
+                    role?.description === 'Range Agreement Holder' &&
+                    selectedDistricts?.length > 0
+                  )
+                }
                 variant="contained"
                 color="primary"
               >
@@ -282,6 +290,10 @@ const AssignRolesAndDistrictsPage = () => {
           }
 
           {assigningError && <Typography color="error">{assigningError}</Typography>}
+          {
+            (role?.description === 'Range Agreement Holder' && selectedDistricts?.length > 0)&&
+            <Typography color="error">Range Agreement Holders cannot be assigned districts.</Typography>
+          }
 
           {assigningSuccess && (
             <Typography className={classes.successMessage}>
