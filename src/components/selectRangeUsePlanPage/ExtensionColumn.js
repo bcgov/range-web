@@ -149,6 +149,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>District Manager Rejected</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
           return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
+          return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           if (
             agreement.plan?.extensionReceivedVotes ===
@@ -207,6 +209,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const renderExtensionForStaff = (user, agreement) => {
     if (isUserStaff(user)) {
+      console.log(agreement.plan?.extensionStatus);
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
@@ -257,6 +260,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>Awaiting Extension</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
           return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
+          return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
@@ -325,6 +330,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>Awaiting Extension</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
           return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
+          return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>

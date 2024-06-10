@@ -14,15 +14,26 @@ const defaultProps = {
   noDefaultHeight: false,
 };
 
-const Banner = ({ header, content, style, noDefaultHeight, contentLine2 }) => (
+const Banner = ({
+  header,
+  content,
+  style,
+  noDefaultHeight,
+  contentLine2,
+  isReplacementPlan,
+}) => (
   <div className="banner" style={style}>
     <div
       className={classnames('banner__container', {
         'banner__container--no-default-height': noDefaultHeight,
+        banner__container__highlighted: isReplacementPlan,
       })}
     >
       <div>
-        <h1 className="banner__header">{header}</h1>
+        <h1 className="banner__header">
+          {header}
+          {isReplacementPlan ? ' (Replacement Plan)' : ''}
+        </h1>
         <div className="banner__content">{content}</div>
         {contentLine2 && (
           <>

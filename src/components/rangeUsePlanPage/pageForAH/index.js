@@ -266,7 +266,12 @@ class PageForAH extends Component {
           fetchPlan={fetchPlan}
         />
 
-        <Banner noDefaultHeight header={bannerHeader} content={bannerContent} />
+        <Banner
+          noDefaultHeight
+          header={bannerHeader}
+          content={bannerContent}
+          isReplacementPlan={plan.replacementOf != null}
+        />
 
         <StickyHeader>
           <div className="rup__actions__background">
