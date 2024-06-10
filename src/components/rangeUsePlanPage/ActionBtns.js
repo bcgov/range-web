@@ -123,6 +123,7 @@ const ActionBtns = ({
     ...permissionsOptions,
   };
 
+  console.log(permissions);
   return (
     <>
       <div className="rup__actions__btns__buttons">

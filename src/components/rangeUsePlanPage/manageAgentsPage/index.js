@@ -150,7 +150,6 @@ const ManageAgentsPage = ({ match }) => {
                       {...params}
                       label="Select user"
                       variant="outlined"
-                      fullWidth
                       className={classes.autocomplete}
                     />
                   )}

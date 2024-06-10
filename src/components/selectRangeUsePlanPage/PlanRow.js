@@ -113,7 +113,9 @@ function PlanRow({ agreement, user, currentPage }) {
         </TableCell>
       </TableRow>
       {agreement.plan?.id && (
-        <VersionsDropdown open={open} planId={agreement.plan.id} />
+        <>
+          <VersionsDropdown open={open} planId={agreement.plan.id} />
+        </>
       )}
     </>
   );
