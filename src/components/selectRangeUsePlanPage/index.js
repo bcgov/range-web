@@ -131,11 +131,12 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const zoneUsers = references.USERS;
 
   const { data, error, revalidate, isValidating } = useSWR(
-    `${API.SEARCH_AGREEMENTS}?page=${page}&selectedZones=${searchSelectedZones}&limit=${limit}&orderBy=${orderBy}&order=${order}&filterString=${JSON.stringify(filters)}`,
+    `${API.SEARCH_AGREEMENTS}?page=${debouncedPage}&selectedZones=${debouncedZones}&limit=${debouncedLimit}&orderBy=${debouncedOrderBy}&order=${debouncedOrder}&filterString=${JSON.stringify(debouncedFilters)}`,
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
     {
-      onLoadingSlow: () =>
-        setToastId(warningToast('Agreements are taking a while to load', -1)),
+      onLoadingSlow: () => {
+        setToastId(warningToast('Agreements are taking a while to load', -1));
+      },
       onError: () => {
         if (references?.ZONES?.length > 0)
           errorToast('Could not load agreements');
