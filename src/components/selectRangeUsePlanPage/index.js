@@ -9,6 +9,7 @@ import {
   getDataFromLocalStorage,
   saveDataInLocalStorage
 } from '../../utils';
+import useDebounce from '../../utils/hooks/useDebounce';
 import Error from './Error';
 import { makeStyles } from '@material-ui/core/styles';
 import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
@@ -56,19 +57,25 @@ const useStyles = makeStyles(() => ({
 
 const SelectRangeUsePlanPage = ({ match, history }) => {
   const { page = 1 } = match.params;
+  const debouncedPage = useDebounce(page, 500);
   const [toastId, setToastId] = useState();
   const [limit = 10, setLimit] = useQueryParam('limit', StringParam);
+  const debouncedLimit = useDebounce(limit, 500);
   const [searchSelectedZones, setSearchSelectedZones] = useState([]);
+  const debouncedZones = useDebounce(searchSelectedZones, 500);
   const [orderBy = 'agreement.forest_file_id', setOrderBy] = useQueryParam(
     'orderBy',
     StringParam,
   );
+  const debouncedOrderBy = useDebounce(orderBy, 500);
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
+  const debouncedOrder = useDebounce(order, 500);
   const filterInfo = getDataFromLocalStorage("filter-info");
   const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
     'filters',
     NewObjectParam,
   );
+  const debouncedFilters = useDebounce(filters, 500);
   const [filtersInitialized, setFiltersInitialized] = useState(false);
   // startup
   useEffect(() => {
