@@ -7,7 +7,7 @@ import {
   isUserAgrologist,
   isUserAdmin,
   getDataFromLocalStorage,
-  saveDataInLocalStorage
+  saveDataInLocalStorage,
 } from '../../utils';
 import useDebounce from '../../utils/hooks/useDebounce';
 import Error from './Error';
@@ -70,7 +70,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const debouncedOrderBy = useDebounce(orderBy, 500);
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
   const debouncedOrder = useDebounce(order, 500);
-  const filterInfo = getDataFromLocalStorage("filter-info");
+  const filterInfo = getDataFromLocalStorage('filter-info');
   const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
     'filters',
     NewObjectParam,
@@ -80,30 +80,32 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   // startup
   useEffect(() => {
     // Set initial page info from localstorage
-    const pageInfo = getDataFromLocalStorage("page-info");
+    const pageInfo = getDataFromLocalStorage('page-info');
     if (pageInfo) {
       if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
       if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
     }
     // Initialize filters
-    setFilters({ 
+    setFilters({
       ...filterInfo,
       agreementCheck: 'true',
     });
-    setFiltersInitialized(true);  // Workaround flag for checkbox racing the filter initialization
+    setFiltersInitialized(true); // Workaround flag for checkbox racing the filter initialization
   }, []);
-  const [planCheck = filterInfo?.planCheck || false, setPlanCheck] = useQueryParam(
-    'planCheck',
-    BooleanParam,
-  );
-  const [agreementCheck = filterInfo?.agreementCheck !== undefined ? filterInfo.agreementCheck : true, setAgreementCheck] = useQueryParam(
-    'agreementCheck',
-    BooleanParam,
-  );
-  const [activeCheck = filterInfo?.activeCheck || false, setActiveCheck] = useQueryParam(
-    'activeCheck',
-    BooleanParam,
-  );
+  const [planCheck = filterInfo?.planCheck || false, setPlanCheck] =
+    useQueryParam('planCheck', BooleanParam);
+  const [
+    agreementCheck = filterInfo?.agreementCheck !== undefined
+      ? filterInfo.agreementCheck
+      : true,
+    setAgreementCheck,
+  ] = useQueryParam('agreementCheck', BooleanParam);
+  const [activeCheck = filterInfo?.activeCheck || false, setActiveCheck] =
+    useQueryParam('activeCheck', BooleanParam);
+  const [
+    showReplacedPlans = filterInfo?.showReplacedPlans || false,
+    setShowReplacedPlans,
+  ] = useQueryParam('showReplacedPlans', BooleanParam);
   useEffect(() => {
     if (filtersInitialized) addToFilters('planCheck', planCheck);
   }, [planCheck]);
@@ -113,6 +115,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   useEffect(() => {
     if (filtersInitialized) addToFilters('activeCheck', activeCheck);
   }, [activeCheck]);
+  useEffect(() => {
+    if (filtersInitialized)
+      addToFilters('showReplacedPlans', showReplacedPlans);
+  }, [showReplacedPlans]);
 
   const { warningToast, removeToast, errorToast } = useToast();
 
@@ -155,38 +161,38 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
   const setPage = (page) => {
     history.replace(`/home/${page}/${history.location.search}`);
-  }
+  };
 
   const setPageAndSave = (page) => {
     history.replace(`/home/${page}/${history.location.search}`);
-    const currPageInfo = getDataFromLocalStorage("page-info");
+    const currPageInfo = getDataFromLocalStorage('page-info');
     const pageInfo = {
       ...currPageInfo,
-      pageNumber: page
-    }
-    saveDataInLocalStorage("page-info", pageInfo);
-  }
+      pageNumber: page,
+    };
+    saveDataInLocalStorage('page-info', pageInfo);
+  };
 
   const setPageLimitAndSave = (limit) => {
-    const currPageInfo = getDataFromLocalStorage("page-info");
+    const currPageInfo = getDataFromLocalStorage('page-info');
     const pageInfo = {
       ...currPageInfo,
-      pageLimit: limit
-    }
-    saveDataInLocalStorage("page-info", pageInfo);
+      pageLimit: limit,
+    };
+    saveDataInLocalStorage('page-info', pageInfo);
     setLimit(limit);
-  }
+  };
 
   const setSaveFilterInfo = (filterCol, value) => {
     if (!filtersInitialized) return; // Avoid empty update
 
-    const currFilterInfo = getDataFromLocalStorage("filter-info");
+    const currFilterInfo = getDataFromLocalStorage('filter-info');
     const filterInfo = {
-      ...currFilterInfo
-    }
+      ...currFilterInfo,
+    };
     filterInfo[filterCol] = value;
-    saveDataInLocalStorage("filter-info", filterInfo);
-  }
+    saveDataInLocalStorage('filter-info', filterInfo);
+  };
 
   const { agreements, totalPages, currentPage = page, totalItems } = data || {};
   const classes = useStyles();
@@ -204,7 +210,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
                 checked={planCheck}
                 onChange={() => {
                   setPlanCheck(!planCheck);
-                  setSaveFilterInfo("planCheck", !planCheck);
+                  setSaveFilterInfo('planCheck', !planCheck);
                 }}
                 name="planCheck"
                 color="primary"
@@ -218,7 +224,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
                 checked={agreementCheck}
                 onChange={() => {
                   setAgreementCheck(!agreementCheck);
-                  setSaveFilterInfo("agreementCheck", !agreementCheck);
+                  setSaveFilterInfo('agreementCheck', !agreementCheck);
                 }}
                 name="agreementCheck"
                 color="primary"
@@ -232,13 +238,27 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
                 checked={activeCheck}
                 onChange={() => {
                   setActiveCheck(!activeCheck);
-                  setSaveFilterInfo("activeCheck", !activeCheck);
+                  setSaveFilterInfo('activeCheck', !activeCheck);
                 }}
                 name="activeCheck"
                 color="primary"
               />
             }
             label="Active RUP"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showReplacedPlans}
+                onChange={() => {
+                  setShowReplacedPlans(!showReplacedPlans);
+                  setSaveFilterInfo('showReplacedPlans', !showReplacedPlans);
+                }}
+                name="shwoReplacedPlans"
+                color="primary"
+              />
+            }
+            label="Replaced Plans"
           />
         </div>
         {isUserAgrologist(user) && (
@@ -250,7 +270,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             setSearchSelectedZones={setSearchSelectedZones}
           />
         )}
-        {(isUserAdmin(user)) && (
+        {isUserAdmin(user) && (
           <ZoneSelectAll
             zones={zones}
             zoneUsers={zoneUsers}
