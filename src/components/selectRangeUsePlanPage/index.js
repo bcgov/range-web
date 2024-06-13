@@ -30,9 +30,10 @@ import {
   saveDataInLocalStorage,
 } from '../../utils';
 import useDebounce from '../../utils/hooks/useDebounce';
-import { Banner } from '../common';
 import Error from './Error';
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
+import ZoneSelect from './ZoneSelect';
+import ZoneSelectAll from './ZoneSelectAll';
+import { Banner } from '../common';
 
 import SortableAgreementTable from './SortableAgreementTable';
 
