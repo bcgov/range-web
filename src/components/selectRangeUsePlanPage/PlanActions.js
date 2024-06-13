@@ -82,9 +82,10 @@ export default function PlanActions({
                   ].includes(agreement.plan?.extensionStatus) && (
                     <CreateReplacementPlan planId={planId} />
                   )}
-                  {[PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED].includes(
-                    agreement.plan?.extensionStatus,
-                  ) && (
+                  {[
+                    PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
+                    PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,
+                  ].includes(agreement.plan?.extensionStatus) && (
                     <ViewPlanMenuItem
                       planId={agreement.plan?.replacementPlanId}
                       currentPage={currentPage}
