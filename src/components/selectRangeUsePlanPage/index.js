@@ -1,36 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import { Checkbox, FormControlLabel, Tooltip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import {
+  BooleanParam,
+  StringParam,
+  decodeObject,
+  encodeObject,
+  useQueryParam,
+} from 'use-query-params';
 import * as API from '../../constants/api';
+import {
+  SELECT_RUP_BANNER_CONTENT,
+  SELECT_RUP_BANNER_HEADER,
+  TOOLTIP_TEXT_ACTIVE_RUP,
+  TOOLTIP_TEXT_ARCHIVED_PLANS,
+  TOOLTIP_TEXT_RANGE_AGREEMENT,
+  TOOLTIP_TEXT_RUP_CREATED,
+} from '../../constants/strings';
+import { useReferences } from '../../providers/ReferencesProvider';
+import { useToast } from '../../providers/ToastProvider';
+import { useUser } from '../../providers/UserProvider';
 import {
   axios,
   getAuthHeaderConfig,
-  isUserAgrologist,
-  isUserAdmin,
   getDataFromLocalStorage,
+  isUserAdmin,
+  isUserAgrologist,
   saveDataInLocalStorage,
 } from '../../utils';
 import useDebounce from '../../utils/hooks/useDebounce';
-import Error from './Error';
-import { makeStyles } from '@material-ui/core/styles';
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
 import { Banner } from '../common';
-import {
-  SELECT_RUP_BANNER_HEADER,
-  SELECT_RUP_BANNER_CONTENT,
-} from '../../constants/strings';
-import { useToast } from '../../providers/ToastProvider';
-import {
-  useQueryParam,
-  StringParam,
-  encodeObject,
-  decodeObject,
-  BooleanParam,
-} from 'use-query-params';
-import { useReferences } from '../../providers/ReferencesProvider';
-import { useUser } from '../../providers/UserProvider';
+import Error from './Error';
+import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
 
 import SortableAgreementTable from './SortableAgreementTable';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const keyValueSeparator = '-'; // default is "-"
 const entrySeparator = '~'; // default is "_"
@@ -204,62 +208,70 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       />
       <div className={classes.searchFilterContainer}>
         <div className={classes.checkboxBorder}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={planCheck}
-                onChange={() => {
-                  setPlanCheck(!planCheck);
-                  setSaveFilterInfo('planCheck', !planCheck);
-                }}
-                name="planCheck"
-                color="primary"
-              />
-            }
-            label="RUP Created"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={agreementCheck}
-                onChange={() => {
-                  setAgreementCheck(!agreementCheck);
-                  setSaveFilterInfo('agreementCheck', !agreementCheck);
-                }}
-                name="agreementCheck"
-                color="primary"
-              />
-            }
-            label="Range Agreement"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={activeCheck}
-                onChange={() => {
-                  setActiveCheck(!activeCheck);
-                  setSaveFilterInfo('activeCheck', !activeCheck);
-                }}
-                name="activeCheck"
-                color="primary"
-              />
-            }
-            label="Active RUP"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={showReplacedPlans}
-                onChange={() => {
-                  setShowReplacedPlans(!showReplacedPlans);
-                  setSaveFilterInfo('showReplacedPlans', !showReplacedPlans);
-                }}
-                name="shwoReplacedPlans"
-                color="primary"
-              />
-            }
-            label="Replaced Plans"
-          />
+          <Tooltip title={TOOLTIP_TEXT_RUP_CREATED}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={planCheck}
+                  onChange={() => {
+                    setPlanCheck(!planCheck);
+                    setSaveFilterInfo('planCheck', !planCheck);
+                  }}
+                  name="planCheck"
+                  color="primary"
+                />
+              }
+              label="RUP Created"
+            />
+          </Tooltip>
+          <Tooltip title={TOOLTIP_TEXT_RANGE_AGREEMENT}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={agreementCheck}
+                  onChange={() => {
+                    setAgreementCheck(!agreementCheck);
+                    setSaveFilterInfo('agreementCheck', !agreementCheck);
+                  }}
+                  name="agreementCheck"
+                  color="primary"
+                />
+              }
+              label="Range Agreement"
+            />
+          </Tooltip>
+          <Tooltip title={TOOLTIP_TEXT_ACTIVE_RUP}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={activeCheck}
+                  onChange={() => {
+                    setActiveCheck(!activeCheck);
+                    setSaveFilterInfo('activeCheck', !activeCheck);
+                  }}
+                  name="activeCheck"
+                  color="primary"
+                />
+              }
+              label="Active RUP"
+            />
+          </Tooltip>
+          <Tooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showReplacedPlans}
+                  onChange={() => {
+                    setShowReplacedPlans(!showReplacedPlans);
+                    setSaveFilterInfo('showReplacedPlans', !showReplacedPlans);
+                  }}
+                  name="shwoReplacedPlans"
+                  color="primary"
+                />
+              }
+              label="Replaced Plans"
+            />
+          </Tooltip>
         </div>
         {isUserAgrologist(user) && (
           <ZoneSelect
