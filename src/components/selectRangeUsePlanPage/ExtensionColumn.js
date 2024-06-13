@@ -149,6 +149,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>District Manager Rejected</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
           return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
+          return <div>Replaced</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
           return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
@@ -260,6 +262,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>Awaiting Extension</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
           return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
+          return <div>Replaced</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
           return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
@@ -330,6 +334,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>Awaiting Extension</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
           return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
+          return <div>Replaced</div>;
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
           return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
