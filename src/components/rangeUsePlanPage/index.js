@@ -20,6 +20,7 @@ import {
   canReadAll,
   getFirstFormikError,
   isUserDecisionMaker,
+  isUserReadOnly,
 } from '../../utils';
 import * as selectors from '../../reducers/rootReducer';
 import PageForStaff from './pageForStaff';
@@ -248,7 +249,8 @@ const Base = ({ user, history, match, location, ...props }) => {
               {(isUserAdmin(user) ||
                 isUserAgrologist(user) ||
                 isUserDecisionMaker(user) ||
-                canReadAll(user)) && (
+                canReadAll(user) ||
+                isUserReadOnly(user)) && (
                 <PageForStaff
                   references={references}
                   agreement={agreement}
