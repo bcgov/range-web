@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel, Tooltip } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import {
@@ -58,7 +58,11 @@ const useStyles = makeStyles(() => ({
     margin: '0 1rem',
   },
 }));
-
+const StyledTooltip = withStyles((theme) => ({
+  tooltip: {
+    fontSize: theme.typography.pxToRem(14),
+  },
+}))(Tooltip);
 const SelectRangeUsePlanPage = ({ match, history }) => {
   const { page = 1 } = match.params;
   const debouncedPage = useDebounce(page, 500);
@@ -208,7 +212,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       />
       <div className={classes.searchFilterContainer}>
         <div className={classes.checkboxBorder}>
-          <Tooltip title={TOOLTIP_TEXT_RUP_CREATED}>
+          <StyledTooltip title={TOOLTIP_TEXT_RUP_CREATED}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -223,8 +227,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               }
               label="RUP Created"
             />
-          </Tooltip>
-          <Tooltip title={TOOLTIP_TEXT_RANGE_AGREEMENT}>
+          </StyledTooltip>
+          <StyledTooltip title={TOOLTIP_TEXT_RANGE_AGREEMENT}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -239,8 +243,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               }
               label="Range Agreement"
             />
-          </Tooltip>
-          <Tooltip title={TOOLTIP_TEXT_ACTIVE_RUP}>
+          </StyledTooltip>
+          <StyledTooltip title={TOOLTIP_TEXT_ACTIVE_RUP}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -255,8 +259,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               }
               label="Active RUP"
             />
-          </Tooltip>
-          <Tooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
+          </StyledTooltip>
+          <StyledTooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -271,7 +275,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
               }
               label="Replaced Plans"
             />
-          </Tooltip>
+          </StyledTooltip>
         </div>
         {isUserAgrologist(user) && (
           <ZoneSelect
