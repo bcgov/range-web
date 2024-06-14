@@ -25,7 +25,6 @@ const NewPlanButton = ({ agreement }) => {
 
   return (
     <Button
-      fullWidth
       variant="contained"
       disableElevation
       color="primary"

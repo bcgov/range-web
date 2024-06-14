@@ -129,7 +129,7 @@ export const USER_ROLE = {
   2: 'Staff Decision Maker',
   3: 'Staff Agrologist',
   4: 'Range Agreement Holder',
-  5: 'External Auditor'
+  5: 'External Auditor',
 };
 
 export const PURPOSE_OF_ACTION = {
@@ -236,4 +236,8 @@ export const PLAN_EXTENSION_STATUS = {
   AWAITING_EXTENSION: 3,
   EXTENDED: 4,
   IS_EXTENSION: 5,
+  REPLACEMENT_PLAN_CREATED: 8,
+  REPLACEMENT_PLAN_INACTIVE: 9,
+  REPLACEMENT_PLAN_ACTIVE: 10,
+  REPLACED_WITH_REPLACEMENT_PLAN: 11,
 };

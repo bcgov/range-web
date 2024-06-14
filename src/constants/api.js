@@ -84,10 +84,12 @@ export const UPDATE_USER_PROFILE = '/v1/user/me';
 export const UPDATE_USER_ID_OF_ZONE = (zoneId) => `/v1/zone/${zoneId}/user`;
 export const CREATE_USER_CLIENT_LINK = (userId) => `/v1/user/${userId}/client`;
 export const DELETE_USER_CLIENT_LINK = (userId, clientId) =>
-`/v1/user/${userId}/client/${clientId}`;
+  `/v1/user/${userId}/client/${clientId}`;
 export const MERGE_ACCOUNTS = (userId) => `/v1/user/${userId}/merge`;
 export const ASSIGN_ROLE = (userId) => `/v1/user/${userId}/assignRole`;
 export const ASSIGN_DISTRICT = (userId) => `/v1/user/${userId}/assignDistrict`;
+export const ASSIGN_DISTRICTS = (userId) =>
+  `/v1/user/${userId}/assignDistricts`;
 
 export const CREATE_RUP = '/v1/plan';
 export const GET_RUP = (planId) => `/v1/plan/${planId}`;
@@ -103,11 +105,17 @@ export const EXTEND_PLAN = (planId, endDate) =>
 export const REQUEST_EXTENSION = (planId) =>
   `/v1/plan/${planId}/extension/request`;
 export const APPROVE_VOTE = (planId) => `/v1/plan/${planId}/extension/approve`;
+export const GET_EXTENSION_PLAN = (planId) => `/v1/plan/${planId}/extension`;
+export const REPLACEMENT_PLAN = (planId) =>
+  `/v1/plan/${planId}/extension/createReplacementPlan`;
 export const REJECT_VOTE = (planId) => `/v1/plan/${planId}/extension/reject`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`;
 export const DISCARD_AMENDMENT = (planId) =>
   `v1/plan/${planId}/discard-amendment`;
+
+export const GET_RUP_FUTURE_PLAN = (planId, version) =>
+  `/v1/plan/${planId}/version/${version}`;
 
 export const CREATE_RUP_VERSION = (planId) => `/v1/plan/${planId}/version`;
 export const GET_RUP_VERSIONS = (planId) => `/v1/plan/${planId}/version`;

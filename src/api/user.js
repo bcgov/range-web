@@ -39,3 +39,11 @@ export const assignDistrict = async (userId, districtId) => {
     getAuthHeaderConfig(),
   )
 }
+
+export const assignDistricts = async (userId, districts) => {
+  return axios.post(
+    API.ASSIGN_DISTRICTS(userId),
+    { districts: districts },
+    getAuthHeaderConfig(),
+  )
+}

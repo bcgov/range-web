@@ -1,18 +1,16 @@
-import React from 'react';
+import { Button } from '@material-ui/core';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
+import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import { Button } from '@material-ui/core';
-import { RANGE_USE_PLAN } from '../../constants/routes';
-import * as strings from '../../constants/strings';
-import EditIcon from '@material-ui/icons/Edit';
-import ViewIcon from '@material-ui/icons/Visibility';
-import { Link } from 'react-router-dom';
-import NewPlanMenuItem from './NewPlanMenuItem';
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import React from 'react';
+import * as strings from '../../constants/strings';
+import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
+import CreateReplacementPlan from './CreateReplacementPlan';
+import NewPlanMenuItem from './NewPlanMenuItem';
+import ViewPlanMenuItem from './ViewPlanMenuItem';
 
 export default function PlanActions({
   agreement,
@@ -35,7 +33,6 @@ export default function PlanActions({
 
     setOpen(false);
   };
-
   return (
     <div>
       <Button
@@ -69,33 +66,31 @@ export default function PlanActions({
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="menu-list-grow">
                   {planId && (
-                    <MenuItem
-                      fullWidth
-                      variant="outlined"
-                      component={Link}
-                      to={{
-                        pathname: `${RANGE_USE_PLAN}/${planId}`,
-                        state: {
-                          page: currentPage,
-                          prevSearch: location.search,
-                        },
-                      }}
-                    >
-                      {canEdit ? (
-                        <>
-                          <EditIcon fontSize="small" />
-                          {strings.EDIT}
-                        </>
-                      ) : (
-                        <>
-                          <ViewIcon fontSize="small" />
-                          {strings.VIEW}
-                        </>
-                      )}
-                    </MenuItem>
+                    <ViewPlanMenuItem
+                      planId={planId}
+                      currentPage={currentPage}
+                      menuText={canEdit ? strings.EDIT : strings.VIEW}
+                    />
                   )}
                   {canCreatePlan && !planId && (
                     <NewPlanMenuItem agreement={agreement} />
+                  )}
+                  {[
+                    PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
+                    PLAN_EXTENSION_STATUS.STAFF_REJECTED,
+                    PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED,
+                  ].includes(agreement.plan?.extensionStatus) && (
+                    <CreateReplacementPlan planId={planId} />
+                  )}
+                  {[
+                    PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
+                    PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,
+                  ].includes(agreement.plan?.extensionStatus) && (
+                    <ViewPlanMenuItem
+                      planId={agreement.plan?.replacementPlanId}
+                      currentPage={currentPage}
+                      menuText={'View Replacement Plan'}
+                    />
                   )}
                 </MenuList>
               </ClickAwayListener>

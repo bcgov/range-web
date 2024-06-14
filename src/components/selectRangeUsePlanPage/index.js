@@ -1,34 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import { Checkbox, FormControlLabel, Tooltip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import {
+  BooleanParam,
+  StringParam,
+  decodeObject,
+  encodeObject,
+  useQueryParam,
+} from 'use-query-params';
 import * as API from '../../constants/api';
+import {
+  SELECT_RUP_BANNER_CONTENT,
+  SELECT_RUP_BANNER_HEADER,
+  TOOLTIP_TEXT_ACTIVE_RUP,
+  TOOLTIP_TEXT_ARCHIVED_PLANS,
+  TOOLTIP_TEXT_RANGE_AGREEMENT,
+  TOOLTIP_TEXT_RUP_CREATED,
+} from '../../constants/strings';
+import { useReferences } from '../../providers/ReferencesProvider';
+import { useToast } from '../../providers/ToastProvider';
+import { useUser } from '../../providers/UserProvider';
 import {
   axios,
   getAuthHeaderConfig,
-  isUserAgrologist,
-  isUserReadOnly,
+  getDataFromLocalStorage,
   isUserAdmin,
+  isUserAgrologist,
+  saveDataInLocalStorage,
 } from '../../utils';
-import Error from './Error';
-import { makeStyles } from '@material-ui/core/styles';
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
+import useDebounce from '../../utils/hooks/useDebounce';
 import { Banner } from '../common';
-import {
-  SELECT_RUP_BANNER_HEADER,
-  SELECT_RUP_BANNER_CONTENT,
-} from '../../constants/strings';
-import { useToast } from '../../providers/ToastProvider';
-import {
-  useQueryParam,
-  StringParam,
-  encodeObject,
-  decodeObject,
-  BooleanParam,
-} from 'use-query-params';
-import { useReferences } from '../../providers/ReferencesProvider';
-import { useUser } from '../../providers/UserProvider';
+import Error from './Error';
+import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
 
 import SortableAgreementTable from './SortableAgreementTable';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const keyValueSeparator = '-'; // default is "-"
 const entrySeparator = '~'; // default is "_"
@@ -55,43 +61,69 @@ const useStyles = makeStyles(() => ({
 
 const SelectRangeUsePlanPage = ({ match, history }) => {
   const { page = 1 } = match.params;
+  const debouncedPage = useDebounce(page, 500);
   const [toastId, setToastId] = useState();
   const [limit = 10, setLimit] = useQueryParam('limit', StringParam);
+  const debouncedLimit = useDebounce(limit, 500);
   const [searchSelectedZones, setSearchSelectedZones] = useState([]);
+  const debouncedZones = useDebounce(searchSelectedZones, 500);
   const [orderBy = 'agreement.forest_file_id', setOrderBy] = useQueryParam(
     'orderBy',
     StringParam,
   );
+  const debouncedOrderBy = useDebounce(orderBy, 500);
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
+  const debouncedOrder = useDebounce(order, 500);
+  const filterInfo = getDataFromLocalStorage('filter-info');
   const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
     'filters',
     NewObjectParam,
   );
+  const debouncedFilters = useDebounce(filters, 500);
+  const [filtersInitialized, setFiltersInitialized] = useState(false);
+  // startup
   useEffect(() => {
-    // Make sure filters don't carry over
-    setFilters({ agreementCheck: 'true' });
+    // Set initial page info from localstorage
+    const pageInfo = getDataFromLocalStorage('page-info');
+    if (pageInfo) {
+      if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
+      if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
+    }
+    // Initialize filters
+    setFilters({
+      ...filterInfo,
+      agreementCheck: 'true',
+    });
+    setFiltersInitialized(true); // Workaround flag for checkbox racing the filter initialization
   }, []);
-  const [planCheck = false, setPlanCheck] = useQueryParam(
-    'planCheck',
-    BooleanParam,
-  );
-  const [agreementCheck = true, setAgreementCheck] = useQueryParam(
-    'agreementCheck',
-    BooleanParam,
-  );
-  const [activeCheck = false, setActiveCheck] = useQueryParam(
-    'activeCheck',
-    BooleanParam,
-  );
+  const [planCheck = filterInfo?.planCheck || false, setPlanCheck] =
+    useQueryParam('planCheck', BooleanParam);
+  const [
+    agreementCheck = filterInfo?.agreementCheck !== undefined
+      ? filterInfo.agreementCheck
+      : true,
+    setAgreementCheck,
+  ] = useQueryParam('agreementCheck', BooleanParam);
+  const [activeCheck = filterInfo?.activeCheck || false, setActiveCheck] =
+    useQueryParam('activeCheck', BooleanParam);
+  const [
+    showReplacedPlans = filterInfo?.showReplacedPlans || false,
+    setShowReplacedPlans,
+  ] = useQueryParam('showReplacedPlans', BooleanParam);
   useEffect(() => {
-    addToFilters('planCheck', planCheck);
+    if (filtersInitialized) addToFilters('planCheck', planCheck);
   }, [planCheck]);
   useEffect(() => {
-    addToFilters('agreementCheck', agreementCheck);
+    if (filtersInitialized) addToFilters('agreementCheck', agreementCheck);
   }, [agreementCheck]);
   useEffect(() => {
-    addToFilters('activeCheck', activeCheck);
+    if (filtersInitialized) addToFilters('activeCheck', activeCheck);
   }, [activeCheck]);
+  useEffect(() => {
+    if (filtersInitialized)
+      addToFilters('showReplacedPlans', showReplacedPlans);
+  }, [showReplacedPlans]);
+
   const { warningToast, removeToast, errorToast } = useToast();
 
   const references = useReferences();
@@ -109,11 +141,12 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const zoneUsers = references.USERS;
 
   const { data, error, revalidate, isValidating } = useSWR(
-    `${API.SEARCH_AGREEMENTS}?page=${page}&selectedZones=${searchSelectedZones}&limit=${limit}&orderBy=${orderBy}&order=${order}&filterString=${JSON.stringify(filters)}`,
+    `${API.SEARCH_AGREEMENTS}?page=${debouncedPage}&selectedZones=${debouncedZones}&limit=${debouncedLimit}&orderBy=${debouncedOrderBy}&order=${debouncedOrder}&filterString=${JSON.stringify(debouncedFilters)}`,
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
     {
-      onLoadingSlow: () =>
-        setToastId(warningToast('Agreements are taking a while to load', -1)),
+      onLoadingSlow: () => {
+        setToastId(warningToast('Agreements are taking a while to load', -1));
+      },
       onError: () => {
         if (references?.ZONES?.length > 0)
           errorToast('Could not load agreements');
@@ -127,12 +160,43 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       ...filters,
     };
     newFilter[filterCol] = filterVal;
-    setPage(1);
     setFilters(newFilter);
   };
 
-  const setPage = (page) =>
+  const setPage = (page) => {
     history.replace(`/home/${page}/${history.location.search}`);
+  };
+
+  const setPageAndSave = (page) => {
+    history.replace(`/home/${page}/${history.location.search}`);
+    const currPageInfo = getDataFromLocalStorage('page-info');
+    const pageInfo = {
+      ...currPageInfo,
+      pageNumber: page,
+    };
+    saveDataInLocalStorage('page-info', pageInfo);
+  };
+
+  const setPageLimitAndSave = (limit) => {
+    const currPageInfo = getDataFromLocalStorage('page-info');
+    const pageInfo = {
+      ...currPageInfo,
+      pageLimit: limit,
+    };
+    saveDataInLocalStorage('page-info', pageInfo);
+    setLimit(limit);
+  };
+
+  const setSaveFilterInfo = (filterCol, value) => {
+    if (!filtersInitialized) return; // Avoid empty update
+
+    const currFilterInfo = getDataFromLocalStorage('filter-info');
+    const filterInfo = {
+      ...currFilterInfo,
+    };
+    filterInfo[filterCol] = value;
+    saveDataInLocalStorage('filter-info', filterInfo);
+  };
 
   const { agreements, totalPages, currentPage = page, totalItems } = data || {};
   const classes = useStyles();
@@ -144,39 +208,70 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       />
       <div className={classes.searchFilterContainer}>
         <div className={classes.checkboxBorder}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={planCheck}
-                onChange={() => setPlanCheck(!planCheck)}
-                name="planCheck"
-                color="primary"
-              />
-            }
-            label="RUP Created"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={agreementCheck}
-                onChange={() => setAgreementCheck(!agreementCheck)}
-                name="agreementCheck"
-                color="primary"
-              />
-            }
-            label="Range Agreement"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={activeCheck}
-                onChange={() => setActiveCheck(!activeCheck)}
-                name="activeCheck"
-                color="primary"
-              />
-            }
-            label="Active RUP"
-          />
+          <Tooltip title={TOOLTIP_TEXT_RUP_CREATED}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={planCheck}
+                  onChange={() => {
+                    setPlanCheck(!planCheck);
+                    setSaveFilterInfo('planCheck', !planCheck);
+                  }}
+                  name="planCheck"
+                  color="primary"
+                />
+              }
+              label="RUP Created"
+            />
+          </Tooltip>
+          <Tooltip title={TOOLTIP_TEXT_RANGE_AGREEMENT}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={agreementCheck}
+                  onChange={() => {
+                    setAgreementCheck(!agreementCheck);
+                    setSaveFilterInfo('agreementCheck', !agreementCheck);
+                  }}
+                  name="agreementCheck"
+                  color="primary"
+                />
+              }
+              label="Range Agreement"
+            />
+          </Tooltip>
+          <Tooltip title={TOOLTIP_TEXT_ACTIVE_RUP}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={activeCheck}
+                  onChange={() => {
+                    setActiveCheck(!activeCheck);
+                    setSaveFilterInfo('activeCheck', !activeCheck);
+                  }}
+                  name="activeCheck"
+                  color="primary"
+                />
+              }
+              label="Active RUP"
+            />
+          </Tooltip>
+          <Tooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showReplacedPlans}
+                  onChange={() => {
+                    setShowReplacedPlans(!showReplacedPlans);
+                    setSaveFilterInfo('showReplacedPlans', !showReplacedPlans);
+                  }}
+                  name="shwoReplacedPlans"
+                  color="primary"
+                />
+              }
+              label="Replaced Plans"
+            />
+          </Tooltip>
         </div>
         {isUserAgrologist(user) && (
           <ZoneSelect
@@ -187,7 +282,7 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             setSearchSelectedZones={setSearchSelectedZones}
           />
         )}
-        {(isUserAdmin(user) || isUserReadOnly(user)) && (
+        {isUserAdmin(user) && (
           <ZoneSelectAll
             zones={zones}
             zoneUsers={zoneUsers}
@@ -206,8 +301,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             totalPages={totalPages}
             totalAgreements={totalItems}
             perPage={limit}
-            onPageChange={(page) => setPage(page + 1)}
-            onLimitChange={setLimit}
+            onPageChange={(page) => setPageAndSave(page + 1)}
+            onLimitChange={setPageLimitAndSave}
             loading={isValidating}
             onOrderChange={(orderBy, order) => {
               setOrder(order);
@@ -215,12 +310,16 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             }}
             onFilterChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setSaveFilterInfo(filterCol, filterVal);
+              setPage(1);
             }}
             orderBy={orderBy}
             order={order}
             filters={filters}
             onStatusCodeChange={(filterCol, filterVal) => {
               addToFilters(filterCol, filterVal);
+              setSaveFilterInfo(filterCol, filterVal);
+              setPage(1);
             }}
           />
         </>

@@ -147,6 +147,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>Staff Rejected</div>;
         case PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED:
           return <div>District Manager Rejected</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
+          return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
+          return <div>Replaced</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
+          return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           if (
             agreement.plan?.extensionReceivedVotes ===
@@ -205,6 +211,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const renderExtensionForStaff = (user, agreement) => {
     if (isUserStaff(user)) {
+      console.log(agreement.plan?.extensionStatus);
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
@@ -253,6 +260,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>District Manager Rejected</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           return <div>Awaiting Extension</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
+          return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
+          return <div>Replaced</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
+          return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
@@ -302,11 +315,14 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           } else {
             if (
               agreement.plan?.planExtensionRequests.filter((request) => {
-                return request.userId === user.id && request.requestedExtension;
-              }).length === 0
+                return (
+                  request.userId === user.id &&
+                  request.requestedExtension === true
+                );
+              }).length !== 0
             )
-              return <>Rejected</>;
-            return <>Requested</>;
+              return <>Requested</>;
+            return <>-</>;
           }
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
@@ -316,6 +332,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return <div>District Manager Rejected</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           return <div>Awaiting Extension</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED:
+          return <div>Replacement Plan Created</div>;
+        case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
+          return <div>Replaced</div>;
+        case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
+          return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>

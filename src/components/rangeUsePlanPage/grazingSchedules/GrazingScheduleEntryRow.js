@@ -12,6 +12,7 @@ import moment from 'moment';
 import PasturesDropdown from './PasturesDropdown';
 import Select from '../../common/Select';
 import RowMenu from './RowMenu';
+import './GrazingScheduleEntryRow.css';
 
 const GrazingScheduleEntryRow = ({
   entry,

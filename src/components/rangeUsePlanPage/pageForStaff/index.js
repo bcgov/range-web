@@ -254,7 +254,12 @@ class PageForStaff extends Component {
           content={strings.SUBMIT_PLAN_CONFIRM_CONTENT}
         />
 
-        <Banner header={bannerHeader} content={bannerContent} noDefaultHeight />
+        <Banner
+          header={bannerHeader}
+          content={bannerContent}
+          noDefaultHeight
+          isReplacementPlan={plan.replacementOf != null}
+        />
 
         <StickyHeader>
           <div className="rup__actions__background">

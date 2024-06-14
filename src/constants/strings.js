@@ -13,9 +13,9 @@ export const SELECT_RUP = 'Select RUP';
 export const MANAGE_ZONES = 'Manage Zones';
 export const MANAGE_CLIENTS = 'Manage Clients';
 export const MERGE_ACCOUNT = 'Merge Accounts';
-export const ASSIGN_ROLES = 'Assign Roles';
-export const ASSIGN_DISTRICT = 'Assign District';
-
+export const ASSIGN_ROLES_AND_DISTRICTS = 'Assign Roles/Districts';
+export const ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT =
+  'Assign roles or districts to user accounts';
 // Agreement Table
 export const RANGE_NUMBER = 'RAN';
 export const RANGE_NAME = 'Range Name';
@@ -118,6 +118,16 @@ export const DATE_OUT = 'Date out';
 export const DAYS = 'Days';
 export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
+
+//TOOLTIPS
+export const TOOLTIP_TEXT_RUP_CREATED =
+  'Check box to only view Range Agreements that have had a Range Use Plan started';
+export const TOOLTIP_TEXT_RANGE_AGREEMENT =
+  'Check box to only view only ACTIVE Range Act Agreements';
+export const TOOLTIP_TEXT_ACTIVE_RUP =
+  'Check box to view Range Use Plans that have been APPROVED, includes RUPs that are being amended.  Does not include draft plans';
+export const TOOLTIP_TEXT_ARCHIVED_PLANS =
+  'Check box to be able to see ARCHIVED plans that have been replaced with a new plan';
 
 // RUP minister issues
 export const CONTACT_NO_EXIST = "Contact doesn't exist";
@@ -277,10 +287,10 @@ export const MERGE_ACCOUNT_BANNER_CONTENT_LINE1 =
   'If an agreement holder has logged in to MyRange with multiple BCEIDS, it is advisable to merge these accounts into their most current BCEID user account.  This will make sure they see all the correct agreements on sign in, and all signatures will be marked as their own.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE2 =
   'Note that you can filter using the table below by hitting the 3 dots in each column, you may also select multiple FROM accounts in step 1, and one TO account in step 2.';
-export const ASSIGN_ROLES_BANNER_HEADER = 'Assign Roles';
-export const ASSIGN_ROLES_BANNER_CONTENT = 'Assign roles to user accounts';
-export const ASSIGN_DISTRICT_BANNER_HEADER = 'Assign District';
-export const ASSIGN_DISTRICT_BANNER_CONTENT = 'Assign District to user account';
+export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_HEADER =
+  'Assign Role and Districts';
+export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_CONTENT =
+  'Assign role and districts to user account';
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision';

@@ -40,8 +40,7 @@ const ManageClient = LoadableComponent(() => import('../manageClientPage'));
 const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'));
 const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
 const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'));
-const AssignRoles = LoadableComponent(() => import('../assignRolesPage'));
-const AssignDistrict = LoadableComponent(() => import('../assignDistrictPage'));
+const AssignRolesAndDistricts = LoadableComponent(() => import('../assignRolesAndDistrictsPage'));
 const PDFView = LoadableComponent(
   () => import('../rangeUsePlanPage/pdf/PDFView'),
 );
@@ -71,13 +70,8 @@ const Router = () => {
               user={user}
             />
             <ProtectedRoute
-              path={Routes.ASSIGN_ROLES}
-              component={AssignRoles}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.ASSIGN_DISTRICT}
-              component={AssignDistrict}
+              path={Routes.ASSIGN_ROLES_AND_DISTRICTS}
+              component={AssignRolesAndDistricts}
               user={user}
             />
             {/* Admin Routes End */}
