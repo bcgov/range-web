@@ -79,10 +79,10 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
   const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
   const debouncedOrder = useDebounce(order, 500);
   const filterInfo = getDataFromLocalStorage('filter-info');
-  const [filters = { agreementCheck: 'true' }, setFilters] = useQueryParam(
-    'filters',
-    NewObjectParam,
-  );
+  const [
+    filters = { agreementCheck: 'true', showReplacedPlans: 'false' },
+    setFilters,
+  ] = useQueryParam('filters', NewObjectParam);
   const debouncedFilters = useDebounce(filters, 500);
   const [filtersInitialized, setFiltersInitialized] = useState(false);
   // startup
@@ -93,11 +93,6 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
       if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
       if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
     }
-    // Initialize filters
-    setFilters({
-      ...filterInfo,
-      agreementCheck: 'true',
-    });
     setFiltersInitialized(true); // Workaround flag for checkbox racing the filter initialization
   }, []);
   const [planCheck = filterInfo?.planCheck || false, setPlanCheck] =
@@ -132,7 +127,6 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
 
   const references = useReferences();
   const user = useUser();
-
   const zones = references.ZONES || [];
   const userZones = zones.filter((zone) => user.id === zone.userId);
   const districtIds = userZones.map((userZone) => {
