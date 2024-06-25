@@ -29,6 +29,7 @@ import EditableProvider from '../providers/EditableProvider';
 import PlanProvider from '../providers/PlanProvider';
 import theme from './theme';
 import { SWRConfig } from 'swr';
+import { ConfirmationModalProvider } from '../providers/ConfrimationModalProvider';
 
 const store = configureStore();
 
@@ -50,7 +51,9 @@ class App extends Component {
                 <EditableProvider editable={true}>
                   <ReferencesProvider>
                     <ToastProvider>
-                      <Router />
+                      <ConfirmationModalProvider>
+                        <Router />
+                      </ConfirmationModalProvider>
                     </ToastProvider>
                   </ReferencesProvider>
                 </EditableProvider>

@@ -17,8 +17,8 @@ import * as API from '../../constants/api';
 import DatePickerDialog from './DatePickerDialog';
 import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
 import { Button } from 'formik-semantic-ui';
-import PlanExtensionConfirmationModal from './PlanExtensionConfirmationModal';
 import { PLAN_EXTENSION_CONFIRMATION_QUESTION } from '../../constants/strings';
+import useConfirm from '../../providers/ConfrimationModalProvider';
 
 export default function ExtensionColumn({ user, currentPage, agreement }) {
   const history = useHistory();
@@ -26,7 +26,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   const [voting, setVoting] = useState(false);
   const [futureDate, setFutureDate] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [confirmationModal, setConfirmationModal] = useState({ open: false });
+  const confirm = useConfirm();
 
   const getPlanFutureDate = (planEndDate) => {
     if (isNaN(Date.parse(planEndDate))) planEndDate = new Date();
@@ -49,15 +49,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   };
 
   const handleRecommend = async (planId) => {
-    setConfirmationModal({
-      open: true,
-      header: 'Confirm',
-      content: PLAN_EXTENSION_CONFIRMATION_QUESTION('recommend'),
-      onConfirm: () => {
-        recommendExtension(planId);
-        setConfirmationModal({ open: false });
-      },
+    const choice = await confirm({
+      contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('recommend'),
     });
+    if (choice) {
+      recommendExtension(planId);
+    }
   };
 
   const extendPlan = async (planId) => {
@@ -93,15 +90,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   };
 
   const handleApprove = async (planId) => {
-    setConfirmationModal({
-      open: true,
-      header: 'Confirm',
-      content: PLAN_EXTENSION_CONFIRMATION_QUESTION('approve'),
-      onConfirm: () => {
-        approveExtension(planId);
-        setConfirmationModal({ open: false });
-      },
+    const choice = await confirm({
+      contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('approve'),
     });
+    if (choice) {
+      approveExtension(planId);
+    }
   };
   const rejectExtension = async (planId) => {
     setVoting(true);
@@ -120,15 +114,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   };
 
   const handleReject = async (planId) => {
-    setConfirmationModal({
-      open: true,
-      header: 'Confirm',
-      content: PLAN_EXTENSION_CONFIRMATION_QUESTION('reject'),
-      onConfirm: () => {
-        rejectExtension(planId);
-        setConfirmationModal({ open: false });
-      },
+    const choice = await confirm({
+      contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('reject'),
     });
+    if (choice) {
+      rejectExtension(planId);
+    }
   };
 
   const renderExtensionForDecisionMaker = (user, agreement) => {
@@ -374,15 +365,6 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         actionName="Extend"
         callBack={() => {
           extendPlan(agreement.plan.id, futureDate);
-        }}
-      />
-      <PlanExtensionConfirmationModal
-        header={confirmationModal.header}
-        content={confirmationModal.content}
-        open={confirmationModal.open}
-        onConfirm={confirmationModal.onConfirm}
-        onClose={() => {
-          setConfirmationModal({ open: false });
         }}
       />
     </>

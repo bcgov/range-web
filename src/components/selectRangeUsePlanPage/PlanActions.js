@@ -8,9 +8,11 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
 import * as strings from '../../constants/strings';
 import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
+import CopyPlanMenuItem from './CopyPlanMenuItem';
 import CreateReplacementPlan from './CreateReplacementPlan';
 import NewPlanMenuItem from './NewPlanMenuItem';
 import ViewPlanMenuItem from './ViewPlanMenuItem';
+import PastePlanMenuItem from './PastePlanMenuItem';
 
 export default function PlanActions({
   agreement,
@@ -72,8 +74,22 @@ export default function PlanActions({
                       menuText={canEdit ? strings.EDIT : strings.VIEW}
                     />
                   )}
+                  {planId && (
+                    <CopyPlanMenuItem
+                      planId={planId}
+                      agreementId={agreement.id}
+                      menuText={'Copy'}
+                    />
+                  )}
                   {canCreatePlan && !planId && (
                     <NewPlanMenuItem agreement={agreement} />
+                  )}
+                  {canCreatePlan && !planId && (
+                    <PastePlanMenuItem
+                      agreementId={agreement.id}
+                      menuText={'Paste'}
+                      currentPage={currentPage}
+                    />
                   )}
                   {[
                     PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,

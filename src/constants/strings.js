@@ -345,3 +345,9 @@ export const MANUAL_SIGNING_FAILUTE =
 
 export const PLAN_EXTENSION_CONFIRMATION_QUESTION = (action) =>
   `Are you sure you want to ${action} extension?`;
+
+export const PLAN_PASTE_CONFIRMATION_QUESTION = (
+  sourceAgreement,
+  destinationAgreement,
+) =>
+  `Are you sure you want to paste content of ${sourceAgreement} and create a new plan ${destinationAgreement}?`;
