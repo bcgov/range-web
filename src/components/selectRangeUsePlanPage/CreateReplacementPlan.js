@@ -11,7 +11,6 @@ const CreateReplacementPlan = ({ planId }) => {
       onClick={async (e) => {
         e.stopPropagation();
         const replacementPlan = await createReplacementPlan(planId);
-        console.log(replacementPlan);
         history.push(`${RANGE_USE_PLAN}/${replacementPlan.id}`);
       }}
     >
