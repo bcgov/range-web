@@ -81,12 +81,7 @@ const setSaveZoneInfo = (allSelected, allDeselected, zones) => {
   saveDataInLocalStorage("zone-info", zoneInfo);
 }
 
-export default function ZoneSelect({
-  zones,
-  userZones,
-  unassignedZones,
-  setSearchSelectedZones,
-}) {
+export default function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   const classes = useStyles();
   const [selectedZones = [], setSelectedZones] = useQueryParam(
     'selectedZones',
@@ -106,12 +101,18 @@ export default function ZoneSelect({
     (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
+  const setAllZonesSelected = () => {
+    const initialSelectedZones = zones.map((zone) => zone.id);
+    setSelectedZones(initialSelectedZones);
+    setSearchSelectedZones(initialSelectedZones);
+  };
+
   useEffect(() => {
     if (zoneInfo?.allSelected) {
       setAllZonesSelected();
       setSelectAllZones(true);
       setDeselectAllZones(false);
-    } else if(zoneInfo) {
+    } else {
       setSelectAllZones(false);
     }
     if (zoneInfo?.allDeselected) {
@@ -124,28 +125,15 @@ export default function ZoneSelect({
     if (zoneInfo?.zones) {
       setSelectedZones(zoneInfo.zones);
       setSearchSelectedZones(zoneInfo.zones);
-    } else if (userZones && userZones.length > 0) {
-      if (selectedZones.length === 0) {
+    } else if (selectedZones.length === 0) {
+      setAllZonesSelected();
+    } else {
+      if (!selectedZones.length) {
         setAllZonesSelected();
       } else {
-        const filteredSelectedZones = selectedZones.filter((zoneID) => {
-          return (
-            userZones.some((userZone) => userZone.id === zoneID) ||
-            unassignedZones.some(
-              (unassignedZone) => unassignedZone.id === zoneID,
-            )
-          );
-        });
-
-        if (!filteredSelectedZones.length) {
-          setAllZonesSelected();
-        } else {
-          setSelectedZones(filteredSelectedZones);
-          setSearchSelectedZones(filteredSelectedZones);
-        }
+        setSelectedZones(selectedZones);
+        setSearchSelectedZones(selectedZones);
       }
-    } else {
-      setSearchSelectedZones(selectedZones);
     }
   }, []);
 
@@ -169,23 +157,14 @@ export default function ZoneSelect({
 
   const handleClose = () => {
     setSearchSelectedZones(selectedZones);
-    if (userZones.concat(unassignedZones)?.length === selectedZones?.length) {
+    if (zones?.length === selectedZones?.length) {
       setSelectAllZones(true);
-      setSaveZoneInfo(true, false, selectedZones);
     } else {
       setSelectAllZones(false);
     }
     if (selectedZones?.length > 0) {
       setDeselectAllZones(false);
     }
-  };
-
-  const setAllZonesSelected = () => {
-    const initialSelectedZones = userZones
-      .concat(unassignedZones)
-      .map((zone) => zone.id);
-    setSelectedZones(initialSelectedZones);
-    setSearchSelectedZones(initialSelectedZones);
   };
 
   if ((isValidating && !users) || !zoneMap) {
@@ -251,49 +230,12 @@ export default function ZoneSelect({
           }}
         >
           <MenuItem value="" disabled>
-            <span style={{ color: 'black', opacity: 2.0 }}>Assigned Zones</span>
+            <span style={{ color: 'black', opacity: 2.0 }}>All Zones</span>
           </MenuItem>
 
           {users &&
-            userZones &&
-            userZones.map((zone) => {
-              const user = users.find((user) => user.id === zone.userId);
-
-              return (
-                <MenuItem
-                  alignItems="flex-start"
-                  style={{ backgroundColor: 'transparent' }}
-                  key={zone.id}
-                  value={zone.id}
-                >
-                  <CustomCheckbox
-                    checked={selectedZones.indexOf(zone.id) > -1}
-                  />
-                  <ListItemText
-                    classes={{
-                      primary: classes.listItemTextPrimary,
-                      secondary: classes.listItemTextSecondary,
-                    }}
-                    primary={
-                      <span style={{ color: '#002C71' }}>
-                        {getUserFullName(user)}
-                      </span>
-                    }
-                    secondary={<span>{zone.description}</span>}
-                  />
-                </MenuItem>
-              );
-            })}
-
-          <MenuItem disabled value="">
-            <span style={{ color: 'black', opacity: 2.0 }}>
-              Unassigned Zones
-            </span>
-          </MenuItem>
-
-          {users &&
-            unassignedZones &&
-            unassignedZones.map((zone) => {
+            zones &&
+            zones.map((zone) => {
               const user = users.find((user) => user.id === zone.userId);
 
               return (
