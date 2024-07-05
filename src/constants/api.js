@@ -111,8 +111,7 @@ export const REPLACEMENT_PLAN = (planId) =>
 export const REJECT_VOTE = (planId) => `/v1/plan/${planId}/extension/reject`;
 export const UPDATE_CONFIRMATION = (planId, confirmationId) =>
   `/v1/plan/${planId}/confirmation/${confirmationId}`;
-export const COPY_PLAN = (planId, agreementId) =>
-  `/v1/plan/${planId}/copy/${agreementId}`;
+export const COPY_PLAN = (planId) => `/v1/plan/${planId}/copy`;
 export const DISCARD_AMENDMENT = (planId) =>
   `v1/plan/${planId}/discard-amendment`;
 

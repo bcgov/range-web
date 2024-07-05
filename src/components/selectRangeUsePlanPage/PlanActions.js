@@ -13,6 +13,7 @@ import CreateReplacementPlan from './CreateReplacementPlan';
 import NewPlanMenuItem from './NewPlanMenuItem';
 import ViewPlanMenuItem from './ViewPlanMenuItem';
 import PastePlanMenuItem from './PastePlanMenuItem';
+import { getDataFromLocalStorage, isPlanActive } from '../../utils';
 
 export default function PlanActions({
   agreement,
@@ -76,6 +77,7 @@ export default function PlanActions({
                   )}
                   {planId && (
                     <CopyPlanMenuItem
+                      handleClose={handleClose}
                       planId={planId}
                       agreementId={agreement.id}
                       menuText={'Copy'}
@@ -86,11 +88,24 @@ export default function PlanActions({
                   )}
                   {canCreatePlan && !planId && (
                     <PastePlanMenuItem
-                      agreementId={agreement.id}
+                      isReplacingPlan={false}
+                      agreement={agreement}
                       menuText={'Paste'}
                       currentPage={currentPage}
                     />
                   )}
+                  {canCreatePlan &&
+                    planId &&
+                    !isPlanActive(agreement.plan) &&
+                    getDataFromLocalStorage('copyPlanInfo')?.agreementId !==
+                      agreement.id && (
+                      <PastePlanMenuItem
+                        isReplacingPlan={true}
+                        agreement={agreement}
+                        menuText={'Paste & Replace'}
+                        currentPage={currentPage}
+                      />
+                    )}
                   {[
                     PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
                     PLAN_EXTENSION_STATUS.STAFF_REJECTED,

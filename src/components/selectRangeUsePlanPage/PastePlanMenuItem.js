@@ -6,12 +6,20 @@ import {
   getDataFromLocalStorage,
 } from '../../utils';
 import useConfirm from '../../providers/ConfrimationModalProvider';
-import { PLAN_PASTE_CONFIRMATION_QUESTION } from '../../constants/strings';
+import {
+  PLAN_PASTE_CONFIRMATION_QUESTION,
+  PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION,
+} from '../../constants/strings';
 import * as API from '../../constants/api';
 import { useToast } from '../../providers/ToastProvider';
 import { useHistory } from 'react-router-dom';
 
-const PastePlanMenuItem = ({ agreementId, menuText, currentPage }) => {
+const PastePlanMenuItem = ({
+  agreement,
+  menuText,
+  currentPage,
+  isReplacingPlan,
+}) => {
   const history = useHistory();
   const { errorToast } = useToast();
   const confirm = useConfirm();
@@ -27,16 +35,24 @@ const PastePlanMenuItem = ({ agreementId, menuText, currentPage }) => {
           return;
         }
         const choice = await confirm({
-          contentText: PLAN_PASTE_CONFIRMATION_QUESTION(
-            sourcePlan.agreementId,
-            agreementId,
-          ),
+          contentText: isReplacingPlan
+            ? PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION(
+                sourcePlan.agreementId,
+                agreement.id,
+              )
+            : PLAN_PASTE_CONFIRMATION_QUESTION(
+                sourcePlan.agreementId,
+                agreement.id,
+              ),
         });
         if (choice) {
           try {
             const response = await axios.put(
-              API.COPY_PLAN(sourcePlan.planId, agreementId),
-              {},
+              API.COPY_PLAN(sourcePlan.planId),
+              {
+                agreementId: agreement.id,
+                destinationPlanId: agreement.plan?.id,
+              },
               getAuthHeaderConfig(),
             );
             history.push({
