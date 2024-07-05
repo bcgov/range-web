@@ -351,3 +351,9 @@ export const PLAN_PASTE_CONFIRMATION_QUESTION = (
   destinationAgreement,
 ) =>
   `Are you sure you want to paste content of ${sourceAgreement} and create a new plan ${destinationAgreement}?`;
+
+export const PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION = (
+  sourceAgreement,
+  destinationAgreement,
+) =>
+  `Are you sure you want to paste content of ${sourceAgreement} and replace the plan ${destinationAgreement}? Please note - This will delete the current plan.`;
