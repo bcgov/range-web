@@ -6,19 +6,17 @@ import {
   getDataFromLocalStorage,
 } from '../../utils';
 import useConfirm from '../../providers/ConfrimationModalProvider';
-import {
-  PLAN_PASTE_CONFIRMATION_QUESTION,
-  PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION,
-} from '../../constants/strings';
 import * as API from '../../constants/api';
 import { useToast } from '../../providers/ToastProvider';
 import { useHistory } from 'react-router-dom';
 
 const PastePlanMenuItem = ({
-  agreement,
+  destinationAgreementId,
+  destinationPlanId,
   menuText,
+  confirmationPromptText,
   currentPage,
-  isReplacingPlan,
+  createReplacementPlan,
 }) => {
   const history = useHistory();
   const { errorToast } = useToast();
@@ -35,23 +33,16 @@ const PastePlanMenuItem = ({
           return;
         }
         const choice = await confirm({
-          contentText: isReplacingPlan
-            ? PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION(
-                sourcePlan.agreementId,
-                agreement.id,
-              )
-            : PLAN_PASTE_CONFIRMATION_QUESTION(
-                sourcePlan.agreementId,
-                agreement.id,
-              ),
+          contentText: confirmationPromptText,
         });
         if (choice) {
           try {
             const response = await axios.put(
               API.COPY_PLAN(sourcePlan.planId),
               {
-                agreementId: agreement.id,
-                destinationPlanId: agreement.plan?.id,
+                agreementId: destinationAgreementId,
+                destinationPlanId: destinationPlanId,
+                createReplacementPlan: createReplacementPlan,
               },
               getAuthHeaderConfig(),
             );
