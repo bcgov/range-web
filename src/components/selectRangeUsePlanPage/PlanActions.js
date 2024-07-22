@@ -8,12 +8,12 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
 import * as strings from '../../constants/strings';
 import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
+import { getDataFromLocalStorage, isPlanActive } from '../../utils';
 import CopyPlanMenuItem from './CopyPlanMenuItem';
 import CreateReplacementPlan from './CreateReplacementPlan';
 import NewPlanMenuItem from './NewPlanMenuItem';
-import ViewPlanMenuItem from './ViewPlanMenuItem';
 import PastePlanMenuItem from './PastePlanMenuItem';
-import { getDataFromLocalStorage, isPlanActive } from '../../utils';
+import ViewPlanMenuItem from './ViewPlanMenuItem';
 
 export default function PlanActions({
   agreement,
@@ -88,10 +88,13 @@ export default function PlanActions({
                   )}
                   {canCreatePlan && !planId && (
                     <PastePlanMenuItem
-                      isReplacingPlan={false}
-                      agreement={agreement}
+                      destinationAgreementId={agreement.id}
                       menuText={'Paste'}
                       currentPage={currentPage}
+                      confirmationPromptText={strings.PLAN_PASTE_CONFIRMATION_QUESTION(
+                        getDataFromLocalStorage('copyPlanInfo')?.agreementId,
+                        agreement.id,
+                      )}
                     />
                   )}
                   {canCreatePlan &&
@@ -100,10 +103,14 @@ export default function PlanActions({
                     getDataFromLocalStorage('copyPlanInfo')?.agreementId !==
                       agreement.id && (
                       <PastePlanMenuItem
-                        isReplacingPlan={true}
-                        agreement={agreement}
+                        destinationAgreementId={agreement.id}
+                        destinationPlanId={agreement?.plan.id}
                         menuText={'Paste & Replace'}
                         currentPage={currentPage}
+                        confirmationPromptText={strings.PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION(
+                          getDataFromLocalStorage('copyPlanInfo')?.agreementId,
+                          agreement.id,
+                        )}
                       />
                     )}
                   {[
@@ -121,6 +128,24 @@ export default function PlanActions({
                       planId={agreement.plan?.replacementPlanId}
                       currentPage={currentPage}
                       menuText={'View Replacement Plan'}
+                    />
+                  )}
+                  {[
+                    PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
+                    PLAN_EXTENSION_STATUS.STAFF_REJECTED,
+                    PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED,
+                    PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
+                  ].includes(agreement.plan?.extensionStatus) && (
+                    <PastePlanMenuItem
+                      destinationAgreementId={agreement.id}
+                      destinationPlanId={agreement?.plan?.id}
+                      menuText={'Paste As Replacement Plan'}
+                      currentPage={currentPage}
+                      createReplacementPlan={true}
+                      confirmationPromptText={strings.PLAN_PASTE_AS_REPLACEMENT_PLAN_CONFIRMATION_QUESTION(
+                        getDataFromLocalStorage('copyPlanInfo')?.agreementId,
+                        agreement.id,
+                      )}
                     />
                   )}
                 </MenuList>
