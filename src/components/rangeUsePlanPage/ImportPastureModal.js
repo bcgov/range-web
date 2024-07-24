@@ -122,7 +122,7 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport, districtId }) => {
                       <IconButton
                         edge="end"
                         size="small"
-                        style={{ marginRight: 60 }}
+                        style={{ marginRight: 40 }}
                         onClick={() => onImport(pasture)}
                       >
                         <AddBox></AddBox>
