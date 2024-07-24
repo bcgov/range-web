@@ -12,9 +12,11 @@ import { PASTURES } from '../../../constants/fields';
 import { InfoTip, InputModal } from '../../common';
 import { deletePasture } from '../../../api';
 import { resetPastureId, generatePasture } from '../../../utils';
+import ImportPastureModal from '../ImportPastureModal';
 
-const Pastures = ({ pastures, formik }) => {
+const Pastures = ({ pastures, formik, agreement }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isImportPastureModalOpen, setImportPastureModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [indexToRemove, setIndexToRemove] = useState(null);
   const [indexToCopy, setIndexToCopy] = useState(null);
@@ -37,20 +39,47 @@ const Pastures = ({ pastures, formik }) => {
               />
             </div>
             <IfEditable permission={PASTURES.NAME}>
-              <Button
-                type="button"
-                basic
-                primary
-                onClick={() => {
-                  setModalOpen(true);
-                }}
-                className="icon labeled rup__add-button"
-              >
-                <i className="add circle icon" />
-                Add Pasture
-              </Button>
+              <div>
+                <Button
+                  type="button"
+                  basic
+                  primary
+                  onClick={() => {
+                    setImportPastureModalOpen(true);
+                  }}
+                  className="icon labeled rup__add-button"
+                >
+                  <i className="add circle icon" />
+                  Import Pasture
+                </Button>
+                <Button
+                  type="button"
+                  basic
+                  primary
+                  onClick={() => {
+                    setModalOpen(true);
+                  }}
+                  className="icon labeled rup__add-button"
+                >
+                  <i className="add circle icon" />
+                  Add Pasture
+                </Button>
+              </div>
             </IfEditable>
           </div>
+          {agreement.zone?.districtId ? (
+            <ImportPastureModal
+              dialogOpen={isImportPastureModalOpen}
+              onClose={() => setImportPastureModalOpen(false)}
+              onImport={(pasture) => {
+                setImportPastureModalOpen(false);
+                push(pasture);
+              }}
+              title="Import pasture"
+              placeholder="Import Pasture"
+              districtId={agreement.zone?.districtId}
+            />
+          ) : null}
 
           <InputModal
             open={isModalOpen}
