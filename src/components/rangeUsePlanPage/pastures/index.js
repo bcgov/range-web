@@ -14,7 +14,7 @@ import { deletePasture } from '../../../api';
 import { resetPastureId, generatePasture } from '../../../utils';
 import ImportPastureModal from '../ImportPastureModal';
 
-const Pastures = ({ pastures, formik, agreement }) => {
+const Pastures = ({ pastures, formik }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isImportPastureModalOpen, setImportPastureModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -65,21 +65,18 @@ const Pastures = ({ pastures, formik, agreement }) => {
                   Add Pasture
                 </Button>
               </div>
+              <ImportPastureModal
+                dialogOpen={isImportPastureModalOpen}
+                onClose={() => setImportPastureModalOpen(false)}
+                onImport={(pasture) => {
+                  setImportPastureModalOpen(false);
+                  push(pasture);
+                }}
+                title="Import pasture"
+                placeholder="Import Pasture"
+              />
             </IfEditable>
           </div>
-          {agreement.zone?.districtId ? (
-            <ImportPastureModal
-              dialogOpen={isImportPastureModalOpen}
-              onClose={() => setImportPastureModalOpen(false)}
-              onImport={(pasture) => {
-                setImportPastureModalOpen(false);
-                push(pasture);
-              }}
-              title="Import pasture"
-              placeholder="Import Pasture"
-              districtId={agreement.zone?.districtId}
-            />
-          ) : null}
 
           <InputModal
             open={isModalOpen}

@@ -52,7 +52,7 @@ const PlanForm = ({
         />
       </Element>
       <Element name={ELEMENT_ID.PASTURES} id={ELEMENT_ID.PASTURES}>
-        <Pastures pastures={plan.pastures} agreement={plan.agreement} />
+        <Pastures pastures={plan.pastures} />
       </Element>
 
       <Usage plan={plan} usage={plan.agreement.usage} />
