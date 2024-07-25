@@ -90,7 +90,7 @@ export const ASSIGN_ROLE = (userId) => `/v1/user/${userId}/assignRole`;
 export const ASSIGN_DISTRICT = (userId) => `/v1/user/${userId}/assignDistrict`;
 export const ASSIGN_DISTRICTS = (userId) =>
   `/v1/user/${userId}/assignDistricts`;
-
+export const GET_USER_DISTRICTS = (userId) => `/v1/user/${userId}/districts`;
 export const CREATE_RUP = '/v1/plan';
 export const GET_RUP = (planId) => `/v1/plan/${planId}`;
 export const GET_PLAN_PDF = (planId) => `/v1/report/${planId}`;

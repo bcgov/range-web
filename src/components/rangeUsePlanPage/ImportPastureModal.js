@@ -9,13 +9,23 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { AddBox, ExpandLess, ExpandMore } from '@material-ui/icons';
-import { Dialog, DialogActions, TextField } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ListItem } from 'semantic-ui-react';
-import { GET_PASTURES_FOR_DISTRICT } from '../../constants/api';
+import {
+  GET_PASTURES_FOR_DISTRICT,
+  GET_USER_DISTRICTS,
+} from '../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../utils';
 import { PrimaryButton } from '../common';
 import { debounce } from 'lodash';
+import { useUser } from '../../providers/UserProvider';
 
 const useStyles = makeStyles({
   divider: {
@@ -41,24 +51,42 @@ const useStyles = makeStyles({
   },
 });
 
-const ImportPastureModal = ({ dialogOpen, onClose, onImport, districtId }) => {
+const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
   const [pastures, setPastures] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [districtId, setDistrictId] = useState(null);
   const [open, setOpen] = useState({});
+  const [isLoading, setLoading] = useState(false);
   const classes = useStyles();
   const [filteredPastures, setFilteredPastures] = useState([]);
+  const user = useUser();
   const handleClick = (id) => {
     setOpen((prevOpen) => ({ ...prevOpen, [id]: !prevOpen[id] }));
   };
   const handleSearchChange = (event) => {
     pastureFilter(event.target.value);
   };
+  const handleDistrictChange = (event) => {
+    setDistrictId(event.target.value);
+  };
   const fetchPastures = async (districtId) => {
+    setLoading(true);
     const response = await axios.get(
       GET_PASTURES_FOR_DISTRICT(districtId),
       getAuthHeaderConfig(),
     );
+    setLoading(false);
     setPastures(response.data);
     setFilteredPastures(response.data);
+  };
+
+  const fetchDistricts = async (userId) => {
+    const response = await axios.get(
+      GET_USER_DISTRICTS(userId),
+      getAuthHeaderConfig(),
+    );
+    setDistricts(response.data);
+    setDistrictId(response.data[0]?.id);
   };
 
   const pastureFilter = useCallback(
@@ -80,9 +108,13 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport, districtId }) => {
 
   useEffect(() => {
     if (dialogOpen) {
-      fetchPastures(districtId);
+      fetchDistricts(user.id);
     }
   }, [dialogOpen]);
+
+  useEffect(() => {
+    if (districtId) fetchPastures(districtId);
+  }, [districtId]);
 
   return (
     <Dialog
@@ -96,13 +128,21 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport, districtId }) => {
         <>
           <div>
             <TextField
+              autoFocus
               label="Filter Pastures"
               variant="outlined"
-              fullWidth
+              style={{ width: '50%', marginRight: 20 }}
               onChange={handleSearchChange}
             />
+            <Select value={districtId} onChange={handleDistrictChange}>
+              {districts.map((district) => (
+                <MenuItem key={district.id} value={district.id}>
+                  {district.code}
+                </MenuItem>
+              ))}
+            </Select>
           </div>
-          {pastures.length === 0 ? (
+          {isLoading ? (
             <CircularProgress />
           ) : (
             <List>
@@ -113,7 +153,7 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport, districtId }) => {
                     key={index}
                     onClick={() => handleClick(pasture.id)}
                   >
-                    <Typography style={{ width: '80%' }}>
+                    <Typography style={{ width: '60%' }}>
                       <strong>
                         {pasture.name} - {pasture.agreementId}
                       </strong>

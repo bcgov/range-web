@@ -21,7 +21,10 @@ import PlanActions from './PlanActions';
 function PlanRow({ agreement, user, currentPage }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const canEdit = canUserEditThisPlan({ ...agreement.plan }, user);
+  const canEdit = canUserEditThisPlan(
+    { ...agreement.plan, agreement: agreement },
+    user,
+  );
 
   return (
     <>
