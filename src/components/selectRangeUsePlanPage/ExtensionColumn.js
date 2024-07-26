@@ -128,8 +128,21 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           return (
             <div>
-              {agreement.plan?.extensionReceivedVotes}/
-              {agreement.plan?.extensionRequiredVotes}
+              <div style={{ textAlign: 'center' }}>
+                {agreement.plan?.extensionReceivedVotes}/
+                {agreement.plan?.extensionRequiredVotes}
+              </div>
+              <div>
+                <Button
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => {
+                    handleReject(agreement.plan.id);
+                  }}
+                >
+                  Reject Extension
+                </Button>
+              </div>
             </div>
           );
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
@@ -239,8 +252,21 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           }
           return (
             <div>
-              {agreement.plan?.extensionReceivedVotes}/
-              {agreement.plan?.extensionRequiredVotes}
+              <div style={{ textAlign: 'center' }}>
+                {agreement.plan?.extensionReceivedVotes}/
+                {agreement.plan?.extensionRequiredVotes}
+              </div>
+              <div>
+                <Button
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => {
+                    handleReject(agreement.plan.id);
+                  }}
+                >
+                  Reject Extension
+                </Button>
+              </div>
             </div>
           );
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
