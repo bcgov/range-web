@@ -259,8 +259,12 @@ class UpdateStatusDropdown extends Component {
         recommendReady,
         recommendNotReady,
         recommendForSubmission,
-      ]
-    } else if (isUserAgrologist(user) && !isStatusApproved(status) && !isPlanAmendment(plan)) {
+      ];
+    } else if (
+      isUserAgrologist(user) &&
+      !isStatusApproved(status) &&
+      !isPlanAmendment(plan)
+    ) {
       overrides = [draft];
     }
 
@@ -283,6 +287,9 @@ class UpdateStatusDropdown extends Component {
     ) {
       if (isPlanAmendment(plan)) {
         return [approved, notApproved, notApprovedFWR, ...overrides];
+      }
+      if (isUserAgrologist(user)) {
+        return overrides;
       }
       return [approved, notApprovedFWR, ...overrides];
     } else if (isStatusCreated(status)) {
