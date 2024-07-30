@@ -70,6 +70,7 @@ const Pastures = ({ pastures, formik }) => {
                 onClose={() => setImportPastureModalOpen(false)}
                 onImport={(pasture) => {
                   setImportPastureModalOpen(false);
+                  pasture.id = uuid();
                   push(pasture);
                 }}
                 title="Import pasture"
