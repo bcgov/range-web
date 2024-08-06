@@ -72,13 +72,6 @@ function PlanRow({ agreement, user, currentPage }) {
         <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
         <TableCell align="left">
           {agreement.plan?.id ? (
-            <span>{agreement.plan.status.code}</span>
-          ) : (
-            <span>-</span>
-          )}
-        </TableCell>
-        <TableCell align="left">
-          {agreement.plan?.id ? (
             <Status user={user} status={agreement.plan.status} />
           ) : (
             <span>-</span>

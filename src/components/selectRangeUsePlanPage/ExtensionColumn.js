@@ -215,7 +215,6 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const renderExtensionForStaff = (user, agreement) => {
     if (isUserStaff(user)) {
-      console.log(agreement.plan?.extensionStatus);
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (

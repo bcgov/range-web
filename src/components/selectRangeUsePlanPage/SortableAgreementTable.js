@@ -1,23 +1,25 @@
+import { Checkbox, ListItemText, TablePagination } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { REFERENCE_KEY } from '../../constants/variables';
+import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { Checkbox, ListItemText } from '@material-ui/core';
+import { translateStatusBasedOnUser } from '../common/Status';
 
 const headCells = [
   {
@@ -72,15 +74,9 @@ const headCells = [
     id: 'plan.status_id',
     numeric: false,
     disablePadding: false,
-    label: 'Status Code',
+    label: 'Status',
     sortable: true,
     multiSelectable: true,
-  },
-  {
-    id: 'plan.status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
   },
   { id: 'actions', disablePadding: true },
   { id: 'extension', label: 'Extension Requests', disablePadding: false },
@@ -140,11 +136,7 @@ function EnhancedTableHead(props) {
               />
             )}
             {headCell.multiSelectable && (
-              <StatusCodesMultiSelect
-                onStatusCodeChange={onStatusCodeChange}
-                filters={filters}
-                headCellID={headCell.id}
-              />
+              <StatusCodesMultiSelect onStatusCodeChange={onStatusCodeChange} />
             )}
           </TableCell>
         ))}
@@ -153,74 +145,65 @@ function EnhancedTableHead(props) {
   );
 }
 
-function StatusCodesMultiSelect(props) {
-  const { onStatusCodeChange, filters, headCellID } = props;
+const StatusCodesMultiSelect = (props) => {
+  const { onStatusCodeChange } = props;
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
+  const references = useReferences();
   const MenuProps = {
     PaperProps: {
       style: {
         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
+        width: 400,
       },
     },
   };
-  const status_codes = [
-    'C',
-    'O',
-    'P',
-    'D',
-    'R',
-    'SD',
-    'WM',
-    'SW',
-    'S',
-    'NF',
-    'NA',
-    'A',
-    'SR',
-    'SFD',
-    'RR',
-    'RNR',
-    'RFD',
-    'AC',
-    'RFS',
-    'MSR',
-    'SNR',
-    'APS',
-    'APA',
-    'SAM',
-  ];
-  const [selectedCodes, setSelectedCodes] = React.useState([]);
+  const user = useUser();
+  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS].map(
+    (statusObject) => {
+      statusObject.name =
+        translateStatusBasedOnUser(statusObject, user).statusName +
+        ` (${statusObject.code})`;
+      return statusObject;
+    },
+  );
+  const [selectedStatusName, setSelectedStatusName] = React.useState([]);
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedCodes(typeof value === 'string' ? value.split(',') : value);
+    setSelectedStatusName(event.target.value);
   };
   useEffect(() => {
-    onStatusCodeChange(selectedCodes);
-  }, [selectedCodes]);
+    const selectedStatusCodes = selectedStatusName.map((statusName) => {
+      const match = statusObjects.find((st) => st.name === statusName);
+      return match.code;
+    });
+    onStatusCodeChange(selectedStatusCodes);
+  }, [selectedStatusName]);
 
   return (
     <FormControl sx={{ width: 125 }}>
       <Select
         multiple
-        value={filters[headCellID] ? filters[headCellID].split(',') : []}
+        value={selectedStatusName}
         onChange={handleChange}
         renderValue={(selected) => selected.join(', ')}
         MenuProps={MenuProps}
       >
-        {status_codes.map((code) => (
-          <MenuItem key={code} value={code}>
-            <Checkbox checked={selectedCodes.indexOf(code) > -1} />
-            <ListItemText primary={code} />
+        {statusObjects.map((statusObject) => (
+          <MenuItem key={statusObject.id} value={statusObject.name}>
+            <Checkbox
+              checked={
+                selectedStatusName.findIndex(
+                  (statusName) => statusName === statusObject.name,
+                ) !== -1
+              }
+            />
+            <ListItemText primary={statusObject.name} />
           </MenuItem>
         ))}
       </Select>
     </FormControl>
   );
-}
+};
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -305,8 +288,8 @@ export default function SortableAgreementTable({
     onFilterChange(property, event.target.value);
   };
 
-  const handleStatusFilterChange = (codes) => {
-    onStatusCodeChange('plan.status_id', codes);
+  const handleStatusFilterChange = (selectedStatusCodes) => {
+    onStatusCodeChange('plan.status_id', selectedStatusCodes);
   };
 
   const handleChangePage = (event, newPage) => {

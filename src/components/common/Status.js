@@ -28,14 +28,13 @@ const defaultProps = {
   style: {},
 };
 
-const translateStatusBasedOnUser = (
+export const translateStatusBasedOnUser = (
   status,
   user,
   isForVersionsList = false,
 ) => {
   let modifier = 'status__icon';
   let statusName = status.code ? 'Unknown_status' : NO_PLAN;
-
   switch (status.code) {
     case PLAN_STATUS.DRAFT:
       if (isUserAgreementHolder(user)) {
@@ -195,6 +194,18 @@ const translateStatusBasedOnUser = (
     case PLAN_STATUS.SUBMITTED_AS_MANDATORY:
       statusName = 'Submitted as Mandatory';
       modifier += isUserAgrologist(user) ? '--orange' : '--gray';
+      break;
+    case PLAN_STATUS.PENDING:
+      statusName = 'Pending';
+      modifier += '--gray';
+      break;
+    case PLAN_STATUS.COMPLETED:
+      statusName = 'Completed';
+      modifier += '--gray';
+      break;
+    case PLAN_STATUS.READY_FOR_FINAL_DECISION:
+      statusName = 'Ready For Final Decision';
+      modifier += '--gray';
       break;
     default:
       modifier += '--not-provided';
