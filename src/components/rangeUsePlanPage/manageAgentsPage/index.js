@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   container: {
-    maxWidth: 800,
+    maxWidth: '70%',
     width: '100%',
   },
   autocomplete: {
-    width: 400,
+    width: 600,
   },
   autocompleteOption: {
     height: 100,
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     width: '100%',
     marginBottom: 30,
   },

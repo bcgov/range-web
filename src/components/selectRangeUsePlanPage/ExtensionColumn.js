@@ -74,11 +74,11 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     });
   };
 
-  const approveExtension = async (planId) => {
+  const approveExtension = async (planId, extensionRequestId) => {
     setVoting(true);
     const response = await axios.put(
       API.APPROVE_VOTE(planId),
-      {},
+      { extensionRequestId },
       getAuthHeaderConfig(),
     );
     if (response.status === 200) {
@@ -89,19 +89,19 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     setVoting(false);
   };
 
-  const handleApprove = async (planId) => {
+  const handleApprove = async (planId, extensionRequestId) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('approve'),
     });
     if (choice) {
-      approveExtension(planId);
+      approveExtension(planId, extensionRequestId);
     }
   };
-  const rejectExtension = async (planId) => {
+  const rejectExtension = async (planId, extensionRequestId) => {
     setVoting(true);
     const response = await axios.put(
       API.REJECT_VOTE(planId),
-      {},
+      { extensionRequestId },
       getAuthHeaderConfig(),
     );
     if (response.status === 200) {
@@ -113,12 +113,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     setVoting(false);
   };
 
-  const handleReject = async (planId) => {
+  const handleReject = async (planId, extensionRequestId) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('reject'),
     });
     if (choice) {
-      rejectExtension(planId);
+      rejectExtension(planId, extensionRequestId);
     }
   };
 
@@ -303,26 +303,39 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const renderExtensionForAgreementHolder = (user, agreement) => {
     if (isUserAgreementHolder(user) && !isUserDecisionMaker(user)) {
+      const extensionRequest = agreement.plan?.planExtensionRequests.find(
+        (request) => {
+          return (
+            request.userId === user.id ||
+            user.agentOf.find(({ clientId }) => clientId === request.clientId)
+          );
+        },
+      );
+      console.log(extensionRequest);
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
-            agreement.plan?.planExtensionRequests.filter((request) => {
-              return (
-                request.userId === user.id &&
-                request.requestedExtension === null
-              );
-            }).length !== 0
+            extensionRequest &&
+            extensionRequest.requestedExtension === null
           ) {
             if (voting === true) return <CircularProgress />;
             return (
               <>
                 <Tooltip title="approve">
-                  <IconButton onClick={() => handleApprove(agreement.plan.id)}>
+                  <IconButton
+                    onClick={() =>
+                      handleApprove(agreement.plan.id, extensionRequest.id)
+                    }
+                  >
                     <ThumbUp />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="reject">
-                  <IconButton onClick={() => handleReject(agreement.plan.id)}>
+                  <IconButton
+                    onClick={() =>
+                      handleReject(agreement.plan.id, extensionRequest.id)
+                    }
+                  >
                     <ThumbDown />
                   </IconButton>
                 </Tooltip>
@@ -330,12 +343,8 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
             );
           } else {
             if (
-              agreement.plan?.planExtensionRequests.filter((request) => {
-                return (
-                  request.userId === user.id &&
-                  request.requestedExtension === true
-                );
-              }).length !== 0
+              extensionRequest &&
+              extensionRequest.requestedExtension === true
             )
               return <>Requested</>;
             return <>-</>;
