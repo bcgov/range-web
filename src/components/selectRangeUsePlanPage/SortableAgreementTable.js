@@ -159,14 +159,15 @@ const StatusCodesMultiSelect = (props) => {
     },
   };
   const user = useUser();
-  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS].map(
-    (statusObject) => {
+  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS]
+    .map((statusObject) => {
       statusObject.name =
         translateStatusBasedOnUser(statusObject, user).statusName +
         ` (${statusObject.code})`;
       return statusObject;
-    },
-  );
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   const [selectedStatusName, setSelectedStatusName] = React.useState([]);
   const handleChange = (event) => {
     setSelectedStatusName(event.target.value);

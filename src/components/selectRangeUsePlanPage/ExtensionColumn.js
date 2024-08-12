@@ -311,7 +311,6 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           );
         },
       );
-      console.log(extensionRequest);
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
