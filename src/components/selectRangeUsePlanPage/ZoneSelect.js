@@ -7,15 +7,14 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import { 
-  getUserFullName, 
-  axios, 
-  getAuthHeaderConfig, 
+import {
+  getUserFullName,
+  axios,
+  getAuthHeaderConfig,
   getDataFromLocalStorage,
-  saveDataInLocalStorage 
+  saveDataInLocalStorage,
 } from '../../utils';
 import * as API from '../../constants/api';
-import { useQueryParam, DelimitedNumericArrayParam } from 'use-query-params';
 import { FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -71,26 +70,23 @@ const MenuProps = {
 
 // Persisting zone  information in localstorage
 const setSaveZoneInfo = (allSelected, allDeselected, zones) => {
-  const currZoneInfo = getDataFromLocalStorage("zone-info");
+  const currZoneInfo = getDataFromLocalStorage('zone-info');
   const zoneInfo = {
     ...currZoneInfo,
     allSelected: allSelected,
     allDeselected: allDeselected,
-    zones: zones
-  }
-  saveDataInLocalStorage("zone-info", zoneInfo);
-}
+    zones: zones,
+  };
+  saveDataInLocalStorage('zone-info', zoneInfo);
+};
 
 export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   const classes = useStyles();
-  const [selectedZones = [], setSelectedZones] = useQueryParam(
-    'selectedZones',
-    DelimitedNumericArrayParam,
-  );
+  const [selectedZones, setSelectedZones] = useState([]);
   const [zoneMap, setZoneMap] = useState();
   const [selectAllZones, setSelectAllZones] = useState(true);
   const [deselectAllZones, setDeselectAllZones] = useState(false);
-  const zoneInfo = getDataFromLocalStorage("zone-info");
+  const zoneInfo = getDataFromLocalStorage('zone-info');
 
   const {
     data: users,
@@ -104,7 +100,6 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   const setAllZonesSelected = () => {
     const initialSelectedZones = zones.map((zone) => zone.id);
     setSelectedZones(initialSelectedZones);
-    setSearchSelectedZones(initialSelectedZones);
   };
 
   useEffect(() => {
@@ -116,7 +111,6 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
       setSelectAllZones(false);
     }
     if (zoneInfo?.allDeselected) {
-      setSearchSelectedZones([]);
       setSelectedZones([]);
       setSelectAllZones(false);
       setDeselectAllZones(true);
@@ -124,19 +118,21 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
 
     if (zoneInfo?.zones) {
       setSelectedZones(zoneInfo.zones);
-      setSearchSelectedZones(zoneInfo.zones);
     } else if (selectedZones.length === 0) {
       setAllZonesSelected();
+      setSelectAllZones(true);
     } else {
       if (!selectedZones.length) {
         setAllZonesSelected();
       } else {
         setSelectedZones(selectedZones);
-        setSearchSelectedZones(selectedZones);
       }
     }
   }, []);
 
+  useEffect(() => {
+    setSearchSelectedZones(selectedZones);
+  }, [selectedZones]);
   useEffect(() => {
     if (zones) {
       const zoneMap = zones.reduce(
@@ -156,7 +152,6 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   };
 
   const handleClose = () => {
-    setSearchSelectedZones(selectedZones);
     if (zones?.length === selectedZones?.length) {
       setSelectAllZones(true);
     } else {
@@ -186,7 +181,11 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
               if (event.target.checked) {
                 setAllZonesSelected();
                 setDeselectAllZones(!event.target.checked);
-                setSaveZoneInfo(true, false, zones.map((zone) => zone.id));
+                setSaveZoneInfo(
+                  true,
+                  false,
+                  zones.map((zone) => zone.id),
+                );
               }
             }}
             name="selectAllZones"
@@ -202,7 +201,6 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
             onChange={(event) => {
               setDeselectAllZones(event.target.checked);
               if (event.target.checked) {
-                setSearchSelectedZones([]);
                 setSelectedZones([]);
                 setSelectAllZones(!event.target.checked);
                 setSaveZoneInfo(false, true, []);
@@ -276,14 +274,11 @@ export default function ZoneSelect({
   setSearchSelectedZones,
 }) {
   const classes = useStyles();
-  const [selectedZones = [], setSelectedZones] = useQueryParam(
-    'selectedZones',
-    DelimitedNumericArrayParam,
-  );
+  const [selectedZones, setSelectedZones] = useState([]);
   const [zoneMap, setZoneMap] = useState();
   const [selectAllZones, setSelectAllZones] = useState(true);
   const [deselectAllZones, setDeselectAllZones] = useState(false);
-  const zoneInfo = getDataFromLocalStorage("zone-info");
+  const zoneInfo = getDataFromLocalStorage('zone-info');
 
   const {
     data: users,
@@ -295,15 +290,18 @@ export default function ZoneSelect({
   );
 
   useEffect(() => {
+    setSearchSelectedZones(selectedZones);
+  }, [selectedZones]);
+
+  useEffect(() => {
     if (zoneInfo?.allSelected) {
       setAllZonesSelected();
       setSelectAllZones(true);
       setDeselectAllZones(false);
-    } else if(zoneInfo) {
+    } else if (zoneInfo) {
       setSelectAllZones(false);
     }
     if (zoneInfo?.allDeselected) {
-      setSearchSelectedZones([]);
       setSelectedZones([]);
       setSelectAllZones(false);
       setDeselectAllZones(true);
@@ -311,7 +309,6 @@ export default function ZoneSelect({
 
     if (zoneInfo?.zones) {
       setSelectedZones(zoneInfo.zones);
-      setSearchSelectedZones(zoneInfo.zones);
     } else if (userZones && userZones.length > 0) {
       if (selectedZones.length === 0) {
         setAllZonesSelected();
@@ -329,11 +326,8 @@ export default function ZoneSelect({
           setAllZonesSelected();
         } else {
           setSelectedZones(filteredSelectedZones);
-          setSearchSelectedZones(filteredSelectedZones);
         }
       }
-    } else {
-      setSearchSelectedZones(selectedZones);
     }
   }, []);
 
@@ -356,7 +350,6 @@ export default function ZoneSelect({
   };
 
   const handleClose = () => {
-    setSearchSelectedZones(selectedZones);
     if (userZones.concat(unassignedZones)?.length === selectedZones?.length) {
       setSelectAllZones(true);
       setSaveZoneInfo(true, false, selectedZones);
@@ -373,7 +366,6 @@ export default function ZoneSelect({
       .concat(unassignedZones)
       .map((zone) => zone.id);
     setSelectedZones(initialSelectedZones);
-    setSearchSelectedZones(initialSelectedZones);
   };
 
   if ((isValidating && !users) || !zoneMap) {
@@ -395,7 +387,11 @@ export default function ZoneSelect({
               if (event.target.checked) {
                 setAllZonesSelected();
                 setDeselectAllZones(!event.target.checked);
-                setSaveZoneInfo(true, false, zones.map((zone) => zone.id));
+                setSaveZoneInfo(
+                  true,
+                  false,
+                  zones.map((zone) => zone.id),
+                );
               }
             }}
             name="selectAllZones"
@@ -411,7 +407,6 @@ export default function ZoneSelect({
             onChange={(event) => {
               setDeselectAllZones(event.target.checked);
               if (event.target.checked) {
-                setSearchSelectedZones([]);
                 setSelectedZones([]);
                 setSelectAllZones(!event.target.checked);
                 setSaveZoneInfo(false, true, []);

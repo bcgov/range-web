@@ -5,11 +5,6 @@ export const agreementSearchChanged = (payload) => ({
   payload,
 });
 
-export const zoneUpdated = (payload) => ({
-  type: actionTypes.ZONE_UPDATED,
-  payload,
-});
-
 export const userUpdated = (payload) => ({
   type: actionTypes.USER_UPDATED,
   payload,

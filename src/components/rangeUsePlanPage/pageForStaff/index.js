@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import UpdateZoneModal from './UpdateZoneModal';
 import {
   REFERENCE_KEY,
   PLAN_STATUS,
@@ -32,7 +31,6 @@ class PageForStaff extends Component {
   static defaultProps = defaultProps;
 
   state = {
-    isUpdateZoneModalOpen: false,
     isPlanSubmissionModalOpen: false,
     isSavingAsDraft: false,
     isCreatingAmendment: false,
@@ -141,8 +139,6 @@ class PageForStaff extends Component {
     }
   };
 
-  openUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: true });
-  closeUpdateZoneModal = () => this.setState({ isUpdateZoneModalOpen: false });
   openPlanSubmissionModal = () => {
     const error = this.validateRup(this.props.plan);
     if (!error) {
@@ -212,7 +208,6 @@ class PageForStaff extends Component {
 
   render() {
     const {
-      agreement,
       user,
       clientAgreements,
       references,
@@ -221,7 +216,7 @@ class PageForStaff extends Component {
       fetchPlan,
       updateRUPStatus,
     } = this.props;
-    const { isUpdateZoneModalOpen, isPlanSubmissionModalOpen } = this.state;
+    const { isPlanSubmissionModalOpen } = this.state;
 
     const { agreementId, status, rangeName } = plan;
 
@@ -235,13 +230,6 @@ class PageForStaff extends Component {
 
     return (
       <section className="rup">
-        <UpdateZoneModal
-          isUpdateZoneModalOpen={isUpdateZoneModalOpen}
-          closeUpdateZoneModal={this.closeUpdateZoneModal}
-          plan={plan}
-          agreement={agreement}
-        />
-
         <UpdateStatusModal
           open={isPlanSubmissionModalOpen}
           onClose={this.closePlanSubmissionModal}

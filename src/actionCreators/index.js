@@ -1,32 +1,9 @@
-//
-// MyRangeBC
-//
-// Copyright © 2018 Province of British Columbia
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// Created by Kyubin Han.
-//
 import { normalize } from 'normalizr';
 import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
-import {
-  getIsFetchingAgreements,
-  getAuthTimeout,
-  getUser,
-} from '../reducers/rootReducer';
+import { getAuthTimeout, getUser } from '../reducers/rootReducer';
 import {
   axios,
   saveUserProfileInLocal,
@@ -38,7 +15,6 @@ import {
   ASSIGN_STAFF_TO_ZONE_SUCCESS,
   UPDATE_USER_PROFILE_SUCCESS,
 } from '../constants/strings';
-import { DEFAULT_SEARCH_LIMIT } from '../constants/variables';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
@@ -178,38 +154,38 @@ export const updateUser = (data) => (dispatch, getState) => {
     );
 };
 
-export const searchAgreements = (params) => (dispatch, getState) => {
-  const { page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;
-
-  if (getIsFetchingAgreements(getState())) {
-    return Promise.resolve();
-  }
-  dispatch(actions.request(reducerTypes.SEARCH_AGREEMENTS));
-
-  const config = {
-    ...createConfigWithHeader(getState),
-    params: {
-      page: Number(page),
-      limit: Number(limit),
-    },
-  };
-
-  return axios.get(API.SEARCH_AGREEMENTS, config).then(
-    (response) => {
-      dispatch(
-        actions.successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data),
-      );
-      const payload = {
-        ...normalize(response.data.agreements, schema.arrayOfAgreements),
-        params,
-      };
-
-      dispatch(actions.storeAgreements(payload));
-      return response.data;
-    },
-    (err) => {
-      dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err));
-      throw err;
-    },
-  );
-};
+// export const searchAgreements = (params) => (dispatch, getState) => {
+//   const { page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;
+//
+//   if (getIsFetchingAgreements(getState())) {
+//     return Promise.resolve();
+//   }
+//   dispatch(actions.request(reducerTypes.SEARCH_AGREEMENTS));
+//
+//   const config = {
+//     ...createConfigWithHeader(getState),
+//     params: {
+//       page: Number(page),
+//       limit: Number(limit),
+//     },
+//   };
+//
+//   return axios.get(API.SEARCH_AGREEMENTS, config).then(
+//     (response) => {
+//       dispatch(
+//         actions.successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data),
+//       );
+//       const payload = {
+//         ...normalize(response.data.agreements, schema.arrayOfAgreements),
+//         params,
+//       };
+//
+//       dispatch(actions.storeAgreements(payload));
+//       return response.data;
+//     },
+//     (err) => {
+//       dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err));
+//       throw err;
+//     },
+//   );
+// };
