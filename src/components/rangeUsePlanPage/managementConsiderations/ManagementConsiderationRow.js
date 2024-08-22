@@ -7,15 +7,10 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import { TextArea, Dropdown as FormikDropdown } from 'formik-semantic-ui';
 import { Dropdown, Icon } from 'semantic-ui-react';
 
-const ManagementConsiderationRow = ({
-  namespace,
-  managementConsideration,
-  onDelete,
-}) => {
+const ManagementConsiderationRow = ({ namespace, managementConsideration, onDelete }) => {
   const { detail, url, considerationTypeId } = managementConsideration;
   const references = useReferences();
-  const considerTypes =
-    references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
+  const considerTypes = references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
   const considerTypeOptions = considerTypes.map((ct) => ({
     key: ct.id,
     value: ct.id,

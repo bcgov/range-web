@@ -10,14 +10,8 @@ import DayMonthPicker from '../../../common/form/DayMonthPicker';
 import { TextArea } from 'formik-semantic-ui';
 import moment from 'moment';
 
-const RangeReadinessBox = ({
-  plantCommunity,
-  planId,
-  pastureId,
-  namespace,
-}) => {
-  const { rangeReadinessMonth, rangeReadinessDay, rangeReadinessNote } =
-    plantCommunity;
+const RangeReadinessBox = ({ plantCommunity, planId, pastureId, namespace }) => {
+  const { rangeReadinessMonth, rangeReadinessDay, rangeReadinessNote } = plantCommunity;
 
   return (
     <div className="rup__plant-community__sh">
@@ -26,18 +20,14 @@ const RangeReadinessBox = ({
         Range Readiness Criteria
       </div>
       <div>
-        If more than one readiness criteria is provided, all such criteria must
-        be met before grazing may occur.
+        If more than one readiness criteria is provided, all such criteria must be met before grazing may occur.
       </div>
       <PermissionsField
         monthName={`${namespace}.rangeReadinessMonth`}
         dayName={`${namespace}.rangeReadinessDay`}
         permission={RANGE_READINESS.DATE}
         component={DayMonthPicker}
-        displayValue={moment(
-          `${rangeReadinessMonth} ${rangeReadinessDay}`,
-          'MM DD',
-        ).format('MMMM DD')}
+        displayValue={moment(`${rangeReadinessMonth} ${rangeReadinessDay}`, 'MM DD').format('MMMM DD')}
         label="Readiness Date"
         dateFormat="MMMM DD"
       />

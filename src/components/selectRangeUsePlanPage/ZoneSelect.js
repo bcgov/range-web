@@ -92,9 +92,8 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
     data: users,
     error,
     isValidating,
-  } = useSWR(
-    `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
-    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`, (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
   const setAllZonesSelected = () => {
@@ -135,10 +134,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   }, [selectedZones]);
   useEffect(() => {
     if (zones) {
-      const zoneMap = zones.reduce(
-        (acc, zone) => ({ ...acc, [zone.id]: zone }),
-        {},
-      );
+      const zoneMap = zones.reduce((acc, zone) => ({ ...acc, [zone.id]: zone }), {});
       setZoneMap(zoneMap);
       if (!zoneInfo) setAllZonesSelected();
     }
@@ -219,9 +215,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
           onClose={handleClose}
           value={selectedZones}
           multiple
-          renderValue={(zoneIds) =>
-            zoneIds.map((id) => zoneMap[id].description).join(',  ')
-          }
+          renderValue={(zoneIds) => zoneIds.map((id) => zoneMap[id].description).join(',  ')}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
@@ -243,19 +237,13 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
                   value={zone.id}
                   style={{ backgroundColor: 'transparent' }}
                 >
-                  <CustomCheckbox
-                    checked={selectedZones.indexOf(zone.id) > -1}
-                  />
+                  <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
                       secondary: classes.listItemTextSecondary,
                     }}
-                    primary={
-                      <span style={{ color: '#002C71' }}>
-                        {getUserFullName(user)}
-                      </span>
-                    }
+                    primary={<span style={{ color: '#002C71' }}>{getUserFullName(user)}</span>}
                     secondary={<span>{zone.description}</span>}
                   />
                 </MenuItem>
@@ -267,12 +255,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   );
 }
 
-export default function ZoneSelect({
-  zones,
-  userZones,
-  unassignedZones,
-  setSearchSelectedZones,
-}) {
+export default function ZoneSelect({ zones, userZones, unassignedZones, setSearchSelectedZones }) {
   const classes = useStyles();
   const [selectedZones, setSelectedZones] = useState([]);
   const [zoneMap, setZoneMap] = useState();
@@ -284,9 +267,8 @@ export default function ZoneSelect({
     data: users,
     error,
     isValidating,
-  } = useSWR(
-    `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
-    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`, (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
 
   useEffect(() => {
@@ -316,9 +298,7 @@ export default function ZoneSelect({
         const filteredSelectedZones = selectedZones.filter((zoneID) => {
           return (
             userZones.some((userZone) => userZone.id === zoneID) ||
-            unassignedZones.some(
-              (unassignedZone) => unassignedZone.id === zoneID,
-            )
+            unassignedZones.some((unassignedZone) => unassignedZone.id === zoneID)
           );
         });
 
@@ -333,10 +313,7 @@ export default function ZoneSelect({
 
   useEffect(() => {
     if (zones) {
-      const zoneMap = zones.reduce(
-        (acc, zone) => ({ ...acc, [zone.id]: zone }),
-        {},
-      );
+      const zoneMap = zones.reduce((acc, zone) => ({ ...acc, [zone.id]: zone }), {});
       setZoneMap(zoneMap);
       if (!zoneInfo) setAllZonesSelected();
     }
@@ -362,9 +339,7 @@ export default function ZoneSelect({
   };
 
   const setAllZonesSelected = () => {
-    const initialSelectedZones = userZones
-      .concat(unassignedZones)
-      .map((zone) => zone.id);
+    const initialSelectedZones = userZones.concat(unassignedZones).map((zone) => zone.id);
     setSelectedZones(initialSelectedZones);
   };
 
@@ -425,9 +400,7 @@ export default function ZoneSelect({
           onClose={handleClose}
           value={selectedZones}
           multiple
-          renderValue={(zoneIds) =>
-            zoneIds.map((id) => zoneMap[id].description).join(',  ')
-          }
+          renderValue={(zoneIds) => zoneIds.map((id) => zoneMap[id].description).join(',  ')}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
@@ -449,19 +422,13 @@ export default function ZoneSelect({
                   key={zone.id}
                   value={zone.id}
                 >
-                  <CustomCheckbox
-                    checked={selectedZones.indexOf(zone.id) > -1}
-                  />
+                  <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
                       secondary: classes.listItemTextSecondary,
                     }}
-                    primary={
-                      <span style={{ color: '#002C71' }}>
-                        {getUserFullName(user)}
-                      </span>
-                    }
+                    primary={<span style={{ color: '#002C71' }}>{getUserFullName(user)}</span>}
                     secondary={<span>{zone.description}</span>}
                   />
                 </MenuItem>
@@ -469,9 +436,7 @@ export default function ZoneSelect({
             })}
 
           <MenuItem disabled value="">
-            <span style={{ color: 'black', opacity: 2.0 }}>
-              Unassigned Zones
-            </span>
+            <span style={{ color: 'black', opacity: 2.0 }}>Unassigned Zones</span>
           </MenuItem>
 
           {users &&
@@ -486,19 +451,13 @@ export default function ZoneSelect({
                   value={zone.id}
                   style={{ backgroundColor: 'transparent' }}
                 >
-                  <CustomCheckbox
-                    checked={selectedZones.indexOf(zone.id) > -1}
-                  />
+                  <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
                       secondary: classes.listItemTextSecondary,
                     }}
-                    primary={
-                      <span style={{ color: '#002C71' }}>
-                        {getUserFullName(user)}
-                      </span>
-                    }
+                    primary={<span style={{ color: '#002C71' }}>{getUserFullName(user)}</span>}
                     secondary={<span>{zone.description}</span>}
                   />
                 </MenuItem>

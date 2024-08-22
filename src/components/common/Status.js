@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { PLAN_STATUS } from '../../constants/variables';
 import { NO_PLAN } from '../../constants/strings';
-import {
-  isUserAgreementHolder,
-  isUserAgrologist,
-  isUserDecisionMaker,
-} from '../../utils';
+import { isUserAgreementHolder, isUserAgrologist, isUserDecisionMaker } from '../../utils';
 
 const propTypes = {
   user: PropTypes.shape({}).isRequired,
@@ -28,11 +24,7 @@ const defaultProps = {
   style: {},
 };
 
-export const translateStatusBasedOnUser = (
-  status,
-  user,
-  isForVersionsList = false,
-) => {
+export const translateStatusBasedOnUser = (status, user, isForVersionsList = false) => {
   let modifier = 'status__icon';
   let statusName = status.code ? 'Unknown_status' : NO_PLAN;
   switch (status.code) {
@@ -215,27 +207,14 @@ export const translateStatusBasedOnUser = (
   return { modifier, statusName };
 };
 
-const Status = ({
-  status,
-  className,
-  style,
-  user,
-  isAmendment = false,
-  isForVersionsList = false,
-}) => {
-  const { modifier, statusName } = translateStatusBasedOnUser(
-    status,
-    user,
-    isForVersionsList,
-  );
+const Status = ({ status, className, style, user, isAmendment = false, isForVersionsList = false }) => {
+  const { modifier, statusName } = translateStatusBasedOnUser(status, user, isForVersionsList);
 
   return (
     <div className={classnames('status', className)} style={style}>
       <span className={classnames('status__icon', modifier)} />
       <span className="status__label">{statusName}</span>
-      {isAmendment && (
-        <span className="status__amendment-label">Amendment</span>
-      )}
+      {isAmendment && <span className="status__amendment-label">Amendment</span>}
     </div>
   );
 };

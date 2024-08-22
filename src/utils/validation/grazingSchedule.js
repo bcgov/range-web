@@ -12,13 +12,7 @@ import { calcCrownTotalAUMs } from '../calculation';
  * @returns {object | undefined} the error object that has error and message properties
  */
 export const handleGrazingScheduleEntryValidation = (e = {}) => {
-  if (
-    e.dateIn &&
-    e.dateOut &&
-    e.pastureId &&
-    e.livestockTypeId &&
-    !isNaN(parseFloat(e.livestockCount))
-  ) {
+  if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(e.livestockCount))) {
     // valid entry
   } else {
     return {
@@ -50,11 +44,7 @@ export const handleGrazingScheduleValidation = (
   const grazingScheduleEntries = gse || [];
   const yearUsage = usage.find((u) => u.year === year);
   const totalAnnualUse = yearUsage && yearUsage.totalAnnualUse;
-  const crownTotalAUMs = calcCrownTotalAUMs(
-    grazingScheduleEntries,
-    pastures,
-    livestockTypes,
-  );
+  const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
 
   const elementId = ELEMENT_ID.GRAZING_SCHEDULE;
   const errors = [];

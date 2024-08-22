@@ -26,13 +26,7 @@ const InputModal = ({
         onSubmit(input);
       }}
       render={({ resetForm, handleSubmit }) => (
-        <Modal
-          dimmer="blurring"
-          size="mini"
-          open={open}
-          onClose={onClose}
-          closeIcon
-        >
+        <Modal dimmer="blurring" size="mini" open={open} onClose={onClose} closeIcon>
           <Modal.Header>{title}</Modal.Header>
 
           <Modal.Content>
@@ -43,11 +37,7 @@ const InputModal = ({
                 handleSubmit();
               }}
             >
-              <Field
-                name="input"
-                placeholder={placeholder}
-                innerRef={inputRef}
-              />
+              <Field name="input" placeholder={placeholder} innerRef={inputRef} />
             </Form>
           </Modal.Content>
           <Modal.Actions>

@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid-v4';
 import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react';
 import { CollapsibleBox } from '../../common';
-import {
-  NOT_PROVIDED,
-  ACTION_NOTE,
-  IDENTIFIED_BY_MINISTER_TOGGLE_TIP,
-} from '../../../constants/strings';
+import { NOT_PROVIDED, ACTION_NOTE, IDENTIFIED_BY_MINISTER_TOGGLE_TIP } from '../../../constants/strings';
 import { oxfordComma } from '../../../utils';
 import MinisterIssueAction from './MinisterIssueAction';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
@@ -48,14 +44,7 @@ const MinisterIssueBox = ({
     id: type.id,
   }));
 
-  const {
-    detail,
-    objective,
-    pastures = [],
-    identified,
-    ministerIssueActions = [],
-    issueTypeId,
-  } = issue;
+  const { detail, objective, pastures = [], identified, ministerIssueActions = [], issueTypeId } = issue;
   const isError = !!getIn(formik.errors, namespace);
   return (
     <CollapsibleBox
@@ -74,19 +63,11 @@ const MinisterIssueBox = ({
           <Icon name="warning sign" style={{ marginRight: '7px' }} />
           <span style={{ marginRight: 10 }}>Issue Type:</span>
           <PermissionsField
-            permission={
-              ministerIssueIndex !== activeMinisterIssueIndex
-                ? ''
-                : MINISTER_ISSUES.TYPE
-            }
+            permission={ministerIssueIndex !== activeMinisterIssueIndex ? '' : MINISTER_ISSUES.TYPE}
             name={`${namespace}.issueTypeId`}
             component={Dropdown}
             options={typeOptions}
-            displayValue={
-              types.find((t) => t.id === issueTypeId)
-                ? types.find((t) => t.id === issueTypeId).name
-                : ''
-            }
+            displayValue={types.find((t) => t.id === issueTypeId) ? types.find((t) => t.id === issueTypeId).name : ''}
             fast
             fieldProps={{ required: true }}
           />
@@ -97,11 +78,7 @@ const MinisterIssueBox = ({
           <IfEditable permission={MINISTER_ISSUES.TYPE}>
             <div className="rup__missue__identified">
               {'Identified: '}
-              {identified ? (
-                <Icon name="check circle" color="green" />
-              ) : (
-                <Icon name="remove circle" color="red" />
-              )}
+              {identified ? <Icon name="check circle" color="green" /> : <Icon name="remove circle" color="red" />}
             </div>
             <PlainDropdown
               className="rup__pasture__actions"
@@ -141,9 +118,7 @@ const MinisterIssueBox = ({
             options={pasturesOptions}
             displayValue={oxfordComma(
               pastures.map((pasture) =>
-                allPastures.find((p) => p.id === pasture)
-                  ? allPastures.find((p) => p.id === pasture).name
-                  : '',
+                allPastures.find((p) => p.id === pasture) ? allPastures.find((p) => p.id === pasture).name : '',
               ),
             )}
             label="Pastures"
@@ -213,11 +188,7 @@ const MinisterIssueBox = ({
                     {...action}
                   />
                 ))}
-                <div className="text-field__text">
-                  {ministerIssueActions.length === 0
-                    ? NOT_PROVIDED
-                    : ACTION_NOTE}
-                </div>
+                <div className="text-field__text">{ministerIssueActions.length === 0 ? NOT_PROVIDED : ACTION_NOTE}</div>
                 <Confirm
                   open={toRemove !== null}
                   onCancel={() => {
@@ -227,11 +198,7 @@ const MinisterIssueBox = ({
                     const action = ministerIssueActions[toRemove];
 
                     if (!uuid.isUUID(action.id)) {
-                      await deleteMinisterIssueAction(
-                        issue.planId,
-                        issue.id,
-                        action.id,
-                      );
+                      await deleteMinisterIssueAction(issue.planId, issue.id, action.id);
                     }
 
                     remove(toRemove);

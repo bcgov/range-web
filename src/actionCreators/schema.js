@@ -37,12 +37,8 @@ export const plantCommunity = new schema.Entity('plantCommunities');
 export const grazingSchedule = new schema.Entity('grazingSchedules');
 export const ministerIssue = new schema.Entity('ministerIssues');
 // export const ministerIssueAction = new schema.Entity('ministerIssueActions');
-export const additionalRequirements = new schema.Entity(
-  'additionalRequirements',
-);
-export const managementConsiderations = new schema.Entity(
-  'managementConsiderations',
-);
+export const additionalRequirements = new schema.Entity('additionalRequirements');
+export const managementConsiderations = new schema.Entity('managementConsiderations');
 export const confirmation = new schema.Entity('confirmations');
 export const planStatusHistory = new schema.Entity('planStatusHistory');
 // export const grazingScheduleEntry = new schema.Entity('grazingScheduleEntries');

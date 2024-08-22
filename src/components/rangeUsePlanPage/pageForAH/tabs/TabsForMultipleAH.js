@@ -68,10 +68,7 @@ class TabsForMultipleAH extends Component {
         id: 'chooseSubmissionType',
         title: '2. Ready to Submit? Choose Your Submission Type',
         back: 'addDescription',
-        next:
-          statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
-            ? 'submitForFeedback'
-            : 'submitForFinalDecision',
+        next: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW ? 'submitForFeedback' : 'submitForFinalDecision',
         radio1:
           'Make this draft RUP available for the staff to review. ' +
           'They will advise you if the RUP is ready to submit to the decision maker for approval or make content suggestions.',
@@ -100,8 +97,7 @@ class TabsForMultipleAH extends Component {
       },
       requestSignatures: {
         id: 'requestSignatures',
-        title:
-          '4. Request eSignatures and Submit Range Use Plan for final decision',
+        title: '4. Request eSignatures and Submit Range Use Plan for final decision',
         back: 'submitForFinalDecision',
         next: 'last',
         text1:

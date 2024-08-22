@@ -29,11 +29,7 @@ import SignInModal from './SignInModal';
 import UsernameInputModal from './UsernameInputModal';
 import { Footer } from '../common';
 import { registerAxiosInterceptors } from '../../utils';
-import {
-  fetchReferences,
-  signOut,
-  resetTimeoutForReAuth,
-} from '../../actionCreators';
+import { fetchReferences, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { reauthenticate, storeAuthData } from '../../actions';
 
 export class MainPage extends Component {
@@ -48,11 +44,7 @@ export class MainPage extends Component {
 
   UNSAFE_componentWillMount() {
     const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props;
-    registerAxiosInterceptors(
-      resetTimeoutForReAuth,
-      reauthenticate,
-      storeAuthData,
-    );
+    registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate, storeAuthData);
   }
 
   render() {

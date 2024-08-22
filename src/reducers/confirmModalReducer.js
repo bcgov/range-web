@@ -1,7 +1,4 @@
-import {
-  OPEN_CONFIRMATION_MODAL,
-  CLOSE_CONFIRMATION_MODAL,
-} from '../constants/actionTypes';
+import { OPEN_CONFIRMATION_MODAL, CLOSE_CONFIRMATION_MODAL } from '../constants/actionTypes';
 
 const openModal = (state, action) => {
   const modal = action.payload;

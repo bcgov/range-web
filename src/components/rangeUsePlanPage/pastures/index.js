@@ -33,10 +33,7 @@ const Pastures = ({ pastures, formik }) => {
           <div className="rup__content-title--editable">
             <div className="rup__popup-header">
               <div className="rup__content-title">{strings.PASTURES}</div>
-              <InfoTip
-                header={strings.PASTURES}
-                content={strings.PASTURES_TIP}
-              />
+              <InfoTip header={strings.PASTURES} content={strings.PASTURES_TIP} />
             </div>
             <IfEditable permission={PASTURES.NAME}>
               <div>
@@ -117,9 +114,7 @@ const Pastures = ({ pastures, formik }) => {
           />
 
           <Confirm
-            header={`Delete pasture '${
-              pastures[indexToRemove] && pastures[indexToRemove].name
-            }'`}
+            header={`Delete pasture '${pastures[indexToRemove] && pastures[indexToRemove].name}'`}
             content="Are you sure? All related plant communities, monitoring areas and criteria, as well as any associated grazing schedule rows, will be deleted"
             open={indexToRemove !== null}
             onCancel={() => {
@@ -131,10 +126,9 @@ const Pastures = ({ pastures, formik }) => {
               const schedules = _.flatten(
                 formik.values.grazingSchedules.map((schedule) => ({
                   ...schedule,
-                  grazingScheduleEntries:
-                    schedule.grazingScheduleEntries.filter(
-                      (entry) => entry.pastureId !== pasture.id,
-                    ),
+                  grazingScheduleEntries: schedule.grazingScheduleEntries.filter(
+                    (entry) => entry.pastureId !== pasture.id,
+                  ),
                 })),
               );
               formik.setFieldValue('grazingSchedules', schedules);

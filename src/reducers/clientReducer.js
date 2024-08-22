@@ -31,8 +31,7 @@ const clientReducer = (state = initialState, action) => {
       return state;
   }
 };
-export const getClients = (state) =>
-  state.clientIds.map((id) => state.clients[id]);
+export const getClients = (state) => state.clientIds.map((id) => state.clients[id]);
 export const getClientsMap = (state) => state.clients;
 
 export default clientReducer;

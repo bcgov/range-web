@@ -52,8 +52,7 @@ const PlantCommunityBox = ({
 
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const communityTypes =
-    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
+  const communityTypes = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
   const otherType = communityTypes.find((t) => t.name === 'Other');
 
   const communityTypeOptions = communityTypes
@@ -61,8 +60,7 @@ const PlantCommunityBox = ({
       type.id === otherType.id
         ? {
             ...type,
-            name:
-              communityTypeId === otherType.id ? `Other: ${name}` : type.name,
+            name: communityTypeId === otherType.id ? `Other: ${name}` : type.name,
           }
         : type,
     )
@@ -73,12 +71,9 @@ const PlantCommunityBox = ({
       id: type.id,
     }));
 
-  const communityType = communityTypeOptions.find(
-    (t) => t.value === communityTypeId,
-  );
+  const communityType = communityTypeOptions.find((t) => t.value === communityTypeId);
 
-  const elevationTypes =
-    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION];
+  const elevationTypes = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION];
   const elevationOptions = elevationTypes.map((type) => ({
     key: type.id,
     value: type.id,
@@ -120,10 +115,7 @@ const PlantCommunityBox = ({
               {isError ? (
                 <Icon name="warning sign" />
               ) : (
-                <img
-                  src={IMAGE_SRC.PLANT_COMMUNITY_ICON}
-                  alt="community icon"
-                />
+                <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
               )}
             </div>
             <PermissionsField
@@ -131,18 +123,13 @@ const PlantCommunityBox = ({
               name={`${namespace}.communityTypeId`}
               component={Dropdown}
               options={communityTypeOptions}
-              displayValue={
-                communityType?.id === otherType?.id ? name : communityType?.text
-              }
+              displayValue={communityType?.id === otherType?.id ? name : communityType?.text}
               fast
               inputProps={{
                 onChange: (e, { value }) => {
                   if (value === otherType.id) {
                     setModalOpen(true);
-                    formik.setFieldValue(
-                      `${namespace}.communityTypeId`,
-                      communityTypeId,
-                    );
+                    formik.setFieldValue(`${namespace}.communityTypeId`, communityTypeId);
                   } else {
                     formik.setFieldValue(`${namespace}.name`, null);
                   }
@@ -153,11 +140,7 @@ const PlantCommunityBox = ({
           <div className="rup__plant-community__title__right">
             <div>
               {'Minister approval for inclusion obtained: '}
-              {approved ? (
-                <Icon name="check circle" color="green" />
-              ) : (
-                <Icon name="remove circle" color="red" />
-              )}
+              {approved ? <Icon name="check circle" color="green" /> : <Icon name="remove circle" color="red" />}
             </div>
           </div>
 
@@ -274,10 +257,7 @@ const PlantCommunityBox = ({
               <div className="rup__plant-community__content-title">
                 <div className="rup__popup-header">
                   <span>Plant Community Actions</span>
-                  <InfoTip
-                    header={'Plant Community Actions'}
-                    content={strings.PLANT_COMMUNITY_ACTIONS_TIP}
-                  />
+                  <InfoTip header={'Plant Community Actions'} content={strings.PLANT_COMMUNITY_ACTIONS_TIP} />
                 </div>
               </div>
               <PlantCommunityActionsBox
@@ -298,18 +278,13 @@ const PlantCommunityBox = ({
             <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
                 excludedPlantCommunityId={plantCommunity.id}
-                onSubmit={({
-                  plantCommunity: sourcePlantCommunity,
-                  criteria,
-                }) => {
+                onSubmit={({ plantCommunity: sourcePlantCommunity, criteria }) => {
                   const indicatorPlants = sourcePlantCommunity.indicatorPlants
                     // Filter indicator plants from source plant community based on selected criteria
                     .filter((ip) => {
                       return (
-                        (criteria.includes('rangeReadiness') &&
-                          ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
-                        (criteria.includes('stubbleHeight') &&
-                          ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
+                        (criteria.includes('rangeReadiness') && ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
+                        (criteria.includes('stubbleHeight') && ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
                       );
                     })
                     // Filter indicator plants from this plant community based on selected criteria
@@ -330,25 +305,13 @@ const PlantCommunityBox = ({
                   );
 
                   if (criteria.includes('rangeReadiness')) {
-                    formik.setFieldValue(
-                      `${namespace}.rangeReadinessDay`,
-                      sourcePlantCommunity.rangeReadinessDay,
-                    );
-                    formik.setFieldValue(
-                      `${namespace}.rangeReadinessMonth`,
-                      sourcePlantCommunity.rangeReadinessMonth,
-                    );
-                    formik.setFieldValue(
-                      `${namespace}.rangeReadinessNote`,
-                      sourcePlantCommunity.rangeReadinessNote,
-                    );
+                    formik.setFieldValue(`${namespace}.rangeReadinessDay`, sourcePlantCommunity.rangeReadinessDay);
+                    formik.setFieldValue(`${namespace}.rangeReadinessMonth`, sourcePlantCommunity.rangeReadinessMonth);
+                    formik.setFieldValue(`${namespace}.rangeReadinessNote`, sourcePlantCommunity.rangeReadinessNote);
                   }
 
                   if (criteria.includes('shrubUse')) {
-                    formik.setFieldValue(
-                      `${namespace}.shrubUse`,
-                      sourcePlantCommunity.shrubUse,
-                    );
+                    formik.setFieldValue(`${namespace}.shrubUse`, sourcePlantCommunity.shrubUse);
                   }
                 }}
               />
@@ -374,10 +337,7 @@ const PlantCommunityBox = ({
           <div className="rup__plant-community__content-title">
             <div className="rup__popup-header">
               <span>Monitoring Areas</span>
-              <InfoTip
-                header={'Monitoring Areas'}
-                content={strings.MONITORING_AREAS_TIP}
-              />
+              <InfoTip header={'Monitoring Areas'} content={strings.MONITORING_AREAS_TIP} />
             </div>
           </div>
           <MonitoringAreaList
@@ -393,10 +353,7 @@ const PlantCommunityBox = ({
             onClose={() => setModalOpen(false)}
             onSubmit={(name) => {
               formik.setFieldValue(`${namespace}.name`, name);
-              formik.setFieldValue(
-                `${namespace}.communityTypeId`,
-                otherType.id,
-              );
+              formik.setFieldValue(`${namespace}.communityTypeId`, otherType.id);
               setModalOpen(false);
             }}
             title="Other plant community type"
@@ -419,8 +376,7 @@ PlantCommunityBox.propTypes = {
     approved: PropTypes.bool.isRequired,
     notes: PropTypes.string.isRequired,
     communityType: PropTypes.object,
-    communityTypeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-      .isRequired,
+    communityTypeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     monitoringAreas: PropTypes.array.isRequired,
   }),
   index: PropTypes.number.isRequired,

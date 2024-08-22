@@ -1,13 +1,7 @@
 import { AMENDMENT_TYPE } from '../../constants/variables';
 
-export const copyPlantCommunitiesToCreateAmendment = (
-  plantCommunityIds,
-  plantCommunitiesMap,
-  newPastureIdsMap,
-) => {
-  const plantCommunities = plantCommunityIds.map(
-    (id) => plantCommunitiesMap[id],
-  );
+export const copyPlantCommunitiesToCreateAmendment = (plantCommunityIds, plantCommunitiesMap, newPastureIdsMap) => {
+  const plantCommunities = plantCommunityIds.map((id) => plantCommunitiesMap[id]);
 
   return plantCommunities.map((pc) => {
     const { pastureId: oldPastureId, ...plantCommunity } = pc;
@@ -21,11 +15,7 @@ export const copyPlantCommunitiesToCreateAmendment = (
   });
 };
 
-export const copyPlanToCreateAmendment = (
-  plan = {},
-  statusId,
-  amendmentTypeId,
-) => {
+export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) => {
   const copied = {
     ...plan,
     statusId,
@@ -74,14 +64,9 @@ export const normalizePasturesWithOldId = (oldPastures, newPastures) => {
   return pastureIdsMap;
 };
 
-export const copyGrazingSchedulesToCreateAmendment = (
-  plan,
-  grazingSchedulesMap,
-  newPastureIdsMap,
-) => {
+export const copyGrazingSchedulesToCreateAmendment = (plan, grazingSchedulesMap, newPastureIdsMap) => {
   return plan.grazingSchedules.map((gs) => {
-    const { grazingScheduleEntries, ...grazingSchedule } =
-      grazingSchedulesMap[gs.id];
+    const { grazingScheduleEntries, ...grazingSchedule } = grazingSchedulesMap[gs.id];
     const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
       const { pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse;
       // replace the original pastureId with the newly created pastureId
@@ -96,14 +81,9 @@ export const copyGrazingSchedulesToCreateAmendment = (
   });
 };
 
-export const copyMinisterIssuesToCreateAmendment = (
-  plan,
-  ministerIssuesMap,
-  newPastureIdsMap,
-) => {
+export const copyMinisterIssuesToCreateAmendment = (plan, ministerIssuesMap, newPastureIdsMap) => {
   return plan.ministerIssues.map((mi) => {
-    const { pastures: oldPastureIds, ...ministerIssue } =
-      ministerIssuesMap[mi.id];
+    const { pastures: oldPastureIds, ...ministerIssue } = ministerIssuesMap[mi.id];
     // replace the pasture ids with the newly created pasture ids
     const pastures = oldPastureIds.map((opId) => newPastureIdsMap[opId]);
     return { ...ministerIssue, pastures };
@@ -117,10 +97,7 @@ export const copyInvasivePlantChecklistToCreateAmendment = (plan) => {
   return invasivePlantChecklist;
 };
 
-export const copyManagementConsiderationsToCreateAmendment = (
-  plan,
-  managementConsiderationsMap,
-) => {
+export const copyManagementConsiderationsToCreateAmendment = (plan, managementConsiderationsMap) => {
   return plan.managementConsiderations.map((mc) => {
     const { ...managementConsideration } = managementConsiderationsMap[mc.id];
 
@@ -128,10 +105,7 @@ export const copyManagementConsiderationsToCreateAmendment = (
   });
 };
 
-export const copyAdditionalRequirementsToCreateAmendment = (
-  plan,
-  additionalRequirementsMap,
-) => {
+export const copyAdditionalRequirementsToCreateAmendment = (plan, additionalRequirementsMap) => {
   return plan.additionalRequirements.map((ar) => {
     const { ...additionalRequirement } = additionalRequirementsMap[ar.id];
 
@@ -157,18 +131,8 @@ export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
   return amendmentType && amendmentType.code === AMENDMENT_TYPE.MANDATORY;
 };
 
-export const isMinorAmendment = (
-  amendmentTypeId,
-  amendmentTypes,
-  amendmentTypeCode,
-) =>
-  isSubmittedAsMinor(amendmentTypeId, amendmentTypes) ||
-  amendmentTypeCode === AMENDMENT_TYPE.MINOR;
+export const isMinorAmendment = (amendmentTypeId, amendmentTypes, amendmentTypeCode) =>
+  isSubmittedAsMinor(amendmentTypeId, amendmentTypes) || amendmentTypeCode === AMENDMENT_TYPE.MINOR;
 
-export const isMandatoryAmendment = (
-  amendmentTypeId,
-  amendmentTypes,
-  amendmentTypeCode,
-) =>
-  isSubmittedAsMandatory(amendmentTypeId, amendmentTypes) ||
-  amendmentTypeCode === AMENDMENT_TYPE.MANDATORY;
+export const isMandatoryAmendment = (amendmentTypeId, amendmentTypes, amendmentTypeCode) =>
+  isSubmittedAsMandatory(amendmentTypeId, amendmentTypes) || amendmentTypeCode === AMENDMENT_TYPE.MANDATORY;

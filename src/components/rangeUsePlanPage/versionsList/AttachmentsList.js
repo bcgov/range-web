@@ -13,10 +13,7 @@ import { attachmentAccess } from '../attachments/AttachmentRow';
 const AttachmentsList = ({ attachments }) => {
   const onDownloadClicked = async (attachment) => {
     try {
-      const res = await axios.get(
-        API.GET_SIGNED_DOWNLOAD_URL(attachment.id),
-        getAuthHeaderConfig(),
-      );
+      const res = await axios.get(API.GET_SIGNED_DOWNLOAD_URL(attachment.id), getAuthHeaderConfig());
       const fileRes = await axios.get(res.data.url, {
         responseType: 'blob',
         skipAuthorizationHeader: true,
@@ -41,9 +38,7 @@ const AttachmentsList = ({ attachments }) => {
           <TableCell style={{ color: 'grey' }}>Name</TableCell>
           <TableCell style={{ color: 'grey' }}>Upload Date</TableCell>
           <TableCell style={{ color: 'grey' }}>Uploaded By</TableCell>
-          <TableCell style={{ color: 'grey', align: 'left' }}>
-            Viewable By
-          </TableCell>
+          <TableCell style={{ color: 'grey', align: 'left' }}>Viewable By</TableCell>
           <TableCell style={{ color: 'grey' }}></TableCell>
         </TableRow>
       </TableHead>
@@ -51,15 +46,11 @@ const AttachmentsList = ({ attachments }) => {
         {attachments.map((option) => (
           <TableRow key={option.id} hover={true}>
             <TableCell>{option.name}</TableCell>
-            <TableCell>
-              {moment(option.uploadDate).format('MMM DD YYYY h:mm a')}
-            </TableCell>
+            <TableCell>{moment(option.uploadDate).format('MMM DD YYYY h:mm a')}</TableCell>
             <TableCell>
               {option.user.givenName} {option.user.familyName}
             </TableCell>
-            <TableCell>
-              {attachmentAccess.find((o) => o.value === option.access)?.text}
-            </TableCell>
+            <TableCell>{attachmentAccess.find((o) => o.value === option.access)?.text}</TableCell>
             <TableCell>
               <PrimaryButton
                 ui

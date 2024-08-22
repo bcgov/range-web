@@ -32,33 +32,30 @@ const indicatorPlants = [
   },
 ];
 
-storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add(
-  'default',
-  () => (
-    <Form
-      initialValues={{
-        plantCommunity: {
-          indicatorPlants,
-        },
-      }}
-      render={({ values }) => (
-        <>
-          <IndicatorPlantsForm
-            indicatorPlants={values.plantCommunity.indicatorPlants}
-            namespace="plantCommunity"
-            valueLabel="Criteria (Leaf Stage)"
-            valueType="leafStage"
-            criteria="rangeReadiness"
-          />
-          <IndicatorPlantsForm
-            indicatorPlants={values.plantCommunity.indicatorPlants}
-            namespace="plantCommunity"
-            valueLabel="Height After Grazing (cm)"
-            valueType="stubbleHeight"
-            criteria="stubbleHeight"
-          />
-        </>
-      )}
-    />
-  ),
-);
+storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add('default', () => (
+  <Form
+    initialValues={{
+      plantCommunity: {
+        indicatorPlants,
+      },
+    }}
+    render={({ values }) => (
+      <>
+        <IndicatorPlantsForm
+          indicatorPlants={values.plantCommunity.indicatorPlants}
+          namespace="plantCommunity"
+          valueLabel="Criteria (Leaf Stage)"
+          valueType="leafStage"
+          criteria="rangeReadiness"
+        />
+        <IndicatorPlantsForm
+          indicatorPlants={values.plantCommunity.indicatorPlants}
+          namespace="plantCommunity"
+          valueLabel="Height After Grazing (cm)"
+          valueType="stubbleHeight"
+          criteria="stubbleHeight"
+        />
+      </>
+    )}
+  />
+));

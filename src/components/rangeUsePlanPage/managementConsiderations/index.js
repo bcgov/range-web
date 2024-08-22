@@ -14,8 +14,7 @@ import { deleteManagementConsideration } from '../../../api';
 
 const ManagementConsiderations = ({ planId, managementConsiderations }) => {
   const references = useReferences();
-  const considerTypes =
-    references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
+  const considerTypes = references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
   const considerTypeOptions = considerTypes.map((ct) => ({
     key: ct.id,
     value: ct.id,
@@ -32,48 +31,34 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
         <>
           <div className="rup__m-considerations">
             <div className="rup__popup-header">
-              <div className="rup__content-title">
-                {strings.MANAGEMENT_CONSIDERATIONS}
-              </div>
-              <InfoTip
-                header={strings.MANAGEMENT_CONSIDERATIONS}
-                content={strings.MANAGEMENT_CONSIDERATIONS_TIP}
-              />
+              <div className="rup__content-title">{strings.MANAGEMENT_CONSIDERATIONS}</div>
+              <InfoTip header={strings.MANAGEMENT_CONSIDERATIONS} content={strings.MANAGEMENT_CONSIDERATIONS_TIP} />
             </div>
             <div className="rup__divider" />
 
             <div className="rup__m-considerations__note">
-              Content in this section is non-legal and is intended to provide
-              additional information about management within the agreement area.
+              Content in this section is non-legal and is intended to provide additional information about management
+              within the agreement area.
             </div>
 
             <div className="rup__m-considerations__box">
               {managementConsiderations.length === 0 ? (
-                <div className="rup__m-considerations__no-content">
-                  No management considerations provided
-                </div>
+                <div className="rup__m-considerations__no-content">No management considerations provided</div>
               ) : (
-                managementConsiderations.map(
-                  (managementConsideration, index) => (
-                    <ManagementConsiderationRow
-                      key={index}
-                      managementConsideration={managementConsideration}
-                      namespace={`managementConsiderations.${index}`}
-                      onDelete={() => setToRemove(index)}
-                    />
-                  ),
-                )
+                managementConsiderations.map((managementConsideration, index) => (
+                  <ManagementConsiderationRow
+                    key={index}
+                    managementConsideration={managementConsideration}
+                    namespace={`managementConsiderations.${index}`}
+                    onDelete={() => setToRemove(index)}
+                  />
+                ))
               )}
 
               <IfEditable permission={MANAGEMENT_CONSIDERATIONS.ADD}>
                 <Dropdown
                   trigger={
-                    <PrimaryButton
-                      inverted
-                      compact
-                      style={{ marginTop: '10px' }}
-                      type="button"
-                    >
+                    <PrimaryButton inverted compact style={{ marginTop: '10px' }} type="button">
                       <Icon name="add circle" />
                       Add Consideration
                     </PrimaryButton>

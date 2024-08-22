@@ -8,14 +8,7 @@ const propTypes = {
 };
 
 const LeftBtn = ({ onClick, content }) => {
-  return (
-    <PrimaryButton
-      inverted
-      className="rup__multi-tab__tab__btn"
-      onClick={onClick}
-      content={content}
-    />
-  );
+  return <PrimaryButton inverted className="rup__multi-tab__tab__btn" onClick={onClick} content={content} />;
 };
 
 LeftBtn.propTypes = propTypes;

@@ -9,11 +9,7 @@ import { NOT_PROVIDED } from '../../constants/strings';
  * @param {boolean} isYearIncluded The boolean to specify whether the year is needed
  * @returns {string} a formatted string or 'Not provided'
  */
-export const formatDateFromServer = (
-  isoFormatDate,
-  isYearIncluded = true,
-  notProvided = NOT_PROVIDED,
-) => {
+export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notProvided = NOT_PROVIDED) => {
   if (isoFormatDate) {
     const m = moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE);
 
@@ -33,8 +29,7 @@ export const formatDateFromServer = (
  * @param {Date} date The Date instance created by Pikaday
  * @returns {string} a formatted string
  */
-export const formatDateFromUTC = (date) =>
-  moment(date).format(DATE_FORMAT.SERVER_SIDE);
+export const formatDateFromUTC = (date) => moment(date).format(DATE_FORMAT.SERVER_SIDE);
 
 /**
  *
@@ -46,9 +41,7 @@ export const formatDateToNow = (date) => {
   if (!date) return NOT_PROVIDED;
 
   const fromNow = moment(date).fromNow();
-  const absolute = moment(date, DATE_FORMAT.SERVER_SIDE).format(
-    DATE_FORMAT.CLIENT_SIDE_WITH_HOURS,
-  );
+  const absolute = moment(date, DATE_FORMAT.SERVER_SIDE).format(DATE_FORMAT.CLIENT_SIDE_WITH_HOURS);
 
   return `${fromNow}, ${absolute}`;
 };

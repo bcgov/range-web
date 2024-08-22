@@ -6,19 +6,14 @@ import { Dropdown, Icon } from 'semantic-ui-react';
 import { Avatar } from '../common';
 import * as Routes from '../../constants/routes';
 import { IMAGE_SRC, ELEMENT_ID } from '../../constants/variables';
-import {
-  canManageClients,
-  canManageEmails,
-  canAssignRoles,
-  signOutFromSSOAndSiteMinder
-} from '../../utils'
-import { signOut } from '../../actionCreators'
+import { canManageClients, canManageEmails, canAssignRoles, signOutFromSSOAndSiteMinder } from '../../utils';
+import { signOut } from '../../actionCreators';
 import {
   SELECT_RUP,
   MANAGE_CLIENTS,
   MERGE_ACCOUNT,
   EMAIL_TEMPLATE,
-  ASSIGN_ROLES_AND_DISTRICTS
+  ASSIGN_ROLES_AND_DISTRICTS,
 } from '../../constants/strings';
 
 export class Navbar extends Component {
@@ -52,11 +47,7 @@ export class Navbar extends Component {
           </div>
 
           <div className="navbar__right">
-            <NavLink
-              to={Routes.HOME}
-              className="navbar__link"
-              activeClassName="navbar__link--active"
-            >
+            <NavLink to={Routes.HOME} className="navbar__link" activeClassName="navbar__link--active">
               {SELECT_RUP}
               <div className="navbar__link__underline" />
             </NavLink>
@@ -73,30 +64,18 @@ export class Navbar extends Component {
                 */}
               {canManageClients(user) && (
                 <>
-                  <NavLink
-                    to={Routes.MANAGE_CLIENT}
-                    className="navbar__link"
-                    activeClassName="navbar__link--active"
-                  >
+                  <NavLink to={Routes.MANAGE_CLIENT} className="navbar__link" activeClassName="navbar__link--active">
                     {MANAGE_CLIENTS}
                     <div className="navbar__link__underline" />
                   </NavLink>
-                  <NavLink
-                    to={Routes.MERGE_ACCOUNT}
-                    className="navbar__link"
-                    activeClassName="navbar__link--active"
-                  >
+                  <NavLink to={Routes.MERGE_ACCOUNT} className="navbar__link" activeClassName="navbar__link--active">
                     {MERGE_ACCOUNT}
                     <div className="navbar__link__underline" />
                   </NavLink>
                 </>
               )}
               {canManageEmails(user) && (
-                <NavLink
-                  to={Routes.EMAIL_TEMPLATE}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active"
-                >
+                <NavLink to={Routes.EMAIL_TEMPLATE} className="navbar__link" activeClassName="navbar__link--active">
                   {EMAIL_TEMPLATE}
                   <div className="navbar__link__underline" />
                 </NavLink>
@@ -104,9 +83,9 @@ export class Navbar extends Component {
               {canAssignRoles(user) && (
                 <>
                   <NavLink
-                  to={Routes.ASSIGN_ROLES_AND_DISTRICTS}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active"
+                    to={Routes.ASSIGN_ROLES_AND_DISTRICTS}
+                    className="navbar__link"
+                    activeClassName="navbar__link--active"
                   >
                     {ASSIGN_ROLES_AND_DISTRICTS}
                     <div className="navbar__link__underline" />

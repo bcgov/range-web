@@ -94,10 +94,7 @@ const addPlanStatusHistoryRecord = (state, action) => {
 const addManagementConsideration = (state, action) => {
   const { planId, managementConsideration } = action.payload;
   const plan = { ...state.byId[planId] };
-  plan.managementConsiderations = [
-    ...plan.managementConsiderations,
-    managementConsideration.id,
-  ];
+  plan.managementConsiderations = [...plan.managementConsiderations, managementConsideration.id];
 
   return {
     ...state,
@@ -111,9 +108,7 @@ const addManagementConsideration = (state, action) => {
 const deleteManagementConsideration = (state, action) => {
   const { planId, considerationId } = action.payload;
   const plan = { ...state.byId[planId] };
-  plan.managementConsiderations = plan.managementConsiderations.filter(
-    (c) => c !== considerationId,
-  );
+  plan.managementConsiderations = plan.managementConsiderations.filter((c) => c !== considerationId);
 
   return {
     ...state,

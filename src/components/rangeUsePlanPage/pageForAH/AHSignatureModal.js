@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
 import { getUser } from '../../../reducers/rootReducer';
-import {
-  CONFIRMATION_OPTION,
-  REFERENCE_KEY,
-  AMENDMENT_TYPE,
-} from '../../../constants/variables';
+import { CONFIRMATION_OPTION, REFERENCE_KEY, AMENDMENT_TYPE } from '../../../constants/variables';
 import { isPlanAmendment, findConfirmationsWithUser } from '../../../utils';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { planUpdated, confirmationUpdated } from '../../../actions';
@@ -49,15 +45,8 @@ class AHSignatureModal extends Component {
 
   handleConfirmation = async (e) => {
     e.preventDefault();
-    const {
-      updateRUPConfirmation,
-      plan,
-      user,
-      clientAgreements,
-      confirmationUpdated,
-      planUpdated,
-      references,
-    } = this.props;
+    const { updateRUPConfirmation, plan, user, clientAgreements, confirmationUpdated, planUpdated, references } =
+      this.props;
 
     const onRequest = () => this.setState({ isConfirming: true });
     const onSuccess = (data) => {
@@ -76,19 +65,12 @@ class AHSignatureModal extends Component {
       throw err;
     };
 
-    const currUserConfirmations = findConfirmationsWithUser(
-      user,
-      plan.confirmations,
-      clientAgreements,
-    );
+    const currUserConfirmations = findConfirmationsWithUser(user, plan.confirmations, clientAgreements);
 
     const confirmed = true;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const minorAmendmentType = amendmentTypes.find(
-      (a) => a.code === AMENDMENT_TYPE.MINOR,
-    );
-    const isMinorAmendment =
-      isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id;
+    const minorAmendmentType = amendmentTypes.find((a) => a.code === AMENDMENT_TYPE.MINOR);
+    const isMinorAmendment = isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id;
 
     onRequest();
 
@@ -96,9 +78,7 @@ class AHSignatureModal extends Component {
       let data;
       for (const currUserConfirmation of currUserConfirmations) {
         if (!currUserConfirmation.confirmed) {
-          const isOwnSignature = user.clients.some(
-            (c) => c.clientNumber === currUserConfirmation.clientId,
-          );
+          const isOwnSignature = user.clients.some((c) => c.clientNumber === currUserConfirmation.clientId);
           const res = await updateRUPConfirmation(
             plan,
             user,

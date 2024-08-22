@@ -32,40 +32,18 @@ const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
         <Modal.Content>
           <div className="rup__signatures-notification__modal">
             <Icon name="clock outline" size="huge" />
-            <span className="rup__signatures-notification__modal__title">
-              Current Submission status
-            </span>
-            <span>
-              There are still agreement holders who have not yet confirmed their
-              confirmation choice.
-            </span>
-            <AHConfirmationList
-              user={user}
-              clients={clients}
-              plan={plan}
-              clientAgreements={clientAgreements}
-            />
-            <span>
-              This amendment will not be submitted until all agreement holders
-              have confirmed and eSigned.
-            </span>
-            <PrimaryButton
-              onClick={closeModal}
-              style={{ marginTop: '15px' }}
-              content="Close"
-            />
+            <span className="rup__signatures-notification__modal__title">Current Submission status</span>
+            <span>There are still agreement holders who have not yet confirmed their confirmation choice.</span>
+            <AHConfirmationList user={user} clients={clients} plan={plan} clientAgreements={clientAgreements} />
+            <span>This amendment will not be submitted until all agreement holders have confirmed and eSigned.</span>
+            <PrimaryButton onClick={closeModal} style={{ marginTop: '15px' }} content="Close" />
           </div>
         </Modal.Content>
       </Modal>
       <div className="rup__signatures-notification">
         <div className="rup__signatures-notification__left">
-          <Icon
-            name="check square"
-            size="large"
-            style={{ marginRight: '5px' }}
-          />
-          {`${numberOfConfirmed}/${confirmations.length}`} Confirmations
-          Received
+          <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
+          {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
         </div>
         <PrimaryButton inverted compact onClick={openModal}>
           View Submission Status

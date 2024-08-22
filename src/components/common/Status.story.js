@@ -11,20 +11,13 @@ const userPropOptions = {
   'Not Agreement Holder': { roles: [] },
 };
 
-const statusPropOptions = Object.fromEntries(
-  Object.entries(PLAN_STATUS).map(([status, code]) => [status, { code }]),
-);
+const statusPropOptions = Object.fromEntries(Object.entries(PLAN_STATUS).map(([status, code]) => [status, { code }]));
 
 storiesOf('Status', module)
   .addDecorator(withKnobs)
   .add('With Knobs', () => (
     <Status
-      user={select(
-        'User',
-        userPropOptions,
-        userPropOptions['Agreement Holder'],
-        '',
-      )}
+      user={select('User', userPropOptions, userPropOptions['Agreement Holder'], '')}
       status={select('Plan Status', statusPropOptions, { code: 'SFD' })}
     />
   ));

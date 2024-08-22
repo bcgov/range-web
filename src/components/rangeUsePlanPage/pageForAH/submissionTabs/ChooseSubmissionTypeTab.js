@@ -40,8 +40,7 @@ class ChooseSubmissionTypeTab extends Component {
   };
 
   render() {
-    const { currTabId, tab, statusCode, handleStatusCodeChange, onClose } =
-      this.props;
+    const { currTabId, tab, statusCode, handleStatusCodeChange, onClose } = this.props;
     const { id, title, back, radio1, radio2 } = tab;
     const isActive = id === currTabId;
 
@@ -55,15 +54,8 @@ class ChooseSubmissionTypeTab extends Component {
         title={title}
         actions={
           <Fragment>
-            <LeftBtn
-              onClick={back ? this.onBackClicked : onClose}
-              content={back ? 'Back' : 'Cancel'}
-            />
-            <RightBtn
-              onClick={this.onNextClicked}
-              disabled={!statusCode}
-              content="Next"
-            />
+            <LeftBtn onClick={back ? this.onBackClicked : onClose} content={back ? 'Back' : 'Cancel'} />
+            <RightBtn onClick={this.onNextClicked} disabled={!statusCode} content="Next" />
           </Fragment>
         }
         content={
@@ -94,9 +86,7 @@ class ChooseSubmissionTypeTab extends Component {
                 }
                 name="radioGroup"
                 value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
-                checked={
-                  statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION
-                }
+                checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
                 onChange={handleStatusCodeChange}
               />
             </Form.Field>

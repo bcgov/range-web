@@ -10,13 +10,7 @@ import { MONITORING_AREAS } from '../../../../constants/fields';
 import { deleteMonitoringArea } from '../../../../api';
 import { resetMonitoringAreaId } from '../../../../utils/helper';
 
-const MonitoringAreaList = ({
-  monitoringAreas,
-  planId,
-  pastureId,
-  communityId,
-  namespace,
-}) => {
+const MonitoringAreaList = ({ monitoringAreas, planId, pastureId, communityId, namespace }) => {
   const [areaToCopy, setAreaToCopy] = useState();
 
   return (
@@ -54,12 +48,7 @@ const MonitoringAreaList = ({
                   const area = monitoringAreas[index];
 
                   if (!uuid.isUUID(area.id)) {
-                    await deleteMonitoringArea(
-                      planId,
-                      pastureId,
-                      communityId,
-                      area.id,
-                    );
+                    await deleteMonitoringArea(planId, pastureId, communityId, area.id);
                   }
 
                   remove(index);

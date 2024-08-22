@@ -19,9 +19,7 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
   if (!purposes || !purposes.length) {
     return NOT_PROVIDED;
   }
-  const purposeNames = purposes.map(
-    (purp) => purp.purposeType && purp.purposeType.name,
-  );
+  const purposeNames = purposes.map((purp) => purp.purposeType && purp.purposeType.name);
   if (otherPurpose) {
     purposeNames.push(otherPurpose);
   }
@@ -34,9 +32,7 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
     case 2:
       return purposeNames.join(' and ');
     default:
-      return `${purposeNames.slice(0, length - 1).join(', ')}, and ${
-        purposeNames[length - 1]
-      }`;
+      return `${purposeNames.slice(0, length - 1).join(', ')}, and ${purposeNames[length - 1]}`;
   }
 };
 
@@ -46,9 +42,7 @@ export const resetPlantCommunityId = (plantCommunity) => ({
   createdAt: undefined,
   indicatorPlants: plantCommunity.indicatorPlants.map(resetIndicatorPlantId),
   monitoringAreas: plantCommunity.monitoringAreas.map(resetMonitoringAreaId),
-  plantCommunityActions: plantCommunity.plantCommunityActions.map(
-    resetPlantCommunityActionId,
-  ),
+  plantCommunityActions: plantCommunity.plantCommunityActions.map(resetPlantCommunityActionId),
 });
 
 export const resetIndicatorPlantId = (indicatorPlant) => ({

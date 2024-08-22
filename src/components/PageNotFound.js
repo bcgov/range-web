@@ -31,18 +31,11 @@ class PageNotFound extends Component {
     return (
       <section className="page-not-found">
         <div className="page-not-found__container">
-          <img
-            className="page-not-found__image"
-            src={IMAGE_SRC.COW_PIC}
-            alt="cow-img"
-          />
+          <img className="page-not-found__image" src={IMAGE_SRC.COW_PIC} alt="cow-img" />
           <div className="page-not-found__title">Page Not Found</div>
           <div className="page-not-found__content">
             <p>This is not the web page you are looking for.</p>
-            <p>
-              You will be redirected to the {APP_NAME} home page within 10
-              seconds.
-            </p>
+            <p>You will be redirected to the {APP_NAME} home page within 10 seconds.</p>
           </div>
           <div className="page-not-found__link">
             <Link to={HOME}>Go to home</Link>

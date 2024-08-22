@@ -7,9 +7,7 @@ import {
 } from '../constants/actionTypes';
 import { getAuthAndUserFromLocal } from '../utils';
 
-const { user, authData } = getAuthAndUserFromLocal
-  ? getAuthAndUserFromLocal()
-  : {};
+const { user, authData } = getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {};
 const initialState = {
   authData,
   user,
@@ -57,8 +55,7 @@ const authReducer = (state = initialState, action) => {
 
 // Private selectors being name exported
 export const getAuthData = (state) => state.authData;
-export const getToken = (state) =>
-  state.authData && state.authData.access_token;
+export const getToken = (state) => state.authData && state.authData.access_token;
 export const getUser = (state) => state.user;
 export const getReAuthRequired = (state) => state.reAuthRequired;
 export const getAuthTimeout = (state) => state.timeout;

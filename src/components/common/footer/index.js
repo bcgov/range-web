@@ -26,27 +26,15 @@ class Footer extends Component {
         <footer className="footer">
           <div className="container">
             <div className="footer__content-list">
-              <a
-                href="https://www2.gov.bc.ca/gov/content/home"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://www2.gov.bc.ca/gov/content/home" target="_blank" rel="noopener noreferrer">
                 Home
               </a>
               <div className="footer__divider" />
-              <a
-                href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca" target="_blank" rel="noopener noreferrer">
                 About gov.bc.ca
               </a>
               <div className="footer__divider" />
-              <a
-                href="https://www2.gov.bc.ca/gov/content/home/disclaimer"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://www2.gov.bc.ca/gov/content/home/disclaimer" target="_blank" rel="noopener noreferrer">
                 Disclaimer
               </a>
               <div className="footer__divider" />
@@ -54,19 +42,11 @@ class Footer extends Component {
                 Privacy
               </button>
               <div className="footer__divider" />
-              <a
-                href="https://www2.gov.bc.ca/gov/content/home/accessibility"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://www2.gov.bc.ca/gov/content/home/accessibility" target="_blank" rel="noopener noreferrer">
                 Accessibility
               </a>
               <div className="footer__divider" />
-              <a
-                href="https://www2.gov.bc.ca/gov/content/home/copyright"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://www2.gov.bc.ca/gov/content/home/copyright" target="_blank" rel="noopener noreferrer">
                 Copyright
               </a>
               <div className="footer__divider" />

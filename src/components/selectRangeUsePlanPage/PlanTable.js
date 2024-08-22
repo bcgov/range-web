@@ -2,21 +2,9 @@ import React from 'react';
 import { Segment, Button } from 'semantic-ui-react';
 import { Loading, PrimaryButton } from '../common';
 import * as API from '../../constants/api';
-import {
-  EFFECTIVE_DATE,
-  SUBMITTED,
-  TYPE,
-  STATUS,
-  VIEW,
-  NO_RESULTS_FOUND,
-  ERROR_OCCUR,
-} from '../../constants/strings';
+import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
 import PlanTableRow from './PlanTableRow';
-import {
-  axios,
-  getAuthHeaderConfig,
-  isStatusAmongApprovedStatuses,
-} from '../../utils';
+import { axios, getAuthHeaderConfig, isStatusAmongApprovedStatuses } from '../../utils';
 import useSWR from 'swr';
 
 const PlanTable = ({ agreementId }) => {
@@ -32,9 +20,7 @@ const PlanTable = ({ agreementId }) => {
   const { plans = [] } = agreement || {};
 
   const setFirstApproved = (p, i) => {
-    const index = plans.findIndex((p) =>
-      isStatusAmongApprovedStatuses(p.status),
-    );
+    const index = plans.findIndex((p) => isStatusAmongApprovedStatuses(p.status));
     return {
       ...p,
       recentApproved: index === i,
@@ -45,11 +31,7 @@ const PlanTable = ({ agreementId }) => {
     return (
       <div className="agrm__ptable__message agrm__ptable__message--error">
         {ERROR_OCCUR}
-        <PrimaryButton
-          inverted
-          onClick={() => revalidate}
-          style={{ marginLeft: '10px' }}
-        >
+        <PrimaryButton inverted onClick={() => revalidate} style={{ marginLeft: '10px' }}>
           Refresh
         </PrimaryButton>
       </div>

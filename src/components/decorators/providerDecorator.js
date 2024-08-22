@@ -4,8 +4,6 @@ import configureStore from '../../configureStore';
 
 const store = configureStore();
 
-const providerDecorator = (story) => (
-  <Provider store={store}>{story()}</Provider>
-);
+const providerDecorator = (story) => <Provider store={store}>{story()}</Provider>;
 
 export default providerDecorator;

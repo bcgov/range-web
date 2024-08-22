@@ -6,10 +6,7 @@ import { FieldArray } from 'formik';
 import uuid from 'uuid-v4';
 import { InfoTip } from '../../common';
 import { IfEditable } from '../../common/PermissionsField';
-import {
-  YEARLY_SCHEDULES,
-  YEARLY_SCHEDULES_TIP,
-} from '../../../constants/strings';
+import { YEARLY_SCHEDULES, YEARLY_SCHEDULES_TIP } from '../../../constants/strings';
 import { SCHEDULE } from '../../../constants/fields';
 import * as utils from '../../../utils';
 import GrazingScheduleBox from './GrazingScheduleBox';
@@ -71,10 +68,7 @@ const GrazingSchedules = ({ plan }) => {
             <div className="rup__content-title--editable">
               <div className="rup__popup-header">
                 <div className="rup__content-title">{YEARLY_SCHEDULES}</div>
-                <InfoTip
-                  header={YEARLY_SCHEDULES}
-                  content={YEARLY_SCHEDULES_TIP}
-                />
+                <InfoTip header={YEARLY_SCHEDULES} content={YEARLY_SCHEDULES_TIP} />
               </div>
               <IfEditable permission={SCHEDULE.TYPE}>
                 <Dropdown
@@ -105,9 +99,7 @@ const GrazingSchedules = ({ plan }) => {
             </div>
             <div className="rup__divider" />
             {isEmpty ? (
-              <div className="rup__section-not-found">
-                No schedule provided.
-              </div>
+              <div className="rup__section-not-found">No schedule provided.</div>
             ) : (
               <ul
                 className={classnames('collaspible-boxes', {
@@ -115,11 +107,8 @@ const GrazingSchedules = ({ plan }) => {
                 })}
               >
                 {grazingSchedules.sort(sortYears).map((schedule, index) => {
-                  const yearUsage = plan.agreement.usage.find(
-                    (u) => u.year === schedule.year,
-                  );
-                  const authorizedAUMs =
-                    (yearUsage && yearUsage.totalAnnualUse) || 0;
+                  const yearUsage = plan.agreement.usage.find((u) => u.year === schedule.year);
+                  const authorizedAUMs = (yearUsage && yearUsage.totalAnnualUse) || 0;
                   const crownTotalAUMs = utils.calcCrownTotalAUMs(
                     schedule.grazingScheduleEntries,
                     plan.pastures,
@@ -130,15 +119,9 @@ const GrazingSchedules = ({ plan }) => {
                     <GrazingScheduleBox
                       key={schedule.id}
                       yearOptions={yearOptions}
-                      schedule={populateGrazingScheduleFields(
-                        schedule,
-                        plan,
-                        references,
-                      )}
+                      schedule={populateGrazingScheduleFields(schedule, plan, references)}
                       index={index}
-                      onScheduleClicked={() =>
-                        setActiveIndex(index !== activeIndex ? index : -1)
-                      }
+                      onScheduleClicked={() => setActiveIndex(index !== activeIndex ? index : -1)}
                       activeIndex={activeIndex}
                       livestockTypes={livestockTypes}
                       namespace={`grazingSchedules.${index}`}
@@ -149,17 +132,12 @@ const GrazingSchedules = ({ plan }) => {
                           ...schedule,
                           id: uuid(),
                           year,
-                          grazingScheduleEntries:
-                            schedule.grazingScheduleEntries.map((entry) => ({
-                              ...entry,
-                              id: uuid(),
-                              dateIn: moment(entry.dateIn)
-                                .set('year', year)
-                                .toISOString(),
-                              dateOut: moment(entry.dateOut)
-                                .set('year', year)
-                                .toISOString(),
-                            })),
+                          grazingScheduleEntries: schedule.grazingScheduleEntries.map((entry) => ({
+                            ...entry,
+                            id: uuid(),
+                            dateIn: moment(entry.dateIn).set('year', year).toISOString(),
+                            dateOut: moment(entry.dateOut).set('year', year).toISOString(),
+                          })),
                         });
                       }}
                       onScheduleDelete={() => setIndexToRemove(index)}

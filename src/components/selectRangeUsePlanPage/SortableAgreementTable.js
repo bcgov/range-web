@@ -83,14 +83,8 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    order,
-    orderBy,
-    onRequestSort,
-    onColumnFilterChange,
-    columnFilters,
-  } = props;
+  const { classes, order, orderBy, onRequestSort, onColumnFilterChange, columnFilters } = props;
+
   return (
     <TableHead>
       <TableRow>
@@ -122,11 +116,7 @@ function EnhancedTableHead(props) {
               <input
                 type="text"
                 onChange={(e) => onColumnFilterChange(e, headCell.id)}
-                value={
-                  Object.hasOwn(columnFilters, headCell.id)
-                    ? columnFilters[headCell.id]
-                    : ''
-                }
+                value={Object.hasOwn(columnFilters, headCell.id) ? columnFilters[headCell.id] : ''}
               />
             )}
             {headCell.id == 'plan.status_id' && (
@@ -162,9 +152,7 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
   const user = useUser();
   const statusObjects = references[REFERENCE_KEY.PLAN_STATUS]
     .map((statusObject) => {
-      statusObject.name =
-        translateStatusBasedOnUser(statusObject, user).statusName +
-        ` (${statusObject.code})`;
+      statusObject.name = translateStatusBasedOnUser(statusObject, user).statusName + ` (${statusObject.code})`;
       return statusObject;
     })
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -199,9 +187,7 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
       >
         {statusObjects.map((statusObject) => (
           <MenuItem key={statusObject.id} value={statusObject.name}>
-            <Checkbox
-              checked={selectedStatusName.indexOf(statusObject.name) !== -1}
-            />
+            <Checkbox checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.name) !== -1} />
             <ListItemText primary={statusObject.name} />
           </MenuItem>
         ))}
@@ -297,12 +283,7 @@ export default function SortableAgreementTable({
       <div className={classes.paper}>
         {loading && <Loading onlySpinner />}
         <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size="medium"
-            aria-label="enhanced table"
-          >
+          <Table className={classes.table} aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
             <EnhancedTableHead
               classes={classes}
               order={order}
@@ -329,9 +310,7 @@ export default function SortableAgreementTable({
               {agreements.length === 0 && !loading && (
                 <TableRow>
                   <TableCell align="center" colSpan={10}>
-                    <Typography color="textSecondary">
-                      No matching agreements
-                    </Typography>
+                    <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>
               )}

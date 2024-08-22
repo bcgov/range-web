@@ -49,11 +49,7 @@ class SubmitForReviewTab extends Component {
         actions={
           <Fragment>
             <LeftBtn onClick={this.onBackClicked} content="Back" />
-            <RightBtn
-              onClick={this.onSubmitClicked}
-              loading={isSubmitting}
-              content="Submit For Feedback"
-            />
+            <RightBtn onClick={this.onSubmitClicked} loading={isSubmitting} content="Submit For Feedback" />
           </Fragment>
         }
         content={<div>{text1}</div>}

@@ -11,18 +11,9 @@ import { useUser } from '../../../providers/UserProvider';
 import { useEditable } from '../../../providers/EditableProvider';
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 
-const InvasivePlantChecklist = ({
-  namespace,
-  invasivePlantChecklist,
-  formik,
-}) => {
-  const {
-    equipmentAndVehiclesParking,
-    beginInUninfestedArea,
-    undercarrigesInspected,
-    revegetate,
-    other,
-  } = invasivePlantChecklist;
+const InvasivePlantChecklist = ({ namespace, invasivePlantChecklist, formik }) => {
+  const { equipmentAndVehiclesParking, beginInUninfestedArea, undercarrigesInspected, revegetate, other } =
+    invasivePlantChecklist;
 
   const [otherChecked, setOtherChecked] = useState(!!other);
   const globalIsEditable = useEditable();
@@ -34,16 +25,12 @@ const InvasivePlantChecklist = ({
     <div className="rup__ip-checklist">
       <div className="rup__popup-header">
         <div className="rup__content-title">{strings.INVASIVE_PLANTS}</div>
-        <InfoTip
-          header={strings.INVASIVE_PLANTS}
-          content={strings.INVASIVE_PLANTS_TIP}
-        />
+        <InfoTip header={strings.INVASIVE_PLANTS} content={strings.INVASIVE_PLANTS_TIP} />
       </div>
       <div className="rup__divider" />
       <div className="rup__ip-checklist__header">
-        I commit to carry out the following measures to prevent the introduction
-        or spread of invasive plants that are likely the result of my range
-        practices:
+        I commit to carry out the following measures to prevent the introduction or spread of invasive plants that are
+        likely the result of my range practices:
       </div>
       <div className="rup__ip-checklist__form">
         <Form.Group grouped>

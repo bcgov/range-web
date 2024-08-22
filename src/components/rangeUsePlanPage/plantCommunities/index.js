@@ -11,12 +11,7 @@ import { PLANT_COMMUNITY } from '../../../constants/fields';
 import { Confirm } from 'semantic-ui-react';
 import { deletePlantCommunity } from '../../../api';
 
-const PlantCommunities = ({
-  plantCommunities = [],
-  namespace,
-  planId,
-  pastureId,
-}) => {
+const PlantCommunities = ({ plantCommunities = [], namespace, planId, pastureId }) => {
   const isEmpty = plantCommunities.length === 0;
   const [activeIndex, setActiveIndex] = useState(-1);
   const [idToRemove, setIdToRemove] = useState(null);
@@ -56,11 +51,7 @@ const PlantCommunities = ({
           </IfEditable>
 
           <IfEditable permission={PLANT_COMMUNITY.NAME} invert>
-            {isEmpty && (
-              <div className="rup__plant-communities__not-provided">
-                {NOT_PROVIDED}
-              </div>
-            )}
+            {isEmpty && <div className="rup__plant-communities__not-provided">{NOT_PROVIDED}</div>}
           </IfEditable>
 
           <Confirm
@@ -93,9 +84,7 @@ const PlantCommunities = ({
                 planId={planId}
                 pastureId={pastureId}
                 onClick={() => {
-                  index === activeIndex
-                    ? setActiveIndex(-1)
-                    : setActiveIndex(index);
+                  index === activeIndex ? setActiveIndex(-1) : setActiveIndex(index);
                 }}
                 onDelete={() => setIdToRemove(plantCommunity.id)}
                 namespace={`${namespace}.plantCommunities.${index}`}

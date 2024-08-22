@@ -46,7 +46,7 @@ export const PlanProvider = ({ children, storePlan }) => {
 
   const fetchPlan = async (planId = currentPlanId, hard = false) => {
     setFetchingPlan(true);
-    
+
     if (errorFetchingPlan) setErrorFetchingPlan(null);
     if (hard) {
       setCurrentPlan(null);
@@ -57,10 +57,7 @@ export const PlanProvider = ({ children, storePlan }) => {
       setCurrentPlan(schema.cast(appendUsage(plan)));
 
       if (!isUUID(plan.id)) {
-        const { data: clientAgreements } = await axios.get(
-          GET_CLIENT_AGREEMENTS(plan.id),
-          getAuthHeaderConfig(),
-        );
+        const { data: clientAgreements } = await axios.get(GET_CLIENT_AGREEMENTS(plan.id), getAuthHeaderConfig());
         setClientAgreements(clientAgreements);
       }
 

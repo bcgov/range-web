@@ -43,10 +43,7 @@ const EmailTemplatePage = () => {
   const [updateSuccess, setUpdateSuccess] = useState(null);
 
   async function getEmailTemplates() {
-    const res = await axios.get(
-      `${API.GET_EMAIL_TEMPLATE}`,
-      getAuthHeaderConfig(),
-    );
+    const res = await axios.get(`${API.GET_EMAIL_TEMPLATE}`, getAuthHeaderConfig());
     setEmailTemplates(res.data);
     setSelectedTemplate(res.data[0]);
   }
@@ -55,10 +52,7 @@ const EmailTemplatePage = () => {
   }, []);
 
   const handleTemplateChaneg = async (event) => {
-    if (emailTemplates)
-      setSelectedTemplate(
-        emailTemplates.find((element) => element.id === event.target.value),
-      );
+    if (emailTemplates) setSelectedTemplate(emailTemplates.find((element) => element.id === event.target.value));
   };
   const handleUpdateClick = async () => {
     setIsUpdating(true);
@@ -74,9 +68,7 @@ const EmailTemplatePage = () => {
       );
       setUpdateSuccess('Template updated successfully');
     } catch (e) {
-      setUpdateError(
-        `Error updating temaplate: ${e.message ?? e?.data?.error}`,
-      );
+      setUpdateError(`Error updating temaplate: ${e.message ?? e?.data?.error}`);
     } finally {
       setIsUpdating(false);
     }
@@ -84,20 +76,14 @@ const EmailTemplatePage = () => {
 
   return (
     <section className="email-template">
-      <Banner
-        header={strings.EMAIL_TEMPLATE}
-        content={strings.UPDATE_EMAIL_TEMPLATE_BANNER_CONTENT}
-      />
+      <Banner header={strings.EMAIL_TEMPLATE} content={strings.UPDATE_EMAIL_TEMPLATE_BANNER_CONTENT} />
       <div className="email-template__content">
         {emailTemplates && selectedTemplate && (
           <Grid container direction="column">
             <Grid className={classes.gridRow}>
               <FormControl className={classes.formControl}>
                 <InputLabel>Template Name</InputLabel>
-                <Select
-                  value={selectedTemplate.id}
-                  onChange={handleTemplateChaneg}
-                >
+                <Select value={selectedTemplate.id} onChange={handleTemplateChaneg}>
                   {emailTemplates.map((emailTemplate) => (
                     <MenuItem key={emailTemplate.id} value={emailTemplate.id}>
                       {emailTemplate.name}
@@ -164,22 +150,13 @@ const EmailTemplatePage = () => {
                     }}
                     unmountOnExit
                   >
-                    <CircularProgress
-                      className={classes.buttonProgress}
-                      size={24}
-                    />
+                    <CircularProgress className={classes.buttonProgress} size={24} />
                   </Fade>
                 )}
               </Button>
             </Grid>
-            {updateError && (
-              <Typography color="error">{updateError}</Typography>
-            )}
-            {updateSuccess && (
-              <Typography className={classes.successMessage}>
-                {updateSuccess}
-              </Typography>
-            )}
+            {updateError && <Typography color="error">{updateError}</Typography>}
+            {updateSuccess && <Typography className={classes.successMessage}>{updateSuccess}</Typography>}
           </Grid>
         )}
       </div>

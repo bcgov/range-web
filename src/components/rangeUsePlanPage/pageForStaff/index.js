@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  REFERENCE_KEY,
-  PLAN_STATUS,
-  AMENDMENT_TYPE,
-  CONFIRMATION_MODAL_ID,
-} from '../../../constants/variables';
+import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
 import * as strings from '../../../constants/strings';
 import * as utils from '../../../utils';
@@ -20,10 +15,7 @@ import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
 import { createAmendment, savePlan, updatePlan } from '../../../api';
 import NetworkStatus from '../../common/NetworkStatus';
 import { connect } from 'formik';
-import {
-  toastErrorMessage,
-  toastSuccessMessage,
-} from '../../../actionCreators';
+import { toastErrorMessage, toastSuccessMessage } from '../../../actionCreators';
 
 // Range Staff Page
 class PageForStaff extends Component {
@@ -76,12 +68,7 @@ class PageForStaff extends Component {
     const { pastures } = plan;
     const usage = agreement && agreement.usage;
     const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
-    const errors = utils.handleRupValidation(
-      plan,
-      pastures,
-      livestockTypes,
-      usage,
-    );
+    const errors = utils.handleRupValidation(plan, pastures, livestockTypes, usage);
 
     // errors have been found
     if (errors.length !== 0) {
@@ -105,13 +92,7 @@ class PageForStaff extends Component {
   };
 
   onAmendPlanClicked = async () => {
-    const {
-      plan,
-      fetchPlan,
-      toastSuccessMessage,
-      toastErrorMessage,
-      references,
-    } = this.props;
+    const { plan, fetchPlan, toastSuccessMessage, toastErrorMessage, references } = this.props;
 
     this.setState({
       isCreatingAmendment: true,
@@ -147,8 +128,7 @@ class PageForStaff extends Component {
       this.props.toastErrorMessage(error);
     }
   };
-  closePlanSubmissionModal = () =>
-    this.setState({ isPlanSubmissionModalOpen: false });
+  closePlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: false });
 
   renderActionBtns = () => {
     const { isSavingAsDraft, isSubmitting } = this.state;
@@ -207,26 +187,18 @@ class PageForStaff extends Component {
   };
 
   render() {
-    const {
-      user,
-      clientAgreements,
-      references,
-      plan,
-      planStatusHistoryMap,
-      fetchPlan,
-      updateRUPStatus,
-    } = this.props;
+    const { user, clientAgreements, references, plan, planStatusHistoryMap, fetchPlan, updateRUPStatus } = this.props;
     const { isPlanSubmissionModalOpen } = this.state;
 
     const { agreementId, status, rangeName } = plan;
 
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const planTypeDescription = utils.getPlanTypeDescription(
+    const planTypeDescription = utils.getPlanTypeDescription(plan, amendmentTypes);
+    const { header: bannerHeader, content: bannerContent } = utils.getBannerHeaderAndContentForAH(
       plan,
-      amendmentTypes,
+      user,
+      references,
     );
-    const { header: bannerHeader, content: bannerContent } =
-      utils.getBannerHeaderAndContentForAH(plan, user, references);
 
     return (
       <section className="rup">
@@ -255,17 +227,11 @@ class PageForStaff extends Component {
               <div className="rup__actions__left">
                 <BackBtn className="rup__back-btn" agreementId={agreementId} />
                 <div>{agreementId}</div>
-                <Status
-                  status={status}
-                  user={user}
-                  isAmendment={isPlanAmendment(plan)}
-                />
+                <Status status={status} user={user} isAmendment={isPlanAmendment(plan)} />
                 <NetworkStatus planId={plan.id} />
                 <div>{utils.capitalize(rangeName)}</div>
               </div>
-              <div className="rup__actions__btns">
-                {this.renderActionBtns()}
-              </div>
+              <div className="rup__actions__btns">{this.renderActionBtns()}</div>
             </div>
           </div>
         </StickyHeader>

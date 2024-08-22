@@ -1,11 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import useSWR from 'swr';
-import {
-  CircularProgress,
-  TextField,
-  Typography,
-  Grid,
-} from '@material-ui/core';
+import { CircularProgress, TextField, Typography, Grid } from '@material-ui/core';
 import { throttle } from 'lodash';
 import { Autocomplete } from '@material-ui/lab';
 import * as API from '../../constants/api';
@@ -26,10 +21,7 @@ const ClientDropdown = ({ onChange, value }) => {
     },
   );
 
-  const debouncedSetInputValue = useMemo(
-    () => throttle(setInputValue, 300),
-    [],
-  );
+  const debouncedSetInputValue = useMemo(() => throttle(setInputValue, 300), []);
 
   const handleChange = (event) => {
     debouncedSetInputValue(event.target.value);
@@ -64,9 +56,7 @@ const ClientDropdown = ({ onChange, value }) => {
             ...params.InputProps,
             endAdornment: (
               <React.Fragment>
-                {isValidating ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
+                {isValidating ? <CircularProgress color="inherit" size={20} /> : null}
                 {params.InputProps.endAdornment}
               </React.Fragment>
             ),

@@ -81,9 +81,7 @@ class ConfirmChoiceTab extends Component {
             <LeftBtn onClick={onClose} content="Cancel" />
             <RightBtn
               onClick={
-                confirmationOption === CONFIRMATION_OPTION.REQUEST
-                  ? this.onNextClicked
-                  : this.handleConfirmation
+                confirmationOption === CONFIRMATION_OPTION.REQUEST ? this.onNextClicked : this.handleConfirmation
               }
               loading={isConfirming}
               disabled={isConfirmBtnDisabled}
@@ -125,12 +123,7 @@ class ConfirmChoiceTab extends Component {
               />
             </Form.Field>
 
-            <AHConfirmationList
-              user={user}
-              clients={clients}
-              plan={plan}
-              clientAgreements={clientAgreements}
-            />
+            <AHConfirmationList user={user} clients={clients} plan={plan} clientAgreements={clientAgreements} />
 
             <Form.Checkbox
               label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker."

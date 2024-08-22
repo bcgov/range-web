@@ -37,12 +37,7 @@ const RowMenu = ({ onCopy, onDelete }) => {
                   onClick={() => setIsOpen(false)}
                 />
                 <div ref={ref} style={style} data-placement={placement}>
-                  <Menu
-                    vertical
-                    onBlur={() => setIsOpen(false)}
-                    pointing
-                    compact
-                  >
+                  <Menu vertical onBlur={() => setIsOpen(false)} pointing compact>
                     <Menu.Item
                       onClick={() => {
                         setIsOpen(false);

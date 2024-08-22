@@ -23,9 +23,7 @@ const AddMinisterIssueActionButton = ({ onSubmit }) => {
       return setModalOpen(true);
     }
 
-    const ministerIssueAction = types.find(
-      (t) => t.id === ministerIssueActionTypeId,
-    );
+    const ministerIssueAction = types.find((t) => t.id === ministerIssueActionTypeId);
 
     onSubmit(ministerIssueAction);
   };

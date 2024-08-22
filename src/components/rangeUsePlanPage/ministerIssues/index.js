@@ -4,19 +4,14 @@ import MinisterIssueBox from './MinisterIssueBox';
 import { FieldArray } from 'formik';
 import { InfoTip } from '../../common';
 import { IfEditable } from '../../common/PermissionsField';
-import {
-  MINISTERS_ISSUES_AND_ACTIONS,
-  MINISTERS_ISSUES_AND_ACTIONS_TIP,
-} from '../../../constants/strings';
+import { MINISTERS_ISSUES_AND_ACTIONS, MINISTERS_ISSUES_AND_ACTIONS_TIP } from '../../../constants/strings';
 import { MINISTER_ISSUES } from '../../../constants/fields';
 import AddMinisterIssueButton from './AddMinisterIssueButton';
 import { Confirm } from 'semantic-ui-react';
 import { deleteMinisterIssue } from '../../../api';
 
 const MinisterIssues = ({ issues }) => {
-  const [activeMinisterIssue, setActiveMinisterIssue] = useState(
-    issues[0] ? issues[0].id : -1,
-  );
+  const [activeMinisterIssue, setActiveMinisterIssue] = useState(issues[0] ? issues[0].id : -1);
   const [indexToRemove, setIndexToRemove] = useState(null);
 
   return (
@@ -27,13 +22,8 @@ const MinisterIssues = ({ issues }) => {
         <div className="rup__missues">
           <div className="rup__content-title--editable">
             <div className="rup__popup-header">
-              <div className="rup__content-title">
-                {MINISTERS_ISSUES_AND_ACTIONS}
-              </div>
-              <InfoTip
-                header={MINISTERS_ISSUES_AND_ACTIONS}
-                content={MINISTERS_ISSUES_AND_ACTIONS_TIP}
-              />
+              <div className="rup__content-title">{MINISTERS_ISSUES_AND_ACTIONS}</div>
+              <InfoTip header={MINISTERS_ISSUES_AND_ACTIONS} content={MINISTERS_ISSUES_AND_ACTIONS_TIP} />
             </div>
             <IfEditable permission={MINISTER_ISSUES.TYPE}>
               <AddMinisterIssueButton
@@ -79,9 +69,7 @@ const MinisterIssues = ({ issues }) => {
                   ministerIssueIndex={index}
                   activeMinisterIssueIndex={activeMinisterIssue}
                   onMinisterIssueClicked={(index) => () =>
-                    setActiveMinisterIssue(
-                      index === activeMinisterIssue ? -1 : index,
-                    )
+                    setActiveMinisterIssue(index === activeMinisterIssue ? -1 : index)
                   }
                   namespace={`ministerIssues.${index}`}
                   onDelete={() => setIndexToRemove(index)}

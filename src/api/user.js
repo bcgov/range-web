@@ -2,48 +2,25 @@ import * as API from '../constants/api';
 import { getAuthHeaderConfig, axios } from '../utils';
 
 export const createClientLink = async (userId, clientNumber) => {
-  return axios.post(
-    API.CREATE_USER_CLIENT_LINK(userId),
-    { clientId: clientNumber },
-    getAuthHeaderConfig(),
-  );
+  return axios.post(API.CREATE_USER_CLIENT_LINK(userId), { clientId: clientNumber }, getAuthHeaderConfig());
 };
 
 export const deleteClientLink = async (userId, clientNumber) => {
-  return axios.delete(
-    API.DELETE_USER_CLIENT_LINK(userId, clientNumber),
-    getAuthHeaderConfig(),
-  );
+  return axios.delete(API.DELETE_USER_CLIENT_LINK(userId, clientNumber), getAuthHeaderConfig());
 };
 
 export const mergeAccounts = async (sourceAccountIds, destinationAccountId) => {
-  return axios.post(
-    API.MERGE_ACCOUNTS(destinationAccountId),
-    { accountIds: sourceAccountIds },
-    getAuthHeaderConfig(),
-  );
+  return axios.post(API.MERGE_ACCOUNTS(destinationAccountId), { accountIds: sourceAccountIds }, getAuthHeaderConfig());
 };
 
 export const assignRole = async (userId, roleId) => {
-  return axios.post(
-    API.ASSIGN_ROLE(userId),
-    { roleId: roleId },
-    getAuthHeaderConfig(),
-  )
-}
+  return axios.post(API.ASSIGN_ROLE(userId), { roleId: roleId }, getAuthHeaderConfig());
+};
 
 export const assignDistrict = async (userId, districtId) => {
-  return axios.post(
-    API.ASSIGN_DISTRICT(userId),
-    { districtId: districtId },
-    getAuthHeaderConfig(),
-  )
-}
+  return axios.post(API.ASSIGN_DISTRICT(userId), { districtId: districtId }, getAuthHeaderConfig());
+};
 
 export const assignDistricts = async (userId, districts) => {
-  return axios.post(
-    API.ASSIGN_DISTRICTS(userId),
-    { districts: districts },
-    getAuthHeaderConfig(),
-  )
-}
+  return axios.post(API.ASSIGN_DISTRICTS(userId), { districts: districts }, getAuthHeaderConfig());
+};

@@ -24,17 +24,11 @@ const plantCommunityActions = [
   },
 ];
 
-storiesOf(
-  'rangeUsePlanPage/plantCommunities/PlantCommunityActionsBox',
-  module,
-).add('default', () => (
+storiesOf('rangeUsePlanPage/plantCommunities/PlantCommunityActionsBox', module).add('default', () => (
   <Form
     initialValues={{ plantCommunity: { plantCommunityActions } }}
     render={({ values }) => (
-      <PlantCommunityActionsBox
-        namespace="plantCommunity"
-        actions={values.plantCommunity.plantCommunityActions}
-      />
+      <PlantCommunityActionsBox namespace="plantCommunity" actions={values.plantCommunity.plantCommunityActions} />
     )}
   />
 ));

@@ -33,8 +33,7 @@ export const calcTotalAUMs = (numberOfAnimals = 0, totalDays, auFactor = 0) =>
  * @param {float} pasturePldPercent
  * @returns {float} the pld AUMs
  */
-export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) =>
-  totalAUMs * pasturePldPercent;
+export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) => totalAUMs * pasturePldPercent;
 
 /**
  *
@@ -51,11 +50,7 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => totalAUMs - pldAUMs;
  * @param {Array} livestockTypes the array of live stock types
  * @returns {float} the total crown AUMs
  */
-export const calcCrownTotalAUMs = (
-  entries = [],
-  pastures = [],
-  livestockTypes = [],
-) => {
+export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes = []) => {
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   if (entries.lsength === 0) {
     return 0;
@@ -63,13 +58,10 @@ export const calcCrownTotalAUMs = (
 
   return entries
     .map((entry) => {
-      const { pastureId, livestockTypeId, livestockCount, dateIn, dateOut } =
-        entry || {};
+      const { pastureId, livestockTypeId, livestockCount, dateIn, dateOut } = entry || {};
       const days = calcDateDiff(dateOut, dateIn, false);
       const pasture = pastures.find((p) => p.id === pastureId);
-      const livestockType = livestockTypes.find(
-        (lt) => lt.id === livestockTypeId,
-      );
+      const livestockType = livestockTypes.find((lt) => lt.id === livestockTypeId);
       const auFactor = livestockType && livestockType.auFactor;
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
       const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent);

@@ -27,13 +27,7 @@ export const handleRupValidation = (
   grazingSchedules.map((schedule) => {
     errors = [
       ...errors,
-      ...handleGrazingScheduleValidation(
-        schedule,
-        pastures,
-        livestockTypes,
-        usage,
-        isAgreementHolder,
-      ),
+      ...handleGrazingScheduleValidation(schedule, pastures, livestockTypes, usage, isAgreementHolder),
     ];
     return undefined;
   });
@@ -42,10 +36,7 @@ export const handleRupValidation = (
   errors = [
     ...errors,
     ...handlePlantCommunityValidation(
-      pastures.reduce(
-        (communities, pasture) => [...communities, ...pasture.plantCommunities],
-        [],
-      ),
+      pastures.reduce((communities, pasture) => [...communities, ...pasture.plantCommunities], []),
     ),
   ];
 
@@ -65,15 +56,8 @@ export const isPlanAmendment = (plan) => plan && plan.amendmentTypeId;
 export const getFirstFormikError = (errors, path = []) => {
   const [key, value] = Object.entries(errors)[0];
 
-  if (
-    typeof value !== 'string' &&
-    typeof value !== 'boolean' &&
-    value !== undefined
-  ) {
+  if (typeof value !== 'string' && typeof value !== 'boolean' && value !== undefined) {
     return getFirstFormikError(value, path.concat(key));
   }
-  return [
-    path.concat(key).join('.'),
-    typeof value === 'boolean' ? 'Required' : value,
-  ];
+  return [path.concat(key).join('.'), typeof value === 'boolean' ? 'Required' : value];
 };

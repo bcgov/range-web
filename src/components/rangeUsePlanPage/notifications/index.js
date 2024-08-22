@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StatusHistory from './StatusHistory';
-import {
-  isStatusAwaitingConfirmation,
-  isStatusIndicatingStaffFeedbackNeeded,
-  isUserStaff,
-} from '../../../utils';
+import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../../utils';
 import AHSignaturesStatusModal from './AHSignaturesStatusModal';
 import { useUser } from '../../../providers/UserProvider';
 
@@ -26,13 +22,9 @@ const Notifications = (props) => {
         </div>
       )}
 
-      {planStatusHistory.length !== 0 && (
-        <StatusHistory planStatusHistory={planStatusHistory} />
-      )}
+      {planStatusHistory.length !== 0 && <StatusHistory planStatusHistory={planStatusHistory} />}
 
-      {isStatusAwaitingConfirmation(status) && (
-        <AHSignaturesStatusModal {...props} />
-      )}
+      {isStatusAwaitingConfirmation(status) && <AHSignaturesStatusModal {...props} />}
     </div>
   );
 };

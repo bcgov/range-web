@@ -1,18 +1,7 @@
 import { normalize } from 'normalizr';
-import {
-  axios,
-  createConfigWithHeader,
-  saveReferencesInLocalStorage,
-} from '../utils';
+import { axios, createConfigWithHeader, saveReferencesInLocalStorage } from '../utils';
 import * as API from '../constants/api';
-import {
-  storeUsers,
-  storeReferences,
-  storeZones,
-  request,
-  success,
-  error,
-} from '../actions';
+import { storeUsers, storeReferences, storeZones, request, success, error } from '../actions';
 import * as schema from './schema';
 import { GET_USERS, GET_ZONES } from '../constants/reducerTypes';
 
@@ -58,9 +47,7 @@ export const fetchReferences = () => (dispatch, getState) => {
       if (err?.status === 401) {
         // Request was unauthorized, user probably hasn't logged in yet.
       } else {
-        console.warn(
-          `Error fetching references, '${err}'. Falling back to locally stored references`,
-        );
+        console.warn(`Error fetching references, '${err}'. Falling back to locally stored references`);
       }
     });
 };

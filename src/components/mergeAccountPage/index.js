@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
-import {
-  Button,
-  CircularProgress,
-  TextField,
-  Grid,
-  Typography,
-  makeStyles,
-  Fade,
-} from '@material-ui/core';
+import { Button, CircularProgress, TextField, Grid, Typography, makeStyles, Fade } from '@material-ui/core';
 import { DataGrid } from '@mui/x-data-grid';
 import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
 import * as strings from '../../constants/strings';
 import * as API from '../../constants/api';
-import {
-  axios,
-  formatDateToNow,
-  getAuthHeaderConfig,
-  getUserFullName,
-} from '../../utils';
+import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName } from '../../utils';
 import { Banner } from '../common';
 import { mergeAccounts } from '../../api';
 
@@ -69,9 +56,8 @@ const MergeAccountPage = () => {
     data: users,
     error,
     isValidating,
-  } = useSWR(
-    `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`,
-    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`, (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
   );
   const handleMergeClick = async () => {
     setIsMerging(true);
@@ -97,13 +83,12 @@ const MergeAccountPage = () => {
       <div className="merge-account__content">
         <div className="merge-account__steps">
           <h3>
-            Step 1: Search and select the account (agreement holder) which
-            you&apos;d like to move to a different account:
+            Step 1: Search and select the account (agreement holder) which you&apos;d like to move to a different
+            account:
           </h3>
           {error && (
             <Typography color="error">
-              Error occurred fetching user:{' '}
-              {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+              Error occurred fetching user: {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
           {isValidating && !users && <CircularProgress />}
@@ -140,17 +125,9 @@ const MergeAccountPage = () => {
                     setDestinationAccountId(user);
                   }}
                   getOptionLabel={(option) => getUserFullName(option)}
-                  getOptionSelected={(option) =>
-                    option.id === destinationAccount.id
-                  }
+                  getOptionSelected={(option) => option.id === destinationAccount.id}
                   style={{ width: 400 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Select user"
-                      variant="outlined"
-                    />
-                  )}
+                  renderInput={(params) => <TextField {...params} label="Select user" variant="outlined" />}
                   renderOption={(option) => (
                     <Grid container alignItems="center">
                       <Grid item>
@@ -194,20 +171,13 @@ const MergeAccountPage = () => {
                     }}
                     unmountOnExit
                   >
-                    <CircularProgress
-                      className={classes.buttonProgress}
-                      size={24}
-                    />
+                    <CircularProgress className={classes.buttonProgress} size={24} />
                   </Fade>
                 )}
               </Button>
             </div>
             {mergeError && <Typography color="error">{mergeError}</Typography>}
-            {mergeSuccess && (
-              <Typography className={classes.successMessage}>
-                {mergeSuccess}
-              </Typography>
-            )}
+            {mergeSuccess && <Typography className={classes.successMessage}>{mergeSuccess}</Typography>}
           </div>
         </div>
       </div>

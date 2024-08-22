@@ -44,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const fetcher = (key) =>
-  axios.get(key, getAuthHeaderConfig()).then((res) => res.data);
+const fetcher = (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data);
 
 const ManageAgentsPage = ({ match }) => {
   const classes = useStyles();
@@ -56,11 +55,7 @@ const ManageAgentsPage = ({ match }) => {
 
   const { planId } = match.params;
 
-  const {
-    data,
-    isValidating: isValidatingClients,
-    error,
-  } = useSWR(API.GET_CLIENT_AGREEMENTS(planId), fetcher);
+  const { data, isValidating: isValidatingClients, error } = useSWR(API.GET_CLIENT_AGREEMENTS(planId), fetcher);
 
   const { data: users, isValidating: isValidatingUsers } = useSWR(
     `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`,
@@ -98,10 +93,7 @@ const ManageAgentsPage = ({ match }) => {
     return <span>Error: {error?.message}</span>;
   }
 
-  if (
-    (!clientAgreements && isValidatingClients) ||
-    (!users && isValidatingUsers)
-  ) {
+  if ((!clientAgreements && isValidatingClients) || (!users && isValidatingUsers)) {
     return <Loading />;
   }
 
@@ -117,8 +109,7 @@ const ManageAgentsPage = ({ match }) => {
           {clientAgreements.map((clientAgreement) => (
             <div key={clientAgreement.id} className={classes.row}>
               <div>
-                {clientAgreement.client.name}{' '}
-                {clientAgreement.client.clientNumber}-
+                {clientAgreement.client.name} {clientAgreement.client.clientNumber}-
                 {clientAgreement.client.locationCode}
               </div>
               <div>
@@ -141,25 +132,14 @@ const ManageAgentsPage = ({ match }) => {
                     );
                   }}
                   getOptionLabel={(option) => getUserFullName(option)}
-                  getOptionSelected={(option) =>
-                    option.id === clientAgreement.agentId
-                  }
+                  getOptionSelected={(option) => option.id === clientAgreement.agentId}
                   style={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Select user"
-                      variant="outlined"
-                      className={classes.autocomplete}
-                    />
+                    <TextField {...params} label="Select user" variant="outlined" className={classes.autocomplete} />
                   )}
                   renderOption={(option) => {
                     return (
-                      <Grid
-                        container
-                        alignItems="center"
-                        className={classes.autocompleteOption}
-                      >
+                      <Grid container alignItems="center" className={classes.autocompleteOption}>
                         <Grid item>
                           <PersonIcon className={classes.icon} />
                         </Grid>
@@ -180,9 +160,7 @@ const ManageAgentsPage = ({ match }) => {
         </div>
         {isSaving && <Loading />}
         <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
-        {hasSaved && (
-          <span style={{ color: '#0a9600' }}>Successfully saved!</span>
-        )}
+        {hasSaved && <span style={{ color: '#0a9600' }}>Successfully saved!</span>}
         {errorSaving && <span>Error: {errorSaving?.message}</span>}
       </div>
     );

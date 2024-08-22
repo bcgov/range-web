@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
-import {
-  NUMBER_OF_LIMIT_FOR_NOTE,
-  REFERENCE_KEY,
-  AMENDMENT_TYPE,
-  PLAN_STATUS,
-} from '../../../constants/variables';
+import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
 import { planUpdated } from '../../../actions';
@@ -89,13 +84,7 @@ class AmendmentSubmissionModal extends Component {
   };
 
   submitAmendment = (plan, status, amendmentType) => {
-    const {
-      updateStatusAndContent,
-      updateRUP,
-      fetchPlan,
-      user,
-      clientAgreements,
-    } = this.props;
+    const { updateStatusAndContent, updateRUP, fetchPlan, user, clientAgreements } = this.props;
     const { note } = this.state;
 
     const onRequest = () => {
@@ -104,16 +93,10 @@ class AmendmentSubmissionModal extends Component {
     const onSuccess = async () => {
       // awaiting confirmation
       if (status.id === 18) {
-        const currUserConfirmations = findConfirmationsWithUser(
-          user,
-          plan.confirmations,
-          clientAgreements,
-        );
+        const currUserConfirmations = findConfirmationsWithUser(user, plan.confirmations, clientAgreements);
 
         for (const currUserConfirmation of currUserConfirmations) {
-          const isOwnSignature = user.clients.some(
-            (c) => c.clientNumber === currUserConfirmation.clientId,
-          );
+          const isOwnSignature = user.clients.some((c) => c.clientNumber === currUserConfirmation.clientId);
 
           await updateConfirmation({
             planId: plan.id,
@@ -137,12 +120,7 @@ class AmendmentSubmissionModal extends Component {
       this.onClose();
     };
 
-    return updateStatusAndContent(
-      { status, note },
-      onRequest,
-      onSuccess,
-      onError,
-    );
+    return updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
   };
 
   onSubmitClicked = (e) => {
@@ -152,33 +130,14 @@ class AmendmentSubmissionModal extends Component {
     const { amendmentTypeId } = plan;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
     const minor = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.MINOR);
-    const mandatory = amendmentTypes.find(
-      (at) => at.code === AMENDMENT_TYPE.MANDATORY,
-    );
-    const confirmationAwaiting = findStatusWithCode(
-      references,
-      PLAN_STATUS.AWAITING_CONFIRMATION,
-    );
-    const selectedStatusForMandatory = findStatusWithCode(
-      references,
-      statusCode,
-    );
-    const isMinor = isMinorAmendment(
-      amendmentTypeId,
-      amendmentTypes,
-      amendmentTypeCode,
-    );
-    const isMandatory = isMandatoryAmendment(
-      amendmentTypeId,
-      amendmentTypes,
-      amendmentTypeCode,
-    );
+    const mandatory = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.MANDATORY);
+    const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
+    const selectedStatusForMandatory = findStatusWithCode(references, statusCode);
+    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
 
     if (isMinor && isSingleClient(clients)) {
-      const standsNotReviewed = findStatusWithCode(
-        references,
-        PLAN_STATUS.STANDS_NOT_REVIEWED,
-      );
+      const standsNotReviewed = findStatusWithCode(references, PLAN_STATUS.STANDS_NOT_REVIEWED);
       return this.submitAmendment(plan, standsNotReviewed, minor);
     }
 
@@ -201,31 +160,15 @@ class AmendmentSubmissionModal extends Component {
   };
 
   render() {
-    const { open, references, plan, clients, user, clientAgreements } =
-      this.props;
+    const { open, references, plan, clients, user, clientAgreements } = this.props;
     const { amendmentTypeCode, currTabId } = this.state;
     const { amendmentTypeId } = plan;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const isSubmittedAsMinorAmendment = isSubmittedAsMinor(
-      amendmentTypeId,
-      amendmentTypes,
-    );
-    const isSubmittedAsMandatoryAmendment = isSubmittedAsMandatory(
-      amendmentTypeId,
-      amendmentTypes,
-    );
-    const isAmendmentTypeDecided =
-      isSubmittedAsMinorAmendment || isSubmittedAsMandatoryAmendment;
-    const isMinor = isMinorAmendment(
-      amendmentTypeId,
-      amendmentTypes,
-      amendmentTypeCode,
-    );
-    const isMandatory = isMandatoryAmendment(
-      amendmentTypeId,
-      amendmentTypes,
-      amendmentTypeCode,
-    );
+    const isSubmittedAsMinorAmendment = isSubmittedAsMinor(amendmentTypeId, amendmentTypes);
+    const isSubmittedAsMandatoryAmendment = isSubmittedAsMandatory(amendmentTypeId, amendmentTypes);
+    const isAmendmentTypeDecided = isSubmittedAsMinorAmendment || isSubmittedAsMandatoryAmendment;
+    const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
     const commonProps = {
       ...this.state,
       user,

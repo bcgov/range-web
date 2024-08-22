@@ -14,12 +14,10 @@ import HelpfulDropdown from '../../common/form/HelpfulDropdown';
 const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
   const references = useReferences();
   const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE];
-  const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map(
-    (type) => ({
-      placeholder: placeholders.find((p) => p.id === type.id).placeholder,
-      ...type,
-    }),
-  );
+  const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map((type) => ({
+    placeholder: placeholders.find((p) => p.id === type.id).placeholder,
+    ...type,
+  }));
 
   const otherType = actionTypes.find((type) => type.name === 'Other');
   const [otherOption, setOtherOption] = useState({
@@ -50,9 +48,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
           options={actionOptions}
           displayValue={
             actionOptions.find((option) => option.value === action.actionTypeId)
-              ? actionOptions.find(
-                  (option) => option.value === action.actionTypeId,
-                ).text
+              ? actionOptions.find((option) => option.value === action.actionTypeId).text
               : ''
           }
           label="Action"
@@ -76,10 +72,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
                 text: value,
               });
 
-              formik.setFieldValue(
-                `${namespace}.actionTypeId`,
-                otherOption.value,
-              );
+              formik.setFieldValue(`${namespace}.actionTypeId`, otherOption.value);
               formik.setFieldValue(`${namespace}.name`, value);
             },
           }}
@@ -100,23 +93,20 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             rows: 5,
             ref: valueInputRef,
             placeholder:
-              actionTypes?.find((type) => type.id === action.actionTypeId)
-                ?.placeholder ?? otherType?.placeholder,
+              actionTypes?.find((type) => type.id === action.actionTypeId)?.placeholder ?? otherType?.placeholder,
           }}
         />
 
         {actionOptions.find((option) => option.value === action.actionTypeId) &&
-          actionOptions.find((option) => option.value === action.actionTypeId)
-            .text === 'Timing' && (
+          actionOptions.find((option) => option.value === action.actionTypeId).text === 'Timing' && (
             <Form.Group widths="equal">
               <PermissionsField
                 monthName={`${namespace}.noGrazeStartMonth`}
                 dayName={`${namespace}.noGrazeStartDay`}
                 permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                displayValue={moment(
-                  `${action.noGrazeStartMonth} ${action.noGrazeStartDay}`,
-                  'MM DD',
-                ).format('MMMM Do')}
+                displayValue={moment(`${action.noGrazeStartMonth} ${action.noGrazeStartDay}`, 'MM DD').format(
+                  'MMMM Do',
+                )}
                 component={DayMonthPicker}
                 label="No Graze Start"
                 fluid
@@ -126,10 +116,7 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
                 monthName={`${namespace}.noGrazeEndMonth`}
                 dayName={`${namespace}.noGrazeEndDay`}
                 permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                displayValue={moment(
-                  `${action.noGrazeEndMonth} ${action.noGrazeEndDay}`,
-                  'MM DD',
-                ).format('MMMM Do')}
+                displayValue={moment(`${action.noGrazeEndMonth} ${action.noGrazeEndDay}`, 'MM DD').format('MMMM Do')}
                 component={DayMonthPicker}
                 label="No Graze End"
                 fluid

@@ -25,9 +25,7 @@ const VersionsDropdown = ({ planId, open }) => {
   );
 
   const { versions = [] } = data || {};
-  const formattedVersions = versions
-    .sort(sortVersions)
-    .filter((v) => v.effectiveLegalStart !== null);
+  const formattedVersions = versions.sort(sortVersions).filter((v) => v.effectiveLegalStart !== null);
 
   if (error) return <div>Error: {JSON.stringify(error.message)}</div>;
   if (isValidating) {

@@ -1,11 +1,7 @@
 const encode = (o, sep) => {
   const list = [];
   Object.keys(o).map((key) => {
-    if (
-      o[key] != null &&
-      typeof o[key] !== 'object' &&
-      typeof o[key] !== 'function'
-    ) {
+    if (o[key] != null && typeof o[key] !== 'object' && typeof o[key] !== 'function') {
       list.push(`${encodeURIComponent(key)}=${encodeURIComponent(o[key])}`);
     }
     return null;

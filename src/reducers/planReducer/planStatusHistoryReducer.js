@@ -1,7 +1,4 @@
-import {
-  STORE_PLAN,
-  PLAN_STATUS_HISTORY_RECORD_ADDED,
-} from '../../constants/actionTypes';
+import { STORE_PLAN, PLAN_STATUS_HISTORY_RECORD_ADDED } from '../../constants/actionTypes';
 
 const storeStatusHistory = (state, action) => {
   const { planStatusHistory } = action.payload.entities;

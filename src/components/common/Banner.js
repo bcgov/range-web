@@ -14,14 +14,7 @@ const defaultProps = {
   noDefaultHeight: false,
 };
 
-const Banner = ({
-  header,
-  content,
-  style,
-  noDefaultHeight,
-  contentLine2,
-  isReplacementPlan,
-}) => (
+const Banner = ({ header, content, style, noDefaultHeight, contentLine2, isReplacementPlan }) => (
   <div className="banner" style={style}>
     <div
       className={classnames('banner__container', {

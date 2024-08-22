@@ -8,20 +8,12 @@ import {
   REFERENCE_KEY,
 } from '../../constants/variables';
 import { isAmendment } from './amendment';
-import {
-  isUserAgreementHolder,
-  isUserStaff,
-  isUserDecisionMaker,
-  isUserAgrologist,
-  isUserAdmin,
-} from './user';
+import { isUserAgreementHolder, isUserStaff, isUserDecisionMaker, isUserAgrologist, isUserAdmin } from './user';
 import { findConfirmationsWithUser } from './client';
 
 const getAmendmentTypeDescription = (amendmentTypeId, amendmentTypes) => {
   if (amendmentTypeId && amendmentTypes) {
-    const amendmentType = amendmentTypes.find(
-      (at) => at.id === amendmentTypeId,
-    );
+    const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
     return amendmentType?.description ?? '';
   }
   return '';
@@ -64,80 +56,57 @@ export const appendUsage = (plan) => {
       tempUsage.year = lastYear;
       tempUsage.fta = false;
       newPlan.agreement.usage.push(tempUsage);
-    } while (
-      newPlan.agreement.usage[newPlan.agreement.usage.length - 1].year <
-      planEndDate.getFullYear()
-    );
+    } while (newPlan.agreement.usage[newPlan.agreement.usage.length - 1].year < planEndDate.getFullYear());
   }
 
   return newPlan;
 };
 
-export const isStatusCreated = (status) =>
-  status && status.code === PLAN_STATUS.CREATED;
+export const isStatusCreated = (status) => status && status.code === PLAN_STATUS.CREATED;
 
-export const isStatusDraft = (status) =>
-  status && status.code === PLAN_STATUS.DRAFT;
+export const isStatusDraft = (status) => status && status.code === PLAN_STATUS.DRAFT;
 
-export const isStatusStaffDraft = (status) =>
-  status && status.code === PLAN_STATUS.STAFF_DRAFT;
+export const isStatusStaffDraft = (status) => status && status.code === PLAN_STATUS.STAFF_DRAFT;
 
-export const isStatusCompleted = (status) =>
-  status && status.code === PLAN_STATUS.COMPLETED;
+export const isStatusCompleted = (status) => status && status.code === PLAN_STATUS.COMPLETED;
 
-export const isStatusChangedRequested = (status) =>
-  status && status.code === PLAN_STATUS.CHANGE_REQUESTED;
+export const isStatusChangedRequested = (status) => status && status.code === PLAN_STATUS.CHANGE_REQUESTED;
 
-export const isStatusPending = (status) =>
-  status && status.code === PLAN_STATUS.PENDING;
+export const isStatusPending = (status) => status && status.code === PLAN_STATUS.PENDING;
 
-export const isStatusApproved = (status) =>
-  status && status.code === PLAN_STATUS.APPROVED;
+export const isStatusApproved = (status) => status && status.code === PLAN_STATUS.APPROVED;
 
-export const isStatusNotApproved = (status) =>
-  status && status.code === PLAN_STATUS.NOT_APPROVED;
+export const isStatusNotApproved = (status) => status && status.code === PLAN_STATUS.NOT_APPROVED;
 
 export const isStatusNotApprovedFWR = (status) =>
   status && status.code === PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED;
 
-export const isStatusStands = (status) =>
-  status && status.code === PLAN_STATUS.STANDS;
+export const isStatusStands = (status) => status && status.code === PLAN_STATUS.STANDS;
 
-export const isStatusStandsReview = (status) =>
-  status && status.code === PLAN_STATUS.STANDS_REVIEW;
+export const isStatusStandsReview = (status) => status && status.code === PLAN_STATUS.STANDS_REVIEW;
 
-export const isStatusStandsNotReviewed = (status) =>
-  status && status.code === PLAN_STATUS.STANDS_NOT_REVIEWED;
+export const isStatusStandsNotReviewed = (status) => status && status.code === PLAN_STATUS.STANDS_NOT_REVIEWED;
 
-export const isStatusStandsWM = (status) =>
-  status && status.code === PLAN_STATUS.STANDS_WRONGLY_MADE;
+export const isStatusStandsWM = (status) => status && status.code === PLAN_STATUS.STANDS_WRONGLY_MADE;
 
-export const isStatusWronglyMakeWE = (status) =>
-  status && status.code === PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT;
+export const isStatusWronglyMakeWE = (status) => status && status.code === PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT;
 
-export const isStatusSubmittedForReview = (status) =>
-  status && status.code === PLAN_STATUS.SUBMITTED_FOR_REVIEW;
+export const isStatusSubmittedForReview = (status) => status && status.code === PLAN_STATUS.SUBMITTED_FOR_REVIEW;
 
-export const isStatusSubmittedForFD = (status) =>
-  status && status.code === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
+export const isStatusSubmittedForFD = (status) => status && status.code === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
 
-export const isStatusReadyForFD = (status) =>
-  status && status.code === PLAN_STATUS.READY_FOR_FINAL_DECISION;
+export const isStatusReadyForFD = (status) => status && status.code === PLAN_STATUS.READY_FOR_FINAL_DECISION;
 
-export const isStatusRecommendReady = (status) =>
-  status && status.code === PLAN_STATUS.RECOMMEND_READY;
+export const isStatusRecommendReady = (status) => status && status.code === PLAN_STATUS.RECOMMEND_READY;
 
-export const isStatusRecommendNotReady = (status) =>
-  status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY;
+export const isStatusRecommendNotReady = (status) => status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY;
 
-export const isStatusAwaitingConfirmation = (status) =>
-  status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION;
+export const isStatusAwaitingConfirmation = (status) => status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION;
 
 export const isStatusRecommendForSubmission = (status) =>
   status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION;
 
-export const isStatusSubmittedAsMandatory = (status) =>
-  status && status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY;
+export const isStatusSubmittedAsMandatory = (status) => status && status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY;
 
 export const cannotDownloadPDF = (status) =>
   status && status.code && NOT_DOWNLOADABLE_PLAN_STATUSES.includes(status.code);
@@ -145,22 +114,17 @@ export const cannotDownloadPDF = (status) =>
 export const isStatusAmongApprovedStatuses = (status) =>
   status && status.code && APPROVED_PLAN_STATUSES.includes(status.code);
 
-export const canAllowRevisionForAH = (status) =>
-  status && status.code && EDITABLE_PLAN_STATUSES.includes(status.code);
+export const canAllowRevisionForAH = (status) => status && status.code && EDITABLE_PLAN_STATUSES.includes(status.code);
 
 export const isStatusIndicatingStaffFeedbackNeeded = (status) =>
-  status &&
-  status.code &&
-  FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code);
+  status && status.code && FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code);
 
 export const isStatusMandatoryAmendmentStaff = (status) =>
   status && status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF;
 
-export const isStatusAmendmentAH = (status) =>
-  status && status.code === PLAN_STATUS.AMENDMENT_AH;
+export const isStatusAmendmentAH = (status) => status && status.code === PLAN_STATUS.AMENDMENT_AH;
 
-export const isNoteRequired = (statusCode) =>
-  REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode);
+export const isNoteRequired = (statusCode) => REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode);
 
 export const canUserSubmitPlan = (plan = {}, user = {}) => {
   const { status } = plan;
@@ -183,20 +147,11 @@ export const canUserSubmitPlan = (plan = {}, user = {}) => {
   }
 };
 
-export const canUserSubmitConfirmation = (
-  status,
-  user,
-  confirmations = [],
-  clientAgreements = [],
-) => {
+export const canUserSubmitConfirmation = (status, user, confirmations = [], clientAgreements = []) => {
   if (isStatusAwaitingConfirmation(status) && user) {
     if (isUserAdmin(user)) return true;
     const isConfirmed =
-      findConfirmationsWithUser(
-        user,
-        confirmations,
-        clientAgreements ?? [],
-      )?.every((ca) => ca.confirmed) ?? false;
+      findConfirmationsWithUser(user, confirmations, clientAgreements ?? [])?.every((ca) => ca.confirmed) ?? false;
 
     // users who haven't confirmed yet can submit the confirmation
     return !isConfirmed;
@@ -210,10 +165,7 @@ export const doesStaffOwnPlan = (plan = {}, user = {}) => {
 };
 
 export const canUserAmendPlan = (plan = {}, user = {}) => {
-  return (
-    isStatusAmongApprovedStatuses(plan.status) &&
-    (doesStaffOwnPlan(plan, user) || isUserAdmin(user))
-  );
+  return isStatusAmongApprovedStatuses(plan.status) && (doesStaffOwnPlan(plan, user) || isUserAdmin(user));
 };
 
 export const canUserSaveDraft = (plan = {}, user = {}) => {
@@ -258,10 +210,7 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
 };
 
 export const canUserAddAttachments = (plan = {}, user = {}) => {
-  return (
-    (canUserEditThisPlan(plan, user) || canUserUpdateStatus(plan, user)) &&
-    !isStatusApproved(plan.status)
-  );
+  return (canUserEditThisPlan(plan, user) || canUserUpdateStatus(plan, user)) && !isStatusApproved(plan.status);
 };
 
 export const canUserAttachMaps = (plan = {}, user = {}) => {
@@ -310,11 +259,7 @@ export const canUserUpdateStatus = (plan = {}, user = {}) => {
     return true;
   }
   if (isUserDecisionMaker(user)) {
-    return (
-      isStatusRecommendReady(status) ||
-      isStatusRecommendNotReady(status) ||
-      isStatusStandsReview(status)
-    );
+    return isStatusRecommendReady(status) || isStatusRecommendNotReady(status) || isStatusStandsReview(status);
   } else if (isUserAgrologist(user)) {
     return (
       doesStaffOwnPlan(plan, user) &&
@@ -332,17 +277,11 @@ export const canUserDiscardAmendment = (plan, user) => {
   if (!user || !plan) return false;
 
   if (isUserAdmin(user)) {
-    return (
-      isStatusMandatoryAmendmentStaff(plan.status) ||
-      isStatusAmendmentAH(plan.status)
-    );
+    return isStatusMandatoryAmendmentStaff(plan.status) || isStatusAmendmentAH(plan.status);
   }
 
   if (isUserAgrologist(user)) {
-    return (
-      doesStaffOwnPlan(plan, user) &&
-      isStatusMandatoryAmendmentStaff(plan.status)
-    );
+    return doesStaffOwnPlan(plan, user) && isStatusMandatoryAmendmentStaff(plan.status);
   }
 
   if (isUserAgreementHolder(user)) {
@@ -356,9 +295,7 @@ export const canUserAmendFromLegal = (plan, user) => {
   if (!user || !plan) return false;
 
   return (
-    (isUserAgreementHolder(user) ||
-      doesStaffOwnPlan(plan, user) ||
-      isUserAdmin(user)) &&
+    (isUserAgreementHolder(user) || doesStaffOwnPlan(plan, user) || isUserAdmin(user)) &&
     (isStatusWronglyMakeWE(plan.status) || isStatusNotApproved(plan.status))
   );
 };
@@ -385,8 +322,7 @@ export const findStatusWithCode = (references, statusCode) => {
 export const isPlanActive = (plan) => {
   if (!plan) return false;
   if ([8, 9, 12, 20, 21, 22].indexOf(plan.status.id) !== -1) return true;
-  if (plan.amendmentTypeId && [11, 13, 18].indexOf(plan.status.id) !== -1)
-    return true;
+  if (plan.amendmentTypeId && [11, 13, 18].indexOf(plan.status.id) !== -1) return true;
   return false;
 };
 
@@ -396,12 +332,9 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
   let content = '';
 
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-  const amendmentType =
-    getAmendmentTypeDescription(amendmentTypeId, amendmentTypes) || 'Amendment';
+  const amendmentType = getAmendmentTypeDescription(amendmentTypeId, amendmentTypes) || 'Amendment';
 
-  const planType = isAmendment(amendmentTypeId)
-    ? amendmentType
-    : 'Initial Range Use Plan';
+  const planType = isAmendment(amendmentTypeId) ? amendmentType : 'Initial Range Use Plan';
 
   if (isStatusDraft(status)) {
     if (isUserAgreementHolder(user)) {
@@ -503,8 +436,7 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
         'This range use plan minor amendment meets requirements. This amended range use plan is now the current legal version.';
     } else {
       header = 'Minor Amendment - Stands';
-      content =
-        'This minor amendment was reviewed, meets requirements and is the current legal version.';
+      content = 'This minor amendment was reviewed, meets requirements and is the current legal version.';
     }
   }
   if (isStatusSubmittedForReview(status)) {
@@ -598,8 +530,7 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
   if (isStatusMandatoryAmendmentStaff(status)) {
     if (isUserStaff(user)) {
       header = 'Mandatory Amendment Created';
-      content =
-        'A mandatory amendment has been initiated by staff. Submit to the agreement holder when ready.';
+      content = 'A mandatory amendment has been initiated by staff. Submit to the agreement holder when ready.';
     } else {
       header = 'Mandatory Amendment Created by Staff';
       content = 'Staff is working on a mandatory amendment.';

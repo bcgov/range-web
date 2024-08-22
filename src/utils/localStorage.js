@@ -39,5 +39,4 @@ export const saveReferencesInLocalStorage = (data) => {
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.REFERENCE, data);
 };
 
-export const getReferencesFromLocalStorage = () =>
-  getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE);
+export const getReferencesFromLocalStorage = () => getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE);

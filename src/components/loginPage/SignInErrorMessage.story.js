@@ -14,7 +14,5 @@ stories.add('error fetching user', () => (
   />
 ));
 stories.add('non 403 error', () => (
-  <SignInErrorMessage
-    errorFetchingUser={{ status: 404, data: { error: 'error message' } }}
-  />
+  <SignInErrorMessage errorFetchingUser={{ status: 404, data: { error: 'error message' } }} />
 ));

@@ -4,11 +4,7 @@ import { useCurrentPlan } from '../../providers/PlanProvider';
 import { useNetworkStatus } from '../../utils/hooks/network';
 import { updateStatus, updatePlan } from '../../api';
 import { useToast } from '../../providers/ToastProvider';
-import {
-  PLAN_STATUS,
-  REFERENCE_KEY,
-  AMENDMENT_TYPE,
-} from '../../constants/variables';
+import { PLAN_STATUS, REFERENCE_KEY, AMENDMENT_TYPE } from '../../constants/variables';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { findStatusWithCode } from '../../utils';
 
@@ -28,22 +24,15 @@ const SubmitAsMandatoryButton = () => {
     try {
       const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
 
-      const mandatoryAmendmentType = amendmentTypes?.find(
-        (a) => a.code === AMENDMENT_TYPE.MANDATORY,
-      );
+      const mandatoryAmendmentType = amendmentTypes?.find((a) => a.code === AMENDMENT_TYPE.MANDATORY);
       if (!mandatoryAmendmentType) {
         throw new Error("Couldn't find mandatory amendment type in reference.");
       }
 
-      const status = findStatusWithCode(
-        references,
-        PLAN_STATUS.SUBMITTED_AS_MANDATORY,
-      );
+      const status = findStatusWithCode(references, PLAN_STATUS.SUBMITTED_AS_MANDATORY);
 
       if (!status) {
-        throw new Error(
-          "Couldn't find submitted as mandatory status in reference.",
-        );
+        throw new Error("Couldn't find submitted as mandatory status in reference.");
       }
 
       await updateStatus({
@@ -88,9 +77,7 @@ const SubmitAsMandatoryButton = () => {
         onCancel={closeModal}
         header="Submit this minor amendment as mandatory?"
         content="You will still have a chance to make changes and provide comments to agreement holders."
-        confirmButton={
-          <Button loading={isDiscarding}>Submit as Mandatory</Button>
-        }
+        confirmButton={<Button loading={isDiscarding}>Submit as Mandatory</Button>}
       />
     </>
   );

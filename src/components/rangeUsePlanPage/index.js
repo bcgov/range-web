@@ -64,8 +64,7 @@ const Base = ({ user, history, match, location, ...props }) => {
 
   const { successToast, errorToast } = useToast();
 
-  const planId =
-    match.params.planId || location.pathname.charAt('/range-use-plan/'.length);
+  const planId = match.params.planId || location.pathname.charAt('/range-use-plan/'.length);
 
   useEffect(() => {
     setCurrentPlanId(planId);
@@ -94,24 +93,22 @@ const Base = ({ user, history, match, location, ...props }) => {
      * through ever-increasing chunks of the path. ie.
      * ['pastures', 'pastures.0', 'pastures.0.plantCommunities', ...]
      */
-    const errorPath = errorPathString
-      .split('.')
-      .reduce((acc, value, i, paths) => {
-        // Get previous chunk of path based on index
-        const path = paths.slice(0, i + 1).join('.');
-        const parentKey = paths[i - 1];
+    const errorPath = errorPathString.split('.').reduce((acc, value, i, paths) => {
+      // Get previous chunk of path based on index
+      const path = paths.slice(0, i + 1).join('.');
+      const parentKey = paths[i - 1];
 
-        if (!isNaN(parseFloat(value))) {
-          const object = getIn(formik.values, path);
-          return [...acc, `${startCase(parentKey)}: ${object.name || value}`];
-        }
+      if (!isNaN(parseFloat(value))) {
+        const object = getIn(formik.values, path);
+        return [...acc, `${startCase(parentKey)}: ${object.name || value}`];
+      }
 
-        if (i === paths.length - 1) {
-          return [...acc, `${startCase(value)}: ${error}`];
-        }
+      if (i === paths.length - 1) {
+        return [...acc, `${startCase(value)}: ${error}`];
+      }
 
-        return acc;
-      }, []);
+      return acc;
+    }, []);
 
     // Add "RUP" to the beginning of the error message
     const formattedPath = ['RUP'].concat(errorPath);
@@ -121,10 +118,7 @@ const Base = ({ user, history, match, location, ...props }) => {
       content: (
         <code>
           {formattedPath.map((line, i) => (
-            <div
-              key={i}
-              style={{ marginLeft: i * 20, fontFamily: 'monospace' }}
-            >
+            <div key={i} style={{ marginLeft: i * 20, fontFamily: 'monospace' }}>
               &gt; {line}
             </div>
           ))}
@@ -166,22 +160,15 @@ const Base = ({ user, history, match, location, ...props }) => {
       <div className="rup__fetching-error">
         <Icon name="warning sign" size="large" color="red" />
         <div>
-          <span className="rup__fetching-error__message">
-            Error occurred while fetching the range use plan.
-          </span>
+          <span className="rup__fetching-error__message">Error occurred while fetching the range use plan.</span>
         </div>
-        {process.env.NODE_ENV !== 'production' && (
-          <p>Check console for details.</p>
-        )}
+        {process.env.NODE_ENV !== 'production' && <p>Check console for details.</p>}
         <div>
           <PrimaryButton inverted onClick={history.goBack}>
             Go Back
           </PrimaryButton>
           <span className="rup__fetching-error__or-message">or</span>
-          <PrimaryButton
-            onClick={() => fetchPlan(currentPlanId, true)}
-            content="Retry"
-          />
+          <PrimaryButton onClick={() => fetchPlan(currentPlanId, true)} content="Retry" />
         </div>
       </div>
     );
@@ -197,16 +184,9 @@ const Base = ({ user, history, match, location, ...props }) => {
           const closePDFModal = () => history.push(match.url);
           return (
             currentPlan && (
-              <Modal
-                size="tiny"
-                open={true}
-                onClose={closePDFModal}
-                dimmer="blurring"
-              >
+              <Modal size="tiny" open={true} onClose={closePDFModal} dimmer="blurring">
                 <Header content="Download PDF" icon="file pdf" />
-                <Modal.Content>
-                  The PDF may take a few minutes to generate.
-                </Modal.Content>
+                <Modal.Content>The PDF may take a few minutes to generate.</Modal.Content>
                 <Modal.Actions>
                   <Button type="button" onClick={closePDFModal}>
                     Close

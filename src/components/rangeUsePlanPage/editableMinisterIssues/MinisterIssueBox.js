@@ -27,14 +27,7 @@ class MinisterIssueBox extends Component {
       onMinisterIssueClicked,
     } = this.props;
 
-    const {
-      id,
-      detail,
-      identified,
-      issueTypeId,
-      objective,
-      pastures: pastureIds,
-    } = ministerIssue || {};
+    const { id, detail, identified, issueTypeId, objective, pastures: pastureIds } = ministerIssue || {};
 
     const miTypes = references[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
     const ministerIssueType = miTypes.find((i) => i.id === issueTypeId);
@@ -56,11 +49,7 @@ class MinisterIssueBox extends Component {
         headerRight={
           <div className="rup__missue__identified">
             {'Identified: '}
-            {identified ? (
-              <Icon name="check circle" color="green" />
-            ) : (
-              <Icon name="remove circle" color="red" />
-            )}
+            {identified ? <Icon name="check circle" color="green" /> : <Icon name="remove circle" color="red" />}
           </div>
         }
         collapsibleContent={
@@ -70,10 +59,7 @@ class MinisterIssueBox extends Component {
             <TextField label="Pastures" text={pastureNames} />
 
             <div className="rup__missue__actions__title">Actions</div>
-            <AddableMinisterIssueActionList
-              ministerIssue={ministerIssue}
-              references={references}
-            />
+            <AddableMinisterIssueActionList ministerIssue={ministerIssue} references={references} />
           </Fragment>
         }
       />

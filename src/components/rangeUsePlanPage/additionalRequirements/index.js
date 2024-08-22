@@ -35,13 +35,8 @@ class AdditionalRequirements extends Component {
           <div className="rup__a-requirements">
             <div className="rup__content-title--editable">
               <div className="rup__popup-header">
-                <div className="rup__content-title">
-                  {strings.ADDITIONAL_REQUIREMENTS}
-                </div>
-                <InfoTip
-                  header={strings.ADDITIONAL_REQUIREMENTS}
-                  content={strings.ADDITIONAL_REQUIREMENTS_TIP}
-                />
+                <div className="rup__content-title">{strings.ADDITIONAL_REQUIREMENTS}</div>
+                <InfoTip header={strings.ADDITIONAL_REQUIREMENTS} content={strings.ADDITIONAL_REQUIREMENTS_TIP} />
               </div>
               <IfEditable permission={ADDITIONAL_REQUIREMENTS.CATEGORY}>
                 <Button
@@ -65,26 +60,19 @@ class AdditionalRequirements extends Component {
             </div>
             <div className="rup__divider" />
             <div className="rup__a-requirements__note">
-              Other direction or agreements with which this Range Use Plan must
-              be consistent. Contact a range staff member if you need more
-              information.
+              Other direction or agreements with which this Range Use Plan must be consistent. Contact a range staff
+              member if you need more information.
             </div>
             <div className="rup__a-requirements__box">
               {additionalRequirements.length === 0 ? (
-                <div className="rup__a-requirements__no-content">
-                  No additional requirements provided
-                </div>
+                <div className="rup__a-requirements__no-content">No additional requirements provided</div>
               ) : (
                 additionalRequirements.map((additionalRequirement, i) => (
                   <AdditionalRequirementRow
                     key={additionalRequirement.id}
                     additionalRequirement={additionalRequirement}
                     onDelete={() => this.setState({ indexToRemove: i })}
-                    onCopy={() =>
-                      push(
-                        resetAdditionalRequirementId(additionalRequirements[i]),
-                      )
-                    }
+                    onCopy={() => push(resetAdditionalRequirementId(additionalRequirements[i]))}
                     namespace={`additionalRequirements.${i}`}
                   />
                 ))
@@ -102,10 +90,7 @@ class AdditionalRequirements extends Component {
                 const requirement = additionalRequirements[indexToRemove];
 
                 if (!uuid.isUUID(requirement.id)) {
-                  deleteAdditionalRequirement(
-                    requirement.planId,
-                    requirement.id,
-                  );
+                  deleteAdditionalRequirement(requirement.planId, requirement.id);
                 }
 
                 remove(indexToRemove);

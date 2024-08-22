@@ -16,12 +16,7 @@ export const withInfoText = () => (
   <Form
     initialValues={{ language: 'fr' }}
     render={() => (
-      <HelpfulDropdown
-        help="This is the info for the dropdown"
-        label="Language"
-        options={options}
-        name="language"
-      />
+      <HelpfulDropdown help="This is the info for the dropdown" label="Language" options={options} name="language" />
     )}
   />
 );

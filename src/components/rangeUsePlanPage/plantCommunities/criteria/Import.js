@@ -21,17 +21,13 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
   const [state, setState] = useState(initialState);
 
   const pastures = getIn(formik.values, 'pastures') || [];
-  const communityTypes =
-    useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
+  const communityTypes = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
 
   const pasturesOptions = pastures.map((pasture, index) => ({
     value: pasture.id,
     text: pasture.name || `Unnamed pasture ${index + 1}`,
     key: pasture.id,
-    disabled:
-      pasture.plantCommunities.filter(
-        (community) => community.id !== excludedPlantCommunityId,
-      ).length === 0,
+    disabled: pasture.plantCommunities.filter((community) => community.id !== excludedPlantCommunityId).length === 0,
     pasture,
   }));
 
@@ -45,9 +41,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
       .filter((community) => community.id !== excludedPlantCommunityId)
       .map((pc) => ({
         value: pc.id,
-        text:
-          pc.name ??
-          communityTypes.find((type) => type.id === pc.communityTypeId)?.name,
+        text: pc.name ?? communityTypes.find((type) => type.id === pc.communityTypeId)?.name,
         key: pc.id,
         plantCommunity: pc,
       }));
@@ -84,11 +78,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
       <ListModal
         options={plantCommunityOptions}
         open={state.showPlantCommunityModal}
-        title={
-          state.pasture
-            ? `Choose Plant Community from ${state.pasture.name}`
-            : 'Choose Plant Community'
-        }
+        title={state.pasture ? `Choose Plant Community from ${state.pasture.name}` : 'Choose Plant Community'}
         onClose={close}
         onOptionClick={({ plantCommunity }) => {
           setState((oldState) => ({
@@ -134,10 +124,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         dimmer="blurring"
         content={
           <Modal.Content>
-            <p>
-              The following Criteria sections in the current plant community
-              will be overwritten:
-            </p>
+            <p>The following Criteria sections in the current plant community will be overwritten:</p>
             <p>{oxfordComma(state.criteria.map((c) => c.text))}.</p>
           </Modal.Content>
         }

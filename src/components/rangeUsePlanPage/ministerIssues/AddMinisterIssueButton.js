@@ -28,12 +28,7 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
     <>
       <Dropdown
         trigger={
-          <Button
-            basic
-            primary
-            type="button"
-            className="icon labeled rup__add-button"
-          >
+          <Button basic primary type="button" className="icon labeled rup__add-button">
             <i className="add circle icon" />
             Add Minister Issue
           </Button>

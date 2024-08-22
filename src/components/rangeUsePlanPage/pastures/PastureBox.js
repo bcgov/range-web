@@ -18,16 +18,7 @@ const dropdownOptions = [
   { key: 'delete', value: 'delete', text: 'Delete' },
 ];
 
-const PastureBox = ({
-  pasture,
-  index,
-  activeIndex,
-  onClick,
-  onCopy,
-  onDelete,
-  namespace,
-  formik,
-}) => {
+const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, namespace, formik }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const isError = !!getIn(formik.errors, namespace);
@@ -43,11 +34,7 @@ const PastureBox = ({
           <div className="rup__pasture">
             <div className="rup__pasture__title">
               <div style={{ width: '30px' }}>
-                {isError ? (
-                  <Icon name="warning sign" />
-                ) : (
-                  <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />
-                )}
+                {isError ? <Icon name="warning sign" /> : <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />}
               </div>
               Pasture: {pasture.name}
             </div>
@@ -94,8 +81,7 @@ const PastureBox = ({
                   tip={strings.ALLOWABLE_AUMS_TIP}
                   fast
                   inputProps={{
-                    placeholder:
-                      'Approved maximum AUM allocation for this pasture if applicable',
+                    placeholder: 'Approved maximum AUM allocation for this pasture if applicable',
                   }}
                 />
               </div>
@@ -111,8 +97,7 @@ const PastureBox = ({
                     label: '%',
                     labelPosition: 'right',
                     type: 'number',
-                    placeholder:
-                      'Percentage of use in this pasture occuring on private land',
+                    placeholder: 'Percentage of use in this pasture occuring on private land',
                   }}
                   fast
                 />
@@ -186,7 +171,6 @@ export default connect(
   React.memo(
     PastureBox,
     (prevProps, nextProps) =>
-      prevProps.pasture === nextProps.pasture &&
-      prevProps.activeIndex === nextProps.activeIndex,
+      prevProps.pasture === nextProps.pasture && prevProps.activeIndex === nextProps.activeIndex,
   ),
 );

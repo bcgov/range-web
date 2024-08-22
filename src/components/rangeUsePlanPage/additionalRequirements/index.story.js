@@ -26,23 +26,18 @@ const additionalRequirements = [
   },
 ];
 
-storiesOf('rangeUsePlanPage/additionalRequirements', module).add(
-  'default',
-  () => (
-    <Form
-      validationSchema={schema}
-      validateOnChange
-      initialValues={{
-        additionalRequirements,
-      }}
-      render={({ values }) => (
-        <>
-          <button type="submit">Submit</button>
-          <AdditionalRequirements
-            additionalRequirements={values.additionalRequirements}
-          />
-        </>
-      )}
-    />
-  ),
-);
+storiesOf('rangeUsePlanPage/additionalRequirements', module).add('default', () => (
+  <Form
+    validationSchema={schema}
+    validateOnChange
+    initialValues={{
+      additionalRequirements,
+    }}
+    render={({ values }) => (
+      <>
+        <button type="submit">Submit</button>
+        <AdditionalRequirements additionalRequirements={values.additionalRequirements} />
+      </>
+    )}
+  />
+));

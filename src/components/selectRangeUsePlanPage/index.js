@@ -105,8 +105,7 @@ const SelectRangeUsePlanPage = () => {
   }, [filterSettings, fetchAgreements]);
 
   const unassignedZones = zones.filter(
-    (zone) =>
-      user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
+    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
   );
 
   const zoneUsers = references.USERS;
@@ -166,10 +165,7 @@ const SelectRangeUsePlanPage = () => {
 
   return (
     <section className="agreement">
-      <Banner
-        header={SELECT_RUP_BANNER_HEADER}
-        content={SELECT_RUP_BANNER_CONTENT}
-      />
+      <Banner header={SELECT_RUP_BANNER_HEADER} content={SELECT_RUP_BANNER_CONTENT} />
       <div className={classes.searchFilterContainer}>
         <div className={classes.checkboxBorder}>
           <StyledTooltip title={TOOLTIP_TEXT_RUP_CREATED}>
@@ -234,12 +230,7 @@ const SelectRangeUsePlanPage = () => {
             setSearchSelectedZones={handleSelectedZonesChange}
           />
         )}
-        {isUserAdmin(user) && (
-          <ZoneSelectAll
-            zones={zones}
-            setSearchSelectedZones={handleSelectedZonesChange}
-          />
-        )}
+        {isUserAdmin(user) && <ZoneSelectAll zones={zones} setSearchSelectedZones={handleSelectedZonesChange} />}
       </div>
       <SortableAgreementTable
         agreements={agreements}

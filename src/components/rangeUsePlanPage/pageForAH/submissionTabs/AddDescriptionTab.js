@@ -53,17 +53,11 @@ class AddDescriptionTab extends Component {
           <Form>
             <div className="rup__multi-tab__note">
               <div className="rup__multi-tab__note__title">
-                Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). It will
-                be visible to range staff and other agreement holders.
+                Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). It will be visible to range staff and other
+                agreement holders.
               </div>
-              <TextArea
-                placeholder={placeholder}
-                onChange={handleNoteChange}
-                value={note}
-              />
-              <div className="rup__multi-tab__note__text-length">
-                {lengthOfNote}
-              </div>
+              <TextArea placeholder={placeholder} onChange={handleNoteChange} value={note} />
+              <div className="rup__multi-tab__note__text-length">{lengthOfNote}</div>
             </div>
           </Form>
         }

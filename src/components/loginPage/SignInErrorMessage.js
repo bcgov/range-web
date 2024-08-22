@@ -28,11 +28,7 @@ class SignInErrorMessage extends Component {
       const { data, status } = errResponse;
       if (data && status) {
         const { error: errorMessage } = data;
-        if (
-          status === 403 &&
-          errorMessage &&
-          typeof errorMessage === 'string'
-        ) {
+        if (status === 403 && errorMessage && typeof errorMessage === 'string') {
           // read a specific error message from the server
           // it will be either the account being not active or not having a role
           message = errorMessage;

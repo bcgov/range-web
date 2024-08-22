@@ -45,15 +45,11 @@ class MandatoryTabsForSingleAH extends Component {
         id: 'chooseSubmissionType',
         title: '2. Ready to Submit? Choose Your Submission Type',
         back: 'chooseAmendmentType',
-        next:
-          statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW
-            ? 'submitForFeedback'
-            : 'submitForFinalDecision',
+        next: statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW ? 'submitForFeedback' : 'submitForFinalDecision',
         radio1:
           'Make this draft amendment available for the staff to review. ' +
           'They will advise you if the RUP is ready to submit to the decision maker for approval or make content suggestions.',
-        radio2:
-          'Verify this amendment is correct and start submission for decision.',
+        radio2: 'Verify this amendment is correct and start submission for decision.',
       },
       submitForFeedback: {
         id: 'submitForFeedback',
