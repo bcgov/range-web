@@ -24,12 +24,7 @@ const NewPlanButton = ({ agreement }) => {
   };
 
   return (
-    <Button
-      variant="contained"
-      disableElevation
-      color="primary"
-      onClick={handleClick}
-    >
+    <Button variant="contained" disableElevation color="primary" onClick={handleClick}>
       New plan
       <Icon className={classes.icon} name="add" fitted={false} />
     </Button>

@@ -38,11 +38,7 @@ const PlantCommunityPicker = React.memo(
       <>
         <Dropdown
           trigger={
-            <Button
-              primary
-              type="button"
-              className="icon labeled rup__plant-communities__add-button"
-            >
+            <Button primary type="button" className="icon labeled rup__plant-communities__add-button">
               <i className="add circle icon" />
               Add Plant Community
             </Button>

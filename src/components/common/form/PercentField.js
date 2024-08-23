@@ -40,16 +40,9 @@ const PercentField = ({
                 id={id}
                 name={name}
                 {...safeInputProps}
-                value={
-                  !isNaN(parseFloat(field.value))
-                    ? moveDecimalsRight(field.value)
-                    : field.value
-                }
+                value={!isNaN(parseFloat(field.value)) ? moveDecimalsRight(field.value) : field.value}
                 onChange={(e, { name, value }) => {
-                  form.setFieldValue(
-                    field.name,
-                    !isNaN(parseFloat(value)) ? value / 100 : value.trim(),
-                  );
+                  form.setFieldValue(field.name, !isNaN(parseFloat(value)) ? value / 100 : value.trim());
                   Promise.resolve().then(() => {
                     onChange && onChange(e, { name, value });
                   });
@@ -57,9 +50,7 @@ const PercentField = ({
                 onBlur={(...args) => {
                   form.setFieldValue(
                     field.name,
-                    !isNaN(parseFloat(field.value))
-                      ? moveDecimalsRight(field.value) / 100
-                      : field.value,
+                    !isNaN(parseFloat(field.value)) ? moveDecimalsRight(field.value) / 100 : field.value,
                   );
                   form.handleBlur(...args);
                 }}

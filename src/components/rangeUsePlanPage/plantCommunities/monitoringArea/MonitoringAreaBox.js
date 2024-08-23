@@ -9,29 +9,11 @@ import { REFERENCE_KEY } from '../../../../constants/variables';
 import { connect } from 'formik';
 import { useReferences } from '../../../../providers/ReferencesProvider';
 import LocationButton from '../../../common/LocationButton';
-import {
-  Icon,
-  Confirm,
-  Dropdown as PlainDropdown,
-  Form,
-} from 'semantic-ui-react';
+import { Icon, Confirm, Dropdown as PlainDropdown, Form } from 'semantic-ui-react';
 import InputModal from '../../../common/InputModal';
 
-const MonitoringAreaBox = ({
-  monitoringArea,
-  namespace,
-  formik,
-  onRemove,
-  onCopy,
-}) => {
-  const {
-    latitude,
-    location,
-    longitude,
-    name,
-    purposeTypeIds,
-    rangelandHealthId,
-  } = monitoringArea;
+const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy }) => {
+  const { latitude, location, longitude, name, purposeTypeIds, rangelandHealthId } = monitoringArea;
 
   const [removeDialogOpen, setDialogOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -128,10 +110,7 @@ const MonitoringAreaBox = ({
         permission={MONITORING_AREAS.RANGELAND_HEALTH}
         component={Dropdown}
         options={rangelandHealthOptions}
-        displayValue={
-          rangelandHealthTypes.find((r) => r.id === rangelandHealthId)?.name ??
-          ''
-        }
+        displayValue={rangelandHealthTypes.find((r) => r.id === rangelandHealthId)?.name ?? ''}
         label="Rangeland Health"
       />
 
@@ -146,10 +125,7 @@ const MonitoringAreaBox = ({
           multiple: true,
         }}
         displayValue={oxfordComma(
-          purposeTypeIds.map(
-            (purposeTypeId) =>
-              purposeTypes.find((p) => p.id === purposeTypeId)?.name,
-          ),
+          purposeTypeIds.map((purposeTypeId) => purposeTypes.find((p) => p.id === purposeTypeId)?.name),
         )}
         label="Purposes"
       />

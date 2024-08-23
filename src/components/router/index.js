@@ -30,9 +30,7 @@ import { QueryParamProvider } from 'use-query-params';
 import ErrorBoundary from '../common/ErrorBoundary';
 import ManageAgentsPage from '../rangeUsePlanPage/manageAgentsPage';
 
-const SelectRangeUsePlan = LoadableComponent(
-  () => import('../selectRangeUsePlanPage'),
-);
+const SelectRangeUsePlan = LoadableComponent(() => import('../selectRangeUsePlanPage'));
 const LoginPage = LoadableComponent(() => import('../loginPage'));
 const ReturnPage = LoadableComponent(() => import('../ReturnPage'));
 const PageNotFound = LoadableComponent(() => import('../PageNotFound'));
@@ -41,9 +39,7 @@ const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'));
 const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
 const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'));
 const AssignRolesAndDistricts = LoadableComponent(() => import('../assignRolesAndDistrictsPage'));
-const PDFView = LoadableComponent(
-  () => import('../rangeUsePlanPage/pdf/PDFView'),
-);
+const PDFView = LoadableComponent(() => import('../rangeUsePlanPage/pdf/PDFView'));
 
 const Router = () => {
   const user = useUser();
@@ -54,67 +50,23 @@ const Router = () => {
         <QueryParamProvider ReactRouterRoute={Route}>
           <Switch>
             {/* Admin Routes */}
-            <ProtectedRoute
-              path={Routes.MANAGE_CLIENT}
-              component={ManageClient}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.MERGE_ACCOUNT}
-              component={MergeAccount}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.EMAIL_TEMPLATE}
-              component={EmailTemplate}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.ASSIGN_ROLES_AND_DISTRICTS}
-              component={AssignRolesAndDistricts}
-              user={user}
-            />
+            <ProtectedRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
+            <ProtectedRoute path={Routes.MERGE_ACCOUNT} component={MergeAccount} user={user} />
+            <ProtectedRoute path={Routes.EMAIL_TEMPLATE} component={EmailTemplate} user={user} />
+            <ProtectedRoute path={Routes.ASSIGN_ROLES_AND_DISTRICTS} component={AssignRolesAndDistricts} user={user} />
             {/* Admin Routes End */}
 
-            <PublicRoute
-              path={Routes.LOGIN}
-              component={LoginPage}
-              user={user}
-            />
+            <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
-            <ProtectedRoute
-              path={`${Routes.HOME}/:page?`}
-              component={SelectRangeUsePlan}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.MANAGE_PLAN_AGENTS}
-              component={ManageAgentsPage}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.RANGE_USE_PLAN_WITH_PARAM}
-              component={RangeUsePlan}
-              user={user}
-            />
-            <ProtectedRoute
-              path={Routes.EXPORT_PDF_WITH_PARAM}
-              component={PDFView}
-              user={user}
-            />
+            <ProtectedRoute path={`${Routes.HOME}/:page?`} component={SelectRangeUsePlan} user={user} />
+            <ProtectedRoute path={Routes.MANAGE_PLAN_AGENTS} component={ManageAgentsPage} user={user} />
+            <ProtectedRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} user={user} />
+            <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={PDFView} user={user} />
 
-            <PublicRoute
-              path={Routes.LOGIN}
-              component={LoginPage}
-              user={user}
-            />
+            <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
 
             <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
-            <Route
-              path="/"
-              exact
-              render={() => <Redirect to={Routes.LOGIN} />}
-            />
+            <Route path="/" exact render={() => <Redirect to={Routes.LOGIN} />} />
             <Route component={PageNotFound} />
           </Switch>
         </QueryParamProvider>

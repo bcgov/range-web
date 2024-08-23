@@ -65,23 +65,12 @@ class InputModal extends Component {
     const title = inputModal && inputModal.title;
 
     return (
-      <Modal
-        dimmer="blurring"
-        size="mini"
-        open={inputModal !== null}
-        onClose={this.handleModalClose}
-        closeIcon
-      >
+      <Modal dimmer="blurring" size="mini" open={inputModal !== null} onClose={this.handleModalClose} closeIcon>
         <div className="input-modal">
           <div className="input-modal__title">{title}</div>
           <Form>
             <Form.Field>
-              <Input
-                value={input}
-                onChange={this.onInputChanged}
-                onKeyPress={this.onInputKeyPressed}
-                autoFocus
-              />
+              <Input value={input} onChange={this.onInputChanged} onKeyPress={this.onInputKeyPressed} autoFocus />
             </Form.Field>
           </Form>
           <div className="input-modal__btns">

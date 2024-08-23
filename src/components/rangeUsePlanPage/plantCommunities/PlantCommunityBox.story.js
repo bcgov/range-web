@@ -19,22 +19,19 @@ const plantCommunity = {
   indicatorPlants: [],
 };
 
-storiesOf('rangeUsePlanPage/plantCommunities/PlantCommunityBox', module).add(
-  'default',
-  () => (
-    <Form
-      initialValues={{ plantCommunity }}
-      render={({ values }) => (
-        <ul className="collaspible-boxes">
-          <PlantCommunityBox
-            namespace="plantCommunity"
-            plantCommunity={values.plantCommunity}
-            onClick={action('click')}
-            index={1}
-            activeIndex={1}
-          />
-        </ul>
-      )}
-    />
-  ),
-);
+storiesOf('rangeUsePlanPage/plantCommunities/PlantCommunityBox', module).add('default', () => (
+  <Form
+    initialValues={{ plantCommunity }}
+    render={({ values }) => (
+      <ul className="collaspible-boxes">
+        <PlantCommunityBox
+          namespace="plantCommunity"
+          plantCommunity={values.plantCommunity}
+          onClick={action('click')}
+          index={1}
+          activeIndex={1}
+        />
+      </ul>
+    )}
+  />
+));

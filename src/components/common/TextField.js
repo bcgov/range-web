@@ -7,11 +7,7 @@ import { handleNullValue } from '../../utils';
 const propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
-  text: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  text: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.number]),
   isLabelHidden: PropTypes.bool,
   isEditable: PropTypes.bool,
   onClick: PropTypes.func,
@@ -25,14 +21,7 @@ const defaultProps = {
   onClick: () => {},
 };
 
-const TextField = ({
-  className,
-  label,
-  text: rawText,
-  isLabelHidden,
-  isEditable,
-  onClick,
-}) => {
+const TextField = ({ className, label, text: rawText, isLabelHidden, isEditable, onClick }) => {
   const text = handleNullValue(rawText);
 
   return (

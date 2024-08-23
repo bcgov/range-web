@@ -13,10 +13,7 @@ const ShrubUseBox = ({ plantCommunity, namespace }) => {
         {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
         Shrub Use
       </div>
-      <div>
-        Unless otherwise indicated the allowable browse level is 25% of current
-        annual growth.
-      </div>
+      <div>Unless otherwise indicated the allowable browse level is 25% of current annual growth.</div>
 
       <PermissionsField
         name={`${namespace}.shrubUse`}

@@ -1,8 +1,4 @@
-import {
-  STORE_PLAN,
-  PLANT_COMMUNITY_ADDED,
-  PLANT_COMMUNITY_UPDATED,
-} from '../../constants/actionTypes';
+import { STORE_PLAN, PLANT_COMMUNITY_ADDED, PLANT_COMMUNITY_UPDATED } from '../../constants/actionTypes';
 
 const initialPlantCommunity = {
   indicatorPlants: [],

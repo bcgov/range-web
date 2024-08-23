@@ -2,12 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Menu, Dropdown } from 'semantic-ui-react';
 import { connect } from 'formik';
-import {
-  SAVE_DRAFT,
-  SUBMIT,
-  AMEND_PLAN,
-  SIGN_SUBMISSION,
-} from '../../constants/strings';
+import { SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../constants/strings';
 import DownloadPDFBtn from './DownloadPDFBtn';
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown';
 import { useNetworkStatus } from '../../utils/hooks/network';
@@ -35,9 +30,7 @@ const ActionBtns = ({
   const isOnline = useNetworkStatus();
   const { isSavingPlan } = useCurrentPlan();
 
-  const downloadPDFBtn = (
-    <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />
-  );
+  const downloadPDFBtn = <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />;
   const saveDraftBtn = (
     <Button
       key="saveDraftBtn"
@@ -92,14 +85,7 @@ const ActionBtns = ({
     </Button>
   );
   const confirmSubmissionBtn = (
-    <Button
-      key="confirmSubmissionBtn"
-      disabled={!isOnline}
-      onClick={onSignSubmission}
-      inverted
-      compact
-      type="button"
-    >
+    <Button key="confirmSubmissionBtn" disabled={!isOnline} onClick={onSignSubmission} inverted compact type="button">
       {SIGN_SUBMISSION}
     </Button>
   );

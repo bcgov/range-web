@@ -14,26 +14,8 @@ import Select from '../../common/Select';
 import RowMenu from './RowMenu';
 import './GrazingScheduleEntryRow.css';
 
-const GrazingScheduleEntryRow = ({
-  entry,
-  formik,
-  namespace,
-  onDelete,
-  onCopy,
-  schedule,
-  onChange,
-}) => {
-  const {
-    pastureId,
-    livestockCount,
-    dateIn,
-    dateOut,
-    graceDays,
-    days,
-    pasture,
-    pldAUMs,
-    crownAUMs,
-  } = entry || {};
+const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, schedule, onChange }) => {
+  const { pastureId, livestockCount, dateIn, dateOut, graceDays, days, pasture, pldAUMs, crownAUMs } = entry || {};
 
   const references = useReferences();
   const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
@@ -47,15 +29,9 @@ const GrazingScheduleEntryRow = ({
     };
   });
 
-  const initialDate = moment()
-    .set('year', schedule.year)
-    .set('month', 0)
-    .set('date', 1);
+  const initialDate = moment().set('year', schedule.year).set('month', 0).set('date', 1);
 
-  const maxDate = moment()
-    .set('year', schedule.year)
-    .set('month', 11)
-    .set('date', 31);
+  const maxDate = moment().set('year', schedule.year).set('month', 11).set('date', 31);
 
   return (
     <Table.Row className="rup__grazing-schedule__row">
@@ -64,10 +40,7 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.pastureId`}
           pastureId={pastureId}
           onChange={({ pasture }) => {
-            formik.setFieldValue(
-              `${namespace}.graceDays`,
-              pasture.graceDays || 0,
-            );
+            formik.setFieldValue(`${namespace}.graceDays`, pasture.graceDays || 0);
             onChange();
           }}
         />
@@ -147,12 +120,8 @@ const GrazingScheduleEntryRow = ({
           fast
         />
       </Table.Cell>
-      <Table.Cell collapsing>
-        {utils.handleNullValue(pldAUMs, false)}
-      </Table.Cell>
-      <Table.Cell collapsing>
-        {utils.handleNullValue(crownAUMs, false)}
-      </Table.Cell>
+      <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false)}</Table.Cell>
+      <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false)}</Table.Cell>
       <IfEditable permission={SCHEDULE.TYPE}>
         <Table.Cell collapsing textAlign="center">
           <RowMenu onCopy={onCopy} onDelete={onDelete} />

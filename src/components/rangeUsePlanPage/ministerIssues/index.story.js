@@ -33,12 +33,9 @@ const pastures = [
   { name: 'Pasture 3', id: 2 },
 ];
 
-storiesOf('rangeUsePlanPage/ministerIssues/MinisterIssues', module).add(
-  'With Content',
-  () => (
-    <Form
-      initialValues={{ ministerIssues, pastures }}
-      render={({ values }) => <MinisterIssues issues={values.ministerIssues} />}
-    />
-  ),
-);
+storiesOf('rangeUsePlanPage/ministerIssues/MinisterIssues', module).add('With Content', () => (
+  <Form
+    initialValues={{ ministerIssues, pastures }}
+    render={({ values }) => <MinisterIssues issues={values.ministerIssues} />}
+  />
+));

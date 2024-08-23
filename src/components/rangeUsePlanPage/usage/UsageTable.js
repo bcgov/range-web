@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import UsageTableRow from './UsageTableRow';
-import {
-  YEAR,
-  AUTH_AUMS,
-  TEMP_INCREASE,
-  BILLABLE_NON_USE,
-  TOTAL_ANNUAL_USE,
-} from '../../../constants/strings';
+import { YEAR, AUTH_AUMS, TEMP_INCREASE, BILLABLE_NON_USE, TOTAL_ANNUAL_USE } from '../../../constants/strings';
 
 class UsageTable extends Component {
   static propTypes = {
@@ -22,16 +16,13 @@ class UsageTable extends Component {
     const planStartYear = new Date(planStartDate).getFullYear();
     const planEndYear = new Date(planEndDate).getFullYear();
 
-    const filteredUsage = usage.filter(
-      (u) => u.year >= planStartYear && u.year <= planEndYear,
-    );
+    const filteredUsage = usage.filter((u) => u.year >= planStartYear && u.year <= planEndYear);
 
     if (filteredUsage.length === 0) {
       return (
         <Table.Row>
           <Table.Cell colSpan="5" textAlign="center">
-            No usage available for this period{' '}
-            {`(${planStartYear} ~ ${planEndYear})`}
+            No usage available for this period {`(${planStartYear} ~ ${planEndYear})`}
           </Table.Cell>
         </Table.Row>
       );
@@ -40,9 +31,7 @@ class UsageTable extends Component {
     return filteredUsage.map(this.renderRow);
   };
 
-  renderRow = (singleUsage) => (
-    <UsageTableRow key={singleUsage.id} singleUsage={singleUsage} />
-  );
+  renderRow = (singleUsage) => <UsageTableRow key={singleUsage.id} singleUsage={singleUsage} />;
 
   render() {
     const { usage } = this.props;

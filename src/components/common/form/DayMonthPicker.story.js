@@ -22,9 +22,7 @@ storiesOf('DayMonthPicker', module).add('Default', () => (
           monthName="month"
           component={DayMonthPicker}
           label="Range Readiness Date"
-          displayValue={moment(`${values.month} ${values.day}`, 'MM DD').format(
-            'MMMM Do',
-          )}
+          displayValue={moment(`${values.month} ${values.day}`, 'MM DD').format('MMMM Do')}
         />
       </Form.Group>
     )}

@@ -47,8 +47,7 @@ class MinorTabsForMultipleAH extends Component {
           'No approval is required for minor amendments. Your RUP will be automatically updated when all agreement holders have reviewed and signed the amendment. This amendment may be reviewed by range staff for consistency with minor amendment requirements.',
         text2:
           'You will be notified if it did not meet requirements including if it has been rescinded and you must follow your pre-amendment RUP.',
-        checkbox1:
-          'I understand that this submission constitues a legal document and eSignature.',
+        checkbox1: 'I understand that this submission constitues a legal document and eSignature.',
         rightBtn1: 'Next',
       },
       requestSignatures: {
@@ -60,8 +59,7 @@ class MinorTabsForMultipleAH extends Component {
           'You’re ready to submit your Minor Amendment to your range use plan. The other agreement holders below will be notified to confirm the submission and provide eSignatures.',
         text2:
           'Once all agreement holders have confirmed the submission and provided their eSignatures, your RUP will be updated as approval is not required for minor amendments. This submission may be reviewed by range staff for consistency with minor amendment requirements.',
-        text3:
-          'All other agreement holders required to sign this amendment are listed below.',
+        text3: 'All other agreement holders required to sign this amendment are listed below.',
       },
       last: {
         id: 'last',

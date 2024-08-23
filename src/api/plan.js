@@ -1,11 +1,5 @@
 import uuid from 'uuid-v4';
-import {
-  axios,
-  getAuthHeaderConfig,
-  findStatusWithCode,
-  isUserAgrologist,
-  canUserAddAttachments,
-} from '../utils';
+import { axios, getAuthHeaderConfig, findStatusWithCode, isUserAgrologist, canUserAddAttachments } from '../utils';
 import * as API from '../constants/api';
 import RUPSchema from '../components/rangeUsePlanPage/schema';
 import { getNetworkStatus } from '../utils/helper/network';
@@ -20,11 +14,7 @@ import {
   savePastures,
   saveAttachments,
 } from '.';
-import {
-  REFERENCE_KEY,
-  AMENDMENT_TYPE,
-  PLAN_STATUS,
-} from '../constants/variables';
+import { REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../constants/variables';
 
 /**
  * Syncs plan and then returns locally stored record
@@ -55,10 +45,7 @@ const syncPlan = async (planId, user) => {
       await savePlan(localPlan, user);
     }
 
-    const { data: serverPlan } = await axios.get(
-      API.GET_RUP(planId),
-      getAuthHeaderConfig(),
-    );
+    const { data: serverPlan } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig());
     savePlanToLocalStorage(serverPlan, true);
   }
 };
@@ -202,23 +189,11 @@ export const updatePlan = async (planId, data) => {
   return await axios.put(API.UPDATE_RUP(planId), data, getAuthHeaderConfig());
 };
 
-export const createAmendment = async (
-  plan,
-  references,
-  staffInitiated = false,
-) => {
+export const createAmendment = async (plan, references, staffInitiated = false) => {
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-  const initialAmendment = amendmentTypes.find(
-    (at) => at.code === AMENDMENT_TYPE.INITIAL,
-  );
-  const ahAmendmentStatus = findStatusWithCode(
-    references,
-    PLAN_STATUS.AMENDMENT_AH,
-  );
-  const staffAmendmentStatus = findStatusWithCode(
-    references,
-    PLAN_STATUS.MANDATORY_AMENDMENT_STAFF,
-  );
+  const initialAmendment = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.INITIAL);
+  const ahAmendmentStatus = findStatusWithCode(references, PLAN_STATUS.AMENDMENT_AH);
+  const staffAmendmentStatus = findStatusWithCode(references, PLAN_STATUS.MANDATORY_AMENDMENT_STAFF);
 
   await axios.put(
     API.UPDATE_RUP(plan.id),
@@ -240,16 +215,11 @@ export const createAmendment = async (
 };
 
 export const updateStatus = async ({ planId, note, statusId }) => {
-  await axios.put(
-    API.UPDATE_PLAN_STATUS(planId),
-    { note, statusId },
-    getAuthHeaderConfig(),
-  );
+  await axios.put(API.UPDATE_PLAN_STATUS(planId), { note, statusId }, getAuthHeaderConfig());
 };
 
 export const createReplacementPlan = async (planId) => {
-  return (await axios.put(API.REPLACEMENT_PLAN(planId), getAuthHeaderConfig()))
-    .data.replacementPlan;
+  return (await axios.put(API.REPLACEMENT_PLAN(planId), getAuthHeaderConfig())).data.replacementPlan;
 };
 
 export const updateConfirmation = async ({
@@ -283,10 +253,7 @@ export const getMostRecentLegalPlan = async (planId) => {
     throw new Error('Could not find legal version');
   }
 
-  const { data } = await axios.get(
-    API.GET_RUP_VERSION(planId, legalVersion.version),
-    getAuthHeaderConfig(),
-  );
+  const { data } = await axios.get(API.GET_RUP_VERSION(planId, legalVersion.version), getAuthHeaderConfig());
 
   return data;
 };
@@ -298,11 +265,7 @@ export const discardAmendment = async (planId) => {
 export const amendFromLegal = async (plan, references, staffInitiated) => {
   const { version } = await getMostRecentLegalPlan(plan.id);
 
-  await axios.post(
-    API.RESTORE_RUP_VERSION(plan.id, version),
-    {},
-    getAuthHeaderConfig(),
-  );
+  await axios.post(API.RESTORE_RUP_VERSION(plan.id, version), {}, getAuthHeaderConfig());
   await createAmendment(plan, references, staffInitiated);
 };
 
@@ -310,12 +273,7 @@ export const generatePDF = async (planId) => {
   return await axios.get(API.GET_RUP_PDF(planId), getAuthHeaderConfig());
 };
 
-export const updateSortOrder = async (
-  planId,
-  scheduleId,
-  sortBy,
-  sortOrder,
-) => {
+export const updateSortOrder = async (planId, scheduleId, sortBy, sortOrder) => {
   return axios.put(
     API.UPDATE_SCHEDULE_SORT_ORDER(planId, scheduleId),
     {

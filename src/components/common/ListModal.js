@@ -15,20 +15,9 @@ const ListModal = ({
   const [selected, setSelected] = useState([]);
 
   return (
-    <Modal
-      dimmer="blurring"
-      size="mini"
-      open={open}
-      onClose={onClose}
-      closeIcon
-    >
+    <Modal dimmer="blurring" size="mini" open={open} onClose={onClose} closeIcon>
       <Modal.Header>{title}</Modal.Header>
-      <List
-        divided
-        relaxed
-        selection
-        style={{ margin: 0, maxHeight: 300, overflowY: 'scroll' }}
-      >
+      <List divided relaxed selection style={{ margin: 0, maxHeight: 300, overflowY: 'scroll' }}>
         {options.map((option) => (
           <List.Item
             key={option.key}

@@ -16,11 +16,7 @@ import {
   isUserAgrologist,
 } from '../../../utils';
 import { PLAN_STATUS } from '../../../constants/variables';
-import {
-  getConfirmationModalsMap,
-  getIsUpdatingPlanStatus,
-  getReferences,
-} from '../../../reducers/rootReducer';
+import { getConfirmationModalsMap, getIsUpdatingPlanStatus, getReferences } from '../../../reducers/rootReducer';
 import { updateRUPStatus } from '../../../actionCreators';
 import * as strings from '../../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
@@ -44,8 +40,7 @@ class UpdateStatusDropdown extends Component {
     loading: false,
   };
 
-  closeUpdateStatusModalOpen = () =>
-    this.setState({ updateStatusModalOpen: false });
+  closeUpdateStatusModalOpen = () => this.setState({ updateStatusModalOpen: false });
   openUpdateStatusModalOpen = (modal) => {
     this.setState({
       updateStatusModalOpen: true,
@@ -260,31 +255,19 @@ class UpdateStatusDropdown extends Component {
         recommendNotReady,
         recommendForSubmission,
       ];
-    } else if (
-      isUserAgrologist(user) &&
-      !isStatusApproved(status) &&
-      !isPlanAmendment(plan)
-    ) {
+    } else if (isUserAgrologist(user) && !isStatusApproved(status) && !isPlanAmendment(plan)) {
       overrides = [draft];
     }
 
     if (isStatusStandsNotReviewed(status)) {
       return [stands, standsReview, ...overrides];
     } else if (isStatusStandsReview(status)) {
-      return [
-        stands,
-        standsWronglyMade,
-        wronglyMadeWithoutEffect,
-        ...overrides,
-      ];
+      return [stands, standsWronglyMade, wronglyMadeWithoutEffect, ...overrides];
     } else if (isStatusSubmittedForReview(status)) {
       return [requestChanges, recommendForSubmission, ...overrides];
     } else if (isStatusSubmittedForFD(status)) {
       return [recommendReady, recommendNotReady, requestChanges, ...overrides];
-    } else if (
-      isStatusRecommendReady(status) ||
-      isStatusRecommendNotReady(status)
-    ) {
+    } else if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
       if (isPlanAmendment(plan)) {
         return [approved, notApproved, notApprovedFWR, ...overrides];
       }
@@ -304,12 +287,7 @@ class UpdateStatusDropdown extends Component {
     const { user, plan, isFetchingPlan } = this.props;
     const status = plan && plan.status;
 
-    const statusDropdownOptions = this.getStatusDropdownOptions(
-      user,
-      plan,
-      isFetchingPlan,
-      status,
-    );
+    const statusDropdownOptions = this.getStatusDropdownOptions(user, plan, isFetchingPlan, status);
 
     return (
       <Fragment>
@@ -317,12 +295,7 @@ class UpdateStatusDropdown extends Component {
           <Divider />
           <Menu.Header>{strings.PLAN_ACTIONS}</Menu.Header>
           {statusDropdownOptions.map((o) => (
-            <Menu.Item
-              key={o.key}
-              value={o.text}
-              onClick={o.onClick}
-              disabled={o.key === 'noOption'}
-            >
+            <Menu.Item key={o.key} value={o.text} onClick={o.onClick} disabled={o.key === 'noOption'}>
               {o.text}
             </Menu.Item>
           ))}
@@ -334,10 +307,7 @@ class UpdateStatusDropdown extends Component {
           {...modal}
         />
         <Portal open={this.state.loading}>
-          <Loading
-            active={this.state.loading}
-            containerProps={{ page: true }}
-          />
+          <Loading active={this.state.loading} containerProps={{ page: true }} />
         </Portal>
       </Fragment>
     );

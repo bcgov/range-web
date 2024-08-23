@@ -5,10 +5,7 @@ import { ELEMENT_ID } from '../../constants/variables';
 // create a sticky header for dynamic contents
 class StickyHeader extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   };
 
   static defaultProps = {

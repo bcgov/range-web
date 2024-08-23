@@ -15,12 +15,7 @@ const sortByDate = (a, b) => {
   return 0;
 };
 
-const Attachments = ({
-  planId,
-  attachments = [],
-  label = '',
-  propertyName,
-}) => {
+const Attachments = ({ planId, attachments = [], label = '', propertyName }) => {
   const [toRemove, setToRemove] = useState(null);
   const formik = useFormikContext();
 
@@ -50,11 +45,8 @@ const Attachments = ({
           <div className="rup__attachments">
             <div className="rup__attachments__title">{label} Attachments</div>
             <div className="rup__attachments__box">
-              {attachments.filter((a) => a.type === propertyName).length ===
-              0 ? (
-                <div className="rup__attachments__no-content">
-                  No {label.toLocaleLowerCase()} attachments provided
-                </div>
+              {attachments.filter((a) => a.type === propertyName).length === 0 ? (
+                <div className="rup__attachments__no-content">No {label.toLocaleLowerCase()} attachments provided</div>
               ) : (
                 attachments.sort(sortByDate).map((attachment, index) => {
                   if (attachment.type === propertyName) {
@@ -71,23 +63,14 @@ const Attachments = ({
                 })
               )}
               <IfEditable permission={ATTACHMENTS.ADD}>
-                <PrimaryButton
-                  inverted
-                  compact
-                  style={{ marginTop: '10px' }}
-                  type="button"
-                >
+                <PrimaryButton inverted compact style={{ marginTop: '10px' }} type="button">
                   <Icon name="add circle" />
-                  <label htmlFor={`fileInput${propertyName}`}>
-                    Add {label} Attachment
-                  </label>
+                  <label htmlFor={`fileInput${propertyName}`}>Add {label} Attachment</label>
                 </PrimaryButton>
                 <input
                   name={propertyName}
                   onChange={(event) => {
-                    for (const [index, file] of Array.from(
-                      event.target.files,
-                    ).entries()) {
+                    for (const [index, file] of Array.from(event.target.files).entries()) {
                       const attachment = {
                         name: file.name,
                         createdAt: new Date(),
@@ -97,11 +80,7 @@ const Attachments = ({
                       };
 
                       push(attachment);
-                      handleUpload(
-                        file,
-                        attachment,
-                        attachments.length + index,
-                      );
+                      handleUpload(file, attachment, attachments.length + index);
                     }
                   }}
                   id={`fileInput${propertyName}`}

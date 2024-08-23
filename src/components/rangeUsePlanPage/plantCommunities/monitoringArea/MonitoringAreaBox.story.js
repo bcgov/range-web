@@ -14,10 +14,7 @@ const monitoringArea = {
   rangelandHealth: '',
 };
 
-storiesOf(
-  'rangeUsePlanPage/plantCommunities/monitoringAreas/MonitoringAreaBox',
-  module,
-).add('default', () => (
+storiesOf('rangeUsePlanPage/plantCommunities/monitoringAreas/MonitoringAreaBox', module).add('default', () => (
   <Form
     initialValues={{ monitoringArea }}
     render={({ values }) => (

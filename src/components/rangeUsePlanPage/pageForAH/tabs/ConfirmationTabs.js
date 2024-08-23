@@ -34,24 +34,18 @@ class ConfirmationTabs extends Component {
       confirmChoice: {
         id: 'confirmChoice',
         title: '1. Confirm your Submission Choice',
-        next:
-          confirmationOption === CONFIRMATION_OPTION.CONFIRM
-            ? 'last'
-            : 'requestClarification',
+        next: confirmationOption === CONFIRMATION_OPTION.CONFIRM ? 'last' : 'requestClarification',
         radio1:
           'the range use plan will be automatically forwarded for decision' +
           ' once all agreement holders have completed this step.',
-        radio2:
-          'do not agree to the range use plan at this time and get information on options',
+        radio2: 'do not agree to the range use plan at this time and get information on options',
       },
       requestClarification: {
         id: 'requestClarification',
         title: '2. Request Clarification or Changes',
         back: 'confirmChoice',
         text1:
-          `Please contact ${getUserFullName(plan.creator)} (${getUserEmail(
-            plan.creator,
-          )}) ` +
+          `Please contact ${getUserFullName(plan.creator)} (${getUserEmail(plan.creator)}) ` +
           'who initiated this range use plan for clarification or to request changes.',
         text2:
           'Submissions can only be recalled by ' +

@@ -31,24 +31,15 @@ export const isClientCurrentUser = (client, user) => {
 export const isAgent = (clientAgreements, user, client) => {
   if (!user || !client || !clientAgreements) return false;
 
-  const agencyAgreements = clientAgreements.filter(
-    (a) => a.agentId === user.id,
-  );
-  const isAgent = !!agencyAgreements.find(
-    (ca) => ca.clientId === client.clientNumber,
-  );
+  const agencyAgreements = clientAgreements.filter((a) => a.agentId === user.id);
+  const isAgent = !!agencyAgreements.find((ca) => ca.clientId === client.clientNumber);
 
   return isAgent;
 };
 
-export const findConfirmationWithClientNumber = (
-  clientNumber,
-  confirmations,
-) => {
+export const findConfirmationWithClientNumber = (clientNumber, confirmations) => {
   if (clientNumber && confirmations) {
-    return confirmations.find(
-      (confirmation) => confirmation.clientId === clientNumber,
-    );
+    return confirmations.find((confirmation) => confirmation.clientId === clientNumber);
   }
   return undefined;
 };
@@ -61,25 +52,16 @@ export const findConfirmationWithUser = (user, confirmations) => {
   );
 
   if (linkedConfirmations.length > 1) {
-    console.warn(
-      'There are multiple clients assigned to this user that share a plan.',
-      linkedConfirmations,
-    );
+    console.warn('There are multiple clients assigned to this user that share a plan.', linkedConfirmations);
   }
 
   return linkedConfirmations[0];
 };
 
-export const findConfirmationsWithUser = (
-  user,
-  confirmations,
-  clientAgreements,
-) => {
+export const findConfirmationsWithUser = (user, confirmations, clientAgreements) => {
   const { clients = [] } = user;
 
-  const agencyAgreements = clientAgreements.filter(
-    (ca) => ca.agentId === user.id,
-  );
+  const agencyAgreements = clientAgreements.filter((ca) => ca.agentId === user.id);
 
   const linkedConfirmations = confirmations.filter(
     (confirmation) =>
@@ -92,9 +74,7 @@ export const findConfirmationsWithUser = (
 
 export const getClientFullName = (contact) => {
   if (contact && contact.name) {
-    const array = contact.name
-      .split(' ')
-      .map((string) => capitalize(string.toLowerCase()));
+    const array = contact.name.split(' ').map((string) => capitalize(string.toLowerCase()));
 
     return array.join(' ');
   }

@@ -14,8 +14,7 @@ export const MANAGE_ZONES = 'Manage Zones';
 export const MANAGE_CLIENTS = 'Manage Clients';
 export const MERGE_ACCOUNT = 'Merge Accounts';
 export const ASSIGN_ROLES_AND_DISTRICTS = 'Assign Roles/Districts';
-export const ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT =
-  'Assign roles or districts to user accounts';
+export const ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT = 'Assign roles or districts to user accounts';
 // Agreement Table
 export const RANGE_NUMBER = 'RAN';
 export const RANGE_NAME = 'Range Name';
@@ -24,8 +23,7 @@ export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
 export const SUBMITTED = 'Submitted';
-export const AGREEMENT_SEARCH_PLACEHOLDER =
-  "Enter RAN, agreement holder's name, or staff contact";
+export const AGREEMENT_SEARCH_PLACEHOLDER = "Enter RAN, agreement holder's name, or staff contact";
 export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View
@@ -122,8 +120,7 @@ export const CROWN_AUMS = 'Crown AUMs';
 //TOOLTIPS
 export const TOOLTIP_TEXT_RUP_CREATED =
   'Check box to only view Range Agreements that have had a Range Use Plan started';
-export const TOOLTIP_TEXT_RANGE_AGREEMENT =
-  'Check box to only view only ACTIVE Range Act Agreements';
+export const TOOLTIP_TEXT_RANGE_AGREEMENT = 'Check box to only view only ACTIVE Range Act Agreements';
 export const TOOLTIP_TEXT_ACTIVE_RUP =
   'Check box to view Range Use Plans that have been APPROVED, includes RUPs that are being amended.  Does not include draft plans';
 export const TOOLTIP_TEXT_ARCHIVED_PLANS =
@@ -140,29 +137,18 @@ export const NOT_ASSIGNED = 'Not assigned';
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
-export const STATUS404 =
-  'The request is currently not available, please try later.';
-export const STATUS500 =
-  'Internal server error occurred, please contact the administrator (MyRangeBC@gov.bc.ca).';
-export const UPDATE_PLAN_STATUS_SUCCESS =
-  'You have successfully updated the status of the range use plan.';
-export const UPDATE_AGREEMENT_ZONE_SUCCESS =
-  'You have successfully updated the zone of the range use plan.';
-export const ASSIGN_STAFF_TO_ZONE_SUCCESS =
-  'You have successfully assigned the staff to the zone.';
-export const SAVE_PLAN_AS_DRAFT_SUCCESS =
-  'You have successfully saved the range use plan as a draft.';
-export const STAFF_SAVE_PLAN_DRAFT_SUCCESS =
-  'Your changes have been successfully saved to the range use plan.';
-export const UPDATE_USER_PROFILE_SUCCESS =
-  'You have successfully update your profile.';
-export const SUBMIT_PLAN_SUCCESS =
-  'You have successfully submitted the range use plan to the range staff.';
-export const EMPTY_GRAZING_SCHEDULE_ENTRIES =
-  'Schedule must have at least 1 entry.';
+export const STATUS404 = 'The request is currently not available, please try later.';
+export const STATUS500 = 'Internal server error occurred, please contact the administrator (MyRangeBC@gov.bc.ca).';
+export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
+export const UPDATE_AGREEMENT_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
+export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
+export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range use plan as a draft.';
+export const STAFF_SAVE_PLAN_DRAFT_SUCCESS = 'Your changes have been successfully saved to the range use plan.';
+export const UPDATE_USER_PROFILE_SUCCESS = 'You have successfully update your profile.';
+export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff.';
+export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const EMPTY_PASTURES = 'Plan must have at least one pasture.';
-export const INVALID_GRAZING_SCHEDULE_ENTRY =
-  'Schedule has one or more invalid entries.';
+export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 export const UNAPPROVED_PLANT_COMMUNITIES =
   'There are one or more plant communities that have not been approved by the minister';
 export const UNIDENTIFIED_MINISTER_ISSUES =
@@ -180,8 +166,7 @@ export const TYPE_CLIENT_NAME = 'Type name of the client';
 export const NO_RESULTS_FOUND = 'No result founds.';
 export const ERROR_OCCUR = 'Error Occurred!';
 export const REDIRECTING = 'Please wait while redirecting...';
-export const CREATE_AMENDMENT_SUCCESS =
-  'You have successfully created an amendment';
+export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 export const SIGN_IN_ERROR = 'Error occurred while signing in.';
 export const UPDATE_USER_ERROR = 'Error occurred while updating your profile.';
 export const NO_CLIENT_NUMBER_ASSIGNED =
@@ -199,72 +184,48 @@ export const PENDING_CONFIRM_CONTENT =
 export const CHANGE_REQUEST_CONFIRM_HEADER = 'Update Status: Change Request';
 export const CHANGE_REQUEST_CONFIRM_CONTENT =
   "Are you sure you want to request changes? All agreement holders will need to review and sign again if they've signed previously.";
-export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_HEADER =
-  'Update Status: Wrongly Made - Without Effect';
-export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
+export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_HEADER = 'Update Status: Wrongly Made - Without Effect';
+export const WRONGLY_MADE_WITHOUT_EFFECT_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const STANDS_CONFIRM_HEADER = 'Update Status: Stands';
-export const STANDS_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
+export const STANDS_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const STANDS_REVIEW_HEADER = 'Stands - Requires Review';
-export const STANDS_REVIEW_CONTENT =
-  'Are you sure you want to update the status?';
-export const STANDS_WRONGLY_MADE_CONFIRM_HEADER =
-  'Update Status: Stands - Wrongly Made';
-export const STANDS_WRONGLY_MADE_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
+export const STANDS_REVIEW_CONTENT = 'Are you sure you want to update the status?';
+export const STANDS_WRONGLY_MADE_CONFIRM_HEADER = 'Update Status: Stands - Wrongly Made';
+export const STANDS_WRONGLY_MADE_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const APPROVED_CONFIRM_HEADER = 'Update Status: Approved';
-export const APPROVED_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
+export const APPROVED_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const NOT_APPROVED_CONFIRM_HEADER = 'Update Status: Not Approved';
-export const NOT_APPROVED_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
-export const NOT_APPROVED_FWR_CONFIRM_HEADER =
-  'Return to staff to request changes from agreement holder';
-export const NOT_APPROVED_FWR_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
+export const NOT_APPROVED_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
+export const NOT_APPROVED_FWR_CONFIRM_HEADER = 'Return to staff to request changes from agreement holder';
+export const NOT_APPROVED_FWR_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const RECOMMEND_READY_CONFIRM_HEADER = 'Update Status: Recommend Ready';
-export const RECOMMEND_READY_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
-export const RECOMMEND_NOT_READY_CONFIRM_HEADER =
-  'Update Status: Recommend Not Ready';
-export const RECOMMEND_NOT_READY_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
-export const RECOMMEND_FOR_SUBMISSION_CONFIRM_HEADER =
-  'Update Status: Recommend For Submission';
-export const RECOMMEND_FOR_SUBMISSION_CONFIRM_CONTENT =
-  'Are you sure you want to update the status?';
+export const RECOMMEND_READY_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_NOT_READY_CONFIRM_HEADER = 'Update Status: Recommend Not Ready';
+export const RECOMMEND_NOT_READY_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
+export const RECOMMEND_FOR_SUBMISSION_CONFIRM_HEADER = 'Update Status: Recommend For Submission';
+export const RECOMMEND_FOR_SUBMISSION_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const AMEND_PLAN_CONFIRM_HEADER = 'Amend Range Use Plan';
-export const AMEND_PLAN_CONFIRM_CONTENT =
-  'Are you sure you want to amend this range use plan?';
+export const AMEND_PLAN_CONFIRM_CONTENT = 'Are you sure you want to amend this range use plan?';
 export const SUBMIT_PLAN_CONFIRM_HEADER = 'Confirm';
-export const SUBMIT_PLAN_CONFIRM_CONTENT =
-  'You will not be able to edit this RUP after submission.';
+export const SUBMIT_PLAN_CONFIRM_CONTENT = 'You will not be able to edit this RUP after submission.';
 
-export const UPDATE_CONTACT_CONFIRM_HEADER =
-  'Confirmation: Update Contact with Zone';
-export const UPDATE_CONTACT_CONFIRM_CONTENT =
-  'Are you sure you want to update this contact?';
-export const DELETE_SCHEDULE_CONFIRM_HEADER =
-  'Confirmation: Deleting Grazing Schedule';
+export const UPDATE_CONTACT_CONFIRM_HEADER = 'Confirmation: Update Contact with Zone';
+export const UPDATE_CONTACT_CONFIRM_CONTENT = 'Are you sure you want to update this contact?';
+export const DELETE_SCHEDULE_CONFIRM_HEADER = 'Confirmation: Deleting Grazing Schedule';
 export const DELETE_SCHEDULE_CONFIRM_CONTENT =
   'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
-export const DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER =
-  'Confirmation: Deleting Grazing Schedule Entry';
+export const DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
 export const DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT =
   'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
-export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER =
-  'Confirmation: Deleting Minister Issue Action';
+export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER = 'Confirmation: Deleting Minister Issue Action';
 export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT =
   'This action will be permanently deleted. Are you sure you want to delete this minister issue action?';
-export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER =
-  'Confirmation: Deleting Management Consideration';
+export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER = 'Confirmation: Deleting Management Consideration';
 export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT =
   'This consideration will be permanently deleted. Are you sure you want to delete this management consideration?';
 
 export const UPDATE_CLIENT_ID_CONFIRM_HEADER = 'Confirmation: Link Client';
-export const UPDATE_CLIENT_ID_CONFIRM_CONTENT =
-  'Are you sure you want to link this user to the client?';
+export const UPDATE_CLIENT_ID_CONFIRM_CONTENT = 'Are you sure you want to link this user to the client?';
 export const SUBMIT_RUP_CHANGE_CONFIRM_HEADER = 'Ready to Submit?';
 export const SUBMIT_RUP_CHANGE_CONFIRM_CONTENT =
   'Once submitted you can no longer make edits to the Range Use Plan. Do not submit until you are satisfied with all content.';
@@ -277,20 +238,16 @@ export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT =
   "View details of each range use plan. Enter RAN, agreement holder's name, or staff contact in the search box to find a specific range use plan.";
 export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zones';
-export const MANAGE_ZONE_BANNER_CONTENT =
-  'Search for range staff and link them to their corresonding zone.';
+export const MANAGE_ZONE_BANNER_CONTENT = 'Search for range staff and link them to their corresonding zone.';
 export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Clients';
 export const MERGE_ACCOUNT_HEADER = 'Merge Accounts';
-export const MANAGE_CLIENT_BANNER_CONTENT =
-  'Search for agreement holders and link them to their corresponding client.';
+export const MANAGE_CLIENT_BANNER_CONTENT = 'Search for agreement holders and link them to their corresponding client.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE1 =
   'If an agreement holder has logged in to MyRange with multiple BCEIDS, it is advisable to merge these accounts into their most current BCEID user account.  This will make sure they see all the correct agreements on sign in, and all signatures will be marked as their own.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE2 =
   'Note that you can filter using the table below by hitting the 3 dots in each column, you may also select multiple FROM accounts in step 1, and one TO account in step 2.';
-export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_HEADER =
-  'Assign Role and Districts';
-export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_CONTENT =
-  'Assign role and districts to user account';
+export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_HEADER = 'Assign Role and Districts';
+export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_CONTENT = 'Assign role and districts to user account';
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision';
@@ -336,30 +293,17 @@ export const APPROVED_BY_MINISTER_TIP =
   'Place documentation of descision makers approval to include this plant community information on file before updating & sending to agreement holders.';
 
 export const EMAIL_TEMPLATE = 'Email Template';
-export const UPDATE_EMAIL_TEMPLATE_BANNER_CONTENT =
-  'Update Email Template content';
-export const MANUAL_SIGNING_SUCCESS =
-  'Plan has been successfully signed on behalf of the agreement holder.';
-export const MANUAL_SIGNING_FAILUTE =
-  'Error signing the plan on behalf of the agreement holder.';
+export const UPDATE_EMAIL_TEMPLATE_BANNER_CONTENT = 'Update Email Template content';
+export const MANUAL_SIGNING_SUCCESS = 'Plan has been successfully signed on behalf of the agreement holder.';
+export const MANUAL_SIGNING_FAILUTE = 'Error signing the plan on behalf of the agreement holder.';
 
-export const PLAN_EXTENSION_CONFIRMATION_QUESTION = (action) =>
-  `Are you sure you want to ${action} extension?`;
+export const PLAN_EXTENSION_CONFIRMATION_QUESTION = (action) => `Are you sure you want to ${action} extension?`;
 
-export const PLAN_PASTE_CONFIRMATION_QUESTION = (
-  sourceAgreement,
-  destinationAgreement,
-) =>
+export const PLAN_PASTE_CONFIRMATION_QUESTION = (sourceAgreement, destinationAgreement) =>
   `Are you sure you want to paste content of ${sourceAgreement} and create a new plan ${destinationAgreement}?`;
 
-export const PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION = (
-  sourceAgreement,
-  destinationAgreement,
-) =>
+export const PLAN_PASTE_REPLACE_CONFIRMATION_QUESTION = (sourceAgreement, destinationAgreement) =>
   `Are you sure you want to paste content of ${sourceAgreement} and replace the plan ${destinationAgreement}? Please note - This will delete the current plan.`;
 
-export const PLAN_PASTE_AS_REPLACEMENT_PLAN_CONFIRMATION_QUESTION = (
-  sourceAgreement,
-  destinationAgreement,
-) =>
+export const PLAN_PASTE_AS_REPLACEMENT_PLAN_CONFIRMATION_QUESTION = (sourceAgreement, destinationAgreement) =>
   `Are you sure you want to paste content of ${sourceAgreement} as a replacement plan for ${destinationAgreement}? Please note - This will overrite the existing replacement plan.`;

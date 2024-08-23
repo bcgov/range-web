@@ -37,11 +37,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const recommendExtension = async (planId) => {
     setLoading(true);
-    const response = await axios.put(
-      API.REQUEST_EXTENSION(planId),
-      {},
-      getAuthHeaderConfig(),
-    );
+    const response = await axios.put(API.REQUEST_EXTENSION(planId), {}, getAuthHeaderConfig());
     if (response.status === 200) {
       agreement.plan.extensionStatus = PLAN_EXTENSION_STATUS.AWAITING_EXTENSION;
     }
@@ -59,11 +55,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const extendPlan = async (planId) => {
     setLoading(true);
-    const response = await axios.put(
-      API.EXTEND_PLAN(planId, futureDate),
-      {},
-      getAuthHeaderConfig(),
-    );
+    const response = await axios.put(API.EXTEND_PLAN(planId, futureDate), {}, getAuthHeaderConfig());
     setLoading(false);
     history.push({
       pathname: `/range-use-plan/${response.data.planId}`,
@@ -76,15 +68,9 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const approveExtension = async (planId, extensionRequestId) => {
     setVoting(true);
-    const response = await axios.put(
-      API.APPROVE_VOTE(planId),
-      { extensionRequestId },
-      getAuthHeaderConfig(),
-    );
+    const response = await axios.put(API.APPROVE_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
     if (response.status === 200) {
-      agreement.plan.planExtensionRequests = [
-        { userId: user.id, requestedExtension: true },
-      ];
+      agreement.plan.planExtensionRequests = [{ userId: user.id, requestedExtension: true }];
     }
     setVoting(false);
   };
@@ -99,16 +85,10 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   };
   const rejectExtension = async (planId, extensionRequestId) => {
     setVoting(true);
-    const response = await axios.put(
-      API.REJECT_VOTE(planId),
-      { extensionRequestId },
-      getAuthHeaderConfig(),
-    );
+    const response = await axios.put(API.REJECT_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
     if (response.status === 200) {
       agreement.plan.extensionStatus = response.data.extensionStatus;
-      agreement.plan.planExtensionRequests = [
-        { userId: user.id, requestedExtension: false },
-      ];
+      agreement.plan.planExtensionRequests = [{ userId: user.id, requestedExtension: false }];
     }
     setVoting(false);
   };
@@ -129,8 +109,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return (
             <div>
               <div style={{ textAlign: 'center' }}>
-                {agreement.plan?.extensionReceivedVotes}/
-                {agreement.plan?.extensionRequiredVotes}
+                {agreement.plan?.extensionReceivedVotes}/{agreement.plan?.extensionRequiredVotes}
               </div>
               <div>
                 <Button
@@ -158,19 +137,14 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_ACTIVE:
           return <div>Active Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
-          if (
-            agreement.plan?.extensionReceivedVotes ===
-            agreement.plan?.extensionRequiredVotes
-          ) {
+          if (agreement.plan?.extensionReceivedVotes === agreement.plan?.extensionRequiredVotes) {
             return (
               <>
                 <PrimaryButton
                   style={{ margin: '4px' }}
                   loading={loading}
                   onClick={() => {
-                    setFutureDate(
-                      getPlanFutureDate(agreement.plan?.planEndDate),
-                    );
+                    setFutureDate(getPlanFutureDate(agreement.plan?.planEndDate));
                     setDialogOpen(true);
                   }}
                 >
@@ -190,8 +164,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           }
           return (
             <div>
-              {agreement.plan?.extensionReceivedVotes}/
-              {agreement.plan?.extensionRequiredVotes}
+              {agreement.plan?.extensionReceivedVotes}/{agreement.plan?.extensionRequiredVotes}
             </div>
           );
         case PLAN_EXTENSION_STATUS.EXTENDED:
@@ -199,9 +172,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
             <div>
               Extended
               <div>
-                {agreement.plan?.extensionDate
-                  ? moment(agreement.plan?.extensionDate).format('MMM DD YYYY')
-                  : ''}
+                {agreement.plan?.extensionDate ? moment(agreement.plan?.extensionDate).format('MMM DD YYYY') : ''}
               </div>
             </div>
           );
@@ -219,8 +190,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
             doesStaffOwnPlan({ ...agreement.plan, agreement }, user) &&
-            agreement.plan?.extensionReceivedVotes ===
-              agreement.plan?.extensionRequiredVotes
+            agreement.plan?.extensionReceivedVotes === agreement.plan?.extensionRequiredVotes
           ) {
             return (
               <>
@@ -252,8 +222,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
           return (
             <div>
               <div style={{ textAlign: 'center' }}>
-                {agreement.plan?.extensionReceivedVotes}/
-                {agreement.plan?.extensionRequiredVotes}
+                {agreement.plan?.extensionReceivedVotes}/{agreement.plan?.extensionRequiredVotes}
               </div>
               <div>
                 <Button
@@ -287,9 +256,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
             <div>
               Extended
               <div>
-                {agreement.plan?.extensionDate
-                  ? moment(agreement.plan?.extensionDate).format('MMM DD YYYY')
-                  : ''}
+                {agreement.plan?.extensionDate ? moment(agreement.plan?.extensionDate).format('MMM DD YYYY') : ''}
               </div>
             </div>
           );
@@ -303,49 +270,29 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
 
   const renderExtensionForAgreementHolder = (user, agreement) => {
     if (isUserAgreementHolder(user) && !isUserDecisionMaker(user)) {
-      const extensionRequest = agreement.plan?.planExtensionRequests.find(
-        (request) => {
-          return (
-            request.userId === user.id ||
-            user.agentOf.find(({ clientId }) => clientId === request.clientId)
-          );
-        },
-      );
+      const extensionRequest = agreement.plan?.planExtensionRequests.find((request) => {
+        return request.userId === user.id || user.agentOf.find(({ clientId }) => clientId === request.clientId);
+      });
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
-          if (
-            extensionRequest &&
-            extensionRequest.requestedExtension === null
-          ) {
+          if (extensionRequest && extensionRequest.requestedExtension === null) {
             if (voting === true) return <CircularProgress />;
             return (
               <>
                 <Tooltip title="approve">
-                  <IconButton
-                    onClick={() =>
-                      handleApprove(agreement.plan.id, extensionRequest.id)
-                    }
-                  >
+                  <IconButton onClick={() => handleApprove(agreement.plan.id, extensionRequest.id)}>
                     <ThumbUp />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="reject">
-                  <IconButton
-                    onClick={() =>
-                      handleReject(agreement.plan.id, extensionRequest.id)
-                    }
-                  >
+                  <IconButton onClick={() => handleReject(agreement.plan.id, extensionRequest.id)}>
                     <ThumbDown />
                   </IconButton>
                 </Tooltip>
               </>
             );
           } else {
-            if (
-              extensionRequest &&
-              extensionRequest.requestedExtension === true
-            )
-              return <>Requested</>;
+            if (extensionRequest && extensionRequest.requestedExtension === true) return <>Requested</>;
             return <>-</>;
           }
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
@@ -367,9 +314,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
             <div>
               Extended
               <div>
-                {agreement.plan?.extensionDate
-                  ? moment(agreement.plan?.extensionDate).format('MMM DD YYYY')
-                  : ''}
+                {agreement.plan?.extensionDate ? moment(agreement.plan?.extensionDate).format('MMM DD YYYY') : ''}
               </div>
             </div>
           );

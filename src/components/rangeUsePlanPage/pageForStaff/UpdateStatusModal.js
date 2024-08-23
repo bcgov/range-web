@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Form, TextArea } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
-import {
-  isNoteRequired,
-  findStatusWithCode,
-  isStatusChangedRequested,
-} from '../../../utils';
+import { isNoteRequired, findStatusWithCode, isStatusChangedRequested } from '../../../utils';
 import { PrimaryButton } from '../../common';
 
 class UpdateStatusModal extends Component {
@@ -73,9 +69,7 @@ class UpdateStatusModal extends Component {
   render() {
     const { note, loading } = this.state;
     const { header, content, onClose, open, statusCode } = this.props;
-    const lengthOfNote = note
-      ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}`
-      : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`;
+    const lengthOfNote = note ? `${note.length}/${NUMBER_OF_LIMIT_FOR_NOTE}` : `0/${NUMBER_OF_LIMIT_FOR_NOTE}`;
     const requireNote = isNoteRequired(statusCode);
 
     return (
@@ -99,15 +93,9 @@ class UpdateStatusModal extends Component {
                 : ' Note'}
               &nbsp;({NUMBER_OF_LIMIT_FOR_NOTE} characters).
               <Form>
-                <TextArea
-                  placeholder="Add notes here"
-                  onChange={this.onNoteChange}
-                  value={note}
-                />
+                <TextArea placeholder="Add notes here" onChange={this.onNoteChange} value={note} />
               </Form>
-              <div className="rup__update-status-modal__note__text-length">
-                {lengthOfNote}
-              </div>
+              <div className="rup__update-status-modal__note__text-length">{lengthOfNote}</div>
             </div>
           )}
           <div className="rup__update-status-modal__btns">

@@ -1,9 +1,4 @@
-import {
-  REQUEST,
-  SUCCESS,
-  ERROR,
-  SUCCESS_PAGINATED,
-} from '../constants/actionTypes';
+import { REQUEST, SUCCESS, ERROR, SUCCESS_PAGINATED } from '../constants/actionTypes';
 
 const initialState = {
   isFetching: false,

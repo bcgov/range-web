@@ -15,10 +15,7 @@ const ErrorPage = ({ message }) => {
         <span className="error-page__message">{message}</span>
       </div>
       <div>
-        <PrimaryButton
-          onClick={() => window.location.reload(true)}
-          content="Reload"
-        />
+        <PrimaryButton onClick={() => window.location.reload(true)} content="Reload" />
       </div>
     </div>
   );

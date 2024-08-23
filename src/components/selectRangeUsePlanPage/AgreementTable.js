@@ -6,13 +6,7 @@ import AgreementTableRow from './AgreementTableRow';
 import AHWarning from './AHWarning';
 import { useQueryParam, StringParam } from 'use-query-params';
 
-const AgreementTable = ({
-  agreements,
-  loading,
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
+const AgreementTable = ({ agreements, loading, currentPage, totalPages, onPageChange }) => {
   const [activeId, setActiveId] = useQueryParam('selected', StringParam);
 
   const [currentAgreements, setCurrentAgreements] = useState([]);
@@ -41,18 +35,10 @@ const AgreementTable = ({
 
       <div className="agrm__table">
         <div className="agrm__table__header-row">
-          <div className="agrm__table__header-row__cell">
-            {strings.RANGE_NUMBER}
-          </div>
-          <div className="agrm__table__header-row__cell">
-            {strings.RANGE_NAME}
-          </div>
-          <div className="agrm__table__header-row__cell">
-            {strings.AGREEMENT_HOLDER}
-          </div>
-          <div className="agrm__table__header-row__cell">
-            {strings.STAFF_CONTACT}
-          </div>
+          <div className="agrm__table__header-row__cell">{strings.RANGE_NUMBER}</div>
+          <div className="agrm__table__header-row__cell">{strings.RANGE_NAME}</div>
+          <div className="agrm__table__header-row__cell">{strings.AGREEMENT_HOLDER}</div>
+          <div className="agrm__table__header-row__cell">{strings.STAFF_CONTACT}</div>
           <div className="agrm__table__header-row__cell">{strings.STATUS}</div>
           <div className="agrm__table__header-row__cell">
             <Icon name="plus circle" size="large" />
@@ -64,11 +50,7 @@ const AgreementTable = ({
             key={agreement.id}
             agreement={agreement}
             active={agreement.id === activeId}
-            onSelect={() =>
-              agreement.id !== activeId
-                ? setActiveId(agreement.id)
-                : setActiveId(null)
-            }
+            onSelect={() => (agreement.id !== activeId ? setActiveId(agreement.id) : setActiveId(null))}
             noneSelected={!activeId}
           />
         ))}

@@ -10,13 +10,11 @@ export const createVersion = async (planId) => {
 
 export const saveGrazingSchedules = (planId, grazingSchedules, newPastures) => {
   return sequentialAsyncMap(grazingSchedules, async (schedule) => {
-    const grazingScheduleEntries = schedule.grazingScheduleEntries.map(
-      ({ id: entryId, ...entry }) => ({
-        ...entry,
-        ...(!uuid.isUUID(entryId) && { id: entryId }),
-        pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
-      }),
-    );
+    const grazingScheduleEntries = schedule.grazingScheduleEntries.map(({ id: entryId, ...entry }) => ({
+      ...entry,
+      ...(!uuid.isUUID(entryId) && { id: entryId }),
+      pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
+    }));
     const { id, ...grazingSchedule } = schedule;
 
     if (uuid.isUUID(schedule.id)) {
@@ -42,16 +40,10 @@ export const saveGrazingSchedules = (planId, grazingSchedules, newPastures) => {
   });
 };
 
-export const saveInvasivePlantChecklist = async (
-  planId,
-  invasivePlantChecklist,
-) => {
+export const saveInvasivePlantChecklist = async (planId, invasivePlantChecklist) => {
   if (invasivePlantChecklist && invasivePlantChecklist.id) {
     await axios.put(
-      API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(
-        planId,
-        invasivePlantChecklist.id,
-      ),
+      API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(planId, invasivePlantChecklist.id),
       invasivePlantChecklist,
       getAuthHeaderConfig(),
     );
@@ -59,11 +51,7 @@ export const saveInvasivePlantChecklist = async (
     return invasivePlantChecklist;
   } else {
     const { id, ...values } = invasivePlantChecklist;
-    const { data } = await axios.post(
-      API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId),
-      values,
-      getAuthHeaderConfig(),
-    );
+    const { data } = await axios.post(API.CREATE_RUP_INVASIVE_PLANT_CHECKLIST(planId), values, getAuthHeaderConfig());
 
     return {
       ...invasivePlantChecklist,
@@ -76,40 +64,25 @@ export const saveAttachments = async (planId, attachments) => {
   return sequentialAsyncMap(attachments, async (attachment) => {
     if (uuid.isUUID(attachment.id)) {
       const { id, ...values } = attachment;
-      const { data } = await axios.post(
-        API.CREATE_RUP_ATTACHMENT(planId),
-        values,
-        getAuthHeaderConfig(),
-      );
+      const { data } = await axios.post(API.CREATE_RUP_ATTACHMENT(planId), values, getAuthHeaderConfig());
 
       return {
         ...attachment,
         id: data.id,
       };
     } else {
-      await axios.put(
-        API.UPDATE_RUP_ATTACHMENT(planId, attachment.id),
-        attachment,
-        getAuthHeaderConfig(),
-      );
+      await axios.put(API.UPDATE_RUP_ATTACHMENT(planId, attachment.id), attachment, getAuthHeaderConfig());
 
       return attachment;
     }
   });
 };
 
-export const saveManagementConsiderations = (
-  planId,
-  managementConsiderations,
-) => {
+export const saveManagementConsiderations = (planId, managementConsiderations) => {
   return sequentialAsyncMap(managementConsiderations, async (consideration) => {
     if (uuid.isUUID(consideration.id)) {
       const { id, ...values } = consideration;
-      const { data } = await axios.post(
-        API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId),
-        values,
-        getAuthHeaderConfig(),
-      );
+      const { data } = await axios.post(API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId), values, getAuthHeaderConfig());
 
       return {
         ...consideration,
@@ -131,11 +104,7 @@ export const saveAdditionalRequirements = (planId, additionalRequirements) => {
   return sequentialAsyncMap(additionalRequirements, async (requirement) => {
     if (uuid.isUUID(requirement.id)) {
       const { id, ...values } = requirement;
-      const { data } = await axios.post(
-        API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId),
-        values,
-        getAuthHeaderConfig(),
-      );
+      const { data } = await axios.post(API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId), values, getAuthHeaderConfig());
 
       return {
         ...requirement,
@@ -175,11 +144,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
         getAuthHeaderConfig(),
       );
 
-      const newActions = await saveMinisterIssueActions(
-        planId,
-        newIssue.id,
-        issue.ministerIssueActions,
-      );
+      const newActions = await saveMinisterIssueActions(planId, newIssue.id, issue.ministerIssueActions);
 
       return {
         ...issue,
@@ -196,11 +161,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
         getAuthHeaderConfig(),
       );
 
-      const newActions = await saveMinisterIssueActions(
-        planId,
-        issue.id,
-        issue.ministerIssueActions,
-      );
+      const newActions = await saveMinisterIssueActions(planId, issue.id, issue.ministerIssueActions);
 
       return {
         ...issue,
@@ -240,20 +201,12 @@ export const savePastures = async (planId, pastures) => {
   // Sequentially save pastures to keep order
   return sequentialAsyncMap(pastures, async (pasture) => {
     if (Number(pasture.id)) {
-      await axios.put(
-        API.UPDATE_RUP_PASTURE(planId, pasture.id),
-        pasture,
-        getAuthHeaderConfig(),
-      );
+      await axios.put(API.UPDATE_RUP_PASTURE(planId, pasture.id), pasture, getAuthHeaderConfig());
 
       return { ...pasture, oldId: pasture.id };
     } else {
       const { id, ...values } = pasture;
-      const { data } = await axios.post(
-        API.CREATE_RUP_PASTURE(planId),
-        values,
-        getAuthHeaderConfig(),
-      );
+      const { data } = await axios.post(API.CREATE_RUP_PASTURE(planId), values, getAuthHeaderConfig());
 
       return {
         ...pasture,
@@ -264,11 +217,7 @@ export const savePastures = async (planId, pastures) => {
   });
 };
 
-export const savePlantCommunities = async (
-  planId,
-  pastureId,
-  plantCommunities,
-) => {
+export const savePlantCommunities = async (planId, pastureId, plantCommunities) => {
   // Sequentially save plant communities (to keep order)
   return sequentialAsyncMap(
     plantCommunities,
@@ -276,49 +225,21 @@ export const savePlantCommunities = async (
       let { id: communityId, ...values } = plantCommunity;
       if (uuid.isUUID(communityId)) {
         communityId = (
-          await axios.post(
-            API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId),
-            values,
-            getAuthHeaderConfig(),
-          )
+          await axios.post(API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId), values, getAuthHeaderConfig())
         ).data.id;
       } else {
-        await axios.put(
-          API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId),
-          values,
-          getAuthHeaderConfig(),
-        );
+        await axios.put(API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId), values, getAuthHeaderConfig());
       }
 
-      await savePlantCommunityActions(
-        planId,
-        pastureId,
-        communityId,
-        plantCommunity.plantCommunityActions,
-      );
-      await saveIndicatorPlants(
-        planId,
-        pastureId,
-        communityId,
-        plantCommunity.indicatorPlants,
-      );
-      await saveMonitoringAreas(
-        planId,
-        pastureId,
-        communityId,
-        plantCommunity.monitoringAreas,
-      );
+      await savePlantCommunityActions(planId, pastureId, communityId, plantCommunity.plantCommunityActions);
+      await saveIndicatorPlants(planId, pastureId, communityId, plantCommunity.indicatorPlants);
+      await saveMonitoringAreas(planId, pastureId, communityId, plantCommunity.monitoringAreas);
     },
     Promise.resolve(),
   );
 };
 
-const savePlantCommunityActions = (
-  planId,
-  pastureId,
-  communityId,
-  plantCommunityActions,
-) => {
+const savePlantCommunityActions = (planId, pastureId, communityId, plantCommunityActions) => {
   return sequentialAsyncMap(plantCommunityActions, (action) => {
     let { id: actionId, ...values } = action;
     if (uuid.isUUID(actionId)) {
@@ -329,12 +250,7 @@ const savePlantCommunityActions = (
       );
     } else {
       return axios.put(
-        API.UPDATE_RUP_PLANT_COMMUNITY_ACTION(
-          planId,
-          pastureId,
-          communityId,
-          actionId,
-        ),
+        API.UPDATE_RUP_PLANT_COMMUNITY_ACTION(planId, pastureId, communityId, actionId),
         values,
         getAuthHeaderConfig(),
       );
@@ -342,20 +258,11 @@ const savePlantCommunityActions = (
   });
 };
 
-const saveIndicatorPlants = (
-  planId,
-  pastureId,
-  communityId,
-  indicatorPlants,
-) => {
+const saveIndicatorPlants = (planId, pastureId, communityId, indicatorPlants) => {
   return sequentialAsyncMap(indicatorPlants, (plant) => {
     let { id: plantId, ...values } = plant;
     if (uuid.isUUID(plantId)) {
-      return axios.post(
-        API.CREATE_RUP_INDICATOR_PLANT(planId, pastureId, communityId),
-        values,
-        getAuthHeaderConfig(),
-      );
+      return axios.post(API.CREATE_RUP_INDICATOR_PLANT(planId, pastureId, communityId), values, getAuthHeaderConfig());
     } else {
       return axios.put(
         API.UPDATE_RUP_INDICATOR_PLANT(planId, pastureId, communityId, plantId),
@@ -366,20 +273,11 @@ const saveIndicatorPlants = (
   });
 };
 
-const saveMonitoringAreas = (
-  planId,
-  pastureId,
-  communityId,
-  monitoringAreas,
-) => {
+const saveMonitoringAreas = (planId, pastureId, communityId, monitoringAreas) => {
   return sequentialAsyncMap(monitoringAreas, (area) => {
     let { id: areaId, ...values } = area;
     if (uuid.isUUID(areaId)) {
-      return axios.post(
-        API.CREATE_RUP_MONITERING_AREA(planId, pastureId, communityId),
-        values,
-        getAuthHeaderConfig(),
-      );
+      return axios.post(API.CREATE_RUP_MONITERING_AREA(planId, pastureId, communityId), values, getAuthHeaderConfig());
     } else {
       return axios.put(
         API.UPDATE_RUP_MONITORING_AREA(planId, pastureId, communityId, areaId),

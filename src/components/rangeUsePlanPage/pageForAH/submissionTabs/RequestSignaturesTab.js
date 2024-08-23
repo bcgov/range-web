@@ -42,20 +42,15 @@ class RequestSignaturesTab extends Component {
 
   renderAgreementHolder = (client) => {
     const { user, clientAgreements } = this.props;
-    const agencyAgreements = clientAgreements.filter(
-      (a) => a.agentId === user.id,
-    );
-    const isAgent = !!agencyAgreements.find(
-      (ca) => ca.clientId === client.clientNumber,
-    );
+    const agencyAgreements = clientAgreements.filter((a) => a.agentId === user.id);
+    const isAgent = !!agencyAgreements.find((ca) => ca.clientId === client.clientNumber);
 
     return (
       <div key={client.clientNumber} className="rup__multi-tab__ah-list">
         <Icon name="user outline" />
         <span
           className={classnames('rup__multi-tab__ah-list__cname', {
-            'rup__multi-tab__ah-list__cname--bold':
-              isClientCurrentUser(client, user) || isAgent,
+            'rup__multi-tab__ah-list__cname--bold': isClientCurrentUser(client, user) || isAgent,
           })}
         >
           {getClientFullName(client)}
@@ -82,11 +77,7 @@ class RequestSignaturesTab extends Component {
         actions={
           <Fragment>
             <LeftBtn onClick={this.onBackClicked} content="Back" />
-            <RightBtn
-              onClick={this.onSubmitClicked}
-              loading={isSubmitting}
-              content="Request eSignatures and Submit"
-            />
+            <RightBtn onClick={this.onSubmitClicked} loading={isSubmitting} content="Request eSignatures and Submit" />
           </Fragment>
         }
         content={

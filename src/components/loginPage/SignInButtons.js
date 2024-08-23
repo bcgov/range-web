@@ -1,30 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { PrimaryButton } from '../common';
 import { ELEMENT_ID, LOCAL_STORAGE_KEY } from '../../constants/variables';
-import {
-  SSO_LOGIN_ENDPOINT,
-  SSO_BCEID_LOGIN_ENDPOINT,
-} from '../../constants/api';
+import { SSO_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../../constants/api';
 import { saveDataInLocalStorage } from '../../utils';
 import { encode as base64encode } from 'base64-arraybuffer';
 
 class SignInButtons extends Component {
   openNewTab = (link) => window.open(link, '_blank');
   onSigninBtnClick = () => {
-    this.openNewTab(
-      SSO_LOGIN_ENDPOINT.replace(
-        '_CODE_CHALLENGE_VALUE_',
-        this.state.codeVerifierHash,
-      ),
-    );
+    this.openNewTab(SSO_LOGIN_ENDPOINT.replace('_CODE_CHALLENGE_VALUE_', this.state.codeVerifierHash));
   };
   onBceidSigninBtnClick = () => {
-    this.openNewTab(
-      SSO_BCEID_LOGIN_ENDPOINT.replace(
-        '_CODE_CHALLENGE_VALUE_',
-        this.state.codeVerifierHash,
-      ),
-    );
+    this.openNewTab(SSO_BCEID_LOGIN_ENDPOINT.replace('_CODE_CHALLENGE_VALUE_', this.state.codeVerifierHash));
   };
 
   constructor() {
@@ -40,12 +27,9 @@ class SignInButtons extends Component {
     // generate and save new ones, and update the state
     let codeVerifier = '';
 
-    const VALID_CHARS =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+    const VALID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
     for (let i = 0; i < 128; i++) {
-      codeVerifier += VALID_CHARS.charAt(
-        Math.floor(Math.random() * VALID_CHARS.length),
-      );
+      codeVerifier += VALID_CHARS.charAt(Math.floor(Math.random() * VALID_CHARS.length));
     }
 
     const encoder = new TextEncoder();
@@ -53,10 +37,7 @@ class SignInButtons extends Component {
     crypto.subtle.digest('SHA-256', data).then((hash) => {
       // hash complete
 
-      const encodedHash = base64encode(hash)
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=/g, '');
+      const encodedHash = base64encode(hash).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 
       this.setState({
         ...this.state,

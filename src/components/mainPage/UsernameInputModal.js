@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Segment, Form } from 'semantic-ui-react';
 import { Loading, ErrorMessage, PrimaryButton } from '../common';
-import {
-  getUser,
-  getIsUpdatingUser,
-  getUpdatingUserErrorOccured,
-} from '../../reducers/rootReducer';
+import { getUser, getIsUpdatingUser, getUpdatingUserErrorOccured } from '../../reducers/rootReducer';
 import { allowAlphabetOnly, doesUserHaveFullName } from '../../utils';
 import { updateUser } from '../../actionCreators';
 import { UPDATE_USER_ERROR, APP_NAME } from '../../constants/strings';
@@ -57,11 +53,7 @@ class UsernameInputModal extends Component {
     const missingLastAndFirstName = !doesUserHaveFullName(user);
 
     return (
-      <Modal
-        dimmer="blurring"
-        style={{ width: '400px' }}
-        open={missingLastAndFirstName}
-      >
+      <Modal dimmer="blurring" style={{ width: '400px' }} open={missingLastAndFirstName}>
         <Segment>
           <Loading active={false} />
           <div className="un-input-modal">
@@ -69,14 +61,9 @@ class UsernameInputModal extends Component {
             <span className="un-input-modal__wave" role="img" aria-label="Wave">
               👋
             </span>
-            <div className="un-input-modal__msg">
-              Hey Stranger, What&#39;s your name?
-            </div>
+            <div className="un-input-modal__msg">Hey Stranger, What&#39;s your name?</div>
             <Form error={UpdatingUserErrorOccured}>
-              <ErrorMessage
-                message={UPDATE_USER_ERROR}
-                style={{ marginBottom: '15px' }}
-              />
+              <ErrorMessage message={UPDATE_USER_ERROR} style={{ marginBottom: '15px' }} />
               <Form.Input
                 name="givenName"
                 label="First Name"

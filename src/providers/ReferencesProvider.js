@@ -16,11 +16,7 @@ const ReferencesProvider = ({ references, fetchReferences, children }) => {
     fetchReferences();
   }, [user]);
 
-  return (
-    <ReferencesContext.Provider value={references}>
-      {children}
-    </ReferencesContext.Provider>
-  );
+  return <ReferencesContext.Provider value={references}>{children}</ReferencesContext.Provider>;
 };
 
 ReferencesProvider.propTypes = {

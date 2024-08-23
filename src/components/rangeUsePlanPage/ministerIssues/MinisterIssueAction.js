@@ -48,10 +48,7 @@ const MinisterIssueAction = ({
         dayName={`${namespace}.noGrazeStartDay`}
         component={DayMonthPicker}
         label="No Grazing Period Start"
-        displayValue={moment(
-          `${noGrazeStartMonth} ${noGrazeStartDay}`,
-          'MM DD',
-        ).format('MMMM Do')}
+        displayValue={moment(`${noGrazeStartMonth} ${noGrazeStartDay}`, 'MM DD').format('MMMM Do')}
       />
 
       <PermissionsField
@@ -60,10 +57,7 @@ const MinisterIssueAction = ({
         dayName={`${namespace}.noGrazeEndDay`}
         component={DayMonthPicker}
         label="No Grazing Period End"
-        displayValue={moment(
-          `${noGrazeEndMonth} ${noGrazeEndDay}`,
-          'MM DD',
-        ).format('MMMM Do')}
+        displayValue={moment(`${noGrazeEndMonth} ${noGrazeEndDay}`, 'MM DD').format('MMMM Do')}
       />
     </Form.Group>
   );
@@ -92,12 +86,7 @@ const MinisterIssueAction = ({
         </Form.Group>
 
         <IfEditable permission={MINISTER_ISSUES.ACTIONS.NAME}>
-          <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={menuOptions}
-            icon={null}
-            pointing="right"
-          />
+          <Dropdown trigger={<Icon name="ellipsis vertical" />} options={menuOptions} icon={null} pointing="right" />
         </IfEditable>
       </div>
       <div className="rup__missue__action__detail">

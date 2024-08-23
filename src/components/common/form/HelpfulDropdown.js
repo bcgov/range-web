@@ -9,15 +9,8 @@ const HelpfulDropdown = ({ help, ...props }) => {
         {...props}
         label={
           <>
-            {props.label && (
-              <label style={{ display: 'inline', marginRight: 5 }}>
-                {props.label}
-              </label>
-            )}
-            <Popup
-              content={help}
-              trigger={<Icon name="question circle outline" color="blue" />}
-            />
+            {props.label && <label style={{ display: 'inline', marginRight: 5 }}>{props.label}</label>}
+            <Popup content={help} trigger={<Icon name="question circle outline" color="blue" />} />
           </>
         }
       />

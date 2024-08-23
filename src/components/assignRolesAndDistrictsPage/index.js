@@ -1,26 +1,11 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
-import {
-  CircularProgress,
-  TextField,
-  Grid,
-  Typography,
-  makeStyles,
-  Button,
-  Fade,
-} from '@material-ui/core';
+import { CircularProgress, TextField, Grid, Typography, makeStyles, Button, Fade } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
 import * as strings from '../../constants/strings';
 import * as API from '../../constants/api';
-import {
-  axios,
-  formatDateToNow,
-  getAuthHeaderConfig,
-  getUserFullName,
-  getUserRole,
-  getUserRoleObj,
-} from '../../utils';
+import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName, getUserRole, getUserRoleObj } from '../../utils';
 import { Banner } from '../common';
 import { assignRole, assignDistricts } from '../../api';
 
@@ -44,21 +29,18 @@ const AssignRolesAndDistrictsPage = () => {
     data: usersFromData,
     error,
     isValidating,
-  } = useSWR(
-    `${API.GET_USERS}/?orderCId=desc`,
-    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => {
+  } = useSWR(`${API.GET_USERS}/?orderCId=desc`, (key) =>
+    axios.get(key, getAuthHeaderConfig()).then((res) => {
       setUsers(res.data);
-      return res.data
+      return res.data;
     }),
   );
-  const { data: roles } = useSWR(
-    `${API.GET_ROLES}`, (key) =>
+  const { data: roles } = useSWR(`${API.GET_ROLES}`, (key) =>
     axios.get(key, getAuthHeaderConfig()).then((res) => {
       return res.data;
     }),
   );
-  const { data: districtsFromData } = useSWR(
-    `${API.GET_DISTRICTS}`, (key) =>
+  const { data: districtsFromData } = useSWR(`${API.GET_DISTRICTS}`, (key) =>
     axios.get(key, getAuthHeaderConfig()).then((res) => {
       setDistricts(res.data);
       return res.data;
@@ -71,7 +53,7 @@ const AssignRolesAndDistrictsPage = () => {
     setAssigningSuccess(null);
     try {
       if (role.id === -1) {
-        setAssigningError("No role has been selected");
+        setAssigningError('No role has been selected');
         return;
       }
       await assignRole(user.id, role.id);
@@ -79,7 +61,7 @@ const AssignRolesAndDistrictsPage = () => {
       setAssigningSuccess('Role and Districts assigned to account successfully');
       axios.get(`${API.GET_USERS}/?orderCId=desc`, getAuthHeaderConfig()).then((res) => {
         setUsers([...res.data]);
-        return res.data
+        return res.data;
       });
       axios.get(`${API.GET_DISTRICTS}`, getAuthHeaderConfig()).then((res) => {
         setDistricts([...res.data]);
@@ -90,7 +72,7 @@ const AssignRolesAndDistrictsPage = () => {
     } finally {
       setAssigning(false);
     }
-  }
+  };
 
   const pullRoleAndDistrict = (user) => {
     // Role
@@ -99,9 +81,9 @@ const AssignRolesAndDistrictsPage = () => {
     // District
     axios.get(`${API.GET_DISTRICTS}/${user.id}`, getAuthHeaderConfig()).then((res) => {
       setSelectedDistricts([...res.data]);
-      return res.data
-    })
-  }
+      return res.data;
+    });
+  };
 
   const [users, setUsers] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -112,23 +94,15 @@ const AssignRolesAndDistrictsPage = () => {
   const [assigningError, setAssigningError] = useState(null);
   const [assigningSuccess, setAssigningSuccess] = useState(null);
 
-
   return (
     <section className="manage-client">
-      <Banner
-        header={strings.ASSIGN_ROLES_AND_DISTRICTS}
-        content={strings.ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT}
-      />
+      <Banner header={strings.ASSIGN_ROLES_AND_DISTRICTS} content={strings.ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT} />
       <div className="manage-client__content">
         <div className="manage-client__steps">
-
-          <h3>
-            Select the user who you&apos;d like to edit:
-          </h3>
+          <h3>Select the user who you&apos;d like to edit:</h3>
           {error && (
             <Typography color="error">
-            index.js Error occurred fetching user:{' '}
-            {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+              index.js Error occurred fetching user: {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
           {isValidating && !usersFromData && <CircularProgress />}
@@ -146,23 +120,15 @@ const AssignRolesAndDistrictsPage = () => {
                 getOptionLabel={(option) => getUserFullName(option)}
                 getOptionSelected={(option) => option.id === user.id}
                 style={{ width: 400 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select user"
-                    variant="outlined"
-                  />
-                )}
+                renderInput={(params) => <TextField {...params} label="Select user" variant="outlined" />}
                 renderOption={(option) => (
                   <Grid container alignItems="center">
                     <Grid item>
                       <PersonIcon className={classes.icon} />
                     </Grid>
                     <Grid item xs>
-                    {option.id} - {getUserFullName(option)}
-                      <Typography color="textSecondary">
-                        {getUserRole(option)}
-                      </Typography>
+                      {option.id} - {getUserFullName(option)}
+                      <Typography color="textSecondary">{getUserRole(option)}</Typography>
                       <Typography variant="body2" color="textSecondary">
                         {formatDateToNow(option.lastLoginAt)}
                       </Typography>
@@ -178,77 +144,60 @@ const AssignRolesAndDistrictsPage = () => {
 
           <br></br>
 
-          {user && selectedDistricts && <>
-            {/* Roles */}
-            <Autocomplete
-              id="user-autocomplete-select"
-              options={
-                [
-                  ...roles, 
-                  {id: -1, description: 'No role in database yet'}
-                ]
-              }
-              value={role}
-              openOnFocus
-              onChange={(e, role) => {
-                setRole(role);
-              }}
-              getOptionLabel={(option) => option.description}
-              style={{ width: 400 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Role"
-                  variant="outlined"
-                />
-              )}
-              renderOption={(option) => (
-                <Grid container alignItems="center">
-                  <Grid item xs>
-                    <Typography>{option.description}</Typography>
+          {user && selectedDistricts && (
+            <>
+              {/* Roles */}
+              <Autocomplete
+                id="user-autocomplete-select"
+                options={[...roles, { id: -1, description: 'No role in database yet' }]}
+                value={role}
+                openOnFocus
+                onChange={(e, role) => {
+                  setRole(role);
+                }}
+                getOptionLabel={(option) => option.description}
+                style={{ width: 400 }}
+                renderInput={(params) => <TextField {...params} label="Role" variant="outlined" />}
+                renderOption={(option) => (
+                  <Grid container alignItems="center">
+                    <Grid item xs>
+                      <Typography>{option.description}</Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-              )}
-            />
+                )}
+              />
 
-            <br></br>
+              <br></br>
 
-            {/* Districts */}
-            <Autocomplete
-              id="user-autocomplete-select"
-              multiple
-              options={districts.length > 0 ? districts : districtsFromData}
-              value={selectedDistricts}
-              openOnFocus
-              onChange={(e, districts) => {
-                setSelectedDistricts(districts);
-              }}
-              getOptionLabel={(option) => `${option.code}`}
-              style={{ width: 400 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Select Districts"
-                  variant="outlined"
-                />
-              )}
-              renderOption={(option) => (
-                <Grid container alignItems="center">
-                  <Grid item xs>
-                  <Typography variant="body2" color="textPrimary">
-                      {option.code}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      ID: {option.id}
-                    </Typography>
-                    <Typography>
-                      {option.description}
-                    </Typography>
+              {/* Districts */}
+              <Autocomplete
+                id="user-autocomplete-select"
+                multiple
+                options={districts.length > 0 ? districts : districtsFromData}
+                value={selectedDistricts}
+                openOnFocus
+                onChange={(e, districts) => {
+                  setSelectedDistricts(districts);
+                }}
+                getOptionLabel={(option) => `${option.code}`}
+                style={{ width: 400 }}
+                renderInput={(params) => <TextField {...params} label="Select Districts" variant="outlined" />}
+                renderOption={(option) => (
+                  <Grid container alignItems="center">
+                    <Grid item xs>
+                      <Typography variant="body2" color="textPrimary">
+                        {option.code}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        ID: {option.id}
+                      </Typography>
+                      <Typography>{option.description}</Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-              )}
-            />
-          </>}
+                )}
+              />
+            </>
+          )}
 
           {role && selectedDistricts && user && (
             <>
@@ -261,10 +210,7 @@ const AssignRolesAndDistrictsPage = () => {
                   user === null ||
                   selectedDistricts === null ||
                   role === null ||
-                  (
-                    role?.id === 4 &&
-                    selectedDistricts?.length > 0
-                  )
+                  (role?.id === 4 && selectedDistricts?.length > 0)
                 }
                 variant="contained"
                 color="primary"
@@ -278,29 +224,19 @@ const AssignRolesAndDistrictsPage = () => {
                     }}
                     unmountOnExit
                   >
-                    <CircularProgress
-                      className={classes.buttonProgress}
-                      size={24}
-                    />
+                    <CircularProgress className={classes.buttonProgress} size={24} />
                   </Fade>
                 )}
               </Button>
             </>
-            )
-          }
-
-          {assigningError && <Typography color="error">{assigningError}</Typography>}
-          {
-            (role?.id === 4 && selectedDistricts?.length > 0)&&
-            <Typography color="error">Range Agreement Holders cannot be assigned districts.</Typography>
-          }
-
-          {assigningSuccess && (
-            <Typography className={classes.successMessage}>
-              {assigningSuccess}
-            </Typography>
           )}
 
+          {assigningError && <Typography color="error">{assigningError}</Typography>}
+          {role?.id === 4 && selectedDistricts?.length > 0 && (
+            <Typography color="error">Range Agreement Holders cannot be assigned districts.</Typography>
+          )}
+
+          {assigningSuccess && <Typography className={classes.successMessage}>{assigningSuccess}</Typography>}
         </div>
       </div>
     </section>

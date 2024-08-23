@@ -6,11 +6,7 @@ import { connect } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
 import { Loading, ErrorPage, PrimaryButton } from '../common';
-import {
-  getPlanPDF,
-  getIsFetchingPlanPDF,
-  getPlanPDFErrorOccured,
-} from '../../reducers/rootReducer';
+import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFErrorOccured } from '../../reducers/rootReducer';
 
 class PDFView extends Component {
   static propTypes = {
@@ -73,37 +69,23 @@ class PDFView extends Component {
 
     return (
       <section className="rup-pdf">
-        <a
-          className="rup-pdf__link"
-          href="download"
-          ref={this.setDownlaodPDFRef}
-        >
+        <a className="rup-pdf__link" href="download" ref={this.setDownlaodPDFRef}>
           link
         </a>
 
         {isFetchingPDF && <Loading />}
 
-        {errorFetchingPDF && (
-          <ErrorPage message="Error occurred while fetching pdf." />
-        )}
+        {errorFetchingPDF && <ErrorPage message="Error occurred while fetching pdf." />}
 
         {planPDFBlob && (
           <div>
-            If your download does not begin, please click the button to try
-            again.
-            <PrimaryButton
-              inverted
-              style={{ marginLeft: '10px' }}
-              onClick={this.onDownloadClicked}
-            >
+            If your download does not begin, please click the button to try again.
+            <PrimaryButton inverted style={{ marginLeft: '10px' }} onClick={this.onDownloadClicked}>
               <Icon name="print" />
               Download PDF
             </PrimaryButton>
             <div className="rup-pdf__close-btn__container">
-              <button
-                className="rup-pdf__close-btn"
-                onClick={() => window.close()}
-              >
+              <button className="rup-pdf__close-btn" onClick={() => window.close()}>
                 Close window
               </button>
             </div>

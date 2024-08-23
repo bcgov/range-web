@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
-import SignInBox from '../loginPage/SignInBox';
 import { signOut } from '../../actionCreators';
 import { getReAuthRequired } from '../../reducers/rootReducer';
 import { signOutFromSSOAndSiteMinder } from '../../utils';
+import SignInBox from '../loginPage/SignInBox';
 
 class SignInModal extends Component {
   static propTypes = {
@@ -23,21 +23,14 @@ class SignInModal extends Component {
 
     return (
       <Modal dimmer="blurring" style={{ width: '400px' }} open={reAuthRequired}>
-        <div className="signin-modal__msg">
-          Your session has expired, please sign in again.
-        </div>
+        <div className="signin-modal__msg">Your session has expired, please sign in again.</div>
 
         <SignInBox />
 
         <div className="signin-modal__login-msg">
           <div>
             Return to &nbsp;
-            <span
-              className="signin-modal__login-btn"
-              role="button"
-              tabIndex="0"
-              onClick={this.onLoginPageBtnClicked}
-            >
+            <span className="signin-modal__login-btn" role="button" tabIndex="0" onClick={this.onLoginPageBtnClicked}>
               Landing Page
             </span>
             <div className="signin-modal__warning-msg">

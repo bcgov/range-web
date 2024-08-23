@@ -1,10 +1,7 @@
 import React from 'react';
 import { useNetworkStatus } from '../../utils/hooks/network';
 import { Button, Confirm, Icon } from 'semantic-ui-react';
-import {
-  AMEND_PLAN_CONFIRM_HEADER,
-  AMEND_PLAN_CONFIRM_CONTENT,
-} from '../../constants/strings';
+import { AMEND_PLAN_CONFIRM_HEADER, AMEND_PLAN_CONFIRM_CONTENT } from '../../constants/strings';
 import { amendFromLegal } from '../../api';
 import { useCurrentPlan } from '../../providers/PlanProvider';
 import { useReferences } from '../../providers/ReferencesProvider';
@@ -59,9 +56,7 @@ const AmendFromLegalButton = () => {
         onCancel={closeModal}
         header={AMEND_PLAN_CONFIRM_HEADER}
         content={AMEND_PLAN_CONFIRM_CONTENT}
-        confirmButton={
-          <Button loading={isCreating}>Amend from Legal Version</Button>
-        }
+        confirmButton={<Button loading={isCreating}>Amend from Legal Version</Button>}
       />
     </>
   );

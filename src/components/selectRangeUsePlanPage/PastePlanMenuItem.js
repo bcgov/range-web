@@ -1,10 +1,6 @@
 import React from 'react';
 import { MenuItem } from '@material-ui/core';
-import {
-  axios,
-  getAuthHeaderConfig,
-  getDataFromLocalStorage,
-} from '../../utils';
+import { axios, getAuthHeaderConfig, getDataFromLocalStorage } from '../../utils';
 import useConfirm from '../../providers/ConfrimationModalProvider';
 import * as API from '../../constants/api';
 import { useToast } from '../../providers/ToastProvider';

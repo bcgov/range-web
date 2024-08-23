@@ -17,10 +17,7 @@ class EditableMinisterIssues extends Component {
 
   onMinisterIssueClicked = (ministerIssueIndex) => () => {
     this.setState((prevState) => {
-      const newIndex =
-        prevState.activeMinisterIssueIndex === ministerIssueIndex
-          ? -1
-          : ministerIssueIndex;
+      const newIndex = prevState.activeMinisterIssueIndex === ministerIssueIndex ? -1 : ministerIssueIndex;
       return {
         activeMinisterIssueIndex: newIndex,
       };
@@ -58,14 +55,11 @@ class EditableMinisterIssues extends Component {
   render() {
     const { plan, ministerIssuesMap } = this.props;
     const ministerIssueIds = plan && plan.ministerIssues;
-    const ministerIssues =
-      ministerIssueIds && ministerIssueIds.map((id) => ministerIssuesMap[id]);
+    const ministerIssues = ministerIssueIds && ministerIssueIds.map((id) => ministerIssuesMap[id]);
 
     return (
       <div className="rup__missues">
-        <div className="rup__content-title">
-          {"Minister's Issues and Actions"}
-        </div>
+        <div className="rup__content-title">{"Minister's Issues and Actions"}</div>
         <div className="rup__divider" />
         {this.renderMinisterIssues(ministerIssues)}
       </div>

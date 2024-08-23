@@ -28,22 +28,13 @@ class LastTab extends Component {
 
     return (
       <div className="rup__multi-tab__last">
-        <Icon
-          style={{ marginBottom: '10px' }}
-          name="check circle outline"
-          size="huge"
-          color="green"
-        />
+        <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" color="green" />
 
         <div className="rup__multi-tab__last__title">{title}</div>
 
         <AHConfirmationList user={user} clients={clients} plan={plan} />
 
-        <PrimaryButton
-          onClick={onClose}
-          content="Ok"
-          style={{ marginTop: '15px' }}
-        />
+        <PrimaryButton onClick={onClose} content="Ok" style={{ marginTop: '15px' }} />
       </div>
     );
   }

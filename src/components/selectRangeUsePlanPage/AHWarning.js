@@ -9,13 +9,7 @@ const AHWarning = () => {
   const hasClients = user && user.clients?.length !== 0;
 
   if (isUserAgreementHolder(user) && !hasClients) {
-    return (
-      <ErrorMessage
-        warning
-        style={{ margin: '10px 0' }}
-        message={NO_CLIENT_NUMBER_ASSIGNED}
-      />
-    );
+    return <ErrorMessage warning style={{ margin: '10px 0' }} message={NO_CLIENT_NUMBER_ASSIGNED} />;
   }
 
   return null;

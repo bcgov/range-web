@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import * as _ from 'lodash/fp';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
-import { roundTo1Decimal } from '../../../utils';
+import { roundTo1Decimal , isUserAgrologist } from '../../../utils';
 import * as strings from '../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common';
 import { IMAGE_SRC } from '../../../constants/variables';
@@ -18,7 +18,6 @@ import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 import { useUser } from '../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
 import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
-import { isUserAgrologist } from '../../../utils';
 
 const GrazingScheduleBox = ({
   schedule,
@@ -59,10 +58,7 @@ const GrazingScheduleBox = ({
     }
     if (isCrownTotalAUMsError) {
       return {
-        message:
-          strings.TOTAL_AUMS_EXCEEDS +
-          ' Over by: ' +
-          (crownTotalAUMs - authorizedAUMs).toFixed(1).toString(),
+        message: strings.TOTAL_AUMS_EXCEEDS + ' Over by: ' + (crownTotalAUMs - authorizedAUMs).toFixed(1).toString(),
         type: 'error',
       };
     }
@@ -70,10 +66,8 @@ const GrazingScheduleBox = ({
 
   const scheduleError = getScheduleError();
 
-  const setSortBy = (column) =>
-    formik.setFieldValue(`${namespace}.sortBy`, column);
-  const setSortOrder = (order) =>
-    formik.setFieldValue(`${namespace}.sortOrder`, order);
+  const setSortBy = (column) => formik.setFieldValue(`${namespace}.sortBy`, column);
+  const setSortOrder = (order) => formik.setFieldValue(`${namespace}.sortOrder`, order);
 
   const handleHeaderClick = (column) => {
     console.log('sorting by ' + column);
@@ -130,11 +124,7 @@ const GrazingScheduleBox = ({
             header={
               <div className="rup__grazing-schedule__title">
                 <div style={{ width: '30px' }}>
-                  {isError ? (
-                    <Icon name="warning sign" />
-                  ) : (
-                    <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
-                  )}
+                  {isError ? <Icon name="warning sign" /> : <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />}
                 </div>
                 {year} Grazing Schedule
               </div>
@@ -162,10 +152,7 @@ const GrazingScheduleBox = ({
                       />
                     </IfEditable>
                     <IfEditable permission={SCHEDULE.DELETE}>
-                      <Dropdown.Item
-                        onClick={() => onScheduleDelete()}
-                        data-testid={`delete-button-${schedule.year}`}
-                      >
+                      <Dropdown.Item onClick={() => onScheduleDelete()} data-testid={`delete-button-${schedule.year}`}>
                         Delete
                       </Dropdown.Item>
                     </IfEditable>
@@ -177,113 +164,66 @@ const GrazingScheduleBox = ({
               <>
                 {(isError || scheduleError) && (
                   <ErrorMessage
-                    message={
-                      (scheduleError && scheduleError.message) ||
-                      strings.INVALID_GRAZING_SCHEDULE_ENTRY
-                    }
+                    message={(scheduleError && scheduleError.message) || strings.INVALID_GRAZING_SCHEDULE_ENTRY}
                     warning={scheduleError && scheduleError.type === 'warning'}
                     visible
                     attached
                   />
                 )}
                 <div style={{ overflowX: 'scroll' }}>
-                  <Table
-                    sortable
-                    unstackable
-                    columns={10}
-                    attached={isError || scheduleError ? 'bottom' : false}
-                  >
+                  <Table sortable unstackable columns={10} attached={isError || scheduleError ? 'bottom' : false}>
                     <Table.Header>
                       <Table.Row>
-                        <SortableTableHeaderCell
-                          column="pasture.name"
-                          {...headerCellProps}
-                        >
-                          <div className="rup__grazing-schedule__pasture">
-                            {strings.PASTURE}
-                          </div>
+                        <SortableTableHeaderCell column="pasture.name" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__pasture">{strings.PASTURE}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          column="livestockType.name"
-                          {...headerCellProps}
-                        >
-                          <div className="rup__grazing-schedule__l-type">
-                            {strings.LIVESTOCK_TYPE}
-                          </div>
+                        <SortableTableHeaderCell column="livestockType.name" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__l-type">{strings.LIVESTOCK_TYPE}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          column="livestockCount"
-                          {...headerCellProps}
-                        >
+                        <SortableTableHeaderCell column="livestockCount" {...headerCellProps}>
                           {strings.NUM_OF_ANIMALS}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          column="dateIn"
-                          {...headerCellProps}
-                        >
-                          <div className="rup__grazing-schedule__dates">
-                            {strings.DATE_IN}
-                          </div>
+                        <SortableTableHeaderCell column="dateIn" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__dates">{strings.DATE_IN}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          column="dateOut"
-                          {...headerCellProps}
-                        >
-                          <div className="rup__grazing-schedule__dates">
-                            {strings.DATE_OUT}
-                          </div>
+                        <SortableTableHeaderCell column="dateOut" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__dates">{strings.DATE_OUT}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          {...headerCellProps}
-                          column="days"
-                        >
+                        <SortableTableHeaderCell {...headerCellProps} column="days">
                           {strings.DAYS}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          column="graceDays"
-                          {...headerCellProps}
-                        >
-                          <div className="rup__grazing-schedule__grace-days">
-                            {strings.GRACE_DAYS}
-                          </div>
+                        <SortableTableHeaderCell column="graceDays" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__grace-days">{strings.GRACE_DAYS}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          {...headerCellProps}
-                          column="pldAUMs"
-                        >
+                        <SortableTableHeaderCell {...headerCellProps} column="pldAUMs">
                           {strings.PLD}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell
-                          {...headerCellProps}
-                          column="crownAUMs"
-                        >
+                        <SortableTableHeaderCell {...headerCellProps} column="crownAUMs">
                           {strings.CROWN_AUMS}
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell />
                       </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                      {schedule.grazingScheduleEntries.map(
-                        (entry, entryIndex) => (
-                          <GrazingScheduleEntryRow
-                            key={entry.id || entry.key}
-                            schedule={schedule}
-                            entry={entry}
-                            entryIndex={entryIndex}
-                            scheduleIndex={index}
-                            namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
-                            onDelete={() => setToRemove(entryIndex)}
-                            onCopy={() => {
-                              setSortOrder(null);
-                              setSortBy(null);
-                              push(resetGrazingScheduleEntryId(entry));
-                            }}
-                            onChange={() => {
-                              setSortBy(null);
-                            }}
-                          />
-                        ),
-                      )}
+                      {schedule.grazingScheduleEntries.map((entry, entryIndex) => (
+                        <GrazingScheduleEntryRow
+                          key={entry.id || entry.key}
+                          schedule={schedule}
+                          entry={entry}
+                          entryIndex={entryIndex}
+                          scheduleIndex={index}
+                          namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
+                          onDelete={() => setToRemove(entryIndex)}
+                          onCopy={() => {
+                            setSortOrder(null);
+                            setSortBy(null);
+                            push(resetGrazingScheduleEntryId(entry));
+                          }}
+                          onChange={() => {
+                            setSortBy(null);
+                          }}
+                        />
+                      ))}
                     </Table.Body>
                   </Table>
                 </div>
@@ -307,18 +247,9 @@ const GrazingScheduleBox = ({
 
                       // Touch fields to ensure error status is shown for new entries
                       const lastIndex = schedule.grazingScheduleEntries.length;
-                      formik.setFieldTouched(
-                        `${namespace}.grazingScheduleEntries.${lastIndex}.livestockCount`,
-                        true,
-                      );
-                      formik.setFieldTouched(
-                        `${namespace}.grazingScheduleEntries.${lastIndex}.livestockTypeId`,
-                        true,
-                      );
-                      formik.setFieldTouched(
-                        `${namespace}.grazingScheduleEntries.${lastIndex}.pastureId`,
-                        true,
-                      );
+                      formik.setFieldTouched(`${namespace}.grazingScheduleEntries.${lastIndex}.livestockCount`, true);
+                      formik.setFieldTouched(`${namespace}.grazingScheduleEntries.${lastIndex}.livestockTypeId`, true);
+                      formik.setFieldTouched(`${namespace}.grazingScheduleEntries.${lastIndex}.pastureId`, true);
                     }}
                   >
                     <Icon name="add circle" />
@@ -326,37 +257,23 @@ const GrazingScheduleBox = ({
                   </PrimaryButton>
                 </IfEditable>
                 <div className="rup__grazing-schedule__AUMs">
-                  <div className="rup__grazing-schedule__AUM-label">
-                    Annual Authorized AUMs
-                  </div>
-                  <div className="rup__grazing-schedule__AUM-number">
-                    {authorizedAUMs}
-                  </div>
-                  <div className="rup__grazing-schedule__AUM-label">
-                    Total AUMs
-                  </div>
+                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized AUMs</div>
+                  <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
+                  <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
                   <div
                     className={classnames('rup__grazing-schedule__AUM-number', {
-                      'rup__grazing-schedule__AUM-number--invalid':
-                        isCrownTotalAUMsError,
+                      'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError,
                     })}
                   >
                     {roundedCrownTotalAUMs}
                   </div>
                   <div className="rup__grazing-schedule__AUM-label">% Used</div>
                   <div className="rup__grazing-schedule__AUM-number">
-                    {((roundedCrownTotalAUMs / authorizedAUMs) * 100).toFixed(
-                      2,
-                    )}
+                    {((roundedCrownTotalAUMs / authorizedAUMs) * 100).toFixed(2)}
                   </div>
                 </div>
-                <div className="rup__grazing-schedule__narrative__title">
-                  Schedule Description
-                </div>
-                <div>
-                  Schedule description is optional but if included is legal
-                  content
-                </div>
+                <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
+                <div>Schedule description is optional but if included is legal content</div>
                 <div>
                   <PermissionsField
                     permission={SCHEDULE.DESCRIPTION}
@@ -385,11 +302,7 @@ const GrazingScheduleBox = ({
               const entry = schedule.grazingScheduleEntries[toRemove];
 
               if (!uuid.isUUID(entry.id)) {
-                await deleteGrazingScheduleEntry(
-                  schedule.planId,
-                  schedule.id,
-                  entry.id,
-                );
+                await deleteGrazingScheduleEntry(schedule.planId, schedule.id, entry.id);
               }
               remove(toRemove);
               setToRemove(null);

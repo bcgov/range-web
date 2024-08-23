@@ -26,12 +26,8 @@ const IndicatorPlantsForm = ({
   return (
     <>
       <div className="rup__plant-community__i-plant__header">
-        <div className="rup__plant-community__sh__label label--required">
-          Indicator Plant
-        </div>
-        <div className="rup__plant-community__sh__label label--required">
-          {valueLabel}
-        </div>
+        <div className="rup__plant-community__sh__label label--required">Indicator Plant</div>
+        <div className="rup__plant-community__sh__label label--required">{valueLabel}</div>
       </div>
 
       <FieldArray
@@ -41,9 +37,7 @@ const IndicatorPlantsForm = ({
           <>
             {indicatorPlants.length === 0 && (
               <IfEditable invert permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-                <div className="rup__plant-community__i-plants__not-provided">
-                  {NOT_PROVIDED}
-                </div>
+                <div className="rup__plant-community__i-plants__not-provided">{NOT_PROVIDED}</div>
               </IfEditable>
             )}
 
@@ -94,12 +88,7 @@ const IndicatorPlantsForm = ({
                 const indicatorPlant = indicatorPlants[toRemove];
 
                 if (!uuid.isUUID(indicatorPlant.id)) {
-                  deleteIndicatorPlant(
-                    planId,
-                    pastureId,
-                    communityId,
-                    indicatorPlant.id,
-                  );
+                  deleteIndicatorPlant(planId, pastureId, communityId, indicatorPlant.id);
                 }
 
                 remove(toRemove);

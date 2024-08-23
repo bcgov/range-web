@@ -48,13 +48,7 @@ class SubmitForFinalDecisionTab extends Component {
   };
 
   render() {
-    const {
-      currTabId,
-      tab,
-      isSubmitting,
-      handleAgreeCheckBoxChange,
-      isAgreed,
-    } = this.props;
+    const { currTabId, tab, isSubmitting, handleAgreeCheckBoxChange, isAgreed } = this.props;
     const { id, title, shouldSubmit, text1, text2, checkbox1, rightBtn1 } = tab;
     const isActive = id === currTabId;
 
@@ -81,11 +75,7 @@ class SubmitForFinalDecisionTab extends Component {
           <Form>
             <div style={{ marginBottom: '20px' }}>{text1}</div>
             {text2 && <div style={{ marginBottom: '20px' }}>{text2}</div>}
-            <Form.Checkbox
-              label={checkbox1}
-              checked={isAgreed}
-              onChange={handleAgreeCheckBoxChange}
-            />
+            <Form.Checkbox label={checkbox1} checked={isAgreed} onChange={handleAgreeCheckBoxChange} />
           </Form>
         }
       />

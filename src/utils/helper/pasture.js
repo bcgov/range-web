@@ -16,9 +16,7 @@ export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
     case 2:
       return pastureNames.join(' and ');
     default:
-      return `${pastureNames.slice(0, length - 1).join(', ')}, and ${
-        pastureNames[length - 1]
-      }`;
+      return `${pastureNames.slice(0, length - 1).join(', ')}, and ${pastureNames[length - 1]}`;
   }
 };
 

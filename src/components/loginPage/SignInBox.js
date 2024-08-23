@@ -5,11 +5,7 @@ import { Segment } from 'semantic-ui-react';
 import { Loading } from '../common';
 import { LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { getDataFromLocalStorage } from '../../utils';
-import {
-  fetchUser,
-  signOut,
-  resetTimeoutForReAuth,
-} from '../../actionCreators';
+import { fetchUser, signOut, resetTimeoutForReAuth } from '../../actionCreators';
 import { storeAuthData, reauthenticate, openPiaModal } from '../../actions';
 import {
   getIsFetchingUser,
@@ -20,7 +16,7 @@ import SignInButtons from './SignInButtons';
 import SignInErrorMessage from './SignInErrorMessage';
 import { APP_NAME } from '../../constants/strings';
 
-export class SignInBox extends Component {
+class SignInBox extends Component {
   static propTypes = {
     isFetchingUser: PropTypes.bool.isRequired,
     errorOccuredFetchingUser: PropTypes.bool.isRequired,
@@ -36,7 +32,6 @@ export class SignInBox extends Component {
   static defaultProps = {
     errorFetchingUser: null,
   };
-
   componentDidMount() {
     // Sets up localstorage listener for cross-tab communication
     // since the authentication requires the user to be redirected to a new tab
@@ -65,12 +60,7 @@ export class SignInBox extends Component {
   };
 
   render() {
-    const {
-      isFetchingUser,
-      errorOccuredFetchingUser,
-      errorFetchingUser,
-      signOut,
-    } = this.props;
+    const { isFetchingUser, errorOccuredFetchingUser, errorFetchingUser, signOut } = this.props;
 
     return (
       <Segment basic>
@@ -79,9 +69,7 @@ export class SignInBox extends Component {
         <div className="signin__container">
           <div className="signin__title">Sign In</div>
           <div className="signin__text1">to continue to {APP_NAME}</div>
-          <div className="signin__text2">
-            We use the BCeID for authentication.
-          </div>
+          <div className="signin__text2">We use the BCeID for authentication.</div>
           <a
             className="signin__text3"
             href="https://portal.nrs.gov.bc.ca/web/client/bceid"
@@ -91,12 +79,7 @@ export class SignInBox extends Component {
             Learn more about BCeID.
           </a>
 
-          {errorOccuredFetchingUser && (
-            <SignInErrorMessage
-              errorFetchingUser={errorFetchingUser}
-              signOut={signOut}
-            />
-          )}
+          {errorOccuredFetchingUser && <SignInErrorMessage errorFetchingUser={errorFetchingUser} signOut={signOut} />}
 
           {!errorOccuredFetchingUser && <SignInButtons />}
         </div>

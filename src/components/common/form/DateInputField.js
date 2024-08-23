@@ -23,9 +23,7 @@ const DateInputField = ({ inline, label, ...props }) => (
               const date = moment(value, props.dateFormat).toISOString();
               form.setFieldValue(field.name, date);
             }}
-            value={
-              field.value ? moment(field.value).format(props.dateFormat) : ''
-            }
+            value={field.value ? moment(field.value).format(props.dateFormat) : ''}
             onBlur={() => form.setFieldTouched(field.name)}
             onKeyDown={(e) => {
               e.preventDefault();
@@ -37,10 +35,7 @@ const DateInputField = ({ inline, label, ...props }) => (
             label={<label htmlFor={`${props.name}-datepicker`}>{label}</label>}
           />
           {error && typeof error === 'string' && (
-            <span
-              className="sui-error-message"
-              style={{ position: 'relative', top: '-1em' }}
-            >
+            <span className="sui-error-message" style={{ position: 'relative', top: '-1em' }}>
               {error}
             </span>
           )}

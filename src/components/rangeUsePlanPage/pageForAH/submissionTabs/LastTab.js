@@ -26,12 +26,7 @@ class LastTab extends Component {
 
     return (
       <div className="rup__multi-tab__last">
-        <Icon
-          style={{ marginBottom: '10px' }}
-          name="check circle outline"
-          size="huge"
-          color="green"
-        />
+        <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" color="green" />
         <div className="rup__multi-tab__last__title">{title}</div>
         <div style={{ marginBottom: '20px' }}>{text1}</div>
         {text2 && <div style={{ marginBottom: '20px' }}>{text2}</div>}

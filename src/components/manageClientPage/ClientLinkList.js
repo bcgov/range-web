@@ -79,9 +79,7 @@ const ClientLinkList = ({ userId }) => {
     error,
     isValidating,
     mutate,
-  } = useSWR(`${API.GET_USERS}/${userId}`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
-  );
+  } = useSWR(`${API.GET_USERS}/${userId}`, (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data));
 
   useEffect(() => {
     setCreateError(null);
@@ -103,9 +101,7 @@ const ClientLinkList = ({ userId }) => {
 
       setSelectedClient(null);
     } catch (e) {
-      const errorMessage = `Error linking client: ${
-        e.message ?? e?.data?.error
-      }`;
+      const errorMessage = `Error linking client: ${e.message ?? e?.data?.error}`;
       setCreateError(errorMessage);
     } finally {
       setIsCreating(false);
@@ -125,9 +121,7 @@ const ClientLinkList = ({ userId }) => {
 
       setClientToDelete(null);
     } catch (e) {
-      const errorMessage = `Error removing client link: ${
-        e.message ?? e?.data?.error
-      }`;
+      const errorMessage = `Error removing client link: ${e.message ?? e?.data?.error}`;
       errorToast(errorMessage);
       console.error(errorMessage);
     } finally {
@@ -165,12 +159,7 @@ const ClientLinkList = ({ userId }) => {
       <>
         <Paper className={classes.root}>
           <Toolbar className={classes.toolbar}>
-            <Typography
-              className={classes.toolbarTitle}
-              variant="h6"
-              id="tableTitle"
-              component="div"
-            >
+            <Typography className={classes.toolbarTitle} variant="h6" id="tableTitle" component="div">
               Link clients
             </Typography>
 
@@ -190,16 +179,10 @@ const ClientLinkList = ({ userId }) => {
                   <ListItem>
                     <ListItemText
                       primary={client.name}
-                      secondary={`Client # ${
-                        client.clientNumber
-                      } - ${client.locationCodes.join(', ')}`}
+                      secondary={`Client # ${client.clientNumber} - ${client.locationCodes.join(', ')}`}
                     />
                     <ListItemSecondaryAction>
-                      <IconButton
-                        edge="end"
-                        aria-label="delete"
-                        onClick={() => setClientToDelete(client)}
-                      >
+                      <IconButton edge="end" aria-label="delete" onClick={() => setClientToDelete(client)}>
                         <DeleteIcon disabled={isDeleting} />
                       </IconButton>
                     </ListItemSecondaryAction>
@@ -208,11 +191,7 @@ const ClientLinkList = ({ userId }) => {
                 </div>
               ))}
               {(!user.clients || user.clients?.length === 0) && (
-                <Typography
-                  className={classes.noClients}
-                  color="textSecondary"
-                  component="div"
-                >
+                <Typography className={classes.noClients} color="textSecondary" component="div">
                   No clients linked
                 </Typography>
               )}
@@ -246,17 +225,12 @@ const ClientLinkList = ({ userId }) => {
                     }}
                     unmountOnExit
                   >
-                    <CircularProgress
-                      className={classes.buttonProgress}
-                      size={24}
-                    />
+                    <CircularProgress className={classes.buttonProgress} size={24} />
                   </Fade>
                 )}
               </Button>
             </div>
-            {createError && (
-              <Typography color="error">{createError}</Typography>
-            )}
+            {createError && <Typography color="error">{createError}</Typography>}
           </div>
         </Paper>
 
@@ -269,26 +243,16 @@ const ClientLinkList = ({ userId }) => {
           <DialogTitle id="alert-dialog-title">Delete client link?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete the link between the user{' '}
-              {getUserFullName(user)} ({user.email}) and the client{' '}
-              {clientToDelete?.name} (Client #{clientToDelete?.clientNumber} -{' '}
+              Are you sure you want to delete the link between the user {getUserFullName(user)} ({user.email}) and the
+              client {clientToDelete?.name} (Client #{clientToDelete?.clientNumber} -{' '}
               {clientToDelete?.locationCodes?.join(', ')})?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={handleCloseDialog}
-              color="primary"
-              disabled={isDeleting}
-            >
+            <Button onClick={handleCloseDialog} color="primary" disabled={isDeleting}>
               Cancel
             </Button>
-            <Button
-              onClick={() => handleDeleteClick(clientToDelete)}
-              color="primary"
-              autoFocus
-              disabled={isDeleting}
-            >
+            <Button onClick={() => handleDeleteClick(clientToDelete)} color="primary" autoFocus disabled={isDeleting}>
               Delete
               {isDeleting && (
                 <Fade
@@ -298,10 +262,7 @@ const ClientLinkList = ({ userId }) => {
                   }}
                   unmountOnExit
                 >
-                  <CircularProgress
-                    className={classes.buttonProgress}
-                    size={24}
-                  />
+                  <CircularProgress className={classes.buttonProgress} size={24} />
                 </Fade>
               )}
             </Button>

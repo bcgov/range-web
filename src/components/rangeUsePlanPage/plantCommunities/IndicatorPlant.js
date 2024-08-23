@@ -11,8 +11,7 @@ import HelpfulDropdown from '../../common/form/HelpfulDropdown';
 const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
   const references = useReferences();
 
-  const species =
-    references[REFERENCE_KEY.PLANT_SPECIES].filter((s) => !s.isShrubUse) || [];
+  const species = references[REFERENCE_KEY.PLANT_SPECIES].filter((s) => !s.isShrubUse) || [];
 
   const otherSpecies = species.find((s) => s.name === 'Other');
   const [otherType, setOtherType] = useState({
@@ -72,9 +71,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               },
               onChange: (e, { value }) => {
                 if (typeof value !== 'string') {
-                  const plantValue = species.find((s) => s.id === value)[
-                    valueType
-                  ];
+                  const plantValue = species.find((s) => s.id === value)[valueType];
                   if (plantValue) {
                     formik.setFieldValue(`${namespace}.value`, plantValue);
                   }

@@ -57,15 +57,9 @@ const VersionsDropdownList = ({ versions, open }) => {
               <TableHead>
                 <TableRow>
                   <TableCell style={{ color: 'grey' }}>Reason</TableCell>
-                  <TableCell style={{ color: 'grey' }}>
-                    Originally Approved By
-                  </TableCell>
-                  <TableCell style={{ color: 'grey' }}>
-                    Original Approval Date
-                  </TableCell>
-                  <TableCell style={{ color: 'grey', align: 'left' }}>
-                    Status
-                  </TableCell>
+                  <TableCell style={{ color: 'grey' }}>Originally Approved By</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Original Approval Date</TableCell>
+                  <TableCell style={{ color: 'grey', align: 'left' }}>Status</TableCell>
                   <TableCell style={{ color: 'grey' }}></TableCell>
                   <TableCell style={{ color: 'grey' }}></TableCell>
                 </TableRow>
@@ -80,25 +74,19 @@ const VersionsDropdownList = ({ versions, open }) => {
                         <TableCell>
                           {option.version.snapshot.originalApproval == null
                             ? ''
-                            : option.version.snapshot.originalApproval
-                                .givenName +
+                            : option.version.snapshot.originalApproval.givenName +
                               ' ' +
-                              option.version.snapshot.originalApproval
-                                .familyName}
+                              option.version.snapshot.originalApproval.familyName}
                         </TableCell>
                         <TableCell>
                           {option.version.snapshot.originalApproval == null
                             ? ''
-                            : moment(
-                                option.version.snapshot.originalApproval
-                                  .createdAt,
-                              ).format('MMM DD YYYY h:mm a')}
+                            : moment(option.version.snapshot.originalApproval.createdAt).format('MMM DD YYYY h:mm a')}
                         </TableCell>
                         <TableCell>
                           <Status
                             className={classnames('versions_status_icon', {
-                              greyed:
-                                option.version.isCurrentLegalVersion === false,
+                              greyed: option.version.isCurrentLegalVersion === false,
                             })}
                             status={option.version.snapshot.status}
                             user={user}
@@ -136,26 +124,13 @@ const VersionsDropdownList = ({ versions, open }) => {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell
-                          style={{ paddingBottom: 0, paddingTop: 0 }}
-                          colSpan={6}
-                        >
-                          <Collapse
-                            in={showAttachments}
-                            timeout="auto"
-                            unmountOnExit
-                          >
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                          <Collapse in={showAttachments} timeout="auto" unmountOnExit>
                             <Box margin={0} style={{ marginBottom: '10px' }}>
-                              <Typography
-                                variant="h6"
-                                gutterBottom
-                                component="div"
-                              >
+                              <Typography variant="h6" gutterBottom component="div">
                                 Attachments
                               </Typography>
-                              <AttachmentsList
-                                attachments={option.version.snapshot.files}
-                              />
+                              <AttachmentsList attachments={option.version.snapshot.files} />
                             </Box>
                           </Collapse>
                         </TableCell>

@@ -1,11 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import {
-  handleNullValue,
-  getUserFullName,
-  getAgreementHolders,
-  getClientFullName,
-} from '../../utils';
+import { handleNullValue, getUserFullName, getAgreementHolders, getClientFullName } from '../../utils';
 import { useUser } from '../../providers/UserProvider';
 import { Status } from '../common';
 import { Icon } from 'semantic-ui-react';
@@ -39,15 +34,9 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
     >
       <div className="agrm__table__accordian" onClick={plan && onSelect}>
         <div className="agrm__table__accordian__cell">{agreement.id}</div>
-        <div className="agrm__table__accordian__cell">
-          {handleNullValue(rangeName, false, '-')}
-        </div>
-        <div className="agrm__table__accordian__cell">
-          {handleNullValue(primaryAgreementHolderName)}
-        </div>
-        <div className="agrm__table__accordian__cell">
-          {handleNullValue(staffFullName)}
-        </div>
+        <div className="agrm__table__accordian__cell">{handleNullValue(rangeName, false, '-')}</div>
+        <div className="agrm__table__accordian__cell">{handleNullValue(primaryAgreementHolderName)}</div>
+        <div className="agrm__table__accordian__cell">{handleNullValue(staffFullName)}</div>
         <div className="agrm__table__accordian__cell">
           {agreement.plans.length === 0 && canUserEdit(PLAN.ADD, user) ? (
             <NewPlanButton agreement={agreement} />
@@ -57,13 +46,7 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
         </div>
         <div className="agrm__table__accordian__cell">
           {isActiveAndHasPlans && <Icon name="minus circle" size="large" />}
-          {!isActiveAndHasPlans && (
-            <Icon
-              name="plus circle"
-              size="large"
-              disabled={plan === undefined}
-            />
-          )}
+          {!isActiveAndHasPlans && <Icon name="plus circle" size="large" disabled={plan === undefined} />}
         </div>
       </div>
       <div

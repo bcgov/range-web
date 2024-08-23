@@ -6,11 +6,7 @@ export const EditableContext = React.createContext({});
 export const useEditable = () => useContext(EditableContext);
 
 const EditableProvider = ({ children, editable }) => {
-  return (
-    <EditableContext.Provider value={editable}>
-      {children}
-    </EditableContext.Provider>
-  );
+  return <EditableContext.Provider value={editable}>{children}</EditableContext.Provider>;
 };
 
 EditableProvider.propTypes = {

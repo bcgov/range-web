@@ -47,11 +47,7 @@ export const createDateWithMoment = (day, month, year) => {
  * @param {boolean} isYearIncluded The boolean to specify whether the year is needed
  * @returns {string} a formatted string or 'Not provided'
  */
-export const formatDateFromServer = (
-  isoFormatDate,
-  isYearIncluded = true,
-  notProvided = NOT_PROVIDED,
-) => {
+export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notProvided = NOT_PROVIDED) => {
   if (isoFormatDate) {
     const m = moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE);
 
@@ -117,14 +113,11 @@ export const getAgreementType = (agreementType) => {
  * @returns A string with the first letter capitalized
  */
 
-export const capitalize = (str = '') =>
-  str.charAt(0).toUpperCase() + str.slice(1);
+export const capitalize = (str = '') => str.charAt(0).toUpperCase() + str.slice(1);
 
 export const getClientFullName = (contact) => {
   if (contact && contact.name) {
-    const array = contact.name
-      .split(' ')
-      .map((string) => capitalize(string.toLowerCase()));
+    const array = contact.name.split(' ').map((string) => capitalize(string.toLowerCase()));
 
     return array.join(' ');
   }
@@ -165,9 +158,7 @@ export const getUserFullName = (user) => {
  * @returns A string representing the full name of the promary contact
  */
 export const getPrimaryClientFullName = (contacts) => {
-  const [pcontact] = contacts.filter(
-    (contact) => contact.clientTypeCode === CLIENT_TYPE.PRIMARY,
-  );
+  const [pcontact] = contacts.filter((contact) => contact.clientTypeCode === CLIENT_TYPE.PRIMARY);
 
   return getClientFullName(pcontact);
 };
@@ -179,8 +170,7 @@ const shift = (number, precision) => {
   return +`${numArray[0]}e${numArray[1] ? +numArray[1] + precision : precision}`;
 };
 
-const round = (number, precision) =>
-  shift(Math.round(shift(number, +precision)), -precision);
+const round = (number, precision) => shift(Math.round(shift(number, +precision)), -precision);
 
 /**
  * Round the float to 1 decimal
@@ -222,8 +212,7 @@ export const calcDateDiff = (first, second, isUserFriendly) => {
  * @param {float} pasturePldPercent
  * @returns {float} the pld AUMs
  */
-export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) =>
-  totalAUMs * pasturePldPercent;
+export const calcPldAUMs = (totalAUMs, pasturePldPercent = 0) => totalAUMs * pasturePldPercent;
 
 /**
  * Calculate Crown Animal Unit Month
@@ -261,17 +250,11 @@ export const getPastureNames = (pastureIds = [], pastures = {}) => {
     case 2:
       return pastureNames.join(' and ');
     default:
-      return `${pastureNames.slice(0, length - 1).join(', ')}, and ${
-        pastureNames[length - 1]
-      }`;
+      return `${pastureNames.slice(0, length - 1).join(', ')}, and ${pastureNames[length - 1]}`;
   }
 };
 
-export const formatGrazingSchedules = ({
-  grazingSchedules: gss,
-  pastures,
-  agreement,
-}) => {
+export const formatGrazingSchedules = ({ grazingSchedules: gss, pastures, agreement }) => {
   if (!pastures || !gss || !agreement) return [];
 
   return gss.map((schedule) => {
@@ -279,8 +262,7 @@ export const formatGrazingSchedules = ({
     const grazingScheduleEntries =
       gse &&
       gse.map((entry) => {
-        const { pastureId, livestockType, livestockCount, dateIn, dateOut } =
-          entry;
+        const { pastureId, livestockType, livestockCount, dateIn, dateOut } = entry;
         const days = calcDateDiff(dateOut, dateIn, false);
         const pasture = pastures.find((p) => p.id === pastureId);
         const graceDays = entry.graceDays || (pasture && pasture.graceDays);
@@ -288,12 +270,8 @@ export const formatGrazingSchedules = ({
         const auFactor = livestockType && livestockType.auFactor;
 
         const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-        const pldAUMs = roundToSingleDecimalPlace(
-          calcPldAUMs(totalAUMs, pldPercent),
-        );
-        const crownAUMs = roundToSingleDecimalPlace(
-          calcCrownAUMs(totalAUMs, pldAUMs),
-        );
+        const pldAUMs = roundToSingleDecimalPlace(calcPldAUMs(totalAUMs, pldPercent));
+        const crownAUMs = roundToSingleDecimalPlace(calcCrownAUMs(totalAUMs, pldAUMs));
         return {
           ...entry,
           pasture,
@@ -303,9 +281,7 @@ export const formatGrazingSchedules = ({
           crownAUMs,
         };
       });
-    const crownTotalAUMs = roundToSingleDecimalPlace(
-      calcCrownTotalAUMs(grazingScheduleEntries),
-    );
+    const crownTotalAUMs = roundToSingleDecimalPlace(calcCrownTotalAUMs(grazingScheduleEntries));
     const yearUsage = agreement.usage.find((u) => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     return {
@@ -320,13 +296,8 @@ export const formatGrazingSchedules = ({
 export const formatMinisterIssues = ({ ministerIssues, pastures }) =>
   ministerIssues.map((mi) => {
     const ministerIssue = { ...mi };
-    ministerIssue.pastureNames = getPastureNames(
-      ministerIssue.pastures,
-      pastures,
-    );
-    ministerIssue.actionsExist =
-      ministerIssue.ministerIssueActions &&
-      ministerIssue.ministerIssueActions.length > 0;
+    ministerIssue.pastureNames = getPastureNames(ministerIssue.pastures, pastures);
+    ministerIssue.actionsExist = ministerIssue.ministerIssueActions && ministerIssue.ministerIssueActions.length > 0;
 
     return ministerIssue;
   });
@@ -347,17 +318,7 @@ export const formatGrazingScheduleEntries = (grazingScheduleEntries) => {
   if (!grazingScheduleEntries) return [];
 
   return grazingScheduleEntries.map((entry) => {
-    const {
-      pasture,
-      graceDays,
-      livestockCount,
-      days,
-      pldAUMs,
-      crownAUMs,
-      dateIn,
-      dateOut,
-      livestockType,
-    } = entry;
+    const { pasture, graceDays, livestockCount, days, pldAUMs, crownAUMs, dateIn, dateOut, livestockType } = entry;
     const { name: livestockTypeName } = livestockType || {};
     const { name: pastureName } = pasture || {};
     return {
@@ -378,9 +339,7 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
   if (!purposes || !purposes.length) {
     return NOT_PROVIDED;
   }
-  const purposeNames = purposes.map(
-    (purp) => purp.purposeType && purp.purposeType.name,
-  );
+  const purposeNames = purposes.map((purp) => purp.purposeType && purp.purposeType.name);
   if (otherPurpose) {
     purposeNames.push(otherPurpose);
   }
@@ -393,9 +352,7 @@ export const getMonitoringAreaPurposes = (purposes, otherPurpose) => {
     case 2:
       return purposeNames.join(' and ');
     default:
-      return `${purposeNames.slice(0, length - 1).join(', ')}, and ${
-        purposeNames[length - 1]
-      }`;
+      return `${purposeNames.slice(0, length - 1).join(', ')}, and ${purposeNames[length - 1]}`;
   }
 };
 

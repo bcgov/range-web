@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import Pikaday from 'pikaday';
 import classnames from 'classnames';
 import { Input, Icon, TextArea, Dropdown, Form } from 'semantic-ui-react';
-import {
-  REFERENCE_KEY,
-  CONFIRMATION_MODAL_ID,
-  DATE_FORMAT,
-} from '../../../constants/variables';
+import { REFERENCE_KEY, CONFIRMATION_MODAL_ID, DATE_FORMAT } from '../../../constants/variables';
 import {
   DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT,
   DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER,
@@ -67,15 +63,13 @@ class EditableMinisterIssueActionBox extends Component {
 
     if (this.pikaDayDateIn && key === 'noGrazeEndDate') {
       // needs to save the month and day separately as integers
-      const { month: noGrazeEndMonth, day: noGrazeEndDay } =
-        parseMonthAndDay(date);
+      const { month: noGrazeEndMonth, day: noGrazeEndDay } = parseMonthAndDay(date);
       newAction.noGrazeEndMonth = noGrazeEndMonth;
       newAction.noGrazeEndDay = noGrazeEndDay;
 
       this.pikaDayDateIn.setMaxDate(date);
     } else if (this.pikaDayDateOut && key === 'noGrazeStartDate') {
-      const { month: noGrazeStartMonth, day: noGrazeStartDay } =
-        parseMonthAndDay(date);
+      const { month: noGrazeStartMonth, day: noGrazeStartDay } = parseMonthAndDay(date);
       newAction.noGrazeStartMonth = noGrazeStartMonth;
       newAction.noGrazeStartDay = noGrazeStartDay;
 
@@ -93,8 +87,7 @@ class EditableMinisterIssueActionBox extends Component {
     };
 
     if (name === 'actionTypeId') {
-      const actionTypes =
-        references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+      const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
       const otherActionType = actionTypes.find((t) => t.name === 'Other');
 
       if (otherActionType && value === otherActionType.id) {
@@ -130,8 +123,7 @@ class EditableMinisterIssueActionBox extends Component {
   render() {
     const { action, references } = this.props;
     const { detail, actionTypeId, other } = action;
-    const actionTypes =
-      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
     const actionTypesMap = {};
     const actionTypeOptions = actionTypes.map((at) => {
       actionTypesMap[at.id] = at;
@@ -153,10 +145,8 @@ class EditableMinisterIssueActionBox extends Component {
     ];
     const otherActionType = actionTypes.find((type) => type.name === 'Other');
     const timingActionType = actionTypes.find((type) => type.name === 'Timing');
-    const isActionTypeOther =
-      otherActionType && actionTypeId === otherActionType.id;
-    const isActionTypeTiming =
-      timingActionType && actionTypeId === timingActionType.id;
+    const isActionTypeOther = otherActionType && actionTypeId === otherActionType.id;
+    const isActionTypeTiming = timingActionType && actionTypeId === timingActionType.id;
 
     return (
       <div className="rup__missue__action">
@@ -197,9 +187,7 @@ class EditableMinisterIssueActionBox extends Component {
           </div>
           <div className="rup__missue__action__ellipsis">
             <Dropdown
-              trigger={
-                <Icon name="ellipsis vertical" style={{ margin: '0' }} />
-              }
+              trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
               options={ellipsisOptions}
               icon={null}
               pointing="right"

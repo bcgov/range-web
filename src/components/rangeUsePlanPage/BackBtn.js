@@ -14,9 +14,7 @@ const BackBtn = ({ className = '', agreementId }) => {
   return (
     <div
       className={className}
-      onClick={() =>
-        history.push(`${HOME}/${page === 0 ? '' : page + 1}${search}`)
-      }
+      onClick={() => history.push(`${HOME}/${page === 0 ? '' : page + 1}${search}`)}
       role="button"
       tabIndex="0"
     >

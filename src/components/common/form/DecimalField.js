@@ -36,16 +36,7 @@ const DecimalField = ({
   );
 };
 
-const DecimalInput = ({
-  name,
-  label,
-  inputProps,
-  fieldProps,
-  errorComponent,
-  inputRef,
-  form,
-  field,
-}) => {
+const DecimalInput = ({ name, label, inputProps, fieldProps, errorComponent, inputRef, form, field }) => {
   const { onChange, ...safeInputProps } = inputProps;
   const id = `decimal_field_${name}`;
 
@@ -65,10 +56,7 @@ const DecimalInput = ({
           value={touched ? field.value : parseFloat(field.value).toFixed(1)}
           onBlur={(...args) => {
             if (!isNaN(parseFloat(field.value))) {
-              form.setFieldValue(
-                field.name,
-                parseFloat(field.value).toFixed(1),
-              );
+              form.setFieldValue(field.name, parseFloat(field.value).toFixed(1));
             }
 
             form.handleBlur(...args);

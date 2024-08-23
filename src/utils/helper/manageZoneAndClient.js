@@ -2,23 +2,14 @@ import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
 import { getUserFullName } from './user';
 
 export const getZoneOption = (zone) => {
-  const {
-    id: zoneId,
-    code: zoneCode,
-    user: staff,
-    description: zoneDescription,
-    district,
-  } = zone;
+  const { id: zoneId, code: zoneCode, user: staff, description: zoneDescription, district } = zone;
   const option = {
     value: zoneId,
     text: zoneCode,
     description: NOT_ASSIGNED,
   };
   let description = zoneDescription;
-  if (
-    zoneDescription === 'Please update contact and description' ||
-    zoneDescription === 'Please update contact'
-  ) {
+  if (zoneDescription === 'Please update contact and description' || zoneDescription === 'Please update contact') {
     description = NO_DESCRIPTION;
   }
   option.text += ` (${description})`;

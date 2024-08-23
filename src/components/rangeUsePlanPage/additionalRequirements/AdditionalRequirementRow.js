@@ -7,12 +7,7 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react';
 import { Dropdown, TextArea } from 'formik-semantic-ui';
 
-const AdditionalRequirementRow = ({
-  additionalRequirement,
-  namespace,
-  onDelete,
-  onCopy,
-}) => {
+const AdditionalRequirementRow = ({ additionalRequirement, namespace, onDelete, onCopy }) => {
   const references = useReferences();
 
   const categories = references[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY];
@@ -33,9 +28,7 @@ const AdditionalRequirementRow = ({
         component={Dropdown}
         options={options}
         displayValue={
-          options.find((c) => c.value === categoryId)
-            ? options.find((c) => c.value === categoryId).text
-            : ''
+          options.find((c) => c.value === categoryId) ? options.find((c) => c.value === categoryId).text : ''
         }
         label="Category"
         fast
@@ -48,8 +41,7 @@ const AdditionalRequirementRow = ({
           component={TextArea}
           displayValue={detail}
           inputProps={{
-            placeholder:
-              'Name, date, summary (ex. WHA Badger #8-329/#8-330, 2009, attractants and stubble heights)',
+            placeholder: 'Name, date, summary (ex. WHA Badger #8-329/#8-330, 2009, attractants and stubble heights)',
           }}
           label="Details"
           fast

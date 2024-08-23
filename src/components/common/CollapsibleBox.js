@@ -52,23 +52,15 @@ class CollapsibleBox extends Component {
               'collaspible-box__header__title--active': isActive,
               'collaspible-box__header__title--error': error,
             })}
-            onClick={
-              onContentClick ? onContentClick : onContentClicked(contentIndex)
-            }
+            onClick={onContentClick ? onContentClick : onContentClicked(contentIndex)}
           >
             {header}
             <div className="collaspible-box__header__right">
               {additionalHeaderRight}
               {isActive ? (
-                <Icon
-                  style={{ marginLeft: '7px', marginBottom: '3px' }}
-                  name="chevron up"
-                />
+                <Icon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron up" />
               ) : (
-                <Icon
-                  style={{ marginLeft: '7px', marginBottom: '3px' }}
-                  name="chevron down"
-                />
+                <Icon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron down" />
               )}
             </div>
           </div>

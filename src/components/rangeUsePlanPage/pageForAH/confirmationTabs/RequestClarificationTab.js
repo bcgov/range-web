@@ -45,9 +45,7 @@ class RequestClarificationTab extends Component {
         }
         content={
           <Fragment>
-            <div className="rup__confirmation__request__header">
-              Your approval has not been submitted.
-            </div>
+            <div className="rup__confirmation__request__header">Your approval has not been submitted.</div>
             <div style={{ marginBottom: '20px' }}>{text1}</div>
             <div style={{ marginBottom: '20px' }}>{text2}</div>
           </Fragment>

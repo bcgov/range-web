@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import MainPage from '../mainPage';
-import {
-  LOGIN,
-  EXPORT_PDF_WITH_PARAM,
-  EMAIL_TEMPLATE,
-} from '../../constants/routes';
+import { LOGIN, EXPORT_PDF_WITH_PARAM, EMAIL_TEMPLATE } from '../../constants/routes';
 import { isUserAdmin } from '../../utils';
 
 const propTypes = {
@@ -20,9 +16,7 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => (
     {...rest}
     render={(props) => {
       // props = { match:{...}, history:{...}, location:{...} }
-      const mainPage = (
-        <MainPage {...props} component={Component} user={user} />
-      );
+      const mainPage = <MainPage {...props} component={Component} user={user} />;
       const redirectToLogin = <Redirect push to={LOGIN} />;
 
       if (user) {

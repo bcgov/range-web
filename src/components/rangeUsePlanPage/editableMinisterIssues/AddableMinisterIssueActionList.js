@@ -5,11 +5,7 @@ import uuid from 'uuid-v4';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
-import {
-  ministerIssueUpdated,
-  openInputModal,
-  openConfirmationModal,
-} from '../../../actions';
+import { ministerIssueUpdated, openInputModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { PrimaryButton } from '../../common';
@@ -49,16 +45,9 @@ class AddableMinisterIssueActionList extends Component {
   };
 
   handleMIActionDelete = (actionIndex) => {
-    const {
-      ministerIssue: mi,
-      ministerIssueUpdated,
-      deleteRUPMinisterIssueAction,
-    } = this.props;
+    const { ministerIssue: mi, ministerIssueUpdated, deleteRUPMinisterIssueAction } = this.props;
     const ministerIssue = { ...mi };
-    const [deletedAction] = ministerIssue.ministerIssueActions.splice(
-      actionIndex,
-      1,
-    );
+    const [deletedAction] = ministerIssue.ministerIssueActions.splice(actionIndex, 1);
     const planId = ministerIssue && ministerIssue.planId;
     const issueId = ministerIssue && ministerIssue.id;
     const actionId = deletedAction && deletedAction.id;
@@ -93,8 +82,7 @@ class AddableMinisterIssueActionList extends Component {
   openInputModalWhenOtherTypeSelected = (action) => {
     const actionTypeId = action && action.actionTypeId;
     const { openInputModal, references } = this.props;
-    const actionTypes =
-      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
     const otherActionType = actionTypes.find((t) => t.name === 'Other');
 
     // open a modal when the option 'other' is selected
@@ -114,9 +102,7 @@ class AddableMinisterIssueActionList extends Component {
       ...action,
       other: input,
     };
-    const actionIndex = ministerIssue.ministerIssueActions.findIndex(
-      (a) => a.id === action.id,
-    );
+    const actionIndex = ministerIssue.ministerIssueActions.findIndex((a) => a.id === action.id);
     if (actionIndex < 0) return;
 
     this.handleMIActionChange(newAction, actionIndex);
@@ -124,10 +110,8 @@ class AddableMinisterIssueActionList extends Component {
 
   render() {
     const { ministerIssue, references } = this.props;
-    const ministerIssueActions =
-      (ministerIssue && ministerIssue.ministerIssueActions) || [];
-    const actionTypes =
-      references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+    const ministerIssueActions = (ministerIssue && ministerIssue.ministerIssueActions) || [];
+    const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
     const actionTypeOptions = actionTypes.map((miat) => {
       return {
         key: miat.id,
@@ -138,12 +122,9 @@ class AddableMinisterIssueActionList extends Component {
 
     return (
       <Fragment>
-        {ministerIssueActions.length === 0 && (
-          <div className="rup__missue__action__not-found">No actions</div>
-        )}
+        {ministerIssueActions.length === 0 && <div className="rup__missue__action__not-found">No actions</div>}
 
-        {ministerIssueActions.length > 0 &&
-          ministerIssueActions.map(this.renderMinisterIssueAction)}
+        {ministerIssueActions.length > 0 && ministerIssueActions.map(this.renderMinisterIssueAction)}
 
         <div className="rup__missue__action__note">{ACTION_NOTE}</div>
 

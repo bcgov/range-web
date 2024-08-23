@@ -18,13 +18,7 @@
 // Created by Kyubin Han.
 //
 import { reduce } from 'lodash';
-import {
-  NOT_PROVIDED,
-  NP,
-  UNEXPECTED_ERROR,
-  STATUS404,
-  STATUS500,
-} from '../constants/strings';
+import { NOT_PROVIDED, NP, UNEXPECTED_ERROR, STATUS404, STATUS500 } from '../constants/strings';
 import { getToken } from '../reducers/rootReducer';
 import { isBundled } from '../constants/variables';
 
@@ -49,11 +43,9 @@ export const createConfigWithHeader = (getState) => {
   };
 };
 
-export const getObjValues = (obj = {}) =>
-  Object.keys(obj).map((e) => obj[e]) || [];
+export const getObjValues = (obj = {}) => Object.keys(obj).map((e) => obj[e]) || [];
 export const createEmptyArray = (length = 0) => [...Array(length)];
-export const capitalize = (str = '') =>
-  str.charAt(0).toUpperCase() + str.slice(1);
+export const capitalize = (str = '') => str.charAt(0).toUpperCase() + str.slice(1);
 
 /**
  * Present user friendly string when getting null or undefined value
@@ -170,20 +162,14 @@ export const detectIE = () => {
   const msie = userAgent.indexOf('MSIE ');
   if (msie > 0) {
     // IE 10 or older => return version number
-    return parseInt(
-      userAgent.substring(msie + 5, userAgent.indexOf('.', msie)),
-      10,
-    );
+    return parseInt(userAgent.substring(msie + 5, userAgent.indexOf('.', msie)), 10);
   }
 
   const trident = userAgent.indexOf('Trident/');
   if (trident > 0) {
     // IE 11 => return version number
     const rv = userAgent.indexOf('rv:');
-    return parseInt(
-      userAgent.substring(rv + 3, userAgent.indexOf('.', rv)),
-      10,
-    );
+    return parseInt(userAgent.substring(rv + 3, userAgent.indexOf('.', rv)), 10);
   }
 
   // const edge = userAgent.indexOf('Edge/');

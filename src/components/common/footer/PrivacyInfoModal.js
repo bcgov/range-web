@@ -17,39 +17,25 @@ class PrivacyInfoModal extends Component {
     const { closePiaModal, isModalOpen } = this.props;
 
     return (
-      <Modal
-        dimmer="blurring"
-        closeIcon
-        onClose={closePiaModal}
-        open={isModalOpen}
-        size="small"
-      >
+      <Modal dimmer="blurring" closeIcon onClose={closePiaModal} open={isModalOpen} size="small">
         <Modal.Content>
           <div className="privacy-info">
             <div className="privacy-info__title">Privacy Information</div>
-            <div className="privacy-info__sub-title">
-              Please review to return to {APP_NAME}
-            </div>
+            <div className="privacy-info__sub-title">Please review to return to {APP_NAME}</div>
             <div>
               <div>
-                Personal information is collected under the legal authority of
-                section 26 (c) and 27 (1)(a)(i) of the Freedom of Information
-                and Protection of Privacy Act (the Act). The collection, use,
-                and disclosure of personal information is subject to the
-                provisions of the Act. The personal information collected will
-                be used to process your submission(s). It may also be shared
-                when strictly necessary with partner agencies that are also
-                subject to the provisions of the Act. The personal information
-                supplied in the submission may be used for referrals,
-                consultation, or notifications as required. Staff may use your
-                personal information to contact you regarding your submission or
-                for survey purposes.
+                Personal information is collected under the legal authority of section 26 (c) and 27 (1)(a)(i) of the
+                Freedom of Information and Protection of Privacy Act (the Act). The collection, use, and disclosure of
+                personal information is subject to the provisions of the Act. The personal information collected will be
+                used to process your submission(s). It may also be shared when strictly necessary with partner agencies
+                that are also subject to the provisions of the Act. The personal information supplied in the submission
+                may be used for referrals, consultation, or notifications as required. Staff may use your personal
+                information to contact you regarding your submission or for survey purposes.
               </div>
               <div className="privacy-info__space" />
               <div>
-                For more information regarding the collection, use, and/or
-                disclosure of your personal information, please contact
-                MyRangeBC Administrator at:
+                For more information regarding the collection, use, and/or disclosure of your personal information,
+                please contact MyRangeBC Administrator at:
               </div>
               <div className="privacy-info__space" />
               <div>Email: myrangebc@gov.bc.ca</div>
@@ -58,10 +44,7 @@ class PrivacyInfoModal extends Component {
               <div className="privacy-info__space" />
               <div>Mailing Address:</div>
               <div>
-                <b>
-                  Ministry of Forests, Lands, Natural Resource Operations and
-                  Rural Development
-                </b>
+                <b>Ministry of Forests, Lands, Natural Resource Operations and Rural Development</b>
               </div>
               <div>Range Branch - Kamloops</div>
               <div>Attn: MyRangeBC</div>
@@ -79,10 +62,7 @@ class PrivacyInfoModal extends Component {
             </a>
           </div>
           <div className="privacy-info__continue-btn">
-            <PrimaryButton
-              content={`Continue to ${APP_NAME}`}
-              onClick={closePiaModal}
-            />
+            <PrimaryButton content={`Continue to ${APP_NAME}`} onClick={closePiaModal} />
           </div>
         </Modal.Content>
       </Modal>

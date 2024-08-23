@@ -29,11 +29,7 @@ import {
   API_BASE_URL,
   SSO_LOGOUT_ENDPOINT,
 } from '../constants/api';
-import {
-  saveDataInLocalStorage,
-  getDataFromLocalStorage,
-  deleteDataFromLocalStorage,
-} from './localStorage';
+import { saveDataInLocalStorage, getDataFromLocalStorage, deleteDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
 import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
 
@@ -100,9 +96,7 @@ export const saveUserProfileInLocal = (newUser) => {
 export const getTokenFromSSO = (code) => {
   const storedCodes = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
   if (!storedCodes || !storedCodes.codeVerifier) {
-    console.error(
-      'Cannot proceed without PKCE challenge code. Restart authentication',
-    );
+    console.error('Cannot proceed without PKCE challenge code. Restart authentication');
   }
 
   const data = {
@@ -241,8 +235,7 @@ export const setTimeoutForReAuth = (reauthenticate) => {
   }
 
   const accessTokenValidPeriod = jstData.exp - new Date() / 1000;
-  const latestTime =
-    Math.max(accessTokenValidPeriod, refreshTokenValidPeriod) * 1000;
+  const latestTime = Math.max(accessTokenValidPeriod, refreshTokenValidPeriod) * 1000;
 
   return setTimeout(
     () => {
@@ -265,23 +258,13 @@ export const setTimeoutForReAuth = (reauthenticate) => {
  * @param {function} storeAuthData the action to store the user in Redux
  * @returns {object} the network response config
  */
-export const registerAxiosInterceptors = (
-  resetTimeoutForReAuth,
-  reauthenticate,
-  storeAuthData,
-) => {
+export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate, storeAuthData) => {
   axios.interceptors.request.use((config) => {
     const isFirstTimeTry = !config.isRetry;
     const notExplicitlySkipped = !config.skipAuthorizationHeader;
 
-    if (
-      isTokenExpired() &&
-      isFirstTimeTry &&
-      isRangeAPI(config) &&
-      notExplicitlySkipped
-    ) {
-      if (!isBundled)
-        console.log('Access token is expired. Trying to refresh it');
+    if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config) && notExplicitlySkipped) {
+      if (!isBundled) console.log('Access token is expired. Trying to refresh it');
 
       const refreshToken = getRefreshTokenFromLocal();
 
@@ -299,9 +282,7 @@ export const registerAxiosInterceptors = (
         },
         (err) => {
           if (!isBundled) {
-            console.log(
-              'Refresh token is also expired. Request to re-authenticate.',
-            );
+            console.log('Refresh token is also expired. Request to re-authenticate.');
             console.error(err);
           }
           reauthenticate();

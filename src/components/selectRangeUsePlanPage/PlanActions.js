@@ -15,13 +15,7 @@ import NewPlanMenuItem from './NewPlanMenuItem';
 import PastePlanMenuItem from './PastePlanMenuItem';
 import ViewPlanMenuItem from './ViewPlanMenuItem';
 
-export default function PlanActions({
-  agreement,
-  planId,
-  canEdit,
-  canCreatePlan,
-  currentPage,
-}) {
+export default function PlanActions({ agreement, planId, canEdit, canCreatePlan, currentPage }) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -49,20 +43,12 @@ export default function PlanActions({
       >
         Actions
       </Button>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-        style={{ zIndex: 1 }}
-      >
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{ zIndex: 1 }}>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin:
-                placement === 'bottom' ? 'center top' : 'center bottom',
+              transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
             <Paper>
@@ -83,9 +69,7 @@ export default function PlanActions({
                       menuText={'Copy'}
                     />
                   )}
-                  {canCreatePlan && !planId && (
-                    <NewPlanMenuItem agreement={agreement} />
-                  )}
+                  {canCreatePlan && !planId && <NewPlanMenuItem agreement={agreement} />}
                   {canCreatePlan && !planId && (
                     <PastePlanMenuItem
                       destinationAgreementId={agreement.id}
@@ -100,8 +84,7 @@ export default function PlanActions({
                   {canCreatePlan &&
                     planId &&
                     !isPlanActive(agreement.plan) &&
-                    getDataFromLocalStorage('copyPlanInfo')?.agreementId !==
-                      agreement.id && (
+                    getDataFromLocalStorage('copyPlanInfo')?.agreementId !== agreement.id && (
                       <PastePlanMenuItem
                         destinationAgreementId={agreement.id}
                         destinationPlanId={agreement?.plan.id}
@@ -117,9 +100,7 @@ export default function PlanActions({
                     PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
                     PLAN_EXTENSION_STATUS.STAFF_REJECTED,
                     PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED,
-                  ].includes(agreement.plan?.extensionStatus) && (
-                    <CreateReplacementPlan planId={planId} />
-                  )}
+                  ].includes(agreement.plan?.extensionStatus) && <CreateReplacementPlan planId={planId} />}
                   {[
                     PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
                     PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,

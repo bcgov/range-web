@@ -20,30 +20,21 @@ const Conditions = ({ plan }) => {
       </div>
       <div className="rup__divider" style={{ marginBottom: 10 }} />
       <div>
-        Consistent with FRPA section 112 the following conditions are imposed
-        and form part of the RUP approval:
+        Consistent with FRPA section 112 the following conditions are imposed and form part of the RUP approval:
       </div>
       <div className="rup__row">
         <div className="rup__cell-6" style={{ marginBottom: 40 }}>
           <div className="rup__info-title">
             <div className="rup__popup-header">
               Conditions
-              <InfoTip
-                header={strings.CONDITIONS}
-                content={strings.CONDITIONS_TIP}
-                size="tiny"
-              />
+              <InfoTip header={strings.CONDITIONS} content={strings.CONDITIONS_TIP} size="tiny" />
             </div>
           </div>
           <PermissionsField
             permission={CONDITIONS.CONDITIONS}
             name="conditions"
             component={TextArea}
-            displayValue={
-              conditions !== '' && conditions !== null
-                ? '\n' + conditions
-                : '\nNo conditions'
-            }
+            displayValue={conditions !== '' && conditions !== null ? '\n' + conditions : '\nNo conditions'}
             fieldProps={{ required: false }}
             fast
           />
@@ -53,11 +44,7 @@ const Conditions = ({ plan }) => {
             <div className="rup__info-title" style={{ width: 500 }}>
               <div className="rup__popup-header">
                 Staff Recommended Conditions
-                <InfoTip
-                  header={strings.RECOMENDATIONS}
-                  content={strings.PROPOSED_CONDITIONS_TIP}
-                  size="tiny"
-                />
+                <InfoTip header={strings.RECOMENDATIONS} content={strings.PROPOSED_CONDITIONS_TIP} size="tiny" />
               </div>
             </div>
             <EditableProvider editable={isStatusSubmittedForFD(plan?.status)}>

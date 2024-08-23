@@ -1,17 +1,5 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@material-ui/core';
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import React, { createContext, useCallback, useContext, useRef, useState } from 'react';
 import { PrimaryButton } from '../components/common';
 const ConfirmationModal = createContext();
 
@@ -41,13 +29,9 @@ export function ConfirmationModalProvider({ children }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {state.titleText || 'Confirm'}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{state.titleText || 'Confirm'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {state.contentText}
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">{state.contentText}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <PrimaryButton inverted onClick={() => fn.current(false)}>

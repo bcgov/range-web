@@ -37,14 +37,11 @@ const ToastProvider = ({ children }) => {
     return id;
   };
 
-  const successToast = (message, config) =>
-    addToast(message, 'success', config);
+  const successToast = (message, config) => addToast(message, 'success', config);
   const errorToast = (message, config) => addToast(message, 'error', config);
-  const warningToast = (message, config) =>
-    addToast(message, 'warning', config);
+  const warningToast = (message, config) => addToast(message, 'warning', config);
 
-  const removeToast = (id) =>
-    setToasts(toastsRef.current.filter((t) => t.id !== id));
+  const removeToast = (id) => setToasts(toastsRef.current.filter((t) => t.id !== id));
 
   return (
     <ToastContext.Provider
@@ -66,24 +63,15 @@ const ToastProvider = ({ children }) => {
                 toast__icon__warning: toast.status === 'warning',
               })}
             >
-              {toast.status === 'success' && (
-                <Icon name="check circle" size="large" />
-              )}
-              {toast.status === 'error' && (
-                <Icon name="warning circle" size="large" />
-              )}
-              {toast.status === 'warning' && (
-                <Icon name="warning" size="large" />
-              )}
+              {toast.status === 'success' && <Icon name="check circle" size="large" />}
+              {toast.status === 'error' && <Icon name="warning circle" size="large" />}
+              {toast.status === 'warning' && <Icon name="warning" size="large" />}
             </div>
             <div className="toast__content">
               {toast.message}
               {toast.content}
             </div>
-            <button
-              className="toast__dismiss"
-              onClick={() => removeToast(toast.id)}
-            >
+            <button className="toast__dismiss" onClick={() => removeToast(toast.id)}>
               <Icon name="times" size="small" />
             </button>
           </div>

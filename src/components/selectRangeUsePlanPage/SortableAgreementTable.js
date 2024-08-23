@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -20,6 +19,7 @@ import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
 import { translateStatusBasedOnUser } from '../common/Status';
+import { Loading } from '../common';
 
 const headCells = [
   {
@@ -83,21 +83,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    order,
-    orderBy,
-    onRequestSort,
-    onRequestFilter,
-    filters,
-    onStatusCodeChange,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-  const filterHandler = (event, property) => {
-    onRequestFilter(event, property);
-  };
+  const { classes, order, orderBy, onRequestSort, onColumnFilterChange, columnFilters } = props;
 
   return (
     <TableHead>
@@ -106,14 +92,16 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
             className={classes.headerCell}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={headCell.sortable && createSortHandler(headCell.id)}
+              onClick={(event) => {
+                headCell.sortable && onRequestSort(event, headCell.id);
+              }}
               hideSortIcon={!headCell.sortable}
               disabled={!headCell.sortable}
             >
@@ -127,16 +115,20 @@ function EnhancedTableHead(props) {
             {headCell.filterable && (
               <input
                 type="text"
-                onChange={(e) => filterHandler(e, headCell.id)}
-                value={
-                  Object.hasOwn(filters, headCell.id)
-                    ? props.filters[headCell.id]
-                    : ''
-                }
+                onChange={(e) => onColumnFilterChange(e, headCell.id)}
+                value={Object.hasOwn(columnFilters, headCell.id) ? columnFilters[headCell.id] : ''}
               />
             )}
-            {headCell.multiSelectable && (
-              <StatusCodesMultiSelect onStatusCodeChange={onStatusCodeChange} />
+            {headCell.id == 'plan.status_id' && (
+              <StatusMultiSelect
+                onStatusCodeChange={(newStatusCodes) =>
+                  onColumnFilterChange(
+                    { target: { value: newStatusCodes } },
+                    headCell.id,
+                  )
+                }
+                selectedStatusCodes={columnFilters[headCell.id] || []}
+              />
             )}
           </TableCell>
         ))}
@@ -145,8 +137,7 @@ function EnhancedTableHead(props) {
   );
 }
 
-const StatusCodesMultiSelect = (props) => {
-  const { onStatusCodeChange } = props;
+const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const references = useReferences();
@@ -161,24 +152,29 @@ const StatusCodesMultiSelect = (props) => {
   const user = useUser();
   const statusObjects = references[REFERENCE_KEY.PLAN_STATUS]
     .map((statusObject) => {
-      statusObject.name =
-        translateStatusBasedOnUser(statusObject, user).statusName +
-        ` (${statusObject.code})`;
+      statusObject.name = translateStatusBasedOnUser(statusObject, user).statusName + ` (${statusObject.code})`;
       return statusObject;
     })
     .sort((a, b) => a.name.localeCompare(b.name));
-
   const [selectedStatusName, setSelectedStatusName] = React.useState([]);
+
   const handleChange = (event) => {
     setSelectedStatusName(event.target.value);
-  };
-  useEffect(() => {
-    const selectedStatusCodes = selectedStatusName.map((statusName) => {
+    const selectedStatusCodes = event.target.value.map((statusName) => {
       const match = statusObjects.find((st) => st.name === statusName);
       return match.code;
     });
     onStatusCodeChange(selectedStatusCodes);
-  }, [selectedStatusName]);
+  };
+
+  useEffect(() => {
+    setSelectedStatusName(
+      selectedStatusCodes.map((code) => {
+        const match = statusObjects.find((st) => st.code === code);
+        return match.name;
+      }),
+    );
+  }, [selectedStatusCodes]);
 
   return (
     <FormControl sx={{ width: 125 }}>
@@ -191,13 +187,7 @@ const StatusCodesMultiSelect = (props) => {
       >
         {statusObjects.map((statusObject) => (
           <MenuItem key={statusObject.id} value={statusObject.name}>
-            <Checkbox
-              checked={
-                selectedStatusName.findIndex(
-                  (statusName) => statusName === statusObject.name,
-                ) !== -1
-              }
-            />
+            <Checkbox checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.name) !== -1} />
             <ListItemText primary={statusObject.name} />
           </MenuItem>
         ))}
@@ -269,11 +259,10 @@ export default function SortableAgreementTable({
   totalAgreements,
   perPage,
   onOrderChange,
-  onFilterChange,
+  onColumnFilterChange,
   orderBy,
   order,
-  filters,
-  onStatusCodeChange,
+  columnFilters,
 }) {
   const classes = useStyles();
   const user = useUser();
@@ -285,75 +274,28 @@ export default function SortableAgreementTable({
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
 
-  const handleFilterChange = (event, property) => {
-    onFilterChange(property, event.target.value);
+  const handleColumnFilterChange = (event, property) => {
+    onColumnFilterChange(property, event.target.value);
   };
-
-  const handleStatusFilterChange = (selectedStatusCodes) => {
-    onStatusCodeChange('plan.status_id', selectedStatusCodes);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    onPageChange(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    onLimitChange(parseInt(event.target.value, 10));
-    onPageChange(0);
-  };
-
-  const getNumberOfRows = () => {
-    let rowCount = 0;
-    agreements.forEach((agreement) => {
-      rowCount = rowCount + agreement.plans?.length;
-    });
-    return rowCount;
-  };
-  const emptyRows = Math.abs(getNumberOfRows() - perPage);
 
   return (
     <div className={classes.root}>
       <div className={classes.paper}>
+        {loading && <Loading onlySpinner />}
         <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size="medium"
-            aria-label="enhanced table"
-          >
+          <Table className={classes.table} aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
             <EnhancedTableHead
               classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              onRequestFilter={handleFilterChange}
-              filters={filters}
+              onColumnFilterChange={handleColumnFilterChange}
+              columnFilters={columnFilters}
               rowCount={agreements.length}
-              onStatusCodeChange={handleStatusFilterChange}
             />
             <TableBody>
-              {agreements.length === 0 &&
-                loading &&
-                Array.from({ length: perPage }).map((_, i) => (
-                  <TableRow
-                    key={`agreement_skeleton_${i}`}
-                    className={classes.skeletonRowContainer}
-                  >
-                    <TableCell colSpan={10}>
-                      <Skeleton
-                        variant="text"
-                        className={classes.skeletonRow}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton
-                        variant="text"
-                        className={classes.skeletonButton}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
               {agreements.length > 0 &&
+                !loading &&
                 agreements.map((agreement, index) => {
                   return (
                     <PlanRow
@@ -365,33 +307,29 @@ export default function SortableAgreementTable({
                     />
                   );
                 })}
-              {agreements.length > 0 && emptyRows > 0 && (
-                <TableRow style={{ height: 66.4 * emptyRows }}>
-                  <TableCell colSpan={10} />
-                </TableRow>
-              )}
-
               {agreements.length === 0 && !loading && (
                 <TableRow>
                   <TableCell align="center" colSpan={10}>
-                    <Typography color="textSecondary">
-                      No matching agreements
-                    </Typography>
+                    <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={totalAgreements ?? -1}
-          rowsPerPage={perPage}
-          page={currentPage}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        {!loading && (
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={totalAgreements ?? -1}
+            rowsPerPage={perPage}
+            page={currentPage}
+            onPageChange={(event, newPage) => onPageChange(event, newPage)}
+            onRowsPerPageChange={(event) => {
+              onLimitChange(parseInt(event.target.value, 10));
+            }}
+          />
+        )}
       </div>
     </div>
   );

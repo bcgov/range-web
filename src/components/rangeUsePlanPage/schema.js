@@ -9,10 +9,7 @@ const handleNull =
 const RUPSchema = Yup.object().shape({
   rangeName: Yup.string().required('Required field'),
   altBusinessName: Yup.string().transform(handleNull()),
-  planStartDate: Yup.string()
-    .required('Required field')
-    .nullable()
-    .transform(handleNull()),
+  planStartDate: Yup.string().required('Required field').nullable().transform(handleNull()),
   planEndDate: Yup.string()
     .required('Required field')
     .nullable()
@@ -42,11 +39,7 @@ const RUPSchema = Yup.object().shape({
         .min(0, 'Please enter a value between 0 and 100')
         .max(1, 'Please enter a value between 0 and 100')
         .test('whole percent', 'Value must be a whole number', (item) => {
-          return item
-            ? moveDecimalsRight(item) % 1 === 0
-              ? true
-              : false
-            : true;
+          return item ? (moveDecimalsRight(item) % 1 === 0 ? true : false) : true;
         })
         .transform((v, originalValue) => (originalValue === '' ? null : v))
         .nullable()
@@ -58,9 +51,7 @@ const RUPSchema = Yup.object().shape({
           elevationId: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable(),
-          notes: Yup.string()
-            .transform(handleNull())
-            .required('Required field'),
+          notes: Yup.string().transform(handleNull()).required('Required field'),
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required('Required field'),
           shrubUse: Yup.number()
@@ -76,9 +67,7 @@ const RUPSchema = Yup.object().shape({
           plantCommunityActions: Yup.array().of(
             Yup.object().shape({
               actionTypeId: Yup.number()
-                .transform((v, originalValue) =>
-                  originalValue === '' ? null : v,
-                )
+                .transform((v, originalValue) => (originalValue === '' ? null : v))
                 .nullable()
                 .required('Required field'),
               details: Yup.string().nullable().required('Required field'),
@@ -94,15 +83,11 @@ const RUPSchema = Yup.object().shape({
           indicatorPlants: Yup.array().of(
             Yup.object().shape({
               plantSpeciesId: Yup.number()
-                .transform((v, originalValue) =>
-                  originalValue === '' ? null : v,
-                )
+                .transform((v, originalValue) => (originalValue === '' ? null : v))
                 .nullable()
                 .required('Required field'),
               value: Yup.number()
-                .transform((v, originalValue) =>
-                  originalValue === '' ? null : v,
-                )
+                .transform((v, originalValue) => (originalValue === '' ? null : v))
                 .nullable()
                 .required('Required field')
                 .typeError('Please enter a number'),
@@ -119,26 +104,18 @@ const RUPSchema = Yup.object().shape({
           monitoringAreas: Yup.array().of(
             Yup.object().shape({
               latitude: Yup.number()
-                .transform((v, originalValue) =>
-                  originalValue === '' ? null : v,
-                )
+                .transform((v, originalValue) => (originalValue === '' ? null : v))
                 .nullable()
                 .typeError('Please enter a number'),
               longitude: Yup.number()
-                .transform((v, originalValue) =>
-                  originalValue === '' ? null : v,
-                )
+                .transform((v, originalValue) => (originalValue === '' ? null : v))
                 .nullable()
                 .typeError('Please enter a number'),
               location: Yup.string().nullable().required('Required field'),
               rangelandHealthId: Yup.number()
-                .transform((v, originalValue) =>
-                  originalValue === '' ? null : v,
-                )
+                .transform((v, originalValue) => (originalValue === '' ? null : v))
                 .nullable(),
-              purposeTypeIds: Yup.array()
-                .of(Yup.number())
-                .required('Required field'),
+              purposeTypeIds: Yup.array().of(Yup.number()).required('Required field'),
             }),
           ),
         }),
@@ -185,13 +162,8 @@ const RUPSchema = Yup.object().shape({
   additionalRequirements: Yup.array().of(
     Yup.object().shape({
       id: Yup.string(),
-      categoryId: Yup.number()
-        .required('Please choose a category')
-        .nullable()
-        .transform(handleNull(0)),
-      detail: Yup.string()
-        .required('Please enter some details')
-        .transform(handleNull()),
+      categoryId: Yup.number().required('Please choose a category').nullable().transform(handleNull(0)),
+      detail: Yup.string().required('Please enter some details').transform(handleNull()),
       url: Yup.string().transform(handleNull()),
     }),
   ),
@@ -209,17 +181,11 @@ const RUPSchema = Yup.object().shape({
     Yup.object().shape({
       pastures: Yup.array(),
       detail: Yup.string().required('Required field').transform(handleNull()),
-      objective: Yup.string()
-        .required('Required field')
-        .transform(handleNull()),
+      objective: Yup.string().required('Required field').transform(handleNull()),
       ministerIssueActions: Yup.array().of(
         Yup.object().shape({
-          detail: Yup.string()
-            .required('Required field')
-            .transform(handleNull()),
-          actionTypeId: Yup.number()
-            .required('Required field')
-            .transform(handleNull(0)),
+          detail: Yup.string().required('Required field').transform(handleNull()),
+          actionTypeId: Yup.number().required('Required field').transform(handleNull(0)),
           noGrazeStartMonth: Yup.number().nullable().transform(handleNull(0)),
           noGrazeStartDay: Yup.number().nullable().transform(handleNull(0)),
           noGrazeEndMonth: Yup.number().nullable().transform(handleNull(0)),

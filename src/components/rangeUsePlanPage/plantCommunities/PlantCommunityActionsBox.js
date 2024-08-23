@@ -8,13 +8,7 @@ import { Button, Confirm } from 'semantic-ui-react';
 import PlantCommunityAction from './PlantCommunityAction';
 import { deletePlantCommunityAction } from '../../../api';
 
-const PlantCommunityActionsBox = ({
-  actions,
-  planId,
-  pastureId,
-  communityId,
-  namespace,
-}) => {
+const PlantCommunityActionsBox = ({ actions, planId, pastureId, communityId, namespace }) => {
   const [toRemove, setToRemove] = useState(null);
 
   return (
@@ -42,12 +36,7 @@ const PlantCommunityActionsBox = ({
               const action = actions[toRemove];
 
               if (!uuid.isUUID(action.id)) {
-                await deletePlantCommunityAction(
-                  planId,
-                  pastureId,
-                  communityId,
-                  action.id,
-                );
+                await deletePlantCommunityAction(planId, pastureId, communityId, action.id);
               }
 
               remove(toRemove);
@@ -59,9 +48,7 @@ const PlantCommunityActionsBox = ({
               primary
               type="button"
               className="icon labeled rup__plant-communities__add-button"
-              onClick={() =>
-                push({ actionTypeId: null, details: '', id: uuid() })
-              }
+              onClick={() => push({ actionTypeId: null, details: '', id: uuid() })}
             >
               <i className="add circle icon" />
               Add Action

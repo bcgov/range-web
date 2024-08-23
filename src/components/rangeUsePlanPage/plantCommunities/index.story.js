@@ -44,8 +44,5 @@ export default {
 };
 
 export const DefaultStory = (values) => (
-  <PlantCommunities
-    plantCommunities={values.pastures[0].plantCommunities}
-    namespace="pastures.0"
-  />
+  <PlantCommunities plantCommunities={values.pastures[0].plantCommunities} namespace="pastures.0" />
 );

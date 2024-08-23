@@ -15,13 +15,7 @@ class ConfirmModals extends Component {
 
   renderConfirmationModal = (modal) => {
     const { closeConfirmationModal } = this.props;
-    const {
-      id: modalId,
-      header,
-      content,
-      onYesBtnClicked: oYBClicked,
-      closeAfterYesBtnClicked,
-    } = modal;
+    const { id: modalId, header, content, onYesBtnClicked: oYBClicked, closeAfterYesBtnClicked } = modal;
     let onYesBtnClicked = oYBClicked;
     if (closeAfterYesBtnClicked) {
       onYesBtnClicked = () => {
@@ -43,17 +37,11 @@ class ConfirmModals extends Component {
         <Modal.Content>
           <div className="confirmation-modal__content">{content}</div>
           <div className="confirmation-modal__btns">
-            <PrimaryButton
-              inverted
-              onClick={() => closeConfirmationModal({ modalId })}
-            >
+            <PrimaryButton inverted onClick={() => closeConfirmationModal({ modalId })}>
               <Icon name="remove" />
               Cancel
             </PrimaryButton>
-            <PrimaryButton
-              style={{ marginLeft: '15px' }}
-              onClick={onYesBtnClicked}
-            >
+            <PrimaryButton style={{ marginLeft: '15px' }} onClick={onYesBtnClicked}>
               <Icon name="checkmark" />
               Confirm
             </PrimaryButton>
@@ -66,17 +54,11 @@ class ConfirmModals extends Component {
   render() {
     const confirmationModals = getObjValues(this.props.confirmationModalsMap);
 
-    return (
-      <Fragment>
-        {confirmationModals.map(this.renderConfirmationModal)}
-      </Fragment>
-    );
+    return <Fragment>{confirmationModals.map(this.renderConfirmationModal)}</Fragment>;
   }
 }
 
 const mapStateToProps = (state) => ({
   confirmationModalsMap: getConfirmationModalsMap(state),
 });
-export default connect(mapStateToProps, { closeConfirmationModal })(
-  ConfirmModals,
-);
+export default connect(mapStateToProps, { closeConfirmationModal })(ConfirmModals);

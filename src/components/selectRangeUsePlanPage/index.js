@@ -1,14 +1,7 @@
+import React, { useEffect, useState, useCallback } from 'react';
+import debounce from 'lodash.debounce';
 import { Checkbox, FormControlLabel, Tooltip } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import React, { useEffect, useState } from 'react';
-import useSWR from 'swr';
-import {
-  BooleanParam,
-  StringParam,
-  decodeObject,
-  encodeObject,
-  useQueryParam,
-} from 'use-query-params';
 import * as API from '../../constants/api';
 import {
   SELECT_RUP_BANNER_CONTENT,
@@ -19,30 +12,18 @@ import {
   TOOLTIP_TEXT_RUP_CREATED,
 } from '../../constants/strings';
 import { useReferences } from '../../providers/ReferencesProvider';
-import { useToast } from '../../providers/ToastProvider';
 import { useUser } from '../../providers/UserProvider';
 import {
   axios,
   getAuthHeaderConfig,
-  getDataFromLocalStorage,
   isUserAdmin,
   isUserAgrologist,
+  getDataFromLocalStorage,
   saveDataInLocalStorage,
 } from '../../utils';
-import useDebounce from '../../utils/hooks/useDebounce';
 import { Banner } from '../common';
-import Error from './Error';
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
-
 import SortableAgreementTable from './SortableAgreementTable';
-
-const keyValueSeparator = '-'; // default is "-"
-const entrySeparator = '~'; // default is "_"
-const NewObjectParam = {
-  encode: (obj) => encodeObject(obj, keyValueSeparator, entrySeparator),
-
-  decode: (str) => decodeObject(str, keyValueSeparator, entrySeparator),
-};
+import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
 
 const useStyles = makeStyles(() => ({
   searchFilterContainer: {
@@ -58,163 +39,141 @@ const useStyles = makeStyles(() => ({
     margin: '0 1rem',
   },
 }));
+
 const StyledTooltip = withStyles((theme) => ({
   tooltip: {
     fontSize: theme.typography.pxToRem(14),
   },
 }))(Tooltip);
-const SelectRangeUsePlanPage = ({ match, history }) => {
-  const { page = 1 } = match.params;
-  const debouncedPage = useDebounce(page, 500);
-  const [toastId, setToastId] = useState();
-  const [limit = 10, setLimit] = useQueryParam('limit', StringParam);
-  const debouncedLimit = useDebounce(limit, 500);
-  const [searchSelectedZones, setSearchSelectedZones] = useState([]);
-  const debouncedZones = useDebounce(searchSelectedZones, 500);
-  const [orderBy = 'agreement.forest_file_id', setOrderBy] = useQueryParam(
-    'orderBy',
-    StringParam,
-  );
-  const debouncedOrderBy = useDebounce(orderBy, 500);
-  const [order = 'asc', setOrder] = useQueryParam('order', StringParam);
-  const debouncedOrder = useDebounce(order, 500);
-  const filterInfo = getDataFromLocalStorage('filter-info');
-  const [
-    filters = { agreementCheck: 'true', showReplacedPlans: 'false' },
-    setFilters,
-  ] = useQueryParam('filters', NewObjectParam);
-  const debouncedFilters = useDebounce(filters, 500);
-  const [filtersInitialized, setFiltersInitialized] = useState(false);
-  // startup
-  useEffect(() => {
-    // Set initial page info from localstorage
-    const pageInfo = getDataFromLocalStorage('page-info');
-    if (pageInfo) {
-      if (pageInfo.pageNumber) setPage(pageInfo.pageNumber);
-      if (pageInfo.pageLimit) setLimit(pageInfo.pageLimit);
-    }
-    setFiltersInitialized(true); // Workaround flag for checkbox racing the filter initialization
-  }, []);
-  const [planCheck = filterInfo?.planCheck || false, setPlanCheck] =
-    useQueryParam('planCheck', BooleanParam);
-  const [
-    agreementCheck = filterInfo?.agreementCheck !== undefined
-      ? filterInfo.agreementCheck
-      : true,
-    setAgreementCheck,
-  ] = useQueryParam('agreementCheck', BooleanParam);
-  const [activeCheck = filterInfo?.activeCheck || false, setActiveCheck] =
-    useQueryParam('activeCheck', BooleanParam);
-  const [
-    showReplacedPlans = filterInfo?.showReplacedPlans || false,
-    setShowReplacedPlans,
-  ] = useQueryParam('showReplacedPlans', BooleanParam);
-  useEffect(() => {
-    if (filtersInitialized) addToFilters('planCheck', planCheck);
-  }, [planCheck]);
-  useEffect(() => {
-    if (filtersInitialized) addToFilters('agreementCheck', agreementCheck);
-  }, [agreementCheck]);
-  useEffect(() => {
-    if (filtersInitialized) addToFilters('activeCheck', activeCheck);
-  }, [activeCheck]);
-  useEffect(() => {
-    if (filtersInitialized)
-      addToFilters('showReplacedPlans', showReplacedPlans);
-  }, [showReplacedPlans]);
 
-  const { warningToast, removeToast, errorToast } = useToast();
+const SelectRangeUsePlanPage = () => {
+  const [filterSettings, setFilterSettings] = useState({
+    page: 1,
+    limit: 10,
+    orderBy: 'agreement.forest_file_id',
+    order: 'asc',
+    agreementCheck: true,
+    showReplacedPlans: false,
+    planCheck: false,
+    activeCheck: false,
+    statusCodes: '',
+    columnFilters: {},
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
 
   const references = useReferences();
   const user = useUser();
   const zones = references.ZONES || [];
   const userZones = zones.filter((zone) => user.id === zone.userId);
-  const districtIds = userZones.map((userZone) => {
-    return userZone.districtId;
-  });
+  const districtIds = userZones.map((userZone) => userZone.districtId);
+
+  const fetchAgreements = useCallback(
+    debounce(async (settings) => {
+      setLoading(true);
+      saveDataInLocalStorage('filterSettings', settings);
+      try {
+        const response = await axios.get(API.SEARCH_AGREEMENTS, {
+          ...getAuthHeaderConfig(),
+          params: { filterSettings: settings },
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching agreements:', error);
+      } finally {
+        setLoading(false);
+      }
+    }, 300), // 300ms delay
+    [],
+  );
+
+  useEffect(() => {
+    const storedFilterSettings = getDataFromLocalStorage('filterSettings');
+    if (storedFilterSettings) {
+      setFilterSettings((prevSettings) => ({
+        ...prevSettings,
+        ...storedFilterSettings,
+        page: storedFilterSettings.page || 1,
+        limit: storedFilterSettings.limit || 10,
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAgreements(filterSettings);
+  }, [filterSettings, fetchAgreements]);
+
   const unassignedZones = zones.filter(
-    (zone) =>
-      user.id !== zone.userId && districtIds.indexOf(zone.districtId) != -1,
+    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
   );
+
   const zoneUsers = references.USERS;
-
-  const { data, error, revalidate, isValidating } = useSWR(
-    `${API.SEARCH_AGREEMENTS}?page=${debouncedPage}&selectedZones=${debouncedZones}&limit=${debouncedLimit}&orderBy=${debouncedOrderBy}&order=${debouncedOrder}&filterString=${JSON.stringify(debouncedFilters)}`,
-    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
-    {
-      onLoadingSlow: () => {
-        setToastId(warningToast('Agreements are taking a while to load', -1));
-      },
-      onError: () => {
-        if (references?.ZONES?.length > 0)
-          errorToast('Could not load agreements');
-      },
-      onSuccess: () => removeToast(toastId),
-    },
-  );
-
-  const addToFilters = (filterCol, filterVal) => {
-    let newFilter = {
-      ...filters,
-    };
-    newFilter[filterCol] = filterVal;
-    setFilters(newFilter);
-  };
-
-  const setPage = (page) => {
-    history.replace(`/home/${page}/${history.location.search}`);
-  };
-
-  const setPageAndSave = (page) => {
-    history.replace(`/home/${page}/${history.location.search}`);
-    const currPageInfo = getDataFromLocalStorage('page-info');
-    const pageInfo = {
-      ...currPageInfo,
-      pageNumber: page,
-    };
-    saveDataInLocalStorage('page-info', pageInfo);
-  };
-
-  const setPageLimitAndSave = (limit) => {
-    const currPageInfo = getDataFromLocalStorage('page-info');
-    const pageInfo = {
-      ...currPageInfo,
-      pageLimit: limit,
-    };
-    saveDataInLocalStorage('page-info', pageInfo);
-    setLimit(limit);
-  };
-
-  const setSaveFilterInfo = (filterCol, value) => {
-    if (!filtersInitialized) return; // Avoid empty update
-
-    const currFilterInfo = getDataFromLocalStorage('filter-info');
-    const filterInfo = {
-      ...currFilterInfo,
-    };
-    filterInfo[filterCol] = value;
-    saveDataInLocalStorage('filter-info', filterInfo);
-  };
-
-  const { agreements, totalPages, currentPage = page, totalItems } = data || {};
+  const { agreements, totalPages, totalItems } = data || {};
   const classes = useStyles();
+
+  const handleFilterChange = (field) => (event) => {
+    setFilterSettings((prevSettings) => ({
+      ...prevSettings,
+      [field]: event.target.checked,
+    }));
+  };
+
+  const handlePageChange = (event, page) => {
+    setFilterSettings((prevSettings) => ({
+      ...prevSettings,
+      page: page + 1,
+    }));
+  };
+
+  const handleLimitChange = (limit) => {
+    setFilterSettings((prevSettings) => ({
+      ...prevSettings,
+      limit,
+      page: 1, // Reset to first page when limit changes
+    }));
+  };
+
+  const handleOrderChange = (orderBy, order) => {
+    setFilterSettings((prevSettings) => ({
+      ...prevSettings,
+      orderBy,
+      order,
+    }));
+  };
+
+  const handleColumnFilterChange = (column, value) => {
+    setFilterSettings((prevSettings) => {
+      const columnFilters = { ...prevSettings.columnFilters };
+      if (value === '') {
+        delete columnFilters[column];
+      } else {
+        columnFilters[column] = value;
+      }
+      return { ...prevSettings, columnFilters, page: 1 };
+    });
+  };
+
+  const handleSelectedZonesChange = (selectedZones) => {
+    setFilterSettings((prevSettings) => {
+      return {
+        ...prevSettings,
+        selectedZones,
+      };
+    });
+  };
+
   return (
     <section className="agreement">
-      <Banner
-        header={SELECT_RUP_BANNER_HEADER}
-        content={SELECT_RUP_BANNER_CONTENT}
-      />
+      <Banner header={SELECT_RUP_BANNER_HEADER} content={SELECT_RUP_BANNER_CONTENT} />
       <div className={classes.searchFilterContainer}>
         <div className={classes.checkboxBorder}>
           <StyledTooltip title={TOOLTIP_TEXT_RUP_CREATED}>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={planCheck}
-                  onChange={() => {
-                    setPlanCheck(!planCheck);
-                    setSaveFilterInfo('planCheck', !planCheck);
-                  }}
+                  checked={filterSettings.planCheck}
+                  onChange={handleFilterChange('planCheck')}
                   name="planCheck"
                   color="primary"
                 />
@@ -226,11 +185,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={agreementCheck}
-                  onChange={() => {
-                    setAgreementCheck(!agreementCheck);
-                    setSaveFilterInfo('agreementCheck', !agreementCheck);
-                  }}
+                  checked={filterSettings.agreementCheck}
+                  onChange={handleFilterChange('agreementCheck')}
                   name="agreementCheck"
                   color="primary"
                 />
@@ -242,11 +198,8 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={activeCheck}
-                  onChange={() => {
-                    setActiveCheck(!activeCheck);
-                    setSaveFilterInfo('activeCheck', !activeCheck);
-                  }}
+                  checked={filterSettings.activeCheck}
+                  onChange={handleFilterChange('activeCheck')}
                   name="activeCheck"
                   color="primary"
                 />
@@ -258,12 +211,9 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={showReplacedPlans}
-                  onChange={() => {
-                    setShowReplacedPlans(!showReplacedPlans);
-                    setSaveFilterInfo('showReplacedPlans', !showReplacedPlans);
-                  }}
-                  name="shwoReplacedPlans"
+                  checked={filterSettings.showReplacedPlans}
+                  onChange={handleFilterChange('showReplacedPlans')}
+                  name="showReplacedPlans"
                   color="primary"
                 />
               }
@@ -277,51 +227,26 @@ const SelectRangeUsePlanPage = ({ match, history }) => {
             userZones={userZones}
             unassignedZones={unassignedZones}
             zoneUsers={zoneUsers}
-            setSearchSelectedZones={setSearchSelectedZones}
+            setSearchSelectedZones={handleSelectedZonesChange}
           />
         )}
-        {isUserAdmin(user) && (
-          <ZoneSelectAll
-            zones={zones}
-            zoneUsers={zoneUsers}
-            setSearchSelectedZones={setSearchSelectedZones}
-          />
-        )}
+        {isUserAdmin(user) && <ZoneSelectAll zones={zones} setSearchSelectedZones={handleSelectedZonesChange} />}
       </div>
-
-      {error ? (
-        <Error onRetry={revalidate} />
-      ) : (
-        <>
-          <SortableAgreementTable
-            agreements={agreements}
-            currentPage={currentPage - 1}
-            totalPages={totalPages}
-            totalAgreements={totalItems}
-            perPage={limit}
-            onPageChange={(page) => setPageAndSave(page + 1)}
-            onLimitChange={setPageLimitAndSave}
-            loading={isValidating}
-            onOrderChange={(orderBy, order) => {
-              setOrder(order);
-              setOrderBy(orderBy);
-            }}
-            onFilterChange={(filterCol, filterVal) => {
-              addToFilters(filterCol, filterVal);
-              setSaveFilterInfo(filterCol, filterVal);
-              setPage(1);
-            }}
-            orderBy={orderBy}
-            order={order}
-            filters={filters}
-            onStatusCodeChange={(filterCol, filterVal) => {
-              addToFilters(filterCol, filterVal);
-              setSaveFilterInfo(filterCol, filterVal);
-              setPage(1);
-            }}
-          />
-        </>
-      )}
+      <SortableAgreementTable
+        agreements={agreements}
+        currentPage={filterSettings.page - 1}
+        totalPages={totalPages}
+        totalAgreements={totalItems}
+        perPage={filterSettings.limit}
+        onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
+        loading={loading}
+        onOrderChange={handleOrderChange}
+        onColumnFilterChange={handleColumnFilterChange}
+        orderBy={filterSettings.orderBy}
+        order={filterSettings.order}
+        columnFilters={filterSettings.columnFilters}
+      />
     </section>
   );
 };

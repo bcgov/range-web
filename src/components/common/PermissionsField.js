@@ -10,8 +10,7 @@ import { handleNullValue } from '../../utils';
 import { useEditable } from '../../providers/EditableProvider';
 import MultiParagraphDisplay from './MultiParagraphDisplay';
 
-export const canUserEdit = (field, user) =>
-  permissions[user.roleId]?.includes(field);
+export const canUserEdit = (field, user) => permissions[user.roleId]?.includes(field);
 
 const PermissionsField = ({
   permission,
@@ -44,10 +43,7 @@ const PermissionsField = ({
         </div>
       )}
       <DisplayComponent
-        aria-label={
-          props['aria-label'] ||
-          (props.inputProps && props.inputProps['aria-label'])
-        }
+        aria-label={props['aria-label'] || (props.inputProps && props.inputProps['aria-label'])}
         transparent
         value={handleNullValue(displayValue)}
         fluid={props.fluid}
@@ -72,9 +68,8 @@ export const IfEditable = ({ children, permission, invert, any = false }) => {
   const arrayFn = any ? some : every;
 
   const canEdit =
-    (Array.isArray(permission)
-      ? arrayFn(permission, (p) => canUserEdit(p, user))
-      : canUserEdit(permission, user)) && globalIsEditable;
+    (Array.isArray(permission) ? arrayFn(permission, (p) => canUserEdit(p, user)) : canUserEdit(permission, user)) &&
+    globalIsEditable;
 
   if (!invert && canEdit) return children;
   if (invert && !canEdit) return children;
@@ -83,8 +78,7 @@ export const IfEditable = ({ children, permission, invert, any = false }) => {
 
 IfEditable.propTypes = {
   children: PropTypes.node,
-  permission: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
-    .isRequired,
+  permission: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   invert: PropTypes.bool,
 };
 

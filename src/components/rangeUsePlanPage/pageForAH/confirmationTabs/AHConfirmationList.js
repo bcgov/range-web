@@ -22,9 +22,7 @@ class AHConfirmationList extends Component {
   renderConfirmation = (client, confirmation, user) => {
     const { clientAgreements } = this.props;
     const { confirmed, updatedAt } = confirmation || {};
-    const confirmationDate = confirmed
-      ? formatDateFromServer(updatedAt)
-      : AWAITING_CONFIRMATION;
+    const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : AWAITING_CONFIRMATION;
 
     return (
       <div key={client.clientNumber} className="rup__confirmation__ah-list">
@@ -34,14 +32,11 @@ class AHConfirmationList extends Component {
             className={classnames('rup__confirmation__ah-list__cname', {
               'rup__confirmation__ah-list__cname--bold':
                 isClientCurrentUser(client, user) ||
-                (isAgent(clientAgreements, user, client) &&
-                  confirmation?.user?.id === user?.id),
+                (isAgent(clientAgreements, user, client) && confirmation?.user?.id === user?.id),
             })}
           >
             {getClientFullName(client)}{' '}
-            {confirmed &&
-              !confirmation.isOwnSignature &&
-              `(by ${getUserFullName(confirmation.user)})`}
+            {confirmed && !confirmation.isOwnSignature && `(by ${getUserFullName(confirmation.user)})`}
           </span>
         </div>
         <div>{confirmationDate}</div>
@@ -68,8 +63,7 @@ class AHConfirmationList extends Component {
     ];
     const allConfimedView = (
       <div key="allConfirmed" className="rup__confirmation__paragraph-title">
-        All agreement holders have confirmed this submission. It has now been
-        submitted to range staff.
+        All agreement holders have confirmed this submission. It has now been submitted to range staff.
       </div>
     );
 
@@ -77,10 +71,7 @@ class AHConfirmationList extends Component {
     // push to the view lists based on whether it's confirmed or not
     clients.map((client) => {
       console.log(client);
-      const confirmation = findConfirmationWithClientNumber(
-        client.id,
-        plan.confirmations,
-      );
+      const confirmation = findConfirmationWithClientNumber(client.id, plan.confirmations);
       const view = this.renderConfirmation(client, confirmation, user);
       if (confirmation && confirmation.confirmed) {
         return confirmedListView.push(view);

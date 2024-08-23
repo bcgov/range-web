@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  ALREADY_SIGNED,
-  PENDING_SUBMISSION,
-  SIGN_MANUALLY,
-} from '../../../constants/strings';
+import { ALREADY_SIGNED, PENDING_SUBMISSION, SIGN_MANUALLY } from '../../../constants/strings';
 import { PrimaryButton } from '../../common';
 import { isPlanAmendment, isUserStaff } from '../../../utils';
 import { AMENDMENT_TYPE } from '../../../constants/variables';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 import { getUser } from '../../../reducers/rootReducer';
 import * as strings from '../../../constants/strings';
-import {
-  toastErrorMessage,
-  toastSuccessMessage,
-} from '../../../actionCreators';
+import { toastErrorMessage, toastSuccessMessage } from '../../../actionCreators';
 
 class ManualConfirmation extends Component {
   static propTypes = {
@@ -33,18 +26,11 @@ class ManualConfirmation extends Component {
     this.state = this.getInitialState();
   }
 
-  onManualConfirmation = async (_) => {
-    const {
-      confirmation,
-      plan,
-      user,
-      amendmentTypes,
-      updateRUPConfirmation,
-      fetchPlan,
-      toastSuccessMessage,
-    } = this.props;
+  onManualConfirmation = async () => {
+    const { confirmation, plan, user, amendmentTypes, updateRUPConfirmation, fetchPlan, toastSuccessMessage } =
+      this.props;
 
-    const onSuccess = async (data) => {
+    const onSuccess = async () => {
       fetchPlan().then(() => {
         this.setState({ isConfirming: false });
         toastSuccessMessage(strings.MANUAL_SIGNING_SUCCESS);
@@ -55,22 +41,11 @@ class ManualConfirmation extends Component {
       toastErrorMessage(strings.MANUAL_SIGNING_FAILUTE);
       throw err;
     };
-    const minorAmendmentType = amendmentTypes.find(
-      (a) => a.code === AMENDMENT_TYPE.MINOR,
-    );
-    const isMinorAmendment =
-      isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id;
+    const minorAmendmentType = amendmentTypes.find((a) => a.code === AMENDMENT_TYPE.MINOR);
+    const isMinorAmendment = isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id;
     this.setState({ isConfirming: true });
     try {
-      const res = await updateRUPConfirmation(
-        plan,
-        user,
-        confirmation.id,
-        true,
-        isMinorAmendment,
-        false,
-        true,
-      );
+      const res = await updateRUPConfirmation(plan, user, confirmation.id, true, isMinorAmendment, false, true);
       onSuccess(res);
     } catch (e) {
       onError(e);
@@ -100,13 +75,7 @@ class ManualConfirmation extends Component {
             {SIGN_MANUALLY}
           </PrimaryButton>
         ) : (
-          <PrimaryButton
-            key="pendingConfirmation"
-            disabled
-            inverted
-            compact
-            type="button"
-          >
+          <PrimaryButton key="pendingConfirmation" disabled inverted compact type="button">
             {PENDING_SUBMISSION}
           </PrimaryButton>
         )}

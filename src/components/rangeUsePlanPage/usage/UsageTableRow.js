@@ -9,13 +9,7 @@ class UsageTableRow extends Component {
 
   render() {
     const { singleUsage } = this.props;
-    const {
-      year,
-      authorizedAum,
-      temporaryIncrease,
-      totalAnnualUse,
-      totalNonUse,
-    } = singleUsage;
+    const { year, authorizedAum, temporaryIncrease, totalAnnualUse, totalNonUse } = singleUsage;
 
     return (
       <Table.Row>

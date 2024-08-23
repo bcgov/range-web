@@ -1,7 +1,4 @@
-import {
-  STORE_AGREEMENTS,
-  AGREEMENT_SEARCH_CHANGED,
-} from '../constants/actionTypes';
+import { STORE_AGREEMENTS, AGREEMENT_SEARCH_CHANGED } from '../constants/actionTypes';
 
 const initialState = {
   agreements: {},
@@ -42,8 +39,7 @@ const agreementReducer = (state = initialState, action) => {
 };
 
 // private selectors
-export const getAgreements = (state) =>
-  state.agreementIds.map((id) => state.agreements[id]);
+export const getAgreements = (state) => state.agreementIds.map((id) => state.agreements[id]);
 export const getAgreementsMap = (state) => state.agreements;
 export const getAgreementIds = (state) => state.agreementIds;
 export const getAgreementSearchParams = (state) => state.params;
