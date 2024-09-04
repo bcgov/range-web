@@ -21,7 +21,7 @@ import {
   getDataFromLocalStorage,
   saveDataInLocalStorage,
 } from '../../utils';
-import { Banner } from '../common';
+import { Banner, PrimaryButton } from '../common';
 import SortableAgreementTable from './SortableAgreementTable';
 import { ZoneSelect, ZoneSelectAll } from './ZoneSelect';
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
     border: '1px solid black',
     borderRadius: '3px',
     padding: '4px',
-    margin: '0 1rem',
+    marginRight: '8px',
   },
 }));
 
@@ -45,9 +45,26 @@ const StyledTooltip = withStyles((theme) => ({
     fontSize: theme.typography.pxToRem(14),
   },
 }))(Tooltip);
-
 const SelectRangeUsePlanPage = () => {
-  const [filterSettings, setFilterSettings] = useState({
+  const user = useUser();
+  const [users, setUsers] = useState([]);
+  const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const { agreements, totalPages, totalItems } = data || {};
+  const references = useReferences();
+  const zones = references.ZONES || [];
+  const userZones = zones?.filter((zone) => user.id === zone.userId);
+  const districtIds = userZones?.map((userZone) => userZone.districtId);
+  const unassignedZones = zones?.filter(
+    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
+  );
+  const defaultSelectedZones = isUserAdmin(user)
+    ? zones?.map((zone) => zone.id)
+    : isUserAgrologist(user)
+      ? userZones?.concat(unassignedZones).map((zone) => zone.id)
+      : [];
+  const defaultFilterSettings = {
     page: 1,
     limit: 10,
     orderBy: 'agreement.forest_file_id',
@@ -58,18 +75,13 @@ const SelectRangeUsePlanPage = () => {
     activeCheck: false,
     statusCodes: '',
     zoneInfo: {
-      selectedZones: [],
+      selectedZones: defaultSelectedZones,
       selectAllZones: true,
       deselectAllZones: false,
     },
     columnFilters: {},
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
-
-  const references = useReferences();
-  const user = useUser();
+  };
+  const [filterSettings, setFilterSettings] = useState(defaultFilterSettings);
   const fetchAgreements = useCallback(
     debounce(async (settings) => {
       setLoading(true);
@@ -117,17 +129,12 @@ const SelectRangeUsePlanPage = () => {
     fetchAgreements(filterSettings);
   }, [filterSettings, fetchAgreements]);
 
-  const [users, setUsers] = useState([]);
-  const { agreements, totalPages, totalItems } = data || {};
-  const classes = useStyles();
-
   const handleFilterChange = (field) => (event) => {
     setFilterSettings((prevSettings) => ({
       ...prevSettings,
       [field]: event.target.checked,
     }));
   };
-
   const handlePageChange = (event, page) => {
     setFilterSettings((prevSettings) => ({
       ...prevSettings,
@@ -166,71 +173,81 @@ const SelectRangeUsePlanPage = () => {
     <section className="agreement">
       <Banner header={SELECT_RUP_BANNER_HEADER} content={SELECT_RUP_BANNER_CONTENT} />
       <div className={classes.searchFilterContainer}>
-        <div className={classes.checkboxBorder}>
-          <StyledTooltip title={TOOLTIP_TEXT_RUP_CREATED}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filterSettings.planCheck}
-                  onChange={handleFilterChange('planCheck')}
-                  name="planCheck"
-                  color="primary"
-                />
-              }
-              label="RUP Created"
-            />
-          </StyledTooltip>
-          <StyledTooltip title={TOOLTIP_TEXT_RANGE_AGREEMENT}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filterSettings.agreementCheck}
-                  onChange={handleFilterChange('agreementCheck')}
-                  name="agreementCheck"
-                  color="primary"
-                />
-              }
-              label="Range Agreement"
-            />
-          </StyledTooltip>
-          <StyledTooltip title={TOOLTIP_TEXT_ACTIVE_RUP}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filterSettings.activeCheck}
-                  onChange={handleFilterChange('activeCheck')}
-                  name="activeCheck"
-                  color="primary"
-                />
-              }
-              label="Active RUP"
-            />
-          </StyledTooltip>
-          <StyledTooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filterSettings.showReplacedPlans}
-                  onChange={handleFilterChange('showReplacedPlans')}
-                  name="showReplacedPlans"
-                  color="primary"
-                />
-              }
-              label="Replaced Plans"
-            />
-          </StyledTooltip>
+        <div style={{ margin: '0 2rem', display: 'flex' }}>
+          <div className={classes.checkboxBorder}>
+            <StyledTooltip title={TOOLTIP_TEXT_RUP_CREATED}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filterSettings.planCheck}
+                    onChange={handleFilterChange('planCheck')}
+                    name="planCheck"
+                    color="primary"
+                  />
+                }
+                label="RUP Created"
+              />
+            </StyledTooltip>
+            <StyledTooltip title={TOOLTIP_TEXT_RANGE_AGREEMENT}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filterSettings.agreementCheck}
+                    onChange={handleFilterChange('agreementCheck')}
+                    name="agreementCheck"
+                    color="primary"
+                  />
+                }
+                label="Range Agreement"
+              />
+            </StyledTooltip>
+            <StyledTooltip title={TOOLTIP_TEXT_ACTIVE_RUP}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filterSettings.activeCheck}
+                    onChange={handleFilterChange('activeCheck')}
+                    name="activeCheck"
+                    color="primary"
+                  />
+                }
+                label="Active RUP"
+              />
+            </StyledTooltip>
+            <StyledTooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filterSettings.showReplacedPlans}
+                    onChange={handleFilterChange('showReplacedPlans')}
+                    name="showReplacedPlans"
+                    color="primary"
+                  />
+                }
+                label="Replaced Plans"
+              />
+            </StyledTooltip>
+          </div>
+          <PrimaryButton
+            inverted
+            onClick={() => {
+              setFilterSettings(defaultFilterSettings);
+            }}
+          >
+            Reset Filters
+          </PrimaryButton>
         </div>
-
-        {isUserAgrologist(user) && (
+        {references.ZONES?.length > 0 && isUserAgrologist(user) && (
           <ZoneSelect
-            user={user}
+            unassignedZones={unassignedZones}
+            userZones={userZones}
             users={users}
             zones={references.ZONES || []}
             setZoneInfo={setZoneInfo}
             zoneInfo={filterSettings.zoneInfo}
           />
         )}
-        {isUserAdmin(user) && (
+        {references.ZONES?.length > 0 && isUserAdmin(user) && (
           <ZoneSelectAll
             users={users}
             zones={references.ZONES || []}
@@ -239,6 +256,7 @@ const SelectRangeUsePlanPage = () => {
           />
         )}
       </div>
+
       <SortableAgreementTable
         agreements={agreements}
         currentPage={filterSettings.page - 1}

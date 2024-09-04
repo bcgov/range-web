@@ -171,16 +171,12 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
   );
 }
 
-export function ZoneSelect({ zones, user, users, setZoneInfo, zoneInfo }) {
+export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneInfo, zoneInfo }) {
   const classes = useStyles();
-  const userZones = zones.filter((zone) => user.id === zone.userId);
-  const districtIds = userZones.map((userZone) => userZone.districtId);
-  const unassignedZones = zones.filter(
-    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
-  );
   useEffect(() => {
     selectAllZones(zoneInfo.selectAllZones);
-  }, []);
+  }, [zoneInfo.selectAllZones]);
+
   const handleChange = (event) => {
     if (event.target.value) {
       const selectedZones = event.target.value;
@@ -203,15 +199,15 @@ export function ZoneSelect({ zones, user, users, setZoneInfo, zoneInfo }) {
     }
   };
 
-  const selectAllZones = (flag) => {
-    if (flag)
+  const selectAllZones = (select) => {
+    if (select) {
       setZoneInfo({
         ...zoneInfo,
         selectedZones: userZones.concat(unassignedZones).map((zone) => zone.id),
-        selectAllZones: true,
-        deselectAllZones: false,
+        selectAllZones: select,
+        deselectAllZones: !select,
       });
-    else setZoneInfo({ ...zoneInfo, selectAllZones: false });
+    } else setZoneInfo({ ...zoneInfo, selectAllZones: select });
   };
 
   const deselectAllZones = (flag = true) => {
@@ -274,7 +270,7 @@ export function ZoneSelect({ zones, user, users, setZoneInfo, zoneInfo }) {
                   key={zone.id}
                   value={zone.id}
                 >
-                  <CustomCheckbox checked={zoneInfo.selectedZones.indexOf(zone.id) > -1} />
+                  <CustomCheckbox checked={zoneInfo.selectedZones?.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
@@ -302,7 +298,7 @@ export function ZoneSelect({ zones, user, users, setZoneInfo, zoneInfo }) {
                   value={zone.id}
                   style={{ backgroundColor: 'transparent' }}
                 >
-                  <CustomCheckbox checked={zoneInfo.selectedZones.indexOf(zone.id) > -1} />
+                  <CustomCheckbox checked={zoneInfo.selectedZones?.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
