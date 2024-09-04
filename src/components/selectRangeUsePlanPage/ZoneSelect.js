@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import useSWR from 'swr';
+import React, { useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -7,14 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import {
-  getUserFullName,
-  axios,
-  getAuthHeaderConfig,
-  getDataFromLocalStorage,
-  saveDataInLocalStorage,
-} from '../../utils';
-import * as API from '../../constants/api';
+import { getUserFullName } from '../../utils';
 import { FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +47,6 @@ const checkBoxStyles = () => ({
 });
 
 const CustomCheckbox = withStyles(checkBoxStyles)(Checkbox);
-
 const ITEM_HEIGHT = 78;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -68,121 +59,54 @@ const MenuProps = {
   },
 };
 
-// Persisting zone  information in localstorage
-const setSaveZoneInfo = (allSelected, allDeselected, zones) => {
-  const currZoneInfo = getDataFromLocalStorage('zone-info');
-  const zoneInfo = {
-    ...currZoneInfo,
-    allSelected: allSelected,
-    allDeselected: allDeselected,
-    zones: zones,
-  };
-  saveDataInLocalStorage('zone-info', zoneInfo);
-};
-
-export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
+export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
   const classes = useStyles();
-  const [selectedZones, setSelectedZones] = useState([]);
-  const [zoneMap, setZoneMap] = useState();
-  const [selectAllZones, setSelectAllZones] = useState(true);
-  const [deselectAllZones, setDeselectAllZones] = useState(false);
-  const zoneInfo = getDataFromLocalStorage('zone-info');
-
-  const {
-    data: users,
-    error,
-    isValidating,
-  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
-  );
-
-  const setAllZonesSelected = () => {
-    const initialSelectedZones = zones.map((zone) => zone.id);
-    setSelectedZones(initialSelectedZones);
-  };
-
   useEffect(() => {
-    if (zoneInfo?.allSelected) {
-      setAllZonesSelected();
-      setSelectAllZones(true);
-      setDeselectAllZones(false);
-    } else {
-      setSelectAllZones(false);
-    }
-    if (zoneInfo?.allDeselected) {
-      setSelectedZones([]);
-      setSelectAllZones(false);
-      setDeselectAllZones(true);
-    }
-
-    if (zoneInfo?.zones) {
-      setSelectedZones(zoneInfo.zones);
-    } else if (selectedZones.length === 0) {
-      setAllZonesSelected();
-      setSelectAllZones(true);
-    } else {
-      if (!selectedZones.length) {
-        setAllZonesSelected();
-      } else {
-        setSelectedZones(selectedZones);
-      }
-    }
+    seletcAllZones(zoneInfo.selectAllZones);
   }, []);
-
-  useEffect(() => {
-    setSearchSelectedZones(selectedZones);
-  }, [selectedZones]);
-  useEffect(() => {
-    if (zones) {
-      const zoneMap = zones.reduce((acc, zone) => ({ ...acc, [zone.id]: zone }), {});
-      setZoneMap(zoneMap);
-      if (!zoneInfo) setAllZonesSelected();
-    }
-  }, [zones]);
-
+  const deselectAllZones = (flag = true) => {
+    if (flag) setZoneInfo({ ...zoneInfo, selectedZones: [], deselectAllZones: true, selectAllZones: false });
+    else setZoneInfo({ ...zoneInfo, deselectAllZones: false });
+  };
+  const seletcAllZones = (flag = true) => {
+    if (flag)
+      setZoneInfo({
+        ...zoneInfo,
+        selectedZones: zones.map((zone) => zone.id),
+        selectAllZones: true,
+        deselectAllZones: false,
+      });
+    else setZoneInfo({ ...zoneInfo, selectAllZones: false });
+  };
   const handleChange = (event) => {
-    if (event.target.value !== undefined) {
-      setSelectedZones(event.target.value);
-      setSaveZoneInfo(false, false, event.target.value);
+    const selectedZones = event.target.value;
+    let selectAllZones = false;
+    let deselectAllZones = false;
+    if (selectedZones !== undefined) {
+      if (selectedZones.length === zones.length) {
+        selectAllZones = true;
+        deselectAllZones = !selectAllZones;
+      } else if (selectedZones.length === 0) {
+        selectAllZones = false;
+        deselectAllZones = !selectAllZones;
+      }
+      setZoneInfo({
+        ...zoneInfo,
+        selectedZones: selectedZones,
+        selectAllZones: selectAllZones,
+        deselectAllZones: deselectAllZones,
+      });
     }
   };
-
-  const handleClose = () => {
-    if (zones?.length === selectedZones?.length) {
-      setSelectAllZones(true);
-    } else {
-      setSelectAllZones(false);
-    }
-    if (selectedZones?.length > 0) {
-      setDeselectAllZones(false);
-    }
-  };
-
-  if ((isValidating && !users) || !zoneMap) {
-    return <span>Loading zones</span>;
-  }
-
-  if (error) {
-    return <span>Error fetching users</span>;
-  }
 
   return (
     <div className={classes.formControl}>
       <FormControlLabel
         control={
           <Checkbox
-            checked={selectAllZones}
+            checked={zoneInfo?.selectAllZones === true}
             onChange={(event) => {
-              setSelectAllZones(event.target.checked);
-              if (event.target.checked) {
-                setAllZonesSelected();
-                setDeselectAllZones(!event.target.checked);
-                setSaveZoneInfo(
-                  true,
-                  false,
-                  zones.map((zone) => zone.id),
-                );
-              }
+              seletcAllZones(event.target.checked);
             }}
             name="selectAllZones"
             color="primary"
@@ -193,14 +117,9 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={deselectAllZones}
+            checked={zoneInfo?.deselectAllZones === true}
             onChange={(event) => {
-              setDeselectAllZones(event.target.checked);
-              if (event.target.checked) {
-                setSelectedZones([]);
-                setSelectAllZones(!event.target.checked);
-                setSaveZoneInfo(false, true, []);
-              }
+              deselectAllZones(event.target.checked);
             }}
             name="deselectAllZones"
             color="primary"
@@ -212,10 +131,9 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
         <InputLabel>Select Individual Zones</InputLabel>
         <Select
           onClick={handleChange}
-          onClose={handleClose}
-          value={selectedZones}
+          value={zoneInfo?.selectedZones}
           multiple
-          renderValue={(zoneIds) => zoneIds.map((id) => zoneMap[id].description).join(',  ')}
+          renderValue={(zoneIds) => zoneIds.map((id) => zones[id]?.description).join(',  ')}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
@@ -225,11 +143,9 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
             <span style={{ color: 'black', opacity: 2.0 }}>All Zones</span>
           </MenuItem>
 
-          {users &&
-            zones &&
+          {zones &&
             zones.map((zone) => {
-              const user = users.find((user) => user.id === zone.userId);
-
+              const user = users?.find((user) => user.id === zone.userId);
               return (
                 <MenuItem
                   alignItems="flex-start"
@@ -237,7 +153,7 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
                   value={zone.id}
                   style={{ backgroundColor: 'transparent' }}
                 >
-                  <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
+                  <CustomCheckbox checked={zoneInfo?.selectedZones.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
@@ -255,119 +171,62 @@ export function ZoneSelectAll({ zones, setSearchSelectedZones }) {
   );
 }
 
-export default function ZoneSelect({ zones, userZones, unassignedZones, setSearchSelectedZones }) {
+export function ZoneSelect({ zones, user, users, setZoneInfo, zoneInfo }) {
   const classes = useStyles();
-  const [selectedZones, setSelectedZones] = useState([]);
-  const [zoneMap, setZoneMap] = useState();
-  const [selectAllZones, setSelectAllZones] = useState(true);
-  const [deselectAllZones, setDeselectAllZones] = useState(false);
-  const zoneInfo = getDataFromLocalStorage('zone-info');
-
-  const {
-    data: users,
-    error,
-    isValidating,
-  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  const userZones = zones.filter((zone) => user.id === zone.userId);
+  const districtIds = userZones.map((userZone) => userZone.districtId);
+  const unassignedZones = zones.filter(
+    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
   );
-
   useEffect(() => {
-    setSearchSelectedZones(selectedZones);
-  }, [selectedZones]);
-
-  useEffect(() => {
-    if (zoneInfo?.allSelected) {
-      setAllZonesSelected();
-      setSelectAllZones(true);
-      setDeselectAllZones(false);
-    } else if (zoneInfo) {
-      setSelectAllZones(false);
-    }
-    if (zoneInfo?.allDeselected) {
-      setSelectedZones([]);
-      setSelectAllZones(false);
-      setDeselectAllZones(true);
-    }
-
-    if (zoneInfo?.zones) {
-      setSelectedZones(zoneInfo.zones);
-    } else if (userZones && userZones.length > 0) {
-      if (selectedZones.length === 0) {
-        setAllZonesSelected();
-      } else {
-        const filteredSelectedZones = selectedZones.filter((zoneID) => {
-          return (
-            userZones.some((userZone) => userZone.id === zoneID) ||
-            unassignedZones.some((unassignedZone) => unassignedZone.id === zoneID)
-          );
-        });
-
-        if (!filteredSelectedZones.length) {
-          setAllZonesSelected();
-        } else {
-          setSelectedZones(filteredSelectedZones);
-        }
-      }
-    }
+    selectAllZones(zoneInfo.selectAllZones);
   }, []);
-
-  useEffect(() => {
-    if (zones) {
-      const zoneMap = zones.reduce((acc, zone) => ({ ...acc, [zone.id]: zone }), {});
-      setZoneMap(zoneMap);
-      if (!zoneInfo) setAllZonesSelected();
-    }
-  }, [zones]);
-
   const handleChange = (event) => {
-    if (event.target.value !== undefined) {
-      setSelectedZones(event.target.value);
-      setSaveZoneInfo(false, false, event.target.value);
+    if (event.target.value) {
+      const selectedZones = event.target.value;
+      let selectAllZones = false;
+      let deselectAllZones = false;
+      if (selectAllZones)
+        if (selectedZones.length === zones.length) {
+          selectAllZones = true;
+          deselectAllZones = !selectAllZones;
+        } else if (selectedZones.length === 0) {
+          selectAllZones = false;
+          deselectAllZones = !selectAllZones;
+        }
+      setZoneInfo({
+        ...zoneInfo,
+        selectedZones: selectedZones,
+        selectAllZones: selectAllZones,
+        deselectAllZones: deselectAllZones,
+      });
     }
   };
 
-  const handleClose = () => {
-    if (userZones.concat(unassignedZones)?.length === selectedZones?.length) {
-      setSelectAllZones(true);
-      setSaveZoneInfo(true, false, selectedZones);
-    } else {
-      setSelectAllZones(false);
-    }
-    if (selectedZones?.length > 0) {
-      setDeselectAllZones(false);
-    }
+  const selectAllZones = (flag) => {
+    if (flag)
+      setZoneInfo({
+        ...zoneInfo,
+        selectedZones: userZones.concat(unassignedZones).map((zone) => zone.id),
+        selectAllZones: true,
+        deselectAllZones: false,
+      });
+    else setZoneInfo({ ...zoneInfo, selectAllZones: false });
   };
 
-  const setAllZonesSelected = () => {
-    const initialSelectedZones = userZones.concat(unassignedZones).map((zone) => zone.id);
-    setSelectedZones(initialSelectedZones);
+  const deselectAllZones = (flag = true) => {
+    if (flag) setZoneInfo({ ...zoneInfo, selectedZones: [], deselectAllZones: true, selectAllZones: false });
+    else setZoneInfo({ ...zoneInfo, deselectAllZones: false });
   };
-
-  if ((isValidating && !users) || !zoneMap) {
-    return <span>Loading zones</span>;
-  }
-
-  if (error) {
-    return <span>Error fetching users</span>;
-  }
 
   return (
     <div className={classes.formControl}>
       <FormControlLabel
         control={
           <Checkbox
-            checked={selectAllZones}
+            checked={zoneInfo.selectAllZones}
             onChange={(event) => {
-              setSelectAllZones(event.target.checked);
-              if (event.target.checked) {
-                setAllZonesSelected();
-                setDeselectAllZones(!event.target.checked);
-                setSaveZoneInfo(
-                  true,
-                  false,
-                  zones.map((zone) => zone.id),
-                );
-              }
+              selectAllZones(event.target.checked);
             }}
             name="selectAllZones"
             color="primary"
@@ -378,14 +237,9 @@ export default function ZoneSelect({ zones, userZones, unassignedZones, setSearc
       <FormControlLabel
         control={
           <Checkbox
-            checked={deselectAllZones}
+            checked={zoneInfo.deselectAllZones}
             onChange={(event) => {
-              setDeselectAllZones(event.target.checked);
-              if (event.target.checked) {
-                setSelectedZones([]);
-                setSelectAllZones(!event.target.checked);
-                setSaveZoneInfo(false, true, []);
-              }
+              deselectAllZones(event.target.checked);
             }}
             name="deselectAllZones"
             color="primary"
@@ -397,10 +251,9 @@ export default function ZoneSelect({ zones, userZones, unassignedZones, setSearc
         <InputLabel>Select Individual Zones</InputLabel>
         <Select
           onClick={handleChange}
-          onClose={handleClose}
-          value={selectedZones}
+          value={zoneInfo.selectedZones}
           multiple
-          renderValue={(zoneIds) => zoneIds.map((id) => zoneMap[id].description).join(',  ')}
+          renderValue={(zoneIds) => zoneIds.map((id) => zones[id].description).join(',  ')}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
@@ -410,8 +263,7 @@ export default function ZoneSelect({ zones, userZones, unassignedZones, setSearc
             <span style={{ color: 'black', opacity: 2.0 }}>Assigned Zones</span>
           </MenuItem>
 
-          {users &&
-            userZones &&
+          {userZones &&
             userZones.map((zone) => {
               const user = users.find((user) => user.id === zone.userId);
 
@@ -422,7 +274,7 @@ export default function ZoneSelect({ zones, userZones, unassignedZones, setSearc
                   key={zone.id}
                   value={zone.id}
                 >
-                  <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
+                  <CustomCheckbox checked={zoneInfo.selectedZones.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,
@@ -443,7 +295,6 @@ export default function ZoneSelect({ zones, userZones, unassignedZones, setSearc
             unassignedZones &&
             unassignedZones.map((zone) => {
               const user = users.find((user) => user.id === zone.userId);
-
               return (
                 <MenuItem
                   alignItems="flex-start"
@@ -451,7 +302,7 @@ export default function ZoneSelect({ zones, userZones, unassignedZones, setSearc
                   value={zone.id}
                   style={{ backgroundColor: 'transparent' }}
                 >
-                  <CustomCheckbox checked={selectedZones.indexOf(zone.id) > -1} />
+                  <CustomCheckbox checked={zoneInfo.selectedZones.indexOf(zone.id) > -1} />
                   <ListItemText
                     classes={{
                       primary: classes.listItemTextPrimary,

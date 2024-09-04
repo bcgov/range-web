@@ -23,7 +23,7 @@ import {
 } from '../../utils';
 import { Banner } from '../common';
 import SortableAgreementTable from './SortableAgreementTable';
-import ZoneSelect, { ZoneSelectAll } from './ZoneSelect';
+import { ZoneSelect, ZoneSelectAll } from './ZoneSelect';
 
 const useStyles = makeStyles(() => ({
   searchFilterContainer: {
@@ -57,6 +57,11 @@ const SelectRangeUsePlanPage = () => {
     planCheck: false,
     activeCheck: false,
     statusCodes: '',
+    zoneInfo: {
+      selectedZones: [],
+      selectAllZones: true,
+      deselectAllZones: false,
+    },
     columnFilters: {},
   });
 
@@ -65,10 +70,6 @@ const SelectRangeUsePlanPage = () => {
 
   const references = useReferences();
   const user = useUser();
-  const zones = references.ZONES || [];
-  const userZones = zones.filter((zone) => user.id === zone.userId);
-  const districtIds = userZones.map((userZone) => userZone.districtId);
-
   const fetchAgreements = useCallback(
     debounce(async (settings) => {
       setLoading(true);
@@ -89,6 +90,14 @@ const SelectRangeUsePlanPage = () => {
   );
 
   useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await axios.get(
+        `${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=bceid`,
+        getAuthHeaderConfig(),
+      );
+      setUsers(response.data);
+    };
+    fetchUsers();
     const storedFilterSettings = getDataFromLocalStorage('filterSettings');
     if (storedFilterSettings) {
       setFilterSettings((prevSettings) => ({
@@ -100,15 +109,15 @@ const SelectRangeUsePlanPage = () => {
     }
   }, []);
 
+  const setZoneInfo = (zoneInfo) => {
+    setFilterSettings({ ...filterSettings, zoneInfo: zoneInfo, page: 1 });
+  };
+
   useEffect(() => {
     fetchAgreements(filterSettings);
   }, [filterSettings, fetchAgreements]);
 
-  const unassignedZones = zones.filter(
-    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
-  );
-
-  const zoneUsers = references.USERS;
+  const [users, setUsers] = useState([]);
   const { agreements, totalPages, totalItems } = data || {};
   const classes = useStyles();
 
@@ -153,16 +162,6 @@ const SelectRangeUsePlanPage = () => {
       return { ...prevSettings, columnFilters, page: 1 };
     });
   };
-
-  const handleSelectedZonesChange = (selectedZones) => {
-    setFilterSettings((prevSettings) => {
-      return {
-        ...prevSettings,
-        selectedZones,
-      };
-    });
-  };
-
   return (
     <section className="agreement">
       <Banner header={SELECT_RUP_BANNER_HEADER} content={SELECT_RUP_BANNER_CONTENT} />
@@ -221,16 +220,24 @@ const SelectRangeUsePlanPage = () => {
             />
           </StyledTooltip>
         </div>
+
         {isUserAgrologist(user) && (
           <ZoneSelect
-            zones={zones}
-            userZones={userZones}
-            unassignedZones={unassignedZones}
-            zoneUsers={zoneUsers}
-            setSearchSelectedZones={handleSelectedZonesChange}
+            user={user}
+            users={users}
+            zones={references.ZONES || []}
+            setZoneInfo={setZoneInfo}
+            zoneInfo={filterSettings.zoneInfo}
           />
         )}
-        {isUserAdmin(user) && <ZoneSelectAll zones={zones} setSearchSelectedZones={handleSelectedZonesChange} />}
+        {isUserAdmin(user) && (
+          <ZoneSelectAll
+            users={users}
+            zones={references.ZONES || []}
+            zoneInfo={filterSettings.zoneInfo}
+            setZoneInfo={setZoneInfo}
+          />
+        )}
       </div>
       <SortableAgreementTable
         agreements={agreements}
