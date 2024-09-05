@@ -249,7 +249,7 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
           onClick={handleChange}
           value={zoneInfo.selectedZones}
           multiple
-          renderValue={(zoneIds) => zoneIds.map((id) => zones[id].description).join(',  ')}
+          renderValue={(zoneIds) => zoneIds.map((id) => zones[id]?.description).join(',  ')}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
