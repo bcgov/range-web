@@ -83,13 +83,14 @@ const SelectRangeUsePlanPage = () => {
   };
   const [filterSettings, setFilterSettings] = useState(defaultFilterSettings);
   const fetchAgreements = useCallback(
-    debounce(async (settings) => {
+    debounce(async (settings, controller) => {
       setLoading(true);
       saveDataInLocalStorage('filterSettings', settings);
       try {
         const response = await axios.get(API.SEARCH_AGREEMENTS, {
           ...getAuthHeaderConfig(),
           params: { filterSettings: settings },
+          signal: controller.signal,
         });
         setData(response.data);
       } catch (error) {
@@ -126,7 +127,11 @@ const SelectRangeUsePlanPage = () => {
   };
 
   useEffect(() => {
-    fetchAgreements(filterSettings);
+    const controller = new AbortController();
+    fetchAgreements(filterSettings, controller);
+    return () => {
+      controller.abort();
+    };
   }, [filterSettings, fetchAgreements]);
 
   const handleFilterChange = (field) => (event) => {
