@@ -166,21 +166,21 @@ class PageForStaff extends Component {
         user={this.props.user}
         plan={this.props.plan}
         fetchPlan={this.props.fetchPlan}
-        beforeUpdateStatus={async () => {
+        beforeUpdateStatus={async (statusCode) => {
           const { formik } = this.props;
           await formik.submitForm();
           const errors = await formik.validateForm();
           const error = this.validateRup(this.props.plan);
-
+          console.log(error);
           if (Object.keys(errors).length === 0 && !error) {
             return true;
           }
 
-          if (error) {
+          if (error && !(error.elementId === 'grazing_schedule' && statusCode === PLAN_STATUS.STAFF_DRAFT)) {
             this.props.toastErrorMessage(error);
+            return false;
           }
-
-          return false;
+          return true;
         }}
       />
     );
