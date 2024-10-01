@@ -66,13 +66,8 @@ class SignInButtons extends Component {
           fluid
           style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
           onClick={this.onBceidSigninBtnClick}
-          content="Login as an Agreement Holder"
+          content="Login"
         />
-        <div className="signin__link-container">
-          <div role="button" tabIndex="0" onClick={this.onSigninBtnClick}>
-            Range Staff Login
-          </div>
-        </div>
       </Fragment>
     );
   }
