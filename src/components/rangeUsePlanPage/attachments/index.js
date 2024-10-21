@@ -22,7 +22,7 @@ const Attachments = ({ planId, attachments = [], label = '', propertyName }) => 
   const handleUpload = async (file, _attachment, index) => {
     const fieldName = `files.${index}`;
     try {
-      const signedUrl = await getSignedUploadUrl(file.name);
+      const signedUrl = await getSignedUploadUrl(encodeURIComponent(file.name));
 
       await axios.put(signedUrl, file, {
         headers: {
@@ -31,7 +31,7 @@ const Attachments = ({ planId, attachments = [], label = '', propertyName }) => 
         skipAuthorizationHeader: true,
       });
 
-      formik.setFieldValue(`${fieldName}.url`, file.name);
+      formik.setFieldValue(`${fieldName}.url`, encodeURIComponent(file.name));
     } catch (e) {
       formik.setFieldValue(`${fieldName}.error`, e);
     }
