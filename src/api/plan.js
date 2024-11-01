@@ -1,5 +1,12 @@
 import uuid from 'uuid-v4';
-import { axios, getAuthHeaderConfig, findStatusWithCode, isUserAgrologist, canUserAddAttachments } from '../utils';
+import {
+  axios,
+  getAuthHeaderConfig,
+  findStatusWithCode,
+  isUserAgrologist,
+  canUserAddAttachments,
+  isUserAdmin,
+} from '../utils';
 import * as API from '../constants/api';
 import RUPSchema from '../components/rangeUsePlanPage/schema';
 import { getNetworkStatus } from '../utils/helper/network';
@@ -101,7 +108,7 @@ export const savePlan = async (plan, user = {}) => {
   await saveManagementConsiderations(planId, managementConsiderations);
   await saveMinisterIssues(planId, ministerIssues, newPastures);
   await saveAdditionalRequirements(planId, additionalRequirements);
-  if (isUserAgrologist(user) && canUserAddAttachments(plan, user)) {
+  if ((isUserAgrologist(user) && canUserAddAttachments(plan, user)) || isUserAdmin(user)) {
     await saveAttachments(planId, files);
   }
 

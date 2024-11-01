@@ -72,7 +72,7 @@ const Attachments = ({ planId, attachments = [], label = '', propertyName }) => 
                   onChange={(event) => {
                     for (const [index, file] of Array.from(event.target.files).entries()) {
                       const attachment = {
-                        name: file.name,
+                        name: encodeURIComponent(file.name),
                         createdAt: new Date(),
                         type: propertyName,
                         access: 'staff_only',

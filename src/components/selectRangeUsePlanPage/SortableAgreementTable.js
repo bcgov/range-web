@@ -18,7 +18,6 @@ import { REFERENCE_KEY } from '../../constants/variables';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 import PlanRow from './PlanRow';
-import { translateStatusBasedOnUser } from '../common/Status';
 import { Loading } from '../common';
 
 const headCells = [
@@ -122,10 +121,7 @@ function EnhancedTableHead(props) {
             {headCell.id == 'plan.status_id' && (
               <StatusMultiSelect
                 onStatusCodeChange={(newStatusCodes) =>
-                  onColumnFilterChange(
-                    { target: { value: newStatusCodes } },
-                    headCell.id,
-                  )
+                  onColumnFilterChange({ target: { value: newStatusCodes } }, headCell.id)
                 }
                 selectedStatusCodes={columnFilters[headCell.id] || []}
               />
@@ -149,13 +145,7 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
       },
     },
   };
-  const user = useUser();
-  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS]
-    .map((statusObject) => {
-      statusObject.name = translateStatusBasedOnUser(statusObject, user).statusName + ` (${statusObject.code})`;
-      return statusObject;
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS].sort((a, b) => a.name.localeCompare(b.name));
   const [selectedStatusName, setSelectedStatusName] = React.useState([]);
 
   const handleChange = (event) => {

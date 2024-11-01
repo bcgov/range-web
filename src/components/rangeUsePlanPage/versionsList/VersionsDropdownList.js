@@ -57,8 +57,10 @@ const VersionsDropdownList = ({ versions, open }) => {
               <TableHead>
                 <TableRow>
                   <TableCell style={{ color: 'grey' }}>Reason</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Originally Approved By</TableCell>
-                  <TableCell style={{ color: 'grey' }}>Original Approval Date</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Submited By</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Submission Date</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Approved By</TableCell>
+                  <TableCell style={{ color: 'grey' }}>Approval Date</TableCell>
                   <TableCell style={{ color: 'grey', align: 'left' }}>Status</TableCell>
                   <TableCell style={{ color: 'grey' }}></TableCell>
                   <TableCell style={{ color: 'grey' }}></TableCell>
@@ -70,23 +72,23 @@ const VersionsDropdownList = ({ versions, open }) => {
                   return (
                     <>
                       <TableRow key={index} hover={true}>
-                        <TableCell>{option.version.legalReason}</TableCell>
+                        <TableCell>{option.version.amendmentType}</TableCell>
+                        <TableCell>{option.version.submittedBy}</TableCell>
                         <TableCell>
-                          {option.version.snapshot.originalApproval == null
-                            ? ''
-                            : option.version.snapshot.originalApproval.givenName +
-                              ' ' +
-                              option.version.snapshot.originalApproval.familyName}
+                          {option.version.createdAt
+                            ? moment(option.version.createdAt).format('MMM DD YYYY h:mm a')
+                            : ''}
                         </TableCell>
+                        <TableCell>{option.version.approvedBy}</TableCell>
                         <TableCell>
-                          {option.version.snapshot.originalApproval == null
+                          {option.version.approvedAt === null
                             ? ''
-                            : moment(option.version.snapshot.originalApproval.createdAt).format('MMM DD YYYY h:mm a')}
+                            : moment(option.version.approvedAt).format('MMM DD YYYY h:mm a')}
                         </TableCell>
                         <TableCell>
                           <Status
                             className={classnames('versions_status_icon', {
-                              greyed: option.version.isCurrentLegalVersion === false,
+                              greyed: option.version.isCurrentLegalVersion !== true,
                             })}
                             status={option.version.snapshot.status}
                             user={user}
