@@ -133,7 +133,10 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
           onClick={handleChange}
           value={zoneInfo?.selectedZones}
           multiple
-          renderValue={(zoneIds) => zoneIds.map((id) => zones[id]?.description).join(',  ')}
+          renderValue={(zoneIds) => {
+            if (zoneInfo.selectAllZones) return '';
+            return zoneIds.map((id) => zones.find((zone) => zone.id === id)?.description).join(',  ');
+          }}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
@@ -249,7 +252,10 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
           onClick={handleChange}
           value={zoneInfo.selectedZones}
           multiple
-          renderValue={(zoneIds) => zoneIds.map((id) => zones[id]?.description).join(',  ')}
+          renderValue={(zoneIds) => {
+            if (zoneInfo.selectAllZones) return '';
+            return zoneIds.map((id) => zones.find((zone) => zone.id === id).description).join(',  ');
+          }}
           MenuProps={{
             getContentAnchorEl: () => null,
             ...MenuProps,
@@ -262,7 +268,6 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
           {userZones &&
             userZones.map((zone) => {
               const user = users.find((user) => user.id === zone.userId);
-
               return (
                 <MenuItem
                   alignItems="flex-start"
