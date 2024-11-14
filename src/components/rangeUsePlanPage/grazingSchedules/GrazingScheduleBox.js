@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import * as _ from 'lodash/fp';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
-import { roundTo1Decimal , isUserAgrologist } from '../../../utils';
+import { roundTo1Decimal, isUserAgrologist } from '../../../utils';
 import * as strings from '../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common';
 import { IMAGE_SRC } from '../../../constants/variables';
@@ -62,6 +62,32 @@ const GrazingScheduleBox = ({
         type: 'error',
       };
     }
+    const aggregatedCrownAUMs = schedule.grazingScheduleEntries.reduce((acc, entry) => {
+      if (entry.pasture && entry.pasture.id !== undefined) {
+        const pastureId = entry.pasture.id;
+        acc[pastureId] = roundTo1Decimal((acc[pastureId] || 0) + entry.crownAUMs);
+      }
+      return acc;
+    }, {});
+    const warningEntries = schedule.grazingScheduleEntries.reduce((acc, entry) => {
+      if (entry.pasture && entry.pasture.id !== undefined) {
+        const pastureId = entry.pasture.id;
+        const pastureName = entry.pasture.name;
+        const allowableAum = entry.pasture.allowableAum;
+        if (allowableAum && aggregatedCrownAUMs[pastureId] > allowableAum) {
+          acc.push({
+            id: entry.id,
+            message: `Total Crown AUMs: ${aggregatedCrownAUMs[pastureId]} of schedule entries of pasture "${pastureName}" have exceeded allowable AUMs value: ${allowableAum}.`,
+            type: 'warning',
+          });
+        }
+      }
+      return acc;
+    }, []);
+    const uniqueWarnings = Array.from(new Set(warningEntries.map((w) => w.id))).map((id) =>
+      warningEntries.find((w) => w.id === id),
+    );
+    return uniqueWarnings[0];
   };
 
   const scheduleError = getScheduleError();
