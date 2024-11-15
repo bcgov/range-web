@@ -62,39 +62,30 @@ const MenuProps = {
 export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
   const classes = useStyles();
   useEffect(() => {
-    seletcAllZones(zoneInfo.selectAllZones);
+    selectAllZones(zoneInfo.selectAllZones);
   }, []);
-  const deselectAllZones = (flag = true) => {
-    if (flag) setZoneInfo({ ...zoneInfo, selectedZones: [], deselectAllZones: true, selectAllZones: false });
-    else setZoneInfo({ ...zoneInfo, deselectAllZones: false });
-  };
-  const seletcAllZones = (flag = true) => {
+  const selectAllZones = (flag = true) => {
     if (flag)
       setZoneInfo({
         ...zoneInfo,
         selectedZones: zones.map((zone) => zone.id),
         selectAllZones: true,
-        deselectAllZones: false,
       });
-    else setZoneInfo({ ...zoneInfo, selectAllZones: false });
+    else setZoneInfo({ ...zoneInfo, selectedZones: [], selectAllZones: false });
   };
   const handleChange = (event) => {
     const selectedZones = event.target.value;
     let selectAllZones = false;
-    let deselectAllZones = false;
     if (selectedZones !== undefined) {
       if (selectedZones.length === zones.length) {
         selectAllZones = true;
-        deselectAllZones = !selectAllZones;
       } else if (selectedZones.length === 0) {
         selectAllZones = false;
-        deselectAllZones = !selectAllZones;
       }
       setZoneInfo({
         ...zoneInfo,
         selectedZones: selectedZones,
         selectAllZones: selectAllZones,
-        deselectAllZones: deselectAllZones,
       });
     }
   };
@@ -106,26 +97,13 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
           <Checkbox
             checked={zoneInfo?.selectAllZones === true}
             onChange={(event) => {
-              seletcAllZones(event.target.checked);
+              selectAllZones(event.target.checked);
             }}
             name="selectAllZones"
             color="primary"
           />
         }
         label="Select All Zones"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={zoneInfo?.deselectAllZones === true}
-            onChange={(event) => {
-              deselectAllZones(event.target.checked);
-            }}
-            name="deselectAllZones"
-            color="primary"
-          />
-        }
-        label="Deselect All Zones"
       />
       <FormControl className={classes.formControl}>
         <InputLabel>Select Individual Zones</InputLabel>
@@ -184,20 +162,16 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
     if (event.target.value) {
       const selectedZones = event.target.value;
       let selectAllZones = false;
-      let deselectAllZones = false;
       if (selectAllZones)
         if (selectedZones.length === zones.length) {
           selectAllZones = true;
-          deselectAllZones = !selectAllZones;
         } else if (selectedZones.length === 0) {
           selectAllZones = false;
-          deselectAllZones = !selectAllZones;
         }
       setZoneInfo({
         ...zoneInfo,
         selectedZones: selectedZones,
         selectAllZones: selectAllZones,
-        deselectAllZones: deselectAllZones,
       });
     }
   };
@@ -208,16 +182,9 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
         ...zoneInfo,
         selectedZones: userZones.concat(unassignedZones).map((zone) => zone.id),
         selectAllZones: select,
-        deselectAllZones: !select,
       });
-    } else setZoneInfo({ ...zoneInfo, selectAllZones: select });
+    } else setZoneInfo({ ...zoneInfo, selectAllZones: select, selectedzones: [] });
   };
-
-  const deselectAllZones = (flag = true) => {
-    if (flag) setZoneInfo({ ...zoneInfo, selectedZones: [], deselectAllZones: true, selectAllZones: false });
-    else setZoneInfo({ ...zoneInfo, deselectAllZones: false });
-  };
-
   return (
     <div className={classes.formControl}>
       <FormControlLabel
@@ -232,19 +199,6 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
           />
         }
         label="Select All Zones"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={zoneInfo.deselectAllZones}
-            onChange={(event) => {
-              deselectAllZones(event.target.checked);
-            }}
-            name="deselectAllZones"
-            color="primary"
-          />
-        }
-        label="Deselect All Zones"
       />
       <FormControl className={classes.formControl}>
         <InputLabel>Select Individual Zones</InputLabel>
