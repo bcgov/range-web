@@ -103,6 +103,8 @@ export const isStatusRecommendNotReady = (status) => status && status.code === P
 
 export const isStatusAwaitingConfirmation = (status) => status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION;
 
+export const isStatusRetired = (status) => status && status.code === PLAN_STATUS.RETIRED;
+
 export const isStatusRecommendForSubmission = (status) =>
   status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION;
 

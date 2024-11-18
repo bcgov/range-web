@@ -199,6 +199,10 @@ export const translateStatusBasedOnUser = (status, user, isForVersionsList = fal
       statusName = 'Ready For Final Decision';
       modifier += '--gray';
       break;
+    case PLAN_STATUS.RETIRED:
+      statusName = 'Retired';
+      modifier += '--gray';
+      break;
     default:
       modifier += '--not-provided';
       break;
