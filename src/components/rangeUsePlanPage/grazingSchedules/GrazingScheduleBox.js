@@ -77,7 +77,7 @@ const GrazingScheduleBox = ({
         if (allowableAum && aggregatedCrownAUMs[pastureId] > allowableAum) {
           acc.push({
             id: entry.id,
-            message: `Total Crown AUMs: ${aggregatedCrownAUMs[pastureId]} of schedule entries of pasture "${pastureName}" have exceeded allowable AUMs value: ${allowableAum}.`,
+            message: `Total Crown AUMs: ${aggregatedCrownAUMs[pastureId]} of schedule entries of pasture "${pastureName}" have exceeded recommended AUMs value: ${allowableAum}.`,
             type: 'warning',
           });
         }
