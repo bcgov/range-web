@@ -7,7 +7,7 @@ import Popper from '@material-ui/core/Popper';
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
 import * as strings from '../../constants/strings';
-import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
+import { PLAN_EXTENSION_STATUS, PLAN_STATUS } from '../../constants/variables';
 import { getDataFromLocalStorage, isPlanActive } from '../../utils';
 import CopyPlanMenuItem from './CopyPlanMenuItem';
 import CreateReplacementPlan from './CreateReplacementPlan';
@@ -96,11 +96,17 @@ export default function PlanActions({ agreement, planId, canEdit, canCreatePlan,
                         )}
                       />
                     )}
-                  {[
+                  {([
                     PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
                     PLAN_EXTENSION_STATUS.STAFF_REJECTED,
                     PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED,
-                  ].includes(agreement.plan?.extensionStatus) && <CreateReplacementPlan planId={planId} />}
+                  ].includes(agreement.plan?.extensionStatus) ||
+                    (agreement.plan?.status.code === PLAN_STATUS.EXPIRED &&
+                      ![
+                        PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
+                        PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,
+                        PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN,
+                      ].includes(agreement.plan?.extensionStatus))) && <CreateReplacementPlan planId={planId} />}
                   {[
                     PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
                     PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,
