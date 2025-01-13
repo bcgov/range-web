@@ -42,7 +42,7 @@ const BasicInformation = ({ plan, agreement }) => {
 
   const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE];
 
-  const { rangeName, altBusinessName, planStartDate, planEndDate, extension } = plan || {};
+  const { rangeName, altBusinessName, planStartDate, planEndDate, extensionDate } = plan || {};
 
   const {
     id: agreementId,
@@ -149,7 +149,7 @@ const BasicInformation = ({ plan, agreement }) => {
             </div>
           )}
 
-          <TextField label={strings.EXTENDED} text={extension} />
+          <TextField label={strings.EXTENDED} text={`${formatDateFromServer(extensionDate)}`} />
           <TextField label={strings.EXEMPTION_STATUS} text={exemptionStatusName} />
         </div>
 
