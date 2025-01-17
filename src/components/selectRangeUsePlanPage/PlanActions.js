@@ -117,6 +117,13 @@ export default function PlanActions({ agreement, planId, canEdit, canCreatePlan,
                       menuText={'View Replacement Plan'}
                     />
                   )}
+                  {[PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN].includes(agreement.plan?.extensionStatus) && (
+                    <ViewPlanMenuItem
+                      planId={agreement.plan?.replacementOf}
+                      currentPage={currentPage}
+                      menuText={'View Original Plan'}
+                    />
+                  )}
                   {[
                     PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED,
                     PLAN_EXTENSION_STATUS.STAFF_REJECTED,

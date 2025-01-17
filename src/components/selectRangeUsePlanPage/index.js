@@ -7,7 +7,6 @@ import {
   SELECT_RUP_BANNER_CONTENT,
   SELECT_RUP_BANNER_HEADER,
   TOOLTIP_TEXT_ACTIVE_RUP,
-  TOOLTIP_TEXT_ARCHIVED_PLANS,
   TOOLTIP_TEXT_RANGE_AGREEMENT,
   TOOLTIP_TEXT_RUP_CREATED,
 } from '../../constants/strings';
@@ -70,7 +69,6 @@ const SelectRangeUsePlanPage = () => {
     orderBy: 'agreement.forest_file_id',
     order: 'asc',
     agreementCheck: true,
-    showReplacedPlans: false,
     planCheck: false,
     activeCheck: false,
     statusCodes: '',
@@ -217,19 +215,6 @@ const SelectRangeUsePlanPage = () => {
                   />
                 }
                 label="Active RUP"
-              />
-            </StyledTooltip>
-            <StyledTooltip title={TOOLTIP_TEXT_ARCHIVED_PLANS}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filterSettings.showReplacedPlans}
-                    onChange={handleFilterChange('showReplacedPlans')}
-                    name="showReplacedPlans"
-                    color="primary"
-                  />
-                }
-                label="Replaced Plans"
               />
             </StyledTooltip>
           </div>

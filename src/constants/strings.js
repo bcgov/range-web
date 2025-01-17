@@ -123,8 +123,6 @@ export const TOOLTIP_TEXT_RUP_CREATED =
 export const TOOLTIP_TEXT_RANGE_AGREEMENT = 'Check box to only view only ACTIVE Range Act Agreements';
 export const TOOLTIP_TEXT_ACTIVE_RUP =
   'Check box to view Range Use Plans that have been APPROVED, includes RUPs that are being amended.  Does not include draft plans';
-export const TOOLTIP_TEXT_ARCHIVED_PLANS =
-  'Check box to be able to see ARCHIVED plans that have been replaced with a new plan';
 
 // RUP minister issues
 export const CONTACT_NO_EXIST = "Contact doesn't exist";

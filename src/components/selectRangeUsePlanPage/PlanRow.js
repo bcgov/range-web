@@ -5,7 +5,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React, { useState } from 'react';
 import { PLAN } from '../../constants/fields';
-import { canUserEditThisPlan, doesStaffOwnPlan, formatDateFromServer, isPlanActive } from '../../utils';
+import { canUserEditThisPlan, doesStaffOwnPlan, formatDateFromServer } from '../../utils';
 import { Status } from '../common';
 import { canUserEdit } from '../common/PermissionsField';
 import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown';
@@ -65,7 +65,7 @@ function PlanRow({ agreement, user, currentPage }) {
           )}
         </TableCell>
         <TableCell>
-          {isPlanActive(agreement.plan) && agreement.plan?.extensionStatus ? (
+          {agreement.plan?.extensionStatus ? (
             <ExtensionColumn user={user} currentPage={currentPage} agreement={agreement} />
           ) : (
             <div>-</div>

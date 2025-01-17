@@ -135,7 +135,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
           return <div>Replaced</div>;
         case PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN:
-          return <div>Active Replacement Plan</div>;
+          return <div>Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
           if (agreement.plan?.extensionReceivedVotes === agreement.plan?.extensionRequiredVotes) {
             return (
@@ -250,7 +250,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
           return <div>Replaced</div>;
         case PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN:
-          return <div>Active Replacement Plan</div>;
+          return <div>Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>
@@ -308,7 +308,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN:
           return <div>Replaced</div>;
         case PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN:
-          return <div>Active Replacement Plan</div>;
+          return <div>Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.EXTENDED:
           return (
             <div>

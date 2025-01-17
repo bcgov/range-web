@@ -149,7 +149,7 @@ const BasicInformation = ({ plan, agreement }) => {
             </div>
           )}
 
-          <TextField label={strings.EXTENDED} text={`${formatDateFromServer(extensionDate)}`} />
+          <TextField label={strings.EXTENDED} text={`${formatDateFromServer(extensionDate, null, 'Not available')}`} />
           <TextField label={strings.EXEMPTION_STATUS} text={exemptionStatusName} />
         </div>
 
