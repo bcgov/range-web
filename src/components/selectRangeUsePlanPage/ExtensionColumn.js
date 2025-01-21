@@ -200,22 +200,10 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
                   loading={loading}
                   onClick={() => handleRecommend(agreement.plan.id)}
                 >
-                  Recommend
+                  Forward Extension
                   <br />
-                  Extension
+                  For Decision
                 </PrimaryButton>
-                <Button
-                  size="small"
-                  style={{ margin: '4px' }}
-                  loading={loading}
-                  onClick={() => {
-                    handleReject(agreement.plan.id);
-                  }}
-                >
-                  Reject
-                  <br />
-                  Extension
-                </Button>
               </>
             );
           }
