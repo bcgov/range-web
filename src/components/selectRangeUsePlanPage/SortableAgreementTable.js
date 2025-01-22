@@ -78,7 +78,13 @@ const headCells = [
     multiSelectable: true,
   },
   { id: 'actions', disablePadding: true },
-  { id: 'extension', label: 'Extension Requests', disablePadding: false },
+  {
+    id: 'extension_status',
+    label: 'Extension Requests',
+    disablePadding: false,
+    sortable: true,
+    multiSelectable: false,
+  },
 ];
 
 function EnhancedTableHead(props) {
