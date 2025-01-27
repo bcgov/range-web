@@ -256,7 +256,7 @@ export const BASIC_INFORMATION_TIP =
 export const RANGE_NAME_TIP =
   "Each agreement needs to have a common name (descriptive or nickname) to easily distinguish between ranges when an agreement holder has more than one. If the agreement holder has only one agreement the range name might be simply 'crown.'";
 export const PASTURES_TIP =
-  "FRPA section 33 indicates that an RUP for grazing must include both a map showing pastures and a schedule having livestock class, number and period of use for each pasture. Where an agreement area is not subdivided into pastures there is a single pastures whose boundary matches that of the agreement. Pastures may be one of two types: 1. Closed: those having the entire boundary accurately defined by physical barriers (ex. fence or NRB) 2. Open: those not having the entire boundary accurately defined by physical barriers (i.e. at least a portion of the boundary reflects an approximate transition between one pasture and the next). You might choose to select a 'grace days' value appropriate for the pasture type.";
+  'FRPA section 33 requires that a RUP for grazing must include both a map showing pastures and a schedule having livestock class, number and period of use for each pasture. Where an agreement is a single area, the map and schedule should show a single pasture.  Pastures are areas that are surrounded by man-made or natural range barrier that are capable of holding or withholding livestock.';
 export const PRIVATE_LAND_DEDUCTION_TIP =
   'Percentage of total forage grazed from this pasture attributed to private land.';
 export const ALLOWABLE_AUMS_TIP =
