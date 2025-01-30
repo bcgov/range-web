@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { REFERENCE_KEY, PLAN_STATUS, AMENDMENT_TYPE, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+import {
+  REFERENCE_KEY,
+  PLAN_STATUS,
+  AMENDMENT_TYPE,
+  CONFIRMATION_MODAL_ID,
+  PLAN_EXTENSION_STATUS,
+} from '../../../constants/variables';
 import { Status, Banner } from '../../common';
 import * as strings from '../../../constants/strings';
 import * as utils from '../../../utils';
@@ -213,12 +219,13 @@ class PageForStaff extends Component {
           header={strings.SUBMIT_PLAN_CONFIRM_HEADER}
           content={strings.SUBMIT_PLAN_CONFIRM_CONTENT}
         />
-
         <Banner
           header={bannerHeader}
           content={bannerContent}
           noDefaultHeight
-          isReplacementPlan={plan.replacementOf != null}
+          isReplacementPlan={
+            plan.replacementOf != null && plan.extensionStatus !== PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN
+          }
         />
 
         <StickyHeader>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID } from '../../../constants/variables';
+import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, PLAN_EXTENSION_STATUS } from '../../../constants/variables';
 import * as strings from '../../../constants/strings';
 import * as utils from '../../../utils';
 import { Status, Banner } from '../../common';
@@ -224,12 +224,14 @@ class PageForAH extends Component {
           updateStatusAndContent={this.updateStatusAndContent}
           fetchPlan={fetchPlan}
         />
-
+        {plan.extension_status}
         <Banner
           noDefaultHeight
           header={bannerHeader}
           content={bannerContent}
-          isReplacementPlan={plan.replacementOf != null}
+          isReplacementPlan={
+            plan.replacementOf != null && plan.extensionStatus !== PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN
+          }
         />
 
         <StickyHeader>
