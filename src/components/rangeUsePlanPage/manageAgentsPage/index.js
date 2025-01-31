@@ -9,6 +9,7 @@ import { Grid, Icon } from 'semantic-ui-react';
 import { Typography, TextField, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
+import { formatDateFromServer } from '../pdf/helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -145,9 +146,11 @@ const ManageAgentsPage = ({ match }) => {
                         </Grid>
                         <Grid item xs>
                           {getUserFullName(option)}
-
                           <Typography variant="body2" color="textSecondary">
                             {option.email}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            Last Login: {formatDateFromServer(option.lastLoginAt)}
                           </Typography>
                         </Grid>
                       </Grid>
