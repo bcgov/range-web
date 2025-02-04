@@ -36,7 +36,7 @@ export const downloadAttachment = async (attachmentId, attachmentName) => {
   const url = window.URL.createObjectURL(fileRes.data);
   const link = document.createElement('a');
   link.href = url;
-  link.setAttribute('download', attachmentName);
+  link.setAttribute('download', decodeURIComponent(attachmentName));
   document.body.appendChild(link);
   link.click();
   link.parentNode.removeChild(link);
@@ -60,7 +60,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
   return (
     <div>
       <div className="rup__attachments__row">
-        <TextField text={attachment.name} label={'Name'} />
+        <TextField text={decodeURIComponent(attachment.name)} label={'Name'} />
         <TextField text={formatDateFromServer(attachment.createdAt)} label={'Upload Date'} />
         <TextField text={getUserFullName(attachment.user)} label="Uploaded By" />
         <PermissionsField
