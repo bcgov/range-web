@@ -268,11 +268,11 @@ class UpdateStatusDropdown extends Component {
     } else if (isStatusSubmittedForFD(status)) {
       return [recommendReady, recommendNotReady, requestChanges, ...overrides];
     } else if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
-      if (isPlanAmendment(plan)) {
-        return [approved, notApproved, notApprovedFWR, ...overrides];
-      }
       if (isUserAgrologist(user)) {
         return overrides;
+      }
+      if (isPlanAmendment(plan)) {
+        return [approved, notApproved, notApprovedFWR, ...overrides];
       }
       return [approved, notApprovedFWR, ...overrides];
     } else if (isStatusCreated(status)) {
