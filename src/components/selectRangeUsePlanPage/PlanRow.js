@@ -56,6 +56,7 @@ function PlanRow({ agreement, user, currentPage }) {
             <div style={{ padding: '6px 16px' }}>No plan</div>
           ) : (
             <PlanActions
+              user={user}
               agreement={agreement}
               planId={agreement.plan?.id}
               canEdit={canEdit}
