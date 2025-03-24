@@ -1,0 +1,43 @@
+---
+data_management_roles:
+  data_custodian: Danielle Cuthbertson
+  product_owner: Chris Armes
+product_external_dependencies:
+  common_components:
+    - Common-Document-Generation-Service
+  identity_authorization:
+    - IDIR
+    - BceId
+    - Business-BceId
+  notification_standard:
+    - Common-Hosted-Email-Service
+product_information:
+  api_specifications: []
+  ministry:
+    - Water, Land and Resource Stewardship
+  product_acronym: MYRA
+  product_description: >-
+    MyRangeBC is the home for electronic tools and information relating to crown
+    grazing and hay-cutting activities. New tools and information will be added
+    as they become available.
+  product_name: MyRangeBC
+  product_status: active
+  product_urls:
+    - http://myrangebc.gov.bc.ca/
+  program_area: Range
+product_technology_information:
+  backend_frameworks:
+    - name: Express
+      version: 4.16.3
+  backend_languages_version:
+    - name: JavaScript
+      version: ES2023
+  frontend_frameworks:
+    - name: React
+      version: 16.14.0
+  frontend_languages:
+    - name: JavaScript
+      version: ES2023
+  hosting_platforms:
+    - Private-Cloud-Openshift
+version: 1
