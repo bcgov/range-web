@@ -1,63 +1,51 @@
 import React, { Component, Fragment } from 'react';
 import { PrimaryButton } from '../common';
 import { ELEMENT_ID, LOCAL_STORAGE_KEY } from '../../constants/variables';
-import { SSO_LOGIN_ENDPOINT, SSO_BCEID_LOGIN_ENDPOINT } from '../../constants/api';
-import { saveDataInLocalStorage } from '../../utils';
-import { encode as base64encode } from 'base64-arraybuffer';
+import { SSO_BCEID_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT } from '../../constants/api';
+import { getDataFromLocalStorage, saveDataInLocalStorage } from '../../utils';
+import { generatePKCE } from '../../utils/pkceUtils';
 
 class SignInButtons extends Component {
   openNewTab = (link) => window.open(link, '_blank');
-  onSigninBtnClick = () => {
-    this.openNewTab(SSO_LOGIN_ENDPOINT.replace('_CODE_CHALLENGE_VALUE_', this.state.codeVerifierHash));
-  };
-  onBceidSigninBtnClick = () => {
-    this.openNewTab(SSO_BCEID_LOGIN_ENDPOINT.replace('_CODE_CHALLENGE_VALUE_', this.state.codeVerifierHash));
-  };
 
-  constructor() {
-    super();
-    this.state = {
-      codeVerifier: null,
-      codeVerifierHash: null,
-      hashComputed: false,
-    };
-  }
+  onSignInButtonClick = () => {
+    let loginEndpoint = SSO_BCEID_LOGIN_ENDPOINT.replace(
+      '_CODE_CHALLENGE_VALUE_',
+      getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE).codeVerifierHash,
+    );
+    if (getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER)?.ssoId?.startsWith('idir')) {
+      loginEndpoint = SSO_IDIR_LOGIN_ENDPOINT.replace(
+        '_CODE_CHALLENGE_VALUE_',
+        getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE).codeVerifierHash,
+      );
+    }
+    this.openNewTab(loginEndpoint);
+  };
 
   componentDidMount() {
-    // generate and save new ones, and update the state
-    let codeVerifier = '';
-
-    const VALID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-    for (let i = 0; i < 128; i++) {
-      codeVerifier += VALID_CHARS.charAt(Math.floor(Math.random() * VALID_CHARS.length));
-    }
-
-    const encoder = new TextEncoder();
-    const data = encoder.encode(codeVerifier);
-    crypto.subtle.digest('SHA-256', data).then((hash) => {
-      // hash complete
-
-      const encodedHash = base64encode(hash).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-
-      this.setState({
-        ...this.state,
-        codeVerifier: codeVerifier,
-        codeVerifierHash: encodedHash,
-        hashComputed: true,
-      });
-
+    generatePKCE().then((pkce) => {
       saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE, {
-        codeVerifier: codeVerifier,
-        codeVerifierHash: encodedHash,
+        codeVerifier: pkce.codeVerifier,
+        codeVerifierHash: pkce.codeVerifierHash,
       });
     });
   }
 
   render() {
-    if (!this.state.hashComputed) {
-      return <Fragment>...</Fragment>;
+    if (getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER)?.ssoId?.startsWith('idir')) {
+      return (
+        <Fragment>
+          <PrimaryButton
+            id={ELEMENT_ID.LOGIN_IDIR_BUTTON}
+            className="signin__button"
+            fluid
+            style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
+            onClick={this.onSignInButtonClick}
+            content="Login using IDIR"
+          />
+        </Fragment>
+      );
     }
-
     return (
       <Fragment>
         <PrimaryButton
@@ -65,8 +53,8 @@ class SignInButtons extends Component {
           className="signin__button"
           fluid
           style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
-          onClick={this.onBceidSigninBtnClick}
-          content="Login"
+          onClick={this.onSignInButtonClick}
+          content="Login using BCeID"
         />
       </Fragment>
     );

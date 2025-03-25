@@ -13,6 +13,7 @@
       margin-bottom: 5px;
     }
   }
+
   &__header {
     position: sticky;
     top: 0;
@@ -20,17 +21,35 @@
     background: $primary-color;
     border-bottom: 2px solid $accent-color;
 
-    &__logo {
-      height: 32px;
-    }
     &__content {
       height: inherit;
       display: flex;
-      justify-content: center;
+      justify-content: space-between; // Ensures space between logo and button
       height: 58px;
       align-items: center;
+      position: relative; // Needed for absolute positioning of logo
+      width: 100%;
+    }
+
+    &__logo {
+      height: 32px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%); // Centers the logo perfectly
+    }
+
+    &__button__container {
+      margin-left: auto; // Pushes the button to the right
+      display: flex;
+    }
+
+    &__signin__button {
+      width: auto;
+      min-width: 120px;
+      padding: 8px 16px;
     }
   }
+
   &__paragraph-cell {
     max-width: 45%;
     display: flex;
@@ -39,18 +58,20 @@
     position: relative;
     height: fit-content;
 
-    > i {
+    >i {
       color: white;
       position: absolute;
       right: 10px;
       bottom: 10px;
       display: none !important;
     }
+
     @include mobile {
       max-width: 100%;
       margin: 10px 0;
     }
   }
+
   &__paragraph1 {
     background: url('../../public/images/signin_background.jpg') no-repeat;
     background-size: cover;
@@ -60,6 +81,7 @@
     padding: 50px 0;
     min-height: 500px;
   }
+
   &__paragraph2 {
     display: flex;
     flex-direction: column;
@@ -73,6 +95,7 @@
       color: $primary-color;
       line-height: initial;
     }
+
     &__text {
       max-width: 600px;
       font-size: 1.2rem;
@@ -80,6 +103,7 @@
       text-align: center;
       padding: 10px;
     }
+
     &__notice {
       max-width: 600px;
       font-size: 1.2rem;
@@ -89,6 +113,7 @@
       background-color: yellow;
     }
   }
+
   &__paragraph3,
   &__paragraph4,
   &__paragraph5 {
@@ -101,22 +126,26 @@
       align-items: center;
       flex-wrap: wrap;
     }
+
     &__title {
       font-size: 2rem;
       color: $primary-color;
       line-height: initial;
       margin-bottom: 10px;
     }
+
     &__text {
       font-size: 1.2rem;
       line-height: 25px;
     }
+
     &__image {
       max-width: 100%;
       height: auto;
       display: block;
       border-radius: 5px;
     }
+
     &__register-btn {
       align-self: flex-start;
       margin-top: 10px !important;
@@ -130,6 +159,7 @@
     margin: 0 15px 0 11px;
     padding: 0 2px;
   }
+
   &__container {
     display: flex;
     flex-direction: column;
@@ -142,20 +172,24 @@
     border-radius: 5px;
     font-size: 1.2rem;
   }
+
   &__title {
     font-size: 2.3rem;
     line-height: initial;
     color: #234075;
   }
+
   &__text1 {
     text-align: center;
     margin-top: 5px;
   }
+
   &__text2 {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 2px;
   }
+
   &__text3 {
     text-decoration: underline;
 
@@ -163,11 +197,13 @@
       text-decoration: none;
     }
   }
+
   &__error {
     margin-top: 15px;
     width: 100%;
     text-align: center;
   }
+
   &__link-container {
     align-self: stretch;
     text-align: center;
@@ -175,7 +211,7 @@
     font-size: 1rem;
     color: black;
 
-    > div {
+    >div {
       display: inline;
       cursor: pointer;
       text-decoration: underline;

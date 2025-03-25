@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { LOGIN_TITLE, APP_NAME } from '../../constants/strings';
-import { detectIE, isTokenExpired, getDataFromLocalStorage } from '../../utils';
+import { detectIE, isTokenExpired, getDataFromLocalStorage, saveDataInLocalStorage } from '../../utils';
 import { fetchUser } from '../../actionCreators';
 import { Footer, PrimaryButton } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
+import { SSO_IDIR_LOGIN_ENDPOINT } from '../../constants/api';
+import { generatePKCE } from '../../utils/pkceUtils';
 
 export class LoginPage extends Component {
   static propTypes = {
@@ -26,7 +28,23 @@ export class LoginPage extends Component {
       // try to fetch the user from the server
       this.props.fetchUser();
     }
+    generatePKCE().then((pkce) => {
+      saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE, {
+        codeVerifier: pkce.codeVerifier,
+        codeVerifierHash: pkce.codeVerifierHash,
+      });
+    });
   }
+
+  staffLoginBtnClicked = () => {
+    window.open(
+      SSO_IDIR_LOGIN_ENDPOINT.replace(
+        '_CODE_CHALLENGE_VALUE_',
+        getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE).codeVerifierHash,
+      ),
+      '_blank',
+    );
+  };
 
   registerBtnClicked = () => {
     window.open('https://www.bceid.ca/register/', '_blank');
@@ -42,7 +60,19 @@ export class LoginPage extends Component {
         <article className="login__header">
           <div className="container">
             <div className="login__header__content">
-              <img className="login__header__logo" src={IMAGE_SRC.MYRANGEBC_LOGO} alt="Logo" />
+              <img
+                className="login__header__logo"
+                style={{ textAlign: 'center' }}
+                src={IMAGE_SRC.MYRANGEBC_LOGO}
+                alt="Logo"
+              />
+              <div className="login__header__button__container">
+                <PrimaryButton
+                  className="login__header__signin__button"
+                  content="Staff Login"
+                  onClick={this.staffLoginBtnClicked}
+                />
+              </div>
             </div>
           </div>
         </article>

@@ -27,9 +27,9 @@ import {
   GET_TOKEN_FROM_SSO,
   REFRESH_TOKEN_FROM_SSO,
   API_BASE_URL,
-  SSO_LOGOUT_ENDPOINT,
+  SITEMINDER_LOGOUT_ENDPOINT,
 } from '../constants/api';
-import { saveDataInLocalStorage, getDataFromLocalStorage, deleteDataFromLocalStorage } from './localStorage';
+import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
 import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
 
@@ -107,9 +107,6 @@ export const getTokenFromSSO = (code) => {
     code_verifier: storedCodes.codeVerifier,
   };
 
-  // no longer required
-  deleteDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
-
   // make an application/x-www-form-urlencoded request with axios
   return axios({
     method: 'post',
@@ -186,8 +183,8 @@ const isRangeAPI = (config) => {
   return false;
 };
 
-export const signOutFromSSOAndSiteMinder = () => {
-  window.open(SSO_LOGOUT_ENDPOINT, '_self');
+export const signOutFromSSOAndSiteMinder = async () => {
+  window.open(SITEMINDER_LOGOUT_ENDPOINT, '_self');
 };
 
 /**
@@ -291,7 +288,6 @@ export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate,
         },
       );
     }
-
     return config;
   });
 };

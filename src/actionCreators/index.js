@@ -86,8 +86,6 @@ export const resetTimeoutForReAuth = (reauthenticate) => (dispatch, getState) =>
 export const signOut = () => (dispatch) => {
   // clear the local storage in the browser
   localStorage.clear();
-  document.cookie =
-    'SMSESSION=; path=/; domain=.gov.bc.ca; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=None';
   dispatch(actions.removeAuthDataAndUser());
 };
 
