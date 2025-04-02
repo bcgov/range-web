@@ -24,79 +24,41 @@ const defaultProps = {
   style: {},
 };
 
-export const translateStatusBasedOnUser = (status, user, isForVersionsList = false) => {
+export const translateStatusBasedOnUser = (status, user) => {
   let modifier = 'status__icon';
   let statusName = status.code ? 'Unknown_status' : NO_PLAN;
   switch (status.code) {
     case PLAN_STATUS.DRAFT:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Draft in Progress';
-      } else {
-        statusName = 'AH Draft in Progress';
-      }
+      statusName = 'Draft in Progress - AH';
       modifier += '--gray';
       break;
     case PLAN_STATUS.CREATED:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Add Content to RUP';
-        modifier += '--orange';
-      } else {
-        statusName = 'Submitted to AH';
-        modifier += '--gray';
-      }
+      statusName = 'Add Content to RUP - AH';
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.CHANGE_REQUESTED:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Make Changes to RUP';
-        modifier += '--orange';
-      } else {
-        statusName = 'Awaiting AH Input';
-        modifier += '--gray';
-      }
+      statusName = 'Awaiting Input - AH';
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.STAFF_DRAFT:
       statusName = 'Staff Draft';
       modifier += '--gray';
       break;
-
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Not Accepted';
-      } else {
-        statusName = 'Wrongly Made Without Effect';
-      }
+      statusName = 'Wrongly Made Without Effect - AH';
       modifier += '--red';
       break;
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
-      if (isForVersionsList) {
-        statusName = 'Stands';
-      } else {
-        statusName = 'Wrongly Made Stands';
-      }
+      statusName = 'Wrongly Made Stands - SA';
       modifier += '--green';
       break;
     case PLAN_STATUS.STANDS_REVIEW:
-      if (isUserAgrologist(user)) {
-        statusName = 'Review Amendment';
-        modifier += '--orange';
-      } else {
-        statusName = 'Stands';
-        modifier += '--green';
-      }
+      statusName = 'Stands Review - SA';
+      modifier += isUserAgrologist(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.STANDS_NOT_REVIEWED:
-      if (isForVersionsList) {
-        statusName = 'Stands';
-        modifier += '--green';
-      } else {
-        if (isUserAgreementHolder(user)) {
-          statusName = 'Stands';
-          modifier += '--green';
-        } else {
-          statusName = 'Stands - Not Reviewed';
-          modifier += '--green';
-        }
-      }
+      statusName = 'Stands - Not Reviewed - AH';
+      modifier += '--green';
       break;
     case PLAN_STATUS.STANDS:
       statusName = 'Stands';
@@ -104,68 +66,33 @@ export const translateStatusBasedOnUser = (status, user, isForVersionsList = fal
       break;
 
     case PLAN_STATUS.SUBMITTED_FOR_REVIEW:
-      if (isUserAgrologist(user)) {
-        statusName = 'Provide Feedback';
-        modifier += '--orange';
-      } else {
-        statusName = 'Awaiting Feedback from SA';
-        modifier += '--gray';
-      }
+      statusName = 'Awaiting Feedback - SA';
+      modifier += isUserAgrologist(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION:
-      if (isUserAgrologist(user)) {
-        statusName = 'Decision Required';
-        modifier += '--orange';
-      } else {
-        statusName = 'Awaiting Decision';
-        modifier += '--gray';
-      }
+      statusName = 'Awaiting Decision - SA';
+      modifier += isUserAgrologist(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.AWAITING_CONFIRMATION:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Awaiting Signatures';
-        modifier += '--orange';
-      } else {
-        statusName = 'AH Signatures Pending';
-        modifier += '--gray';
-      }
+      statusName = 'Signatures Pending - AH';
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
 
     case PLAN_STATUS.RECOMMEND_FOR_SUBMISSION:
-      if (isUserAgreementHolder(user)) {
-        statusName = 'Ready to Submit';
-        modifier += '--orange';
-      } else {
-        statusName = 'Recommended For Submission';
-        modifier += '--gray';
-      }
+      statusName = 'Recommended For Submission - AH';
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.RECOMMEND_READY:
-      if (isUserDecisionMaker(user)) {
-        statusName = 'Approval Recommended';
-        modifier += '--orange';
-      } else {
-        statusName = 'Awaiting Decision';
-        modifier += '--gray';
-      }
+      statusName = 'Approval Recommended - DM';
+      modifier += isUserDecisionMaker(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.RECOMMEND_NOT_READY:
-      if (isUserDecisionMaker(user)) {
-        statusName = 'Approval Not Recommended';
-        modifier += '--orange';
-      } else {
-        statusName = 'Awaiting Decision';
-        modifier += '--gray';
-      }
+      statusName = 'Approval Not Recommended - DM';
+      modifier += isUserDecisionMaker(user) ? '--orange' : '--gray';
       break;
-
     case PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED:
-      statusName = 'Changes Requested';
-      if (isUserAgreementHolder(user)) {
-        modifier += '--orange';
-      } else {
-        modifier += '--gray';
-      }
+      statusName = 'Changes Requested - AH';
+      modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.NOT_APPROVED:
       statusName = 'Not Approved';
@@ -176,15 +103,15 @@ export const translateStatusBasedOnUser = (status, user, isForVersionsList = fal
       modifier += '--green';
       break;
     case PLAN_STATUS.AMENDMENT_AH:
-      statusName = 'Amendment Created';
+      statusName = 'Amendment Created - AH';
       modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.MANDATORY_AMENDMENT_STAFF:
-      statusName = 'Mandatory Amendment Created';
+      statusName = 'Mandatory Amendment Created - SA';
       modifier += isUserAgrologist(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.SUBMITTED_AS_MANDATORY:
-      statusName = 'Submitted as Mandatory';
+      statusName = 'Submitted as Mandatory - SA';
       modifier += isUserAgrologist(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.PENDING:
@@ -211,12 +138,11 @@ export const translateStatusBasedOnUser = (status, user, isForVersionsList = fal
       modifier += '--not-provided';
       break;
   }
-
   return { modifier, statusName };
 };
 
-const Status = ({ status, className, style, user, isAmendment = false, isForVersionsList = false }) => {
-  const { modifier, statusName } = translateStatusBasedOnUser(status, user, isForVersionsList);
+const Status = ({ status, className, style, user, isAmendment = false }) => {
+  const { modifier, statusName } = translateStatusBasedOnUser(status, user);
 
   return (
     <div className={classnames('status', className)} style={style}>
