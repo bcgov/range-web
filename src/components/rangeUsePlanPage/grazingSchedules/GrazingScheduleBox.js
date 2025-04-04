@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
-import * as _ from 'lodash/fp';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
 import { roundTo1Decimal, isUserAgrologist } from '../../../utils';
 import * as strings from '../../../constants/strings';
@@ -18,6 +17,7 @@ import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 import { useUser } from '../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
 import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
+const _ = require('lodash');
 
 const GrazingScheduleBox = ({
   schedule,
@@ -96,9 +96,6 @@ const GrazingScheduleBox = ({
   const setSortOrder = (order) => formik.setFieldValue(`${namespace}.sortOrder`, order);
 
   const handleHeaderClick = (column) => {
-    console.log('sorting by ' + column);
-    const orderByColumn = _.orderBy([column, 'id']);
-
     if (column !== sortBy) {
       setSortBy(column);
       setSortOrder('asc');
@@ -106,7 +103,7 @@ const GrazingScheduleBox = ({
 
       formik.setFieldValue(
         `${namespace}.grazingScheduleEntries`,
-        orderByColumn('asc', schedule.grazingScheduleEntries),
+        _.orderBy(schedule.grazingScheduleEntries, [column, 'id'], ['asc', 'asc']),
       );
     } else {
       if (sortOrder === 'asc') {
@@ -115,7 +112,7 @@ const GrazingScheduleBox = ({
         updateSortOrder(schedule.planId, schedule.id, column, 'desc');
         formik.setFieldValue(
           `${namespace}.grazingScheduleEntries`,
-          orderByColumn('desc', schedule.grazingScheduleEntries),
+          _.orderBy(schedule.grazingScheduleEntries, [column, 'id'], ['desc', 'asc']),
         );
       } else {
         setSortOrder(null);
@@ -123,7 +120,7 @@ const GrazingScheduleBox = ({
         updateSortOrder(schedule.planId, schedule.id, null, null);
         formik.setFieldValue(
           `${namespace}.grazingScheduleEntries`,
-          _.orderBy('id', 'asc', schedule.grazingScheduleEntries),
+          _.orderBy(schedule.grazingScheduleEntries, ['id'], ['asc']),
         );
       }
     }
