@@ -30,6 +30,7 @@ import PlanProvider from '../providers/PlanProvider';
 import theme from './theme';
 import { SWRConfig } from 'swr';
 import { ConfirmationModalProvider } from '../providers/ConfrimationModalProvider';
+import EnvironmentBanner from './common/EnvironmentBanner';
 
 const store = configureStore();
 
@@ -44,6 +45,7 @@ class App extends Component {
           shouldRetryOnError: false,
         }}
       >
+        <EnvironmentBanner />
         <Provider store={store}>
           <ThemeProvider theme={theme}>
             <UserProvider>
