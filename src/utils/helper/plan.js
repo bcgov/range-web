@@ -68,7 +68,7 @@ export const isStatusDraft = (status) => status && status.code === PLAN_STATUS.D
 
 export const isStatusStaffDraft = (status) => status && status.code === PLAN_STATUS.STAFF_DRAFT;
 
-export const isStatusCompleted = (status) => status && status.code === PLAN_STATUS.COMPLETED;
+// export const isStatusCompleted = (status) => status && status.code === PLAN_STATUS.COMPLETED;
 
 export const isStatusChangedRequested = (status) => status && status.code === PLAN_STATUS.CHANGE_REQUESTED;
 

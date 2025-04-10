@@ -63,13 +63,13 @@ class UpdateStatusDropdown extends Component {
     this.setState({ loading: false });
   };
 
-  openCompletedConfirmModal = () => {
-    this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.COMPLETED_CONFIRM_HEADER,
-      content: strings.COMPLETED_CONFIRM_CONTENT,
-      statusCode: PLAN_STATUS.COMPLETED,
-    });
-  };
+  // openCompletedConfirmModal = () => {
+  //   this.openConfirmModalForUpdatingPlanStatus({
+  //     header: strings.COMPLETED_CONFIRM_HEADER,
+  //     content: strings.COMPLETED_CONFIRM_CONTENT,
+  //     statusCode: PLAN_STATUS.COMPLETED,
+  //   });
+  // };
 
   openChangeRequestConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
