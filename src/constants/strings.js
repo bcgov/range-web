@@ -173,9 +173,9 @@ export const GET_ZONES_ERROR = 'Error occurred while fetching zones';
 export const GET_USERS_ERROR = 'Error occurred while fetching users';
 
 // modals
-export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';
-export const COMPLETED_CONFIRM_CONTENT =
-  'COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. If you change status to COMPLETE you will no longer be able to make edits to this RUP. Would you like to switch this RUP to complete?';
+// export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';
+// export const COMPLETED_CONFIRM_CONTENT =
+//   'COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. If you change status to COMPLETE you will no longer be able to make edits to this RUP. Would you like to switch this RUP to complete?';
 export const PENDING_CONFIRM_HEADER = 'Update Status: Pending';
 export const PENDING_CONFIRM_CONTENT =
   'PENDING indicates that a RUP is in edit mode. It is used during initial creation if the decision maker has requested edits before approving. Do not switch the status to PENDING unless the decision maker has requested specific edits. Would you like to switch this RUP to Pending?';

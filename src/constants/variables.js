@@ -22,7 +22,7 @@ export const CONTENT_MARGIN_BOTTOM = 35;
 
 export const PLAN_STATUS = {
   PENDING: 'P',
-  COMPLETED: 'O',
+  // COMPLETED: 'O',
   DRAFT: 'D',
   CREATED: 'C',
   CHANGE_REQUESTED: 'R',

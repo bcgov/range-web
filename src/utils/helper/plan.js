@@ -68,7 +68,7 @@ export const isStatusDraft = (status) => status && status.code === PLAN_STATUS.D
 
 export const isStatusStaffDraft = (status) => status && status.code === PLAN_STATUS.STAFF_DRAFT;
 
-export const isStatusCompleted = (status) => status && status.code === PLAN_STATUS.COMPLETED;
+// export const isStatusCompleted = (status) => status && status.code === PLAN_STATUS.COMPLETED;
 
 export const isStatusChangedRequested = (status) => status && status.code === PLAN_STATUS.CHANGE_REQUESTED;
 
@@ -107,8 +107,6 @@ export const isStatusRetired = (status) => status && status.code === PLAN_STATUS
 
 export const isStatusRecommendForSubmission = (status) =>
   status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION;
-
-export const isStatusSubmittedAsMandatory = (status) => status && status.code === PLAN_STATUS.SUBMITTED_AS_MANDATORY;
 
 export const cannotDownloadPDF = (status) =>
   status && status.code && NOT_DOWNLOADABLE_PLAN_STATUSES.includes(status.code);
@@ -183,12 +181,7 @@ export const canUserSaveDraft = (plan = {}, user = {}) => {
 export const canUserEditThisPlan = (plan = {}, user = {}) => {
   const { status } = plan;
 
-  if (
-    isStatusStaffDraft(status) ||
-    isStatusSubmittedForReview(status) ||
-    isStatusMandatoryAmendmentStaff(status) ||
-    isStatusSubmittedAsMandatory(status)
-  ) {
+  if (isStatusStaffDraft(status) || isStatusSubmittedForReview(status) || isStatusMandatoryAmendmentStaff(status)) {
     if (isUserAdmin(user)) return true;
     return isUserAgrologist(user) && doesStaffOwnPlan(plan, user);
   }
@@ -548,11 +541,5 @@ export const getBannerHeaderAndContentForAH = (plan, user, references) => {
       content = 'The agreement holder is working on an amendment.';
     }
   }
-  if (isStatusSubmittedAsMandatory(status)) {
-    header = 'Submit as Mandatory';
-    content =
-      'Staff have initiated this mandatory amendment based on a minor amendment that, while deemed wrongly made, could be considered for decision as a mandatory amendment.';
-  }
-
   return { header, content };
 };

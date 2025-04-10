@@ -14,6 +14,7 @@ import {
   isStatusSubmittedForReview,
   isUserAdmin,
   isUserAgrologist,
+  isUserDecisionMaker,
 } from '../../../utils';
 import { PLAN_STATUS } from '../../../constants/variables';
 import { getConfirmationModalsMap, getIsUpdatingPlanStatus, getReferences } from '../../../reducers/rootReducer';
@@ -63,13 +64,13 @@ class UpdateStatusDropdown extends Component {
     this.setState({ loading: false });
   };
 
-  openCompletedConfirmModal = () => {
-    this.openConfirmModalForUpdatingPlanStatus({
-      header: strings.COMPLETED_CONFIRM_HEADER,
-      content: strings.COMPLETED_CONFIRM_CONTENT,
-      statusCode: PLAN_STATUS.COMPLETED,
-    });
-  };
+  // openCompletedConfirmModal = () => {
+  //   this.openConfirmModalForUpdatingPlanStatus({
+  //     header: strings.COMPLETED_CONFIRM_HEADER,
+  //     content: strings.COMPLETED_CONFIRM_CONTENT,
+  //     statusCode: PLAN_STATUS.COMPLETED,
+  //   });
+  // };
 
   openChangeRequestConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
@@ -262,7 +263,7 @@ class UpdateStatusDropdown extends Component {
     if (isStatusStandsNotReviewed(status)) {
       return [stands, standsReview, ...overrides];
     } else if (isStatusStandsReview(status)) {
-      return [stands, standsWronglyMade, wronglyMadeWithoutEffect, ...overrides];
+      if (isUserDecisionMaker(user)) return [stands, standsWronglyMade, wronglyMadeWithoutEffect, ...overrides];
     } else if (isStatusSubmittedForReview(status)) {
       return [requestChanges, recommendForSubmission, ...overrides];
     } else if (isStatusSubmittedForFD(status)) {

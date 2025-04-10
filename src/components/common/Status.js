@@ -41,7 +41,7 @@ export const translateStatusBasedOnUser = (status, user) => {
       modifier += isUserAgreementHolder(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.STAFF_DRAFT:
-      statusName = 'Staff Draft';
+      statusName = 'Staff Draft - SA';
       modifier += '--gray';
       break;
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
@@ -49,16 +49,16 @@ export const translateStatusBasedOnUser = (status, user) => {
       modifier += '--red';
       break;
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
-      statusName = 'Wrongly Made Stands - SA';
+      statusName = 'Wrongly Made Stands';
       modifier += '--green';
       break;
     case PLAN_STATUS.STANDS_REVIEW:
-      statusName = 'Stands Review - SA';
-      modifier += isUserAgrologist(user) ? '--orange' : '--gray';
+      statusName = 'Stands - Needs Decision - DM';
+      modifier += isUserDecisionMaker(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.STANDS_NOT_REVIEWED:
-      statusName = 'Stands - Not Reviewed - AH';
-      modifier += '--green';
+      statusName = 'Stands - Not Reviewed - SA';
+      modifier += isUserAgrologist(user) ? '--orange' : '--gray';
       break;
     case PLAN_STATUS.STANDS:
       statusName = 'Stands';
@@ -118,10 +118,10 @@ export const translateStatusBasedOnUser = (status, user) => {
       statusName = 'Pending';
       modifier += '--gray';
       break;
-    case PLAN_STATUS.COMPLETED:
-      statusName = 'Completed';
-      modifier += '--gray';
-      break;
+    // case PLAN_STATUS.COMPLETED:
+    //   statusName = 'Completed';
+    //   modifier += '--gray';
+    //   break;
     case PLAN_STATUS.READY_FOR_FINAL_DECISION:
       statusName = 'Ready For Final Decision';
       modifier += '--gray';

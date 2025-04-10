@@ -8,7 +8,6 @@ import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown';
 import { useNetworkStatus } from '../../utils/hooks/network';
 import { useCurrentPlan } from '../../providers/PlanProvider';
 import DiscardAmendmentButton from './DiscardAmendmentButton';
-import SubmitAsMandatoryButton from './SubmitAsMandatoryButton';
 import AmendFromLegalButton from './AmendFromLegalButton';
 
 const ActionBtns = ({
@@ -117,7 +116,6 @@ const ActionBtns = ({
         {permissions.amend && amendBtn}
         {permissions.confirm && confirmSubmissionBtn}
         {permissions.discard && <DiscardAmendmentButton />}
-        {permissions.submitAsMandatory && <SubmitAsMandatoryButton />}
         {permissions.amendFromLegal && <AmendFromLegalButton />}
       </div>
 
