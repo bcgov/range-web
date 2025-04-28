@@ -135,6 +135,7 @@ class AmendmentSubmissionModal extends Component {
     const selectedStatusForMandatory = findStatusWithCode(references, statusCode);
     const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
     const isMandatory = isMandatoryAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
+    plan.amendmentTypeId = isMinor ? minor.id : mandatory.id;
 
     if (isMinor && isSingleClient(clients)) {
       const standsNotReviewed = findStatusWithCode(references, PLAN_STATUS.STANDS_NOT_REVIEWED);

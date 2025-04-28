@@ -19,10 +19,8 @@
 //
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
-import { isBundled } from './constants/variables';
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -35,9 +33,6 @@ function devTools() {
 
 const configureStore = () => {
   const middlewares = [thunk];
-  if (!isBundled) {
-    middlewares.push(logger);
-  }
 
   return createStore(rootReducer, compose(applyMiddleware(...middlewares), devTools()));
 };

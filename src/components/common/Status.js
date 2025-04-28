@@ -45,7 +45,7 @@ export const translateStatusBasedOnUser = (status, user) => {
       modifier += '--gray';
       break;
     case PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT:
-      statusName = 'Wrongly Made Without Effect - AH';
+      statusName = 'Wrongly Made Without Effect';
       modifier += '--red';
       break;
     case PLAN_STATUS.STANDS_WRONGLY_MADE:
@@ -54,11 +54,11 @@ export const translateStatusBasedOnUser = (status, user) => {
       break;
     case PLAN_STATUS.STANDS_REVIEW:
       statusName = 'Stands - Needs Decision - DM';
-      modifier += isUserDecisionMaker(user) ? '--orange' : '--gray';
+      modifier += isUserDecisionMaker(user) ? '--orange' : '--green';
       break;
     case PLAN_STATUS.STANDS_NOT_REVIEWED:
       statusName = 'Stands - Not Reviewed - SA';
-      modifier += isUserAgrologist(user) ? '--orange' : '--gray';
+      modifier += isUserAgrologist(user) ? '--orange' : '--green';
       break;
     case PLAN_STATUS.STANDS:
       statusName = 'Stands';
