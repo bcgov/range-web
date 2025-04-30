@@ -256,7 +256,13 @@ class UpdateStatusDropdown extends Component {
         recommendNotReady,
         recommendForSubmission,
       ];
-    } else if (isUserAgrologist(user) && !isStatusApproved(status) && !isPlanAmendment(plan)) {
+    } else if (
+      isUserAgrologist(user) &&
+      !isStatusApproved(status) &&
+      !isStatusRecommendReady(status) &&
+      !isStatusRecommendNotReady(status) &&
+      !isPlanAmendment(plan)
+    ) {
       overrides = [draft];
     }
 
