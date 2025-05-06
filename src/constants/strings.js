@@ -46,7 +46,8 @@ export const AWAITING_CONFIRMATION = 'Awaiting Confirmation';
 export const CONDITIONS = 'Conditions';
 export const RECOMENDATIONS = 'Recommendations';
 export const BASIC_INFORMATION = 'Basic Information';
-export const PASTURES = 'Pastures';
+export const PASTURES = 'Pasture';
+export const AREAS = 'Area';
 export const USAGE = 'Usage';
 export const SCHEDULES = 'Schedules';
 export const YEARLY_SCHEDULES = 'Yearly Schedules';
@@ -97,7 +98,6 @@ export const PASTURE_NAME = 'Pasture Name';
 export const ALLOWABLE_AUMS = 'Allowable AUMs';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction';
 export const GRACE_DAYS = 'Grace Days';
-export const PASTURE_NOTES = 'Pasture Notes (non legal content)';
 
 // RUP Plant Communities
 export const ASPECT = 'Aspect';
@@ -257,10 +257,12 @@ export const RANGE_NAME_TIP =
   "Each agreement needs to have a common name (descriptive or nickname) to easily distinguish between ranges when an agreement holder has more than one. If the agreement holder has only one agreement the range name might be simply 'crown.'";
 export const PASTURES_TIP =
   'FRPA section 33 requires that a RUP for grazing must include both a map showing pastures and a schedule having livestock class, number and period of use for each pasture. Where an agreement is a single area, the map and schedule should show a single pasture.  Pastures are areas that are surrounded by man-made or natural range barrier that are capable of holding or withholding livestock.';
+export const AREAS_TIP =
+  'FRPA section 33 requires that a RUP for hay cutting must include both a map showing pastures and a schedule having number and period of use for each pasture. Where an agreement is a single area, the map and schedule should show a single pasture.';
 export const PRIVATE_LAND_DEDUCTION_TIP =
   'Percentage of total forage grazed from this pasture attributed to private land.';
 export const ALLOWABLE_AUMS_TIP =
-  "Approved maximum AUM allocation for this pasture. The default is 'not set' to indicate that there is not an approved AUM allocation for the pasture. Overwrite this value if there is an approved AUM allocation.";
+  "Approved maximum AUM allocation. The default is 'not set' to indicate that there is not an approved AUM allocation. Overwrite this value if there is an approved AUM allocation.";
 export const PLANT_COMMUNITY_ACTIONS_TIP =
   'RPPR section 13(1) allows the minister to specify actions to establish or maintain a described plant community. Actions are to be determined by staff and accepted by the decision maker before sending the RUP or amendment to the agreement holder. In some situations it may be appropriate to discuss the specifics of the plant community with the agreement holder before determining the actions and seeking acceptance from the decision maker.';
 export const CRITERIA_TIP =

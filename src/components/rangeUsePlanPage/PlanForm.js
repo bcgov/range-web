@@ -43,7 +43,7 @@ const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isE
         />
       </Element>
       <Element name={ELEMENT_ID.PASTURES} id={ELEMENT_ID.PASTURES}>
-        <Pastures pastures={plan.pastures} />
+        <Pastures pastures={plan.pastures} agreementType={plan.agreement.agreementType} />
       </Element>
 
       <Usage plan={plan} usage={plan.agreement.usage} />
