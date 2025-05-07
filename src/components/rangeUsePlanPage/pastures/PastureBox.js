@@ -18,7 +18,18 @@ const dropdownOptions = [
   { key: 'delete', value: 'delete', text: 'Delete' },
 ];
 
-const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, namespace, formik }) => {
+const PastureBox = ({
+  pasture,
+  index,
+  activeIndex,
+  onClick,
+  onCopy,
+  onDelete,
+  namespace,
+  formik,
+  titleText,
+  isGrazingSchedule,
+}) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const isError = !!getIn(formik.errors, namespace);
@@ -36,7 +47,7 @@ const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, na
               <div style={{ width: '30px' }}>
                 {isError ? <Icon name="warning sign" /> : <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />}
               </div>
-              Pasture: {pasture.name}
+              {titleText}: {pasture.name}
             </div>
 
             <IfEditable permission={PASTURES.NAME}>
@@ -81,7 +92,7 @@ const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, na
                   tip={strings.ALLOWABLE_AUMS_TIP}
                   fast
                   inputProps={{
-                    placeholder: 'Approved maximum AUM allocation for this pasture if applicable',
+                    placeholder: `Approved maximum AUM allocation, if applicable`,
                   }}
                 />
               </div>
@@ -97,25 +108,27 @@ const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, na
                     label: '%',
                     labelPosition: 'right',
                     type: 'number',
-                    placeholder: 'Percentage of use in this pasture occuring on private land',
+                    placeholder: 'Percentage of use occuring on private land',
                   }}
                   fast
                 />
               </div>
-              <div className="rup__cell-4">
-                <PermissionsField
-                  name={`${namespace}.graceDays`}
-                  permission={PASTURES.GRACE_DAYS}
-                  component={Input}
-                  displayValue={pasture.graceDays}
-                  label={strings.GRACE_DAYS}
-                  fast
-                  inputProps={{
-                    placeholder:
-                      'Acceptable +/- days for livestock movement. Can be tailored by staff in schedule rows.',
-                  }}
-                />
-              </div>
+              {isGrazingSchedule && (
+                <div className="rup__cell-4">
+                  <PermissionsField
+                    name={`${namespace}.graceDays`}
+                    permission={PASTURES.GRACE_DAYS}
+                    component={Input}
+                    displayValue={pasture.graceDays}
+                    label={strings.GRACE_DAYS}
+                    fast
+                    inputProps={{
+                      placeholder:
+                        'Acceptable +/- days for livestock movement. Can be tailored by staff in schedule rows.',
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <PermissionsField
               name={`${namespace}.notes`}
@@ -123,12 +136,11 @@ const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, na
               displayValue={pasture.notes}
               component={TextArea}
               displayComponent={MultiParagraphDisplay}
-              label={strings.PASTURE_NOTES}
+              label={`${titleText} Notes (non legal content)`}
               fluid
               fast
               inputProps={{
-                placeholder:
-                  "Pasture specific information (ie. not schedule, plant community or Minister's Issue specific). Ex. relevant history or topographical considerations.",
+                placeholder: `${titleText} specific information (ie. not schedule, plant community or Minister's Issue specific). Ex. relevant history or topographical considerations.`,
               }}
             />
 
@@ -149,8 +161,8 @@ const PastureBox = ({ pasture, index, activeIndex, onClick, onCopy, onDelete, na
           formik.setFieldValue(`${namespace}.name`, name);
           setModalOpen(false);
         }}
-        title="Edit pasture name"
-        placeholder="Pasture name"
+        title={`Edit ${titleText} name`}
+        placeholder={`${titleText} name`}
       />
     </>
   );
@@ -165,6 +177,8 @@ PastureBox.propTypes = {
     name: PropTypes.string.isRequired,
   }),
   namespace: PropTypes.string.isRequired,
+  titleText: PropTypes.string.isRequired,
+  isGrazingSchedule: PropTypes.bool.isRequired,
 };
 
 export default connect(

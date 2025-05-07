@@ -13,13 +13,24 @@ import { InfoTip, InputModal } from '../../common';
 import { deletePasture } from '../../../api';
 import { resetPastureId, generatePasture } from '../../../utils';
 import ImportPastureModal from '../ImportPastureModal';
+import { isGrazingSchedule, isHayCuttingSchedule } from '../../../utils/helper/agreement';
 
-const Pastures = ({ pastures, formik }) => {
+const Pastures = ({ pastures, formik, agreementType }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isImportPastureModalOpen, setImportPastureModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [indexToRemove, setIndexToRemove] = useState(null);
   const [indexToCopy, setIndexToCopy] = useState(null);
+  const titleText = isGrazingSchedule(agreementType)
+    ? strings.PASTURES
+    : isHayCuttingSchedule(agreementType)
+      ? strings.AREAS
+      : 'Invalid agreement Type';
+  const tipText = isGrazingSchedule(agreementType)
+    ? strings.PASTURES_TIP
+    : isHayCuttingSchedule(agreementType)
+      ? strings.AREAS_TIP
+      : '';
   const handlePastureClick = useCallback((index) => {
     setActiveIndex(activeIndex === index ? -1 : index);
   });
@@ -32,8 +43,8 @@ const Pastures = ({ pastures, formik }) => {
         <div className="rup__pastures">
           <div className="rup__content-title--editable">
             <div className="rup__popup-header">
-              <div className="rup__content-title">{strings.PASTURES}</div>
-              <InfoTip header={strings.PASTURES} content={strings.PASTURES_TIP} />
+              <div className="rup__content-title">{titleText}</div>
+              <InfoTip header={titleText} content={tipText} />
             </div>
             <IfEditable permission={PASTURES.NAME}>
               <div>
@@ -47,7 +58,7 @@ const Pastures = ({ pastures, formik }) => {
                   className="icon labeled rup__add-button"
                 >
                   <i className="add circle icon" />
-                  Import Pasture
+                  Import {titleText}
                 </Button>
                 <Button
                   type="button"
@@ -59,7 +70,7 @@ const Pastures = ({ pastures, formik }) => {
                   className="icon labeled rup__add-button"
                 >
                   <i className="add circle icon" />
-                  Add Pasture
+                  Add {titleText}
                 </Button>
               </div>
               <ImportPastureModal
@@ -70,8 +81,8 @@ const Pastures = ({ pastures, formik }) => {
                   pasture.id = uuid();
                   push(pasture);
                 }}
-                title="Import pasture"
-                placeholder="Import Pasture"
+                title={`Import  ${titleText}`}
+                placeholder={`Import ${titleText}`}
               />
             </IfEditable>
           </div>
@@ -86,8 +97,8 @@ const Pastures = ({ pastures, formik }) => {
 
               setModalOpen(false);
             }}
-            title="Add pasture"
-            placeholder="Pasture name"
+            title={`Add ${titleText}`}
+            placeholder={`${titleText} name`}
           />
 
           <InputModal
@@ -109,13 +120,13 @@ const Pastures = ({ pastures, formik }) => {
 
               setIndexToCopy(null);
             }}
-            title="Copy pasture"
-            placeholder="Pasture name"
+            title={`Copy ${titleText}`}
+            placeholder={`${titleText} name`}
           />
 
           <Confirm
-            header={`Delete pasture '${pastures[indexToRemove] && pastures[indexToRemove].name}'`}
-            content="Are you sure? All related plant communities, monitoring areas and criteria, as well as any associated grazing schedule rows, will be deleted"
+            header={`Delete ${titleText} '${pastures[indexToRemove] && pastures[indexToRemove].name}'`}
+            content="Are you sure? All related plant communities, monitoring areas and criteria, as well as any associated schedule rows, will be deleted"
             open={indexToRemove !== null}
             onCancel={() => {
               setIndexToRemove(null);
@@ -144,7 +155,7 @@ const Pastures = ({ pastures, formik }) => {
 
           <div className="rup__divider" />
           {pastures.length === 0 ? (
-            <div className="rup__section-not-found">No pasture provided.</div>
+            <div className="rup__section-not-found">{`No ${titleText} provided.`}</div>
           ) : (
             <ul
               className={classnames('collaspible-boxes', {
@@ -161,6 +172,8 @@ const Pastures = ({ pastures, formik }) => {
                   onCopy={() => setIndexToCopy(index)}
                   onDelete={() => setIndexToRemove(index)}
                   namespace={`pastures.${index}`}
+                  titleText={titleText}
+                  isGrazingSchedule={isGrazingSchedule(agreementType)}
                 />
               ))}
             </ul>
@@ -173,6 +186,7 @@ const Pastures = ({ pastures, formik }) => {
 
 Pastures.propTypes = {
   pastures: PropTypes.array.isRequired,
+  agreementType: PropTypes.object.isRequired,
 };
 
 export default connect(Pastures);
