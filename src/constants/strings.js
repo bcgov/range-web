@@ -117,6 +117,12 @@ export const DAYS = 'Days';
 export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
 
+export const AREA = 'Area';
+export const AVERAGE_HEIGHT = 'Avg Height';
+export const PRRIOD_START = 'Period Start';
+export const PERIOD_END = 'Period End';
+export const TONNES = 'Tonnes';
+
 //TOOLTIPS
 export const TOOLTIP_TEXT_RUP_CREATED =
   'Check box to only view Range Agreements that have had a Range Use Plan started';
@@ -146,7 +152,7 @@ export const UPDATE_USER_PROFILE_SUCCESS = 'You have successfully update your pr
 export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff.';
 export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const EMPTY_PASTURES = 'Plan must have at least one pasture.';
-export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
+export const INVALID_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 export const UNAPPROVED_PLANT_COMMUNITIES =
   'There are one or more plant communities that have not been approved by the minister';
 export const UNIDENTIFIED_MINISTER_ISSUES =

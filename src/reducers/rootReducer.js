@@ -58,11 +58,8 @@ const appReducer = combineReducers({
   [reducerTypes.UPDATE_PLAN_STATUS]: createReducer(networkReducer, reducerTypes.UPDATE_PLAN_STATUS),
   [reducerTypes.CREATE_PASTURE]: createReducer(networkReducer, reducerTypes.CREATE_PASTURE),
   [reducerTypes.UPDATE_PASTURE]: createReducer(networkReducer, reducerTypes.UPDATE_PASTURE),
-  [reducerTypes.DELETE_GRAZING_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_GRAZING_SCHEUDLE),
-  [reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]: createReducer(
-    networkReducer,
-    reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY,
-  ),
+  [reducerTypes.DELETE_SCHEUDLE]: createReducer(networkReducer, reducerTypes.DELETE_SCHEUDLE),
+  [reducerTypes.DELETE_SCHEUDLE_ENTRY]: createReducer(networkReducer, reducerTypes.DELETE_SCHEUDLE_ENTRY),
   [reducerTypes.DELETE_MINISTER_ISSUE_ACTION]: createReducer(networkReducer, reducerTypes.DELETE_MINISTER_ISSUE_ACTION),
   [reducerTypes.DELETE_MANAGEMENT_CONSIDERATION]: createReducer(
     networkReducer,
@@ -153,10 +150,9 @@ export const getAdditionalRequirementsMap = (state) => fromPlan.getAdditionalReq
 export const getManagementConsiderationsMap = (state) =>
   fromPlan.getManagementConsiderationsMap(state[reducerTypes.PLAN]);
 
-export const getIsDeletingGrazingSchedule = (state) =>
-  fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE]);
+export const getIsDeletingGrazingSchedule = (state) => fromNetwork.getIsFetching(state[reducerTypes.DELETE_SCHEUDLE]);
 export const getIsDeletingGrazingScheduleEntry = (state) =>
-  fromNetwork.getIsFetching(state[reducerTypes.DELETE_GRAZING_SCHEUDLE_ENTRY]);
+  fromNetwork.getIsFetching(state[reducerTypes.DELETE_SCHEUDLE_ENTRY]);
 export const getIsUpdatingPlanStatus = (state) => fromNetwork.getIsFetching(state[reducerTypes.UPDATE_PLAN_STATUS]);
 
 export const getToastsMap = (state) => fromToast.getToastsMap(state[reducerTypes.TOAST]);

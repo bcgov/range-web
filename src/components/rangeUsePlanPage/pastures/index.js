@@ -137,9 +137,7 @@ const Pastures = ({ pastures, formik, agreementType }) => {
               const schedules = _.flatten(
                 formik.values.grazingSchedules.map((schedule) => ({
                   ...schedule,
-                  grazingScheduleEntries: schedule.grazingScheduleEntries.filter(
-                    (entry) => entry.pastureId !== pasture.id,
-                  ),
+                  shceduleEntries: schedule.schduleEntries.filter((entry) => entry.pastureId !== pasture.id),
                 })),
               );
               formik.setFieldValue('grazingSchedules', schedules);

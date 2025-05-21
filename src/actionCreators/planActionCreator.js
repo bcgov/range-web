@@ -29,7 +29,7 @@ import {
   copyPlantCommunitiesToCreateAmendment,
   findStatusWithCode,
 } from '../utils';
-import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
+import { createRUPSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
 import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
 import {
@@ -185,7 +185,7 @@ export const createAmendment = (plan) => (dispatch, getState) => {
 
       const grazingSchedules = copyGrazingSchedulesToCreateAmendment(plan, grazingSchedulesMap, newPastureIdsMap);
       const newGrazingSchedules = await Promise.all(
-        grazingSchedules.map((gs) => dispatch(createRUPGrazingSchedule(amendmentId, gs))),
+        grazingSchedules.map((gs) => dispatch(createRUPSchedule(amendmentId, gs))),
       );
 
       const ministerIssues = copyMinisterIssuesToCreateAmendment(plan, ministerIssuesMap, newPastureIdsMap);
