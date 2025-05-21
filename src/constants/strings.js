@@ -50,7 +50,7 @@ export const PASTURES = 'Pasture';
 export const AREAS = 'Area';
 export const USAGE = 'Usage';
 export const SCHEDULES = 'Schedules';
-export const YEARLY_SCHEDULES = 'Yearly Schedules';
+export const YEARLY_SCHEDULES = 'Schedules';
 export const MINISTER_ISSUES = "Minister's Issues";
 export const MINISTERS_ISSUES_AND_ACTIONS = "Minister's Issues and Actions";
 export const INVASIVE_PLANTS = 'Invasive Plants';
@@ -117,6 +117,12 @@ export const DAYS = 'Days';
 export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
 
+export const AREA = 'Area';
+export const AVERAGE_HEIGHT = 'Avg Height (cm)';
+export const PRRIOD_START = 'Period Start';
+export const PERIOD_END = 'Period End';
+export const TONNES = 'Tonnes';
+
 //TOOLTIPS
 export const TOOLTIP_TEXT_RUP_CREATED =
   'Check box to only view Range Agreements that have had a Range Use Plan started';
@@ -144,14 +150,15 @@ export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range
 export const STAFF_SAVE_PLAN_DRAFT_SUCCESS = 'Your changes have been successfully saved to the range use plan.';
 export const UPDATE_USER_PROFILE_SUCCESS = 'You have successfully update your profile.';
 export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff.';
-export const EMPTY_GRAZING_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
+export const EMPTY_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const EMPTY_PASTURES = 'Plan must have at least one pasture.';
-export const INVALID_GRAZING_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
+export const INVALID_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
 export const UNAPPROVED_PLANT_COMMUNITIES =
   'There are one or more plant communities that have not been approved by the minister';
 export const UNIDENTIFIED_MINISTER_ISSUES =
   'There are one or more minister issues that have not been identified by the minister';
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
+export const TOTAL_TONNES_EXCEEDS = 'Total tonnes exceeds authorized tonnes.';
 export const USER_NOT_ACTIVE =
   'This account is not active yet. Please contact the administrator (MyRangeBC@gov.bc.ca).';
 export const USER_NO_ROLE =

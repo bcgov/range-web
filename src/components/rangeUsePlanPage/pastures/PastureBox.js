@@ -82,37 +82,41 @@ const PastureBox = ({
         collapsibleContent={
           <>
             <div className="rup__row">
-              <div className="rup__cell-4">
-                <PermissionsField
-                  name={`${namespace}.allowableAum`}
-                  permission={PASTURES.ALLOWABLE_AUMS}
-                  component={Input}
-                  displayValue={pasture.allowableAum}
-                  label={strings.ALLOWABLE_AUMS}
-                  tip={strings.ALLOWABLE_AUMS_TIP}
-                  fast
-                  inputProps={{
-                    placeholder: `Approved maximum AUM allocation, if applicable`,
-                  }}
-                />
-              </div>
-              <div className="rup__cell-4">
-                <PermissionsField
-                  name={`${namespace}.pldPercent`}
-                  permission={PASTURES.PLD}
-                  component={PercentField}
-                  displayValue={pasture.pldPercent * 100 + '%'}
-                  label={strings.PRIVATE_LAND_DEDUCTION}
-                  tip={strings.PRIVATE_LAND_DEDUCTION_TIP}
-                  inputProps={{
-                    label: '%',
-                    labelPosition: 'right',
-                    type: 'number',
-                    placeholder: 'Percentage of use occuring on private land',
-                  }}
-                  fast
-                />
-              </div>
+              {isGrazingSchedule && (
+                <div className="rup__cell-4">
+                  <PermissionsField
+                    name={`${namespace}.allowableAum`}
+                    permission={PASTURES.ALLOWABLE_AUMS}
+                    component={Input}
+                    displayValue={pasture.allowableAum}
+                    label={strings.ALLOWABLE_AUMS}
+                    tip={strings.ALLOWABLE_AUMS_TIP}
+                    fast
+                    inputProps={{
+                      placeholder: `Approved maximum AUM allocation, if applicable`,
+                    }}
+                  />
+                </div>
+              )}
+              {isGrazingSchedule && (
+                <div className="rup__cell-4">
+                  <PermissionsField
+                    name={`${namespace}.pldPercent`}
+                    permission={PASTURES.PLD}
+                    component={PercentField}
+                    displayValue={pasture.pldPercent * 100 + '%'}
+                    label={strings.PRIVATE_LAND_DEDUCTION}
+                    tip={strings.PRIVATE_LAND_DEDUCTION_TIP}
+                    inputProps={{
+                      label: '%',
+                      labelPosition: 'right',
+                      type: 'number',
+                      placeholder: 'Percentage of use occuring on private land',
+                    }}
+                    fast
+                  />
+                </div>
+              )}
               {isGrazingSchedule && (
                 <div className="rup__cell-4">
                   <PermissionsField

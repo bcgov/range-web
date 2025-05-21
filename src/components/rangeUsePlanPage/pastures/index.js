@@ -134,15 +134,14 @@ const Pastures = ({ pastures, formik, agreementType }) => {
             onConfirm={async () => {
               const pasture = pastures[indexToRemove];
 
+              console.log(formik.values.schedules);
               const schedules = _.flatten(
-                formik.values.grazingSchedules.map((schedule) => ({
+                formik.values.schedules.map((schedule) => ({
                   ...schedule,
-                  grazingScheduleEntries: schedule.grazingScheduleEntries.filter(
-                    (entry) => entry.pastureId !== pasture.id,
-                  ),
+                  scheduleEntries: schedule.scheduleEntries.filter((entry) => entry.pastureId !== pasture.id),
                 })),
               );
-              formik.setFieldValue('grazingSchedules', schedules);
+              formik.setFieldValue('schedules', schedules);
 
               if (!uuid.isUUID(pasture.id)) {
                 await deletePasture(pasture.planId, pasture.id);

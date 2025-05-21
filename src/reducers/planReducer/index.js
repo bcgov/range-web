@@ -22,7 +22,7 @@ import { combineReducers } from 'redux';
 import plansReducer from './plansReducer';
 import pasturesReducer from './pasturesReducer';
 import plantCommunitiesReducer from './plantCommunitiesReducer';
-import grazingSchedulesReducer from './grazingSchedulesReducer';
+import schedulesReducer from './grazingSchedulesReducer';
 import ministerIssuesReducer from './ministerIssuesReducer';
 import confirmationsReducer from './confirmationsReducer';
 import planStatusHistoryReducer from './planStatusHistoryReducer';
@@ -34,7 +34,7 @@ export const getPlansMap = (state) => state.plans.byId;
 export const getPlanIds = (state) => state.plans.allIds;
 export const getPasturesMap = (state) => state.pastures;
 export const getPlantCommunitiesMap = (state) => state.plantCommunities;
-export const getGrazingSchedulesMap = (state) => state.grazingSchedules;
+export const getSchedulesMap = (state) => state.schedules;
 export const getMinisterIssuesMap = (state) => state.ministerIssues;
 export const getConfirmationsMap = (state) => state.confirmations;
 export const getPlanStatusHistoryMap = (state) => state.planStatusHistory;
@@ -45,7 +45,7 @@ export default combineReducers({
   plans: plansReducer,
   pastures: pasturesReducer,
   plantCommunities: plantCommunitiesReducer,
-  grazingSchedules: grazingSchedulesReducer,
+  schedules: schedulesReducer,
   ministerIssues: ministerIssuesReducer,
   confirmations: confirmationsReducer,
   planStatusHistory: planStatusHistoryReducer,

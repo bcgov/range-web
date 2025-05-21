@@ -26,17 +26,17 @@ export const confirmationUpdated = (payload) => ({
 });
 
 export const grazingScheduleAdded = (payload) => ({
-  type: actionTypes.GRAZING_SCHEDULE_ADDED,
+  type: actionTypes.SCHEDULE_ADDED,
   payload,
 });
 
 export const grazingScheduleUpdated = (payload) => ({
-  type: actionTypes.GRAZING_SCHEDULE_UPDATED,
+  type: actionTypes.SCHEDULE_UPDATED,
   payload,
 });
 
 export const grazingScheduleDeleted = (payload) => ({
-  type: actionTypes.GRAZING_SCHEDULE_DELETED,
+  type: actionTypes.SCHEDULE_DELETED,
   payload,
 });
 

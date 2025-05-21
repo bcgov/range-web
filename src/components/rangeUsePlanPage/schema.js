@@ -122,32 +122,92 @@ const RUPSchema = Yup.object().shape({
       ),
     }),
   ),
-  grazingSchedules: Yup.array().of(
+  schedules: Yup.array().of(
     Yup.object().shape({
       narative: Yup.string().transform(handleNull()),
-      grazingScheduleEntries: Yup.array().of(
+      scheduleEntries: Yup.array().of(
         Yup.object().shape({
-          dateIn: Yup.string().required(true),
-          dateOut: Yup.string()
-            .required(true)
-            .when('dateIn', (dateIn, schema) =>
-              schema.test({
-                test: (dateOut) => new Date(dateOut) > new Date(dateIn),
-                message: 'Date out should be after date in',
-              }),
-            ),
-          livestockCount: Yup.number()
+          dateIn: Yup.string()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
-            .required(true),
+            .required('Date in is required'),
+          dateOut: Yup.string()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .required('Date out is required')
+            .when('dateIn', (dateIn, schema) =>
+              schema.test({
+                test: (dateOut) => {
+                  if (!dateIn || !dateOut) return true; // Skip test if either date is missing
+                  return new Date(dateOut) > new Date(dateIn);
+                },
+                message: 'Date out must be after date in',
+              }),
+            ),
           pastureId: Yup.mixed()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
-            .required(true),
+            .test('pasture-area-required', 'Area/Pasture is required', function (value) {
+              // Always require pastureId/area - the message will be contextual
+              return value != null && value !== '';
+            }),
+          // Grazing schedule fields - only required when present
+          livestockCount: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .test('livestock-required', 'Livestock count is required', function (value) {
+              const { livestockTypeId } = this.parent;
+              // If livestockTypeId is provided, then livestockCount is required
+              if (livestockTypeId != null && livestockTypeId !== '') {
+                return value != null && value !== '';
+              }
+              return true;
+            }),
           livestockTypeId: Yup.number()
             .transform((v, originalValue) => (originalValue === '' ? null : v))
             .nullable()
-            .required(true),
+            .test('livestock-type-required', 'Livestock type is required', function (value) {
+              const { livestockCount } = this.parent;
+              // If livestockCount is provided, then livestockTypeId is required
+              if (livestockCount != null && livestockCount !== '') {
+                return value != null && value !== '';
+              }
+              return true;
+            }),
+          graceDays: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable(),
+          // Hay cutting schedule fields
+          stubbleHeight: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .typeError('Please enter a number')
+            .test('stubble-height-required', 'Stubble height is required', function (value) {
+              const { livestockCount, livestockTypeId } = this.parent;
+              // If neither livestock fields are provided, this is likely a hay cutting schedule
+              if (
+                (livestockCount == null || livestockCount === '') &&
+                (livestockTypeId == null || livestockTypeId === '')
+              ) {
+                return value != null && value !== '';
+              }
+              return true;
+            }),
+          tonnes: Yup.number()
+            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .nullable()
+            .typeError('Please enter a number')
+            .test('tonnes-required', 'Tonnes is required', function (value) {
+              const { livestockCount, livestockTypeId } = this.parent;
+              // If neither livestock fields are provided, this is likely a hay cutting schedule
+              if (
+                (livestockCount == null || livestockCount === '') &&
+                (livestockTypeId == null || livestockTypeId === '')
+              ) {
+                return value != null && value !== '';
+              }
+              return true;
+            }),
         }),
       ),
     }),

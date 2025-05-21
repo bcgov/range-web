@@ -3,13 +3,13 @@ import { calcDateDiff, calcTotalAUMs, roundTo1Decimal, calcCrownAUMs, calcPldAUM
 import moment from 'moment';
 import uuid from 'uuid-v4';
 
-export const populateGrazingScheduleFields = (grazingSchedule, plan, references) => {
+export const populateGrazingScheduleFields = (schedule, plan, references) => {
   const { pastures = [] } = plan;
   const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE] || [];
 
   return {
-    ...grazingSchedule,
-    grazingScheduleEntries: grazingSchedule.grazingScheduleEntries.map((entry) => {
+    ...schedule,
+    scheduleEntries: schedule.scheduleEntries.map((entry) => {
       const pasture = pastures.find((p) => p.id === entry.pastureId);
       const livestockType = livestockTypes.find((lt) => lt.id === entry.livestockTypeId);
 
@@ -34,7 +34,23 @@ export const populateGrazingScheduleFields = (grazingSchedule, plan, references)
   };
 };
 
-export const resetGrazingScheduleEntryId = (schedule) => ({
+export const populateHayCuttingScheduleFields = (schedule, plan) => {
+  const { pastures = [] } = plan;
+
+  return {
+    ...schedule,
+    scheduleEntries: schedule.scheduleEntries.map((entry) => {
+      const pasture = pastures.find((p) => p.id === entry.pastureId);
+      return {
+        ...entry,
+        pasture,
+        createdAtDate: moment(entry.createdAt),
+      };
+    }),
+  };
+};
+
+export const resetScheduleEntryId = (schedule) => ({
   ...schedule,
   id: uuid(),
   createdAt: undefined,

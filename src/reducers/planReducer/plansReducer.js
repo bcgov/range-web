@@ -1,8 +1,8 @@
 import {
   STORE_PLAN,
   PLAN_UPDATED,
-  GRAZING_SCHEDULE_ADDED,
-  GRAZING_SCHEDULE_DELETED,
+  SCHEDULE_ADDED,
+  SCHEDULE_DELETED,
   PLAN_STATUS_HISTORY_RECORD_ADDED,
   MANAGEMENT_CONSIDERATION_ADDED,
   MANAGEMENT_CONSIDERATION_DELETED,
@@ -43,11 +43,11 @@ const updatePlan = (state, action) => {
   };
 };
 
-const addGrazingSchedule = (state, action) => {
-  const { planId, grazingSchedules } = action.payload;
+const addSchedule = (state, action) => {
+  const { planId, schedules } = action.payload;
   const plan = {
     ...state.byId[planId],
-    grazingSchedules,
+    schedules,
   };
 
   return {
@@ -59,11 +59,11 @@ const addGrazingSchedule = (state, action) => {
   };
 };
 
-const deleteGrazingSchedule = (state, action) => {
-  const { planId, grazingSchedules } = action.payload;
+const deleteSchedule = (state, action) => {
+  const { planId, schedules } = action.payload;
   const plan = {
     ...state.byId[planId],
-    grazingSchedules,
+    schedules,
   };
 
   return {
@@ -125,10 +125,10 @@ const plansReducer = (state = initialState, action) => {
       return storePlan(state, action);
     case PLAN_UPDATED:
       return updatePlan(state, action);
-    case GRAZING_SCHEDULE_ADDED:
-      return addGrazingSchedule(state, action);
-    case GRAZING_SCHEDULE_DELETED:
-      return deleteGrazingSchedule(state, action);
+    case SCHEDULE_ADDED:
+      return addSchedule(state, action);
+    case SCHEDULE_DELETED:
+      return deleteSchedule(state, action);
     case PLAN_STATUS_HISTORY_RECORD_ADDED:
       return addPlanStatusHistoryRecord(state, action);
     case MANAGEMENT_CONSIDERATION_ADDED:

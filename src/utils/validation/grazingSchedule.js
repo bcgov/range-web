@@ -1,8 +1,4 @@
-import {
-  INVALID_GRAZING_SCHEDULE_ENTRY,
-  EMPTY_GRAZING_SCHEDULE_ENTRIES,
-  TOTAL_AUMS_EXCEEDS,
-} from '../../constants/strings';
+import { INVALID_SCHEDULE_ENTRY, EMPTY_SCHEDULE_ENTRIES, TOTAL_AUMS_EXCEEDS } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcCrownTotalAUMs } from '../calculation';
 /**
@@ -17,7 +13,7 @@ export const handleGrazingScheduleEntryValidation = (e = {}) => {
   } else {
     return {
       error: true,
-      message: INVALID_GRAZING_SCHEDULE_ENTRY,
+      message: INVALID_SCHEDULE_ENTRY,
     };
   }
   return undefined;
@@ -40,26 +36,26 @@ export const handleGrazingScheduleValidation = (
   usage = [],
   isAgreementHolder = false,
 ) => {
-  const { year, grazingScheduleEntries: gse } = schedule;
-  const grazingScheduleEntries = gse || [];
+  const { year, scheduleEntries: gse } = schedule;
+  const scheduleEntries = gse || [];
   const yearUsage = usage.find((u) => u.year === year);
   const totalAnnualUse = yearUsage && yearUsage.totalAnnualUse;
-  const crownTotalAUMs = calcCrownTotalAUMs(grazingScheduleEntries, pastures, livestockTypes);
+  const crownTotalAUMs = calcCrownTotalAUMs(scheduleEntries, pastures, livestockTypes);
 
-  const elementId = ELEMENT_ID.GRAZING_SCHEDULE;
+  const elementId = ELEMENT_ID.SCHEDULE;
   const errors = [];
 
-  if (grazingScheduleEntries.length === 0) {
+  if (scheduleEntries.length === 0) {
     if (isAgreementHolder) {
       errors.push({
         error: true,
-        message: EMPTY_GRAZING_SCHEDULE_ENTRIES,
+        message: EMPTY_SCHEDULE_ENTRIES,
         elementId,
       });
     }
   }
 
-  grazingScheduleEntries.map((entry) => {
+  scheduleEntries.map((entry) => {
     const result = handleGrazingScheduleEntryValidation(entry);
     if (result) {
       errors.push({ ...result, elementId });

@@ -1,11 +1,11 @@
 import * as actionTypes from '../../constants/actionTypes';
 
-const storeGrazingSchedules = (state, action) => {
-  const { grazingSchedules } = action.payload.entities;
+const storeSchedules = (state, action) => {
+  const { schedules } = action.payload.entities;
 
   return {
     ...state,
-    ...grazingSchedules,
+    ...schedules,
   };
 };
 
@@ -35,19 +35,19 @@ const deleteSchedule = (state, action) => {
   return newState;
 };
 
-const grazingSchedulesReducer = (state = {}, action) => {
+const schedulesReducer = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.STORE_PLAN:
-      return storeGrazingSchedules(state, action);
-    case actionTypes.GRAZING_SCHEDULE_ADDED:
+      return storeSchedules(state, action);
+    case actionTypes.SCHEDULE_ADDED:
       return addSchedule(state, action);
-    case actionTypes.GRAZING_SCHEDULE_UPDATED:
+    case actionTypes.SCHEDULE_UPDATED:
       return updateSchedule(state, action);
-    case actionTypes.GRAZING_SCHEDULE_DELETED:
+    case actionTypes.SCHEDULE_DELETED:
       return deleteSchedule(state, action);
     default:
       return state;
   }
 };
 
-export default grazingSchedulesReducer;
+export default schedulesReducer;

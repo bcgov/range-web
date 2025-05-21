@@ -254,12 +254,12 @@ export const getPastureNames = (pastureIds = [], pastures = {}) => {
   }
 };
 
-export const formatGrazingSchedules = ({ grazingSchedules: gss, pastures, agreement }) => {
+export const formatGrazingSchedules = ({ schedules: gss, pastures, agreement }) => {
   if (!pastures || !gss || !agreement) return [];
 
   return gss.map((schedule) => {
-    const { grazingScheduleEntries: gse, year } = schedule;
-    const grazingScheduleEntries =
+    const { shceduleEntries: gse, year } = schedule;
+    const scheduleEntries =
       gse &&
       gse.map((entry) => {
         const { pastureId, livestockType, livestockCount, dateIn, dateOut } = entry;
@@ -281,12 +281,12 @@ export const formatGrazingSchedules = ({ grazingSchedules: gss, pastures, agreem
           crownAUMs,
         };
       });
-    const crownTotalAUMs = roundToSingleDecimalPlace(calcCrownTotalAUMs(grazingScheduleEntries));
+    const crownTotalAUMs = roundToSingleDecimalPlace(calcCrownTotalAUMs(scheduleEntries));
     const yearUsage = agreement.usage.find((u) => u.year === year);
     const authorizedAUMs = yearUsage && yearUsage.authorizedAum;
     return {
       ...schedule,
-      grazingScheduleEntries,
+      scheduleEntries,
       crownTotalAUMs,
       authorizedAUMs,
     };
@@ -314,10 +314,10 @@ export const getGrazingScheduleEntrieHeader = () => [
   { header: 'Crown AUMs', dataKey: 'ca' },
 ];
 
-export const formatGrazingScheduleEntries = (grazingScheduleEntries) => {
-  if (!grazingScheduleEntries) return [];
+export const formatGrazingScheduleEntries = (scheduleEntries) => {
+  if (!scheduleEntries) return [];
 
-  return grazingScheduleEntries.map((entry) => {
+  return scheduleEntries.map((entry) => {
     const { pasture, graceDays, livestockCount, days, pldAUMs, crownAUMs, dateIn, dateOut, livestockType } = entry;
     const { name: livestockTypeName } = livestockType || {};
     const { name: pastureName } = pasture || {};

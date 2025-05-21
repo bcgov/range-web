@@ -261,13 +261,13 @@ export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate,
     const notExplicitlySkipped = !config.skipAuthorizationHeader;
 
     if (isTokenExpired() && isFirstTimeTry && isRangeAPI(config) && notExplicitlySkipped) {
-      if (!isBundled) console.log('Access token is expired. Trying to refresh it');
+      if (!isBundled) console.debug('Access token is expired. Trying to refresh it');
 
       const refreshToken = getRefreshTokenFromLocal();
 
       return refreshAccessToken(refreshToken).then(
         (response) => {
-          if (!isBundled) console.log('Access token has been refreshed!');
+          if (!isBundled) console.debug('Access token has been refreshed!');
 
           const authData = saveAuthDataInLocal(response);
           storeAuthData(authData);

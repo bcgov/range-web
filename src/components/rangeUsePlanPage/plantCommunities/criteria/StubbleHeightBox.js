@@ -14,7 +14,7 @@ const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
       <IndicatorPlantsForm
         indicatorPlants={plantCommunity.indicatorPlants}
         namespace={namespace}
-        valueLabel="Height After Grazing (cm)"
+        valueLabel="Height After Grazing/Hay Cutting"
         valueType="stubbleHeight"
         planId={planId}
         pastureId={pastureId}

@@ -83,6 +83,9 @@ export const MINISTER_ISSUES = {
 };
 export const SCHEDULE = {
   PASTURE: 'schedule.pasture',
+  STUBBLE_HEIGHT: 'schedule.stubbleHeight',
+  TONNES: 'schedule.tonnes',
+  AREA: 'schedule.area',
   TYPE: 'schedule.type',
   ANIMALS: 'schedule.animals',
   DATE_IN: 'schedule.dateIn',

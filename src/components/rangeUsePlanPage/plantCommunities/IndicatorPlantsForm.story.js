@@ -51,7 +51,7 @@ storiesOf('rangeUsePlanPage/plantCommunities/IndicatorPlantsForm', module).add('
         <IndicatorPlantsForm
           indicatorPlants={values.plantCommunity.indicatorPlants}
           namespace="plantCommunity"
-          valueLabel="Height After Grazing (cm)"
+          valueLabel="Height After Grazing/Hay Cutting"
           valueType="stubbleHeight"
           criteria="stubbleHeight"
         />

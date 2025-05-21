@@ -123,14 +123,12 @@ export const CREATE_RUP_PASTURE = (planId) => `/v1/plan/${planId}/pasture`;
 export const UPDATE_RUP_PASTURE = (planId, pastureId) => `/v1/plan/${planId}/pasture/${pastureId}`;
 export const DELETE_RUP_PASTURE = (planId, pastureId) => `/v1/plan/${planId}/pasture/${pastureId}`;
 
-export const CREATE_RUP_GRAZING_SCHEDULE = (planId) => `/v1/plan/${planId}/schedule`;
-export const UPDATE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
-export const DELETE_RUP_GRAZING_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
-export const CREATE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId) =>
-  `/v1/plan/${planId}/schedule/${scheduleId}/entry`;
+export const CREATE_RUP_SCHEDULE = (planId) => `/v1/plan/${planId}/schedule`;
+export const UPDATE_RUP_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
+export const DELETE_RUP_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
+export const CREATE_RUP_SCHEDULE_ENTRY = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry`;
 export const GET_PASTURES_FOR_DISTRICT = (districtId) => `/v1/pasture?districtId=${districtId}`;
-// export const UPDATE_RUP_GRAZING_SCHEDULE_ENTRY
-export const DELETE_RUP_GRAZING_SCHEDULE_ENTRY = (planId, scheduleId, entryId) =>
+export const DELETE_RUP_SCHEDULE_ENTRY = (planId, scheduleId, entryId) =>
   `/v1/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;
 
 export const CREATE_RUP_MINISTER_ISSUE = (planId) => `/v1/plan/${planId}/issue`;
