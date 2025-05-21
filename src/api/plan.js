@@ -12,7 +12,7 @@ import RUPSchema from '../components/rangeUsePlanPage/schema';
 import { getNetworkStatus } from '../utils/helper/network';
 import { deleteFromQueue } from './delete';
 import {
-  saveGrazingSchedules,
+  saveSchedules as saveSchedules,
   saveInvasivePlantChecklist,
   saveManagementConsiderations,
   saveMinisterIssues,
@@ -73,7 +73,7 @@ export const savePlan = async (plan, user = {}) => {
 
   const {
     pastures,
-    grazingSchedules,
+    schedules,
     invasivePlantChecklist,
     managementConsiderations,
     ministerIssues,
@@ -103,7 +103,7 @@ export const savePlan = async (plan, user = {}) => {
     }),
   );
 
-  await saveGrazingSchedules(planId, grazingSchedules, newPastures);
+  await saveSchedules(planId, schedules, newPastures);
   await saveInvasivePlantChecklist(planId, invasivePlantChecklist);
   await saveManagementConsiderations(planId, managementConsiderations);
   await saveMinisterIssues(planId, ministerIssues, newPastures);
@@ -181,7 +181,7 @@ export const createNewPlan = (agreement) => {
       revegetate: false,
       undercarrigesInspected: false,
     },
-    grazingSchedules: [],
+    schedules: [],
     managementConsiderations: [],
     additionalRequirements: [],
     uploaded: true,

@@ -110,16 +110,13 @@ export const deleteManagementConsideration = createDeleteHandler(
   },
 );
 
-export const deleteGrazingSchedule = createDeleteHandler('grazingSchedule', async (planId, scheduleId) => {
-  await axios.delete(API.DELETE_RUP_GRAZING_SCHEDULE(planId, scheduleId), getAuthHeaderConfig());
+export const deleteSchedule = createDeleteHandler('schedule', async (planId, scheduleId) => {
+  await axios.delete(API.DELETE_RUP_SCHEDULE(planId, scheduleId), getAuthHeaderConfig());
 });
 
-export const deleteGrazingScheduleEntry = createDeleteHandler(
-  'grazingScheduleEntry',
-  async (planId, scheduleId, entryId) => {
-    await axios.delete(API.DELETE_RUP_GRAZING_SCHEDULE_ENTRY(planId, scheduleId, entryId), getAuthHeaderConfig());
-  },
-);
+export const deleteScheduleEntry = createDeleteHandler('scheduleEntry', async (planId, scheduleId, entryId) => {
+  await axios.delete(API.DELETE_RUP_SCHEDULE_ENTRY(planId, scheduleId, entryId), getAuthHeaderConfig());
+});
 
 export const deleteIndicatorPlant = createDeleteHandler(
   'indicatorPlant',

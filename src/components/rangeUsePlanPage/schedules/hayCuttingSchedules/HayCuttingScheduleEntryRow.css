@@ -1,0 +1,11 @@
+.rup__haycutting-schedule__row input {
+  width: inherit !important;
+}
+
+.rup__haycutting-schedule__row td {
+  white-space: normal !important;
+}
+
+.rup__haycutting-schedule__row .sui-error-message {
+  display: none !important;
+}

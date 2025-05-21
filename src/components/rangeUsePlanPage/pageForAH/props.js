@@ -7,7 +7,7 @@ export const propTypes = {
   references: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
+  schedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   planStatusHistoryMap: PropTypes.shape({}).isRequired,
   additionalRequirementsMap: PropTypes.shape({}).isRequired,
@@ -33,7 +33,7 @@ export const defaultProps = {
   plan: {
     agreementId: '',
     pastures: [],
-    grazingSchedules: [],
+    schedules: [],
     ministerIssues: [],
     confirmations: [],
     planStatusHistory: [],

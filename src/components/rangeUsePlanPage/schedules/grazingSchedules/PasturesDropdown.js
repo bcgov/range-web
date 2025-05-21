@@ -1,9 +1,9 @@
 import React from 'react';
-import PermissionsField from '../../common/PermissionsField';
-import { SCHEDULE } from '../../../constants/fields';
-import Select from '../../common/Select';
+import PermissionsField from '../../../common/PermissionsField';
+import { SCHEDULE } from '../../../../constants/fields';
+import Select from '../../../common/Select';
 import { connect } from 'formik';
-import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
+import MultiParagraphDisplay from '../../../common/MultiParagraphDisplay';
 
 const PasturesDropdown = ({ name, formik, pastureId, onChange }) => {
   const pastureOptions = formik.values.pastures.map((pasture) => {

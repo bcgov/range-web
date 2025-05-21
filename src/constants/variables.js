@@ -195,7 +195,7 @@ export const ELEMENT_ID = {
   RUP_STICKY_HEADER: 'rup_sticky_header',
   BASIC_INFORMATION: 'basic_information',
   PASTURES: 'pastures',
-  GRAZING_SCHEDULE: 'grazing_schedule',
+  SCHEDULE: 'schedule',
   MINISTER_ISSUES: 'minister_issues_and_actions',
   INVASIVE_PLANT_CHECKLIST: 'invasive_plant',
   ADDITIONAL_REQUIREMENTS: 'additional_requirements',

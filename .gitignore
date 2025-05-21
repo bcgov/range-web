@@ -26,7 +26,7 @@ yarn-error.log*
 .tmp
 .eslintcache
 
-sonar-runner/build/
+sonar-runner/*
 .vscode/*
 Todo
 .env

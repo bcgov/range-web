@@ -8,30 +8,29 @@ export const createVersion = async (planId) => {
   await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig());
 };
 
-export const saveGrazingSchedules = (planId, grazingSchedules, newPastures) => {
-  return sequentialAsyncMap(grazingSchedules, async (schedule) => {
-    const grazingScheduleEntries = schedule.grazingScheduleEntries.map(({ id: entryId, ...entry }) => ({
+export const saveSchedules = (planId, schedules, newPastures) => {
+  return sequentialAsyncMap(schedules, async (schedule) => {
+    const scheduleEntries = schedule.scheduleEntries.map(({ id: entryId, ...entry }) => ({
       ...entry,
       ...(!uuid.isUUID(entryId) && { id: entryId }),
       pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
     }));
-    const { id, ...grazingSchedule } = schedule;
 
     if (uuid.isUUID(schedule.id)) {
       const { data } = await axios.post(
-        API.CREATE_RUP_GRAZING_SCHEDULE(planId),
-        { ...grazingSchedule, grazingScheduleEntries, plan_id: planId },
+        API.CREATE_RUP_SCHEDULE(planId),
+        { ...schedule, scheduleEntries, plan_id: planId },
         getAuthHeaderConfig(),
       );
 
       return {
-        ...grazingSchedule,
+        ...schedule,
         id: data.id,
       };
     } else {
       await axios.put(
-        API.UPDATE_RUP_GRAZING_SCHEDULE(planId, schedule.id),
-        { ...grazingSchedule, grazingScheduleEntries },
+        API.UPDATE_RUP_SCHEDULE(planId, schedule.id),
+        { ...schedule, scheduleEntries },
         getAuthHeaderConfig(),
       );
 

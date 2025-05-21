@@ -6,7 +6,7 @@ export const propTypes = {
   user: PropTypes.shape({}).isRequired,
   references: PropTypes.shape({}).isRequired,
   pasturesMap: PropTypes.shape({}).isRequired,
-  grazingSchedulesMap: PropTypes.shape({}).isRequired,
+  schedulesMap: PropTypes.shape({}).isRequired,
   ministerIssuesMap: PropTypes.shape({}).isRequired,
   planStatusHistoryMap: PropTypes.shape({}).isRequired,
   additionalRequirementsMap: PropTypes.shape({}).isRequired,

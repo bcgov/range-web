@@ -7,7 +7,7 @@ import * as API from '../constants/api';
 import * as schema from './schema';
 import {
   getPasturesMap,
-  getGrazingSchedulesMap,
+  getSchedulesMap as getSchedulesMap,
   getMinisterIssuesMap,
   getReferences,
   getAdditionalRequirementsMap,
@@ -21,7 +21,7 @@ import {
   copyPlanToCreateAmendment,
   copyPasturesToCreateAmendment,
   normalizePasturesWithOldId,
-  copyGrazingSchedulesToCreateAmendment,
+  copySchedulesToCreateAmendment as copySchedulesToCreateAmendment,
   copyMinisterIssuesToCreateAmendment,
   copyInvasivePlantChecklistToCreateAmendment,
   copyManagementConsiderationsToCreateAmendment,
@@ -29,7 +29,7 @@ import {
   copyPlantCommunitiesToCreateAmendment,
   findStatusWithCode,
 } from '../utils';
-import { createRUPGrazingSchedule } from './grazingScheduleActionCreator';
+import { createRUPSchedule } from './grazingScheduleActionCreator';
 import { createRUPPasture, createRUPPlantCommunityAndOthers } from './pastureActionCreator';
 import { createRUPMinisterIssueAndActions } from './ministerIssueActionCreator';
 import {
@@ -159,7 +159,7 @@ export const createAmendment = (plan) => (dispatch, getState) => {
       const references = getReferences(getState());
       const pasturesMap = getPasturesMap(getState());
       const plantCommunitiesMap = getPlantCommunitiesMap(getState());
-      const grazingSchedulesMap = getGrazingSchedulesMap(getState());
+      const grazingSchedulesMap = getSchedulesMap(getState());
       const ministerIssuesMap = getMinisterIssuesMap(getState());
       const additionalRequirementsMap = getAdditionalRequirementsMap(getState());
       const managementConsiderationsMap = getManagementConsiderationsMap(getState());
@@ -183,10 +183,8 @@ export const createAmendment = (plan) => (dispatch, getState) => {
         plantCommunities.map((pc) => dispatch(createRUPPlantCommunityAndOthers(amendmentId, pc.pastureId, pc))),
       );
 
-      const grazingSchedules = copyGrazingSchedulesToCreateAmendment(plan, grazingSchedulesMap, newPastureIdsMap);
-      const newGrazingSchedules = await Promise.all(
-        grazingSchedules.map((gs) => dispatch(createRUPGrazingSchedule(amendmentId, gs))),
-      );
+      const schedules = copySchedulesToCreateAmendment(plan, grazingSchedulesMap, newPastureIdsMap);
+      const newSchedules = await Promise.all(schedules.map((gs) => dispatch(createRUPSchedule(amendmentId, gs))));
 
       const ministerIssues = copyMinisterIssuesToCreateAmendment(plan, ministerIssuesMap, newPastureIdsMap);
       const newMinisterIssues = await Promise.all(
@@ -214,7 +212,7 @@ export const createAmendment = (plan) => (dispatch, getState) => {
       const newAmendment = {
         ...amendment,
         pastures: newPastures,
-        grazingSchedules: newGrazingSchedules,
+        schedules: newSchedules,
         ministerIssues: newMinisterIssues,
         invasivePlantChecklist: newInvasivePlantCheckList,
         managementConsiderations: newManagementConsiderations,

@@ -2,82 +2,84 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
-import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
-import { roundTo1Decimal, isUserAgrologist } from '../../../utils';
-import * as strings from '../../../constants/strings';
-import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../common';
-import { IMAGE_SRC } from '../../../constants/variables';
+import HayCuttingScheduleEntryRow from './HayCuttingScheduleEntryRow';
+import { roundTo1Decimal, isUserAgrologist } from '../../../../utils';
+import * as strings from '../../../../constants/strings';
+import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../../common';
+import { IMAGE_SRC } from '../../../../constants/variables';
 import { FieldArray, connect, getIn } from 'formik';
 import uuid from 'uuid-v4';
 import { TextArea } from 'formik-semantic-ui';
-import PermissionsField, { IfEditable } from '../../common/PermissionsField';
-import { SCHEDULE } from '../../../constants/fields';
-import { deleteGrazingScheduleEntry, updateSortOrder } from '../../../api';
-import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
-import { useUser } from '../../../providers/UserProvider';
-import SortableTableHeaderCell from '../../common/SortableTableHeaderCell';
-import { resetGrazingScheduleEntryId } from '../../../utils/helper/grazingSchedule';
+import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
+import { SCHEDULE } from '../../../../constants/fields';
+import { deleteScheduleEntry, updateSortOrder } from '../../../../api';
+import MultiParagraphDisplay from '../../../common/MultiParagraphDisplay';
+import { useUser } from '../../../../providers/UserProvider';
+import SortableTableHeaderCell from '../../../common/SortableTableHeaderCell';
+import { resetScheduleEntryId } from '../../../../utils/helper/schedule';
 const _ = require('lodash');
 
-const GrazingScheduleBox = ({
+const HayCuttingScheduleBox = ({
   schedule,
   activeIndex,
   index,
   namespace,
-  crownTotalAUMs,
   yearOptions,
   onScheduleClicked,
-  authorizedAUMs,
   onScheduleCopy,
   onScheduleDelete,
+  authorizedTonnes,
+  totalTonnes,
   formik,
 }) => {
   const { id, year, sortBy, sortOrder } = schedule;
   const user = useUser();
   const narative = (schedule && schedule.narative) || '';
-  const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs);
+  const roundedTotalTonnes = roundTo1Decimal(totalTonnes);
   const copyOptions =
     yearOptions.map((o) => ({
       ...o,
       onClick: () => onScheduleCopy(o.value, schedule.id),
     })) || [];
-  const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs;
+  const isTotalTonnesError = totalTonnes > authorizedTonnes;
 
   const [toRemove, setToRemove] = useState(null);
 
   const isError = !!getIn(formik.errors, namespace);
 
   const getScheduleError = () => {
-    if (schedule.grazingScheduleEntries.length === 0) {
+    if (schedule.scheduleEntries.length === 0) {
       if (isUserAgrologist(user))
         return {
           message: 'This schedule has no associated rows.',
           type: 'warning',
         };
-      return { message: strings.EMPTY_GRAZING_SCHEDULE_ENTRIES, type: 'error' };
+      return { message: strings.EMPTY_SCHEDULE_ENTRIES, type: 'error' };
     }
-    if (isCrownTotalAUMsError) {
+    if (isTotalTonnesError) {
       return {
-        message: strings.TOTAL_AUMS_EXCEEDS + ' Over by: ' + (crownTotalAUMs - authorizedAUMs).toFixed(1).toString(),
+        message:
+          'Total tonnes exceeds authorized amount. Over by: ' + (totalTonnes - authorizedTonnes).toFixed(1).toString(),
         type: 'error',
       };
     }
-    const aggregatedCrownAUMs = schedule.grazingScheduleEntries.reduce((acc, entry) => {
+    const aggregatedTonnes = schedule.scheduleEntries.reduce((acc, entry) => {
       if (entry.pasture && entry.pasture.id !== undefined) {
         const pastureId = entry.pasture.id;
-        acc[pastureId] = roundTo1Decimal((acc[pastureId] || 0) + entry.crownAUMs);
+        const entryTonnes = parseFloat(entry.tonnes) || 0;
+        acc[pastureId] = roundTo1Decimal((acc[pastureId] || 0) + entryTonnes);
       }
       return acc;
     }, {});
-    const warningEntries = schedule.grazingScheduleEntries.reduce((acc, entry) => {
+    const warningEntries = schedule.scheduleEntries.reduce((acc, entry) => {
       if (entry.pasture && entry.pasture.id !== undefined) {
         const pastureId = entry.pasture.id;
         const pastureName = entry.pasture.name;
-        const allowableAum = entry.pasture.allowableAum;
-        if (allowableAum && aggregatedCrownAUMs[pastureId] > allowableAum) {
+        const allowableTonnes = entry.pasture.allowableTonnes;
+        if (allowableTonnes && aggregatedTonnes[pastureId] > allowableTonnes) {
           acc.push({
             id: entry.id,
-            message: `Total Crown AUMs: ${aggregatedCrownAUMs[pastureId]} of schedule entries of pasture "${pastureName}" have exceeded recommended AUMs value: ${allowableAum}.`,
+            message: `Total Tonnes: ${aggregatedTonnes[pastureId]} of schedule entries of pasture "${pastureName}" have exceeded recommended tonnes value: ${allowableTonnes}.`,
             type: 'warning',
           });
         }
@@ -102,8 +104,8 @@ const GrazingScheduleBox = ({
       updateSortOrder(schedule.planId, schedule.id, column, 'asc');
 
       formik.setFieldValue(
-        `${namespace}.grazingScheduleEntries`,
-        _.orderBy(schedule.grazingScheduleEntries, [column, 'id'], ['asc', 'asc']),
+        `${namespace}.scheduleEntries`,
+        _.orderBy(schedule.scheduleEntries, [column, 'id'], ['asc', 'asc']),
       );
     } else {
       if (sortOrder === 'asc') {
@@ -111,17 +113,14 @@ const GrazingScheduleBox = ({
 
         updateSortOrder(schedule.planId, schedule.id, column, 'desc');
         formik.setFieldValue(
-          `${namespace}.grazingScheduleEntries`,
-          _.orderBy(schedule.grazingScheduleEntries, [column, 'id'], ['desc', 'asc']),
+          `${namespace}.scheduleEntries`,
+          _.orderBy(schedule.scheduleEntries, [column, 'id'], ['desc', 'asc']),
         );
       } else {
         setSortOrder(null);
         setSortBy(null);
         updateSortOrder(schedule.planId, schedule.id, null, null);
-        formik.setFieldValue(
-          `${namespace}.grazingScheduleEntries`,
-          _.orderBy(schedule.grazingScheduleEntries, ['id'], ['asc']),
-        );
+        formik.setFieldValue(`${namespace}.scheduleEntries`, _.orderBy(schedule.scheduleEntries, ['id'], ['asc']));
       }
     }
   };
@@ -134,7 +133,7 @@ const GrazingScheduleBox = ({
 
   return (
     <FieldArray
-      name={`${namespace}.grazingScheduleEntries`}
+      name={`${namespace}.scheduleEntries`}
       validateOnChange={false}
       render={({ push, remove }) => (
         <>
@@ -149,7 +148,7 @@ const GrazingScheduleBox = ({
                 <div style={{ width: '30px' }}>
                   {isError ? <Icon name="warning sign" /> : <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />}
                 </div>
-                {year} Grazing Schedule
+                {year} Schedule
               </div>
             }
             shouldHideHeaderRightWhenNotActive
@@ -187,7 +186,7 @@ const GrazingScheduleBox = ({
               <>
                 {(isError || scheduleError) && (
                   <ErrorMessage
-                    message={(scheduleError && scheduleError.message) || strings.INVALID_GRAZING_SCHEDULE_ENTRY}
+                    message={(scheduleError && scheduleError.message) || strings.INVALID_SCHEDULE_ENTRY}
                     warning={scheduleError && scheduleError.type === 'warning'}
                     visible
                     attached
@@ -197,50 +196,41 @@ const GrazingScheduleBox = ({
                   <Table sortable unstackable columns={10} attached={isError || scheduleError ? 'bottom' : false}>
                     <Table.Header>
                       <Table.Row>
-                        <SortableTableHeaderCell column="pasture.name" {...headerCellProps}>
-                          <div className="rup__grazing-schedule__pasture">{strings.PASTURE}</div>
+                        <SortableTableHeaderCell column="area" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__pasture">{strings.AREA}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="livestockType.name" {...headerCellProps}>
-                          <div className="rup__grazing-schedule__l-type">{strings.LIVESTOCK_TYPE}</div>
+                        <SortableTableHeaderCell column="avgHeight" {...headerCellProps}>
+                          {strings.AVERAGE_HEIGHT}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="livestockCount" {...headerCellProps}>
-                          {strings.NUM_OF_ANIMALS}
+                        <SortableTableHeaderCell column="periodStart" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__dates">{strings.PRRIOD_START}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="dateIn" {...headerCellProps}>
-                          <div className="rup__grazing-schedule__dates">{strings.DATE_IN}</div>
-                        </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="dateOut" {...headerCellProps}>
-                          <div className="rup__grazing-schedule__dates">{strings.DATE_OUT}</div>
+                        <SortableTableHeaderCell column="periodEnd" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__dates">{strings.PERIOD_END}</div>
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell {...headerCellProps} column="days">
                           {strings.DAYS}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="graceDays" {...headerCellProps}>
-                          <div className="rup__grazing-schedule__grace-days">{strings.GRACE_DAYS}</div>
-                        </SortableTableHeaderCell>
-                        <SortableTableHeaderCell {...headerCellProps} column="pldAUMs">
-                          {strings.PLD}
-                        </SortableTableHeaderCell>
-                        <SortableTableHeaderCell {...headerCellProps} column="crownAUMs">
-                          {strings.CROWN_AUMS}
+                        <SortableTableHeaderCell column="tonnes" {...headerCellProps}>
+                          <div className="rup__grazing-schedule__grace-days">{strings.TONNES}</div>
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell />
                       </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                      {schedule.grazingScheduleEntries.map((entry, entryIndex) => (
-                        <GrazingScheduleEntryRow
+                      {schedule.scheduleEntries.map((entry, entryIndex) => (
+                        <HayCuttingScheduleEntryRow
                           key={entry.id || entry.key}
                           schedule={schedule}
                           entry={entry}
                           entryIndex={entryIndex}
                           scheduleIndex={index}
-                          namespace={`${namespace}.grazingScheduleEntries.${entryIndex}`}
+                          namespace={`${namespace}.scheduleEntries.${entryIndex}`}
                           onDelete={() => setToRemove(entryIndex)}
                           onCopy={() => {
                             setSortOrder(null);
                             setSortBy(null);
-                            push(resetGrazingScheduleEntryId(entry));
+                            push(resetScheduleEntryId(entry));
                           }}
                           onChange={() => {
                             setSortBy(null);
@@ -260,19 +250,19 @@ const GrazingScheduleBox = ({
                       setSortOrder(null);
                       setSortBy(null);
                       push({
+                        pastureId: '',
                         dateIn: '',
                         dateOut: '',
-                        graceDays: '',
-                        livestockCount: '',
-                        livestockTypeId: '',
+                        stubbleHeight: '',
+                        tonnes: '',
                         id: uuid(),
                       });
 
                       // Touch fields to ensure error status is shown for new entries
-                      const lastIndex = schedule.grazingScheduleEntries.length;
-                      formik.setFieldTouched(`${namespace}.grazingScheduleEntries.${lastIndex}.livestockCount`, true);
-                      formik.setFieldTouched(`${namespace}.grazingScheduleEntries.${lastIndex}.livestockTypeId`, true);
-                      formik.setFieldTouched(`${namespace}.grazingScheduleEntries.${lastIndex}.pastureId`, true);
+                      const lastIndex = schedule.scheduleEntries.length;
+                      formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.stubbleHeight`, true);
+                      formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.tonnes`, true);
+                      formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.pastureId`, true);
                     }}
                   >
                     <Icon name="add circle" />
@@ -280,19 +270,19 @@ const GrazingScheduleBox = ({
                   </PrimaryButton>
                 </IfEditable>
                 <div className="rup__grazing-schedule__AUMs">
-                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized AUMs</div>
-                  <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
-                  <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
+                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized Tonnes</div>
+                  <div className="rup__grazing-schedule__AUM-number">{authorizedTonnes}</div>
+                  <div className="rup__grazing-schedule__AUM-label">Total Tonnes</div>
                   <div
                     className={classnames('rup__grazing-schedule__AUM-number', {
-                      'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError,
+                      'rup__grazing-schedule__AUM-number--invalid': isTotalTonnesError,
                     })}
                   >
-                    {roundedCrownTotalAUMs}
+                    {roundedTotalTonnes}
                   </div>
                   <div className="rup__grazing-schedule__AUM-label">% Used</div>
                   <div className="rup__grazing-schedule__AUM-number">
-                    {((roundedCrownTotalAUMs / authorizedAUMs) * 100).toFixed(2)}
+                    {authorizedTonnes > 0 ? ((roundedTotalTonnes / authorizedTonnes) * 100).toFixed(2) : '0.00'}
                   </div>
                 </div>
                 <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
@@ -322,10 +312,10 @@ const GrazingScheduleBox = ({
               setToRemove(null);
             }}
             onConfirm={async () => {
-              const entry = schedule.grazingScheduleEntries[toRemove];
+              const entry = schedule.scheduleEntries[toRemove];
 
               if (!uuid.isUUID(entry.id)) {
-                await deleteGrazingScheduleEntry(schedule.planId, schedule.id, entry.id);
+                await deleteScheduleEntry(schedule.planId, schedule.id, entry.id);
               }
               remove(toRemove);
               setToRemove(null);
@@ -337,17 +327,17 @@ const GrazingScheduleBox = ({
   );
 };
 
-GrazingScheduleBox.propTypes = {
+HayCuttingScheduleBox.propTypes = {
   schedule: PropTypes.object.isRequired,
   activeIndex: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   namespace: PropTypes.string.isRequired,
-  crownTotalAUMs: PropTypes.number.isRequired,
   yearOptions: PropTypes.array.isRequired,
   onScheduleClicked: PropTypes.func.isRequired,
-  authorizedAUMs: PropTypes.number.isRequired,
+  authorizedTonnes: PropTypes.number.isRequired,
+  totalTonnes: PropTypes.number.isRequired,
   onScheduleCopy: PropTypes.func.isRequired,
   onScheduleDelete: PropTypes.func.isRequired,
 };
 
-export default connect(GrazingScheduleBox);
+export default connect(HayCuttingScheduleBox);

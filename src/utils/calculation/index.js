@@ -1,4 +1,5 @@
 export * from './grazingSchedule';
+export * from './hayCuttingSchedule';
 
 const round = (number, precision) => {
   const shift = (number, precision) => {
