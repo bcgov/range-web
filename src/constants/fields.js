@@ -83,6 +83,7 @@ export const MINISTER_ISSUES = {
 };
 export const SCHEDULE = {
   PASTURE: 'schedule.pasture',
+  AREA: 'schedule.area',
   TYPE: 'schedule.type',
   ANIMALS: 'schedule.animals',
   DATE_IN: 'schedule.dateIn',

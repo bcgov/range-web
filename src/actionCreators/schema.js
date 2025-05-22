@@ -41,11 +41,6 @@ export const additionalRequirements = new schema.Entity('additionalRequirements'
 export const managementConsiderations = new schema.Entity('managementConsiderations');
 export const confirmation = new schema.Entity('confirmations');
 export const planStatusHistory = new schema.Entity('planStatusHistory');
-// export const grazingScheduleEntry = new schema.Entity('grazingScheduleEntries');
-
-// grazingSchedule.define({
-//   grazingScheduleEntries: [grazingScheduleEntry],
-// });
 
 pasture.define({
   plantCommunities: [plantCommunity],

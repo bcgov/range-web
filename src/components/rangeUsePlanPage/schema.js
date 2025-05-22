@@ -125,7 +125,7 @@ const RUPSchema = Yup.object().shape({
   grazingSchedules: Yup.array().of(
     Yup.object().shape({
       narative: Yup.string().transform(handleNull()),
-      grazingScheduleEntries: Yup.array().of(
+      scheduleEntries: Yup.array().of(
         Yup.object().shape({
           dateIn: Yup.string().required(true),
           dateOut: Yup.string()

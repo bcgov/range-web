@@ -5,66 +5,68 @@ import classnames from 'classnames';
 import { FieldArray } from 'formik';
 import uuid from 'uuid-v4';
 import { InfoTip } from '../../common';
+import { IfEditable } from '../../common/PermissionsField';
 import { YEARLY_SCHEDULES, YEARLY_SCHEDULES_TIP } from '../../../constants/strings';
 import { SCHEDULE } from '../../../constants/fields';
 import * as utils from '../../../utils';
-import GrazingScheduleBox from './GrazingScheduleBox';
-import { useReferences } from '../../../providers/ReferencesProvider';
-import { REFERENCE_KEY } from '../../../constants/variables';
+import HayCuttingScheduleBox from './HayCuttingScheduleBox';
 import moment from 'moment';
 import { deleteSchedule } from '../../../api';
-import { populateGrazingScheduleFields } from '../../../utils/helper/schedule';
-import { IfEditable } from '../../common/PermissionsField';
 
-const sortYears = (a, b) => a.year - b.year;
+const sortYears = (a, b) => {
+  if (a.year > b.year) return 1;
+  if (a.year < b.year) return -1;
+  return 0;
+};
 
-const Schedules = ({ plan }) => {
+const HayCuttingSchedules = ({ plan }) => {
   const [yearOptions, setYearOptions] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [indexToRemove, setIndexToRemove] = useState(null);
-
-  const references = useReferences();
-  const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
-  const schedules = plan.schedules || [];
+  const { schedules } = plan;
   const isEmpty = schedules.length === 0;
 
   useEffect(() => {
-    const { planStartDate, planEndDate, schedules } = plan || {};
+    const { planStartDate, planEndDate } = plan || {};
     if (planStartDate && planEndDate) {
-      const start = new Date(planStartDate).getFullYear();
-      const end = new Date(planEndDate).getFullYear();
-
-      const options = Array.from({ length: end - start + 1 }, (_, i) => ({
-        key: start + i,
-        text: start + i,
-        value: start + i,
-      })).filter(({ value }) => !schedules.some((s) => s.year === value));
+      // set up year options
+      const planStartYear = new Date(planStartDate).getFullYear();
+      const planEndYear = new Date(planEndDate).getFullYear();
+      const length = planEndYear - planStartYear + 1;
+      const options = utils
+        .createEmptyArray(length >= 0 ? length : 0)
+        .map((v, i) => ({
+          key: planStartYear + i,
+          text: planStartYear + i,
+          value: planStartYear + i,
+        }))
+        .filter((option) => {
+          // give year options that hasn't been added yet in schedules
+          const schedules = plan.schedules;
+          const years = schedules.map((s) => s.year);
+          return !(years.indexOf(option.value) >= 0);
+        });
 
       setYearOptions(options);
     }
-  }, [plan.planStartDate, plan.planEndDate, plan.schedules]);
-
-  const isGrazing = plan.agreement.agreementTypeId === 1 || plan.agreement.agreementTypeId === 2;
-  const fieldName = isGrazing ? 'grazingSchedules' : 'hayCuttingSchedules';
-  const scheduleTitle = isGrazing ? YEARLY_SCHEDULES : 'Hay Cutting Schedules';
-  const scheduleTip = isGrazing ? YEARLY_SCHEDULES_TIP : 'Add hay cutting plans per year.';
+  }, [schedules.length, plan.planStartDate, plan.planEndDate]);
 
   return (
     <FieldArray
-      name={fieldName}
+      name="schedules"
       validateOnChange={false}
       render={({ push, remove }) => (
         <>
           <div className="rup__grazing-schedules">
             <div className="rup__content-title--editable">
               <div className="rup__popup-header">
-                <div className="rup__content-title">{scheduleTitle}</div>
-                <InfoTip header={scheduleTitle} content={scheduleTip} />
+                <div className="rup__content-title">{YEARLY_SCHEDULES}</div>
+                <InfoTip header={YEARLY_SCHEDULES} content={YEARLY_SCHEDULES_TIP} />
               </div>
               <IfEditable permission={SCHEDULE.TYPE}>
                 <Dropdown
                   className="icon rup__grazing-schedules__add-dropdown"
-                  text={`Add ${isGrazing ? 'Grazing' : 'Hay Cutting'} Schedule`}
+                  text="Add Schedule"
                   header="Years"
                   icon="add circle"
                   basic
@@ -76,10 +78,10 @@ const Schedules = ({ plan }) => {
                   disabled={yearOptions.length === 0}
                   onChange={(e, { value }) => {
                     push({
-                      id: uuid(),
-                      year: value,
-                      narative: '',
                       scheduleEntries: [],
+                      narative: '',
+                      year: value,
+                      id: uuid(),
                     });
                   }}
                   selectOnBlur={false}
@@ -88,39 +90,33 @@ const Schedules = ({ plan }) => {
                 />
               </IfEditable>
             </div>
-
             <div className="rup__divider" />
-
             {isEmpty ? (
               <div className="rup__section-not-found">No schedule provided.</div>
             ) : (
-              <ul className={classnames('collaspible-boxes', { 'collaspible-boxes--empty': isEmpty })}>
+              <ul
+                className={classnames('collaspible-boxes', {
+                  'collaspible-boxes--empty': isEmpty,
+                })}
+              >
                 {schedules.sort(sortYears).map((schedule, index) => {
                   const yearUsage = plan.agreement.usage.find((u) => u.year === schedule.year);
-                  const authorizedAUMs = yearUsage?.totalAnnualUse || 0;
-                  const crownTotalAUMs = utils.calcCrownTotalAUMs(
-                    schedule.scheduleEntries,
-                    plan.pastures,
-                    livestockTypes,
-                  );
+                  const authorizedAUMs = (yearUsage && yearUsage.totalAnnualUse) || 0;
+                  // const crownTotalAUMs = utils.calcCrownTotalAUMs(
+                  //   schedule.scheduleEntries,
+                  //   plan.pastures,
+                  //   livestockTypes,
+                  // );
 
-                  const commonProps = {
-                    key: schedule.id,
-                    yearOptions,
-                    index,
-                    schedule: populateGrazingScheduleFields(schedule, plan, references),
-                    activeIndex,
-                    namespace: `${fieldName}.${index}`,
-                    onScheduleClicked: () => setActiveIndex(index !== activeIndex ? index : -1),
-                    onScheduleDelete: () => setIndexToRemove(index),
-                  };
-
-                  return isGrazing ? (
-                    <GrazingScheduleBox
-                      {...commonProps}
-                      livestockTypes={livestockTypes}
+                  return (
+                    <HayCuttingScheduleBox
+                      key={schedule.id}
+                      yearOptions={yearOptions}
+                      index={index}
+                      onScheduleClicked={() => setActiveIndex(index !== activeIndex ? index : -1)}
+                      activeIndex={activeIndex}
+                      namespace={`hayCuttingSchedules.${index}`}
                       authorizedAUMs={authorizedAUMs}
-                      crownTotalAUMs={crownTotalAUMs}
                       onScheduleCopy={(year) => {
                         push({
                           ...schedule,
@@ -134,22 +130,25 @@ const Schedules = ({ plan }) => {
                           })),
                         });
                       }}
+                      onScheduleDelete={() => setIndexToRemove(index)}
                     />
-                  ) : (
-                    <div>1</div>
                   );
                 })}
               </ul>
             )}
           </div>
-
           <Confirm
             open={indexToRemove !== null}
-            onCancel={() => setIndexToRemove(null)}
-            content={`Are you sure you want to delete this ${isGrazing ? 'grazing' : 'hay cutting'} schedule?`}
+            onCancel={() => {
+              setIndexToRemove(null);
+            }}
+            content="Are you sure you want delete the entire year from the schedule?  You will lose all the rows for this year."
             onConfirm={async () => {
               const schedule = schedules[indexToRemove];
-              if (!uuid.isUUID(schedule.id)) await deleteSchedule(plan.id, schedule.id);
+
+              if (!uuid.isUUID(schedule.id)) {
+                await deleteSchedule(plan.id, schedule.id);
+              }
               remove(indexToRemove);
               setIndexToRemove(null);
             }}
@@ -160,8 +159,8 @@ const Schedules = ({ plan }) => {
   );
 };
 
-Schedules.propTypes = {
+HayCuttingSchedules.propTypes = {
   plan: PropTypes.object.isRequired,
 };
 
-export default Schedules;
+export default HayCuttingSchedules;

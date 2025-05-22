@@ -66,17 +66,17 @@ export const normalizePasturesWithOldId = (oldPastures, newPastures) => {
 
 export const copyGrazingSchedulesToCreateAmendment = (plan, grazingSchedulesMap, newPastureIdsMap) => {
   return plan.grazingSchedules.map((gs) => {
-    const { grazingScheduleEntries, ...grazingSchedule } = grazingSchedulesMap[gs.id];
-    const newGrazingScheduleEntries = grazingScheduleEntries.map((gse) => {
-      const { pastureId: oldPastureId, ...newGrazingScheduleEntry } = gse;
+    const { scheduleEntries, ...schedule } = grazingSchedulesMap[gs.id];
+    const newScheduleEntries = scheduleEntries.map((gse) => {
+      const { pastureId: oldPastureId, ...newScheduleEntry } = gse;
       // replace the original pastureId with the newly created pastureId
       const pastureId = newPastureIdsMap[oldPastureId];
-      return { ...newGrazingScheduleEntry, pastureId };
+      return { ...newScheduleEntry, pastureId };
     });
 
     return {
-      ...grazingSchedule,
-      grazingScheduleEntries: newGrazingScheduleEntries,
+      ...schedule,
+      scheduleEntries: newScheduleEntries,
     };
   });
 };

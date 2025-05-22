@@ -196,6 +196,7 @@ export const ELEMENT_ID = {
   BASIC_INFORMATION: 'basic_information',
   PASTURES: 'pastures',
   GRAZING_SCHEDULE: 'grazing_schedule',
+  HAYCUTTING_SCHEDULE: 'haycutting_schedule',
   MINISTER_ISSUES: 'minister_issues_and_actions',
   INVASIVE_PLANT_CHECKLIST: 'invasive_plant',
   ADDITIONAL_REQUIREMENTS: 'additional_requirements',

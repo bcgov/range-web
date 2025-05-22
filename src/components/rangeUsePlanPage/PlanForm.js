@@ -5,7 +5,7 @@ import Pastures from './pastures';
 import { ELEMENT_ID } from '../../constants/variables';
 import BasicInformation from './basicInformation';
 import Conditions from './conditions';
-import GrazingSchedules from './grazingSchedules';
+import Schedules from './grazingSchedules';
 import Usage from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
 import ManagementConsiderations from './managementConsiderations';
@@ -43,13 +43,13 @@ const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isE
         />
       </Element>
       <Element name={ELEMENT_ID.PASTURES} id={ELEMENT_ID.PASTURES}>
-        <Pastures pastures={plan.pastures} />
+        <Pastures pastures={plan.pastures} agreementType={plan.agreement.agreementType} />
       </Element>
 
       <Usage plan={plan} usage={plan.agreement.usage} />
 
       <Element name={ELEMENT_ID.GRAZING_SCHEDULE} id={ELEMENT_ID.GRAZING_SCHEDULE}>
-        <GrazingSchedules plan={plan} />
+        <Schedules plan={plan} />
       </Element>
       <Element name={ELEMENT_ID.MINISTER_ISSUES} id={ELEMENT_ID.MINISTER_ISSUES}>
         <MinisterIssues issues={plan.ministerIssues} />

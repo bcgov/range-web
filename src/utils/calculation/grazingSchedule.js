@@ -51,6 +51,7 @@ export const calcCrownAUMs = (totalAUMs, pldAUMs) => totalAUMs - pldAUMs;
  * @returns {float} the total crown AUMs
  */
 export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes = []) => {
+  console.log('entries', entries);
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   if (entries.lsength === 0) {
     return 0;
