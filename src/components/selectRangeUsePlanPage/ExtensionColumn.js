@@ -259,7 +259,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   const renderExtensionForAgreementHolder = (user, agreement) => {
     if (isUserAgreementHolder(user) && !isUserDecisionMaker(user)) {
       const extensionRequest = agreement.plan?.planExtensionRequests.find((request) => {
-        return request.userId === user.id || user.agentOf.find(({ clientId }) => clientId === request.clientId);
+        return request.userId === user.id;
       });
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
