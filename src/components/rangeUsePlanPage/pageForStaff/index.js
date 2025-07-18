@@ -88,20 +88,23 @@ class PageForStaff extends Component {
     return false;
   };
 
-  validateMapAttachment = (plan, user, statusCode) => {
+  validateMapAttachment = (plan, user, statusCode = null) => {
     // Check if user is Staff Agrologist
     if (!utils.isUserAgrologist(user)) {
       return false;
     }
 
-    // Check if this is a submission status that requires map attachment
+    // Define submission statuses that require map attachment
     const submissionStatuses = [
       PLAN_STATUS.RECOMMEND_READY,
       PLAN_STATUS.RECOMMEND_NOT_READY,
       PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
+      PLAN_STATUS.CREATED, // For general plan submission through modal
     ];
 
-    if (!submissionStatuses.includes(statusCode)) {
+    // If statusCode is provided, check if it's a submission status
+    // If statusCode is null, assume this is a general submission validation
+    if (statusCode !== null && !submissionStatuses.includes(statusCode)) {
       return false;
     }
 
@@ -161,11 +164,20 @@ class PageForStaff extends Component {
 
   openPlanSubmissionModal = () => {
     const error = this.validateRup(this.props.plan);
-    if (!error) {
-      this.setState({ isPlanSubmissionModalOpen: true });
-    } else {
+    if (error) {
       this.props.toastErrorMessage(error);
+      return;
     }
+
+    // Check if Staff Agrologist is trying to submit without map attachment
+    const mapAttachmentError = this.validateMapAttachment(this.props.plan, this.props.user);
+    if (mapAttachmentError) {
+      this.props.toastErrorMessage(mapAttachmentError.message);
+      utils.scrollIntoView(mapAttachmentError.elementId);
+      return;
+    }
+
+    this.setState({ isPlanSubmissionModalOpen: true });
   };
   closePlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: false });
 
@@ -206,11 +218,11 @@ class PageForStaff extends Component {
         plan={this.props.plan}
         fetchPlan={this.props.fetchPlan}
         beforeUpdateStatus={async (statusCode) => {
+          console.log('beforeUpdateStatus called with statusCode:', statusCode);
           const { formik } = this.props;
           await formik.submitForm();
           const errors = await formik.validateForm();
           const error = this.validateRup(this.props.plan);
-          console.log(error);
 
           // Check if Staff Agrologist is trying to submit without map attachment
           const mapAttachmentError = this.validateMapAttachment(this.props.plan, this.props.user, statusCode);
