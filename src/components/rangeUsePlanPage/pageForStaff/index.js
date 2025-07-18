@@ -5,6 +5,7 @@ import {
   AMENDMENT_TYPE,
   CONFIRMATION_MODAL_ID,
   PLAN_EXTENSION_STATUS,
+  ELEMENT_ID,
 } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
 import * as strings from '../../../constants/strings';
@@ -84,6 +85,38 @@ class PageForStaff extends Component {
     }
 
     // no errors found
+    return false;
+  };
+
+  validateMapAttachment = (plan, user, statusCode) => {
+    // Check if user is Staff Agrologist
+    if (!utils.isUserAgrologist(user)) {
+      return false;
+    }
+
+    // Check if this is a submission status that requires map attachment
+    const submissionStatuses = [
+      PLAN_STATUS.RECOMMEND_READY,
+      PLAN_STATUS.RECOMMEND_NOT_READY,
+      PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
+    ];
+
+    if (!submissionStatuses.includes(statusCode)) {
+      return false;
+    }
+
+    // Check if plan has map attachments
+    const mapAttachments = plan.files?.filter((file) => file.type === 'mapAttachments') || [];
+
+    if (mapAttachments.length === 0) {
+      return {
+        error: true,
+        message:
+          'Staff Agrologist cannot submit a plan without a map attachment. Please upload a map attachment before submitting.',
+        elementId: ELEMENT_ID.ATTACHMENTS,
+      };
+    }
+
     return false;
   };
 
@@ -178,6 +211,15 @@ class PageForStaff extends Component {
           const errors = await formik.validateForm();
           const error = this.validateRup(this.props.plan);
           console.log(error);
+
+          // Check if Staff Agrologist is trying to submit without map attachment
+          const mapAttachmentError = this.validateMapAttachment(this.props.plan, this.props.user, statusCode);
+          if (mapAttachmentError) {
+            this.props.toastErrorMessage(mapAttachmentError.message);
+            utils.scrollIntoView(mapAttachmentError.elementId);
+            return false;
+          }
+
           if (Object.keys(errors).length === 0 && !error) {
             return true;
           }
