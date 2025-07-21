@@ -5,6 +5,7 @@ import {
   AMENDMENT_TYPE,
   CONFIRMATION_MODAL_ID,
   PLAN_EXTENSION_STATUS,
+  ELEMENT_ID,
 } from '../../../constants/variables';
 import { Status, Banner } from '../../common';
 import * as strings from '../../../constants/strings';
@@ -87,6 +88,25 @@ class PageForStaff extends Component {
     return false;
   };
 
+  validateMapAttachment = (plan, user) => {
+    // Check if user is Staff Agrologist or Admin
+    if (!utils.isUserAgrologist(user) && !utils.isUserAdmin(user)) {
+      return false;
+    }
+
+    // Check if plan has map attachments
+    const mapAttachments = plan.files?.filter((file) => file.type === 'mapAttachments') || [];
+
+    if (mapAttachments.length === 0) {
+      return {
+        error: true,
+        message: 'Cannot submit a plan without a map attachment. Please upload a map attachment before submitting.',
+        elementId: ELEMENT_ID.ATTACHMENTS,
+      };
+    }
+    return false;
+  };
+
   onViewPDFClicked = () => {
     const { id: planId } = this.props.plan || {};
     this.props.history.push(`/range-use-plan/${planId}/export-pdf`);
@@ -128,11 +148,20 @@ class PageForStaff extends Component {
 
   openPlanSubmissionModal = () => {
     const error = this.validateRup(this.props.plan);
-    if (!error) {
-      this.setState({ isPlanSubmissionModalOpen: true });
-    } else {
+    if (error) {
       this.props.toastErrorMessage(error);
+      return;
     }
+
+    // Check if Staff Agrologist is trying to submit without map attachment
+    const mapAttachmentError = this.validateMapAttachment(this.props.plan, this.props.user);
+    if (mapAttachmentError) {
+      this.props.toastErrorMessage(mapAttachmentError);
+      utils.scrollIntoView(mapAttachmentError.elementId);
+      return;
+    }
+
+    this.setState({ isPlanSubmissionModalOpen: true });
   };
   closePlanSubmissionModal = () => this.setState({ isPlanSubmissionModalOpen: false });
 
@@ -177,7 +206,7 @@ class PageForStaff extends Component {
           await formik.submitForm();
           const errors = await formik.validateForm();
           const error = this.validateRup(this.props.plan);
-          console.log(error);
+
           if (Object.keys(errors).length === 0 && !error) {
             return true;
           }
