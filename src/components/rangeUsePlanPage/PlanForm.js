@@ -83,7 +83,15 @@ const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isE
             <EditableProvider editable={canUserAttachMaps(plan, user)}>
               <Attachments planId={plan.id} attachments={plan.files} propertyName="mapAttachments" label="Map" />
             </EditableProvider>
-            <Attachments planId={plan.id} attachments={plan.files} propertyName="otherAttachments" label="Other" />
+            <EditableProvider editable={true}>
+              <Attachments
+                planId={plan.id}
+                attachments={plan.files}
+                propertyName="otherAttachments"
+                label="Other"
+                fetchPlan={fetchPlan}
+              />
+            </EditableProvider>
           </Element>
         </EditableProvider>
       )}

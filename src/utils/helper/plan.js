@@ -205,7 +205,18 @@ export const canUserEditThisPlan = (plan = {}, user = {}) => {
 };
 
 export const canUserAddAttachments = (plan = {}, user = {}) => {
-  return (canUserEditThisPlan(plan, user) || canUserUpdateStatus(plan, user)) && !isStatusApproved(plan.status);
+  // Allow admins to always add attachments (except when plan is approved)
+  if (isUserAdmin(user)) {
+    return !isStatusApproved(plan.status);
+  }
+
+  // Allow users to add attachments if they can edit the plan OR update status
+  // OR if they are staff/agrologists who can manage the plan
+  const canEdit = canUserEditThisPlan(plan, user);
+  const canUpdateStatus = canUserUpdateStatus(plan, user);
+  const isStaffManagingPlan = (isUserAgrologist(user) || isUserStaff(user)) && doesStaffOwnPlan(plan, user);
+
+  return (canEdit || canUpdateStatus || isStaffManagingPlan) && !isStatusApproved(plan.status);
 };
 
 export const canUserAttachMaps = (plan = {}, user = {}) => {
