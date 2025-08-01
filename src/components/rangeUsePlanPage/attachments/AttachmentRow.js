@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ATTACHMENTS } from '../../../constants/fields';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
-import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react';
 import { formatDateFromServer, getUserFullName, axios, getAuthHeaderConfig } from '../../../utils';
 import { Dropdown } from 'formik-semantic-ui';
 import { TextField } from '../../common';
@@ -91,25 +90,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
               marginLeft: 15,
             }}
           >
-            <PlainDropdown
-              trigger={<Icon name="ellipsis vertical" />}
-              options={[
-                {
-                  key: 'delete',
-                  value: 'delete',
-                  text: 'Delete',
-                },
-              ]}
-              icon={null}
-              pointing="right"
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e, { value }) => {
-                if (value === 'delete') {
-                  onDelete();
-                }
-              }}
-              selectOnBlur={false}
-            />
+            <button onClick={onDelete}>Delete</button>
           </div>
         </IfEditable>
       </div>

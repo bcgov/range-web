@@ -1,5 +1,6 @@
 import * as API from '../constants/api';
 import { getAuthHeaderConfig, axios } from '../utils';
+import { deleteFile } from './upload';
 
 const saveDeleteQueue = (deleteQueue) => {
   localStorage.setItem('delete-queue', JSON.stringify(deleteQueue));
@@ -126,5 +127,13 @@ export const deleteIndicatorPlant = createDeleteHandler(
 );
 
 export const deleteAttachment = async (planId, attachmentId) => {
-  await axios.delete(API.DELETE_RUP_ATTACHMENT(planId, attachmentId), getAuthHeaderConfig());
+  // The server endpoint handles both cloud storage and database deletion
+  // First try to delete the file directly (which includes cloud storage + database)
+  try {
+    await deleteFile(attachmentId);
+  } catch (error) {
+    console.warn('Failed to delete file via file endpoint, trying attachment endpoint:', error);
+    // Fall back to the attachment-specific endpoint if file deletion fails
+    await axios.delete(API.DELETE_RUP_ATTACHMENT(planId, attachmentId), getAuthHeaderConfig());
+  }
 };

@@ -1,7 +1,18 @@
-import { axios, getAuthHeaderConfig } from '../utils';
-import { GET_SIGNED_URL } from '../constants/api';
+import * as API from '../constants/api';
+import { getAuthHeaderConfig, axios } from '../utils';
 
 export const getSignedUploadUrl = async (fileName) => {
-  const res = await axios.get(GET_SIGNED_URL(fileName), getAuthHeaderConfig());
+  const res = await axios.get(API.GET_SIGNED_URL(fileName), getAuthHeaderConfig());
   return res.data.url;
+};
+
+export const getSignedDownloadUrl = async (fileId) => {
+  const response = await axios.get(API.GET_SIGNED_DOWNLOAD_URL(fileId), getAuthHeaderConfig());
+
+  return response.data;
+};
+
+export const deleteFile = async (fileId) => {
+  const response = await axios.delete(API.DELETE_FILE(fileId), getAuthHeaderConfig());
+  return response.data;
 };
