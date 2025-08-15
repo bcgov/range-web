@@ -277,9 +277,9 @@ const GrazingScheduleBox = ({
                   </PrimaryButton>
                 </IfEditable>
                 <div className="rup__grazing-schedule__AUMs">
-                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized AUMs</div>
+                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized AUM/Tonne</div>
                   <div className="rup__grazing-schedule__AUM-number">{authorizedAUMs}</div>
-                  <div className="rup__grazing-schedule__AUM-label">Total AUMs</div>
+                  <div className="rup__grazing-schedule__AUM-label">Total AUM/Tonne</div>
                   <div
                     className={classnames('rup__grazing-schedule__AUM-number', {
                       'rup__grazing-schedule__AUM-number--invalid': isCrownTotalAUMsError,

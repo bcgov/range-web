@@ -267,9 +267,9 @@ const HayCuttingScheduleBox = ({
                   </PrimaryButton>
                 </IfEditable>
                 <div className="rup__grazing-schedule__AUMs">
-                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized Tonnes</div>
+                  <div className="rup__grazing-schedule__AUM-label">Annual Authorized AUM/Tonne</div>
                   <div className="rup__grazing-schedule__AUM-number">{authorizedTonnes}</div>
-                  <div className="rup__grazing-schedule__AUM-label">Total Tonnes</div>
+                  <div className="rup__grazing-schedule__AUM-label">Total AUM/Tonne</div>
                   <div
                     className={classnames('rup__grazing-schedule__AUM-number', {
                       'rup__grazing-schedule__AUM-number--invalid': isTotalTonnesError,

@@ -161,7 +161,7 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
                   >
                     <div className="main">
                       <Typography variant="body1">
-                        <strong>Allowable AUM:</strong> {pasture.allowableAum}
+                        <strong>Allowable AUM/Tonne:</strong> {pasture.allowableAum}
                       </Typography>
                       <Typography variant="body1">
                         <strong>Grace Days:</strong> {pasture.graceDays}

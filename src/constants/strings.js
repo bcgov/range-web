@@ -88,14 +88,14 @@ export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
 
 // RUP Usage
 export const YEAR = 'Year';
-export const AUTH_AUMS = 'Auth AUMs';
+export const AUTH_AUMS = 'Auth AUM/Tonne';
 export const TEMP_INCREASE = 'Temp Increase';
 export const BILLABLE_NON_USE = 'Non-Use';
 export const TOTAL_ANNUAL_USE = 'Total Annual';
 
 // RUP pastures
 export const PASTURE_NAME = 'Pasture Name';
-export const ALLOWABLE_AUMS = 'Allowable AUMs';
+export const ALLOWABLE_AUMS = 'Allowable AUM/Tonne';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction';
 export const GRACE_DAYS = 'Grace Days';
 
@@ -118,7 +118,7 @@ export const PLD = 'PLD';
 export const CROWN_AUMS = 'Crown AUMs';
 
 export const AREA = 'Area';
-export const AVERAGE_HEIGHT = 'Avg Height (cm)';
+export const AVERAGE_HEIGHT = 'Stubble Height (cm)';
 export const PRRIOD_START = 'Period Start';
 export const PERIOD_END = 'Period End';
 export const TONNES = 'Tonnes';
