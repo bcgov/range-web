@@ -17,6 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
+import { getCurrentYear } from '../../utils';
 import PlanRow from './PlanRow';
 import { Loading } from '../common';
 
@@ -77,6 +78,22 @@ const headCells = [
     sortable: true,
     multiSelectable: true,
   },
+  {
+    id: 'agreement.usage_status',
+    numeric: false,
+    disablePadding: false,
+    label: `Usage Status (${getCurrentYear()})`,
+    sortable: true,
+    multiSelectable: true,
+  },
+  {
+    id: 'agreement.percentage_use',
+    numeric: false,
+    disablePadding: false,
+    label: `%Use (${getCurrentYear()})`,
+    sortable: true,
+    filterable: true,
+  },
   { id: 'actions', disablePadding: true },
   {
     id: 'extension_status',
@@ -122,6 +139,17 @@ function EnhancedTableHead(props) {
                 type="text"
                 onChange={(e) => onColumnFilterChange(e, headCell.id)}
                 value={Object.hasOwn(columnFilters, headCell.id) ? columnFilters[headCell.id] : ''}
+                style={
+                  headCell.id === 'agreement.percentage_use'
+                    ? { width: '60px' }
+                    : headCell.id === 'ref_district.code'
+                      ? { width: '80px' }
+                      : headCell.id === 'agreement.forest_file_id'
+                        ? { width: '90px' }
+                        : headCell.id === 'plan.plan_end_date'
+                          ? { width: '100px' }
+                          : {}
+                }
               />
             )}
             {headCell.id == 'plan.status_id' && (
@@ -130,6 +158,14 @@ function EnhancedTableHead(props) {
                   onColumnFilterChange({ target: { value: newStatusCodes } }, headCell.id)
                 }
                 selectedStatusCodes={columnFilters[headCell.id] || []}
+              />
+            )}
+            {headCell.id == 'agreement.usage_status' && (
+              <UsageStatusMultiSelect
+                onUsageStatusChange={(newUsageStatuses) =>
+                  onColumnFilterChange({ target: { value: newUsageStatuses } }, headCell.id)
+                }
+                selectedUsageStatuses={columnFilters[headCell.id] || []}
               />
             )}
           </TableCell>
@@ -185,6 +221,66 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
           <MenuItem key={statusObject.id} value={statusObject.name}>
             <Checkbox checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.name) !== -1} />
             <ListItemText primary={statusObject.name} />
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
+
+const UsageStatusMultiSelect = ({ onUsageStatusChange, selectedUsageStatuses }) => {
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 400,
+      },
+    },
+  };
+
+  // Define usage status options based on numeric values
+  const usageStatusOptions = [
+    { id: 1, name: 'No Use', value: 0 },
+    { id: 2, name: 'Over Use', value: 1 },
+  ];
+
+  const [selectedUsageStatusNames, setSelectedUsageStatusNames] = React.useState([]);
+
+  const handleChange = (event) => {
+    setSelectedUsageStatusNames(event.target.value);
+    const selectedUsageStatusValues = event.target.value.map((statusName) => {
+      const match = usageStatusOptions.find((st) => st.name === statusName);
+      return match.value;
+    });
+    onUsageStatusChange(selectedUsageStatusValues);
+  };
+
+  useEffect(() => {
+    setSelectedUsageStatusNames(
+      selectedUsageStatuses
+        .map((value) => {
+          const match = usageStatusOptions.find((st) => st.value === value);
+          return match ? match.name : '';
+        })
+        .filter(Boolean),
+    );
+  }, [selectedUsageStatuses]);
+
+  return (
+    <FormControl sx={{ width: 110 }}>
+      <Select
+        multiple
+        value={selectedUsageStatusNames}
+        onChange={handleChange}
+        renderValue={(selected) => selected.join(', ')}
+        MenuProps={MenuProps}
+      >
+        {usageStatusOptions.map((statusOption) => (
+          <MenuItem key={statusOption.id} value={statusOption.name}>
+            <Checkbox checked={selectedUsageStatusNames.indexOf(statusOption.name) !== -1} />
+            <ListItemText primary={statusOption.name} />
           </MenuItem>
         ))}
       </Select>
@@ -305,7 +401,7 @@ export default function SortableAgreementTable({
                 })}
               {agreements.length === 0 && !loading && (
                 <TableRow>
-                  <TableCell align="center" colSpan={10}>
+                  <TableCell align="center" colSpan={12}>
                     <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>

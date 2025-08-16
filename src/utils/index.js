@@ -193,3 +193,10 @@ export const sequentialAsyncMap = async (array, iteratee) =>
     },
     [],
   );
+
+/**
+ * Get current year
+ */
+export const getCurrentYear = () => {
+  return new Date().getFullYear();
+};
