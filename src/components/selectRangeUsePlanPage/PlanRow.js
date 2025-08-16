@@ -13,6 +13,15 @@ import { useStyles } from './SortableAgreementTable';
 import ExtensionColumn from './ExtensionColumn';
 import PlanActions from './PlanActions';
 
+// Helper function to format usage status display
+const formatUsageStatus = (usageStatus) => {
+  const statusMap = {
+    0: 'No Use',
+    1: 'Over Use',
+  };
+  return statusMap[usageStatus] || '-';
+};
+
 function PlanRow({ agreement, user, currentPage }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -50,6 +59,19 @@ function PlanRow({ agreement, user, currentPage }) {
         <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
         <TableCell align="left">
           {agreement.plan?.id ? <Status user={user} status={agreement.plan.status} /> : <span>-</span>}
+        </TableCell>
+        <TableCell align="left">
+          {agreement.usageStatus !== undefined && agreement.usageStatus !== null ? (
+            <span>{formatUsageStatus(agreement.usageStatus)}</span>
+          ) : (
+            <span>-</span>
+          )}
+        </TableCell>
+        <TableCell align="left">
+          {agreement.percentageUse ? <span>{agreement.percentageUse}</span> : <span>-</span>}
+        </TableCell>
+        <TableCell align="left">
+          {agreement.plan && agreement.hasCurrentSchedule === 1 ? <span>Y</span> : <span>N</span>}
         </TableCell>
         <TableCell>
           {!agreement.plan?.id && !(canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)) ? (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import debounce from 'lodash.debounce';
-import { Checkbox, FormControlLabel, Tooltip } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import * as API from '../../constants/api';
 import {
   SELECT_RUP_BANNER_CONTENT,
@@ -21,6 +21,7 @@ import {
   saveDataInLocalStorage,
 } from '../../utils';
 import { Banner, PrimaryButton } from '../common';
+import StyledTooltip from '../../helper/StyledTooltip';
 import SortableAgreementTable from './SortableAgreementTable';
 import { ZoneSelect, ZoneSelectAll } from './ZoneSelect';
 
@@ -39,11 +40,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const StyledTooltip = withStyles((theme) => ({
-  tooltip: {
-    fontSize: theme.typography.pxToRem(14),
-  },
-}))(Tooltip);
 const SelectRangeUsePlanPage = () => {
   const user = useUser();
   const [users, setUsers] = useState([]);

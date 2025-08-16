@@ -129,6 +129,18 @@ export const TOOLTIP_TEXT_RUP_CREATED =
 export const TOOLTIP_TEXT_RANGE_AGREEMENT = 'Check box to only view only ACTIVE Range Act Agreements';
 export const TOOLTIP_TEXT_ACTIVE_RUP =
   'Check box to view Range Use Plans that have been APPROVED, includes RUPs that are being amended.  Does not include draft plans';
+export const TOOLTIP_TEXT_PERCENTAGE_USE = `Supported Input Formats Include:
+Single operators '=' '!=' '>' '<' '>=' '<='
+>223.66
+>=223.66
+<223.66
+<=223.66
+=223.66
+!=223.66
+
+Complex expressions using 'and' 'or' :
+>10 and <50
+<25 or >75`;
 
 // RUP minister issues
 export const CONTACT_NO_EXIST = "Contact doesn't exist";
