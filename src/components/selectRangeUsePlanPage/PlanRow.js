@@ -70,6 +70,9 @@ function PlanRow({ agreement, user, currentPage }) {
         <TableCell align="left">
           {agreement.percentageUse ? <span>{agreement.percentageUse}</span> : <span>-</span>}
         </TableCell>
+        <TableCell align="left">
+          {agreement.plan && agreement.hasCurrentSchedule === 1 ? <span>Y</span> : <span>N</span>}
+        </TableCell>
         <TableCell>
           {!agreement.plan?.id && !(canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)) ? (
             <div style={{ padding: '6px 16px' }}>No plan</div>

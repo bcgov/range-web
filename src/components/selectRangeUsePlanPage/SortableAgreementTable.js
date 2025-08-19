@@ -18,8 +18,10 @@ import { REFERENCE_KEY } from '../../constants/variables';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
 import { getCurrentYear } from '../../utils';
+import StyledTooltip from '../../helper/StyledTooltip';
 import PlanRow from './PlanRow';
 import { Loading } from '../common';
+import { TOOLTIP_TEXT_PERCENTAGE_USE } from '../../constants/strings';
 
 const headCells = [
   {
@@ -94,6 +96,14 @@ const headCells = [
     sortable: true,
     filterable: true,
   },
+  {
+    id: 'agreement.has_current_schedule',
+    numeric: false,
+    disablePadding: false,
+    label: `Schedule (${getCurrentYear()})`,
+    sortable: true,
+    filterable: true,
+  },
   { id: 'actions', disablePadding: true },
   {
     id: 'extension_status',
@@ -127,7 +137,13 @@ function EnhancedTableHead(props) {
               hideSortIcon={!headCell.sortable}
               disabled={!headCell.sortable}
             >
-              {headCell.label}
+              {headCell.id === 'agreement.percentage_use' ? (
+                <StyledTooltip title={TOOLTIP_TEXT_PERCENTAGE_USE}>
+                  <span>{headCell.label}</span>
+                </StyledTooltip>
+              ) : (
+                headCell.label
+              )}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -148,7 +164,9 @@ function EnhancedTableHead(props) {
                         ? { width: '90px' }
                         : headCell.id === 'plan.plan_end_date'
                           ? { width: '100px' }
-                          : {}
+                          : headCell.id === 'agreement.has_current_schedule'
+                            ? { width: '85px' }
+                            : {}
                 }
               />
             )}
@@ -401,7 +419,7 @@ export default function SortableAgreementTable({
                 })}
               {agreements.length === 0 && !loading && (
                 <TableRow>
-                  <TableCell align="center" colSpan={12}>
+                  <TableCell align="center" colSpan={13}>
                     <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>
