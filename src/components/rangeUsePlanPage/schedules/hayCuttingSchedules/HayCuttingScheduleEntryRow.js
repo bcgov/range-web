@@ -11,10 +11,9 @@ import RowMenu from './RowMenu';
 import './HayCuttingScheduleEntryRow.css';
 
 const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule }) => {
-  const { areaId, dateIn, dateOut, stubbleHeight, tonnes } = entry || {};
+  const { pastureId: areaId, dateIn, dateOut, stubbleHeight, tonnes } = entry || {};
   const initialDate = moment().set('year', schedule.year).set('month', 0).set('date', 1);
   const maxDate = moment().set('year', schedule.year).set('month', 11).set('date', 31);
-
   return (
     <Table.Row className="rup__haycuttring-schedule__row">
       <Table.Cell>
