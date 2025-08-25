@@ -9,6 +9,7 @@ import {
   TOOLTIP_TEXT_ACTIVE_RUP,
   TOOLTIP_TEXT_RANGE_AGREEMENT,
   TOOLTIP_TEXT_RUP_CREATED,
+  TOOLTIP_TEXT_MISSING_RUP,
 } from '../../constants/strings';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
@@ -67,6 +68,7 @@ const SelectRangeUsePlanPage = () => {
     agreementCheck: true,
     planCheck: false,
     activeCheck: false,
+    missingRUP: false,
     statusCodes: '',
     zoneInfo: {
       selectedZones: defaultSelectedZones,
@@ -129,10 +131,20 @@ const SelectRangeUsePlanPage = () => {
   }, [filterSettings, fetchAgreements]);
 
   const handleFilterChange = (field) => (event) => {
-    setFilterSettings((prevSettings) => ({
-      ...prevSettings,
-      [field]: event.target.checked,
-    }));
+    setFilterSettings((prevSettings) => {
+      const newSettings = {
+        ...prevSettings,
+        [field]: event.target.checked,
+      };
+
+      // Make Active RUP and Missing RUP mutually exclusive
+      if (field === 'activeCheck' && event.target.checked) {
+        newSettings.missingRUP = false;
+      } else if (field === 'missingRUP' && event.target.checked) {
+        newSettings.activeCheck = false;
+      }
+      return newSettings;
+    });
   };
   const handlePageChange = (event, page) => {
     setFilterSettings((prevSettings) => ({
@@ -211,6 +223,19 @@ const SelectRangeUsePlanPage = () => {
                   />
                 }
                 label="Active RUP"
+              />
+            </StyledTooltip>
+            <StyledTooltip title={TOOLTIP_TEXT_MISSING_RUP}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filterSettings.missingRUP}
+                    onChange={handleFilterChange('missingRUP')}
+                    name="missingRUP"
+                    color="primary"
+                  />
+                }
+                label="Missing RUP"
               />
             </StyledTooltip>
           </div>
