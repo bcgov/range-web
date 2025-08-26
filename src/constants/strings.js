@@ -126,22 +126,25 @@ export const TONNES = 'Tonnes';
 //TOOLTIPS
 export const TOOLTIP_TEXT_RUP_CREATED =
   'Check box to only view Range Agreements that have had a Range Use Plan started';
-export const TOOLTIP_TEXT_RANGE_AGREEMENT = 'Check box to only view only ACTIVE Range Act Agreements';
+export const TOOLTIP_TEXT_RANGE_AGREEMENT = 'Check box to view only ACTIVE Range Act Agreements';
 export const TOOLTIP_TEXT_ACTIVE_RUP =
   'Check box to view Range Use Plans that have been APPROVED, includes RUPs that are being amended.  Does not include draft plans';
-export const TOOLTIP_TEXT_MISSING_RUP = 'Check box to view Range Agreements taht do not have a Range Use Plan';
+export const TOOLTIP_TEXT_MISSING_RUP = 'Check box to view Range Agreements that do not have a Range Use Plan';
 export const TOOLTIP_TEXT_PERCENTAGE_USE = `Supported Input Formats Include:
-Single operators '=' '!=' '>' '<' '>=' '<='
->223.66
->=223.66
-<223.66
-<=223.66
-=223.66
-!=223.66
+Single operators '=' '>' '<' '>=' '<='
+>223
+>=223
+<223
+<=223
+=223
 
 Complex expressions using 'and' 'or' :
 >10 and <50
-<25 or >75`;
+<25 or >75
+
+999 means there is a schedule for an agreement that is in full non-use`;
+export const TOOLTIP_TEXT_USAGE_STATUS =
+  'No Use means that the agreement is in Full non-use; Over Use does not include agreements that are in full non-use but have not amended their schedule';
 
 // RUP minister issues
 export const CONTACT_NO_EXIST = "Contact doesn't exist";

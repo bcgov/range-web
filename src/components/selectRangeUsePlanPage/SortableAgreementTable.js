@@ -21,7 +21,7 @@ import { getCurrentYear } from '../../utils';
 import StyledTooltip from '../../helper/StyledTooltip';
 import PlanRow from './PlanRow';
 import { Loading } from '../common';
-import { TOOLTIP_TEXT_PERCENTAGE_USE } from '../../constants/strings';
+import { TOOLTIP_TEXT_PERCENTAGE_USE, TOOLTIP_TEXT_USAGE_STATUS } from '../../constants/strings';
 
 const headCells = [
   {
@@ -139,6 +139,10 @@ function EnhancedTableHead(props) {
             >
               {headCell.id === 'agreement.percentage_use' ? (
                 <StyledTooltip title={TOOLTIP_TEXT_PERCENTAGE_USE}>
+                  <span>{headCell.label}</span>
+                </StyledTooltip>
+              ) : headCell.id === 'agreement.usage_status' ? (
+                <StyledTooltip title={TOOLTIP_TEXT_USAGE_STATUS}>
                   <span>{headCell.label}</span>
                 </StyledTooltip>
               ) : (
