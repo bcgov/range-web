@@ -49,7 +49,7 @@ class ContentsContainer extends Component {
           <Link
             offset={-100}
             spy={true}
-            to={ELEMENT_ID.GRAZING_SCHEDULE}
+            to={ELEMENT_ID.SCHEDULE}
             className="rup__contents__tab"
             activeClass="rup__contents__tab--active"
           >
