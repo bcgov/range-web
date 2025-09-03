@@ -30,6 +30,28 @@ function PlanRow({ agreement, user, currentPage }) {
   return (
     <>
       <TableRow className={classes.root} hover tabIndex={-1} key={agreement.plan?.id}>
+        <TableCell>
+          {!agreement.plan?.id && !(canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)) ? (
+            <div style={{ padding: '6px 16px' }}>No plan</div>
+          ) : (
+            <PlanActions
+              user={user}
+              agreement={agreement}
+              planId={agreement.plan?.id}
+              canEdit={canEdit}
+              currentPage={currentPage}
+              canCreatePlan={canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)}
+            ></PlanActions>
+          )}
+        </TableCell>
+        <TableCell>
+          {agreement.plan?.extensionStatus ? (
+            <ExtensionColumn user={user} currentPage={currentPage} agreement={agreement} />
+          ) : (
+            <div>-</div>
+          )}
+        </TableCell>
+
         <TableCell align="left" style={{ minWidth: 150 }}>
           {agreement.forestFileId}
           {agreement.plan?.id && (
@@ -60,7 +82,7 @@ function PlanRow({ agreement, user, currentPage }) {
         <TableCell align="left">
           {agreement.plan?.id ? <Status user={user} status={agreement.plan.status} /> : <span>-</span>}
         </TableCell>
-        <TableCell align="left">
+        <TableCell align="center">
           {agreement.usageStatus !== undefined && agreement.usageStatus !== null ? (
             <span>{formatUsageStatus(agreement.usageStatus)}</span>
           ) : (
@@ -70,29 +92,8 @@ function PlanRow({ agreement, user, currentPage }) {
         <TableCell align="left">
           {agreement.percentageUse ? <span>{agreement.percentageUse}</span> : <span>-</span>}
         </TableCell>
-        <TableCell align="left">
+        <TableCell align="center">
           {agreement.plan && agreement.hasCurrentSchedule === 1 ? <span>Y</span> : <span>N</span>}
-        </TableCell>
-        <TableCell>
-          {!agreement.plan?.id && !(canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)) ? (
-            <div style={{ padding: '6px 16px' }}>No plan</div>
-          ) : (
-            <PlanActions
-              user={user}
-              agreement={agreement}
-              planId={agreement.plan?.id}
-              canEdit={canEdit}
-              currentPage={currentPage}
-              canCreatePlan={canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)}
-            ></PlanActions>
-          )}
-        </TableCell>
-        <TableCell>
-          {agreement.plan?.extensionStatus ? (
-            <ExtensionColumn user={user} currentPage={currentPage} agreement={agreement} />
-          ) : (
-            <div>-</div>
-          )}
         </TableCell>
       </TableRow>
       {agreement.plan?.id && (

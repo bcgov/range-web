@@ -25,12 +25,24 @@ import { TOOLTIP_TEXT_PERCENTAGE_USE, TOOLTIP_TEXT_USAGE_STATUS } from '../../co
 
 const headCells = [
   {
+    id: 'actions',
+    disablePadding: true,
+  },
+  {
+    id: 'extension_status',
+    label: 'Extension Requests',
+    disablePadding: false,
+    sortable: true,
+    multiSelectable: false,
+  },
+  {
     id: 'agreement.forest_file_id',
     numeric: false,
     disablePadding: false,
     label: 'RAN #',
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'plan.range_name',
@@ -39,6 +51,7 @@ const headCells = [
     label: 'Range Name',
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'agreement_holder.name',
@@ -47,6 +60,7 @@ const headCells = [
     label: 'Primary Agreement Holder',
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'user_account.family_name',
@@ -55,6 +69,7 @@ const headCells = [
     label: 'Staff Contact',
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'plan.plan_end_date',
@@ -63,6 +78,7 @@ const headCells = [
     label: 'Plan End Date',
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'ref_district.code',
@@ -71,6 +87,7 @@ const headCells = [
     label: 'District',
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'plan.status_id',
@@ -79,38 +96,32 @@ const headCells = [
     label: 'Status',
     sortable: true,
     multiSelectable: true,
+    align: 'left',
   },
   {
     id: 'agreement.usage_status',
-    numeric: false,
     disablePadding: false,
     label: `Usage Status (${getCurrentYear()})`,
     sortable: true,
     multiSelectable: true,
+    align: 'center',
   },
   {
     id: 'agreement.percentage_use',
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: `%Use (${getCurrentYear()})`,
     sortable: true,
     filterable: true,
+    align: 'left',
   },
   {
     id: 'agreement.has_current_schedule',
-    numeric: false,
-    disablePadding: false,
+    disablePadding: true,
     label: `Schedule (${getCurrentYear()})`,
     sortable: true,
     filterable: true,
-  },
-  { id: 'actions', disablePadding: true },
-  {
-    id: 'extension_status',
-    label: 'Extension Requests',
-    disablePadding: false,
-    sortable: true,
-    multiSelectable: false,
+    align: 'center',
   },
 ];
 
@@ -123,7 +134,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.align}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
             className={classes.headerCell}
@@ -423,7 +434,7 @@ export default function SortableAgreementTable({
                 })}
               {agreements.length === 0 && !loading && (
                 <TableRow>
-                  <TableCell align="center" colSpan={13}>
+                  <TableCell align="center" colSpan={12}>
                     <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>
