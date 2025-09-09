@@ -12,6 +12,7 @@ import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown'
 import { useStyles } from './SortableAgreementTable';
 import ExtensionColumn from './ExtensionColumn';
 import PlanActions from './PlanActions';
+import ExemptionDropdown from '../rangeUsePlanPage/exemptionList/ExemptionDropdown';
 
 // Helper function to format usage status display
 const formatUsageStatus = (usageStatus) => {
@@ -22,9 +23,10 @@ const formatUsageStatus = (usageStatus) => {
   return statusMap[usageStatus] || '-';
 };
 
-function PlanRow({ agreement, user, currentPage }) {
+function PlanRow({ agreement, user, currentPage, onUpdate }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [exemptionToEdit, setExemptionToEdit] = useState(null);
   const canEdit = canUserEditThisPlan({ ...agreement.plan, agreement: agreement }, user);
 
   return (
@@ -41,6 +43,8 @@ function PlanRow({ agreement, user, currentPage }) {
               canEdit={canEdit}
               currentPage={currentPage}
               canCreatePlan={canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)}
+              exemptionToEdit={exemptionToEdit}
+              onEditExemptionClosed={() => setExemptionToEdit(null)}
             ></PlanActions>
           )}
         </TableCell>
@@ -54,7 +58,7 @@ function PlanRow({ agreement, user, currentPage }) {
 
         <TableCell align="left" style={{ minWidth: 150 }}>
           {agreement.forestFileId}
-          {agreement.plan?.id && (
+          {(agreement.plan?.id || agreement.agreementExemptionStatus) && (
             <IconButton
               aria-label="expand row"
               size="small"
@@ -79,6 +83,7 @@ function PlanRow({ agreement, user, currentPage }) {
           {agreement.plan?.id ? formatDateFromServer(agreement.plan.planEndDate) : <span>-</span>}
         </TableCell>
         <TableCell align="left">{agreement.zone?.district?.code}</TableCell>
+        <TableCell align="left">{agreement.agreementExemptionStatus?.description ?? '-'}</TableCell>
         <TableCell align="left">
           {agreement.plan?.id ? <Status user={user} status={agreement.plan.status} /> : <span>-</span>}
         </TableCell>
@@ -96,10 +101,14 @@ function PlanRow({ agreement, user, currentPage }) {
           {agreement.plan && agreement.hasCurrentSchedule === 1 ? <span>Y</span> : <span>N</span>}
         </TableCell>
       </TableRow>
-      {agreement.plan?.id && (
-        <>
-          <VersionsDropdown open={open} planId={agreement.plan.id} />
-        </>
+      {agreement.plan?.id && <VersionsDropdown open={open} planId={agreement.plan.id} />}
+      {agreement && (
+        <ExemptionDropdown
+          agreementId={agreement.id}
+          open={open}
+          onEditExemption={(exemption) => setExemptionToEdit(exemption)}
+          onUpdate={onUpdate}
+        />
       )}
     </>
   );

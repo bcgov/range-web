@@ -26,8 +26,8 @@ export const attachmentAccess = [
   },
 ];
 
-export const downloadAttachment = async (attachmentId, attachmentName) => {
-  const res = await axios.get(GET_SIGNED_DOWNLOAD_URL(attachmentId), getAuthHeaderConfig());
+export const downloadAttachment = async (attachmentId, attachmentName, fileType) => {
+  const res = await axios.get(GET_SIGNED_DOWNLOAD_URL(attachmentId, fileType), getAuthHeaderConfig());
   const fileRes = await axios.get(res.data.url, {
     responseType: 'blob',
     skipAuthorizationHeader: true,
@@ -41,7 +41,7 @@ export const downloadAttachment = async (attachmentId, attachmentName) => {
   link.parentNode.removeChild(link);
 };
 
-const AttachmentRow = ({ attachment, index, onDelete, error }) => {
+const AttachmentRow = ({ attachment, index, onDelete, error, fileType }) => {
   const [isDownloading, setDownloading] = useState(false);
   const [errorDownloading, setErrorDownloading] = useState();
 
@@ -49,7 +49,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error }) => {
     setErrorDownloading(null);
     setDownloading(true);
     try {
-      downloadAttachment(attachment.id, attachment.name);
+      downloadAttachment(attachment.id, attachment.name, fileType);
     } catch (e) {
       setErrorDownloading(e);
     }

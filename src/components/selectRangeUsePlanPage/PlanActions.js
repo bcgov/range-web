@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core';
+import CreateExemptionMenuItem from './CreateExemptionMenuItem';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import MenuList from '@material-ui/core/MenuList';
@@ -6,18 +7,40 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
+import { mutate } from 'swr';
 import * as strings from '../../constants/strings';
+import { GET_AGREEMENT_EXEMPTIONS } from '../../constants/api';
 import { PLAN_EXTENSION_STATUS, PLAN_STATUS } from '../../constants/variables';
 import { getDataFromLocalStorage, isPlanActive, isUserAgreementHolder } from '../../utils';
+import { isUserAdmin, isUserAgrologist } from '../../utils/helper/user';
+import ExemptionDialog from './ExemptionDialog';
 import CopyPlanMenuItem from './CopyPlanMenuItem';
 import CreateReplacementPlan from './CreateReplacementPlan';
 import NewPlanMenuItem from './NewPlanMenuItem';
 import PastePlanMenuItem from './PastePlanMenuItem';
 import ViewPlanMenuItem from './ViewPlanMenuItem';
 
-export default function PlanActions({ agreement, user, planId, canEdit, canCreatePlan, currentPage }) {
+export default function PlanActions({
+  agreement,
+  user,
+  planId,
+  canEdit,
+  canCreatePlan,
+  currentPage,
+  exemptionToEdit,
+  onEditExemptionClosed,
+}) {
+  const [exemptionDialogOpen, setExemptionDialogOpen] = React.useState(false);
+  const isStaffAgrologistOrAdmin = isUserAdmin(user) || isUserAgrologist(user);
+
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (exemptionToEdit) {
+      setExemptionDialogOpen(true);
+    }
+  }, [exemptionToEdit]);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -29,6 +52,13 @@ export default function PlanActions({ agreement, user, planId, canEdit, canCreat
     }
 
     setOpen(false);
+  };
+
+  const handleExemptionDialogClose = () => {
+    setExemptionDialogOpen(false);
+    if (onEditExemptionClosed) {
+      onEditExemptionClosed();
+    }
   };
   return (
     <div>
@@ -54,6 +84,7 @@ export default function PlanActions({ agreement, user, planId, canEdit, canCreat
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="menu-list-grow">
+                  {isStaffAgrologistOrAdmin && <CreateExemptionMenuItem onClick={() => setExemptionDialogOpen(true)} />}
                   {planId && (
                     <ViewPlanMenuItem
                       planId={planId}
@@ -149,6 +180,14 @@ export default function PlanActions({ agreement, user, planId, canEdit, canCreat
           </Grow>
         )}
       </Popper>
+
+      <ExemptionDialog
+        open={exemptionDialogOpen}
+        onClose={handleExemptionDialogClose}
+        agreementId={agreement.id}
+        onCreated={() => mutate(GET_AGREEMENT_EXEMPTIONS(agreement.id))}
+        exemptionToEdit={exemptionToEdit}
+      />
     </div>
   );
 }

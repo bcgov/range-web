@@ -106,8 +106,13 @@ export const GET_RUP_FUTURE_PLAN = (planId, version) => `/v1/plan/${planId}/vers
 
 export const CREATE_RUP_VERSION = (planId) => `/v1/plan/${planId}/version`;
 export const GET_RUP_VERSIONS = (planId) => `/v1/plan/${planId}/version`;
+export const GET_AGREEMENT_EXEMPTIONS = (agreementId) => `/v1/agreement/${agreementId}/exemption`;
 export const GET_RUP_VERSION = (planId, version) => `/v1/plan/${planId}/version/${version}`;
 export const DOWNLOAD_RUP_VERSION = (planId, version) => `/v1/plan/${planId}/version/${version}/download`;
+export const DOWNLOAD_AGREEMENT_EXEMPTION = (agreementId, exemptionId) =>
+  `/v1/agreement/${agreementId}/exemption/${exemptionId}/download`;
+export const TRANSITION_EXEMPTION = (agreementId, exemptionId) =>
+  `/v1/agreement/${agreementId}/exemption/${exemptionId}/transition`;
 export const RESTORE_RUP_VERSION = (planId, version) => `v1/plan/${planId}/version/${version}/restore`;
 
 export const GET_RUP_PDF = (planId) => `/v1/plan/${planId}/PDF`;
@@ -116,7 +121,7 @@ export const DELETE_RUP_ATTACHMENT = (planId, attachmentId) => `/v1/plan/${planI
 export const UPDATE_RUP_ATTACHMENT = (planId, attachmentId) => `/v1/plan/${planId}/attachment/${attachmentId}`;
 
 export const GET_SIGNED_URL = (fileName) => `/v1/files/upload-url?name=${fileName}`;
-export const GET_SIGNED_DOWNLOAD_URL = (fileId) => `/v1/files/download-url?id=${fileId}`;
+export const GET_SIGNED_DOWNLOAD_URL = (fileId, fileType) => `/v1/files/download-url?id=${fileId}&fileType=${fileType}`;
 export const DELETE_FILE = (fileId) => `/v1/files/delete?id=${fileId}`;
 
 export const CREATE_RUP_STATUS_RECORD = (planId) => `/v1/plan/${planId}/status-record`;

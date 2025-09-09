@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import * as API from '../../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../../utils';
 import VersionsDropdownList from './VersionsDropdownList';
+import { TableCell, TableRow } from 'semantic-ui-react';
 
 const VersionsDropdown = ({ planId, open }) => {
   const [selectedVersion, setSelectedVersion] = useState(null);
@@ -22,7 +23,13 @@ const VersionsDropdown = ({ planId, open }) => {
 
   if (error) return <div>Error: {JSON.stringify(error.message)}</div>;
   if (isValidating) {
-    return <p>Loading version data...</p>;
+    return (
+      <TableRow>
+        <TableCell colSpan={13} style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
+          <p>Loading version data...</p>
+        </TableCell>
+      </TableRow>
+    );
   }
   return (
     <VersionsDropdownList

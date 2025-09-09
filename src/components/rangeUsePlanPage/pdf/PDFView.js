@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { generatePDF } from '../../../api';
 import { PrimaryButton } from '../../common';
 import { downloadAttachment } from '../attachments/AttachmentRow';
+import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
 const PDFView = ({ match, agreementId, mapAttachments }) => {
   const { planId } = match.params;
@@ -26,7 +27,7 @@ const PDFView = ({ match, agreementId, mapAttachments }) => {
       link.parentNode.removeChild(link);
       setLoading(false);
       mapAttachments.forEach((attachment) => {
-        downloadAttachment(attachment.id, attachment.name);
+        downloadAttachment(attachment.id, attachment.name, ATTACHMENT_TYPE.PLAN_ATTACHMENT);
       });
     } catch (e) {
       setLoading(false);

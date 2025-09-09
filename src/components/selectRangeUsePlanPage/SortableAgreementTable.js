@@ -90,6 +90,13 @@ const headCells = [
     align: 'left',
   },
   {
+    id: 'agreement.agreement_exemption_status_id',
+    label: 'Exemption',
+    sortable: true,
+    multiSelectable: true,
+    align: 'left',
+  },
+  {
     id: 'plan.status_id',
     numeric: false,
     disablePadding: false,
@@ -193,6 +200,14 @@ function EnhancedTableHead(props) {
                 selectedStatusCodes={columnFilters[headCell.id] || []}
               />
             )}
+            {headCell.id == 'agreement.agreement_exemption_status_id' && (
+              <ExemptionStatusMultiSelect
+                onStatusCodeChange={(newStatusCodes) =>
+                  onColumnFilterChange({ target: { value: newStatusCodes } }, headCell.id)
+                }
+                selectedStatusCodes={columnFilters[headCell.id] || []}
+              />
+            )}
             {headCell.id == 'agreement.usage_status' && (
               <UsageStatusMultiSelect
                 onUsageStatusChange={(newUsageStatuses) =>
@@ -254,6 +269,65 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
           <MenuItem key={statusObject.id} value={statusObject.name}>
             <Checkbox checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.name) !== -1} />
             <ListItemText primary={statusObject.name} />
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
+
+const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const references = useReferences();
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 400,
+      },
+    },
+  };
+  const statusObjects = references[REFERENCE_KEY.AGREEMENT_EXEMPTION_STATUS] || [];
+  const [selectedStatusName, setSelectedStatusName] = React.useState([]);
+
+  const handleChange = (event) => {
+    setSelectedStatusName(event.target.value);
+    const selectedStatusCodes = event.target.value
+      .map((statusName) => {
+        const match = statusObjects.find((st) => st.description === statusName);
+        return match ? match.id : null;
+      })
+      .filter((id) => id !== null);
+    onStatusCodeChange(selectedStatusCodes);
+  };
+
+  useEffect(() => {
+    setSelectedStatusName(
+      selectedStatusCodes
+        .map((code) => {
+          const match = statusObjects.find((st) => st.id === code);
+          return match ? match.description : null;
+        })
+        .filter((desc) => desc !== null),
+    );
+  }, [selectedStatusCodes, statusObjects]);
+
+  return (
+    <FormControl sx={{ width: 125 }}>
+      <Select
+        multiple
+        value={selectedStatusName}
+        onChange={handleChange}
+        renderValue={(selected) => selected.join(', ')}
+        MenuProps={MenuProps}
+      >
+        {statusObjects.map((statusObject) => (
+          <MenuItem key={statusObject.id} value={statusObject.description}>
+            <Checkbox
+              checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.description) !== -1}
+            />
+            <ListItemText primary={statusObject.description} />
           </MenuItem>
         ))}
       </Select>
@@ -388,6 +462,7 @@ export default function SortableAgreementTable({
   orderBy,
   order,
   columnFilters,
+  onUpdate,
 }) {
   const classes = useStyles();
   const user = useUser();
@@ -429,12 +504,13 @@ export default function SortableAgreementTable({
                       location={location}
                       user={user}
                       currentPage={currentPage}
+                      onUpdate={onUpdate}
                     />
                   );
                 })}
               {agreements.length === 0 && !loading && (
                 <TableRow>
-                  <TableCell align="center" colSpan={12}>
+                  <TableCell align="center" colSpan={13}>
                     <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>

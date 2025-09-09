@@ -180,6 +180,11 @@ const SelectRangeUsePlanPage = () => {
       return { ...prevSettings, columnFilters, page: 1 };
     });
   };
+
+  const refreshData = () => {
+    fetchAgreements(filterSettings, new AbortController());
+  };
+
   return (
     <section className="agreement">
       <Banner header={SELECT_RUP_BANNER_HEADER} content={SELECT_RUP_BANNER_CONTENT} />
@@ -282,6 +287,7 @@ const SelectRangeUsePlanPage = () => {
         orderBy={filterSettings.orderBy}
         order={filterSettings.order}
         columnFilters={filterSettings.columnFilters}
+        onUpdate={refreshData}
       />
     </section>
   );
