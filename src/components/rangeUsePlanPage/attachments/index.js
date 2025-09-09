@@ -9,6 +9,7 @@ import { PrimaryButton } from '../../common';
 import { IfEditable } from '../../common/PermissionsField';
 import AttachmentRow from './AttachmentRow';
 import * as API from '../../../constants/api';
+import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
 const sortByDate = (a, b) => {
   if (b.uploadDate > a.uploadDate) return -1;
@@ -16,7 +17,14 @@ const sortByDate = (a, b) => {
   return 0;
 };
 
-const Attachments = ({ planId, attachments = [], label = '', propertyName, fetchPlan }) => {
+const Attachments = ({
+  planId,
+  attachments = [],
+  label = '',
+  propertyName,
+  fetchPlan,
+  fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT,
+}) => {
   const [toRemove, setToRemove] = useState(null);
   const formik = useFormikContext();
 
@@ -98,6 +106,7 @@ const Attachments = ({ planId, attachments = [], label = '', propertyName, fetch
                         key={index}
                         attachment={attachment}
                         onDelete={() => setToRemove(attachment)}
+                        fileType={fileType}
                         index={index}
                         error={formik.errors?.files?.[index]?.url}
                       />

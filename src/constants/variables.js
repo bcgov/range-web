@@ -230,3 +230,8 @@ export const PLAN_EXTENSION_STATUS = {
   ACTIVE_REPLACEMENT_PLAN: 10,
   REPLACED_WITH_REPLACEMENT_PLAN: 11,
 };
+
+export const ATTACHMENT_TYPE = {
+  PLAN_ATTACHMENT: 'Plan attachment',
+  EXEMPTION_ATTACHMENT: 'Exemption attachment',
+};
