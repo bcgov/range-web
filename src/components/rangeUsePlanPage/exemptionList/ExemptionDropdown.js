@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import useSWR from 'swr';
 import * as API from '../../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../../utils';
-import VersionsDropdownList from './VersionsDropdownList';
+import ExemptionDropdownList from './ExemptionDropdownList';
 import { TableCell, TableRow } from 'semantic-ui-react';
 
-const VersionsDropdown = ({ planId, open }) => {
-  const [selectedVersion, setSelectedVersion] = useState(null);
-  const endpoint = API.GET_RUP_VERSIONS(planId);
+const ExemptionDropdown = ({ agreementId, open }) => {
+  const [selectedExemption, setSelectedExemption] = useState(null);
+  const endpoint = API.GET_AGREEMENT_EXEMPTIONS(agreementId);
 
   const { data, error, isValidating } = useSWR(
     () => (open ? endpoint : null),
@@ -19,27 +19,30 @@ const VersionsDropdown = ({ planId, open }) => {
         .then((res) => res.data),
   );
 
-  const { versions = [] } = data || {};
+  const exemptions = data;
 
   if (error) return <div>Error: {JSON.stringify(error.message)}</div>;
   if (isValidating) {
     return (
       <TableRow>
         <TableCell colSpan={13} style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
-          <p>Loading version data...</p>
+          <p>Loading...</p>
         </TableCell>
       </TableRow>
     );
   }
+
+  if (!exemptions || exemptions.length === 0) {
+    return null;
+  }
   return (
-    <VersionsDropdownList
-      planId={planId}
-      versions={versions}
-      selectedVersion={selectedVersion}
+    <ExemptionDropdownList
+      exemptions={exemptions}
+      selectedExemption={selectedExemption}
       open={open}
-      onSelectVersion={(e, { value }) => setSelectedVersion(value)}
+      onSelectExemption={(e, { value }) => setSelectedExemption(value)}
     />
   );
 };
 
-export default VersionsDropdown;
+export default ExemptionDropdown;

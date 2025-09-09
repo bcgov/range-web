@@ -11,6 +11,7 @@ import { PrimaryButton } from '../../common/';
 import { attachmentAccess } from '../attachments/AttachmentRow';
 
 const AttachmentsList = ({ attachments }) => {
+  console.log(attachments);
   const onDownloadClicked = async (attachment) => {
     try {
       const res = await axios.get(API.GET_SIGNED_DOWNLOAD_URL(attachment.id), getAuthHeaderConfig());
@@ -43,14 +44,14 @@ const AttachmentsList = ({ attachments }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {attachments.map((option) => (
-          <TableRow key={option.id} hover={true}>
-            <TableCell>{option.name}</TableCell>
-            <TableCell>{moment(option.uploadDate).format('MMM DD YYYY h:mm a')}</TableCell>
+        {attachments.map((attachment) => (
+          <TableRow key={attachment.id} hover={true}>
+            <TableCell>{attachment.name}</TableCell>
+            <TableCell>{moment(attachment.uploadDate).format('MMM DD YYYY h:mm a')}</TableCell>
             <TableCell>
-              {option.user.givenName} {option.user.familyName}
+              {attachment.user.givenName} {attachment.user.familyName}
             </TableCell>
-            <TableCell>{attachmentAccess.find((o) => o.value === option.access)?.text}</TableCell>
+            <TableCell>{attachmentAccess.find((o) => o.value === attachment.access)?.text}</TableCell>
             <TableCell>
               <PrimaryButton
                 ui
@@ -58,7 +59,7 @@ const AttachmentsList = ({ attachments }) => {
                 button
                 inverted
                 onClick={() => {
-                  onDownloadClicked(option);
+                  onDownloadClicked(attachment);
                 }}
               >
                 <i className="download icon" />
