@@ -90,6 +90,12 @@ const headCells = [
     align: 'left',
   },
   {
+    id: 'agreement.agreement_exemption_status_id',
+    label: 'Exemption',
+    sortable: true,
+    align: 'left',
+  },
+  {
     id: 'plan.status_id',
     numeric: false,
     disablePadding: false,
@@ -434,7 +440,7 @@ export default function SortableAgreementTable({
                 })}
               {agreements.length === 0 && !loading && (
                 <TableRow>
-                  <TableCell align="center" colSpan={12}>
+                  <TableCell align="center" colSpan={13}>
                     <Typography color="textSecondary">No matching agreements</Typography>
                   </TableCell>
                 </TableRow>
