@@ -5,7 +5,8 @@ import useSWR from 'swr';
 import { getAuthHeaderConfig, axios, getUserFullName } from '../../../utils';
 import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
-import { Grid, Icon } from 'semantic-ui-react';
+import Grid from '@material-ui/core/Grid';
+import { Icon } from 'semantic-ui-react';
 import { Typography, TextField, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
@@ -145,11 +146,16 @@ const ManageAgentsPage = ({ match }) => {
                           <PersonIcon className={classes.icon} />
                         </Grid>
                         <Grid item xs>
-                          {getUserFullName(option)}
-                          <Typography variant="body2" color="textSecondary">
+                          <Typography variant="body1" component="div">
+                            {getUserFullName(option)}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary" component="div">
                             {option.email}
                           </Typography>
-                          <Typography variant="body2" color="textSecondary">
+                          <Typography variant="body2" color="textSecondary" component="div">
+                            {option.ssoId}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary" component="div">
                             Last Login: {formatDateFromServer(option.lastLoginAt)}
                           </Typography>
                         </Grid>
