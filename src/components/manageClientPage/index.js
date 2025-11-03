@@ -57,7 +57,15 @@ const ManageClientPage = () => {
                 onChange={(e, user) => {
                   setUser(user);
                 }}
-                getOptionLabel={(option) => getUserFullName(option)}
+                getOptionLabel={(option) => `${getUserFullName(option)} (${option.ssoId || ''})`}
+                filterOptions={(options, { inputValue }) => {
+                  const search = inputValue.trim().toLowerCase();
+                  return options.filter((option) => {
+                    const name = getUserFullName(option).toLowerCase();
+                    const ssoId = String(option.ssoId || '').toLowerCase();
+                    return name.includes(search) || ssoId.includes(search);
+                  });
+                }}
                 getOptionSelected={(option) => option.id === user.id}
                 style={{ width: 400 }}
                 renderInput={(params) => <TextField {...params} label="Select user" variant="outlined" />}

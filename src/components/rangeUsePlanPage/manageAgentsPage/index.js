@@ -108,64 +108,84 @@ const ManageAgentsPage = ({ match }) => {
             Back to RUP
           </PrimaryButton>
           <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
-          {clientAgreements.map((clientAgreement) => (
-            <div key={clientAgreement.id} className={classes.row}>
-              <div>
-                {clientAgreement.client.name} {clientAgreement.client.clientNumber}-
-                {clientAgreement.client.locationCode}
-              </div>
-              <div>
-                <Autocomplete
-                  id={`user-autocomplete-select-${clientAgreement.id}`}
-                  options={users}
-                  classes={{ clearIndicatorDirty: classes.clearIndicatorDirty }}
-                  value={clientAgreement.agent}
-                  openOnFocus
-                  onChange={(e, user) => {
-                    setClientAgreements((c) =>
-                      c.map((ca) =>
-                        ca.id === clientAgreement.id
-                          ? {
-                              ...ca,
-                              agent: user,
-                            }
-                          : ca,
-                      ),
-                    );
-                  }}
-                  getOptionLabel={(option) => getUserFullName(option)}
-                  getOptionSelected={(option) => option.id === clientAgreement.agentId}
-                  style={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select user" variant="outlined" className={classes.autocomplete} />
+          {clientAgreements.map((clientAgreement) => {
+            const clientNumber = clientAgreement.client?.clientNumber;
+            const linkedUser = users?.find((u) => u?.clientNumber === clientNumber);
+
+            return (
+              <div key={clientAgreement.id} className={classes.row}>
+                <div>
+                  <div>
+                    {clientAgreement.client.name} {clientAgreement.client.clientNumber}-
+                    {clientAgreement.client.locationCode}
+                  </div>
+                  {linkedUser && (
+                    <Typography variant="body2" color="textSecondary" component="div">
+                      {getUserFullName(linkedUser)}
+                    </Typography>
                   )}
-                  renderOption={(option) => {
-                    return (
-                      <Grid container alignItems="center" className={classes.autocompleteOption}>
-                        <Grid item>
-                          <PersonIcon className={classes.icon} />
+                </div>
+                <div>
+                  <Autocomplete
+                    id={`user-autocomplete-select-${clientAgreement.id}`}
+                    options={users}
+                    classes={{ clearIndicatorDirty: classes.clearIndicatorDirty }}
+                    value={clientAgreement.agent}
+                    openOnFocus
+                    onChange={(e, user) => {
+                      setClientAgreements((c) =>
+                        c.map((ca) =>
+                          ca.id === clientAgreement.id
+                            ? {
+                                ...ca,
+                                agent: user,
+                              }
+                            : ca,
+                        ),
+                      );
+                    }}
+                    getOptionLabel={(option) => `${getUserFullName(option)} (${option.ssoId || ''})`}
+                    filterOptions={(options, { inputValue }) => {
+                      const search = inputValue.trim().toLowerCase();
+                      return options.filter((option) => {
+                        const name = getUserFullName(option).toLowerCase();
+                        const ssoId = (option.ssoId || '').toLowerCase();
+                        return name.includes(search) || ssoId.includes(search);
+                      });
+                    }}
+                    getOptionSelected={(option) => option.id === clientAgreement.agentId}
+                    style={{ width: 300 }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Select user" variant="outlined" className={classes.autocomplete} />
+                    )}
+                    renderOption={(option) => {
+                      return (
+                        <Grid container alignItems="center" className={classes.autocompleteOption}>
+                          <Grid item>
+                            <PersonIcon className={classes.icon} />
+                          </Grid>
+                          <Grid item xs>
+                            <Typography variant="body1" component="div">
+                              {getUserFullName(option)}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="div">
+                              {option.email}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="div">
+                              {option.ssoId}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="div">
+                              Last Login: {formatDateFromServer(option.lastLoginAt)}
+                            </Typography>
+                          </Grid>
                         </Grid>
-                        <Grid item xs>
-                          <Typography variant="body1" component="div">
-                            {getUserFullName(option)}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" component="div">
-                            {option.email}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" component="div">
-                            {option.ssoId}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" component="div">
-                            Last Login: {formatDateFromServer(option.lastLoginAt)}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    );
-                  }}
-                />
+                      );
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {isSaving && <Loading />}
         <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
