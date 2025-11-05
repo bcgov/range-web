@@ -8,9 +8,9 @@ import {
   isClientCurrentUser,
   getClientFullName,
   isAgent,
+  getUserFullName,
 } from '../../../../utils';
 import { AWAITING_CONFIRMATION } from '../../../../constants/strings';
-import { getUserFullName } from '../../pdf/helper';
 
 class AHConfirmationList extends Component {
   static propTypes = {

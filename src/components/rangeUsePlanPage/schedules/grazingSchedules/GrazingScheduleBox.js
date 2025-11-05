@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
-import { roundTo1Decimal, isUserAgrologist } from '../../../../utils';
+import { round, isUserAgrologist } from '../../../../utils';
 import * as strings from '../../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../../common';
 import { IMAGE_SRC } from '../../../../constants/variables';
@@ -35,7 +35,7 @@ const GrazingScheduleBox = ({
   const { id, year, sortBy, sortOrder } = schedule;
   const user = useUser();
   const narative = (schedule && schedule.narative) || '';
-  const roundedCrownTotalAUMs = roundTo1Decimal(crownTotalAUMs);
+  const roundedCrownTotalAUMs = round(crownTotalAUMs, 1);
   const copyOptions =
     yearOptions.map((o) => ({
       ...o,
@@ -65,7 +65,7 @@ const GrazingScheduleBox = ({
     const aggregatedCrownAUMs = schedule.scheduleEntries.reduce((acc, entry) => {
       if (entry.pasture && entry.pasture.id !== undefined) {
         const pastureId = entry.pasture.id;
-        acc[pastureId] = roundTo1Decimal((acc[pastureId] || 0) + entry.crownAUMs);
+        acc[pastureId] = round((acc[pastureId] || 0) + entry.crownAUMs, 1);
       }
       return acc;
     }, {});

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as API from '../../../constants/api';
 import { Loading, PrimaryButton } from '../../common';
 import useSWR from 'swr';
-import { getAuthHeaderConfig, axios, getUserFullName } from '../../../utils';
+import { getAuthHeaderConfig, axios, getUserFullName, formatDateFromServer } from '../../../utils';
 import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +10,6 @@ import { Icon } from 'semantic-ui-react';
 import { Typography, TextField, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
-import { formatDateFromServer } from '../pdf/helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {

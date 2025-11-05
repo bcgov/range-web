@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { NP } from '../../constants/strings';
+import { round } from '../calculation';
 
 /**
  * Present user friendly string when getting null or undefined value
@@ -56,7 +57,7 @@ export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes =
     return 0;
   }
 
-  return entries
+  let sumAUM = entries
     .map((entry) => {
       const { pastureId, livestockTypeId, livestockCount, dateIn, dateOut } = entry || {};
       const days = calcDateDiff(dateOut, dateIn, false);
@@ -64,10 +65,10 @@ export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes =
       const livestockType = livestockTypes.find((lt) => lt.id === livestockTypeId);
       const auFactor = livestockType && livestockType.auFactor;
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-      const pldAUMs = calcPldAUMs(totalAUMs, pasture && pasture.pldPercent);
-
-      return calcCrownAUMs(totalAUMs, pldAUMs);
+      const pldAUMs = round(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent), 1);
+      const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
+      return crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
     })
-    .reduce(reducer, 0)
-    .toFixed(1);
+    .reduce(reducer, 0);
+  return sumAUM > 0 && sumAUM < 1 ? 1 : sumAUM;
 };

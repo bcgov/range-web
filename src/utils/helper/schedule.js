@@ -1,5 +1,5 @@
 import { REFERENCE_KEY } from '../../constants/variables';
-import { calcDateDiff, calcTotalAUMs, roundTo1Decimal, calcCrownAUMs, calcPldAUMs } from '../calculation';
+import { calcDateDiff, calcTotalAUMs, round, calcCrownAUMs, calcPldAUMs } from '../calculation';
 import moment from 'moment';
 import uuid from 'uuid-v4';
 
@@ -18,8 +18,9 @@ export const populateGrazingScheduleFields = (schedule, plan, references) => {
 
       const days = calcDateDiff(entry.dateOut, entry.dateIn, false);
       const totalAUMs = calcTotalAUMs(entry.livestockCount, days, auFactor);
-      const pldAUMs = roundTo1Decimal(calcPldAUMs(totalAUMs, pldPercent));
-      const crownAUMs = roundTo1Decimal(calcCrownAUMs(totalAUMs, pldAUMs));
+      const pldAUMs = round(calcPldAUMs(totalAUMs, pldPercent), 1);
+      const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
+      const crownAUMs = crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
 
       return {
         ...entry,

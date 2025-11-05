@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import HayCuttingScheduleEntryRow from './HayCuttingScheduleEntryRow';
-import { roundTo1Decimal, isUserAgrologist } from '../../../../utils';
+import { round, isUserAgrologist } from '../../../../utils';
 import * as strings from '../../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../../common';
 import { IMAGE_SRC } from '../../../../constants/variables';
@@ -35,7 +35,7 @@ const HayCuttingScheduleBox = ({
   const { id, year, sortBy, sortOrder } = schedule;
   const user = useUser();
   const narative = (schedule && schedule.narative) || '';
-  const roundedTotalTonnes = roundTo1Decimal(totalTonnes);
+  const roundedTotalTonnes = round(totalTonnes, 1);
   const copyOptions =
     yearOptions.map((o) => ({
       ...o,
@@ -67,7 +67,7 @@ const HayCuttingScheduleBox = ({
       if (entry.pasture && entry.pasture.id !== undefined) {
         const pastureId = entry.pasture.id;
         const entryTonnes = parseFloat(entry.tonnes) || 0;
-        acc[pastureId] = roundTo1Decimal((acc[pastureId] || 0) + entryTonnes);
+        acc[pastureId] = round((acc[pastureId] || 0) + entryTonnes, 1);
       }
       return acc;
     }, {});
