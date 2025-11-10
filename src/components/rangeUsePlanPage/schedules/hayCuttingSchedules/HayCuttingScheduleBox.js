@@ -199,13 +199,13 @@ const HayCuttingScheduleBox = ({
                         <SortableTableHeaderCell column="pasture.name" {...headerCellProps}>
                           <div className="rup__grazing-schedule__pasture">{strings.AREA}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="avgHeight" {...headerCellProps}>
+                        <SortableTableHeaderCell column="stubbleHeight" {...headerCellProps}>
                           {strings.AVERAGE_HEIGHT}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="periodStart" {...headerCellProps}>
+                        <SortableTableHeaderCell column="dateIn" {...headerCellProps}>
                           <div className="rup__grazing-schedule__dates">{strings.PRRIOD_START}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="periodEnd" {...headerCellProps}>
+                        <SortableTableHeaderCell column="dateOut" {...headerCellProps}>
                           <div className="rup__grazing-schedule__dates">{strings.PERIOD_END}</div>
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell column="tonnes" {...headerCellProps}>
@@ -257,7 +257,7 @@ const HayCuttingScheduleBox = ({
 
                       // Touch fields to ensure error status is shown for new entries
                       const lastIndex = schedule.scheduleEntries.length;
-                      formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.stubbleHeight`, true);
+                      formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.stubble_height`, true);
                       formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.tonnes`, true);
                       formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.pastureId`, true);
                     }}
