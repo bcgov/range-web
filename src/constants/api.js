@@ -127,7 +127,6 @@ export const DELETE_RUP_PASTURE = (planId, pastureId) => `/v1/plan/${planId}/pas
 export const CREATE_RUP_SCHEDULE = (planId) => `/v1/plan/${planId}/schedule`;
 export const UPDATE_RUP_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
 export const DELETE_RUP_SCHEDULE = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}`;
-export const CREATE_RUP_SCHEDULE_ENTRY = (planId, scheduleId) => `/v1/plan/${planId}/schedule/${scheduleId}/entry`;
 export const GET_PASTURES_FOR_DISTRICT = (districtId) => `/v1/pasture?districtId=${districtId}`;
 export const DELETE_RUP_SCHEDULE_ENTRY = (planId, scheduleId, entryId) =>
   `/v1/plan/${planId}/schedule/${scheduleId}/entry/${entryId}`;

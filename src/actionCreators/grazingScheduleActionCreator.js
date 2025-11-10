@@ -5,24 +5,6 @@ import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import { axios, createConfigWithHeader } from '../utils';
 
-export const createRUPScheduleEntry = (planId, scheduleId, entry) => (dispatch, getState) => {
-  return axios
-    .post(
-      API.CREATE_RUP_SCHEDULE_ENTRY(planId, scheduleId),
-      { ...entry, plan_id: planId },
-      createConfigWithHeader(getState),
-    )
-    .then(
-      (response) => {
-        const newEntry = response.data;
-        return newEntry;
-      },
-      (err) => {
-        throw err;
-      },
-    );
-};
-
 export const createRUPSchedule = (planId, schedule) => (dispatch, getState) => {
   const makeRequest = async () => {
     const { data: newSchedule } = await axios.post(
