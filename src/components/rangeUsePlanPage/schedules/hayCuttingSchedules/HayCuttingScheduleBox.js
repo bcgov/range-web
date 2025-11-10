@@ -196,7 +196,7 @@ const HayCuttingScheduleBox = ({
                   <Table sortable unstackable columns={10} attached={isError || scheduleError ? 'bottom' : false}>
                     <Table.Header>
                       <Table.Row>
-                        <SortableTableHeaderCell column="area" {...headerCellProps}>
+                        <SortableTableHeaderCell column="pasture.name" {...headerCellProps}>
                           <div className="rup__grazing-schedule__pasture">{strings.AREA}</div>
                         </SortableTableHeaderCell>
                         <SortableTableHeaderCell column="avgHeight" {...headerCellProps}>
