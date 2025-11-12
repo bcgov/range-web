@@ -1,3 +1,4 @@
+import { getCurrentYear } from '..';
 import { INVALID_SCHEDULE_ENTRY, EMPTY_SCHEDULE_ENTRIES, TOTAL_AUMS_EXCEEDS } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcCrownTotalAUMs } from '../calculation';
@@ -63,7 +64,7 @@ export const handleGrazingScheduleValidation = (
     return undefined;
   });
 
-  if (crownTotalAUMs > totalAnnualUse) {
+  if (crownTotalAUMs > totalAnnualUse && year >= getCurrentYear()) {
     errors.push({
       error: true,
       message: TOTAL_AUMS_EXCEEDS,

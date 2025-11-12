@@ -1,3 +1,4 @@
+import { getCurrentYear } from '..';
 import { INVALID_SCHEDULE_ENTRY, EMPTY_SCHEDULE_ENTRIES, TOTAL_TONNES_EXCEEDS } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcTotalTonnes } from '../calculation/hayCuttingSchedule';
@@ -72,7 +73,7 @@ export const handleHayCuttingScheduleValidation = (schedule = {}, usage = [], is
     return undefined;
   });
 
-  if (authorizedTonnes && totalTonnes > authorizedTonnes) {
+  if (authorizedTonnes && totalTonnes > authorizedTonnes && year >= getCurrentYear()) {
     errors.push({
       error: true,
       message: TOTAL_TONNES_EXCEEDS,
