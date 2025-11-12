@@ -65,7 +65,7 @@ export const calcCrownTotalAUMs = (entries = [], pastures = [], livestockTypes =
       const livestockType = livestockTypes.find((lt) => lt.id === livestockTypeId);
       const auFactor = livestockType && livestockType.auFactor;
       const totalAUMs = calcTotalAUMs(livestockCount, days, auFactor);
-      const pldAUMs = round(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent), 1);
+      const pldAUMs = round(calcPldAUMs(totalAUMs, pasture && pasture.pldPercent), 0);
       const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
       return crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
     })

@@ -18,7 +18,7 @@ export const populateGrazingScheduleFields = (schedule, plan, references) => {
 
       const days = calcDateDiff(entry.dateOut, entry.dateIn, false);
       const totalAUMs = calcTotalAUMs(entry.livestockCount, days, auFactor);
-      const pldAUMs = round(calcPldAUMs(totalAUMs, pldPercent), 1);
+      const pldAUMs = round(calcPldAUMs(totalAUMs, pldPercent), 0);
       const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
       const crownAUMs = crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
 

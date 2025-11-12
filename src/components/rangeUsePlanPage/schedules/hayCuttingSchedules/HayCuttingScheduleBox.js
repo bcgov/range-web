@@ -279,7 +279,7 @@ const HayCuttingScheduleBox = ({
                   </div>
                   <div className="rup__grazing-schedule__AUM-label">% Used</div>
                   <div className="rup__grazing-schedule__AUM-number">
-                    {authorizedTonnes > 0 ? ((roundedTotalTonnes / authorizedTonnes) * 100).toFixed(2) : '0.00'}
+                    {authorizedTonnes > 0 ? round((roundedTotalTonnes / authorizedTonnes) * 100, 0) : '0.00'}
                   </div>
                 </div>
                 <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
