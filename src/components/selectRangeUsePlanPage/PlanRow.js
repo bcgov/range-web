@@ -5,7 +5,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React, { useState } from 'react';
 import { PLAN } from '../../constants/fields';
-import { canUserEditThisPlan, doesStaffOwnPlan, formatDateFromServer } from '../../utils';
+import { canUserEditThisPlan, doesStaffOwnPlan, formatDateFromServer, roundUpPercentUse } from '../../utils';
 import { Status } from '../common';
 import { canUserEdit } from '../common/PermissionsField';
 import VersionsDropdown from '../rangeUsePlanPage/versionsList/VersionsDropdown';
@@ -90,7 +90,7 @@ function PlanRow({ agreement, user, currentPage }) {
           )}
         </TableCell>
         <TableCell align="left">
-          {agreement.percentageUse ? <span>{agreement.percentageUse}</span> : <span>-</span>}
+          <span>{roundUpPercentUse(agreement.percentageUse)}</span>
         </TableCell>
         <TableCell align="center">
           {agreement.plan && agreement.hasCurrentSchedule === 1 ? <span>Y</span> : <span>N</span>}

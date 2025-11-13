@@ -19,6 +19,20 @@ import SortableTableHeaderCell from '../../../common/SortableTableHeaderCell';
 import { resetScheduleEntryId } from '../../../../utils/helper/schedule';
 const _ = require('lodash');
 
+// Helper function to format percentUse - round up with no decimal places
+const formatPercentUse = (percentUse) => {
+  if (percentUse === undefined || percentUse === null || isNaN(percentUse)) {
+    return 0;
+  }
+  const value = parseFloat(percentUse);
+  // If value is between 0 and 1 (exclusive), set to 1
+  if (value > 0 && value < 1) {
+    return 1;
+  }
+  // Otherwise, round up
+  return Math.ceil(value);
+};
+
 const GrazingScheduleBox = ({
   schedule,
   activeIndex,
@@ -289,7 +303,7 @@ const GrazingScheduleBox = ({
                   </div>
                   <div className="rup__grazing-schedule__AUM-label">% Used</div>
                   <div className="rup__grazing-schedule__AUM-number">
-                    {round((roundedCrownTotalAUMs / authorizedAUMs) * 100, 0)}
+                    {formatPercentUse((roundedCrownTotalAUMs / authorizedAUMs) * 100)}
                   </div>
                 </div>
                 <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>

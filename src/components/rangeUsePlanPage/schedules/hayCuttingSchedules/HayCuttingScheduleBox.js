@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import HayCuttingScheduleEntryRow from './HayCuttingScheduleEntryRow';
-import { round, isUserAgrologist } from '../../../../utils';
+import { round, isUserAgrologist, roundUpPercentUse } from '../../../../utils';
 import * as strings from '../../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../../common';
 import { IMAGE_SRC } from '../../../../constants/variables';
@@ -279,7 +279,7 @@ const HayCuttingScheduleBox = ({
                   </div>
                   <div className="rup__grazing-schedule__AUM-label">% Used</div>
                   <div className="rup__grazing-schedule__AUM-number">
-                    {authorizedTonnes > 0 ? round((roundedTotalTonnes / authorizedTonnes) * 100, 0) : '0.00'}
+                    {authorizedTonnes > 0 ? roundUpPercentUse((roundedTotalTonnes / authorizedTonnes) * 100) : 0}
                   </div>
                 </div>
                 <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
