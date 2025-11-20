@@ -66,39 +66,60 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     });
   };
 
-  const approveExtension = async (planId, extensionRequestId) => {
+  const approveExtension = async (planId, extensionRequestId, pendingRequestIds) => {
     setVoting(true);
-    const response = await axios.put(API.APPROVE_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
-    if (response.status === 200) {
-      agreement.plan.planExtensionRequests = [{ userId: user.id, requestedExtension: true }];
+    try {
+      await axios.put(API.APPROVE_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
+      // Update local state ONLY for the pending requests associated with this user
+      const newPlanExtensionRequests = agreement.plan.planExtensionRequests.map((req) => {
+        if (pendingRequestIds.includes(req.id)) {
+          return { ...req, requestedExtension: true };
+        }
+        return req;
+      });
+      agreement.plan.planExtensionRequests = newPlanExtensionRequests;
+    } catch (error) {
+      console.error('Error approving extensions:', error);
+    } finally {
+      setVoting(false);
     }
-    setVoting(false);
   };
 
-  const handleApprove = async (planId, extensionRequestId) => {
+  const handleApprove = async (planId, extensionRequestId, pendingRequestIds) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('approve'),
     });
     if (choice) {
-      approveExtension(planId, extensionRequestId);
+      approveExtension(planId, extensionRequestId, pendingRequestIds);
     }
-  };
-  const rejectExtension = async (planId, extensionRequestId) => {
-    setVoting(true);
-    const response = await axios.put(API.REJECT_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
-    if (response.status === 200) {
-      agreement.plan.extensionStatus = response.data.extensionStatus;
-      agreement.plan.planExtensionRequests = [{ userId: user.id, requestedExtension: false }];
-    }
-    setVoting(false);
   };
 
-  const handleReject = async (planId, extensionRequestId) => {
+  const rejectExtension = async (planId, extensionRequestId, pendingRequestIds) => {
+    setVoting(true);
+    try {
+      const response = await axios.put(API.REJECT_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
+      agreement.plan.extensionStatus = response.data.extensionStatus;
+      // Update local state ONLY for the pending requests associated with this user
+      const newPlanExtensionRequests = agreement.plan.planExtensionRequests.map((req) => {
+        if (pendingRequestIds?.includes(req.id)) {
+          return { ...req, requestedExtension: false };
+        }
+        return req;
+      });
+      agreement.plan.planExtensionRequests = newPlanExtensionRequests;
+    } catch (error) {
+      console.error('Error rejecting extensions:', error);
+    } finally {
+      setVoting(false);
+    }
+  };
+
+  const handleReject = async (planId, extensionRequestId, pendingRequestIds) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('reject'),
     });
     if (choice) {
-      rejectExtension(planId, extensionRequestId);
+      rejectExtension(planId, extensionRequestId, pendingRequestIds);
     }
   };
 
@@ -257,32 +278,60 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   };
 
   const renderExtensionForAgreementHolder = (user, agreement) => {
-    if (isUserAgreementHolder(user) && !isUserDecisionMaker(user)) {
-      const extensionRequest = agreement.plan?.planExtensionRequests.find((request) => {
-        return request.userId === user.id;
-      });
+    let extensionRequests = [];
+    if (agreement.plan?.planExtensionRequests) {
+      const ownRequests = agreement.plan.planExtensionRequests.filter((request) => request.userId === user.id);
+      extensionRequests.push(...ownRequests);
+
+      if (user.agentOf && user.agentOf.length > 0) {
+        const agentClientIds = user.agentOf.map((agent) => agent.clientId);
+
+        const agentExtensionRequests = agreement.plan.planExtensionRequests.filter((request) =>
+          agentClientIds.includes(request.clientId),
+        );
+        extensionRequests.push(...agentExtensionRequests);
+      }
+    }
+
+    const uniqueExtensionRequests = Array.from(new Map(extensionRequests.map((item) => [item.id, item])).values());
+
+    if ((isUserAgreementHolder(user) || uniqueExtensionRequests.length > 0) && !isUserDecisionMaker(user)) {
       switch (agreement.plan?.extensionStatus) {
-        case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
-          if (extensionRequest && extensionRequest.requestedExtension === null) {
-            if (voting === true) return <CircularProgress />;
-            return (
-              <>
-                <Tooltip title="approve">
-                  <IconButton onClick={() => handleApprove(agreement.plan.id, extensionRequest.id)}>
-                    <ThumbUp />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="reject">
-                  <IconButton onClick={() => handleReject(agreement.plan.id, extensionRequest.id)}>
-                    <ThumbDown />
-                  </IconButton>
-                </Tooltip>
-              </>
-            );
+        case PLAN_EXTENSION_STATUS.AWAITING_VOTES: {
+          const pendingRequests = uniqueExtensionRequests.filter((req) => req.requestedExtension === null);
+          const nonPendingRequests = uniqueExtensionRequests.filter((req) => req.requestedExtension !== null);
+
+          if (pendingRequests.length > 0) {
+            const firstPendingRequestId = pendingRequests[0].id;
+            const pendingRequestIds = pendingRequests.map((req) => req.id);
+            if (voting) {
+              return <CircularProgress key="voting-spinner" />;
+            } else {
+              return (
+                <React.Fragment key="action-buttons">
+                  <Tooltip title="approve">
+                    <IconButton
+                      onClick={() => handleApprove(agreement.plan.id, firstPendingRequestId, pendingRequestIds)}
+                    >
+                      <ThumbUp />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="reject">
+                    <IconButton
+                      onClick={() => handleReject(agreement.plan.id, firstPendingRequestId, pendingRequestIds)}
+                    >
+                      <ThumbDown />
+                    </IconButton>
+                  </Tooltip>
+                </React.Fragment>
+              );
+            }
+          } else if (nonPendingRequests.length > 0) {
+            return <div key="requested">Requested</div>;
           } else {
-            if (extensionRequest && extensionRequest.requestedExtension === true) return <>Requested</>;
-            return <>-</>;
+            return <div key="no-requests">-</div>;
           }
+        }
         case PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED:
           return <div>Agreement Holder Rejected</div>;
         case PLAN_EXTENSION_STATUS.STAFF_REJECTED:
