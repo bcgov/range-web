@@ -20,6 +20,9 @@ export const STICKY_HEADER_HEIGHT = 55;
 export const CONTENT_MARGIN_TOP = 20;
 export const CONTENT_MARGIN_BOTTOM = 35;
 
+export const SESSION_EXPIRY_WARNING_TOAST_ID = 'SESSON_EXPIRY';
+export const SESSION_EXPIRY_WARNING_DURATION = 300;
+
 export const PLAN_STATUS = {
   PENDING: 'P',
   // COMPLETED: 'O',

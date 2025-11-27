@@ -4,9 +4,19 @@ import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
 import { getAuthTimeout, getUser } from '../reducers/rootReducer';
-import { axios, saveUserProfileInLocal, createConfigWithHeader, setTimeoutForReAuth } from '../utils';
+import {
+  axios,
+  saveUserProfileInLocal,
+  createConfigWithHeader,
+  setTimeoutForReAuth,
+  getDataFromLocalStorage,
+  refreshAccessToken,
+  saveAuthDataInLocal,
+} from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { ASSIGN_STAFF_TO_ZONE_SUCCESS, UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
+import { LOCAL_STORAGE_KEY, SESSION_EXPIRY_WARNING_TOAST_ID } from '../constants/variables';
+import { storeAuthData, reauthenticate } from '../actions';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
@@ -29,6 +39,31 @@ export const fetchAgreement = (agreementId) => (dispatch, getState) => {
     (err) => {
       dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
       throw err;
+    },
+  );
+};
+
+export const extendSession = () => (dispatch) => {
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+  const refreshToken = data && data.refresh_token;
+
+  if (!refreshToken) {
+    console.error('No refresh token found to extend session.');
+    return Promise.reject(new Error('No refresh token.'));
+  }
+
+  return refreshAccessToken(refreshToken).then(
+    (response) => {
+      const authData = saveAuthDataInLocal(response);
+      dispatch(storeAuthData(authData));
+      dispatch(resetTimeoutForReAuth(reauthenticate));
+      dispatch(actions.removeToast({ toastId: SESSION_EXPIRY_WARNING_TOAST_ID }));
+      dispatch(toastSuccessMessage('Session extended successfully.'));
+    },
+    (err) => {
+      console.error('Failed to extend session:', err);
+      // Let the reauthenticate process handle the sign-in modal
+      // Or show a specific error toast if needed.
     },
   );
 };
@@ -77,10 +112,12 @@ export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
 };
 
 export const resetTimeoutForReAuth = (reauthenticate) => (dispatch, getState) => {
-  clearTimeout(getAuthTimeout(getState()));
+  const { authTimeoutId, warningTimeoutId } = getAuthTimeout(getState()) || {};
+  clearTimeout(authTimeoutId);
+  clearTimeout(warningTimeoutId);
 
-  const timeoutId = setTimeoutForReAuth(reauthenticate);
-  dispatch(actions.setTimeoutForAuthentication(timeoutId));
+  const timeoutIds = setTimeoutForReAuth(reauthenticate, dispatch);
+  dispatch(actions.setTimeoutForAuthentication(timeoutIds));
 };
 
 export const signOut = () => (dispatch) => {

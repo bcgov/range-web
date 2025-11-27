@@ -12,7 +12,7 @@ const initialState = {
   authData,
   user,
   reAuthRequired: false,
-  timeoutId: null,
+  timeoutIds: {},
 };
 
 const authReducer = (state = initialState, action) => {
@@ -34,7 +34,7 @@ const authReducer = (state = initialState, action) => {
         authData: undefined,
         user: undefined,
         reAuthRequired: false,
-        timeoutId: null,
+        timeoutIds: {},
         unauthorizedErrorResponses: [],
       };
     case REAUTHENTICATE:
@@ -46,7 +46,7 @@ const authReducer = (state = initialState, action) => {
     case SET_TIMEOUT_FOR_REAUTHENTICATION:
       return {
         ...state,
-        timeoutId: action.timeoutId,
+        timeoutIds: action.timeoutIds,
       };
     default:
       return state;
@@ -58,6 +58,6 @@ export const getAuthData = (state) => state.authData;
 export const getToken = (state) => state.authData && state.authData.access_token;
 export const getUser = (state) => state.user;
 export const getReAuthRequired = (state) => state.reAuthRequired;
-export const getAuthTimeout = (state) => state.timeout;
+export const getAuthTimeout = (state) => state.timeoutIds;
 
 export default authReducer;

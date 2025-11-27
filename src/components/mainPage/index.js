@@ -45,6 +45,7 @@ export class MainPage extends Component {
   UNSAFE_componentWillMount() {
     const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props;
     registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate, storeAuthData);
+    resetTimeoutForReAuth(reauthenticate);
   }
 
   render() {

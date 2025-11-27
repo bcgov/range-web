@@ -31,7 +31,14 @@ import {
 } from '../constants/api';
 import { saveDataInLocalStorage, getDataFromLocalStorage } from './localStorage';
 import { stringifyQuery } from './index';
-import { LOCAL_STORAGE_KEY, isBundled } from '../constants/variables';
+import {
+  LOCAL_STORAGE_KEY,
+  SESSION_EXPIRY_WARNING_DURATION,
+  SESSION_EXPIRY_WARNING_TOAST_ID,
+  isBundled,
+} from '../constants/variables';
+import { removeToast } from '../actions';
+import { toastSessionExpiry } from '../actionCreators';
 
 export const getAuthHeaderConfig = () => {
   const { authData } = getAuthAndUserFromLocal();
@@ -209,8 +216,9 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
  * after the access token expires + interval
  *
  * @param {function} reauthenticate the action to re-authenticate
+ * @param {function} warningCallback the action to show a warning message
  */
-export const setTimeoutForReAuth = (reauthenticate) => {
+export const setTimeoutForReAuth = (reauthenticate, dispatch) => {
   if (!isBundled) console.log('set timeout for re-authentication');
 
   const jstData = getJWTDataFromLocal();
@@ -233,13 +241,24 @@ export const setTimeoutForReAuth = (reauthenticate) => {
 
   const accessTokenValidPeriod = jstData.exp - new Date() / 1000;
   const latestTime = Math.max(accessTokenValidPeriod, refreshTokenValidPeriod) * 1000;
+  const waitTime = Math.max(latestTime - GRACE, 0);
+  const warningTime = Math.max(waitTime - SESSION_EXPIRY_WARNING_DURATION * 1000, 0);
+  let warningTimeoutId = null;
+  dispatch(removeToast({ toastId: SESSION_EXPIRY_WARNING_TOAST_ID }));
+  if (waitTime > 0) {
+    warningTimeoutId = setTimeout(() => {
+      dispatch(toastSessionExpiry());
+    }, warningTime);
+  }
 
-  return setTimeout(
-    () => {
-      reauthenticate();
-    },
-    Math.max(latestTime - GRACE, 0),
-  );
+  const authTimeoutId = setTimeout(() => {
+    reauthenticate();
+  }, waitTime);
+
+  return {
+    authTimeoutId,
+    warningTimeoutId,
+  };
 };
 
 /**
@@ -271,6 +290,7 @@ export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate,
 
           const authData = saveAuthDataInLocal(response);
           storeAuthData(authData);
+          resetTimeoutForReAuth(reauthenticate);
 
           const c = createConfigReplacingHeaderWithNewToken(config, response);
           c.isRetry = true;

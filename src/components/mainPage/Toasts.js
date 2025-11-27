@@ -6,11 +6,14 @@ import { Icon } from 'semantic-ui-react';
 import { removeToast } from '../../actions';
 import { getToastsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
+import { extendSession } from '../../actionCreators';
+import SessionExpiryWarning from '../common/SessionExpiryWarning/SessionExpiryWarning';
 
 class Toasts extends Component {
   static propTypes = {
     toastsMap: PropTypes.shape({}).isRequired,
     removeToast: PropTypes.func.isRequired,
+    extendSession: PropTypes.func.isRequired,
   };
 
   removeToast = (toast) => () => {
@@ -22,7 +25,8 @@ class Toasts extends Component {
   };
 
   renderToast = (toast) => {
-    const { id, text, success } = toast;
+    const { id, text, success, isCountdown } = toast;
+    const { extendSession } = this.props;
     const iconClassName = classnames('toast__icon', {
       toast__icon__success: success,
       toast__icon__error: !success,
@@ -34,7 +38,7 @@ class Toasts extends Component {
           {success && <Icon name="check circle" size="large" />}
           {!success && <Icon name="warning circle" size="large" />}
         </div>
-        <div className="toast__content">{text}</div>
+        {isCountdown ? <SessionExpiryWarning onExtend={extendSession} /> : <div className="toast__content">{text}</div>}
         <button className="toast__dismiss" onClick={this.removeToast(toast)}>
           <Icon name="times" size="small" />
         </button>
@@ -52,4 +56,4 @@ class Toasts extends Component {
 const mapStateToProps = (state) => ({
   toastsMap: getToastsMap(state),
 });
-export default connect(mapStateToProps, { removeToast })(Toasts);
+export default connect(mapStateToProps, { removeToast, extendSession })(Toasts);
