@@ -109,12 +109,14 @@ export const savePlan = async (plan, user = {}) => {
   await saveMinisterIssues(planId, ministerIssues, newPastures);
   await saveAdditionalRequirements(planId, additionalRequirements);
 
-  // Only save attachments that haven't been saved individually
-  // (attachments with UUID ids haven't been saved to database yet)
-  if ((isUserAgrologist(user) && canUserAddAttachments(plan, user)) || isUserAdmin(user)) {
-    const unsavedAttachments = files.filter((file) => uuid.isUUID(file.id));
-    if (unsavedAttachments.length > 0) {
-      await saveAttachments(planId, unsavedAttachments);
+  if (files && files.length > 0) {
+    // Only save attachments that haven't been saved individually
+    // (attachments with UUID ids haven't been saved to database yet)
+    if ((isUserAgrologist(user) && canUserAddAttachments(plan, user)) || isUserAdmin(user)) {
+      const unsavedAttachments = files.filter((file) => uuid.isUUID(file.id));
+      if (unsavedAttachments.length > 0) {
+        await saveAttachments(planId, unsavedAttachments);
+      }
     }
   }
 

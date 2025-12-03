@@ -78,9 +78,14 @@ export const PlanProvider = ({ children, storePlan }) => {
   const savePlan = async (plan) => {
     try {
       setSavingPlan(true);
-
-      const planId = await API.savePlan(plan, user);
-      await fetchPlan(planId);
+      let planId;
+      try {
+        planId = await API.savePlan(plan, user);
+        await fetchPlan(planId);
+      } catch (e) {
+        console.error('Error saving plan:', e);
+        throw e;
+      }
 
       return planId;
     } catch (e) {

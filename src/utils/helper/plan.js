@@ -29,11 +29,14 @@ export const getPlanTypeDescription = (plan = {}, amendmentTypes) => {
 };
 
 export const scrollIntoView = (elementId) => {
-  document.getElementById(elementId).scrollIntoView({
-    behavior: 'smooth',
-    block: 'start',
-    inline: 'nearest',
-  });
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
+  }
 };
 
 // for plans extending past agreement date, extend usage
