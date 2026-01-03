@@ -33,11 +33,11 @@ export const DEV_ENV = {
 };
 
 export const SSO_BASE_URL = isBundled
-  ? '{{env "SSO_BASE_URL"}}' // Caddy will replace this with the environment variable configured in Openshift
+  ? '[[! env "SSO_BASE_URL" !]]' // Caddy will replace this with the environment variable configured in Openshift
   : DEV_ENV.SSO_BASE_URL;
 
-export const SSO_REALM_NAME = isBundled ? '{{env "SSO_REALM_NAME"}}' : process.env.REACT_APP_SSO_REALM_NAME;
-export const SSO_CLIENT_ID = isBundled ? '{{env "SSO_CLIENT_ID"}}' : process.env.REACT_APP_SSO_CLIENT_ID;
+export const SSO_REALM_NAME = isBundled ? '[[! env "SSO_REALM_NAME" !]]' : process.env.REACT_APP_SSO_REALM_NAME;
+export const SSO_CLIENT_ID = isBundled ? '[[! env "SSO_CLIENT_ID" !]]' : process.env.REACT_APP_SSO_CLIENT_ID;
 export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
 export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`;
 export const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}&code_challenge_method=S256&code_challenge=_CODE_CHALLENGE_VALUE_`;
@@ -50,7 +50,7 @@ export const SSO_LOGOUT_ENDPOINT =
   encodeURIComponent(SSO_LOGOUT_REDIRECT_URI) +
   `&client_id=${SSO_CLIENT_ID}`;
 
-export const SITEMINDER_BASE_URL = isBundled ? '{{env "SITEMINDER_BASE_URL"}}' : DEV_ENV.SITEMINDER_BASE_URL;
+export const SITEMINDER_BASE_URL = isBundled ? '[[! env "SITEMINDER_BASE_URL" !]]' : DEV_ENV.SITEMINDER_BASE_URL;
 
 export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.SITEMINDER_LOGOUT}`;
 export const SITEMINDER_LOGOUT_ENDPOINT =
