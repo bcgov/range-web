@@ -4,6 +4,7 @@ import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React, { useState } from 'react';
+import { mutate } from 'swr';
 import { PLAN } from '../../constants/fields';
 import { canUserEditThisPlan, doesStaffOwnPlan, formatDateFromServer, roundUpPercentUse } from '../../utils';
 import { Status } from '../common';
@@ -13,6 +14,8 @@ import { useStyles } from './SortableAgreementTable';
 import ExtensionColumn from './ExtensionColumn';
 import PlanActions from './PlanActions';
 import ExemptionDropdown from '../rangeUsePlanPage/exemptionList/ExemptionDropdown';
+import ExemptionDialog from './ExemptionDialog';
+import { GET_AGREEMENT_EXEMPTIONS } from '../../constants/api';
 
 // Helper function to format usage status display
 const formatUsageStatus = (usageStatus) => {
@@ -27,7 +30,13 @@ function PlanRow({ agreement, user, currentPage, onUpdate }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [exemptionToEdit, setExemptionToEdit] = useState(null);
+  const [exemptionDialogOpen, setExemptionDialogOpen] = useState(false);
   const canEdit = canUserEditThisPlan({ ...agreement.plan, agreement: agreement }, user);
+
+  const handleExemptionDialogClose = () => {
+    setExemptionDialogOpen(false);
+    setExemptionToEdit(null);
+  };
 
   return (
     <>
@@ -43,8 +52,7 @@ function PlanRow({ agreement, user, currentPage, onUpdate }) {
               canEdit={canEdit}
               currentPage={currentPage}
               canCreatePlan={canUserEdit(PLAN.ADD, user) && doesStaffOwnPlan({ agreement }, user)}
-              exemptionToEdit={exemptionToEdit}
-              onEditExemptionClosed={() => setExemptionToEdit(null)}
+              onOpenExemptionDialog={() => setExemptionDialogOpen(true)}
             ></PlanActions>
           )}
         </TableCell>
@@ -106,10 +114,20 @@ function PlanRow({ agreement, user, currentPage, onUpdate }) {
         <ExemptionDropdown
           agreementId={agreement.id}
           open={open}
-          onEditExemption={(exemption) => setExemptionToEdit(exemption)}
+          onEditExemption={(exemption) => {
+            setExemptionToEdit(exemption);
+            setExemptionDialogOpen(true);
+          }}
           onUpdate={onUpdate}
         />
       )}
+      <ExemptionDialog
+        open={exemptionDialogOpen}
+        onClose={handleExemptionDialogClose}
+        agreementId={agreement.id}
+        onCreated={() => mutate(GET_AGREEMENT_EXEMPTIONS(agreement.id))}
+        exemptionToEdit={exemptionToEdit}
+      />
     </>
   );
 }
