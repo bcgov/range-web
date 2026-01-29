@@ -10,6 +10,8 @@ import {
   TOOLTIP_TEXT_RANGE_AGREEMENT,
   TOOLTIP_TEXT_RUP_CREATED,
   TOOLTIP_TEXT_MISSING_RUP,
+  TOOLTIP_TEXT_DM_ACTIONABLE_ONLY,
+  DM_ACTIONABLE_ONLY,
 } from '../../constants/strings';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
@@ -18,6 +20,7 @@ import {
   getAuthHeaderConfig,
   isUserAdmin,
   isUserAgrologist,
+  isUserDecisionMaker,
   getDataFromLocalStorage,
   saveDataInLocalStorage,
 } from '../../utils';
@@ -69,6 +72,7 @@ const SelectRangeUsePlanPage = () => {
     planCheck: false,
     activeCheck: false,
     missingRUP: false,
+    dmActionableOnly: false,
     statusCodes: '',
     zoneInfo: {
       selectedZones: defaultSelectedZones,
@@ -243,6 +247,21 @@ const SelectRangeUsePlanPage = () => {
                 label="Missing RUP"
               />
             </StyledTooltip>
+            {isUserDecisionMaker(user) && (
+              <StyledTooltip title={TOOLTIP_TEXT_DM_ACTIONABLE_ONLY}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filterSettings.dmActionableOnly}
+                      onChange={handleFilterChange('dmActionableOnly')}
+                      name="dmActionableOnly"
+                      color="primary"
+                    />
+                  }
+                  label={DM_ACTIONABLE_ONLY}
+                />
+              </StyledTooltip>
+            )}
           </div>
           <PrimaryButton
             inverted

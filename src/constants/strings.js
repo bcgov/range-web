@@ -80,6 +80,7 @@ export const CONTACT_EMAIL = 'Contact Email';
 export const CONTACT_PHONE = 'Contact Phone';
 export const EXTENDED = 'Extended';
 export const EXEMPTION_STATUS = 'Exemption Status';
+export const DM_ACTIONABLE_ONLY = 'DM Actionable Only';
 export const PLAN_DATE = 'Plan Date';
 export const PLAN_START_DATE = 'Plan Start Date';
 export const PLAN_END_DATE = 'Plan End Date';
@@ -130,6 +131,8 @@ export const TOOLTIP_TEXT_RANGE_AGREEMENT = 'Check box to view only ACTIVE Range
 export const TOOLTIP_TEXT_ACTIVE_RUP =
   'Check box to view Range Use Plans that have been APPROVED, includes RUPs that are being amended.  Does not include draft plans';
 export const TOOLTIP_TEXT_MISSING_RUP = 'Check box to view Range Agreements that do not have a Range Use Plan';
+export const TOOLTIP_TEXT_DM_ACTIONABLE_ONLY =
+  'Check box to only view Range Agreements/Plans that require action from a Decision Maker (e.g., Approve Plan, Extension, or Exemption)';
 export const TOOLTIP_TEXT_PERCENTAGE_USE = `Supported Input Formats Include:
 Single operators '=' '>' '<' '>=' '<='
 >223
