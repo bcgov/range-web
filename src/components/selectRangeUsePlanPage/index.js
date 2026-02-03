@@ -247,7 +247,7 @@ const SelectRangeUsePlanPage = () => {
                 label="Missing RUP"
               />
             </StyledTooltip>
-            {isUserDecisionMaker(user) && (
+            {(isUserAdmin(user) || isUserDecisionMaker(user) || isUserAgrologist(user)) && (
               <StyledTooltip title={TOOLTIP_TEXT_DM_ACTIONABLE_ONLY}>
                 <FormControlLabel
                   control={
