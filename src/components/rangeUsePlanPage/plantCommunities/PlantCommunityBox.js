@@ -96,6 +96,11 @@ const PlantCommunityBox = ({
       value: 'establish',
       text: 'Establish Plant Community',
     },
+    {
+      key: 'improve',
+      value: 'improve',
+      text: 'Improve Plant Community',
+    },
   ];
 
   const isError = !!getIn(formik.errors, namespace);

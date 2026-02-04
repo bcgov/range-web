@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
   note: {
     fontStyle: 'italic',
     marginTop: theme.spacing(1),
-    color: theme.palette.text.secondary,
   },
   fileAttachmentNote: {
     marginTop: theme.spacing(1),
@@ -213,7 +212,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle className={classes.dialogTitle}>Range Use Plan Exemption</DialogTitle>
+      <DialogTitle className={classes.dialogTitle}>Range Use Plan Exemption - {agreementId}</DialogTitle>
       <DialogContent>
         <Typography variant="body1" className={classes.legalText}>
           Under Section 32 of FRPA, an agreement holder must prepare, submit and obtain the Minister&#39;s approval
@@ -284,9 +283,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
             required
             disabled={viewOnly}
           />
-          <Typography className={classes.note}>
-            Note: End date should not be for more than one year past the start date.
-          </Typography>
+          <Typography className={classes.note}>Note: {EXEMPTION_START_DATE_VALIDATION_MESSAGE}</Typography>
 
           <Box className={classes.section}>
             <TextField

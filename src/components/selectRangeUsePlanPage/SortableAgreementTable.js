@@ -90,7 +90,7 @@ const headCells = [
     align: 'left',
   },
   {
-    id: 'agreement.agreement_exemption_status_id',
+    id: 'agreement.exemption_status',
     label: 'Exemption',
     sortable: true,
     multiSelectable: true,
@@ -200,7 +200,7 @@ function EnhancedTableHead(props) {
                 selectedStatusCodes={columnFilters[headCell.id] || []}
               />
             )}
-            {headCell.id == 'agreement.agreement_exemption_status_id' && (
+            {headCell.id == 'agreement.exemption_status' && (
               <ExemptionStatusMultiSelect
                 onStatusCodeChange={(newStatusCodes) =>
                   onColumnFilterChange({ target: { value: newStatusCodes } }, headCell.id)
@@ -296,9 +296,9 @@ const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes })
     const selectedStatusCodes = event.target.value
       .map((statusName) => {
         const match = statusObjects.find((st) => st.description === statusName);
-        return match ? match.id : null;
+        return match ? match.code : null;
       })
-      .filter((id) => id !== null);
+      .filter((code) => code !== null);
     onStatusCodeChange(selectedStatusCodes);
   };
 
@@ -306,7 +306,7 @@ const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes })
     setSelectedStatusName(
       selectedStatusCodes
         .map((code) => {
-          const match = statusObjects.find((st) => st.id === code);
+          const match = statusObjects.find((st) => st.code === code);
           return match ? match.description : null;
         })
         .filter((desc) => desc !== null),
@@ -323,7 +323,7 @@ const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes })
         MenuProps={MenuProps}
       >
         {statusObjects.map((statusObject) => (
-          <MenuItem key={statusObject.id} value={statusObject.description}>
+          <MenuItem key={statusObject.code} value={statusObject.description}>
             <Checkbox
               checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.description) !== -1}
             />

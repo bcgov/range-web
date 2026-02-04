@@ -124,6 +124,7 @@ export const USER_ROLE = {
 export const PURPOSE_OF_ACTION = {
   ESTABLISH: 'establish',
   MAINTAIN: 'maintain',
+  IMPROVE: 'improve',
   NONE: 'none',
 };
 
