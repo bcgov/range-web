@@ -22,6 +22,11 @@ import useConfirm from '../../providers/ConfrimationModalProvider';
 import { getSignedUploadUrl } from '../../api';
 import { downloadAttachment } from '../rangeUsePlanPage/attachments/AttachmentRow';
 import { ATTACHMENT_TYPE } from '../../constants/variables';
+import {
+  EXEMPTION_DURATION_VALIDATION_MESSAGE,
+  EXEMPTION_END_DATE_VALIDATION_MESSAGE,
+  EXEMPTION_START_DATE_VALIDATION_MESSAGE,
+} from '../../constants/strings';
 
 const useStyles = makeStyles((theme) => ({
   dialogTitle: {
@@ -112,15 +117,15 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
 
     // Only check start date is not in past for new exemptions
     if (!exemptionToEdit && start < now) {
-      return 'Start date cannot be in the past';
+      return EXEMPTION_START_DATE_VALIDATION_MESSAGE;
     }
 
     if (end <= start) {
-      return 'End date must be after start date';
+      return EXEMPTION_END_DATE_VALIDATION_MESSAGE;
     }
 
     if (end > maxDate) {
-      return 'Exemption period cannot exceed 12 months';
+      return EXEMPTION_DURATION_VALIDATION_MESSAGE;
     }
 
     return null;
@@ -394,7 +399,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
 
         {error && (
           <Box mt={2}>
-            <Typography color="error">{error}</Typography>
+            <Typography>{error}</Typography>
           </Box>
         )}
       </DialogContent>
