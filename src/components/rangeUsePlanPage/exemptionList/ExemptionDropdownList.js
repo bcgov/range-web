@@ -169,7 +169,8 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
                               {isAdminOrDecisionMaker && (
                                 <>
                                   <TableCell>
-                                    {exemption.status === EXEMPTION_STATUS.PENDING_APPROVAL &&
+                                    {(exemption.status === EXEMPTION_STATUS.PENDING_APPROVAL ||
+                                      exemption.status === EXEMPTION_STATUS.IN_PROGRESS) &&
                                       (submittingId === exemption.id ? (
                                         <CircularProgress size={24} />
                                       ) : (
@@ -194,7 +195,8 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
                                   <TableCell>
                                     {exemption.status === EXEMPTION_STATUS.REJECTED ||
                                     (isAdminOrDecisionMaker &&
-                                      exemption.status === EXEMPTION_STATUS.PENDING_APPROVAL) ? (
+                                      (exemption.status === EXEMPTION_STATUS.PENDING_APPROVAL ||
+                                        exemption.status === EXEMPTION_STATUS.IN_PROGRESS)) ? (
                                       submittingId === exemption.id ? (
                                         <CircularProgress size={24} />
                                       ) : (

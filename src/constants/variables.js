@@ -233,6 +233,7 @@ export const PLAN_EXTENSION_STATUS = {
 
 export const EXEMPTION_STATUS = {
   DRAFT: 'Draft',
+  IN_PROGRESS: 'In Progress',
   PENDING_APPROVAL: 'Pending Approval',
   APPROVED: 'Approved',
   REJECTED: 'Rejected',

@@ -125,7 +125,12 @@ function PlanRow({ agreement, user, currentPage, onUpdate }) {
         open={exemptionDialogOpen}
         onClose={handleExemptionDialogClose}
         agreementId={agreement.id}
-        onCreated={() => mutate(GET_AGREEMENT_EXEMPTIONS(agreement.id))}
+        onCreated={() => {
+          mutate(GET_AGREEMENT_EXEMPTIONS(agreement.id));
+          if (onUpdate) {
+            onUpdate();
+          }
+        }}
         exemptionToEdit={exemptionToEdit}
       />
     </>
