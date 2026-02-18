@@ -67,7 +67,6 @@ export default function PlanActions({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="menu-list-grow">
-                  {isStaffAgrologistOrAdmin && <CreateExemptionMenuItem onClick={onOpenExemptionDialog} />}
                   {planId && (
                     <ViewPlanMenuItem
                       planId={planId}
@@ -157,6 +156,7 @@ export default function PlanActions({
                       )}
                     />
                   )}
+                  {isStaffAgrologistOrAdmin && <CreateExemptionMenuItem onClick={onOpenExemptionDialog} />}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
