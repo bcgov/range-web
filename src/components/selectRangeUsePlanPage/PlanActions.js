@@ -120,7 +120,10 @@ export default function PlanActions({
                           PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
                           PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,
                           PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN,
-                        ].includes(agreement.plan?.extensionStatus))) && <CreateReplacementPlan planId={planId} />}
+                        ].includes(agreement.plan?.extensionStatus)) ||
+                      agreement.plan?.extensionStatus === PLAN_EXTENSION_STATUS.EXTENDED) && (
+                      <CreateReplacementPlan planId={planId} />
+                    )}
                   {[
                     PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED,
                     PLAN_EXTENSION_STATUS.REPLACED_WITH_REPLACEMENT_PLAN,
