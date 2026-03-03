@@ -64,6 +64,8 @@ export const REFRESH_TOKEN_FROM_SSO = `/auth/realms/${SSO_REALM_NAME}/protocol/o
 export const API_BASE_URL = isBundled ? `${window.location.origin}/api` : DEV_ENV.API_BASE_URL;
 
 export const SEARCH_AGREEMENTS = '/v1/agreement/search';
+export const EXPORT_AGREEMENTS = '/v1/agreement/export';
+export const EXPORT_LIVESTOCK = '/v1/agreement/export/livestock';
 export const GET_AGREEMENT = (agreementId) => `/v1/agreement/${agreementId}`;
 export const UPDATE_AGREEMENT_ZONE = (agreementId) => `/v1/agreement/${agreementId}/zone`;
 

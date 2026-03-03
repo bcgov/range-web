@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import debounce from 'lodash.debounce';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { Checkbox, FormControlLabel, Select, MenuItem, FormControl } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as API from '../../constants/api';
 import {
@@ -21,6 +21,7 @@ import {
   isUserAdmin,
   isUserAgrologist,
   isUserDecisionMaker,
+  isUserAuditor,
   getDataFromLocalStorage,
   saveDataInLocalStorage,
 } from '../../utils';
@@ -28,6 +29,7 @@ import { Banner, PrimaryButton } from '../common';
 import StyledTooltip from '../../helper/StyledTooltip';
 import SortableAgreementTable from './SortableAgreementTable';
 import { ZoneSelect, ZoneSelectAll } from './ZoneSelect';
+import { CircularProgress } from '@mui/material';
 
 const useStyles = makeStyles(() => ({
   searchFilterContainer: {
@@ -49,6 +51,9 @@ const SelectRangeUsePlanPage = () => {
   const [users, setUsers] = useState([]);
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [exportingLivestock, setExportingLivestock] = useState(false);
+  const [exportOption, setExportOption] = useState('');
   const [data, setData] = useState(null);
   const { agreements, totalPages, totalItems } = data || {};
   const references = useReferences();
@@ -189,6 +194,67 @@ const SelectRangeUsePlanPage = () => {
     fetchAgreements(filterSettings, new AbortController());
   };
 
+  const handleExportCSV = async () => {
+    setExporting(true);
+    try {
+      const response = await axios.get(API.EXPORT_AGREEMENTS, {
+        ...getAuthHeaderConfig(),
+        params: { filterSettings },
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `agreements-export-${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+    } finally {
+      setExporting(false);
+      setExportOption('');
+    }
+  };
+
+  const handleExportLivestock = async () => {
+    setExportingLivestock(true);
+    try {
+      const response = await axios.get(API.EXPORT_LIVESTOCK, {
+        ...getAuthHeaderConfig(),
+        params: { filterSettings },
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `livestock-export-${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting livestock data:', error);
+    } finally {
+      setExportingLivestock(false);
+      setExportOption('');
+    }
+  };
+
+  const handleExportChange = (event) => {
+    const selectedOption = event.target.value;
+    setExportOption(selectedOption);
+
+    if (selectedOption === 'csv') {
+      handleExportCSV();
+    } else if (selectedOption === 'livestock') {
+      handleExportLivestock();
+    }
+  };
+
   return (
     <section className="agreement">
       <Banner header={SELECT_RUP_BANNER_HEADER} content={SELECT_RUP_BANNER_CONTENT} />
@@ -271,6 +337,27 @@ const SelectRangeUsePlanPage = () => {
           >
             Reset Filters
           </PrimaryButton>
+          {(isUserAdmin(user) || isUserAgrologist(user) || isUserDecisionMaker(user) || isUserAuditor(user)) && (
+            <FormControl>
+              {exporting || exportingLivestock ? (
+                <CircularProgress size={30} />
+              ) : (
+                <Select
+                  value={exportOption}
+                  onChange={handleExportChange}
+                  disabled={exporting || exportingLivestock}
+                  style={{ minWidth: 150 }}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Export Options
+                  </MenuItem>
+                  <MenuItem value="csv">Export Agreements List</MenuItem>
+                  <MenuItem value="livestock">Export Livestock Count</MenuItem>
+                </Select>
+              )}
+            </FormControl>
+          )}
         </div>
         {references.ZONES?.length > 0 && isUserAgrologist(user) && (
           <ZoneSelect

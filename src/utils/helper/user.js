@@ -64,6 +64,8 @@ export const isUserAdmin = (user) => user && user.roleId && user.roleId === 1;
 
 export const isUserReadOnly = (user) => user && user.roleId && user.roleId === 5;
 
+export const isUserAuditor = (user) => user && user.roleId && user.roleId === 5;
+
 export const isUserAgrologist = (user) => user && user.roleId && user.roleId === 3;
 
 export const isUserStaff = (user) => isUserAdmin(user) || isUserAgrologist(user);
