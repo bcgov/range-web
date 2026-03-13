@@ -5,7 +5,7 @@ import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
 import HayCuttingScheduleEntryRow from './HayCuttingScheduleEntryRow';
 import { round, isUserAgrologist, roundUpPercentUse } from '../../../../utils';
 import * as strings from '../../../../constants/strings';
-import { CollapsibleBox, PrimaryButton, ErrorMessage } from '../../../common';
+import { CollapsibleBox, PrimaryButton, ErrorMessage, InfoTip } from '../../../common';
 import { IMAGE_SRC } from '../../../../constants/variables';
 import { FieldArray, connect, getIn } from 'formik';
 import uuid from 'uuid-v4';
@@ -282,8 +282,17 @@ const HayCuttingScheduleBox = ({
                     {authorizedTonnes > 0 ? roundUpPercentUse((roundedTotalTonnes / authorizedTonnes) * 100) : 0}
                   </div>
                 </div>
-                <div className="rup__grazing-schedule__narrative__title">Schedule Description</div>
-                <div>Schedule description is optional but if included is legal content</div>
+                <div className="rup__grazing-schedule__narrative__title rup__popup-header">
+                  Schedule/Amendment Description
+                  <InfoTip
+                    header="Schedule/Amendment Description"
+                    content={strings.SCHEDULE_AMENDMENT_DESCRIPTION_TIP}
+                  />
+                </div>
+                <div>
+                  Schedule description may contain legacy Livestock Distribution Detail which will eventually be moved
+                  to the appropriate section
+                </div>
                 <div>
                   <PermissionsField
                     permission={SCHEDULE.DESCRIPTION}
