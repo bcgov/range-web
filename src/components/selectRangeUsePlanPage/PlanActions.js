@@ -74,7 +74,7 @@ export default function PlanActions({
                       menuText={canEdit ? strings.EDIT : strings.VIEW}
                     />
                   )}
-                  {planId && (
+                  {planId && isStaffAgrologistOrAdmin && (
                     <CopyPlanMenuItem
                       handleClose={handleClose}
                       planId={planId}
