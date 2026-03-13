@@ -1,9 +1,9 @@
 import React from 'react';
 
-const MultiParagraphDisplay = ({ value, ...props }) => (
+const MultiParagraphDisplay = ({ value, className, ...props }) => (
   <>
     <input type="hidden" value={value} aria-label={props['aria-label']} />
-    <div>
+    <div className={className}>
       {value
         .toString()
         .split('\n')

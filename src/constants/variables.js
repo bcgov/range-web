@@ -200,6 +200,7 @@ export const ELEMENT_ID = {
   BASIC_INFORMATION: 'basic_information',
   PASTURES: 'pastures',
   SCHEDULE: 'schedule',
+  LIVESTOCK_DISTRIBUTION_DETAIL: 'livestock_distribution_detail',
   MINISTER_ISSUES: 'minister_issues_and_actions',
   INVASIVE_PLANT_CHECKLIST: 'invasive_plant',
   ADDITIONAL_REQUIREMENTS: 'additional_requirements',

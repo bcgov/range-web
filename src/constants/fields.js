@@ -115,6 +115,7 @@ export const ADDITIONAL_REQUIREMENTS = {
 };
 export const PLAN = {
   ADD: 'plan.add',
+  LIVESTOCK_DISTRIBUTION_DETAIL: 'plan.livestockDistributionDetail',
 };
 
 export const ATTACHMENTS = {
