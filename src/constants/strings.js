@@ -56,6 +56,9 @@ export const MINISTERS_ISSUES_AND_ACTIONS = "Minister's Issues and Actions";
 export const INVASIVE_PLANTS = 'Invasive Plants';
 export const ADDITIONAL_REQUIREMENTS = 'Additional Requirements';
 export const MANAGEMENT_CONSIDERATIONS = 'Concerns and Opportunities';
+export const LIVESTOCK_DISTRIBUTION_DETAIL = 'Livestock Distribution Detail';
+export const LIVESTOCK_DISTRIBUTION_DETAIL_TIP =
+  'Agreement holder describes how grazing will occur within each pasture based on the schedule. Dates should not be put in as that is already in the schedule and will make amendments more difficult. How are livestock moved around the pasture and how often, what are the problem areas and how are they dealt with, what are the salting practices, is a straggler clause required. Enough detail should be provided for the decision maker to know that the range is being monitored and cared for.';
 export const ATTACHMENTS = 'Attachments';
 
 // RUP basic information

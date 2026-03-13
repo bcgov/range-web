@@ -6,6 +6,7 @@ import { ELEMENT_ID } from '../../constants/variables';
 import BasicInformation from './basicInformation';
 import Conditions from './conditions';
 import Schedules from './schedules';
+import LivestockDistributionDetail from './livestockDistributionDetail';
 import Usage from './usage';
 import InvasivePlantChecklist from './invasivePlantChecklist';
 import ManagementConsiderations from './managementConsiderations';
@@ -52,6 +53,11 @@ const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isE
       <Element name={ELEMENT_ID.SCHEDULE} id={ELEMENT_ID.SCHEDULE}>
         <Schedules plan={plan} />
       </Element>
+      {(plan.agreement.agreementTypeId === 1 || plan.agreement.agreementTypeId === 2) && (
+        <Element name={ELEMENT_ID.LIVESTOCK_DISTRIBUTION_DETAIL} id={ELEMENT_ID.LIVESTOCK_DISTRIBUTION_DETAIL}>
+          <LivestockDistributionDetail livestockDistributionDetail={plan.livestockDistributionDetail} />
+        </Element>
+      )}
       <Element name={ELEMENT_ID.MINISTER_ISSUES} id={ELEMENT_ID.MINISTER_ISSUES}>
         <MinisterIssues issues={plan.ministerIssues} />
       </Element>

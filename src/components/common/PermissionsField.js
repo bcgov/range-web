@@ -18,6 +18,8 @@ const PermissionsField = ({
   component: Component = Input,
   displayComponent: DisplayComponent = MultiParagraphDisplay,
   editable = false,
+  notProvided,
+  displayClassName,
   ...props
 }) => {
   const user = useUser();
@@ -45,8 +47,9 @@ const PermissionsField = ({
       <DisplayComponent
         aria-label={props['aria-label'] || (props.inputProps && props.inputProps['aria-label'])}
         transparent
-        value={handleNullValue(displayValue)}
+        value={handleNullValue(displayValue, true, notProvided)}
         fluid={props.fluid}
+        className={displayClassName}
       />
     </Form.Field>
   );
@@ -59,6 +62,7 @@ PermissionsField.propTypes = {
   label: PropTypes.string,
   inline: PropTypes.bool,
   fluid: PropTypes.bool,
+  notProvided: PropTypes.string,
 };
 
 export const IfEditable = ({ children, permission, invert, any = false }) => {
