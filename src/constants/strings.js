@@ -55,7 +55,7 @@ export const MINISTER_ISSUES = "Minister's Issues";
 export const MINISTERS_ISSUES_AND_ACTIONS = "Minister's Issues and Actions";
 export const INVASIVE_PLANTS = 'Invasive Plants';
 export const ADDITIONAL_REQUIREMENTS = 'Additional Requirements';
-export const MANAGEMENT_CONSIDERATIONS = 'Management Considerations';
+export const MANAGEMENT_CONSIDERATIONS = 'Concerns and Opportunities';
 export const ATTACHMENTS = 'Attachments';
 
 // RUP basic information
@@ -305,6 +305,8 @@ export const USAGE_TIP =
   'Authorized usaged entered in FTA. If incorrect or incomplete, update FTA and wait for daily sync of MyRangeBC with FTA.';
 export const YEARLY_SCHEDULES_TIP =
   'FRPA section 33 states that every RUP must include a schedule that includes livestock class, number and period of use for each pasture. Every schedule must have at least one row in the schedule grid. The schedule description/narrative is optional but when included is legal content. On/off schedules (off being on private land) are addressed using PLD % at the pasture level. Straggler clause is recorded using the schedule narrative. Staff may either require that a schedule be provided for all plan years at the time of RUP approval OR that a new schedule be provided every year. Options to copy an entire schedule to another year or to copy a single schedule row are available by selecting the three dots at the right.';
+export const SCHEDULE_AMENDMENT_DESCRIPTION_TIP =
+  'This section will primarily be used for describing amendments for the year of the schedule. If cows are moved off early due to fire or drought or other management reasons, this is where the agreement holder would put the information. It is the responsibility of the agreement holder to enter information into this section.';
 export const MINISTERS_ISSUES_AND_ACTIONS_TIP =
   'FRPA section 33 indicates that actions to deal with issues identified by the minister must be specified in the RUP. Issues must be identified by the delegated decision maker (either on a site-specific basis or as a set of issues and conditions when they apply in a district) and documentation included on file before an RUP can be sent to an agreement holder for their input. Refer to the Minister’s Issue Policy for details on identifying issues for RUP content.';
 export const IDENTIFIED_BY_MINISTER_TOGGLE_TIP =
@@ -314,7 +316,7 @@ export const INVASIVE_PLANTS_TIP =
 export const ADDITIONAL_REQUIREMENTS_TIP =
   'Other orders, agreements, plans etc. may have content that is relevant to range related activities. Inclusion of that content in the RUP is redundant and creates potential for inconsistency or error. This section is included to inform the agreement holder and the decision maker of other agreements for consideration/review when preparing and making a decision on an RUP. When an agreement is available online include the URL for convenience.';
 export const MANAGEMENT_CONSIDERATIONS_TIP =
-  'Agreement holders may have information related to their operations that they want to have documented with their RUP. While not legal, this content can help explain the context for operations. This section is completely optional and fully within the domain of the agreement holder.';
+  'Agreement holder may want to express concerns (issues) or opportunities (future developments that may help the range). This section does not contain legal content that the agreement holder is bound to follow, nor does it remove any obligations for following the range use plan. For example, the agreement holder may express concerns that a gate continues to be left open. This does not remove the responsibility to ensure that the schedule is being followed, but it may imply that in the future a cattleguard may be needed.';
 export const APPROVED_BY_MINISTER_TIP =
   'Place documentation of descision makers approval to include this plant community information on file before updating & sending to agreement holders.';
 
