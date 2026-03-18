@@ -22,6 +22,7 @@ import {
   canUserConsiderManagement,
   canUserAddAdditionalReqs,
   canUserAttachAdditionalAttachments,
+  canUserAttachDecisionMaterials,
 } from '../../utils';
 
 const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isEditable = true }) => {
@@ -81,12 +82,15 @@ const PlanForm = ({ plan, fetchPlan, toastSuccessMessage, toastErrorMessage, isE
         <EditableProvider editable={canUserAddAttachments(plan, user)}>
           <Element name={ELEMENT_ID.ATTACHMENTS} id={ELEMENT_ID.ATTACHMENTS}>
             <AttachmentsHeader />
-            <Attachments
-              planId={plan.id}
-              attachments={plan.files}
-              propertyName="decisionAttachments"
-              label="Decision Material"
-            />
+            <EditableProvider editable={canUserAttachDecisionMaterials(plan, user)}>
+              <Attachments
+                planId={plan.id}
+                attachments={plan.files}
+                propertyName="decisionAttachments"
+                label="Decision Material"
+                fetchPlan={fetchPlan}
+              />
+            </EditableProvider>
             <EditableProvider editable={canUserAttachMaps(plan, user)}>
               <Attachments planId={plan.id} attachments={plan.files} propertyName="mapAttachments" label="Map" />
             </EditableProvider>
