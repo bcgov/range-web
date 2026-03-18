@@ -120,11 +120,15 @@ const ActionBtns = ({
       </div>
 
       <Dropdown
-        trigger={<Icon name="ellipsis vertical" inverted />}
+        trigger={
+          <Button inverted compact type="button">
+            Options
+          </Button>
+        }
         closeOnBlur
         icon={null}
         pointing="top right"
-        style={{ marginLeft: 10 }}
+        style={{ marginLeft: 5 }}
         value={null}
       >
         <Dropdown.Menu>
