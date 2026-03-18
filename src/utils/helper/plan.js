@@ -228,6 +228,12 @@ export const canUserAttachAdditionalAttachments = (plan = {}, user = {}) => {
   return false;
 };
 
+export const canUserAttachDecisionMaterials = (plan = {}, user = {}) => {
+  if (!plan || !user) return false;
+  if (isUserAdmin(user) || isUserAgrologist(user) || isUserDecisionMaker(user)) return true;
+  return false;
+};
+
 export const canUserAttachMaps = (plan = {}, user = {}) => {
   if (!plan || !plan.status || !user) {
     return false;
