@@ -3,7 +3,6 @@ import useSWR from 'swr';
 import {
   CircularProgress,
   List,
-  Paper,
   Typography,
   ListItem,
   ListItemText,
@@ -130,15 +129,11 @@ const ClientLinkList = ({ userId }) => {
   };
 
   if (!userId) {
-    return <Paper>Please select a user</Paper>;
+    return <div>Please select a user</div>;
   }
 
   if (error) {
-    return (
-      <Paper>
-        <div>Error fetching user: {error?.message ?? error?.data?.error}</div>
-      </Paper>
-    );
+    return <div>Error fetching user: {error?.message ?? error?.data?.error}</div>;
   }
 
   if (isValidating && !user)
@@ -157,7 +152,7 @@ const ClientLinkList = ({ userId }) => {
   if (user) {
     return (
       <>
-        <Paper className={classes.root}>
+        <div className={classes.root}>
           <Toolbar className={classes.toolbar}>
             <Typography className={classes.toolbarTitle} variant="h6" id="tableTitle" component="div">
               Link clients
@@ -199,40 +194,42 @@ const ClientLinkList = ({ userId }) => {
           )}
 
           <div className={classes.actionSection}>
-            <div className={classes.actions}>
-              <ClientDropdown
-                onChange={(client) => {
-                  setSelectedClient(client);
-                  setCreateError(null);
-                }}
-                value={selectedClient}
-              />
+            {user.clients && user.clients.length > 0 ? null : (
+              <div className={classes.actions}>
+                <ClientDropdown
+                  onChange={(client) => {
+                    setSelectedClient(client);
+                    setCreateError(null);
+                  }}
+                  value={selectedClient}
+                />
 
-              <Button
-                className={classes.addButton}
-                type="button"
-                onClick={handleAddClick}
-                disabled={selectedClient === null || isCreating}
-                variant="contained"
-                color="primary"
-              >
-                Add link
-                {isCreating && (
-                  <Fade
-                    in={isCreating}
-                    style={{
-                      transitionDelay: isCreating ? '800ms' : '0ms',
-                    }}
-                    unmountOnExit
-                  >
-                    <CircularProgress className={classes.buttonProgress} size={24} />
-                  </Fade>
-                )}
-              </Button>
-            </div>
+                <Button
+                  className={classes.addButton}
+                  type="button"
+                  onClick={handleAddClick}
+                  disabled={selectedClient === null || isCreating}
+                  variant="contained"
+                  color="primary"
+                >
+                  Add link
+                  {isCreating && (
+                    <Fade
+                      in={isCreating}
+                      style={{
+                        transitionDelay: isCreating ? '800ms' : '0ms',
+                      }}
+                      unmountOnExit
+                    >
+                      <CircularProgress className={classes.buttonProgress} size={24} />
+                    </Fade>
+                  )}
+                </Button>
+              </div>
+            )}
             {createError && <Typography color="error">{createError}</Typography>}
           </div>
-        </Paper>
+        </div>
 
         <Dialog
           open={Boolean(clientToDelete)}
