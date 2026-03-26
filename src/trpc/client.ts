@@ -1,4 +1,3 @@
-import { createTRPCReact, httpBatchLink } from '@trpc/react-query';
-import type { AppRouter } from 'range-api-v2';
+import { createTRPCReact } from '@trpc/react-query';
 
-export const trpc = createTRPCReact<AppRouter>();
+export const trpc = createTRPCReact<any>();

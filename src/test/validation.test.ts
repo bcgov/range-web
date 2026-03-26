@@ -58,7 +58,7 @@ describe('String Utilities', () => {
       }).format(date);
     };
 
-    const date = new Date('2026-01-01');
+    const date = new Date(2026, 0, 1); // January 1, 2026
     expect(formatDate(date)).toBe('2026-01-01');
   });
 });

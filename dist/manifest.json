@@ -1,0 +1,16 @@
+{
+  "short_name": "MyRangeBC",
+  "name": "MyRangeBC - Web",
+  "icons": [
+    {
+      "src": "images/shortcut_icon.png",
+      "sizes": "512x512 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/login",
+  "display": "standalone",
+  "theme_color": "#FCBA19",
+  "background_color": "#003366",
+  "orientation": "landscape"
+}
