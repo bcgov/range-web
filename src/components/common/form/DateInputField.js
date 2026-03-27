@@ -19,6 +19,7 @@ const DateInputField = ({ inline, label, ...props }) => (
             inlineLabel={inline}
             hideMobileKeyboard
             closeOnMouseLeave={false}
+            autoComplete="off"
             onChange={(e, { value }) => {
               const date = moment(value, props.dateFormat).toISOString();
               form.setFieldValue(field.name, date);
