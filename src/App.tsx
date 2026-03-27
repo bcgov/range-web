@@ -1,24 +1,55 @@
-function App() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Range Management v2</h1>
-        </div>
-      </header>
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+import LoginPage from './routes/LoginPage';
+import ReturnPage from './routes/ReturnPage';
+import Layout from './routes/Layout';
+import Dashboard from './routes/Dashboard';
+import AgreementsPage from './routes/AgreementsPage';
+import AgreementDetail from './routes/AgreementDetail';
+import PlansPage from './routes/PlansPage';
+import PlanDetail from './routes/PlanDetail';
+import ClientsPage from './routes/ClientsPage';
+import LoadingScreen from './routes/LoadingScreen';
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">Welcome</h2>
-          </div>
-          <div className="p-8">
-            <p className="text-gray-600 mb-4">This is the v2 rewrite of the Range Management application.</p>
-            <p className="text-gray-600">Technologies: React 18, TypeScript, Vite, tRPC, TanStack Query, TailwindCSS</p>
-          </div>
-        </div>
-      </main>
-    </div>
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+function App() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={isAuthenticated && !isLoading ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route path="/return-page" element={<ReturnPage />} />
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="agreements" element={<AgreementsPage />} />
+          <Route path="agreements/:forestFileId" element={<AgreementDetail />} />
+          <Route path="plans" element={<PlansPage />} />
+          <Route path="plans/:planId" element={<PlanDetail />} />
+          <Route path="clients" element={<ClientsPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

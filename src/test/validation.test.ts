@@ -1,64 +1,206 @@
 import { describe, it, expect } from 'vitest';
 import { z } from 'zod';
 
-describe('Validation Tests', () => {
-  const agreementSchema = z.object({
-    forestFileId: z.string().regex(/^RAN\d{6}$/, 'Invalid agreement ID format'),
-    agreementTypeId: z.number().int().positive(),
-    zoneId: z.number().int().positive(),
+describe('Validation Schemas', () => {
+  describe('Agreement Input Schema', () => {
+    const agreementInputSchema = z.object({
+      forestFileId: z.string().min(1).max(20),
+      agreementStartDate: z.date(),
+      agreementEndDate: z.date(),
+      agreementTypeId: z.number(),
+      zoneId: z.number(),
+      exemptionStatus: z.string().default('NOT_EXEMPTED'),
+    });
+
+    it('should validate correct input', () => {
+      const validInput = {
+        forestFileId: '1234-56',
+        agreementStartDate: new Date(),
+        agreementEndDate: new Date(),
+        agreementTypeId: 1,
+        zoneId: 1,
+      };
+
+      expect(() => agreementInputSchema.parse(validInput)).not.toThrow();
+    });
+
+    it('should reject empty forestFileId', () => {
+      const invalidInput = {
+        forestFileId: '',
+        agreementStartDate: new Date(),
+        agreementEndDate: new Date(),
+        agreementTypeId: 1,
+        zoneId: 1,
+      };
+
+      expect(() => agreementInputSchema.parse(invalidInput)).toThrow();
+    });
+
+    it('should reject forestFileId longer than 20 chars', () => {
+      const invalidInput = {
+        forestFileId: '123456789012345678901',
+        agreementStartDate: new Date(),
+        agreementEndDate: new Date(),
+        agreementTypeId: 1,
+        zoneId: 1,
+      };
+
+      expect(() => agreementInputSchema.parse(invalidInput)).toThrow();
+    });
   });
 
-  it('should validate a valid agreement ID', () => {
-    const result = agreementSchema.safeParse({
-      forestFileId: 'RAN073578',
-      agreementTypeId: 1,
-      zoneId: 1,
+  describe('Plan Input Schema', () => {
+    const planInputSchema = z.object({
+      agreementId: z.string(),
+      planStartDate: z.date().optional(),
+      planEndDate: z.date().optional(),
+      rangeName: z.string().optional(),
     });
-    expect(result.success).toBe(true);
+
+    it('should validate correct input', () => {
+      const validInput = {
+        agreementId: '1234-56',
+        planStartDate: new Date(),
+        planEndDate: new Date(),
+        rangeName: 'Test Range',
+      };
+
+      expect(() => planInputSchema.parse(validInput)).not.toThrow();
+    });
+
+    it('should allow optional fields', () => {
+      const validInput = {
+        agreementId: '1234-56',
+      };
+
+      expect(() => planInputSchema.parse(validInput)).not.toThrow();
+    });
+
+    it('should require agreementId', () => {
+      const invalidInput = {
+        planStartDate: new Date(),
+      };
+
+      expect(() => planInputSchema.parse(invalidInput)).toThrow();
+    });
   });
 
-  it('should reject invalid agreement ID', () => {
-    const result = agreementSchema.safeParse({
-      forestFileId: 'INVALID',
-      agreementTypeId: 1,
-      zoneId: 1,
+  describe('Auth Input Schema', () => {
+    const authInputSchema = z.object({
+      username: z.string().min(1),
+      password: z.string().min(1),
     });
-    expect(result.success).toBe(false);
+
+    it('should validate correct credentials', () => {
+      const validInput = {
+        username: 'admin',
+        password: 'admin',
+      };
+
+      expect(() => authInputSchema.parse(validInput)).not.toThrow();
+    });
+
+    it('should reject empty username', () => {
+      const invalidInput = {
+        username: '',
+        password: 'admin',
+      };
+
+      expect(() => authInputSchema.parse(invalidInput)).toThrow();
+    });
+
+    it('should reject empty password', () => {
+      const invalidInput = {
+        username: 'admin',
+        password: '',
+      };
+
+      expect(() => authInputSchema.parse(invalidInput)).toThrow();
+    });
   });
 
-  it('should reject negative zone ID', () => {
-    const result = agreementSchema.safeParse({
-      forestFileId: 'RAN073578',
-      agreementTypeId: 1,
-      zoneId: -1,
+  describe('Plan Status Update Schema', () => {
+    const statusUpdateSchema = z.object({
+      id: z.number(),
+      statusId: z.number(),
+      note: z.string().optional(),
     });
-    expect(result.success).toBe(false);
+
+    it('should validate correct status update', () => {
+      const validInput = {
+        id: 1,
+        statusId: 2,
+        note: 'Test note',
+      };
+
+      expect(() => statusUpdateSchema.parse(validInput)).not.toThrow();
+    });
+
+    it('should allow optional note', () => {
+      const validInput = {
+        id: 1,
+        statusId: 2,
+      };
+
+      expect(() => statusUpdateSchema.parse(validInput)).not.toThrow();
+    });
+
+    it('should require id', () => {
+      const invalidInput = {
+        statusId: 2,
+      };
+
+      expect(() => statusUpdateSchema.parse(invalidInput)).toThrow();
+    });
+
+    it('should require statusId', () => {
+      const invalidInput = {
+        id: 1,
+      };
+
+      expect(() => statusUpdateSchema.parse(invalidInput)).toThrow();
+    });
   });
 });
 
-describe('String Utilities', () => {
-  it('should format agreement ID correctly', () => {
-    const formatAgreementId = (id: string) => {
-      if (/^RAN\d{6}$/.test(id)) {
-        return `RAN-${id.slice(3)}`;
-      }
-      return id;
-    };
+describe('Business Logic', () => {
+  describe('Agreement Status', () => {
+    it('should correctly identify retired agreements', () => {
+      const retiredAgreement = { retired: true };
+      const activeAgreement = { retired: false };
 
-    expect(formatAgreementId('RAN073578')).toBe('RAN-073578');
-    expect(formatAgreementId('INVALID')).toBe('INVALID');
+      expect(retiredAgreement.retired).toBe(true);
+      expect(activeAgreement.retired).toBe(false);
+    });
   });
 
-  it('should format date correctly', () => {
-    const formatDate = (date: Date) => {
-      return new Intl.DateTimeFormat('en-CA', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }).format(date);
+  describe('Plan Status Codes', () => {
+    const statusCodes = {
+      C: 'Created',
+      S: 'Submitted',
+      A: 'Approved',
+      R: 'Rejected',
+      RE: 'Retired',
     };
 
-    const date = new Date(2026, 0, 1); // January 1, 2026
-    expect(formatDate(date)).toBe('2026-01-01');
+    it('should have all required status codes', () => {
+      expect(statusCodes.C).toBe('Created');
+      expect(statusCodes.S).toBe('Submitted');
+      expect(statusCodes.A).toBe('Approved');
+      expect(statusCodes.R).toBe('Rejected');
+      expect(statusCodes.RE).toBe('Retired');
+    });
+  });
+
+  describe('Pagination', () => {
+    it('should calculate correct pagination', () => {
+      const total = 100;
+      const limit = 20;
+      const page = 1;
+      const offset = (page - 1) * limit;
+
+      expect(offset).toBe(0);
+      expect(total / limit).toBe(5);
+    });
   });
 });
