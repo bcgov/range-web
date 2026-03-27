@@ -6,14 +6,20 @@ export const doesUserHaveFullName = (user) => {
   if (givenName && familyName) {
     return true;
   }
+  if (givenName && !familyName) {
+    return true;
+  }
 
   return false;
 };
 
 export const getUserFullName = (user) => {
   const { givenName, familyName, username } = user || {};
-  if (doesUserHaveFullName(user)) {
+  if (givenName && familyName) {
     return `${capitalize(givenName)} ${capitalize(familyName)}`;
+  }
+  if (givenName) {
+    return capitalize(givenName);
   }
 
   return username;
@@ -53,6 +59,10 @@ export const getUserInitial = (user) => {
 
   if (familyName && givenName && typeof familyName === 'string' && typeof givenName === 'string') {
     return givenName.charAt(0) + familyName.charAt(0);
+  }
+
+  if (givenName && typeof givenName === 'string') {
+    return givenName.substring(0, 2).toUpperCase();
   }
 
   return 'NP';

@@ -24,15 +24,27 @@ class UsernameInputModal extends Component {
 
     const { givenName, familyName } = this.props.user;
     this.state = {
-      familyName,
-      givenName,
+      familyName: familyName || '',
+      givenName: givenName || '',
+      userType: givenName && !familyName ? 'company' : 'individual',
     };
   }
 
   onSubmitClicked = (e) => {
     e.preventDefault();
-    const { familyName, givenName } = this.state;
-    this.props.updateUser({ familyName, givenName });
+    const { familyName, givenName, userType } = this.state;
+
+    if (userType === 'company') {
+      this.props.updateUser({
+        givenName,
+        familyName: '',
+      });
+    } else {
+      this.props.updateUser({
+        givenName,
+        familyName,
+      });
+    }
   };
 
   onInputPressed = (e) => {
@@ -45,12 +57,23 @@ class UsernameInputModal extends Component {
     });
   };
 
+  onUserTypeChange = (e, { value }) => {
+    this.setState({
+      userType: value,
+      givenName: '',
+      familyName: '',
+    });
+  };
+
   render() {
     const { user, isUpdatingUser, UpdatingUserErrorOccured } = this.props;
-    const { familyName, givenName } = this.state;
+    const { familyName, givenName, userType } = this.state;
     const isGivenEmpty = givenName === '';
     const isFamilyEmpty = familyName === '';
     const missingLastAndFirstName = !doesUserHaveFullName(user);
+
+    const isSubmitDisabled =
+      (userType === 'individual' && (isGivenEmpty || isFamilyEmpty)) || (userType === 'company' && isGivenEmpty);
 
     return (
       <Modal dimmer="blurring" style={{ width: '400px' }} open={missingLastAndFirstName}>
@@ -64,28 +87,56 @@ class UsernameInputModal extends Component {
             <div className="un-input-modal__msg">Hey Stranger, What&#39;s your name?</div>
             <Form error={UpdatingUserErrorOccured}>
               <ErrorMessage message={UPDATE_USER_ERROR} style={{ marginBottom: '15px' }} />
-              <Form.Input
-                name="givenName"
-                label="First Name"
-                value={givenName}
-                error={isGivenEmpty}
-                onChange={this.onInputChanged}
-                onKeyPress={this.onInputPressed}
-              />
-              <Form.Input
-                name="familyName"
-                label="Last Name"
-                value={familyName}
-                error={isFamilyEmpty}
-                onChange={this.onInputChanged}
-                onKeyPress={this.onInputPressed}
-              />
-              <PrimaryButton
-                fluid
-                disabled={isGivenEmpty || isFamilyEmpty}
-                loading={isUpdatingUser}
-                onClick={this.onSubmitClicked}
-              >
+
+              <Form.Group inline style={{ marginBottom: '15px' }} aria-label="User type selection">
+                <div style={{ marginRight: '10px', fontWeight: 'bold' }}>I am a: </div>
+                <Form.Radio
+                  label="Individual"
+                  name="userType"
+                  value="individual"
+                  checked={userType === 'individual'}
+                  onChange={this.onUserTypeChange}
+                />
+                <Form.Radio
+                  label="Company / Partnership"
+                  name="userType"
+                  value="company"
+                  checked={userType === 'company'}
+                  onChange={this.onUserTypeChange}
+                />
+              </Form.Group>
+
+              {userType === 'individual' ? (
+                <>
+                  <Form.Input
+                    name="givenName"
+                    label="First Name"
+                    value={givenName}
+                    error={isGivenEmpty}
+                    onChange={this.onInputChanged}
+                    onKeyPress={this.onInputPressed}
+                  />
+                  <Form.Input
+                    name="familyName"
+                    label="Last Name"
+                    value={familyName}
+                    error={isFamilyEmpty}
+                    onChange={this.onInputChanged}
+                    onKeyPress={this.onInputPressed}
+                  />
+                </>
+              ) : (
+                <Form.Input
+                  name="givenName"
+                  label="Registered Company Name"
+                  value={givenName}
+                  error={isGivenEmpty}
+                  placeholder="Enter registered company name"
+                  onChange={this.onInputChanged}
+                />
+              )}
+
+              <PrimaryButton fluid disabled={isSubmitDisabled} loading={isUpdatingUser} onClick={this.onSubmitClicked}>
                 Submit
               </PrimaryButton>
             </Form>
