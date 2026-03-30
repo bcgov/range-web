@@ -3,17 +3,12 @@ import { ATTACHMENTS } from '../../../constants/fields';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { formatDateFromServer, getUserFullName, axios, getAuthHeaderConfig } from '../../../utils';
 import { Dropdown } from 'formik-semantic-ui';
-import { TextField , PrimaryButton } from '../../common';
+import { TextField, PrimaryButton } from '../../common';
 import { CircularProgress } from '@material-ui/core';
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api';
 import { isUUID } from 'uuid-v4';
 
 export const attachmentAccess = [
-  {
-    key: 'user_only',
-    value: 'user_only',
-    text: 'Just me',
-  },
   {
     key: 'staff_only',
     value: 'staff_only',
@@ -66,7 +61,7 @@ const AttachmentRow = ({ attachment, index, onDelete, error, fileType }) => {
             <TextField text={getUserFullName(attachment.user)} label="Uploaded By" />
             <PermissionsField
               permission={ATTACHMENTS.VIEWABLE_BY}
-              inputProps={{ placeholder: 'Just me' }}
+              inputProps={{ placeholder: 'All staff' }}
               name={`files.${index}.access`}
               component={Dropdown}
               options={attachmentAccess}
