@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useFormikContext } from 'formik';
 import { ATTACHMENTS } from '../../../constants/fields';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { formatDateFromServer, getUserFullName, axios, getAuthHeaderConfig } from '../../../utils';
 import { Dropdown } from 'formik-semantic-ui';
-import { TextField, PrimaryButton } from '../../common';
-import { CircularProgress } from '@material-ui/core';
+import { TextField, PrimaryButton, Loading } from '../../common';
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api';
 import { isUUID } from 'uuid-v4';
 
@@ -36,9 +36,21 @@ export const downloadAttachment = async (attachmentId, attachmentName, fileType)
   link.parentNode.removeChild(link);
 };
 
-const AttachmentRow = ({ attachment, index, onDelete, error, fileType }) => {
+const AttachmentRow = ({ attachment, index, onDelete, onAccessChange, isUpdating, error, fileType }) => {
   const [isDownloading, setDownloading] = useState(false);
   const [errorDownloading, setErrorDownloading] = useState();
+  const { values } = useFormikContext();
+  const prevAccessRef = useRef(attachment.access);
+
+  const formikIndex = values.files?.findIndex((f) => f.id === attachment.id);
+
+  useEffect(() => {
+    const currentAccess = values.files?.[formikIndex]?.access;
+    if (currentAccess && currentAccess !== prevAccessRef.current && onAccessChange && !isUUID(attachment.id)) {
+      onAccessChange(currentAccess);
+      prevAccessRef.current = currentAccess;
+    }
+  }, [values.files, formikIndex, onAccessChange, attachment.id]);
 
   const handleDownload = async () => {
     setErrorDownloading(null);
@@ -70,7 +82,12 @@ const AttachmentRow = ({ attachment, index, onDelete, error, fileType }) => {
               fast
               fieldProps={{ required: false }}
             />
-            {!attachment.url && !attachment.error && <CircularProgress />}
+            {isUpdating && (
+              <div style={{ marginLeft: '10px' }}>
+                <Loading onlySpinner />
+              </div>
+            )}
+            {!attachment.url && !attachment.error && <Loading onlySpinner />}
             {attachment.error && <span>Error uploading file: {attachment.error.message}</span>}
           </div>
           <div className="rup__attachments__actions">

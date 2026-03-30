@@ -10,6 +10,7 @@ import { IfEditable } from '../../common/PermissionsField';
 import AttachmentRow from './AttachmentRow';
 import * as API from '../../../constants/api';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
+import { DELETE_ATTACHMENT_CONFIRM_CONTENT, DELETE_ATTACHMENT_CONFIRM_HEADER } from '../../../constants/strings';
 
 const sortByDate = (a, b) => {
   if (b.createdAt > a.createdAt) return -1;
@@ -26,7 +27,25 @@ const Attachments = ({
   fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT,
 }) => {
   const [toRemove, setToRemove] = useState(null);
+  const [updatingAccessId, setUpdatingAccessId] = useState(null);
   const formik = useFormikContext();
+
+  const updateAttachmentAccess = async (attachmentId, access) => {
+    setUpdatingAccessId(attachmentId);
+    try {
+      await axios.put(API.UPDATE_RUP_ATTACHMENT(planId, attachmentId), { access }, getAuthHeaderConfig());
+      if (!formik.dirty) {
+        formik.resetForm({ values: formik.values });
+      }
+      if (fetchPlan) {
+        fetchPlan();
+      }
+    } catch (error) {
+      console.error('Error updating attachment access:', error);
+    } finally {
+      setUpdatingAccessId(null);
+    }
+  };
 
   const saveAttachmentToDatabase = async (attachment) => {
     try {
@@ -74,6 +93,11 @@ const Attachments = ({
           formik.setFieldValue(`${fieldName}.id`, savedAttachment.id);
           formik.setFieldValue(fieldName, savedAttachment);
 
+          // Reset dirty state after successful upload
+          if (!formik.dirty) {
+            formik.resetForm({ values: formik.values });
+          }
+
           // Refresh the plan to show the updated attachment
           if (fetchPlan) {
             await fetchPlan();
@@ -108,6 +132,8 @@ const Attachments = ({
                         key={index}
                         attachment={attachment}
                         onDelete={() => setToRemove(attachment)}
+                        onAccessChange={(access) => updateAttachmentAccess(attachment.id, access)}
+                        isUpdating={updatingAccessId === attachment.id}
                         fileType={fileType}
                         index={index}
                         error={formik.errors?.files?.[index]?.url}
@@ -145,6 +171,8 @@ const Attachments = ({
             </div>
 
             <Confirm
+              header={DELETE_ATTACHMENT_CONFIRM_HEADER}
+              content={DELETE_ATTACHMENT_CONFIRM_CONTENT}
               open={toRemove !== null}
               onCancel={() => {
                 setToRemove(null);
@@ -163,6 +191,11 @@ const Attachments = ({
                 }
 
                 setToRemove(null);
+
+                // Reset dirty state after successful delete
+                if (!formik.dirty) {
+                  formik.resetForm({ values: formik.values });
+                }
 
                 // Refresh the plan to show updated attachments list
                 if (fetchPlan) {

@@ -39,7 +39,7 @@ const AttachmentsList = ({ attachments, fileType = ATTACHMENT_TYPE.PLAN_ATTACHME
           <TableCell style={{ color: 'grey' }}>Name</TableCell>
           <TableCell style={{ color: 'grey' }}>Upload Date</TableCell>
           <TableCell style={{ color: 'grey' }}>Uploaded By</TableCell>
-          <TableCell style={{ color: 'grey', align: 'left' }}>Viewable By</TableCell>
+          <TableCell style={{ color: 'grey' }}>Viewable By</TableCell>
           <TableCell style={{ color: 'grey' }}></TableCell>
         </TableRow>
       </TableHead>

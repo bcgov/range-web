@@ -343,3 +343,5 @@ export const EXEMPTION_START_DATE_VALIDATION_MESSAGE =
   'The start date cannot be backdated and the earliest that it can occur is the next day; and, the end date should not be for more than the current grazing schedule.';
 export const EXEMPTION_END_DATE_VALIDATION_MESSAGE = 'End date must be after start date';
 export const EXEMPTION_DURATION_VALIDATION_MESSAGE = 'Exemption period cannot exceed 12 months';
+export const DELETE_ATTACHMENT_CONFIRM_HEADER = 'Delete Attachment';
+export const DELETE_ATTACHMENT_CONFIRM_CONTENT = 'Are you sure you want to delete this attachment?';
