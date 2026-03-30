@@ -47,7 +47,7 @@ const AttachmentsList = ({ attachments, fileType = ATTACHMENT_TYPE.PLAN_ATTACHME
         {attachments.map((attachment) => (
           <TableRow key={attachment.id} hover={true}>
             <TableCell>{attachment.name}</TableCell>
-            <TableCell>{moment(attachment.uploadDate).format('MMM DD YYYY h:mm a')}</TableCell>
+            <TableCell>{moment(attachment.createdAt).format('MMM DD YYYY h:mm a')}</TableCell>
             <TableCell>
               {attachment.user.givenName} {attachment.user.familyName}
             </TableCell>

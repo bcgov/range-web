@@ -12,8 +12,8 @@ import * as API from '../../../constants/api';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
 const sortByDate = (a, b) => {
-  if (b.uploadDate > a.uploadDate) return -1;
-  if (b.uploadDate < a.uploadDate) return 1;
+  if (b.createdAt > a.createdAt) return -1;
+  if (b.createdAt < a.createdAt) return 1;
   return 0;
 };
 
@@ -35,6 +35,8 @@ const Attachments = ({
       return {
         ...attachment,
         id: data.id,
+        user: data.user,
+        createdAt: data.createdAt,
       };
     } catch (error) {
       console.error('Error saving attachment to database:', error);

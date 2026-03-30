@@ -11,7 +11,7 @@ import { NOT_PROVIDED } from '../../constants/strings';
  */
 export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notProvided = NOT_PROVIDED) => {
   if (isoFormatDate) {
-    const m = moment(isoFormatDate, DATE_FORMAT.SERVER_SIDE);
+    const m = moment(isoFormatDate);
 
     if (isYearIncluded) {
       return m.format(DATE_FORMAT.CLIENT_SIDE);
