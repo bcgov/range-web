@@ -21,7 +21,7 @@ const PDFView = ({ match, agreementId, mapAttachments }) => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', agreementId);
+      link.setAttribute('download', `${agreementId} - RUP`);
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
