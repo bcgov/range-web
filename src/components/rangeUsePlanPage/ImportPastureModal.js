@@ -2,6 +2,7 @@ import {
   CircularProgress,
   Collapse,
   DialogContent,
+  DialogTitle,
   Divider,
   IconButton,
   List,
@@ -42,17 +43,24 @@ const useStyles = makeStyles({
   },
 });
 
-const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
+const ImportPastureModal = ({ dialogOpen, onClose, onImport, mode = 'pasture' }) => {
   const [pastures, setPastures] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [districtId, setDistrictId] = useState(null);
   const [open, setOpen] = useState({});
+  const [pcOpen, setPcOpen] = useState({});
   const [isLoading, setLoading] = useState(false);
   const classes = useStyles();
   const [filteredPastures, setFilteredPastures] = useState([]);
   const user = useUser();
+  const isPlantCommunityMode = mode === 'plantCommunity';
+  const modalTitle = isPlantCommunityMode ? 'Import Plant Community' : 'Import Pasture';
+  const filterPlaceholder = 'Filter';
   const handleClick = (id) => {
     setOpen((prevOpen) => ({ ...prevOpen, [id]: !prevOpen[id] }));
+  };
+  const handlePcClick = (id) => {
+    setPcOpen((prevOpen) => ({ ...prevOpen, [id]: !prevOpen[id] }));
   };
   const handleSearchChange = (event) => {
     pastureFilter(event.target.value);
@@ -64,8 +72,9 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
     setLoading(true);
     const response = await axios.get(GET_PASTURES_FOR_DISTRICT(districtId), getAuthHeaderConfig());
     setLoading(false);
-    setPastures(response.data);
-    setFilteredPastures(response.data);
+    const filtered = isPlantCommunityMode ? response.data.filter((p) => p.plantCommunities?.length > 0) : response.data;
+    setPastures(filtered);
+    setFilteredPastures(filtered);
   };
 
   const fetchDistricts = async (userId) => {
@@ -81,14 +90,20 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
       }
       setFilteredPastures(
         pastures.filter((pasture) => {
-          return (
+          const pastureMatch =
             pasture.name.toLowerCase().includes(term.toLowerCase()) ||
-            pasture.agreementId.toLowerCase().includes(term.toLowerCase())
-          );
+            pasture.agreementId.toLowerCase().includes(term.toLowerCase());
+          if (isPlantCommunityMode) {
+            const pcMatch = pasture.plantCommunities?.some((pc) =>
+              (pc.name || pc.communityType?.name)?.toLowerCase().includes(term.toLowerCase()),
+            );
+            return pastureMatch || pcMatch;
+          }
+          return pastureMatch;
         }),
       );
     }, 500),
-    [pastures],
+    [pastures, isPlantCommunityMode],
   );
 
   useEffect(() => {
@@ -109,12 +124,13 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
       aria-describedby="alert-dialog-description"
       classes={{ paper: classes.dialogPaper }}
     >
+      <DialogTitle>{modalTitle}</DialogTitle>
       <DialogContent>
         <>
           <div>
             <TextField
               autoFocus
-              label="Filter Pastures"
+              label={filterPlaceholder}
               variant="outlined"
               style={{ width: '50%', marginRight: 20 }}
               onChange={handleSearchChange}
@@ -144,10 +160,17 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
                       </strong>
                     </Typography>
                     <div>
-                      <IconButton edge="end" size="small" style={{ marginRight: 40 }} onClick={() => onImport(pasture)}>
-                        <AddBox></AddBox>
-                        Import
-                      </IconButton>
+                      {!isPlantCommunityMode && (
+                        <IconButton
+                          edge="end"
+                          size="small"
+                          style={{ marginRight: 40 }}
+                          onClick={() => onImport(pasture)}
+                        >
+                          <AddBox></AddBox>
+                          Import
+                        </IconButton>
+                      )}
                       <IconButton edge="end" size="small">
                         {open[pasture.id] ? <ExpandLess /> : <ExpandMore />}
                       </IconButton>
@@ -172,53 +195,87 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport }) => {
                       {pasture.plantCommunities?.length > 0 && (
                         <div>
                           <Typography variant="h6">Plant Communities</Typography>
-                          {pasture.plantCommunities.map((community) => (
+                          {pasture.plantCommunities.map((community, pcIndex) => (
                             <div key={community.id}>
+                              <ListItem
+                                className={`${pcIndex % 2 === 0 ? classes.evenItem : classes.oddItem}  ${classes.listItem}`}
+                                onClick={() => handlePcClick(community.id)}
+                              >
+                                <Typography style={{ width: '60%' }}>
+                                  <strong>Name:</strong> {community.name || community.communityType?.name}
+                                </Typography>
+                                <div>
+                                  {isPlantCommunityMode && (
+                                    <IconButton
+                                      edge="end"
+                                      size="small"
+                                      style={{ marginRight: 40 }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        onImport(community);
+                                      }}
+                                    >
+                                      <AddBox></AddBox>
+                                      Import
+                                    </IconButton>
+                                  )}
+                                  <IconButton edge="end" size="small">
+                                    {pcOpen[community.id] ? <ExpandLess /> : <ExpandMore />}
+                                  </IconButton>
+                                </div>
+                              </ListItem>
+                              <Collapse
+                                in={pcOpen[community.id]}
+                                timeout="auto"
+                                unmountOnExit
+                                className={`${pcIndex % 2 === 0 ? classes.evenItem : classes.oddItem}`}
+                              >
+                                <div className="main">
+                                  <Typography variant="body1">
+                                    <strong>Purpose of Action:</strong> {community.purposeOfAction}
+                                  </Typography>
+                                  <Typography variant="body1">
+                                    <strong>Elevation:</strong> {community.elevation?.name}
+                                  </Typography>
+                                  <Typography variant="body1">
+                                    <strong>Community Type:</strong> {community.communityType?.name}
+                                  </Typography>
+                                  {community.indicatorPlants?.length > 0 && (
+                                    <div>
+                                      <Typography variant="h6">Indicator Plants</Typography>
+                                      {community.indicatorPlants.map((plant) => (
+                                        <Typography key={plant.id} variant="body2">
+                                          {plant.plantSpecies?.name} (Leaf Stage: {plant.plantSpecies?.leafStage},
+                                          Stubble Height: {plant.plantSpecies?.stubbleHeight}, Criteria:{' '}
+                                          {plant.criteria})
+                                        </Typography>
+                                      ))}
+                                    </div>
+                                  )}
+                                  {community.plantCommunityActions.length > 0 && (
+                                    <div>
+                                      <Typography variant="h6">Actions</Typography>
+                                      {community.plantCommunityActions.map((action) => (
+                                        <Typography key={action.id} variant="body2">
+                                          {action.actionType?.name}: {action.details}
+                                        </Typography>
+                                      ))}
+                                    </div>
+                                  )}
+                                  {community.monitoringAreas.length > 0 && (
+                                    <div>
+                                      <Typography variant="h6">Monitoring Areas</Typography>
+                                      {community.monitoringAreas.map((area) => (
+                                        <Typography key={area.id} variant="body2">
+                                          {area.name} (Location: {area.location}, Latitude: {area.latitude}, Longitude:{' '}
+                                          {area.longitude}, Rangeland Health: {area.rangelandHealth?.name})
+                                        </Typography>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </Collapse>
                               <Divider className={classes.divider} />
-                              <Typography variant="body1">
-                                <strong>Name:</strong> {community.name}
-                              </Typography>
-                              <Typography variant="body1">
-                                <strong>Purpose of Action:</strong> {community.purposeOfAction}
-                              </Typography>
-                              <Typography variant="body1">
-                                <strong>Elevation:</strong> {community.elevation?.name}
-                              </Typography>
-                              <Typography variant="body1">
-                                <strong>Community Type:</strong> {community.communityType?.name}
-                              </Typography>
-                              {community.indicatorPlants?.length > 0 && (
-                                <div>
-                                  <Typography variant="h6">Indicator Plants</Typography>
-                                  {community.indicatorPlants.map((plant) => (
-                                    <Typography key={plant.id} variant="body2">
-                                      {plant.plantSpecies?.name} (Leaf Stage: {plant.plantSpecies?.leafStage}, Stubble
-                                      Height: {plant.plantSpecies?.stubbleHeight}, Criteria: {plant.criteria})
-                                    </Typography>
-                                  ))}
-                                </div>
-                              )}
-                              {community.plantCommunityActions.length > 0 && (
-                                <div>
-                                  <Typography variant="h6">Actions</Typography>
-                                  {community.plantCommunityActions.map((action) => (
-                                    <Typography key={action.id} variant="body2">
-                                      {action.actionType?.name}: {action.details}
-                                    </Typography>
-                                  ))}
-                                </div>
-                              )}
-                              {community.monitoringAreas.length > 0 && (
-                                <div>
-                                  <Typography variant="h6">Monitoring Areas</Typography>
-                                  {community.monitoringAreas.map((area) => (
-                                    <Typography key={area.id} variant="body2">
-                                      {area.name} (Location: {area.location}, Latitude: {area.latitude}, Longitude:{' '}
-                                      {area.longitude}, Rangeland Health: {area.rangelandHealth?.name})
-                                    </Typography>
-                                  ))}
-                                </div>
-                              )}
                             </div>
                           ))}
                         </div>
