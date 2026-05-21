@@ -10,7 +10,7 @@ import {
   isAgent,
   getUserFullName,
 } from '../../../../utils';
-import { AWAITING_CONFIRMATION } from '../../../../constants/strings';
+import { AWAITING_CONFIRMATION, NO_USER_LINKED } from '../../../../constants/strings';
 
 class AHConfirmationList extends Component {
   static propTypes = {
@@ -37,6 +37,9 @@ class AHConfirmationList extends Component {
           >
             {getClientFullName(client)}{' '}
             {confirmed && !confirmation.isOwnSignature && `(by ${getUserFullName(confirmation.user)})`}
+            {!client.email &&
+              !clientAgreements?.find((ca) => ca.clientId === client.clientNumber)?.agent &&
+              `(${NO_USER_LINKED})`}
           </span>
         </div>
         <div>{confirmationDate}</div>

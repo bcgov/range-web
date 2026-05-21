@@ -89,6 +89,7 @@ export const PLAN_START_DATE = 'Plan Start Date';
 export const PLAN_END_DATE = 'Plan End Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
 export const OTHER_AGREEMENT_HOLDER = 'Agreement Holder (Other)';
+export const NO_USER_LINKED = 'No user linked';
 
 // RUP Usage
 export const YEAR = 'Year';

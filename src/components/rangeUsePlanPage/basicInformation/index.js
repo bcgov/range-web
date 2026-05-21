@@ -161,12 +161,15 @@ const BasicInformation = ({ plan, agreement }) => {
           <div className="rup__plan-info rup__cell-6">
             <div className="rup__divider" />
             <div className="rup__info-title">Agreement Holders</div>
-            <TextField label={strings.PRIMARY_AGREEMENT_HOLDER} text={primaryAgreementHolderName} />
+            <TextField
+              label={strings.PRIMARY_AGREEMENT_HOLDER}
+              text={`${primaryAgreementHolderName}${!primaryAgreementHolder.email ? ` (${strings.NO_USER_LINKED})` : ''}`}
+            />
             {otherAgreementHolders.map((client) => (
               <TextField
                 key={client.clientNumber}
                 label={strings.OTHER_AGREEMENT_HOLDER}
-                text={getClientFullName(client)}
+                text={`${getClientFullName(client)}${!client.email ? ` (${strings.NO_USER_LINKED})` : ''}`}
               />
             ))}
           </div>
@@ -178,10 +181,12 @@ const BasicInformation = ({ plan, agreement }) => {
             <div className="rup__ah-container">
               <TextField
                 label={strings.PRIMARY_AGREEMENT_HOLDER}
-                text={`${primaryAgreementHolderName} ${
+                text={`${primaryAgreementHolderName}${
                   getAgentForClient(primaryAgreementHolder, clientAgreements)
-                    ? `- Agent: ${getUserFullName(getAgentForClient(primaryAgreementHolder, clientAgreements))}`
-                    : ''
+                    ? ` - Agent: ${getUserFullName(getAgentForClient(primaryAgreementHolder, clientAgreements))}`
+                    : !primaryAgreementHolder.email
+                      ? ` (${strings.NO_USER_LINKED})`
+                      : ''
                 }`}
               />
               {/* {confirmations && ( */}
@@ -202,10 +207,12 @@ const BasicInformation = ({ plan, agreement }) => {
               <div className="rup__ah-container" key={client.id}>
                 <TextField
                   label={strings.OTHER_AGREEMENT_HOLDER}
-                  text={`${getClientFullName(client)} ${
+                  text={`${getClientFullName(client)}${
                     getAgentForClient(client, clientAgreements)
-                      ? `- Agent: ${getUserFullName(getAgentForClient(client, clientAgreements))}`
-                      : ''
+                      ? ` - Agent: ${getUserFullName(getAgentForClient(client, clientAgreements))}`
+                      : !client.email
+                        ? ` (${strings.NO_USER_LINKED})`
+                        : ''
                   }`}
                 />
                 {/* {confirmations && ( */}
