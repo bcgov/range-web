@@ -29,11 +29,10 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
     await axios
       .get(API.DOWNLOAD_AGREEMENT_EXEMPTION(exemption.agreementId, exemption.id), {
         ...getAuthHeaderConfig(),
+        responseType: 'blob',
       })
       .then((response) => {
-        const blob = new Blob([Buffer.from(response.data, 'base64')], {
-          type: 'application/pdf',
-        });
+        const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;

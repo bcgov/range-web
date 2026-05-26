@@ -15,9 +15,7 @@ const PDFView = ({ match, agreementId, mapAttachments }) => {
       setLoading(true);
       setError(null);
       const response = await generatePDF(planId);
-      const blob = new Blob([Buffer.from(response.data, 'base64')], {
-        type: 'application/pdf',
-      });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;

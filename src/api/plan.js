@@ -285,7 +285,10 @@ export const amendFromLegal = async (plan, references, staffInitiated) => {
 };
 
 export const generatePDF = async (planId) => {
-  return await axios.get(API.GET_RUP_PDF(planId), getAuthHeaderConfig());
+  return await axios.get(API.GET_RUP_PDF(planId), {
+    ...getAuthHeaderConfig(),
+    responseType: 'blob',
+  });
 };
 
 export const updateSortOrder = async (planId, scheduleId, sortBy, sortOrder) => {
