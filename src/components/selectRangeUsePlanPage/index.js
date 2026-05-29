@@ -99,6 +99,7 @@ const SelectRangeUsePlanPage = () => {
         });
         setData(response.data);
       } catch (error) {
+        if (error?.code === 'ERR_CANCELED') return;
         console.error('Error fetching agreements:', error);
       } finally {
         setLoading(false);
