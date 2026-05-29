@@ -78,6 +78,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         return req;
       });
       agreement.plan.planExtensionRequests = newPlanExtensionRequests;
+      agreement.plan.extensionReceivedVotes += pendingRequestIds.length;
     } catch (error) {
       console.error('Error approving extensions:', error);
     } finally {

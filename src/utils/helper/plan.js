@@ -164,7 +164,7 @@ export const canUserSubmitConfirmation = (status, user, confirmations = [], clie
 
 export const doesStaffOwnPlan = (plan = {}, user = {}) => {
   if (isUserAdmin(user)) return true;
-  return plan?.agreement?.zone?.userId === user.id;
+  return plan?.agreement?.zone?.user?.id === user.id;
 };
 
 export const canUserAmendPlan = (plan = {}, user = {}) => {
