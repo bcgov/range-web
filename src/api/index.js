@@ -11,14 +11,7 @@ export const createVersion = async (planId) => {
 export const saveSchedules = (planId, schedules, newPastures) => {
   return sequentialAsyncMap(schedules, async (schedule) => {
     const scheduleEntries = schedule.scheduleEntries.map(
-      ({
-        id: entryId,
-        grazingScheduleId,
-        grazing_schedule_id,
-        haycuttingScheduleId,
-        haycutting_schedule_id,
-        ...entry
-      }) => ({
+      ({ id: entryId, grazingScheduleId, haycuttingScheduleId, ...entry }) => ({
         ...entry,
         ...(!uuid.isUUID(entryId) && { id: entryId }),
         pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
