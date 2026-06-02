@@ -258,7 +258,7 @@ class PageForAH extends Component {
             planStatusHistoryMap={planStatusHistoryMap}
           />
 
-          {plan && <PlanForm plan={plan} isEditable={canUserEditThisPlan(plan, user)} />}
+          {plan && <PlanForm plan={plan} isEditable={canUserEditThisPlan(plan, user)} fetchPlan={fetchPlan} />}
         </ContentsContainer>
       </section>
     );
