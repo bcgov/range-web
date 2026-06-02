@@ -90,6 +90,7 @@ export const PlanProvider = ({ children, storePlan }) => {
       return planId;
     } catch (e) {
       setErrorSavingPlan(e);
+      throw e;
     } finally {
       setSavingPlan(false);
     }

@@ -57,7 +57,12 @@ class PageForStaff extends Component {
 
     onRequested();
 
-    if (this.validateRup(plan)) return onError();
+    const validationError = this.validateRup(plan);
+    if (validationError) {
+      onError();
+      toastErrorMessage(validationError);
+      return;
+    }
 
     try {
       await savePlan(plan, user);
@@ -66,7 +71,6 @@ class PageForStaff extends Component {
     } catch (err) {
       onError();
       toastErrorMessage(err);
-      throw err;
     }
   };
 

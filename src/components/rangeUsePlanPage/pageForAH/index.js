@@ -61,6 +61,7 @@ class PageForAH extends Component {
 
     if (error) {
       onError();
+      toastErrorMessage(error);
       return;
     }
 

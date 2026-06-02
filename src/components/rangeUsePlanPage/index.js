@@ -142,7 +142,6 @@ const Base = ({ user, history, match, location, ...props }) => {
       formik.setStatus('error');
       formik.setSubmitting(false);
       errorToast('Error saving draft');
-      throw err;
     }
   };
 
