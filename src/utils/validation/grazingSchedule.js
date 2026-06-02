@@ -1,5 +1,10 @@
 import { getCurrentYear } from '..';
-import { INVALID_SCHEDULE_ENTRY, EMPTY_SCHEDULE_ENTRIES, TOTAL_AUMS_EXCEEDS } from '../../constants/strings';
+import {
+  INVALID_SCHEDULE_ENTRY,
+  EMPTY_SCHEDULE_ENTRIES,
+  TOTAL_AUMS_EXCEEDS,
+  SCHEDULE_ENTRY_DATE_OUT_OF_RANGE,
+} from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcCrownTotalAUMs } from '../calculation';
 /**
@@ -8,9 +13,15 @@ import { calcCrownTotalAUMs } from '../calculation';
  * @param {object} entry the grazing schedule entry object
  * @returns {object | undefined} the error object that has error and message properties
  */
-export const handleGrazingScheduleEntryValidation = (e = {}) => {
+export const handleGrazingScheduleEntryValidation = (e = {}, scheduleYear) => {
   if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(e.livestockCount))) {
-    // valid entry
+    const entryYear = new Date(e.dateIn).getFullYear();
+    if (entryYear !== scheduleYear) {
+      return {
+        error: true,
+        message: SCHEDULE_ENTRY_DATE_OUT_OF_RANGE,
+      };
+    }
   } else {
     return {
       error: true,
@@ -57,7 +68,7 @@ export const handleGrazingScheduleValidation = (
   }
 
   scheduleEntries.map((entry) => {
-    const result = handleGrazingScheduleEntryValidation(entry);
+    const result = handleGrazingScheduleEntryValidation(entry, year);
     if (result) {
       errors.push({ ...result, elementId });
     }

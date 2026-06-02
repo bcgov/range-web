@@ -181,6 +181,7 @@ export const UNAPPROVED_PLANT_COMMUNITIES =
 export const UNIDENTIFIED_MINISTER_ISSUES =
   'There are one or more minister issues that have not been identified by the minister';
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
+export const SCHEDULE_ENTRY_DATE_OUT_OF_RANGE = 'Schedule entry date(s) must be within the schedule year.';
 export const TOTAL_TONNES_EXCEEDS = 'Total tonnes exceeds authorized tonnes.';
 export const USER_NOT_ACTIVE =
   'This account is not active yet. Please contact the administrator (MyRangeBC@gov.bc.ca).';

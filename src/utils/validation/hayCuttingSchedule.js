@@ -1,5 +1,10 @@
 import { getCurrentYear } from '..';
-import { INVALID_SCHEDULE_ENTRY, EMPTY_SCHEDULE_ENTRIES, TOTAL_TONNES_EXCEEDS } from '../../constants/strings';
+import {
+  INVALID_SCHEDULE_ENTRY,
+  EMPTY_SCHEDULE_ENTRIES,
+  TOTAL_TONNES_EXCEEDS,
+  SCHEDULE_ENTRY_DATE_OUT_OF_RANGE,
+} from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcTotalTonnes } from '../calculation/hayCuttingSchedule';
 
@@ -9,7 +14,7 @@ import { calcTotalTonnes } from '../calculation/hayCuttingSchedule';
  * @param {object} entry the hay cutting schedule entry object
  * @returns {object | undefined} the error object that has error and message properties
  */
-export const handleHayCuttingScheduleEntryValidation = (e = {}) => {
+export const handleHayCuttingScheduleEntryValidation = (e = {}, scheduleYear) => {
   // For hay cutting schedules, we need: dateIn, dateOut, pastureId, stubbleHeight, and tonnes
   if (
     e.dateIn &&
@@ -24,7 +29,13 @@ export const handleHayCuttingScheduleEntryValidation = (e = {}) => {
     e.tonnes !== undefined &&
     e.tonnes !== ''
   ) {
-    // valid entry
+    const entryYear = new Date(e.dateIn).getFullYear();
+    if (entryYear !== scheduleYear) {
+      return {
+        error: true,
+        message: SCHEDULE_ENTRY_DATE_OUT_OF_RANGE,
+      };
+    }
   } else {
     return {
       error: true,
@@ -66,7 +77,7 @@ export const handleHayCuttingScheduleValidation = (schedule = {}, usage = [], is
   }
 
   scheduleEntries.map((entry) => {
-    const result = handleHayCuttingScheduleEntryValidation(entry);
+    const result = handleHayCuttingScheduleEntryValidation(entry, year);
     if (result) {
       errors.push({ ...result, elementId });
     }
