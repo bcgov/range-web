@@ -4,6 +4,8 @@ import { RANGE_USE_PLAN } from '../../constants/routes';
 import { Link } from 'react-router-dom';
 
 const ViewPlanMenuItem = ({ planId, currentPage, menuText }) => {
+  if (!planId) return null;
+
   return (
     <MenuItem
       variant="outlined"
