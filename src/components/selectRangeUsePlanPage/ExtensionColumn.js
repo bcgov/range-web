@@ -159,7 +159,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.ACTIVE_REPLACEMENT_PLAN:
           return <div>Replacement Plan</div>;
         case PLAN_EXTENSION_STATUS.AWAITING_EXTENSION:
-          if (agreement.plan?.extensionReceivedVotes === agreement.plan?.extensionRequiredVotes) {
+          if (agreement.plan?.extensionReceivedVotes >= agreement.plan?.extensionRequiredVotes) {
             return (
               <>
                 <PrimaryButton
@@ -212,7 +212,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
           if (
             doesStaffOwnPlan({ ...agreement.plan, agreement }, user) &&
-            agreement.plan?.extensionReceivedVotes === agreement.plan?.extensionRequiredVotes
+            agreement.plan?.extensionReceivedVotes >= agreement.plan?.extensionRequiredVotes
           ) {
             return (
               <>
