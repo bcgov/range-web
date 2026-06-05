@@ -29,6 +29,16 @@ const Attachments = ({
   const [updatingAccessId, setUpdatingAccessId] = useState(null);
   const formik = useFormikContext();
 
+  const refreshAttachments = async () => {
+    try {
+      const { data: plan } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig());
+      // Update only the files array in Formik without touching other fields
+      formik.setFieldValue('files', plan.files || []);
+    } catch (error) {
+      console.error('Error refreshing attachments:', error);
+    }
+  };
+
   const updateAttachmentAccess = async (attachmentId, access) => {
     setUpdatingAccessId(attachmentId);
     try {
@@ -97,10 +107,8 @@ const Attachments = ({
             formik.resetForm({ values: formik.values });
           }
 
-          // Refresh the plan to show the updated attachment
-          // Note: intentionally NOT calling fetchPlan() here because it resets
-          // Formik values via enableReinitialize, wiping unsaved changes
-          // (e.g. a schedule added but not yet saved to the database).
+          // Refresh attachments list from server to show the updated attachment
+          await refreshAttachments();
         } catch (dbError) {
           // If saving to database fails, still keep the file in formik state
           // It will be saved when the plan is submitted
@@ -196,10 +204,10 @@ const Attachments = ({
                   formik.resetForm({ values: formik.values });
                 }
 
-                // Refresh the plan to show updated attachments list
-                // Note: intentionally NOT calling fetchPlan() here because it resets
-                // Formik values via enableReinitialize, wiping unsaved changes
-                // (e.g. a schedule added but not yet saved to the database).
+                // Refresh attachments list from server to show updated attachments
+                if (!uuid.isUUID(planId)) {
+                  await refreshAttachments();
+                }
               }}
             />
           </div>
