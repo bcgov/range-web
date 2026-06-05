@@ -23,7 +23,6 @@ const Attachments = ({
   attachments = [],
   label = '',
   propertyName,
-  fetchPlan,
   fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT,
 }) => {
   const [toRemove, setToRemove] = useState(null);
@@ -37,9 +36,9 @@ const Attachments = ({
       if (!formik.dirty) {
         formik.resetForm({ values: formik.values });
       }
-      if (fetchPlan) {
-        fetchPlan();
-      }
+      // Note: intentionally NOT calling fetchPlan() here because it resets
+      // Formik values via enableReinitialize, wiping unsaved changes
+      // (e.g. a schedule added but not yet saved to the database).
     } catch (error) {
       console.error('Error updating attachment access:', error);
     } finally {
@@ -99,9 +98,9 @@ const Attachments = ({
           }
 
           // Refresh the plan to show the updated attachment
-          if (fetchPlan) {
-            await fetchPlan();
-          }
+          // Note: intentionally NOT calling fetchPlan() here because it resets
+          // Formik values via enableReinitialize, wiping unsaved changes
+          // (e.g. a schedule added but not yet saved to the database).
         } catch (dbError) {
           // If saving to database fails, still keep the file in formik state
           // It will be saved when the plan is submitted
@@ -198,9 +197,9 @@ const Attachments = ({
                 }
 
                 // Refresh the plan to show updated attachments list
-                if (fetchPlan) {
-                  await fetchPlan();
-                }
+                // Note: intentionally NOT calling fetchPlan() here because it resets
+                // Formik values via enableReinitialize, wiping unsaved changes
+                // (e.g. a schedule added but not yet saved to the database).
               }}
             />
           </div>
