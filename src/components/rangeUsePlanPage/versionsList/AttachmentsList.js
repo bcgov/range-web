@@ -3,6 +3,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import React from 'react';
 import * as API from '../../../constants/api';
@@ -12,6 +13,14 @@ import { attachmentAccess } from '../attachments/AttachmentRow';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
 const AttachmentsList = ({ attachments, fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT }) => {
+  if (!attachments || attachments.length === 0) {
+    return (
+      <Typography variant="body2" color="textSecondary">
+        No attachments available
+      </Typography>
+    );
+  }
+
   const onDownloadClicked = async (attachment) => {
     try {
       const res = await axios.get(API.GET_SIGNED_DOWNLOAD_URL(attachment.id, fileType), getAuthHeaderConfig());
