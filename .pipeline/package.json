@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This a pipeline script",
   "engines": {
-    "node": ">=8"
+    "node": ">=24"
   },
   "scripts": {
     "build": "node build.js",
