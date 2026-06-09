@@ -12,7 +12,7 @@ import {
   isUserDecisionMaker,
   isUserStaff,
 } from '../../utils';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as API from '../../constants/api';
 import DatePickerDialog from './DatePickerDialog';
 import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
@@ -21,7 +21,7 @@ import { PLAN_EXTENSION_CONFIRMATION_QUESTION } from '../../constants/strings';
 import useConfirm from '../../providers/ConfrimationModalProvider';
 
 export default function ExtensionColumn({ user, currentPage, agreement }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [voting, setVoting] = useState(false);
   const [futureDate, setFutureDate] = useState(null);
@@ -57,8 +57,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     setLoading(true);
     const response = await axios.put(API.EXTEND_PLAN(planId, futureDate), {}, getAuthHeaderConfig());
     setLoading(false);
-    history.push({
-      pathname: `/range-use-plan/${response.data.planId}`,
+    navigate(`/range-use-plan/${response.data.planId}`, {
       state: {
         page: currentPage,
         prevSearch: location.search,
@@ -279,7 +278,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
   };
 
   const renderExtensionForAgreementHolder = (user, agreement) => {
-    let extensionRequests = [];
+    const extensionRequests = [];
     if (agreement.plan?.planExtensionRequests) {
       const ownRequests = agreement.plan.planExtensionRequests.filter((request) => request.userId === user.id);
       extensionRequests.push(...ownRequests);

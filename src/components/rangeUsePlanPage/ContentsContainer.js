@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-scroll';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { ELEMENT_ID, IMAGE_SRC } from '../../constants/variables';
 import * as strings from '../../constants/strings';
 import { isUUID } from 'uuid-v4';
@@ -115,4 +114,4 @@ class ContentsContainer extends Component {
   }
 }
 
-export default withRouter(ContentsContainer);
+export default ContentsContainer;

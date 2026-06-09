@@ -1,51 +1,59 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate, useParams, useNavigate, useLocation } from 'react-router-dom';
 import MainPage from '../mainPage';
 import { LOGIN, EXPORT_PDF_WITH_PARAM, EMAIL_TEMPLATE } from '../../constants/routes';
 import { isUserAdmin } from '../../utils';
 
-const propTypes = {
-  component: PropTypes.elementType,
-  user: PropTypes.object,
-  match: PropTypes.shape({ path: PropTypes.string }),
-};
+const ProtectedRoute = ({ component: Component, user, path }) => {
+  const params = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const ProtectedRoute = ({ component: Component, user, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      // props = { match:{...}, history:{...}, location:{...} }
-      const mainPage = <MainPage {...props} component={Component} user={user} />;
-      const redirectToLogin = <Redirect push to={LOGIN} />;
+  // v5-compatible match and history objects for components not yet migrated to hooks
+  const match = {
+    params,
+    url: location.pathname,
+    path: path || location.pathname,
+  };
 
-      if (user) {
-        const { path } = props.match;
-
-        switch (path) {
-          // no need to pass the PDFView to MainPage
-          case EXPORT_PDF_WITH_PARAM:
-            return <Component {...props} />;
-
-          // Admin Routes
-          // case MANAGE_CLIENT:
-          case EMAIL_TEMPLATE:
-            if (isUserAdmin(user)) {
-              return mainPage;
-            }
-            return redirectToLogin;
-
-          default:
-            return mainPage;
-        }
+  const history = {
+    push: (path, state) => {
+      if (typeof path === 'object') {
+        navigate(path.pathname, { state: path.state || state });
+      } else {
+        navigate(path, { state });
       }
+    },
+    replace: (path, state) => {
+      if (typeof path === 'object') {
+        navigate(path.pathname, { state: path.state || state, replace: true });
+      } else {
+        navigate(path, { state, replace: true });
+      }
+    },
+    goBack: () => navigate(-1),
+    location,
+  };
 
-      // user is not defined, redirect to the login page
-      return redirectToLogin;
-    }}
-  />
-);
+  if (!user) {
+    return <Navigate to={LOGIN} replace />;
+  }
 
-ProtectedRoute.propTypes = propTypes;
+  switch (path) {
+    // no need to pass the PDFView to MainPage
+    case EXPORT_PDF_WITH_PARAM:
+      return <Component match={match} history={history} location={location} />;
+
+    // Admin Routes
+    case EMAIL_TEMPLATE:
+      if (isUserAdmin(user)) {
+        return <MainPage component={Component} user={user} match={match} history={history} location={location} />;
+      }
+      return <Navigate to={LOGIN} replace />;
+
+    default:
+      return <MainPage component={Component} user={user} match={match} history={history} location={location} />;
+  }
+};
 
 export default ProtectedRoute;

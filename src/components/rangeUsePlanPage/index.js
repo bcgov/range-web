@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Modal, Header, Button } from 'semantic-ui-react';
-import { Route, Prompt } from 'react-router-dom';
 import { startCase } from 'lodash';
 import { Loading, PrimaryButton } from '../common';
 import {
@@ -178,32 +177,29 @@ const Base = ({ user, history, match, location, ...props }) => {
     <Fragment>
       <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-      <Route
-        path={`${match.url}/export-pdf`}
-        render={() => {
+      {location.pathname.endsWith('/export-pdf') &&
+        currentPlan &&
+        (() => {
           const closePDFModal = () => history.push(match.url);
           return (
-            currentPlan && (
-              <Modal size="tiny" open={true} onClose={closePDFModal} dimmer="blurring">
-                <Header content="Download PDF" icon="file pdf" />
-                <Modal.Content>The PDF may take a few minutes to generate.</Modal.Content>
-                <Modal.Actions>
-                  <Button type="button" onClick={closePDFModal}>
-                    Close
-                  </Button>
-                  <PDFView
-                    match={match}
-                    agreementId={currentPlan.agreement.id}
-                    mapAttachments={currentPlan.files.filter((item) => {
-                      return item.type === 'mapAttachments';
-                    })}
-                  />
-                </Modal.Actions>
-              </Modal>
-            )
+            <Modal size="tiny" open={true} onClose={closePDFModal} dimmer="blurring">
+              <Header content="Download PDF" icon="file pdf" />
+              <Modal.Content>The PDF may take a few minutes to generate.</Modal.Content>
+              <Modal.Actions>
+                <Button type="button" onClick={closePDFModal}>
+                  Close
+                </Button>
+                <PDFView
+                  match={match}
+                  agreementId={currentPlan.agreement.id}
+                  mapAttachments={currentPlan.files.filter((item) => {
+                    return item.type === 'mapAttachments';
+                  })}
+                />
+              </Modal.Actions>
+            </Modal>
           );
-        }}
-      />
+        })()}
 
       {currentPlan && (
         <Form
@@ -213,17 +209,10 @@ const Base = ({ user, history, match, location, ...props }) => {
           validateOnBlur={false}
           validationSchema={RUPSchema}
           onSubmit={handleSubmit}
-          render={({ values: plan, dirty }) => (
+          render={({ values: plan }) => (
             <>
-              <Prompt
-                when={dirty}
-                message={(location) => {
-                  return (
-                    (location.state && location.state.saved) ||
-                    'This RUP has unsaved changes that will be lost if you leave this page.'
-                  );
-                }}
-              />
+              {/* TODO: Prompt removed in react-router-dom v6. 
+                  Add useBlocker or beforeunload for unsaved changes warning */}
               <OnSubmitValidationError callback={handleValidationError} />
 
               {(isUserAdmin(user) ||
