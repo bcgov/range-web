@@ -1,18 +1,15 @@
 // @ts-nocheck
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { parseQuery, getTokenFromSSO, saveAuthDataInLocal, getDataFromLocalStorage } from '../utils';
 import { REDIRECTING } from '../constants/strings';
 import { LOCAL_STORAGE_KEY, RETURN_PAGE_TYPE } from '../constants/variables';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 
-class ReturnPage extends Component {
-  static propTypes = {
-    location: PropTypes.shape({ search: PropTypes.string }).isRequired,
-  };
+const ReturnPage = () => {
+  const location = useLocation();
 
-  componentDidMount() {
-    const { location } = this.props;
+  useEffect(() => {
     // grab the code from the redirect url
     const { type, code } = parseQuery(location.search);
 
@@ -42,11 +39,9 @@ class ReturnPage extends Component {
       default:
         break;
     }
-  }
+  }, [location.search]);
 
-  render() {
-    return <section>{REDIRECTING}</section>;
-  }
-}
+  return <section>{REDIRECTING}</section>;
+};
 
 export default ReturnPage;
