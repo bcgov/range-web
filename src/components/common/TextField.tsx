@@ -14,17 +14,14 @@ const propTypes = {
   onClick: PropTypes.func,
 };
 
-const defaultProps = {
-  className: '',
-  text: '',
-  isLabelHidden: false,
-  isEditable: false,
-  onClick: () => {
-    /* noop */
-  },
-};
-
-const TextField = ({ className, label, text: rawText, isLabelHidden, isEditable, onClick }) => {
+const TextField = ({
+  className = '',
+  label,
+  text: rawText = '',
+  isLabelHidden = false,
+  isEditable = false,
+  onClick = () => undefined,
+}) => {
   const text = handleNullValue(rawText);
 
   return (
@@ -50,5 +47,4 @@ const TextField = ({ className, label, text: rawText, isLabelHidden, isEditable,
 };
 
 TextField.propTypes = propTypes;
-TextField.defaultProps = defaultProps;
 export default TextField;

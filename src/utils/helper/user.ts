@@ -69,8 +69,6 @@ export const getUserInitial = (user) => {
   return 'NP';
 };
 
-export const isUserActive = (user) => user && user.active;
-
 export const isUserAdmin = (user) => user && user.roleId && user.roleId === 1;
 
 export const isUserReadOnly = (user) => user && user.roleId && user.roleId === 5;
@@ -84,8 +82,6 @@ export const isUserStaff = (user) => isUserAdmin(user) || isUserAgrologist(user)
 export const isUserAgreementHolder = (user) => user && user.roleId && user.roleId === 4;
 
 export const isUserDecisionMaker = (user) => user && user.roleId && user.roleId === 2;
-
-export const DoesUserHaveRole = (user) => isUserAdmin(user) || isUserAgrologist(user) || isUserAgreementHolder(user);
 
 export const canManageClients = (user) => user && user.permissions && user.permissions.find((p) => p.id === 8);
 

@@ -18,10 +18,6 @@ export const assignRole = async (userId, roleId) => {
   return axios.post(API.ASSIGN_ROLE(userId), { roleId: roleId }, getAuthHeaderConfig());
 };
 
-export const assignDistrict = async (userId, districtId) => {
-  return axios.post(API.ASSIGN_DISTRICT(userId), { districtId: districtId }, getAuthHeaderConfig());
-};
-
 export const assignDistricts = async (userId, districts) => {
   return axios.post(API.ASSIGN_DISTRICTS(userId), { districts: districts }, getAuthHeaderConfig());
 };

@@ -31,11 +31,6 @@ export const getDataFromLocalStorage = (key) => {
   return undefined;
 };
 
-export const deleteDataFromLocalStorage = (key) => {
-  localStorage.removeItem(key);
-  return undefined;
-};
-
 export const saveReferencesInLocalStorage = (data) => {
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.REFERENCE, data);
 };

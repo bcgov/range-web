@@ -28,7 +28,7 @@ const DEV = {
   API_BASE_URL: DEV_API_BASE_URL,
 };
 
-export const DEV_ENV = {
+const DEV_ENV = {
   ...DEV,
 };
 
@@ -36,21 +36,21 @@ export const SSO_BASE_URL = isBundled
   ? '[[! env "SSO_BASE_URL" !]]' // Caddy will replace this with the environment variable configured in Openshift
   : DEV_ENV.SSO_BASE_URL;
 
-export const SSO_REALM_NAME = isBundled ? '[[! env "SSO_REALM_NAME" !]]' : process.env.REACT_APP_SSO_REALM_NAME;
+const SSO_REALM_NAME = isBundled ? '[[! env "SSO_REALM_NAME" !]]' : process.env.REACT_APP_SSO_REALM_NAME;
 export const SSO_CLIENT_ID = isBundled ? '[[! env "SSO_CLIENT_ID" !]]' : process.env.REACT_APP_SSO_CLIENT_ID;
-export const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
+const SSO_BASE_AUTH_ENDPOINT = `${SSO_BASE_URL}/auth/realms/${SSO_REALM_NAME}/protocol/openid-connect`;
 export const SSO_LOGIN_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGIN}`;
-export const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}&code_challenge_method=S256&code_challenge=_CODE_CHALLENGE_VALUE_`;
+const SSO_LOGIN_ENDPOINT = `${SSO_BASE_AUTH_ENDPOINT}/auth?response_type=code&client_id=${SSO_CLIENT_ID}&redirect_uri=${SSO_LOGIN_REDIRECT_URI}&code_challenge_method=S256&code_challenge=_CODE_CHALLENGE_VALUE_`;
 export const SSO_IDIR_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=idir`;
 export const SSO_BCEID_LOGIN_ENDPOINT = `${SSO_LOGIN_ENDPOINT}&kc_idp_hint=bceidboth`;
 
-export const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGOUT}`;
+const SSO_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.LOGOUT}`;
 export const SSO_LOGOUT_ENDPOINT =
   `${SSO_BASE_AUTH_ENDPOINT}/logout?post_logout_redirect_uri=` +
   encodeURIComponent(SSO_LOGOUT_REDIRECT_URI) +
   `&client_id=${SSO_CLIENT_ID}`;
 
-export const SITEMINDER_BASE_URL = isBundled ? '[[! env "SITEMINDER_BASE_URL" !]]' : DEV_ENV.SITEMINDER_BASE_URL;
+const SITEMINDER_BASE_URL = isBundled ? '[[! env "SITEMINDER_BASE_URL" !]]' : DEV_ENV.SITEMINDER_BASE_URL;
 
 export const SITEMINDER_LOGOUT_REDIRECT_URI = `${window.location.origin}/return-page?type=${RETURN_PAGE_TYPE.SITEMINDER_LOGOUT}`;
 export const SITEMINDER_LOGOUT_ENDPOINT =
@@ -70,7 +70,6 @@ export const GET_AGREEMENT = (agreementId: string | number): string => `/v1/agre
 export const UPDATE_AGREEMENT_ZONE = (agreementId: string | number): string => `/v1/agreement/${agreementId}/zone`;
 
 export const GET_REFERENCES = '/v1/reference';
-export const GET_ZONES = '/v1/zone';
 export const GET_USERS = '/v1/user';
 export const GET_ROLES = '/v1/roles';
 export const GET_DISTRICTS = '/v1/district';
@@ -84,7 +83,6 @@ export const DELETE_USER_CLIENT_LINK = (userId: string | number, clientId: strin
   `/v1/user/${userId}/client/${clientId}`;
 export const MERGE_ACCOUNTS = (userId: string | number): string => `/v1/user/${userId}/merge`;
 export const ASSIGN_ROLE = (userId: string | number): string => `/v1/user/${userId}/assignRole`;
-export const ASSIGN_DISTRICT = (userId: string | number): string => `/v1/user/${userId}/assignDistrict`;
 export const ASSIGN_DISTRICTS = (userId: string | number): string => `/v1/user/${userId}/assignDistricts`;
 export const GET_USER_DISTRICTS = (userId: string | number): string => `/v1/user/${userId}/districts`;
 export const CREATE_RUP = '/v1/plan';
@@ -99,7 +97,6 @@ export const EXTEND_PLAN = (planId: string | number, endDate: string): string =>
   `/v1/plan/${planId}/extension/extend?endDate=${endDate}`;
 export const REQUEST_EXTENSION = (planId: string | number): string => `/v1/plan/${planId}/extension/request`;
 export const APPROVE_VOTE = (planId: string | number): string => `/v1/plan/${planId}/extension/approve`;
-export const GET_EXTENSION_PLAN = (planId: string | number): string => `/v1/plan/${planId}/extension`;
 export const REPLACEMENT_PLAN = (planId: string | number): string =>
   `/v1/plan/${planId}/extension/createReplacementPlan`;
 export const REJECT_VOTE = (planId: string | number): string => `/v1/plan/${planId}/extension/reject`;
@@ -107,9 +104,6 @@ export const UPDATE_CONFIRMATION = (planId: string | number, confirmationId: str
   `/v1/plan/${planId}/confirmation/${confirmationId}`;
 export const COPY_PLAN = (planId: string | number): string => `/v1/plan/${planId}/copy`;
 export const DISCARD_AMENDMENT = (planId: string | number): string => `v1/plan/${planId}/discard-amendment`;
-
-export const GET_RUP_FUTURE_PLAN = (planId: string | number, version: string | number): string =>
-  `/v1/plan/${planId}/version/${version}`;
 
 export const CREATE_RUP_VERSION = (planId: string | number): string => `/v1/plan/${planId}/version`;
 export const GET_RUP_VERSIONS = (planId: string | number): string => `/v1/plan/${planId}/version`;
@@ -137,8 +131,6 @@ export const GET_SIGNED_URL = (fileName: string): string => `/v1/files/upload-ur
 export const GET_SIGNED_DOWNLOAD_URL = (fileId: string | number, fileType: string): string =>
   `/v1/files/download-url?id=${fileId}&fileType=${fileType}`;
 export const DELETE_FILE = (fileId: string | number): string => `/v1/files/delete?id=${fileId}`;
-
-export const CREATE_RUP_STATUS_RECORD = (planId: string | number): string => `/v1/plan/${planId}/status-record`;
 export const CREATE_RUP_PASTURE = (planId: string | number): string => `/v1/plan/${planId}/pasture`;
 export const UPDATE_RUP_PASTURE = (planId: string | number, pastureId: string | number): string =>
   `/v1/plan/${planId}/pasture/${pastureId}`;

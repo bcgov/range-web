@@ -10,12 +10,7 @@ const propTypes = {
   content: PropTypes.string.isRequired,
 };
 
-const defaultProps = {
-  disabled: false,
-  loading: false,
-};
-
-const RightBtn = ({ onClick, disabled, content, loading }) => {
+const RightBtn = ({ onClick, disabled = false, content, loading = false }) => {
   return (
     <PrimaryButton
       className="rup__multi-tab__tab__btn"
@@ -29,5 +24,4 @@ const RightBtn = ({ onClick, disabled, content, loading }) => {
 };
 
 RightBtn.propTypes = propTypes;
-RightBtn.defaultProps = defaultProps;
 export default RightBtn;

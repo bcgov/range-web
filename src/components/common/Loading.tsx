@@ -11,15 +11,14 @@ const propTypes = {
   size: PropTypes.string,
 };
 
-const defaultProps = {
-  inverted: true,
-  active: true,
-  message: '',
-  onlySpinner: false,
-  size: 'large',
-};
-
-const Loading = ({ size, active, inverted, message, onlySpinner, containerProps }) => {
+const Loading = ({
+  size = 'large',
+  active = true,
+  inverted = true,
+  message = '',
+  onlySpinner = false,
+  containerProps,
+}) => {
   if (onlySpinner) {
     return (
       <div className="loading-spinner__container" {...containerProps}>
@@ -36,5 +35,4 @@ const Loading = ({ size, active, inverted, message, onlySpinner, containerProps 
 };
 
 Loading.propTypes = propTypes;
-Loading.defaultProps = defaultProps;
 export default Loading;
