@@ -178,6 +178,12 @@ class UpdateStatusDropdown extends Component {
         },
       ];
     }
+
+    const dedupe = (main, overrides) => {
+      const mainKeys = new Set(main.map((o) => o.key));
+      return [...main, ...overrides.filter((o) => !mainKeys.has(o.key))];
+    };
+
     const draft = {
       key: PLAN_STATUS.STAFF_DRAFT,
       text: 'Draft',
@@ -268,23 +274,23 @@ class UpdateStatusDropdown extends Component {
     }
 
     if (isStatusStandsNotReviewed(status)) {
-      return [stands, standsReview, ...overrides];
+      return dedupe([stands, standsReview], overrides);
     } else if (isStatusStandsReview(status)) {
-      if (isUserDecisionMaker(user)) return [stands, standsWronglyMade, wronglyMadeWithoutEffect, ...overrides];
+      if (isUserDecisionMaker(user)) return dedupe([stands, standsWronglyMade, wronglyMadeWithoutEffect], overrides);
     } else if (isStatusSubmittedForReview(status)) {
-      return [requestChanges, recommendForSubmission, ...overrides];
+      return dedupe([requestChanges, recommendForSubmission], overrides);
     } else if (isStatusSubmittedForFD(status)) {
-      return [recommendReady, recommendNotReady, requestChanges, ...overrides];
+      return dedupe([recommendReady, recommendNotReady, requestChanges], overrides);
     } else if (isStatusRecommendReady(status) || isStatusRecommendNotReady(status)) {
       if (isUserAgrologist(user)) {
         return overrides;
       }
       if (isPlanAmendment(plan)) {
-        return [approved, notApproved, notApprovedFWR, ...overrides];
+        return dedupe([approved, notApproved, notApprovedFWR], overrides);
       }
-      return [approved, notApprovedFWR, ...overrides];
+      return dedupe([approved, notApprovedFWR], overrides);
     } else if (isStatusCreated(status)) {
-      return [requestChanges, ...overrides];
+      return dedupe([requestChanges], overrides);
     }
 
     return overrides;
