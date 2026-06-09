@@ -19,12 +19,6 @@ const propTypes = {
   isForVersionsList: PropTypes.bool,
 };
 
-const defaultProps = {
-  className: '',
-  status: {},
-  style: {},
-};
-
 export const translateStatusBasedOnUser = (status, user) => {
   let modifier = 'status__icon';
   let statusName = status.code ? 'Unknown_status' : NO_PLAN;
@@ -142,7 +136,7 @@ export const translateStatusBasedOnUser = (status, user) => {
   return { modifier, statusName };
 };
 
-const Status = ({ status, className, style, user, isAmendment = false }) => {
+const Status = ({ status = {}, className = '', style = {}, user, isAmendment = false }) => {
   const { modifier, statusName } = translateStatusBasedOnUser(status, user);
 
   return (
@@ -155,5 +149,4 @@ const Status = ({ status, className, style, user, isAmendment = false }) => {
 };
 
 Status.propTypes = propTypes;
-Status.defaultProps = defaultProps;
 export default Status;

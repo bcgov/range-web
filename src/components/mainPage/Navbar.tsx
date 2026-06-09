@@ -48,35 +48,38 @@ export class Navbar extends Component {
           </div>
 
           <div className="navbar__right">
-            <NavLink to={Routes.HOME} className="navbar__link" activeClassName="navbar__link--active">
+            <NavLink
+              to={Routes.HOME}
+              className={({ isActive }) => (isActive ? 'navbar__link navbar__link--active' : 'navbar__link')}
+            >
               {SELECT_RUP}
               <div className="navbar__link__underline" />
             </NavLink>
 
             <Fragment>
-              {/*
-                <NavLink
-                  to={Routes.MANAGE_ZONE}
-                  className="navbar__link"
-                  activeClassName="navbar__link--active">
-                  {MANAGE_ZONES}
-                  <div className="navbar__link__underline" />
-                </NavLink>
-                */}
               {canManageClients(user) && (
                 <>
-                  <NavLink to={Routes.MANAGE_CLIENT} className="navbar__link" activeClassName="navbar__link--active">
+                  <NavLink
+                    to={Routes.MANAGE_CLIENT}
+                    className={({ isActive }) => (isActive ? 'navbar__link navbar__link--active' : 'navbar__link')}
+                  >
                     {MANAGE_CLIENTS}
                     <div className="navbar__link__underline" />
                   </NavLink>
-                  <NavLink to={Routes.MERGE_ACCOUNT} className="navbar__link" activeClassName="navbar__link--active">
+                  <NavLink
+                    to={Routes.MERGE_ACCOUNT}
+                    className={({ isActive }) => (isActive ? 'navbar__link navbar__link--active' : 'navbar__link')}
+                  >
                     {MERGE_ACCOUNT}
                     <div className="navbar__link__underline" />
                   </NavLink>
                 </>
               )}
               {canManageEmails(user) && (
-                <NavLink to={Routes.EMAIL_TEMPLATE} className="navbar__link" activeClassName="navbar__link--active">
+                <NavLink
+                  to={Routes.EMAIL_TEMPLATE}
+                  className={({ isActive }) => (isActive ? 'navbar__link navbar__link--active' : 'navbar__link')}
+                >
                   {EMAIL_TEMPLATE}
                   <div className="navbar__link__underline" />
                 </NavLink>
@@ -85,8 +88,7 @@ export class Navbar extends Component {
                 <>
                   <NavLink
                     to={Routes.ASSIGN_ROLES_AND_DISTRICTS}
-                    className="navbar__link"
-                    activeClassName="navbar__link--active"
+                    className={({ isActive }) => (isActive ? 'navbar__link navbar__link--active' : 'navbar__link')}
                   >
                     {ASSIGN_ROLES_AND_DISTRICTS}
                     <div className="navbar__link__underline" />

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { normalize } from 'normalizr';
 import { success, request, error, storePlan } from '../actions';
-import { UPDATE_PLAN_STATUS_SUCCESS, UPDATE_AGREEMENT_ZONE_SUCCESS } from '../constants/strings';
+import { UPDATE_PLAN_STATUS_SUCCESS } from '../constants/strings';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
@@ -75,30 +75,6 @@ export const createOrUpdateRUPInvasivePlantChecklist = (planId, checklist) => (d
     return dispatch(updateRUPInvasivePlantChecklist(planId, checklist));
   }
   return dispatch(createRUPInvasivePlantChecklist(planId, checklist));
-};
-
-export const createRUPStatusRecord = (plan, newStatus, note) => (dispatch, getState) => {
-  const { id: planId, statusId: fromPlanStatusId } = plan;
-
-  return axios
-    .post(
-      API.CREATE_RUP_STATUS_RECORD(planId),
-      {
-        fromPlanStatusId,
-        toPlanStatusId: newStatus.id,
-        note,
-      },
-      createConfigWithHeader(getState),
-    )
-    .then(
-      (response) => {
-        return response.data;
-      },
-      (err) => {
-        dispatch(toastErrorMessage(err));
-        throw err;
-      },
-    );
 };
 
 export const updateRUPConfirmation =
@@ -278,30 +254,6 @@ export const updateRUPStatus =
         throw err;
       }
     };
-    return makeRequest();
-  };
-
-export const updateAgreementZone =
-  ({ agreementId, zoneId }) =>
-  (dispatch, getState) => {
-    dispatch(request(reducerTypes.UPDATE_AGREEMENT_ZONE));
-    const makeRequest = async () => {
-      try {
-        const response = await axios.put(
-          API.UPDATE_AGREEMENT_ZONE(agreementId),
-          { zoneId },
-          createConfigWithHeader(getState),
-        );
-        dispatch(success(reducerTypes.UPDATE_AGREEMENT_ZONE, response.data));
-        dispatch(toastSuccessMessage(UPDATE_AGREEMENT_ZONE_SUCCESS));
-        return response.data;
-      } catch (err) {
-        dispatch(error(reducerTypes.UPDATE_AGREEMENT_ZONE, err));
-        dispatch(toastErrorMessage(err));
-        throw err;
-      }
-    };
-
     return makeRequest();
   };
 

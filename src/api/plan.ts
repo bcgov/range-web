@@ -141,29 +141,8 @@ export const getPlanFromLocalStorage = (planId) => {
   return JSON.parse(localStorage.getItem(`plan-${planId}`));
 };
 
-export const removePlanFromLocalStorage = (planId) => {
+const removePlanFromLocalStorage = (planId) => {
   localStorage.removeItem(`plan-${planId}`);
-};
-
-export const getLocalPlansForAgreement = (agreementId) => {
-  const plans = Object.entries(localStorage)
-    .filter(([key]) => isPlanLocal({ id: key }))
-    .map((entry) => JSON.parse(entry[1]))
-    .filter((plan) => plan.agreementId === agreementId);
-
-  return plans;
-};
-
-export const getLocalPlans = () =>
-  Object.entries(localStorage)
-    .filter(([key]) => {
-      const res = /(plan-)(.*)/g.exec(key);
-      return res && uuid.isUUID(res[2]);
-    })
-    .map((entry) => JSON.parse(entry[1]));
-
-export const isPlanLocal = (plan) => {
-  return uuid.isUUID(plan && plan.id);
 };
 
 export const getPlans = () =>

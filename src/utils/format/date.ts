@@ -25,14 +25,6 @@ export const formatDateFromServer = (isoFormatDate, isYearIncluded = true, notPr
 };
 
 /**
- * Format a Date instance to server side date format
- *
- * @param {Date} date The Date instance created by Pikaday
- * @returns {string} a formatted string
- */
-export const formatDateFromUTC = (date) => moment(date).format(DATE_FORMAT.SERVER_SIDE);
-
-/**
  *
  *
  * @param {Date} date The Date instance

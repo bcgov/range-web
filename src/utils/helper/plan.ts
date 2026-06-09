@@ -2,10 +2,8 @@
 import {
   PLAN_STATUS,
   APPROVED_PLAN_STATUSES,
-  EDITABLE_PLAN_STATUSES,
   FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES,
   REQUIRE_NOTES_PLAN_STATUSES,
-  NOT_DOWNLOADABLE_PLAN_STATUSES,
   REFERENCE_KEY,
 } from '../../constants/variables';
 import { isAmendment } from './amendment';
@@ -76,8 +74,6 @@ export const isStatusStaffDraft = (status) => status && status.code === PLAN_STA
 
 export const isStatusChangedRequested = (status) => status && status.code === PLAN_STATUS.CHANGE_REQUESTED;
 
-export const isStatusPending = (status) => status && status.code === PLAN_STATUS.PENDING;
-
 export const isStatusApproved = (status) => status && status.code === PLAN_STATUS.APPROVED;
 
 export const isStatusNotApproved = (status) => status && status.code === PLAN_STATUS.NOT_APPROVED;
@@ -99,26 +95,17 @@ export const isStatusSubmittedForReview = (status) => status && status.code === 
 
 export const isStatusSubmittedForFD = (status) => status && status.code === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
 
-export const isStatusReadyForFD = (status) => status && status.code === PLAN_STATUS.READY_FOR_FINAL_DECISION;
-
 export const isStatusRecommendReady = (status) => status && status.code === PLAN_STATUS.RECOMMEND_READY;
 
 export const isStatusRecommendNotReady = (status) => status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY;
 
 export const isStatusAwaitingConfirmation = (status) => status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION;
 
-export const isStatusRetired = (status) => status && status.code === PLAN_STATUS.RETIRED;
-
 export const isStatusRecommendForSubmission = (status) =>
   status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION;
 
-export const cannotDownloadPDF = (status) =>
-  status && status.code && NOT_DOWNLOADABLE_PLAN_STATUSES.includes(status.code);
-
 export const isStatusAmongApprovedStatuses = (status) =>
   status && status.code && APPROVED_PLAN_STATUSES.includes(status.code);
-
-export const canAllowRevisionForAH = (status) => status && status.code && EDITABLE_PLAN_STATUSES.includes(status.code);
 
 export const isStatusIndicatingStaffFeedbackNeeded = (status) =>
   status && status.code && FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code);

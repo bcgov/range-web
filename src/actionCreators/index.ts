@@ -15,7 +15,7 @@ import {
   saveAuthDataInLocal,
 } from '../utils';
 import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
-import { ASSIGN_STAFF_TO_ZONE_SUCCESS, UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
+import { UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
 import { LOCAL_STORAGE_KEY, SESSION_EXPIRY_WARNING_TOAST_ID } from '../constants/variables';
 import { storeAuthData, reauthenticate } from '../actions';
 
@@ -65,49 +65,6 @@ export const extendSession = () => (dispatch) => {
       console.error('Failed to extend session:', err);
       // Let the reauthenticate process handle the sign-in modal
       // Or show a specific error toast if needed.
-    },
-  );
-};
-
-export const searchClients = (term) => (dispatch, getState) => {
-  if (!term) {
-    return dispatch(actions.storeClients(normalize([], schema.arrayOfClients)));
-  }
-
-  dispatch(actions.request(reducerTypes.SEARCH_CLIENTS));
-
-  const config = {
-    ...createConfigWithHeader(getState),
-    params: {
-      term,
-    },
-  };
-  return axios.get(API.SEARCH_CLIENTS, config).then(
-    (response) => {
-      const clients = response.data;
-      dispatch(actions.success(reducerTypes.SEARCH_CLIENTS));
-      dispatch(actions.storeClients(normalize(clients, schema.arrayOfClients)));
-      return clients;
-    },
-    (err) => {
-      dispatch(actions.error(reducerTypes.SEARCH_CLIENTS, err));
-      throw err;
-    },
-  );
-};
-
-export const updateUserIdOfZone = (zoneId, userId) => (dispatch, getState) => {
-  dispatch(actions.request(reducerTypes.UPDATE_USER_ID_OF_ZONE));
-  return axios.put(API.UPDATE_USER_ID_OF_ZONE(zoneId), { userId }, createConfigWithHeader(getState)).then(
-    (response) => {
-      dispatch(actions.success(reducerTypes.UPDATE_USER_ID_OF_ZONE));
-      dispatch(toastSuccessMessage(ASSIGN_STAFF_TO_ZONE_SUCCESS));
-      return response.data;
-    },
-    (err) => {
-      dispatch(actions.error(reducerTypes.UPDATE_USER_ID_OF_ZONE, err));
-      dispatch(toastErrorMessage(err));
-      throw err;
     },
   );
 };

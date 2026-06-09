@@ -23,11 +23,9 @@ export const STATUS = 'Status';
 export const STAFF_CONTACT = 'Staff Contact';
 export const EFFECTIVE_DATE = 'Effective Date';
 export const SUBMITTED = 'Submitted';
-export const AGREEMENT_SEARCH_PLACEHOLDER = "Enter RAN, agreement holder's name, or staff contact";
 export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View
-export const PREVIEW_PDF = 'Preview PDF';
 export const DOWNLOAD_PDF = 'Download PDF';
 export const PLAN_ACTIONS = 'Plan Actions';
 export const SAVE_DRAFT = 'Save Draft';
@@ -64,27 +62,21 @@ export const ATTACHMENTS = 'Attachments';
 // RUP basic information
 export const PLAN_START = 'Plan Start Date';
 export const PLAN_END = 'Plan End Date';
-export const AGREEMENT_START = 'Agreement Start Date';
-export const AGREEMENT_END = 'Agreement End Date';
 export const AGREEMENT_DATE = 'Agreement Date';
 export const AGREEMENT_TYPE = 'Agreement Type';
 export const DISTRICT = 'District (Responsible)';
 export const ZONE = 'Zone';
 export const ALTERNATIVE_BUSINESS_NAME = 'Alternative Business Name';
-export const AGREEMENT_HOLDERS = 'Agreement Holders';
 export const TYPE = 'Type';
 export const NOT_PROVIDED = 'Not provided';
 export const NP = 'N/P';
 export const NO_PLAN = 'No Plan';
-export const NOT_SELECTED = 'Not selected';
-export const NO_RUP_PROVIDED = 'No RUP found';
 export const CONTACT_NAME = 'Contact Name';
 export const CONTACT_EMAIL = 'Contact Email';
 export const CONTACT_PHONE = 'Contact Phone';
 export const EXTENDED = 'Extended';
 export const EXEMPTION_STATUS = 'Exemption Status';
 export const DM_ACTIONABLE_ONLY = 'DM Actionable Only';
-export const PLAN_DATE = 'Plan Date';
 export const PLAN_START_DATE = 'Plan Start Date';
 export const PLAN_END_DATE = 'Plan End Date';
 export const PRIMARY_AGREEMENT_HOLDER = 'Primary Agreement Holder';
@@ -99,7 +91,6 @@ export const BILLABLE_NON_USE = 'Non-Use';
 export const TOTAL_ANNUAL_USE = 'Total Annual';
 
 // RUP pastures
-export const PASTURE_NAME = 'Pasture Name';
 export const ALLOWABLE_AUMS = 'Allowable AUM/Tonne';
 export const PRIVATE_LAND_DEDUCTION = 'Private Land Deduction';
 export const GRACE_DAYS = 'Grace Days';
@@ -154,7 +145,7 @@ export const TOOLTIP_TEXT_USAGE_STATUS =
   'No Use means that the agreement is in Full non-use; Over Use does not include agreements that are in full non-use but have not amended their schedule';
 
 // RUP minister issues
-export const CONTACT_NO_EXIST = "Contact doesn't exist";
+
 export const ACTION_NOTE =
   'Note: If an action involves a range development or removal of timber (ex. off-stream watering or fence) a separate authorization is required. Please contact a range staff member if you are considering such an action.';
 
@@ -167,12 +158,11 @@ export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
 export const STATUS500 = 'Internal server error occurred, please contact the administrator (MyRangeBC@gov.bc.ca).';
 export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
-export const UPDATE_AGREEMENT_ZONE_SUCCESS = 'You have successfully updated the zone of the range use plan.';
 export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
 export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range use plan as a draft.';
 export const STAFF_SAVE_PLAN_DRAFT_SUCCESS = 'Your changes have been successfully saved to the range use plan.';
 export const UPDATE_USER_PROFILE_SUCCESS = 'You have successfully update your profile.';
-export const SUBMIT_PLAN_SUCCESS = 'You have successfully submitted the range use plan to the range staff.';
+
 export const EMPTY_SCHEDULE_ENTRIES = 'Schedule must have at least 1 entry.';
 export const EMPTY_PASTURES = 'Plan must have at least one pasture.';
 export const INVALID_SCHEDULE_ENTRY = 'Schedule has one or more invalid entries.';
@@ -183,15 +173,7 @@ export const UNIDENTIFIED_MINISTER_ISSUES =
 export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
 export const SCHEDULE_ENTRY_DATE_OUT_OF_RANGE = 'Schedule entry date(s) must be within the schedule year.';
 export const TOTAL_TONNES_EXCEEDS = 'Total tonnes exceeds authorized tonnes.';
-export const USER_NOT_ACTIVE =
-  'This account is not active yet. Please contact the administrator (MyRangeBC@gov.bc.ca).';
-export const USER_NO_ROLE =
-  'This account has not been assigned a role, please contact the administrator (MyRangeBC@gov.bc.ca).';
-export const USER_NOT_REGISTERED = 'This account has not been registered.';
-export const LOADING_USER = 'Loading User Information';
-export const LINK_CLIENT_SUCCESS = 'You have successfully linked the client.';
-export const NO_INTERNET = 'There is no Internet connection.';
-export const TYPE_CLIENT_NAME = 'Type name of the client';
+
 export const NO_RESULTS_FOUND = 'No result founds.';
 export const ERROR_OCCUR = 'Error Occurred!';
 export const REDIRECTING = 'Please wait while redirecting...';
@@ -200,7 +182,6 @@ export const SIGN_IN_ERROR = 'Error occurred while signing in.';
 export const UPDATE_USER_ERROR = 'Error occurred while updating your profile.';
 export const NO_CLIENT_NUMBER_ASSIGNED =
   'Your account has not yet been linked to a client number. Please contact your local range staff office.';
-export const GET_ZONES_ERROR = 'Error occurred while fetching zones';
 export const GET_USERS_ERROR = 'Error occurred while fetching users';
 
 // modals
