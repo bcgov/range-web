@@ -16,18 +16,13 @@ Single-package JavaScript repo (no TypeScript, no monorepo).
 
 ## Commands
 
-| Task              | Command                                                                   |
-| ----------------- | ------------------------------------------------------------------------- |
-| Dev server        | `npm start`                                                               |
-| Build             | `npm run build`                                                           |
-| Unit tests        | `npm test` (Jest 27 + Enzyme 3 + @testing-library/react)                  |
-| Unit tests (CI)   | `npm run test:ci`                                                         |
-| Lint              | `npm run eslint`                                                          |
-| Format check      | `npm run pretest` (runs `prettier --list-different "**/*.js"`)            |
-| Format fix        | `npm run prettier`                                                        |
-| E2E (headless)    | `npm run test:e2e:run` (needs API via `npm run test:e2e:api:start` first) |
-| E2E (interactive) | `npm run test:e2e:dev`                                                    |
-| Storybook         | `npm run storybook` (port 6006)                                           |
+| Task         | Command                                                        |
+| ------------ | -------------------------------------------------------------- |
+| Dev server   | `npm start`                                                    |
+| Build        | `npm run build`                                                |
+| Lint         | `npm run eslint`                                               |
+| Format check | `npm run pretest` (runs `prettier --list-different "**/*.js"`) |
+| Format fix   | `npm run prettier`                                             |
 
 ## Pre-commit
 
@@ -38,11 +33,7 @@ Husky + lint-staged runs on every commit:
 
 ## Testing
 
-- Jest config is inline in `package.json` (roots: `src`, env: `jsdom-sixteen`)
-- Setup: `src/setupTests.js` (Enzyme adapter + jest-localstorage-mock + @testing-library/jest-dom)
-- Both Enzyme and React Testing Library are used — check existing tests in the same directory before writing new ones
-- Cypress 4 for E2E — config in `cypress.json`, base URL `http://localhost:3001`
-- E2E requires a local API: run `npm run test:e2e:api:start` (docker-based) before `cy:run`/`cy:open`
+No test suite is configured. Tests and related infrastructure were removed. See git history to restore if needed.
 
 ## Architecture
 
@@ -82,7 +73,7 @@ src/
 
 - `src/semantic/` is generated — do not edit files there; modify `semantic/src/site/` instead
 - Multiple UI libraries coexist (Semantic UI, Material UI 4, MUI 5, Tailwind) — match the existing pattern in the component you're editing
-- The test command (`npm test`) runs `pretest` first which checks formatting — run `npm run prettier` if format check fails
+- `pretest` is just an alias for the format check — run `npm run prettier` if format check fails
 - Webpack config is in `config/webpack.config.js` (ejected CRA), not at the root
 - `.pipeline/` contains OpenShift CI/CD build scripts (BCGov pipeline tooling) — not standard GitHub Actions
 
