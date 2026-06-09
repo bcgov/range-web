@@ -11,11 +11,6 @@ export const storePlan = (payload) => ({
   payload,
 });
 
-export const storeZones = (payload) => ({
-  type: actionTypes.STORE_ZONES,
-  payload,
-});
-
 export const storeReferences = (payload) => ({
   type: actionTypes.STORE_REFERENCES,
   payload,

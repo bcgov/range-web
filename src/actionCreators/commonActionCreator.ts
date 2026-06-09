@@ -2,9 +2,9 @@
 import { normalize } from 'normalizr';
 import { axios, createConfigWithHeader, saveReferencesInLocalStorage } from '../utils';
 import * as API from '../constants/api';
-import { storeUsers, storeReferences, storeZones, request, success, error } from '../actions';
+import { storeUsers, storeReferences, request, success, error } from '../actions';
 import * as schema from './schema';
-import { GET_USERS, GET_ZONES } from '../constants/reducerTypes';
+import { GET_USERS } from '../constants/reducerTypes';
 
 export const fetchUsers = (params) => (dispatch, getState) => {
   dispatch(request(GET_USERS));
@@ -51,32 +51,4 @@ export const fetchReferences = () => (dispatch, getState) => {
         console.warn(`Error fetching references, '${err}'. Falling back to locally stored references`);
       }
     });
-};
-
-export const fetchZones = (districtId) => (dispatch, getState) => {
-  dispatch(request(GET_ZONES));
-
-  const config = {
-    ...createConfigWithHeader(getState),
-  };
-
-  if (districtId) {
-    config.params = {
-      districtId,
-    };
-  }
-
-  return axios.get(API.GET_ZONES, config).then(
-    (response) => {
-      const zones = response.data;
-      dispatch(success(GET_ZONES, zones));
-      dispatch(storeZones(normalize(zones, schema.arrayOfZones)));
-
-      return zones;
-    },
-    (err) => {
-      dispatch(error(GET_ZONES, err));
-      throw err;
-    },
-  );
 };

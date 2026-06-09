@@ -9,11 +9,7 @@ const propTypes = {
   disabled: PropTypes.bool,
 };
 
-const defaultProps = {
-  disabled: false,
-};
-
-const DownloadPDFBtn = ({ onClick, disabled }) => (
+const DownloadPDFBtn = ({ onClick, disabled = false }) => (
   <Fragment>
     <Menu.Item disabled={disabled} onClick={onClick}>
       <Icon name="file pdf outline" />
@@ -23,5 +19,4 @@ const DownloadPDFBtn = ({ onClick, disabled }) => (
 );
 
 DownloadPDFBtn.propTypes = propTypes;
-DownloadPDFBtn.defaultProps = defaultProps;
 export default DownloadPDFBtn;

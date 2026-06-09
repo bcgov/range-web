@@ -9,20 +9,11 @@ const propTypes = {
   className: PropTypes.string,
 };
 
-const defaultProps = {
-  user: {
-    familyName: 'N',
-    givenName: 'P',
-  },
-  className: '',
-};
-
-const Avatar = ({ className, user }) => (
+const Avatar = ({ className = '', user = { familyName: 'N', givenName: 'P' } }) => (
   <div className={classnames('avatar', className)}>
     <div className="avatar__initial">{getUserInitial(user)}</div>
   </div>
 );
 
 Avatar.propTypes = propTypes;
-Avatar.defaultProps = defaultProps;
 export default Avatar;
