@@ -1,15 +1,16 @@
 // @ts-nocheck
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const useUrlState = (key, initialState) => {
   if (!key) {
     throw new Error('`key` must be provided to useUrlState');
   }
 
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const params = new URLSearchParams(history.location.search);
+  const params = new URLSearchParams(location.search);
   let paramValue = params.get(key);
   if (!isNaN(paramValue)) {
     paramValue = parseFloat(paramValue);
@@ -18,14 +19,14 @@ export const useUrlState = (key, initialState) => {
   const [value, setValue] = useState(paramValue || initialState);
 
   const setValueAndParam = (value) => {
-    const params = new URLSearchParams(history.location.search);
+    const params = new URLSearchParams(location.search);
 
     if (value === null) {
       params.delete(key);
     } else {
       params.set(key, value);
     }
-    history.replace({ ...history.location, search: params.toString() });
+    navigate({ ...location, search: params.toString() }, { replace: true });
     setValue(value);
   };
 

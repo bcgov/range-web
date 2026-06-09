@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { HOME } from '../constants/routes';
 import { IMAGE_SRC } from '../constants/variables';
 import { PAGE_NOT_FOUND_TITLE, APP_NAME } from '../constants/strings';
@@ -25,7 +25,7 @@ class PageNotFound extends Component {
 
   render() {
     if (this.state.redirectToHome) {
-      return <Redirect to={HOME} />;
+      return <Navigate to={HOME} replace />;
     }
 
     return (

@@ -4,7 +4,7 @@ import { axios, getAuthHeaderConfig, getDataFromLocalStorage } from '../../utils
 import useConfirm from '../../providers/ConfrimationModalProvider';
 import * as API from '../../constants/api';
 import { useToast } from '../../providers/ToastProvider';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const PastePlanMenuItem = ({
   destinationAgreementId,
@@ -14,7 +14,7 @@ const PastePlanMenuItem = ({
   currentPage,
   createReplacementPlan,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { errorToast } = useToast();
   const confirm = useConfirm();
   const sourcePlan = getDataFromLocalStorage('copyPlanInfo');
@@ -42,8 +42,7 @@ const PastePlanMenuItem = ({
               },
               getAuthHeaderConfig(),
             );
-            history.push({
-              pathname: `/range-use-plan/${response.data.planId}`,
+            navigate(`/range-use-plan/${response.data.planId}`, {
               state: {
                 page: currentPage,
                 prevSearch: location.search,
