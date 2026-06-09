@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,13 +14,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NewPlanButton = ({ agreement }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
 
   const handleClick = (e) => {
     e.stopPropagation();
     const plan = createNewPlan(agreement);
-    history.push(`${RANGE_USE_PLAN}/${plan.id}`);
+    navigate(`${RANGE_USE_PLAN}/${plan.id}`);
   };
 
   return (

@@ -1,7 +1,7 @@
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@
 //
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import ProtectedRoute from './ProtectedRoute';
 import { useUser } from '../../providers/UserProvider';
-import * as Routes from '../../constants/routes';
+import * as RoutePaths from '../../constants/routes';
 import { LoadableComponent } from './LoadableComponent';
 import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import ErrorBoundary from '../common/ErrorBoundary';
 import ManageAgentsPage from '../rangeUsePlanPage/manageAgentsPage';
 
@@ -47,36 +47,62 @@ const Router = () => {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <Switch>
+        <QueryParamProvider adapter={ReactRouter6Adapter}>
+          <Routes>
             {/* Admin Routes */}
-            <ProtectedRoute path={Routes.MANAGE_CLIENT} component={ManageClient} user={user} />
-            <ProtectedRoute path={Routes.MERGE_ACCOUNT} component={MergeAccount} user={user} />
-            <ProtectedRoute path={Routes.EMAIL_TEMPLATE} component={EmailTemplate} user={user} />
-            <ProtectedRoute path={Routes.ASSIGN_ROLES_AND_DISTRICTS} component={AssignRolesAndDistricts} user={user} />
+            <Route
+              path={RoutePaths.MANAGE_CLIENT}
+              element={<ProtectedRoute component={ManageClient} user={user} path={RoutePaths.MANAGE_CLIENT} />}
+            />
+            <Route
+              path={RoutePaths.MERGE_ACCOUNT}
+              element={<ProtectedRoute component={MergeAccount} user={user} path={RoutePaths.MERGE_ACCOUNT} />}
+            />
+            <Route
+              path={RoutePaths.EMAIL_TEMPLATE}
+              element={<ProtectedRoute component={EmailTemplate} user={user} path={RoutePaths.EMAIL_TEMPLATE} />}
+            />
+            <Route
+              path={RoutePaths.ASSIGN_ROLES_AND_DISTRICTS}
+              element={
+                <ProtectedRoute
+                  component={AssignRolesAndDistricts}
+                  user={user}
+                  path={RoutePaths.ASSIGN_ROLES_AND_DISTRICTS}
+                />
+              }
+            />
             {/* Admin Routes End */}
 
-            <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
+            <Route path={RoutePaths.LOGIN} element={<PublicRoute component={LoginPage} user={user} />} />
 
-            <ProtectedRoute path={`${Routes.HOME}/:page?`} component={SelectRangeUsePlan} user={user} />
-            <ProtectedRoute path={Routes.MANAGE_PLAN_AGENTS} component={ManageAgentsPage} user={user} />
-            <ProtectedRoute path={Routes.RANGE_USE_PLAN_WITH_PARAM} component={RangeUsePlan} user={user} />
-            <ProtectedRoute path={Routes.EXPORT_PDF_WITH_PARAM} component={PDFView} user={user} />
+            <Route
+              path={`${RoutePaths.HOME}/:page?`}
+              element={<ProtectedRoute component={SelectRangeUsePlan} user={user} path={`${RoutePaths.HOME}/:page?`} />}
+            />
+            <Route
+              path={RoutePaths.MANAGE_PLAN_AGENTS}
+              element={<ProtectedRoute component={ManageAgentsPage} user={user} path={RoutePaths.MANAGE_PLAN_AGENTS} />}
+            />
+            <Route
+              path={RoutePaths.RANGE_USE_PLAN_WITH_PARAM}
+              element={
+                <ProtectedRoute component={RangeUsePlan} user={user} path={RoutePaths.RANGE_USE_PLAN_WITH_PARAM} />
+              }
+            />
+            <Route
+              path={RoutePaths.EXPORT_PDF_WITH_PARAM}
+              element={<ProtectedRoute component={PDFView} user={user} path={RoutePaths.EXPORT_PDF_WITH_PARAM} />}
+            />
 
-            <PublicRoute path={Routes.LOGIN} component={LoginPage} user={user} />
-
-            <Route path={Routes.RETURN_PAGE} component={ReturnPage} />
-            <Route path="/" exact render={() => <Redirect to={Routes.LOGIN} />} />
-            <Route component={PageNotFound} />
-          </Switch>
+            <Route path={RoutePaths.RETURN_PAGE} element={<ReturnPage />} />
+            <Route path="/" element={<Navigate to={RoutePaths.LOGIN} replace />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
         </QueryParamProvider>
       </BrowserRouter>
     </ErrorBoundary>
   );
-};
-
-Router.propTypes = {
-  user: PropTypes.shape({}),
 };
 
 export default Router;
