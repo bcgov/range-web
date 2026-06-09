@@ -6,6 +6,9 @@
   "author": "Kyubin Han <kyubinhan11@gmail.com>",
   "license": "Apache-2.0",
   "homepage": "https://web-range-myra-prod.pathfinder.gov.bc.ca",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@emotion/react": "^11.11.1",
@@ -43,16 +46,16 @@
     "dotenv-expand": "^5.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-webpack-plugin": "^3.1.1",
+    "eslint-webpack-plugin": "^4.2.0",
     "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^9.1.0",
     "formik": "^2.2.9",
     "formik-semantic-ui": "^0.10.0",
     "fs-extra": "^10.0.0",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.6.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.3",
     "jest-environment-jsdom-sixteen": "^1.0.3",
@@ -76,10 +79,10 @@
     "prompts": "^2.4.2",
     "prop-types": "^15.8.1",
     "puppeteer": "^1.19.0",
-    "react": "^16.14.0",
+    "react": "^18.3.1",
     "react-app-polyfill": "^3.0.0",
     "react-dev-utils": "^12.0.1",
-    "react-dom": "^16.6.3",
+    "react-dom": "^18.3.1",
     "react-pdf": "^3.0.6",
     "react-popper": "^2.3.0",
     "react-redux": "^7.2.8",
@@ -130,9 +133,9 @@
     "test:e2e:run": "start-server-and-test test:e2e:start http://localhost:3001 cy:run",
     "test:e2e:dev": "start-server-and-test test:e2e:start http://localhost:3001 cy:open",
     "test:e2e:start": "PORT=3001 REACT_APP_API_URL=http://localhost:8081/api npm start",
-    "pretest": "prettier --list-different \"**/*.js\"",
-    "prettier": "prettier --write \"**/*.js\"",
-    "eslint": "eslint '**/*.js'",
+    "pretest": "prettier --list-different \"**/*.{js,ts,tsx}\"",
+    "prettier": "prettier --write \"**/*.{js,ts,tsx}\"",
+    "eslint": "eslint '**/*.{js,ts,tsx}'",
     "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook",
     "prepare": "husky install"
@@ -201,17 +204,26 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.10",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@storybook/addon-actions": "^5.3.21",
     "@storybook/addon-knobs": "^5.3.21",
     "@storybook/addon-links": "^5.3.21",
     "@storybook/addons": "^5.2.8",
     "@storybook/react": "^5.2.8",
     "@testing-library/cypress": "^6.0.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.9.2",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "buffer": "^6.0.3",
     "cypress-log-to-output": "^1.1.2",
     "cypress-plugin-tab": "^1.0.5",
     "cypress-testing-library": "^4.0.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^2.10.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^21.27.2",
@@ -220,7 +232,8 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "start-server-and-test": "^1.14.0"
+    "start-server-and-test": "^1.14.0",
+    "typescript": "^6.0.3"
   },
   "babel": {
     "presets": [
@@ -231,7 +244,7 @@
     "extends": "react-app"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,ts,tsx}": "eslint --cache --fix",
+    "*.{js,ts,tsx,css,md}": "prettier --write"
   }
 }
