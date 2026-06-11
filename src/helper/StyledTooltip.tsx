@@ -1,11 +1,10 @@
-// @ts-nocheck
 import { Tooltip } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 
-const StyledTooltip = withStyles((theme) => ({
+const StyledTooltip = withStyles((theme: Theme) => ({
   tooltip: {
     fontSize: theme.typography.pxToRem(14),
-    whiteSpace: 'pre-line',
+    whiteSpace: 'pre-line' as const,
   },
 }))(Tooltip);
 

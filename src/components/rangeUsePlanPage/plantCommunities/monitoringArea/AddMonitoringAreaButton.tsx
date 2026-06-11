@@ -1,9 +1,11 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 
-const AddMonitoringAreaButton = ({ onClick }) => {
+interface AddMonitoringAreaButtonProps {
+  onClick: () => void;
+}
+
+const AddMonitoringAreaButton: React.FC<AddMonitoringAreaButtonProps> = ({ onClick }) => {
   return (
     <>
       <Button onClick={onClick} primary type="button" className="icon labeled rup__plant-communities__add-button">
@@ -12,10 +14,6 @@ const AddMonitoringAreaButton = ({ onClick }) => {
       </Button>
     </>
   );
-};
-
-AddMonitoringAreaButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
 };
 
 export default AddMonitoringAreaButton;

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import * as API from '../../../constants/api';
 import { Loading, PrimaryButton } from '../../common';
@@ -46,14 +45,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const fetcher = (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data);
+const fetcher = (key: string) => axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data);
 
-const ManageAgentsPage = ({ match }) => {
+interface ManageAgentsPageProps {
+  match: {
+    params: {
+      planId: string;
+    };
+  };
+}
+
+const ManageAgentsPage: React.FC<ManageAgentsPageProps> = ({ match }) => {
   const classes = useStyles();
-  const [clientAgreements, setClientAgreements] = useState(null);
+  const [clientAgreements, setClientAgreements] = useState<any[] | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);
-  const [errorSaving, setErrorSaving] = useState(null);
+  const [errorSaving, setErrorSaving] = useState<any>(null);
 
   const { planId } = match.params;
 
@@ -75,7 +82,7 @@ const ManageAgentsPage = ({ match }) => {
     setHasSaved(false);
 
     try {
-      for (const clientAgreement of clientAgreements) {
+      for (const clientAgreement of clientAgreements!) {
         await axios.put(
           API.UPDATE_CLIENT_AGREEMENT(planId, clientAgreement.id),
           { agentId: clientAgreement.agent?.id ?? null },
@@ -84,7 +91,7 @@ const ManageAgentsPage = ({ match }) => {
       }
 
       setHasSaved(true);
-    } catch (e) {
+    } catch (e: any) {
       setErrorSaving(e);
     }
 
@@ -108,9 +115,9 @@ const ManageAgentsPage = ({ match }) => {
             Back to RUP
           </PrimaryButton>
           <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
-          {clientAgreements.map((clientAgreement) => {
+          {clientAgreements.map((clientAgreement: any) => {
             const clientNumber = clientAgreement.client?.clientNumber;
-            const linkedUser = users?.find((u) => u?.clientNumber === clientNumber);
+            const linkedUser = users?.find((u: any) => u?.clientNumber === clientNumber);
 
             return (
               <div key={clientAgreement.id} className={classes.row}>
@@ -132,9 +139,9 @@ const ManageAgentsPage = ({ match }) => {
                     classes={{ clearIndicatorDirty: classes.clearIndicatorDirty }}
                     value={clientAgreement.agent}
                     openOnFocus
-                    onChange={(e, user) => {
+                    onChange={(e: any, user: any) => {
                       setClientAgreements((c) =>
-                        c.map((ca) =>
+                        c!.map((ca: any) =>
                           ca.id === clientAgreement.id
                             ? {
                                 ...ca,
@@ -144,21 +151,21 @@ const ManageAgentsPage = ({ match }) => {
                         ),
                       );
                     }}
-                    getOptionLabel={(option) => `${getUserFullName(option)} (${option.ssoId || ''})`}
-                    filterOptions={(options, { inputValue }) => {
+                    getOptionLabel={(option: any) => `${getUserFullName(option)} (${option.ssoId || ''})`}
+                    filterOptions={(options: any[], { inputValue }: any) => {
                       const search = inputValue.trim().toLowerCase();
-                      return options.filter((option) => {
+                      return options.filter((option: any) => {
                         const name = getUserFullName(option).toLowerCase();
                         const ssoId = (option.ssoId || '').toLowerCase();
                         return name.includes(search) || ssoId.includes(search);
                       });
                     }}
-                    getOptionSelected={(option) => option.id === clientAgreement.agentId}
+                    getOptionSelected={(option: any) => option.id === clientAgreement.agentId}
                     style={{ width: 300 }}
-                    renderInput={(params) => (
+                    renderInput={(params: any) => (
                       <TextField {...params} label="Select user" variant="outlined" className={classes.autocomplete} />
                     )}
-                    renderOption={(option) => {
+                    renderOption={(option: any) => {
                       return (
                         <Grid container alignItems="center" className={classes.autocompleteOption}>
                           <Grid item>

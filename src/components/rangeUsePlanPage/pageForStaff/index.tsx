@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 import {
   REFERENCE_KEY,
@@ -14,9 +13,9 @@ import * as utils from '../../../utils';
 import BackBtn from '../BackBtn';
 import ContentsContainer from '../ContentsContainer';
 import StickyHeader from '../StickyHeader';
-import Notifications from '../notifications';
-import { defaultProps, propTypes } from './props';
-import ActionBtns from '../ActionBtns';
+const Notifications: any = require('../notifications').default;
+import { defaultProps, PageForStaffProps } from './props';
+const ActionBtns: any = require('../ActionBtns').default;
 import UpdateStatusModal from './UpdateStatusModal';
 import PlanForm from '../PlanForm';
 import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
@@ -25,12 +24,18 @@ import NetworkStatus from '../../common/NetworkStatus';
 import { connect } from 'formik';
 import { toastErrorMessage, toastSuccessMessage } from '../../../actionCreators';
 
+interface PageForStaffState {
+  isPlanSubmissionModalOpen: boolean;
+  isSavingAsDraft: boolean;
+  isCreatingAmendment: boolean;
+  isSubmitting?: boolean;
+}
+
 // Range Staff Page
-class PageForStaff extends Component {
-  static propTypes = propTypes;
+class PageForStaff extends Component<PageForStaffProps, PageForStaffState> {
   static defaultProps = defaultProps;
 
-  state = {
+  state: PageForStaffState = {
     isPlanSubmissionModalOpen: false,
     isSavingAsDraft: false,
     isCreatingAmendment: false,
@@ -53,7 +58,7 @@ class PageForStaff extends Component {
     this.updateContent(onRequested, onSuccess, onError);
   };
 
-  updateContent = async (onRequested, onSuccess, onError) => {
+  updateContent = async (onRequested: any, onSuccess: any, onError: any) => {
     const { plan, toastErrorMessage, user } = this.props;
 
     onRequested();
@@ -75,7 +80,7 @@ class PageForStaff extends Component {
     }
   };
 
-  validateRup = (plan) => {
+  validateRup = (plan: any) => {
     const { references, agreement } = this.props;
     const { pastures } = plan;
     const usage = agreement && agreement.usage;
@@ -93,14 +98,14 @@ class PageForStaff extends Component {
     return false;
   };
 
-  validateMapAttachment = (plan, user) => {
+  validateMapAttachment = (plan: any, user: any) => {
     // Check if user is Staff Agrologist or Admin
     if (!utils.isUserAgrologist(user) && !utils.isUserAdmin(user)) {
       return false;
     }
 
     // Check if plan has map attachments
-    const mapAttachments = plan.files?.filter((file) => file.type === 'mapAttachments') || [];
+    const mapAttachments = plan.files?.filter((file: any) => file.type === 'mapAttachments') || [];
 
     if (mapAttachments.length === 0) {
       return {
@@ -131,7 +136,7 @@ class PageForStaff extends Component {
 
     try {
       const amendmentType = references[REFERENCE_KEY.AMENDMENT_TYPE]?.find(
-        (type) => type.code === AMENDMENT_TYPE.MANDATORY,
+        (type: any) => type.code === AMENDMENT_TYPE.MANDATORY,
       );
 
       await createAmendment(plan, references, true);
@@ -140,7 +145,7 @@ class PageForStaff extends Component {
       });
 
       toastSuccessMessage(strings.CREATE_AMENDMENT_SUCCESS);
-    } catch (e) {
+    } catch (e: any) {
       toastErrorMessage(`Couldn't create amendment: ${e.message}`);
     } finally {
       this.setState({
@@ -206,7 +211,7 @@ class PageForStaff extends Component {
         user={this.props.user}
         plan={this.props.plan}
         fetchPlan={this.props.fetchPlan}
-        beforeUpdateStatus={async (statusCode) => {
+        beforeUpdateStatus={async (statusCode: any) => {
           const { formik } = this.props;
           await formik.submitForm();
           const errors = await formik.validateForm();

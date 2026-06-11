@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Element } from 'react-scroll';
 import { InfoTip } from '../../common';
 import { PLAN } from '../../../constants/fields';
@@ -8,7 +6,11 @@ import * as strings from '../../../constants/strings';
 import PermissionsField from '../../common/PermissionsField';
 import { TextArea } from 'formik-semantic-ui';
 
-const LivestockDistributionDetail = ({ livestockDistributionDetail }) => {
+interface LivestockDistributionDetailProps {
+  livestockDistributionDetail?: string;
+}
+
+const LivestockDistributionDetail: React.FC<LivestockDistributionDetailProps> = ({ livestockDistributionDetail }) => {
   return (
     <Element name="livestockDistributionDetail" id="livestockDistributionDetail">
       <div className="rup__livestock-distribution-detail">
@@ -35,10 +37,6 @@ const LivestockDistributionDetail = ({ livestockDistributionDetail }) => {
       </div>
     </Element>
   );
-};
-
-LivestockDistributionDetail.propTypes = {
-  livestockDistributionDetail: PropTypes.string,
 };
 
 export default LivestockDistributionDetail;

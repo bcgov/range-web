@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import uuid from 'uuid-v4';
 import MonitoringAreaRow from './MonitoringAreaBox';
 import { FieldArray } from 'formik';
@@ -11,8 +9,16 @@ import { MONITORING_AREAS } from '../../../../constants/fields';
 import { deleteMonitoringArea } from '../../../../api';
 import { resetMonitoringAreaId } from '../../../../utils/helper';
 
-const MonitoringAreaList = ({ monitoringAreas, planId, pastureId, communityId, namespace }) => {
-  const [areaToCopy, setAreaToCopy] = useState();
+interface MonitoringAreaListProps {
+  monitoringAreas: any[];
+  planId: any;
+  pastureId: any;
+  communityId: any;
+  namespace: string;
+}
+
+const MonitoringAreaList: React.FC<MonitoringAreaListProps> = ({ monitoringAreas, planId, pastureId, communityId, namespace }) => {
+  const [areaToCopy, setAreaToCopy] = useState<any>();
 
   return (
     <div className="rup__plant-community__m-areas">
@@ -40,7 +46,7 @@ const MonitoringAreaList = ({ monitoringAreas, planId, pastureId, communityId, n
             <IfEditable permission={MONITORING_AREAS.NAME} invert>
               {monitoringAreas.length === 0 && <div>No monitoring areas</div>}
             </IfEditable>
-            {monitoringAreas.map((monitoringArea, index) => (
+            {monitoringAreas.map((monitoringArea: any, index: number) => (
               <MonitoringAreaRow
                 key={monitoringArea.id}
                 monitoringArea={monitoringArea}
@@ -60,8 +66,8 @@ const MonitoringAreaList = ({ monitoringAreas, planId, pastureId, communityId, n
 
             <InputModal
               open={Boolean(areaToCopy)}
-              onSubmit={(name) => {
-                setAreaToCopy();
+              onSubmit={(name: string) => {
+                setAreaToCopy(undefined);
                 push(
                   resetMonitoringAreaId({
                     ...areaToCopy,
@@ -69,7 +75,7 @@ const MonitoringAreaList = ({ monitoringAreas, planId, pastureId, communityId, n
                   }),
                 );
               }}
-              onClose={() => setAreaToCopy()}
+              onClose={() => setAreaToCopy(undefined)}
               title="Monitoring Area Name"
             />
           </>
@@ -77,11 +83,6 @@ const MonitoringAreaList = ({ monitoringAreas, planId, pastureId, communityId, n
       />
     </div>
   );
-};
-
-MonitoringAreaList.propTypes = {
-  monitoringAreas: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  namespace: PropTypes.string.isRequired,
 };
 
 export default MonitoringAreaList;

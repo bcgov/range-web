@@ -1,21 +1,30 @@
-// @ts-nocheck
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Icon, Modal, Form } from 'semantic-ui-react';
+import { Button, Icon, Modal, Form as SemanticForm } from 'semantic-ui-react';
 import { Formik, Field } from 'formik';
 
-const InputModal = ({
+// Cast to work around Semantic UI React type compatibility issues
+const Form = SemanticForm as any;
+
+interface InputModalProps {
+  open?: boolean;
+  onSubmit: (value: string) => void;
+  onClose: () => void;
+  title?: string;
+  placeholder?: string;
+}
+
+const InputModal: React.FC<InputModalProps> = ({
   open = false,
   onSubmit,
   onClose,
   title = 'Enter a value',
   placeholder = 'Type a value here...',
 }) => {
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (open) {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }
   }, [open]);
 
@@ -26,13 +35,14 @@ const InputModal = ({
         resetForm();
         onSubmit(input);
       }}
-      render={({ resetForm, handleSubmit }) => (
+    >
+      {({ resetForm, handleSubmit }) => (
         <Modal dimmer="blurring" size="mini" open={open} onClose={onClose} closeIcon>
           <Modal.Header>{title}</Modal.Header>
 
           <Modal.Content>
             <Form
-              onSubmit={(e) => {
+              onSubmit={(e: any) => {
                 e.preventDefault();
                 e.stopPropagation();
                 handleSubmit();
@@ -52,23 +62,15 @@ const InputModal = ({
               <Icon name="remove" />
               Cancel
             </Button>
-            <Button type="submit" primary onClick={handleSubmit}>
+            <Button type="submit" primary onClick={() => handleSubmit()}>
               <Icon name="checkmark" />
               Submit
             </Button>
           </Modal.Actions>
         </Modal>
       )}
-    />
+    </Formik>
   );
-};
-
-InputModal.propTypes = {
-  open: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  title: PropTypes.string,
-  placeholder: PropTypes.string,
 };
 
 export default InputModal;

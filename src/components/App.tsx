@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +17,7 @@
 //
 // Created by Kyubin Han.
 //
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
 import configureStore from '../configureStore';
@@ -30,43 +29,43 @@ import EditableProvider from '../providers/EditableProvider';
 import PlanProvider from '../providers/PlanProvider';
 import theme from './theme';
 import { SWRConfig } from 'swr';
+
+const SWRConfigComponent = SWRConfig as any;
 import { ConfirmationModalProvider } from '../providers/ConfrimationModalProvider';
 import EnvironmentBanner from './common/EnvironmentBanner';
 
 const store = configureStore();
 
-class App extends Component {
-  render() {
-    return (
-      <SWRConfig
-        value={{
-          revalidateIfStale: false,
-          revalidateOnFocus: false,
-          revalidateOnReconnect: false,
-          shouldRetryOnError: false,
-        }}
-      >
-        <EnvironmentBanner />
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <UserProvider>
-              <PlanProvider>
-                <EditableProvider editable={true}>
-                  <ReferencesProvider>
-                    <ToastProvider>
-                      <ConfirmationModalProvider>
-                        <Router />
-                      </ConfirmationModalProvider>
-                    </ToastProvider>
-                  </ReferencesProvider>
-                </EditableProvider>
-              </PlanProvider>
-            </UserProvider>
-          </ThemeProvider>
-        </Provider>
-      </SWRConfig>
-    );
-  }
-}
+const App: React.FC = () => {
+  return (
+    <SWRConfigComponent
+      value={{
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        shouldRetryOnError: false,
+      }}
+    >
+      <EnvironmentBanner />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <UserProvider>
+            <PlanProvider>
+              <EditableProvider editable={true}>
+                <ReferencesProvider>
+                  <ToastProvider>
+                    <ConfirmationModalProvider>
+                      <Router />
+                    </ConfirmationModalProvider>
+                  </ToastProvider>
+                </ReferencesProvider>
+              </EditableProvider>
+            </PlanProvider>
+          </UserProvider>
+        </ThemeProvider>
+      </Provider>
+    </SWRConfigComponent>
+  );
+};
 
 export default App;

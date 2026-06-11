@@ -1,6 +1,4 @@
-// @ts-nocheck
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import RightBtn from '../tab/RightBtn';
@@ -8,43 +6,38 @@ import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
 import { isClientCurrentUser, getClientFullName } from '../../../../utils';
 
-class RequestSignaturesTab extends Component {
-  static propTypes = {
-    currTabId: PropTypes.string.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    handleTabChange: PropTypes.func.isRequired,
-    onSubmitClicked: PropTypes.func.isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    user: PropTypes.shape({}).isRequired,
-    tab: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      back: PropTypes.string.isRequired,
-      next: PropTypes.string.isRequired,
-      text1: PropTypes.string.isRequired,
-      text2: PropTypes.string.isRequired,
-      text3: PropTypes.string.isRequired,
-    }).isRequired,
-  };
+interface RequestSignaturesTabProps {
+  currTabId: string;
+  isSubmitting: boolean;
+  handleTabChange: (...args: any[]) => void;
+  onSubmitClicked: (...args: any[]) => any;
+  clients: any[];
+  clientAgreements: any[];
+  user: any;
+  tab: { id: string; title: string; back: string; next: string; text1: string; text2: string; text3: string };
+}
 
-  onBackClicked = (e) => {
-    const { handleTabChange, tab } = this.props;
+const RequestSignaturesTab: React.FC<RequestSignaturesTabProps> = ({ currTabId, tab, isSubmitting, clients, user, clientAgreements, handleTabChange, onSubmitClicked }) => {
+  const { id, title, text1, text2, text3 } = tab;
+  const isActive = id === currTabId;
 
+  if (!isActive) {
+    return null;
+  }
+
+  const onBackClicked = (e: any) => {
     handleTabChange(e, { value: tab.back });
   };
 
-  onSubmitClicked = (e) => {
-    const { onSubmitClicked, handleTabChange, tab } = this.props;
-
+  const handleSubmit = (e: any) => {
     onSubmitClicked(e).then(() => {
       handleTabChange(e, { value: tab.next });
     });
   };
 
-  renderAgreementHolder = (client) => {
-    const { user, clientAgreements } = this.props;
-    const agencyAgreements = clientAgreements.filter((a) => a.agentId === user.id);
-    const isAgent = !!agencyAgreements.find((ca) => ca.clientId === client.clientNumber);
+  const renderAgreementHolder = (client: any) => {
+    const agencyAgreements = clientAgreements.filter((a: any) => a.agentId === user.id);
+    const isAgent = !!agencyAgreements.find((ca: any) => ca.clientId === client.clientNumber);
 
     return (
       <div key={client.clientNumber} className="rup__multi-tab__ah-list">
@@ -62,36 +55,26 @@ class RequestSignaturesTab extends Component {
     );
   };
 
-  render() {
-    const { currTabId, tab, isSubmitting, clients } = this.props;
-    const { id, title, text1, text2, text3 } = tab;
-    const isActive = id === currTabId;
-
-    if (!isActive) {
-      return null;
-    }
-
-    return (
-      <TabTemplate
-        isActive={isActive}
-        title={title}
-        actions={
-          <Fragment>
-            <LeftBtn onClick={this.onBackClicked} content="Back" />
-            <RightBtn onClick={this.onSubmitClicked} loading={isSubmitting} content="Request eSignatures and Submit" />
-          </Fragment>
-        }
-        content={
-          <div>
-            <div style={{ marginBottom: '20px' }}>{text1}</div>
-            <div style={{ marginBottom: '20px' }}>{text2}</div>
-            <div className="rup__multi-tab__ah-list__header">{text3}</div>
-            {clients.map(this.renderAgreementHolder)}
-          </div>
-        }
-      />
-    );
-  }
-}
+  return (
+    <TabTemplate
+      isActive={isActive}
+      title={title}
+      actions={
+        <>
+          <LeftBtn onClick={onBackClicked} content="Back" />
+          <RightBtn onClick={handleSubmit} loading={isSubmitting} content="Request eSignatures and Submit" />
+        </>
+      }
+      content={
+        <div>
+          <div style={{ marginBottom: '20px' }}>{text1}</div>
+          <div style={{ marginBottom: '20px' }}>{text2}</div>
+          <div className="rup__multi-tab__ah-list__header">{text3}</div>
+          {clients.map(renderAgreementHolder)}
+        </div>
+      }
+    />
+  );
+};
 
 export default RequestSignaturesTab;

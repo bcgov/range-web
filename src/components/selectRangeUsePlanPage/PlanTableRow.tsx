@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { formatDateFromServer, canUserEditThisPlan, isPlanAmendment } from '../../utils';
@@ -10,15 +9,19 @@ import { INITIAL_PLAN, VIEW } from '../../constants/strings';
 import { Status, PrimaryButton } from '../common';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 
-const PlanTableRow = ({ plan }) => {
-  const user = useUser();
-  const references = useReferences();
-  const { page } = useParams();
+interface PlanTableRowProps {
+  plan: any;
+}
+
+const PlanTableRow: React.FC<PlanTableRowProps> = ({ plan }) => {
+  const user = useUser()!;
+  const references: any = useReferences();
+  const { page } = useParams<{ page?: string }>();
   const location = useLocation();
 
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
   if (!amendmentTypes) return <Loader />;
-  const amendmentType = amendmentTypes.find((at) => at.id === plan.amendmentTypeId);
+  const amendmentType = amendmentTypes.find((at: any) => at.id === plan.amendmentTypeId);
   const amendment = amendmentType ? amendmentType.description : INITIAL_PLAN;
   const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
   const submittedAt = formatDateFromServer(plan.submittedAt, true, '-');

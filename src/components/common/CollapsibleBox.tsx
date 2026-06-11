@@ -1,24 +1,22 @@
-// @ts-nocheck
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 
-class CollapsibleBox extends Component {
-  static propTypes = {
-    header: PropTypes.node.isRequired,
-    headerRight: PropTypes.node,
-    shouldHideHeaderRightWhenNotActive: PropTypes.bool,
-    message: PropTypes.node,
-    collapsibleContent: PropTypes.node.isRequired,
-    contentIndex: PropTypes.number.isRequired,
-    activeContentIndex: PropTypes.number.isRequired,
-    onContentClicked: PropTypes.func,
-    onContentClick: PropTypes.func,
-    scroll: PropTypes.bool,
-    error: PropTypes.bool,
-  };
+interface CollapsibleBoxProps {
+  header: React.ReactNode;
+  headerRight?: React.ReactNode;
+  shouldHideHeaderRightWhenNotActive?: boolean;
+  message?: React.ReactNode;
+  collapsibleContent: React.ReactNode;
+  contentIndex: number;
+  activeContentIndex: number;
+  onContentClicked?: (index: number) => () => void;
+  onContentClick?: () => void;
+  scroll?: boolean;
+  error?: boolean;
+}
 
+class CollapsibleBox extends Component<CollapsibleBoxProps> {
   static defaultProps = {
     headerRight: null,
     shouldHideHeaderRightWhenNotActive: false,
@@ -53,7 +51,7 @@ class CollapsibleBox extends Component {
               'collaspible-box__header__title--active': isActive,
               'collaspible-box__header__title--error': error,
             })}
-            onClick={onContentClick ? onContentClick : onContentClicked(contentIndex)}
+            onClick={onContentClick ? onContentClick : onContentClicked?.(contentIndex)}
           >
             {header}
             <div className="collaspible-box__header__right">

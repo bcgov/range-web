@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +18,8 @@
 // Created by Kyubin Han.
 //
 
-import jwtDecode from 'jwt-decode';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const jwtDecode: (token: string) => any = require('jwt-decode');
 import axios from './axios';
 import {
   SSO_BASE_URL,
@@ -41,7 +41,31 @@ import {
 import { removeToast } from '../actions';
 import { toastSessionExpiry } from '../actionCreators';
 
-export const getAuthHeaderConfig = () => {
+interface AuthData {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  refresh_expires_in: number;
+  session_state: string;
+  token_type: string;
+  jwtData?: any;
+  [key: string]: any;
+}
+
+interface JWTData {
+  exp: number;
+  [key: string]: any;
+}
+
+interface AxiosConfig {
+  baseURL?: string;
+  headers?: { Authorization?: string; [key: string]: any };
+  isRetry?: boolean;
+  skipAuthorizationHeader?: boolean;
+  [key: string]: any;
+}
+
+export const getAuthHeaderConfig = (): { headers?: { Authorization: string; 'content-type': string } } => {
   const { authData } = getAuthAndUserFromLocal();
 
   if (authData) {
@@ -58,17 +82,17 @@ export const getAuthHeaderConfig = () => {
 /**
  * this method is called immediately at the very beginning in authReducer
  * to initialize the auth and user objects in Router.js
- * @returns {object} the object that contains authData and user
+ * @returns the object that contains authData and user
  */
-export const getAuthAndUserFromLocal = () => {
-  const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER);
-  const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+export const getAuthAndUserFromLocal = (): { authData: AuthData | null; user: any } => {
+  const user = getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER) as any;
+  const authData = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH) as AuthData | null;
   return { authData, user };
 };
 
 /**
  *
- * @param {object} response the network response
+ * @param response the network response
  * the response looks like this
  {
     access_token: "characters"
@@ -80,7 +104,7 @@ export const getAuthAndUserFromLocal = () => {
     token_type: "bearer"
   }
  */
-export const saveAuthDataInLocal = (response) => {
+export const saveAuthDataInLocal = (response: any): AuthData => {
   const data = { ...response.data };
   data.jwtData = jwtDecode(data.access_token);
 
@@ -91,18 +115,18 @@ export const saveAuthDataInLocal = (response) => {
 
 /**
  *
- * @param {object} newUser the new user object
+ * @param newUser the new user object
  */
-export const saveUserProfileInLocal = (newUser) => {
+export const saveUserProfileInLocal = (newUser: any): void => {
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.USER, newUser);
 };
 
 /**
  *
- * @param {string} code the code received from Single Sign On
+ * @param code the code received from Single Sign On
  */
-export const getTokenFromSSO = (code) => {
-  const storedCodes = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE);
+export const getTokenFromSSO = (code: string): Promise<any> => {
+  const storedCodes = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE) as any;
   if (!storedCodes || !storedCodes.codeVerifier) {
     console.error('Cannot proceed without PKCE challenge code. Restart authentication');
   }
@@ -116,7 +140,7 @@ export const getTokenFromSSO = (code) => {
   };
 
   // make an application/x-www-form-urlencoded request with axios
-  return axios({
+  return (axios as any)({
     method: 'post',
     baseURL: SSO_BASE_URL,
     url: GET_TOKEN_FROM_SSO,
@@ -126,9 +150,9 @@ export const getTokenFromSSO = (code) => {
 
 /**
  *
- * @param {string} refreshToken the refreshToken saved in localStorage
+ * @param refreshToken the refreshToken saved in localStorage
  */
-export const refreshAccessToken = (refreshToken) => {
+export const refreshAccessToken = (refreshToken: string): Promise<any> => {
   const data = {
     refresh_token: refreshToken,
     grant_type: 'refresh_token',
@@ -138,7 +162,7 @@ export const refreshAccessToken = (refreshToken) => {
 
   // make an application/x-www-form-urlencoded request with axios
   // pass isRetry in config so that it only tries to refresh once.
-  return axios({
+  return (axios as any)({
     method: 'post',
     baseURL: SSO_BASE_URL,
     url: REFRESH_TOKEN_FROM_SSO,
@@ -148,26 +172,26 @@ export const refreshAccessToken = (refreshToken) => {
 };
 
 /**
- * @returns {string} the refresh token
+ * @returns the refresh token
  */
-const getRefreshTokenFromLocal = () => {
-  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+const getRefreshTokenFromLocal = (): string | null => {
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH) as any;
   return data && data.refresh_token;
 };
 
 /**
- * @returns {object} the parsed data from Json Web Token
+ * @returns the parsed data from Json Web Token
  */
-const getJWTDataFromLocal = () => {
-  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
+const getJWTDataFromLocal = (): JWTData | null => {
+  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH) as any;
   return data && data.jwtData;
 };
 
 /**
  *
- * @returns {boolean}
+ * @returns whether the token is expired
  */
-export const isTokenExpired = () => {
+export const isTokenExpired = (): boolean => {
   const GRACE = 90 * 1000;
 
   const jstData = getJWTDataFromLocal();
@@ -180,10 +204,10 @@ export const isTokenExpired = () => {
 
 /**
  *
- * @param {object} config Axios's config
- * @returns {boolean}
+ * @param config Axios's config
+ * @returns whether the request is to the Range API
  */
-const isRangeAPI = (config) => {
+const isRangeAPI = (config: AxiosConfig): boolean => {
   if (config && config.baseURL) {
     return config.baseURL === API_BASE_URL;
   }
@@ -191,21 +215,23 @@ const isRangeAPI = (config) => {
   return false;
 };
 
-export const signOutFromSSOAndSiteMinder = async () => {
+export const signOutFromSSOAndSiteMinder = async (): Promise<void> => {
   window.open(SITEMINDER_LOGOUT_ENDPOINT, '_self');
 };
 
 /**
  *
- * @param {object} config Axios's config
- * @param {object} response network response from refreshing access token
- * @returns {object}
+ * @param config Axios's config
+ * @param response network response from refreshing access token
+ * @returns the updated config with the new token
  */
-const createConfigReplacingHeaderWithNewToken = (config, response) => {
+const createConfigReplacingHeaderWithNewToken = (config: AxiosConfig, response: any): AxiosConfig => {
   const data = response && response.data;
   const { token_type: type, access_token: token } = data;
   const c = { ...config };
-  c.headers.Authorization = type && token && `${type} ${token}`;
+  if (c.headers) {
+    c.headers.Authorization = type && token && `${type} ${token}`;
+  }
 
   return c;
 };
@@ -216,10 +242,13 @@ const createConfigReplacingHeaderWithNewToken = (config, response) => {
  * set a timer to request users to re-authenticate
  * after the access token expires + interval
  *
- * @param {function} reauthenticate the action to re-authenticate
- * @param {function} warningCallback the action to show a warning message
+ * @param reauthenticate the action to re-authenticate
+ * @param dispatch the Redux dispatch function
  */
-export const setTimeoutForReAuth = (reauthenticate, dispatch) => {
+export const setTimeoutForReAuth = (
+  reauthenticate: () => void,
+  dispatch: any,
+): { authTimeoutId: ReturnType<typeof setTimeout>; warningTimeoutId: ReturnType<typeof setTimeout> | null } | undefined => {
   if (!isBundled) console.log('set timeout for re-authentication');
 
   const jstData = getJWTDataFromLocal();
@@ -232,19 +261,19 @@ export const setTimeoutForReAuth = (reauthenticate, dispatch) => {
   const GRACE = 10 * 1000;
 
   try {
-    const payload = refreshTokenData.split('.')[1];
+    const payload = (refreshTokenData as string).split('.')[1];
 
     const parsedRefreshToken = JSON.parse(atob(payload));
-    refreshTokenValidPeriod = parsedRefreshToken.exp - new Date() / 1000;
+    refreshTokenValidPeriod = parsedRefreshToken.exp - (new Date() as any) / 1000;
   } catch {
     if (!isBundled) console.log('Error parsing refresh token, ignoring it.');
   }
 
-  const accessTokenValidPeriod = jstData.exp - new Date() / 1000;
+  const accessTokenValidPeriod = jstData.exp - (new Date() as any) / 1000;
   const latestTime = Math.max(accessTokenValidPeriod, refreshTokenValidPeriod) * 1000;
   const waitTime = Math.max(latestTime - GRACE, 0);
   const warningTime = Math.max(waitTime - SESSION_EXPIRY_WARNING_DURATION * 1000, 0);
-  let warningTimeoutId = null;
+  let warningTimeoutId: ReturnType<typeof setTimeout> | null = null;
   dispatch(removeToast({ toastId: SESSION_EXPIRY_WARNING_TOAST_ID }));
   if (waitTime > 0) {
     warningTimeoutId = setTimeout(() => {
@@ -270,13 +299,16 @@ export const setTimeoutForReAuth = (reauthenticate, dispatch) => {
  * case 2: both access and refresh tokens are expired
  *  -> request users to re signin by popping up SignInModal
  *
- * @param {function} resetTimeoutForReAuth the action to reset a timeout for reauthentication
- * @param {function} reauthenticate the action to re-authenticate
- * @param {function} storeAuthData the action to store the user in Redux
- * @returns {object} the network response config
+ * @param resetTimeoutForReAuthFn the action to reset a timeout for reauthentication
+ * @param reauthenticate the action to re-authenticate
+ * @param storeAuthDataFn the action to store the user in Redux
  */
-export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate, storeAuthData) => {
-  axios.interceptors.request.use((config) => {
+export const registerAxiosInterceptors = (
+  resetTimeoutForReAuthFn: (reauthenticate: () => void) => void,
+  reauthenticate: () => void,
+  storeAuthDataFn: (authData: AuthData) => void,
+): void => {
+  (axios as any).interceptors.request.use((config: AxiosConfig) => {
     const isFirstTimeTry = !config.isRetry;
     const notExplicitlySkipped = !config.skipAuthorizationHeader;
 
@@ -285,20 +317,20 @@ export const registerAxiosInterceptors = (resetTimeoutForReAuth, reauthenticate,
 
       const refreshToken = getRefreshTokenFromLocal();
 
-      return refreshAccessToken(refreshToken).then(
-        (response) => {
+      return refreshAccessToken(refreshToken as string).then(
+        (response: any) => {
           if (!isBundled) console.debug('Access token has been refreshed!');
 
           const authData = saveAuthDataInLocal(response);
-          storeAuthData(authData);
-          resetTimeoutForReAuth(reauthenticate);
+          storeAuthDataFn(authData);
+          resetTimeoutForReAuthFn(reauthenticate);
 
           const c = createConfigReplacingHeaderWithNewToken(config, response);
-          c.isRetry = true;
+          (c as any).isRetry = true;
 
           return c;
         },
-        (err) => {
+        (err: any) => {
           if (!isBundled) {
             console.log('Refresh token is also expired. Request to re-authenticate.');
             console.error(err);

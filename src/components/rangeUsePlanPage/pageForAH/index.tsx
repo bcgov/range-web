@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 import { PLAN_STATUS, REFERENCE_KEY, CONFIRMATION_MODAL_ID, PLAN_EXTENSION_STATUS } from '../../../constants/variables';
 import * as strings from '../../../constants/strings';
@@ -6,25 +5,32 @@ import * as utils from '../../../utils';
 import { Status, Banner } from '../../common';
 import ContentsContainer from '../ContentsContainer';
 import BackBtn from '../BackBtn';
-import Notifications from '../notifications';
+const Notifications: any = require('../notifications').default;
 import StickyHeader from '../StickyHeader';
-import { defaultProps, propTypes } from './props';
-import ActionBtns from '../ActionBtns';
-import PlanSubmissionModal from './SubmissionModal';
-import AHSignatureModal from './AHSignatureModal';
-import AmendmentSubmissionModal from './AmendmentSubmissionModal';
+import { defaultProps, PageForAHProps } from './props';
+const ActionBtns: any = require('../ActionBtns').default;
+const PlanSubmissionModal: any = require('./SubmissionModal').default;
+const AHSignatureModal: any = require('./AHSignatureModal').default;
+const AmendmentSubmissionModal: any = require('./AmendmentSubmissionModal').default;
 import PlanForm from '../PlanForm';
 import { createAmendment, savePlan } from '../../../api';
 import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
 import NetworkStatus from '../../common/NetworkStatus';
 
-// Agreement Holder page
-class PageForAH extends Component {
-  static propTypes = propTypes;
+interface PageForAHState {
+  isAmendmentSubmissionModalOpen: boolean;
+  isPlanSubmissionModalOpen: boolean;
+  isAHSignatureModalOpen: boolean;
+  isSavingAsDraft: boolean;
+  isSubmitting: boolean;
+  isCreatingAmendment: boolean;
+}
 
+// Agreement Holder page
+class PageForAH extends Component<PageForAHProps, PageForAHState> {
   static defaultProps = defaultProps;
 
-  state = {
+  state: PageForAHState = {
     isAmendmentSubmissionModalOpen: false,
     isPlanSubmissionModalOpen: false,
     isAHSignatureModalOpen: false,
@@ -53,7 +59,7 @@ class PageForAH extends Component {
     this.updateStatusAndContent({ status: draft }, onRequested, onSuccess, onError);
   };
 
-  updateStatusAndContent = async ({ status, note }, onRequested, onSuccess, onError) => {
+  updateStatusAndContent = async ({ status, note }: any, onRequested: any, onSuccess: any, onError: any) => {
     const { plan, updateRUPStatus, toastErrorMessage, user } = this.props;
 
     onRequested();
@@ -102,7 +108,7 @@ class PageForAH extends Component {
       });
   };
 
-  validateRup = (plan) => {
+  validateRup = (plan: any) => {
     const { references, agreement } = this.props;
     const { pastures } = plan;
     const usage = agreement && agreement.usage;
@@ -154,7 +160,7 @@ class PageForAH extends Component {
         permissions={{
           edit: utils.canUserEditThisPlan(plan, user),
           amend: utils.isStatusAmongApprovedStatuses(status),
-          confirm: utils.canUserSubmitConfirmation(status, user, confirmations, clientAgreements),
+          confirm: utils.canUserSubmitConfirmation(status, user, confirmations, clientAgreements as any),
           submit: utils.canUserSubmitPlan(plan, user),
           discard: utils.canUserDiscardAmendment(plan, user),
           amendFromLegal: utils.canUserAmendFromLegal(plan, user),

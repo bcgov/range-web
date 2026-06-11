@@ -1,9 +1,28 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { List, Modal, Icon, Button } from 'semantic-ui-react';
+import { List as SemanticList, Modal, Icon, Button } from 'semantic-ui-react';
 
-const ListModal = ({
+// Cast to work around Semantic UI React type compatibility issues
+const List = SemanticList as any;
+
+interface ListOption {
+  key: string | number;
+  value: any;
+  text: string;
+  disabled?: boolean;
+}
+
+interface ListModalProps {
+  open: boolean;
+  onClose: () => void;
+  options: ListOption[];
+  onOptionClick?: (option: ListOption) => void;
+  onSubmit?: (selected: ListOption[]) => void;
+  title?: string;
+  multiselect?: boolean;
+  buttonText?: string;
+}
+
+const ListModal: React.FC<ListModalProps> = ({
   open,
   onClose,
   options,
@@ -13,7 +32,7 @@ const ListModal = ({
   multiselect = false,
   buttonText = 'Submit',
 }) => {
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState<ListOption[]>([]);
 
   return (
     <Modal dimmer="blurring" size="mini" open={open} onClose={onClose} closeIcon>
@@ -50,7 +69,7 @@ const ListModal = ({
           <Button
             primary
             onClick={() => {
-              onSubmit(selected);
+              onSubmit?.(selected);
               setSelected([]);
             }}
             disabled={selected.length === 0}
@@ -61,17 +80,6 @@ const ListModal = ({
       )}
     </Modal>
   );
-};
-
-ListModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-  onOptionClick: PropTypes.func,
-  onSubmit: PropTypes.func,
-  title: PropTypes.string,
-  multiselect: PropTypes.bool,
-  buttonText: PropTypes.string,
 };
 
 export default ListModal;

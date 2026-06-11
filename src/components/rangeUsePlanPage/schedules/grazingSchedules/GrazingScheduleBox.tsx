@@ -1,14 +1,14 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Dropdown, Icon, Table, Confirm } from 'semantic-ui-react';
+import { Dropdown, Icon, Table as SemanticTable, Confirm } from 'semantic-ui-react';
+
+const Table = SemanticTable as any;
 import GrazingScheduleEntryRow from './GrazingScheduleEntryRow';
 import { round, isUserAgrologist } from '../../../../utils';
 import * as strings from '../../../../constants/strings';
 import { CollapsibleBox, PrimaryButton, ErrorMessage, InfoTip } from '../../../common';
 import { IMAGE_SRC } from '../../../../constants/variables';
-import { FieldArray, connect, getIn } from 'formik';
+import { FieldArray, useFormikContext, getIn } from 'formik';
 import uuid from 'uuid-v4';
 import { TextArea } from 'formik-semantic-ui';
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
@@ -21,11 +21,11 @@ import { resetScheduleEntryId } from '../../../../utils/helper/schedule';
 import _ from 'lodash';
 
 // Helper function to format percentUse - round up with no decimal places
-const formatPercentUse = (percentUse) => {
+const formatPercentUse = (percentUse: number) => {
   if (percentUse === undefined || percentUse === null || isNaN(percentUse)) {
     return 0;
   }
-  const value = parseFloat(percentUse);
+  const value = parseFloat(String(percentUse));
   // If value is between 0 and 1 (exclusive), set to 1
   if (value > 0 && value < 1) {
     return 1;
@@ -33,6 +33,20 @@ const formatPercentUse = (percentUse) => {
   // Otherwise, round up
   return Math.ceil(value);
 };
+
+interface GrazingScheduleBoxProps {
+  schedule: any;
+  activeIndex: number;
+  index: number;
+  namespace: string;
+  crownTotalAUMs: number;
+  yearOptions: any[];
+  onScheduleClicked: () => void;
+  authorizedAUMs: number;
+  onScheduleCopy: (year: number, scheduleId?: any) => void;
+  onScheduleDelete: () => void;
+  livestockTypes?: any[];
+}
 
 const GrazingScheduleBox = ({
   schedule,
@@ -45,20 +59,20 @@ const GrazingScheduleBox = ({
   authorizedAUMs,
   onScheduleCopy,
   onScheduleDelete,
-  formik,
-}) => {
+}: GrazingScheduleBoxProps) => {
   const { id, year, sortBy, sortOrder } = schedule;
   const user = useUser();
+  const formik = useFormikContext<any>();
   const narative = (schedule && schedule.narative) || '';
   const roundedCrownTotalAUMs = round(crownTotalAUMs, 1);
   const copyOptions =
-    yearOptions.map((o) => ({
+    yearOptions.map((o: any) => ({
       ...o,
       onClick: () => onScheduleCopy(o.value, schedule.id),
     })) || [];
   const isCrownTotalAUMsError = crownTotalAUMs > authorizedAUMs;
 
-  const [toRemove, setToRemove] = useState(null);
+  const [toRemove, setToRemove] = useState<number | null>(null);
 
   const isError = !!getIn(formik.errors, namespace);
 
@@ -77,14 +91,14 @@ const GrazingScheduleBox = ({
         type: 'error',
       };
     }
-    const aggregatedCrownAUMs = schedule.scheduleEntries.reduce((acc, entry) => {
+    const aggregatedCrownAUMs = schedule.scheduleEntries.reduce((acc: any, entry: any) => {
       if (entry.pasture && entry.pasture.id !== undefined) {
         const pastureId = entry.pasture.id;
         acc[pastureId] = round((acc[pastureId] || 0) + entry.crownAUMs, 1);
       }
       return acc;
     }, {});
-    const warningEntries = schedule.scheduleEntries.reduce((acc, entry) => {
+    const warningEntries = schedule.scheduleEntries.reduce((acc: any[], entry: any) => {
       if (entry.pasture && entry.pasture.id !== undefined) {
         const pastureId = entry.pasture.id;
         const pastureName = entry.pasture.name;
@@ -99,18 +113,18 @@ const GrazingScheduleBox = ({
       }
       return acc;
     }, []);
-    const uniqueWarnings = Array.from(new Set(warningEntries.map((w) => w.id))).map((id) =>
-      warningEntries.find((w) => w.id === id),
+    const uniqueWarnings = Array.from(new Set(warningEntries.map((w: any) => w.id))).map((wId) =>
+      warningEntries.find((w: any) => w.id === wId),
     );
     return uniqueWarnings[0];
   };
 
   const scheduleError = getScheduleError();
 
-  const setSortBy = (column) => formik.setFieldValue(`${namespace}.sortBy`, column);
-  const setSortOrder = (order) => formik.setFieldValue(`${namespace}.sortOrder`, order);
+  const setSortBy = (column: string | null) => formik.setFieldValue(`${namespace}.sortBy`, column);
+  const setSortOrder = (order: string | null) => formik.setFieldValue(`${namespace}.sortOrder`, order);
 
-  const handleHeaderClick = (column) => {
+  const handleHeaderClick = (column: string) => {
     if (column !== sortBy) {
       setSortBy(column);
       setSortOrder('asc');
@@ -132,7 +146,7 @@ const GrazingScheduleBox = ({
       } else {
         setSortOrder(null);
         setSortBy(null);
-        updateSortOrder(schedule.planId, schedule.id, null, null);
+        updateSortOrder(schedule.planId, schedule.id, null as any, null as any);
         formik.setFieldValue(`${namespace}.scheduleEntries`, _.orderBy(schedule.scheduleEntries, ['id'], ['asc']));
       }
     }
@@ -140,7 +154,7 @@ const GrazingScheduleBox = ({
 
   const headerCellProps = {
     currentSortBy: sortBy,
-    currentSortOrder: sortOrder === 'asc' ? 'ascending' : 'descending',
+    currentSortOrder: (sortOrder === 'asc' ? 'ascending' : sortOrder === 'desc' ? 'descending' : undefined) as 'ascending' | 'descending' | undefined,
     onClick: handleHeaderClick,
   };
 
@@ -236,11 +250,11 @@ const GrazingScheduleBox = ({
                         <SortableTableHeaderCell {...headerCellProps} column="crownAUMs">
                           {strings.CROWN_AUMS}
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell />
+                        <SortableTableHeaderCell column="" currentSortBy="" currentSortOrder={undefined} onClick={() => undefined} noSort />
                       </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                      {schedule.scheduleEntries.map((entry, entryIndex) => (
+                      {schedule.scheduleEntries.map((entry: any, entryIndex: number) => (
                         <GrazingScheduleEntryRow
                           key={entry.id || entry.key}
                           schedule={schedule}
@@ -343,12 +357,12 @@ const GrazingScheduleBox = ({
               setToRemove(null);
             }}
             onConfirm={async () => {
-              const entry = schedule.scheduleEntries[toRemove];
+              const entry = schedule.scheduleEntries[toRemove!];
 
               if (!uuid.isUUID(entry.id)) {
                 await deleteScheduleEntry(schedule.planId, schedule.id, entry.id);
               }
-              remove(toRemove);
+              remove(toRemove!);
               setToRemove(null);
             }}
           />
@@ -358,17 +372,4 @@ const GrazingScheduleBox = ({
   );
 };
 
-GrazingScheduleBox.propTypes = {
-  schedule: PropTypes.object.isRequired,
-  activeIndex: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-  namespace: PropTypes.string.isRequired,
-  crownTotalAUMs: PropTypes.number.isRequired,
-  yearOptions: PropTypes.array.isRequired,
-  onScheduleClicked: PropTypes.func.isRequired,
-  authorizedAUMs: PropTypes.number.isRequired,
-  onScheduleCopy: PropTypes.func.isRequired,
-  onScheduleDelete: PropTypes.func.isRequired,
-};
-
-export default connect(GrazingScheduleBox);
+export default GrazingScheduleBox;

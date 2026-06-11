@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import * as API from '../../../constants/api';
@@ -6,18 +5,23 @@ import { axios, getAuthHeaderConfig } from '../../../utils';
 import VersionsDropdownList from './VersionsDropdownList';
 import { TableCell, TableRow } from 'semantic-ui-react';
 
-const VersionsDropdown = ({ planId, open }) => {
-  const [selectedVersion, setSelectedVersion] = useState(null);
+interface VersionsDropdownProps {
+  planId: any;
+  open: boolean;
+}
+
+const VersionsDropdown = ({ planId, open }: VersionsDropdownProps) => {
+  const [selectedVersion, setSelectedVersion] = useState<any>(null);
   const endpoint = API.GET_RUP_VERSIONS(planId);
 
   const { data, error, isValidating } = useSWR(
     () => (open ? endpoint : null),
-    (key) =>
+    (key: string) =>
       axios
         .get(key, {
           ...getAuthHeaderConfig(),
         })
-        .then((res) => res.data),
+        .then((res: any) => res.data),
   );
 
   const { versions = [] } = data || {};
@@ -38,7 +42,7 @@ const VersionsDropdown = ({ planId, open }) => {
       versions={versions}
       selectedVersion={selectedVersion}
       open={open}
-      onSelectVersion={(e, { value }) => setSelectedVersion(value)}
+      onSelectVersion={(e: any, { value }: any) => setSelectedVersion(value)}
     />
   );
 };

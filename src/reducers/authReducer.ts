@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   STORE_SSO_AUTH_DATA,
   STORE_USER,
@@ -7,16 +6,39 @@ import {
   SET_TIMEOUT_FOR_REAUTHENTICATION,
 } from '../constants/actionTypes';
 import { getAuthAndUserFromLocal } from '../utils';
+import { User } from '../types';
 
-const { user, authData } = getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {};
-const initialState = {
+export interface AuthData {
+  access_token: string;
+  refresh_token?: string;
+  expires_in?: number;
+  token_type?: string;
+  [key: string]: unknown;
+}
+
+export interface AuthState {
+  authData: AuthData | undefined;
+  user: User | undefined;
+  reAuthRequired: boolean;
+  timeoutIds: Record<string, ReturnType<typeof setTimeout>>;
+}
+
+interface AuthAction {
+  type: string;
+  data?: AuthData;
+  user?: User;
+  timeoutIds?: Record<string, ReturnType<typeof setTimeout>>;
+}
+
+const { user, authData } = (getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {}) as { user?: User; authData?: AuthData };
+const initialState: AuthState = {
   authData,
   user,
   reAuthRequired: false,
   timeoutIds: {},
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state: AuthState = initialState, action: AuthAction): AuthState => {
   switch (action.type) {
     case STORE_SSO_AUTH_DATA:
       return {
@@ -36,7 +58,6 @@ const authReducer = (state = initialState, action) => {
         user: undefined,
         reAuthRequired: false,
         timeoutIds: {},
-        unauthorizedErrorResponses: [],
       };
     case REAUTHENTICATE:
       return {
@@ -47,18 +68,20 @@ const authReducer = (state = initialState, action) => {
     case SET_TIMEOUT_FOR_REAUTHENTICATION:
       return {
         ...state,
-        timeoutIds: action.timeoutIds,
+        timeoutIds: action.timeoutIds ?? {},
       };
     default:
       return state;
   }
 };
 
-// Private selectors being name exported
-export const getAuthData = (state) => state.authData;
-export const getToken = (state) => state.authData && state.authData.access_token;
-export const getUser = (state) => state.user;
-export const getReAuthRequired = (state) => state.reAuthRequired;
-export const getAuthTimeout = (state) => state.timeoutIds;
+// Private selectors
+export const getAuthData = (state: AuthState): AuthData | undefined => state.authData;
+export const getToken = (state: AuthState): string | undefined =>
+  state.authData?.access_token;
+export const getUser = (state: AuthState): User | undefined => state.user;
+export const getReAuthRequired = (state: AuthState): boolean => state.reAuthRequired;
+export const getAuthTimeout = (state: AuthState): Record<string, ReturnType<typeof setTimeout>> =>
+  state.timeoutIds;
 
 export default authReducer;

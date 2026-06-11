@@ -1,101 +1,69 @@
-// @ts-nocheck
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal, Form, Icon, Input } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal, Form as _Form, Icon, Input } from 'semantic-ui-react';
+
+const Form = _Form as any;
 import { getInputModal } from '../../reducers/rootReducer';
-import { openInputModal, closeInputModal } from '../../actions';
+import { closeInputModal } from '../../actions';
 import { PrimaryButton } from '../common';
 import { handleWhenEnterPressed } from '../../utils';
+import { RootState } from '../../configureStore';
 
-class InputModal extends Component {
-  static propTypes = {
-    closeInputModal: PropTypes.func.isRequired,
-    inputModal: PropTypes.shape({
-      title: PropTypes.string,
-      input: PropTypes.string,
-      value: PropTypes.shape({}),
-      onSubmit: PropTypes.func,
-    }),
+const InputModal: React.FC = () => {
+  const dispatch = useDispatch();
+  const inputModal = useSelector((state: RootState) => getInputModal(state));
+  const [input, setInput] = useState((inputModal && (inputModal as any).input) || '');
+
+  const onInputChanged = (e: any) => {
+    setInput(e.target.value);
   };
 
-  static defaultProps = {
-    inputModal: null,
+  const handleModalClose = (e: any) => {
+    e.preventDefault();
+    setInput('');
+    dispatch(closeInputModal());
   };
 
-  constructor(props) {
-    super(props);
-    const { inputModal } = props;
-    const input = (inputModal && inputModal.input) || '';
-
-    this.state = {
-      input,
-    };
-  }
-
-  onInputChanged = (e) => {
-    this.setState({
-      input: e.target.value,
-    });
-  };
-
-  onSubmitClicked = (e) => {
-    const { inputModal = {} } = this.props;
-    const { onSubmit, ...rest } = inputModal;
+  const onSubmitClicked = (e: any) => {
+    const { onSubmit, ...rest } = (inputModal as any) || {};
 
     if (onSubmit) {
-      onSubmit(this.state.input, { ...rest });
+      onSubmit(input, { ...rest });
     }
 
-    this.handleModalClose(e);
+    handleModalClose(e);
   };
 
-  onInputKeyPressed = (e) => {
-    handleWhenEnterPressed(e, this.onSubmitClicked);
+  const onInputKeyPressed = (e: any) => {
+    handleWhenEnterPressed(e, onSubmitClicked);
   };
 
-  handleModalClose = (e) => {
-    e.preventDefault();
-    this.setState({ input: '' });
-    this.props.closeInputModal();
-  };
+  const title = inputModal && (inputModal as any).title;
 
-  render() {
-    const { inputModal } = this.props;
-    const { input } = this.state;
-    const title = inputModal && inputModal.title;
-
-    return (
-      <Modal dimmer="blurring" size="mini" open={inputModal !== null} onClose={this.handleModalClose} closeIcon>
-        <div className="input-modal">
-          <div className="input-modal__title">{title}</div>
-          <Form>
-            <Form.Field>
-              <Input value={input} onChange={this.onInputChanged} onKeyPress={this.onInputKeyPressed} autoFocus />
-            </Form.Field>
-          </Form>
-          <div className="input-modal__btns">
-            <PrimaryButton inverted fluid onClick={this.handleModalClose}>
-              <Icon name="remove" />
-              Cancel
+  return (
+    <Modal dimmer="blurring" size="mini" open={inputModal !== null} onClose={handleModalClose} closeIcon>
+      <div className="input-modal">
+        <div className="input-modal__title">{title}</div>
+        <Form>
+          <Form.Field>
+            <Input value={input} onChange={onInputChanged} onKeyPress={onInputKeyPressed} autoFocus />
+          </Form.Field>
+        </Form>
+        <div className="input-modal__btns">
+          <PrimaryButton inverted fluid onClick={handleModalClose}>
+            <Icon name="remove" />
+            Cancel
+          </PrimaryButton>
+          <div>
+            <PrimaryButton fluid onClick={onSubmitClicked}>
+              <Icon name="checkmark" />
+              Submit
             </PrimaryButton>
-            <div>
-              <PrimaryButton fluid onClick={this.onSubmitClicked}>
-                <Icon name="checkmark" />
-                Submit
-              </PrimaryButton>
-            </div>
           </div>
         </div>
-      </Modal>
-    );
-  }
-}
+      </div>
+    </Modal>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  inputModal: getInputModal(state),
-});
-export default connect(mapStateToProps, {
-  openInputModal,
-  closeInputModal,
-})(InputModal);
+export default InputModal;

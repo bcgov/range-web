@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -9,6 +8,17 @@ import IconButton from '@mui/material/IconButton';
 import { Close } from '@material-ui/icons';
 import TextField from '@mui/material/TextField';
 
+interface DatePickerDialogProps {
+  defaultValue: string;
+  title: string;
+  inputProps: any;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  selectedDate: (date: string) => void;
+  actionName: string;
+  callBack: () => void;
+}
+
 export default function DatePickerDialog({
   defaultValue,
   title,
@@ -18,7 +28,7 @@ export default function DatePickerDialog({
   selectedDate,
   actionName,
   callBack,
-}) {
+}: DatePickerDialogProps) {
   return (
     <Dialog onClose={() => setOpen(false)} aria-labelledby="customized-dialog-title" open={open}>
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
@@ -31,7 +41,7 @@ export default function DatePickerDialog({
           position: 'absolute',
           right: 8,
           top: 8,
-          color: (theme) => theme.palette.grey[500],
+          color: (theme: any) => theme.palette.grey[500],
         }}
       >
         <Close />
@@ -46,7 +56,7 @@ export default function DatePickerDialog({
           InputLabelProps={{
             shrink: true,
           }}
-          onChange={(event) => {
+          onChange={(event: any) => {
             selectedDate(event.target.value);
           }}
         />

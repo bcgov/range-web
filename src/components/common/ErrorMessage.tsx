@@ -1,35 +1,26 @@
-// @ts-nocheck
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Message, Icon } from 'semantic-ui-react';
 
-class ErrorMessage extends Component {
-  static propTypes = {
-    message: PropTypes.string.isRequired,
-    warning: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    warning: false,
-  };
-
-  render() {
-    const { message, warning, ...rest } = this.props;
-
-    return (
-      <Message
-        warning={warning}
-        error={!warning}
-        {...rest}
-        content={
-          <Fragment>
-            <Icon name="warning sign" style={{ marginRight: '7px' }} />
-            {message}
-          </Fragment>
-        }
-      />
-    );
-  }
+interface ErrorMessageProps {
+  message: string;
+  warning?: boolean;
+  [key: string]: any;
 }
+
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, warning = false, ...rest }) => {
+  return (
+    <Message
+      warning={warning}
+      error={!warning}
+      {...rest}
+      content={
+        <>
+          <Icon name="warning sign" style={{ marginRight: '7px' }} />
+          {message}
+        </>
+      }
+    />
+  );
+};
 
 export default ErrorMessage;

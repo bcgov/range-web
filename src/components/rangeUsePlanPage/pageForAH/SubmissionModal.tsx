@@ -1,7 +1,5 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
 import { PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
@@ -11,28 +9,38 @@ import TabsForSingleAH from './tabs/TabsForSingleAH';
 import TabsForMultipleAH from './tabs/TabsForMultipleAH';
 import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator';
 
-class SubmissionModal extends Component {
-  static propTypes = {
-    user: PropTypes.shape({}).isRequired,
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    plan: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object),
-    fetchPlan: PropTypes.func.isRequired,
-    updateStatusAndContent: PropTypes.func.isRequired,
-  };
+interface SubmissionModalProps {
+  user: any;
+  open: boolean;
+  onClose: () => void;
+  plan: any;
+  references: any;
+  clients: any[];
+  clientAgreements: any[];
+  fetchPlan: () => Promise<any>;
+  updateStatusAndContent: (...args: any[]) => any;
+  planUpdated: (data: any) => void;
+  updateRUPConfirmation: (...args: any[]) => Promise<any>;
+}
 
+interface SubmissionModalState {
+  statusCode: string | null;
+  isAgreed: boolean;
+  note: string;
+  isSubmitting: boolean;
+}
+
+class SubmissionModal extends Component<SubmissionModalProps, SubmissionModalState> {
   static defaultProps = {
     clients: [],
   };
 
-  constructor(props) {
+  constructor(props: SubmissionModalProps) {
     super(props);
     this.state = this.getInitialState();
   }
 
-  getInitialState = () => ({
+  getInitialState = (): SubmissionModalState => ({
     statusCode: null,
     isAgreed: false,
     note: '',
@@ -44,21 +52,21 @@ class SubmissionModal extends Component {
     this.props.onClose();
   };
 
-  handleStatusCodeChange = (e, { value: statusCode }) => {
+  handleStatusCodeChange = (_e: any, { value: statusCode }: any) => {
     this.setState({ statusCode });
   };
 
-  handleAgreeCheckBoxChange = (e, { checked }) => {
+  handleAgreeCheckBoxChange = (_e: any, { checked }: any) => {
     this.setState({ isAgreed: checked });
   };
 
-  handleNoteChange = (e, { value: note }) => {
+  handleNoteChange = (_e: any, { value: note }: any) => {
     if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
       this.setState({ note });
     }
   };
 
-  submitPlan = (plan, status) => {
+  submitPlan = (plan: any, status: any) => {
     const { updateStatusAndContent, updateRUPConfirmation, fetchPlan, user, clientAgreements } = this.props;
     const { note } = this.state;
 
@@ -71,7 +79,7 @@ class SubmissionModal extends Component {
       const isMinorAmendment = false;
       if (status.id === 14 || status.id === 18) {
         for (const currUserConfirmation of currUserConfirmations) {
-          const isOwnSignature = user.clients.some((c) => c.clientNumber === currUserConfirmation.clientId);
+          const isOwnSignature = user.clients.some((c: any) => c.clientNumber === currUserConfirmation.clientId);
           await updateRUPConfirmation(plan, user, currUserConfirmation.id, confirmed, isMinorAmendment, isOwnSignature);
         }
       }
@@ -86,7 +94,7 @@ class SubmissionModal extends Component {
     return updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
   };
 
-  onSubmitClicked = (e) => {
+  onSubmitClicked = (e: React.FormEvent) => {
     e.preventDefault();
     const { plan, references, clients } = this.props;
     const { statusCode } = this.state;
@@ -147,7 +155,7 @@ class SubmissionModal extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   user: getUser(state),
   references: getReferences(state),
 });
@@ -155,4 +163,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   planUpdated,
   updateRUPConfirmation,
-})(SubmissionModal);
+})(SubmissionModal as any);

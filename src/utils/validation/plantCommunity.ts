@@ -1,8 +1,17 @@
-// @ts-nocheck
 import { ELEMENT_ID } from '../../constants/variables';
 import { UNAPPROVED_PLANT_COMMUNITIES } from '../../constants/strings';
 
-export const handlePlantCommunityValidation = (plantCommunities) => {
+interface ValidationError {
+  error: boolean;
+  message: string;
+  elementId: string;
+}
+
+interface PlantCommunityLike {
+  approved?: boolean;
+}
+
+export const handlePlantCommunityValidation = (plantCommunities: PlantCommunityLike[]): ValidationError[] => {
   if (plantCommunities.find((pc) => !pc.approved)) {
     return [
       {

@@ -1,12 +1,16 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import StatusHistory from './StatusHistory';
 import { isStatusAwaitingConfirmation, isStatusIndicatingStaffFeedbackNeeded, isUserStaff } from '../../../utils';
 import AHSignaturesStatusModal from './AHSignaturesStatusModal';
 import { useUser } from '../../../providers/UserProvider';
 
-const Notifications = (props) => {
+interface NotificationsProps {
+  plan: any;
+  planTypeDescription?: string;
+  [key: string]: any;
+}
+
+const Notifications: React.FC<NotificationsProps> = (props) => {
   const { plan, planTypeDescription = '' } = props;
   const user = useUser();
 
@@ -25,15 +29,9 @@ const Notifications = (props) => {
 
       {planStatusHistory.length !== 0 && <StatusHistory planStatusHistory={planStatusHistory} />}
 
-      {isStatusAwaitingConfirmation(status) && <AHSignaturesStatusModal {...props} />}
+      {isStatusAwaitingConfirmation(status) && <AHSignaturesStatusModal {...props} user={user} />}
     </div>
   );
-};
-
-Notifications.propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  planStatusHistoryMap: PropTypes.shape({}).isRequired,
-  planTypeDescription: PropTypes.string,
 };
 
 export default Notifications;

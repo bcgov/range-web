@@ -1,34 +1,44 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import { generatePDF } from '../../../api';
 import { PrimaryButton } from '../../common';
 import { downloadAttachment } from '../attachments/AttachmentRow';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
-const PDFView = ({ match, agreementId, mapAttachments }) => {
+interface MapAttachment {
+  id: string | number;
+  name: string;
+}
+
+interface PDFViewProps {
+  match: { params: { planId: string } };
+  agreementId: string;
+  mapAttachments: MapAttachment[];
+}
+
+const PDFView: React.FC<PDFViewProps> = ({ match, agreementId, mapAttachments }) => {
   const { planId } = match.params;
-  const hasError = !!error;
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
+  const hasError = !!error;
 
   const onDownloadClick = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await generatePDF(planId);
-      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const blob = new Blob([(response as any).data], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `${agreementId} - RUP`);
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      link.parentNode!.removeChild(link);
       setLoading(false);
       mapAttachments.forEach((attachment) => {
         downloadAttachment(attachment.id, attachment.name, ATTACHMENT_TYPE.PLAN_ATTACHMENT);
       });
-    } catch (e) {
+    } catch (e: any) {
       setLoading(false);
       setError(e);
       console.error(e);

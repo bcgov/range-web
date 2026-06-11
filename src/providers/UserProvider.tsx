@@ -1,32 +1,25 @@
-// @ts-nocheck
 import React, { useContext } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { getUser } from '../reducers/rootReducer';
+import type { User } from '../types';
+import type { RootState } from '../configureStore';
 
-export const UserContext = React.createContext({});
+export const UserContext = React.createContext<User | undefined>(undefined);
 
-export const useUser = () => useContext(UserContext);
+export const useUser = (): User | undefined => useContext(UserContext);
 
-const UserProvider = ({ user, children }) => {
+interface UserProviderProps {
+  user?: User;
+  children: React.ReactNode;
+}
+
+const UserProvider: React.FC<UserProviderProps> = ({ user, children }) => {
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
-};
-
-UserProvider.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired,
-    givenName: PropTypes.string.isRequired,
-    familyName: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    roles: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  }),
-  children: PropTypes.node,
 };
 
 // Just take user from redux store and make it accessible via UserContext for now
 // Eventually handle retrieving and storing the user in this component w/o redux
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   user: getUser(state),
 });
 

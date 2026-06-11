@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import { CircularProgress, TextField, Grid, Typography, makeStyles, Button, Fade } from '@material-ui/core';
@@ -9,6 +8,28 @@ import * as API from '../../constants/api';
 import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName, getUserRole, getUserRoleObj } from '../../utils';
 import { Banner } from '../common';
 import { assignRole, assignDistricts } from '../../api';
+
+interface UserOption {
+  id: number;
+  email?: string;
+  ssoId?: string;
+  givenName?: string;
+  familyName?: string;
+  lastLoginAt?: string;
+  roleId?: number;
+  [key: string]: any;
+}
+
+interface RoleOption {
+  id: number;
+  description: string;
+}
+
+interface DistrictOption {
+  id: number;
+  code: string;
+  description: string;
+}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -21,34 +42,40 @@ const useStyles = makeStyles((theme) => ({
   noSelection: {
     padding: theme.spacing(2),
   },
+  addButton: {},
+  buttonProgress: {},
+  successMessage: {
+    color: 'green',
+  },
 }));
 
-const AssignRolesAndDistrictsPage = () => {
+const AssignRolesAndDistrictsPage: React.FC = () => {
   const classes = useStyles();
 
   const {
     data: usersFromData,
     error,
     isValidating,
-  } = useSWR(`${API.GET_USERS}/?orderCId=desc`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => {
+  } = useSWR<UserOption[]>(`${API.GET_USERS}/?orderCId=desc`, (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => {
       setUsers(res.data);
       return res.data;
     }),
   );
-  const { data: roles } = useSWR(`${API.GET_ROLES}`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => {
+  const { data: roles } = useSWR<RoleOption[]>(`${API.GET_ROLES}`, (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => {
       return res.data;
     }),
   );
-  const { data: districtsFromData } = useSWR(`${API.GET_DISTRICTS}`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => {
+  const { data: districtsFromData } = useSWR<DistrictOption[]>(`${API.GET_DISTRICTS}`, (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => {
       setDistricts(res.data);
       return res.data;
     }),
   );
 
   const handleSave = async () => {
+    if (!user || !role) return;
     setAssigning(true);
     setAssigningError(null);
     setAssigningSuccess(null);
@@ -60,40 +87,40 @@ const AssignRolesAndDistrictsPage = () => {
       await assignRole(user.id, role.id);
       await assignDistricts(user.id, selectedDistricts);
       setAssigningSuccess('Role and Districts assigned to account successfully');
-      axios.get(`${API.GET_USERS}/?orderCId=desc`, getAuthHeaderConfig()).then((res) => {
+      axios.get(`${API.GET_USERS}/?orderCId=desc`, getAuthHeaderConfig()).then((res: any) => {
         setUsers([...res.data]);
         return res.data;
       });
-      axios.get(`${API.GET_DISTRICTS}`, getAuthHeaderConfig()).then((res) => {
+      axios.get(`${API.GET_DISTRICTS}`, getAuthHeaderConfig()).then((res: any) => {
         setDistricts([...res.data]);
         return res.data;
       });
-    } catch (e) {
+    } catch (e: any) {
       setAssigningError(`Error assigning to account: ${e.message ?? e?.data?.error}`);
     } finally {
       setAssigning(false);
     }
   };
 
-  const pullRoleAndDistrict = (user) => {
+  const pullRoleAndDistrict = (selectedUser: UserOption) => {
     // Role
-    setRole(getUserRoleObj(user));
+    setRole(getUserRoleObj(selectedUser));
 
     // District
-    axios.get(`${API.GET_DISTRICTS}/${user.id}`, getAuthHeaderConfig()).then((res) => {
+    axios.get(`${API.GET_DISTRICTS}/${selectedUser.id}`, getAuthHeaderConfig()).then((res: any) => {
       setSelectedDistricts([...res.data]);
       return res.data;
     });
   };
 
-  const [users, setUsers] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
-  const [selectedDistricts, setSelectedDistricts] = useState([]);
+  const [users, setUsers] = useState<UserOption[]>([]);
+  const [districts, setDistricts] = useState<DistrictOption[]>([]);
+  const [user, setUser] = useState<UserOption | null>(null);
+  const [role, setRole] = useState<RoleOption | null>(null);
+  const [selectedDistricts, setSelectedDistricts] = useState<DistrictOption[]>([]);
   const [assigning, setAssigning] = useState(false);
-  const [assigningError, setAssigningError] = useState(null);
-  const [assigningSuccess, setAssigningSuccess] = useState(null);
+  const [assigningError, setAssigningError] = useState<string | null>(null);
+  const [assigningSuccess, setAssigningSuccess] = useState<string | null>(null);
 
   return (
     <section className="manage-client">
@@ -103,7 +130,8 @@ const AssignRolesAndDistrictsPage = () => {
           <h3>Select the user who you&apos;d like to edit:</h3>
           {error && (
             <Typography color="error">
-              index.js Error occurred fetching user: {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+              index.js Error occurred fetching user:{' '}
+              {(error as any)?.message ?? (error as any)?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
           {isValidating && !usersFromData && <CircularProgress />}
@@ -114,15 +142,15 @@ const AssignRolesAndDistrictsPage = () => {
                 options={users?.length > 0 ? users : usersFromData}
                 value={user}
                 openOnFocus
-                onChange={(e, user) => {
-                  setUser(user);
-                  pullRoleAndDistrict(user);
+                onChange={(_e: any, selectedUser: UserOption | null) => {
+                  setUser(selectedUser);
+                  if (selectedUser) pullRoleAndDistrict(selectedUser);
                 }}
-                getOptionLabel={(option) => getUserFullName(option)}
-                getOptionSelected={(option) => option.id === user.id}
+                getOptionLabel={(option: UserOption) => getUserFullName(option)}
+                getOptionSelected={(option: UserOption, value: UserOption) => option.id === value.id}
                 style={{ width: 400 }}
-                renderInput={(params) => <TextField {...params} label="Select user" variant="outlined" />}
-                renderOption={(option) => (
+                renderInput={(params: any) => <TextField {...params} label="Select user" variant="outlined" />}
+                renderOption={(option: UserOption) => (
                   <Grid container alignItems="center">
                     <Grid item>
                       <PersonIcon className={classes.icon} />
@@ -150,16 +178,16 @@ const AssignRolesAndDistrictsPage = () => {
               {/* Roles */}
               <Autocomplete
                 id="user-autocomplete-select"
-                options={[...roles, { id: -1, description: 'No role in database yet' }]}
+                options={[...(roles || []), { id: -1, description: 'No role in database yet' }]}
                 value={role}
                 openOnFocus
-                onChange={(e, role) => {
-                  setRole(role);
+                onChange={(_e: any, selectedRole: RoleOption | null) => {
+                  setRole(selectedRole);
                 }}
-                getOptionLabel={(option) => option.description}
+                getOptionLabel={(option: RoleOption) => option.description}
                 style={{ width: 400 }}
-                renderInput={(params) => <TextField {...params} label="Role" variant="outlined" />}
-                renderOption={(option) => (
+                renderInput={(params: any) => <TextField {...params} label="Role" variant="outlined" />}
+                renderOption={(option: RoleOption) => (
                   <Grid container alignItems="center">
                     <Grid item xs>
                       <Typography>{option.description}</Typography>
@@ -174,16 +202,16 @@ const AssignRolesAndDistrictsPage = () => {
               <Autocomplete
                 id="user-autocomplete-select"
                 multiple
-                options={districts.length > 0 ? districts : districtsFromData}
+                options={districts.length > 0 ? districts : districtsFromData || []}
                 value={selectedDistricts}
                 openOnFocus
-                onChange={(e, districts) => {
-                  setSelectedDistricts(districts);
+                onChange={(_e: any, newDistricts: DistrictOption[]) => {
+                  setSelectedDistricts(newDistricts);
                 }}
-                getOptionLabel={(option) => `${option.code}`}
+                getOptionLabel={(option: DistrictOption) => `${option.code}`}
                 style={{ width: 400 }}
-                renderInput={(params) => <TextField {...params} label="Select Districts" variant="outlined" />}
-                renderOption={(option) => (
+                renderInput={(params: any) => <TextField {...params} label="Select Districts" variant="outlined" />}
+                renderOption={(option: DistrictOption) => (
                   <Grid container alignItems="center">
                     <Grid item xs>
                       <Typography variant="body2" color="textPrimary">

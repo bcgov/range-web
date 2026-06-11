@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,18 +28,40 @@ import confirmationsReducer from './confirmationsReducer';
 import planStatusHistoryReducer from './planStatusHistoryReducer';
 import additionalRequirementsReducer from './additionalRequirementsReducer';
 import managementConsiderationsReducer from './managementConsiderationsReducer';
+import type { PlansState, NormalizedPlan } from './plansReducer';
+import type { PasturesState } from './pasturesReducer';
+import type { PlantCommunitiesState } from './plantCommunitiesReducer';
+import type { SchedulesState } from './grazingSchedulesReducer';
+import type { MinisterIssuesState } from './ministerIssuesReducer';
+import type { ConfirmationsState } from './confirmationsReducer';
+import type { PlanStatusHistoryState } from './planStatusHistoryReducer';
+import type { AdditionalRequirementsState } from './additionalRequirementsReducer';
+import type { ManagementConsiderationsState } from './managementConsiderationsReducer';
+import type { EntityMap , PlanStatusHistory, PlanConfirmation, Pasture, PlantCommunity, Schedule, MinisterIssue, AdditionalRequirement, ManagementConsideration } from '../../types';
+
+export interface PlanReducerState {
+  plans: PlansState;
+  pastures: PasturesState;
+  plantCommunities: PlantCommunitiesState;
+  schedules: SchedulesState;
+  ministerIssues: MinisterIssuesState;
+  confirmations: ConfirmationsState;
+  planStatusHistory: PlanStatusHistoryState;
+  additionalRequirements: AdditionalRequirementsState;
+  managementConsiderations: ManagementConsiderationsState;
+}
 
 // private selectors
-export const getPlansMap = (state) => state.plans.byId;
-export const getPlanIds = (state) => state.plans.allIds;
-export const getPasturesMap = (state) => state.pastures;
-export const getPlantCommunitiesMap = (state) => state.plantCommunities;
-export const getSchedulesMap = (state) => state.schedules;
-export const getMinisterIssuesMap = (state) => state.ministerIssues;
-export const getConfirmationsMap = (state) => state.confirmations;
-export const getPlanStatusHistoryMap = (state) => state.planStatusHistory;
-export const getAdditionalRequirementsMap = (state) => state.additionalRequirements;
-export const getManagementConsiderationsMap = (state) => state.managementConsiderations;
+export const getPlansMap = (state: PlanReducerState): EntityMap<NormalizedPlan> => state.plans.byId;
+export const getPlanIds = (state: PlanReducerState): Array<string | number> => state.plans.allIds;
+export const getPasturesMap = (state: PlanReducerState): EntityMap<Pasture> => state.pastures;
+export const getPlantCommunitiesMap = (state: PlanReducerState): EntityMap<PlantCommunity> => state.plantCommunities;
+export const getSchedulesMap = (state: PlanReducerState): EntityMap<Schedule> => state.schedules;
+export const getMinisterIssuesMap = (state: PlanReducerState): EntityMap<MinisterIssue> => state.ministerIssues;
+export const getConfirmationsMap = (state: PlanReducerState): EntityMap<PlanConfirmation> => state.confirmations;
+export const getPlanStatusHistoryMap = (state: PlanReducerState): EntityMap<PlanStatusHistory> => state.planStatusHistory;
+export const getAdditionalRequirementsMap = (state: PlanReducerState): EntityMap<AdditionalRequirement> => state.additionalRequirements;
+export const getManagementConsiderationsMap = (state: PlanReducerState): EntityMap<ManagementConsideration> => state.managementConsiderations;
 
 export default combineReducers({
   plans: plansReducer,

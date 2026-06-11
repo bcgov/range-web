@@ -1,11 +1,15 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Icon, Modal } from 'semantic-ui-react';
 import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList';
 import { PrimaryButton } from '../../common';
 
-const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
+interface AHSignaturesStatusModalProps {
+  plan: any;
+  user: any;
+  clientAgreements?: any;
+}
+
+const AHSignaturesStatusModal: React.FC<AHSignaturesStatusModalProps> = ({ plan, user, clientAgreements }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
@@ -15,7 +19,7 @@ const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
   const clients = (agreement && agreement.clients) || [];
 
   let numberOfConfirmed = 0;
-  confirmations.forEach((confirmation) => {
+  confirmations.forEach((confirmation: any) => {
     if (confirmation && confirmation.confirmed) {
       numberOfConfirmed += 1;
     }
@@ -52,13 +56,6 @@ const AHSignaturesStatusModal = ({ plan, user, clientAgreements }) => {
       </div>
     </>
   );
-};
-
-AHSignaturesStatusModal.propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  user: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  planStatusHistoryMap: PropTypes.shape({}).isRequired,
 };
 
 export default AHSignaturesStatusModal;

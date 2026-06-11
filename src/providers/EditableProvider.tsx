@@ -1,17 +1,16 @@
-// @ts-nocheck
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 
-export const EditableContext = React.createContext({});
+export const EditableContext = React.createContext<boolean>(false);
 
-export const useEditable = () => useContext(EditableContext);
+export const useEditable = (): boolean => useContext(EditableContext);
 
-const EditableProvider = ({ children, editable }) => {
+interface EditableProviderProps {
+  children: React.ReactNode;
+  editable: boolean;
+}
+
+const EditableProvider: React.FC<EditableProviderProps> = ({ children, editable }) => {
   return <EditableContext.Provider value={editable}>{children}</EditableContext.Provider>;
-};
-
-EditableProvider.propTypes = {
-  children: PropTypes.node,
 };
 
 export default EditableProvider;

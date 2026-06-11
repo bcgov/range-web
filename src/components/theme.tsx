@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createTheme } from '@material-ui/core';
 
 const theme = createTheme({
@@ -16,7 +15,6 @@ const theme = createTheme({
   },
   overrides: {
     MuiButton: {
-      disableElevation: true,
       root: {
         textTransform: 'none',
       },
@@ -24,10 +22,7 @@ const theme = createTheme({
         fontWeight: 'bold',
       },
     },
-    MuiButtonBase: {
-      disableRipple: true,
-    },
-  },
+  } as any,
 });
 
 export default theme;

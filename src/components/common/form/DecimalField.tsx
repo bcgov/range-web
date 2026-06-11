@@ -1,43 +1,41 @@
-// @ts-nocheck
 import React from 'react';
 import { Field, FastField, getIn } from 'formik';
 import { Form, Input } from 'semantic-ui-react';
 import { InputRef } from './InputRef';
 import ErrorMessage from './ErrorMessage';
 
-const DecimalField = ({
+interface DecimalFieldProps {
+  name: string;
+  label?: string;
+  validate?: (value: any) => string | undefined;
+  inputProps?: Record<string, any>;
+  fieldProps?: Record<string, any>;
+  errorComponent?: React.ComponentType<{ message: string }>;
+  inputRef?: (el: HTMLInputElement | null) => void;
+  fast?: boolean;
+}
+
+interface DecimalInputProps {
+  name: string;
+  label?: string;
+  inputProps: Record<string, any>;
+  fieldProps: Record<string, any>;
+  errorComponent: React.ComponentType<{ message: string }>;
+  inputRef?: (el: HTMLInputElement | null) => void;
+  form: any;
+  field: any;
+}
+
+const DecimalInput: React.FC<DecimalInputProps> = ({
   name,
   label,
-  validate,
-  inputProps = {},
-  fieldProps = {},
-  errorComponent = ErrorMessage,
+  inputProps,
+  fieldProps,
+  errorComponent,
   inputRef,
-  fast,
+  form,
+  field,
 }) => {
-  const DesiredField = fast === true ? FastField : Field;
-
-  return (
-    <DesiredField
-      name={name}
-      validate={validate}
-      render={({ field, form }) => (
-        <DecimalInput
-          name={name}
-          field={field}
-          form={form}
-          label={label}
-          fieldProps={fieldProps}
-          errorComponent={errorComponent}
-          inputRef={inputRef}
-          inputProps={inputProps}
-        />
-      )}
-    />
-  );
-};
-
-const DecimalInput = ({ name, label, inputProps, fieldProps, errorComponent, inputRef, form, field }) => {
   const { onChange, ...safeInputProps } = inputProps;
   const id = `decimal_field_${name}`;
 
@@ -55,18 +53,18 @@ const DecimalInput = ({ name, label, inputProps, fieldProps, errorComponent, inp
           type="number"
           {...safeInputProps}
           value={touched ? field.value : parseFloat(field.value).toFixed(1)}
-          onBlur={(...args) => {
+          onBlur={(...args: any[]) => {
             if (!isNaN(parseFloat(field.value))) {
               form.setFieldValue(field.name, parseFloat(field.value).toFixed(1));
             }
 
             form.handleBlur(...args);
           }}
-          onChange={(e, { name, value }) => {
+          onChange={(_e: any, { name: fieldName, value }: any) => {
             form.setFieldValue(field.name, value);
             form.setFieldTouched(field.name, true);
             Promise.resolve().then(() => {
-              onChange && onChange(e, { name, value });
+              onChange && onChange(_e, { name: fieldName, value });
             });
           }}
         />
@@ -77,6 +75,38 @@ const DecimalInput = ({ name, label, inputProps, fieldProps, errorComponent, inp
           message: error,
         })}
     </Form.Field>
+  );
+};
+
+const DecimalField: React.FC<DecimalFieldProps> = ({
+  name,
+  label,
+  validate,
+  inputProps = {},
+  fieldProps = {},
+  errorComponent = ErrorMessage,
+  inputRef,
+  fast,
+}) => {
+  const DesiredField = fast === true ? FastField : Field;
+
+  return (
+    <DesiredField
+      name={name}
+      validate={validate}
+      render={({ field, form }: any) => (
+        <DecimalInput
+          name={name}
+          field={field}
+          form={form}
+          label={label}
+          fieldProps={fieldProps}
+          errorComponent={errorComponent}
+          inputRef={inputRef}
+          inputProps={inputProps}
+        />
+      )}
+    />
   );
 };
 

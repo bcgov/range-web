@@ -1,7 +1,5 @@
-// @ts-nocheck
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Divider, Menu, Portal } from 'semantic-ui-react';
 import {
   isPlanAmendment,
@@ -24,33 +22,40 @@ import * as strings from '../../../constants/strings';
 import UpdateStatusModal from './UpdateStatusModal';
 import { Loading } from '../../common';
 
-class UpdateStatusDropdown extends Component {
-  static propTypes = {
-    user: PropTypes.shape({}).isRequired,
-    plan: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    confirmationModalsMap: PropTypes.shape({}).isRequired,
-    isUpdatingStatus: PropTypes.bool.isRequired,
-    updateRUPStatus: PropTypes.func.isRequired,
-    fetchPlan: PropTypes.func.isRequired,
-    isFetchingPlan: PropTypes.bool.isRequired,
-  };
+interface UpdateStatusDropdownProps {
+  user: any;
+  plan: any;
+  references: any;
+  confirmationModalsMap: any;
+  isUpdatingStatus: boolean;
+  updateRUPStatus: (...args: any[]) => any;
+  fetchPlan: () => Promise<any>;
+  isFetchingPlan: boolean;
+  beforeUpdateStatus: (statusCode: string) => Promise<boolean>;
+}
 
-  state = {
+interface UpdateStatusDropdownState {
+  updateStatusModalOpen: boolean;
+  modal: any;
+  loading: boolean;
+}
+
+class UpdateStatusDropdown extends Component<UpdateStatusDropdownProps, UpdateStatusDropdownState> {
+  state: UpdateStatusDropdownState = {
     updateStatusModalOpen: false,
     modal: null,
     loading: false,
   };
 
   closeUpdateStatusModalOpen = () => this.setState({ updateStatusModalOpen: false });
-  openUpdateStatusModalOpen = (modal) => {
+  openUpdateStatusModalOpen = (modal: any) => {
     this.setState({
       updateStatusModalOpen: true,
       modal,
     });
   };
 
-  openConfirmModalForUpdatingPlanStatus = async (modal) => {
+  openConfirmModalForUpdatingPlanStatus = async (modal: any) => {
     this.setState({ loading: true });
 
     try {
@@ -64,14 +69,6 @@ class UpdateStatusDropdown extends Component {
 
     this.setState({ loading: false });
   };
-
-  // openCompletedConfirmModal = () => {
-  //   this.openConfirmModalForUpdatingPlanStatus({
-  //     header: strings.COMPLETED_CONFIRM_HEADER,
-  //     content: strings.COMPLETED_CONFIRM_CONTENT,
-  //     statusCode: PLAN_STATUS.COMPLETED,
-  //   });
-  // };
 
   openChangeRequestConfirmModal = () => {
     this.openConfirmModalForUpdatingPlanStatus({
@@ -169,7 +166,7 @@ class UpdateStatusDropdown extends Component {
     });
   };
 
-  getStatusDropdownOptions = (user, plan, isFetchingPlan, status) => {
+  getStatusDropdownOptions = (user: any, plan: any, isFetchingPlan: boolean, status: any) => {
     if (isFetchingPlan) {
       return [
         {
@@ -179,97 +176,29 @@ class UpdateStatusDropdown extends Component {
       ];
     }
 
-    const dedupe = (main, overrides) => {
+    const dedupe = (main: any[], overrides: any[]) => {
       const mainKeys = new Set(main.map((o) => o.key));
       return [...main, ...overrides.filter((o) => !mainKeys.has(o.key))];
     };
 
-    const draft = {
-      key: PLAN_STATUS.STAFF_DRAFT,
-      text: 'Draft',
-      onClick: this.openDraftModal,
-    };
+    const draft = { key: PLAN_STATUS.STAFF_DRAFT, text: 'Draft', onClick: this.openDraftModal };
+    const requestChanges = { key: PLAN_STATUS.CHANGE_REQUESTED, text: 'Request Changes', onClick: this.openChangeRequestConfirmModal };
+    const recommendReady = { key: PLAN_STATUS.RECOMMEND_READY, text: 'Recommend Ready', onClick: this.openRecommendReadyConfirmModal };
+    const recommendNotReady = { key: PLAN_STATUS.RECOMMEND_NOT_READY, text: 'Recommend Not Ready', onClick: this.openRecommendNotReadyConfirmModal };
+    const recommendForSubmission = { key: PLAN_STATUS.RECOMMEND_FOR_SUBMISSION, text: 'Recommend For Submission', onClick: this.openRFSConfirmModal };
+    const approved = { key: PLAN_STATUS.APPROVED, text: 'Approved', onClick: this.openApprovedConfirmModal };
+    const notApproved = { key: PLAN_STATUS.NOT_APPROVED, text: 'Not Approved', onClick: this.openNotApprovedConfirmModal };
+    const notApprovedFWR = { key: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED, text: 'Not Approved - Further Work Required', onClick: this.openNotApprovedFWRConfirmModal };
+    const wronglyMadeWithoutEffect = { key: PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT, text: 'Wrongly Made - Without Effect', onClick: this.openWMWEConfirmModal };
+    const standsWronglyMade = { key: PLAN_STATUS.STANDS_WRONGLY_MADE, text: 'Stands - Wrongly Made', onClick: this.openSWMConfirmModal };
+    const stands = { key: PLAN_STATUS.STANDS, text: 'Stands', onClick: this.openStandsConfirmModal };
+    const standsReview = { key: PLAN_STATUS.STANDS_REVIEW, text: 'Stands - Requires Review', onClick: this.openStandsReviewConfirmModal };
+    const warningDivider = { key: 'warningDivider', text: 'WARNING: Below entries are manual overrides.' };
 
-    const requestChanges = {
-      key: PLAN_STATUS.CHANGE_REQUESTED,
-      text: 'Request Changes',
-      onClick: this.openChangeRequestConfirmModal,
-    };
-    const recommendReady = {
-      key: PLAN_STATUS.RECOMMEND_READY,
-      text: 'Recommend Ready',
-      onClick: this.openRecommendReadyConfirmModal,
-    };
-    const recommendNotReady = {
-      key: PLAN_STATUS.RECOMMEND_NOT_READY,
-      text: 'Recommend Not Ready',
-      onClick: this.openRecommendNotReadyConfirmModal,
-    };
-    const recommendForSubmission = {
-      key: PLAN_STATUS.RECOMMEND_FOR_SUBMISSION,
-      text: 'Recommend For Submission',
-      onClick: this.openRFSConfirmModal,
-    };
-    const approved = {
-      key: PLAN_STATUS.APPROVED,
-      text: 'Approved',
-      onClick: this.openApprovedConfirmModal,
-    };
-    const notApproved = {
-      key: PLAN_STATUS.NOT_APPROVED,
-      text: 'Not Approved',
-      onClick: this.openNotApprovedConfirmModal,
-    };
-    const notApprovedFWR = {
-      key: PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED,
-      text: 'Not Approved - Further Work Required',
-      onClick: this.openNotApprovedFWRConfirmModal,
-    };
-    const wronglyMadeWithoutEffect = {
-      key: PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT,
-      text: 'Wrongly Made - Without Effect',
-      onClick: this.openWMWEConfirmModal,
-    };
-    const standsWronglyMade = {
-      key: PLAN_STATUS.STANDS_WRONGLY_MADE,
-      text: 'Stands - Wrongly Made',
-      onClick: this.openSWMConfirmModal,
-    };
-    const stands = {
-      key: PLAN_STATUS.STANDS,
-      text: 'Stands',
-      onClick: this.openStandsConfirmModal,
-    };
-    const standsReview = {
-      key: PLAN_STATUS.STANDS_REVIEW,
-      text: 'Stands - Requires Review',
-      onClick: this.openStandsReviewConfirmModal,
-    };
-    const warningDivider = {
-      key: 'warningDivider',
-      text: 'WARNING: Below entries are manual overrides.',
-    };
-    let overrides = [];
+    let overrides: any[] = [];
     if (isUserAdmin(user)) {
-      overrides = [
-        warningDivider,
-        draft,
-        stands,
-        standsWronglyMade,
-        approved,
-        notApproved,
-        requestChanges,
-        recommendReady,
-        recommendNotReady,
-        recommendForSubmission,
-      ];
-    } else if (
-      isUserAgrologist(user) &&
-      !isStatusApproved(status) &&
-      !isStatusRecommendReady(status) &&
-      !isStatusRecommendNotReady(status) &&
-      !isPlanAmendment(plan)
-    ) {
+      overrides = [warningDivider, draft, stands, standsWronglyMade, approved, notApproved, requestChanges, recommendReady, recommendNotReady, recommendForSubmission];
+    } else if (isUserAgrologist(user) && !isStatusApproved(status) && !isStatusRecommendReady(status) && !isStatusRecommendNotReady(status) && !isPlanAmendment(plan)) {
       overrides = [draft];
     }
 
@@ -308,7 +237,7 @@ class UpdateStatusDropdown extends Component {
         <>
           <Divider />
           <Menu.Header>{strings.PLAN_ACTIONS}</Menu.Header>
-          {statusDropdownOptions.map((o) => (
+          {statusDropdownOptions.map((o: any) => (
             <Menu.Item key={o.key} value={o.text} onClick={o.onClick} disabled={o.key === 'noOption'}>
               {o.text}
             </Menu.Item>
@@ -328,7 +257,7 @@ class UpdateStatusDropdown extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   references: getReferences(state),
   isUpdatingStatus: getIsUpdatingPlanStatus(state),
   confirmationModalsMap: getConfirmationModalsMap(state),
@@ -336,4 +265,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   updateRUPStatus,
-})(UpdateStatusDropdown);
+})(UpdateStatusDropdown as any);

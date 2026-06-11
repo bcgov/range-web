@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentYear } from '..';
 import {
   INVALID_SCHEDULE_ENTRY,
@@ -9,23 +8,51 @@ import {
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcTotalTonnes } from '../calculation/hayCuttingSchedule';
 
+interface ValidationError {
+  error: boolean;
+  message: string;
+  elementId?: string;
+}
+
+interface HayCuttingEntryLike {
+  dateIn?: string | null;
+  dateOut?: string | null;
+  pastureId?: number | null;
+  stubbleHeight?: number | string | null;
+  tonnes?: number | string | null;
+}
+
+interface UsageLike {
+  year: number;
+  authorizedAum: number;
+}
+
+interface ScheduleLike {
+  year?: number;
+  scheduleEntries?: HayCuttingEntryLike[];
+}
+
 /**
  * Validate a hay cutting schedule entry
  *
- * @param {object} entry the hay cutting schedule entry object
- * @returns {object | undefined} the error object that has error and message properties
+ * @param e the hay cutting schedule entry object
+ * @param scheduleYear the year of the schedule
+ * @returns the error object or undefined
  */
-export const handleHayCuttingScheduleEntryValidation = (e = {}, scheduleYear) => {
+export const handleHayCuttingScheduleEntryValidation = (
+  e: HayCuttingEntryLike = {},
+  scheduleYear?: number,
+): ValidationError | undefined => {
   // For hay cutting schedules, we need: dateIn, dateOut, pastureId, stubbleHeight, and tonnes
   if (
     e.dateIn &&
     e.dateOut &&
     e.pastureId &&
-    !isNaN(parseFloat(e.stubbleHeight)) &&
+    !isNaN(parseFloat(String(e.stubbleHeight))) &&
     e.stubbleHeight !== null &&
     e.stubbleHeight !== undefined &&
     e.stubbleHeight !== '' &&
-    !isNaN(parseFloat(e.tonnes)) &&
+    !isNaN(parseFloat(String(e.tonnes))) &&
     e.tonnes !== null &&
     e.tonnes !== undefined &&
     e.tonnes !== ''
@@ -49,23 +76,26 @@ export const handleHayCuttingScheduleEntryValidation = (e = {}, scheduleYear) =>
 /**
  * Validate a hay cutting schedule
  *
- * @param {object} schedule the hay cutting schedule object
- * @param {Array} usage the array of usage from the agreement
- * @param {Boolean} isAgreementHolder is the current user an agreement holder?
- * @returns {Array} An array of errors
+ * @param schedule the hay cutting schedule object
+ * @param usage the array of usage from the agreement
+ * @param isAgreementHolder is the current user an agreement holder?
+ * @returns An array of errors
  */
-export const handleHayCuttingScheduleValidation = (schedule = {}, usage = [], isAgreementHolder = false) => {
+export const handleHayCuttingScheduleValidation = (
+  schedule: ScheduleLike = {},
+  usage: UsageLike[] = [],
+  isAgreementHolder = false,
+): ValidationError[] => {
   const { year, scheduleEntries: hse } = schedule;
   const scheduleEntries = hse || [];
   const yearUsage = usage.find((u) => u.year === year);
 
   // For hay cutting, we use authorizedAum as the authorized tonnes field
-  // (this might need to be adjusted based on your actual data structure)
   const authorizedTonnes = yearUsage && yearUsage.authorizedAum;
-  const totalTonnes = parseFloat(calcTotalTonnes(scheduleEntries)) || 0;
+  const totalTonnes = parseFloat(calcTotalTonnes(scheduleEntries as any)) || 0;
 
   const elementId = ELEMENT_ID.SCHEDULE;
-  const errors = [];
+  const errors: ValidationError[] = [];
 
   if (scheduleEntries.length === 0) {
     if (isAgreementHolder) {
@@ -85,7 +115,7 @@ export const handleHayCuttingScheduleValidation = (schedule = {}, usage = [], is
     return undefined;
   });
 
-  if (authorizedTonnes && totalTonnes > authorizedTonnes && year >= getCurrentYear()) {
+  if (authorizedTonnes && totalTonnes > authorizedTonnes && year! >= getCurrentYear()) {
     errors.push({
       error: true,
       message: TOTAL_TONNES_EXCEEDS,

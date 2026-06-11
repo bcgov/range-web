@@ -1,8 +1,19 @@
-// @ts-nocheck
 import * as actionTypes from '../../constants/actionTypes';
+import { Schedule, EntityMap } from '../../types';
 
-const storeSchedules = (state, action) => {
-  const { schedules } = action.payload.entities;
+export type SchedulesState = EntityMap<Schedule>;
+
+interface ScheduleAction {
+  type: string;
+  payload: {
+    entities?: { schedules?: EntityMap<Schedule> };
+    grazingSchedule?: Schedule;
+    grazingScheduleId?: string | number;
+  };
+}
+
+const storeSchedules = (state: SchedulesState, action: ScheduleAction): SchedulesState => {
+  const schedules = action.payload.entities?.schedules ?? {};
 
   return {
     ...state,
@@ -10,33 +21,33 @@ const storeSchedules = (state, action) => {
   };
 };
 
-const addSchedule = (state, action) => {
+const addSchedule = (state: SchedulesState, action: ScheduleAction): SchedulesState => {
   const { grazingSchedule } = action.payload;
 
   return {
     ...state,
-    [grazingSchedule.id]: grazingSchedule,
+    [grazingSchedule!.id]: grazingSchedule!,
   };
 };
 
-const updateSchedule = (state, action) => {
+const updateSchedule = (state: SchedulesState, action: ScheduleAction): SchedulesState => {
   const { grazingSchedule } = action.payload;
 
   return {
     ...state,
-    [grazingSchedule.id]: grazingSchedule,
+    [grazingSchedule!.id]: grazingSchedule!,
   };
 };
 
-const deleteSchedule = (state, action) => {
+const deleteSchedule = (state: SchedulesState, action: ScheduleAction): SchedulesState => {
   const { grazingScheduleId } = action.payload;
   const newState = { ...state };
-  delete newState[grazingScheduleId];
+  delete newState[grazingScheduleId!];
 
   return newState;
 };
 
-const schedulesReducer = (state = {}, action) => {
+const schedulesReducer = (state: SchedulesState = {}, action: ScheduleAction): SchedulesState => {
   switch (action.type) {
     case actionTypes.STORE_PLAN:
       return storeSchedules(state, action);

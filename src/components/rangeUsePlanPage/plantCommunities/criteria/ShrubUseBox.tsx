@@ -1,13 +1,16 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Input } from 'formik-semantic-ui';
 import { RANGE_READINESS } from '../../../../constants/fields';
 import { SHRUB_USE_TIP } from '../../../../constants/strings';
 
 import PermissionsField from '../../../common/PermissionsField';
 
-const ShrubUseBox = ({ plantCommunity, namespace }) => {
+interface ShrubUseBoxProps {
+  plantCommunity: any;
+  namespace: string;
+}
+
+const ShrubUseBox: React.FC<ShrubUseBoxProps> = ({ plantCommunity, namespace }) => {
   return (
     <div className="rup__plant-community__su">
       <div className="rup__plant-community__su__title">
@@ -26,13 +29,6 @@ const ShrubUseBox = ({ plantCommunity, namespace }) => {
       />
     </div>
   );
-};
-
-ShrubUseBox.propTypes = {
-  plantCommunity: PropTypes.shape({
-    indicatorPlants: PropTypes.arrayOf(PropTypes.object),
-  }),
-  namespace: PropTypes.string.isRequired,
 };
 
 export default ShrubUseBox;

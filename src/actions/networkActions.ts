@@ -1,18 +1,25 @@
-// @ts-nocheck
 import * as actionTypes from '../constants/actionTypes';
 
-export const request = (reducer) => ({
+interface PaginatedData {
+  perPage: number;
+  currentPage: number;
+  totalItems: number;
+  totalPages: number;
+  [key: string]: unknown;
+}
+
+export const request = (reducer: string) => ({
   name: reducer,
   type: actionTypes.REQUEST,
 });
 
-export const success = (reducer, data) => ({
+export const success = (reducer: string, data: unknown) => ({
   name: reducer,
   type: actionTypes.SUCCESS,
   data,
 });
 
-export const successPagenated = (reducer, data) => ({
+export const successPagenated = (reducer: string, data: PaginatedData) => ({
   name: reducer,
   type: actionTypes.SUCCESS_PAGINATED,
   data,
@@ -22,7 +29,7 @@ export const successPagenated = (reducer, data) => ({
   totalPages: data.totalPages,
 });
 
-export const error = (reducer, errorResponse) => ({
+export const error = (reducer: string, errorResponse: unknown) => ({
   name: reducer,
   type: actionTypes.ERROR,
   errorResponse,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   STORE_PLAN,
   PASTURE_ADDED,
@@ -6,8 +5,38 @@ import {
   PASTURE_SUBMITTED,
   PASTURE_COPIED,
 } from '../../constants/actionTypes';
+import { Pasture, EntityMap } from '../../types';
 
-const initialPasture = {
+export type PasturesState = EntityMap<Pasture>;
+
+interface StorePlanPayload {
+  entities?: { pastures?: EntityMap<Pasture> };
+}
+
+interface UpdatePasturePayload {
+  pasture: Pasture;
+}
+
+interface SubmitPasturePayload {
+  id: string | number;
+  pasture: Pasture;
+}
+
+interface CopyPasturePayload {
+  pastureId: string | number;
+  planId: number;
+  name: string;
+}
+
+type PastureAction =
+  | { type: typeof STORE_PLAN; payload: StorePlanPayload }
+  | { type: typeof PASTURE_ADDED; payload: number }
+  | { type: typeof PASTURE_UPDATED; payload: UpdatePasturePayload }
+  | { type: typeof PASTURE_SUBMITTED; payload: SubmitPasturePayload }
+  | { type: typeof PASTURE_COPIED; payload: CopyPasturePayload }
+  | { type: string; payload: unknown };
+
+const initialPasture: Omit<Pasture, 'id' | 'planId'> = {
   name: '',
   allowableAum: 0,
   pldPercent: 0,
@@ -16,8 +45,8 @@ const initialPasture = {
   plantCommunities: [],
 };
 
-const storePastures = (state, action) => {
-  const { pastures } = action.payload.entities;
+const storePastures = (state: PasturesState, action: { payload: StorePlanPayload }): PasturesState => {
+  const pastures = action.payload.entities?.pastures ?? {};
 
   return {
     ...state,
@@ -25,20 +54,19 @@ const storePastures = (state, action) => {
   };
 };
 
-const addPasture = (state, action) => {
-  // Set temporary ID based on timestamp to track unsubmitted pastures
+const addPasture = (state: PasturesState, planId: number): PasturesState => {
   const id = new Date().toISOString();
   return {
     ...state,
     [id]: {
       ...initialPasture,
-      id,
-      planId: action.payload,
-    },
+      id: id as unknown as number,
+      planId,
+    } as Pasture,
   };
 };
 
-const updatePasture = (state, action) => {
+const updatePasture = (state: PasturesState, action: { payload: UpdatePasturePayload }): PasturesState => {
   const { pasture } = action.payload;
   return {
     ...state,
@@ -49,10 +77,10 @@ const updatePasture = (state, action) => {
   };
 };
 
-const submitPasture = (state, action) => {
+const submitPasture = (state: PasturesState, action: { payload: SubmitPasturePayload }): PasturesState => {
   const { id, pasture } = action.payload;
   const newState = { ...state };
-  delete newState[id];
+  delete newState[id as string];
 
   return {
     ...newState,
@@ -63,33 +91,32 @@ const submitPasture = (state, action) => {
   };
 };
 
-const copyPasture = (state, action) => {
+const copyPasture = (state: PasturesState, action: { payload: CopyPasturePayload }): PasturesState => {
   const { pastureId, planId, name } = action.payload;
-  // Set temporary ID based on timestamp to track unsubmitted pastures
   const id = new Date().toISOString();
   return {
     ...state,
     [id]: {
-      ...state[pastureId],
+      ...state[pastureId as string],
       planId,
-      id,
+      id: id as unknown as number,
       name,
-    },
+    } as Pasture,
   };
 };
 
-const pasturesReducer = (state = {}, action) => {
+const pasturesReducer = (state: PasturesState = {}, action: PastureAction): PasturesState => {
   switch (action.type) {
     case STORE_PLAN:
-      return storePastures(state, action);
+      return storePastures(state, action as { payload: StorePlanPayload });
     case PASTURE_ADDED:
-      return addPasture(state, action);
+      return addPasture(state, action.payload as number);
     case PASTURE_UPDATED:
-      return updatePasture(state, action);
+      return updatePasture(state, action as { payload: UpdatePasturePayload });
     case PASTURE_SUBMITTED:
-      return submitPasture(state, action);
+      return submitPasture(state, action as { payload: SubmitPasturePayload });
     case PASTURE_COPIED:
-      return copyPasture(state, action);
+      return copyPasture(state, action as { payload: CopyPasturePayload });
     default:
       return state;
   }

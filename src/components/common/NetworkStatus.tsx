@@ -1,8 +1,11 @@
-// @ts-nocheck
 import React from 'react';
 import { useNetworkStatus, usePlanSyncedStatus } from '../../utils/hooks/network';
 
-const NetworkStatus = ({ planId }) => {
+interface NetworkStatusProps {
+  planId: string | number;
+}
+
+const NetworkStatus: React.FC<NetworkStatusProps> = ({ planId }) => {
   const online = useNetworkStatus();
   const synced = usePlanSyncedStatus(planId);
 

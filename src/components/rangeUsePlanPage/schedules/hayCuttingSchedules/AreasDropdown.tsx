@@ -1,18 +1,24 @@
-// @ts-nocheck
 import React from 'react';
 import PermissionsField from '../../../common/PermissionsField';
 import { SCHEDULE } from '../../../../constants/fields';
 import Select from '../../../common/Select';
-import { connect } from 'formik';
+import { useFormikContext } from 'formik';
 import MultiParagraphDisplay from '../../../common/MultiParagraphDisplay';
 
-const AreasDropdown = ({ name, formik, areaId, onChange }) => {
-  const areaOptions = formik.values.pastures.map((area) => {
-    const { id, name } = area || {};
+interface AreasDropdownProps {
+  name: string;
+  areaId: any;
+  onChange?: (data: { value: any; area: any }) => void;
+}
+
+const AreasDropdown = ({ name, areaId, onChange }: AreasDropdownProps) => {
+  const formik = useFormikContext<any>();
+  const areaOptions = formik.values.pastures.map((area: any) => {
+    const { id, name: areaName } = area || {};
     return {
       key: id,
       value: id,
-      label: name,
+      label: areaName,
     };
   });
 
@@ -22,14 +28,14 @@ const AreasDropdown = ({ name, formik, areaId, onChange }) => {
       name={name}
       component={Select}
       displayComponent={MultiParagraphDisplay}
-      displayValue={areaOptions.find((a) => a.value === areaId)?.label}
+      displayValue={areaOptions.find((a: any) => a.value === areaId)?.label}
       aria-label="area"
       options={areaOptions}
-      onChange={(value) => {
+      onChange={(value: any) => {
         if (onChange) {
           onChange({
             value,
-            area: formik.values.pastures.find((a) => a.id === value),
+            area: formik.values.pastures.find((a: any) => a.id === value),
           });
         }
       }}
@@ -37,4 +43,4 @@ const AreasDropdown = ({ name, formik, areaId, onChange }) => {
   );
 };
 
-export default connect(AreasDropdown);
+export default AreasDropdown;

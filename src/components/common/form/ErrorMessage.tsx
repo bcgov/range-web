@@ -1,6 +1,11 @@
-// @ts-nocheck
 import React from 'react';
 
-const ErrorMessage = ({ message }) => <span className="sui-error-message">{message}</span>;
+interface ErrorMessageProps {
+  message: string;
+}
+
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => (
+  <span className="sui-error-message">{message}</span>
+);
 
 export default ErrorMessage;

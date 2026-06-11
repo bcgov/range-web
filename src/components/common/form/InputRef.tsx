@@ -1,12 +1,23 @@
-// @ts-nocheck
 import React, { Fragment } from 'react';
 import { Ref } from 'semantic-ui-react';
 
-const findInput = (cb, el) => el && cb(el.querySelector('input'));
+const findInput = (cb: (el: HTMLInputElement | null) => void, el: HTMLElement | null) =>
+  el && cb(el.querySelector('input'));
 
-export const NullRef = ({ children }) => <Fragment>{children}</Fragment>;
+interface NullRefProps {
+  children: React.ReactNode;
+}
 
-export const InputRef = ({ inputRef, children }) => {
-  const RefWrapper = inputRef ? Ref : NullRef;
-  return <RefWrapper innerRef={(el) => findInput(inputRef, el)}>{children}</RefWrapper>;
+export const NullRef: React.FC<NullRefProps> = ({ children }) => <Fragment>{children}</Fragment>;
+
+interface InputRefProps {
+  inputRef?: (el: HTMLInputElement | null) => void;
+  children: React.ReactNode;
+}
+
+export const InputRef: React.FC<InputRefProps> = ({ inputRef, children }) => {
+  if (inputRef) {
+    return <Ref innerRef={(el: any) => findInput(inputRef, el)}>{children as React.ReactElement}</Ref>;
+  }
+  return <NullRef>{children}</NullRef>;
 };

@@ -1,18 +1,17 @@
-// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { getPlanFromLocalStorage } from '../../api';
 import { getNetworkStatus } from '../helper/network';
 
-export const useNetworkStatus = () => {
-  const [online, setOnline] = useState(navigator.onLine || true);
+export const useNetworkStatus = (): boolean => {
+  const [online, setOnline] = useState<boolean>(navigator.onLine || true);
 
-  const handler = (e) => {
+  const handler = (e: Event): void => {
     if (e.type === 'offline') setOnline(false);
     if (e.type === 'online') setOnline(true);
     checkNetworkStatus();
   };
 
-  const checkNetworkStatus = () => {
+  const checkNetworkStatus = (): void => {
     getNetworkStatus().then(setOnline);
   };
 
@@ -35,7 +34,7 @@ export const useNetworkStatus = () => {
   return online;
 };
 
-export const usePlanSyncedStatus = (planId) => {
+export const usePlanSyncedStatus = (planId: string | number): boolean => {
   const plan = getPlanFromLocalStorage(planId);
 
   if (plan && plan.synced) return true;

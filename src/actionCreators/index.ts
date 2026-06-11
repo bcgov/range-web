@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { normalize } from 'normalizr';
 import * as schema from './schema';
 import * as actions from '../actions';
@@ -18,6 +17,7 @@ import { toastSuccessMessage, toastErrorMessage } from './toastActionCreator';
 import { UPDATE_USER_PROFILE_SUCCESS } from '../constants/strings';
 import { LOCAL_STORAGE_KEY, SESSION_EXPIRY_WARNING_TOAST_ID } from '../constants/variables';
 import { storeAuthData, reauthenticate } from '../actions';
+import type { AppThunk } from '../configureStore';
 
 export * from './planActionCreator';
 export * from './toastActionCreator';
@@ -27,104 +27,113 @@ export * from './pastureActionCreator';
 export * from './ministerIssueActionCreator';
 export * from './requirementAndConsiderationActionCreator';
 
-export const fetchAgreement = (agreementId) => (dispatch, getState) => {
-  dispatch(actions.request(reducerTypes.GET_AGREEMENT));
-  return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
-    (response) => {
-      const agreement = response.data;
-      dispatch(actions.success(reducerTypes.GET_AGREEMENT, agreement));
-      dispatch(actions.storeAgreementWithAllPlans(normalize(agreement, schema.agreement)));
+export const fetchAgreement =
+  (agreementId: string): AppThunk<Promise<any>> =>
+  (dispatch, getState) => {
+    dispatch(actions.request(reducerTypes.GET_AGREEMENT));
+    return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
+      (response: any) => {
+        const agreement = response.data;
+        dispatch(actions.success(reducerTypes.GET_AGREEMENT, agreement));
+        dispatch(actions.storeAgreementWithAllPlans(normalize(agreement, schema.agreement)));
 
-      return agreement;
-    },
-    (err) => {
-      dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
-      throw err;
-    },
-  );
-};
+        return agreement;
+      },
+      (err: any) => {
+        dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
+        throw err;
+      },
+    );
+  };
 
-export const extendSession = () => (dispatch) => {
-  const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH);
-  const refreshToken = data && data.refresh_token;
+export const extendSession =
+  (): AppThunk<Promise<void>> => (dispatch) => {
+    const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH) as any;
+    const refreshToken = data && data.refresh_token;
 
-  if (!refreshToken) {
-    console.error('No refresh token found to extend session.');
-    return Promise.reject(new Error('No refresh token.'));
-  }
+    if (!refreshToken) {
+      console.error('No refresh token found to extend session.');
+      return Promise.reject(new Error('No refresh token.'));
+    }
 
-  return refreshAccessToken(refreshToken).then(
-    (response) => {
-      const authData = saveAuthDataInLocal(response);
-      dispatch(storeAuthData(authData));
-      dispatch(resetTimeoutForReAuth(reauthenticate));
-      dispatch(actions.removeToast({ toastId: SESSION_EXPIRY_WARNING_TOAST_ID }));
-      dispatch(toastSuccessMessage('Session extended successfully.'));
-    },
-    (err) => {
-      console.error('Failed to extend session:', err);
-      // Let the reauthenticate process handle the sign-in modal
-      // Or show a specific error toast if needed.
-    },
-  );
-};
+    return refreshAccessToken(refreshToken).then(
+      (response: any) => {
+        const authData = saveAuthDataInLocal(response);
+        dispatch(storeAuthData(authData));
+        dispatch(resetTimeoutForReAuth(reauthenticate));
+        dispatch(actions.removeToast({ toastId: SESSION_EXPIRY_WARNING_TOAST_ID }));
+        dispatch(toastSuccessMessage('Session extended successfully.'));
+      },
+      (err: any) => {
+        console.error('Failed to extend session:', err);
+        // Let the reauthenticate process handle the sign-in modal
+        // Or show a specific error toast if needed.
+      },
+    );
+  };
 
-export const resetTimeoutForReAuth = (reauthenticate) => (dispatch, getState) => {
-  const { authTimeoutId, warningTimeoutId } = getAuthTimeout(getState()) || {};
-  clearTimeout(authTimeoutId);
-  clearTimeout(warningTimeoutId);
+export const resetTimeoutForReAuth =
+  (reauthenticateFn: () => void): AppThunk<void> =>
+  (dispatch, getState) => {
+    const { authTimeoutId, warningTimeoutId } = getAuthTimeout(getState()) || {};
+    clearTimeout(authTimeoutId);
+    clearTimeout(warningTimeoutId);
 
-  const timeoutIds = setTimeoutForReAuth(reauthenticate, dispatch);
-  dispatch(actions.setTimeoutForAuthentication(timeoutIds));
-};
+    const timeoutIds = setTimeoutForReAuth(reauthenticateFn, dispatch);
+    dispatch(actions.setTimeoutForAuthentication(timeoutIds as any));
+  };
 
-export const signOut = () => (dispatch) => {
-  // clear the local storage in the browser
-  localStorage.clear();
-  dispatch(actions.removeAuthDataAndUser());
-};
+export const signOut =
+  (): AppThunk<void> => (dispatch) => {
+    // clear the local storage in the browser
+    localStorage.clear();
+    dispatch(actions.removeAuthDataAndUser());
+  };
 
-export const fetchUser = () => (dispatch, getState) => {
-  dispatch(actions.request(reducerTypes.GET_USER));
-  return axios.get(API.GET_USER_PROFILE, createConfigWithHeader(getState)).then(
-    (response) => {
-      const user = response.data;
-      dispatch(actions.success(reducerTypes.GET_USER, user));
-      dispatch(actions.storeUser(user));
-      saveUserProfileInLocal(user);
-      return user;
-    },
-    (err) => {
-      dispatch(actions.error(reducerTypes.GET_USER, err));
-      dispatch(toastErrorMessage(err));
-      throw err;
-    },
-  );
-};
+export const fetchUser =
+  (): AppThunk<Promise<any>> => (dispatch, getState) => {
+    dispatch(actions.request(reducerTypes.GET_USER));
+    return axios.get(API.GET_USER_PROFILE, createConfigWithHeader(getState)).then(
+      (response: any) => {
+        const user = response.data;
+        dispatch(actions.success(reducerTypes.GET_USER, user));
+        dispatch(actions.storeUser(user));
+        saveUserProfileInLocal(user);
+        return user;
+      },
+      (err: any) => {
+        dispatch(actions.error(reducerTypes.GET_USER, err));
+        dispatch(toastErrorMessage(err));
+        throw err;
+      },
+    );
+  };
 
-export const updateUser = (data) => (dispatch, getState) => {
-  dispatch(actions.request(reducerTypes.UPDATE_USER));
+export const updateUser =
+  (data: any): AppThunk<Promise<any>> =>
+  (dispatch, getState) => {
+    dispatch(actions.request(reducerTypes.UPDATE_USER));
 
-  return axios.put(API.UPDATE_USER_PROFILE, data, createConfigWithHeader(getState)).then(
-    (response) => {
-      const currUser = getUser(getState());
-      const updatedUser = {
-        ...currUser,
-        ...response.data,
-      };
-      dispatch(actions.success(reducerTypes.UPDATE_USER, updatedUser));
-      dispatch(actions.storeUser(updatedUser));
-      dispatch(toastSuccessMessage(UPDATE_USER_PROFILE_SUCCESS));
-      saveUserProfileInLocal(updatedUser);
+    return axios.put(API.UPDATE_USER_PROFILE, data, createConfigWithHeader(getState)).then(
+      (response: any) => {
+        const currUser = getUser(getState());
+        const updatedUser = {
+          ...currUser,
+          ...response.data,
+        };
+        dispatch(actions.success(reducerTypes.UPDATE_USER, updatedUser));
+        dispatch(actions.storeUser(updatedUser));
+        dispatch(toastSuccessMessage(UPDATE_USER_PROFILE_SUCCESS));
+        saveUserProfileInLocal(updatedUser);
 
-      return updatedUser;
-    },
-    (err) => {
-      dispatch(actions.error(reducerTypes.UPDATE_USER, err));
-      throw err;
-    },
-  );
-};
+        return updatedUser;
+      },
+      (err: any) => {
+        dispatch(actions.error(reducerTypes.UPDATE_USER, err));
+        throw err;
+      },
+    );
+  };
 
 // export const searchAgreements = (params) => (dispatch, getState) => {
 //   const { page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;

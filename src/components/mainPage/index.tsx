@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,9 +18,8 @@
 // Created by Kyubin Han.
 //
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Navbar from './Navbar';
 import Toasts from './Toasts';
 import ConfirmModals from './ConfirmModals';
@@ -30,54 +28,45 @@ import SignInModal from './SignInModal';
 import UsernameInputModal from './UsernameInputModal';
 import { Footer } from '../common';
 import { registerAxiosInterceptors } from '../../utils';
-import { fetchReferences, signOut, resetTimeoutForReAuth } from '../../actionCreators';
+import { resetTimeoutForReAuth } from '../../actionCreators';
 import { reauthenticate, storeAuthData } from '../../actions';
+import { AppDispatch } from '../../configureStore';
 
-export class MainPage extends Component {
-  static propTypes = {
-    component: PropTypes.elementType.isRequired,
-    signOut: PropTypes.func.isRequired,
-    fetchReferences: PropTypes.func.isRequired,
-    reauthenticate: PropTypes.func.isRequired,
-    resetTimeoutForReAuth: PropTypes.func.isRequired,
-    storeAuthData: PropTypes.func.isRequired,
-  };
-
-  UNSAFE_componentWillMount() {
-    const { reauthenticate, resetTimeoutForReAuth, storeAuthData } = this.props;
-    registerAxiosInterceptors(resetTimeoutForReAuth, reauthenticate, storeAuthData);
-    resetTimeoutForReAuth(reauthenticate);
-  }
-
-  render() {
-    const { component: Component, ...rest } = this.props;
-
-    return (
-      <main>
-        <Navbar {...rest} />
-
-        <Component {...rest} />
-
-        <ConfirmModals />
-
-        <InputModal />
-
-        <SignInModal />
-
-        <UsernameInputModal />
-
-        <Toasts />
-
-        <Footer withTopMargin />
-      </main>
-    );
-  }
+interface MainPageProps {
+  component: React.ComponentType<any>;
+  [key: string]: any;
 }
 
-export default connect(null, {
-  signOut,
-  reauthenticate,
-  fetchReferences,
-  resetTimeoutForReAuth,
-  storeAuthData,
-})(MainPage);
+const MainPage: React.FC<MainPageProps> = ({ component: Component, ...rest }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    const reauthenticateFn = () => dispatch(reauthenticate() as any);
+    const resetTimeoutFn = (reauth: any) => dispatch(resetTimeoutForReAuth(reauth) as any);
+    const storeAuthFn = (data: any) => dispatch(storeAuthData(data));
+    registerAxiosInterceptors(resetTimeoutFn, reauthenticateFn, storeAuthFn);
+    resetTimeoutFn(reauthenticateFn);
+  }, [dispatch]);
+
+  return (
+    <main>
+      <Navbar {...rest} />
+
+      <Component {...rest} />
+
+      <ConfirmModals />
+
+      <InputModal />
+
+      <SignInModal />
+
+      <UsernameInputModal />
+
+      <Toasts />
+
+      <Footer withTopMargin />
+    </main>
+  );
+};
+
+export default MainPage;

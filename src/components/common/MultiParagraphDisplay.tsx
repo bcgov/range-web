@@ -1,7 +1,13 @@
-// @ts-nocheck
 import React from 'react';
 
-const MultiParagraphDisplay = ({ value, className, ...props }) => (
+interface MultiParagraphDisplayProps {
+  value: string | number;
+  className?: string;
+  'aria-label'?: string;
+  [key: string]: any;
+}
+
+const MultiParagraphDisplay: React.FC<MultiParagraphDisplayProps> = ({ value, className, ...props }) => (
   <>
     <input type="hidden" value={value} aria-label={props['aria-label']} />
     <div className={className}>

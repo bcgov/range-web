@@ -1,7 +1,5 @@
-// @ts-nocheck
-import React, { Component } from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import {
   findConfirmationWithClientNumber,
@@ -13,15 +11,15 @@ import {
 } from '../../../../utils';
 import { AWAITING_CONFIRMATION, NO_USER_LINKED } from '../../../../constants/strings';
 
-class AHConfirmationList extends Component {
-  static propTypes = {
-    user: PropTypes.shape({}).isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    plan: PropTypes.shape({}).isRequired,
-  };
+interface AHConfirmationListProps {
+  user: any;
+  clients: any[];
+  plan: any;
+  clientAgreements?: any[];
+}
 
-  renderConfirmation = (client, confirmation, user) => {
-    const { clientAgreements } = this.props;
+const AHConfirmationList: React.FC<AHConfirmationListProps> = ({ user, clients, plan, clientAgreements }) => {
+  const renderConfirmation = (client: any, confirmation: any) => {
     const { confirmed, updatedAt } = confirmation || {};
     const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : AWAITING_CONFIRMATION;
 
@@ -39,7 +37,7 @@ class AHConfirmationList extends Component {
             {getClientFullName(client)}{' '}
             {confirmed && !confirmation.isOwnSignature && `(by ${getUserFullName(confirmation.user)})`}
             {!client.email &&
-              !clientAgreements?.find((ca) => ca.clientId === client.clientNumber)?.agent &&
+              !clientAgreements?.find((ca: any) => ca.clientId === client.clientNumber)?.agent &&
               `(${NO_USER_LINKED})`}
           </span>
         </div>
@@ -48,57 +46,47 @@ class AHConfirmationList extends Component {
     );
   };
 
-  createConfirmationListView = () => {
-    const { user, plan, clients } = this.props;
+  const confirmedListView: React.ReactNode[] = [
+    <div key="confirmed1" className="rup__confirmation__paragraph-title">
+      Agreement holders who have confirmed the submission
+    </div>,
+    <div key="confirmed2" className="rup__confirmation__ah-list__columns">
+      <span>Name</span>
+      <span>Confirmation Date</span>
+    </div>,
+  ];
+  const notConfirmedListView: React.ReactNode[] = [
+    <div key="notConfirmed" className="rup__confirmation__paragraph-title">
+      Agreement holders who have not yet confirmed the submission
+    </div>,
+  ];
+  const allConfimedView = (
+    <div key="allConfirmed" className="rup__confirmation__paragraph-title">
+      All agreement holders have confirmed this submission. It has now been submitted to range staff.
+    </div>
+  );
 
-    const confirmedListView = [
-      <div key="confirmed1" className="rup__confirmation__paragraph-title">
-        Agreement holders who have confirmed the submission
-      </div>,
-      <div key="confirmed2" className="rup__confirmation__ah-list__columns">
-        <span>Name</span>
-        <span>Confirmation Date</span>
-      </div>,
-    ];
-    const notConfirmedListView = [
-      <div key="notConfirmed" className="rup__confirmation__paragraph-title">
-        Agreement holders who have not yet confirmed the submission
-      </div>,
-    ];
-    const allConfimedView = (
-      <div key="allConfirmed" className="rup__confirmation__paragraph-title">
-        All agreement holders have confirmed this submission. It has now been submitted to range staff.
-      </div>
-    );
-
-    // create confirmation views for each client then
-    // push to the view lists based on whether it's confirmed or not
-    clients.map((client) => {
-      console.log(client);
-      const confirmation = findConfirmationWithClientNumber(client.id, plan.confirmations);
-      const view = this.renderConfirmation(client, confirmation, user);
-      if (confirmation && confirmation.confirmed) {
-        return confirmedListView.push(view);
-      }
-
-      return notConfirmedListView.push(view);
-    });
-
-    const isAllConfirmed = notConfirmedListView.length === 1;
-
-    if (isAllConfirmed) {
-      confirmedListView.push(allConfimedView);
-      return confirmedListView;
+  clients.map((client: any) => {
+    const confirmation = findConfirmationWithClientNumber(client.id, plan.confirmations);
+    const view = renderConfirmation(client, confirmation);
+    if (confirmation && confirmation.confirmed) {
+      return confirmedListView.push(view);
     }
 
-    return confirmedListView.concat(notConfirmedListView);
-  };
+    return notConfirmedListView.push(view);
+  });
 
-  render() {
-    const confirmationList = this.createConfirmationListView();
+  const isAllConfirmed = notConfirmedListView.length === 1;
 
-    return <div style={{ width: '100%' }}>{confirmationList}</div>;
+  let confirmationList: React.ReactNode[];
+  if (isAllConfirmed) {
+    confirmedListView.push(allConfimedView);
+    confirmationList = confirmedListView;
+  } else {
+    confirmationList = confirmedListView.concat(notConfirmedListView);
   }
-}
+
+  return <div style={{ width: '100%' }}>{confirmationList}</div>;
+};
 
 export default AHConfirmationList;

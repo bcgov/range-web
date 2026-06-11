@@ -1,8 +1,6 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { connect } from 'formik';
+import { useFormikContext } from 'formik';
 import * as utils from '../../../../utils';
 import { useReferences } from '../../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../../constants/variables';
@@ -15,13 +13,25 @@ import Select from '../../../common/Select';
 import RowMenu from './RowMenu';
 import './GrazingScheduleEntryRow.css';
 
-const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, schedule, onChange }) => {
+interface GrazingScheduleEntryRowProps {
+  entry: any;
+  namespace: string;
+  onDelete: () => void;
+  onCopy: () => void;
+  schedule: any;
+  onChange: () => void;
+  entryIndex?: number;
+  scheduleIndex?: number;
+}
+
+const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule, onChange }: GrazingScheduleEntryRowProps) => {
   const { pastureId, livestockCount, dateIn, dateOut, graceDays, days, pasture, pldAUMs, crownAUMs } = entry || {};
 
+  const formik = useFormikContext<any>();
   const references = useReferences();
   const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
 
-  const livestockTypeOptions = livestockTypes.map((lt) => {
+  const livestockTypeOptions = livestockTypes.map((lt: any) => {
     const { id, name } = lt || {};
     return {
       key: id,
@@ -40,8 +50,8 @@ const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, s
         <PasturesDropdown
           name={`${namespace}.pastureId`}
           pastureId={pastureId}
-          onChange={({ pasture }) => {
-            formik.setFieldValue(`${namespace}.graceDays`, pasture.graceDays || 0);
+          onChange={({ pasture: p }: any) => {
+            formik.setFieldValue(`${namespace}.graceDays`, p.graceDays || 0);
             onChange();
           }}
         />
@@ -100,7 +110,7 @@ const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, s
           onChange
         />
       </Table.Cell>
-      <Table.Cell collapsing>{utils.handleNullValue(days, false)}</Table.Cell>
+      <Table.Cell collapsing>{utils.handleNullValue(days, false) as React.ReactNode}</Table.Cell>
       <Table.Cell collapsing>
         <PermissionsField
           permission={SCHEDULE.GRACE_DAYS}
@@ -112,7 +122,7 @@ const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, s
             onChange,
           }}
           fieldProps={{
-            onBlur: (e) => {
+            onBlur: (e: any) => {
               if (e.target.value.trim() === '') {
                 formik.setFieldValue(`${namespace}.graceDays`, 0);
               }
@@ -121,8 +131,8 @@ const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, s
           fast
         />
       </Table.Cell>
-      <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false)}</Table.Cell>
-      <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false)}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false) as React.ReactNode}</Table.Cell>
+        <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false) as React.ReactNode}</Table.Cell>
       <IfEditable permission={SCHEDULE.TYPE}>
         <Table.Cell collapsing textAlign="center">
           <RowMenu onCopy={onCopy} onDelete={onDelete} />
@@ -132,12 +142,4 @@ const GrazingScheduleEntryRow = ({ entry, formik, namespace, onDelete, onCopy, s
   );
 };
 
-GrazingScheduleEntryRow.propTypes = {
-  entry: PropTypes.object.isRequired,
-  formik: PropTypes.object.isRequired,
-  namespace: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onCopy: PropTypes.func.isRequired,
-};
-
-export default connect(GrazingScheduleEntryRow);
+export default GrazingScheduleEntryRow;

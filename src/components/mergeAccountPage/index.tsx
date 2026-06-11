@@ -1,8 +1,7 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import { Button, CircularProgress, TextField, Grid, Typography, makeStyles, Fade } from '@material-ui/core';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import { Autocomplete } from '@material-ui/lab';
 import PersonIcon from '@material-ui/icons/Person';
 import * as strings from '../../constants/strings';
@@ -10,6 +9,18 @@ import * as API from '../../constants/api';
 import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName } from '../../utils';
 import { Banner } from '../common';
 import { mergeAccounts } from '../../api';
+
+interface UserOption {
+  id: number;
+  email?: string;
+  ssoId?: string;
+  givenName?: string;
+  familyName?: string;
+  lastLoginAt?: string;
+  active?: boolean;
+  clientNumber?: string;
+  [key: string]: any;
+}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -35,39 +46,43 @@ const useStyles = makeStyles((theme) => ({
   successMessage: {
     color: 'green',
   },
+  actionSection: {},
+  buttonProgress: {},
 }));
 
-const columns = [
+const columns: GridColDef[] = [
   { field: 'ssoId', headerName: 'Id', width: 150 },
   { field: 'givenName', headerName: 'Given Name', width: 150 },
   { field: 'email', headerName: 'Email', width: 150 },
   { field: 'active', headerName: 'Active', width: 150 },
   { field: 'clientNumber', headerName: 'Client Number', width: 150 },
 ];
-const MergeAccountPage = () => {
+
+const MergeAccountPage: React.FC = () => {
   const classes = useStyles();
 
-  const [destinationAccount, setDestinationAccountId] = useState(null);
-  const [sourceAccountIds, setSourceAccountIds] = useState([]);
+  const [destinationAccount, setDestinationAccountId] = useState<UserOption | null>(null);
+  const [sourceAccountIds, setSourceAccountIds] = useState<GridRowSelectionModel>([]);
   const [isMerging, setIsMerging] = useState(false);
-  const [mergeError, setMergeError] = useState(null);
-  const [mergeSuccess, setMergeSuccess] = useState(null);
+  const [mergeError, setMergeError] = useState<string | null>(null);
+  const [mergeSuccess, setMergeSuccess] = useState<string | null>(null);
 
   const {
     data: users,
     error,
     isValidating,
-  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  } = useSWR<UserOption[]>(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`, (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data),
   );
   const handleMergeClick = async () => {
+    if (!destinationAccount) return;
     setIsMerging(true);
     setMergeError(null);
     setMergeSuccess(null);
     try {
-      await mergeAccounts(sourceAccountIds, destinationAccount.id);
+      await mergeAccounts(sourceAccountIds as any, destinationAccount.id);
       setMergeSuccess('Accounts merged successfully');
-    } catch (e) {
+    } catch (e: any) {
       setMergeError(`Error merging accounts: ${e.message ?? e?.data?.error}`);
     } finally {
       setIsMerging(false);
@@ -89,7 +104,8 @@ const MergeAccountPage = () => {
           </h3>
           {error && (
             <Typography color="error">
-              Error occurred fetching user: {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+              Error occurred fetching user:{' '}
+              {(error as any)?.message ?? (error as any)?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
           {isValidating && !users && <CircularProgress />}
@@ -106,7 +122,7 @@ const MergeAccountPage = () => {
               }}
               pageSizeOptions={[10]}
               checkboxSelection
-              onRowSelectionModelChange={(selectionModel) => {
+              onRowSelectionModelChange={(selectionModel: GridRowSelectionModel) => {
                 console.log(destinationAccount);
                 console.log(selectionModel);
                 setSourceAccountIds(selectionModel);
@@ -122,14 +138,14 @@ const MergeAccountPage = () => {
                   options={users}
                   value={destinationAccount}
                   openOnFocus
-                  onChange={(e, user) => {
-                    setDestinationAccountId(user);
+                  onChange={(_e: any, selectedUser: UserOption | null) => {
+                    setDestinationAccountId(selectedUser);
                   }}
-                  getOptionLabel={(option) => getUserFullName(option)}
-                  getOptionSelected={(option) => option.id === destinationAccount.id}
+                  getOptionLabel={(option: UserOption) => getUserFullName(option)}
+                  getOptionSelected={(option: UserOption, value: UserOption) => option.id === value.id}
                   style={{ width: 400 }}
-                  renderInput={(params) => <TextField {...params} label="Select user" variant="outlined" />}
-                  renderOption={(option) => (
+                  renderInput={(params: any) => <TextField {...params} label="Select user" variant="outlined" />}
+                  renderOption={(option: UserOption) => (
                     <Grid container alignItems="center">
                       <Grid item>
                         <PersonIcon className={classes.icon} />
@@ -157,7 +173,7 @@ const MergeAccountPage = () => {
                 disabled={
                   sourceAccountIds.length === 0 ||
                   destinationAccount === null ||
-                  sourceAccountIds.indexOf(destinationAccount.id) != -1 ||
+                  (sourceAccountIds as any).indexOf(destinationAccount.id) != -1 ||
                   isMerging
                 }
                 variant="contained"

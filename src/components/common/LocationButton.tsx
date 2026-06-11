@@ -1,9 +1,13 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Form } from 'semantic-ui-react';
 
-const LocationButton = ({ children, onLocation, ...props }) => {
+interface LocationButtonProps {
+  children?: React.ReactNode;
+  onLocation: (position: GeolocationPosition) => void;
+  [key: string]: any;
+}
+
+const LocationButton: React.FC<LocationButtonProps> = ({ children, onLocation, ...props }) => {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -26,11 +30,6 @@ const LocationButton = ({ children, onLocation, ...props }) => {
       {children}
     </Form.Button>
   );
-};
-
-LocationButton.propTypes = {
-  children: PropTypes.any,
-  onLocation: PropTypes.func.isRequired,
 };
 
 export default LocationButton;

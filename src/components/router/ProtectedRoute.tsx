@@ -1,11 +1,20 @@
-// @ts-nocheck
 import React from 'react';
 import { Navigate, useParams, useNavigate, useLocation } from 'react-router-dom';
 import MainPage from '../mainPage';
 import { LOGIN, EXPORT_PDF_WITH_PARAM, EMAIL_TEMPLATE } from '../../constants/routes';
 import { isUserAdmin } from '../../utils';
+import type { User } from '../../types';
 
-const ProtectedRoute = ({ component: Component, user, path }) => {
+// MainPage is a connected component — cast to accept any props
+const AnyMainPage = MainPage as React.ComponentType<any>;
+
+interface ProtectedRouteProps {
+  component: React.ComponentType<any>;
+  user: User | undefined;
+  path?: string;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component, user, path }) => {
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,18 +27,18 @@ const ProtectedRoute = ({ component: Component, user, path }) => {
   };
 
   const history = {
-    push: (path, state) => {
-      if (typeof path === 'object') {
-        navigate(path.pathname, { state: path.state || state });
+    push: (pathArg: any, state?: any) => {
+      if (typeof pathArg === 'object') {
+        navigate(pathArg.pathname, { state: pathArg.state || state });
       } else {
-        navigate(path, { state });
+        navigate(pathArg, { state });
       }
     },
-    replace: (path, state) => {
-      if (typeof path === 'object') {
-        navigate(path.pathname, { state: path.state || state, replace: true });
+    replace: (pathArg: any, state?: any) => {
+      if (typeof pathArg === 'object') {
+        navigate(pathArg.pathname, { state: pathArg.state || state, replace: true });
       } else {
-        navigate(path, { state, replace: true });
+        navigate(pathArg, { state, replace: true });
       }
     },
     goBack: () => navigate(-1),
@@ -48,12 +57,12 @@ const ProtectedRoute = ({ component: Component, user, path }) => {
     // Admin Routes
     case EMAIL_TEMPLATE:
       if (isUserAdmin(user)) {
-        return <MainPage component={Component} user={user} match={match} history={history} location={location} />;
+        return <AnyMainPage component={Component} user={user} match={match} history={history} location={location} />;
       }
       return <Navigate to={LOGIN} replace />;
 
     default:
-      return <MainPage component={Component} user={user} match={match} history={history} location={location} />;
+      return <AnyMainPage component={Component} user={user} match={match} history={history} location={location} />;
   }
 };
 

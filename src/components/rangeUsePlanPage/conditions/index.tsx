@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { InfoTip } from '../../common';
 import { CONDITIONS } from '../../../constants/fields';
 import * as strings from '../../../constants/strings';
@@ -10,7 +8,11 @@ import { useUser } from '../../../providers/UserProvider';
 import EditableProvider from '../../../providers/EditableProvider';
 import { isStatusSubmittedForFD, isUserAgreementHolder } from '../../../utils';
 
-const Conditions = ({ plan }) => {
+interface ConditionsProps {
+  plan: any;
+}
+
+const Conditions: React.FC<ConditionsProps> = ({ plan }) => {
   const user = useUser();
   const { conditions = '', proposedConditions = '' } = plan || {};
 
@@ -67,10 +69,6 @@ const Conditions = ({ plan }) => {
       </div>
     </div>
   );
-};
-
-Conditions.propTypes = {
-  plan: PropTypes.shape({}).isRequired,
 };
 
 export default Conditions;

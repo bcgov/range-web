@@ -1,159 +1,129 @@
-// @ts-nocheck
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal, Segment, Form } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal, Segment as _Segment, Form as _Form } from 'semantic-ui-react';
+
+const Segment = _Segment as any;
+const Form = _Form as any;
 import { Loading, ErrorMessage, PrimaryButton } from '../common';
 import { getUser, getIsUpdatingUser, getUpdatingUserErrorOccured } from '../../reducers/rootReducer';
 import { allowAlphabetOnly, doesUserHaveFullName } from '../../utils';
 import { updateUser } from '../../actionCreators';
 import { UPDATE_USER_ERROR, APP_NAME } from '../../constants/strings';
+import { RootState, AppDispatch } from '../../configureStore';
 
-class UsernameInputModal extends Component {
-  static propTypes = {
-    user: PropTypes.shape({
-      givenName: PropTypes.string,
-      familyName: PropTypes.string,
-    }).isRequired,
-    updateUser: PropTypes.func.isRequired,
-    isUpdatingUser: PropTypes.bool.isRequired,
-    UpdatingUserErrorOccured: PropTypes.bool.isRequired,
-  };
+const UsernameInputModal: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => getUser(state));
+  const isUpdatingUser = useSelector((state: RootState) => getIsUpdatingUser(state));
+  const UpdatingUserErrorOccured = useSelector((state: RootState) => getUpdatingUserErrorOccured(state));
 
-  constructor(props) {
-    super(props);
+  const [familyName, setFamilyName] = useState((user as any)?.familyName || '');
+  const [givenName, setGivenName] = useState((user as any)?.givenName || '');
+  const [userType, setUserType] = useState(
+    (user as any)?.givenName && !(user as any)?.familyName ? 'company' : 'individual',
+  );
 
-    const { givenName, familyName } = this.props.user;
-    this.state = {
-      familyName: familyName || '',
-      givenName: givenName || '',
-      userType: givenName && !familyName ? 'company' : 'individual',
-    };
-  }
-
-  onSubmitClicked = (e) => {
+  const onSubmitClicked = (e: any) => {
     e.preventDefault();
-    const { familyName, givenName, userType } = this.state;
 
     if (userType === 'company') {
-      this.props.updateUser({
-        givenName,
-        familyName: '',
-      });
+      dispatch(updateUser({ givenName, familyName: '' }) as any);
     } else {
-      this.props.updateUser({
-        givenName,
-        familyName,
-      });
+      dispatch(updateUser({ givenName, familyName }) as any);
     }
   };
 
-  onInputPressed = (e) => {
+  const onInputPressed = (e: any) => {
     allowAlphabetOnly(e);
   };
 
-  onInputChanged = (e, { name, value }) => {
-    this.setState({
-      [name]: value,
-    });
+  const onInputChanged = (e: any, { name, value }: any) => {
+    if (name === 'givenName') setGivenName(value);
+    if (name === 'familyName') setFamilyName(value);
   };
 
-  onUserTypeChange = (e, { value }) => {
-    this.setState({
-      userType: value,
-      givenName: '',
-      familyName: '',
-    });
+  const onUserTypeChange = (e: any, { value }: any) => {
+    setUserType(value);
+    setGivenName('');
+    setFamilyName('');
   };
 
-  render() {
-    const { user, isUpdatingUser, UpdatingUserErrorOccured } = this.props;
-    const { familyName, givenName, userType } = this.state;
-    const isGivenEmpty = givenName === '';
-    const isFamilyEmpty = familyName === '';
-    const missingLastAndFirstName = !doesUserHaveFullName(user);
+  const isGivenEmpty = givenName === '';
+  const isFamilyEmpty = familyName === '';
+  const missingLastAndFirstName = !doesUserHaveFullName(user);
 
-    const isSubmitDisabled =
-      (userType === 'individual' && (isGivenEmpty || isFamilyEmpty)) || (userType === 'company' && isGivenEmpty);
+  const isSubmitDisabled =
+    (userType === 'individual' && (isGivenEmpty || isFamilyEmpty)) || (userType === 'company' && isGivenEmpty);
 
-    return (
-      <Modal dimmer="blurring" style={{ width: '400px' }} open={missingLastAndFirstName}>
-        <Segment>
-          <Loading active={false} />
-          <div className="un-input-modal">
-            <div className="un-input-modal__header">Welcome to {APP_NAME}</div>
-            <span className="un-input-modal__wave" role="img" aria-label="Wave">
-              👋
-            </span>
-            <div className="un-input-modal__msg">Hey Stranger, What&#39;s your name?</div>
-            <Form error={UpdatingUserErrorOccured}>
-              <ErrorMessage message={UPDATE_USER_ERROR} style={{ marginBottom: '15px' }} />
+  return (
+    <Modal dimmer="blurring" style={{ width: '400px' }} open={missingLastAndFirstName}>
+      <Segment>
+        <Loading active={false} />
+        <div className="un-input-modal">
+          <div className="un-input-modal__header">Welcome to {APP_NAME}</div>
+          <span className="un-input-modal__wave" role="img" aria-label="Wave">
+            👋
+          </span>
+          <div className="un-input-modal__msg">Hey Stranger, What&#39;s your name?</div>
+          <Form error={UpdatingUserErrorOccured}>
+            <ErrorMessage message={UPDATE_USER_ERROR} style={{ marginBottom: '15px' }} />
 
-              <Form.Group inline style={{ marginBottom: '15px' }} aria-label="User type selection">
-                <div style={{ marginRight: '10px', fontWeight: 'bold' }}>I am a: </div>
-                <Form.Radio
-                  label="Individual"
-                  name="userType"
-                  value="individual"
-                  checked={userType === 'individual'}
-                  onChange={this.onUserTypeChange}
-                />
-                <Form.Radio
-                  label="Company / Partnership"
-                  name="userType"
-                  value="company"
-                  checked={userType === 'company'}
-                  onChange={this.onUserTypeChange}
-                />
-              </Form.Group>
+            <Form.Group inline style={{ marginBottom: '15px' }} aria-label="User type selection">
+              <div style={{ marginRight: '10px', fontWeight: 'bold' }}>I am a: </div>
+              <Form.Radio
+                label="Individual"
+                name="userType"
+                value="individual"
+                checked={userType === 'individual'}
+                onChange={onUserTypeChange}
+              />
+              <Form.Radio
+                label="Company / Partnership"
+                name="userType"
+                value="company"
+                checked={userType === 'company'}
+                onChange={onUserTypeChange}
+              />
+            </Form.Group>
 
-              {userType === 'individual' ? (
-                <>
-                  <Form.Input
-                    name="givenName"
-                    label="First Name"
-                    value={givenName}
-                    error={isGivenEmpty}
-                    onChange={this.onInputChanged}
-                    onKeyPress={this.onInputPressed}
-                  />
-                  <Form.Input
-                    name="familyName"
-                    label="Last Name"
-                    value={familyName}
-                    error={isFamilyEmpty}
-                    onChange={this.onInputChanged}
-                    onKeyPress={this.onInputPressed}
-                  />
-                </>
-              ) : (
+            {userType === 'individual' ? (
+              <>
                 <Form.Input
                   name="givenName"
-                  label="Registered Company Name"
+                  label="First Name"
                   value={givenName}
                   error={isGivenEmpty}
-                  placeholder="Enter registered company name"
-                  onChange={this.onInputChanged}
+                  onChange={onInputChanged}
+                  onKeyPress={onInputPressed}
                 />
-              )}
+                <Form.Input
+                  name="familyName"
+                  label="Last Name"
+                  value={familyName}
+                  error={isFamilyEmpty}
+                  onChange={onInputChanged}
+                  onKeyPress={onInputPressed}
+                />
+              </>
+            ) : (
+              <Form.Input
+                name="givenName"
+                label="Registered Company Name"
+                value={givenName}
+                error={isGivenEmpty}
+                placeholder="Enter registered company name"
+                onChange={onInputChanged}
+              />
+            )}
 
-              <PrimaryButton fluid disabled={isSubmitDisabled} loading={isUpdatingUser} onClick={this.onSubmitClicked}>
-                Submit
-              </PrimaryButton>
-            </Form>
-          </div>
-        </Segment>
-      </Modal>
-    );
-  }
-}
+            <PrimaryButton fluid disabled={isSubmitDisabled} loading={isUpdatingUser} onClick={onSubmitClicked}>
+              Submit
+            </PrimaryButton>
+          </Form>
+        </div>
+      </Segment>
+    </Modal>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  user: getUser(state),
-  isUpdatingUser: getIsUpdatingUser(state),
-  UpdatingUserErrorOccured: getUpdatingUserErrorOccured(state),
-});
-
-export default connect(mapStateToProps, {
-  updateUser,
-})(UsernameInputModal);
+export default UsernameInputModal;

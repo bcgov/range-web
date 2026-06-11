@@ -1,17 +1,16 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Loader, Dimmer } from 'semantic-ui-react';
+import { Loader, Dimmer, SemanticSIZES } from 'semantic-ui-react';
 
-const propTypes = {
-  inverted: PropTypes.bool,
-  active: PropTypes.bool,
-  message: PropTypes.string,
-  onlySpinner: PropTypes.bool,
-  size: PropTypes.string,
-};
+interface LoadingProps {
+  inverted?: boolean;
+  active?: boolean;
+  message?: string;
+  onlySpinner?: boolean;
+  size?: SemanticSIZES;
+  containerProps?: Record<string, any>;
+}
 
-const Loading = ({
+const Loading: React.FC<LoadingProps> = ({
   size = 'large',
   active = true,
   inverted = true,
@@ -34,5 +33,4 @@ const Loading = ({
   );
 };
 
-Loading.propTypes = propTypes;
 export default Loading;

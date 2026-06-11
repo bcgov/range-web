@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   ADD_TOAST,
   REMOVE_TOAST,
@@ -10,27 +9,27 @@ import {
   CLOSE_PIA_MODAL,
 } from '../constants/actionTypes';
 
-export const addToast = (payload) => ({
+export const addToast = (payload: { toast: { id: string; [key: string]: unknown } }) => ({
   type: ADD_TOAST,
   payload,
 });
 
-export const removeToast = (payload) => ({
+export const removeToast = (payload: { toastId: string }) => ({
   type: REMOVE_TOAST,
   payload,
 });
 
-export const openConfirmationModal = (payload) => ({
+export const openConfirmationModal = (payload: unknown) => ({
   type: OPEN_CONFIRMATION_MODAL,
   payload,
 });
 
-export const closeConfirmationModal = (payload) => ({
+export const closeConfirmationModal = (payload: { modalId: string }) => ({
   type: CLOSE_CONFIRMATION_MODAL,
   payload,
 });
 
-export const openInputModal = (payload) => ({
+export const openInputModal = (payload: unknown) => ({
   type: OPEN_INPUT_MODAL,
   payload,
 });

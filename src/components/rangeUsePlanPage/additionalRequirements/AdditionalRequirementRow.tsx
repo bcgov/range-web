@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { ADDITIONAL_REQUIREMENTS } from '../../../constants/fields';
 import { useReferences } from '../../../providers/ReferencesProvider';
@@ -8,11 +6,23 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import { Dropdown as PlainDropdown, Icon } from 'semantic-ui-react';
 import { Dropdown, TextArea } from 'formik-semantic-ui';
 
-const AdditionalRequirementRow = ({ additionalRequirement, namespace, onDelete, onCopy }) => {
+interface AdditionalRequirementRowProps {
+  additionalRequirement: any;
+  namespace: string;
+  onDelete: () => void;
+  onCopy: () => void;
+}
+
+const AdditionalRequirementRow: React.FC<AdditionalRequirementRowProps> = ({
+  additionalRequirement,
+  namespace,
+  onDelete,
+  onCopy,
+}) => {
   const references = useReferences();
 
-  const categories = references[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY];
-  const options = categories.map((category) => ({
+  const categories = (references as any)[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY];
+  const options = categories.map((category: any) => ({
     key: category.id,
     value: category.id,
     text: category.name,
@@ -29,7 +39,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace, onDelete, 
         component={Dropdown}
         options={options}
         displayValue={
-          options.find((c) => c.value === categoryId) ? options.find((c) => c.value === categoryId).text : ''
+          options.find((c: any) => c.value === categoryId) ? options.find((c: any) => c.value === categoryId).text : ''
         }
         label="Category"
         fast
@@ -82,7 +92,7 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace, onDelete, 
               },
             ]}
             icon={null}
-            value={null}
+            value={null as any}
             pointing="right"
             onClick={(e) => e.stopPropagation()}
             onChange={(e, { value }) => {
@@ -99,12 +109,6 @@ const AdditionalRequirementRow = ({ additionalRequirement, namespace, onDelete, 
       </IfEditable>
     </div>
   );
-};
-
-AdditionalRequirementRow.propTypes = {
-  additionalRequirement: PropTypes.shape({}).isRequired,
-  namespace: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default React.memo(AdditionalRequirementRow);

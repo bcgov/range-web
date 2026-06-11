@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Compatibility shim for react-router-dom v5 → v6 migration.
  * Provides match, history, and location props to class components
@@ -9,8 +8,8 @@
 import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
-export function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
+export function withRouter<P extends object>(Component: React.ComponentType<P>) {
+  function ComponentWithRouterProp(props: Omit<P, 'match' | 'history' | 'location'>) {
     const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,14 +23,14 @@ export function withRouter(Component) {
 
     // Construct a v5-compatible history object
     const history = {
-      push: (path, state) => {
+      push: (path: any, state?: any) => {
         if (typeof path === 'object') {
           navigate(path.pathname, { state: path.state || state });
         } else {
           navigate(path, { state });
         }
       },
-      replace: (path, state) => {
+      replace: (path: any, state?: any) => {
         if (typeof path === 'object') {
           navigate(path.pathname, { state: path.state || state, replace: true });
         } else {
@@ -42,7 +41,7 @@ export function withRouter(Component) {
       location,
     };
 
-    return <Component {...props} match={match} history={history} location={location} />;
+    return <Component {...(props as any)} match={match} history={history} location={location} />;
   }
 
   ComponentWithRouterProp.displayName = `withRouter(${Component.displayName || Component.name || 'Component'})`;

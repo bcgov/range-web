@@ -1,4 +1,3 @@
-// @ts-nocheck
 import uuid from 'uuid-v4';
 import {
   axios,
@@ -28,7 +27,7 @@ import { REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../constants/variabl
  * Syncs plan and then returns locally stored record
  * @param {number} planId
  */
-export const getPlan = async (planId, user = {}) => {
+export const getPlan = async (planId: string | number, user: any = {}): Promise<any> => {
   if (!uuid.isUUID(planId)) {
     await syncPlan(planId, user);
   }
@@ -44,7 +43,7 @@ export const getPlan = async (planId, user = {}) => {
  * @returns {void}
  */
 
-const syncPlan = async (planId, user) => {
+const syncPlan = async (planId: string | number, user: any): Promise<void> => {
   const isOnline = await getNetworkStatus();
   const localPlan = getPlanFromLocalStorage(planId);
 
@@ -62,7 +61,7 @@ const syncPlan = async (planId, user) => {
  * If online, uploads the plan to the API. Otherwise, saves the plan to local storage
  * @param {object} plan
  */
-export const savePlan = async (plan, user = {}) => {
+export const savePlan = async (plan: any, user: any = {}): Promise<string | number> => {
   const isOnline = await getNetworkStatus();
 
   if (!isOnline) {
@@ -80,7 +79,7 @@ export const savePlan = async (plan, user = {}) => {
     ministerIssues,
     additionalRequirements,
     files,
-  } = RUPSchema.cast(plan);
+  } = RUPSchema.cast(plan) as any;
 
   const config = getAuthHeaderConfig();
 
@@ -99,7 +98,7 @@ export const savePlan = async (plan, user = {}) => {
   const newPastures = await savePastures(planId, pastures);
 
   await Promise.all(
-    newPastures.map(async (pasture) => {
+    newPastures.map(async (pasture: any) => {
       await savePlantCommunities(planId, pasture.id, pasture.plantCommunities);
     }),
   );
@@ -114,7 +113,7 @@ export const savePlan = async (plan, user = {}) => {
     // Only save attachments that haven't been saved individually
     // (attachments with UUID ids haven't been saved to database yet)
     if ((isUserAgrologist(user) && canUserAddAttachments(plan, user)) || isUserAdmin(user)) {
-      const unsavedAttachments = files.filter((file) => uuid.isUUID(file.id));
+      const unsavedAttachments = files.filter((file: any) => uuid.isUUID(file.id));
       if (unsavedAttachments.length > 0) {
         await saveAttachments(planId, unsavedAttachments);
       }
@@ -129,7 +128,7 @@ export const savePlan = async (plan, user = {}) => {
  * @param {object} plan -
  * @param {boolean} synced - If the stored plan is to be marked as synced
  */
-export const savePlanToLocalStorage = (plan, synced = false) => {
+export const savePlanToLocalStorage = (plan: any, synced = false): void => {
   localStorage.setItem(`plan-${plan.id}`, JSON.stringify({ ...plan, synced }));
 };
 
@@ -137,20 +136,20 @@ export const savePlanToLocalStorage = (plan, synced = false) => {
  * Get a plan from local storage
  * @param {number} planId - ID of the plan
  */
-export const getPlanFromLocalStorage = (planId) => {
-  return JSON.parse(localStorage.getItem(`plan-${planId}`));
+export const getPlanFromLocalStorage = (planId: string | number): any => {
+  return JSON.parse(localStorage.getItem(`plan-${planId}`)!);
 };
 
-const removePlanFromLocalStorage = (planId) => {
+const removePlanFromLocalStorage = (planId: string | number): void => {
   localStorage.removeItem(`plan-${planId}`);
 };
 
-export const getPlans = () =>
+export const getPlans = (): any[] =>
   Object.entries(localStorage)
     .filter(([key]) => key.match(/(plan-)(.*)/g))
     .map((entry) => JSON.parse(entry[1]));
 
-export const createNewPlan = (agreement) => {
+export const createNewPlan = (agreement: any): any => {
   const newPlan = {
     id: uuid(),
     agreementId: agreement.id,
@@ -180,13 +179,13 @@ export const createNewPlan = (agreement) => {
   return newPlan;
 };
 
-export const updatePlan = async (planId, data) => {
+export const updatePlan = async (planId: string | number, data: any): Promise<any> => {
   return await axios.put(API.UPDATE_RUP(planId), data, getAuthHeaderConfig());
 };
 
-export const createAmendment = async (plan, references, staffInitiated = false) => {
+export const createAmendment = async (plan: any, references: any, staffInitiated = false): Promise<any> => {
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-  const initialAmendment = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.INITIAL);
+  const initialAmendment = amendmentTypes.find((at: any) => at.code === AMENDMENT_TYPE.INITIAL);
   const ahAmendmentStatus = findStatusWithCode(references, PLAN_STATUS.AMENDMENT_AH);
   const staffAmendmentStatus = findStatusWithCode(references, PLAN_STATUS.MANDATORY_AMENDMENT_STAFF);
 
@@ -209,11 +208,11 @@ export const createAmendment = async (plan, references, staffInitiated = false) 
   return getPlan(plan.id);
 };
 
-export const updateStatus = async ({ planId, note, statusId }) => {
+export const updateStatus = async ({ planId, note, statusId }: { planId: string | number; note: string; statusId: string | number }): Promise<void> => {
   await axios.put(API.UPDATE_PLAN_STATUS(planId), { note, statusId }, getAuthHeaderConfig());
 };
 
-export const createReplacementPlan = async (planId) => {
+export const createReplacementPlan = async (planId: string | number): Promise<any> => {
   return (await axios.put(API.REPLACEMENT_PLAN(planId), getAuthHeaderConfig())).data.replacementPlan;
 };
 
@@ -224,7 +223,14 @@ export const updateConfirmation = async ({
   confirmed,
   isMinorAmendment = false,
   isOwnSignature = true,
-}) => {
+}: {
+  user: any;
+  planId: string | number;
+  confirmationId: string | number;
+  confirmed: boolean;
+  isMinorAmendment?: boolean;
+  isOwnSignature?: boolean;
+}): Promise<any> => {
   const config = {
     ...getAuthHeaderConfig(),
     params: {
@@ -238,11 +244,11 @@ export const updateConfirmation = async ({
   );
 };
 
-export const getMostRecentLegalPlan = async (planId) => {
+export const getMostRecentLegalPlan = async (planId: string | number): Promise<any> => {
   const {
     data: { versions },
   } = await axios.get(API.GET_RUP_VERSIONS(planId), getAuthHeaderConfig());
-  const legalVersion = versions.find((v) => v.isCurrentLegalVersion);
+  const legalVersion = versions.find((v: any) => v.isCurrentLegalVersion);
 
   if (!legalVersion) {
     throw new Error('Could not find legal version');
@@ -253,25 +259,25 @@ export const getMostRecentLegalPlan = async (planId) => {
   return data;
 };
 
-export const discardAmendment = async (planId) => {
+export const discardAmendment = async (planId: string | number): Promise<any> => {
   return axios.post(API.DISCARD_AMENDMENT(planId), {}, getAuthHeaderConfig());
 };
 
-export const amendFromLegal = async (plan, references, staffInitiated) => {
+export const amendFromLegal = async (plan: any, references: any, staffInitiated: boolean): Promise<void> => {
   const { version } = await getMostRecentLegalPlan(plan.id);
 
   await axios.post(API.RESTORE_RUP_VERSION(plan.id, version), {}, getAuthHeaderConfig());
   await createAmendment(plan, references, staffInitiated);
 };
 
-export const generatePDF = async (planId) => {
+export const generatePDF = async (planId: string | number): Promise<any> => {
   return await axios.get(API.GET_RUP_PDF(planId), {
     ...getAuthHeaderConfig(),
     responseType: 'blob',
   });
 };
 
-export const updateSortOrder = async (planId, scheduleId, sortBy, sortOrder) => {
+export const updateSortOrder = async (planId: string | number, scheduleId: string | number, sortBy: string, sortOrder: string): Promise<any> => {
   return axios.put(
     API.UPDATE_SCHEDULE_SORT_ORDER(planId, scheduleId),
     {

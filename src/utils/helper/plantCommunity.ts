@@ -1,7 +1,33 @@
-// @ts-nocheck
 import uuid from 'uuid-v4';
 
-export const resetPlantCommunityId = (plantCommunity) => ({
+interface PlantCommunityLike {
+  id?: any;
+  createdAt?: any;
+  indicatorPlants: any[];
+  monitoringAreas: any[];
+  plantCommunityActions: any[];
+  [key: string]: any;
+}
+
+interface IndicatorPlantLike {
+  id?: any;
+  createdAt?: any;
+  [key: string]: any;
+}
+
+interface MonitoringAreaLike {
+  id?: any;
+  createdAt?: any;
+  [key: string]: any;
+}
+
+interface PlantCommunityActionLike {
+  id?: any;
+  createdAt?: any;
+  [key: string]: any;
+}
+
+export const resetPlantCommunityId = (plantCommunity: PlantCommunityLike): any => ({
   ...plantCommunity,
   id: uuid(),
   createdAt: undefined,
@@ -10,19 +36,19 @@ export const resetPlantCommunityId = (plantCommunity) => ({
   plantCommunityActions: plantCommunity.plantCommunityActions.map(resetPlantCommunityActionId),
 });
 
-export const resetIndicatorPlantId = (indicatorPlant) => ({
+export const resetIndicatorPlantId = (indicatorPlant: IndicatorPlantLike): any => ({
   ...indicatorPlant,
   createdAt: undefined,
   id: uuid(),
 });
 
-export const resetMonitoringAreaId = (monitoringArea) => ({
+export const resetMonitoringAreaId = (monitoringArea: MonitoringAreaLike): any => ({
   ...monitoringArea,
   createdAt: undefined,
   id: uuid(),
 });
 
-export const resetPlantCommunityActionId = (plantCommunityAction) => ({
+export const resetPlantCommunityActionId = (plantCommunityAction: PlantCommunityActionLike): any => ({
   ...plantCommunityAction,
   createdAt: undefined,
   id: uuid(),

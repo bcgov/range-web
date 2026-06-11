@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +18,7 @@
 // Created by Kyubin Han.
 //
 
-import axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { API_BASE_URL } from '../constants/api';
 
 const instance = axios.create({
@@ -27,8 +26,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: AxiosResponse): AxiosResponse => response,
+  (error: AxiosError): Promise<never> => {
     if (error && error.response) {
       return Promise.reject(error.response);
     }

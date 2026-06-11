@@ -1,13 +1,20 @@
-// @ts-nocheck
 import React from 'react';
 import { Icon, Popup } from 'semantic-ui-react';
+
+type IconSizeProp = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
+
+interface InfoTipProps {
+  header?: string;
+  content?: React.ReactNode;
+  size?: IconSizeProp;
+}
 
 const style = {
   backgroundColor: '#002C71',
   color: 'white',
 };
 
-const InfoTip = ({ header, content, size = 'small' }) => (
+const InfoTip: React.FC<InfoTipProps> = ({ header, content, size = 'small' }) => (
   <Popup
     basic
     wide={'very'}

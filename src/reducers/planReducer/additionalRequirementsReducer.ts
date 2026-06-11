@@ -1,8 +1,20 @@
-// @ts-nocheck
 import { STORE_PLAN } from '../../constants/actionTypes';
+import { AdditionalRequirement, EntityMap } from '../../types';
 
-const storeAdditionalRequirements = (state, action) => {
-  const { additionalRequirements } = action.payload.entities;
+export type AdditionalRequirementsState = EntityMap<AdditionalRequirement>;
+
+interface AdditionalRequirementAction {
+  type: string;
+  payload: {
+    entities?: { additionalRequirements?: EntityMap<AdditionalRequirement> };
+  };
+}
+
+const storeAdditionalRequirements = (
+  state: AdditionalRequirementsState,
+  action: AdditionalRequirementAction,
+): AdditionalRequirementsState => {
+  const additionalRequirements = action.payload.entities?.additionalRequirements ?? {};
 
   return {
     ...state,
@@ -10,7 +22,10 @@ const storeAdditionalRequirements = (state, action) => {
   };
 };
 
-const additionalRequirementsReducer = (state = {}, action) => {
+const additionalRequirementsReducer = (
+  state: AdditionalRequirementsState = {},
+  action: AdditionalRequirementAction,
+): AdditionalRequirementsState => {
   switch (action.type) {
     case STORE_PLAN:
       return storeAdditionalRequirements(state, action);

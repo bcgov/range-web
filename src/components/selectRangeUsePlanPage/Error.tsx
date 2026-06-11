@@ -1,9 +1,12 @@
-// @ts-nocheck
 import React from 'react';
 import { PrimaryButton } from '../common';
 import * as strings from '../../constants/strings';
 
-const Error = ({ onRetry }) => (
+interface ErrorProps {
+  onRetry: () => void;
+}
+
+const Error: React.FC<ErrorProps> = ({ onRetry }) => (
   <div className="agrm__table__row">
     <div className="agrm__message agrm__message--error">
       {strings.ERROR_OCCUR}

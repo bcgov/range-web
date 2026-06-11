@@ -1,8 +1,7 @@
-// @ts-nocheck
 import React from 'react';
 import { APP_NAME } from '../../constants/strings';
 
-const BrowserWarningHeader = () => (
+const BrowserWarningHeader: React.FC = () => (
   <article className="login__no-support-browser">
     <div className="login__no-support-browser__title">Your internet browser is not supported.</div>
     <div>
