@@ -5,7 +5,7 @@ interface NetworkStatusProps {
   planId: string | number;
 }
 
-const NetworkStatus: React.FC<NetworkStatusProps> = ({ planId }) => {
+function NetworkStatus({ planId }: NetworkStatusProps) {
   const online = useNetworkStatus();
   const synced = usePlanSyncedStatus(planId);
 
@@ -17,6 +17,6 @@ const NetworkStatus: React.FC<NetworkStatusProps> = ({ planId }) => {
       </span>
     </div>
   );
-};
+}
 
 export default NetworkStatus;

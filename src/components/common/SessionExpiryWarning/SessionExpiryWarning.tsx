@@ -7,7 +7,7 @@ interface SessionExpiryWarningProps {
   onExtend: () => void;
 }
 
-const SessionExpiryWarning: React.FC<SessionExpiryWarningProps> = ({ onExtend }) => {
+function SessionExpiryWarning({ onExtend }: SessionExpiryWarningProps) {
   const [seconds, setSeconds] = useState(SESSION_EXPIRY_WARNING_DURATION);
 
   useEffect(() => {
@@ -41,6 +41,6 @@ const SessionExpiryWarning: React.FC<SessionExpiryWarningProps> = ({ onExtend })
       </Button>
     </div>
   );
-};
+}
 
 export default SessionExpiryWarning;

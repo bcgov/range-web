@@ -17,7 +17,7 @@ interface IndicatorPlantProps {
   formik: any;
 }
 
-const IndicatorPlant: React.FC<IndicatorPlantProps> = ({ plant, namespace, valueType, onDelete, formik }) => {
+function IndicatorPlant({ plant, namespace, valueType, onDelete, formik }: IndicatorPlantProps) {
   const references = useReferences() as any;
 
   const species = references[REFERENCE_KEY.PLANT_SPECIES].filter((s: any) => !s.isShrubUse) || [];
@@ -128,6 +128,6 @@ const IndicatorPlant: React.FC<IndicatorPlantProps> = ({ plant, namespace, value
       </Grid.Column>
     </Grid>
   );
-};
+}
 
 export default IndicatorPlant;

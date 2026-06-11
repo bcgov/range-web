@@ -10,7 +10,7 @@ interface StatusHistoryProps {
   planStatusHistory: any[];
 }
 
-const StatusHistory: React.FC<StatusHistoryProps> = ({ planStatusHistory }) => {
+function StatusHistory({ planStatusHistory }: StatusHistoryProps) {
   const references = useReferences();
   const user = useUser() as any;
   const planStatuses = (references as any)[REFERENCE_KEY.PLAN_STATUS];
@@ -39,6 +39,6 @@ const StatusHistory: React.FC<StatusHistoryProps> = ({ planStatusHistory }) => {
       })}
     </div>
   );
-};
+}
 
 export default React.memo(StatusHistory);

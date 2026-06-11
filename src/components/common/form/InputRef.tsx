@@ -8,16 +8,18 @@ interface NullRefProps {
   children: React.ReactNode;
 }
 
-export const NullRef: React.FC<NullRefProps> = ({ children }) => <Fragment>{children}</Fragment>;
+export function NullRef({ children }: NullRefProps) {
+  return <Fragment>{children}</Fragment>;
+}
 
 interface InputRefProps {
   inputRef?: (el: HTMLInputElement | null) => void;
   children: React.ReactNode;
 }
 
-export const InputRef: React.FC<InputRefProps> = ({ inputRef, children }) => {
+export function InputRef({ inputRef, children }: InputRefProps) {
   if (inputRef) {
     return <Ref innerRef={(el: any) => findInput(inputRef, el)}>{children as React.ReactElement}</Ref>;
   }
   return <NullRef>{children}</NullRef>;
-};
+}

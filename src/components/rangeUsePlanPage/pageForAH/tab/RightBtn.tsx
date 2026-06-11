@@ -9,7 +9,7 @@ interface RightBtnProps {
   primary?: boolean;
 }
 
-const RightBtn: React.FC<RightBtnProps> = ({ onClick, disabled = false, content, loading = false }) => {
+function RightBtn({ onClick, disabled = false, content, loading = false }: RightBtnProps) {
   return (
     <PrimaryButton
       className="rup__multi-tab__tab__btn"
@@ -20,6 +20,6 @@ const RightBtn: React.FC<RightBtnProps> = ({ onClick, disabled = false, content,
       style={{ margin: '0' }}
     />
   );
-};
+}
 
 export default RightBtn;

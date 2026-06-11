@@ -41,7 +41,7 @@ interface PastureBoxProps {
   isGrazingSchedule: boolean;
 }
 
-const PastureBox: React.FC<PastureBoxProps> = ({
+function PastureBox({
   pasture,
   index,
   activeIndex,
@@ -52,7 +52,7 @@ const PastureBox: React.FC<PastureBoxProps> = ({
   formik,
   titleText,
   isGrazingSchedule,
-}) => {
+}: PastureBoxProps) {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const isError = !!getIn(formik.errors, namespace);
@@ -192,7 +192,7 @@ const PastureBox: React.FC<PastureBoxProps> = ({
       />
     </>
   );
-};
+}
 
 export default connect(
   React.memo(

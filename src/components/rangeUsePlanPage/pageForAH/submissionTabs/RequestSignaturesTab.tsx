@@ -17,7 +17,16 @@ interface RequestSignaturesTabProps {
   tab: { id: string; title: string; back: string; next: string; text1: string; text2: string; text3: string };
 }
 
-const RequestSignaturesTab: React.FC<RequestSignaturesTabProps> = ({ currTabId, tab, isSubmitting, clients, user, clientAgreements, handleTabChange, onSubmitClicked }) => {
+function RequestSignaturesTab({
+  currTabId,
+  tab,
+  isSubmitting,
+  clients,
+  user,
+  clientAgreements,
+  handleTabChange,
+  onSubmitClicked,
+}: RequestSignaturesTabProps) {
   const { id, title, text1, text2, text3 } = tab;
   const isActive = id === currTabId;
 
@@ -75,6 +84,6 @@ const RequestSignaturesTab: React.FC<RequestSignaturesTabProps> = ({ currTabId, 
       }
     />
   );
-};
+}
 
 export default RequestSignaturesTab;

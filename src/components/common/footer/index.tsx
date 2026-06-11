@@ -8,7 +8,7 @@ interface FooterProps {
   openPiaModal: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ withTopMargin = false, openPiaModal }) => {
+function Footer({ withTopMargin = false, openPiaModal }: FooterProps) {
   return (
     <>
       <PrivacyInfoModal />
@@ -54,7 +54,7 @@ const Footer: React.FC<FooterProps> = ({ withTopMargin = false, openPiaModal }) 
       </footer>
     </>
   );
-};
+}
 
 export default connect(null, {
   openPiaModal,

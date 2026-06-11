@@ -13,7 +13,7 @@ const getEnvironmentColor = (env: string): string => {
   }
 };
 
-const EnvironmentRibbon: React.FC = () => {
+function EnvironmentRibbon() {
   const [environment, setEnvironment] = useState<string | null>(null);
 
   useEffect(() => {
@@ -66,6 +66,6 @@ const EnvironmentRibbon: React.FC = () => {
       <div style={ribbonStyles}>{environment.toUpperCase()}</div>
     </div>
   );
-};
+}
 
 export default EnvironmentRibbon;

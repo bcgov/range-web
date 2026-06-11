@@ -6,7 +6,7 @@ interface PrimaryButtonProps extends ButtonProps {
   children?: React.ReactNode;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ inverted = false, children, ...props }) => {
+function PrimaryButton({ inverted = false, children, ...props }: PrimaryButtonProps) {
   if (inverted) {
     return (
       <div className="inverted-btn">
@@ -22,6 +22,6 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ inverted = false, childre
       {children}
     </Button>
   );
-};
+}
 
 export default PrimaryButton;

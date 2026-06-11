@@ -4,8 +4,8 @@ interface ErrorMessageProps {
   message: string;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => (
-  <span className="sui-error-message">{message}</span>
-);
+function ErrorMessage({ message }: ErrorMessageProps) {
+  return <span className="sui-error-message">{message}</span>;
+}
 
 export default ErrorMessage;

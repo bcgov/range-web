@@ -21,7 +21,7 @@ interface MinisterIssueActionProps {
   onDelete: () => void;
 }
 
-const MinisterIssueAction: React.FC<MinisterIssueActionProps> = ({
+function MinisterIssueAction({
   actionTypeId,
   detail,
   other,
@@ -31,7 +31,7 @@ const MinisterIssueAction: React.FC<MinisterIssueActionProps> = ({
   noGrazeEndDay,
   namespace,
   onDelete,
-}) => {
+}: MinisterIssueActionProps) {
   const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
   const type = types.find((t: any) => t.id === actionTypeId)?.name ?? '';
   const options = types.map((t: any) => ({
@@ -120,6 +120,6 @@ const MinisterIssueAction: React.FC<MinisterIssueActionProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default MinisterIssueAction;

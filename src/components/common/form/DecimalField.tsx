@@ -26,7 +26,7 @@ interface DecimalInputProps {
   field: any;
 }
 
-const DecimalInput: React.FC<DecimalInputProps> = ({
+function DecimalInput({
   name,
   label,
   inputProps,
@@ -35,7 +35,7 @@ const DecimalInput: React.FC<DecimalInputProps> = ({
   inputRef,
   form,
   field,
-}) => {
+}: DecimalInputProps) {
   const { onChange, ...safeInputProps } = inputProps;
   const id = `decimal_field_${name}`;
 
@@ -76,9 +76,9 @@ const DecimalInput: React.FC<DecimalInputProps> = ({
         })}
     </Form.Field>
   );
-};
+}
 
-const DecimalField: React.FC<DecimalFieldProps> = ({
+function DecimalField({
   name,
   label,
   validate,
@@ -87,7 +87,7 @@ const DecimalField: React.FC<DecimalFieldProps> = ({
   errorComponent = ErrorMessage,
   inputRef,
   fast,
-}) => {
+}: DecimalFieldProps) {
   const DesiredField = fast === true ? FastField : Field;
 
   return (
@@ -108,6 +108,6 @@ const DecimalField: React.FC<DecimalFieldProps> = ({
       )}
     />
   );
-};
+}
 
 export default DecimalField;

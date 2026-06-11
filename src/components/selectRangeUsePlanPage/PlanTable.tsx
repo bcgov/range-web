@@ -13,7 +13,7 @@ interface PlanTableProps {
   agreementId: any;
 }
 
-const PlanTable: React.FC<PlanTableProps> = ({ agreementId }) => {
+function PlanTable({ agreementId }: PlanTableProps) {
   const {
     data: agreement,
     isValidating,
@@ -67,6 +67,6 @@ const PlanTable: React.FC<PlanTableProps> = ({ agreementId }) => {
       </div>
     </Segment>
   );
-};
+}
 
 export default PlanTable;

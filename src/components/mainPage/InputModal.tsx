@@ -9,7 +9,7 @@ import { PrimaryButton } from '../common';
 import { handleWhenEnterPressed } from '../../utils';
 import { RootState } from '../../configureStore';
 
-const InputModal: React.FC = () => {
+function InputModal() {
   const dispatch = useDispatch();
   const inputModal = useSelector((state: RootState) => getInputModal(state));
   const [input, setInput] = useState((inputModal && (inputModal as any).input) || '');
@@ -64,6 +64,6 @@ const InputModal: React.FC = () => {
       </div>
     </Modal>
   );
-};
+}
 
 export default InputModal;

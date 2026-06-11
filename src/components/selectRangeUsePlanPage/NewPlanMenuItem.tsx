@@ -8,7 +8,7 @@ interface NewPlanMenuItemProps {
   agreement: any;
 }
 
-const NewPlanMenuItem: React.FC<NewPlanMenuItemProps> = ({ agreement }) => {
+function NewPlanMenuItem({ agreement }: NewPlanMenuItemProps) {
   const navigate = useNavigate();
 
   const handleClick = (e: any) => {
@@ -18,6 +18,6 @@ const NewPlanMenuItem: React.FC<NewPlanMenuItemProps> = ({ agreement }) => {
   };
 
   return <MenuItem onClick={handleClick}>New plan</MenuItem>;
-};
+}
 
 export default NewPlanMenuItem;

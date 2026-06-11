@@ -17,7 +17,7 @@ interface ClientDropdownProps {
   value: ClientOption | null;
 }
 
-const ClientDropdown: React.FC<ClientDropdownProps> = ({ onChange, value }) => {
+function ClientDropdown({ onChange, value }: ClientDropdownProps) {
   const [inputValue, setInputValue] = useState('');
 
   const {
@@ -91,6 +91,6 @@ const ClientDropdown: React.FC<ClientDropdownProps> = ({ onChange, value }) => {
       }}
     />
   );
-};
+}
 
 export default ClientDropdown;

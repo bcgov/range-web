@@ -12,7 +12,7 @@ interface HelpfulDropdownProps {
   [key: string]: any;
 }
 
-const HelpfulDropdown: React.FC<HelpfulDropdownProps> = ({ help, ...props }) => {
+function HelpfulDropdown({ help, ...props }: HelpfulDropdownProps) {
   return (
     <>
       <Dropdown
@@ -26,6 +26,6 @@ const HelpfulDropdown: React.FC<HelpfulDropdownProps> = ({ help, ...props }) => 
       />
     </>
   );
-};
+}
 
 export default HelpfulDropdown;

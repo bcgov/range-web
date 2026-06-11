@@ -7,10 +7,12 @@ interface AvatarProps {
   className?: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ className = '', user = { familyName: 'N', givenName: 'P' } }) => (
-  <div className={classnames('avatar', className)}>
-    <div className="avatar__initial">{getUserInitial(user)}</div>
-  </div>
-);
+function Avatar({ className = '', user = { familyName: 'N', givenName: 'P' } }: AvatarProps) {
+  return (
+    <div className={classnames('avatar', className)}>
+      <div className="avatar__initial">{getUserInitial(user)}</div>
+    </div>
+  );
+}
 
 export default Avatar;

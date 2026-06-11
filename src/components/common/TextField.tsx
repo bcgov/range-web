@@ -12,14 +12,14 @@ interface TextFieldProps {
   onClick?: () => void;
 }
 
-const TextField: React.FC<TextFieldProps> = ({
+function TextField({
   className = '',
   label,
   text: rawText = '',
   isLabelHidden = false,
   isEditable = false,
   onClick = () => undefined,
-}) => {
+}: TextFieldProps) {
   const text = handleNullValue(rawText) as React.ReactNode;
 
   return (
@@ -42,6 +42,6 @@ const TextField: React.FC<TextFieldProps> = ({
       {!isEditable && <div className="text-field__text">{text}</div>}
     </div>
   );
-};
+}
 
 export default TextField;

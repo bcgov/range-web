@@ -6,8 +6,8 @@ interface LeftBtnProps {
   content: string;
 }
 
-const LeftBtn: React.FC<LeftBtnProps> = ({ onClick, content }) => {
+function LeftBtn({ onClick, content }: LeftBtnProps) {
   return <PrimaryButton inverted className="rup__multi-tab__tab__btn" onClick={onClick} content={content} />;
-};
+}
 
 export default LeftBtn;

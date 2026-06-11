@@ -4,7 +4,7 @@ import { ErrorMessage } from '../common';
 import { NO_CLIENT_NUMBER_ASSIGNED } from '../../constants/strings';
 import { isUserAgreementHolder } from '../../utils';
 
-const AHWarning: React.FC = () => {
+function AHWarning() {
   const user = useUser();
   const hasClients = user && user.clients?.length !== 0;
 
@@ -13,6 +13,6 @@ const AHWarning: React.FC = () => {
   }
 
   return null;
-};
+}
 
 export default AHWarning;

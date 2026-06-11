@@ -15,7 +15,13 @@ interface PlantCommunityActionsBoxProps {
   namespace: string;
 }
 
-const PlantCommunityActionsBox: React.FC<PlantCommunityActionsBoxProps> = ({ actions, planId, pastureId, communityId, namespace }) => {
+function PlantCommunityActionsBox({
+  actions,
+  planId,
+  pastureId,
+  communityId,
+  namespace,
+}: PlantCommunityActionsBoxProps) {
   const [toRemove, setToRemove] = useState<number | null>(null);
 
   return (
@@ -65,6 +71,6 @@ const PlantCommunityActionsBox: React.FC<PlantCommunityActionsBoxProps> = ({ act
       )}
     />
   );
-};
+}
 
 export default connect(PlantCommunityActionsBox);

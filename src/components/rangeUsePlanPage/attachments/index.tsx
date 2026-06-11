@@ -26,13 +26,13 @@ interface AttachmentsProps {
   fileType?: string;
 }
 
-const Attachments: React.FC<AttachmentsProps> = ({
+function Attachments({
   planId,
   attachments = [],
   label = '',
   propertyName,
   fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT,
-}) => {
+}: AttachmentsProps) {
   const [toRemove, setToRemove] = useState<any>(null);
   const [updatingAccessId, setUpdatingAccessId] = useState<any>(null);
   const formik = useFormikContext<any>();
@@ -223,15 +223,17 @@ const Attachments: React.FC<AttachmentsProps> = ({
       )}
     />
   );
-};
+}
 
-const AttachmentsHeader: React.FC = () => (
-  <>
-    <div className="rup__content-title--editable">
-      <div className="rup__content_title">Attachments</div>
-    </div>
-    <div className="rup__divider" />
-  </>
-);
+function AttachmentsHeader() {
+  return (
+    <>
+      <div className="rup__content-title--editable">
+        <div className="rup__content_title">Attachments</div>
+      </div>
+      <div className="rup__divider" />
+    </>
+  );
+}
 
 export { Attachments, AttachmentsHeader };

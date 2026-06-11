@@ -28,7 +28,7 @@ interface PasturesProps {
   agreementType: any;
 }
 
-const Pastures: React.FC<PasturesProps> = ({ pastures, formik, agreementType }) => {
+function Pastures({ pastures, formik, agreementType }: PasturesProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isImportPastureModalOpen, setImportPastureModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -195,6 +195,6 @@ const Pastures: React.FC<PasturesProps> = ({ pastures, formik, agreementType }) 
       )}
     />
   );
-};
+}
 
 export default connect(Pastures);

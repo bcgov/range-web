@@ -15,7 +15,7 @@ interface PDFViewProps {
   mapAttachments: MapAttachment[];
 }
 
-const PDFView: React.FC<PDFViewProps> = ({ match, agreementId, mapAttachments }) => {
+function PDFView({ match, agreementId, mapAttachments }: PDFViewProps) {
   const { planId } = match.params;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -61,6 +61,6 @@ const PDFView: React.FC<PDFViewProps> = ({ match, agreementId, mapAttachments })
       {error ? `Error loading PDF. Click to retry` : 'Download PDF'}
     </PrimaryButton>
   );
-};
+}
 
 export default PDFView;

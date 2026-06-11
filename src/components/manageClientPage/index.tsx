@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ManageClientPage: React.FC = () => {
+function ManageClientPage() {
   const classes = useStyles();
 
   const {
@@ -114,6 +114,6 @@ const ManageClientPage: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default ManageClientPage;

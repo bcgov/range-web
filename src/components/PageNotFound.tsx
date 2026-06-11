@@ -4,7 +4,7 @@ import { HOME } from '../constants/routes';
 import { IMAGE_SRC } from '../constants/variables';
 import { PAGE_NOT_FOUND_TITLE, APP_NAME } from '../constants/strings';
 
-const PageNotFound: React.FC = () => {
+function PageNotFound() {
   const [redirectToHome, setRedirectToHome] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -41,6 +41,6 @@ const PageNotFound: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default PageNotFound;

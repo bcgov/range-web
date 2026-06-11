@@ -7,7 +7,7 @@ import { getObjValues } from '../../utils';
 import { PrimaryButton } from '../common';
 import { RootState } from '../../configureStore';
 
-const ConfirmModals: React.FC = () => {
+function ConfirmModals() {
   const dispatch = useDispatch();
   const confirmationModalsMap = useSelector((state: RootState) => getConfirmationModalsMap(state));
 
@@ -51,6 +51,6 @@ const ConfirmModals: React.FC = () => {
   const confirmationModals = getObjValues(confirmationModalsMap);
 
   return <>{confirmationModals.map(renderConfirmationModal)}</>;
-};
+}
 
 export default ConfirmModals;

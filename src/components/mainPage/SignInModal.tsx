@@ -7,7 +7,7 @@ import { signOutFromSSOAndSiteMinder } from '../../utils';
 import SignInBox from '../loginPage/SignInBox';
 import { RootState, AppDispatch } from '../../configureStore';
 
-const SignInModal: React.FC = () => {
+function SignInModal() {
   const dispatch = useDispatch<AppDispatch>();
   const reAuthRequired = useSelector((state: RootState) => getReAuthRequired(state));
 
@@ -36,6 +36,6 @@ const SignInModal: React.FC = () => {
       </div>
     </Modal>
   );
-};
+}
 
 export default SignInModal;

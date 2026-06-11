@@ -37,7 +37,7 @@ interface MainPageProps {
   [key: string]: any;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ component: Component, ...rest }) => {
+function MainPage({ component: Component, ...rest }: MainPageProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -67,6 +67,6 @@ const MainPage: React.FC<MainPageProps> = ({ component: Component, ...rest }) =>
       <Footer withTopMargin />
     </main>
   );
-};
+}
 
 export default MainPage;

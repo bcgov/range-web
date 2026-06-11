@@ -16,7 +16,7 @@ interface AgreementTableRowProps {
   noneSelected: boolean;
 }
 
-const AgreementTableRow: React.FC<AgreementTableRowProps> = ({ agreement, active, onSelect, noneSelected }) => {
+function AgreementTableRow({ agreement, active, onSelect, noneSelected }: AgreementTableRowProps) {
   const [plan] = agreement.plans;
 
   const user = useUser()!;
@@ -65,6 +65,6 @@ const AgreementTableRow: React.FC<AgreementTableRowProps> = ({ agreement, active
       </div>
     </div>
   );
-};
+}
 
 export default AgreementTableRow;

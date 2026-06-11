@@ -20,7 +20,7 @@ interface ConfirmationTabsProps {
   [key: string]: any;
 }
 
-const ConfirmationTabs: React.FC<ConfirmationTabsProps> = (props) => {
+function ConfirmationTabs(props: ConfirmationTabsProps) {
   const { plan, confirmationOption, onClose } = props;
   const [currTabId, setCurrTabId] = useState('confirmChoice');
 
@@ -46,8 +46,7 @@ const ConfirmationTabs: React.FC<ConfirmationTabsProps> = (props) => {
         `Please contact ${getUserFullName(plan.creator)} (${getUserEmail(plan.creator)}) ` +
         'who initiated this range use plan for clarification or to request changes.',
       text2:
-        'Submissions can only be recalled by ' +
-        `${getUserFullName(plan.creator)} who initiated this range use plan.`,
+        'Submissions can only be recalled by ' + `${getUserFullName(plan.creator)} who initiated this range use plan.`,
     },
     last: {
       id: 'last',
@@ -74,6 +73,6 @@ const ConfirmationTabs: React.FC<ConfirmationTabsProps> = (props) => {
       <LastTab {...props} tab={tabsMap.last} currTabId={currTabId} />
     </>
   );
-};
+}
 
 export default ConfirmationTabs;

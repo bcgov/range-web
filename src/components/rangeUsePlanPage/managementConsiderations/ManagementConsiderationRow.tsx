@@ -12,11 +12,7 @@ interface ManagementConsiderationRowProps {
   onDelete: () => void;
 }
 
-const ManagementConsiderationRow: React.FC<ManagementConsiderationRowProps> = ({
-  namespace,
-  managementConsideration,
-  onDelete,
-}) => {
+function ManagementConsiderationRow({ namespace, managementConsideration, onDelete }: ManagementConsiderationRowProps) {
   const { detail, url, considerationTypeId } = managementConsideration;
   const references = useReferences();
   const considerTypes = (references as any)[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
@@ -78,6 +74,6 @@ const ManagementConsiderationRow: React.FC<ManagementConsiderationRowProps> = ({
       </IfEditable>
     </div>
   );
-};
+}
 
 export default ManagementConsiderationRow;

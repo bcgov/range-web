@@ -14,7 +14,7 @@ interface ProtectedRouteProps {
   path?: string;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component, user, path }) => {
+function ProtectedRoute({ component: Component, user, path }: ProtectedRouteProps) {
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -64,6 +64,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component, u
     default:
       return <AnyMainPage component={Component} user={user} match={match} history={history} location={location} />;
   }
-};
+}
 
 export default ProtectedRoute;

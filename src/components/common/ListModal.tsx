@@ -22,7 +22,7 @@ interface ListModalProps {
   buttonText?: string;
 }
 
-const ListModal: React.FC<ListModalProps> = ({
+function ListModal({
   open,
   onClose,
   options,
@@ -31,7 +31,7 @@ const ListModal: React.FC<ListModalProps> = ({
   title = 'Select an option',
   multiselect = false,
   buttonText = 'Submit',
-}) => {
+}: ListModalProps) {
   const [selected, setSelected] = useState<ListOption[]>([]);
 
   return (
@@ -80,6 +80,6 @@ const ListModal: React.FC<ListModalProps> = ({
       )}
     </Modal>
   );
-};
+}
 
 export default ListModal;

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AssignRolesAndDistrictsPage: React.FC = () => {
+function AssignRolesAndDistrictsPage() {
   const classes = useStyles();
 
   const {
@@ -270,6 +270,6 @@ const AssignRolesAndDistrictsPage: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default AssignRolesAndDistrictsPage;

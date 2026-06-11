@@ -14,7 +14,7 @@ interface MinisterIssuesProps {
   issues: any[];
 }
 
-const MinisterIssues: React.FC<MinisterIssuesProps> = ({ issues }) => {
+function MinisterIssues({ issues }: MinisterIssuesProps) {
   const [activeMinisterIssue, setActiveMinisterIssue] = useState(issues[0] ? issues[0].id : -1);
   const [indexToRemove, setIndexToRemove] = useState<number | null>(null);
 
@@ -87,6 +87,6 @@ const MinisterIssues: React.FC<MinisterIssuesProps> = ({ issues }) => {
       )}
     />
   );
-};
+}
 
 export default MinisterIssues;

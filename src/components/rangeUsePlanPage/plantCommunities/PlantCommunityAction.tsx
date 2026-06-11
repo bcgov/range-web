@@ -18,7 +18,7 @@ interface PlantCommunityActionProps {
   formik?: any;
 }
 
-const PlantCommunityAction: React.FC<PlantCommunityActionProps> = ({ action, namespace, onDelete, formik }) => {
+function PlantCommunityAction({ action, namespace, onDelete, formik }: PlantCommunityActionProps) {
   const references = useReferences() as any;
   const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE];
   const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map((type: any) => ({
@@ -158,6 +158,6 @@ const PlantCommunityAction: React.FC<PlantCommunityActionProps> = ({ action, nam
       </IfEditable>
     </Grid>
   );
-};
+}
 
 export default connect(PlantCommunityAction);
