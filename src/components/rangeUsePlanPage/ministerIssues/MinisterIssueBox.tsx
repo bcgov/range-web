@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import uuid from 'uuid-v4';
 import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react';
 import { CollapsibleBox } from '../../common';
@@ -19,7 +17,17 @@ import { deleteMinisterIssueAction } from '../../../api';
 
 const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }];
 
-const MinisterIssueBox = ({
+interface MinisterIssueBoxProps {
+  issue: any;
+  ministerIssueIndex: number;
+  activeMinisterIssueIndex: number;
+  onMinisterIssueClicked: (index: number) => () => void;
+  namespace: string;
+  formik?: any;
+  onDelete: () => void;
+}
+
+const MinisterIssueBox: React.FC<MinisterIssueBoxProps> = ({
   issue,
   ministerIssueIndex,
   activeMinisterIssueIndex,
@@ -28,17 +36,17 @@ const MinisterIssueBox = ({
   formik,
   onDelete,
 }) => {
-  const [toRemove, setToRemove] = useState(null);
+  const [toRemove, setToRemove] = useState<number | null>(null);
 
   const allPastures = getIn(formik.values, 'pastures') || [];
-  const pasturesOptions = allPastures.map((pasture, index) => ({
+  const pasturesOptions = allPastures.map((pasture: any, index: number) => ({
     value: pasture.id,
     text: pasture.name || `Unnamed pasture ${index + 1}`,
     key: pasture.id,
   }));
 
-  const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
-  const typeOptions = types.map((type) => ({
+  const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
+  const typeOptions = types.map((type: any) => ({
     key: type.id,
     value: type.id,
     text: type.name,
@@ -68,7 +76,7 @@ const MinisterIssueBox = ({
             name={`${namespace}.issueTypeId`}
             component={Dropdown}
             options={typeOptions}
-            displayValue={types.find((t) => t.id === issueTypeId) ? types.find((t) => t.id === issueTypeId).name : ''}
+            displayValue={types.find((t: any) => t.id === issueTypeId) ? types.find((t: any) => t.id === issueTypeId).name : ''}
             fast
             fieldProps={{ required: true }}
           />
@@ -86,10 +94,10 @@ const MinisterIssueBox = ({
               trigger={<i className="ellipsis vertical icon" />}
               options={dropdownOptions}
               icon={null}
-              value={null}
+              value={null as any}
               pointing="right"
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e, { value }) => {
+              onClick={(e: any) => e.stopPropagation()}
+              onChange={(_e: any, { value }: any) => {
                 if (value === 'delete') onDelete();
               }}
               selectOnBlur={false}
@@ -118,8 +126,8 @@ const MinisterIssueBox = ({
             component={Dropdown}
             options={pasturesOptions}
             displayValue={oxfordComma(
-              pastures.map((pasture) =>
-                allPastures.find((p) => p.id === pasture) ? allPastures.find((p) => p.id === pasture).name : '',
+              pastures.map((pasture: any) =>
+                allPastures.find((p: any) => p.id === pasture) ? allPastures.find((p: any) => p.id === pasture).name : '',
               ),
             )}
             label="Pastures"
@@ -167,7 +175,7 @@ const MinisterIssueBox = ({
 
                 <IfEditable permission={MINISTER_ISSUES.ACTIONS.NAME}>
                   <AddMinisterIssueActionButton
-                    onSubmit={(action) =>
+                    onSubmit={(action: any) =>
                       push({
                         actionTypeId: action.id,
                         detail: '',
@@ -181,7 +189,7 @@ const MinisterIssueBox = ({
                     }
                   />
                 </IfEditable>
-                {ministerIssueActions.map((action, i) => (
+                {ministerIssueActions.map((action: any, i: number) => (
                   <MinisterIssueAction
                     key={action.id}
                     namespace={`${namespace}.ministerIssueActions.${i}`}
@@ -196,13 +204,13 @@ const MinisterIssueBox = ({
                     setToRemove(null);
                   }}
                   onConfirm={async () => {
-                    const action = ministerIssueActions[toRemove];
+                    const action = ministerIssueActions[toRemove!];
 
                     if (!uuid.isUUID(action.id)) {
                       await deleteMinisterIssueAction(issue.planId, issue.id, action.id);
                     }
 
-                    remove(toRemove);
+                    remove(toRemove!);
                     setToRemove(null);
                   }}
                 />
@@ -213,15 +221,6 @@ const MinisterIssueBox = ({
       }
     />
   );
-};
-
-MinisterIssueBox.propTypes = {
-  issue: PropTypes.object.isRequired,
-  ministerIssueIndex: PropTypes.number.isRequired,
-  activeMinisterIssueIndex: PropTypes.number.isRequired,
-  onMinisterIssueClicked: PropTypes.func.isRequired,
-  namespace: PropTypes.string.isRequired,
-  formik: PropTypes.object.isRequired,
 };
 
 export default connect(MinisterIssueBox);

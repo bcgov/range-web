@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useContext, useState, useEffect } from 'react';
 import { normalize } from 'normalizr';
 import * as API from '../api';
@@ -6,46 +5,55 @@ import { storePlan } from '../actions';
 import * as reduxSchema from '../actionCreators/schema';
 import schema from '../components/rangeUsePlanPage/schema';
 import { getNetworkStatus } from '../utils/helper/network';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { appendUsage, axios, getAuthHeaderConfig } from '../utils';
 import { GET_CLIENT_AGREEMENTS } from '../constants/api';
-import { isUUID } from 'uuid-v4';
+import uuid from 'uuid-v4';
 import { useUser } from './UserProvider';
+import type { AppDispatch } from '../configureStore';
+
+interface ClientAgreement {
+  [key: string]: unknown;
+}
+
+interface PlanContextValue {
+  setCurrentPlanId: (id: string | number | null) => void;
+  currentPlan: unknown;
+  clientAgreements: ClientAgreement[] | null;
+  isFetchingPlan: boolean;
+  isSavingPlan: boolean;
+  errorFetchingPlan: unknown;
+  errorSavingPlan: unknown;
+  fetchPlan: (id?: string | number | null, hard?: boolean) => Promise<unknown>;
+  savePlan: (plan: unknown) => Promise<unknown>;
+}
+
+const PlanContext = React.createContext<PlanContextValue | undefined>(undefined);
 
 /**
- * @typedef {Object} PlanContext
- * @property {string|number} currentPlanId ID of the current plan
- * @property {object|null} currentPlan Current plan
- * @property {boolean} isFetchingPlan Is the plan currently being fetched
- * @property {boolean} isSavingPlan Is the plan saving
- * @property {string|null} errorFetchingPlan Defined if there was an error fetching the plan
- * @property {string|null} errorSavingPlan Defined if there was an error saving the plan
- * @property {(id?: number) => Promise<object>} fetchPlan Fetches by default the plan with id `currentPlanId`. Returns the plan, as well as sets `currentPlan`. If no network connectivity, fallbacks to local storage.
- * @property {(plan: object) => Promise<number>} savePlan Saves `plan` to either the remote backend or local storage, depending on network connectivity.
+ * Hook to access the current plan context.
  */
+export const useCurrentPlan = (): PlanContextValue | undefined => useContext(PlanContext);
 
-/**
- * @type {React.Context<PlanContext>}
- */
-const PlanContext = React.createContext();
+interface PlanProviderProps {
+  children: React.ReactNode;
+}
 
-/**
- * @returns {PlanContext}
- */
-export const useCurrentPlan = () => useContext(PlanContext);
-
-export const PlanProvider = ({ children, storePlan }) => {
-  const [currentPlanId, setCurrentPlanId] = useState(null);
-  const [currentPlan, setCurrentPlan] = useState(null);
-  const [isFetchingPlan, setFetchingPlan] = useState(false);
-  const [isSavingPlan, setSavingPlan] = useState(false);
-  const [errorFetchingPlan, setErrorFetchingPlan] = useState(null);
-  const [errorSavingPlan, setErrorSavingPlan] = useState(null);
-  const [clientAgreements, setClientAgreements] = useState(null);
+export const PlanProvider: React.FC<PlanProviderProps> = ({ children }) => {
+  const [currentPlanId, setCurrentPlanId] = useState<string | number | null>(null);
+  const [currentPlan, setCurrentPlan] = useState<unknown>(null);
+  const [isFetchingPlan, setFetchingPlan] = useState<boolean>(false);
+  const [isSavingPlan, setSavingPlan] = useState<boolean>(false);
+  const [errorFetchingPlan, setErrorFetchingPlan] = useState<unknown>(null);
+  const [errorSavingPlan, setErrorSavingPlan] = useState<unknown>(null);
+  const [clientAgreements, setClientAgreements] = useState<ClientAgreement[] | null>(null);
 
   const user = useUser();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const fetchPlan = async (planId = currentPlanId, hard = false) => {
+  const fetchPlan = async (planId: string | number | null = currentPlanId, hard = false): Promise<unknown> => {
+    if (planId === null) return;
+
     setFetchingPlan(true);
 
     if (errorFetchingPlan) setErrorFetchingPlan(null);
@@ -57,15 +65,18 @@ export const PlanProvider = ({ children, storePlan }) => {
       const plan = await API.getPlan(planId, user);
       setCurrentPlan(schema.cast(appendUsage(plan)));
 
-      if (!isUUID(plan.id)) {
-        const { data: clientAgreements } = await axios.get(GET_CLIENT_AGREEMENTS(plan.id), getAuthHeaderConfig());
-        setClientAgreements(clientAgreements);
+      if (!uuid.isUUID(plan.id)) {
+        const { data: fetchedClientAgreements } = await axios.get(
+          GET_CLIENT_AGREEMENTS(plan.id),
+          getAuthHeaderConfig(),
+        );
+        setClientAgreements(fetchedClientAgreements);
       }
 
       // TODO: remove redux
       const isOnline = await getNetworkStatus();
       if (isOnline) {
-        storePlan(normalize(plan, reduxSchema.plan));
+        dispatch(storePlan(normalize(plan, reduxSchema.plan)));
       }
 
       return plan;
@@ -76,13 +87,13 @@ export const PlanProvider = ({ children, storePlan }) => {
     }
   };
 
-  const savePlan = async (plan) => {
+  const savePlan = async (plan: unknown): Promise<unknown> => {
     try {
       setSavingPlan(true);
-      let planId;
+      let planId: unknown;
       try {
         planId = await API.savePlan(plan, user);
-        await fetchPlan(planId);
+        await fetchPlan(planId as string | number | null);
       } catch (e) {
         console.error('Error saving plan:', e);
         throw e;
@@ -123,4 +134,4 @@ export const PlanProvider = ({ children, storePlan }) => {
   );
 };
 
-export default connect(null, { storePlan })(PlanProvider);
+export default PlanProvider;

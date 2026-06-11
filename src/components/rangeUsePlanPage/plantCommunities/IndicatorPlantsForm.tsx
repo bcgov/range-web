@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import uuid from 'uuid-v4';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import { IfEditable } from '../../common/PermissionsField';
@@ -10,7 +8,20 @@ import { FieldArray, connect } from 'formik';
 import IndicatorPlant from './IndicatorPlant';
 import { deleteIndicatorPlant } from '../../../api';
 
-const IndicatorPlantsForm = ({
+interface IndicatorPlantsFormProps {
+  indicatorPlants: any[];
+  valueLabel: string;
+  valueType: string;
+  criteria: string;
+  planId: any;
+  pastureId: any;
+  communityId: any;
+  namespace: string;
+  formik?: any;
+  fast?: boolean;
+}
+
+const IndicatorPlantsForm: React.FC<IndicatorPlantsFormProps> = ({
   indicatorPlants,
   valueLabel,
   valueType,
@@ -21,7 +32,7 @@ const IndicatorPlantsForm = ({
   namespace,
   formik,
 }) => {
-  const [toRemove, setToRemove] = useState();
+  const [toRemove, setToRemove] = useState<number | undefined>();
   const [removeDialogOpen, setDialogOpen] = useState(false);
 
   return (
@@ -43,7 +54,7 @@ const IndicatorPlantsForm = ({
             )}
 
             {indicatorPlants.map(
-              (plant, index) =>
+              (plant: any, index: number) =>
                 plant.criteria === criteria && (
                   <IndicatorPlant
                     key={`indicatorPlant_${plant.id}`}
@@ -82,18 +93,18 @@ const IndicatorPlantsForm = ({
             <Confirm
               open={removeDialogOpen}
               onCancel={() => {
-                setToRemove();
+                setToRemove(undefined);
                 setDialogOpen(false);
               }}
               onConfirm={async () => {
-                const indicatorPlant = indicatorPlants[toRemove];
+                const indicatorPlant = indicatorPlants[toRemove!];
 
                 if (!uuid.isUUID(indicatorPlant.id)) {
                   deleteIndicatorPlant(planId, pastureId, communityId, indicatorPlant.id);
                 }
 
-                remove(toRemove);
-                setToRemove(null);
+                remove(toRemove!);
+                setToRemove(undefined);
                 setDialogOpen(false);
               }}
             />
@@ -102,24 +113,6 @@ const IndicatorPlantsForm = ({
       />
     </>
   );
-};
-
-IndicatorPlantsForm.propTypes = {
-  indicatorPlants: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      plantSpeciesId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      criteria: PropTypes.string.isRequired,
-    }),
-  ),
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  valueLabel: PropTypes.string.isRequired,
-  valueType: PropTypes.string.isRequired,
-  criteria: PropTypes.string.isRequired,
-  namespace: PropTypes.string.isRequired,
-  errors: PropTypes.object,
 };
 
 export default connect(IndicatorPlantsForm);

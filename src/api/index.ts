@@ -1,21 +1,20 @@
-// @ts-nocheck
 // TODO: need to enable eslint and check what is causing plan creation issues
 /* eslint-disable */
 import uuid from 'uuid-v4';
 import { axios, getAuthHeaderConfig, sequentialAsyncMap } from '../utils';
 import * as API from '../constants/api';
 
-export const createVersion = async (planId) => {
+export const createVersion = async (planId: string | number): Promise<void> => {
   await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig());
 };
 
-export const saveSchedules = (planId, schedules, newPastures) => {
-  return sequentialAsyncMap(schedules, async (schedule) => {
+export const saveSchedules = (planId: string | number, schedules: any[], newPastures: any[]): any => {
+  return sequentialAsyncMap(schedules, async (schedule: any) => {
     const scheduleEntries = schedule.scheduleEntries.map(
-      ({ id: entryId, grazingScheduleId, haycuttingScheduleId, ...entry }) => ({
+      ({ id: entryId, grazingScheduleId, haycuttingScheduleId, ...entry }: any) => ({
         ...entry,
         ...(!uuid.isUUID(entryId) && { id: entryId }),
-        pastureId: newPastures.find((p) => p.oldId === entry.pastureId).id,
+        pastureId: newPastures.find((p: any) => p.oldId === entry.pastureId).id,
       }),
     );
 
@@ -42,7 +41,7 @@ export const saveSchedules = (planId, schedules, newPastures) => {
   });
 };
 
-export const saveInvasivePlantChecklist = async (planId, invasivePlantChecklist) => {
+export const saveInvasivePlantChecklist = async (planId: string | number, invasivePlantChecklist: any): Promise<any> => {
   if (invasivePlantChecklist && invasivePlantChecklist.id) {
     await axios.put(
       API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(planId, invasivePlantChecklist.id),
@@ -62,8 +61,8 @@ export const saveInvasivePlantChecklist = async (planId, invasivePlantChecklist)
   }
 };
 
-export const saveAttachments = async (planId, attachments) => {
-  return sequentialAsyncMap(attachments, async (attachment) => {
+export const saveAttachments = async (planId: string | number, attachments: any[]): Promise<any> => {
+  return sequentialAsyncMap(attachments, async (attachment: any) => {
     if (uuid.isUUID(attachment.id)) {
       const { id, ...values } = attachment;
       const { data } = await axios.post(API.CREATE_RUP_ATTACHMENT(planId), values, getAuthHeaderConfig());
@@ -80,8 +79,8 @@ export const saveAttachments = async (planId, attachments) => {
   });
 };
 
-export const saveManagementConsiderations = (planId, managementConsiderations) => {
-  return sequentialAsyncMap(managementConsiderations, async (consideration) => {
+export const saveManagementConsiderations = (planId: string | number, managementConsiderations: any[]): any => {
+  return sequentialAsyncMap(managementConsiderations, async (consideration: any) => {
     if (uuid.isUUID(consideration.id)) {
       const { id, ...values } = consideration;
       const { data } = await axios.post(API.CREATE_RUP_MANAGEMENT_CONSIDERATION(planId), values, getAuthHeaderConfig());
@@ -102,8 +101,8 @@ export const saveManagementConsiderations = (planId, managementConsiderations) =
   });
 };
 
-export const saveAdditionalRequirements = (planId, additionalRequirements) => {
-  return sequentialAsyncMap(additionalRequirements, async (requirement) => {
+export const saveAdditionalRequirements = (planId: string | number, additionalRequirements: any[]): any => {
+  return sequentialAsyncMap(additionalRequirements, async (requirement: any) => {
     if (uuid.isUUID(requirement.id)) {
       const { id, ...values } = requirement;
       const { data } = await axios.post(API.CREATE_RUP_ADDITIONAL_REQUIREMENT(planId), values, getAuthHeaderConfig());
@@ -124,16 +123,16 @@ export const saveAdditionalRequirements = (planId, additionalRequirements) => {
   });
 };
 
-export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
+export const saveMinisterIssues = (planId: string | number, ministerIssues: any[], newPastures: any[]): any => {
   const pastureMap = newPastures.reduce(
-    (map, p) => ({
+    (map: any, p: any) => ({
       ...map,
       [p.oldId]: p.id,
     }),
     {},
   );
 
-  return sequentialAsyncMap(ministerIssues, async (issue) => {
+  return sequentialAsyncMap(ministerIssues, async (issue: any) => {
     const { id, ...issueBody } = issue;
 
     if (uuid.isUUID(issue.id)) {
@@ -141,7 +140,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
         API.CREATE_RUP_MINISTER_ISSUE(planId),
         {
           ...issueBody,
-          pastures: issueBody.pastures.map((p) => pastureMap[p]),
+          pastures: issueBody.pastures.map((p: any) => pastureMap[p]),
         },
         getAuthHeaderConfig(),
       );
@@ -158,7 +157,7 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
         API.UPDATE_RUP_MINISTER_ISSUE(planId, issue.id),
         {
           ...issueBody,
-          pastures: issueBody.pastures.map((p) => pastureMap[p]),
+          pastures: issueBody.pastures.map((p: any) => pastureMap[p]),
         },
         getAuthHeaderConfig(),
       );
@@ -173,8 +172,8 @@ export const saveMinisterIssues = (planId, ministerIssues, newPastures) => {
   });
 };
 
-const saveMinisterIssueActions = (planId, issueId, actions) => {
-  return sequentialAsyncMap(actions, async (action) => {
+const saveMinisterIssueActions = (planId: string | number, issueId: string | number, actions: any[]): any => {
+  return sequentialAsyncMap(actions, async (action: any) => {
     const { id, ...actionBody } = action;
     if (uuid.isUUID(action.id)) {
       const { data } = await axios.post(
@@ -199,9 +198,9 @@ const saveMinisterIssueActions = (planId, issueId, actions) => {
   });
 };
 
-export const savePastures = async (planId, pastures) => {
+export const savePastures = async (planId: string | number, pastures: any[]): Promise<any> => {
   // Sequentially save pastures to keep order
-  return sequentialAsyncMap(pastures, async (pasture) => {
+  return sequentialAsyncMap(pastures, async (pasture: any) => {
     if (Number(pasture.id)) {
       await axios.put(API.UPDATE_RUP_PASTURE(planId, pasture.id), pasture, getAuthHeaderConfig());
 
@@ -219,11 +218,11 @@ export const savePastures = async (planId, pastures) => {
   });
 };
 
-export const savePlantCommunities = async (planId, pastureId, plantCommunities) => {
+export const savePlantCommunities = async (planId: string | number, pastureId: string | number, plantCommunities: any[]): Promise<any> => {
   // Sequentially save plant communities (to keep order)
   return sequentialAsyncMap(
     plantCommunities,
-    async (plantCommunity) => {
+    async (plantCommunity: any) => {
       let { id: communityId, ...values } = plantCommunity;
       if (uuid.isUUID(communityId)) {
         communityId = (
@@ -237,12 +236,11 @@ export const savePlantCommunities = async (planId, pastureId, plantCommunities) 
       await saveIndicatorPlants(planId, pastureId, communityId, plantCommunity.indicatorPlants);
       await saveMonitoringAreas(planId, pastureId, communityId, plantCommunity.monitoringAreas);
     },
-    Promise.resolve(),
   );
 };
 
-const savePlantCommunityActions = (planId, pastureId, communityId, plantCommunityActions) => {
-  return sequentialAsyncMap(plantCommunityActions, (action) => {
+const savePlantCommunityActions = (planId: string | number, pastureId: string | number, communityId: string | number, plantCommunityActions: any[]): any => {
+  return sequentialAsyncMap(plantCommunityActions, (action: any) => {
     let { id: actionId, ...values } = action;
     if (uuid.isUUID(actionId)) {
       return axios.post(
@@ -260,8 +258,8 @@ const savePlantCommunityActions = (planId, pastureId, communityId, plantCommunit
   });
 };
 
-const saveIndicatorPlants = (planId, pastureId, communityId, indicatorPlants) => {
-  return sequentialAsyncMap(indicatorPlants, (plant) => {
+const saveIndicatorPlants = (planId: string | number, pastureId: string | number, communityId: string | number, indicatorPlants: any[]): any => {
+  return sequentialAsyncMap(indicatorPlants, (plant: any) => {
     let { id: plantId, ...values } = plant;
     if (uuid.isUUID(plantId)) {
       return axios.post(API.CREATE_RUP_INDICATOR_PLANT(planId, pastureId, communityId), values, getAuthHeaderConfig());
@@ -275,8 +273,8 @@ const saveIndicatorPlants = (planId, pastureId, communityId, indicatorPlants) =>
   });
 };
 
-const saveMonitoringAreas = (planId, pastureId, communityId, monitoringAreas) => {
-  return sequentialAsyncMap(monitoringAreas, (area) => {
+const saveMonitoringAreas = (planId: string | number, pastureId: string | number, communityId: string | number, monitoringAreas: any[]): any => {
+  return sequentialAsyncMap(monitoringAreas, (area: any) => {
     let { id: areaId, ...values } = area;
     if (uuid.isUUID(areaId)) {
       return axios.post(API.CREATE_RUP_MONITERING_AREA(planId, pastureId, communityId), values, getAuthHeaderConfig());

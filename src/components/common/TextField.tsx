@@ -1,20 +1,18 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import classnames from 'classnames';
 import { handleNullValue } from '../../utils';
 
-const propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  text: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.number]),
-  isLabelHidden: PropTypes.bool,
-  isEditable: PropTypes.bool,
-  onClick: PropTypes.func,
-};
+interface TextFieldProps {
+  className?: string;
+  label: string;
+  text?: React.ReactNode | string | number;
+  isLabelHidden?: boolean;
+  isEditable?: boolean;
+  onClick?: () => void;
+}
 
-const TextField = ({
+const TextField: React.FC<TextFieldProps> = ({
   className = '',
   label,
   text: rawText = '',
@@ -22,7 +20,7 @@ const TextField = ({
   isEditable = false,
   onClick = () => undefined,
 }) => {
-  const text = handleNullValue(rawText);
+  const text = handleNullValue(rawText) as React.ReactNode;
 
   return (
     <div className={classnames('text-field', className)}>
@@ -46,5 +44,4 @@ const TextField = ({
   );
 };
 
-TextField.propTypes = propTypes;
 export default TextField;

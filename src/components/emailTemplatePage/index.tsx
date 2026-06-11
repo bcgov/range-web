@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -20,6 +19,14 @@ import { axios, getAuthHeaderConfig } from '../../utils';
 import { Banner } from '../common';
 import { updateEmailTemplate } from '../../api';
 
+interface EmailTemplate {
+  id: number;
+  name: string;
+  fromEmail: string;
+  subject: string;
+  body: string;
+}
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     width: 400,
@@ -35,13 +42,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmailTemplatePage = () => {
+const EmailTemplatePage: React.FC = () => {
   const classes = useStyles();
-  const [emailTemplates, setEmailTemplates] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [emailTemplates, setEmailTemplates] = useState<EmailTemplate[] | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [updateError, setUpdateError] = useState(null);
-  const [updateSuccess, setUpdateSuccess] = useState(null);
+  const [updateError, setUpdateError] = useState<string | null>(null);
+  const [updateSuccess, setUpdateSuccess] = useState<string | null>(null);
 
   async function getEmailTemplates() {
     const res = await axios.get(`${API.GET_EMAIL_TEMPLATE}`, getAuthHeaderConfig());
@@ -52,23 +59,25 @@ const EmailTemplatePage = () => {
     getEmailTemplates();
   }, []);
 
-  const handleTemplateChaneg = async (event) => {
-    if (emailTemplates) setSelectedTemplate(emailTemplates.find((element) => element.id === event.target.value));
+  const handleTemplateChaneg = async (event: React.ChangeEvent<{ value: unknown }>) => {
+    if (emailTemplates)
+      setSelectedTemplate(emailTemplates.find((element) => element.id === (event.target.value as number)) || null);
   };
   const handleUpdateClick = async () => {
+    if (!selectedTemplate) return;
     setIsUpdating(true);
     setUpdateError(null);
     setUpdateSuccess(null);
     try {
       await updateEmailTemplate(
-        selectedTemplate.id,
+        String(selectedTemplate.id),
         selectedTemplate.name,
         selectedTemplate.fromEmail,
         selectedTemplate.subject,
         selectedTemplate.body,
       );
       setUpdateSuccess('Template updated successfully');
-    } catch (e) {
+    } catch (e: any) {
       setUpdateError(`Error updating temaplate: ${e.message ?? e?.data?.error}`);
     } finally {
       setIsUpdating(false);
@@ -122,8 +131,7 @@ const EmailTemplatePage = () => {
             <Grid className={classes.gridRow}>
               <TextareaAutosize
                 placeholder="Email Body (HTML)"
-                variant="outlined"
-                minRows={10}
+                rowsMin={10}
                 value={selectedTemplate.body}
                 onChange={(event) => {
                   setSelectedTemplate({
@@ -135,13 +143,7 @@ const EmailTemplatePage = () => {
               />
             </Grid>
             <Grid className={classes.gridRow}>
-              <Button
-                className={classes.updateButton}
-                type="button"
-                onClick={handleUpdateClick}
-                variant="contained"
-                color="primary"
-              >
+              <Button type="button" onClick={handleUpdateClick} variant="contained" color="primary">
                 Update
                 {isUpdating && (
                   <Fade
@@ -151,7 +153,7 @@ const EmailTemplatePage = () => {
                     }}
                     unmountOnExit
                   >
-                    <CircularProgress className={classes.buttonProgress} size={24} />
+                    <CircularProgress size={24} />
                   </Fade>
                 )}
               </Button>

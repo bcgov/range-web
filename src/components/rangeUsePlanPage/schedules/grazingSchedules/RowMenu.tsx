@@ -1,10 +1,14 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Icon, Menu } from 'semantic-ui-react';
 import { Manager, Reference, Popper } from 'react-popper';
 
-const RowMenu = ({ onCopy, onDelete }) => {
+interface RowMenuProps {
+  onCopy: () => void;
+  onDelete: () => void;
+}
+
+const RowMenu = ({ onCopy, onDelete }: RowMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -20,10 +24,10 @@ const RowMenu = ({ onCopy, onDelete }) => {
         ReactDOM.createPortal(
           <Popper
             placement="left"
-            positionFixed
-            modifiers={{
-              hide: { enabled: false },
-            }}
+            strategy="fixed"
+            modifiers={[
+              { name: 'hide', enabled: false },
+            ]}
           >
             {({ ref, style, placement, arrowProps }) => (
               <>

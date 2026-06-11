@@ -1,26 +1,33 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { Button, Dropdown } from 'semantic-ui-react';
 
-const AddMinisterIssueButton = ({ onSubmit }) => {
-  const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
+interface AddMinisterIssueButtonProps {
+  onSubmit: (ministerIssue: any) => void;
+}
+
+const AddMinisterIssueButton: React.FC<AddMinisterIssueButtonProps> = ({ onSubmit }) => {
+  const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
 
   return <MinisterIssuePicker types={types} onSubmit={onSubmit} />;
 };
 
-const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
-  const options = types.map((type) => ({
+interface MinisterIssuePickerProps {
+  types: any[];
+  onSubmit: (ministerIssue: any) => void;
+}
+
+const MinisterIssuePicker = React.memo<MinisterIssuePickerProps>(({ types, onSubmit }) => {
+  const options = types.map((type: any) => ({
     key: type.id,
     value: type.id,
     text: type.name,
     id: type.id,
   }));
 
-  const onOptionClicked = (e, { value: ministerIssueTypeId }) => {
-    const ministerIssue = types.find((t) => t.id === ministerIssueTypeId);
+  const onOptionClicked = (_e: any, { value: ministerIssueTypeId }: any) => {
+    const ministerIssue = types.find((t: any) => t.id === ministerIssueTypeId);
 
     onSubmit(ministerIssue);
   };
@@ -39,14 +46,11 @@ const MinisterIssuePicker = React.memo(({ types, onSubmit }) => {
         pointing="right"
         onChange={onOptionClicked}
         selectOnBlur={false}
-        value={null}
+        value={null as any}
       />
     </>
   );
 });
 
-AddMinisterIssueButton.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 MinisterIssuePicker.displayName = 'MinisterIssuePicker';
 export default AddMinisterIssueButton;

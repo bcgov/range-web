@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   OPEN_INPUT_MODAL,
   CLOSE_INPUT_MODAL,
@@ -8,14 +7,36 @@ import {
   CLOSE_PIA_MODAL,
 } from '../constants/actionTypes';
 
-const initialState = {
+export interface ConfirmationModal {
+  id: string;
+  open: boolean;
+  [key: string]: unknown;
+}
+
+export interface InputModal {
+  id?: string;
+  [key: string]: unknown;
+}
+
+export interface ModalState {
+  confirmModal: Record<string, ConfirmationModal>;
+  inputModal: InputModal | null;
+  isPiaModalOpen: boolean;
+}
+
+interface ModalAction {
+  type: string;
+  payload?: { id?: string; modalId?: string; [key: string]: unknown };
+}
+
+const initialState: ModalState = {
   confirmModal: {},
   inputModal: null,
   isPiaModalOpen: false,
 };
 
-const openConfirmModal = (state, action) => {
-  const modal = action.payload;
+const openConfirmModal = (state: ModalState, action: ModalAction): ModalState => {
+  const modal = action.payload as ConfirmationModal;
   return {
     ...state,
     confirmModal: {
@@ -25,50 +46,46 @@ const openConfirmModal = (state, action) => {
   };
 };
 
-const closeConfirmModal = (state, action) => {
-  const { modalId } = action.payload;
+const closeConfirmModal = (state: ModalState, action: ModalAction): ModalState => {
+  const { modalId } = action.payload as { modalId: string };
   const newConfirmModalState = { ...state.confirmModal };
   delete newConfirmModalState[modalId];
-
   return {
     ...state,
     confirmModal: newConfirmModalState,
   };
 };
 
-const openInputModal = (state, action) => {
-  const modal = action.payload;
-
+const openInputModal = (state: ModalState, action: ModalAction): ModalState => {
+  const modal = action.payload as InputModal;
   return {
     ...state,
-    inputModal: {
-      ...modal,
-    },
+    inputModal: { ...modal },
   };
 };
 
-const closeInputModal = (state) => {
+const closeInputModal = (state: ModalState): ModalState => {
   return {
     ...state,
     inputModal: null,
   };
 };
 
-const openPiaModal = (state) => {
+const openPiaModal = (state: ModalState): ModalState => {
   return {
     ...state,
     isPiaModalOpen: true,
   };
 };
 
-const closePiaModal = (state) => {
+const closePiaModal = (state: ModalState): ModalState => {
   return {
     ...state,
     isPiaModalOpen: false,
   };
 };
 
-const modalReducer = (state = initialState, action) => {
+const modalReducer = (state: ModalState = initialState, action: ModalAction): ModalState => {
   switch (action.type) {
     case OPEN_CONFIRMATION_MODAL:
       return openConfirmModal(state, action);
@@ -87,8 +104,9 @@ const modalReducer = (state = initialState, action) => {
   }
 };
 
-export const getConfirmationModalsMap = (state) => state.confirmModal;
-export const getInputModal = (state) => state.inputModal;
-export const getIsPiaModalOpen = (state) => state.isPiaModalOpen;
+export const getConfirmationModalsMap = (state: ModalState): Record<string, ConfirmationModal> =>
+  state.confirmModal;
+export const getInputModal = (state: ModalState): InputModal | null => state.inputModal;
+export const getIsPiaModalOpen = (state: ModalState): boolean => state.isPiaModalOpen;
 
 export default modalReducer;

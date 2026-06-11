@@ -1,4 +1,3 @@
-// @ts-nocheck
 export * from './amendment';
 export * from './plan';
 export * from './user';

@@ -1,11 +1,10 @@
-// @ts-nocheck
 import React from 'react';
 import { useUser } from '../../providers/UserProvider';
 import { ErrorMessage } from '../common';
 import { NO_CLIENT_NUMBER_ASSIGNED } from '../../constants/strings';
 import { isUserAgreementHolder } from '../../utils';
 
-const AHWarning = () => {
+const AHWarning: React.FC = () => {
   const user = useUser();
   const hasClients = user && user.clients?.length !== 0;
 

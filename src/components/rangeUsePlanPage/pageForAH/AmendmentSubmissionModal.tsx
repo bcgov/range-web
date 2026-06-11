@@ -1,7 +1,5 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
@@ -23,32 +21,43 @@ import MinorTabsForMultipleAH from './tabs/MinorTabsForMultipleAH';
 import ChooseAmendmentTypeTab from './submissionTabs/ChooseAmendmentTypeTab';
 import { updateConfirmation } from '../../../api';
 
-class AmendmentSubmissionModal extends Component {
-  static propTypes = {
-    user: PropTypes.shape({}).isRequired,
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    plan: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object),
-    fetchPlan: PropTypes.func.isRequired,
-    updateStatusAndContent: PropTypes.func.isRequired,
-    updateRUP: PropTypes.func.isRequired,
-  };
+interface AmendmentSubmissionModalProps {
+  user: any;
+  open: boolean;
+  onClose: () => void;
+  plan: any;
+  references: any;
+  clients: any[];
+  clientAgreements: any[];
+  fetchPlan: () => Promise<any>;
+  updateStatusAndContent: (...args: any[]) => any;
+  updateRUP: (...args: any[]) => any;
+  planUpdated: (data: any) => void;
+}
 
+interface AmendmentSubmissionModalState {
+  currTabId: string;
+  amendmentTypeCode: string | undefined;
+  statusCode: string | undefined;
+  isAgreed: boolean;
+  isSubmitting: boolean;
+  note: string;
+}
+
+class AmendmentSubmissionModal extends Component<AmendmentSubmissionModalProps, AmendmentSubmissionModalState> {
   static defaultProps = {
     clients: [],
   };
 
-  constructor(props) {
+  constructor(props: AmendmentSubmissionModalProps) {
     super(props);
     this.state = this.getInitialState();
   }
 
-  getInitialState = () => ({
+  getInitialState = (): AmendmentSubmissionModalState => ({
     currTabId: 'chooseAmendmentType',
-    amendmentTypeCode: null,
-    statusCode: null,
+    amendmentTypeCode: undefined,
+    statusCode: undefined,
     isAgreed: false,
     isSubmitting: false,
     note: '',
@@ -59,32 +68,32 @@ class AmendmentSubmissionModal extends Component {
     this.props.onClose();
   };
 
-  handleAmendmentTypeChange = (e, { value: amendmentTypeCode }) => {
+  handleAmendmentTypeChange = (_e: any, { value: amendmentTypeCode }: any) => {
     this.setState({
       ...this.getInitialState(),
       amendmentTypeCode,
     });
   };
 
-  handleStatusCodeChange = (e, { value: statusCode }) => {
+  handleStatusCodeChange = (_e: any, { value: statusCode }: any) => {
     this.setState({ statusCode });
   };
 
-  handleAgreeCheckBoxChange = (e, { checked }) => {
+  handleAgreeCheckBoxChange = (_e: any, { checked }: any) => {
     this.setState({ isAgreed: checked });
   };
 
-  handleNoteChange = (e, { value: note }) => {
+  handleNoteChange = (_e: any, { value: note }: any) => {
     if (note.length <= NUMBER_OF_LIMIT_FOR_NOTE) {
       this.setState({ note });
     }
   };
 
-  handleTabChange = (e, { value: tabId }) => {
+  handleTabChange = (_e: any, { value: tabId }: any) => {
     this.setState({ currTabId: tabId });
   };
 
-  submitAmendment = (plan, status, amendmentType) => {
+  submitAmendment = (plan: any, status: any, amendmentType: any) => {
     const { updateStatusAndContent, updateRUP, fetchPlan, user, clientAgreements } = this.props;
     const { note } = this.state;
 
@@ -97,7 +106,7 @@ class AmendmentSubmissionModal extends Component {
         const currUserConfirmations = findConfirmationsWithUser(user, plan.confirmations, clientAgreements);
 
         for (const currUserConfirmation of currUserConfirmations) {
-          const isOwnSignature = user.clients.some((c) => c.clientNumber === currUserConfirmation.clientId);
+          const isOwnSignature = user.clients.some((c: any) => c.clientNumber === currUserConfirmation.clientId);
 
           await updateConfirmation({
             planId: plan.id,
@@ -124,14 +133,14 @@ class AmendmentSubmissionModal extends Component {
     return updateStatusAndContent({ status, note }, onRequest, onSuccess, onError);
   };
 
-  onSubmitClicked = (e) => {
+  onSubmitClicked = (e: React.FormEvent) => {
     e.preventDefault();
     const { plan, references, clients } = this.props;
     const { statusCode, amendmentTypeCode } = this.state;
     const { amendmentTypeId } = plan;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const minor = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.MINOR);
-    const mandatory = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.MANDATORY);
+    const minor = amendmentTypes.find((at: any) => at.code === AMENDMENT_TYPE.MINOR);
+    const mandatory = amendmentTypes.find((at: any) => at.code === AMENDMENT_TYPE.MANDATORY);
     const confirmationAwaiting = findStatusWithCode(references, PLAN_STATUS.AWAITING_CONFIRMATION);
     const selectedStatusForMandatory = findStatusWithCode(references, statusCode);
     const isMinor = isMinorAmendment(amendmentTypeId, amendmentTypes, amendmentTypeCode);
@@ -222,7 +231,7 @@ class AmendmentSubmissionModal extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   user: getUser(state),
   references: getReferences(state),
 });
@@ -230,4 +239,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   planUpdated,
   updateRUP,
-})(AmendmentSubmissionModal);
+})(AmendmentSubmissionModal as any);

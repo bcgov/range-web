@@ -1,7 +1,5 @@
-// @ts-nocheck
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import classnames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { removeToast } from '../../actions';
@@ -9,25 +7,22 @@ import { getToastsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
 import { extendSession } from '../../actionCreators';
 import SessionExpiryWarning from '../common/SessionExpiryWarning/SessionExpiryWarning';
+import { RootState, AppDispatch } from '../../configureStore';
 
-class Toasts extends Component {
-  static propTypes = {
-    toastsMap: PropTypes.shape({}).isRequired,
-    removeToast: PropTypes.func.isRequired,
-    extendSession: PropTypes.func.isRequired,
+const Toasts: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const toastsMap = useSelector((state: RootState) => getToastsMap(state));
+
+  const handleRemoveToast = (toast: any) => () => {
+    dispatch(removeToast({ toastId: toast.id }));
   };
 
-  removeToast = (toast) => () => {
-    const { removeToast } = this.props;
-
-    removeToast({
-      toastId: toast.id,
-    });
+  const handleExtendSession = () => {
+    dispatch(extendSession() as any);
   };
 
-  renderToast = (toast) => {
+  const renderToast = (toast: any) => {
     const { id, text, success, isCountdown } = toast;
-    const { extendSession } = this.props;
     const iconClassName = classnames('toast__icon', {
       toast__icon__success: success,
       toast__icon__error: !success,
@@ -39,22 +34,17 @@ class Toasts extends Component {
           {success && <Icon name="check circle" size="large" />}
           {!success && <Icon name="warning circle" size="large" />}
         </div>
-        {isCountdown ? <SessionExpiryWarning onExtend={extendSession} /> : <div className="toast__content">{text}</div>}
-        <button className="toast__dismiss" onClick={this.removeToast(toast)}>
+        {isCountdown ? <SessionExpiryWarning onExtend={handleExtendSession} /> : <div className="toast__content">{text}</div>}
+        <button className="toast__dismiss" onClick={handleRemoveToast(toast)}>
           <Icon name="times" size="small" />
         </button>
       </div>
     );
   };
 
-  render() {
-    const toasts = getObjValues(this.props.toastsMap);
+  const toasts = getObjValues(toastsMap);
 
-    return <section className="toasts">{toasts.map(this.renderToast)}</section>;
-  }
-}
+  return <section className="toasts">{toasts.map(renderToast)}</section>;
+};
 
-const mapStateToProps = (state) => ({
-  toastsMap: getToastsMap(state),
-});
-export default connect(mapStateToProps, { removeToast, extendSession })(Toasts);
+export default Toasts;

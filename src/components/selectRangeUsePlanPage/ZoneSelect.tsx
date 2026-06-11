@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -10,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { getUserFullName } from '../../utils';
 import { FormControlLabel } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   formControl: {
     minWidth: 250,
     maxWidth: 400,
@@ -60,7 +59,20 @@ const MenuProps = {
   },
 };
 
-export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
+interface ZoneInfo {
+  selectedZones: any[];
+  selectAllZones: boolean;
+  [key: string]: any;
+}
+
+interface ZoneSelectAllProps {
+  zones: any[];
+  users: any[];
+  zoneInfo: ZoneInfo;
+  setZoneInfo: (info: ZoneInfo) => void;
+}
+
+export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }: ZoneSelectAllProps) {
   const classes = useStyles();
   useEffect(() => {
     selectAllZones(zoneInfo.selectAllZones);
@@ -74,19 +86,19 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
       });
     else setZoneInfo({ ...zoneInfo, selectedZones: [], selectAllZones: false });
   };
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     const selectedZones = event.target.value;
-    let selectAllZones = false;
+    let selectAll = false;
     if (selectedZones !== undefined) {
       if (selectedZones.length === zones.length) {
-        selectAllZones = true;
+        selectAll = true;
       } else if (selectedZones.length === 0) {
-        selectAllZones = false;
+        selectAll = false;
       }
       setZoneInfo({
         ...zoneInfo,
         selectedZones: selectedZones,
-        selectAllZones: selectAllZones,
+        selectAllZones: selectAll,
       });
     }
   };
@@ -97,7 +109,7 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
         control={
           <Checkbox
             checked={zoneInfo?.selectAllZones === true}
-            onChange={(event) => {
+            onChange={(event: any) => {
               selectAllZones(event.target.checked);
             }}
             name="selectAllZones"
@@ -112,12 +124,12 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
           onClick={handleChange}
           value={zoneInfo?.selectedZones}
           multiple
-          renderValue={(zoneIds) => {
+          renderValue={(zoneIds: any) => {
             if (zoneInfo.selectAllZones) return '';
-            return zoneIds.map((id) => zones.find((zone) => zone.id === id)?.description).join(',  ');
+            return (zoneIds as any[]).map((id: any) => zones.find((zone) => zone.id === id)?.description).join(',  ');
           }}
           MenuProps={{
-            getContentAnchorEl: () => null,
+            getContentAnchorEl: () => null as any,
             ...MenuProps,
           }}
         >
@@ -127,7 +139,7 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
 
           {zones &&
             zones.map((zone) => {
-              const user = users?.find((user) => user.id === zone.userId);
+              const user = users?.find((u: any) => u.id === zone.userId);
               return (
                 <MenuItem
                   alignItems="flex-start"
@@ -153,31 +165,40 @@ export function ZoneSelectAll({ zones, users, zoneInfo, setZoneInfo }) {
   );
 }
 
-export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneInfo, zoneInfo }) {
+interface ZoneSelectProps {
+  zones: any[];
+  unassignedZones: any[];
+  userZones: any[];
+  users: any[];
+  setZoneInfo: (info: ZoneInfo) => void;
+  zoneInfo: ZoneInfo;
+}
+
+export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneInfo, zoneInfo }: ZoneSelectProps) {
   const classes = useStyles();
   useEffect(() => {
     selectAllZones(zoneInfo.selectAllZones);
   }, [zoneInfo.selectAllZones]);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     if (event.target.value) {
       const selectedZones = event.target.value;
-      let selectAllZones = false;
-      if (selectAllZones)
+      let selectAll = false;
+      if (selectAll)
         if (selectedZones.length === zones.length) {
-          selectAllZones = true;
+          selectAll = true;
         } else if (selectedZones.length === 0) {
-          selectAllZones = false;
+          selectAll = false;
         }
       setZoneInfo({
         ...zoneInfo,
         selectedZones: selectedZones,
-        selectAllZones: selectAllZones,
+        selectAllZones: selectAll,
       });
     }
   };
 
-  const selectAllZones = (select) => {
+  const selectAllZones = (select: boolean) => {
     if (select) {
       setZoneInfo({
         ...zoneInfo,
@@ -192,7 +213,7 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
         control={
           <Checkbox
             checked={zoneInfo.selectAllZones}
-            onChange={(event) => {
+            onChange={(event: any) => {
               selectAllZones(event.target.checked);
             }}
             name="selectAllZones"
@@ -207,12 +228,12 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
           onClick={handleChange}
           value={zoneInfo.selectedZones}
           multiple
-          renderValue={(zoneIds) => {
+          renderValue={(zoneIds: any) => {
             if (zoneInfo.selectAllZones) return '';
-            return zoneIds.map((id) => zones.find((zone) => zone.id === id).description).join(',  ');
+            return (zoneIds as any[]).map((id: any) => zones.find((zone) => zone.id === id).description).join(',  ');
           }}
           MenuProps={{
-            getContentAnchorEl: () => null,
+            getContentAnchorEl: () => null as any,
             ...MenuProps,
           }}
         >
@@ -222,7 +243,7 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
 
           {userZones &&
             userZones.map((zone) => {
-              const user = users.find((user) => user.id === zone.userId);
+              const user = users.find((u: any) => u.id === zone.userId);
               return (
                 <MenuItem
                   alignItems="flex-start"
@@ -250,7 +271,7 @@ export function ZoneSelect({ zones, unassignedZones, userZones, users, setZoneIn
           {users &&
             unassignedZones &&
             unassignedZones.map((zone) => {
-              const user = users.find((user) => user.id === zone.userId);
+              const user = users.find((u: any) => u.id === zone.userId);
               return (
                 <MenuItem
                   alignItems="flex-start"

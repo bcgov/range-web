@@ -1,12 +1,13 @@
-// @ts-nocheck
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { parseQuery, getTokenFromSSO, saveAuthDataInLocal, getDataFromLocalStorage } from '../utils';
+import { parseQuery, getTokenFromSSO, saveAuthDataInLocal, getDataFromLocalStorage as _getDataFromLocalStorage } from '../utils';
+
+const getDataFromLocalStorage = (key: string): any => _getDataFromLocalStorage(key);
 import { REDIRECTING } from '../constants/strings';
 import { LOCAL_STORAGE_KEY, RETURN_PAGE_TYPE } from '../constants/variables';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 
-const ReturnPage = () => {
+const ReturnPage: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const ReturnPage = () => {
             // we cannot proceed without the pkce challenge code
             window.close();
           } else {
-            getTokenFromSSO(code).then((response) => {
+            getTokenFromSSO(code).then((response: any) => {
               saveAuthDataInLocal(response);
               window.close();
             });
@@ -34,7 +35,7 @@ const ReturnPage = () => {
         break;
       case RETURN_PAGE_TYPE.LOGOUT:
         // finished logging out, close this page
-        window.location = '/';
+        (window as any).location = '/';
         break;
       default:
         break;

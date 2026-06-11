@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { MenuItem } from '@material-ui/core';
 import { axios, getAuthHeaderConfig, getDataFromLocalStorage } from '../../utils';
@@ -7,7 +6,16 @@ import * as API from '../../constants/api';
 import { useToast } from '../../providers/ToastProvider';
 import { useNavigate } from 'react-router-dom';
 
-const PastePlanMenuItem = ({
+interface PastePlanMenuItemProps {
+  destinationAgreementId: any;
+  destinationPlanId?: any;
+  menuText: string;
+  confirmationPromptText: string;
+  currentPage?: any;
+  createReplacementPlan?: boolean;
+}
+
+const PastePlanMenuItem: React.FC<PastePlanMenuItemProps> = ({
   destinationAgreementId,
   destinationPlanId,
   menuText,
@@ -17,8 +25,8 @@ const PastePlanMenuItem = ({
 }) => {
   const navigate = useNavigate();
   const { errorToast } = useToast();
-  const confirm = useConfirm();
-  const sourcePlan = getDataFromLocalStorage('copyPlanInfo');
+  const confirm = useConfirm()!;
+  const sourcePlan: any = getDataFromLocalStorage('copyPlanInfo');
   if (!sourcePlan?.agreementId) {
     return null;
   }

@@ -1,11 +1,26 @@
-// @ts-nocheck
 import React from 'react';
 import { TableHeaderCell } from 'semantic-ui-react';
 
-const SortableTableHeaderCell = ({ column, children, currentSortBy, currentSortOrder, onClick, noSort = false }) => {
+interface SortableTableHeaderCellProps {
+  column: string;
+  children?: React.ReactNode;
+  currentSortBy: string;
+  currentSortOrder: 'ascending' | 'descending' | undefined;
+  onClick: (column: string) => void;
+  noSort?: boolean;
+}
+
+const SortableTableHeaderCell: React.FC<SortableTableHeaderCellProps> = ({
+  column,
+  children,
+  currentSortBy,
+  currentSortOrder,
+  onClick,
+  noSort = false,
+}) => {
   if (noSort) return <TableHeaderCell className="no-sort-tableheader">{children}</TableHeaderCell>;
   return (
-    <TableHeaderCell sorted={currentSortBy === column ? currentSortOrder : null} onClick={() => onClick(column)}>
+    <TableHeaderCell sorted={currentSortBy === column ? currentSortOrder : undefined} onClick={() => onClick(column)}>
       {children}
     </TableHeaderCell>
   );

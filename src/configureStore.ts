@@ -1,27 +1,12 @@
-// @ts-nocheck
-//
-// MyRangeBC
-//
-// Copyright © 2018 Province of British Columbia
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// Created by Kyubin Han.
-//
-
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose, AnyAction } from 'redux';
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION__?: () => <T>(f: T) => T;
+  }
+}
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -29,7 +14,7 @@ function devTools() {
   if (dev && window.__REDUX_DEVTOOLS_EXTENSION__) {
     return window.__REDUX_DEVTOOLS_EXTENSION__();
   }
-  return (f) => f;
+  return <T>(f: T): T => f;
 }
 
 const configureStore = () => {
@@ -39,3 +24,17 @@ const configureStore = () => {
 };
 
 export default configureStore;
+
+/** The root state type — inferred from the root reducer. */
+export type RootState = ReturnType<typeof rootReducer>;
+
+/** Typed dispatch that supports thunks. */
+export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
+
+/** Reusable type for thunk action creators. */
+export type AppThunk<ReturnType = Promise<void>> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AnyAction
+>;

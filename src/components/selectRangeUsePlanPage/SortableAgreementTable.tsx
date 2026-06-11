@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Checkbox, ListItemText, TablePagination } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,9 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { useUser } from '../../providers/UserProvider';
@@ -24,7 +21,18 @@ import PlanRow from './PlanRow';
 import { Loading } from '../common';
 import { TOOLTIP_TEXT_PERCENTAGE_USE, TOOLTIP_TEXT_USAGE_STATUS } from '../../constants/strings';
 
-const headCells = [
+interface HeadCell {
+  id: string;
+  label?: string;
+  disablePadding: boolean;
+  numeric?: boolean;
+  sortable?: boolean;
+  filterable?: boolean;
+  multiSelectable?: boolean;
+  align?: 'left' | 'center' | 'right';
+}
+
+const headCells: HeadCell[] = [
   {
     id: 'actions',
     disablePadding: true,
@@ -93,6 +101,7 @@ const headCells = [
   {
     id: 'agreement.exemption_status',
     label: 'Exemption',
+    disablePadding: false,
     sortable: true,
     multiSelectable: true,
     align: 'left',
@@ -133,7 +142,17 @@ const headCells = [
   },
 ];
 
-function EnhancedTableHead(props) {
+interface EnhancedTableHeadProps {
+  classes: any;
+  order: 'asc' | 'desc';
+  orderBy: string;
+  onRequestSort: (event: any, property: string) => void;
+  onColumnFilterChange: (event: any, property: string) => void;
+  columnFilters: Record<string, any>;
+  rowCount?: number;
+}
+
+function EnhancedTableHead(props: EnhancedTableHeadProps) {
   const { classes, order, orderBy, onRequestSort, onColumnFilterChange, columnFilters } = props;
 
   return (
@@ -150,7 +169,7 @@ function EnhancedTableHead(props) {
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={(event) => {
+              onClick={(event: any) => {
                 headCell.sortable && onRequestSort(event, headCell.id);
               }}
               hideSortIcon={!headCell.sortable}
@@ -176,7 +195,7 @@ function EnhancedTableHead(props) {
             {headCell.filterable && (
               <input
                 type="text"
-                onChange={(e) => onColumnFilterChange(e, headCell.id)}
+                onChange={(e: any) => onColumnFilterChange(e, headCell.id)}
                 value={Object.hasOwn(columnFilters, headCell.id) ? columnFilters[headCell.id] : ''}
                 style={
                   headCell.id === 'agreement.percentage_use'
@@ -195,7 +214,7 @@ function EnhancedTableHead(props) {
             )}
             {headCell.id == 'plan.status_id' && (
               <StatusMultiSelect
-                onStatusCodeChange={(newStatusCodes) =>
+                onStatusCodeChange={(newStatusCodes: any) =>
                   onColumnFilterChange({ target: { value: newStatusCodes } }, headCell.id)
                 }
                 selectedStatusCodes={columnFilters[headCell.id] || []}
@@ -203,7 +222,7 @@ function EnhancedTableHead(props) {
             )}
             {headCell.id == 'agreement.exemption_status' && (
               <ExemptionStatusMultiSelect
-                onStatusCodeChange={(newStatusCodes) =>
+                onStatusCodeChange={(newStatusCodes: any) =>
                   onColumnFilterChange({ target: { value: newStatusCodes } }, headCell.id)
                 }
                 selectedStatusCodes={columnFilters[headCell.id] || []}
@@ -211,7 +230,7 @@ function EnhancedTableHead(props) {
             )}
             {headCell.id == 'agreement.usage_status' && (
               <UsageStatusMultiSelect
-                onUsageStatusChange={(newUsageStatuses) =>
+                onUsageStatusChange={(newUsageStatuses: any) =>
                   onColumnFilterChange({ target: { value: newUsageStatuses } }, headCell.id)
                 }
                 selectedUsageStatuses={columnFilters[headCell.id] || []}
@@ -224,10 +243,15 @@ function EnhancedTableHead(props) {
   );
 }
 
-const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
+interface StatusMultiSelectProps {
+  onStatusCodeChange: (codes: any) => void;
+  selectedStatusCodes: any[];
+}
+
+const StatusMultiSelect: React.FC<StatusMultiSelectProps> = ({ onStatusCodeChange, selectedStatusCodes }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
-  const references = useReferences();
+  const references: any = useReferences();
   const MenuProps = {
     PaperProps: {
       style: {
@@ -236,22 +260,22 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
       },
     },
   };
-  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS].sort((a, b) => a.name.localeCompare(b.name));
-  const [selectedStatusName, setSelectedStatusName] = React.useState([]);
+  const statusObjects = references[REFERENCE_KEY.PLAN_STATUS].sort((a: any, b: any) => a.name.localeCompare(b.name));
+  const [selectedStatusName, setSelectedStatusName] = React.useState<string[]>([]);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setSelectedStatusName(event.target.value);
-    const selectedStatusCodes = event.target.value.map((statusName) => {
-      const match = statusObjects.find((st) => st.name === statusName);
+    const codes = event.target.value.map((statusName: string) => {
+      const match = statusObjects.find((st: any) => st.name === statusName);
       return match.code;
     });
-    onStatusCodeChange(selectedStatusCodes);
+    onStatusCodeChange(codes);
   };
 
   useEffect(() => {
     setSelectedStatusName(
-      selectedStatusCodes.map((code) => {
-        const match = statusObjects.find((st) => st.code === code);
+      selectedStatusCodes.map((code: any) => {
+        const match: any = statusObjects.find((st: any) => st.code === code);
         return match.name;
       }),
     );
@@ -263,10 +287,10 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
         multiple
         value={selectedStatusName}
         onChange={handleChange}
-        renderValue={(selected) => selected.join(', ')}
+        renderValue={(selected: any) => (selected as string[]).join(', ')}
         MenuProps={MenuProps}
       >
-        {statusObjects.map((statusObject) => (
+        {statusObjects.map((statusObject: any) => (
           <MenuItem key={statusObject.id} value={statusObject.name}>
             <Checkbox checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.name) !== -1} />
             <ListItemText primary={statusObject.name} />
@@ -277,10 +301,15 @@ const StatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
   );
 };
 
-const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes }) => {
+interface ExemptionStatusMultiSelectProps {
+  onStatusCodeChange: (codes: any) => void;
+  selectedStatusCodes: any[];
+}
+
+const ExemptionStatusMultiSelect: React.FC<ExemptionStatusMultiSelectProps> = ({ onStatusCodeChange, selectedStatusCodes }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
-  const references = useReferences();
+  const references: any = useReferences();
   const MenuProps = {
     PaperProps: {
       style: {
@@ -290,27 +319,27 @@ const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes })
     },
   };
   const statusObjects = references[REFERENCE_KEY.AGREEMENT_EXEMPTION_STATUS] || [];
-  const [selectedStatusName, setSelectedStatusName] = React.useState([]);
+  const [selectedStatusName, setSelectedStatusName] = React.useState<string[]>([]);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setSelectedStatusName(event.target.value);
-    const selectedStatusCodes = event.target.value
-      .map((statusName) => {
-        const match = statusObjects.find((st) => st.description === statusName);
+    const codes = event.target.value
+      .map((statusName: string) => {
+        const match = statusObjects.find((st: any) => st.description === statusName);
         return match ? match.code : null;
       })
-      .filter((code) => code !== null);
-    onStatusCodeChange(selectedStatusCodes);
+      .filter((code: any) => code !== null);
+    onStatusCodeChange(codes);
   };
 
   useEffect(() => {
     setSelectedStatusName(
       selectedStatusCodes
-        .map((code) => {
-          const match = statusObjects.find((st) => st.code === code);
+        .map((code: any) => {
+          const match = statusObjects.find((st: any) => st.code === code);
           return match ? match.description : null;
         })
-        .filter((desc) => desc !== null),
+        .filter((desc: any) => desc !== null),
     );
   }, [selectedStatusCodes, statusObjects]);
 
@@ -320,10 +349,10 @@ const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes })
         multiple
         value={selectedStatusName}
         onChange={handleChange}
-        renderValue={(selected) => selected.join(', ')}
+        renderValue={(selected: any) => (selected as string[]).join(', ')}
         MenuProps={MenuProps}
       >
-        {statusObjects.map((statusObject) => (
+        {statusObjects.map((statusObject: any) => (
           <MenuItem key={statusObject.code} value={statusObject.description}>
             <Checkbox
               checked={selectedStatusName.findIndex((statusName) => statusName === statusObject.description) !== -1}
@@ -336,7 +365,12 @@ const ExemptionStatusMultiSelect = ({ onStatusCodeChange, selectedStatusCodes })
   );
 };
 
-const UsageStatusMultiSelect = ({ onUsageStatusChange, selectedUsageStatuses }) => {
+interface UsageStatusMultiSelectProps {
+  onUsageStatusChange: (statuses: any) => void;
+  selectedUsageStatuses: any[];
+}
+
+const UsageStatusMultiSelect: React.FC<UsageStatusMultiSelectProps> = ({ onUsageStatusChange, selectedUsageStatuses }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -354,13 +388,13 @@ const UsageStatusMultiSelect = ({ onUsageStatusChange, selectedUsageStatuses }) 
     { id: 2, name: 'Over Use', value: 1 },
   ];
 
-  const [selectedUsageStatusNames, setSelectedUsageStatusNames] = React.useState([]);
+  const [selectedUsageStatusNames, setSelectedUsageStatusNames] = React.useState<string[]>([]);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setSelectedUsageStatusNames(event.target.value);
-    const selectedUsageStatusValues = event.target.value.map((statusName) => {
+    const selectedUsageStatusValues = event.target.value.map((statusName: string) => {
       const match = usageStatusOptions.find((st) => st.name === statusName);
-      return match.value;
+      return match!.value;
     });
     onUsageStatusChange(selectedUsageStatusValues);
   };
@@ -368,7 +402,7 @@ const UsageStatusMultiSelect = ({ onUsageStatusChange, selectedUsageStatuses }) 
   useEffect(() => {
     setSelectedUsageStatusNames(
       selectedUsageStatuses
-        .map((value) => {
+        .map((value: any) => {
           const match = usageStatusOptions.find((st) => st.value === value);
           return match ? match.name : '';
         })
@@ -382,7 +416,7 @@ const UsageStatusMultiSelect = ({ onUsageStatusChange, selectedUsageStatuses }) 
         multiple
         value={selectedUsageStatusNames}
         onChange={handleChange}
-        renderValue={(selected) => selected.join(', ')}
+        renderValue={(selected: any) => (selected as string[]).join(', ')}
         MenuProps={MenuProps}
       >
         {usageStatusOptions.map((statusOption) => (
@@ -396,14 +430,7 @@ const UsageStatusMultiSelect = ({ onUsageStatusChange, selectedUsageStatuses }) 
   );
 };
 
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-};
-
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme: any) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(2),
@@ -450,6 +477,23 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface SortableAgreementTableProps {
+  agreements?: any[];
+  currentPage: number;
+  onPageChange: (event: any, newPage: number) => void;
+  onLimitChange: (limit: number) => void;
+  loading: boolean;
+  totalAgreements?: number;
+  totalPages?: number;
+  perPage: number;
+  onOrderChange: (orderBy: string, order: string) => void;
+  onColumnFilterChange: (column: string, value: any) => void;
+  orderBy: string;
+  order: 'asc' | 'desc';
+  columnFilters: Record<string, any>;
+  onUpdate?: () => void;
+}
+
 export default function SortableAgreementTable({
   agreements = [],
   currentPage,
@@ -464,18 +508,17 @@ export default function SortableAgreementTable({
   order,
   columnFilters,
   onUpdate,
-}) {
+}: SortableAgreementTableProps) {
   const classes = useStyles();
-  const user = useUser();
-  const location = useLocation();
+  const user = useUser()!;
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (event: any, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
 
     onOrderChange(property, isAsc ? 'desc' : 'asc');
   };
 
-  const handleColumnFilterChange = (event, property) => {
+  const handleColumnFilterChange = (event: any, property: string) => {
     onColumnFilterChange(property, event.target.value);
   };
 
@@ -497,12 +540,11 @@ export default function SortableAgreementTable({
             <TableBody>
               {agreements.length > 0 &&
                 !loading &&
-                agreements.map((agreement, index) => {
+                agreements.map((agreement: any, index: number) => {
                   return (
                     <PlanRow
                       key={index}
                       agreement={agreement}
-                      location={location}
                       user={user}
                       currentPage={currentPage}
                       onUpdate={onUpdate}
@@ -526,8 +568,8 @@ export default function SortableAgreementTable({
             count={totalAgreements ?? -1}
             rowsPerPage={perPage}
             page={currentPage}
-            onPageChange={(event, newPage) => onPageChange(event, newPage)}
-            onRowsPerPageChange={(event) => {
+            onPageChange={(event: any, newPage: number) => onPageChange(event, newPage)}
+            onRowsPerPageChange={(event: any) => {
               onLimitChange(parseInt(event.target.value, 10));
             }}
           />

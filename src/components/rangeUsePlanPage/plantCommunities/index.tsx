@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
 import { Button, Confirm } from 'semantic-ui-react';
@@ -14,13 +12,20 @@ import { deletePlantCommunity } from '../../../api';
 import { resetPlantCommunityId } from '../../../utils/helper/plantCommunity';
 import ImportPastureModal from '../ImportPastureModal';
 
-const PlantCommunities = ({ plantCommunities = [], namespace, planId, pastureId }) => {
+interface PlantCommunitiesProps {
+  plantCommunities: any[];
+  namespace: string;
+  planId: any;
+  pastureId: any;
+}
+
+const PlantCommunities: React.FC<PlantCommunitiesProps> = ({ plantCommunities = [], namespace, planId, pastureId }) => {
   const isEmpty = plantCommunities.length === 0;
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [idToRemove, setIdToRemove] = useState(null);
+  const [idToRemove, setIdToRemove] = useState<any>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
-  const communityToRemove = plantCommunities.find((c) => c.id === idToRemove);
+  const communityToRemove = plantCommunities.find((c: any) => c.id === idToRemove);
 
   return (
     <FieldArray
@@ -41,7 +46,7 @@ const PlantCommunities = ({ plantCommunities = [], namespace, planId, pastureId 
                 Import Plant Community
               </Button>
               <AddPlantCommunityButton
-                onSubmit={(plantCommunity) => {
+                onSubmit={(plantCommunity: any) => {
                   push({
                     ...plantCommunity,
                     communityTypeId: plantCommunity.id,
@@ -66,7 +71,7 @@ const PlantCommunities = ({ plantCommunities = [], namespace, planId, pastureId 
             <ImportPastureModal
               dialogOpen={isImportModalOpen}
               onClose={() => setIsImportModalOpen(false)}
-              onImport={(plantCommunity) => {
+              onImport={(plantCommunity: any) => {
                 setIsImportModalOpen(false);
                 push(resetPlantCommunityId(plantCommunity));
               }}
@@ -99,7 +104,7 @@ const PlantCommunities = ({ plantCommunities = [], namespace, planId, pastureId 
               'collaspible-boxes--empty': isEmpty,
             })}
           >
-            {plantCommunities.map((plantCommunity, index) => (
+            {plantCommunities.map((plantCommunity: any, index: number) => (
               <PlantCommunityBox
                 key={plantCommunity.id}
                 plantCommunity={plantCommunity}
@@ -119,11 +124,6 @@ const PlantCommunities = ({ plantCommunities = [], namespace, planId, pastureId 
       )}
     />
   );
-};
-
-PlantCommunities.propTypes = {
-  plantCommunities: PropTypes.array.isRequired,
-  namespace: PropTypes.string.isRequired,
 };
 
 export default PlantCommunities;

@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import uuid from 'uuid-v4';
 import { Dropdown, Icon, Confirm } from 'semantic-ui-react';
 import { PrimaryButton, InfoTip } from '../../common';
@@ -13,16 +11,21 @@ import * as strings from '../../../constants/strings';
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields';
 import { deleteManagementConsideration } from '../../../api';
 
-const ManagementConsiderations = ({ planId, managementConsiderations }) => {
+interface ManagementConsiderationsProps {
+  planId: any;
+  managementConsiderations: any[];
+}
+
+const ManagementConsiderations: React.FC<ManagementConsiderationsProps> = ({ planId, managementConsiderations }) => {
   const references = useReferences();
-  const considerTypes = references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
-  const considerTypeOptions = considerTypes.map((ct) => ({
+  const considerTypes = (references as any)[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
+  const considerTypeOptions = considerTypes.map((ct: any) => ({
     key: ct.id,
     value: ct.id,
     text: ct.name,
   }));
 
-  const [toRemove, setToRemove] = useState(null);
+  const [toRemove, setToRemove] = useState<number | null>(null);
 
   return (
     <FieldArray
@@ -67,7 +70,7 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
                   options={considerTypeOptions}
                   icon={null}
                   pointing="left"
-                  value={null}
+                  value={null as any}
                   onChange={(e, { value }) => {
                     push({
                       id: uuid(),
@@ -88,13 +91,13 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
               setToRemove(null);
             }}
             onConfirm={async () => {
-              const consideration = managementConsiderations[toRemove];
+              const consideration = managementConsiderations[toRemove!];
 
               if (!uuid.isUUID(consideration.id)) {
                 await deleteManagementConsideration(planId, consideration.id);
               }
 
-              remove(toRemove);
+              remove(toRemove!);
               setToRemove(null);
             }}
           />
@@ -102,10 +105,6 @@ const ManagementConsiderations = ({ planId, managementConsiderations }) => {
       )}
     />
   );
-};
-
-ManagementConsiderations.propTypes = {
-  managementConsiderations: PropTypes.array.isRequired,
 };
 
 export default ManagementConsiderations;

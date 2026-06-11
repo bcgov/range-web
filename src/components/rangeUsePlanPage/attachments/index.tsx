@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { FieldArray, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import { Confirm, Icon } from 'semantic-ui-react';
@@ -13,26 +12,34 @@ import * as API from '../../../constants/api';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 import { DELETE_ATTACHMENT_CONFIRM_CONTENT, DELETE_ATTACHMENT_CONFIRM_HEADER } from '../../../constants/strings';
 
-const sortByDate = (a, b) => {
+const sortByDate = (a: any, b: any) => {
   if (b.createdAt > a.createdAt) return -1;
   if (b.createdAt < a.createdAt) return 1;
   return 0;
 };
 
-const Attachments = ({
+interface AttachmentsProps {
+  planId: any;
+  attachments?: any[];
+  label?: string;
+  propertyName: string;
+  fileType?: string;
+}
+
+const Attachments: React.FC<AttachmentsProps> = ({
   planId,
   attachments = [],
   label = '',
   propertyName,
   fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT,
 }) => {
-  const [toRemove, setToRemove] = useState(null);
-  const [updatingAccessId, setUpdatingAccessId] = useState(null);
-  const formik = useFormikContext();
+  const [toRemove, setToRemove] = useState<any>(null);
+  const [updatingAccessId, setUpdatingAccessId] = useState<any>(null);
+  const formik = useFormikContext<any>();
 
   const refreshAttachments = async () => {
     try {
-      const { data: plan } = await axios.get(API.GET_RUP(planId), getAuthHeaderConfig());
+      const { data: plan } = await (axios.get as any)(API.GET_RUP(planId), getAuthHeaderConfig());
       // Update only the files array in Formik without touching other fields
       formik.setFieldValue('files', plan.files || []);
     } catch (error) {
@@ -40,7 +47,7 @@ const Attachments = ({
     }
   };
 
-  const updateAttachmentAccess = async (attachmentId, access) => {
+  const updateAttachmentAccess = async (attachmentId: any, access: string) => {
     setUpdatingAccessId(attachmentId);
     try {
       await axios.put(API.UPDATE_RUP_ATTACHMENT(planId, attachmentId), { access }, getAuthHeaderConfig());
@@ -57,10 +64,10 @@ const Attachments = ({
     }
   };
 
-  const saveAttachmentToDatabase = async (attachment) => {
+  const saveAttachmentToDatabase = async (attachment: any) => {
     try {
       const { ...values } = attachment;
-      const { data } = await axios.post(API.CREATE_RUP_ATTACHMENT(planId), values, getAuthHeaderConfig());
+      const { data } = await (axios.post as any)(API.CREATE_RUP_ATTACHMENT(planId), values, getAuthHeaderConfig());
       return {
         ...attachment,
         id: data.id,
@@ -73,7 +80,7 @@ const Attachments = ({
     }
   };
 
-  const handleUpload = async (file, attachment, index) => {
+  const handleUpload = async (file: File, attachment: any, index: number) => {
     const fieldName = `files.${index}`;
     try {
       // First upload the file to storage
@@ -84,7 +91,7 @@ const Attachments = ({
           'Content-Type': file.type,
         },
         skipAuthorizationHeader: true,
-      });
+      } as any);
 
       // Update the attachment with the URL
       const updatedAttachment = {
@@ -144,7 +151,7 @@ const Attachments = ({
                         isUpdating={updatingAccessId === attachment.id}
                         fileType={fileType}
                         index={index}
-                        error={formik.errors?.files?.[index]?.url}
+                        error={(formik.errors as any)?.files?.[index]?.url}
                       />
                     );
                   }
@@ -158,7 +165,7 @@ const Attachments = ({
                 <input
                   name={propertyName}
                   onChange={(event) => {
-                    for (const [index, file] of Array.from(event.target.files).entries()) {
+                    for (const [index, file] of Array.from(event.target.files!).entries()) {
                       const attachment = {
                         name: encodeURIComponent(file.name),
                         createdAt: new Date(),
@@ -192,7 +199,7 @@ const Attachments = ({
 
                 // Find the index of the attachment in the formik files array
                 const formikFiles = formik.values.files || [];
-                const attachmentIndex = formikFiles.findIndex((file) => file.id === toRemove.id);
+                const attachmentIndex = formikFiles.findIndex((file: any) => file.id === toRemove.id);
 
                 if (attachmentIndex !== -1) {
                   remove(attachmentIndex);
@@ -218,7 +225,7 @@ const Attachments = ({
   );
 };
 
-const AttachmentsHeader = () => (
+const AttachmentsHeader: React.FC = () => (
   <>
     <div className="rup__content-title--editable">
       <div className="rup__content_title">Attachments</div>

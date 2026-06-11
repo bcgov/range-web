@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Dropdown, Confirm } from 'semantic-ui-react';
 import classnames from 'classnames';
 import { FieldArray } from 'formik';
@@ -18,15 +16,19 @@ import { deleteSchedule } from '../../../api';
 import { populateGrazingScheduleFields, populateHayCuttingScheduleFields } from '../../../utils/helper/schedule';
 import { IfEditable } from '../../common/PermissionsField';
 
-const sortYears = (a, b) => a.year - b.year;
+const sortYears = (a: any, b: any) => a.year - b.year;
 
-const Schedules = ({ plan }) => {
-  const [yearOptions, setYearOptions] = useState([]);
+interface SchedulesProps {
+  plan: any;
+}
+
+const Schedules = ({ plan }: SchedulesProps) => {
+  const [yearOptions, setYearOptions] = useState<any[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [indexToRemove, setIndexToRemove] = useState(null);
+  const [indexToRemove, setIndexToRemove] = useState<number | null>(null);
 
   const references = useReferences();
-  const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE];
+  const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE] as any[];
   const schedules = plan.schedules || [];
   const isEmpty = schedules.length === 0;
 
@@ -40,7 +42,7 @@ const Schedules = ({ plan }) => {
         key: start + i,
         text: start + i,
         value: start + i,
-      })).filter(({ value }) => !schedules.some((s) => s.year === value));
+      })).filter(({ value }) => !schedules.some((s: any) => s.year === value));
 
       setYearOptions(options);
     }
@@ -74,7 +76,7 @@ const Schedules = ({ plan }) => {
                   button
                   item
                   options={yearOptions}
-                  value={null}
+                  value={null as any}
                   disabled={yearOptions.length === 0}
                   onChange={(e, { value }) => {
                     console.log('Push called');
@@ -98,8 +100,8 @@ const Schedules = ({ plan }) => {
               <div className="rup__section-not-found">No schedule provided.</div>
             ) : (
               <ul className={classnames('collaspible-boxes', { 'collaspible-boxes--empty': isEmpty })}>
-                {schedules.sort(sortYears).map((schedule, index) => {
-                  const yearUsage = plan.agreement.usage.find((u) => u.year === schedule.year);
+                {schedules.sort(sortYears).map((schedule: any, index: number) => {
+                  const yearUsage = plan.agreement.usage.find((u: any) => u.year === schedule.year);
                   const authorizedAUMs = yearUsage?.totalAnnualUse || 0;
                   const crownTotalAUMs = utils.calcCrownTotalAUMs(
                     schedule.scheduleEntries,
@@ -130,12 +132,12 @@ const Schedules = ({ plan }) => {
                       livestockTypes={livestockTypes}
                       authorizedAUMs={authorizedAUMs}
                       crownTotalAUMs={crownTotalAUMs}
-                      onScheduleCopy={(year) => {
+                      onScheduleCopy={(year: number) => {
                         push({
                           ...schedule,
                           id: uuid(),
                           year,
-                          scheduleEntries: schedule.scheduleEntries.map((entry) => ({
+                          scheduleEntries: schedule.scheduleEntries.map((entry: any) => ({
                             ...entry,
                             id: uuid(),
                             dateIn: moment(entry.dateIn).set('year', year).toISOString(),
@@ -149,12 +151,12 @@ const Schedules = ({ plan }) => {
                       {...commonProps}
                       authorizedTonnes={authorizedTonnes}
                       totalTonnes={parseFloat(totalTonnes)}
-                      onScheduleCopy={(year) => {
+                      onScheduleCopy={(year: number) => {
                         push({
                           ...schedule,
                           id: uuid(),
                           year,
-                          scheduleEntries: schedule.scheduleEntries.map((entry) => ({
+                          scheduleEntries: schedule.scheduleEntries.map((entry: any) => ({
                             ...entry,
                             id: uuid(),
                             dateIn: moment(entry.dateIn).set('year', year).toISOString(),
@@ -174,9 +176,9 @@ const Schedules = ({ plan }) => {
             onCancel={() => setIndexToRemove(null)}
             content={`Are you sure you want to delete this ${isGrazing ? 'grazing' : 'hay cutting'} schedule?`}
             onConfirm={async () => {
-              const schedule = schedules[indexToRemove];
+              const schedule = schedules[indexToRemove!];
               if (!uuid.isUUID(schedule.id)) await deleteSchedule(plan.id, schedule.id);
-              remove(indexToRemove);
+              remove(indexToRemove!);
               setIndexToRemove(null);
             }}
           />
@@ -184,10 +186,6 @@ const Schedules = ({ plan }) => {
       )}
     />
   );
-};
-
-Schedules.propTypes = {
-  plan: PropTypes.object.isRequired,
 };
 
 export default Schedules;

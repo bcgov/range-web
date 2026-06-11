@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { Status } from '../../common';
 import { getUserFullName, formatDateToNow } from '../../../utils';
@@ -8,16 +6,20 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { useUser } from '../../../providers/UserProvider';
 
-const StatusHistory = ({ planStatusHistory }) => {
+interface StatusHistoryProps {
+  planStatusHistory: any[];
+}
+
+const StatusHistory: React.FC<StatusHistoryProps> = ({ planStatusHistory }) => {
   const references = useReferences();
-  const user = useUser();
-  const planStatuses = references[REFERENCE_KEY.PLAN_STATUS];
+  const user = useUser() as any;
+  const planStatuses = (references as any)[REFERENCE_KEY.PLAN_STATUS];
 
   return (
     <div className="rup__history">
-      {planStatusHistory.map(({ id, user: recorder, createdAt, fromPlanStatusId, toPlanStatusId, note }) => {
-        const from = planStatuses.find((s) => s.id === fromPlanStatusId);
-        const to = planStatuses.find((s) => s.id === toPlanStatusId);
+      {planStatusHistory.map(({ id, user: recorder, createdAt, fromPlanStatusId, toPlanStatusId, note }: any) => {
+        const from = planStatuses.find((s: any) => s.id === fromPlanStatusId);
+        const to = planStatuses.find((s: any) => s.id === toPlanStatusId);
 
         return (
           <div key={id} className="rup__history__record">
@@ -37,10 +39,6 @@ const StatusHistory = ({ planStatusHistory }) => {
       })}
     </div>
   );
-};
-
-StatusHistory.propTypes = {
-  planStatusHistory: PropTypes.array.isRequired,
 };
 
 export default React.memo(StatusHistory);

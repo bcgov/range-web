@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import IndicatorPlantsForm from '../IndicatorPlantsForm';
 import { PLANT_CRITERIA } from '../../../../constants/variables';
@@ -11,7 +9,14 @@ import DayMonthPicker from '../../../common/form/DayMonthPicker';
 import { TextArea } from 'formik-semantic-ui';
 import moment from 'moment';
 
-const RangeReadinessBox = ({ plantCommunity, planId, pastureId, namespace }) => {
+interface RangeReadinessBoxProps {
+  plantCommunity: any;
+  planId: any;
+  pastureId: any;
+  namespace: string;
+}
+
+const RangeReadinessBox: React.FC<RangeReadinessBoxProps> = ({ plantCommunity, planId, pastureId, namespace }) => {
   const { rangeReadinessMonth, rangeReadinessDay, rangeReadinessNote } = plantCommunity;
 
   return (
@@ -54,13 +59,6 @@ const RangeReadinessBox = ({ plantCommunity, planId, pastureId, namespace }) => 
       />
     </div>
   );
-};
-
-RangeReadinessBox.propTypes = {
-  plantCommunity: PropTypes.shape({
-    indicatorPlants: PropTypes.arrayOf(PropTypes.object),
-  }),
-  namespace: PropTypes.string.isRequired,
 };
 
 export default RangeReadinessBox;

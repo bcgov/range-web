@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import useSWR from 'swr';
 import { CircularProgress } from '@material-ui/core';
 import * as API from '../../../constants/api';
@@ -24,13 +22,18 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import { isUUID } from 'uuid-v4';
 //import ManualConfirmation from './ManualConfirmation'
 
-const getAgentForClient = (client, clientAgreements) => {
-  const clientAgreement = clientAgreements.find((ca) => ca.clientId === client.id);
+interface BasicInformationProps {
+  plan: any;
+  agreement: any;
+}
+
+const getAgentForClient = (client: any, clientAgreements: any[]): any => {
+  const clientAgreement = clientAgreements.find((ca: any) => ca.clientId === client.id);
 
   return clientAgreement?.agent;
 };
 
-const BasicInformation = ({ plan, agreement }) => {
+const BasicInformation: React.FC<BasicInformationProps> = ({ plan, agreement }) => {
   const zone = agreement && agreement.zone;
   const zoneCode = zone && zone.code;
   const district = zone && zone.district;
@@ -41,7 +44,7 @@ const BasicInformation = ({ plan, agreement }) => {
   const contactPhoneNumber = staff && staff.phoneNumber;
   const contactName = getUserFullName(staff);
 
-  const agreementTypes = useReferences()[REFERENCE_KEY.AGREEMENT_TYPE];
+  const agreementTypes = (useReferences() as any)[REFERENCE_KEY.AGREEMENT_TYPE] as any[];
 
   const { rangeName, altBusinessName, planStartDate, planEndDate, extensionDate } = plan || {};
 
@@ -53,13 +56,14 @@ const BasicInformation = ({ plan, agreement }) => {
     clients,
   } = agreement || {};
 
-  let clientAgreements = null;
+  let clientAgreements: any[] | null = null;
   let isLoadingClientAgreements = false;
-  let errorFetchingClientAgreements = false;
-  let response = null;
+  let errorFetchingClientAgreements: any = false;
+  let response: any = null;
   if (Number(plan.id)) {
-    response = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), (key) =>
-      axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    response = useSWR(API.GET_CLIENT_AGREEMENTS(plan.id), (key: string) =>
+      axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data),
     );
     clientAgreements = response.data;
     isLoadingClientAgreements = response.isValidating;
@@ -67,8 +71,8 @@ const BasicInformation = ({ plan, agreement }) => {
   }
 
   const exemptionStatusName = aes && aes.description;
-  const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(clients);
-  const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder);
+  const { primaryAgreementHolder, otherAgreementHolders } = getAgreementHolders(clients) as any;
+  const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder as any);
 
   const isFutureDatedPlan = plan.planEndDate > plan.agreement.agreementEndDate;
 
@@ -85,7 +89,7 @@ const BasicInformation = ({ plan, agreement }) => {
           <TextField label={strings.RANGE_NUMBER} text={agreementId} />
           <TextField
             label={strings.AGREEMENT_TYPE}
-            text={agreementTypes.find((a) => a.id === agreement.agreementTypeId)?.description}
+            text={agreementTypes.find((a: any) => a.id === agreement.agreementTypeId)?.description}
           />
           <TextField
             label={strings.AGREEMENT_DATE}
@@ -166,7 +170,7 @@ const BasicInformation = ({ plan, agreement }) => {
               label={strings.PRIMARY_AGREEMENT_HOLDER}
               text={`${primaryAgreementHolderName}${!primaryAgreementHolder.email ? ` (${strings.NO_USER_LINKED})` : ''}`}
             />
-            {otherAgreementHolders.map((client) => (
+            {otherAgreementHolders.map((client: any) => (
               <TextField
                 key={client.clientNumber}
                 label={strings.OTHER_AGREEMENT_HOLDER}
@@ -204,13 +208,13 @@ const BasicInformation = ({ plan, agreement }) => {
               {/*   /> */}
               {/* )} */}
             </div>
-            {otherAgreementHolders.map((client) => (
+            {otherAgreementHolders.map((client: any) => (
               <div className="rup__ah-container" key={client.id}>
                 <TextField
                   label={strings.OTHER_AGREEMENT_HOLDER}
                   text={`${getClientFullName(client)}${
-                    getAgentForClient(client, clientAgreements)
-                      ? ` - Agent: ${getUserFullName(getAgentForClient(client, clientAgreements))}`
+                    getAgentForClient(client, clientAgreements!)
+                      ? ` - Agent: ${getUserFullName(getAgentForClient(client, clientAgreements!))}`
                       : !client.email
                         ? ` (${strings.NO_USER_LINKED})`
                         : ''
@@ -237,11 +241,6 @@ const BasicInformation = ({ plan, agreement }) => {
       </div>
     </div>
   );
-};
-
-BasicInformation.propTypes = {
-  plan: PropTypes.shape({}).isRequired,
-  agreement: PropTypes.shape({}).isRequired,
 };
 
 export default BasicInformation;

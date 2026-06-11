@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { PASTURES } from '../../../constants/fields';
 import { Input, TextArea } from 'formik-semantic-ui';
@@ -19,7 +17,31 @@ const dropdownOptions = [
   { key: 'delete', value: 'delete', text: 'Delete' },
 ];
 
-const PastureBox = ({
+interface PastureData {
+  id: string | number;
+  name: string;
+  allowableAum?: number;
+  pldPercent?: number;
+  graceDays?: number;
+  notes?: string;
+  plantCommunities?: any[];
+  planId?: string | number;
+}
+
+interface PastureBoxProps {
+  pasture: PastureData;
+  index: number;
+  activeIndex: number;
+  onClick: (index: number) => void;
+  onCopy: () => void;
+  onDelete: () => void;
+  namespace: string;
+  formik?: any;
+  titleText: string;
+  isGrazingSchedule: boolean;
+}
+
+const PastureBox: React.FC<PastureBoxProps> = ({
   pasture,
   index,
   activeIndex,
@@ -56,7 +78,7 @@ const PastureBox = ({
                 {activeIndex === index && (
                   <Icon
                     name="edit"
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent) => {
                       setModalOpen(true);
                       e.stopPropagation();
                     }}
@@ -67,10 +89,10 @@ const PastureBox = ({
                   trigger={<i className="ellipsis vertical icon" />}
                   options={dropdownOptions}
                   icon={null}
-                  value={null}
+                  value={null as any}
                   pointing="right"
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e, { value }) => {
+                  onClick={(e: any) => e.stopPropagation()}
+                  onChange={(_e: any, { value }: any) => {
                     if (value === 'copy') onCopy();
                     if (value === 'delete') onDelete();
                   }}
@@ -105,7 +127,7 @@ const PastureBox = ({
                     name={`${namespace}.pldPercent`}
                     permission={PASTURES.PLD}
                     component={PercentField}
-                    displayValue={pasture.pldPercent * 100 + '%'}
+                    displayValue={(pasture.pldPercent || 0) * 100 + '%'}
                     label={strings.PRIVATE_LAND_DEDUCTION}
                     tip={strings.PRIVATE_LAND_DEDUCTION_TIP}
                     inputProps={{
@@ -150,9 +172,8 @@ const PastureBox = ({
             />
 
             <PlantCommunities
-              plantCommunities={pasture.plantCommunities}
+              plantCommunities={pasture.plantCommunities || []}
               namespace={namespace}
-              canEdit={true}
               planId={pasture.planId}
               pastureId={pasture.id}
             />
@@ -162,7 +183,7 @@ const PastureBox = ({
       <InputModal
         open={isModalOpen}
         onClose={() => setModalOpen(false)}
-        onSubmit={(name) => {
+        onSubmit={(name: string) => {
           formik.setFieldValue(`${namespace}.name`, name);
           setModalOpen(false);
         }}
@@ -173,23 +194,10 @@ const PastureBox = ({
   );
 };
 
-PastureBox.propTypes = {
-  index: PropTypes.number.isRequired,
-  activeIndex: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onCopy: PropTypes.func.isRequired,
-  pasture: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }),
-  namespace: PropTypes.string.isRequired,
-  titleText: PropTypes.string.isRequired,
-  isGrazingSchedule: PropTypes.bool.isRequired,
-};
-
 export default connect(
   React.memo(
     PastureBox,
-    (prevProps, nextProps) =>
+    (prevProps: PastureBoxProps, nextProps: PastureBoxProps) =>
       prevProps.pasture === nextProps.pasture && prevProps.activeIndex === nextProps.activeIndex,
   ),
 );

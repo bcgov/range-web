@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +21,6 @@
 /* eslint-disable import/first */
 /* eslint-disable no-unused-expressions */
 
-import 'react-app-polyfill/ie9'; // includes IE10 and IE11 support.
-
 import('./semantic/semantic.min.css'); // asynchronously import semantic-ui style sheet
 import './styles/index.scss';
 
@@ -32,7 +29,7 @@ import { createRoot } from 'react-dom/client';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
-const container = document.getElementById('root');
+const container = document.getElementById('root')!;
 const root = createRoot(container);
 root.render(<App />);
 

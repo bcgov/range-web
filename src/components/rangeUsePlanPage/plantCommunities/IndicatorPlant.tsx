@@ -1,20 +1,28 @@
-// @ts-nocheck
 import React, { useState, useRef } from 'react';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { STUBBLE_HEIGHT } from '../../../constants/fields';
-import { Dropdown, Icon, Grid } from 'semantic-ui-react';
+import { Dropdown, Icon, Grid as SUIGrid } from 'semantic-ui-react';
+const Grid = SUIGrid as any;
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { Form } from 'formik-semantic-ui';
 import DecimalField from '../../common/form/DecimalField';
 import HelpfulDropdown from '../../common/form/HelpfulDropdown';
 
-const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
-  const references = useReferences();
+interface IndicatorPlantProps {
+  plant: any;
+  namespace: string;
+  valueType: string;
+  onDelete: () => void;
+  formik: any;
+}
 
-  const species = references[REFERENCE_KEY.PLANT_SPECIES].filter((s) => !s.isShrubUse) || [];
+const IndicatorPlant: React.FC<IndicatorPlantProps> = ({ plant, namespace, valueType, onDelete, formik }) => {
+  const references = useReferences() as any;
 
-  const otherSpecies = species.find((s) => s.name === 'Other');
+  const species = references[REFERENCE_KEY.PLANT_SPECIES].filter((s: any) => !s.isShrubUse) || [];
+
+  const otherSpecies = species.find((s: any) => s.name === 'Other');
   const [otherType, setOtherType] = useState({
     key: otherSpecies?.id,
     value: otherSpecies?.id,
@@ -22,15 +30,15 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
   });
 
   const options = species
-    .map((species) => ({
-      key: species.id,
-      value: species.id,
-      text: species.name,
+    .map((s: any) => ({
+      key: s.id,
+      value: s.id,
+      text: s.name,
     }))
     .concat(otherType)
-    .filter((o) => o.text !== 'Other');
+    .filter((o: any) => o.text !== 'Other');
 
-  const onAddItem = (e, { value }) => {
+  const onAddItem = (_e: any, { value }: any) => {
     setOtherType({
       ...otherType,
       text: value,
@@ -40,7 +48,7 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
     formik.setFieldValue(`${namespace}.name`, value);
   };
 
-  const valueInputRef = useRef(null);
+  const valueInputRef = useRef<any>(null);
 
   return (
     <Grid key={plant.id}>
@@ -54,8 +62,8 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             placeholder="Indicator Plant"
             options={options}
             displayValue={
-              options.find((o) => o.key === plant.plantSpeciesId)
-                ? options.find((o) => o.key === plant.plantSpeciesId).text
+              options.find((o: any) => o.key === plant.plantSpeciesId)
+                ? options.find((o: any) => o.key === plant.plantSpeciesId).text
                 : ''
             }
             fieldProps={{ inline: true, fluid: true }}
@@ -65,20 +73,19 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
               additionLabel: 'Other: ',
               onAddItem,
               selectOnBlur: true,
-              onKeyDown: (e) => {
+              onKeyDown: (e: any) => {
                 if (e.keyCode === 13) {
                   valueInputRef.current.focus();
                 }
               },
-              onChange: (e, { value }) => {
+              onChange: (_e: any, { value }: any) => {
                 if (typeof value !== 'string') {
-                  const plantValue = species.find((s) => s.id === value)[valueType];
+                  const plantValue = species.find((s: any) => s.id === value)[valueType];
                   if (plantValue) {
                     formik.setFieldValue(`${namespace}.value`, plantValue);
                   }
                 }
               },
-              // fluid: true
             }}
           />
 
@@ -108,9 +115,9 @@ const IndicatorPlant = ({ plant, namespace, valueType, onDelete, formik }) => {
             style={{ display: 'flex', alignItems: 'center' }}
             icon={null}
             pointing="right"
-            onClick={(e) => e.stopPropagation()}
-            value={null}
-            onChange={(e, { value }) => {
+            onClick={(e: any) => e.stopPropagation()}
+            value={null as any}
+            onChange={(_e: any, { value }: any) => {
               if (value === 'delete') {
                 onDelete();
               }

@@ -1,23 +1,22 @@
-// @ts-nocheck
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
+import React from 'react';
+import { Table as SemanticTable } from 'semantic-ui-react';
+
+const Table = SemanticTable as any;
 import UsageTableRow from './UsageTableRow';
 import { YEAR, AUTH_AUMS, TEMP_INCREASE, BILLABLE_NON_USE, TOTAL_ANNUAL_USE } from '../../../constants/strings';
 
-class UsageTable extends Component {
-  static propTypes = {
-    plan: PropTypes.shape({}).isRequired,
-    usage: PropTypes.arrayOf(PropTypes.object).isRequired,
-  };
+interface UsageTableProps {
+  plan: any;
+  usage: any[];
+}
 
-  renderTable = (usage) => {
-    const { plan } = this.props;
+const UsageTable = ({ plan, usage }: UsageTableProps) => {
+  const renderTable = (usageData: any[]) => {
     const { planEndDate, planStartDate } = plan;
     const planStartYear = new Date(planStartDate).getFullYear();
     const planEndYear = new Date(planEndDate).getFullYear();
 
-    const filteredUsage = usage.filter((u) => u.year >= planStartYear && u.year <= planEndYear);
+    const filteredUsage = usageData.filter((u: any) => u.year >= planStartYear && u.year <= planEndYear);
 
     if (filteredUsage.length === 0) {
       return (
@@ -29,30 +28,24 @@ class UsageTable extends Component {
       );
     }
 
-    return filteredUsage.map(this.renderRow);
+    return filteredUsage.map((singleUsage: any) => <UsageTableRow key={singleUsage.id} singleUsage={singleUsage} />);
   };
 
-  renderRow = (singleUsage) => <UsageTableRow key={singleUsage.id} singleUsage={singleUsage} />;
+  return (
+    <Table style={{ marginTop: '10px' }} celled compact striped unstackable>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>{YEAR}</Table.HeaderCell>
+          <Table.HeaderCell>{AUTH_AUMS}</Table.HeaderCell>
+          <Table.HeaderCell>{TEMP_INCREASE}</Table.HeaderCell>
+          <Table.HeaderCell>{BILLABLE_NON_USE}</Table.HeaderCell>
+          <Table.HeaderCell>{TOTAL_ANNUAL_USE}</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-  render() {
-    const { usage } = this.props;
-
-    return (
-      <Table style={{ marginTop: '10px' }} celled compact striped unstackable>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>{YEAR}</Table.HeaderCell>
-            <Table.HeaderCell>{AUTH_AUMS}</Table.HeaderCell>
-            <Table.HeaderCell>{TEMP_INCREASE}</Table.HeaderCell>
-            <Table.HeaderCell>{BILLABLE_NON_USE}</Table.HeaderCell>
-            <Table.HeaderCell>{TOTAL_ANNUAL_USE}</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>{this.renderTable(usage)}</Table.Body>
-      </Table>
-    );
-  }
-}
+      <Table.Body>{renderTable(usage)}</Table.Body>
+    </Table>
+  );
+};
 
 export default UsageTable;

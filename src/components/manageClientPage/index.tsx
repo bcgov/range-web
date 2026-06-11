@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import { CircularProgress, TextField, Grid, Typography, makeStyles, Paper } from '@material-ui/core';
@@ -9,6 +8,16 @@ import * as API from '../../constants/api';
 import { axios, formatDateToNow, getAuthHeaderConfig, getUserFullName } from '../../utils';
 import { Banner } from '../common';
 import ClientLinkList from './ClientLinkList';
+
+interface UserOption {
+  id: number;
+  email: string;
+  ssoId?: string;
+  givenName?: string;
+  familyName?: string;
+  lastLoginAt?: string;
+  [key: string]: any;
+}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -23,18 +32,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ManageClientPage = () => {
+const ManageClientPage: React.FC = () => {
   const classes = useStyles();
 
   const {
     data: users,
     error,
     isValidating,
-  } = useSWR(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`, (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  } = useSWR<UserOption[]>(`${API.GET_USERS}/?orderCId=desc&excludeBy=username&exclude=idir`, (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data),
   );
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserOption | null>(null);
 
   return (
     <section className="manage-client">
@@ -44,7 +53,8 @@ const ManageClientPage = () => {
           <h3>Step 1: Search and select the user (agreement holder) you&apos;d like to link:</h3>
           {error && (
             <Typography color="error">
-              index.js Error occurred fetching user: {error?.message ?? error?.data?.error ?? JSON.stringify(error)}
+              index.js Error occurred fetching user:{' '}
+              {(error as any)?.message ?? (error as any)?.data?.error ?? JSON.stringify(error)}
             </Typography>
           )}
           {isValidating && !users && <CircularProgress />}
@@ -55,11 +65,11 @@ const ManageClientPage = () => {
                 options={users}
                 value={user}
                 openOnFocus
-                onChange={(e, user) => {
-                  setUser(user);
+                onChange={(_e: any, selectedUser: UserOption | null) => {
+                  setUser(selectedUser);
                 }}
-                getOptionLabel={(option) => `${getUserFullName(option)} (${option.ssoId || ''})`}
-                filterOptions={(options, { inputValue }) => {
+                getOptionLabel={(option: UserOption) => `${getUserFullName(option)} (${option.ssoId || ''})`}
+                filterOptions={(options: UserOption[], { inputValue }: { inputValue: string }) => {
                   const search = inputValue.trim().toLowerCase();
                   return options.filter((option) => {
                     const name = getUserFullName(option).toLowerCase();
@@ -67,10 +77,10 @@ const ManageClientPage = () => {
                     return name.includes(search) || ssoId.includes(search);
                   });
                 }}
-                getOptionSelected={(option) => option.id === user.id}
+                getOptionSelected={(option: UserOption, value: UserOption) => option.id === value.id}
                 style={{ width: 400 }}
-                renderInput={(params) => <TextField {...params} label="Select user" variant="outlined" />}
-                renderOption={(option) => (
+                renderInput={(params: any) => <TextField {...params} label="Select user" variant="outlined" />}
+                renderOption={(option: UserOption) => (
                   <Grid container alignItems="center">
                     <Grid item>
                       <PersonIcon className={classes.icon} />

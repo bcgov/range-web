@@ -7,6 +7,7 @@
     "plugin:import/recommended",
     "plugin:import/typescript"
   ],
+  "plugins": ["react-hooks"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -37,9 +38,11 @@
     "import/export": "off",
     "prefer-const": "warn",
     "no-var": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/ban-ts-comment": ["warn", { "ts-nocheck": "allow-with-description" }],
+    "@typescript-eslint/ban-ts-comment": ["error", { "ts-nocheck": "allow-with-description", "ts-expect-error": "allow-with-description", "ts-ignore": true }],
     "@typescript-eslint/no-var-requires": "off"
   },
   "overrides": [

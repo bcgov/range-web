@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { NO_DESCRIPTION } from '../../../constants/strings';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
@@ -10,7 +9,19 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import DayMonthPicker from '../../common/form/DayMonthPicker';
 import moment from 'moment';
 
-const MinisterIssueAction = ({
+interface MinisterIssueActionProps {
+  actionTypeId: any;
+  detail: string;
+  other: string;
+  noGrazeStartMonth: number;
+  noGrazeStartDay: number;
+  noGrazeEndMonth: number;
+  noGrazeEndDay: number;
+  namespace: string;
+  onDelete: () => void;
+}
+
+const MinisterIssueAction: React.FC<MinisterIssueActionProps> = ({
   actionTypeId,
   detail,
   other,
@@ -21,13 +32,13 @@ const MinisterIssueAction = ({
   namespace,
   onDelete,
 }) => {
-  const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
-  const type = types.find((t) => t.id === actionTypeId)?.name ?? '';
-  const options = types.map((type) => ({
-    key: type.id,
-    value: type.id,
-    text: type.name,
-    id: type.id,
+  const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+  const type = types.find((t: any) => t.id === actionTypeId)?.name ?? '';
+  const options = types.map((t: any) => ({
+    key: t.id,
+    value: t.id,
+    text: t.name,
+    id: t.id,
   }));
 
   const isOtherType = type === 'Other';
@@ -101,8 +112,8 @@ const MinisterIssueAction = ({
           label="Description"
           inputProps={{
             placeholder:
-              types.find((t) => t.id === actionTypeId)?.placeholder ??
-              types.find((t) => t.name === 'Other')?.placeholder,
+              types.find((t: any) => t.id === actionTypeId)?.placeholder ??
+              types.find((t: any) => t.name === 'Other')?.placeholder,
           }}
           fieldProps={{ required: true }}
         />

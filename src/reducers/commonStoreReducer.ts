@@ -1,20 +1,42 @@
-// @ts-nocheck
 import * as actionTypes from '../constants/actionTypes';
 import { getReferencesFromLocalStorage } from '../utils';
 import { REFERENCE_KEY } from '../constants/variables';
+import { Zone, User, EntityMap } from '../types';
 
-const initialReferences = Object.keys(REFERENCE_KEY).reduce(
+export interface References {
+  [key: string]: unknown[];
+}
+
+export interface CommonStoreState {
+  references: References;
+  zones: EntityMap<Zone>;
+  zoneIds: Array<string | number>;
+  users: EntityMap<User>;
+  userIds: Array<string | number>;
+}
+
+interface CommonStoreAction {
+  type: string;
+  payload: {
+    entities?: { zones?: EntityMap<Zone>; users?: EntityMap<User> };
+    result?: Array<string | number>;
+    id?: string | number;
+    [key: string]: unknown;
+  };
+}
+
+const initialReferences: References = Object.keys(REFERENCE_KEY).reduce(
   (object, key) => ({
     ...object,
     [key]: [],
   }),
-  {},
+  {} as References,
 );
 
-const initialState = {
+const initialState: CommonStoreState = {
   references:
     getReferencesFromLocalStorage && getReferencesFromLocalStorage()
-      ? getReferencesFromLocalStorage()
+      ? (getReferencesFromLocalStorage() as References)
       : initialReferences,
   zones: {},
   zoneIds: [],
@@ -22,20 +44,20 @@ const initialState = {
   userIds: [],
 };
 
-const storeZones = (state, action) => {
+const storeZones = (state: CommonStoreState, action: CommonStoreAction): CommonStoreState => {
   const { entities, result } = action.payload;
-  const { zones } = entities;
+  const zones = entities?.zones ?? {};
   return {
     ...state,
     zones: {
       ...zones,
     },
-    zoneIds: [...result],
+    zoneIds: [...(result ?? [])],
   };
 };
 
-const updateUser = (state, action) => {
-  const user = { ...action.payload };
+const updateUser = (state: CommonStoreState, action: CommonStoreAction): CommonStoreState => {
+  const user = { ...action.payload } as unknown as User;
   return {
     ...state,
     users: {
@@ -45,25 +67,25 @@ const updateUser = (state, action) => {
   };
 };
 
-const storeUsers = (state, action) => {
+const storeUsers = (state: CommonStoreState, action: CommonStoreAction): CommonStoreState => {
   const { entities, result } = action.payload;
-  const { users } = entities;
+  const users = entities?.users ?? {};
   return {
     ...state,
     users: {
       ...users,
     },
-    userIds: [...result],
+    userIds: [...(result ?? [])],
   };
 };
 
-const commonStoreReducer = (state = initialState, action) => {
+const commonStoreReducer = (state: CommonStoreState = initialState, action: CommonStoreAction): CommonStoreState => {
   switch (action.type) {
     case actionTypes.STORE_REFERENCES:
       return {
         ...state,
         references: {
-          ...action.payload,
+          ...(action.payload as unknown as References),
         },
       };
     case actionTypes.STORE_ZONES:
@@ -78,10 +100,12 @@ const commonStoreReducer = (state = initialState, action) => {
 };
 
 // private selectors
-export const getZones = (state) => state.zoneIds.map((id) => state.zones[id]);
-export const getZonesMap = (state) => state.zones;
-export const getReferences = (state) => state.references;
-export const getUsers = (state) => state.userIds.map((id) => state.users[id]);
-export const getUsersMap = (state) => state.users;
+export const getZones = (state: CommonStoreState): Zone[] =>
+  state.zoneIds.map((id) => state.zones[id]);
+export const getZonesMap = (state: CommonStoreState): EntityMap<Zone> => state.zones;
+export const getReferences = (state: CommonStoreState): References => state.references;
+export const getUsers = (state: CommonStoreState): User[] =>
+  state.userIds.map((id) => state.users[id]);
+export const getUsersMap = (state: CommonStoreState): EntityMap<User> => state.users;
 
 export default commonStoreReducer;

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -19,18 +18,25 @@ import ExemptionDialog from './ExemptionDialog';
 import { GET_AGREEMENT_EXEMPTIONS } from '../../constants/api';
 
 // Helper function to format usage status display
-const formatUsageStatus = (usageStatus) => {
-  const statusMap = {
+const formatUsageStatus = (usageStatus: any) => {
+  const statusMap: Record<number, string> = {
     0: 'No Use',
     1: 'Over Use',
   };
   return statusMap[usageStatus] || '-';
 };
 
-function PlanRow({ agreement, user, currentPage, onUpdate }) {
+interface PlanRowProps {
+  agreement: any;
+  user: any;
+  currentPage: any;
+  onUpdate?: () => void;
+}
+
+function PlanRow({ agreement, user, currentPage, onUpdate }: PlanRowProps) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [exemptionToEdit, setExemptionToEdit] = useState(null);
+  const [exemptionToEdit, setExemptionToEdit] = useState<any>(null);
   const [exemptionDialogOpen, setExemptionDialogOpen] = useState(false);
   const canEdit = canUserEditThisPlan({ ...agreement.plan, agreement: agreement }, user);
 
@@ -80,7 +86,7 @@ function PlanRow({ agreement, user, currentPage, onUpdate }) {
         </TableCell>
 
         <TableCell align="left">{agreement.plan?.rangeName ?? '-'}</TableCell>
-        <TableCell align="left">{agreement.clients.find((client) => client.clientTypeCode === 'A')?.name}</TableCell>
+        <TableCell align="left">{agreement.clients.find((client: any) => client.clientTypeCode === 'A')?.name}</TableCell>
 
         <TableCell align="left">
           {agreement.zone?.user
@@ -115,7 +121,7 @@ function PlanRow({ agreement, user, currentPage, onUpdate }) {
         <ExemptionDropdown
           agreementId={agreement.id}
           open={open}
-          onEditExemption={(exemption) => {
+          onEditExemption={(exemption: any) => {
             setExemptionToEdit(exemption);
             setExemptionDialogOpen(true);
           }}

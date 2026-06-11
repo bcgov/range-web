@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useMemo, useState } from 'react';
 import useSWR from 'swr';
 import { CircularProgress, TextField, Typography, Grid } from '@material-ui/core';
@@ -7,16 +6,27 @@ import { Autocomplete } from '@material-ui/lab';
 import * as API from '../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../utils';
 
-const ClientDropdown = ({ onChange, value }) => {
+interface ClientOption {
+  clientNumber: string;
+  name: string;
+  locationCodes: string[];
+}
+
+interface ClientDropdownProps {
+  onChange: (client: ClientOption | null) => void;
+  value: ClientOption | null;
+}
+
+const ClientDropdown: React.FC<ClientDropdownProps> = ({ onChange, value }) => {
   const [inputValue, setInputValue] = useState('');
 
   const {
     data: clients = [],
     error,
     isValidating,
-  } = useSWR(
+  } = useSWR<ClientOption[]>(
     `${API.SEARCH_CLIENTS}/?term=${inputValue}&groupByClientNumber=true`,
-    (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+    (key: string) => axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data),
     {
       revalidateOnFocus: false,
     },
@@ -24,7 +34,7 @@ const ClientDropdown = ({ onChange, value }) => {
 
   const debouncedSetInputValue = useMemo(() => throttle(setInputValue, 300), []);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     debouncedSetInputValue(event.target.value);
   };
 
@@ -37,22 +47,21 @@ const ClientDropdown = ({ onChange, value }) => {
       id="client-autocomplete-select"
       options={clients}
       loading={isValidating}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option: ClientOption) => option.name}
       openOnFocus
       includeInputInList
       style={{ flexGrow: 1 }}
-      onChange={(e, newValue) => {
+      onChange={(_e: any, newValue: ClientOption | null) => {
         onChange(newValue);
       }}
       clearOnEscape
       value={value}
-      renderInput={(params) => (
+      renderInput={(params: any) => (
         <TextField
           {...params}
           label="Select client"
           variant="outlined"
           onChange={handleChange}
-          multiple={false}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -64,7 +73,7 @@ const ClientDropdown = ({ onChange, value }) => {
           }}
         />
       )}
-      renderOption={(client) => {
+      renderOption={(client: ClientOption) => {
         return (
           <Grid container alignItems="center">
             <Grid item xs>

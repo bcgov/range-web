@@ -1,18 +1,34 @@
-// @ts-nocheck
 import React, { memo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Form, Checkbox as PlainCheckbox } from 'semantic-ui-react';
 import { connect } from 'formik';
 import { InfoTip } from '../../common';
 import PermissionsField, { canUserEdit } from '../../common/PermissionsField';
 import * as strings from '../../../constants/strings';
 import { INVASIVE_PLANTS } from '../../../constants/fields';
-import { Checkbox, TextArea } from 'formik-semantic-ui';
+import { Checkbox as FormikCheckbox, TextArea } from 'formik-semantic-ui';
 import { useUser } from '../../../providers/UserProvider';
 import { useEditable } from '../../../providers/EditableProvider';
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 
-const InvasivePlantChecklist = ({ namespace, invasivePlantChecklist, formik }) => {
+const Checkbox = FormikCheckbox as any;
+
+interface InvasivePlantChecklistProps {
+  namespace: string;
+  invasivePlantChecklist: {
+    equipmentAndVehiclesParking: boolean;
+    beginInUninfestedArea: boolean;
+    undercarrigesInspected: boolean;
+    revegetate: boolean;
+    other?: string;
+  };
+  formik: any;
+}
+
+const InvasivePlantChecklist: React.FC<InvasivePlantChecklistProps> = ({
+  namespace,
+  invasivePlantChecklist,
+  formik,
+}) => {
   const { equipmentAndVehiclesParking, beginInUninfestedArea, undercarrigesInspected, revegetate, other } =
     invasivePlantChecklist;
 
@@ -20,7 +36,7 @@ const InvasivePlantChecklist = ({ namespace, invasivePlantChecklist, formik }) =
   const globalIsEditable = useEditable();
 
   const user = useUser();
-  const canEdit = canUserEdit(INVASIVE_PLANTS.ITEMS, user) && globalIsEditable;
+  const canEdit = canUserEdit(INVASIVE_PLANTS.ITEMS, user as any) && globalIsEditable;
 
   return (
     <div className="rup__ip-checklist">
@@ -98,19 +114,6 @@ const InvasivePlantChecklist = ({ namespace, invasivePlantChecklist, formik }) =
       </div>
     </div>
   );
-};
-
-InvasivePlantChecklist.propTypes = {
-  namespace: PropTypes.string.isRequired,
-  invasivePlantChecklist: PropTypes.shape({
-    equipmentAndVehiclesParking: PropTypes.bool.isRequired,
-    beginInUninfestedArea: PropTypes.bool.isRequired,
-    undercarrigesInspected: PropTypes.bool.isRequired,
-    revegetate: PropTypes.bool.isRequired,
-    otherChecked: PropTypes.bool,
-    other: PropTypes.string,
-  }),
-  formik: PropTypes.object.isRequired,
 };
 
 export default memo(connect(InvasivePlantChecklist));

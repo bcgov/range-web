@@ -1,8 +1,18 @@
-// @ts-nocheck
 import { STORE_PLAN, MINISTER_ISSUE_UPDATED } from '../../constants/actionTypes';
+import { MinisterIssue, EntityMap } from '../../types';
 
-const storeMinisterIssues = (state, action) => {
-  const { ministerIssues } = action.payload.entities;
+export type MinisterIssuesState = EntityMap<MinisterIssue>;
+
+interface MinisterIssueAction {
+  type: string;
+  payload: {
+    entities?: { ministerIssues?: EntityMap<MinisterIssue> };
+    ministerIssue?: MinisterIssue;
+  };
+}
+
+const storeMinisterIssues = (state: MinisterIssuesState, action: MinisterIssueAction): MinisterIssuesState => {
+  const ministerIssues = action.payload.entities?.ministerIssues ?? {};
 
   return {
     ...state,
@@ -10,21 +20,21 @@ const storeMinisterIssues = (state, action) => {
   };
 };
 
-const updateMinisterissue = (state, action) => {
+const updateMinisterIssue = (state: MinisterIssuesState, action: MinisterIssueAction): MinisterIssuesState => {
   const { ministerIssue } = action.payload;
 
   return {
     ...state,
-    [ministerIssue.id]: ministerIssue,
+    [ministerIssue!.id]: ministerIssue!,
   };
 };
 
-const ministerIssuesReducer = (state = {}, action) => {
+const ministerIssuesReducer = (state: MinisterIssuesState = {}, action: MinisterIssueAction): MinisterIssuesState => {
   switch (action.type) {
     case STORE_PLAN:
       return storeMinisterIssues(state, action);
     case MINISTER_ISSUE_UPDATED:
-      return updateMinisterissue(state, action);
+      return updateMinisterIssue(state, action);
     default:
       return state;
   }

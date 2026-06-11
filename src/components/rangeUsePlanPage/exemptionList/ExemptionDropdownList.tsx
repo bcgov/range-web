@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -19,20 +18,32 @@ import useConfirm from '../../../providers/ConfrimationModalProvider';
 import { downloadAttachment } from '../attachments/AttachmentRow';
 import { ATTACHMENT_TYPE, EXEMPTION_STATUS } from '../../../constants/variables';
 
-const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEditExemption }) => {
-  const user = useUser();
-  const confirm = useConfirm();
-  const isAdminOrDecisionMaker = isUserDecisionMaker(user) || isUserAdmin(user);
-  const [submittingId, setSubmittingId] = useState(null);
-  const [error, setError] = useState(null);
+interface ExemptionDropdownListProps {
+  exemptions?: any[];
+  open: boolean;
+  onExemptionUpdate?: () => void;
+  onEditExemption?: (exemption: any) => void;
+}
 
-  const onDownloadClicked = async (exemption) => {
+const ExemptionDropdownList: React.FC<ExemptionDropdownListProps> = ({
+  exemptions = [],
+  open,
+  onExemptionUpdate,
+  onEditExemption,
+}) => {
+  const user = useUser();
+  const confirm = useConfirm()!;
+  const isAdminOrDecisionMaker = isUserDecisionMaker(user) || isUserAdmin(user);
+  const [submittingId, setSubmittingId] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const onDownloadClicked = async (exemption: any) => {
     await axios
       .get(API.DOWNLOAD_AGREEMENT_EXEMPTION(exemption.agreementId, exemption.id), {
         ...getAuthHeaderConfig(),
         responseType: 'blob',
       })
-      .then((response) => {
+      .then((response: any) => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -43,14 +54,14 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
         window.URL.revokeObjectURL(url);
         link.remove();
 
-        exemption.attachments.forEach((attachment) => {
+        exemption.attachments.forEach((attachment: any) => {
           downloadAttachment(attachment.id, attachment.name, ATTACHMENT_TYPE.EXEMPTION_ATTACHMENT);
         });
       });
   };
 
-  const onTransitionClicked = async (exemption, action) => {
-    const actionTexts = {
+  const onTransitionClicked = async (exemption: any, action: string) => {
+    const actionTexts: Record<string, string> = {
       approve: 'Approve',
       reject: 'Reject',
       cancel: 'Cancel',
@@ -76,7 +87,7 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
       if (onExemptionUpdate) {
         onExemptionUpdate();
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to perform action');
       console.error('Error transitioning exemption:', err);
     } finally {
@@ -113,7 +124,7 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
                         <TableCell style={{ color: 'grey', width: 175 }}>End Date</TableCell>
                         <TableCell style={{ color: 'grey', width: 175 }}>Approved By</TableCell>
                         <TableCell style={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175, align: 'left' }}>Status</TableCell>
+                        <TableCell style={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
                         <TableCell style={{ color: 'grey', width: 175 }}>Download</TableCell>
                         {isAdminOrDecisionMaker && (
                           <>
@@ -125,7 +136,7 @@ const ExemptionDropdownList = ({ exemptions = [], open, onExemptionUpdate, onEdi
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {exemptions.map((exemption, index) => {
+                      {exemptions.map((exemption: any, index: number) => {
                         return (
                           <React.Fragment key={index}>
                             <TableRow key={index} hover={true}>

@@ -1,31 +1,24 @@
-// @ts-nocheck
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import MinisterIssueBox from './MinisterIssueBox';
 
-class EditableMinisterIssues extends Component {
-  static propTypes = {
-    plan: PropTypes.shape({}).isRequired,
-    pasturesMap: PropTypes.shape({}).isRequired,
-    ministerIssuesMap: PropTypes.shape({}).isRequired,
-    references: PropTypes.shape({}).isRequired,
-  };
+interface EditableMinisterIssuesProps {
+  plan: any;
+  pasturesMap: any;
+  ministerIssuesMap: any;
+  references: any;
+}
 
-  state = {
-    activeMinisterIssueIndex: 0,
-  };
+const EditableMinisterIssues = ({ plan, pasturesMap, ministerIssuesMap, references }: EditableMinisterIssuesProps) => {
+  const [activeMinisterIssueIndex, setActiveMinisterIssueIndex] = useState(0);
 
-  onMinisterIssueClicked = (ministerIssueIndex) => () => {
-    this.setState((prevState) => {
-      const newIndex = prevState.activeMinisterIssueIndex === ministerIssueIndex ? -1 : ministerIssueIndex;
-      return {
-        activeMinisterIssueIndex: newIndex,
-      };
+  const onMinisterIssueClicked = (ministerIssueIndex: number) => () => {
+    setActiveMinisterIssueIndex((prev) => {
+      return prev === ministerIssueIndex ? -1 : ministerIssueIndex;
     });
   };
 
-  renderMinisterIssues = (ministerIssues = []) => {
+  const renderMinisterIssues = (ministerIssues: any[] = []) => {
     const isEmpty = ministerIssues.length === 0;
     return isEmpty ? (
       <div className="rup__section-not-found">None identified.</div>
@@ -35,37 +28,31 @@ class EditableMinisterIssues extends Component {
           'collaspible-boxes--empty': isEmpty,
         })}
       >
-        {ministerIssues.map(this.renderMinisterIssue)}
+        {ministerIssues.map((ministerIssue: any, ministerIssueIndex: number) => (
+          <MinisterIssueBox
+            key={ministerIssue.id}
+            ministerIssue={ministerIssue}
+            ministerIssueIndex={ministerIssueIndex}
+            activeMinisterIssueIndex={activeMinisterIssueIndex}
+            onMinisterIssueClicked={onMinisterIssueClicked}
+            pasturesMap={pasturesMap}
+            references={references}
+          />
+        ))}
       </ul>
     );
   };
 
-  renderMinisterIssue = (ministerIssue, ministerIssueIndex) => {
-    return (
-      <MinisterIssueBox
-        key={ministerIssue.id}
-        ministerIssue={ministerIssue}
-        ministerIssueIndex={ministerIssueIndex}
-        activeMinisterIssueIndex={this.state.activeMinisterIssueIndex}
-        onMinisterIssueClicked={this.onMinisterIssueClicked}
-        {...this.props}
-      />
-    );
-  };
+  const ministerIssueIds = plan && plan.ministerIssues;
+  const ministerIssues = ministerIssueIds && ministerIssueIds.map((id: any) => ministerIssuesMap[id]);
 
-  render() {
-    const { plan, ministerIssuesMap } = this.props;
-    const ministerIssueIds = plan && plan.ministerIssues;
-    const ministerIssues = ministerIssueIds && ministerIssueIds.map((id) => ministerIssuesMap[id]);
-
-    return (
-      <div className="rup__missues">
-        <div className="rup__content-title">{"Minister's Issues and Actions"}</div>
-        <div className="rup__divider" />
-        {this.renderMinisterIssues(ministerIssues)}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="rup__missues">
+      <div className="rup__content-title">{"Minister's Issues and Actions"}</div>
+      <div className="rup__divider" />
+      {renderMinisterIssues(ministerIssues)}
+    </div>
+  );
+};
 
 export default EditableMinisterIssues;

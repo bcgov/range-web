@@ -1,11 +1,13 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import moment from 'moment';
 import { SESSION_EXPIRY_WARNING_DURATION } from '../../../constants/variables';
 
-const SessionExpiryWarning = ({ onExtend }) => {
+interface SessionExpiryWarningProps {
+  onExtend: () => void;
+}
+
+const SessionExpiryWarning: React.FC<SessionExpiryWarningProps> = ({ onExtend }) => {
   const [seconds, setSeconds] = useState(SESSION_EXPIRY_WARNING_DURATION);
 
   useEffect(() => {
@@ -39,10 +41,6 @@ const SessionExpiryWarning = ({ onExtend }) => {
       </Button>
     </div>
   );
-};
-
-SessionExpiryWarning.propTypes = {
-  onExtend: PropTypes.func.isRequired,
 };
 
 export default SessionExpiryWarning;

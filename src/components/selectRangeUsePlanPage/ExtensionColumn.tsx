@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { CircularProgress, Tooltip } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import React, { useState } from 'react';
@@ -21,22 +20,28 @@ import { Button } from 'formik-semantic-ui';
 import { PLAN_EXTENSION_CONFIRMATION_QUESTION } from '../../constants/strings';
 import useConfirm from '../../providers/ConfrimationModalProvider';
 
-export default function ExtensionColumn({ user, currentPage, agreement }) {
+interface ExtensionColumnProps {
+  user: any;
+  currentPage: any;
+  agreement: any;
+}
+
+export default function ExtensionColumn({ user, currentPage, agreement }: ExtensionColumnProps) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [voting, setVoting] = useState(false);
-  const [futureDate, setFutureDate] = useState(null);
+  const [futureDate, setFutureDate] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const confirm = useConfirm();
+  const confirm = useConfirm()!;
 
-  const getPlanFutureDate = (planEndDate) => {
+  const getPlanFutureDate = (planEndDate: any) => {
     if (isNaN(Date.parse(planEndDate))) planEndDate = new Date();
     const futureEndDate = new Date(planEndDate);
     futureEndDate.setFullYear(futureEndDate.getFullYear() + 5);
     return moment(futureEndDate).format('YYYY-MM-DD');
   };
 
-  const recommendExtension = async (planId) => {
+  const recommendExtension = async (planId: any) => {
     setLoading(true);
     const response = await axios.put(API.REQUEST_EXTENSION(planId), {}, getAuthHeaderConfig());
     if (response.status === 200) {
@@ -45,7 +50,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     setLoading(false);
   };
 
-  const handleRecommend = async (planId) => {
+  const handleRecommend = async (planId: any) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('recommend'),
     });
@@ -54,9 +59,9 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
   };
 
-  const extendPlan = async (planId) => {
+  const extendPlan = async (planId: any, _futureDate?: any) => {
     setLoading(true);
-    const response = await axios.put(API.EXTEND_PLAN(planId, futureDate), {}, getAuthHeaderConfig());
+    const response = await axios.put(API.EXTEND_PLAN(planId, futureDate as any), {}, getAuthHeaderConfig());
     setLoading(false);
     navigate(`/range-use-plan/${response.data.planId}`, {
       state: {
@@ -66,12 +71,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     });
   };
 
-  const approveExtension = async (planId, extensionRequestId, pendingRequestIds) => {
+  const approveExtension = async (planId: any, extensionRequestId: any, pendingRequestIds: any[]) => {
     setVoting(true);
     try {
       await axios.put(API.APPROVE_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
       // Update local state ONLY for the pending requests associated with this user
-      const newPlanExtensionRequests = agreement.plan.planExtensionRequests.map((req) => {
+      const newPlanExtensionRequests = agreement.plan.planExtensionRequests.map((req: any) => {
         if (pendingRequestIds.includes(req.id)) {
           return { ...req, requestedExtension: true };
         }
@@ -86,7 +91,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
   };
 
-  const handleApprove = async (planId, extensionRequestId, pendingRequestIds) => {
+  const handleApprove = async (planId: any, extensionRequestId: any, pendingRequestIds: any[]) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('approve'),
     });
@@ -95,13 +100,13 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
   };
 
-  const rejectExtension = async (planId, extensionRequestId, pendingRequestIds) => {
+  const rejectExtension = async (planId: any, extensionRequestId: any, pendingRequestIds: any[]) => {
     setVoting(true);
     try {
       const response = await axios.put(API.REJECT_VOTE(planId), { extensionRequestId }, getAuthHeaderConfig());
       agreement.plan.extensionStatus = response.data.extensionStatus;
       // Update local state ONLY for the pending requests associated with this user
-      const newPlanExtensionRequests = agreement.plan.planExtensionRequests.map((req) => {
+      const newPlanExtensionRequests = agreement.plan.planExtensionRequests.map((req: any) => {
         if (pendingRequestIds?.includes(req.id)) {
           return { ...req, requestedExtension: false };
         }
@@ -115,16 +120,16 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
   };
 
-  const handleReject = async (planId, extensionRequestId, pendingRequestIds) => {
+  const handleReject = async (planId: any, extensionRequestId?: any, pendingRequestIds?: any[]) => {
     const choice = await confirm({
       contentText: PLAN_EXTENSION_CONFIRMATION_QUESTION('reject'),
     });
     if (choice) {
-      rejectExtension(planId, extensionRequestId, pendingRequestIds);
+      rejectExtension(planId, extensionRequestId, pendingRequestIds as any[]);
     }
   };
 
-  const renderExtensionForDecisionMaker = (user, agreement) => {
+  const renderExtensionForDecisionMaker = (user: any, agreement: any) => {
     if (isUserDecisionMaker(user)) {
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
@@ -206,7 +211,7 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
   };
 
-  const renderExtensionForStaff = (user, agreement) => {
+  const renderExtensionForStaff = (user: any, agreement: any) => {
     if (isUserStaff(user)) {
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES:
@@ -278,16 +283,16 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     }
   };
 
-  const renderExtensionForAgreementHolder = (user, agreement) => {
-    const extensionRequests = [];
+  const renderExtensionForAgreementHolder = (user: any, agreement: any) => {
+    const extensionRequests: any[] = [];
     if (agreement.plan?.planExtensionRequests) {
-      const ownRequests = agreement.plan.planExtensionRequests.filter((request) => request.userId === user.id);
+      const ownRequests = agreement.plan.planExtensionRequests.filter((request: any) => request.userId === user.id);
       extensionRequests.push(...ownRequests);
 
       if (user.agentOf && user.agentOf.length > 0) {
-        const agentClientIds = user.agentOf.map((agent) => agent.clientId);
+        const agentClientIds = user.agentOf.map((agent: any) => agent.clientId);
 
-        const agentExtensionRequests = agreement.plan.planExtensionRequests.filter((request) =>
+        const agentExtensionRequests = agreement.plan.planExtensionRequests.filter((request: any) =>
           agentClientIds.includes(request.clientId),
         );
         extensionRequests.push(...agentExtensionRequests);
@@ -299,12 +304,12 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
     if ((isUserAgreementHolder(user) || uniqueExtensionRequests.length > 0) && !isUserDecisionMaker(user)) {
       switch (agreement.plan?.extensionStatus) {
         case PLAN_EXTENSION_STATUS.AWAITING_VOTES: {
-          const pendingRequests = uniqueExtensionRequests.filter((req) => req.requestedExtension === null);
-          const nonPendingRequests = uniqueExtensionRequests.filter((req) => req.requestedExtension !== null);
+          const pendingRequests = uniqueExtensionRequests.filter((req: any) => req.requestedExtension === null);
+          const nonPendingRequests = uniqueExtensionRequests.filter((req: any) => req.requestedExtension !== null);
 
           if (pendingRequests.length > 0) {
             const firstPendingRequestId = pendingRequests[0].id;
-            const pendingRequestIds = pendingRequests.map((req) => req.id);
+            const pendingRequestIds = pendingRequests.map((req: any) => req.id);
             if (voting) {
               return <CircularProgress key="voting-spinner" />;
             } else {

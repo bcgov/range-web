@@ -1,7 +1,5 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Modal, Icon } from 'semantic-ui-react';
 import { getUser } from '../../../reducers/rootReducer';
 import { CONFIRMATION_OPTION, REFERENCE_KEY, AMENDMENT_TYPE } from '../../../constants/variables';
@@ -10,30 +8,41 @@ import { updateRUPConfirmation } from '../../../actionCreators/planActionCreator
 import { planUpdated, confirmationUpdated } from '../../../actions';
 import ConfirmationTabs from './tabs/ConfirmationTabs';
 
+interface AHSignatureModalProps {
+  user: any;
+  open: boolean;
+  onClose: () => void;
+  plan: any;
+  clients: any[];
+  clientAgreements: any[];
+  updateRUPConfirmation: (...args: any[]) => Promise<any>;
+  confirmationUpdated: (data: any) => void;
+  planUpdated: (data: any) => void;
+  onSuccess?: () => void;
+  references: any;
+  updateStatusAndContent: any;
+  fetchPlan: () => Promise<any>;
+}
+
+interface AHSignatureModalState {
+  isAgreed: boolean;
+  isConfirming: boolean;
+  confirmationOption: string | null;
+}
+
 // modal for an agreement holder to sign a submitted range use plan
 
-class AHSignatureModal extends Component {
-  static propTypes = {
-    user: PropTypes.shape({}).isRequired,
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    plan: PropTypes.shape({}).isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object),
-    updateRUPConfirmation: PropTypes.func.isRequired,
-    confirmationUpdated: PropTypes.func.isRequired,
-    planUpdated: PropTypes.func.isRequired,
-  };
-
+class AHSignatureModal extends Component<AHSignatureModalProps, AHSignatureModalState> {
   static defaultProps = {
     clients: [],
   };
 
-  constructor(props) {
+  constructor(props: AHSignatureModalProps) {
     super(props);
     this.state = this.getInitialState();
   }
 
-  getInitialState = () => ({
+  getInitialState = (): AHSignatureModalState => ({
     isAgreed: false,
     isConfirming: false,
     confirmationOption: null,
@@ -44,13 +53,13 @@ class AHSignatureModal extends Component {
     this.props.onClose();
   };
 
-  handleConfirmation = async (e) => {
+  handleConfirmation = async (e: React.FormEvent) => {
     e.preventDefault();
     const { updateRUPConfirmation, plan, user, clientAgreements, confirmationUpdated, planUpdated, references } =
       this.props;
 
     const onRequest = () => this.setState({ isConfirming: true });
-    const onSuccess = (data) => {
+    const onSuccess = (data: any) => {
       const { allConfirmed, plan: updatedPlan, confirmation } = data;
 
       if (allConfirmed) {
@@ -61,7 +70,7 @@ class AHSignatureModal extends Component {
       this.setState({ isConfirming: false });
       if (this.props.onSuccess) this.props.onSuccess();
     };
-    const onError = (err) => {
+    const onError = (err: any) => {
       this.setState({ isConfirming: false });
       throw err;
     };
@@ -70,16 +79,16 @@ class AHSignatureModal extends Component {
 
     const confirmed = true;
     const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-    const minorAmendmentType = amendmentTypes.find((a) => a.code === AMENDMENT_TYPE.MINOR);
+    const minorAmendmentType = amendmentTypes.find((a: any) => a.code === AMENDMENT_TYPE.MINOR);
     const isMinorAmendment = isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id;
 
     onRequest();
 
     try {
-      let data;
+      let data: any;
       for (const currUserConfirmation of currUserConfirmations) {
         if (!currUserConfirmation.confirmed) {
-          const isOwnSignature = user.clients.some((c) => c.clientNumber === currUserConfirmation.clientId);
+          const isOwnSignature = user.clients.some((c: any) => c.clientNumber === currUserConfirmation.clientId);
           const res = await updateRUPConfirmation(
             plan,
             user,
@@ -98,7 +107,7 @@ class AHSignatureModal extends Component {
     }
   };
 
-  handleSubmissionChoiceChange = (e, { value: confirmationOption }) => {
+  handleSubmissionChoiceChange = (_e: any, { value: confirmationOption }: any) => {
     if (confirmationOption === CONFIRMATION_OPTION.REQUEST) {
       this.setState({ confirmationOption, isAgreed: false });
       return;
@@ -107,7 +116,7 @@ class AHSignatureModal extends Component {
     this.setState({ confirmationOption });
   };
 
-  handleAgreeCheckBoxChange = (e, { checked }) => {
+  handleAgreeCheckBoxChange = (_e: any, { checked }: any) => {
     this.setState({ isAgreed: checked });
   };
 
@@ -140,7 +149,7 @@ class AHSignatureModal extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   user: getUser(state),
 });
 
@@ -148,4 +157,4 @@ export default connect(mapStateToProps, {
   updateRUPConfirmation,
   planUpdated,
   confirmationUpdated,
-})(AHSignatureModal);
+})(AHSignatureModal as any);

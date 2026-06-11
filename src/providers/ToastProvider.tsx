@@ -1,25 +1,59 @@
-// @ts-nocheck
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import uuid from 'uuid-v4';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
-export const ToastContext = React.createContext({});
+type ToastStatus = 'success' | 'error' | 'warning';
 
-export const useToast = () => useContext(ToastContext);
+interface ToastConfig {
+  timeout?: number;
+  content?: React.ReactNode;
+}
 
-const ToastProvider = ({ children }) => {
-  const [toasts, setToasts] = useState([]);
-  const toastsRef = useRef();
+interface Toast {
+  id: string;
+  message: string;
+  status: ToastStatus;
+  content?: React.ReactNode;
+}
+
+interface ToastContextValue {
+  addToast: (message: string, status: ToastStatus, config?: ToastConfig) => string;
+  successToast: (message: string, config?: ToastConfig) => string;
+  errorToast: (message: string, config?: ToastConfig) => string;
+  warningToast: (message: string, config?: ToastConfig) => string;
+  removeToast: (id: string) => void;
+}
+
+export const ToastContext = React.createContext<ToastContextValue>({
+  addToast: () => '',
+  successToast: () => '',
+  errorToast: () => '',
+  warningToast: () => '',
+  removeToast: () => undefined,
+});
+
+export const useToast = (): ToastContextValue => useContext(ToastContext);
+
+interface ToastProviderProps {
+  children: React.ReactNode;
+}
+
+const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const toastsRef = useRef<Toast[]>([]);
 
   useEffect(() => {
     toastsRef.current = toasts;
   }, [toasts]);
 
-  const addToast = (message, status, config = {}) => {
+  const removeToast = (id: string): void => {
+    setToasts(toastsRef.current.filter((t) => t.id !== id));
+  };
+
+  const addToast = (message: string, status: ToastStatus, config: ToastConfig = {}): string => {
     const { timeout = 3000, content } = config;
-    const id = uuid();
+    const id: string = uuid();
 
     setToasts([
       ...toastsRef.current,
@@ -38,11 +72,9 @@ const ToastProvider = ({ children }) => {
     return id;
   };
 
-  const successToast = (message, config) => addToast(message, 'success', config);
-  const errorToast = (message, config) => addToast(message, 'error', config);
-  const warningToast = (message, config) => addToast(message, 'warning', config);
-
-  const removeToast = (id) => setToasts(toastsRef.current.filter((t) => t.id !== id));
+  const successToast = (message: string, config?: ToastConfig): string => addToast(message, 'success', config);
+  const errorToast = (message: string, config?: ToastConfig): string => addToast(message, 'error', config);
+  const warningToast = (message: string, config?: ToastConfig): string => addToast(message, 'warning', config);
 
   return (
     <ToastContext.Provider
@@ -81,18 +113,6 @@ const ToastProvider = ({ children }) => {
       {children}
     </ToastContext.Provider>
   );
-};
-
-ToastProvider.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired,
-    givenName: PropTypes.string.isRequired,
-    familyName: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    roles: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  }),
-  children: PropTypes.node,
 };
 
 export default ToastProvider;

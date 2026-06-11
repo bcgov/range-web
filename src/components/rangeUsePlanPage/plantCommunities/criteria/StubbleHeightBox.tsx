@@ -1,10 +1,15 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import IndicatorPlantsForm from '../IndicatorPlantsForm';
 import { PLANT_CRITERIA } from '../../../../constants/variables';
 
-const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
+interface StubbleHeightBoxProps {
+  plantCommunity: any;
+  planId: any;
+  pastureId: any;
+  namespace: string;
+}
+
+const StubbleHeightBox: React.FC<StubbleHeightBoxProps> = ({ plantCommunity, planId, pastureId, namespace }) => {
   return (
     <div className="rup__plant-community__sh">
       <div className="rup__plant-community__sh__title">
@@ -24,13 +29,6 @@ const StubbleHeightBox = ({ plantCommunity, planId, pastureId, namespace }) => {
       />
     </div>
   );
-};
-
-StubbleHeightBox.propTypes = {
-  plantCommunity: PropTypes.shape({
-    indicatorPlants: PropTypes.arrayOf(PropTypes.object),
-  }),
-  namespace: PropTypes.string.isRequired,
 };
 
 export default StubbleHeightBox;

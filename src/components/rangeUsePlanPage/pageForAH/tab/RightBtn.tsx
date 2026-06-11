@@ -1,16 +1,15 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PrimaryButton } from '../../../common';
 
-const propTypes = {
-  onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  loading: PropTypes.bool,
-  content: PropTypes.string.isRequired,
-};
+interface RightBtnProps {
+  onClick: (...args: any[]) => void;
+  disabled?: boolean;
+  loading?: boolean;
+  content: string;
+  primary?: boolean;
+}
 
-const RightBtn = ({ onClick, disabled = false, content, loading = false }) => {
+const RightBtn: React.FC<RightBtnProps> = ({ onClick, disabled = false, content, loading = false }) => {
   return (
     <PrimaryButton
       className="rup__multi-tab__tab__btn"
@@ -23,5 +22,4 @@ const RightBtn = ({ onClick, disabled = false, content, loading = false }) => {
   );
 };
 
-RightBtn.propTypes = propTypes;
 export default RightBtn;

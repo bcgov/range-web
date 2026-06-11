@@ -1,10 +1,9 @@
-// @ts-nocheck
 import * as Yup from 'yup';
 import { moveDecimalsRight } from '../common/form/PercentField';
 
 const handleNull =
-  (defaultValue = '') =>
-  (v) =>
+  (defaultValue: any = '') =>
+  (v: any) =>
     v === null ? defaultValue : v;
 
 const RUPSchema = Yup.object().shape({
@@ -15,9 +14,9 @@ const RUPSchema = Yup.object().shape({
     .required('Required field')
     .nullable()
     .transform(handleNull())
-    .when('planStartDate', (planStartDate, schema) =>
+    .when('planStartDate', (planStartDate: any, schema: any) =>
       schema.test({
-        test: (planEndDate) => new Date(planEndDate) > new Date(planStartDate),
+        test: (planEndDate: any) => new Date(planEndDate) > new Date(planStartDate),
         message: 'Plan end date should be after start date',
       }),
     ),
@@ -25,11 +24,11 @@ const RUPSchema = Yup.object().shape({
     Yup.object().shape({
       allowableAum: Yup.number()
         .nullable()
-        .transform((v, originalValue) => (originalValue === '' ? null : v))
+        .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
         .integer('Value must be a whole number')
         .typeError('Please enter a number'),
       graceDays: Yup.number()
-        .transform((v, originalValue) => (originalValue === '' ? null : v))
+        .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
         .nullable()
         .integer('Value must be a whole number')
         .typeError('Please enter a number'),
@@ -42,7 +41,7 @@ const RUPSchema = Yup.object().shape({
         .test('whole percent', 'Value must be a whole number', (item) => {
           return item ? (moveDecimalsRight(item) % 1 === 0 ? true : false) : true;
         })
-        .transform((v, originalValue) => (originalValue === '' ? null : v))
+        .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
         .nullable()
         .typeError('Please enter a number'),
       plantCommunities: Yup.array().of(
@@ -50,25 +49,25 @@ const RUPSchema = Yup.object().shape({
           approved: Yup.bool().required(),
           aspect: Yup.string().nullable().transform(handleNull()),
           elevationId: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable(),
           notes: Yup.string().transform(handleNull()).required('Required field'),
           url: Yup.string().transform(handleNull()),
           purposeOfAction: Yup.string().required('Required field'),
           shrubUse: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable(),
           rangeReadinessMonth: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable(),
           rangeReadinessDay: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable(),
           rangeReadinessNote: Yup.string().transform(handleNull()).nullable(),
           plantCommunityActions: Yup.array().of(
             Yup.object().shape({
               actionTypeId: Yup.number()
-                .transform((v, originalValue) => (originalValue === '' ? null : v))
+                .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
                 .nullable()
                 .required('Required field'),
               details: Yup.string().nullable().required('Required field'),
@@ -84,11 +83,11 @@ const RUPSchema = Yup.object().shape({
           indicatorPlants: Yup.array().of(
             Yup.object().shape({
               plantSpeciesId: Yup.number()
-                .transform((v, originalValue) => (originalValue === '' ? null : v))
+                .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
                 .nullable()
                 .required('Required field'),
               value: Yup.number()
-                .transform((v, originalValue) => (originalValue === '' ? null : v))
+                .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
                 .nullable()
                 .required('Required field')
                 .typeError('Please enter a number'),
@@ -105,16 +104,16 @@ const RUPSchema = Yup.object().shape({
           monitoringAreas: Yup.array().of(
             Yup.object().shape({
               latitude: Yup.number()
-                .transform((v, originalValue) => (originalValue === '' ? null : v))
+                .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
                 .nullable()
                 .typeError('Please enter a number'),
               longitude: Yup.number()
-                .transform((v, originalValue) => (originalValue === '' ? null : v))
+                .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
                 .nullable()
                 .typeError('Please enter a number'),
               location: Yup.string().nullable().required('Required field'),
               rangelandHealthId: Yup.number()
-                .transform((v, originalValue) => (originalValue === '' ? null : v))
+                .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
                 .nullable(),
               purposeTypeIds: Yup.array().of(Yup.number()).required('Required field'),
             }),
@@ -129,16 +128,16 @@ const RUPSchema = Yup.object().shape({
       scheduleEntries: Yup.array().of(
         Yup.object().shape({
           dateIn: Yup.string()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .required('Date in is required'),
           dateOut: Yup.string()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .required('Date out is required')
-            .when('dateIn', (dateIn, schema) =>
+            .when('dateIn', (dateIn: any, schema: any) =>
               schema.test({
-                test: (dateOut) => {
+                test: (dateOut: any) => {
                   if (!dateIn || !dateOut) return true; // Skip test if either date is missing
                   return new Date(dateOut) > new Date(dateIn);
                 },
@@ -146,7 +145,7 @@ const RUPSchema = Yup.object().shape({
               }),
             ),
           pastureId: Yup.mixed()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .test('pasture-area-required', 'Area/Pasture is required', function (value) {
               // Always require pastureId/area - the message will be contextual
@@ -154,58 +153,58 @@ const RUPSchema = Yup.object().shape({
             }),
           // Grazing schedule fields - only required when present
           livestockCount: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .test('livestock-required', 'Livestock count is required', function (value) {
               const { livestockTypeId } = this.parent;
               // If livestockTypeId is provided, then livestockCount is required
               if (livestockTypeId != null && livestockTypeId !== '') {
-                return value != null && value !== '';
+                return value != null && value !== ('' as any);
               }
               return true;
             }),
           livestockTypeId: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .test('livestock-type-required', 'Livestock type is required', function (value) {
               const { livestockCount } = this.parent;
               // If livestockCount is provided, then livestockTypeId is required
-              if (livestockCount != null && livestockCount !== '') {
-                return value != null && value !== '';
+              if (livestockCount != null && livestockCount !== ('' as any)) {
+                return value != null && value !== ('' as any);
               }
               return true;
             }),
           graceDays: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable(),
           // Hay cutting schedule fields
           stubbleHeight: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .typeError('Please enter a number')
             .test('stubble-height-required', 'Stubble height is required', function (value) {
               const { livestockCount, livestockTypeId } = this.parent;
               // If neither livestock fields are provided, this is likely a hay cutting schedule
               if (
-                (livestockCount == null || livestockCount === '') &&
-                (livestockTypeId == null || livestockTypeId === '')
+                (livestockCount == null || livestockCount === ('' as any)) &&
+                (livestockTypeId == null || livestockTypeId === ('' as any))
               ) {
-                return value != null && value !== '';
+                return value != null && value !== ('' as any);
               }
               return true;
             }),
           tonnes: Yup.number()
-            .transform((v, originalValue) => (originalValue === '' ? null : v))
+            .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
             .typeError('Please enter a number')
             .test('tonnes-required', 'Tonnes is required', function (value) {
               const { livestockCount, livestockTypeId } = this.parent;
               // If neither livestock fields are provided, this is likely a hay cutting schedule
               if (
-                (livestockCount == null || livestockCount === '') &&
-                (livestockTypeId == null || livestockTypeId === '')
+                (livestockCount == null || livestockCount === ('' as any)) &&
+                (livestockTypeId == null || livestockTypeId === ('' as any))
               ) {
-                return value != null && value !== '';
+                return value != null && value !== ('' as any);
               }
               return true;
             }),

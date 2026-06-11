@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   STORE_PLAN,
   PLAN_UPDATED,
@@ -8,16 +7,53 @@ import {
   MANAGEMENT_CONSIDERATION_ADDED,
   MANAGEMENT_CONSIDERATION_DELETED,
 } from '../../constants/actionTypes';
+import { Plan, EntityMap } from '../../types';
 
-const initialState = {
+/**
+ * In the normalized Redux store, a Plan's relations are stored as arrays of IDs
+ * rather than the full nested objects that the Plan interface describes.
+ */
+export type NormalizedPlan = Omit<
+  Plan,
+  'pastures' | 'schedules' | 'ministerIssues' | 'planStatusHistory' | 'confirmations' | 'additionalRequirements' | 'managementConsiderations'
+> & {
+  pastures: number[];
+  schedules: number[];
+  ministerIssues: number[];
+  planStatusHistory: number[];
+  confirmations: number[];
+  additionalRequirements: number[];
+  managementConsiderations: number[];
+};
+
+export interface PlansState {
+  byId: EntityMap<NormalizedPlan>;
+  allIds: Array<string | number>;
+}
+
+interface PlansAction {
+  type: string;
+  payload: {
+    entities?: { plans?: EntityMap<NormalizedPlan> };
+    result?: string | number;
+    plan?: NormalizedPlan;
+    planId?: string | number;
+    schedules?: number[];
+    planStatusHistory?: number[];
+    managementConsideration?: { id: number };
+    considerationId?: number;
+  };
+}
+
+const initialState: PlansState = {
   byId: {},
   allIds: [],
 };
 
-const storePlan = (state, action) => {
+const storePlan = (state: PlansState, action: PlansAction): PlansState => {
   const { entities, result: planId } = action.payload;
-  const { plans: plan } = entities;
-  const handlePlanIds = (state, planId) => {
+  const plans = entities?.plans ?? {};
+  const handlePlanIds = (state: PlansState, planId: string | number): Array<string | number> => {
     if (state.allIds.find((id) => id === planId)) {
       return [...state.allIds];
     }
@@ -27,100 +63,100 @@ const storePlan = (state, action) => {
   return {
     byId: {
       ...state.byId,
-      ...plan,
+      ...plans,
     },
-    allIds: handlePlanIds(state, planId),
+    allIds: handlePlanIds(state, planId!),
   };
 };
 
-const updatePlan = (state, action) => {
+const updatePlan = (state: PlansState, action: PlansAction): PlansState => {
   const { plan } = action.payload;
   return {
     ...state,
     byId: {
       ...state.byId,
-      [plan.id]: plan,
+      [plan!.id]: plan!,
     },
   };
 };
 
-const addSchedule = (state, action) => {
+const addSchedule = (state: PlansState, action: PlansAction): PlansState => {
   const { planId, schedules } = action.payload;
-  const plan = {
-    ...state.byId[planId],
-    schedules,
+  const plan: NormalizedPlan = {
+    ...state.byId[planId!],
+    schedules: schedules!,
   };
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan,
+      [planId!]: plan,
     },
   };
 };
 
-const deleteSchedule = (state, action) => {
+const deleteSchedule = (state: PlansState, action: PlansAction): PlansState => {
   const { planId, schedules } = action.payload;
-  const plan = {
-    ...state.byId[planId],
-    schedules,
+  const plan: NormalizedPlan = {
+    ...state.byId[planId!],
+    schedules: schedules!,
   };
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan,
+      [planId!]: plan,
     },
   };
 };
 
-const addPlanStatusHistoryRecord = (state, action) => {
+const addPlanStatusHistoryRecord = (state: PlansState, action: PlansAction): PlansState => {
   const { planId, planStatusHistory } = action.payload;
-  const plan = {
-    ...state.byId[planId],
-    planStatusHistory,
+  const plan: NormalizedPlan = {
+    ...state.byId[planId!],
+    planStatusHistory: planStatusHistory!,
   };
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan,
+      [planId!]: plan,
     },
   };
 };
 
-const addManagementConsideration = (state, action) => {
+const addManagementConsideration = (state: PlansState, action: PlansAction): PlansState => {
   const { planId, managementConsideration } = action.payload;
-  const plan = { ...state.byId[planId] };
-  plan.managementConsiderations = [...plan.managementConsiderations, managementConsideration.id];
+  const plan = { ...state.byId[planId!] };
+  plan.managementConsiderations = [...plan.managementConsiderations, managementConsideration!.id];
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan,
+      [planId!]: plan,
     },
   };
 };
 
-const deleteManagementConsideration = (state, action) => {
+const deleteManagementConsideration = (state: PlansState, action: PlansAction): PlansState => {
   const { planId, considerationId } = action.payload;
-  const plan = { ...state.byId[planId] };
+  const plan = { ...state.byId[planId!] };
   plan.managementConsiderations = plan.managementConsiderations.filter((c) => c !== considerationId);
 
   return {
     ...state,
     byId: {
       ...state.byId,
-      [planId]: plan,
+      [planId!]: plan,
     },
   };
 };
 
-const plansReducer = (state = initialState, action) => {
+const plansReducer = (state: PlansState = initialState, action: PlansAction): PlansState => {
   switch (action.type) {
     case STORE_PLAN:
       return storePlan(state, action);

@@ -1,14 +1,12 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { PrimaryButton } from './index';
 
-const propTypes = {
-  message: PropTypes.string.isRequired,
-};
+interface ErrorPageProps {
+  message: string;
+}
 
-const ErrorPage = ({ message }) => {
+const ErrorPage: React.FC<ErrorPageProps> = ({ message }) => {
   return (
     <div className="error-page">
       <Icon name="warning circle" size="big" color="red" />
@@ -16,11 +14,10 @@ const ErrorPage = ({ message }) => {
         <span className="error-page__message">{message}</span>
       </div>
       <div>
-        <PrimaryButton onClick={() => window.location.reload(true)} content="Reload" />
+        <PrimaryButton onClick={() => window.location.reload()} content="Reload" />
       </div>
     </div>
   );
 };
 
-ErrorPage.propTypes = propTypes;
 export default ErrorPage;
