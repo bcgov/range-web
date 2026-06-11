@@ -6,7 +6,7 @@ interface ErrorPageProps {
   message: string;
 }
 
-const ErrorPage: React.FC<ErrorPageProps> = ({ message }) => {
+function ErrorPage({ message }: ErrorPageProps) {
   return (
     <div className="error-page">
       <Icon name="warning circle" size="big" color="red" />
@@ -18,6 +18,6 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ message }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ErrorPage;

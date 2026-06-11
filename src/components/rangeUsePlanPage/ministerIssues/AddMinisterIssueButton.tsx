@@ -7,11 +7,11 @@ interface AddMinisterIssueButtonProps {
   onSubmit: (ministerIssue: any) => void;
 }
 
-const AddMinisterIssueButton: React.FC<AddMinisterIssueButtonProps> = ({ onSubmit }) => {
+function AddMinisterIssueButton({ onSubmit }: AddMinisterIssueButtonProps) {
   const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_TYPE] || [];
 
   return <MinisterIssuePicker types={types} onSubmit={onSubmit} />;
-};
+}
 
 interface MinisterIssuePickerProps {
   types: any[];

@@ -9,7 +9,7 @@ interface CopyPlanMenuItemProps {
   handleClose: (e: any) => void;
 }
 
-const CopyPlanMenuItem: React.FC<CopyPlanMenuItemProps> = ({ planId, agreementId, menuText, handleClose }) => {
+function CopyPlanMenuItem({ planId, agreementId, menuText, handleClose }: CopyPlanMenuItemProps) {
   return (
     <MenuItem
       onClick={async (e: any) => {
@@ -21,6 +21,6 @@ const CopyPlanMenuItem: React.FC<CopyPlanMenuItemProps> = ({ planId, agreementId
       {menuText}
     </MenuItem>
   );
-};
+}
 
 export default CopyPlanMenuItem;

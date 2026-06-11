@@ -19,7 +19,7 @@ interface MonitoringAreaBoxProps {
   onCopy: () => void;
 }
 
-const MonitoringAreaBox: React.FC<MonitoringAreaBoxProps> = ({ monitoringArea, namespace, formik, onRemove, onCopy }) => {
+function MonitoringAreaBox({ monitoringArea, namespace, formik, onRemove, onCopy }: MonitoringAreaBoxProps) {
   const { latitude, location, longitude, name, purposeTypeIds, rangelandHealthId } = monitoringArea;
 
   const [removeDialogOpen, setDialogOpen] = useState(false);
@@ -183,6 +183,6 @@ const MonitoringAreaBox: React.FC<MonitoringAreaBoxProps> = ({ monitoringArea, n
       />
     </div>
   );
-};
+}
 
 export default connect(MonitoringAreaBox);

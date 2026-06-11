@@ -22,7 +22,7 @@ const initialState = {
   showConfirm: false,
 };
 
-const Import: React.FC<ImportProps> = ({ formik, onSubmit, excludedPlantCommunityId }) => {
+function Import({ formik, onSubmit, excludedPlantCommunityId }: ImportProps) {
   const [state, setState] = useState(initialState);
 
   const pastures = getIn(formik.values, 'pastures') || [];
@@ -32,7 +32,8 @@ const Import: React.FC<ImportProps> = ({ formik, onSubmit, excludedPlantCommunit
     value: pasture.id,
     text: pasture.name || `Unnamed pasture ${index + 1}`,
     key: pasture.id,
-    disabled: pasture.plantCommunities.filter((community: any) => community.id !== excludedPlantCommunityId).length === 0,
+    disabled:
+      pasture.plantCommunities.filter((community: any) => community.id !== excludedPlantCommunityId).length === 0,
     pasture,
   }));
 
@@ -147,6 +148,6 @@ const Import: React.FC<ImportProps> = ({ formik, onSubmit, excludedPlantCommunit
       />
     </>
   );
-};
+}
 
 export default connect(Import);

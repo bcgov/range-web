@@ -27,7 +27,7 @@ interface MinisterIssueBoxProps {
   onDelete: () => void;
 }
 
-const MinisterIssueBox: React.FC<MinisterIssueBoxProps> = ({
+function MinisterIssueBox({
   issue,
   ministerIssueIndex,
   activeMinisterIssueIndex,
@@ -35,7 +35,7 @@ const MinisterIssueBox: React.FC<MinisterIssueBoxProps> = ({
   namespace,
   formik,
   onDelete,
-}) => {
+}: MinisterIssueBoxProps) {
   const [toRemove, setToRemove] = useState<number | null>(null);
 
   const allPastures = getIn(formik.values, 'pastures') || [];
@@ -76,7 +76,9 @@ const MinisterIssueBox: React.FC<MinisterIssueBoxProps> = ({
             name={`${namespace}.issueTypeId`}
             component={Dropdown}
             options={typeOptions}
-            displayValue={types.find((t: any) => t.id === issueTypeId) ? types.find((t: any) => t.id === issueTypeId).name : ''}
+            displayValue={
+              types.find((t: any) => t.id === issueTypeId) ? types.find((t: any) => t.id === issueTypeId).name : ''
+            }
             fast
             fieldProps={{ required: true }}
           />
@@ -127,7 +129,9 @@ const MinisterIssueBox: React.FC<MinisterIssueBoxProps> = ({
             options={pasturesOptions}
             displayValue={oxfordComma(
               pastures.map((pasture: any) =>
-                allPastures.find((p: any) => p.id === pasture) ? allPastures.find((p: any) => p.id === pasture).name : '',
+                allPastures.find((p: any) => p.id === pasture)
+                  ? allPastures.find((p: any) => p.id === pasture).name
+                  : '',
               ),
             )}
             label="Pastures"
@@ -221,6 +225,6 @@ const MinisterIssueBox: React.FC<MinisterIssueBoxProps> = ({
       }
     />
   );
-};
+}
 
 export default connect(MinisterIssueBox);

@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmailTemplatePage: React.FC = () => {
+function EmailTemplatePage() {
   const classes = useStyles();
   const [emailTemplates, setEmailTemplates] = useState<EmailTemplate[] | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | null>(null);
@@ -165,6 +165,6 @@ const EmailTemplatePage: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default EmailTemplatePage;

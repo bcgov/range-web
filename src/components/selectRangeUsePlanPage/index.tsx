@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SelectRangeUsePlanPage: React.FC = () => {
+function SelectRangeUsePlanPage() {
   const user = useUser()!;
   const [users, setUsers] = useState<any[]>([]);
   const classes = useStyles();
@@ -398,6 +398,6 @@ const SelectRangeUsePlanPage: React.FC = () => {
       />
     </section>
   );
-};
+}
 
 export default SelectRangeUsePlanPage;

@@ -33,7 +33,7 @@ const getAgentForClient = (client: any, clientAgreements: any[]): any => {
   return clientAgreement?.agent;
 };
 
-const BasicInformation: React.FC<BasicInformationProps> = ({ plan, agreement }) => {
+function BasicInformation({ plan, agreement }: BasicInformationProps) {
   const zone = agreement && agreement.zone;
   const zoneCode = zone && zone.code;
   const district = zone && zone.district;
@@ -241,6 +241,6 @@ const BasicInformation: React.FC<BasicInformationProps> = ({ plan, agreement }) 
       </div>
     </div>
   );
-};
+}
 
 export default BasicInformation;

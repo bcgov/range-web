@@ -8,7 +8,7 @@ interface TabTemplateProps {
   isActive: boolean;
 }
 
-const TabTemplate: React.FC<TabTemplateProps> = ({ title, actions, content, isActive }) => {
+function TabTemplate({ title, actions, content, isActive }: TabTemplateProps) {
   return (
     <div
       className={classnames('rup__multi-tab', {
@@ -20,6 +20,6 @@ const TabTemplate: React.FC<TabTemplateProps> = ({ title, actions, content, isAc
       <div className="rup__multi-tab__btns">{actions}</div>
     </div>
   );
-};
+}
 
 export default TabTemplate;

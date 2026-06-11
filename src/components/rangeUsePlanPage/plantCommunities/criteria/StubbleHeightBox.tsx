@@ -9,7 +9,7 @@ interface StubbleHeightBoxProps {
   namespace: string;
 }
 
-const StubbleHeightBox: React.FC<StubbleHeightBoxProps> = ({ plantCommunity, planId, pastureId, namespace }) => {
+function StubbleHeightBox({ plantCommunity, planId, pastureId, namespace }: StubbleHeightBoxProps) {
   return (
     <div className="rup__plant-community__sh">
       <div className="rup__plant-community__sh__title">
@@ -29,6 +29,6 @@ const StubbleHeightBox: React.FC<StubbleHeightBoxProps> = ({ plantCommunity, pla
       />
     </div>
   );
-};
+}
 
 export default StubbleHeightBox;

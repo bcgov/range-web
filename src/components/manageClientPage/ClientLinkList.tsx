@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-const ClientLinkList: React.FC<ClientLinkListProps> = ({ userId }) => {
+function ClientLinkList({ userId }: ClientLinkListProps) {
   const classes = useStyles();
   const [selectedClient, setSelectedClient] = useState<ClientItem | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -299,6 +299,6 @@ const ClientLinkList: React.FC<ClientLinkListProps> = ({ userId }) => {
   }
 
   return null;
-};
+}
 
 export default ClientLinkList;

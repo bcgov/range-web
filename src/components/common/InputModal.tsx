@@ -13,13 +13,13 @@ interface InputModalProps {
   placeholder?: string;
 }
 
-const InputModal: React.FC<InputModalProps> = ({
+function InputModal({
   open = false,
   onSubmit,
   onClose,
   title = 'Enter a value',
   placeholder = 'Type a value here...',
-}) => {
+}: InputModalProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -71,6 +71,6 @@ const InputModal: React.FC<InputModalProps> = ({
       )}
     </Formik>
   );
-};
+}
 
 export default InputModal;

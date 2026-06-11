@@ -17,7 +17,7 @@ interface NewPlanButtonProps {
   agreement: any;
 }
 
-const NewPlanButton: React.FC<NewPlanButtonProps> = ({ agreement }) => {
+function NewPlanButton({ agreement }: NewPlanButtonProps) {
   const navigate = useNavigate();
   const classes = useStyles();
 
@@ -33,6 +33,6 @@ const NewPlanButton: React.FC<NewPlanButtonProps> = ({ agreement }) => {
       <Icon className={classes.icon} name="add" fitted={false} />
     </Button>
   );
-};
+}
 
 export default NewPlanButton;

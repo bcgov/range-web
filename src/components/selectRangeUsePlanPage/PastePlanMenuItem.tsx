@@ -15,14 +15,14 @@ interface PastePlanMenuItemProps {
   createReplacementPlan?: boolean;
 }
 
-const PastePlanMenuItem: React.FC<PastePlanMenuItemProps> = ({
+function PastePlanMenuItem({
   destinationAgreementId,
   destinationPlanId,
   menuText,
   confirmationPromptText,
   currentPage,
   createReplacementPlan,
-}) => {
+}: PastePlanMenuItemProps) {
   const navigate = useNavigate();
   const { errorToast } = useToast();
   const confirm = useConfirm()!;
@@ -67,6 +67,6 @@ const PastePlanMenuItem: React.FC<PastePlanMenuItemProps> = ({
       {menuText}
     </MenuItem>
   );
-};
+}
 
 export default PastePlanMenuItem;

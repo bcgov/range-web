@@ -10,7 +10,7 @@ interface RequestClarificationTabProps {
   tab: { id?: string; title?: string; back?: string; text1?: string; text2?: string };
 }
 
-const RequestClarificationTab: React.FC<RequestClarificationTabProps> = ({ currTabId, tab, onClose, handleTabChange }) => {
+function RequestClarificationTab({ currTabId, tab, onClose, handleTabChange }: RequestClarificationTabProps) {
   const { id, title, text1, text2 } = tab;
   const isActive = id === currTabId;
 
@@ -41,6 +41,6 @@ const RequestClarificationTab: React.FC<RequestClarificationTabProps> = ({ currT
       }
     />
   );
-};
+}
 
 export default RequestClarificationTab;

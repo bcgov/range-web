@@ -7,7 +7,7 @@ import { getDataFromLocalStorage as _getDataFromLocalStorage, saveDataInLocalSto
 const getDataFromLocalStorage = (key: string): any => _getDataFromLocalStorage(key);
 import { generatePKCE } from '../../utils/pkceUtils';
 
-const SignInButtons: React.FC = () => {
+function SignInButtons() {
   const openNewTab = (link: string) => window.open(link, '_blank');
 
   const onSignInButtonClick = () => {
@@ -59,6 +59,6 @@ const SignInButtons: React.FC = () => {
       />
     </>
   );
-};
+}
 
 export default SignInButtons;

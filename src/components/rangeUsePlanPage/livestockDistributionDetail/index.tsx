@@ -10,7 +10,7 @@ interface LivestockDistributionDetailProps {
   livestockDistributionDetail?: string;
 }
 
-const LivestockDistributionDetail: React.FC<LivestockDistributionDetailProps> = ({ livestockDistributionDetail }) => {
+function LivestockDistributionDetail({ livestockDistributionDetail }: LivestockDistributionDetailProps) {
   return (
     <Element name="livestockDistributionDetail" id="livestockDistributionDetail">
       <div className="rup__livestock-distribution-detail">
@@ -37,6 +37,6 @@ const LivestockDistributionDetail: React.FC<LivestockDistributionDetailProps> = 
       </div>
     </Element>
   );
-};
+}
 
 export default LivestockDistributionDetail;

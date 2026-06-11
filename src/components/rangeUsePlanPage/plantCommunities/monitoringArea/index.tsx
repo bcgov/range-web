@@ -17,7 +17,7 @@ interface MonitoringAreaListProps {
   namespace: string;
 }
 
-const MonitoringAreaList: React.FC<MonitoringAreaListProps> = ({ monitoringAreas, planId, pastureId, communityId, namespace }) => {
+function MonitoringAreaList({ monitoringAreas, planId, pastureId, communityId, namespace }: MonitoringAreaListProps) {
   const [areaToCopy, setAreaToCopy] = useState<any>();
 
   return (
@@ -83,6 +83,6 @@ const MonitoringAreaList: React.FC<MonitoringAreaListProps> = ({ monitoringAreas
       />
     </div>
   );
-};
+}
 
 export default MonitoringAreaList;

@@ -7,7 +7,7 @@ interface ErrorMessageProps {
   [key: string]: any;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, warning = false, ...rest }) => {
+function ErrorMessage({ message, warning = false, ...rest }: ErrorMessageProps) {
   return (
     <Message
       warning={warning}
@@ -21,6 +21,6 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, warning = false, .
       }
     />
   );
-};
+}
 
 export default ErrorMessage;

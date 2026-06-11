@@ -9,7 +9,7 @@ interface ViewPlanMenuItemProps {
   menuText: string;
 }
 
-const ViewPlanMenuItem: React.FC<ViewPlanMenuItemProps> = ({ planId, currentPage, menuText }) => {
+function ViewPlanMenuItem({ planId, currentPage, menuText }: ViewPlanMenuItemProps) {
   return (
     <MenuItem
       variant="outlined"
@@ -25,6 +25,6 @@ const ViewPlanMenuItem: React.FC<ViewPlanMenuItemProps> = ({ planId, currentPage
       {menuText}
     </MenuItem>
   );
-};
+}
 
 export default ViewPlanMenuItem;

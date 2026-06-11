@@ -14,7 +14,7 @@ import { SSO_IDIR_LOGIN_ENDPOINT } from '../../constants/api';
 import { generatePKCE } from '../../utils/pkceUtils';
 import { AppDispatch } from '../../configureStore';
 
-const LoginPage: React.FC = () => {
+function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -133,9 +133,9 @@ const LoginPage: React.FC = () => {
             <div className="login__paragraph-cell">
               <div className="login__paragraph5__title">Easier login with BCeID</div>
               <div className="login__paragraph5__text">
-                {APP_NAME} uses the secure BCeID for accessing, submitting and signing legal materials relating to
-                crown range agreements. Many individuals may already have a BCeID used for groundwater registration or
-                other BC Government applications. Follow the instructions at the link below to get a BCeID account .
+                {APP_NAME} uses the secure BCeID for accessing, submitting and signing legal materials relating to crown
+                range agreements. Many individuals may already have a BCeID used for groundwater registration or other
+                BC Government applications. Follow the instructions at the link below to get a BCeID account .
               </div>
               <PrimaryButton className="login__paragraph5__register-btn" inverted onClick={registerBtnClicked}>
                 Register for a BCeID
@@ -152,6 +152,6 @@ const LoginPage: React.FC = () => {
       <Footer />
     </section>
   );
-};
+}
 
 export default LoginPage;

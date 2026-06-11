@@ -18,7 +18,7 @@ import SignInErrorMessage from './SignInErrorMessage';
 import { APP_NAME } from '../../constants/strings';
 import { RootState, AppDispatch } from '../../configureStore';
 
-const SignInBox: React.FC = () => {
+function SignInBox() {
   const dispatch = useDispatch<AppDispatch>();
   const isFetchingUser = useSelector((state: RootState) => getIsFetchingUser(state));
   const errorFetchingUser = useSelector((state: RootState) => getFetchingUserErrorResponse(state));
@@ -70,12 +70,14 @@ const SignInBox: React.FC = () => {
           Learn more about BCeID.
         </a>
 
-        {errorOccuredFetchingUser && <SignInErrorMessage errorFetchingUser={errorFetchingUser} signOut={handleSignOut} />}
+        {errorOccuredFetchingUser && (
+          <SignInErrorMessage errorFetchingUser={errorFetchingUser} signOut={handleSignOut} />
+        )}
 
         {!errorOccuredFetchingUser && <SignInButtons />}
       </div>
     </Segment>
   );
-};
+}
 
 export default SignInBox;

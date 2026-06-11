@@ -11,7 +11,13 @@ interface SubmitForFeedbackTabProps {
   tab: { id: string; title: string; back: string; next: string; text1: string };
 }
 
-const SubmitForFeedbackTab: React.FC<SubmitForFeedbackTabProps> = ({ currTabId, tab, isSubmitting, handleTabChange, onSubmitClicked }) => {
+function SubmitForFeedbackTab({
+  currTabId,
+  tab,
+  isSubmitting,
+  handleTabChange,
+  onSubmitClicked,
+}: SubmitForFeedbackTabProps) {
   const { id, title, text1 } = tab;
   const isActive = id === currTabId;
 
@@ -42,6 +48,6 @@ const SubmitForFeedbackTab: React.FC<SubmitForFeedbackTabProps> = ({ currTabId, 
       content={<div>{text1}</div>}
     />
   );
-};
+}
 
 export default SubmitForFeedbackTab;

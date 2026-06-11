@@ -25,12 +25,12 @@ interface ExemptionDropdownListProps {
   onEditExemption?: (exemption: any) => void;
 }
 
-const ExemptionDropdownList: React.FC<ExemptionDropdownListProps> = ({
+function ExemptionDropdownList({
   exemptions = [],
   open,
   onExemptionUpdate,
   onEditExemption,
-}) => {
+}: ExemptionDropdownListProps) {
   const user = useUser();
   const confirm = useConfirm()!;
   const isAdminOrDecisionMaker = isUserDecisionMaker(user) || isUserAdmin(user);
@@ -261,6 +261,6 @@ const ExemptionDropdownList: React.FC<ExemptionDropdownListProps> = ({
       </TableCell>
     </TableRow>
   );
-};
+}
 
 export default ExemptionDropdownList;

@@ -248,7 +248,7 @@ interface StatusMultiSelectProps {
   selectedStatusCodes: any[];
 }
 
-const StatusMultiSelect: React.FC<StatusMultiSelectProps> = ({ onStatusCodeChange, selectedStatusCodes }) => {
+function StatusMultiSelect({ onStatusCodeChange, selectedStatusCodes }: StatusMultiSelectProps) {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const references: any = useReferences();
@@ -299,14 +299,14 @@ const StatusMultiSelect: React.FC<StatusMultiSelectProps> = ({ onStatusCodeChang
       </Select>
     </FormControl>
   );
-};
+}
 
 interface ExemptionStatusMultiSelectProps {
   onStatusCodeChange: (codes: any) => void;
   selectedStatusCodes: any[];
 }
 
-const ExemptionStatusMultiSelect: React.FC<ExemptionStatusMultiSelectProps> = ({ onStatusCodeChange, selectedStatusCodes }) => {
+function ExemptionStatusMultiSelect({ onStatusCodeChange, selectedStatusCodes }: ExemptionStatusMultiSelectProps) {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const references: any = useReferences();
@@ -363,14 +363,14 @@ const ExemptionStatusMultiSelect: React.FC<ExemptionStatusMultiSelectProps> = ({
       </Select>
     </FormControl>
   );
-};
+}
 
 interface UsageStatusMultiSelectProps {
   onUsageStatusChange: (statuses: any) => void;
   selectedUsageStatuses: any[];
 }
 
-const UsageStatusMultiSelect: React.FC<UsageStatusMultiSelectProps> = ({ onUsageStatusChange, selectedUsageStatuses }) => {
+function UsageStatusMultiSelect({ onUsageStatusChange, selectedUsageStatuses }: UsageStatusMultiSelectProps) {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -428,7 +428,7 @@ const UsageStatusMultiSelect: React.FC<UsageStatusMultiSelectProps> = ({ onUsage
       </Select>
     </FormControl>
   );
-};
+}
 
 export const useStyles = makeStyles((theme: any) => ({
   root: {

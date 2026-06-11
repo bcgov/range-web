@@ -12,7 +12,7 @@ interface ConditionsProps {
   plan: any;
 }
 
-const Conditions: React.FC<ConditionsProps> = ({ plan }) => {
+function Conditions({ plan }: ConditionsProps) {
   const user = useUser();
   const { conditions = '', proposedConditions = '' } = plan || {};
 
@@ -69,6 +69,6 @@ const Conditions: React.FC<ConditionsProps> = ({ plan }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Conditions;

@@ -10,19 +10,19 @@ interface SortableTableHeaderCellProps {
   noSort?: boolean;
 }
 
-const SortableTableHeaderCell: React.FC<SortableTableHeaderCellProps> = ({
+function SortableTableHeaderCell({
   column,
   children,
   currentSortBy,
   currentSortOrder,
   onClick,
   noSort = false,
-}) => {
+}: SortableTableHeaderCellProps) {
   if (noSort) return <TableHeaderCell className="no-sort-tableheader">{children}</TableHeaderCell>;
   return (
     <TableHeaderCell sorted={currentSortBy === column ? currentSortOrder : undefined} onClick={() => onClick(column)}>
       {children}
     </TableHeaderCell>
   );
-};
+}
 export default SortableTableHeaderCell;

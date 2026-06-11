@@ -13,7 +13,7 @@ interface PlanTableRowProps {
   plan: any;
 }
 
-const PlanTableRow: React.FC<PlanTableRowProps> = ({ plan }) => {
+function PlanTableRow({ plan }: PlanTableRowProps) {
   const user = useUser()!;
   const references: any = useReferences();
   const { page } = useParams<{ page?: string }>();
@@ -53,6 +53,6 @@ const PlanTableRow: React.FC<PlanTableRowProps> = ({ plan }) => {
       </div>
     </div>
   );
-};
+}
 
 export default PlanTableRow;

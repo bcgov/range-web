@@ -5,7 +5,7 @@ interface AddMonitoringAreaButtonProps {
   onClick: () => void;
 }
 
-const AddMonitoringAreaButton: React.FC<AddMonitoringAreaButtonProps> = ({ onClick }) => {
+function AddMonitoringAreaButton({ onClick }: AddMonitoringAreaButtonProps) {
   return (
     <>
       <Button onClick={onClick} primary type="button" className="icon labeled rup__plant-communities__add-button">
@@ -14,6 +14,6 @@ const AddMonitoringAreaButton: React.FC<AddMonitoringAreaButtonProps> = ({ onCli
       </Button>
     </>
   );
-};
+}
 
 export default AddMonitoringAreaButton;

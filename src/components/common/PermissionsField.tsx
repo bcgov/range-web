@@ -30,7 +30,7 @@ interface PermissionsFieldProps {
   [key: string]: any;
 }
 
-const PermissionsField: React.FC<PermissionsFieldProps> = ({
+function PermissionsField({
   permission,
   displayValue,
   component: Component = Input,
@@ -39,7 +39,7 @@ const PermissionsField: React.FC<PermissionsFieldProps> = ({
   notProvided,
   displayClassName,
   ...props
-}) => {
+}: PermissionsFieldProps) {
   const user = useUser();
   const globalIsEditable = useEditable();
 
@@ -76,7 +76,7 @@ const PermissionsField: React.FC<PermissionsFieldProps> = ({
       />
     </Form.Field>
   );
-};
+}
 
 interface IfEditableProps {
   children: React.ReactNode;
@@ -85,7 +85,7 @@ interface IfEditableProps {
   any?: boolean;
 }
 
-export const IfEditable: React.FC<IfEditableProps> = ({ children, permission, invert, any: anyPerm = false }) => {
+export function IfEditable({ children, permission, invert, any: anyPerm = false }: IfEditableProps) {
   const user = useUser();
   const globalIsEditable = useEditable();
 
@@ -101,6 +101,6 @@ export const IfEditable: React.FC<IfEditableProps> = ({ children, permission, in
   if (!invert && canEdit) return <>{children}</>;
   if (invert && !canEdit) return <>{children}</>;
   return null;
-};
+}
 
 export default PermissionsField;
