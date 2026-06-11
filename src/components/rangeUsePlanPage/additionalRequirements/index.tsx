@@ -15,7 +15,7 @@ interface AdditionalRequirementsProps {
   planId?: any;
 }
 
-const AdditionalRequirements: React.FC<AdditionalRequirementsProps> = ({ additionalRequirements, planId: _planId }) => {
+function AdditionalRequirements({ additionalRequirements, planId: _planId }: AdditionalRequirementsProps) {
   const [indexToRemove, setIndexToRemove] = useState<number | null>(null);
 
   return (
@@ -92,6 +92,6 @@ const AdditionalRequirements: React.FC<AdditionalRequirementsProps> = ({ additio
       )}
     />
   );
-};
+}
 
 export default AdditionalRequirements;

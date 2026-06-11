@@ -8,11 +8,11 @@ interface AddPlantCommunityButtonProps {
   onSubmit: (plantCommunity: any) => void;
 }
 
-const AddPlantCommunityButton: React.FC<AddPlantCommunityButtonProps> = ({ onSubmit }) => {
+function AddPlantCommunityButton({ onSubmit }: AddPlantCommunityButtonProps) {
   const types = (useReferences() as any)[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
 
   return <PlantCommunityPicker onSubmit={onSubmit} types={types} />;
-};
+}
 
 interface PlantCommunityPickerProps {
   types: any[];

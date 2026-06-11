@@ -21,7 +21,7 @@ interface IndicatorPlantsFormProps {
   fast?: boolean;
 }
 
-const IndicatorPlantsForm: React.FC<IndicatorPlantsFormProps> = ({
+function IndicatorPlantsForm({
   indicatorPlants,
   valueLabel,
   valueType,
@@ -31,7 +31,7 @@ const IndicatorPlantsForm: React.FC<IndicatorPlantsFormProps> = ({
   communityId,
   namespace,
   formik,
-}) => {
+}: IndicatorPlantsFormProps) {
   const [toRemove, setToRemove] = useState<number | undefined>();
   const [removeDialogOpen, setDialogOpen] = useState(false);
 
@@ -113,6 +113,6 @@ const IndicatorPlantsForm: React.FC<IndicatorPlantsFormProps> = ({
       />
     </>
   );
-};
+}
 
 export default connect(IndicatorPlantsForm);

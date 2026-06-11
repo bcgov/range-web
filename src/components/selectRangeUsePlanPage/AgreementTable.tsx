@@ -16,7 +16,7 @@ interface AgreementTableProps {
   onPageChange: (event: any, data: any) => void;
 }
 
-const AgreementTable: React.FC<AgreementTableProps> = ({ agreements, loading, currentPage, totalPages, onPageChange }) => {
+function AgreementTable({ agreements, loading, currentPage, totalPages, onPageChange }: AgreementTableProps) {
   const [activeId, setActiveId] = useQueryParam('selected', StringParam);
 
   const [currentAgreements, setCurrentAgreements] = useState<any[]>([]);
@@ -91,6 +91,6 @@ const AgreementTable: React.FC<AgreementTableProps> = ({ agreements, loading, cu
       </div>
     </Segment>
   );
-};
+}
 
 export default AgreementTable;

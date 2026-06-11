@@ -9,7 +9,7 @@ import { extendSession } from '../../actionCreators';
 import SessionExpiryWarning from '../common/SessionExpiryWarning/SessionExpiryWarning';
 import { RootState, AppDispatch } from '../../configureStore';
 
-const Toasts: React.FC = () => {
+function Toasts() {
   const dispatch = useDispatch<AppDispatch>();
   const toastsMap = useSelector((state: RootState) => getToastsMap(state));
 
@@ -34,7 +34,11 @@ const Toasts: React.FC = () => {
           {success && <Icon name="check circle" size="large" />}
           {!success && <Icon name="warning circle" size="large" />}
         </div>
-        {isCountdown ? <SessionExpiryWarning onExtend={handleExtendSession} /> : <div className="toast__content">{text}</div>}
+        {isCountdown ? (
+          <SessionExpiryWarning onExtend={handleExtendSession} />
+        ) : (
+          <div className="toast__content">{text}</div>
+        )}
         <button className="toast__dismiss" onClick={handleRemoveToast(toast)}>
           <Icon name="times" size="small" />
         </button>
@@ -45,6 +49,6 @@ const Toasts: React.FC = () => {
   const toasts = getObjValues(toastsMap);
 
   return <section className="toasts">{toasts.map(renderToast)}</section>;
-};
+}
 
 export default Toasts;

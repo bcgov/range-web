@@ -16,7 +16,7 @@ interface ManagementConsiderationsProps {
   managementConsiderations: any[];
 }
 
-const ManagementConsiderations: React.FC<ManagementConsiderationsProps> = ({ planId, managementConsiderations }) => {
+function ManagementConsiderations({ planId, managementConsiderations }: ManagementConsiderationsProps) {
   const references = useReferences();
   const considerTypes = (references as any)[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
   const considerTypeOptions = considerTypes.map((ct: any) => ({
@@ -105,6 +105,6 @@ const ManagementConsiderations: React.FC<ManagementConsiderationsProps> = ({ pla
       )}
     />
   );
-};
+}
 
 export default ManagementConsiderations;

@@ -13,12 +13,12 @@ interface AdditionalRequirementRowProps {
   onCopy: () => void;
 }
 
-const AdditionalRequirementRow: React.FC<AdditionalRequirementRowProps> = ({
+function AdditionalRequirementRow({
   additionalRequirement,
   namespace,
   onDelete,
   onCopy,
-}) => {
+}: AdditionalRequirementRowProps) {
   const references = useReferences();
 
   const categories = (references as any)[REFERENCE_KEY.ADDITIONAL_REQUIREMENT_CATEGORY];
@@ -109,6 +109,6 @@ const AdditionalRequirementRow: React.FC<AdditionalRequirementRowProps> = ({
       </IfEditable>
     </div>
   );
-};
+}
 
 export default React.memo(AdditionalRequirementRow);

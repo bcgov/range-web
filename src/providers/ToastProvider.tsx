@@ -39,7 +39,7 @@ interface ToastProviderProps {
   children: React.ReactNode;
 }
 
-const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
+function ToastProvider({ children }: ToastProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const toastsRef = useRef<Toast[]>([]);
 
@@ -113,6 +113,6 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
       {children}
     </ToastContext.Provider>
   );
-};
+}
 
 export default ToastProvider;

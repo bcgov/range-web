@@ -13,9 +13,9 @@ interface UserProviderProps {
   children: React.ReactNode;
 }
 
-const UserProvider: React.FC<UserProviderProps> = ({ user, children }) => {
+function UserProvider({ user, children }: UserProviderProps) {
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
-};
+}
 
 // Just take user from redux store and make it accessible via UserContext for now
 // Eventually handle retrieving and storing the user in this component w/o redux

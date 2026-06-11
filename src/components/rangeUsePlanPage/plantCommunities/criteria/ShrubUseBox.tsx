@@ -10,7 +10,7 @@ interface ShrubUseBoxProps {
   namespace: string;
 }
 
-const ShrubUseBox: React.FC<ShrubUseBoxProps> = ({ plantCommunity, namespace }) => {
+function ShrubUseBox({ plantCommunity, namespace }: ShrubUseBoxProps) {
   return (
     <div className="rup__plant-community__su">
       <div className="rup__plant-community__su__title">
@@ -29,6 +29,6 @@ const ShrubUseBox: React.FC<ShrubUseBoxProps> = ({ plantCommunity, namespace }) 
       />
     </div>
   );
-};
+}
 
 export default ShrubUseBox;

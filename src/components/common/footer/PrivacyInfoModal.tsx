@@ -13,7 +13,7 @@ interface PrivacyInfoModalProps {
   openPiaModal: () => void;
 }
 
-const PrivacyInfoModal: React.FC<PrivacyInfoModalProps> = ({ closePiaModal, isModalOpen }) => {
+function PrivacyInfoModal({ closePiaModal, isModalOpen }: PrivacyInfoModalProps) {
   return (
     <Modal dimmer="blurring" closeIcon onClose={closePiaModal} open={isModalOpen} size="small">
       <Modal.Content>
@@ -32,8 +32,8 @@ const PrivacyInfoModal: React.FC<PrivacyInfoModalProps> = ({ closePiaModal, isMo
             </div>
             <div className="privacy-info__space" />
             <div>
-              For more information regarding the collection, use, and/or disclosure of your personal information,
-              please contact MyRangeBC Administrator at:
+              For more information regarding the collection, use, and/or disclosure of your personal information, please
+              contact MyRangeBC Administrator at:
             </div>
             <div className="privacy-info__space" />
             <div>Email: myrangebc@gov.bc.ca</div>
@@ -65,7 +65,7 @@ const PrivacyInfoModal: React.FC<PrivacyInfoModalProps> = ({ closePiaModal, isMo
       </Modal.Content>
     </Modal>
   );
-};
+}
 
 const mapStateToProps = (state: RootState) => ({
   isModalOpen: getIsPiaModalOpen(state),

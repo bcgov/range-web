@@ -37,7 +37,7 @@ interface PlantCommunityBoxProps {
   onDelete: () => void;
 }
 
-const PlantCommunityBox: React.FC<PlantCommunityBoxProps> = ({
+function PlantCommunityBox({
   plantCommunity,
   activeIndex,
   index,
@@ -47,7 +47,7 @@ const PlantCommunityBox: React.FC<PlantCommunityBoxProps> = ({
   namespace,
   formik,
   onDelete,
-}) => {
+}: PlantCommunityBoxProps) {
   const {
     name,
     plantCommunityActions,
@@ -379,6 +379,6 @@ const PlantCommunityBox: React.FC<PlantCommunityBoxProps> = ({
       }
     />
   );
-};
+}
 
 export default connect(PlantCommunityBox);

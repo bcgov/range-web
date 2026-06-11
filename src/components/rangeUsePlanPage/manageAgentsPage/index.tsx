@@ -55,7 +55,7 @@ interface ManageAgentsPageProps {
   };
 }
 
-const ManageAgentsPage: React.FC<ManageAgentsPageProps> = ({ match }) => {
+function ManageAgentsPage({ match }: ManageAgentsPageProps) {
   const classes = useStyles();
   const [clientAgreements, setClientAgreements] = useState<any[] | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -203,6 +203,6 @@ const ManageAgentsPage: React.FC<ManageAgentsPageProps> = ({ match }) => {
   }
 
   return <Loading />;
-};
+}
 
 export default ManageAgentsPage;

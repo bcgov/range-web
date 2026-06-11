@@ -18,7 +18,7 @@ interface AHConfirmationListProps {
   clientAgreements?: any[];
 }
 
-const AHConfirmationList: React.FC<AHConfirmationListProps> = ({ user, clients, plan, clientAgreements }) => {
+function AHConfirmationList({ user, clients, plan, clientAgreements }: AHConfirmationListProps) {
   const renderConfirmation = (client: any, confirmation: any) => {
     const { confirmed, updatedAt } = confirmation || {};
     const confirmationDate = confirmed ? formatDateFromServer(updatedAt) : AWAITING_CONFIRMATION;
@@ -87,6 +87,6 @@ const AHConfirmationList: React.FC<AHConfirmationListProps> = ({ user, clients, 
   }
 
   return <div style={{ width: '100%' }}>{confirmationList}</div>;
-};
+}
 
 export default AHConfirmationList;

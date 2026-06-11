@@ -8,7 +8,7 @@ interface SignInErrorMessageProps {
   signOut: () => void;
 }
 
-const SignInErrorMessage: React.FC<SignInErrorMessageProps> = ({ errorFetchingUser: errResponse, signOut }) => {
+function SignInErrorMessage({ errorFetchingUser: errResponse, signOut }: SignInErrorMessageProps) {
   const onLogoutBtnClick = () => {
     signOut();
     signOutFromSSOAndSiteMinder();
@@ -37,6 +37,6 @@ const SignInErrorMessage: React.FC<SignInErrorMessageProps> = ({ errorFetchingUs
       />
     </div>
   );
-};
+}
 
 export default SignInErrorMessage;

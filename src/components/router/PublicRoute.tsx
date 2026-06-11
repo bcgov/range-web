@@ -8,11 +8,11 @@ interface PublicRouteProps {
   user: User | undefined;
 }
 
-const PublicRoute: React.FC<PublicRouteProps> = ({ component: Component, user }) => {
+function PublicRoute({ component: Component, user }: PublicRouteProps) {
   if (user) {
     return <Navigate to={HOME} replace />;
   }
   return <Component />;
-};
+}
 
 export default PublicRoute;

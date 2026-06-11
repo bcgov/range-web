@@ -10,14 +10,14 @@ interface LoadingProps {
   containerProps?: Record<string, any>;
 }
 
-const Loading: React.FC<LoadingProps> = ({
+function Loading({
   size = 'large',
   active = true,
   inverted = true,
   message = '',
   onlySpinner = false,
   containerProps,
-}) => {
+}: LoadingProps) {
   if (onlySpinner) {
     return (
       <div className="loading-spinner__container" {...containerProps}>
@@ -31,6 +31,6 @@ const Loading: React.FC<LoadingProps> = ({
       <Loader size={size} content={message} />
     </Dimmer>
   );
-};
+}
 
 export default Loading;

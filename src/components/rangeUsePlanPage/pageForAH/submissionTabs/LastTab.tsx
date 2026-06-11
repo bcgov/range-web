@@ -8,7 +8,7 @@ interface LastTabProps {
   tab: { id: string; title: string; text1?: string; text2?: string };
 }
 
-const LastTab: React.FC<LastTabProps> = ({ currTabId, tab, onClose }) => {
+function LastTab({ currTabId, tab, onClose }: LastTabProps) {
   const { id, title, text1, text2 } = tab;
   const isActive = id === currTabId;
 
@@ -25,6 +25,6 @@ const LastTab: React.FC<LastTabProps> = ({ currTabId, tab, onClose }) => {
       <RightBtn onClick={onClose} content="Ok" />
     </div>
   );
-};
+}
 
 export default LastTab;

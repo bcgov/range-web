@@ -16,7 +16,7 @@ interface RangeReadinessBoxProps {
   namespace: string;
 }
 
-const RangeReadinessBox: React.FC<RangeReadinessBoxProps> = ({ plantCommunity, planId, pastureId, namespace }) => {
+function RangeReadinessBox({ plantCommunity, planId, pastureId, namespace }: RangeReadinessBoxProps) {
   const { rangeReadinessMonth, rangeReadinessDay, rangeReadinessNote } = plantCommunity;
 
   return (
@@ -59,6 +59,6 @@ const RangeReadinessBox: React.FC<RangeReadinessBoxProps> = ({ plantCommunity, p
       />
     </div>
   );
-};
+}
 
 export default RangeReadinessBox;

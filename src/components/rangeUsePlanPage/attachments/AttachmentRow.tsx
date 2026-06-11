@@ -46,7 +46,7 @@ interface AttachmentRowProps {
   fileType: string;
 }
 
-const AttachmentRow: React.FC<AttachmentRowProps> = ({
+function AttachmentRow({
   attachment,
   index,
   onDelete,
@@ -54,7 +54,7 @@ const AttachmentRow: React.FC<AttachmentRowProps> = ({
   isUpdating,
   error,
   fileType,
-}) => {
+}: AttachmentRowProps) {
   const [isDownloading, setDownloading] = useState(false);
   const [errorDownloading, setErrorDownloading] = useState<any>();
   const { values } = useFormikContext<any>();
@@ -130,6 +130,6 @@ const AttachmentRow: React.FC<AttachmentRowProps> = ({
       {error && <span className="sui-error-message rup__attachments__error">{error}</span>}
     </div>
   );
-};
+}
 
 export default AttachmentRow;

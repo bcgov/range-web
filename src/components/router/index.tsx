@@ -41,7 +41,7 @@ const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'));
 const AssignRolesAndDistricts = LoadableComponent(() => import('../assignRolesAndDistrictsPage'));
 const PDFView = LoadableComponent(() => import('../rangeUsePlanPage/pdf/PDFView'));
 
-const Router: React.FC = () => {
+function Router() {
   const user = useUser();
 
   return (
@@ -103,6 +103,6 @@ const Router: React.FC = () => {
       </BrowserRouter>
     </ErrorBoundary>
   );
-};
+}
 
 export default Router;

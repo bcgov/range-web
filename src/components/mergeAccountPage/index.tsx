@@ -58,7 +58,7 @@ const columns: GridColDef[] = [
   { field: 'clientNumber', headerName: 'Client Number', width: 150 },
 ];
 
-const MergeAccountPage: React.FC = () => {
+function MergeAccountPage() {
   const classes = useStyles();
 
   const [destinationAccount, setDestinationAccountId] = useState<UserOption | null>(null);
@@ -200,6 +200,6 @@ const MergeAccountPage: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default MergeAccountPage;

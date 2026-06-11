@@ -9,8 +9,8 @@ interface EditableProviderProps {
   editable: boolean;
 }
 
-const EditableProvider: React.FC<EditableProviderProps> = ({ children, editable }) => {
+function EditableProvider({ children, editable }: EditableProviderProps) {
   return <EditableContext.Provider value={editable}>{children}</EditableContext.Provider>;
-};
+}
 
 export default EditableProvider;

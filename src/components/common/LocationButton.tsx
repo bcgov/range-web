@@ -7,7 +7,7 @@ interface LocationButtonProps {
   [key: string]: any;
 }
 
-const LocationButton: React.FC<LocationButtonProps> = ({ children, onLocation, ...props }) => {
+function LocationButton({ children, onLocation, ...props }: LocationButtonProps) {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -30,6 +30,6 @@ const LocationButton: React.FC<LocationButtonProps> = ({ children, onLocation, .
       {children}
     </Form.Button>
   );
-};
+}
 
 export default LocationButton;

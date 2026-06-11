@@ -36,7 +36,7 @@ import EnvironmentBanner from './common/EnvironmentBanner';
 
 const store = configureStore();
 
-const App: React.FC = () => {
+function App() {
   return (
     <SWRConfigComponent
       value={{
@@ -66,6 +66,6 @@ const App: React.FC = () => {
       </Provider>
     </SWRConfigComponent>
   );
-};
+}
 
 export default App;

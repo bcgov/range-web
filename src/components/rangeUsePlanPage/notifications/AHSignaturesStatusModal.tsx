@@ -9,7 +9,7 @@ interface AHSignaturesStatusModalProps {
   clientAgreements?: any;
 }
 
-const AHSignaturesStatusModal: React.FC<AHSignaturesStatusModalProps> = ({ plan, user, clientAgreements }) => {
+function AHSignaturesStatusModal({ plan, user, clientAgreements }: AHSignaturesStatusModalProps) {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
@@ -56,6 +56,6 @@ const AHSignaturesStatusModal: React.FC<AHSignaturesStatusModalProps> = ({ plan,
       </div>
     </>
   );
-};
+}
 
 export default AHSignaturesStatusModal;

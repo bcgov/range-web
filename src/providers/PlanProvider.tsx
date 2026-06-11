@@ -39,7 +39,7 @@ interface PlanProviderProps {
   children: React.ReactNode;
 }
 
-export const PlanProvider: React.FC<PlanProviderProps> = ({ children }) => {
+export function PlanProvider({ children }: PlanProviderProps) {
   const [currentPlanId, setCurrentPlanId] = useState<string | number | null>(null);
   const [currentPlan, setCurrentPlan] = useState<unknown>(null);
   const [isFetchingPlan, setFetchingPlan] = useState<boolean>(false);
@@ -132,6 +132,6 @@ export const PlanProvider: React.FC<PlanProviderProps> = ({ children }) => {
       {children}
     </PlanContext.Provider>
   );
-};
+}
 
 export default PlanProvider;

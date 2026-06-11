@@ -10,7 +10,7 @@ interface NotificationsProps {
   [key: string]: any;
 }
 
-const Notifications: React.FC<NotificationsProps> = (props) => {
+function Notifications(props: NotificationsProps) {
   const { plan, planTypeDescription = '' } = props;
   const user = useUser();
 
@@ -32,6 +32,6 @@ const Notifications: React.FC<NotificationsProps> = (props) => {
       {isStatusAwaitingConfirmation(status) && <AHSignaturesStatusModal {...props} user={user} />}
     </div>
   );
-};
+}
 
 export default Notifications;

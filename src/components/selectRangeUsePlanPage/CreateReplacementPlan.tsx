@@ -8,7 +8,7 @@ interface CreateReplacementPlanProps {
   planId: any;
 }
 
-const CreateReplacementPlan: React.FC<CreateReplacementPlanProps> = ({ planId }) => {
+function CreateReplacementPlan({ planId }: CreateReplacementPlanProps) {
   const navigate = useNavigate();
   return (
     <MenuItem
@@ -21,6 +21,6 @@ const CreateReplacementPlan: React.FC<CreateReplacementPlanProps> = ({ planId })
       Create Replacement Plan
     </MenuItem>
   );
-};
+}
 
 export default CreateReplacementPlan;

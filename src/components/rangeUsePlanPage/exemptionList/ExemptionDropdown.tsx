@@ -12,7 +12,7 @@ interface ExemptionDropdownProps {
   onUpdate?: () => void;
 }
 
-const ExemptionDropdown: React.FC<ExemptionDropdownProps> = ({ agreementId, open, onEditExemption, onUpdate }) => {
+function ExemptionDropdown({ agreementId, open, onEditExemption, onUpdate }: ExemptionDropdownProps) {
   const endpoint = API.GET_AGREEMENT_EXEMPTIONS(agreementId);
 
   const { data, error, isValidating, mutate } = useSWR(
@@ -56,6 +56,6 @@ const ExemptionDropdown: React.FC<ExemptionDropdownProps> = ({ agreementId, open
       onEditExemption={onEditExemption}
     />
   );
-};
+}
 
 export default ExemptionDropdown;

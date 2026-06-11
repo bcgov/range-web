@@ -8,7 +8,7 @@ interface AddMinisterIssueActionButtonProps {
   onSubmit: (action: any) => void;
 }
 
-const AddMinisterIssueActionButton: React.FC<AddMinisterIssueActionButtonProps> = ({ onSubmit }) => {
+function AddMinisterIssueActionButton({ onSubmit }: AddMinisterIssueActionButtonProps) {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
@@ -58,6 +58,6 @@ const AddMinisterIssueActionButton: React.FC<AddMinisterIssueActionButtonProps> 
       />
     </>
   );
-};
+}
 
 export default AddMinisterIssueActionButton;

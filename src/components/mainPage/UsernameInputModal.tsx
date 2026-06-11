@@ -11,7 +11,7 @@ import { updateUser } from '../../actionCreators';
 import { UPDATE_USER_ERROR, APP_NAME } from '../../constants/strings';
 import { RootState, AppDispatch } from '../../configureStore';
 
-const UsernameInputModal: React.FC = () => {
+function UsernameInputModal() {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => getUser(state));
   const isUpdatingUser = useSelector((state: RootState) => getIsUpdatingUser(state));
@@ -124,6 +124,6 @@ const UsernameInputModal: React.FC = () => {
       </Segment>
     </Modal>
   );
-};
+}
 
 export default UsernameInputModal;

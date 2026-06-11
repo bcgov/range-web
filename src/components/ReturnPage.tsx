@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { parseQuery, getTokenFromSSO, saveAuthDataInLocal, getDataFromLocalStorage as _getDataFromLocalStorage } from '../utils';
+import {
+  parseQuery,
+  getTokenFromSSO,
+  saveAuthDataInLocal,
+  getDataFromLocalStorage as _getDataFromLocalStorage,
+} from '../utils';
 
 const getDataFromLocalStorage = (key: string): any => _getDataFromLocalStorage(key);
 import { REDIRECTING } from '../constants/strings';
 import { LOCAL_STORAGE_KEY, RETURN_PAGE_TYPE } from '../constants/variables';
 import { SSO_LOGOUT_ENDPOINT } from '../constants/api';
 
-const ReturnPage: React.FC = () => {
+function ReturnPage() {
   const location = useLocation();
 
   useEffect(() => {
@@ -43,6 +48,6 @@ const ReturnPage: React.FC = () => {
   }, [location.search]);
 
   return <section>{REDIRECTING}</section>;
-};
+}
 
 export default ReturnPage;

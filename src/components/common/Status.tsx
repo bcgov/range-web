@@ -137,7 +137,7 @@ export const translateStatusBasedOnUser = (status: PlanStatus, user: User) => {
   return { modifier, statusName };
 };
 
-const Status: React.FC<StatusProps> = ({ status = {}, className = '', style = {}, user, isAmendment = false }) => {
+function Status({ status = {}, className = '', style = {}, user, isAmendment = false }: StatusProps) {
   const { modifier, statusName } = translateStatusBasedOnUser(status, user);
 
   return (
@@ -147,6 +147,6 @@ const Status: React.FC<StatusProps> = ({ status = {}, className = '', style = {}
       {isAmendment && <span className="status__amendment-label">Amendment</span>}
     </div>
   );
-};
+}
 
 export default Status;

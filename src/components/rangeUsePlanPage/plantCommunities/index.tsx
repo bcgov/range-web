@@ -19,7 +19,7 @@ interface PlantCommunitiesProps {
   pastureId: any;
 }
 
-const PlantCommunities: React.FC<PlantCommunitiesProps> = ({ plantCommunities = [], namespace, planId, pastureId }) => {
+function PlantCommunities({ plantCommunities = [], namespace, planId, pastureId }: PlantCommunitiesProps) {
   const isEmpty = plantCommunities.length === 0;
   const [activeIndex, setActiveIndex] = useState(-1);
   const [idToRemove, setIdToRemove] = useState<any>(null);
@@ -124,6 +124,6 @@ const PlantCommunities: React.FC<PlantCommunitiesProps> = ({ plantCommunities = 
       )}
     />
   );
-};
+}
 
 export default PlantCommunities;

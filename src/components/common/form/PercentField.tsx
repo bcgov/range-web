@@ -21,7 +21,7 @@ interface PercentFieldProps {
   fast?: boolean;
 }
 
-const PercentField: React.FC<PercentFieldProps> = ({
+function PercentField({
   name,
   label,
   validate,
@@ -30,7 +30,7 @@ const PercentField: React.FC<PercentFieldProps> = ({
   errorComponent = ErrorMessage,
   inputRef,
   fast,
-}) => {
+}: PercentFieldProps) {
   const id = `percent_field_${name}`;
   const { onChange, ...safeInputProps } = inputProps;
   const DesiredField = fast === true ? FastField : Field;
@@ -77,6 +77,6 @@ const PercentField: React.FC<PercentFieldProps> = ({
       }}
     />
   );
-};
+}
 
 export default PercentField;

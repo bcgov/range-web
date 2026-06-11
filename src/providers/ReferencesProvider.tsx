@@ -16,7 +16,7 @@ interface ReferencesProviderProps {
   children: React.ReactNode;
 }
 
-const ReferencesProvider: React.FC<ReferencesProviderProps> = ({ references, fetchReferences, children }) => {
+function ReferencesProvider({ references, fetchReferences, children }: ReferencesProviderProps) {
   const user = useUser();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ReferencesProvider: React.FC<ReferencesProviderProps> = ({ references, fet
   }, [user]);
 
   return <ReferencesContext.Provider value={references}>{children}</ReferencesContext.Provider>;
-};
+}
 
 // Just take references from redux store and make it accessible via ReferencesContext for now
 // Eventually handle retrieving and storing the references in this component w/o redux

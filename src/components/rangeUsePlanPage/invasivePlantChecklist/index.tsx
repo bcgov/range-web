@@ -24,11 +24,7 @@ interface InvasivePlantChecklistProps {
   formik: any;
 }
 
-const InvasivePlantChecklist: React.FC<InvasivePlantChecklistProps> = ({
-  namespace,
-  invasivePlantChecklist,
-  formik,
-}) => {
+function InvasivePlantChecklist({ namespace, invasivePlantChecklist, formik }: InvasivePlantChecklistProps) {
   const { equipmentAndVehiclesParking, beginInUninfestedArea, undercarrigesInspected, revegetate, other } =
     invasivePlantChecklist;
 
@@ -114,6 +110,6 @@ const InvasivePlantChecklist: React.FC<InvasivePlantChecklistProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default memo(connect(InvasivePlantChecklist));

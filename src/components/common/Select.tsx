@@ -16,7 +16,7 @@ interface SelectProps {
   [key: string]: any;
 }
 
-const Select: React.FC<SelectProps> = ({ name, formik, onChange, options = [], inputProps, ...props }) => {
+function Select({ name, formik, onChange, options = [], inputProps, ...props }: SelectProps) {
   const currentValue = getIn(formik.values, name);
   const selectedOption = options.find((f) => f.value === currentValue);
 
@@ -53,6 +53,6 @@ const Select: React.FC<SelectProps> = ({ name, formik, onChange, options = [], i
       menuPortalTarget={document.body}
     />
   );
-};
+}
 
 export default connect(Select);

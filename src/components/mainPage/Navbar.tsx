@@ -22,7 +22,7 @@ interface NavbarProps {
   [key: string]: any;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ user }) => {
+function Navbar({ user }: NavbarProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const onLogoutBtnClick = () => {
@@ -103,18 +103,13 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
             }
           >
             <Dropdown.Menu>
-              <Dropdown.Item
-                id={ELEMENT_ID.SIGN_OUT}
-                text="Sign Out"
-                icon="sign-out"
-                onClick={onLogoutBtnClick}
-              />
+              <Dropdown.Item id={ELEMENT_ID.SIGN_OUT} text="Sign Out" icon="sign-out" onClick={onLogoutBtnClick} />
             </Dropdown.Menu>
           </Dropdown>
         </div>
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;

@@ -14,16 +14,18 @@ const style = {
   color: 'white',
 };
 
-const InfoTip: React.FC<InfoTipProps> = ({ header, content, size = 'small' }) => (
-  <Popup
-    basic
-    wide={'very'}
-    on={'click'}
-    trigger={<Icon name="question" color="grey" size={size} circular />}
-    style={style}
-    header={header}
-    content={content}
-  />
-);
+function InfoTip({ header, content, size = 'small' }: InfoTipProps) {
+  return (
+    <Popup
+      basic
+      wide={'very'}
+      on={'click'}
+      trigger={<Icon name="question" color="grey" size={size} circular />}
+      style={style}
+      header={header}
+      content={content}
+    />
+  );
+}
 
 export default InfoTip;
