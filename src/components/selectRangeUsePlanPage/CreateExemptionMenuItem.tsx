@@ -1,7 +1,10 @@
-// @ts-nocheck
 import React from 'react';
 import { MenuItem } from '@material-ui/core';
 
-export default function CreateExemptionMenuItem({ onClick }) {
+interface CreateExemptionMenuItemProps {
+  onClick: () => void;
+}
+
+export default function CreateExemptionMenuItem({ onClick }: CreateExemptionMenuItemProps) {
   return <MenuItem onClick={onClick}>Create Exemption</MenuItem>;
 }

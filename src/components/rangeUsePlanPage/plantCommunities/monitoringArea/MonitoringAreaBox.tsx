@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { oxfordComma } from '../../../../utils';
 import { MONITORING_AREAS } from '../../../../constants/fields';
 import { MONITOING_AREA_PURPOSE_TIP } from '../../../../constants/strings';
@@ -13,23 +11,31 @@ import LocationButton from '../../../common/LocationButton';
 import { Icon, Confirm, Dropdown as PlainDropdown, Form } from 'semantic-ui-react';
 import InputModal from '../../../common/InputModal';
 
-const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy }) => {
+interface MonitoringAreaBoxProps {
+  monitoringArea: any;
+  namespace: string;
+  formik?: any;
+  onRemove: () => void;
+  onCopy: () => void;
+}
+
+const MonitoringAreaBox: React.FC<MonitoringAreaBoxProps> = ({ monitoringArea, namespace, formik, onRemove, onCopy }) => {
   const { latitude, location, longitude, name, purposeTypeIds, rangelandHealthId } = monitoringArea;
 
   const [removeDialogOpen, setDialogOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
 
-  const references = useReferences();
+  const references = useReferences() as any;
 
   const rangelandHealthTypes = references[REFERENCE_KEY.MONITORING_AREA_HEALTH];
-  const rangelandHealthOptions = rangelandHealthTypes.map((type) => ({
+  const rangelandHealthOptions = rangelandHealthTypes.map((type: any) => ({
     key: type.id,
     value: type.id,
     text: type.name,
   }));
 
   const purposeTypes = references[REFERENCE_KEY.MONITORING_AREA_PURPOSE_TYPE];
-  const purposeOptions = purposeTypes.map((type) => ({
+  const purposeOptions = purposeTypes.map((type: any) => ({
     key: type.id,
     value: type.id,
     text: type.name,
@@ -47,7 +53,7 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
           <IfEditable permission={MONITORING_AREAS.NAME}>
             <Icon
               name="edit"
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.stopPropagation();
                 setEditModalOpen(true);
               }}
@@ -70,8 +76,8 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
             ]}
             icon={null}
             pointing="right"
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e, { value }) => {
+            onClick={(e: any) => e.stopPropagation()}
+            onChange={(_e: any, { value }: any) => {
               if (value === 'delete') {
                 setDialogOpen(true);
               }
@@ -111,7 +117,7 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
         permission={MONITORING_AREAS.RANGELAND_HEALTH}
         component={Dropdown}
         options={rangelandHealthOptions}
-        displayValue={rangelandHealthTypes.find((r) => r.id === rangelandHealthId)?.name ?? ''}
+        displayValue={rangelandHealthTypes.find((r: any) => r.id === rangelandHealthId)?.name ?? ''}
         label="Rangeland Health"
       />
 
@@ -126,7 +132,7 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
           multiple: true,
         }}
         displayValue={oxfordComma(
-          purposeTypeIds.map((purposeTypeId) => purposeTypes.find((p) => p.id === purposeTypeId)?.name),
+          purposeTypeIds.map((purposeTypeId: any) => purposeTypes.find((p: any) => p.id === purposeTypeId)?.name),
         )}
         label="Purposes"
       />
@@ -154,7 +160,7 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
         />
         <IfEditable permission={MONITORING_AREAS.LATITUDE}>
           <LocationButton
-            onLocation={({ coords: { longitude, latitude } }) => {
+            onLocation={({ coords: { longitude, latitude } }: any) => {
               formik.setFieldValue(`${namespace}.longitude`, longitude);
               formik.setFieldValue(`${namespace}.latitude`, latitude);
             }}
@@ -168,7 +174,7 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
       <InputModal
         open={isEditModalOpen}
         onClose={() => setEditModalOpen(false)}
-        onSubmit={(name) => {
+        onSubmit={(name: string) => {
           formik.setFieldValue(`${namespace}.name`, name);
           setEditModalOpen(false);
         }}
@@ -177,16 +183,6 @@ const MonitoringAreaBox = ({ monitoringArea, namespace, formik, onRemove, onCopy
       />
     </div>
   );
-};
-
-MonitoringAreaBox.propTypes = {
-  monitoringArea: PropTypes.shape({}).isRequired,
-  namespace: PropTypes.string.isRequired,
-  formik: PropTypes.shape({
-    setFieldValue: PropTypes.func.isRequired,
-  }),
-  onRemove: PropTypes.func,
-  onCopy: PropTypes.func,
 };
 
 export default connect(MonitoringAreaBox);

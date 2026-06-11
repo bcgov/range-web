@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields';
 import { useReferences } from '../../../providers/ReferencesProvider';
@@ -8,11 +6,21 @@ import { REFERENCE_KEY } from '../../../constants/variables';
 import { TextArea, Dropdown as FormikDropdown } from 'formik-semantic-ui';
 import { Dropdown, Icon } from 'semantic-ui-react';
 
-const ManagementConsiderationRow = ({ namespace, managementConsideration, onDelete }) => {
+interface ManagementConsiderationRowProps {
+  namespace: string;
+  managementConsideration: any;
+  onDelete: () => void;
+}
+
+const ManagementConsiderationRow: React.FC<ManagementConsiderationRowProps> = ({
+  namespace,
+  managementConsideration,
+  onDelete,
+}) => {
   const { detail, url, considerationTypeId } = managementConsideration;
   const references = useReferences();
-  const considerTypes = references[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
-  const considerTypeOptions = considerTypes.map((ct) => ({
+  const considerTypes = (references as any)[REFERENCE_KEY.MANAGEMENT_CONSIDERATION_TYPE] || [];
+  const considerTypeOptions = considerTypes.map((ct: any) => ({
     key: ct.id,
     value: ct.id,
     text: ct.name,
@@ -27,8 +35,8 @@ const ManagementConsiderationRow = ({ namespace, managementConsideration, onDele
         options={considerTypeOptions}
         label={'Considerations'}
         displayValue={
-          considerTypes.find((type) => type.id === considerationTypeId)
-            ? considerTypes.find((type) => type.id === considerationTypeId).name
+          considerTypes.find((type: any) => type.id === considerationTypeId)
+            ? considerTypes.find((type: any) => type.id === considerationTypeId).name
             : ''
         }
         inputProps={{
@@ -70,11 +78,6 @@ const ManagementConsiderationRow = ({ namespace, managementConsideration, onDele
       </IfEditable>
     </div>
   );
-};
-
-ManagementConsiderationRow.propTypes = {
-  namespace: PropTypes.string.isRequired,
-  managementConsideration: PropTypes.object.isRequired,
 };
 
 export default ManagementConsiderationRow;

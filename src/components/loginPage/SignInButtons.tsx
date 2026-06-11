@@ -1,15 +1,16 @@
-// @ts-nocheck
-import React, { Component, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import { PrimaryButton } from '../common';
 import { ELEMENT_ID, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { SSO_BCEID_LOGIN_ENDPOINT, SSO_IDIR_LOGIN_ENDPOINT } from '../../constants/api';
-import { getDataFromLocalStorage, saveDataInLocalStorage } from '../../utils';
+import { getDataFromLocalStorage as _getDataFromLocalStorage, saveDataInLocalStorage } from '../../utils';
+
+const getDataFromLocalStorage = (key: string): any => _getDataFromLocalStorage(key);
 import { generatePKCE } from '../../utils/pkceUtils';
 
-class SignInButtons extends Component {
-  openNewTab = (link) => window.open(link, '_blank');
+const SignInButtons: React.FC = () => {
+  const openNewTab = (link: string) => window.open(link, '_blank');
 
-  onSignInButtonClick = () => {
+  const onSignInButtonClick = () => {
     let loginEndpoint = SSO_BCEID_LOGIN_ENDPOINT.replace(
       '_CODE_CHALLENGE_VALUE_',
       getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE).codeVerifierHash,
@@ -20,46 +21,44 @@ class SignInButtons extends Component {
         getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE).codeVerifierHash,
       );
     }
-    this.openNewTab(loginEndpoint);
+    openNewTab(loginEndpoint);
   };
 
-  componentDidMount() {
-    generatePKCE().then((pkce) => {
+  useEffect(() => {
+    generatePKCE().then((pkce: any) => {
       saveDataInLocalStorage(LOCAL_STORAGE_KEY.AUTH_PKCE_CODE, {
         codeVerifier: pkce.codeVerifier,
         codeVerifierHash: pkce.codeVerifierHash,
       });
     });
-  }
+  }, []);
 
-  render() {
-    if (getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER)?.ssoId?.startsWith('idir')) {
-      return (
-        <Fragment>
-          <PrimaryButton
-            id={ELEMENT_ID.LOGIN_IDIR_BUTTON}
-            className="signin__button"
-            fluid
-            style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
-            onClick={this.onSignInButtonClick}
-            content="Login using IDIR"
-          />
-        </Fragment>
-      );
-    }
+  if (getDataFromLocalStorage(LOCAL_STORAGE_KEY.USER)?.ssoId?.startsWith('idir')) {
     return (
-      <Fragment>
+      <>
         <PrimaryButton
-          id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
+          id={ELEMENT_ID.LOGIN_IDIR_BUTTON}
           className="signin__button"
           fluid
           style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
-          onClick={this.onSignInButtonClick}
-          content="Login using BCeID"
+          onClick={onSignInButtonClick}
+          content="Login using IDIR"
         />
-      </Fragment>
+      </>
     );
   }
-}
+  return (
+    <>
+      <PrimaryButton
+        id={ELEMENT_ID.LOGIN_BCEID_BUTTON}
+        className="signin__button"
+        fluid
+        style={{ height: '45px', marginTop: '15px', marginRight: '0' }}
+        onClick={onSignInButtonClick}
+        content="Login using BCeID"
+      />
+    </>
+  );
+};
 
 export default SignInButtons;

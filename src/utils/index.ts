@@ -1,8 +1,7 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
-// Copyright © 2018 Province of British Columbia
+// Copyright © 2018 Province of British Columbia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +21,7 @@ import { reduce } from 'lodash';
 import { NOT_PROVIDED, NP, UNEXPECTED_ERROR, STATUS404, STATUS500 } from '../constants/strings';
 import { getToken } from '../reducers/rootReducer';
 import { isBundled } from '../constants/variables';
+import type { RootState } from '../reducers/rootReducer';
 
 export { default as axios } from './axios';
 export * from './calculation';
@@ -31,7 +31,16 @@ export * from './authentication';
 export * from './localStorage';
 export * from './helper';
 
-export const createConfigWithHeader = (getState) => {
+interface AxiosRequestConfig {
+  headers: {
+    Authorization: string;
+    'content-type': string;
+  };
+  maxContentLength: number;
+  maxBodyLength: number;
+}
+
+export const createConfigWithHeader = (getState: () => RootState): AxiosRequestConfig => {
   const token = getToken(getState());
 
   return {
@@ -44,17 +53,24 @@ export const createConfigWithHeader = (getState) => {
   };
 };
 
-export const getObjValues = (obj = {}) => Object.keys(obj).map((e) => obj[e]) || [];
-export const capitalize = (str = '') => str.charAt(0).toUpperCase() + str.slice(1);
+export const getObjValues = (obj: Record<string, unknown> = {}): unknown[] =>
+  Object.keys(obj).map((e) => obj[e]) || [];
+
+export const capitalize = (str = ''): string => str.charAt(0).toUpperCase() + str.slice(1);
 
 /**
  * Present user friendly string when getting null or undefined value
  *
- * @param {string} value
- * @param {boolean} fullText default is true
- * @returns {string} the value or 'Not provided' or 'N/P'
+ * @param value - the value to check
+ * @param fullText - whether to use full "Not provided" text (default true)
+ * @param notProvided - custom fallback string
+ * @returns the value or a 'Not provided' / 'N/P' fallback
  */
-export const handleNullValue = (value, fullText = true, notProvided) => {
+export const handleNullValue = (
+  value: unknown,
+  fullText = true,
+  notProvided?: string,
+): unknown => {
   if (value || value === 0) {
     return value;
   }
@@ -66,16 +82,24 @@ export const handleNullValue = (value, fullText = true, notProvided) => {
   return fullText ? NOT_PROVIDED : NP;
 };
 
+interface ErrorLike {
+  status?: number;
+  message?: string;
+  data?: {
+    error?: string;
+  };
+}
+
 /**
  * Parse the network error response to get the error message
  * based on either from the server or the status
  *
- * @param {err} err The error object
+ * @param err - The error object
  * @returns an error message string
  */
-export const getErrorMessage = (err) => {
-  const generateMessage = (err) => {
-    const { status, message } = err || {};
+export const getErrorMessage = (err: unknown): string => {
+  const generateMessage = (err: unknown): string => {
+    const { status, message } = (err as ErrorLike) || {};
     if (status === 404) return STATUS404;
     if (status === 500) return STATUS500;
     if (message) return `${UNEXPECTED_ERROR} (${message})`;
@@ -85,7 +109,8 @@ export const getErrorMessage = (err) => {
 
   if (!isBundled) {
     // display error message provided by api in development mode
-    const msgFromServer = err && err.data && err.data.error;
+    const errorObj = err as ErrorLike | null | undefined;
+    const msgFromServer = errorObj && errorObj.data && errorObj.data.error;
     if (msgFromServer) {
       return msgFromServer;
     }
@@ -99,19 +124,26 @@ export const getErrorMessage = (err) => {
  *
  * https://blog.jayway.com/2017/07/13/open-pdf-downloaded-api-javascript/
  *
- * @param {response.data} blob The binary array buffer from API
- * @param {object} ref The React reference of an a tag
- * @returns undefined
+ * @param blob - The binary array buffer from API
+ * @param ref - The React reference of an a tag
+ * @param fileName - The name of the downloaded file
  */
-export const downloadPDFBlob = (blob, ref, fileName) => {
+export const downloadPDFBlob = (
+  blob: BlobPart,
+  ref: HTMLAnchorElement,
+  fileName: string,
+): void => {
   // It is necessary to create a new blob object with mime-type explicitly set
   // otherwise only Chrome works like it should
   const newBlob = new Blob([blob], { type: 'application/pdf' });
 
   // IE doesn't allow using a blob object directly as link href
   // instead it is necessary to use msSaveOrOpenBlob
-  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(newBlob);
+  const nav = window.navigator as Navigator & {
+    msSaveOrOpenBlob?: (blob: Blob) => void;
+  };
+  if (nav && nav.msSaveOrOpenBlob) {
+    nav.msSaveOrOpenBlob(newBlob);
     return;
   }
 
@@ -142,22 +174,8 @@ export const downloadPDFBlob = (blob, ref, fileName) => {
  * detect IE
  * @returns version of IE or false, if browser is not Internet Explorer
  */
-export const detectIE = () => {
+export const detectIE = (): number | false => {
   const { userAgent } = window.navigator;
-
-  // Test values; Uncomment to check result
-
-  // IE 10
-  // userAgent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
-
-  // IE 11
-  // userAgent = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
-
-  // Edge 12 (Spartan)
-  // userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0';
-
-  // Edge 13
-  // userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586';
 
   const msie = userAgent.indexOf('MSIE ');
   if (msie > 0) {
@@ -172,31 +190,28 @@ export const detectIE = () => {
     return parseInt(userAgent.substring(rv + 3, userAgent.indexOf('.', rv)), 10);
   }
 
-  // const edge = userAgent.indexOf('Edge/');
-  // if (edge > 0) {
-  //   // Edge (IE 12+) => return version number
-  //   return parseInt(userAgent.substring(edge + 5, userAgent.indexOf('.', edge)), 10);
-  // }
-
   // other browser
   return false;
 };
 
-export const sequentialAsyncMap = async (array, iteratee) =>
+export const sequentialAsyncMap = async <T, U>(
+  array: T[],
+  iteratee: (value: T, index: number, collection: T[]) => Promise<U>,
+): Promise<U[]> =>
   reduce(
     array,
-    async (resolvedValuesP, ...args) => {
+    async (resolvedValuesP: Promise<U[]>, ...args: [T, number, T[]]) => {
       const resolvedValues = await resolvedValuesP;
       const nextValue = await iteratee(...args);
 
       return [...resolvedValues, nextValue];
     },
-    [],
+    Promise.resolve([] as U[]),
   );
 
 /**
  * Get current year
  */
-export const getCurrentYear = () => {
+export const getCurrentYear = (): number => {
   return new Date().getFullYear();
 };

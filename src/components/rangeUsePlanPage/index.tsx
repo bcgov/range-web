@@ -1,18 +1,7 @@
-// @ts-nocheck
 import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Icon, Modal, Header, Button } from 'semantic-ui-react';
+import { Icon, Modal, Header as SemanticHeader, Button } from 'semantic-ui-react';
 import { startCase } from 'lodash';
 import { Loading, PrimaryButton } from '../common';
-import {
-  planUpdated,
-  pastureAdded,
-  pastureUpdated,
-  pastureCopied,
-  grazingScheduleUpdated,
-  openConfirmationModal,
-} from '../../actions';
 import {
   isUserAgreementHolder,
   isUserAdmin,
@@ -22,22 +11,8 @@ import {
   isUserDecisionMaker,
   isUserReadOnly,
 } from '../../utils';
-import * as selectors from '../../reducers/rootReducer';
 import PageForStaff from './pageForStaff';
 import PageForAH from './pageForAH';
-import {
-  fetchRUP,
-  updateRUP,
-  updateRUPStatus,
-  createOrUpdateRUPPasture,
-  createOrUpdateRUPSchedule,
-  toastSuccessMessage,
-  toastErrorMessage,
-  createAmendment,
-  createOrUpdateRUPMinisterIssueAndActions,
-  createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration,
-} from '../../actionCreators';
 import { Form } from 'formik-semantic-ui';
 import { useToast } from '../../providers/ToastProvider';
 import { useReferences } from '../../providers/ReferencesProvider';
@@ -48,17 +23,28 @@ import { RANGE_USE_PLAN } from '../../constants/routes';
 import { getIn } from 'formik';
 import { useCurrentPlan } from '../../providers/PlanProvider';
 
-const Base = ({ user, history, match, location, ...props }) => {
+// These components use formik connect() which injects formik prop internally
+const UntypedOnSubmitValidationError = OnSubmitValidationError as any;
+const UntypedPageForStaff = PageForStaff as any;
+
+interface BaseProps {
+  user: any;
+  history: any;
+  match: any;
+  location: any;
+  [key: string]: any;
+}
+
+const Base = ({ user, history, match, location, ...props }: BaseProps) => {
   const {
     setCurrentPlanId,
     currentPlan,
     clientAgreements,
-    currentPlanId,
     fetchPlan,
     isFetchingPlan,
     errorFetchingPlan,
     savePlan,
-  } = useCurrentPlan();
+  } = useCurrentPlan()!;
 
   const references = useReferences();
 
@@ -76,7 +62,7 @@ const Base = ({ user, history, match, location, ...props }) => {
     fetchPlan(planId, true);
   }, [location.pathname]);
 
-  const handleValidationError = (formik) => {
+  const handleValidationError = (formik: any) => {
     // Get the first field path in the formik errors object
     const [errorPathString, error] = getFirstFormikError(formik.errors);
 
@@ -93,7 +79,7 @@ const Base = ({ user, history, match, location, ...props }) => {
      * through ever-increasing chunks of the path. ie.
      * ['pastures', 'pastures.0', 'pastures.0.plantCommunities', ...]
      */
-    const errorPath = errorPathString.split('.').reduce((acc, value, i, paths) => {
+    const errorPath = errorPathString.split('.').reduce((acc: string[], value: string, i: number, paths: string[]) => {
       // Get previous chunk of path based on index
       const path = paths.slice(0, i + 1).join('.');
       const parentKey = paths[i - 1];
@@ -127,18 +113,18 @@ const Base = ({ user, history, match, location, ...props }) => {
     });
   };
 
-  const handleSubmit = async (plan, formik) => {
+  const handleSubmit = async (plan: any, formik: any) => {
     try {
       // Update Plan
-      const planId = await savePlan(plan, user);
+      const savedPlanId = await savePlan(plan);
 
       formik.setSubmitting(false);
       successToast('Successfully saved draft');
 
-      await history.replace(`${RANGE_USE_PLAN}/${planId}`, {
+      await history.replace(`${RANGE_USE_PLAN}/${savedPlanId}`, {
         saved: true,
       });
-    } catch (err) {
+    } catch (err: any) {
       formik.setStatus('error');
       formik.setSubmitting(false);
       const msg = err.data && err.data.error ? err.data.error : 'Error saving draft';
@@ -146,16 +132,13 @@ const Base = ({ user, history, match, location, ...props }) => {
     }
   };
 
-  const agreement = currentPlan && currentPlan.agreement;
+  const agreement = (currentPlan as any) && (currentPlan as any).agreement;
   const isFetchingPlanForTheFirstTime = !currentPlan && isFetchingPlan;
-  // const doneFetching = !isFetchingPlanForTheFirstTime;
 
   if (errorFetchingPlan && !isFetchingPlan) {
-    // if (process.env.NODE_ENV !== 'production') {
     console.dir(errorFetchingPlan);
     console.dir(isFetchingPlanForTheFirstTime);
     console.dir(isFetchingPlan);
-    // }
     return (
       <div className="rup__fetching-error">
         <Icon name="warning sign" size="large" color="red" />
@@ -168,7 +151,7 @@ const Base = ({ user, history, match, location, ...props }) => {
             Go Back
           </PrimaryButton>
           <span className="rup__fetching-error__or-message">or</span>
-          <PrimaryButton onClick={() => fetchPlan(currentPlanId, true)} content="Retry" />
+          <PrimaryButton onClick={() => fetchPlan(planId, true)} content="Retry" />
         </div>
       </div>
     );
@@ -178,13 +161,13 @@ const Base = ({ user, history, match, location, ...props }) => {
     <Fragment>
       <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-      {location.pathname.endsWith('/export-pdf') &&
-        currentPlan &&
-        (() => {
+      {currentPlan && ((() => {
+        const typedPlan = currentPlan as any;
+        return location.pathname.endsWith('/export-pdf') && (() => {
           const closePDFModal = () => history.push(match.url);
           return (
             <Modal size="tiny" open={true} onClose={closePDFModal} dimmer="blurring">
-              <Header content="Download PDF" icon="file pdf" />
+              {React.createElement(SemanticHeader as any, { content: 'Download PDF', icon: 'file pdf' })}
               <Modal.Content>The PDF may take a few minutes to generate.</Modal.Content>
               <Modal.Actions>
                 <Button type="button" onClick={closePDFModal}>
@@ -192,15 +175,16 @@ const Base = ({ user, history, match, location, ...props }) => {
                 </Button>
                 <PDFView
                   match={match}
-                  agreementId={currentPlan.agreement.id}
-                  mapAttachments={currentPlan.files.filter((item) => {
+                  agreementId={typedPlan.agreement.id}
+                  mapAttachments={typedPlan.files.filter((item: any) => {
                     return item.type === 'mapAttachments';
                   })}
                 />
               </Modal.Actions>
             </Modal>
           );
-        })()}
+        })();
+      })())}
 
       {currentPlan && (
         <Form
@@ -210,18 +194,18 @@ const Base = ({ user, history, match, location, ...props }) => {
           validateOnBlur={false}
           validationSchema={RUPSchema}
           onSubmit={handleSubmit}
-          render={({ values: plan }) => (
+          render={({ values: plan }: any) => (
             <>
               {/* TODO: Prompt removed in react-router-dom v6. 
                   Add useBlocker or beforeunload for unsaved changes warning */}
-              <OnSubmitValidationError callback={handleValidationError} />
+              <UntypedOnSubmitValidationError callback={handleValidationError} />
 
               {(isUserAdmin(user) ||
                 isUserAgrologist(user) ||
                 isUserDecisionMaker(user) ||
                 canReadAll(user) ||
                 isUserReadOnly(user)) && (
-                <PageForStaff
+                <UntypedPageForStaff
                   references={references}
                   agreement={agreement}
                   plan={plan}
@@ -242,7 +226,7 @@ const Base = ({ user, history, match, location, ...props }) => {
                   fetchPlan={fetchPlan}
                   user={user}
                   history={history}
-                  {...props}
+                  {...(props as any)}
                 />
               )}
             </>
@@ -253,51 +237,4 @@ const Base = ({ user, history, match, location, ...props }) => {
   );
 };
 
-Base.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({ planId: PropTypes.string }),
-  }).isRequired,
-  user: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
-  fetchRUP: PropTypes.func.isRequired,
-  isFetchingPlan: PropTypes.bool.isRequired,
-  errorFetchingPlan: PropTypes.bool.isRequired,
-  plansMap: PropTypes.shape({}).isRequired,
-  reAuthRequired: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  plansMap: selectors.getPlansMap(state),
-  pasturesMap: selectors.getPasturesMap(state),
-  schedulesMap: selectors.getSchedulesMap(state),
-  ministerIssuesMap: selectors.getMinisterIssuesMap(state),
-  planStatusHistoryMap: selectors.getPlanStatusHistoryMap(state),
-  additionalRequirementsMap: selectors.getAdditionalRequirementsMap(state),
-  managementConsiderationsMap: selectors.getManagementConsiderationsMap(state),
-  isFetchingPlan: selectors.getIsFetchingPlan(state),
-  errorFetchingPlan: selectors.getPlanErrorOccured(state),
-  references: selectors.getReferences(state),
-  isUpdatingStatus: selectors.getIsUpdatingPlanStatus(state),
-  reAuthRequired: selectors.getReAuthRequired(state),
-});
-
-export default connect(mapStateToProps, {
-  fetchRUP,
-  updateRUP,
-  updateRUPStatus,
-  planUpdated,
-  pastureAdded,
-  pastureUpdated,
-  pastureCopied,
-  createOrUpdateRUPPasture,
-  grazingScheduleUpdated,
-  createOrUpdateRUPGrazingSchedule: createOrUpdateRUPSchedule,
-  toastSuccessMessage,
-  toastErrorMessage,
-  createAmendment,
-  openConfirmationModal,
-  createOrUpdateRUPMinisterIssueAndActions,
-  createOrUpdateRUPInvasivePlantChecklist,
-  createOrUpdateRUPManagementConsideration,
-})(Base);
+export default Base;

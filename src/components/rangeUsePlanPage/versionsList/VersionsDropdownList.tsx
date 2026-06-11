@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -18,23 +17,24 @@ import * as API from '../../../constants/api';
 import AttachmentsList from './AttachmentsList';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
-const VersionsDropdownList = ({ versions, open }) => {
-  const user = useUser();
+interface VersionsDropdownListProps {
+  versions: any[];
+  open: boolean;
+  planId?: any;
+  selectedVersion?: any;
+  onSelectVersion?: (e: any, data: any) => void;
+}
 
-  const versionOptions = versions.map((v) => ({
-    key: v.version,
-    value: v,
-    text: `v${v.version}`,
-    version: v,
-  }));
+const VersionRow = ({ option, user }: { option: any; user: any }) => {
+  const [showAttachments, setShowAttachments] = useState(false);
 
-  const onDownloadClicked = async (planId, version, agreementId) => {
+  const onDownloadClicked = async (planId: any, version: any, agreementId: string) => {
     await axios
       .get(API.DOWNLOAD_RUP_VERSION(planId, version), {
         ...getAuthHeaderConfig(),
         responseType: 'blob',
       })
-      .then((response) => {
+      .then((response: any) => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -46,6 +46,87 @@ const VersionsDropdownList = ({ versions, open }) => {
         link.remove();
       });
   };
+
+  return (
+    <React.Fragment>
+      <TableRow hover={true}>
+        <TableCell>{option.version.amendmentType}</TableCell>
+        <TableCell>{option.version.submittedBy}</TableCell>
+        <TableCell>
+          {option.version.createdAt
+            ? moment(option.version.createdAt).format('MMM DD YYYY h:mm a')
+            : ''}
+        </TableCell>
+        <TableCell>{option.version.approvedBy}</TableCell>
+        <TableCell>
+          {option.version.approvedAt === null
+            ? ''
+            : moment(option.version.approvedAt).format('MMM DD YYYY h:mm a')}
+        </TableCell>
+        <TableCell>
+          <Status
+            className={classnames('versions_status_icon', {
+              greyed: option.version.isCurrentLegalVersion !== true,
+            })}
+            status={option.version.snapshot.status}
+            user={user}
+          />
+        </TableCell>
+        <TableCell>
+          <PrimaryButton
+            icon
+            inverted
+            onClick={() => {
+              onDownloadClicked(
+                option.version.planId,
+                option.version.version,
+                option.version.snapshot.agreementId,
+              );
+            }}
+          >
+            <i className="download icon" />
+          </PrimaryButton>
+        </TableCell>
+        <TableCell>
+          <PrimaryButton
+            icon
+            inverted
+            onClick={() => {
+              setShowAttachments(!showAttachments);
+            }}
+          >
+            <i className="paperclip icon" />
+          </PrimaryButton>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={showAttachments} timeout="auto" unmountOnExit>
+            <Box margin={0} style={{ marginBottom: '10px' }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Attachments
+              </Typography>
+              <AttachmentsList
+                attachments={option.version.snapshot.files}
+                fileType={ATTACHMENT_TYPE.PLAN_ATTACHMENT}
+              />
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+};
+
+const VersionsDropdownList = ({ versions, open }: VersionsDropdownListProps) => {
+  const user = useUser();
+
+  const versionOptions = versions.map((v: any) => ({
+    key: v.version,
+    value: v,
+    text: `v${v.version}`,
+    version: v,
+  }));
 
   return (
     <TableRow>
@@ -67,84 +148,15 @@ const VersionsDropdownList = ({ versions, open }) => {
                           <TableCell style={{ color: 'grey', width: 175 }}>Submission Date</TableCell>
                           <TableCell style={{ color: 'grey', width: 175 }}>Approved By</TableCell>
                           <TableCell style={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175, align: 'left' }}>Status</TableCell>
+                          <TableCell style={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
                           <TableCell style={{ color: 'grey', width: 175 }}></TableCell>
                           <TableCell style={{ color: 'grey', width: 175 }}></TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {versionOptions.map((option, index) => {
-                          const [showAttachments, setShowAttachments] = useState(false);
-                          return (
-                            <React.Fragment key={index}>
-                              <TableRow key={index} hover={true}>
-                                <TableCell>{option.version.amendmentType}</TableCell>
-                                <TableCell>{option.version.submittedBy}</TableCell>
-                                <TableCell>
-                                  {option.version.createdAt
-                                    ? moment(option.version.createdAt).format('MMM DD YYYY h:mm a')
-                                    : ''}
-                                </TableCell>
-                                <TableCell>{option.version.approvedBy}</TableCell>
-                                <TableCell>
-                                  {option.version.approvedAt === null
-                                    ? ''
-                                    : moment(option.version.approvedAt).format('MMM DD YYYY h:mm a')}
-                                </TableCell>
-                                <TableCell>
-                                  <Status
-                                    className={classnames('versions_status_icon', {
-                                      greyed: option.version.isCurrentLegalVersion !== true,
-                                    })}
-                                    status={option.version.snapshot.status}
-                                    user={user}
-                                  />
-                                </TableCell>
-                                <TableCell>
-                                  <PrimaryButton
-                                    icon
-                                    inverted
-                                    onClick={() => {
-                                      onDownloadClicked(
-                                        option.version.planId,
-                                        option.version.version,
-                                        option.version.snapshot.agreementId,
-                                      );
-                                    }}
-                                  >
-                                    <i className="download icon" />
-                                  </PrimaryButton>
-                                </TableCell>
-                                <TableCell>
-                                  <PrimaryButton
-                                    icon
-                                    inverted
-                                    onClick={() => {
-                                      setShowAttachments(!showAttachments);
-                                    }}
-                                  >
-                                    <i className="paperclip icon" />
-                                  </PrimaryButton>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                  <Collapse in={showAttachments} timeout="auto" unmountOnExit>
-                                    <Box margin={0} style={{ marginBottom: '10px' }}>
-                                      <Typography variant="h6" gutterBottom component="div">
-                                        Attachments
-                                      </Typography>
-                                      <AttachmentsList
-                                        attachments={option.version.snapshot.files}
-                                        fileType={ATTACHMENT_TYPE.PLAN_ATTACHMENT}
-                                      />
-                                    </Box>
-                                  </Collapse>
-                                </TableCell>
-                              </TableRow>
-                            </React.Fragment>
-                          );
-                        })}
+                        {versionOptions.map((option: any, index: number) => (
+                          <VersionRow key={index} option={option} user={user} />
+                        ))}
                       </TableBody>
                     </Table>
                   </Box>

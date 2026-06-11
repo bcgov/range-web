@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormikContext } from 'formik';
 import { ATTACHMENTS } from '../../../constants/fields';
@@ -22,28 +21,46 @@ export const attachmentAccess = [
   },
 ];
 
-export const downloadAttachment = async (attachmentId, attachmentName, fileType) => {
+export const downloadAttachment = async (attachmentId: any, attachmentName: string, fileType: string) => {
   const res = await axios.get(GET_SIGNED_DOWNLOAD_URL(attachmentId, fileType), getAuthHeaderConfig());
-  const fileRes = await axios.get(res.data.url, {
+  const fileRes = await axios.get((res as any).data.url, {
     responseType: 'blob',
     skipAuthorizationHeader: true,
-  });
-  const url = window.URL.createObjectURL(fileRes.data);
+  } as any);
+  const url = window.URL.createObjectURL((fileRes as any).data);
   const link = document.createElement('a');
   link.href = url;
   link.setAttribute('download', decodeURIComponent(attachmentName));
   document.body.appendChild(link);
   link.click();
-  link.parentNode.removeChild(link);
+  link.parentNode!.removeChild(link);
 };
 
-const AttachmentRow = ({ attachment, index, onDelete, onAccessChange, isUpdating, error, fileType }) => {
+interface AttachmentRowProps {
+  attachment: any;
+  index: number;
+  onDelete: () => void;
+  onAccessChange?: (access: string) => void;
+  isUpdating?: boolean;
+  error?: string;
+  fileType: string;
+}
+
+const AttachmentRow: React.FC<AttachmentRowProps> = ({
+  attachment,
+  index,
+  onDelete,
+  onAccessChange,
+  isUpdating,
+  error,
+  fileType,
+}) => {
   const [isDownloading, setDownloading] = useState(false);
-  const [errorDownloading, setErrorDownloading] = useState();
-  const { values } = useFormikContext();
+  const [errorDownloading, setErrorDownloading] = useState<any>();
+  const { values } = useFormikContext<any>();
   const prevAccessRef = useRef(attachment.access);
 
-  const formikIndex = values.files?.findIndex((f) => f.id === attachment.id);
+  const formikIndex = values.files?.findIndex((f: any) => f.id === attachment.id);
 
   useEffect(() => {
     const currentAccess = values.files?.[formikIndex]?.access;

@@ -1,36 +1,40 @@
-// @ts-nocheck
 import { handleGrazingScheduleValidation } from './grazingSchedule';
 import { handleHayCuttingScheduleValidation } from './hayCuttingSchedule';
 import { handlePastureValidation } from './pasture';
 import { handlePlantCommunityValidation } from './plantCommunity';
 import { handleMinisterIssueValidation } from './ministerIssue';
 
+interface ValidationError {
+  error: boolean;
+  message: string;
+  elementId?: string;
+}
+
 /**
  * Validate a range use plan
  *
- * @param {Object} plan the range use plan object
- * @param {Object} pasturesMap
- * @param {Object} schedulesMap
- * @param {Array} livestockTypes the array of live stock types
- * @param {Array} usage the array of usage from the agreement
- * @param {Boolean} isAgreementHolder is the current user an agreement holder?
- * @returns {Array} An array of errors
+ * @param plan the range use plan object
+ * @param pastures the array of pastures
+ * @param livestockTypes the array of live stock types
+ * @param usage the array of usage from the agreement
+ * @param isAgreementHolder is the current user an agreement holder?
+ * @returns An array of errors
  */
 export const handleRupValidation = (
-  plan = {},
-  pastures = [],
-  livestockTypes = [],
-  usage = [],
+  plan: any = {},
+  pastures: any[] = [],
+  livestockTypes: any[] = [],
+  usage: any[] = [],
   isAgreementHolder = false,
-) => {
+): ValidationError[] => {
   const { schedules = [], ministerIssues = [], agreement = {} } = plan;
-  let errors = [];
+  let errors: ValidationError[] = [];
 
   // Determine if this is a grazing agreement (types 1 and 2) or hay cutting agreement
   const isGrazing = agreement.agreementTypeId === 1 || agreement.agreementTypeId === 2;
   const isHayCutting = agreement.agreementTypeId === 3 || agreement.agreementTypeId === 4;
 
-  schedules.map((schedule) => {
+  schedules.map((schedule: any) => {
     if (isGrazing) {
       errors = [
         ...errors,
@@ -51,7 +55,7 @@ export const handleRupValidation = (
   errors = [
     ...errors,
     ...handlePlantCommunityValidation(
-      pastures.reduce((communities, pasture) => [...communities, ...pasture.plantCommunities], []),
+      pastures.reduce((communities: any[], pasture: any) => [...communities, ...(pasture.plantCommunities || [])], []),
     ),
   ];
 
@@ -60,19 +64,20 @@ export const handleRupValidation = (
   return errors;
 };
 
-export const isPlanAmendment = (plan) => plan && plan.amendmentTypeId;
+export const isPlanAmendment = (plan: any): boolean => plan && plan.amendmentTypeId;
 
 /**
  * Gets the path of the first error in the formik errors object.
  *
- * @param {object} errors Formik errors object
- * @returns {string} Path to first error in errors object
+ * @param errors Formik errors object
+ * @param path current path accumulator
+ * @returns Path to first error in errors object
  */
-export const getFirstFormikError = (errors, path = []) => {
+export const getFirstFormikError = (errors: any, path: string[] = []): [string, string] => {
   const [key, value] = Object.entries(errors)[0];
 
   if (typeof value !== 'string' && typeof value !== 'boolean' && value !== undefined) {
     return getFirstFormikError(value, path.concat(key));
   }
-  return [path.concat(key).join('.'), typeof value === 'boolean' ? 'Required' : value];
+  return [path.concat(key).join('.'), typeof value === 'boolean' ? 'Required' : (value as string)];
 };

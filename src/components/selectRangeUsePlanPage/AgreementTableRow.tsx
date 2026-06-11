@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import classnames from 'classnames';
 import { handleNullValue, getUserFullName, getAgreementHolders, getClientFullName } from '../../utils';
@@ -10,19 +9,26 @@ import NewPlanButton from './NewPlanButton';
 import { canUserEdit } from '../common/PermissionsField';
 import { PLAN } from '../../constants/fields';
 
-const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
+interface AgreementTableRowProps {
+  agreement: any;
+  active: boolean;
+  onSelect: () => void;
+  noneSelected: boolean;
+}
+
+const AgreementTableRow: React.FC<AgreementTableRowProps> = ({ agreement, active, onSelect, noneSelected }) => {
   const [plan] = agreement.plans;
 
-  const user = useUser();
+  const user = useUser()!;
 
   const { zone, clients } = agreement;
 
   const rangeName = plan && plan.rangeName;
   const status = plan && plan.status;
   const staff = zone && zone.user;
-  const staffFullName = getUserFullName(staff);
-  const { primaryAgreementHolder } = getAgreementHolders(clients);
-  const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder);
+  const staffFullName = getUserFullName(staff) as any;
+  const { primaryAgreementHolder } = getAgreementHolders(clients) as any;
+  const primaryAgreementHolderName = getClientFullName(primaryAgreementHolder) as any;
   const isActive = active;
   const isActiveAndHasPlans = plan && isActive;
 
@@ -35,9 +41,9 @@ const AgreementTableRow = ({ agreement, active, onSelect, noneSelected }) => {
     >
       <div className="agrm__table__accordian" onClick={plan && onSelect}>
         <div className="agrm__table__accordian__cell">{agreement.id}</div>
-        <div className="agrm__table__accordian__cell">{handleNullValue(rangeName, false, '-')}</div>
-        <div className="agrm__table__accordian__cell">{handleNullValue(primaryAgreementHolderName)}</div>
-        <div className="agrm__table__accordian__cell">{handleNullValue(staffFullName)}</div>
+        <div className="agrm__table__accordian__cell">{handleNullValue(rangeName, false, '-') as any}</div>
+        <div className="agrm__table__accordian__cell">{handleNullValue(primaryAgreementHolderName) as any}</div>
+        <div className="agrm__table__accordian__cell">{handleNullValue(staffFullName) as any}</div>
         <div className="agrm__table__accordian__cell">
           {agreement.plans.length === 0 && canUserEdit(PLAN.ADD, user) ? (
             <NewPlanButton agreement={agreement} />

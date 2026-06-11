@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Icon, Confirm } from 'semantic-ui-react';
 import { DISCARD_AMENDMENT } from '../../constants/strings';
@@ -12,7 +11,8 @@ const DiscardAmendmentButton = () => {
   const [isDiscarding, setDiscarding] = useState(false);
   const { errorToast } = useToast();
 
-  const { currentPlan, fetchPlan } = useCurrentPlan();
+  const { currentPlan, fetchPlan } = useCurrentPlan()!;
+  const plan = currentPlan as any;
 
   const isOnline = useNetworkStatus();
 
@@ -20,9 +20,9 @@ const DiscardAmendmentButton = () => {
     setDiscarding(true);
 
     try {
-      await discardAmendment(currentPlan.id);
+      await discardAmendment(plan.id);
       await fetchPlan();
-    } catch (e) {
+    } catch (e: any) {
       errorToast(e.message);
     }
 

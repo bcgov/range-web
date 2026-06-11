@@ -1,9 +1,16 @@
-// @ts-nocheck
 import { NOT_PROVIDED } from '../../constants/strings';
 import uuid from 'uuid-v4';
 import { resetPlantCommunityId } from './plantCommunity';
 
-export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
+interface PastureLike {
+  id?: any;
+  name?: string;
+  createdAt?: any;
+  plantCommunities: any[];
+  [key: string]: any;
+}
+
+export const getPastureNames = (pastureIds: (string | number)[] = [], pasturesMap: Record<string, any> = {}): string => {
   const pastureNames = pastureIds.map((pId) => {
     const pasture = pasturesMap[pId];
     return pasture && pasture.name;
@@ -21,14 +28,24 @@ export const getPastureNames = (pastureIds = [], pasturesMap = {}) => {
   }
 };
 
-export const resetPastureId = (pasture) => ({
+export const resetPastureId = (pasture: PastureLike): any => ({
   ...pasture,
   id: uuid(),
   createdAt: undefined,
   plantCommunities: pasture.plantCommunities.map(resetPlantCommunityId),
 });
 
-export const generatePasture = (name = '') => ({
+interface GeneratedPasture {
+  name: string;
+  allowableAum: string;
+  graceDays: number;
+  pldPercent: number;
+  notes: string;
+  plantCommunities: any[];
+  id: string;
+}
+
+export const generatePasture = (name = ''): GeneratedPasture => ({
   name,
   allowableAum: '',
   graceDays: 1,

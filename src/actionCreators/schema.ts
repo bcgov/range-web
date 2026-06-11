@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * This file contains the schema needed for data normalization by using the normalizr (https://github.com/paularmstrong/normalizr) library.
  * Data that goes into Redux should normalized for a few reasons:
@@ -16,32 +15,32 @@
 import { schema } from 'normalizr';
 
 // Initialize a new schema for agreements
-export const agreement = new schema.Entity('agreements');
-export const arrayOfAgreements = new schema.Array(agreement);
+export const agreement: schema.Entity = new schema.Entity('agreements');
+export const arrayOfAgreements: schema.Array = new schema.Array(agreement);
 
-export const zone = new schema.Entity('zones');
-export const arrayOfZones = new schema.Array(zone);
-export const user = new schema.Entity('users');
-export const arrayOfUsers = new schema.Array(user);
-export const client = new schema.Entity(
+export const zone: schema.Entity = new schema.Entity('zones');
+export const arrayOfZones: schema.Array = new schema.Array(zone);
+export const user: schema.Entity = new schema.Entity('users');
+export const arrayOfUsers: schema.Array = new schema.Array(user);
+export const client: schema.Entity = new schema.Entity(
   'clients',
   {},
   {
     idAttribute: 'id', // 'clientNumber' is the unique id of Client
   },
 );
-export const arrayOfClients = new schema.Array(client);
+export const arrayOfClients: schema.Array = new schema.Array(client);
 
-export const plan = new schema.Entity('plans');
-export const pasture = new schema.Entity('pastures');
-export const plantCommunity = new schema.Entity('plantCommunities');
-export const schedule = new schema.Entity('schedules');
-export const ministerIssue = new schema.Entity('ministerIssues');
+export const plan: schema.Entity = new schema.Entity('plans');
+export const pasture: schema.Entity = new schema.Entity('pastures');
+export const plantCommunity: schema.Entity = new schema.Entity('plantCommunities');
+export const schedule: schema.Entity = new schema.Entity('schedules');
+export const ministerIssue: schema.Entity = new schema.Entity('ministerIssues');
 // export const ministerIssueAction = new schema.Entity('ministerIssueActions');
-export const additionalRequirements = new schema.Entity('additionalRequirements');
-export const managementConsiderations = new schema.Entity('managementConsiderations');
-export const confirmation = new schema.Entity('confirmations');
-export const planStatusHistory = new schema.Entity('planStatusHistory');
+export const additionalRequirements: schema.Entity = new schema.Entity('additionalRequirements');
+export const managementConsiderations: schema.Entity = new schema.Entity('managementConsiderations');
+export const confirmation: schema.Entity = new schema.Entity('confirmations');
+export const planStatusHistory: schema.Entity = new schema.Entity('planStatusHistory');
 
 pasture.define({
   plantCommunities: [plantCommunity],

@@ -1,8 +1,5 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { connect } from 'formik';
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
 import { SCHEDULE } from '../../../../constants/fields';
 import DateInputField from '../../../common/form/DateInputField';
@@ -11,7 +8,18 @@ import AreasDropdown from './AreasDropdown';
 import RowMenu from './RowMenu';
 import './HayCuttingScheduleEntryRow.css';
 
-const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule }) => {
+interface HayCuttingScheduleEntryRowProps {
+  entry: any;
+  namespace: string;
+  onDelete: () => void;
+  onCopy: () => void;
+  schedule: any;
+  onChange?: () => void;
+  entryIndex?: number;
+  scheduleIndex?: number;
+}
+
+const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule }: HayCuttingScheduleEntryRowProps) => {
   const { pastureId: areaId, dateIn, dateOut, stubbleHeight, tonnes } = entry || {};
   const initialDate = moment().set('year', schedule.year).set('month', 0).set('date', 1);
   const maxDate = moment().set('year', schedule.year).set('month', 11).set('date', 31);
@@ -70,7 +78,6 @@ const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedu
           inputProps={{
             type: 'number',
             'aria-label': 'tonnes',
-            // onChange,
           }}
           fast
         />
@@ -84,12 +91,4 @@ const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedu
   );
 };
 
-HayCuttingScheduleEntryRow.propTypes = {
-  entry: PropTypes.object.isRequired,
-  formik: PropTypes.object.isRequired,
-  namespace: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onCopy: PropTypes.func.isRequired,
-};
-
-export default connect(HayCuttingScheduleEntryRow);
+export default HayCuttingScheduleEntryRow;

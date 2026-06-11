@@ -1,9 +1,14 @@
-// @ts-nocheck
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { HOME } from '../../constants/routes';
+import type { User } from '../../types';
 
-const PublicRoute = ({ component: Component, user }) => {
+interface PublicRouteProps {
+  component: React.ComponentType<any>;
+  user: User | undefined;
+}
+
+const PublicRoute: React.FC<PublicRouteProps> = ({ component: Component, user }) => {
   if (user) {
     return <Navigate to={HOME} replace />;
   }

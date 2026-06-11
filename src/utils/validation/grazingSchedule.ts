@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentYear } from '..';
 import {
   INVALID_SCHEDULE_ENTRY,
@@ -12,8 +11,9 @@ import { extractYearFromScheduleDate } from './date';
 /**
  * Validate a grazing schedule entry
  *
- * @param {object} entry the grazing schedule entry object
- * @returns {object | undefined} the error object that has error and message properties
+ * @param e the grazing schedule entry object
+ * @param scheduleYear the year of the schedule
+ * @returns the error object or undefined
  */
 export const handleGrazingScheduleEntryValidation = (e = {}, scheduleYear) => {
   if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(e.livestockCount))) {
@@ -36,28 +36,28 @@ export const handleGrazingScheduleEntryValidation = (e = {}, scheduleYear) => {
 /**
  * Validate a grazing schedule
  *
- * @param {object} schedule the grazing schedule object
- * @param {Object} pasturesMap the array of pastures from the plan
- * @param {Array} livestockTypes the array of live stock types
- * @param {Array} usage the array of usage from the agreement
- * @param {Boolean} isAgreementHolder is the current user an agreement holder?
- * @returns {Array} An array of errors
+ * @param schedule the grazing schedule object
+ * @param pastures the array of pastures from the plan
+ * @param livestockTypes the array of live stock types
+ * @param usage the array of usage from the agreement
+ * @param isAgreementHolder is the current user an agreement holder?
+ * @returns An array of errors
  */
 export const handleGrazingScheduleValidation = (
-  schedule = {},
-  pastures = [],
-  livestockTypes = [],
-  usage = [],
+  schedule: ScheduleLike = {},
+  pastures: PastureLike[] = [],
+  livestockTypes: LivestockTypeLike[] = [],
+  usage: UsageLike[] = [],
   isAgreementHolder = false,
-) => {
+): ValidationError[] => {
   const { year, scheduleEntries: gse } = schedule;
   const scheduleEntries = gse || [];
   const yearUsage = usage.find((u) => u.year === year);
   const totalAnnualUse = yearUsage && yearUsage.totalAnnualUse;
-  const crownTotalAUMs = calcCrownTotalAUMs(scheduleEntries, pastures, livestockTypes);
+  const crownTotalAUMs = calcCrownTotalAUMs(scheduleEntries as any, pastures as any, livestockTypes as any);
 
   const elementId = ELEMENT_ID.SCHEDULE;
-  const errors = [];
+  const errors: ValidationError[] = [];
 
   if (scheduleEntries.length === 0) {
     if (isAgreementHolder) {
@@ -77,7 +77,7 @@ export const handleGrazingScheduleValidation = (
     return undefined;
   });
 
-  if (crownTotalAUMs > totalAnnualUse && year >= getCurrentYear()) {
+  if (crownTotalAUMs > totalAnnualUse! && year! >= getCurrentYear()) {
     errors.push({
       error: true,
       message: TOTAL_AUMS_EXCEEDS,

@@ -1,8 +1,20 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 
-const EnvironmentRibbon = () => {
-  const [environment, setEnvironment] = useState(null);
+const getEnvironmentColor = (env: string): string => {
+  switch (env) {
+    case 'development':
+      return '#ff7f50'; // Coral
+    case 'test':
+      return '#4682b4'; // Steel Blue
+    case 'local':
+      return '#9932cc'; // Dark Orchid
+    default:
+      return '#3cb371'; // Medium Sea Green
+  }
+};
+
+const EnvironmentRibbon: React.FC = () => {
+  const [environment, setEnvironment] = useState<string | null>(null);
 
   useEffect(() => {
     // Detect environment based on URL
@@ -23,7 +35,7 @@ const EnvironmentRibbon = () => {
   // Only show ribbon in non-production environments
   if (!environment || environment === 'production') return null;
 
-  const ribbonContainerStyles = {
+  const ribbonContainerStyles: React.CSSProperties = {
     position: 'fixed',
     top: 0,
     left: 0,
@@ -34,7 +46,7 @@ const EnvironmentRibbon = () => {
     pointerEvents: 'none', // So it doesn't interfere with clicks
   };
 
-  const ribbonStyles = {
+  const ribbonStyles: React.CSSProperties = {
     position: 'absolute',
     top: '15px',
     left: '-35px',
@@ -54,19 +66,6 @@ const EnvironmentRibbon = () => {
       <div style={ribbonStyles}>{environment.toUpperCase()}</div>
     </div>
   );
-};
-
-const getEnvironmentColor = (env) => {
-  switch (env) {
-    case 'development':
-      return '#ff7f50'; // Coral
-    case 'test':
-      return '#4682b4'; // Steel Blue
-    case 'local':
-      return '#9932cc'; // Dark Orchid
-    default:
-      return '#3cb371'; // Medium Sea Green
-  }
 };
 
 export default EnvironmentRibbon;

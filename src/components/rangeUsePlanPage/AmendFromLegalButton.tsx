@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { useNetworkStatus } from '../../utils/hooks/network';
 import { Button, Confirm, Icon } from 'semantic-ui-react';
@@ -16,7 +15,7 @@ const AmendFromLegalButton = () => {
   const references = useReferences();
   const user = useUser();
   const isOnline = useNetworkStatus();
-  const { currentPlan, fetchPlan } = useCurrentPlan();
+  const { currentPlan, fetchPlan } = useCurrentPlan()!;
 
   const { errorToast } = useToast();
 
@@ -28,7 +27,7 @@ const AmendFromLegalButton = () => {
     try {
       await amendFromLegal(currentPlan, references, isUserStaff(user));
       await fetchPlan();
-    } catch (e) {
+    } catch (e: any) {
       errorToast(e.message);
       console.error('Error creating amendment:', e.message);
       throw e;

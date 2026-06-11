@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import uuid from 'uuid-v4';
 import MinisterIssueBox from './MinisterIssueBox';
@@ -11,9 +10,13 @@ import AddMinisterIssueButton from './AddMinisterIssueButton';
 import { Confirm } from 'semantic-ui-react';
 import { deleteMinisterIssue } from '../../../api';
 
-const MinisterIssues = ({ issues }) => {
+interface MinisterIssuesProps {
+  issues: any[];
+}
+
+const MinisterIssues: React.FC<MinisterIssuesProps> = ({ issues }) => {
   const [activeMinisterIssue, setActiveMinisterIssue] = useState(issues[0] ? issues[0].id : -1);
-  const [indexToRemove, setIndexToRemove] = useState(null);
+  const [indexToRemove, setIndexToRemove] = useState<number | null>(null);
 
   return (
     <FieldArray
@@ -28,7 +31,7 @@ const MinisterIssues = ({ issues }) => {
             </div>
             <IfEditable permission={MINISTER_ISSUES.TYPE}>
               <AddMinisterIssueButton
-                onSubmit={(ministerIssue) => {
+                onSubmit={(ministerIssue: any) => {
                   push({
                     issueTypeId: ministerIssue.id,
                     detail: '',
@@ -50,27 +53,27 @@ const MinisterIssues = ({ issues }) => {
               setIndexToRemove(null);
             }}
             onConfirm={async () => {
-              const issue = issues[indexToRemove];
+              const issue = issues[indexToRemove!];
 
               if (!uuid.isUUID(issue.id)) {
                 await deleteMinisterIssue(issue.planId, issue.id);
               }
 
-              remove(indexToRemove);
+              remove(indexToRemove!);
               setIndexToRemove(null);
             }}
           />
 
           {issues.length > 0 ? (
             <ul className="collaspible-boxes">
-              {issues.map((issue, index) => (
+              {issues.map((issue: any, index: number) => (
                 <MinisterIssueBox
                   key={issue.id}
                   issue={issue}
                   ministerIssueIndex={index}
                   activeMinisterIssueIndex={activeMinisterIssue}
-                  onMinisterIssueClicked={(index) => () =>
-                    setActiveMinisterIssue(index === activeMinisterIssue ? -1 : index)
+                  onMinisterIssueClicked={(idx: number) => () =>
+                    setActiveMinisterIssue(idx === activeMinisterIssue ? -1 : idx)
                   }
                   namespace={`ministerIssues.${index}`}
                   onDelete={() => setIndexToRemove(index)}

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Button } from '@material-ui/core';
 import CreateExemptionMenuItem from './CreateExemptionMenuItem';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -10,13 +9,25 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
 import * as strings from '../../constants/strings';
 import { PLAN_EXTENSION_STATUS, PLAN_STATUS } from '../../constants/variables';
-import { getDataFromLocalStorage, isPlanActive, isUserAgreementHolder } from '../../utils';
+import { getDataFromLocalStorage as _getDataFromLocalStorage, isPlanActive, isUserAgreementHolder } from '../../utils';
+
+const getDataFromLocalStorage = (key: string): any => _getDataFromLocalStorage(key);
 import { isUserAdmin, isUserAgrologist } from '../../utils/helper/user';
 import CopyPlanMenuItem from './CopyPlanMenuItem';
 import CreateReplacementPlan from './CreateReplacementPlan';
 import NewPlanMenuItem from './NewPlanMenuItem';
 import PastePlanMenuItem from './PastePlanMenuItem';
 import ViewPlanMenuItem from './ViewPlanMenuItem';
+
+interface PlanActionsProps {
+  agreement: any;
+  user: any;
+  planId: any;
+  canEdit: boolean;
+  canCreatePlan: boolean;
+  currentPage: any;
+  onOpenExemptionDialog: () => void;
+}
 
 export default function PlanActions({
   agreement,
@@ -26,18 +37,18 @@ export default function PlanActions({
   canCreatePlan,
   currentPage,
   onOpenExemptionDialog,
-}) {
+}: PlanActionsProps) {
   const isStaffAgrologistOrAdmin = isUserAdmin(user) || isUserAgrologist(user);
 
   const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
+  const anchorRef = React.useRef<HTMLButtonElement | null>(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleClose = (event: any) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as Node)) {
       return;
     }
 
@@ -58,7 +69,7 @@ export default function PlanActions({
         Actions
       </Button>
       <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{ zIndex: 1 }}>
-        {({ TransitionProps, placement }) => (
+        {({ TransitionProps, placement }: any) => (
           <Grow
             {...TransitionProps}
             style={{

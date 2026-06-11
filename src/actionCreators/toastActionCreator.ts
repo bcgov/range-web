@@ -1,4 +1,3 @@
-// @ts-nocheck
 import uuid from 'uuid-v4';
 import { addToast, removeToast } from '../actions';
 import { getErrorMessage } from '../utils';
@@ -8,8 +7,15 @@ import {
   SESSION_EXPIRY_WARNING_TOAST_ID,
   TOAST_TIMEOUT,
 } from '../constants/variables';
+import type { AppThunk, AppDispatch , RootState } from '../configureStore';
 
-const toastMessage = (dispatch, getState, text, success, timeout) => {
+const toastMessage = (
+  dispatch: AppDispatch,
+  getState: () => RootState,
+  text: string,
+  success: boolean,
+  timeout: number,
+): void => {
   const id = uuid();
   const toast = {
     id,
@@ -28,18 +34,18 @@ const toastMessage = (dispatch, getState, text, success, timeout) => {
 };
 
 export const toastSuccessMessage =
-  (text, timeout = TOAST_TIMEOUT) =>
+  (text: string, timeout: number = TOAST_TIMEOUT): AppThunk<void> =>
   (dispatch, getState) => {
     toastMessage(dispatch, getState, text, true, timeout);
   };
 
 export const toastErrorMessage =
-  (err, timeout = TOAST_TIMEOUT) =>
+  (err: any, timeout: number = TOAST_TIMEOUT): AppThunk<void> =>
   (dispatch, getState) => {
     toastMessage(dispatch, getState, getErrorMessage(err), false, timeout);
   };
 
-export const toastSessionExpiry = () => (dispatch) => {
+export const toastSessionExpiry = (): AppThunk<void> => (dispatch) => {
   const id = SESSION_EXPIRY_WARNING_TOAST_ID;
   const toast = {
     id,

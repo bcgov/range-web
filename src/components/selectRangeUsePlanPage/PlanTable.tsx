@@ -1,6 +1,7 @@
-// @ts-nocheck
 import React from 'react';
-import { Segment, Button } from 'semantic-ui-react';
+import { Segment as _Segment, Button } from 'semantic-ui-react';
+
+const Segment = _Segment as any;
 import { Loading, PrimaryButton } from '../common';
 import * as API from '../../constants/api';
 import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
@@ -8,20 +9,24 @@ import PlanTableRow from './PlanTableRow';
 import { axios, getAuthHeaderConfig, isStatusAmongApprovedStatuses } from '../../utils';
 import useSWR from 'swr';
 
-const PlanTable = ({ agreementId }) => {
+interface PlanTableProps {
+  agreementId: any;
+}
+
+const PlanTable: React.FC<PlanTableProps> = ({ agreementId }) => {
   const {
     data: agreement,
     isValidating,
     revalidate,
     error,
-  } = useSWR(agreementId && API.GET_AGREEMENT(agreementId), (key) =>
-    axios.get(key, getAuthHeaderConfig()).then((res) => res.data),
+  } = useSWR(agreementId && API.GET_AGREEMENT(agreementId), (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data),
   );
 
   const { plans = [] } = agreement || {};
 
-  const setFirstApproved = (p, i) => {
-    const index = plans.findIndex((p) => isStatusAmongApprovedStatuses(p.status));
+  const setFirstApproved = (p: any, i: number) => {
+    const index = plans.findIndex((plan: any) => isStatusAmongApprovedStatuses(plan.status));
     return {
       ...p,
       recentApproved: index === i,
@@ -56,7 +61,7 @@ const PlanTable = ({ agreementId }) => {
             <Button disabled>{VIEW}</Button>
           </div>
         </div>
-        {plans.map(setFirstApproved).map((plan) => (
+        {plans.map(setFirstApproved).map((plan: any) => (
           <PlanTableRow plan={plan} key={plan.id} />
         ))}
       </div>

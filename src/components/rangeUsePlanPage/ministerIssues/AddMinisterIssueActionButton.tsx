@@ -1,30 +1,32 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { Button, Dropdown } from 'semantic-ui-react';
 import InputModal from '../../common/InputModal';
 
-const AddMinisterIssueActionButton = ({ onSubmit }) => {
+interface AddMinisterIssueActionButtonProps {
+  onSubmit: (action: any) => void;
+}
+
+const AddMinisterIssueActionButton: React.FC<AddMinisterIssueActionButtonProps> = ({ onSubmit }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const types = useReferences()[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
-  const options = types.map((type) => ({
+  const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
+  const options = types.map((type: any) => ({
     key: type.id,
     value: type.id,
     text: type.name,
     id: type.id,
   }));
 
-  const otherType = types.find((t) => t.name === 'Other');
+  const otherType = types.find((t: any) => t.name === 'Other');
 
-  const onOptionClicked = (e, { value: ministerIssueActionTypeId }) => {
+  const onOptionClicked = (_e: any, { value: ministerIssueActionTypeId }: any) => {
     if (otherType && ministerIssueActionTypeId === otherType.id) {
       return setModalOpen(true);
     }
 
-    const ministerIssueAction = types.find((t) => t.id === ministerIssueActionTypeId);
+    const ministerIssueAction = types.find((t: any) => t.id === ministerIssueActionTypeId);
 
     onSubmit(ministerIssueAction);
   };
@@ -43,11 +45,11 @@ const AddMinisterIssueActionButton = ({ onSubmit }) => {
         pointing="left"
         onChange={onOptionClicked}
         selectOnBlur={false}
-        value={null}
+        value={null as any}
       />
       <InputModal
         open={isModalOpen}
-        onSubmit={(input) => {
+        onSubmit={(input: string) => {
           setModalOpen(false);
           onSubmit({ ...otherType, other: input });
         }}
@@ -56,10 +58,6 @@ const AddMinisterIssueActionButton = ({ onSubmit }) => {
       />
     </>
   );
-};
-
-AddMinisterIssueActionButton.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AddMinisterIssueActionButton;

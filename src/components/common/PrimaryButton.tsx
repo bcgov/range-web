@@ -1,14 +1,12 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button, ButtonProps } from 'semantic-ui-react';
 
-const propTypes = {
-  inverted: PropTypes.bool,
-  children: PropTypes.node,
-};
+interface PrimaryButtonProps extends ButtonProps {
+  inverted?: boolean;
+  children?: React.ReactNode;
+}
 
-const PrimaryButton = ({ inverted = false, children, ...props }) => {
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({ inverted = false, children, ...props }) => {
   if (inverted) {
     return (
       <div className="inverted-btn">
@@ -25,7 +23,5 @@ const PrimaryButton = ({ inverted = false, children, ...props }) => {
     </Button>
   );
 };
-
-PrimaryButton.propTypes = propTypes;
 
 export default PrimaryButton;

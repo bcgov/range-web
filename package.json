@@ -13,6 +13,7 @@
     "@babel/core": "^7.16.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fluentui/react-component-ref": "^0.71.4",
     "@loadable/component": "^5.15.2",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
@@ -38,7 +39,6 @@
     "cypress": "^4.12.1",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -49,7 +49,6 @@
     "formik-semantic-ui": "^0.10.0",
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.6.7",
-
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",
     "jwt-decode": "^2.2.0",
@@ -64,11 +63,10 @@
     "postcss-loader": "^6.2.1",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.0.1",
+    "process": "^0.11.10",
     "prompts": "^2.4.2",
     "prop-types": "^15.8.1",
-
     "react": "^18.3.1",
-
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.3.1",
     "react-pdf": "^3.0.6",
@@ -78,10 +76,8 @@
     "react-router-dom": "^6.30.4",
     "react-scroll": "^1.8.7",
     "react-select": "^3.2.0",
-
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
-
     "redux-thunk": "^2.4.1",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
@@ -89,7 +85,7 @@
     "sass-loader": "^12.3.0",
     "semantic-ui": "^2.4.2",
     "semantic-ui-calendar-react": "^0.15.3",
-    "semantic-ui-react": "^0.87.3",
+    "semantic-ui-react": "^2.1.5",
     "semver": "^7.3.5",
     "source-map-loader": "^3.0.0",
     "stream-browserify": "^3.0.0",
@@ -114,6 +110,7 @@
     "pretest": "prettier --list-different \"**/*.{js,ts,tsx}\"",
     "prettier": "prettier --write \"**/*.{js,ts,tsx}\"",
     "eslint": "eslint '**/*.{js,ts,tsx}'",
+    "typecheck": "tsc --noEmit",
     "prepare": "husky install"
   },
   "browserslist": [
@@ -124,26 +121,24 @@
   ],
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^25.9.2",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
+    "@types/react-scroll": "^1.8.10",
+    "@types/redux-logger": "^3.0.13",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "buffer": "^6.0.3",
-
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^2.10.0",
     "eslint-import-resolver-typescript": "^4.4.5",
-
     "eslint-plugin-import": "^2.29.1",
-
     "eslint-plugin-react": "^7.33.2",
     "findup-sync": "^4.0.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-
     "typescript": "^6.0.3"
   },
   "babel": {

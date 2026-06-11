@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { CollapsibleBox, InfoTip, InputModal } from '../../common';
 import uuid from 'uuid-v4';
 import {
@@ -27,7 +25,19 @@ import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 
 const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }];
 
-const PlantCommunityBox = ({
+interface PlantCommunityBoxProps {
+  plantCommunity: any;
+  activeIndex: number;
+  index: number;
+  planId: any;
+  pastureId: any;
+  onClick: () => void;
+  namespace: string;
+  formik?: any;
+  onDelete: () => void;
+}
+
+const PlantCommunityBox: React.FC<PlantCommunityBoxProps> = ({
   plantCommunity,
   activeIndex,
   index,
@@ -53,11 +63,11 @@ const PlantCommunityBox = ({
 
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const communityTypes = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
-  const otherType = communityTypes.find((t) => t.name === 'Other');
+  const communityTypes = (useReferences() as any)[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
+  const otherType = communityTypes.find((t: any) => t.name === 'Other');
 
   const communityTypeOptions = communityTypes
-    .map((type) =>
+    .map((type: any) =>
       type.id === otherType.id
         ? {
             ...type,
@@ -65,17 +75,17 @@ const PlantCommunityBox = ({
           }
         : type,
     )
-    .map((type) => ({
+    .map((type: any) => ({
       key: type.id,
       value: type.id,
       text: type.name,
       id: type.id,
     }));
 
-  const communityType = communityTypeOptions.find((t) => t.value === communityTypeId);
+  const communityType = communityTypeOptions.find((t: any) => t.value === communityTypeId);
 
-  const elevationTypes = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION];
-  const elevationOptions = elevationTypes.map((type) => ({
+  const elevationTypes = (useReferences() as any)[REFERENCE_KEY.PLANT_COMMUNITY_ELEVATION];
+  const elevationOptions = elevationTypes.map((type: any) => ({
     key: type.id,
     value: type.id,
     text: type.name,
@@ -132,7 +142,7 @@ const PlantCommunityBox = ({
               displayValue={communityType?.id === otherType?.id ? name : communityType?.text}
               fast
               inputProps={{
-                onChange: (e, { value }) => {
+                onChange: (_e: any, { value }: any) => {
                   if (value === otherType.id) {
                     setModalOpen(true);
                     formik.setFieldValue(`${namespace}.communityTypeId`, communityTypeId);
@@ -158,10 +168,10 @@ const PlantCommunityBox = ({
                   trigger={<i className="ellipsis vertical icon" />}
                   options={dropdownOptions}
                   icon={null}
-                  value={null}
+                  value={null as any}
                   pointing="right"
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e, { value }) => {
+                  onClick={(e: any) => e.stopPropagation()}
+                  onChange={(_e: any, { value }: any) => {
                     if (value === 'delete') onDelete();
                   }}
                   selectOnBlur={false}
@@ -196,8 +206,8 @@ const PlantCommunityBox = ({
               component={Dropdown}
               options={elevationOptions}
               displayValue={
-                elevationTypes.find((t) => t.id === elevationId)
-                  ? elevationTypes.find((t) => t.id === elevationId).name
+                elevationTypes.find((t: any) => t.id === elevationId)
+                  ? elevationTypes.find((t: any) => t.id === elevationId).name
                   : ''
               }
               label={strings.ELEVATION}
@@ -284,10 +294,10 @@ const PlantCommunityBox = ({
             <IfEditable permission={PLANT_COMMUNITY.IMPORT}>
               <Import
                 excludedPlantCommunityId={plantCommunity.id}
-                onSubmit={({ plantCommunity: sourcePlantCommunity, criteria }) => {
+                onSubmit={({ plantCommunity: sourcePlantCommunity, criteria }: any) => {
                   const indicatorPlants = sourcePlantCommunity.indicatorPlants
                     // Filter indicator plants from source plant community based on selected criteria
-                    .filter((ip) => {
+                    .filter((ip: any) => {
                       return (
                         (criteria.includes('rangeReadiness') && ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
                         (criteria.includes('stubbleHeight') && ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
@@ -295,7 +305,7 @@ const PlantCommunityBox = ({
                     })
                     // Filter indicator plants from this plant community based on selected criteria
                     .concat(
-                      plantCommunity.indicatorPlants.filter((ip) => {
+                      plantCommunity.indicatorPlants.filter((ip: any) => {
                         return (
                           criteria.includes('rangeReadiness') &&
                           ip.criteria !== PLANT_CRITERIA.RANGE_READINESS &&
@@ -307,7 +317,7 @@ const PlantCommunityBox = ({
 
                   formik.setFieldValue(
                     `${namespace}.indicatorPlants`,
-                    indicatorPlants.map((ip) => ({ ...ip, id: uuid() })),
+                    indicatorPlants.map((ip: any) => ({ ...ip, id: uuid() })),
                   );
 
                   if (criteria.includes('rangeReadiness')) {
@@ -357,7 +367,7 @@ const PlantCommunityBox = ({
           <InputModal
             open={isModalOpen}
             onClose={() => setModalOpen(false)}
-            onSubmit={(name) => {
+            onSubmit={(name: string) => {
               formik.setFieldValue(`${namespace}.name`, name);
               formik.setFieldValue(`${namespace}.communityTypeId`, otherType.id);
               setModalOpen(false);
@@ -369,29 +379,6 @@ const PlantCommunityBox = ({
       }
     />
   );
-};
-
-PlantCommunityBox.propTypes = {
-  plantCommunity: PropTypes.shape({
-    name: PropTypes.string,
-    plantCommunityActions: PropTypes.array.isRequired,
-    purposeOfAction: PropTypes.string,
-    aspect: PropTypes.string,
-    elevationId: PropTypes.number,
-    url: PropTypes.string,
-    approved: PropTypes.bool.isRequired,
-    notes: PropTypes.string.isRequired,
-    communityType: PropTypes.object,
-    communityTypeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    monitoringAreas: PropTypes.array.isRequired,
-  }),
-  index: PropTypes.number.isRequired,
-  activeIndex: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  namespace: PropTypes.string.isRequired,
-  formik: PropTypes.shape({
-    setFieldValue: PropTypes.func.isRequired,
-  }),
 };
 
 export default connect(PlantCommunityBox);

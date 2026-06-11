@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import {
@@ -27,6 +26,25 @@ import { useToast } from '../../providers/ToastProvider';
 import ClientDropdown from './ClientDropdown';
 import { deleteClientLink, createClientLink } from '../../api';
 import { green } from '@material-ui/core/colors';
+
+interface ClientItem {
+  clientNumber: string;
+  name: string;
+  locationCodes: string[];
+}
+
+interface UserWithClients {
+  id: number;
+  email: string;
+  givenName?: string;
+  familyName?: string;
+  clients?: ClientItem[];
+  [key: string]: any;
+}
+
+interface ClientLinkListProps {
+  userId: number;
+}
 
 const useStyles = makeStyles((theme) => ({
   buttonProgress: {
@@ -63,15 +81,16 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     textAlign: 'center',
   },
+  root: {},
 }));
 
-const ClientLinkList = ({ userId }) => {
+const ClientLinkList: React.FC<ClientLinkListProps> = ({ userId }) => {
   const classes = useStyles();
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClient, setSelectedClient] = useState<ClientItem | null>(null);
   const [isCreating, setIsCreating] = useState(false);
-  const [createError, setCreateError] = useState(null);
+  const [createError, setCreateError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [clientToDelete, setClientToDelete] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState<ClientItem | null>(null);
   const { errorToast } = useToast();
 
   const {
@@ -79,7 +98,9 @@ const ClientLinkList = ({ userId }) => {
     error,
     isValidating,
     mutate,
-  } = useSWR(`${API.GET_USERS}/${userId}`, (key) => axios.get(key, getAuthHeaderConfig()).then((res) => res.data));
+  } = useSWR<UserWithClients>(`${API.GET_USERS}/${userId}`, (key: string) =>
+    axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data),
+  );
 
   useEffect(() => {
     setCreateError(null);
@@ -89,6 +110,7 @@ const ClientLinkList = ({ userId }) => {
   const handleCloseDialog = () => setClientToDelete(null);
 
   const handleAddClick = async () => {
+    if (!selectedClient || !user) return;
     setIsCreating(true);
     setCreateError(null);
     try {
@@ -100,7 +122,7 @@ const ClientLinkList = ({ userId }) => {
       });
 
       setSelectedClient(null);
-    } catch (e) {
+    } catch (e: any) {
       const errorMessage = `Error linking client: ${e.message ?? e?.data?.error}`;
       setCreateError(errorMessage);
     } finally {
@@ -108,7 +130,8 @@ const ClientLinkList = ({ userId }) => {
     }
   };
 
-  const handleDeleteClick = async (client) => {
+  const handleDeleteClick = async (client: ClientItem) => {
+    if (!user) return;
     setIsDeleting(true);
 
     try {
@@ -116,11 +139,11 @@ const ClientLinkList = ({ userId }) => {
 
       mutate({
         ...user,
-        clients: (user.clients ?? []).filter((c) => c === c.clientNumber),
+        clients: (user.clients ?? []).filter((c) => c.clientNumber !== client.clientNumber),
       });
 
       setClientToDelete(null);
-    } catch (e) {
+    } catch (e: any) {
       const errorMessage = `Error removing client link: ${e.message ?? e?.data?.error}`;
       errorToast(errorMessage);
       console.error(errorMessage);
@@ -134,7 +157,7 @@ const ClientLinkList = ({ userId }) => {
   }
 
   if (error) {
-    return <div>Error fetching user: {error?.message ?? error?.data?.error}</div>;
+    return <div>Error fetching user: {(error as any)?.message ?? (error as any)?.data?.error}</div>;
   }
 
   if (isValidating && !user)
@@ -179,7 +202,7 @@ const ClientLinkList = ({ userId }) => {
                     />
                     <ListItemSecondaryAction>
                       <IconButton edge="end" aria-label="delete" onClick={() => setClientToDelete(client)}>
-                        <DeleteIcon disabled={isDeleting} />
+                        <DeleteIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
                   </ListItem>
@@ -198,7 +221,7 @@ const ClientLinkList = ({ userId }) => {
             {user.clients && user.clients.length > 0 ? null : (
               <div className={classes.actions}>
                 <ClientDropdown
-                  onChange={(client) => {
+                  onChange={(client: ClientItem | null) => {
                     setSelectedClient(client);
                     setCreateError(null);
                   }}
@@ -250,7 +273,12 @@ const ClientLinkList = ({ userId }) => {
             <Button onClick={handleCloseDialog} color="primary" disabled={isDeleting}>
               Cancel
             </Button>
-            <Button onClick={() => handleDeleteClick(clientToDelete)} color="primary" autoFocus disabled={isDeleting}>
+            <Button
+              onClick={() => clientToDelete && handleDeleteClick(clientToDelete)}
+              color="primary"
+              autoFocus
+              disabled={isDeleting}
+            >
               Delete
               {isDeleting && (
                 <Fade

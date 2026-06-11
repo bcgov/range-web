@@ -1,26 +1,22 @@
-// @ts-nocheck
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Icon } from 'semantic-ui-react';
 import { closeConfirmationModal } from '../../actions';
 import { getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
 import { PrimaryButton } from '../common';
+import { RootState } from '../../configureStore';
 
-class ConfirmModals extends Component {
-  static propTypes = {
-    confirmationModalsMap: PropTypes.shape({}).isRequired,
-    closeConfirmationModal: PropTypes.func.isRequired,
-  };
+const ConfirmModals: React.FC = () => {
+  const dispatch = useDispatch();
+  const confirmationModalsMap = useSelector((state: RootState) => getConfirmationModalsMap(state));
 
-  renderConfirmationModal = (modal) => {
-    const { closeConfirmationModal } = this.props;
+  const renderConfirmationModal = (modal: any) => {
     const { id: modalId, header, content, onYesBtnClicked: oYBClicked, closeAfterYesBtnClicked } = modal;
     let onYesBtnClicked = oYBClicked;
     if (closeAfterYesBtnClicked) {
       onYesBtnClicked = () => {
-        closeConfirmationModal({ modalId });
+        dispatch(closeConfirmationModal({ modalId }));
         oYBClicked();
       };
     }
@@ -31,14 +27,14 @@ class ConfirmModals extends Component {
         dimmer="blurring"
         size="tiny"
         open
-        onClose={() => closeConfirmationModal({ modalId })}
+        onClose={() => dispatch(closeConfirmationModal({ modalId }))}
         closeIcon={<Icon name="close" color="black" />}
       >
         <Modal.Header as="h2" content={header} />
         <Modal.Content>
           <div className="confirmation-modal__content">{content}</div>
           <div className="confirmation-modal__btns">
-            <PrimaryButton inverted onClick={() => closeConfirmationModal({ modalId })}>
+            <PrimaryButton inverted onClick={() => dispatch(closeConfirmationModal({ modalId }))}>
               <Icon name="remove" />
               Cancel
             </PrimaryButton>
@@ -52,14 +48,9 @@ class ConfirmModals extends Component {
     );
   };
 
-  render() {
-    const confirmationModals = getObjValues(this.props.confirmationModalsMap);
+  const confirmationModals = getObjValues(confirmationModalsMap);
 
-    return <Fragment>{confirmationModals.map(this.renderConfirmationModal)}</Fragment>;
-  }
-}
+  return <>{confirmationModals.map(renderConfirmationModal)}</>;
+};
 
-const mapStateToProps = (state) => ({
-  confirmationModalsMap: getConfirmationModalsMap(state),
-});
-export default connect(mapStateToProps, { closeConfirmationModal })(ConfirmModals);
+export default ConfirmModals;

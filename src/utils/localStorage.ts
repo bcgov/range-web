@@ -1,29 +1,27 @@
-// @ts-nocheck
 import { LOCAL_STORAGE_KEY } from '../constants/variables';
 
 /**
  * Save data in local storage
  *
- * @param {string} key
- * @param {object} data
- * @returns undefined
+ * @param key - the localStorage key
+ * @param data - the data to store (objects are JSON-serialized)
  */
-export const saveDataInLocalStorage = (key, data) => {
-  const serializedData = typeof data === 'object' ? JSON.stringify(data) : data;
+export const saveDataInLocalStorage = (key: string, data: unknown): void => {
+  const serializedData = typeof data === 'object' ? JSON.stringify(data) : String(data);
   localStorage.setItem(key, serializedData);
 };
 
 /**
  * Get data that was saved in local storage
  *
- * @param {string} key
- * @returns {object} the data object
+ * @param key - the localStorage key
+ * @returns the parsed data object, raw string, or undefined if not found
  */
-export const getDataFromLocalStorage = (key) => {
+export const getDataFromLocalStorage = (key: string): unknown => {
   const data = localStorage.getItem(key);
   if (data) {
     try {
-      return JSON.parse(data);
+      return JSON.parse(data) as unknown;
     } catch (err) {
       return data;
     }
@@ -31,8 +29,8 @@ export const getDataFromLocalStorage = (key) => {
   return undefined;
 };
 
-export const saveReferencesInLocalStorage = (data) => {
+export const saveReferencesInLocalStorage = (data: unknown): void => {
   saveDataInLocalStorage(LOCAL_STORAGE_KEY.REFERENCE, data);
 };
 
-export const getReferencesFromLocalStorage = () => getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE);
+export const getReferencesFromLocalStorage = (): unknown => getDataFromLocalStorage(LOCAL_STORAGE_KEY.REFERENCE);

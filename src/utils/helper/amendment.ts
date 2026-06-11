@@ -1,7 +1,27 @@
-// @ts-nocheck
 import { AMENDMENT_TYPE } from '../../constants/variables';
 
-export const copyPlantCommunitiesToCreateAmendment = (plantCommunityIds, plantCommunitiesMap, newPastureIdsMap) => {
+interface PlanLike {
+  pastures?: { id: number | string; [key: string]: any }[];
+  schedules?: { id: number | string; [key: string]: any }[];
+  ministerIssues?: { id: number | string; [key: string]: any }[];
+  managementConsiderations?: { id: number | string; [key: string]: any }[];
+  additionalRequirements?: { id: number | string; [key: string]: any }[];
+  invasivePlantChecklist?: any;
+  [key: string]: any;
+}
+
+interface AmendmentTypeLike {
+  id: number;
+  code: string;
+  description?: string;
+  [key: string]: any;
+}
+
+export const copyPlantCommunitiesToCreateAmendment = (
+  plantCommunityIds: (number | string)[],
+  plantCommunitiesMap: Record<string | number, any>,
+  newPastureIdsMap: Record<string | number, number | string>,
+): any[] => {
   const plantCommunities = plantCommunityIds.map((id) => plantCommunitiesMap[id]);
 
   return plantCommunities.map((pc) => {
@@ -16,8 +36,8 @@ export const copyPlantCommunitiesToCreateAmendment = (plantCommunityIds, plantCo
   });
 };
 
-export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) => {
-  const copied = {
+export const copyPlanToCreateAmendment = (plan: any = {}, statusId: number, amendmentTypeId: number): any => {
+  const copied: any = {
     ...plan,
     statusId,
     amendmentTypeId,
@@ -32,11 +52,14 @@ export const copyPlanToCreateAmendment = (plan = {}, statusId, amendmentTypeId) 
   return copied;
 };
 
-export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
+export const copyPasturesToCreateAmendment = (
+  plan: PlanLike,
+  pasturesMap: Record<string | number, any>,
+): { pastures: any[]; plantCommunities: any[] } => {
   // extract all plantCommunities from pastures
-  let plantCommunities = [];
+  let plantCommunities: any[] = [];
 
-  const pastures = plan.pastures.map((p) => {
+  const pastures = (plan.pastures || []).map((p) => {
     const { id: oldId, ...pasture } = pasturesMap[p.id] || {};
 
     const { plantCommunities: pcs } = pasture;
@@ -45,7 +68,7 @@ export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
     }
 
     // oldId will be used to match the relationships between
-    // copied pastures and other contents referecing to those pastures
+    // copied pastures and other contents referencing to those pastures
     // such as grazing schedule entries and minister issues
     return { ...pasture, oldId };
   });
@@ -56,19 +79,26 @@ export const copyPasturesToCreateAmendment = (plan, pasturesMap) => {
   };
 };
 
-export const normalizePasturesWithOldId = (oldPastures, newPastures) => {
-  const pastureIdsMap = {};
+export const normalizePasturesWithOldId = (
+  oldPastures: { oldId?: number | string; name?: string; [key: string]: any }[],
+  newPastures: { id: number | string; name?: string; [key: string]: any }[],
+): Record<string | number, number | string> => {
+  const pastureIdsMap: Record<string | number, number | string> = {};
   newPastures.forEach((p) => {
     const match = oldPastures.find((old) => p.name === old.name);
-    pastureIdsMap[match.oldId] = p.id;
+    pastureIdsMap[match!.oldId!] = p.id;
   });
   return pastureIdsMap;
 };
 
-export const copySchedulesToCreateAmendment = (plan, schedulesMap, newPastureIdsMap) => {
-  return plan.schedules.map((gs) => {
+export const copySchedulesToCreateAmendment = (
+  plan: PlanLike,
+  schedulesMap: Record<string | number, any>,
+  newPastureIdsMap: Record<string | number, number | string>,
+): any[] => {
+  return (plan.schedules || []).map((gs) => {
     const { scheduleEntries, ...schedule } = schedulesMap[gs.id];
-    const newScheduleEntries = scheduleEntries.map((gse) => {
+    const newScheduleEntries = scheduleEntries.map((gse: any) => {
       const { pastureId: oldPastureId, ...newScheduleEntry } = gse;
       // replace the original pastureId with the newly created pastureId
       const pastureId = newPastureIdsMap[oldPastureId];
@@ -82,41 +112,51 @@ export const copySchedulesToCreateAmendment = (plan, schedulesMap, newPastureIds
   });
 };
 
-export const copyMinisterIssuesToCreateAmendment = (plan, ministerIssuesMap, newPastureIdsMap) => {
-  return plan.ministerIssues.map((mi) => {
+export const copyMinisterIssuesToCreateAmendment = (
+  plan: PlanLike,
+  ministerIssuesMap: Record<string | number, any>,
+  newPastureIdsMap: Record<string | number, number | string>,
+): any[] => {
+  return (plan.ministerIssues || []).map((mi) => {
     const { pastures: oldPastureIds, ...ministerIssue } = ministerIssuesMap[mi.id];
     // replace the pasture ids with the newly created pasture ids
-    const pastures = oldPastureIds.map((opId) => newPastureIdsMap[opId]);
+    const pastures = oldPastureIds.map((opId: string | number) => newPastureIdsMap[opId]);
     return { ...ministerIssue, pastures };
   });
 };
 
-export const copyInvasivePlantChecklistToCreateAmendment = (plan) => {
+export const copyInvasivePlantChecklistToCreateAmendment = (plan: PlanLike | null | undefined): any => {
   if (!plan || !plan.invasivePlantChecklist) return null;
 
   const { ...invasivePlantChecklist } = plan.invasivePlantChecklist;
   return invasivePlantChecklist;
 };
 
-export const copyManagementConsiderationsToCreateAmendment = (plan, managementConsiderationsMap) => {
-  return plan.managementConsiderations.map((mc) => {
+export const copyManagementConsiderationsToCreateAmendment = (
+  plan: PlanLike,
+  managementConsiderationsMap: Record<string | number, any>,
+): any[] => {
+  return (plan.managementConsiderations || []).map((mc) => {
     const { ...managementConsideration } = managementConsiderationsMap[mc.id];
 
     return managementConsideration;
   });
 };
 
-export const copyAdditionalRequirementsToCreateAmendment = (plan, additionalRequirementsMap) => {
-  return plan.additionalRequirements.map((ar) => {
+export const copyAdditionalRequirementsToCreateAmendment = (
+  plan: PlanLike,
+  additionalRequirementsMap: Record<string | number, any>,
+): any[] => {
+  return (plan.additionalRequirements || []).map((ar) => {
     const { ...additionalRequirement } = additionalRequirementsMap[ar.id];
 
     return additionalRequirement;
   });
 };
 
-export const isAmendment = (amendmentTypeId) => amendmentTypeId > 0;
+export const isAmendment = (amendmentTypeId: number | null | undefined): boolean => !!(amendmentTypeId && amendmentTypeId > 0);
 
-export const isSubmittedAsMinor = (amendmentTypeId, amendmentTypes) => {
+export const isSubmittedAsMinor = (amendmentTypeId: number | null | undefined, amendmentTypes: AmendmentTypeLike[]): boolean => {
   const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
   if (!amendmentType) {
     return false;
@@ -124,7 +164,7 @@ export const isSubmittedAsMinor = (amendmentTypeId, amendmentTypes) => {
   return amendmentType && amendmentType.code === AMENDMENT_TYPE.MINOR;
 };
 
-export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
+export const isSubmittedAsMandatory = (amendmentTypeId: number | null | undefined, amendmentTypes: AmendmentTypeLike[]): boolean => {
   const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
   if (!amendmentType) {
     return false;
@@ -132,8 +172,14 @@ export const isSubmittedAsMandatory = (amendmentTypeId, amendmentTypes) => {
   return amendmentType && amendmentType.code === AMENDMENT_TYPE.MANDATORY;
 };
 
-export const isMinorAmendment = (amendmentTypeId, amendmentTypes, amendmentTypeCode) =>
-  isSubmittedAsMinor(amendmentTypeId, amendmentTypes) || amendmentTypeCode === AMENDMENT_TYPE.MINOR;
+export const isMinorAmendment = (
+  amendmentTypeId: number | null | undefined,
+  amendmentTypes: AmendmentTypeLike[],
+  amendmentTypeCode?: string,
+): boolean => isSubmittedAsMinor(amendmentTypeId, amendmentTypes) || amendmentTypeCode === AMENDMENT_TYPE.MINOR;
 
-export const isMandatoryAmendment = (amendmentTypeId, amendmentTypes, amendmentTypeCode) =>
-  isSubmittedAsMandatory(amendmentTypeId, amendmentTypes) || amendmentTypeCode === AMENDMENT_TYPE.MANDATORY;
+export const isMandatoryAmendment = (
+  amendmentTypeId: number | null | undefined,
+  amendmentTypes: AmendmentTypeLike[],
+  amendmentTypeCode?: string,
+): boolean => isSubmittedAsMandatory(amendmentTypeId, amendmentTypes) || amendmentTypeCode === AMENDMENT_TYPE.MANDATORY;

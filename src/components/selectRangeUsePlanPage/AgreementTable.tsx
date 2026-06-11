@@ -1,21 +1,30 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
-import { Pagination, Icon, Segment } from 'semantic-ui-react';
+import { Pagination, Icon, Segment as _Segment } from 'semantic-ui-react';
+
+const Segment = _Segment as any;
 import * as strings from '../../constants/strings';
 import { Loading } from '../common';
 import AgreementTableRow from './AgreementTableRow';
 import AHWarning from './AHWarning';
 import { useQueryParam, StringParam } from 'use-query-params';
 
-const AgreementTable = ({ agreements, loading, currentPage, totalPages, onPageChange }) => {
+interface AgreementTableProps {
+  agreements: any[];
+  loading: boolean;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (event: any, data: any) => void;
+}
+
+const AgreementTable: React.FC<AgreementTableProps> = ({ agreements, loading, currentPage, totalPages, onPageChange }) => {
   const [activeId, setActiveId] = useQueryParam('selected', StringParam);
 
-  const [currentAgreements, setCurrentAgreements] = useState([]);
+  const [currentAgreements, setCurrentAgreements] = useState<any[]>([]);
   const [currentTotalPages, setCurrentTotalPages] = useState(0);
 
   useEffect(() => {
     if (agreements) {
-      if (!agreements.find((a) => a.forestFileId === activeId)) {
+      if (!agreements.find((a: any) => a.forestFileId === activeId)) {
         setActiveId(null);
       }
       setCurrentAgreements(agreements);
@@ -46,7 +55,7 @@ const AgreementTable = ({ agreements, loading, currentPage, totalPages, onPageCh
           </div>
         </div>
 
-        {currentAgreements.map((agreement) => (
+        {currentAgreements.map((agreement: any) => (
           <AgreementTableRow
             key={agreement.id}
             agreement={agreement}

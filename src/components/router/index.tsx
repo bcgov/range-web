@@ -1,4 +1,3 @@
-// @ts-nocheck
 //
 // MyRangeBC
 //
@@ -42,7 +41,7 @@ const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'));
 const AssignRolesAndDistricts = LoadableComponent(() => import('../assignRolesAndDistrictsPage'));
 const PDFView = LoadableComponent(() => import('../rangeUsePlanPage/pdf/PDFView'));
 
-const Router = () => {
+const Router: React.FC = () => {
   const user = useUser();
 
   return (

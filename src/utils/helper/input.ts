@@ -1,5 +1,4 @@
-// @ts-nocheck
-export const allowAlphabetOnly = (e) => {
+export const allowAlphabetOnly = (e: KeyboardEvent): void => {
   const regex = new RegExp('^[a-zA-Z ]+$');
   const key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
   if (!regex.test(key)) {
@@ -8,7 +7,7 @@ export const allowAlphabetOnly = (e) => {
   }
 };
 
-export const handleWhenEnterPressed = (e, callback) => {
+export const handleWhenEnterPressed = (e: KeyboardEvent, callback: (e: KeyboardEvent) => void): void => {
   if (e.charCode === 13) {
     callback(e);
   }

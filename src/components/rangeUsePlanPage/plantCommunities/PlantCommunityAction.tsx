@@ -1,8 +1,7 @@
-// @ts-nocheck
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'formik';
-import { Form, Icon, Dropdown as PlainDropdown, Grid } from 'semantic-ui-react';
+import { Form, Icon, Dropdown as PlainDropdown, Grid as SUIGrid } from 'semantic-ui-react';
+const Grid = SUIGrid as any;
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
@@ -12,15 +11,22 @@ import DayMonthPicker from '../../common/form/DayMonthPicker';
 import moment from 'moment';
 import HelpfulDropdown from '../../common/form/HelpfulDropdown';
 
-const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
-  const references = useReferences();
+interface PlantCommunityActionProps {
+  action: any;
+  namespace: string;
+  onDelete: () => void;
+  formik?: any;
+}
+
+const PlantCommunityAction: React.FC<PlantCommunityActionProps> = ({ action, namespace, onDelete, formik }) => {
+  const references = useReferences() as any;
   const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE];
-  const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map((type) => ({
-    placeholder: placeholders.find((p) => p.id === type.id).placeholder,
+  const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map((type: any) => ({
+    placeholder: placeholders.find((p: any) => p.id === type.id).placeholder,
     ...type,
   }));
 
-  const otherType = actionTypes.find((type) => type.name === 'Other');
+  const otherType = actionTypes.find((type: any) => type.name === 'Other');
   const [otherOption, setOtherOption] = useState({
     key: otherType?.id,
     value: otherType?.id,
@@ -28,15 +34,15 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
   });
 
   const actionOptions = actionTypes
-    .map((type) => ({
+    .map((type: any) => ({
       key: type.id,
       value: type.id,
       text: type.name,
     }))
     .concat(otherOption)
-    .filter((o) => o.text !== 'Other');
+    .filter((o: any) => o.text !== 'Other');
 
-  const valueInputRef = useRef(null);
+  const valueInputRef = useRef<any>(null);
 
   return (
     <Grid>
@@ -48,8 +54,8 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
           help="To select a value, start typing. If a predefined option doesn't exist, you can provide your own value"
           options={actionOptions}
           displayValue={
-            actionOptions.find((option) => option.value === action.actionTypeId)
-              ? actionOptions.find((option) => option.value === action.actionTypeId).text
+            actionOptions.find((option: any) => option.value === action.actionTypeId)
+              ? actionOptions.find((option: any) => option.value === action.actionTypeId).text
               : ''
           }
           label="Action"
@@ -62,12 +68,12 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             fluid: true,
             additionLabel: 'Other: ',
             selectOnBlur: true,
-            onKeyDown: (e) => {
+            onKeyDown: (e: any) => {
               if (e.keyCode === 13) {
                 valueInputRef.current.focus();
               }
             },
-            onAddItem: (e, { value }) => {
+            onAddItem: (_e: any, { value }: any) => {
               setOtherOption({
                 ...otherOption,
                 text: value,
@@ -94,12 +100,12 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             rows: 5,
             ref: valueInputRef,
             placeholder:
-              actionTypes?.find((type) => type.id === action.actionTypeId)?.placeholder ?? otherType?.placeholder,
+              actionTypes?.find((type: any) => type.id === action.actionTypeId)?.placeholder ?? otherType?.placeholder,
           }}
         />
 
-        {actionOptions.find((option) => option.value === action.actionTypeId) &&
-          actionOptions.find((option) => option.value === action.actionTypeId).text === 'Timing' && (
+        {actionOptions.find((option: any) => option.value === action.actionTypeId) &&
+          actionOptions.find((option: any) => option.value === action.actionTypeId).text === 'Timing' && (
             <Form.Group widths="equal">
               <PermissionsField
                 monthName={`${namespace}.noGrazeStartMonth`}
@@ -140,8 +146,8 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
             style={{ display: 'flex', alignItems: 'center' }}
             icon={null}
             pointing="right"
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e, { value }) => {
+            onClick={(e: any) => e.stopPropagation()}
+            onChange={(_e: any, { value }: any) => {
               if (value === 'delete') {
                 onDelete();
               }
@@ -152,13 +158,6 @@ const PlantCommunityAction = ({ action, namespace, onDelete, formik }) => {
       </IfEditable>
     </Grid>
   );
-};
-
-PlantCommunityAction.propTypes = {
-  action: PropTypes.object.isRequired,
-  namespace: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  formik: PropTypes.object.isRequired,
 };
 
 export default connect(PlantCommunityAction);

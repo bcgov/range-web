@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
@@ -29,7 +28,7 @@ import {
   EXEMPTION_START_DATE_VALIDATION_MESSAGE,
 } from '../../constants/strings';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   dialogTitle: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
@@ -56,23 +55,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ExemptionDialog({ open, onClose, agreementId, onCreated, exemptionToEdit }) {
+interface ExemptionDialogProps {
+  open: boolean;
+  onClose: () => void;
+  agreementId: any;
+  onCreated?: () => void;
+  exemptionToEdit?: any;
+}
+
+export default function ExemptionDialog({ open, onClose, agreementId, onCreated, exemptionToEdit }: ExemptionDialogProps) {
   const classes = useStyles();
-  const confirm = useConfirm();
+  const confirm = useConfirm()!;
   const [form, setForm] = useState({
     startDate: '',
     endDate: '',
     reason: '',
     justificationText: '',
   });
-  const [attachments, setAttachments] = useState([]);
-  const [existingAttachments, setExistingAttachments] = useState([]);
+  const [attachments, setAttachments] = useState<File[]>([]);
+  const [existingAttachments, setExistingAttachments] = useState<any[]>([]);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
-  const fileInputRef = useRef(null);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const viewOnly = exemptionToEdit?.viewOnly;
 
-  const formatDateForInput = (dateString) => {
+  const formatDateForInput = (dateString: any) => {
     if (!dateString) return '';
     return moment(dateString).format('YYYY-MM-DD');
   };
@@ -101,7 +108,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
     }
   }, [open, exemptionToEdit]);
 
-  const onFieldChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const onFieldChange = (e: any) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const validateDates = () => {
     const start = new Date(form.startDate);
@@ -153,7 +160,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
     }
 
     try {
-      const attachmentsMeta = [];
+      const attachmentsMeta: any[] = [];
 
       try {
         for (const f of attachments) {
@@ -164,7 +171,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
               'Content-Type': f.type || 'application/octet-stream',
             },
             skipAuthorizationHeader: true,
-          });
+          } as any);
 
           attachmentsMeta.push({
             name: encodeURIComponent(f.name),
@@ -196,7 +203,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
 
       if (onCreated) onCreated();
       onClose();
-    } catch (err) {
+    } catch (err: any) {
       setError(err?.response?.data?.message || err.message);
     } finally {
       setSubmitting(false);
@@ -312,7 +319,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
           {existingAttachments.length > 0 && (
             <Box mt={2} mb={2}>
               <Typography variant="subtitle2">Current Attachments:</Typography>
-              {existingAttachments.map((attachment, idx) => (
+              {existingAttachments.map((attachment: any, idx: number) => (
                 <Box key={`${attachment.name}_${idx}`} display="flex" alignItems="center" mt={1}>
                   <Typography variant="body2" style={{ flex: 1 }}>
                     {attachment.name}
@@ -331,7 +338,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
                     <Button
                       size="small"
                       color="secondary"
-                      onClick={() => setExistingAttachments((prev) => prev.filter((_, i) => i !== idx))}
+                      onClick={() => setExistingAttachments((prev) => prev.filter((_: any, i: number) => i !== idx))}
                     >
                       Remove
                     </Button>
@@ -346,12 +353,12 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
             type="file"
             accept="*"
             multiple
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newFiles = Array.from(e.target.files || []);
               setAttachments((prev) => {
                 const combined = [...prev, ...newFiles];
-                const seen = new Set();
-                const unique = [];
+                const seen = new Set<string>();
+                const unique: File[] = [];
                 combined.forEach((f) => {
                   const key = `${f.name}_${f.size}`;
                   if (!seen.has(key)) {
@@ -361,7 +368,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
                 });
                 return unique;
               });
-              e.target.value = null;
+              (e.target as HTMLInputElement).value = '';
             }}
             style={{ display: 'none' }}
           />
@@ -407,7 +414,7 @@ export default function ExemptionDialog({ open, onClose, agreementId, onCreated,
         </Button>
         {!viewOnly &&
           (submitting ? (
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box display="flex" alignItems="center">
               <CircularProgress size={24} />
             </Box>
           ) : (

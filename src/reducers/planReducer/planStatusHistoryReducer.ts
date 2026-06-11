@@ -1,8 +1,18 @@
-// @ts-nocheck
 import { STORE_PLAN, PLAN_STATUS_HISTORY_RECORD_ADDED } from '../../constants/actionTypes';
+import { PlanStatusHistory, EntityMap } from '../../types';
 
-const storeStatusHistory = (state, action) => {
-  const { planStatusHistory } = action.payload.entities;
+export type PlanStatusHistoryState = EntityMap<PlanStatusHistory>;
+
+interface StatusHistoryAction {
+  type: string;
+  payload: {
+    entities?: { planStatusHistory?: EntityMap<PlanStatusHistory> };
+    record?: PlanStatusHistory;
+  };
+}
+
+const storeStatusHistory = (state: PlanStatusHistoryState, action: StatusHistoryAction): PlanStatusHistoryState => {
+  const planStatusHistory = action.payload.entities?.planStatusHistory ?? {};
 
   return {
     ...state,
@@ -10,16 +20,16 @@ const storeStatusHistory = (state, action) => {
   };
 };
 
-const addStatusHistoryRecord = (state, action) => {
+const addStatusHistoryRecord = (state: PlanStatusHistoryState, action: StatusHistoryAction): PlanStatusHistoryState => {
   const { record } = action.payload;
 
   return {
     ...state,
-    [record.id]: record,
+    [record!.id]: record!,
   };
 };
 
-const planStatusHistoryReducer = (state = {}, action) => {
+const planStatusHistoryReducer = (state: PlanStatusHistoryState = {}, action: StatusHistoryAction): PlanStatusHistoryState => {
   switch (action.type) {
     case STORE_PLAN:
       return storeStatusHistory(state, action);

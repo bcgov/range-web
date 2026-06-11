@@ -1,30 +1,28 @@
-// @ts-nocheck
-import PropTypes from 'prop-types';
-
-export const propTypes = {
-  agreement: PropTypes.shape({ plan: PropTypes.object }),
-  plan: PropTypes.shape({}),
-  user: PropTypes.shape({}).isRequired,
-  references: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
-  pasturesMap: PropTypes.shape({}).isRequired,
-  schedulesMap: PropTypes.shape({}).isRequired,
-  ministerIssuesMap: PropTypes.shape({}).isRequired,
-  planStatusHistoryMap: PropTypes.shape({}).isRequired,
-  additionalRequirementsMap: PropTypes.shape({}).isRequired,
-  managementConsiderationsMap: PropTypes.shape({}).isRequired,
-  updateRUPStatus: PropTypes.func.isRequired,
-  createOrUpdateRUPGrazingSchedule: PropTypes.func.isRequired,
-  createOrUpdateRUPMinisterIssueAndActions: PropTypes.func.isRequired,
-  toastSuccessMessage: PropTypes.func.isRequired,
-  toastErrorMessage: PropTypes.func.isRequired,
-  createAmendment: PropTypes.func.isRequired,
-  isCreatingAmendment: PropTypes.bool.isRequired,
-  openConfirmationModal: PropTypes.func.isRequired,
-  fetchPlan: PropTypes.func.isRequired,
-  createOrUpdateRUPInvasivePlantChecklist: PropTypes.func.isRequired,
-  createOrUpdateRUPManagementConsideration: PropTypes.func.isRequired,
-};
+export interface PageForAHProps {
+  agreement: any;
+  plan: any;
+  user: any;
+  references: any;
+  history: any;
+  pasturesMap: any;
+  schedulesMap: any;
+  ministerIssuesMap: any;
+  planStatusHistoryMap: any;
+  additionalRequirementsMap: any;
+  managementConsiderationsMap: any;
+  updateRUPStatus: (...args: any[]) => any;
+  createOrUpdateRUPGrazingSchedule: (...args: any[]) => any;
+  createOrUpdateRUPMinisterIssueAndActions: (...args: any[]) => any;
+  toastSuccessMessage: (msg: any) => void;
+  toastErrorMessage: (msg: any) => void;
+  createAmendment: (...args: any[]) => any;
+  isCreatingAmendment: boolean;
+  openConfirmationModal: (config: any) => void;
+  fetchPlan: () => Promise<any>;
+  createOrUpdateRUPInvasivePlantChecklist: (...args: any[]) => any;
+  createOrUpdateRUPManagementConsideration: (...args: any[]) => any;
+  clientAgreements: any[] | null;
+}
 
 export const defaultProps = {
   agreement: {

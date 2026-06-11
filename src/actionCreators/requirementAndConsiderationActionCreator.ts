@@ -1,4 +1,3 @@
-// @ts-nocheck
 import uuid from 'uuid-v4';
 import { axios, createConfigWithHeader } from '../utils';
 import {
@@ -6,52 +5,59 @@ import {
   CREATE_RUP_MANAGEMENT_CONSIDERATION,
   UPDATE_RUP_MANAGEMENT_CONSIDERATION,
 } from '../constants/api';
+import type { AppThunk, AppDispatch } from '../configureStore';
 
 export const createRUPAdditionalRequirement =
-  (planId, { ...requirement }) =>
+  (planId: string | number, requirement: any): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
-    return axios.post(CREATE_RUP_ADDITIONAL_REQUIREMENT(planId), requirement, createConfigWithHeader(getState)).then(
-      (response) => {
+    const { ...data } = requirement;
+    return axios.post(CREATE_RUP_ADDITIONAL_REQUIREMENT(planId), data, createConfigWithHeader(getState)).then(
+      (response: any) => {
         return response.data;
       },
-      (err) => {
+      (err: any) => {
         throw err;
       },
     );
   };
 
 export const createRUPManagementConsideration =
-  (planId, { ...consideration }) =>
+  (planId: string | number, consideration: any): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
+    const { ...data } = consideration;
     return axios
-      .post(CREATE_RUP_MANAGEMENT_CONSIDERATION(planId), consideration, createConfigWithHeader(getState))
+      .post(CREATE_RUP_MANAGEMENT_CONSIDERATION(planId), data, createConfigWithHeader(getState))
       .then(
-        (response) => {
+        (response: any) => {
           return response.data;
         },
-        (err) => {
+        (err: any) => {
           throw err;
         },
       );
   };
 
-export const updateRUPManagementConsideration = (planId, consideration) => (dispatch, getState) => {
-  return axios
-    .put(UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id), consideration, createConfigWithHeader(getState))
-    .then(
-      (response) => {
-        return response.data;
-      },
-      (err) => {
-        throw err;
-      },
-    );
-};
+export const updateRUPManagementConsideration =
+  (planId: string | number, consideration: any): AppThunk<Promise<any>> =>
+  (dispatch, getState) => {
+    return axios
+      .put(UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id), consideration, createConfigWithHeader(getState))
+      .then(
+        (response: any) => {
+          return response.data;
+        },
+        (err: any) => {
+          throw err;
+        },
+      );
+  };
 
-export const createOrUpdateRUPManagementConsideration = (planId, consideration) => (dispatch) => {
-  if (uuid.isUUID(consideration.id)) {
-    return dispatch(createRUPManagementConsideration(planId, consideration));
-  }
+export const createOrUpdateRUPManagementConsideration =
+  (planId: string | number, consideration: any): AppThunk<Promise<any>> =>
+  (dispatch: AppDispatch) => {
+    if (uuid.isUUID(consideration.id)) {
+      return dispatch(createRUPManagementConsideration(planId, consideration));
+    }
 
-  return dispatch(updateRUPManagementConsideration(planId, consideration));
-};
+    return dispatch(updateRUPManagementConsideration(planId, consideration));
+  };

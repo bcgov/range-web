@@ -1,15 +1,22 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import { DateInput } from 'semantic-ui-calendar-react';
 import { Field, getIn } from 'formik';
 import moment from 'moment';
 
-const DateInputField = ({ inline, label, ...props }) => (
+interface DateInputFieldProps {
+  inline?: boolean;
+  label?: string;
+  name: string;
+  dateFormat?: string;
+  icon?: any;
+  [key: string]: any;
+}
+
+const DateInputField: React.FC<DateInputFieldProps> = ({ inline, label, ...props }) => (
   <Field
     {...props}
     inline={inline}
-    render={({ field, form }) => {
+    render={({ field, form }: any) => {
       const error = getIn(form.errors, field.name);
 
       return (
@@ -21,13 +28,13 @@ const DateInputField = ({ inline, label, ...props }) => (
             hideMobileKeyboard
             closeOnMouseLeave={false}
             autoComplete="off"
-            onChange={(e, { value }) => {
+            onChange={(_e: any, { value }: any) => {
               const date = moment(value, props.dateFormat).toISOString();
               form.setFieldValue(field.name, date);
             }}
             value={field.value ? moment(field.value).format(props.dateFormat) : ''}
             onBlur={() => form.setFieldTouched(field.name)}
-            onKeyDown={(e) => {
+            onKeyDown={(e: React.KeyboardEvent) => {
               e.preventDefault();
               e.stopPropagation();
             }}
@@ -46,9 +53,5 @@ const DateInputField = ({ inline, label, ...props }) => (
     }}
   ></Field>
 );
-
-DateInputField.propTypes = {
-  inline: PropTypes.bool,
-};
 
 export default DateInputField;

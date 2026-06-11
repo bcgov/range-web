@@ -1,6 +1,4 @@
-// @ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { connect, getIn } from 'formik';
 import ListModal from '../../../common/ListModal';
 import { Button, Confirm, Modal } from 'semantic-ui-react';
@@ -8,27 +6,33 @@ import { oxfordComma } from '../../../../utils';
 import { useReferences } from '../../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../../constants/variables';
 
+interface ImportProps {
+  formik?: any;
+  onSubmit: (data: { pasture: any; plantCommunity: any; criteria: string[] }) => void;
+  excludedPlantCommunityId: any;
+}
+
 const initialState = {
-  pasture: null,
+  pasture: null as any,
   showPastureModal: false,
-  plantCommunity: null,
+  plantCommunity: null as any,
   showPlantCommunityModal: false,
   showCriteriaModal: false,
-  criteria: [],
+  criteria: [] as any[],
   showConfirm: false,
 };
 
-const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
+const Import: React.FC<ImportProps> = ({ formik, onSubmit, excludedPlantCommunityId }) => {
   const [state, setState] = useState(initialState);
 
   const pastures = getIn(formik.values, 'pastures') || [];
-  const communityTypes = useReferences()[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
+  const communityTypes = (useReferences() as any)[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
 
-  const pasturesOptions = pastures.map((pasture, index) => ({
+  const pasturesOptions = pastures.map((pasture: any, index: number) => ({
     value: pasture.id,
     text: pasture.name || `Unnamed pasture ${index + 1}`,
     key: pasture.id,
-    disabled: pasture.plantCommunities.filter((community) => community.id !== excludedPlantCommunityId).length === 0,
+    disabled: pasture.plantCommunities.filter((community: any) => community.id !== excludedPlantCommunityId).length === 0,
     pasture,
   }));
 
@@ -36,13 +40,13 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
     setState(initialState);
   };
 
-  let plantCommunityOptions = [];
+  let plantCommunityOptions: any[] = [];
   if (state.pasture) {
     plantCommunityOptions = state.pasture.plantCommunities
-      .filter((community) => community.id !== excludedPlantCommunityId)
-      .map((pc) => ({
+      .filter((community: any) => community.id !== excludedPlantCommunityId)
+      .map((pc: any) => ({
         value: pc.id,
-        text: pc.name ?? communityTypes.find((type) => type.id === pc.communityTypeId)?.name,
+        text: pc.name ?? communityTypes.find((type: any) => type.id === pc.communityTypeId)?.name,
         key: pc.id,
         plantCommunity: pc,
       }));
@@ -67,7 +71,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         open={state.showPastureModal}
         title="Choose Pasture"
         onClose={close}
-        onOptionClick={({ pasture }) =>
+        onOptionClick={({ pasture }: any) =>
           setState({
             ...state,
             pasture,
@@ -81,7 +85,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         open={state.showPlantCommunityModal}
         title={state.pasture ? `Choose Plant Community from ${state.pasture.name}` : 'Choose Plant Community'}
         onClose={close}
-        onOptionClick={({ plantCommunity }) => {
+        onOptionClick={({ plantCommunity }: any) => {
           setState((oldState) => ({
             ...oldState,
             plantCommunity,
@@ -112,7 +116,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
           },
         ]}
         onClose={close}
-        onSubmit={(criteria) => {
+        onSubmit={(criteria: any) => {
           setState((oldState) => ({
             ...oldState,
             showCriteriaModal: false,
@@ -126,7 +130,7 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
         content={
           <Modal.Content>
             <p>The following Criteria sections in the current plant community will be overwritten:</p>
-            <p>{oxfordComma(state.criteria.map((c) => c.text))}.</p>
+            <p>{oxfordComma(state.criteria.map((c: any) => c.text))}.</p>
           </Modal.Content>
         }
         header="Overwrite Specified Criteria"
@@ -136,22 +140,13 @@ const Import = ({ formik, onSubmit, excludedPlantCommunityId }) => {
           onSubmit({
             pasture: state.pasture,
             plantCommunity: state.plantCommunity,
-            criteria: state.criteria.map((c) => c.value),
+            criteria: state.criteria.map((c: any) => c.value),
           });
           close();
         }}
       />
     </>
   );
-};
-
-Import.propTypes = {
-  formik: PropTypes.shape({
-    values: PropTypes.shape({
-      pastures: PropTypes.array.isRequired,
-    }),
-  }),
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default connect(Import);

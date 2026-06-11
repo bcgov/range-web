@@ -1,25 +1,26 @@
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { PLAN_STATUS } from '../../constants/variables';
 import { NO_PLAN } from '../../constants/strings';
 import { isUserAgreementHolder, isUserAgrologist, isUserDecisionMaker } from '../../utils';
+import type { User } from '../../types';
 
-const propTypes = {
-  user: PropTypes.shape({}).isRequired,
-  status: PropTypes.shape({
-    id: PropTypes.number,
-    code: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  className: PropTypes.string,
-  style: PropTypes.shape({}),
-  isAmendment: PropTypes.bool,
-  isForVersionsList: PropTypes.bool,
-};
+interface PlanStatus {
+  id?: number;
+  code?: string;
+  name?: string;
+}
 
-export const translateStatusBasedOnUser = (status, user) => {
+interface StatusProps {
+  user: User;
+  status?: PlanStatus;
+  className?: string;
+  style?: React.CSSProperties;
+  isAmendment?: boolean;
+  isForVersionsList?: boolean;
+}
+
+export const translateStatusBasedOnUser = (status: PlanStatus, user: User) => {
   let modifier = 'status__icon';
   let statusName = status.code ? 'Unknown_status' : NO_PLAN;
   switch (status.code) {
@@ -136,7 +137,7 @@ export const translateStatusBasedOnUser = (status, user) => {
   return { modifier, statusName };
 };
 
-const Status = ({ status = {}, className = '', style = {}, user, isAmendment = false }) => {
+const Status: React.FC<StatusProps> = ({ status = {}, className = '', style = {}, user, isAmendment = false }) => {
   const { modifier, statusName } = translateStatusBasedOnUser(status, user);
 
   return (
@@ -148,5 +149,4 @@ const Status = ({ status = {}, className = '', style = {}, user, isAmendment = f
   );
 };
 
-Status.propTypes = propTypes;
 export default Status;

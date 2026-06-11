@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState, useCallback } from 'react';
 import debounce from 'lodash.debounce';
 import { Checkbox, FormControlLabel, Select, MenuItem, FormControl } from '@material-ui/core';
@@ -47,29 +46,29 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SelectRangeUsePlanPage = () => {
-  const user = useUser();
-  const [users, setUsers] = useState([]);
+const SelectRangeUsePlanPage: React.FC = () => {
+  const user = useUser()!;
+  const [users, setUsers] = useState<any[]>([]);
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [exportingLivestock, setExportingLivestock] = useState(false);
   const [exportOption, setExportOption] = useState('');
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any>(null);
   const { agreements, totalPages, totalItems } = data || {};
   const references = useReferences();
   const zones = references.ZONES || [];
-  const userZones = zones?.filter((zone) => user.id === zone.userId);
-  const districtIds = userZones?.map((userZone) => userZone.districtId);
+  const userZones = zones?.filter((zone: any) => user.id === zone.userId);
+  const districtIds = userZones?.map((userZone: any) => userZone.districtId);
   const unassignedZones = zones?.filter(
-    (zone) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
+    (zone: any) => user.id !== zone.userId && districtIds.indexOf(zone.districtId) !== -1,
   );
   const defaultSelectedZones = isUserAdmin(user)
-    ? zones?.map((zone) => zone.id)
+    ? zones?.map((zone: any) => zone.id)
     : isUserAgrologist(user)
-      ? userZones?.concat(unassignedZones).map((zone) => zone.id)
+      ? userZones?.concat(unassignedZones).map((zone: any) => zone.id)
       : [];
-  const defaultFilterSettings = {
+  const defaultFilterSettings: any = {
     page: 1,
     limit: 10,
     orderBy: 'agreement.forest_file_id',
@@ -85,11 +84,11 @@ const SelectRangeUsePlanPage = () => {
       selectAllZones: true,
       deselectAllZones: false,
     },
-    columnFilters: {},
+    columnFilters: {} as Record<string, any>,
   };
-  const [filterSettings, setFilterSettings] = useState(defaultFilterSettings);
+  const [filterSettings, setFilterSettings] = useState<any>(defaultFilterSettings);
   const fetchAgreements = useCallback(
-    debounce(async (settings, controller) => {
+    debounce(async (settings: any, controller: AbortController) => {
       setLoading(true);
       saveDataInLocalStorage('filterSettings', settings);
       try {
@@ -99,7 +98,7 @@ const SelectRangeUsePlanPage = () => {
           signal: controller.signal,
         });
         setData(response.data);
-      } catch (error) {
+      } catch (error: any) {
         if (error?.code === 'ERR_CANCELED') return;
         console.error('Error fetching agreements:', error);
       } finally {
@@ -118,9 +117,9 @@ const SelectRangeUsePlanPage = () => {
       setUsers(response.data);
     };
     fetchUsers();
-    const storedFilterSettings = getDataFromLocalStorage('filterSettings');
+    const storedFilterSettings: any = getDataFromLocalStorage('filterSettings');
     if (storedFilterSettings) {
-      setFilterSettings((prevSettings) => ({
+      setFilterSettings((prevSettings: any) => ({
         ...prevSettings,
         ...storedFilterSettings,
         page: storedFilterSettings.page || 1,
@@ -129,7 +128,7 @@ const SelectRangeUsePlanPage = () => {
     }
   }, []);
 
-  const setZoneInfo = (zoneInfo) => {
+  const setZoneInfo = (zoneInfo: any) => {
     setFilterSettings({ ...filterSettings, zoneInfo: zoneInfo, page: 1 });
   };
 
@@ -141,8 +140,8 @@ const SelectRangeUsePlanPage = () => {
     };
   }, [filterSettings, fetchAgreements]);
 
-  const handleFilterChange = (field) => (event) => {
-    setFilterSettings((prevSettings) => {
+  const handleFilterChange = (field: string) => (event: any) => {
+    setFilterSettings((prevSettings: any) => {
       const newSettings = {
         ...prevSettings,
         [field]: event.target.checked,
@@ -157,31 +156,31 @@ const SelectRangeUsePlanPage = () => {
       return newSettings;
     });
   };
-  const handlePageChange = (event, page) => {
-    setFilterSettings((prevSettings) => ({
+  const handlePageChange = (event: any, page: number) => {
+    setFilterSettings((prevSettings: any) => ({
       ...prevSettings,
       page: page + 1,
     }));
   };
 
-  const handleLimitChange = (limit) => {
-    setFilterSettings((prevSettings) => ({
+  const handleLimitChange = (limit: number) => {
+    setFilterSettings((prevSettings: any) => ({
       ...prevSettings,
       limit,
       page: 1, // Reset to first page when limit changes
     }));
   };
 
-  const handleOrderChange = (orderBy, order) => {
-    setFilterSettings((prevSettings) => ({
+  const handleOrderChange = (orderBy: string, order: string) => {
+    setFilterSettings((prevSettings: any) => ({
       ...prevSettings,
       orderBy,
-      order,
+      order: order as 'asc' | 'desc',
     }));
   };
 
-  const handleColumnFilterChange = (column, value) => {
-    setFilterSettings((prevSettings) => {
+  const handleColumnFilterChange = (column: string, value: any) => {
+    setFilterSettings((prevSettings: any) => {
       const columnFilters = { ...prevSettings.columnFilters };
       if (value === '') {
         delete columnFilters[column];
@@ -211,7 +210,7 @@ const SelectRangeUsePlanPage = () => {
       link.setAttribute('download', `agreements-export-${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      link.parentNode!.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error exporting CSV:', error);
@@ -236,7 +235,7 @@ const SelectRangeUsePlanPage = () => {
       link.setAttribute('download', `livestock-export-${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      link.parentNode!.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error exporting livestock data:', error);
@@ -246,7 +245,7 @@ const SelectRangeUsePlanPage = () => {
     }
   };
 
-  const handleExportChange = (event) => {
+  const handleExportChange = (event: any) => {
     const selectedOption = event.target.value;
     setExportOption(selectedOption);
 
