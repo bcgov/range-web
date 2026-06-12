@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import { useFormikContext } from 'formik';
 import * as utils from '../../../../utils';
 import { useReferences } from '../../../../providers/ReferencesProvider';
@@ -24,7 +25,14 @@ interface GrazingScheduleEntryRowProps {
   scheduleIndex?: number;
 }
 
-const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule, onChange }: GrazingScheduleEntryRowProps) => {
+const GrazingScheduleEntryRow = ({
+  entry,
+  namespace,
+  onDelete,
+  onCopy,
+  schedule,
+  onChange,
+}: GrazingScheduleEntryRowProps) => {
   const { pastureId, livestockCount, dateIn, dateOut, graceDays, days, pasture, pldAUMs, crownAUMs } = entry || {};
 
   const formik = useFormikContext<any>();
@@ -45,8 +53,8 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
   const maxDate = moment().set('year', schedule.year).set('month', 11).set('date', 31);
 
   return (
-    <Table.Row className="rup__grazing-schedule__row">
-      <Table.Cell>
+    <TableRow className="rup__grazing-schedule__row">
+      <TableCell>
         <PasturesDropdown
           name={`${namespace}.pastureId`}
           pastureId={pastureId}
@@ -55,8 +63,8 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
             onChange();
           }}
         />
-      </Table.Cell>
-      <Table.Cell>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.TYPE}
           name={`${namespace}.livestockTypeId`}
@@ -67,8 +75,8 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
           aria-label="livestock type"
           fast
         />
-      </Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.TYPE}
           name={`${namespace}.livestockCount`}
@@ -79,8 +87,8 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
           }}
           fast
         />
-      </Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.DATE_IN}
           name={`${namespace}.dateIn`}
@@ -94,8 +102,8 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
           aria-label="date in"
           onChange
         />
-      </Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.DATE_OUT}
           name={`${namespace}.dateOut`}
@@ -109,9 +117,9 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
           aria-label="date out"
           onChange
         />
-      </Table.Cell>
-      <Table.Cell collapsing>{utils.handleNullValue(days, false) as React.ReactNode}</Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>{utils.handleNullValue(days, false) as React.ReactNode}</TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.GRACE_DAYS}
           name={`${namespace}.graceDays`}
@@ -130,15 +138,15 @@ const GrazingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule,
           }}
           fast
         />
-      </Table.Cell>
-        <Table.Cell collapsing>{utils.handleNullValue(pldAUMs, false) as React.ReactNode}</Table.Cell>
-        <Table.Cell collapsing>{utils.handleNullValue(crownAUMs, false) as React.ReactNode}</Table.Cell>
+      </TableCell>
+      <TableCell>{utils.handleNullValue(pldAUMs, false) as React.ReactNode}</TableCell>
+      <TableCell>{utils.handleNullValue(crownAUMs, false) as React.ReactNode}</TableCell>
       <IfEditable permission={SCHEDULE.TYPE}>
-        <Table.Cell collapsing textAlign="center">
+        <TableCell align="center">
           <RowMenu onCopy={onCopy} onDelete={onDelete} />
-        </Table.Cell>
+        </TableCell>
       </IfEditable>
-    </Table.Row>
+    </TableRow>
   );
 };
 

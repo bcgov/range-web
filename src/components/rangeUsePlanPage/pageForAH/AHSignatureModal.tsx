@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Icon } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import { MuiIcon } from '../../common';
 import { getUser } from '../../../reducers/rootReducer';
 import { CONFIRMATION_OPTION, REFERENCE_KEY, AMENDMENT_TYPE } from '../../../constants/variables';
 import { isPlanAmendment, findConfirmationsWithUser } from '../../../utils';
@@ -29,8 +32,6 @@ interface AHSignatureModalState {
   isConfirming: boolean;
   confirmationOption: string | null;
 }
-
-// modal for an agreement holder to sign a submitted range use plan
 
 class AHSignatureModal extends Component<AHSignatureModalProps, AHSignatureModalState> {
   static defaultProps = {
@@ -125,14 +126,11 @@ class AHSignatureModal extends Component<AHSignatureModalProps, AHSignatureModal
     const { isAgreed, isConfirming, confirmationOption } = this.state;
 
     return (
-      <Modal
-        dimmer="blurring"
-        size="tiny"
-        open={open}
-        onClose={this.onClose}
-        closeIcon={<Icon name="close" color="black" />}
-      >
-        <Modal.Content>
+      <Dialog open={open} onClose={this.onClose} maxWidth="sm" fullWidth>
+        <DialogContent>
+          <IconButton onClick={this.onClose} style={{ float: 'right' }} size="small">
+            <MuiIcon name="close" />
+          </IconButton>
           <ConfirmationTabs
             {...this.props}
             onClose={this.onClose}
@@ -143,8 +141,8 @@ class AHSignatureModal extends Component<AHSignatureModalProps, AHSignatureModal
             isConfirming={isConfirming}
             confirmationOption={confirmationOption}
           />
-        </Modal.Content>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     );
   }
 }

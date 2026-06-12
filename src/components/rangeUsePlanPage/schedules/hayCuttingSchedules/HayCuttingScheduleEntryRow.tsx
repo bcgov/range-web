@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
 import { SCHEDULE } from '../../../../constants/fields';
 import DateInputField from '../../../common/form/DateInputField';
@@ -19,16 +20,22 @@ interface HayCuttingScheduleEntryRowProps {
   scheduleIndex?: number;
 }
 
-const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedule }: HayCuttingScheduleEntryRowProps) => {
+const HayCuttingScheduleEntryRow = ({
+  entry,
+  namespace,
+  onDelete,
+  onCopy,
+  schedule,
+}: HayCuttingScheduleEntryRowProps) => {
   const { pastureId: areaId, dateIn, dateOut, stubbleHeight, tonnes } = entry || {};
   const initialDate = moment().set('year', schedule.year).set('month', 0).set('date', 1);
   const maxDate = moment().set('year', schedule.year).set('month', 11).set('date', 31);
   return (
-    <Table.Row className="rup__haycuttring-schedule__row">
-      <Table.Cell>
+    <TableRow className="rup__haycuttring-schedule__row">
+      <TableCell>
         <AreasDropdown name={`${namespace}.pastureId`} areaId={areaId} />
-      </Table.Cell>
-      <Table.Cell>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.STUBBLE_HEIGHT}
           name={`${namespace}.stubbleHeight`}
@@ -39,8 +46,8 @@ const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedu
           }}
           fast
         />
-      </Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.DATE_IN}
           name={`${namespace}.dateIn`}
@@ -54,8 +61,8 @@ const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedu
           aria-label="period start"
           onChange
         />
-      </Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.DATE_OUT}
           name={`${namespace}.dateOut`}
@@ -69,8 +76,8 @@ const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedu
           aria-label="period end"
           onChange
         />
-      </Table.Cell>
-      <Table.Cell collapsing>
+      </TableCell>
+      <TableCell>
         <PermissionsField
           permission={SCHEDULE.TONNES}
           name={`${namespace}.tonnes`}
@@ -81,13 +88,13 @@ const HayCuttingScheduleEntryRow = ({ entry, namespace, onDelete, onCopy, schedu
           }}
           fast
         />
-      </Table.Cell>
+      </TableCell>
       <IfEditable permission={SCHEDULE.TYPE}>
-        <Table.Cell collapsing textAlign="center">
+        <TableCell align="center">
           <RowMenu onCopy={onCopy} onDelete={onDelete} />
-        </Table.Cell>
+        </TableCell>
       </IfEditable>
-    </Table.Row>
+    </TableRow>
   );
 };
 

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Icon, Modal } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import Close from '@mui/icons-material/Close';
 import AHConfirmationList from '../pageForAH/confirmationTabs/AHConfirmationList';
-import { PrimaryButton } from '../../common';
+import { PrimaryButton, MuiIcon } from '../../common';
 
 interface AHSignaturesStatusModalProps {
   plan: any;
@@ -27,27 +30,24 @@ function AHSignaturesStatusModal({ plan, user, clientAgreements }: AHSignaturesS
 
   return (
     <>
-      <Modal
-        dimmer="blurring"
-        size="tiny"
-        open={isModalOpen}
-        onClose={closeModal}
-        closeIcon={<Icon name="close" color="black" />}
-      >
-        <Modal.Content>
+      <Dialog open={isModalOpen} onClose={closeModal} maxWidth="xs" fullWidth>
+        <IconButton onClick={closeModal} sx={{ position: 'absolute', right: 8, top: 8, zIndex: 1 }}>
+          <Close />
+        </IconButton>
+        <DialogContent>
           <div className="rup__signatures-notification__modal">
-            <Icon name="clock outline" size="huge" />
+            <MuiIcon name="clock outline" size="huge" />
             <span className="rup__signatures-notification__modal__title">Current Submission status</span>
             <span>There are still agreement holders who have not yet confirmed their confirmation choice.</span>
             <AHConfirmationList user={user} clients={clients} plan={plan} clientAgreements={clientAgreements} />
             <span>This amendment will not be submitted until all agreement holders have confirmed and eSigned.</span>
             <PrimaryButton onClick={closeModal} style={{ marginTop: '15px' }} content="Close" />
           </div>
-        </Modal.Content>
-      </Modal>
+        </DialogContent>
+      </Dialog>
       <div className="rup__signatures-notification">
         <div className="rup__signatures-notification__left">
-          <Icon name="check square" size="large" style={{ marginRight: '5px' }} />
+          <MuiIcon name="check square" size="large" style={{ marginRight: '5px' }} />
           {`${numberOfConfirmed}/${confirmations.length}`} Confirmations Received
         </div>
         <PrimaryButton inverted compact onClick={openModal}>

@@ -1,6 +1,9 @@
 import React from 'react';
-import { Radio, Form as SUIForm } from 'semantic-ui-react';
-const Form = SUIForm as any;
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
 import { CONFIRMATION_OPTION } from '../../../../constants/variables';
 import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
@@ -72,46 +75,49 @@ function ConfirmChoiceTab(props: ConfirmChoiceTabProps) {
         </>
       }
       content={
-        <Form>
-          <Form.Field className="rup__multi-tab__radio-field">
-            <Radio
-              className="rup__multi-tab__radio"
-              label={
-                <label>
-                  <b>Confirm and send for final decision: </b>
-                  {radio1}
-                </label>
-              }
-              name="radioGroup"
-              value={CONFIRMATION_OPTION.CONFIRM}
-              checked={confirmationOption === CONFIRMATION_OPTION.CONFIRM}
-              onChange={handleSubmissionChoiceChange}
-            />
-          </Form.Field>
-          <Form.Field className="rup__multi-tab__radio-field">
-            <Radio
-              className="rup__multi-tab__radio"
-              label={
-                <label>
-                  <b>Request clarification or changes: </b>
-                  {radio2}
-                </label>
-              }
-              name="radioGroup"
-              value={CONFIRMATION_OPTION.REQUEST}
-              checked={confirmationOption === CONFIRMATION_OPTION.REQUEST}
-              onChange={handleSubmissionChoiceChange}
-            />
-          </Form.Field>
+        <FormControl component="fieldset" fullWidth>
+          <RadioGroup
+            value={confirmationOption || ''}
+            onChange={(e) => handleSubmissionChoiceChange(e, { value: e.target.value })}
+          >
+            <div className="rup__multi-tab__radio-field">
+              <FormControlLabel
+                value={CONFIRMATION_OPTION.CONFIRM}
+                control={<Radio checked={confirmationOption === CONFIRMATION_OPTION.CONFIRM} />}
+                label={
+                  <label>
+                    <b>Confirm and send for final decision: </b>
+                    {radio1}
+                  </label>
+                }
+              />
+            </div>
+            <div className="rup__multi-tab__radio-field">
+              <FormControlLabel
+                value={CONFIRMATION_OPTION.REQUEST}
+                control={<Radio checked={confirmationOption === CONFIRMATION_OPTION.REQUEST} />}
+                label={
+                  <label>
+                    <b>Request clarification or changes: </b>
+                    {radio2}
+                  </label>
+                }
+              />
+            </div>
+          </RadioGroup>
           <AHConfirmationList user={user} clients={clients} plan={plan} clientAgreements={clientAgreements} />
-          <Form.Checkbox
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isAgreed}
+                disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}
+                onChange={(e) => handleAgreeCheckBoxChange(e, { checked: e.target.checked })}
+              />
+            }
             label="I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker."
-            checked={isAgreed}
             style={{ marginTop: '20px' }}
-            disabled={confirmationOption !== CONFIRMATION_OPTION.CONFIRM}
-            onChange={handleAgreeCheckBoxChange}
           />
-        </Form>
+        </FormControl>
       }
     />
   );

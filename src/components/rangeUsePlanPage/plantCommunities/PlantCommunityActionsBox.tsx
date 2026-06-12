@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FieldArray, connect } from 'formik';
 import uuid from 'uuid-v4';
 import { IfEditable } from '../../common/PermissionsField';
 import { PLANT_COMMUNITY } from '../../../constants/fields';
-import { Button, Confirm } from 'semantic-ui-react';
+import { PrimaryButton, MuiIcon } from '../../common';
 import PlantCommunityAction from './PlantCommunityAction';
 import { deletePlantCommunityAction } from '../../../api';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 interface PlantCommunityActionsBoxProps {
   actions: any[];
@@ -22,7 +23,7 @@ function PlantCommunityActionsBox({
   communityId,
   namespace,
 }: PlantCommunityActionsBoxProps) {
-  const [toRemove, setToRemove] = useState<number | null>(null);
+  const confirm = useConfirm()!;
 
   return (
     <FieldArray
@@ -35,37 +36,29 @@ function PlantCommunityActionsBox({
               action={action}
               key={action.id || `action${index}`}
               namespace={`${namespace}.plantCommunityActions.${index}`}
-              onDelete={() => {
-                setToRemove(index);
+              onDelete={async () => {
+                const choice = await confirm({
+                  titleText: 'Delete Action',
+                  contentText: 'Are you sure you want to delete this action?',
+                });
+                if (!choice) return;
+                const act = actions[index];
+                if (!uuid.isUUID(act.id)) {
+                  await deletePlantCommunityAction(planId, pastureId, communityId, act.id);
+                }
+                remove(index);
               }}
             />
           ))}
-          <Confirm
-            open={toRemove !== null}
-            onCancel={() => {
-              setToRemove(null);
-            }}
-            onConfirm={async () => {
-              const action = actions[toRemove!];
-
-              if (!uuid.isUUID(action.id)) {
-                await deletePlantCommunityAction(planId, pastureId, communityId, action.id);
-              }
-
-              remove(toRemove!);
-              setToRemove(null);
-            }}
-          />
           <IfEditable permission={PLANT_COMMUNITY.ACTIONS.NAME}>
-            <Button
-              primary
+            <PrimaryButton
               type="button"
               className="icon labeled rup__plant-communities__add-button"
               onClick={() => push({ actionTypeId: null, details: '', id: uuid() })}
             >
-              <i className="add circle icon" />
+              <MuiIcon name="add circle" />
               Add Action
-            </Button>
+            </PrimaryButton>
           </IfEditable>
         </>
       )}

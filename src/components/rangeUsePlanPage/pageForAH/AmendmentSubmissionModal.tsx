@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Icon } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import { MuiIcon } from '../../common';
 import { NUMBER_OF_LIMIT_FOR_NOTE, REFERENCE_KEY, AMENDMENT_TYPE, PLAN_STATUS } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { updateRUP } from '../../../actionCreators/planActionCreator';
@@ -101,7 +104,6 @@ class AmendmentSubmissionModal extends Component<AmendmentSubmissionModalProps, 
       this.setState({ isSubmitting: true });
     };
     const onSuccess = async () => {
-      // awaiting confirmation
       if (status.id === 18) {
         const currUserConfirmations = findConfirmationsWithUser(user, plan.confirmations, clientAgreements);
 
@@ -119,7 +121,6 @@ class AmendmentSubmissionModal extends Component<AmendmentSubmissionModalProps, 
         }
       }
 
-      // update amendment type of the plan
       await updateRUP(plan.id, {
         amendmentTypeId: amendmentType.id,
       });
@@ -203,14 +204,11 @@ class AmendmentSubmissionModal extends Component<AmendmentSubmissionModalProps, 
     };
 
     return (
-      <Modal
-        dimmer="blurring"
-        size="tiny"
-        open={open}
-        onClose={this.onClose}
-        closeIcon={<Icon name="close" color="black" />}
-      >
-        <Modal.Content>
+      <Dialog open={open} onClose={this.onClose} maxWidth="sm" fullWidth>
+        <DialogContent>
+          <IconButton onClick={this.onClose} style={{ float: 'right' }} size="small">
+            <MuiIcon name="close" />
+          </IconButton>
           <ChooseAmendmentTypeTab
             {...commonProps}
             currTabId={currTabId}
@@ -225,8 +223,8 @@ class AmendmentSubmissionModal extends Component<AmendmentSubmissionModalProps, 
           <MandatoryTabsForSingleAH {...commonProps} />
 
           <MandatoryTabsForMultipleAH {...commonProps} />
-        </Modal.Content>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     );
   }
 }

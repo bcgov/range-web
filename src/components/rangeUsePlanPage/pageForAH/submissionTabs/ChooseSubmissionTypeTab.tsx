@@ -1,6 +1,8 @@
 import React from 'react';
-import { Radio, Form as SUIForm } from 'semantic-ui-react';
-const Form = SUIForm as any;
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
 import { PLAN_STATUS } from '../../../../constants/variables';
 import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
@@ -43,38 +45,34 @@ function ChooseSubmissionTypeTab({
         </>
       }
       content={
-        <Form>
-          <Form.Field className="rup__multi-tab__radio-field">
-            <Radio
-              className="rup__multi-tab__radio"
-              label={
-                <label>
-                  <b>Submit for Staff Feedback: </b>
-                  {radio1}
-                </label>
-              }
-              name="radioGroup"
-              value={PLAN_STATUS.SUBMITTED_FOR_REVIEW}
-              checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW}
-              onChange={handleStatusCodeChange}
-            />
-          </Form.Field>
-          <Form.Field className="rup__multi-tab__radio-field">
-            <Radio
-              className="rup__multi-tab__radio"
-              label={
-                <label>
-                  <b>Submit for Final Decision: </b>
-                  {radio2}
-                </label>
-              }
-              name="radioGroup"
-              value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
-              checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
-              onChange={handleStatusCodeChange}
-            />
-          </Form.Field>
-        </Form>
+        <FormControl component="fieldset" fullWidth>
+          <RadioGroup value={statusCode || ''} onChange={(e) => handleStatusCodeChange(e, { value: e.target.value })}>
+            <div className="rup__multi-tab__radio-field">
+              <FormControlLabel
+                value={PLAN_STATUS.SUBMITTED_FOR_REVIEW}
+                control={<Radio checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW} />}
+                label={
+                  <label>
+                    <b>Submit for Staff Feedback: </b>
+                    {radio1}
+                  </label>
+                }
+              />
+            </div>
+            <div className="rup__multi-tab__radio-field">
+              <FormControlLabel
+                value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
+                control={<Radio checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION} />}
+                label={
+                  <label>
+                    <b>Submit for Final Decision: </b>
+                    {radio2}
+                  </label>
+                }
+              />
+            </div>
+          </RadioGroup>
+        </FormControl>
       }
     />
   );

@@ -49,7 +49,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^9.1.0",
     "formik": "^2.2.9",
-    "formik-semantic-ui": "^0.10.0",
+
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.6.7",
     "jspdf": "^2.5.1",
@@ -88,7 +88,7 @@
     "sass-loader": "^12.3.0",
     "semantic-ui": "^2.4.2",
     "semantic-ui-calendar-react": "^0.15.3",
-    "semantic-ui-react": "^2.1.5",
+
     "semver": "^7.3.5",
     "source-map-loader": "^3.0.0",
     "stream-browserify": "^3.0.0",

@@ -4,7 +4,6 @@ import { InfoTip } from '../../common';
 import { PLAN } from '../../../constants/fields';
 import * as strings from '../../../constants/strings';
 import PermissionsField from '../../common/PermissionsField';
-import { TextArea } from 'formik-semantic-ui';
 
 interface LivestockDistributionDetailProps {
   livestockDistributionDetail?: string;
@@ -23,14 +22,12 @@ function LivestockDistributionDetail({ livestockDistributionDetail }: LivestockD
           <PermissionsField
             permission={PLAN.LIVESTOCK_DISTRIBUTION_DETAIL}
             name="livestockDistributionDetail"
-            component={TextArea}
-            inputProps={{
-              placeholder: 'Describe how grazing will occur within each pasture based on the schedule.',
-              rows: 4,
-            }}
             displayValue={livestockDistributionDetail}
             notProvided="Not Available"
             displayClassName="rup__section-not-found"
+            multiline
+            minRows={4}
+            placeholder="Describe how grazing will occur within each pasture based on the schedule."
             fast
           />
         </div>

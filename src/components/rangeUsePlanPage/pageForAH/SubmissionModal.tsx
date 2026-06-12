@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Icon } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import { MuiIcon } from '../../common';
 import { PLAN_STATUS, NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { getReferences, getUser } from '../../../reducers/rootReducer';
 import { planUpdated } from '../../../actions';
@@ -114,14 +117,11 @@ class SubmissionModal extends Component<SubmissionModalProps, SubmissionModalSta
     const { isSubmitting, statusCode, isAgreed, note } = this.state;
 
     return (
-      <Modal
-        dimmer="blurring"
-        size="tiny"
-        open={open}
-        onClose={this.onClose}
-        closeIcon={<Icon name="close" color="black" />}
-      >
-        <Modal.Content>
+      <Dialog open={open} onClose={this.onClose} maxWidth="sm" fullWidth>
+        <DialogContent>
+          <IconButton onClick={this.onClose} style={{ float: 'right' }} size="small">
+            <MuiIcon name="close" />
+          </IconButton>
           <TabsForSingleAH
             clients={clients}
             statusCode={statusCode}
@@ -149,8 +149,8 @@ class SubmissionModal extends Component<SubmissionModalProps, SubmissionModalSta
             onSubmitClicked={this.onSubmitClicked}
             onClose={this.onClose}
           />
-        </Modal.Content>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     );
   }
 }

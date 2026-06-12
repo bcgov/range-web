@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrimaryButton, MuiIcon } from '../../../common';
+import { PrimaryButton, MuiIcon } from '../../common';
 
 interface AddMonitoringAreaButtonProps {
   onClick: () => void;

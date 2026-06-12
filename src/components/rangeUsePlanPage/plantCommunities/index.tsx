@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import uuid from 'uuid-v4';
-import { Button, Confirm } from 'semantic-ui-react';
 import PlantCommunityBox from './PlantCommunityBox';
 import AddPlantCommunityButton from './AddPlantCommunityButton';
 import { FieldArray } from 'formik';
@@ -11,6 +10,8 @@ import { PLANT_COMMUNITY } from '../../../constants/fields';
 import { deletePlantCommunity } from '../../../api';
 import { resetPlantCommunityId } from '../../../utils/helper/plantCommunity';
 import ImportPastureModal from '../ImportPastureModal';
+import { PrimaryButton, MuiIcon } from '../../common';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 interface PlantCommunitiesProps {
   plantCommunities: any[];
@@ -22,10 +23,8 @@ interface PlantCommunitiesProps {
 function PlantCommunities({ plantCommunities = [], namespace, planId, pastureId }: PlantCommunitiesProps) {
   const isEmpty = plantCommunities.length === 0;
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [idToRemove, setIdToRemove] = useState<any>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-
-  const communityToRemove = plantCommunities.find((c: any) => c.id === idToRemove);
+  const confirm = useConfirm()!;
 
   return (
     <FieldArray
@@ -36,15 +35,10 @@ function PlantCommunities({ plantCommunities = [], namespace, planId, pastureId 
           <div className="rup__plant-communities__title">Plant Communities</div>
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
             <div>
-              <Button
-                type="button"
-                primary
-                onClick={() => setIsImportModalOpen(true)}
-                className="icon labeled rup__plant-communities__add-button"
-              >
-                <i className="add circle icon" />
+              <PrimaryButton type="button" onClick={() => setIsImportModalOpen(true)} style={{ marginRight: 8 }}>
+                <MuiIcon name="add circle" />
                 Import Plant Community
-              </Button>
+              </PrimaryButton>
               <AddPlantCommunityButton
                 onSubmit={(plantCommunity: any) => {
                   push({
@@ -83,22 +77,6 @@ function PlantCommunities({ plantCommunities = [], namespace, planId, pastureId 
             {isEmpty && <div className="rup__plant-communities__not-provided">{NOT_PROVIDED}</div>}
           </IfEditable>
 
-          <Confirm
-            header={`Delete plant community '${communityToRemove?.communityType?.name}'`}
-            open={idToRemove !== null}
-            onCancel={() => {
-              setIdToRemove(null);
-            }}
-            onConfirm={async () => {
-              if (!uuid.isUUID(idToRemove)) {
-                await deletePlantCommunity(planId, pastureId, idToRemove);
-              }
-
-              remove(plantCommunities.indexOf(communityToRemove));
-              setIdToRemove(null);
-            }}
-          />
-
           <ul
             className={classnames('collaspible-boxes', {
               'collaspible-boxes--empty': isEmpty,
@@ -115,7 +93,19 @@ function PlantCommunities({ plantCommunities = [], namespace, planId, pastureId 
                 onClick={() => {
                   index === activeIndex ? setActiveIndex(-1) : setActiveIndex(index);
                 }}
-                onDelete={() => setIdToRemove(plantCommunity.id)}
+                onDelete={async () => {
+                  const choice = await confirm({
+                    titleText: `Delete plant community '${plantCommunity?.communityType?.name}'`,
+                    contentText: 'Are you sure you want to delete this plant community?',
+                  });
+                  if (!choice) return;
+                  const id = plantCommunity.id;
+                  if (!uuid.isUUID(id)) {
+                    await deletePlantCommunity(planId, pastureId, id);
+                  }
+                  const idx = plantCommunities.indexOf(plantCommunity);
+                  if (idx !== -1) remove(idx);
+                }}
                 namespace={`${namespace}.plantCommunities.${index}`}
               />
             ))}

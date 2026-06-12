@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableHeaderCell } from 'semantic-ui-react';
+import TableCell from '@mui/material/TableCell';
+import TableSortLabel from '@mui/material/TableSortLabel';
 
 interface SortableTableHeaderCellProps {
   column: string;
@@ -18,11 +19,17 @@ function SortableTableHeaderCell({
   onClick,
   noSort = false,
 }: SortableTableHeaderCellProps) {
-  if (noSort) return <TableHeaderCell className="no-sort-tableheader">{children}</TableHeaderCell>;
+  if (noSort) {
+    return <TableCell className="no-sort-tableheader">{children}</TableCell>;
+  }
+  const direction = currentSortBy === column ? (currentSortOrder === 'ascending' ? 'asc' : 'desc') : undefined;
   return (
-    <TableHeaderCell sorted={currentSortBy === column ? currentSortOrder : undefined} onClick={() => onClick(column)}>
-      {children}
-    </TableHeaderCell>
+    <TableCell sortDirection={direction}>
+      <TableSortLabel active={currentSortBy === column} direction={direction} onClick={() => onClick(column)}>
+        {children}
+      </TableSortLabel>
+    </TableCell>
   );
 }
+
 export default SortableTableHeaderCell;

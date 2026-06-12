@@ -1,21 +1,83 @@
 import React, { useState } from 'react';
 import uuid from 'uuid-v4';
-import { Icon, Confirm, Dropdown as PlainDropdown } from 'semantic-ui-react';
-import { CollapsibleBox } from '../../common';
+import { CollapsibleBox, MuiIcon } from '../../common';
 import { NOT_PROVIDED, ACTION_NOTE, IDENTIFIED_BY_MINISTER_TOGGLE_TIP } from '../../../constants/strings';
 import { oxfordComma } from '../../../utils';
 import MinisterIssueAction from './MinisterIssueAction';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { MINISTER_ISSUES } from '../../../constants/fields';
-import { Checkbox, Dropdown, TextArea } from 'formik-semantic-ui';
-import { connect, getIn, FieldArray } from 'formik';
+import { connect, getIn, FieldArray , useField } from 'formik';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import AddMinisterIssueActionButton from './AddMinisterIssueActionButton';
 import moment from 'moment';
 import { deleteMinisterIssueAction } from '../../../api';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import MuiCheckbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
-const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }];
+function FormikSelect(props: any) {
+  const { options, inputProps, label } = props;
+  const [field, meta] = useField(props.name);
+  const multiple = inputProps?.multiple;
+  const value = multiple ? field.value || [] : field.value ?? '';
+  return (
+    <TextField
+      select
+      {...field}
+      label={label}
+      value={value}
+      onChange={(e) => {
+        const val = multiple ? (e.target.value as unknown as string[]).filter(Boolean) : e.target.value;
+        field.onChange({ target: { name: props.name, value: val } });
+      }}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      size="small"
+      SelectProps={multiple ? { multiple: true } : undefined}
+    >
+      {options.map((opt: any) => (
+        <MenuItem key={opt.key || opt.value} value={opt.value}>
+          {opt.text || opt.label}
+        </MenuItem>
+      ))}
+    </TextField>
+  );
+}
+
+function FieldCheckbox(props: any) {
+  const { name, label, displayValue, inputProps } = props;
+  const [field] = useField(name);
+  const showReadOnly = !!displayValue && !field.value;
+  const checked = showReadOnly ? !!displayValue : !!field.value;
+  return <FormControlLabel control={<MuiCheckbox checked={checked} {...field} {...inputProps} />} label={label} />;
+}
+
+function TextAreaField(props: any) {
+  const { name, inputProps, label, displayValue } = props;
+  const [field, meta] = useField(name);
+  const showReadOnly = !!displayValue && !meta.value;
+  if (showReadOnly) {
+    return <TextField label={label} value={displayValue} fullWidth disabled multiline minRows={3} />;
+  }
+  return (
+    <TextField
+      {...field}
+      {...inputProps}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      multiline
+      minRows={3}
+    />
+  );
+}
 
 interface MinisterIssueBoxProps {
   issue: any;
@@ -36,7 +98,7 @@ function MinisterIssueBox({
   formik,
   onDelete,
 }: MinisterIssueBoxProps) {
-  const [toRemove, setToRemove] = useState<number | null>(null);
+  const confirm = useConfirm()!;
 
   const allPastures = getIn(formik.values, 'pastures') || [];
   const pasturesOptions = allPastures.map((pasture: any, index: number) => ({
@@ -55,6 +117,9 @@ function MinisterIssueBox({
 
   const { detail, objective, pastures = [], identified, ministerIssueActions = [], issueTypeId } = issue;
   const isError = !!getIn(formik.errors, namespace);
+
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+
   return (
     <CollapsibleBox
       contentIndex={ministerIssueIndex}
@@ -69,12 +134,12 @@ function MinisterIssueBox({
             alignItems: 'center',
           }}
         >
-          <Icon name="warning sign" style={{ marginRight: '7px' }} />
+          <MuiIcon name="warning sign" style={{ marginRight: '7px' }} />
           <span style={{ marginRight: 10 }}>Issue Type:</span>
           <PermissionsField
             permission={ministerIssueIndex !== activeMinisterIssueIndex ? '' : MINISTER_ISSUES.TYPE}
             name={`${namespace}.issueTypeId`}
-            component={Dropdown}
+            component={FormikSelect}
             options={typeOptions}
             displayValue={
               types.find((t: any) => t.id === issueTypeId) ? types.find((t: any) => t.id === issueTypeId).name : ''
@@ -89,21 +154,40 @@ function MinisterIssueBox({
           <IfEditable permission={MINISTER_ISSUES.TYPE}>
             <div className="rup__missue__identified">
               {'Identified: '}
-              {identified ? <Icon name="check circle" color="green" /> : <Icon name="remove circle" color="red" />}
+              {identified ? (
+                <MuiIcon name="check circle" color="green" />
+              ) : (
+                <MuiIcon name="remove circle" color="red" />
+              )}
             </div>
-            <PlainDropdown
+            <IconButton
               className="rup__pasture__actions"
-              trigger={<i className="ellipsis vertical icon" />}
-              options={dropdownOptions}
-              icon={null}
-              value={null as any}
-              pointing="right"
-              onClick={(e: any) => e.stopPropagation()}
-              onChange={(_e: any, { value }: any) => {
-                if (value === 'delete') onDelete();
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setMenuAnchorEl(e.currentTarget);
               }}
-              selectOnBlur={false}
-            />
+              size="small"
+            >
+              <MuiIcon name="ellipsis vertical" />
+            </IconButton>
+            <Menu
+              anchorEl={menuAnchorEl}
+              open={!!menuAnchorEl}
+              onClose={() => setMenuAnchorEl(null)}
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                setMenuAnchorEl(null);
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  setMenuAnchorEl(null);
+                  onDelete();
+                }}
+              >
+                Delete
+              </MenuItem>
+            </Menu>
           </IfEditable>
         </>
       }
@@ -112,7 +196,7 @@ function MinisterIssueBox({
           <PermissionsField
             name={`${namespace}.identified`}
             permission={MINISTER_ISSUES.IDENTIFIED}
-            component={Checkbox}
+            component={FieldCheckbox}
             displayValue={identified}
             label="Identified by Minister"
             tip={IDENTIFIED_BY_MINISTER_TOGGLE_TIP}
@@ -125,7 +209,7 @@ function MinisterIssueBox({
           <PermissionsField
             name={`${namespace}.pastures`}
             permission={MINISTER_ISSUES.PASTURES}
-            component={Dropdown}
+            component={FormikSelect}
             options={pasturesOptions}
             displayValue={oxfordComma(
               pastures.map((pasture: any) =>
@@ -145,7 +229,7 @@ function MinisterIssueBox({
             permission={MINISTER_ISSUES.DETAIL}
             name={`${namespace}.detail`}
             label="Details"
-            component={TextArea}
+            component={TextAreaField}
             displayValue={detail}
             fast
             inputProps={{
@@ -158,7 +242,7 @@ function MinisterIssueBox({
             permission={MINISTER_ISSUES.OBJECTIVE}
             name={`${namespace}.objective`}
             label="Objective"
-            component={TextArea}
+            component={TextAreaField}
             displayValue={objective}
             fast
             inputProps={{
@@ -197,27 +281,22 @@ function MinisterIssueBox({
                   <MinisterIssueAction
                     key={action.id}
                     namespace={`${namespace}.ministerIssueActions.${i}`}
-                    onDelete={() => setToRemove(i)}
+                    onDelete={async () => {
+                      const choice = await confirm({
+                        titleText: 'Delete Action',
+                        contentText: 'Are you sure you want to delete this action?',
+                      });
+                      if (!choice) return;
+                      const act = ministerIssueActions[i];
+                      if (!uuid.isUUID(act.id)) {
+                        await deleteMinisterIssueAction(issue.planId, issue.id, act.id);
+                      }
+                      remove(i);
+                    }}
                     {...action}
                   />
                 ))}
                 <div className="text-field__text">{ministerIssueActions.length === 0 ? NOT_PROVIDED : ACTION_NOTE}</div>
-                <Confirm
-                  open={toRemove !== null}
-                  onCancel={() => {
-                    setToRemove(null);
-                  }}
-                  onConfirm={async () => {
-                    const action = ministerIssueActions[toRemove!];
-
-                    if (!uuid.isUUID(action.id)) {
-                      await deleteMinisterIssueAction(issue.planId, issue.id, action.id);
-                    }
-
-                    remove(toRemove!);
-                    setToRemove(null);
-                  }}
-                />
               </>
             )}
           />

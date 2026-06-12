@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { MuiIcon } from '../../common';
 import InputModal from '../../common/InputModal';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 interface AddPlantCommunityButtonProps {
   onSubmit: (plantCommunity: any) => void;
@@ -22,6 +25,7 @@ interface PlantCommunityPickerProps {
 const PlantCommunityPicker = React.memo<PlantCommunityPickerProps>(
   ({ types, onSubmit }) => {
     const [isModalOpen, setModalOpen] = useState(false);
+    const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
     const options = types.map((type: any) => ({
       key: type.id,
@@ -32,7 +36,7 @@ const PlantCommunityPicker = React.memo<PlantCommunityPickerProps>(
 
     const otherType = types.find((t: any) => t.name === 'Other');
 
-    const onOptionClicked = (_e: any, { value: communityTypeId }: any) => {
+    const onOptionClicked = (communityTypeId: any) => {
       if (otherType && communityTypeId === otherType.id) {
         return setModalOpen(true);
       }
@@ -44,23 +48,22 @@ const PlantCommunityPicker = React.memo<PlantCommunityPickerProps>(
 
     return (
       <>
-        <Dropdown
-          trigger={
-            <Button primary type="button" className="icon labeled rup__plant-communities__add-button">
-              <i className="add circle icon" />
-              Add Plant Community
-            </Button>
-          }
-          options={options}
-          icon={null}
-          pointing="left"
-          onChange={onOptionClicked}
-          selectOnBlur={false}
-          scrolling
-          // Make the dropdown controlled so it doesn't remember the last option
-          // picked and always fires `onChange`
-          value={null as any}
-        />
+        <IconButton onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
+          <MuiIcon name="add circle" />
+        </IconButton>
+        <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+          {options.map((opt) => (
+            <MenuItem
+              key={opt.key}
+              onClick={() => {
+                setMenuAnchorEl(null);
+                onOptionClicked(opt.value);
+              }}
+            >
+              {opt.text}
+            </MenuItem>
+          ))}
+        </Menu>
         <InputModal
           open={isModalOpen}
           onSubmit={(input: string) => {

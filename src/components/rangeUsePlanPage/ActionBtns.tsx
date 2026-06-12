@@ -1,9 +1,14 @@
 import React from 'react';
-import { Button, Icon, Menu, Dropdown } from 'semantic-ui-react';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import { useFormikContext } from 'formik';
 import { SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../constants/strings';
 import DownloadPDFBtn from './DownloadPDFBtn';
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown';
+import { MuiIcon } from '../common';
 
 const UntypedUpdateStatusDropdown = UpdateStatusDropdown as any;
 import { useNetworkStatus } from '../../utils/hooks/network';
@@ -41,8 +46,8 @@ interface ActionBtnsProps {
 
 const ActionBtns = ({
   permissions: permissionsOptions,
-  isSubmitting,
-  isCreatingAmendment,
+  isSubmitting: _isSubmitting,
+  isCreatingAmendment: _isCreatingAmendment,
   onViewPDFClicked,
   onManageAgentsClicked,
   onSubmit,
@@ -57,31 +62,30 @@ const ActionBtns = ({
   const isOnline = useNetworkStatus();
   const { isSavingPlan } = useCurrentPlan()!;
   const formik = useFormikContext<any>();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
   const downloadPDFBtn = <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />;
   const saveDraftBtn = (
     <Button
       key="saveDraftBtn"
       type="button"
-      inverted
-      compact
-      disabled={isSavingPlan}
-      loading={formik.isSubmitting}
+      variant="outlined"
+      disabled={isSavingPlan || formik.isSubmitting}
       onClick={() => {
         formik.submitForm();
       }}
+      style={{ marginRight: 4 }}
     >
-      <Icon name="save" />
+      <MuiIcon name="save" />
       {SAVE_DRAFT}
     </Button>
   );
   const submitBtn = (
     <Button
       key="submitBtn"
-      inverted
-      compact
+      variant="outlined"
       type="button"
-      loading={isSubmitting}
+      disabled={!isOnline}
       onClick={async () => {
         await formik.submitForm();
         const errors = await formik.validateForm();
@@ -90,38 +94,38 @@ const ActionBtns = ({
           onSubmit?.();
         }
       }}
-      disabled={!isOnline}
+      style={{ marginRight: 4 }}
     >
-      <Icon name="check" />
+      <MuiIcon name="check" />
       {SUBMIT}
     </Button>
   );
   const amendBtn = (
     <Button
       key="amendBtn"
-      inverted
-      compact
+      variant="outlined"
       type="button"
-      loading={isCreatingAmendment}
       disabled={!isOnline}
       onClick={() => {
         onAmend?.();
       }}
+      style={{ marginRight: 4 }}
     >
-      <Icon name="edit" />
+      <MuiIcon name="edit" />
       {AMEND_PLAN}
     </Button>
   );
   const confirmSubmissionBtn = (
-    <Button key="confirmSubmissionBtn" disabled={!isOnline} onClick={onSignSubmission} inverted compact type="button">
+    <Button
+      key="confirmSubmissionBtn"
+      disabled={!isOnline}
+      onClick={onSignSubmission}
+      variant="outlined"
+      type="button"
+      style={{ marginRight: 4 }}
+    >
       {SIGN_SUBMISSION}
     </Button>
-  );
-  const manageAgentsMenuItem = (
-    <Menu.Item key="manageAgentsBtn" onClick={onManageAgentsClicked}>
-      <Icon name="user" />
-      Manage Agents
-    </Menu.Item>
   );
 
   const permissions: Required<Permissions> = {
@@ -146,23 +150,25 @@ const ActionBtns = ({
         {permissions.confirm && confirmSubmissionBtn}
         {permissions.discard && <DiscardAmendmentButton />}
         {permissions.amendFromLegal && <AmendFromLegalButton />}
-      </div>
 
-      <Dropdown
-        trigger={
-          <Button inverted compact type="button">
-            Options
-          </Button>
-        }
-        closeOnBlur
-        icon={null}
-        pointing="top right"
-        style={{ marginLeft: 5 }}
-        value={null as any}
-      >
-        <Dropdown.Menu>
+        <Button
+          variant="outlined"
+          type="button"
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+          style={{ marginLeft: 5 }}
+        >
+          Options
+        </Button>
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
           {downloadPDFBtn}
-          {permissions.manageAgents && manageAgentsMenuItem}
+          {permissions.manageAgents && (
+            <MenuItem key="manageAgentsBtn" onClick={onManageAgentsClicked}>
+              <ListItemIcon>
+                <MuiIcon name="user" />
+              </ListItemIcon>
+              <ListItemText>Manage Agents</ListItemText>
+            </MenuItem>
+          )}
           {permissions.updateStatus && (
             <UntypedUpdateStatusDropdown
               user={user}
@@ -172,8 +178,8 @@ const ActionBtns = ({
               beforeUpdateStatus={beforeUpdateStatus}
             />
           )}
-        </Dropdown.Menu>
-      </Dropdown>
+        </Menu>
+      </div>
     </>
   );
 };

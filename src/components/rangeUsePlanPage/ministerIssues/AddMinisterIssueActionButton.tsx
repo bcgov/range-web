@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { Button, Dropdown } from 'semantic-ui-react';
 import InputModal from '../../common/InputModal';
+import { PrimaryButton, MuiIcon } from '../../common';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 interface AddMinisterIssueActionButtonProps {
   onSubmit: (action: any) => void;
@@ -10,6 +12,7 @@ interface AddMinisterIssueActionButtonProps {
 
 function AddMinisterIssueActionButton({ onSubmit }: AddMinisterIssueActionButtonProps) {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const types = (useReferences() as any)[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
   const options = types.map((type: any) => ({
@@ -21,32 +24,38 @@ function AddMinisterIssueActionButton({ onSubmit }: AddMinisterIssueActionButton
 
   const otherType = types.find((t: any) => t.name === 'Other');
 
-  const onOptionClicked = (_e: any, { value: ministerIssueActionTypeId }: any) => {
+  const onOptionClicked = (ministerIssueActionTypeId: any) => {
     if (otherType && ministerIssueActionTypeId === otherType.id) {
       return setModalOpen(true);
     }
 
     const ministerIssueAction = types.find((t: any) => t.id === ministerIssueActionTypeId);
-
     onSubmit(ministerIssueAction);
   };
 
   return (
     <>
-      <Dropdown
-        trigger={
-          <Button primary type="button" className="icon labeled">
-            <i className="add circle icon" />
-            Add Action
-          </Button>
-        }
-        options={options}
-        icon={null}
-        pointing="left"
-        onChange={onOptionClicked}
-        selectOnBlur={false}
-        value={null as any}
-      />
+      <PrimaryButton
+        onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
+        type="button"
+        className="icon labeled"
+      >
+        <MuiIcon name="add circle" />
+        Add Action
+      </PrimaryButton>
+      <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+        {options.map((opt: any) => (
+          <MenuItem
+            key={opt.key}
+            onClick={() => {
+              setMenuAnchorEl(null);
+              onOptionClicked(opt.value);
+            }}
+          >
+            {opt.text}
+          </MenuItem>
+        ))}
+      </Menu>
       <InputModal
         open={isModalOpen}
         onSubmit={(input: string) => {

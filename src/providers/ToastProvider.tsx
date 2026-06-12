@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import uuid from 'uuid-v4';
 import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
+import MuiIcon from '../components/common/MuiIcon';
 
 type ToastStatus = 'success' | 'error' | 'warning';
 
@@ -96,16 +96,16 @@ function ToastProvider({ children }: ToastProviderProps) {
                 toast__icon__warning: toast.status === 'warning',
               })}
             >
-              {toast.status === 'success' && <Icon name="check circle" size="large" />}
-              {toast.status === 'error' && <Icon name="warning circle" size="large" />}
-              {toast.status === 'warning' && <Icon name="warning" size="large" />}
+              {toast.status === 'success' && <MuiIcon name="check circle" size="large" />}
+              {toast.status === 'error' && <MuiIcon name="warning circle" size="large" />}
+              {toast.status === 'warning' && <MuiIcon name="warning" size="large" />}
             </div>
             <div className="toast__content">
               {toast.message}
               {toast.content}
             </div>
             <button className="toast__dismiss" onClick={() => removeToast(toast.id)}>
-              <Icon name="times" size="small" />
+              <MuiIcon name="times" size="small" />
             </button>
           </div>
         ))}

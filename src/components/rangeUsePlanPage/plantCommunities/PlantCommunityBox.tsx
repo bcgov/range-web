@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CollapsibleBox, InfoTip, InputModal } from '../../common';
+import React, { useState, useCallback } from 'react';
+import { CollapsibleBox, InfoTip, InputModal, MuiIcon } from '../../common';
 import uuid from 'uuid-v4';
 import {
   IMAGE_SRC,
@@ -8,7 +8,6 @@ import {
   PLANT_CRITERIA,
 } from '../../../constants/variables';
 import { CRITERIA_TIP } from '../../../constants/strings';
-import { Icon, Form, Dropdown as PlainDropdown } from 'semantic-ui-react';
 import RangeReadinessBox from './criteria/RangeReadinessBox';
 import StubbleHeightBox from './criteria/StubbleHeightBox';
 import ShrubUseBox from './criteria/ShrubUseBox';
@@ -17,13 +16,69 @@ import * as strings from '../../../constants/strings';
 import PlantCommunityActionsBox from './PlantCommunityActionsBox';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { PLANT_COMMUNITY } from '../../../constants/fields';
-import { connect, getIn } from 'formik';
-import { Input, Dropdown, Checkbox, TextArea } from 'formik-semantic-ui';
+import { connect, getIn, useField } from 'formik';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import Import from './criteria/Import';
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
+import TextFieldMui from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MuiCheckbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
 
-const dropdownOptions = [{ key: 'delete', value: 'delete', text: 'Delete' }];
+function FormikSelect(props: any) {
+  const { options, inputProps, label } = props;
+  const [field, meta] = useField(props.name);
+  return (
+    <TextFieldMui
+      select
+      {...field}
+      {...inputProps}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      size="small"
+    >
+      {options.map((opt: any) => (
+        <MenuItem key={opt.key || opt.value} value={opt.value}>
+          {opt.text || opt.label}
+        </MenuItem>
+      ))}
+    </TextFieldMui>
+  );
+}
+
+function FormikCheckboxField(props: any) {
+  const { name, label, displayValue, inputProps } = props;
+  const [field] = useField(name);
+  const showReadOnly = !!displayValue && !field.value;
+  const checked = showReadOnly ? !!displayValue : !!field.value;
+  return <FormControlLabel control={<MuiCheckbox checked={checked} {...field} {...inputProps} />} label={label} />;
+}
+
+function TextAreaField(props: any) {
+  const { name, inputProps, label, displayValue } = props;
+  const [field, meta] = useField(name);
+  const showReadOnly = !!displayValue && !meta.value;
+  if (showReadOnly) {
+    return <TextFieldMui label={label} value={displayValue} fullWidth disabled multiline minRows={3} />;
+  }
+  return (
+    <TextFieldMui
+      {...field}
+      {...inputProps}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      multiline
+      minRows={3}
+    />
+  );
+}
 
 interface PlantCommunityBoxProps {
   plantCommunity: any;
@@ -62,6 +117,7 @@ function PlantCommunityBox({
   } = plantCommunity;
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const communityTypes = (useReferences() as any)[REFERENCE_KEY.PLANT_COMMUNITY_TYPE] || [];
   const otherType = communityTypes.find((t: any) => t.name === 'Other');
@@ -116,6 +172,14 @@ function PlantCommunityBox({
 
   const isError = !!getIn(formik.errors, namespace);
 
+  const handleMenuOpen = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setMenuAnchorEl(e.currentTarget);
+  }, []);
+  const handleMenuClose = useCallback(() => {
+    setMenuAnchorEl(null);
+  }, []);
+
   return (
     <CollapsibleBox
       key={communityTypeId}
@@ -129,7 +193,7 @@ function PlantCommunityBox({
           <div className="rup__plant-community__title__left">
             <div style={{ width: '30px' }}>
               {isError ? (
-                <Icon name="warning sign" />
+                <MuiIcon name="warning sign" />
               ) : (
                 <img src={IMAGE_SRC.PLANT_COMMUNITY_ICON} alt="community icon" />
               )}
@@ -137,7 +201,7 @@ function PlantCommunityBox({
             <PermissionsField
               permission={index !== activeIndex ? '' : PLANT_COMMUNITY.NAME}
               name={`${namespace}.communityTypeId`}
-              component={Dropdown}
+              component={FormikSelect}
               options={communityTypeOptions}
               displayValue={communityType?.id === otherType?.id ? name : communityType?.text}
               fast
@@ -156,26 +220,36 @@ function PlantCommunityBox({
           <div className="rup__plant-community__title__right">
             <div>
               {'Minister approval for inclusion obtained: '}
-              {approved ? <Icon name="check circle" color="green" /> : <Icon name="remove circle" color="red" />}
+              {approved ? <MuiIcon name="check circle" color="green" /> : <MuiIcon name="remove circle" color="red" />}
             </div>
           </div>
 
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
             <div>
               {activeIndex === index && (
-                <PlainDropdown
-                  className="rup__pasture__actions"
-                  trigger={<i className="ellipsis vertical icon" />}
-                  options={dropdownOptions}
-                  icon={null}
-                  value={null as any}
-                  pointing="right"
-                  onClick={(e: any) => e.stopPropagation()}
-                  onChange={(_e: any, { value }: any) => {
-                    if (value === 'delete') onDelete();
-                  }}
-                  selectOnBlur={false}
-                />
+                <>
+                  <IconButton onClick={handleMenuOpen} size="small" className="rup__pasture__actions">
+                    <MuiIcon name="ellipsis vertical" />
+                  </IconButton>
+                  <Menu
+                    anchorEl={menuAnchorEl}
+                    open={!!menuAnchorEl}
+                    onClose={handleMenuClose}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleMenuClose();
+                    }}
+                  >
+                    <MenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete();
+                      }}
+                    >
+                      Delete
+                    </MenuItem>
+                  </Menu>
+                </>
               )}
             </div>
           </IfEditable>
@@ -187,38 +261,40 @@ function PlantCommunityBox({
             <span>Basic Plant Community Information</span>
           </div>
 
-          <Form.Group widths="2">
-            <PermissionsField
-              name={`${namespace}.aspect`}
-              permission={PLANT_COMMUNITY.ASPECT}
-              component={Input}
-              displayValue={aspect}
-              label={strings.ASPECT}
-              fast
-              inputProps={{
-                placeholder: 'Ex. NW',
-              }}
-            />
-
-            <PermissionsField
-              permission={PLANT_COMMUNITY.ELEVATION}
-              name={`${namespace}.elevationId`}
-              component={Dropdown}
-              options={elevationOptions}
-              displayValue={
-                elevationTypes.find((t: any) => t.id === elevationId)
-                  ? elevationTypes.find((t: any) => t.id === elevationId).name
-                  : ''
-              }
-              label={strings.ELEVATION}
-              fast
-            />
-          </Form.Group>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <PermissionsField
+                name={`${namespace}.aspect`}
+                permission={PLANT_COMMUNITY.ASPECT}
+                displayValue={aspect}
+                label={strings.ASPECT}
+                fast
+                inputProps={{
+                  placeholder: 'Ex. NW',
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <PermissionsField
+                permission={PLANT_COMMUNITY.ELEVATION}
+                name={`${namespace}.elevationId`}
+                component={FormikSelect}
+                options={elevationOptions}
+                displayValue={
+                  elevationTypes.find((t: any) => t.id === elevationId)
+                    ? elevationTypes.find((t: any) => t.id === elevationId).name
+                    : ''
+                }
+                label={strings.ELEVATION}
+                fast
+              />
+            </Grid>
+          </Grid>
 
           <PermissionsField
             name={`${namespace}.approved`}
             permission={PLANT_COMMUNITY.APPROVED}
-            component={Checkbox}
+            component={FormikCheckboxField}
             displayValue={approved}
             label={strings.APPROVED_BY_MINISTER}
             tip={strings.APPROVED_BY_MINISTER_TIP}
@@ -231,7 +307,7 @@ function PlantCommunityBox({
           <PermissionsField
             name={`${namespace}.notes`}
             permission={PLANT_COMMUNITY.NOTES}
-            component={TextArea}
+            component={TextAreaField}
             displayComponent={MultiParagraphDisplay}
             displayValue={notes}
             label={strings.PLANT_COMMUNITY_NOTES}
@@ -243,30 +319,32 @@ function PlantCommunityBox({
             fieldProps={{ required: true }}
           />
 
-          <Form.Group widths="2">
-            <PermissionsField
-              name={`${namespace}.url`}
-              permission={PLANT_COMMUNITY.COMMUNITY_URL}
-              component={Input}
-              displayValue={url}
-              label={strings.COMMUNITY_URL}
-              fast
-              inputProps={{
-                placeholder: 'Link to provincial plant community description',
-              }}
-            />
-
-            <PermissionsField
-              permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
-              name={`${namespace}.purposeOfAction`}
-              component={Dropdown}
-              options={purposeOptions}
-              displayValue={purposeOfAction}
-              label={strings.PURPOSE_OF_ACTION}
-              fast
-              fieldProps={{ required: true }}
-            />
-          </Form.Group>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <PermissionsField
+                name={`${namespace}.url`}
+                permission={PLANT_COMMUNITY.COMMUNITY_URL}
+                displayValue={url}
+                label={strings.COMMUNITY_URL}
+                fast
+                inputProps={{
+                  placeholder: 'Link to provincial plant community description',
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <PermissionsField
+                permission={PLANT_COMMUNITY.PURPOSE_OF_ACTION}
+                name={`${namespace}.purposeOfAction`}
+                component={FormikSelect}
+                options={purposeOptions}
+                displayValue={purposeOfAction}
+                label={strings.PURPOSE_OF_ACTION}
+                fast
+                fieldProps={{ required: true }}
+              />
+            </Grid>
+          </Grid>
 
           {purposeOfAction !== PurposeOfAction.NONE && (
             <>
@@ -296,14 +374,12 @@ function PlantCommunityBox({
                 excludedPlantCommunityId={plantCommunity.id}
                 onSubmit={({ plantCommunity: sourcePlantCommunity, criteria }: any) => {
                   const indicatorPlants = sourcePlantCommunity.indicatorPlants
-                    // Filter indicator plants from source plant community based on selected criteria
                     .filter((ip: any) => {
                       return (
                         (criteria.includes('rangeReadiness') && ip.criteria === PLANT_CRITERIA.RANGE_READINESS) ||
                         (criteria.includes('stubbleHeight') && ip.criteria === PLANT_CRITERIA.STUBBLE_HEIGHT)
                       );
                     })
-                    // Filter indicator plants from this plant community based on selected criteria
                     .concat(
                       plantCommunity.indicatorPlants.filter((ip: any) => {
                         return (

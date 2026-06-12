@@ -4,6 +4,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Add from '@mui/icons-material/Add';
 import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
 import ArrowBack from '@mui/icons-material/ArrowBack';
+import AttachFile from '@mui/icons-material/AttachFile';
 import ArrowCircleLeft from '@mui/icons-material/ArrowCircleLeft';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import CameraAlt from '@mui/icons-material/CameraAlt';
@@ -15,6 +16,7 @@ import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import Close from '@mui/icons-material/Close';
 import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
+import Download from '@mui/icons-material/Download';
 import Edit from '@mui/icons-material/Edit';
 import ErrorOutlined from '@mui/icons-material/ErrorOutlined';
 import ExploreOutlined from '@mui/icons-material/ExploreOutlined';
@@ -22,6 +24,7 @@ import HelpOutlined from '@mui/icons-material/HelpOutlined';
 import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
+import Logout from '@mui/icons-material/Logout';
 import KeyboardDoubleArrowLeft from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRight from '@mui/icons-material/KeyboardDoubleArrowRight';
 import LocationOn from '@mui/icons-material/LocationOn';
@@ -34,6 +37,9 @@ import Print from '@mui/icons-material/Print';
 import RemoveCircleOutlined from '@mui/icons-material/RemoveCircleOutlined';
 import Save from '@mui/icons-material/Save';
 import Star from '@mui/icons-material/Star';
+import ThumbDownAlt from '@mui/icons-material/ThumbDownAlt';
+import ThumbUpAlt from '@mui/icons-material/ThumbUpAlt';
+import Visibility from '@mui/icons-material/Visibility';
 import WarningAmber from '@mui/icons-material/WarningAmber';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -54,18 +60,22 @@ const iconMap: Record<string, React.ElementType> = {
   'caret right': ChevronRight,
   check: Check,
   'check circle': CheckCircleOutlined,
+  'check circle outline': CheckCircleOutlined,
   'check square': CheckBoxOutlined,
   checkmark: Check,
   'clock outline': AccessTime,
   close: Close,
   compass: ExploreOutlined,
+  download: Download,
   edit: Edit,
   'ellipsis horizontal': MoreHoriz,
   'ellipsis vertical': MoreVert,
+  eye: Visibility,
   'file pdf outline': PictureAsPdf,
   'long arrow alternate right': ArrowForward,
   'map marker alternate': LocationOn,
   'minus circle': RemoveCircleOutlined,
+  paperclip: AttachFile,
   pencil: Edit,
   'plus circle': AddCircleOutlined,
   print: Print,
@@ -73,8 +83,11 @@ const iconMap: Record<string, React.ElementType> = {
   'question circle outline': HelpOutlined,
   remove: Close,
   'remove circle': CancelOutlined,
+  'sign-out': Logout,
   save: Save,
   star: Star,
+  'thumbs down': ThumbDownAlt,
+  'thumbs up': ThumbUpAlt,
   times: Close,
   trash: DeleteOutlined,
   user: Person,
@@ -83,6 +96,7 @@ const iconMap: Record<string, React.ElementType> = {
   warning: WarningAmber,
   'warning circle': ErrorOutlined,
   'warning sign': WarningAmber,
+  x: Close,
 };
 
 interface MuiIconProps {

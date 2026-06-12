@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { PrimaryButton, MuiIcon } from '../../common';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 interface AddMinisterIssueButtonProps {
   onSubmit: (ministerIssue: any) => void;
@@ -26,28 +28,36 @@ const MinisterIssuePicker = React.memo<MinisterIssuePickerProps>(({ types, onSub
     id: type.id,
   }));
 
-  const onOptionClicked = (_e: any, { value: ministerIssueTypeId }: any) => {
-    const ministerIssue = types.find((t: any) => t.id === ministerIssueTypeId);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
+  const onOptionClicked = (ministerIssueTypeId: any) => {
+    const ministerIssue = types.find((t: any) => t.id === ministerIssueTypeId);
     onSubmit(ministerIssue);
   };
 
   return (
     <>
-      <Dropdown
-        trigger={
-          <Button basic primary type="button" className="icon labeled rup__add-button">
-            <i className="add circle icon" />
-            Add Minister Issue
-          </Button>
-        }
-        options={options}
-        icon={null}
-        pointing="right"
-        onChange={onOptionClicked}
-        selectOnBlur={false}
-        value={null as any}
-      />
+      <PrimaryButton
+        onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
+        type="button"
+        className="icon labeled rup__add-button"
+      >
+        <MuiIcon name="add circle" />
+        Add Minister Issue
+      </PrimaryButton>
+      <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+        {options.map((opt: any) => (
+          <MenuItem
+            key={opt.key}
+            onClick={() => {
+              setMenuAnchorEl(null);
+              onOptionClicked(opt.value);
+            }}
+          >
+            {opt.text}
+          </MenuItem>
+        ))}
+      </Menu>
     </>
   );
 });

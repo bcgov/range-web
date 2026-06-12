@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { PASTURES } from '../../../constants/fields';
-import { Input, TextArea } from 'formik-semantic-ui';
-import { Dropdown, Icon } from 'semantic-ui-react';
-import { CollapsibleBox } from '../../common';
+import { CollapsibleBox, MuiIcon } from '../../common';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import TextFieldMui from '@mui/material/TextField';
 import * as strings from '../../../constants/strings';
 import { IMAGE_SRC } from '../../../constants/variables';
 import PlantCommunities from '../plantCommunities';
@@ -12,10 +14,26 @@ import PercentField from '../../common/form/PercentField';
 import InputModal from '../../common/InputModal';
 import MultiParagraphDisplay from '../../common/MultiParagraphDisplay';
 
-const dropdownOptions = [
-  { key: 'copy', value: 'copy', text: 'Copy' },
-  { key: 'delete', value: 'delete', text: 'Delete' },
-];
+function TextAreaField(props: any) {
+  const { name, inputProps, label, displayValue } = props;
+  const [field, meta] = require('formik').useField(name);
+  const showReadOnly = !!displayValue && !meta.value;
+  if (showReadOnly) {
+    return <TextFieldMui label={label} value={displayValue} fullWidth disabled multiline minRows={3} />;
+  }
+  return (
+    <TextFieldMui
+      {...field}
+      {...inputProps}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      multiline
+      minRows={3}
+    />
+  );
+}
 
 interface PastureData {
   id: string | number;
@@ -54,8 +72,18 @@ function PastureBox({
   isGrazingSchedule,
 }: PastureBoxProps) {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const isError = !!getIn(formik.errors, namespace);
+
+  const handleMenuOpen = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setMenuAnchorEl(e.currentTarget);
+  }, []);
+  const handleMenuClose = useCallback(() => {
+    setMenuAnchorEl(null);
+  }, []);
+
   return (
     <>
       <CollapsibleBox
@@ -68,36 +96,52 @@ function PastureBox({
           <div className="rup__pasture">
             <div className="rup__pasture__title">
               <div style={{ width: '30px' }}>
-                {isError ? <Icon name="warning sign" /> : <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />}
+                {isError ? <MuiIcon name="warning sign" /> : <img src={IMAGE_SRC.PASTURE_ICON} alt="pasture icon" />}
               </div>
               {titleText}: {pasture.name}
             </div>
 
             <IfEditable permission={PASTURES.NAME}>
-              <div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 {activeIndex === index && (
-                  <Icon
+                  <MuiIcon
                     name="edit"
                     onClick={(e: React.MouseEvent) => {
                       setModalOpen(true);
                       e.stopPropagation();
                     }}
+                    style={{ cursor: 'pointer' }}
                   />
                 )}
-                <Dropdown
-                  className="rup__pasture__actions"
-                  trigger={<i className="ellipsis vertical icon" />}
-                  options={dropdownOptions}
-                  icon={null}
-                  value={null as any}
-                  pointing="right"
-                  onClick={(e: any) => e.stopPropagation()}
-                  onChange={(_e: any, { value }: any) => {
-                    if (value === 'copy') onCopy();
-                    if (value === 'delete') onDelete();
+                <IconButton onClick={handleMenuOpen} size="small">
+                  <MuiIcon name="ellipsis vertical" />
+                </IconButton>
+                <Menu
+                  anchorEl={menuAnchorEl}
+                  open={!!menuAnchorEl}
+                  onClose={handleMenuClose}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleMenuClose();
                   }}
-                  selectOnBlur={false}
-                />
+                >
+                  <MenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onCopy();
+                    }}
+                  >
+                    Copy
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete();
+                    }}
+                  >
+                    Delete
+                  </MenuItem>
+                </Menu>
               </div>
             </IfEditable>
           </div>
@@ -110,13 +154,12 @@ function PastureBox({
                   <PermissionsField
                     name={`${namespace}.allowableAum`}
                     permission={PASTURES.ALLOWABLE_AUMS}
-                    component={Input}
                     displayValue={pasture.allowableAum}
                     label={strings.ALLOWABLE_AUMS}
                     tip={strings.ALLOWABLE_AUMS_TIP}
                     fast
                     inputProps={{
-                      placeholder: `Approved maximum AUM allocation, if applicable`,
+                      placeholder: 'Approved maximum AUM allocation, if applicable',
                     }}
                   />
                 </div>
@@ -145,7 +188,6 @@ function PastureBox({
                   <PermissionsField
                     name={`${namespace}.graceDays`}
                     permission={PASTURES.GRACE_DAYS}
-                    component={Input}
                     displayValue={pasture.graceDays}
                     label={strings.GRACE_DAYS}
                     fast
@@ -161,7 +203,7 @@ function PastureBox({
               name={`${namespace}.notes`}
               permission={PASTURES.NOTES}
               displayValue={pasture.notes}
-              component={TextArea}
+              component={TextAreaField}
               displayComponent={MultiParagraphDisplay}
               label={`${titleText} Notes (non legal content)`}
               fluid

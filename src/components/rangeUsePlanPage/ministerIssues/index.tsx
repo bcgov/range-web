@@ -7,8 +7,8 @@ import { IfEditable } from '../../common/PermissionsField';
 import { MINISTERS_ISSUES_AND_ACTIONS, MINISTERS_ISSUES_AND_ACTIONS_TIP } from '../../../constants/strings';
 import { MINISTER_ISSUES } from '../../../constants/fields';
 import AddMinisterIssueButton from './AddMinisterIssueButton';
-import { Confirm } from 'semantic-ui-react';
 import { deleteMinisterIssue } from '../../../api';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 interface MinisterIssuesProps {
   issues: any[];
@@ -16,7 +16,7 @@ interface MinisterIssuesProps {
 
 function MinisterIssues({ issues }: MinisterIssuesProps) {
   const [activeMinisterIssue, setActiveMinisterIssue] = useState(issues[0] ? issues[0].id : -1);
-  const [indexToRemove, setIndexToRemove] = useState<number | null>(null);
+  const confirm = useConfirm()!;
 
   return (
     <FieldArray
@@ -47,23 +47,6 @@ function MinisterIssues({ issues }: MinisterIssuesProps) {
           </div>
           <div className="rup__divider" />
 
-          <Confirm
-            open={indexToRemove !== null}
-            onCancel={() => {
-              setIndexToRemove(null);
-            }}
-            onConfirm={async () => {
-              const issue = issues[indexToRemove!];
-
-              if (!uuid.isUUID(issue.id)) {
-                await deleteMinisterIssue(issue.planId, issue.id);
-              }
-
-              remove(indexToRemove!);
-              setIndexToRemove(null);
-            }}
-          />
-
           {issues.length > 0 ? (
             <ul className="collaspible-boxes">
               {issues.map((issue: any, index: number) => (
@@ -76,7 +59,18 @@ function MinisterIssues({ issues }: MinisterIssuesProps) {
                     setActiveMinisterIssue(idx === activeMinisterIssue ? -1 : idx)
                   }
                   namespace={`ministerIssues.${index}`}
-                  onDelete={() => setIndexToRemove(index)}
+                  onDelete={async () => {
+                    const choice = await confirm({
+                      titleText: 'Delete Minister Issue',
+                      contentText: 'Are you sure you want to delete this issue?',
+                    });
+                    if (!choice) return;
+                    const iss = issues[index];
+                    if (!uuid.isUUID(iss.id)) {
+                      await deleteMinisterIssue(iss.planId, iss.id);
+                    }
+                    remove(index);
+                  }}
                 />
               ))}
             </ul>

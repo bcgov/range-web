@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Segment as _Segment, Form as _Form } from 'semantic-ui-react';
-
-const Segment = _Segment as any;
-const Form = _Form as any;
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { Loading, ErrorMessage, PrimaryButton } from '../common';
 import { getUser, getIsUpdatingUser, getUpdatingUserErrorOccured } from '../../reducers/rootReducer';
 import { allowAlphabetOnly, doesUserHaveFullName } from '../../utils';
@@ -37,12 +41,13 @@ function UsernameInputModal() {
     allowAlphabetOnly(e);
   };
 
-  const onInputChanged = (e: any, { name, value }: any) => {
+  const onTextInputChanged = (e: any) => {
+    const { name, value } = e.target;
     if (name === 'givenName') setGivenName(value);
     if (name === 'familyName') setFamilyName(value);
   };
 
-  const onUserTypeChange = (e: any, { value }: any) => {
+  const onUserTypeChange = (e: any, value: string) => {
     setUserType(value);
     setGivenName('');
     setFamilyName('');
@@ -56,8 +61,8 @@ function UsernameInputModal() {
     (userType === 'individual' && (isGivenEmpty || isFamilyEmpty)) || (userType === 'company' && isGivenEmpty);
 
   return (
-    <Modal dimmer="blurring" style={{ width: '400px' }} open={missingLastAndFirstName}>
-      <Segment>
+    <Dialog maxWidth="xs" open={missingLastAndFirstName}>
+      <DialogContent>
         <Loading active={false} />
         <div className="un-input-modal">
           <div className="un-input-modal__header">Welcome to {APP_NAME}</div>
@@ -65,64 +70,73 @@ function UsernameInputModal() {
             👋
           </span>
           <div className="un-input-modal__msg">Hey Stranger, What&#39;s your name?</div>
-          <Form error={UpdatingUserErrorOccured}>
-            <ErrorMessage message={UPDATE_USER_ERROR} style={{ marginBottom: '15px' }} />
 
-            <Form.Group inline style={{ marginBottom: '15px' }} aria-label="User type selection">
-              <div style={{ marginRight: '10px', fontWeight: 'bold' }}>I am a: </div>
-              <Form.Radio
-                label="Individual"
+          <form onSubmit={onSubmitClicked}>
+            {UpdatingUserErrorOccured && <ErrorMessage message={UPDATE_USER_ERROR} style={{ marginBottom: '15px' }} />}
+
+            <FormControl component="fieldset" style={{ marginBottom: '15px', width: '100%' }}>
+              <FormLabel component="legend">I am a:</FormLabel>
+              <RadioGroup
+                row
+                aria-label="User type selection"
                 name="userType"
-                value="individual"
-                checked={userType === 'individual'}
-                onChange={onUserTypeChange}
-              />
-              <Form.Radio
-                label="Company / Partnership"
-                name="userType"
-                value="company"
-                checked={userType === 'company'}
-                onChange={onUserTypeChange}
-              />
-            </Form.Group>
+                value={userType}
+                onChange={(e, value) => onUserTypeChange(e, value)}
+              >
+                <FormControlLabel value="individual" control={<Radio />} label="Individual" />
+                <FormControlLabel value="company" control={<Radio />} label="Company / Partnership" />
+              </RadioGroup>
+            </FormControl>
 
             {userType === 'individual' ? (
               <>
-                <Form.Input
+                <TextField
                   name="givenName"
                   label="First Name"
                   value={givenName}
                   error={isGivenEmpty}
-                  onChange={onInputChanged}
+                  onChange={onTextInputChanged}
                   onKeyPress={onInputPressed}
+                  fullWidth
+                  variant="outlined"
+                  size="small"
+                  style={{ marginBottom: 16 }}
                 />
-                <Form.Input
+                <TextField
                   name="familyName"
                   label="Last Name"
                   value={familyName}
                   error={isFamilyEmpty}
-                  onChange={onInputChanged}
+                  onChange={onTextInputChanged}
                   onKeyPress={onInputPressed}
+                  fullWidth
+                  variant="outlined"
+                  size="small"
+                  style={{ marginBottom: 16 }}
                 />
               </>
             ) : (
-              <Form.Input
+              <TextField
                 name="givenName"
                 label="Registered Company Name"
                 value={givenName}
                 error={isGivenEmpty}
                 placeholder="Enter registered company name"
-                onChange={onInputChanged}
+                onChange={onTextInputChanged}
+                fullWidth
+                variant="outlined"
+                size="small"
+                style={{ marginBottom: 16 }}
               />
             )}
 
-            <PrimaryButton fluid disabled={isSubmitDisabled} loading={isUpdatingUser} onClick={onSubmitClicked}>
+            <PrimaryButton fluid disabled={isSubmitDisabled} loading={isUpdatingUser} type="submit">
               Submit
             </PrimaryButton>
-          </Form>
+          </form>
         </div>
-      </Segment>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 

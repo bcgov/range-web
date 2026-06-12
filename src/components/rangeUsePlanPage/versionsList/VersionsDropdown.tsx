@@ -3,7 +3,8 @@ import useSWR from 'swr';
 import * as API from '../../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../../utils';
 import VersionsDropdownList from './VersionsDropdownList';
-import { TableCell, TableRow } from 'semantic-ui-react';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
 interface VersionsDropdownProps {
   planId: any;

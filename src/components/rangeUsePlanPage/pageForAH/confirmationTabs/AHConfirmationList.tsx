@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
+import { MuiIcon } from '../../../common';
 import {
   findConfirmationWithClientNumber,
   formatDateFromServer,
@@ -26,7 +26,7 @@ function AHConfirmationList({ user, clients, plan, clientAgreements }: AHConfirm
     return (
       <div key={client.clientNumber} className="rup__confirmation__ah-list">
         <div>
-          <Icon name="user outline" />
+          <MuiIcon name="user outline" />
           <span
             className={classnames('rup__confirmation__ah-list__cname', {
               'rup__confirmation__ah-list__cname--bold':

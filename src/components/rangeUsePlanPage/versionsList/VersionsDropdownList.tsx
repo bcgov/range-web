@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 import moment from 'moment';
 import classnames from 'classnames';
 import Status from '../../common/Status';
 import { useUser } from '../../../providers/UserProvider';
-import { PrimaryButton } from '../../common/';
+import { PrimaryButton, MuiIcon } from '../../common/';
 import { axios, getAuthHeaderConfig } from '../../../utils';
 import * as API from '../../../constants/api';
 import AttachmentsList from './AttachmentsList';
@@ -49,19 +49,15 @@ const VersionRow = ({ option, user }: { option: any; user: any }) => {
 
   return (
     <React.Fragment>
-      <TableRow hover={true}>
+      <TableRow hover>
         <TableCell>{option.version.amendmentType}</TableCell>
         <TableCell>{option.version.submittedBy}</TableCell>
         <TableCell>
-          {option.version.createdAt
-            ? moment(option.version.createdAt).format('MMM DD YYYY h:mm a')
-            : ''}
+          {option.version.createdAt ? moment(option.version.createdAt).format('MMM DD YYYY h:mm a') : ''}
         </TableCell>
         <TableCell>{option.version.approvedBy}</TableCell>
         <TableCell>
-          {option.version.approvedAt === null
-            ? ''
-            : moment(option.version.approvedAt).format('MMM DD YYYY h:mm a')}
+          {option.version.approvedAt === null ? '' : moment(option.version.approvedAt).format('MMM DD YYYY h:mm a')}
         </TableCell>
         <TableCell>
           <Status
@@ -74,28 +70,22 @@ const VersionRow = ({ option, user }: { option: any; user: any }) => {
         </TableCell>
         <TableCell>
           <PrimaryButton
-            icon
             inverted
             onClick={() => {
-              onDownloadClicked(
-                option.version.planId,
-                option.version.version,
-                option.version.snapshot.agreementId,
-              );
+              onDownloadClicked(option.version.planId, option.version.version, option.version.snapshot.agreementId);
             }}
           >
-            <i className="download icon" />
+            <MuiIcon name="download" />
           </PrimaryButton>
         </TableCell>
         <TableCell>
           <PrimaryButton
-            icon
             inverted
             onClick={() => {
               setShowAttachments(!showAttachments);
             }}
           >
-            <i className="paperclip icon" />
+            <MuiIcon name="paperclip" />
           </PrimaryButton>
         </TableCell>
       </TableRow>
@@ -106,10 +96,7 @@ const VersionRow = ({ option, user }: { option: any; user: any }) => {
               <Typography variant="h6" gutterBottom component="div">
                 Attachments
               </Typography>
-              <AttachmentsList
-                attachments={option.version.snapshot.files}
-                fileType={ATTACHMENT_TYPE.PLAN_ATTACHMENT}
-              />
+              <AttachmentsList attachments={option.version.snapshot.files} fileType={ATTACHMENT_TYPE.PLAN_ATTACHMENT} />
             </Box>
           </Collapse>
         </TableCell>
@@ -143,14 +130,14 @@ const VersionsDropdownList = ({ versions, open }: VersionsDropdownListProps) => 
                     <Table size="small" aria-label="dates">
                       <TableHead>
                         <TableRow>
-                          <TableCell style={{ color: 'grey', width: 175 }}>Reason</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175 }}>Submited By</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175 }}>Submission Date</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175 }}>Approved By</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
-                          <TableCell style={{ color: 'grey', width: 175 }}></TableCell>
-                          <TableCell style={{ color: 'grey', width: 175 }}></TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}>Reason</TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}>Submited By</TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}>Submission Date</TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}>Approved By</TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}></TableCell>
+                          <TableCell sx={{ color: 'grey', width: 175 }}></TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>

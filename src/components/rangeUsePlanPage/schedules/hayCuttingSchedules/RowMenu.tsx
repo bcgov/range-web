@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Icon, Menu } from 'semantic-ui-react';
-import { Manager, Reference, Popper } from 'react-popper';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MuiIcon from '../../../common/MuiIcon';
 
 interface RowMenuProps {
   onCopy: () => void;
@@ -9,69 +10,38 @@ interface RowMenuProps {
 }
 
 const RowMenu = ({ onCopy, onDelete }: RowMenuProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   return (
-    <Manager>
-      <Reference>
-        {({ ref }) => (
-          <div ref={ref} data-testid="schedule-row-menu">
-            <Icon name="ellipsis vertical" onClick={() => setIsOpen(!isOpen)} />
-          </div>
-        )}
-      </Reference>
-      {isOpen &&
-        ReactDOM.createPortal(
-          <Popper
-            placement="left"
-            strategy="fixed"
-            modifiers={[
-              { name: 'hide', enabled: false },
-            ]}
-          >
-            {({ ref, style, placement, arrowProps }) => (
-              <>
-                <div
-                  style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
-                  onClick={() => setIsOpen(false)}
-                />
-                <div ref={ref} style={style} data-placement={placement}>
-                  <Menu vertical onBlur={() => setIsOpen(false)} pointing compact>
-                    <Menu.Item
-                      onClick={() => {
-                        setIsOpen(false);
-                        setTimeout(() => {
-                          onCopy();
-                        }, 0);
-                      }}
-                    >
-                      Duplicate
-                    </Menu.Item>
-                    <Menu.Item
-                      onClick={() => {
-                        setIsOpen(false);
-                        setTimeout(() => {
-                          onDelete();
-                        }, 0);
-                      }}
-                    >
-                      Delete
-                    </Menu.Item>
-                  </Menu>
-                  <div {...arrowProps} />
-                </div>
-              </>
-            )}
-          </Popper>,
-          document.body,
-        )}
-    </Manager>
+    <>
+      <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)} data-testid="schedule-row-menu">
+        <MuiIcon name="ellipsis vertical" />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            setTimeout(() => onCopy(), 0);
+          }}
+        >
+          Duplicate
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            setTimeout(() => onDelete(), 0);
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
+    </>
   );
 };
 

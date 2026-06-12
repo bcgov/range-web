@@ -1,16 +1,15 @@
 import { FieldArray, useFormikContext } from 'formik';
-import React, { useState } from 'react';
-import { Confirm, Icon } from 'semantic-ui-react';
+import React from 'react';
 import uuid from 'uuid-v4';
 import { deleteAttachment, getSignedUploadUrl } from '../../../api';
 import { ATTACHMENTS } from '../../../constants/fields';
 import { axios, getAuthHeaderConfig } from '../../../utils';
-import { PrimaryButton } from '../../common';
+import { PrimaryButton, MuiIcon } from '../../common';
 import { IfEditable } from '../../common/PermissionsField';
 import AttachmentRow from './AttachmentRow';
 import * as API from '../../../constants/api';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
-import { DELETE_ATTACHMENT_CONFIRM_CONTENT, DELETE_ATTACHMENT_CONFIRM_HEADER } from '../../../constants/strings';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 const sortByDate = (a: any, b: any) => {
   if (b.createdAt > a.createdAt) return -1;
@@ -33,14 +32,13 @@ function Attachments({
   propertyName,
   fileType = ATTACHMENT_TYPE.PLAN_ATTACHMENT,
 }: AttachmentsProps) {
-  const [toRemove, setToRemove] = useState<any>(null);
-  const [updatingAccessId, setUpdatingAccessId] = useState<any>(null);
+  const [updatingAccessId, setUpdatingAccessId] = React.useState<any>(null);
   const formik = useFormikContext<any>();
+  const confirm = useConfirm()!;
 
   const refreshAttachments = async () => {
     try {
       const { data: plan } = await (axios.get as any)(API.GET_RUP(planId), getAuthHeaderConfig());
-      // Update only the files array in Formik without touching other fields
       formik.setFieldValue('files', plan.files || []);
     } catch (error) {
       console.error('Error refreshing attachments:', error);
@@ -51,12 +49,7 @@ function Attachments({
     setUpdatingAccessId(attachmentId);
     try {
       await axios.put(API.UPDATE_RUP_ATTACHMENT(planId, attachmentId), { access }, getAuthHeaderConfig());
-      if (!formik.dirty) {
-        formik.resetForm({ values: formik.values });
-      }
-      // Note: intentionally NOT calling fetchPlan() here because it resets
-      // Formik values via enableReinitialize, wiping unsaved changes
-      // (e.g. a schedule added but not yet saved to the database).
+      if (!formik.dirty) formik.resetForm({ values: formik.values });
     } catch (error) {
       console.error('Error updating attachment access:', error);
     } finally {
@@ -68,12 +61,7 @@ function Attachments({
     try {
       const { ...values } = attachment;
       const { data } = await (axios.post as any)(API.CREATE_RUP_ATTACHMENT(planId), values, getAuthHeaderConfig());
-      return {
-        ...attachment,
-        id: data.id,
-        user: data.user,
-        createdAt: data.createdAt,
-      };
+      return { ...attachment, id: data.id, user: data.user, createdAt: data.createdAt };
     } catch (error) {
       console.error('Error saving attachment to database:', error);
       throw error;
@@ -83,50 +71,43 @@ function Attachments({
   const handleUpload = async (file: File, attachment: any, index: number) => {
     const fieldName = `files.${index}`;
     try {
-      // First upload the file to storage
       const signedUrl = await getSignedUploadUrl(encodeURIComponent(file.name));
-
       await axios.put(signedUrl, file, {
-        headers: {
-          'Content-Type': file.type,
-        },
+        headers: { 'Content-Type': file.type },
         skipAuthorizationHeader: true,
       } as any);
 
-      // Update the attachment with the URL
-      const updatedAttachment = {
-        ...attachment,
-        url: encodeURIComponent(file.name),
-      };
-
+      const updatedAttachment = { ...attachment, url: encodeURIComponent(file.name) };
       formik.setFieldValue(`${fieldName}.url`, encodeURIComponent(file.name));
 
-      // Save attachment metadata directly to database if plan exists (not UUID)
       if (!uuid.isUUID(planId)) {
         try {
           const savedAttachment = await saveAttachmentToDatabase(updatedAttachment);
-
-          // Update formik with the saved attachment ID
           formik.setFieldValue(`${fieldName}.id`, savedAttachment.id);
           formik.setFieldValue(fieldName, savedAttachment);
-
-          // Reset dirty state after successful upload
-          if (!formik.dirty) {
-            formik.resetForm({ values: formik.values });
-          }
-
-          // Refresh attachments list from server to show the updated attachment
+          if (!formik.dirty) formik.resetForm({ values: formik.values });
           await refreshAttachments();
         } catch (dbError) {
-          // If saving to database fails, still keep the file in formik state
-          // It will be saved when the plan is submitted
-          console.warn('Failed to save attachment to database immediately, will save on plan submission:', dbError);
+          console.warn('Failed to save attachment to database immediately:', dbError);
         }
       }
     } catch (e) {
       formik.setFieldValue(`${fieldName}.error`, e);
       throw e;
     }
+  };
+
+  const handleDelete = async (attachment: any, index: number, remove: (i: number) => void) => {
+    const choice = await confirm({ titleText: 'Delete attachment', contentText: 'Are you sure?' });
+    if (!choice) return;
+
+    if (!uuid.isUUID(attachment.id)) {
+      await deleteAttachment(planId, attachment.id);
+    }
+
+    remove(index);
+    if (!formik.dirty) formik.resetForm({ values: formik.values });
+    if (!uuid.isUUID(planId)) await refreshAttachments();
   };
 
   return (
@@ -140,26 +121,26 @@ function Attachments({
               {attachments.filter((a) => a.type === propertyName).length === 0 ? (
                 <div className="rup__attachments__no-content">No {label.toLocaleLowerCase()} attachments provided</div>
               ) : (
-                attachments.sort(sortByDate).map((attachment, index) => {
-                  if (attachment.type === propertyName) {
-                    return (
+                attachments
+                  .sort(sortByDate)
+                  .map((attachment, index) =>
+                    attachment.type === propertyName ? (
                       <AttachmentRow
                         key={index}
                         attachment={attachment}
-                        onDelete={() => setToRemove(attachment)}
+                        onDelete={() => handleDelete(attachment, index, remove)}
                         onAccessChange={(access) => updateAttachmentAccess(attachment.id, access)}
                         isUpdating={updatingAccessId === attachment.id}
                         fileType={fileType}
                         index={index}
                         error={(formik.errors as any)?.files?.[index]?.url}
                       />
-                    );
-                  }
-                })
+                    ) : null,
+                  )
               )}
               <IfEditable permission={ATTACHMENTS.ADD}>
                 <PrimaryButton inverted compact style={{ marginTop: '10px' }} type="button">
-                  <Icon name="add circle" />
+                  <MuiIcon name="add circle" />
                   <label htmlFor={`fileInput${propertyName}`}>Add {label} Attachment</label>
                 </PrimaryButton>
                 <input
@@ -173,7 +154,6 @@ function Attachments({
                         access: 'staff_only',
                         id: uuid(),
                       };
-
                       push(attachment);
                       handleUpload(file, attachment, attachments.length + index);
                     }
@@ -184,40 +164,6 @@ function Attachments({
                 />
               </IfEditable>
             </div>
-
-            <Confirm
-              header={DELETE_ATTACHMENT_CONFIRM_HEADER}
-              content={DELETE_ATTACHMENT_CONFIRM_CONTENT}
-              open={toRemove !== null}
-              onCancel={() => {
-                setToRemove(null);
-              }}
-              onConfirm={async () => {
-                if (!uuid.isUUID(toRemove.id)) {
-                  await deleteAttachment(planId, toRemove.id);
-                }
-
-                // Find the index of the attachment in the formik files array
-                const formikFiles = formik.values.files || [];
-                const attachmentIndex = formikFiles.findIndex((file: any) => file.id === toRemove.id);
-
-                if (attachmentIndex !== -1) {
-                  remove(attachmentIndex);
-                }
-
-                setToRemove(null);
-
-                // Reset dirty state after successful delete
-                if (!formik.dirty) {
-                  formik.resetForm({ values: formik.values });
-                }
-
-                // Refresh attachments list from server to show updated attachments
-                if (!uuid.isUUID(planId)) {
-                  await refreshAttachments();
-                }
-              }}
-            />
           </div>
         </>
       )}

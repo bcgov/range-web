@@ -1,7 +1,9 @@
 import React from 'react';
-import { Table as SemanticTable } from 'semantic-ui-react';
-
-const Table = SemanticTable as any;
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import UsageTableRow from './UsageTableRow';
 import { YEAR, AUTH_AUMS, TEMP_INCREASE, BILLABLE_NON_USE, TOTAL_ANNUAL_USE } from '../../../constants/strings';
 
@@ -20,11 +22,11 @@ const UsageTable = ({ plan, usage }: UsageTableProps) => {
 
     if (filteredUsage.length === 0) {
       return (
-        <Table.Row>
-          <Table.Cell colSpan="5" textAlign="center">
+        <TableRow>
+          <TableCell colSpan={5} align="center">
             No usage available for this period {`(${planStartYear} ~ ${planEndYear})`}
-          </Table.Cell>
-        </Table.Row>
+          </TableCell>
+        </TableRow>
       );
     }
 
@@ -32,18 +34,18 @@ const UsageTable = ({ plan, usage }: UsageTableProps) => {
   };
 
   return (
-    <Table style={{ marginTop: '10px' }} celled compact striped unstackable>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>{YEAR}</Table.HeaderCell>
-          <Table.HeaderCell>{AUTH_AUMS}</Table.HeaderCell>
-          <Table.HeaderCell>{TEMP_INCREASE}</Table.HeaderCell>
-          <Table.HeaderCell>{BILLABLE_NON_USE}</Table.HeaderCell>
-          <Table.HeaderCell>{TOTAL_ANNUAL_USE}</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
+    <Table sx={{ mt: '10px' }} size="small">
+      <TableHead>
+        <TableRow>
+          <TableCell>{YEAR}</TableCell>
+          <TableCell>{AUTH_AUMS}</TableCell>
+          <TableCell>{TEMP_INCREASE}</TableCell>
+          <TableCell>{BILLABLE_NON_USE}</TableCell>
+          <TableCell>{TOTAL_ANNUAL_USE}</TableCell>
+        </TableRow>
+      </TableHead>
 
-      <Table.Body>{renderTable(usage)}</Table.Body>
+      <TableBody>{renderTable(usage)}</TableBody>
     </Table>
   );
 };

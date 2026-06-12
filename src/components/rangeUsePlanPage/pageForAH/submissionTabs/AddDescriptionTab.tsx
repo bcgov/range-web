@@ -1,6 +1,5 @@
 import React from 'react';
-import { TextArea, Form as SUIForm } from 'semantic-ui-react';
-const Form = SUIForm as any;
+import TextField from '@mui/material/TextField';
 import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
@@ -34,16 +33,23 @@ function AddDescriptionTab({ currTabId, tab, onClose, handleNoteChange, note, on
         </>
       }
       content={
-        <Form>
+        <div>
           <div className="rup__multi-tab__note">
             <div className="rup__multi-tab__note__title">
               Add Description ({NUMBER_OF_LIMIT_FOR_NOTE} characters). It will be visible to range staff and other
               agreement holders.
             </div>
-            <TextArea placeholder={placeholder} onChange={handleNoteChange} value={note} />
+            <TextField
+              placeholder={placeholder}
+              onChange={(e) => handleNoteChange(e, { value: e.target.value })}
+              value={note}
+              multiline
+              fullWidth
+              minRows={3}
+            />
             <div className="rup__multi-tab__note__text-length">{lengthOfNote}</div>
           </div>
-        </Form>
+        </div>
       }
     />
   );
