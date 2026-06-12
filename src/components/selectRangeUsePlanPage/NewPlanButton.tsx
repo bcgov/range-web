@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
+import { MuiIcon } from '../common';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { createNewPlan } from '../../api';
@@ -30,7 +30,7 @@ function NewPlanButton({ agreement }: NewPlanButtonProps) {
   return (
     <Button variant="contained" disableElevation color="primary" onClick={handleClick}>
       New plan
-      <Icon className={classes.icon} name="add" fitted={false} />
+      <MuiIcon className={classes.icon} name="add" size="small" />
     </Button>
   );
 }

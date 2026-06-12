@@ -2,8 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { handleNullValue, getUserFullName, getAgreementHolders, getClientFullName } from '../../utils';
 import { useUser } from '../../providers/UserProvider';
-import { Status } from '../common';
-import { Icon } from 'semantic-ui-react';
+import { Status , MuiIcon } from '../common';
 import PlanTable from './PlanTable';
 import NewPlanButton from './NewPlanButton';
 import { canUserEdit } from '../common/PermissionsField';
@@ -52,8 +51,8 @@ function AgreementTableRow({ agreement, active, onSelect, noneSelected }: Agreem
           )}
         </div>
         <div className="agrm__table__accordian__cell">
-          {isActiveAndHasPlans && <Icon name="minus circle" size="large" />}
-          {!isActiveAndHasPlans && <Icon name="plus circle" size="large" disabled={plan === undefined} />}
+          {isActiveAndHasPlans && <MuiIcon name="minus circle" size="large" />}
+          {!isActiveAndHasPlans && <MuiIcon name="plus circle" size="large" disabled={plan === undefined} />}
         </div>
       </div>
       <div

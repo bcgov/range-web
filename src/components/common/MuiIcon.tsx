@@ -1,6 +1,7 @@
 import React from 'react';
 import AccessTime from '@mui/icons-material/AccessTime';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Add from '@mui/icons-material/Add';
 import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowCircleLeft from '@mui/icons-material/ArrowCircleLeft';
@@ -34,6 +35,7 @@ import Star from '@mui/icons-material/Star';
 import WarningAmber from '@mui/icons-material/WarningAmber';
 
 const iconMap: Record<string, React.ElementType> = {
+  add: Add,
   'add circle': AddCircleOutlined,
   'angle down': KeyboardArrowDown,
   'angle double left': KeyboardDoubleArrowLeft,
@@ -82,6 +84,7 @@ interface MuiIconProps {
   color?: string;
   className?: string;
   style?: React.CSSProperties;
+  disabled?: boolean;
   onClick?: React.MouseEventHandler<SVGSVGElement>;
 }
 
@@ -93,7 +96,7 @@ const sizeMap: Record<string, { fontSize: string }> = {
   huge: { fontSize: '3rem' },
 };
 
-function MuiIcon({ name, size = 'medium', color, className, style, onClick }: MuiIconProps) {
+function MuiIcon({ name, size = 'medium', color, className, style, disabled, onClick }: MuiIconProps) {
   const IconComponent = iconMap[name];
 
   if (!IconComponent) {
@@ -101,10 +104,13 @@ function MuiIcon({ name, size = 'medium', color, className, style, onClick }: Mu
   }
 
   const muiColor = color === 'black' ? undefined : (color as any);
+  const iconStyle: React.CSSProperties = {
+    ...sizeMap[size],
+    ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
+    ...style,
+  };
 
-  return (
-    <IconComponent className={className} style={{ ...sizeMap[size], ...style }} color={muiColor} onClick={onClick} />
-  );
+  return <IconComponent className={className} style={iconStyle} color={muiColor} onClick={onClick} />;
 }
 
 export default MuiIcon;
