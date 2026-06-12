@@ -1,9 +1,12 @@
 import React from 'react';
 import { some, every } from 'lodash';
+import { useField } from 'formik';
 import permissions from '../../constants/permissions';
 import { useUser } from '../../providers/UserProvider';
-import { Input } from 'formik-semantic-ui';
-import { Form } from 'semantic-ui-react';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Typography from '@mui/material/Typography';
 import InfoTip from './InfoTip';
 import { handleNullValue } from '../../utils';
 import { useEditable } from '../../providers/EditableProvider';
@@ -30,10 +33,27 @@ interface PermissionsFieldProps {
   [key: string]: any;
 }
 
+function DefaultField(props: any) {
+  const { name, label, ...rest } = props;
+  const [field, meta] = useField(name || '');
+
+  return (
+    <TextField
+      {...field}
+      {...rest}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      size="small"
+    />
+  );
+}
+
 function PermissionsField({
   permission,
   displayValue,
-  component: Component = Input,
+  component: Component = DefaultField,
   displayComponent: DisplayComponent = MultiParagraphDisplay,
   editable = false,
   notProvided,
@@ -60,10 +80,12 @@ function PermissionsField({
       )}
     </>
   ) : (
-    <Form.Field inline={props.inline}>
+    <FormControl sx={{ m: 0, display: 'block' }}>
       {props.label && (
         <div className="rup__popup-header">
-          <label>{props.label}</label>
+          <Typography variant="body2" component="label" sx={{ fontWeight: 500 }}>
+            {props.label}
+          </Typography>
           {props.tip && <InfoTip header={props.label} content={props.tip} />}
         </div>
       )}
@@ -74,7 +96,8 @@ function PermissionsField({
         fluid={props.fluid}
         className={displayClassName}
       />
-    </Form.Field>
+      {props.error && <FormHelperText>{props.error}</FormHelperText>}
+    </FormControl>
   );
 }
 

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { List as SemanticList, Modal, Icon, Button } from 'semantic-ui-react';
-
-// Cast to work around Semantic UI React type compatibility issues
-const List = SemanticList as any;
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import MuiIcon from './MuiIcon';
+import { PrimaryButton } from './index';
 
 interface ListOption {
   key: string | number;
@@ -35,11 +39,11 @@ function ListModal({
   const [selected, setSelected] = useState<ListOption[]>([]);
 
   return (
-    <Modal dimmer="blurring" size="mini" open={open} onClose={onClose} closeIcon>
-      <Modal.Header>{title}</Modal.Header>
-      <List divided relaxed selection style={{ margin: 0, maxHeight: 300, overflowY: 'scroll' }}>
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle>{title}</DialogTitle>
+      <List sx={{ maxHeight: 300, overflowY: 'auto', py: 0 }}>
         {options.map((option) => (
-          <List.Item
+          <ListItem
             key={option.key}
             disabled={option.disabled}
             onClick={() => {
@@ -50,24 +54,19 @@ function ListModal({
                   setSelected([...selected, option]);
                 }
               }
-
               if (onOptionClick) onOptionClick(option);
             }}
-            style={{ padding: '1em' }}
+            sx={{ padding: '1em', cursor: 'pointer' }}
+            divider
           >
-            {selected.includes(option) && (
-              <List.Content floated="right">
-                <Icon name="check circle" color="blue" />
-              </List.Content>
-            )}
-            <List.Content>{option.text}</List.Content>
-          </List.Item>
+            <ListItemText primary={option.text} />
+            {selected.includes(option) && <MuiIcon name="check circle" color="blue" />}
+          </ListItem>
         ))}
       </List>
       {multiselect && (
-        <Modal.Actions>
-          <Button
-            primary
+        <DialogActions>
+          <PrimaryButton
             onClick={() => {
               onSubmit?.(selected);
               setSelected([]);
@@ -75,10 +74,10 @@ function ListModal({
             disabled={selected.length === 0}
           >
             {buttonText}
-          </Button>
-        </Modal.Actions>
+          </PrimaryButton>
+        </DialogActions>
       )}
-    </Modal>
+    </Dialog>
   );
 }
 

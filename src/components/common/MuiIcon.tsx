@@ -19,6 +19,7 @@ import Edit from '@mui/icons-material/Edit';
 import ErrorOutlined from '@mui/icons-material/ErrorOutlined';
 import ExploreOutlined from '@mui/icons-material/ExploreOutlined';
 import HelpOutlined from '@mui/icons-material/HelpOutlined';
+import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardDoubleArrowLeft from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -47,7 +48,10 @@ const iconMap: Record<string, React.ElementType> = {
   'angle right': ChevronRight,
   'arrow circle left': ArrowCircleLeft,
   'arrow left': ArrowBack,
+  calendar: CalendarMonth,
   camera: CameraAlt,
+  'caret left': ChevronLeft,
+  'caret right': ChevronRight,
   check: Check,
   'check circle': CheckCircleOutlined,
   'check square': CheckBoxOutlined,

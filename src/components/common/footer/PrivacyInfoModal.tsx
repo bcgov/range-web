@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import Close from '@mui/icons-material/Close';
 import { PrimaryButton } from '../index';
 import { APP_NAME } from '../../../constants/strings';
 import { openPiaModal, closePiaModal } from '../../../actions';
@@ -15,8 +18,11 @@ interface PrivacyInfoModalProps {
 
 function PrivacyInfoModal({ closePiaModal, isModalOpen }: PrivacyInfoModalProps) {
   return (
-    <Modal dimmer="blurring" closeIcon onClose={closePiaModal} open={isModalOpen} size="small">
-      <Modal.Content>
+    <Dialog open={isModalOpen} onClose={closePiaModal} maxWidth="sm" fullWidth>
+      <IconButton onClick={closePiaModal} sx={{ position: 'absolute', right: 8, top: 8, zIndex: 1 }}>
+        <Close />
+      </IconButton>
+      <DialogContent>
         <div className="privacy-info">
           <div className="privacy-info__title">Privacy Information</div>
           <div className="privacy-info__sub-title">Please review to return to {APP_NAME}</div>
@@ -62,8 +68,8 @@ function PrivacyInfoModal({ closePiaModal, isModalOpen }: PrivacyInfoModalProps)
         <div className="privacy-info__continue-btn">
           <PrimaryButton content={`Continue to ${APP_NAME}`} onClick={closePiaModal} />
         </div>
-      </Modal.Content>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 

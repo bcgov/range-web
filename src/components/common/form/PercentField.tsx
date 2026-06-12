@@ -1,6 +1,6 @@
 import React from 'react';
-import { Field, FastField, getIn } from 'formik';
-import { Form, Input } from 'semantic-ui-react';
+import { useField } from 'formik';
+import TextField from '@mui/material/TextField';
 import { InputRef } from './InputRef';
 import ErrorMessage from './ErrorMessage';
 
@@ -29,53 +29,52 @@ function PercentField({
   fieldProps = {},
   errorComponent = ErrorMessage,
   inputRef,
-  fast,
+  fast: _fast,
 }: PercentFieldProps) {
-  const id = `percent_field_${name}`;
+  const [field, meta, helpers] = useField({ name, validate });
   const { onChange, ...safeInputProps } = inputProps;
-  const DesiredField = fast === true ? FastField : Field;
+  const id = `percent_field_${name}`;
+
+  const displayValue =
+    field.value !== undefined && field.value !== '' && !isNaN(parseFloat(field.value))
+      ? moveDecimalsRight(parseFloat(field.value)).toString()
+      : '';
 
   return (
-    <DesiredField
-      name={name}
-      validate={validate}
-      render={({ field, form }: any) => {
-        const error = getIn(form.errors, name);
-
-        return (
-          <Form.Field error={!!error} {...fieldProps}>
-            {!!label && <label htmlFor={id}>{label}</label>}
-
-            <InputRef inputRef={inputRef}>
-              <Input
-                id={id}
-                name={name}
-                {...safeInputProps}
-                value={!isNaN(parseFloat(field.value)) ? moveDecimalsRight(field.value) : field.value}
-                onChange={(e: any, { name: fieldName, value }: any) => {
-                  form.setFieldValue(field.name, !isNaN(parseFloat(value)) ? value / 100 : value.trim());
-                  Promise.resolve().then(() => {
-                    onChange && onChange(e, { name: fieldName, value });
-                  });
-                }}
-                onBlur={(...args: any[]) => {
-                  form.setFieldValue(
-                    field.name,
-                    !isNaN(parseFloat(field.value)) ? moveDecimalsRight(field.value) / 100 : field.value,
-                  );
-                  form.handleBlur(...args);
-                }}
-              />
-            </InputRef>
-
-            {error &&
-              React.createElement(errorComponent, {
-                message: error,
-              })}
-          </Form.Field>
-        );
-      }}
-    />
+    <div {...fieldProps}>
+      {!!label && (
+        <label htmlFor={id} style={{ display: 'block', marginBottom: 4, fontSize: '0.9rem' }}>
+          {label}
+        </label>
+      )}
+      <InputRef inputRef={inputRef}>
+        <TextField
+          id={id}
+          name={name}
+          type="number"
+          value={displayValue}
+          error={meta.touched && !!meta.error}
+          size="small"
+          {...safeInputProps}
+          onChange={(e) => {
+            const raw = e.target.value;
+            const num = parseFloat(raw);
+            helpers.setValue(isNaN(num) ? raw : num / 100);
+            Promise.resolve().then(() => {
+              onChange && onChange(e, { name, value: raw });
+            });
+          }}
+          onBlur={(e) => {
+            if (!isNaN(parseFloat(field.value))) {
+              helpers.setValue(Math.round(parseFloat(field.value) * 100) / 100);
+            }
+            helpers.setTouched(true);
+            inputProps.onBlur?.(e);
+          }}
+        />
+      </InputRef>
+      {meta.touched && meta.error && React.createElement(errorComponent, { message: meta.error })}
+    </div>
   );
 }
 
