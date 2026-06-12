@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getIn, connect } from 'formik';
 import moment from 'moment';
 import { chunk } from 'lodash';
-import {
-  Input,
-  Form,
-  Popup,
-  Button,
-  Header as SemanticHeader,
-  Grid as SemanticGrid,
-  Divider,
-  Table as SemanticTable,
-  Icon,
-} from 'semantic-ui-react';
-
-// Cast to work around Semantic UI React type compatibility issues
-const Grid = SemanticGrid as any;
-const Header = SemanticHeader as any;
-const Table = SemanticTable as any;
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import Popover from '@mui/material/Popover';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import InputAdornment from '@mui/material/InputAdornment';
+import MuiIcon from '../MuiIcon';
 
 interface DayMonthPickerProps {
   dayName: string;
@@ -32,6 +29,7 @@ const DayMonthPicker = connect(
   ({ dayName, monthName, label, formik, dateFormat = 'MMMM Do', ...props }: DayMonthPickerProps) => {
     const [open, setOpen] = useState(false);
     const [currentMonth, setCurrentMonth] = useState(0);
+    const anchorRef = useRef<HTMLDivElement>(null);
 
     const previousMonth = () => setCurrentMonth(currentMonth > 0 ? currentMonth - 1 : 11);
     const nextMonth = () => setCurrentMonth(currentMonth < 11 ? currentMonth + 1 : 0);
@@ -53,106 +51,115 @@ const DayMonthPicker = connect(
       7,
     );
 
+    const formattedDate =
+      dayValue && monthValue
+        ? moment()
+            .set('month', monthValue - 1)
+            .set('date', dayValue)
+            .format(dateFormat)
+        : '';
+
     return (
       <>
-        <Form.Field>
-          {label && <label>{label}</label>}
-
-          <Popup
-            open={open}
-            onClose={() => setOpen(false)}
-            trigger={
-              <>
-                <Input
-                  onClick={() => setOpen(true)}
-                  value={
-                    dayValue && monthValue
-                      ? moment()
-                          .set('month', monthValue - 1)
-                          .set('date', dayValue)
-                          .format(dateFormat)
-                      : ''
-                  }
-                  icon={
-                    monthValue || dayValue ? (
-                      <Icon
-                        name="close"
-                        link
+        <FormControl error={!!error} sx={{ mb: 1 }}>
+          {label && <label style={{ display: 'block', marginBottom: 4, fontSize: '0.9rem' }}>{label}</label>}
+          <div ref={anchorRef}>
+            <TextField
+              onClick={() => setOpen(true)}
+              value={formattedDate}
+              size="small"
+              error={!!error}
+              {...props}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {monthValue || dayValue ? (
+                      <IconButton
+                        size="small"
                         onClick={() => {
                           formik.setFieldValue(monthName, '');
                           formik.setFieldValue(dayName, '');
                         }}
-                      />
+                      >
+                        <MuiIcon name="close" />
+                      </IconButton>
                     ) : (
-                      'calendar'
-                    )
-                  }
-                  {...props}
-                />
-                {error && (
-                  <span className="sui-error-message" style={{ position: 'relative', top: '-1em' }}>
-                    {error}
-                  </span>
-                )}
-              </>
-            }
-          >
-            <Popup.Content style={{ width: '300px' }}>
-              <Grid>
-                <Grid.Column textAlign="left" width="4">
-                  <Button icon="caret left" onClick={previousMonth} />
-                </Grid.Column>
-                <Grid.Column verticalAlign="middle" width="8">
-                  <Header as="h4" textAlign="center">
-                    {moment().month(currentMonth).format('MMMM')}
-                  </Header>
-                </Grid.Column>
-                <Grid.Column textAlign="right" width="4">
-                  <Button icon="caret right" onClick={nextMonth} />
-                </Grid.Column>
-              </Grid>
-              <Divider />
-              <Table columns="7" celled>
-                <Table.Body>
-                  {weeksArray.map((days, week) => (
-                    <Table.Row key={`${currentMonth}_week_${week}`}>
-                      <>
-                        {days.map((day) => (
-                          <Table.Cell
-                            selectable
-                            textAlign="center"
-                            verticalAlign="middle"
-                            key={`${currentMonth}_day_${day}`}
-                            onClick={() => {
-                              const date = moment().set('month', currentMonth).set('date', day);
-
-                              formik.setFieldValue(monthName, date.month() + 1);
-                              formik.setFieldValue(dayName, date.date());
-                              setOpen(false);
-                            }}
-                            style={{
-                              backgroundColor:
-                                dayValue === day && monthValue === currentMonth + 1 ? '#2185d0' : 'transparent',
-                              color: dayValue === day && monthValue === currentMonth + 1 ? '#ffffff' : 'black',
-                              cursor: 'pointer',
-                              padding: '10px',
-                            }}
-                          >
-                            {day}
-                          </Table.Cell>
-                        ))}
-                        {days.length < 7 &&
-                          Array.from({ length: 7 - days.length }).map((_, i) => (
-                            <Table.Cell key={`${currentMonth}_emptycell_${i}`} />
-                          ))}
-                      </>
-                    </Table.Row>
+                      <MuiIcon name="calendar" />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+          {error && (
+            <span className="sui-error-message" style={{ position: 'relative', top: '-0.5em' }}>
+              {error}
+            </span>
+          )}
+        </FormControl>
+        <Popover
+          open={open}
+          anchorEl={anchorRef.current}
+          onClose={() => setOpen(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          slotProps={{ paper: { sx: { width: 300, p: 1 } } }}
+        >
+          <Grid container alignItems="center">
+            <Grid item xs={3} sx={{ textAlign: 'left' }}>
+              <IconButton onClick={previousMonth} size="small">
+                <MuiIcon name="caret left" />
+              </IconButton>
+            </Grid>
+            <Grid item xs={6} sx={{ textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                {moment().month(currentMonth).format('MMMM')}
+              </Typography>
+            </Grid>
+            <Grid item xs={3} sx={{ textAlign: 'right' }}>
+              <IconButton onClick={nextMonth} size="small">
+                <MuiIcon name="caret right" />
+              </IconButton>
+            </Grid>
+          </Grid>
+          <Divider sx={{ my: 1 }} />
+          <Table size="small">
+            <TableBody>
+              {weeksArray.map((days, week) => (
+                <TableRow key={`${currentMonth}_week_${week}`}>
+                  {days.map((day) => (
+                    <TableCell
+                      key={`${currentMonth}_day_${day}`}
+                      align="center"
+                      onClick={() => {
+                        const date = moment().set('month', currentMonth).set('date', day);
+                        formik.setFieldValue(monthName, date.month() + 1);
+                        formik.setFieldValue(dayName, date.date());
+                        setOpen(false);
+                      }}
+                      sx={{
+                        backgroundColor:
+                          dayValue === day && monthValue === currentMonth + 1 ? '#2185d0' : 'transparent',
+                        color: dayValue === day && monthValue === currentMonth + 1 ? '#ffffff' : 'black',
+                        cursor: 'pointer',
+                        padding: '10px',
+                        '&:hover': {
+                          backgroundColor: dayValue === day && monthValue === currentMonth + 1 ? '#2185d0' : '#f0f0f0',
+                        },
+                      }}
+                    >
+                      {day}
+                    </TableCell>
                   ))}
-                </Table.Body>
-              </Table>
-            </Popup.Content>
-          </Popup>
-        </Form.Field>
+                  {days.length < 7 &&
+                    Array.from({ length: 7 - days.length }).map((_, i) => (
+                      <TableCell key={`${currentMonth}_emptycell_${i}`} />
+                    ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Popover>
       </>
     );
   },
