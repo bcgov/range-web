@@ -1,4 +1,4 @@
-import { CircularProgress, Tooltip } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import React, { useState } from 'react';
 import { PrimaryButton } from '../common';
@@ -16,7 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import * as API from '../../constants/api';
 import DatePickerDialog from './DatePickerDialog';
 import { PLAN_EXTENSION_STATUS } from '../../constants/variables';
-import { Button } from 'formik-semantic-ui';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { PLAN_EXTENSION_CONFIRMATION_QUESTION } from '../../constants/strings';
 import useConfirm from '../../providers/ConfrimationModalProvider';
 
@@ -140,8 +141,10 @@ export default function ExtensionColumn({ user, currentPage, agreement }: Extens
               </div>
               <div>
                 <Button
+                  variant="outlined"
                   style={{ margin: '4px' }}
-                  loading={loading}
+                  disabled={loading}
+                  startIcon={loading ? <CircularProgress size="1em" color="inherit" /> : undefined}
                   onClick={() => {
                     handleReject(agreement.plan.id);
                   }}
@@ -178,8 +181,10 @@ export default function ExtensionColumn({ user, currentPage, agreement }: Extens
                   Approve Extension
                 </PrimaryButton>
                 <Button
+                  variant="outlined"
                   style={{ margin: '4px' }}
-                  loading={loading}
+                  disabled={loading}
+                  startIcon={loading ? <CircularProgress size="1em" color="inherit" /> : undefined}
                   onClick={() => {
                     handleReject(agreement.plan.id);
                   }}
@@ -241,8 +246,10 @@ export default function ExtensionColumn({ user, currentPage, agreement }: Extens
               </div>
               <div>
                 <Button
+                  variant="outlined"
                   style={{ margin: '4px' }}
-                  loading={loading}
+                  disabled={loading}
+                  startIcon={loading ? <CircularProgress size="1em" color="inherit" /> : undefined}
                   onClick={() => {
                     handleReject(agreement.plan.id);
                   }}
