@@ -1,12 +1,24 @@
 import React from 'react';
-import { Loader, Dimmer, SemanticSIZES } from 'semantic-ui-react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
+
+const sizeMap: Record<string, number> = {
+  mini: 16,
+  tiny: 20,
+  small: 24,
+  medium: 32,
+  large: 40,
+  big: 48,
+  huge: 64,
+  massive: 80,
+};
 
 interface LoadingProps {
   inverted?: boolean;
   active?: boolean;
   message?: string;
   onlySpinner?: boolean;
-  size?: SemanticSIZES;
+  size?: string;
   containerProps?: Record<string, any>;
 }
 
@@ -18,18 +30,32 @@ function Loading({
   onlySpinner = false,
   containerProps,
 }: LoadingProps) {
+  const pxSize = sizeMap[size] || 40;
+
   if (onlySpinner) {
     return (
       <div className="loading-spinner__container" {...containerProps}>
-        <Loader active={active} size={size} content={message} />
+        <CircularProgress size={pxSize} />
       </div>
     );
   }
 
   return (
-    <Dimmer active={active} inverted={inverted} {...containerProps}>
-      <Loader size={size} content={message} />
-    </Dimmer>
+    <Backdrop
+      open={active}
+      sx={(theme) => ({
+        color: inverted ? '#000' : '#fff',
+        backgroundColor: inverted ? 'rgba(255,255,255,0.8)' : undefined,
+        zIndex: theme.zIndex.drawer + 1,
+        position: containerProps?.page ? 'absolute' : 'fixed',
+        flexDirection: 'column',
+        gap: 2,
+      })}
+      {...containerProps}
+    >
+      <CircularProgress size={pxSize} color="inherit" />
+      {message && <span style={{ marginTop: 8 }}>{message}</span>}
+    </Backdrop>
   );
 }
 
