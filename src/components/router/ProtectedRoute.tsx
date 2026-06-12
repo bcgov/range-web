@@ -1,12 +1,18 @@
 import React from 'react';
 import { Navigate, useParams, useNavigate, useLocation } from 'react-router-dom';
 import MainPage from '../mainPage';
-import { LOGIN, EXPORT_PDF_WITH_PARAM, EMAIL_TEMPLATE } from '../../constants/routes';
+import { LOGIN, EMAIL_TEMPLATE } from '../../constants/routes';
 import { isUserAdmin } from '../../utils';
 import type { User } from '../../types';
 
-// MainPage is a connected component — cast to accept any props
 const AnyMainPage = MainPage as React.ComponentType<any>;
+
+function getMatchUrl(path: string | undefined, pathname: string) {
+  if (!path) return pathname;
+  const pattern = '^' + path.replace(/\/:\w+/g, '/[^/]+').replace(/\*/g, '.*');
+  const match = pathname.match(new RegExp(pattern));
+  return match ? match[0] : pathname;
+}
 
 interface ProtectedRouteProps {
   component: React.ComponentType<any>;
@@ -22,7 +28,7 @@ function ProtectedRoute({ component: Component, user, path }: ProtectedRouteProp
   // v5-compatible match and history objects for components not yet migrated to hooks
   const match = {
     params,
-    url: location.pathname,
+    url: getMatchUrl(path, location.pathname),
     path: path || location.pathname,
   };
 
@@ -50,10 +56,6 @@ function ProtectedRoute({ component: Component, user, path }: ProtectedRouteProp
   }
 
   switch (path) {
-    // no need to pass the PDFView to MainPage
-    case EXPORT_PDF_WITH_PARAM:
-      return <Component match={match} history={history} location={location} />;
-
     // Admin Routes
     case EMAIL_TEMPLATE:
       if (isUserAdmin(user)) {
