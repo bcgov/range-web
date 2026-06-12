@@ -39,7 +39,6 @@ const MergeAccount = LoadableComponent(() => import('../mergeAccountPage'));
 const RangeUsePlan = LoadableComponent(() => import('../rangeUsePlanPage'));
 const EmailTemplate = LoadableComponent(() => import('../emailTemplatePage'));
 const AssignRolesAndDistricts = LoadableComponent(() => import('../assignRolesAndDistrictsPage'));
-const PDFView = LoadableComponent(() => import('../rangeUsePlanPage/pdf/PDFView'));
 
 function Router() {
   const user = useUser();
@@ -85,14 +84,10 @@ function Router() {
               element={<ProtectedRoute component={ManageAgentsPage} user={user} path={RoutePaths.MANAGE_PLAN_AGENTS} />}
             />
             <Route
-              path={RoutePaths.RANGE_USE_PLAN_WITH_PARAM}
+              path={`${RoutePaths.RANGE_USE_PLAN_WITH_PARAM}/*`}
               element={
                 <ProtectedRoute component={RangeUsePlan} user={user} path={RoutePaths.RANGE_USE_PLAN_WITH_PARAM} />
               }
-            />
-            <Route
-              path={RoutePaths.EXPORT_PDF_WITH_PARAM}
-              element={<ProtectedRoute component={PDFView} user={user} path={RoutePaths.EXPORT_PDF_WITH_PARAM} />}
             />
 
             <Route path={RoutePaths.RETURN_PAGE} element={<ReturnPage />} />
