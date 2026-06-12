@@ -1,30 +1,47 @@
-import React from 'react';
-import { Icon, Popup } from 'semantic-ui-react';
-
-type IconSizeProp = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
+import React, { useState, useRef } from 'react';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import MuiIcon from './MuiIcon';
 
 interface InfoTipProps {
   header?: string;
   content?: React.ReactNode;
-  size?: IconSizeProp;
+  size?: string;
 }
 
 const style = {
   backgroundColor: '#002C71',
   color: 'white',
+  maxWidth: 320,
+  p: 2,
 };
 
 function InfoTip({ header, content, size = 'small' }: InfoTipProps) {
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef<HTMLSpanElement>(null);
+
   return (
-    <Popup
-      basic
-      wide={'very'}
-      on={'click'}
-      trigger={<Icon name="question" color="grey" size={size} circular />}
-      style={style}
-      header={header}
-      content={content}
-    />
+    <>
+      <span
+        ref={anchorRef}
+        onClick={() => setOpen(!open)}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+      >
+        <MuiIcon name="question circle outline" color="grey" size={size as any} />
+      </span>
+      <Popover
+        open={open}
+        anchorEl={anchorRef.current}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        slotProps={{ paper: { sx: style } }}
+      >
+        {header && <Typography sx={{ fontWeight: 'bold', mb: 0.5, color: 'white' }}>{header}</Typography>}
+        {content && <Box sx={{ color: 'white' }}>{content}</Box>}
+      </Popover>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
+import MuiIcon from './MuiIcon';
 
 interface CollapsibleBoxProps {
   header: React.ReactNode;
@@ -57,9 +57,9 @@ class CollapsibleBox extends Component<CollapsibleBoxProps> {
             <div className="collaspible-box__header__right">
               {additionalHeaderRight}
               {isActive ? (
-                <Icon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron up" />
+                <MuiIcon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron up" />
               ) : (
-                <Icon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron down" />
+                <MuiIcon style={{ marginLeft: '7px', marginBottom: '3px' }} name="chevron down" />
               )}
             </div>
           </div>

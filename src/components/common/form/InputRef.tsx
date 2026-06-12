@@ -1,16 +1,7 @@
-import React, { Fragment } from 'react';
-import { Ref } from 'semantic-ui-react';
+import React, { useCallback } from 'react';
 
 const findInput = (cb: (el: HTMLInputElement | null) => void, el: HTMLElement | null) =>
   el && cb(el.querySelector('input'));
-
-interface NullRefProps {
-  children: React.ReactNode;
-}
-
-export function NullRef({ children }: NullRefProps) {
-  return <Fragment>{children}</Fragment>;
-}
 
 interface InputRefProps {
   inputRef?: (el: HTMLInputElement | null) => void;
@@ -18,8 +9,16 @@ interface InputRefProps {
 }
 
 export function InputRef({ inputRef, children }: InputRefProps) {
+  const refCallback = useCallback(
+    (el: HTMLSpanElement | null) => {
+      findInput(inputRef!, el);
+    },
+    [inputRef],
+  );
+
   if (inputRef) {
-    return <Ref innerRef={(el: any) => findInput(inputRef, el)}>{children as React.ReactElement}</Ref>;
+    return <span ref={refCallback}>{children}</span>;
   }
-  return <NullRef>{children}</NullRef>;
+
+  return <>{children}</>;
 }

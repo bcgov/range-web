@@ -20,6 +20,7 @@ import ErrorOutlined from '@mui/icons-material/ErrorOutlined';
 import ExploreOutlined from '@mui/icons-material/ExploreOutlined';
 import HelpOutlined from '@mui/icons-material/HelpOutlined';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardDoubleArrowLeft from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRight from '@mui/icons-material/KeyboardDoubleArrowRight';
 import LocationOn from '@mui/icons-material/LocationOn';
@@ -38,6 +39,8 @@ const iconMap: Record<string, React.ElementType> = {
   add: Add,
   'add circle': AddCircleOutlined,
   'angle down': KeyboardArrowDown,
+  'chevron down': KeyboardArrowDown,
+  'chevron up': KeyboardArrowUp,
   'angle double left': KeyboardDoubleArrowLeft,
   'angle double right': KeyboardDoubleArrowRight,
   'angle left': ChevronLeft,

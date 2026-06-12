@@ -1,28 +1,93 @@
 import React from 'react';
-import { Dropdown as FormikDropdown } from 'formik-semantic-ui';
-import { Popup, Icon } from 'semantic-ui-react';
+import { useField } from 'formik';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import MuiIcon from '../MuiIcon';
 
-// Cast to work around formik-semantic-ui strict prop requirements
-const Dropdown = FormikDropdown as any;
+function getOptionValue(opt: any): string | number {
+  return opt.value !== undefined ? opt.value : opt.id;
+}
+
+function getOptionLabel(opt: any): string {
+  return opt.label || opt.text || opt.description || opt.name || '';
+}
 
 interface HelpfulDropdownProps {
   help: string;
   label?: string;
   name: string;
+  options?: any[];
+  placeholder?: string;
+  search?: boolean;
+  multiple?: boolean;
+  allowAdditions?: boolean;
   [key: string]: any;
 }
 
-function HelpfulDropdown({ help, ...props }: HelpfulDropdownProps) {
+function HelpfulDropdown({
+  help,
+  label,
+  options = [],
+  placeholder,
+  search: _search,
+  multiple,
+  allowAdditions,
+  ...props
+}: HelpfulDropdownProps) {
+  const fieldName = props.field?.name || props.name;
+  const [field, meta, helpers] = useField(fieldName);
+
+  const value = multiple
+    ? (options || []).filter((opt: any) => (field.value || []).includes(getOptionValue(opt)))
+    : (options || []).find((opt: any) => getOptionValue(opt) === field.value) || null;
+
   return (
     <>
-      <Dropdown
-        {...props}
-        label={
-          <>
-            {props.label && <label style={{ display: 'inline', marginRight: 5 }}>{props.label}</label>}
-            <Popup content={help} trigger={<Icon name="question circle outline" color="blue" />} />
-          </>
-        }
+      <Autocomplete
+        value={value}
+        onChange={(_, newValue) => {
+          if (multiple) {
+            helpers.setValue(((newValue as any[]) || []).map(getOptionValue));
+          } else {
+            helpers.setValue(newValue ? getOptionValue(newValue as any) : '');
+          }
+        }}
+        onBlur={() => helpers.setTouched(true)}
+        options={options || []}
+        getOptionLabel={getOptionLabel}
+        isOptionEqualToValue={(opt, val) => getOptionValue(opt) === getOptionValue(val)}
+        multiple={multiple}
+        freeSolo={allowAdditions}
+        disableClearable
+        size="small"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            placeholder={placeholder}
+            error={meta.touched && !!meta.error}
+            helperText={meta.touched && meta.error}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {help && (
+                    <Tooltip title={help}>
+                      <MuiIcon
+                        name="question circle outline"
+                        color="blue"
+                        size="small"
+                        style={{ marginLeft: 4, cursor: 'pointer' }}
+                      />
+                    </Tooltip>
+                  )}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
+          />
+        )}
       />
     </>
   );
