@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Icon } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { downloadPDFBlob } from '../../utils';
 import { fetchRupPDF } from '../../actionCreators';
-import { Loading, ErrorPage, PrimaryButton } from '../common';
+import { Loading, ErrorPage, MuiIcon, PrimaryButton } from '../common';
 import { getPlanPDF, getIsFetchingPlanPDF, getPlanPDFErrorOccured } from '../../reducers/rootReducer';
 import { RootState, AppDispatch } from '../../configureStore';
 
@@ -52,7 +51,7 @@ const PDFViewFromServer = ({ match }: PDFViewFromServerProps) => {
         <div>
           If your download does not begin, please click the button to try again.
           <PrimaryButton inverted style={{ marginLeft: '10px' }} onClick={onDownloadClicked}>
-            <Icon name="print" />
+            <MuiIcon name="print" />
             Download PDF
           </PrimaryButton>
           <div className="rup-pdf__close-btn__container">

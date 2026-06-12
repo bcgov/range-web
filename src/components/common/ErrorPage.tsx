@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import MuiIcon from './MuiIcon';
 import { PrimaryButton } from './index';
 
 interface ErrorPageProps {
@@ -9,7 +9,7 @@ interface ErrorPageProps {
 function ErrorPage({ message }: ErrorPageProps) {
   return (
     <div className="error-page">
-      <Icon name="warning circle" size="big" color="red" />
+      <MuiIcon name="warning circle" size="big" color="red" />
       <div>
         <span className="error-page__message">{message}</span>
       </div>

@@ -6,13 +6,13 @@ import {
   Divider,
   IconButton,
   List,
+  ListItem,
   Typography,
   makeStyles,
 } from '@material-ui/core';
 import { AddBox, ExpandLess, ExpandMore } from '@material-ui/icons';
 import { Dialog, DialogActions, MenuItem, Select, TextField } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ListItem } from 'semantic-ui-react';
 import { GET_PASTURES_FOR_DISTRICT, GET_USER_DISTRICTS } from '../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../utils';
 import { PrimaryButton } from '../common';
@@ -79,7 +79,9 @@ const ImportPastureModal = ({ dialogOpen, onClose, onImport, mode = 'pasture' }:
     setLoading(true);
     const response = await axios.get(GET_PASTURES_FOR_DISTRICT(distId), getAuthHeaderConfig());
     setLoading(false);
-    const filtered = isPlantCommunityMode ? response.data.filter((p: any) => p.plantCommunities?.length > 0) : response.data;
+    const filtered = isPlantCommunityMode
+      ? response.data.filter((p: any) => p.plantCommunities?.length > 0)
+      : response.data;
     setPastures(filtered);
     setFilteredPastures(filtered);
   };

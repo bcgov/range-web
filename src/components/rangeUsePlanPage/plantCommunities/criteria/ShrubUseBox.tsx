@@ -1,5 +1,4 @@
 import React from 'react';
-import { Input } from 'formik-semantic-ui';
 import { RANGE_READINESS } from '../../../../constants/fields';
 import { SHRUB_USE_TIP } from '../../../../constants/strings';
 
@@ -13,17 +12,13 @@ interface ShrubUseBoxProps {
 function ShrubUseBox({ plantCommunity, namespace }: ShrubUseBoxProps) {
   return (
     <div className="rup__plant-community__su">
-      <div className="rup__plant-community__su__title">
-        {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
-        Shrub Use
-      </div>
+      <div className="rup__plant-community__su__title">Shrub Use</div>
       <div>Unless otherwise indicated the allowable browse level is 25% of current annual growth.</div>
 
       <PermissionsField
         name={`${namespace}.shrubUse`}
         permission={RANGE_READINESS.NOTE}
         tip={SHRUB_USE_TIP}
-        component={Input}
         displayValue={plantCommunity.shrubUse}
         label="% of Current Annual Growth"
       />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { generatePDF } from '../../../api';
-import { PrimaryButton } from '../../common';
+import { PrimaryButton, MuiIcon } from '../../common';
 import { downloadAttachment } from '../attachments/AttachmentRow';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
@@ -55,7 +55,7 @@ function PDFView({ match, agreementId, mapAttachments }: PDFViewProps) {
         onDownloadClick();
       }}
     >
-      <i className="download icon" />
+      <MuiIcon name="download" />
       {error ? `Error loading PDF. Click to retry` : 'Download PDF'}
     </PrimaryButton>
   );

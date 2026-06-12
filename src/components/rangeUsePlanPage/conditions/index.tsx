@@ -3,7 +3,6 @@ import { InfoTip } from '../../common';
 import { CONDITIONS } from '../../../constants/fields';
 import * as strings from '../../../constants/strings';
 import PermissionsField from '../../common/PermissionsField';
-import { TextArea } from 'formik-semantic-ui';
 import { useUser } from '../../../providers/UserProvider';
 import EditableProvider from '../../../providers/EditableProvider';
 import { isStatusSubmittedForFD, isUserAgreementHolder } from '../../../utils';
@@ -36,9 +35,9 @@ function Conditions({ plan }: ConditionsProps) {
           <PermissionsField
             permission={CONDITIONS.CONDITIONS}
             name="conditions"
-            component={TextArea}
             displayValue={conditions !== '' && conditions !== null ? '\n' + conditions : '\nNo conditions'}
-            fieldProps={{ required: false }}
+            multiline
+            minRows={3}
             fast
           />
         </div>
@@ -54,13 +53,13 @@ function Conditions({ plan }: ConditionsProps) {
               <PermissionsField
                 permission={CONDITIONS.PROPOSED_CONDITIONS}
                 name="proposedConditions"
-                component={TextArea}
                 displayValue={
                   proposedConditions !== '' && proposedConditions !== null
                     ? '\n' + proposedConditions
                     : '\nNo conditions'
                 }
-                fieldProps={{ required: false }}
+                multiline
+                minRows={3}
                 fast
               />
             </EditableProvider>

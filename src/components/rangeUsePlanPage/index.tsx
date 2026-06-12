@@ -1,26 +1,28 @@
 import React, { Fragment, useEffect } from 'react';
-import { Icon, Modal, Header as SemanticHeader, Button } from 'semantic-ui-react';
 import { startCase } from 'lodash';
-import { Loading, PrimaryButton } from '../common';
+import { Loading, MuiIcon, PrimaryButton } from '../common';
 import {
   isUserAgreementHolder,
   isUserAdmin,
   isUserAgrologist,
+  isUserDecisionMaker,
   canReadAll,
   getFirstFormikError,
-  isUserDecisionMaker,
   isUserReadOnly,
 } from '../../utils';
 import PageForStaff from './pageForStaff';
 import PageForAH from './pageForAH';
-import { Form } from 'formik-semantic-ui';
+import { Formik , getIn } from 'formik';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import { useToast } from '../../providers/ToastProvider';
 import { useReferences } from '../../providers/ReferencesProvider';
 import RUPSchema from './schema';
 import OnSubmitValidationError from '../common/form/OnSubmitValidationError';
 import PDFView from './pdf/PDFView';
 import { RANGE_USE_PLAN } from '../../constants/routes';
-import { getIn } from 'formik';
 import { useCurrentPlan } from '../../providers/PlanProvider';
 
 // These components use formik connect() which injects formik prop internally
@@ -36,15 +38,8 @@ interface BaseProps {
 }
 
 const Base = ({ user, history, match, location, ...props }: BaseProps) => {
-  const {
-    setCurrentPlanId,
-    currentPlan,
-    clientAgreements,
-    fetchPlan,
-    isFetchingPlan,
-    errorFetchingPlan,
-    savePlan,
-  } = useCurrentPlan()!;
+  const { setCurrentPlanId, currentPlan, clientAgreements, fetchPlan, isFetchingPlan, errorFetchingPlan, savePlan } =
+    useCurrentPlan()!;
 
   const references = useReferences();
 
@@ -141,7 +136,7 @@ const Base = ({ user, history, match, location, ...props }: BaseProps) => {
     console.dir(isFetchingPlan);
     return (
       <div className="rup__fetching-error">
-        <Icon name="warning sign" size="large" color="red" />
+        <MuiIcon name="warning sign" size="large" color="red" />
         <div>
           <span className="rup__fetching-error__message">Error occurred while fetching the range use plan.</span>
         </div>
@@ -161,41 +156,44 @@ const Base = ({ user, history, match, location, ...props }: BaseProps) => {
     <Fragment>
       <Loading active={isFetchingPlanForTheFirstTime} onlySpinner />
 
-      {currentPlan && ((() => {
-        const typedPlan = currentPlan as any;
-        return location.pathname.endsWith('/export-pdf') && (() => {
-          const closePDFModal = () => history.push(match.url);
+      {currentPlan &&
+        (() => {
+          const typedPlan = currentPlan as any;
           return (
-            <Modal size="tiny" open={true} onClose={closePDFModal} dimmer="blurring">
-              {React.createElement(SemanticHeader as any, { content: 'Download PDF', icon: 'file pdf' })}
-              <Modal.Content>The PDF may take a few minutes to generate.</Modal.Content>
-              <Modal.Actions>
-                <Button type="button" onClick={closePDFModal}>
-                  Close
-                </Button>
-                <PDFView
-                  match={match}
-                  agreementId={typedPlan.agreement.id}
-                  mapAttachments={typedPlan.files.filter((item: any) => {
-                    return item.type === 'mapAttachments';
-                  })}
-                />
-              </Modal.Actions>
-            </Modal>
+            location.pathname.endsWith('/export-pdf') &&
+            (() => {
+              const closePDFModal = () => history.push(match.url);
+              return (
+                <Dialog open={true} onClose={closePDFModal} maxWidth="xs">
+                  <DialogTitle>Download PDF</DialogTitle>
+                  <DialogContent>The PDF may take a few minutes to generate.</DialogContent>
+                  <DialogActions>
+                    <PrimaryButton onClick={closePDFModal}>Close</PrimaryButton>
+                    <PDFView
+                      match={match}
+                      agreementId={typedPlan.agreement.id}
+                      mapAttachments={typedPlan.files.filter((item: any) => {
+                        return item.type === 'mapAttachments';
+                      })}
+                    />
+                  </DialogActions>
+                </Dialog>
+              );
+            })()
           );
-        })();
-      })())}
+        })()}
 
       {currentPlan && (
-        <Form
+        <Formik
           initialValues={currentPlan}
           enableReinitialize
           validateOnChange={false}
           validateOnBlur={false}
           validationSchema={RUPSchema}
           onSubmit={handleSubmit}
-          render={({ values: plan }: any) => (
-            <>
+        >
+          {({ values: plan, handleSubmit }: any) => (
+            <form onSubmit={handleSubmit}>
               {/* TODO: Prompt removed in react-router-dom v6. 
                   Add useBlocker or beforeunload for unsaved changes warning */}
               <UntypedOnSubmitValidationError callback={handleValidationError} />
@@ -229,9 +227,9 @@ const Base = ({ user, history, match, location, ...props }: BaseProps) => {
                   {...(props as any)}
                 />
               )}
-            </>
+            </form>
           )}
-        />
+        </Formik>
       )}
     </Fragment>
   );

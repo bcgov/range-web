@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import CircularProgress from '@mui/material/CircularProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 import moment from 'moment';
-import { PrimaryButton } from '../../common';
+import { PrimaryButton, MuiIcon } from '../../common';
 import { axios, getAuthHeaderConfig } from '../../../utils';
 import * as API from '../../../constants/api';
 import { useUser } from '../../../providers/UserProvider';
@@ -110,27 +110,27 @@ function ExemptionDropdownList({
                     Exemption
                   </Typography>
                   {error && (
-                    <Typography style={{ color: 'red', marginBottom: '10px' }} variant="body2">
+                    <Typography sx={{ color: 'red', mb: '10px' }} variant="body2">
                       {error}
                     </Typography>
                   )}
                   <Table size="small">
                     <TableHead>
                       <TableRow>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Reason</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Submited By</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Submission Date</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Start Date</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>End Date</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Approved By</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
-                        <TableCell style={{ color: 'grey', width: 175 }}>Download</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Reason</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Submited By</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Submission Date</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Start Date</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>End Date</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Approved By</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Download</TableCell>
                         {isAdminOrDecisionMaker && (
                           <>
-                            <TableCell style={{ color: 'grey', width: 175 }}>Approve/Reject</TableCell>
-                            <TableCell style={{ color: 'grey', width: 175 }}>View/Edit</TableCell>
-                            <TableCell style={{ color: 'grey', width: 175 }}>Cancel</TableCell>
+                            <TableCell sx={{ color: 'grey', width: 175 }}>Approve/Reject</TableCell>
+                            <TableCell sx={{ color: 'grey', width: 175 }}>View/Edit</TableCell>
+                            <TableCell sx={{ color: 'grey', width: 175 }}>Cancel</TableCell>
                           </>
                         )}
                       </TableRow>
@@ -139,7 +139,7 @@ function ExemptionDropdownList({
                       {exemptions.map((exemption: any, index: number) => {
                         return (
                           <React.Fragment key={index}>
-                            <TableRow key={index} hover={true}>
+                            <TableRow hover>
                               <TableCell>{exemption.reason}</TableCell>
                               <TableCell>
                                 {exemption?.user.givenName} {exemption?.user.familyName}
@@ -168,13 +168,12 @@ function ExemptionDropdownList({
                               <TableCell>{exemption.status}</TableCell>
                               <TableCell>
                                 <PrimaryButton
-                                  icon
                                   inverted
                                   onClick={() => {
                                     onDownloadClicked(exemption);
                                   }}
                                 >
-                                  <i className="download icon" />
+                                  <MuiIcon name="download" />
                                 </PrimaryButton>
                               </TableCell>
                               {isAdminOrDecisionMaker && (
@@ -187,18 +186,16 @@ function ExemptionDropdownList({
                                       ) : (
                                         <>
                                           <PrimaryButton
-                                            icon
                                             inverted
                                             onClick={() => onTransitionClicked(exemption, 'approve')}
                                           >
-                                            <i className="thumbs up icon" />
+                                            <MuiIcon name="thumbs up" />
                                           </PrimaryButton>
                                           <PrimaryButton
-                                            icon
                                             inverted
                                             onClick={() => onTransitionClicked(exemption, 'reject')}
                                           >
-                                            <i className="thumbs down icon" />
+                                            <MuiIcon name="thumbs down" />
                                           </PrimaryButton>
                                         </>
                                       ))}
@@ -212,22 +209,20 @@ function ExemptionDropdownList({
                                         <CircularProgress size={24} />
                                       ) : (
                                         <PrimaryButton
-                                          icon
                                           inverted
                                           onClick={() => onEditExemption && onEditExemption(exemption)}
                                         >
-                                          <i className="edit icon" />
+                                          <MuiIcon name="edit" />
                                         </PrimaryButton>
                                       )
                                     ) : (
                                       <PrimaryButton
-                                        icon
                                         inverted
                                         onClick={() =>
                                           onEditExemption && onEditExemption({ ...exemption, viewOnly: true })
                                         }
                                       >
-                                        <i className="eye icon" />
+                                        <MuiIcon name="eye" />
                                       </PrimaryButton>
                                     )}
                                   </TableCell>
@@ -237,11 +232,10 @@ function ExemptionDropdownList({
                                         <CircularProgress size={24} />
                                       ) : (
                                         <PrimaryButton
-                                          icon
                                           inverted
                                           onClick={() => onTransitionClicked(exemption, 'cancel')}
                                         >
-                                          <i className="x icon" />
+                                          <MuiIcon name="x" />
                                         </PrimaryButton>
                                       ))}
                                   </TableCell>

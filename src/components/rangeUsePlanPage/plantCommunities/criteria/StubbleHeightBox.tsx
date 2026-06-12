@@ -12,10 +12,7 @@ interface StubbleHeightBoxProps {
 function StubbleHeightBox({ plantCommunity, planId, pastureId, namespace }: StubbleHeightBoxProps) {
   return (
     <div className="rup__plant-community__sh">
-      <div className="rup__plant-community__sh__title">
-        {/* <img src={IMAGE_SRC.INFO_ICON} alt="info icon" /> */}
-        Stubble Height
-      </div>
+      <div className="rup__plant-community__sh__title">Stubble Height</div>
 
       <IndicatorPlantsForm
         indicatorPlants={plantCommunity.indicatorPlants}

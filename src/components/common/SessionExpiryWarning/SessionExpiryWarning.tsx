@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'semantic-ui-react';
+import Button from '@mui/material/Button';
 import moment from 'moment';
 import { SESSION_EXPIRY_WARNING_DURATION } from '../../../constants/variables';
 
@@ -36,7 +36,7 @@ function SessionExpiryWarning({ onExtend }: SessionExpiryWarningProps) {
     <div className="toast__content">
       <div>Your session will expire in {formattedTime}</div>
       <div>Save your changes periodically</div>
-      <Button onClick={handleExtendClick} size="small" style={{ marginLeft: '10px' }}>
+      <Button onClick={handleExtendClick} size="small" variant="outlined" style={{ marginLeft: '10px' }}>
         Extend Session
       </Button>
     </div>

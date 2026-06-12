@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { STUBBLE_HEIGHT } from '../../../constants/fields';
-import { Dropdown, Icon, Grid as SUIGrid } from 'semantic-ui-react';
-const Grid = SUIGrid as any;
+import { MuiIcon } from '../../common';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { Form } from 'formik-semantic-ui';
 import DecimalField from '../../common/form/DecimalField';
 import HelpfulDropdown from '../../common/form/HelpfulDropdown';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Grid from '@mui/material/Grid';
 
 interface IndicatorPlantProps {
   plant: any;
@@ -50,82 +52,93 @@ function IndicatorPlant({ plant, namespace, valueType, onDelete, formik }: Indic
 
   const valueInputRef = useRef<any>(null);
 
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+
   return (
-    <Grid key={plant.id}>
-      <Grid.Column mobile="15">
-        <Form.Group widths="equal" style={{ margin: 0 }}>
-          <PermissionsField
-            permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-            name={`${namespace}.plantSpeciesId`}
-            component={HelpfulDropdown}
-            help="To select a value, start typing. If a predefined option doesn't exist, you can provide your own value"
-            placeholder="Indicator Plant"
-            options={options}
-            displayValue={
-              options.find((o: any) => o.key === plant.plantSpeciesId)
-                ? options.find((o: any) => o.key === plant.plantSpeciesId).text
-                : ''
-            }
-            fieldProps={{ inline: true, fluid: true }}
-            inputProps={{
-              search: true,
-              allowAdditions: true,
-              additionLabel: 'Other: ',
-              onAddItem,
-              selectOnBlur: true,
-              onKeyDown: (e: any) => {
-                if (e.keyCode === 13) {
-                  valueInputRef.current.focus();
-                }
-              },
-              onChange: (_e: any, { value }: any) => {
-                if (typeof value !== 'string') {
-                  const plantValue = species.find((s: any) => s.id === value)[valueType];
-                  if (plantValue) {
-                    formik.setFieldValue(`${namespace}.value`, plantValue);
-                  }
-                }
-              },
-            }}
-          />
-
-          <PermissionsField
-            permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
-            name={`${namespace}.value`}
-            component={DecimalField}
-            displayValue={plant.value}
-            inputProps={{
-              ref: valueInputRef,
-            }}
-          />
-        </Form.Group>
-      </Grid.Column>
-
-      <Grid.Column mobile="1" verticalAlign="middle">
-        <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-          <Dropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={[
-              {
-                key: 'delete',
-                value: 'delete',
-                text: 'Delete',
-              },
-            ]}
-            style={{ display: 'flex', alignItems: 'center' }}
-            icon={null}
-            pointing="right"
-            onClick={(e: any) => e.stopPropagation()}
-            value={null as any}
-            onChange={(_e: any, { value }: any) => {
-              if (value === 'delete') {
-                onDelete();
+    <Grid container key={plant.id} alignItems="center" spacing={1}>
+      <Grid item xs={11}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <PermissionsField
+              permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+              name={`${namespace}.plantSpeciesId`}
+              component={HelpfulDropdown}
+              help="To select a value, start typing. If a predefined option doesn't exist, you can provide your own value"
+              placeholder="Indicator Plant"
+              options={options}
+              displayValue={
+                options.find((o: any) => o.key === plant.plantSpeciesId)
+                  ? options.find((o: any) => o.key === plant.plantSpeciesId).text
+                  : ''
               }
+              fieldProps={{ inline: true, fluid: true }}
+              inputProps={{
+                search: true,
+                allowAdditions: true,
+                additionLabel: 'Other: ',
+                onAddItem,
+                selectOnBlur: true,
+                onKeyDown: (e: any) => {
+                  if (e.keyCode === 13) {
+                    valueInputRef.current?.focus();
+                  }
+                },
+                onChange: (_e: any, { value }: any) => {
+                  if (typeof value !== 'string') {
+                    const plantValue = species.find((s: any) => s.id === value)?.[valueType];
+                    if (plantValue) {
+                      formik.setFieldValue(`${namespace}.value`, plantValue);
+                    }
+                  }
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <PermissionsField
+              permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}
+              name={`${namespace}.value`}
+              component={DecimalField}
+              displayValue={plant.value}
+              inputProps={{
+                ref: valueInputRef,
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuAnchorEl(e.currentTarget);
             }}
-            selectOnBlur={false}
-          />
+            size="small"
+          >
+            <MuiIcon name="ellipsis vertical" />
+          </IconButton>
+          <Menu
+            anchorEl={menuAnchorEl}
+            open={!!menuAnchorEl}
+            onClose={() => setMenuAnchorEl(null)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuAnchorEl(null);
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setMenuAnchorEl(null);
+                onDelete();
+              }}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
         </IfEditable>
-      </Grid.Column>
+      </Grid>
     </Grid>
   );
 }

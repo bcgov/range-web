@@ -1,5 +1,6 @@
 import React from 'react';
-import { Message, Icon } from 'semantic-ui-react';
+import Alert from '@mui/material/Alert';
+import MuiIcon from './MuiIcon';
 
 interface ErrorMessageProps {
   message: string;
@@ -9,17 +10,9 @@ interface ErrorMessageProps {
 
 function ErrorMessage({ message, warning = false, ...rest }: ErrorMessageProps) {
   return (
-    <Message
-      warning={warning}
-      error={!warning}
-      {...rest}
-      content={
-        <>
-          <Icon name="warning sign" style={{ marginRight: '7px' }} />
-          {message}
-        </>
-      }
-    />
+    <Alert severity={warning ? 'warning' : 'error'} icon={<MuiIcon name="warning sign" />} {...rest}>
+      {message}
+    </Alert>
   );
 }
 

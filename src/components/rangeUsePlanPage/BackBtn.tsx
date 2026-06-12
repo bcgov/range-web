@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { HOME } from '../../constants/routes';
+import MuiIcon from '../common/MuiIcon';
 
 interface BackBtnProps {
   className?: string;
@@ -23,7 +23,7 @@ const BackBtn = ({ className = '', agreementId }: BackBtnProps) => {
       role="button"
       tabIndex={0}
     >
-      <Icon name="arrow circle left" size="large" />
+      <MuiIcon name="arrow circle left" size="large" />
     </div>
   );
 };

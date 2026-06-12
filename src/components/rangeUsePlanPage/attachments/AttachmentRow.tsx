@@ -1,24 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { ATTACHMENTS } from '../../../constants/fields';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { formatDateFromServer, getUserFullName, axios, getAuthHeaderConfig } from '../../../utils';
-import { Dropdown } from 'formik-semantic-ui';
-import { TextField, PrimaryButton, Loading } from '../../common';
+import { TextField, PrimaryButton, Loading, MuiIcon } from '../../common';
+import TextFieldMui from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import { GET_SIGNED_DOWNLOAD_URL } from '../../../constants/api';
 import { isUUID } from 'uuid-v4';
 
 export const attachmentAccess = [
-  {
-    key: 'staff_only',
-    value: 'staff_only',
-    text: 'All staff',
-  },
-  {
-    key: 'everyone',
-    value: 'everyone',
-    text: 'All staff and agreement holders',
-  },
+  { key: 'staff_only', value: 'staff_only', text: 'All staff' },
+  { key: 'everyone', value: 'everyone', text: 'All staff and agreement holders' },
 ];
 
 export const downloadAttachment = async (attachmentId: any, attachmentName: string, fileType: string) => {
@@ -35,6 +28,29 @@ export const downloadAttachment = async (attachmentId: any, attachmentName: stri
   link.click();
   link.parentNode!.removeChild(link);
 };
+
+function AccessSelect(props: any) {
+  const { options, inputProps } = props;
+  const [field, meta] = useField(props.name);
+  return (
+    <TextFieldMui
+      select
+      {...field}
+      {...inputProps}
+      label={props.label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      size="small"
+    >
+      {options.map((opt: any) => (
+        <MenuItem key={opt.key || opt.value} value={opt.value}>
+          {opt.text || opt.label}
+        </MenuItem>
+      ))}
+    </TextFieldMui>
+  );
+}
 
 interface AttachmentRowProps {
   attachment: any;
@@ -93,7 +109,7 @@ function AttachmentRow({
               permission={ATTACHMENTS.VIEWABLE_BY}
               inputProps={{ placeholder: 'All staff' }}
               name={`files.${index}.access`}
-              component={Dropdown}
+              component={AccessSelect}
               options={attachmentAccess}
               label="Viewable by"
               displayValue={attachmentAccess.find((o) => o.value === attachment.access)?.text}
@@ -112,7 +128,7 @@ function AttachmentRow({
             {attachment.url && !isUUID(attachment.id) && !isDownloading && (
               <div>
                 <PrimaryButton inverted compact onClick={handleDownload} type="button">
-                  <i className="download icon" />
+                  <MuiIcon name="download" />
                   Download
                 </PrimaryButton>
                 {errorDownloading && <span>There was an error downloading this file</span>}
@@ -120,7 +136,7 @@ function AttachmentRow({
             )}
             <IfEditable permission={ATTACHMENTS.DELETE}>
               <PrimaryButton inverted compact onClick={onDelete} type="button">
-                <i className="trash icon" />
+                <MuiIcon name="trash" />
                 Delete
               </PrimaryButton>
             </IfEditable>

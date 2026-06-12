@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { connect, getIn } from 'formik';
 import ListModal from '../../../common/ListModal';
-import { Button, Confirm, Modal } from 'semantic-ui-react';
+import { PrimaryButton } from '../../../common';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import { oxfordComma } from '../../../../utils';
 import { useReferences } from '../../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../../constants/variables';
@@ -55,8 +59,7 @@ function Import({ formik, onSubmit, excludedPlantCommunityId }: ImportProps) {
 
   return (
     <>
-      <Button
-        primary
+      <PrimaryButton
         type="button"
         onClick={() =>
           setState({
@@ -66,7 +69,7 @@ function Import({ formik, onSubmit, excludedPlantCommunityId }: ImportProps) {
         }
       >
         Import
-      </Button>
+      </PrimaryButton>
       <ListModal
         options={pasturesOptions}
         open={state.showPastureModal}
@@ -126,26 +129,30 @@ function Import({ formik, onSubmit, excludedPlantCommunityId }: ImportProps) {
           }));
         }}
       />
-      <Confirm
-        dimmer="blurring"
-        content={
-          <Modal.Content>
-            <p>The following Criteria sections in the current plant community will be overwritten:</p>
-            <p>{oxfordComma(state.criteria.map((c: any) => c.text))}.</p>
-          </Modal.Content>
-        }
-        header="Overwrite Specified Criteria"
-        open={state.showConfirm}
-        onCancel={close}
-        onConfirm={() => {
-          onSubmit({
-            pasture: state.pasture,
-            plantCommunity: state.plantCommunity,
-            criteria: state.criteria.map((c: any) => c.value),
-          });
-          close();
-        }}
-      />
+      <Dialog open={state.showConfirm} onClose={close}>
+        <DialogTitle>Overwrite Specified Criteria</DialogTitle>
+        <DialogContent>
+          <p>The following Criteria sections in the current plant community will be overwritten:</p>
+          <p>{oxfordComma(state.criteria.map((c: any) => c.text))}.</p>
+        </DialogContent>
+        <DialogActions>
+          <PrimaryButton inverted onClick={close}>
+            Cancel
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={() => {
+              onSubmit({
+                pasture: state.pasture,
+                plantCommunity: state.plantCommunity,
+                criteria: state.criteria.map((c: any) => c.value),
+              });
+              close();
+            }}
+          >
+            OK
+          </PrimaryButton>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

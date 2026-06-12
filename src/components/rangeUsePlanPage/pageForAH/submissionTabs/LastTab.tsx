@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { MuiIcon } from '../../../common';
 import RightBtn from '../tab/RightBtn';
 
 interface LastTabProps {
@@ -18,7 +18,7 @@ function LastTab({ currTabId, tab, onClose }: LastTabProps) {
 
   return (
     <div className="rup__multi-tab__last">
-      <Icon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" color="green" />
+      <MuiIcon style={{ marginBottom: '10px' }} name="check circle outline" size="huge" color="green" />
       <div className="rup__multi-tab__last__title">{title}</div>
       <div style={{ marginBottom: '20px' }}>{text1}</div>
       {text2 && <div style={{ marginBottom: '20px' }}>{text2}</div>}

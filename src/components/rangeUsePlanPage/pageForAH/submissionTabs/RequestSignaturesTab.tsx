@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
+import { MuiIcon } from '../../../common';
 import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
@@ -50,7 +50,7 @@ function RequestSignaturesTab({
 
     return (
       <div key={client.clientNumber} className="rup__multi-tab__ah-list">
-        <Icon name="user outline" />
+        <MuiIcon name="user outline" />
         <span
           className={classnames('rup__multi-tab__ah-list__cname', {
             'rup__multi-tab__ah-list__cname--bold': isClientCurrentUser(client, user) || isAgent,

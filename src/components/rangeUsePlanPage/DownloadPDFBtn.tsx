@@ -1,5 +1,8 @@
-import React, { Fragment } from 'react';
-import { Icon, Menu } from 'semantic-ui-react';
+import React from 'react';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { MuiIcon } from '../common';
 import { DOWNLOAD_PDF } from '../../constants/strings';
 
 interface DownloadPDFBtnProps {
@@ -8,12 +11,12 @@ interface DownloadPDFBtnProps {
 }
 
 const DownloadPDFBtn = ({ onClick, disabled = false }: DownloadPDFBtnProps) => (
-  <Fragment>
-    <Menu.Item disabled={disabled} onClick={onClick}>
-      <Icon name="file pdf outline" />
-      {DOWNLOAD_PDF}
-    </Menu.Item>
-  </Fragment>
+  <MenuItem disabled={disabled} onClick={onClick}>
+    <ListItemIcon>
+      <MuiIcon name="file pdf outline" />
+    </ListItemIcon>
+    <ListItemText>{DOWNLOAD_PDF}</ListItemText>
+  </MenuItem>
 );
 
 export default DownloadPDFBtn;

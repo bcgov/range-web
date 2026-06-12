@@ -1,9 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import { Button, Icon, Modal, Form as SemanticForm } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import { Formik, Field } from 'formik';
-
-// Cast to work around Semantic UI React type compatibility issues
-const Form = SemanticForm as any;
+import MuiIcon from './MuiIcon';
 
 interface InputModalProps {
   open?: boolean;
@@ -37,21 +40,29 @@ function InputModal({
       }}
     >
       {({ resetForm, handleSubmit }) => (
-        <Modal dimmer="blurring" size="mini" open={open} onClose={onClose} closeIcon>
-          <Modal.Header>{title}</Modal.Header>
-
-          <Modal.Content>
-            <Form
-              onSubmit={(e: any) => {
+        <Dialog maxWidth="xs" open={open} onClose={onClose}>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogContent>
+            <form
+              onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 handleSubmit();
               }}
             >
-              <Field name="input" placeholder={placeholder} innerRef={inputRef} />
-            </Form>
-          </Modal.Content>
-          <Modal.Actions>
+              <Field
+                name="input"
+                placeholder={placeholder}
+                innerRef={inputRef}
+                as={TextField}
+                fullWidth
+                variant="outlined"
+                size="small"
+                style={{ marginTop: 8 }}
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
             <Button
               onClick={() => {
                 resetForm();
@@ -59,15 +70,15 @@ function InputModal({
               }}
               type="button"
             >
-              <Icon name="remove" />
+              <MuiIcon name="remove" />
               Cancel
             </Button>
-            <Button type="submit" primary onClick={() => handleSubmit()}>
-              <Icon name="checkmark" />
+            <Button type="submit" variant="contained" onClick={() => handleSubmit()}>
+              <MuiIcon name="checkmark" />
               Submit
             </Button>
-          </Modal.Actions>
-        </Modal>
+          </DialogActions>
+        </Dialog>
       )}
     </Formik>
   );

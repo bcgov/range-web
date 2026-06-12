@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Icon } from 'semantic-ui-react';
+import MuiIcon from '../../common/MuiIcon';
 import { TextField, CollapsibleBox } from '../../common';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { getPastureNames } from '../../../utils';
@@ -37,14 +37,14 @@ const MinisterIssueBox = ({
       onContentClicked={onMinisterIssueClicked}
       header={
         <div>
-          <Icon name="warning sign" style={{ marginRight: '7px' }} />
+          <MuiIcon name="warning sign" style={{ marginRight: '7px' }} />
           Issue Type: {ministerIssueTypeName}
         </div>
       }
       headerRight={
         <div className="rup__missue__identified">
           {'Identified: '}
-          {identified ? <Icon name="check circle" color="green" /> : <Icon name="remove circle" color="red" />}
+          {identified ? <MuiIcon name="check circle" color="green" /> : <MuiIcon name="remove circle" color="red" />}
         </div>
       }
       collapsibleContent={

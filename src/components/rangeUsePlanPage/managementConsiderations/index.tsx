@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import uuid from 'uuid-v4';
-import { Dropdown, Icon, Confirm } from 'semantic-ui-react';
-import { PrimaryButton, InfoTip } from '../../common';
+import { PrimaryButton, InfoTip, MuiIcon } from '../../common';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { FieldArray } from 'formik';
@@ -10,6 +9,9 @@ import { IfEditable } from '../../common/PermissionsField';
 import * as strings from '../../../constants/strings';
 import { MANAGEMENT_CONSIDERATIONS } from '../../../constants/fields';
 import { deleteManagementConsideration } from '../../../api';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 interface ManagementConsiderationsProps {
   planId: any;
@@ -25,7 +27,8 @@ function ManagementConsiderations({ planId, managementConsiderations }: Manageme
     text: ct.name,
   }));
 
-  const [toRemove, setToRemove] = useState<number | null>(null);
+  const confirm = useConfirm()!;
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   return (
     <FieldArray
@@ -54,53 +57,54 @@ function ManagementConsiderations({ planId, managementConsiderations }: Manageme
                     key={index}
                     managementConsideration={managementConsideration}
                     namespace={`managementConsiderations.${index}`}
-                    onDelete={() => setToRemove(index)}
+                    onDelete={async () => {
+                      const choice = await confirm({
+                        titleText: 'Delete Management Consideration',
+                        contentText: 'Are you sure you want to delete this management consideration?',
+                      });
+                      if (!choice) return;
+                      const consideration = managementConsiderations[index];
+                      if (!uuid.isUUID(consideration.id)) {
+                        await deleteManagementConsideration(planId, consideration.id);
+                      }
+                      remove(index);
+                    }}
                   />
                 ))
               )}
 
               <IfEditable permission={MANAGEMENT_CONSIDERATIONS.ADD}>
-                <Dropdown
-                  trigger={
-                    <PrimaryButton inverted compact style={{ marginTop: '10px' }} type="button">
-                      <Icon name="add circle" />
-                      Add Consideration
-                    </PrimaryButton>
-                  }
-                  options={considerTypeOptions}
-                  icon={null}
-                  pointing="left"
-                  value={null as any}
-                  onChange={(e, { value }) => {
-                    push({
-                      id: uuid(),
-                      considerationTypeId: value,
-                      detail: '',
-                      url: '',
-                    });
-                  }}
-                  selectOnBlur={false}
-                />
+                <PrimaryButton
+                  inverted
+                  compact
+                  style={{ marginTop: '10px' }}
+                  type="button"
+                  onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
+                >
+                  <MuiIcon name="add circle" />
+                  Add Consideration
+                </PrimaryButton>
+                <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+                  {considerTypeOptions.map((opt: any) => (
+                    <MenuItem
+                      key={opt.key}
+                      onClick={() => {
+                        setMenuAnchorEl(null);
+                        push({
+                          id: uuid(),
+                          considerationTypeId: opt.value,
+                          detail: '',
+                          url: '',
+                        });
+                      }}
+                    >
+                      {opt.text}
+                    </MenuItem>
+                  ))}
+                </Menu>
               </IfEditable>
             </div>
           </div>
-
-          <Confirm
-            open={toRemove !== null}
-            onCancel={() => {
-              setToRemove(null);
-            }}
-            onConfirm={async () => {
-              const consideration = managementConsiderations[toRemove!];
-
-              if (!uuid.isUUID(consideration.id)) {
-                await deleteManagementConsideration(planId, consideration.id);
-              }
-
-              remove(toRemove!);
-              setToRemove(null);
-            }}
-          />
         </>
       )}
     />

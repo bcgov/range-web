@@ -1,13 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import uuid from 'uuid-v4';
-import { Icon, Dropdown } from 'semantic-ui-react';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { ACTION_NOTE } from '../../../constants/strings';
 import EditableMinisterIssueActionBox from './EditableMinisterIssueActionBox';
 import { ministerIssueUpdated, openInputModal, openConfirmationModal } from '../../../actions';
 import { deleteRUPMinisterIssueAction } from '../../../actionCreators';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { PrimaryButton } from '../../common';
+import { PrimaryButton, MuiIcon } from '../../common';
 import { AppDispatch } from '../../../configureStore';
 
 interface AddableMinisterIssueActionListProps {
@@ -17,6 +18,7 @@ interface AddableMinisterIssueActionListProps {
 
 const AddableMinisterIssueActionList = ({ ministerIssue, references }: AddableMinisterIssueActionListProps) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleMIActionChange = (action: any, actionIndex: number) => {
     const mi = { ...ministerIssue };
@@ -69,7 +71,7 @@ const AddableMinisterIssueActionList = ({ ministerIssue, references }: AddableMi
     }
   };
 
-  const onActionTypeOptionClicked = (e: any, { value: actionTypeId }: any) => {
+  const onActionTypeOptionClicked = (actionTypeId: string) => {
     const mi = { ...ministerIssue };
     const action = {
       id: uuid(),
@@ -81,6 +83,7 @@ const AddableMinisterIssueActionList = ({ ministerIssue, references }: AddableMi
     dispatch(ministerIssueUpdated({ ministerIssue: mi }));
 
     openInputModalWhenOtherTypeSelected(action);
+    setAnchorEl(null);
   };
 
   const renderMinisterIssueAction = (action: any, actionIndex: number) => {
@@ -101,13 +104,6 @@ const AddableMinisterIssueActionList = ({ ministerIssue, references }: AddableMi
 
   const ministerIssueActions = (ministerIssue && ministerIssue.ministerIssueActions) || [];
   const actionTypes = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE] || [];
-  const actionTypeOptions = actionTypes.map((miat: any) => {
-    return {
-      key: miat.id,
-      value: miat.id,
-      text: miat.name,
-    };
-  });
 
   return (
     <Fragment>
@@ -117,19 +113,17 @@ const AddableMinisterIssueActionList = ({ ministerIssue, references }: AddableMi
 
       <div className="rup__missue__action__note">{ACTION_NOTE}</div>
 
-      <Dropdown
-        trigger={
-          <PrimaryButton inverted compact style={{ marginTop: '10px' }}>
-            <Icon name="add circle" />
-            Add Action
-          </PrimaryButton>
-        }
-        options={actionTypeOptions}
-        icon={null}
-        pointing="left"
-        onChange={onActionTypeOptionClicked}
-        selectOnBlur={false}
-      />
+      <PrimaryButton inverted compact style={{ marginTop: '10px' }} onClick={(e: any) => setAnchorEl(e.currentTarget)}>
+        <MuiIcon name="add circle" />
+        Add Action
+      </PrimaryButton>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+        {actionTypes.map((miat: any) => (
+          <MenuItem key={miat.id} onClick={() => onActionTypeOptionClicked(miat.id)}>
+            {miat.name}
+          </MenuItem>
+        ))}
+      </Menu>
     </Fragment>
   );
 };

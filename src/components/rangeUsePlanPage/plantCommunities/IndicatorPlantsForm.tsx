@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import uuid from 'uuid-v4';
 import { NOT_PROVIDED } from '../../../constants/strings';
 import { IfEditable } from '../../common/PermissionsField';
 import { STUBBLE_HEIGHT } from '../../../constants/fields';
-import { Button, Confirm } from 'semantic-ui-react';
 import { FieldArray, connect } from 'formik';
 import IndicatorPlant from './IndicatorPlant';
 import { deleteIndicatorPlant } from '../../../api';
+import { PrimaryButton, MuiIcon } from '../../common';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 interface IndicatorPlantsFormProps {
   indicatorPlants: any[];
@@ -32,8 +33,7 @@ function IndicatorPlantsForm({
   namespace,
   formik,
 }: IndicatorPlantsFormProps) {
-  const [toRemove, setToRemove] = useState<number | undefined>();
-  const [removeDialogOpen, setDialogOpen] = useState(false);
+  const confirm = useConfirm()!;
 
   return (
     <>
@@ -62,18 +62,25 @@ function IndicatorPlantsForm({
                     plant={plant}
                     formik={formik}
                     valueType={valueType}
-                    onDelete={() => {
-                      setToRemove(index);
-                      setDialogOpen(true);
+                    onDelete={async () => {
+                      const choice = await confirm({
+                        titleText: 'Delete Indicator Plant',
+                        contentText: 'Are you sure you want to delete this indicator plant?',
+                      });
+                      if (!choice) return;
+                      const indicatorPlant = indicatorPlants[index];
+                      if (!uuid.isUUID(indicatorPlant.id)) {
+                        deleteIndicatorPlant(planId, pastureId, communityId, indicatorPlant.id);
+                      }
+                      remove(index);
                     }}
                   />
                 ),
             )}
 
             <IfEditable permission={STUBBLE_HEIGHT.INDICATOR_PLANTS}>
-              <Button
+              <PrimaryButton
                 type="button"
-                primary
                 onClick={() => {
                   push({
                     plantSpeciesId: null,
@@ -85,29 +92,10 @@ function IndicatorPlantsForm({
                 }}
                 style={{ marginTop: '20px' }}
               >
-                <i className="add circle icon" />
+                <MuiIcon name="add circle" />
                 Add Indicator Plant
-              </Button>
+              </PrimaryButton>
             </IfEditable>
-
-            <Confirm
-              open={removeDialogOpen}
-              onCancel={() => {
-                setToRemove(undefined);
-                setDialogOpen(false);
-              }}
-              onConfirm={async () => {
-                const indicatorPlant = indicatorPlants[toRemove!];
-
-                if (!uuid.isUUID(indicatorPlant.id)) {
-                  deleteIndicatorPlant(planId, pastureId, communityId, indicatorPlant.id);
-                }
-
-                remove(toRemove!);
-                setToRemove(undefined);
-                setDialogOpen(false);
-              }}
-            />
           </>
         )}
       />

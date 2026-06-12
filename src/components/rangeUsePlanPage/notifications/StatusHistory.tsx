@@ -1,6 +1,5 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
-import { Status } from '../../common';
+import { Status, MuiIcon } from '../../common';
 import { getUserFullName, formatDateToNow } from '../../../utils';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { useReferences } from '../../../providers/ReferencesProvider';
@@ -24,13 +23,13 @@ function StatusHistory({ planStatusHistory }: StatusHistoryProps) {
         return (
           <div key={id} className="rup__history__record">
             <div className="rup__history__record__header">
-              <Icon name="user circle" />
+              <MuiIcon name="user circle" />
               {getUserFullName(recorder)}
               <div className="rup__history__record__timestamp">{formatDateToNow(createdAt)}</div>
             </div>
             <div className="rup__history__record__statuses">
               <Status status={from} user={user} />
-              <Icon name="long arrow alternate right" size="large" />
+              <MuiIcon name="long arrow alternate right" size="large" />
               <Status status={to} user={user} />
             </div>
             {note}

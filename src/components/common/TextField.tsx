@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
 import classnames from 'classnames';
 import { handleNullValue } from '../../utils';
+import MuiIcon from './MuiIcon';
 
 interface TextFieldProps {
   className?: string;
@@ -35,7 +35,7 @@ function TextField({
       {isEditable && (
         <button className="text-field__button" onClick={onClick}>
           {text}
-          <Icon name="pencil" />
+          <MuiIcon name="pencil" />
         </button>
       )}
 

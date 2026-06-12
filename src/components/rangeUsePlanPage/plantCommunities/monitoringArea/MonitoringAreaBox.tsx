@@ -1,15 +1,72 @@
 import React, { useState } from 'react';
+import { useField , connect } from 'formik';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
 import { oxfordComma } from '../../../../utils';
 import { MONITORING_AREAS } from '../../../../constants/fields';
 import { MONITOING_AREA_PURPOSE_TIP } from '../../../../constants/strings';
-import { Input, Dropdown, TextArea } from 'formik-semantic-ui';
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
 import { REFERENCE_KEY } from '../../../../constants/variables';
-import { connect } from 'formik';
 import { useReferences } from '../../../../providers/ReferencesProvider';
 import LocationButton from '../../../common/LocationButton';
-import { Icon, Confirm, Dropdown as PlainDropdown, Form } from 'semantic-ui-react';
 import InputModal from '../../../common/InputModal';
+import { MuiIcon } from '../../../common';
+import useConfirm from '../../../../providers/ConfrimationModalProvider';
+
+function FormikSelect(props: any) {
+  const { options, inputProps, label } = props;
+  const [field, meta] = useField(props.name);
+  const multiple = inputProps?.multiple;
+  const value = multiple ? field.value || [] : field.value;
+  return (
+    <TextField
+      select
+      {...field}
+      label={label}
+      value={value}
+      onChange={(e) => {
+        const val = multiple ? (e.target.value as unknown as string[]).filter(Boolean) : e.target.value;
+        field.onChange({ target: { name: props.name, value: val } });
+      }}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      size="small"
+      SelectProps={multiple ? { multiple: true } : undefined}
+    >
+      {options.map((opt: any) => (
+        <MenuItem key={opt.key || opt.value} value={opt.value}>
+          {opt.text || opt.label}
+        </MenuItem>
+      ))}
+    </TextField>
+  );
+}
+
+function TextAreaField(props: any) {
+  const { name, inputProps, label, displayValue } = props;
+  const [field, meta] = useField(name);
+  const showReadOnly = !!displayValue && !meta.value;
+  if (showReadOnly) {
+    return <TextField label={label} value={displayValue} fullWidth disabled multiline minRows={3} />;
+  }
+  const placeholder = inputProps?.placeholder;
+  return (
+    <TextField
+      {...field}
+      label={label}
+      placeholder={placeholder}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      multiline
+      minRows={3}
+    />
+  );
+}
 
 interface MonitoringAreaBoxProps {
   monitoringArea: any;
@@ -22,8 +79,9 @@ interface MonitoringAreaBoxProps {
 function MonitoringAreaBox({ monitoringArea, namespace, formik, onRemove, onCopy }: MonitoringAreaBoxProps) {
   const { latitude, location, longitude, name, purposeTypeIds, rangelandHealthId } = monitoringArea;
 
-  const [removeDialogOpen, setDialogOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const confirm = useConfirm()!;
 
   const references = useReferences() as any;
 
@@ -45,65 +103,71 @@ function MonitoringAreaBox({ monitoringArea, namespace, formik, onRemove, onCopy
     <div className="rup__plant-community__m-area__box">
       <div className="rup__plant-community__m-area__header">
         <span>
-          <Icon name="map marker alternate" />
+          <MuiIcon name="map marker alternate" />
           Monitoring Area: {name}
         </span>
 
         <div>
           <IfEditable permission={MONITORING_AREAS.NAME}>
-            <Icon
-              name="edit"
+            <IconButton
               onClick={(e: any) => {
                 e.stopPropagation();
                 setEditModalOpen(true);
               }}
-            />
+              size="small"
+            >
+              <MuiIcon name="edit" />
+            </IconButton>
           </IfEditable>
 
-          <PlainDropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={[
-              {
-                key: 'copy',
-                value: 'copy',
-                text: 'Copy',
-              },
-              {
-                key: 'delete',
-                value: 'delete',
-                text: 'Delete',
-              },
-            ]}
-            icon={null}
-            pointing="right"
-            onClick={(e: any) => e.stopPropagation()}
-            onChange={(_e: any, { value }: any) => {
-              if (value === 'delete') {
-                setDialogOpen(true);
-              }
-              if (value === 'copy') {
-                onCopy();
-              }
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuAnchorEl(e.currentTarget);
             }}
-            selectOnBlur={false}
-          />
+            size="small"
+          >
+            <MuiIcon name="ellipsis vertical" />
+          </IconButton>
+          <Menu
+            anchorEl={menuAnchorEl}
+            open={!!menuAnchorEl}
+            onClose={() => setMenuAnchorEl(null)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuAnchorEl(null);
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setMenuAnchorEl(null);
+                onCopy();
+              }}
+            >
+              Copy
+            </MenuItem>
+            <MenuItem
+              onClick={async () => {
+                setMenuAnchorEl(null);
+                const choice = await confirm({
+                  titleText: 'Delete Monitoring Area',
+                  contentText: 'Are you sure you want to delete this monitoring area?',
+                });
+                if (choice) {
+                  onRemove();
+                }
+              }}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
         </div>
-
-        <Confirm
-          open={removeDialogOpen}
-          onCancel={() => {
-            setDialogOpen(false);
-          }}
-          onConfirm={() => {
-            setDialogOpen(false);
-            onRemove();
-          }}
-        />
       </div>
+
       <PermissionsField
         name={`${namespace}.location`}
         permission={MONITORING_AREAS.LOCATION}
-        component={TextArea}
+        component={TextAreaField}
         displayValue={location}
         label="Location"
         inputProps={{
@@ -115,7 +179,7 @@ function MonitoringAreaBox({ monitoringArea, namespace, formik, onRemove, onCopy
       <PermissionsField
         name={`${namespace}.rangelandHealthId`}
         permission={MONITORING_AREAS.RANGELAND_HEALTH}
-        component={Dropdown}
+        component={FormikSelect}
         options={rangelandHealthOptions}
         displayValue={rangelandHealthTypes.find((r: any) => r.id === rangelandHealthId)?.name ?? ''}
         label="Rangeland Health"
@@ -125,7 +189,7 @@ function MonitoringAreaBox({ monitoringArea, namespace, formik, onRemove, onCopy
         name={`${namespace}.purposeTypeIds`}
         permission={MONITORING_AREAS.PURPOSE}
         tip={MONITOING_AREA_PURPOSE_TIP}
-        component={Dropdown}
+        component={FormikSelect}
         options={purposeOptions}
         fieldProps={{ required: true }}
         inputProps={{
@@ -137,39 +201,43 @@ function MonitoringAreaBox({ monitoringArea, namespace, formik, onRemove, onCopy
         label="Purposes"
       />
 
-      <Form.Group widths="equal">
-        <PermissionsField
-          name={`${namespace}.latitude`}
-          permission={MONITORING_AREAS.LATITUDE}
-          component={Input}
-          displayValue={latitude}
-          label="Latitude"
-          inputProps={{
-            type: 'number',
-          }}
-        />
-        <PermissionsField
-          name={`${namespace}.longitude`}
-          permission={MONITORING_AREAS.LONGTITUDE}
-          component={Input}
-          displayValue={longitude}
-          label="Longitude"
-          inputProps={{
-            type: 'number',
-          }}
-        />
-        <IfEditable permission={MONITORING_AREAS.LATITUDE}>
-          <LocationButton
-            onLocation={({ coords: { longitude, latitude } }: any) => {
-              formik.setFieldValue(`${namespace}.longitude`, longitude);
-              formik.setFieldValue(`${namespace}.latitude`, latitude);
+      <Grid container spacing={2} alignItems="flex-end">
+        <Grid item xs={5}>
+          <PermissionsField
+            name={`${namespace}.latitude`}
+            permission={MONITORING_AREAS.LATITUDE}
+            displayValue={latitude}
+            label="Latitude"
+            inputProps={{
+              type: 'number',
             }}
-          >
-            <Icon name="compass" />
-            Get Location
-          </LocationButton>
-        </IfEditable>
-      </Form.Group>
+          />
+        </Grid>
+        <Grid item xs={5}>
+          <PermissionsField
+            name={`${namespace}.longitude`}
+            permission={MONITORING_AREAS.LONGTITUDE}
+            displayValue={longitude}
+            label="Longitude"
+            inputProps={{
+              type: 'number',
+            }}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <IfEditable permission={MONITORING_AREAS.LATITUDE}>
+            <LocationButton
+              onLocation={({ coords: { longitude, latitude } }: any) => {
+                formik.setFieldValue(`${namespace}.longitude`, longitude);
+                formik.setFieldValue(`${namespace}.latitude`, latitude);
+              }}
+            >
+              <MuiIcon name="compass" />
+              Get Location
+            </LocationButton>
+          </IfEditable>
+        </Grid>
+      </Grid>
 
       <InputModal
         open={isEditModalOpen}

@@ -1,49 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import * as API from '../../../constants/api';
-import { Loading, PrimaryButton } from '../../common';
+import { Loading, PrimaryButton, MuiIcon } from '../../common';
 import useSWR from 'swr';
 import { getAuthHeaderConfig, axios, getUserFullName, formatDateFromServer } from '../../../utils';
-import { Autocomplete } from '@material-ui/lab';
-import PersonIcon from '@material-ui/icons/Person';
-import Grid from '@material-ui/core/Grid';
-import { Icon } from 'semantic-ui-react';
-import { Typography, TextField, makeStyles } from '@material-ui/core';
+import Autocomplete from '@mui/material/Autocomplete';
+import PersonIcon from '@mui/icons-material/Person';
+import Grid from '@mui/material/Grid';
+import { Typography, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { RANGE_USE_PLAN } from '../../../constants/routes';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    alignItems: 'center',
-  },
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-  container: {
-    maxWidth: '70%',
-    width: '100%',
-  },
-  autocomplete: {
-    width: 600,
-  },
-  autocompleteOption: {
-    height: 100,
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: '100%',
-    marginBottom: 30,
-  },
-  clearIndicatorDirty: {
-    visibility: 'visible',
-  },
-}));
 
 const fetcher = (key: string) => axios.get(key, getAuthHeaderConfig()).then((res: any) => res.data);
 
@@ -56,7 +21,6 @@ interface ManageAgentsPageProps {
 }
 
 function ManageAgentsPage({ match }: ManageAgentsPageProps) {
-  const classes = useStyles();
   const [clientAgreements, setClientAgreements] = useState<any[] | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);
@@ -72,15 +36,12 @@ function ManageAgentsPage({ match }: ManageAgentsPageProps) {
   );
 
   useEffect(() => {
-    if (!clientAgreements) {
-      setClientAgreements(data);
-    }
+    if (!clientAgreements) setClientAgreements(data);
   }, [data]);
 
   const handleSave = async () => {
     setIsSaving(true);
     setHasSaved(false);
-
     try {
       for (const clientAgreement of clientAgreements!) {
         await axios.put(
@@ -89,29 +50,23 @@ function ManageAgentsPage({ match }: ManageAgentsPageProps) {
           getAuthHeaderConfig(),
         );
       }
-
       setHasSaved(true);
     } catch (e: any) {
       setErrorSaving(e);
     }
-
     setIsSaving(false);
   };
 
-  if (error) {
-    return <span>Error: {error?.message}</span>;
-  }
+  if (error) return <span>Error: {error?.message}</span>;
 
-  if ((!clientAgreements && isValidatingClients) || (!users && isValidatingUsers)) {
-    return <Loading />;
-  }
+  if ((!clientAgreements && isValidatingClients) || (!users && isValidatingUsers)) return <Loading />;
 
   if (clientAgreements) {
     return (
-      <div className={classes.root}>
-        <div className={classes.container}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+        <div style={{ maxWidth: '70%', width: '100%' }}>
           <PrimaryButton as={Link} to={`${RANGE_USE_PLAN}/${planId}`}>
-            <Icon name="arrow left" />
+            <MuiIcon name="arrow left" />
             Back to RUP
           </PrimaryButton>
           <h1>Manage agents for {clientAgreements[0]?.agreementId}</h1>
@@ -120,7 +75,17 @@ function ManageAgentsPage({ match }: ManageAgentsPageProps) {
             const linkedUser = users?.find((u: any) => u?.clientNumber === clientNumber);
 
             return (
-              <div key={clientAgreement.id} className={classes.row}>
+              <div
+                key={clientAgreement.id}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  width: '100%',
+                  marginBottom: 30,
+                }}
+              >
                 <div>
                   <div>
                     {clientAgreement.client.name} {clientAgreement.client.clientNumber}-
@@ -136,19 +101,11 @@ function ManageAgentsPage({ match }: ManageAgentsPageProps) {
                   <Autocomplete
                     id={`user-autocomplete-select-${clientAgreement.id}`}
                     options={users}
-                    classes={{ clearIndicatorDirty: classes.clearIndicatorDirty }}
                     value={clientAgreement.agent}
                     openOnFocus
                     onChange={(e: any, user: any) => {
                       setClientAgreements((c) =>
-                        c!.map((ca: any) =>
-                          ca.id === clientAgreement.id
-                            ? {
-                                ...ca,
-                                agent: user,
-                              }
-                            : ca,
-                        ),
+                        c!.map((ca: any) => (ca.id === clientAgreement.id ? { ...ca, agent: user } : ca)),
                       );
                     }}
                     getOptionLabel={(option: any) => `${getUserFullName(option)} (${option.ssoId || ''})`}
@@ -160,16 +117,17 @@ function ManageAgentsPage({ match }: ManageAgentsPageProps) {
                         return name.includes(search) || ssoId.includes(search);
                       });
                     }}
-                    getOptionSelected={(option: any) => option.id === clientAgreement.agentId}
+                    isOptionEqualToValue={(option: any, val: any) => option.id === val.id}
                     style={{ width: 300 }}
                     renderInput={(params: any) => (
-                      <TextField {...params} label="Select user" variant="outlined" className={classes.autocomplete} />
+                      <TextField {...params} label="Select user" variant="outlined" sx={{ width: 600 }} />
                     )}
-                    renderOption={(option: any) => {
+                    renderOption={(props: any, option: any) => {
+                      const { key, ...liProps } = props;
                       return (
-                        <Grid container alignItems="center" className={classes.autocompleteOption}>
+                        <Grid container alignItems="center" key={key} {...liProps}>
                           <Grid item>
-                            <PersonIcon className={classes.icon} />
+                            <PersonIcon sx={{ color: 'text.secondary', mr: 2 }} />
                           </Grid>
                           <Grid item xs>
                             <Typography variant="body1" component="div">

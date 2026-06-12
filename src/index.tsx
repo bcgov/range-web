@@ -21,7 +21,6 @@
 /* eslint-disable import/first */
 /* eslint-disable no-unused-expressions */
 
-import('./semantic/semantic.min.css'); // asynchronously import semantic-ui style sheet
 import './styles/index.scss';
 
 import React from 'react';

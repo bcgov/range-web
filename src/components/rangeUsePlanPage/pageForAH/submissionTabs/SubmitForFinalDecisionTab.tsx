@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form as SUIForm } from 'semantic-ui-react';
-const Form = SUIForm as any;
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import RightBtn from '../tab/RightBtn';
 import LeftBtn from '../tab/LeftBtn';
 import TabTemplate from '../tab/TabTemplate';
@@ -65,11 +65,19 @@ function SubmitForFinalDecisionTab({
         </>
       }
       content={
-        <Form>
+        <div>
           <div style={{ marginBottom: '20px' }}>{text1}</div>
           {text2 && <div style={{ marginBottom: '20px' }}>{text2}</div>}
-          <Form.Checkbox label={checkbox1} checked={isAgreed} onChange={handleAgreeCheckBoxChange} />
-        </Form>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isAgreed}
+                onChange={(e) => handleAgreeCheckBoxChange(e, { checked: e.target.checked })}
+              />
+            }
+            label={checkbox1}
+          />
+        </div>
       }
     />
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classnames from 'classnames';
-import { Icon } from 'semantic-ui-react';
+import MuiIcon from '../common/MuiIcon';
 import { removeToast } from '../../actions';
 import { getToastsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
@@ -31,8 +31,8 @@ function Toasts() {
     return (
       <div key={id} className="toast">
         <div className={iconClassName}>
-          {success && <Icon name="check circle" size="large" />}
-          {!success && <Icon name="warning circle" size="large" />}
+          {success && <MuiIcon name="check circle" size="large" />}
+          {!success && <MuiIcon name="warning circle" size="large" />}
         </div>
         {isCountdown ? (
           <SessionExpiryWarning onExtend={handleExtendSession} />
@@ -40,7 +40,7 @@ function Toasts() {
           <div className="toast__content">{text}</div>
         )}
         <button className="toast__dismiss" onClick={handleRemoveToast(toast)}>
-          <Icon name="times" size="small" />
+          <MuiIcon name="times" size="small" />
         </button>
       </div>
     );

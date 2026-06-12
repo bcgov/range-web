@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Pikaday from 'pikaday';
 import classnames from 'classnames';
-import { Input, Icon, TextArea, Dropdown, Form as SemanticForm } from 'semantic-ui-react';
-
-const Form = SemanticForm as any;
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import IconButton from '@mui/material/IconButton';
+import MuiIcon from '../../common/MuiIcon';
 import { REFERENCE_KEY, CONFIRMATION_MODAL_ID, DATE_FORMAT } from '../../../constants/variables';
 import {
   DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT,
@@ -32,6 +35,7 @@ const EditableMinisterIssueActionBox = ({
   const endDateRef = useRef<HTMLInputElement>(null);
   const pikaDayDateInRef = useRef<Pikaday | null>(null);
   const pikaDayDateOutRef = useRef<Pikaday | null>(null);
+  const [ellipsisAnchorEl, setEllipsisAnchorEl] = useState<HTMLElement | null>(null);
 
   const {
     noGrazeEndDay: ngEndDay,
@@ -91,7 +95,8 @@ const EditableMinisterIssueActionBox = ({
     handleActionChange(newAction, actionIndex);
   };
 
-  const onActionFieldChanged = (e: any, { name, value }: any) => {
+  const onActionFieldChanged = (e: any) => {
+    const { name, value } = e.target;
     const newAction = {
       ...action,
       [name]: value,
@@ -111,9 +116,11 @@ const EditableMinisterIssueActionBox = ({
 
   const onDeleteActionBtnClicked = () => {
     handleActionDelete(actionIndex);
+    setEllipsisAnchorEl(null);
   };
 
   const openDeleteActionConfirmationModal = () => {
+    setEllipsisAnchorEl(null);
     openConfirmationModal({
       id: CONFIRMATION_MODAL_ID.DELETE_MINISTER_ISSUE_ACTION,
       header: DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER,
@@ -128,7 +135,6 @@ const EditableMinisterIssueActionBox = ({
   const actionTypesMap: Record<string, any> = {};
   const actionTypeOptions = actionTypes.map((at: any) => {
     actionTypesMap[at.id] = at;
-
     return {
       key: at.id,
       value: at.id,
@@ -137,13 +143,6 @@ const EditableMinisterIssueActionBox = ({
   });
   const currActionType = actionTypesMap[actionTypeId];
   const detailPlaceholder = currActionType && currActionType.placeholder;
-  const ellipsisOptions = [
-    {
-      key: 'delete',
-      text: 'Delete',
-      onClick: openDeleteActionConfirmationModal,
-    },
-  ];
   const otherActionType = actionTypes.find((type: any) => type.name === 'Other');
   const timingActionType = actionTypes.find((type: any) => type.name === 'Timing');
   const isActionTypeOther = otherActionType && actionTypeId === otherActionType.id;
@@ -153,22 +152,31 @@ const EditableMinisterIssueActionBox = ({
     <div className="rup__missue__action">
       <div className="rup__missue__action__dropdown-ellipsis-container">
         <div className="rup__missue__action__type-dropdown">
-          <Dropdown
+          <Select
             name="actionTypeId"
-            options={actionTypeOptions}
-            value={actionTypeId}
+            value={actionTypeId || ''}
             onChange={onActionFieldChanged}
-            error={actionTypeId === null}
-            selection
-            selectOnBlur={false}
-          />
+            displayEmpty
+            size="small"
+            style={{ minWidth: 120 }}
+          >
+            <MenuItem value="" disabled>
+              Select type
+            </MenuItem>
+            {actionTypeOptions.map((opt: any) => (
+              <MenuItem key={opt.key} value={opt.value}>
+                {opt.text}
+              </MenuItem>
+            ))}
+          </Select>
           {isActionTypeOther && (
-            <Input
+            <TextField
               name="other"
-              icon="edit"
               value={other || ''}
               onChange={onActionFieldChanged}
-              style={{ marginLeft: '5px' }}
+              size="small"
+              variant="outlined"
+              style={{ marginLeft: '5px', minWidth: 150 }}
             />
           )}
           <div
@@ -177,36 +185,40 @@ const EditableMinisterIssueActionBox = ({
             })}
           >
             No Graze Period:
-            <Input className="rup__missue__action__ng__start-date">
-              <input type="text" ref={startDateRef} />
-            </Input>
+            <TextField
+              inputRef={startDateRef}
+              size="small"
+              variant="outlined"
+              style={{ width: 100, marginLeft: 4, marginRight: 4 }}
+            />
             -
-            <Input className="rup__missue__action__ng__end-date">
-              <input type="text" ref={endDateRef} />
-            </Input>
+            <TextField inputRef={endDateRef} size="small" variant="outlined" style={{ width: 100, marginLeft: 4 }} />
           </div>
         </div>
         <div className="rup__missue__action__ellipsis">
-          <Dropdown
-            trigger={<Icon name="ellipsis vertical" style={{ margin: '0' }} />}
-            options={ellipsisOptions}
-            icon={null}
-            pointing="right"
-            style={{ marginRight: '2px' }}
-          />
+          <IconButton size="small" onClick={(e) => setEllipsisAnchorEl(e.currentTarget)}>
+            <MuiIcon name="ellipsis vertical" />
+          </IconButton>
+          <Menu anchorEl={ellipsisAnchorEl} open={Boolean(ellipsisAnchorEl)} onClose={() => setEllipsisAnchorEl(null)}>
+            <MenuItem onClick={openDeleteActionConfirmationModal}>Delete</MenuItem>
+          </Menu>
         </div>
       </div>
-      <Form style={{ position: 'relative' }}>
-        <TextArea
+      <div style={{ position: 'relative' }}>
+        <TextField
           name="detail"
+          multiline
           rows={3}
           placeholder={detailPlaceholder}
           onChange={onActionFieldChanged}
           value={detail || ''}
+          fullWidth
+          variant="outlined"
+          size="small"
           style={{ marginTop: '10px' }}
         />
         <span className="rup__missue__action__detail-asterisk">*</span>
-      </Form>
+      </div>
     </div>
   );
 };

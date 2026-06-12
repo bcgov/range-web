@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Dropdown, Confirm } from 'semantic-ui-react';
 import classnames from 'classnames';
 import { FieldArray } from 'formik';
 import uuid from 'uuid-v4';
-import { InfoTip } from '../../common';
+import { InfoTip, MuiIcon } from '../../common';
 import { YEARLY_SCHEDULES, YEARLY_SCHEDULES_TIP } from '../../../constants/strings';
 import { SCHEDULE } from '../../../constants/fields';
 import * as utils from '../../../utils';
@@ -15,6 +14,10 @@ import moment from 'moment';
 import { deleteSchedule } from '../../../api';
 import { populateGrazingScheduleFields, populateHayCuttingScheduleFields } from '../../../utils/helper/schedule';
 import { IfEditable } from '../../common/PermissionsField';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import useConfirm from '../../../providers/ConfrimationModalProvider';
 
 const sortYears = (a: any, b: any) => a.year - b.year;
 
@@ -25,7 +28,8 @@ interface SchedulesProps {
 const Schedules = ({ plan }: SchedulesProps) => {
   const [yearOptions, setYearOptions] = useState<any[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [indexToRemove, setIndexToRemove] = useState<number | null>(null);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const confirm = useConfirm()!;
 
   const references = useReferences();
   const livestockTypes = references[REFERENCE_KEY.LIVESTOCK_TYPE] as any[];
@@ -66,31 +70,29 @@ const Schedules = ({ plan }: SchedulesProps) => {
                 <InfoTip header={scheduleTitle} content={scheduleTip} />
               </div>
               <IfEditable permission={SCHEDULE.TYPE}>
-                <Dropdown
-                  className="icon rup__grazing-schedules__add-dropdown"
-                  text={`Add Schedule`}
-                  header="Years"
-                  icon="add circle"
-                  basic
-                  labeled
-                  button
-                  item
-                  options={yearOptions}
-                  value={null as any}
-                  disabled={yearOptions.length === 0}
-                  onChange={(e, { value }) => {
-                    console.log('Push called');
-                    push({
-                      id: uuid(),
-                      year: value,
-                      narative: '',
-                      scheduleEntries: [],
-                    });
-                  }}
-                  selectOnBlur={false}
-                  pointing
-                  compact
-                />
+                <>
+                  <IconButton onClick={(e) => setMenuAnchorEl(e.currentTarget)} disabled={yearOptions.length === 0}>
+                    <MuiIcon name="add circle" />
+                  </IconButton>
+                  <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+                    {yearOptions.map((opt) => (
+                      <MenuItem
+                        key={opt.key}
+                        onClick={() => {
+                          setMenuAnchorEl(null);
+                          push({
+                            id: uuid(),
+                            year: opt.value,
+                            narative: '',
+                            scheduleEntries: [],
+                          });
+                        }}
+                      >
+                        {opt.text}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </>
               </IfEditable>
             </div>
 
@@ -123,7 +125,16 @@ const Schedules = ({ plan }: SchedulesProps) => {
                     activeIndex,
                     namespace: `${fieldName}.${index}`,
                     onScheduleClicked: () => setActiveIndex(index !== activeIndex ? index : -1),
-                    onScheduleDelete: () => setIndexToRemove(index),
+                    onScheduleDelete: async () => {
+                      const choice = await confirm({
+                        titleText: 'Delete Schedule',
+                        contentText: `Are you sure you want to delete this ${isGrazing ? 'grazing' : 'hay cutting'} schedule?`,
+                      });
+                      if (!choice) return;
+                      const sched = schedules[index];
+                      if (!uuid.isUUID(sched.id)) await deleteSchedule(plan.id, sched.id);
+                      remove(index);
+                    },
                   };
 
                   return isGrazing ? (
@@ -170,18 +181,6 @@ const Schedules = ({ plan }: SchedulesProps) => {
               </ul>
             )}
           </div>
-
-          <Confirm
-            open={indexToRemove !== null}
-            onCancel={() => setIndexToRemove(null)}
-            content={`Are you sure you want to delete this ${isGrazing ? 'grazing' : 'hay cutting'} schedule?`}
-            onConfirm={async () => {
-              const schedule = schedules[indexToRemove!];
-              if (!uuid.isUUID(schedule.id)) await deleteSchedule(plan.id, schedule.id);
-              remove(indexToRemove!);
-              setIndexToRemove(null);
-            }}
-          />
         </>
       )}
     />

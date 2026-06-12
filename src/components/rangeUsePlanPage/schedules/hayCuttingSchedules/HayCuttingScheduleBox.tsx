@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import { Dropdown, Icon, Table as SemanticTable, Confirm } from 'semantic-ui-react';
-
-const Table = SemanticTable as any;
+import MenuIcon from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import HayCuttingScheduleEntryRow from './HayCuttingScheduleEntryRow';
 import { round, isUserAgrologist, roundUpPercentUse } from '../../../../utils';
 import * as strings from '../../../../constants/strings';
-import { CollapsibleBox, PrimaryButton, ErrorMessage, InfoTip } from '../../../common';
+import { CollapsibleBox, PrimaryButton, ErrorMessage, InfoTip, MuiIcon } from '../../../common';
 import { IMAGE_SRC } from '../../../../constants/variables';
 import { FieldArray, useFormikContext, getIn } from 'formik';
 import uuid from 'uuid-v4';
-import { TextArea } from 'formik-semantic-ui';
+import TextFieldMui from '@mui/material/TextField';
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
 import { SCHEDULE } from '../../../../constants/fields';
 import { deleteScheduleEntry, updateSortOrder } from '../../../../api';
@@ -19,6 +23,7 @@ import { useUser } from '../../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../../common/SortableTableHeaderCell';
 import { resetScheduleEntryId } from '../../../../utils/helper/schedule';
 import _ from 'lodash';
+import useConfirm from '../../../../providers/ConfrimationModalProvider';
 
 interface HayCuttingScheduleBoxProps {
   schedule: any;
@@ -31,6 +36,27 @@ interface HayCuttingScheduleBoxProps {
   onScheduleDelete: () => void;
   authorizedTonnes: number;
   totalTonnes: number;
+}
+
+function TextAreaField(props: any) {
+  const { name, inputProps, label, displayValue } = props;
+  const [field, meta] = require('formik').useField(name);
+  const showReadOnly = !!displayValue && !meta.value;
+  if (showReadOnly) {
+    return <TextFieldMui label={label} value={displayValue} fullWidth disabled multiline minRows={3} />;
+  }
+  return (
+    <TextFieldMui
+      {...field}
+      {...inputProps}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      multiline
+      minRows={3}
+    />
+  );
 }
 
 const HayCuttingScheduleBox = ({
@@ -50,14 +76,10 @@ const HayCuttingScheduleBox = ({
   const formik = useFormikContext<any>();
   const narative = (schedule && schedule.narative) || '';
   const roundedTotalTonnes = round(totalTonnes, 1);
-  const copyOptions =
-    yearOptions.map((o: any) => ({
-      ...o,
-      onClick: () => onScheduleCopy(o.value, schedule.id),
-    })) || [];
   const isTotalTonnesError = totalTonnes > authorizedTonnes;
 
-  const [toRemove, setToRemove] = useState<number | null>(null);
+  const confirm = useConfirm()!;
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const isError = !!getIn(formik.errors, namespace);
 
@@ -141,7 +163,10 @@ const HayCuttingScheduleBox = ({
 
   const headerCellProps = {
     currentSortBy: sortBy,
-    currentSortOrder: (sortOrder === 'asc' ? 'ascending' : sortOrder === 'desc' ? 'descending' : undefined) as 'ascending' | 'descending' | undefined,
+    currentSortOrder: (sortOrder === 'asc' ? 'ascending' : sortOrder === 'desc' ? 'descending' : undefined) as
+      | 'ascending'
+      | 'descending'
+      | undefined,
     onClick: handleHeaderClick,
   };
 
@@ -160,7 +185,11 @@ const HayCuttingScheduleBox = ({
             header={
               <div className="rup__grazing-schedule__title">
                 <div style={{ width: '30px' }}>
-                  {isError ? <Icon name="warning sign" /> : <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />}
+                  {isError ? (
+                    <MuiIcon name="warning sign" />
+                  ) : (
+                    <img src={IMAGE_SRC.SCHEDULES_ICON} alt="schedule icon" />
+                  )}
                 </div>
                 {year} Schedule
               </div>
@@ -168,32 +197,44 @@ const HayCuttingScheduleBox = ({
             shouldHideHeaderRightWhenNotActive
             headerRight={
               <IfEditable permission={[SCHEDULE.COPY, SCHEDULE.DELETE]} any>
-                <Dropdown
-                  trigger={<Icon name="ellipsis vertical" />}
-                  icon={null}
-                  pointing="right"
-                  loading={false}
-                  disabled={false}
-                >
-                  <Dropdown.Menu>
+                <>
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuAnchorEl(e.currentTarget);
+                    }}
+                  >
+                    <MuiIcon name="ellipsis vertical" />
+                  </IconButton>
+                  <MenuIcon anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
                     <IfEditable permission={SCHEDULE.COPY}>
-                      <Dropdown
-                        header="Years"
-                        text="Copy To"
-                        pointing="left"
-                        className="link item"
-                        options={copyOptions}
-                        disabled={copyOptions.length === 0}
-                        data-testid={`copy-button-${schedule.year}`}
-                      />
+                      {yearOptions.map((opt: any) => (
+                        <MenuItem
+                          key={opt.key}
+                          onClick={() => {
+                            setMenuAnchorEl(null);
+                            onScheduleCopy(opt.value, schedule.id);
+                          }}
+                          data-testid={`copy-button-${schedule.year}`}
+                        >
+                          Copy To {opt.text}
+                        </MenuItem>
+                      ))}
                     </IfEditable>
                     <IfEditable permission={SCHEDULE.DELETE}>
-                      <Dropdown.Item onClick={() => onScheduleDelete()} data-testid={`delete-button-${schedule.year}`}>
+                      <MenuItem
+                        onClick={() => {
+                          setMenuAnchorEl(null);
+                          onScheduleDelete();
+                        }}
+                        data-testid={`delete-button-${schedule.year}`}
+                      >
                         Delete
-                      </Dropdown.Item>
+                      </MenuItem>
                     </IfEditable>
-                  </Dropdown.Menu>
-                </Dropdown>
+                  </MenuIcon>
+                </>
               </IfEditable>
             }
             collapsibleContent={
@@ -207,9 +248,9 @@ const HayCuttingScheduleBox = ({
                   />
                 )}
                 <div style={{ overflowX: 'scroll' }}>
-                  <Table sortable unstackable columns={10} attached={isError || scheduleError ? 'bottom' : false}>
-                    <Table.Header>
-                      <Table.Row>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
                         <SortableTableHeaderCell column="pasture.name" {...headerCellProps}>
                           <div className="rup__grazing-schedule__pasture">{strings.AREA}</div>
                         </SortableTableHeaderCell>
@@ -225,10 +266,16 @@ const HayCuttingScheduleBox = ({
                         <SortableTableHeaderCell column="tonnes" {...headerCellProps}>
                           <div className="rup__grazing-schedule__grace-days">{strings.TONNES}</div>
                         </SortableTableHeaderCell>
-                        <SortableTableHeaderCell column="" currentSortBy="" currentSortOrder={undefined} onClick={() => undefined} noSort />
-                      </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
+                        <SortableTableHeaderCell
+                          column=""
+                          currentSortBy=""
+                          currentSortOrder={undefined}
+                          onClick={() => undefined}
+                          noSort
+                        />
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
                       {schedule.scheduleEntries.map((entry: any, entryIndex: number) => (
                         <HayCuttingScheduleEntryRow
                           key={entry.id || entry.key}
@@ -237,7 +284,17 @@ const HayCuttingScheduleBox = ({
                           entryIndex={entryIndex}
                           scheduleIndex={index}
                           namespace={`${namespace}.scheduleEntries.${entryIndex}`}
-                          onDelete={() => setToRemove(entryIndex)}
+                          onDelete={async () => {
+                            const choice = await confirm({
+                              titleText: 'Delete Schedule Entry',
+                              contentText: 'Are you sure you want to delete this schedule entry?',
+                            });
+                            if (!choice) return;
+                            if (!uuid.isUUID(entry.id)) {
+                              await deleteScheduleEntry(schedule.planId, schedule.id, entry.id);
+                            }
+                            remove(entryIndex);
+                          }}
                           onCopy={() => {
                             setSortOrder(null);
                             setSortBy(null);
@@ -248,7 +305,7 @@ const HayCuttingScheduleBox = ({
                           }}
                         />
                       ))}
-                    </Table.Body>
+                    </TableBody>
                   </Table>
                 </div>
 
@@ -269,14 +326,13 @@ const HayCuttingScheduleBox = ({
                         id: uuid(),
                       });
 
-                      // Touch fields to ensure error status is shown for new entries
                       const lastIndex = schedule.scheduleEntries.length;
                       formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.stubble_height`, true);
                       formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.tonnes`, true);
                       formik.setFieldTouched(`${namespace}.scheduleEntries.${lastIndex}.pastureId`, true);
                     }}
                   >
-                    <Icon name="add circle" />
+                    <MuiIcon name="add circle" />
                     Add Row
                   </PrimaryButton>
                 </IfEditable>
@@ -311,7 +367,7 @@ const HayCuttingScheduleBox = ({
                   <PermissionsField
                     permission={SCHEDULE.DESCRIPTION}
                     name={`${namespace}.narative`}
-                    component={TextArea}
+                    component={TextAreaField}
                     inputProps={{
                       placeholder: `Description of movement of livestock through agreement area. May include WHEN, WHERE and HOW management tools are used to create that flow. May be of particular value when an agreement consists of a single pasture or multiple unfenced pastures.`,
                       rows: 3,
@@ -324,22 +380,6 @@ const HayCuttingScheduleBox = ({
                 </div>
               </>
             }
-          />
-
-          <Confirm
-            open={toRemove !== null}
-            onCancel={() => {
-              setToRemove(null);
-            }}
-            onConfirm={async () => {
-              const entry = schedule.scheduleEntries[toRemove!];
-
-              if (!uuid.isUUID(entry.id)) {
-                await deleteScheduleEntry(schedule.planId, schedule.id, entry.id);
-              }
-              remove(toRemove!);
-              setToRemove(null);
-            }}
           />
         </>
       )}

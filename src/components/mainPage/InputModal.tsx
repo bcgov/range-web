@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Form as _Form, Icon, Input } from 'semantic-ui-react';
-
-const Form = _Form as any;
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import MuiIcon from '../common/MuiIcon';
 import { getInputModal } from '../../reducers/rootReducer';
 import { closeInputModal } from '../../actions';
 import { PrimaryButton } from '../common';
@@ -41,28 +42,35 @@ function InputModal() {
   const title = inputModal && (inputModal as any).title;
 
   return (
-    <Modal dimmer="blurring" size="mini" open={inputModal !== null} onClose={handleModalClose} closeIcon>
-      <div className="input-modal">
-        <div className="input-modal__title">{title}</div>
-        <Form>
-          <Form.Field>
-            <Input value={input} onChange={onInputChanged} onKeyPress={onInputKeyPressed} autoFocus />
-          </Form.Field>
-        </Form>
-        <div className="input-modal__btns">
-          <PrimaryButton inverted fluid onClick={handleModalClose}>
-            <Icon name="remove" />
-            Cancel
-          </PrimaryButton>
-          <div>
-            <PrimaryButton fluid onClick={onSubmitClicked}>
-              <Icon name="checkmark" />
-              Submit
+    <Dialog maxWidth="xs" open={inputModal !== null} onClose={handleModalClose}>
+      <DialogContent>
+        <div className="input-modal">
+          <div className="input-modal__title">{title}</div>
+          <TextField
+            value={input}
+            onChange={onInputChanged}
+            onKeyPress={onInputKeyPressed}
+            autoFocus
+            fullWidth
+            variant="outlined"
+            size="small"
+            style={{ marginTop: 16, marginBottom: 16 }}
+          />
+          <div className="input-modal__btns">
+            <PrimaryButton inverted fluid onClick={handleModalClose}>
+              <MuiIcon name="remove" />
+              Cancel
             </PrimaryButton>
+            <div>
+              <PrimaryButton fluid onClick={onSubmitClicked}>
+                <MuiIcon name="checkmark" />
+                Submit
+              </PrimaryButton>
+            </div>
           </div>
         </div>
-      </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 

@@ -1,9 +1,0 @@
-/*******************************
-         Site Overrides
-*******************************/
-
-/* added by Kyubin */
-
-.ui.active.modal {
-  position: relative;
-}

@@ -1,15 +1,38 @@
 import React, { useState, useRef } from 'react';
-import { connect } from 'formik';
-import { Form, Icon, Dropdown as PlainDropdown, Grid as SUIGrid } from 'semantic-ui-react';
-const Grid = SUIGrid as any;
+import { connect , useField } from 'formik';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
+import { MuiIcon } from '../../common';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { PLANT_COMMUNITY } from '../../../constants/fields';
-import { TextArea } from 'formik-semantic-ui';
 import DayMonthPicker from '../../common/form/DayMonthPicker';
 import moment from 'moment';
 import HelpfulDropdown from '../../common/form/HelpfulDropdown';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+
+function TextAreaField(props: any) {
+  const { name, inputProps, label, displayValue } = props;
+  const [field, meta] = useField(name);
+  const showReadOnly = !!displayValue && !meta.value;
+  if (showReadOnly) {
+    return <TextField label={label} value={displayValue} fullWidth disabled multiline minRows={5} />;
+  }
+  return (
+    <TextField
+      {...field}
+      {...inputProps}
+      label={label}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched ? meta.error : undefined}
+      fullWidth
+      multiline
+      minRows={5}
+    />
+  );
+}
 
 interface PlantCommunityActionProps {
   action: any;
@@ -22,7 +45,7 @@ function PlantCommunityAction({ action, namespace, onDelete, formik }: PlantComm
   const references = useReferences() as any;
   const placeholders = references[REFERENCE_KEY.MINISTER_ISSUE_ACTION_TYPE];
   const actionTypes = references[REFERENCE_KEY.PLANT_COMMUNITY_ACTION_TYPE].map((type: any) => ({
-    placeholder: placeholders.find((p: any) => p.id === type.id).placeholder,
+    placeholder: placeholders.find((p: any) => p.id === type.id)?.placeholder,
     ...type,
   }));
 
@@ -44,9 +67,11 @@ function PlantCommunityAction({ action, namespace, onDelete, formik }: PlantComm
 
   const valueInputRef = useRef<any>(null);
 
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+
   return (
-    <Grid>
-      <Grid.Column width="4">
+    <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+      <div style={{ flex: 4 }}>
         <PermissionsField
           name={`${namespace}.actionTypeId`}
           permission={PLANT_COMMUNITY.ACTIONS.NAME}
@@ -70,7 +95,7 @@ function PlantCommunityAction({ action, namespace, onDelete, formik }: PlantComm
             selectOnBlur: true,
             onKeyDown: (e: any) => {
               if (e.keyCode === 13) {
-                valueInputRef.current.focus();
+                valueInputRef.current?.focus();
               }
             },
             onAddItem: (_e: any, { value }: any) => {
@@ -84,20 +109,19 @@ function PlantCommunityAction({ action, namespace, onDelete, formik }: PlantComm
             },
           }}
         />
-      </Grid.Column>
+      </div>
 
-      <Grid.Column width="11">
+      <div style={{ flex: 11 }}>
         <PermissionsField
           name={`${namespace}.details`}
           permission={PLANT_COMMUNITY.ACTIONS.DETAIL}
           displayValue={action.details}
-          component={TextArea}
+          component={TextAreaField}
           label="Details"
           fieldProps={{
             required: true,
           }}
           inputProps={{
-            rows: 5,
             ref: valueInputRef,
             placeholder:
               actionTypes?.find((type: any) => type.id === action.actionTypeId)?.placeholder ?? otherType?.placeholder,
@@ -106,57 +130,67 @@ function PlantCommunityAction({ action, namespace, onDelete, formik }: PlantComm
 
         {actionOptions.find((option: any) => option.value === action.actionTypeId) &&
           actionOptions.find((option: any) => option.value === action.actionTypeId).text === 'Timing' && (
-            <Form.Group widths="equal">
-              <PermissionsField
-                monthName={`${namespace}.noGrazeStartMonth`}
-                dayName={`${namespace}.noGrazeStartDay`}
-                permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                displayValue={moment(`${action.noGrazeStartMonth} ${action.noGrazeStartDay}`, 'MM DD').format(
-                  'MMMM Do',
-                )}
-                component={DayMonthPicker}
-                label="No Graze Start"
-                fluid
-              />
-
-              <PermissionsField
-                monthName={`${namespace}.noGrazeEndMonth`}
-                dayName={`${namespace}.noGrazeEndDay`}
-                permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
-                displayValue={moment(`${action.noGrazeEndMonth} ${action.noGrazeEndDay}`, 'MM DD').format('MMMM Do')}
-                component={DayMonthPicker}
-                label="No Graze End"
-                fluid
-              />
-            </Form.Group>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <div style={{ flex: 1 }}>
+                <PermissionsField
+                  monthName={`${namespace}.noGrazeStartMonth`}
+                  dayName={`${namespace}.noGrazeStartDay`}
+                  permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                  displayValue={moment(`${action.noGrazeStartMonth} ${action.noGrazeStartDay}`, 'MM DD').format(
+                    'MMMM Do',
+                  )}
+                  component={DayMonthPicker}
+                  label="No Graze Start"
+                  fluid
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <PermissionsField
+                  monthName={`${namespace}.noGrazeEndMonth`}
+                  dayName={`${namespace}.noGrazeEndDay`}
+                  permission={PLANT_COMMUNITY.ACTIONS.NO_GRAZING_PERIOD}
+                  displayValue={moment(`${action.noGrazeEndMonth} ${action.noGrazeEndDay}`, 'MM DD').format('MMMM Do')}
+                  component={DayMonthPicker}
+                  label="No Graze End"
+                  fluid
+                />
+              </div>
+            </div>
           )}
-      </Grid.Column>
+      </div>
 
       <IfEditable permission={PLANT_COMMUNITY.ACTIONS.NAME}>
-        <Grid.Column width="1" verticalAlign="middle">
-          <PlainDropdown
-            trigger={<Icon name="ellipsis vertical" />}
-            options={[
-              {
-                key: 'delete',
-                value: 'delete',
-                text: 'Delete',
-              },
-            ]}
-            style={{ display: 'flex', alignItems: 'center' }}
-            icon={null}
-            pointing="right"
-            onClick={(e: any) => e.stopPropagation()}
-            onChange={(_e: any, { value }: any) => {
-              if (value === 'delete') {
-                onDelete();
-              }
+        <div style={{ display: 'flex', alignItems: 'center', minWidth: '40px', justifyContent: 'center' }}>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuAnchorEl(e.currentTarget);
             }}
-            selectOnBlur={false}
-          />
-        </Grid.Column>
+            size="small"
+          >
+            <MuiIcon name="ellipsis vertical" />
+          </IconButton>
+          <Menu
+            anchorEl={menuAnchorEl}
+            open={!!menuAnchorEl}
+            onClose={() => setMenuAnchorEl(null)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuAnchorEl(null);
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setMenuAnchorEl(null);
+                onDelete();
+              }}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
+        </div>
       </IfEditable>
-    </Grid>
+    </div>
   );
 }
 

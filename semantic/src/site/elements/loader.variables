@@ -1,7 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-
-/* added by Kyubin */
-/* loaderLineColor custom-styling */
-@shapeBorderColor: @accentColor transparent transparent;

@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Icon } from 'semantic-ui-react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import MuiIcon from '../common/MuiIcon';
 import { closeConfirmationModal } from '../../actions';
 import { getConfirmationModalsMap } from '../../reducers/rootReducer';
 import { getObjValues } from '../../utils';
@@ -22,29 +26,31 @@ function ConfirmModals() {
     }
 
     return (
-      <Modal
-        key={modalId}
-        dimmer="blurring"
-        size="tiny"
-        open
-        onClose={() => dispatch(closeConfirmationModal({ modalId }))}
-        closeIcon={<Icon name="close" color="black" />}
-      >
-        <Modal.Header as="h2" content={header} />
-        <Modal.Content>
+      <Dialog key={modalId} open onClose={() => dispatch(closeConfirmationModal({ modalId }))} maxWidth="xs">
+        <DialogTitle>
+          {header}
+          <IconButton
+            aria-label="close"
+            onClick={() => dispatch(closeConfirmationModal({ modalId }))}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+          >
+            <MuiIcon name="close" />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
           <div className="confirmation-modal__content">{content}</div>
           <div className="confirmation-modal__btns">
             <PrimaryButton inverted onClick={() => dispatch(closeConfirmationModal({ modalId }))}>
-              <Icon name="remove" />
+              <MuiIcon name="remove" />
               Cancel
             </PrimaryButton>
             <PrimaryButton style={{ marginLeft: '15px' }} onClick={onYesBtnClicked}>
-              <Icon name="checkmark" />
+              <MuiIcon name="checkmark" />
               Confirm
             </PrimaryButton>
           </div>
-        </Modal.Content>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     );
   };
 

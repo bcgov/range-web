@@ -1,14 +1,14 @@
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 import moment from 'moment';
 import React from 'react';
 import * as API from '../../../constants/api';
 import { axios, getAuthHeaderConfig } from '../../../utils';
-import { PrimaryButton } from '../../common/';
+import { PrimaryButton, MuiIcon } from '../../common/';
 import { attachmentAccess } from '../attachments/AttachmentRow';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
 
@@ -50,16 +50,16 @@ const AttachmentsList = ({ attachments, fileType = ATTACHMENT_TYPE.PLAN_ATTACHME
     <Table size="small" aria-label="dates">
       <TableHead>
         <TableRow>
-          <TableCell style={{ color: 'grey' }}>Name</TableCell>
-          <TableCell style={{ color: 'grey' }}>Upload Date</TableCell>
-          <TableCell style={{ color: 'grey' }}>Uploaded By</TableCell>
-          <TableCell style={{ color: 'grey' }}>Viewable By</TableCell>
-          <TableCell style={{ color: 'grey' }}></TableCell>
+          <TableCell sx={{ color: 'grey' }}>Name</TableCell>
+          <TableCell sx={{ color: 'grey' }}>Upload Date</TableCell>
+          <TableCell sx={{ color: 'grey' }}>Uploaded By</TableCell>
+          <TableCell sx={{ color: 'grey' }}>Viewable By</TableCell>
+          <TableCell sx={{ color: 'grey' }}></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {attachments.map((attachment: any) => (
-          <TableRow key={attachment.id} hover={true}>
+          <TableRow key={attachment.id} hover>
             <TableCell>{attachment.name}</TableCell>
             <TableCell>{moment(attachment.createdAt).format('MMM DD YYYY h:mm a')}</TableCell>
             <TableCell>
@@ -68,15 +68,12 @@ const AttachmentsList = ({ attachments, fileType = ATTACHMENT_TYPE.PLAN_ATTACHME
             <TableCell>{attachmentAccess.find((o: any) => o.value === attachment.access)?.text}</TableCell>
             <TableCell>
               <PrimaryButton
-                ui
-                icon
-                button
                 inverted
                 onClick={() => {
                   onDownloadClicked(attachment);
                 }}
               >
-                <i className="download icon" />
+                <MuiIcon name="download" />
               </PrimaryButton>
             </TableCell>
           </TableRow>

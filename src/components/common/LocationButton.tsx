@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form } from 'semantic-ui-react';
+import Button from '@mui/material/Button';
 
 interface LocationButtonProps {
   children?: React.ReactNode;
@@ -11,11 +11,11 @@ function LocationButton({ children, onLocation, ...props }: LocationButtonProps)
   const [loading, setLoading] = useState(false);
 
   return (
-    <Form.Button
-      fluid
+    <Button
+      fullWidth
       type="button"
       {...props}
-      loading={loading}
+      disabled={loading}
       onClick={() => {
         if ('geolocation' in navigator) {
           setLoading(true);
@@ -25,10 +25,9 @@ function LocationButton({ children, onLocation, ...props }: LocationButtonProps)
           });
         }
       }}
-      label="&nbsp;"
     >
-      {children}
-    </Form.Button>
+      {loading ? 'Loading...' : children}
+    </Button>
   );
 }
 
