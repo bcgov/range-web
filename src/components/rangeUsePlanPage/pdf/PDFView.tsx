@@ -47,9 +47,7 @@ function PDFView({ match, agreementId, mapAttachments }: PDFViewProps) {
 
   return (
     <PrimaryButton
-      ui
       icon
-      button
       negative={hasError}
       basic={hasError}
       loading={loading}
