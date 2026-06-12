@@ -30,3 +30,4 @@ export { default as ErrorMessage } from './ErrorMessage';
 export { default as PrimaryButton } from './PrimaryButton';
 export { default as InputModal } from './InputModal';
 export { default as InfoTip } from './InfoTip';
+export { default as MuiIcon } from './MuiIcon';
