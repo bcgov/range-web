@@ -3,10 +3,10 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import { formatDateFromServer, canUserEditThisPlan, isPlanAmendment } from '../../utils';
 import { useUser } from '../../providers/UserProvider';
 import { useReferences } from '../../providers/ReferencesProvider';
-import { Icon, Loader } from 'semantic-ui-react';
+import { CircularProgress } from '@mui/material';
+import { MuiIcon , Status, PrimaryButton } from '../common';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { INITIAL_PLAN, VIEW } from '../../constants/strings';
-import { Status, PrimaryButton } from '../common';
 import { RANGE_USE_PLAN } from '../../constants/routes';
 
 interface PlanTableRowProps {
@@ -20,7 +20,7 @@ function PlanTableRow({ plan }: PlanTableRowProps) {
   const location = useLocation();
 
   const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
-  if (!amendmentTypes) return <Loader />;
+  if (!amendmentTypes) return <CircularProgress size={24} />;
   const amendmentType = amendmentTypes.find((at: any) => at.id === plan.amendmentTypeId);
   const amendment = amendmentType ? amendmentType.description : INITIAL_PLAN;
   const effectiveAt = formatDateFromServer(plan.effectiveAt, true, '-');
@@ -30,7 +30,7 @@ function PlanTableRow({ plan }: PlanTableRowProps) {
   return (
     <div className="agrm__ptable__row">
       <div className="agrm__ptable__row__cell">
-        {recentApproved && <Icon name="star" size="small" style={{ marginRight: '7px' }} />}
+        {recentApproved && <MuiIcon name="star" size="small" style={{ marginRight: '7px' }} />}
         {effectiveAt}
       </div>
       <div className="agrm__ptable__row__cell">{submittedAt}</div>

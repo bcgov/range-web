@@ -1,7 +1,5 @@
 import React from 'react';
-import { Segment as _Segment, Button } from 'semantic-ui-react';
-
-const Segment = _Segment as any;
+import { Button, Paper } from '@mui/material';
 import { Loading, PrimaryButton } from '../common';
 import * as API from '../../constants/api';
 import { EFFECTIVE_DATE, SUBMITTED, TYPE, STATUS, VIEW, NO_RESULTS_FOUND, ERROR_OCCUR } from '../../constants/strings';
@@ -49,7 +47,7 @@ function PlanTable({ agreementId }: PlanTableProps) {
   }
 
   return (
-    <Segment basic>
+    <Paper elevation={0} sx={{ background: 'none', boxShadow: 'none', border: 'none' }}>
       <Loading size="medium" active={isValidating && !agreement} />
       <div className="agrm__ptable">
         <div className="agrm__ptable__header-row">
@@ -58,14 +56,16 @@ function PlanTable({ agreementId }: PlanTableProps) {
           <div className="agrm__ptable__header-row__cell">{TYPE}</div>
           <div className="agrm__ptable__header-row__cell">{STATUS}</div>
           <div className="agrm__ptable__header-row__cell">
-            <Button disabled>{VIEW}</Button>
+            <Button disabled variant="text">
+              {VIEW}
+            </Button>
           </div>
         </div>
         {plans.map(setFirstApproved).map((plan: any) => (
           <PlanTableRow plan={plan} key={plan.id} />
         ))}
       </div>
-    </Segment>
+    </Paper>
   );
 }
 
