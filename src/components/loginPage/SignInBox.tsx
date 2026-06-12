@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Segment as _Segment } from 'semantic-ui-react';
+import Paper from '@mui/material/Paper';
 import { Loading } from '../common';
 
-const Segment = _Segment as any;
 import { LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { getDataFromLocalStorage } from '../../utils';
 import { fetchUser, signOut } from '../../actionCreators';
@@ -54,7 +53,7 @@ function SignInBox() {
   };
 
   return (
-    <Segment basic>
+    <Paper variant="outlined" sx={{ p: 3, border: 'none', boxShadow: 'none', bgcolor: 'transparent' }}>
       <Loading active={isFetchingUser} />
 
       <div className="signin__container">
@@ -76,7 +75,7 @@ function SignInBox() {
 
         {!errorOccuredFetchingUser && <SignInButtons />}
       </div>
-    </Segment>
+    </Paper>
   );
 }
 

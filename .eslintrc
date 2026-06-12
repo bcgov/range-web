@@ -36,6 +36,7 @@
     "react/prop-types": "off",
     "import/namespace": "off",
     "import/export": "off",
+    "import/no-unresolved": "off",
     "prefer-const": "warn",
     "no-var": "warn",
     "react-hooks/rules-of-hooks": "error",

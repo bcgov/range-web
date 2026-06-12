@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
+import { MuiIcon , Footer, PrimaryButton } from '../common';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { LOGIN_TITLE, APP_NAME } from '../../constants/strings';
 import { detectIE, isTokenExpired, getDataFromLocalStorage, saveDataInLocalStorage } from '../../utils';
 
 const getLocalData = (key: string): any => getDataFromLocalStorage(key);
 import { fetchUser } from '../../actionCreators';
-import { Footer, PrimaryButton } from '../common';
 import SignInBox from './SignInBox';
 import BrowserWarningHeader from './BrowserWarningHeader';
 import { SSO_IDIR_LOGIN_ENDPOINT } from '../../constants/api';
@@ -102,7 +101,7 @@ function LoginPage() {
             </div>
             <div className="login__paragraph-cell">
               <img className="login__paragraph3__image" src={IMAGE_SRC.LOGIN_PARAGRAPH3} alt="paragraph3_image" />
-              <Icon name="camera" />
+              <MuiIcon name="camera" />
             </div>
           </div>
         </div>
@@ -113,7 +112,7 @@ function LoginPage() {
           <div className="login__paragraph4__content">
             <div className="login__paragraph-cell">
               <img className="login__paragraph4__image" src={IMAGE_SRC.LOGIN_PARAGRAPH4} alt="paragraph4_image" />
-              <Icon name="camera" />
+              <MuiIcon name="camera" />
             </div>
             <div className="login__paragraph-cell">
               <div className="login__paragraph4__title">Submit your Range Use Plan faster than ever</div>
@@ -143,7 +142,7 @@ function LoginPage() {
             </div>
             <div className="login__paragraph-cell">
               <img className="login__paragraph5__image" src={IMAGE_SRC.LOGIN_PARAGRAPH5} alt="paragraph5_image" />
-              <Icon name="camera" />
+              <MuiIcon name="camera" />
             </div>
           </div>
         </div>
