@@ -73,7 +73,7 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: node:24
+          name: node:24-alpine
       type: Docker
     failedBuildsHistoryLimit: 2
     successfulBuildsHistoryLimit: 2

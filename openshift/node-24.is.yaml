@@ -20,3 +20,12 @@ spec:
       importPolicy: {}
       referencePolicy:
         type: Local
+    - name: '24-alpine'
+      annotations: null
+      from:
+        kind: DockerImage
+        name: >-
+          docker-remote.artifacts.developer.gov.bc.ca/node:24-alpine
+      importPolicy: {}
+      referencePolicy:
+        type: Local
