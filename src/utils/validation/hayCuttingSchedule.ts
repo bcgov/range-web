@@ -57,8 +57,9 @@ export const handleHayCuttingScheduleEntryValidation = (
     e.tonnes !== undefined &&
     e.tonnes !== ''
   ) {
-    const entryYear = new Date(e.dateIn).getFullYear();
-    if (entryYear !== scheduleYear) {
+    const dateInYear = new Date(e.dateIn).getFullYear();
+    const dateOutYear = new Date(e.dateOut).getFullYear();
+    if (dateInYear !== scheduleYear || dateOutYear !== scheduleYear) {
       return {
         error: true,
         message: SCHEDULE_ENTRY_DATE_OUT_OF_RANGE,

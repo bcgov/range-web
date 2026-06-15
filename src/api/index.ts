@@ -41,7 +41,10 @@ export const saveSchedules = (planId: string | number, schedules: any[], newPast
   });
 };
 
-export const saveInvasivePlantChecklist = async (planId: string | number, invasivePlantChecklist: any): Promise<any> => {
+export const saveInvasivePlantChecklist = async (
+  planId: string | number,
+  invasivePlantChecklist: any,
+): Promise<any> => {
   if (invasivePlantChecklist && invasivePlantChecklist.id) {
     await axios.put(
       API.UPDATE_RUP_INVASIVE_PLANT_CHECKLIST(planId, invasivePlantChecklist.id),
@@ -218,28 +221,33 @@ export const savePastures = async (planId: string | number, pastures: any[]): Pr
   });
 };
 
-export const savePlantCommunities = async (planId: string | number, pastureId: string | number, plantCommunities: any[]): Promise<any> => {
+export const savePlantCommunities = async (
+  planId: string | number,
+  pastureId: string | number,
+  plantCommunities: any[],
+): Promise<any> => {
   // Sequentially save plant communities (to keep order)
-  return sequentialAsyncMap(
-    plantCommunities,
-    async (plantCommunity: any) => {
-      let { id: communityId, ...values } = plantCommunity;
-      if (uuid.isUUID(communityId)) {
-        communityId = (
-          await axios.post(API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId), values, getAuthHeaderConfig())
-        ).data.id;
-      } else {
-        await axios.put(API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId), values, getAuthHeaderConfig());
-      }
+  return sequentialAsyncMap(plantCommunities, async (plantCommunity: any) => {
+    let { id: communityId, ...values } = plantCommunity;
+    if (uuid.isUUID(communityId)) {
+      communityId = (await axios.post(API.CREATE_RUP_PLANT_COMMUNITY(planId, pastureId), values, getAuthHeaderConfig()))
+        .data.id;
+    } else {
+      await axios.put(API.UPDATE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId), values, getAuthHeaderConfig());
+    }
 
-      await savePlantCommunityActions(planId, pastureId, communityId, plantCommunity.plantCommunityActions);
-      await saveIndicatorPlants(planId, pastureId, communityId, plantCommunity.indicatorPlants);
-      await saveMonitoringAreas(planId, pastureId, communityId, plantCommunity.monitoringAreas);
-    },
-  );
+    await savePlantCommunityActions(planId, pastureId, communityId, plantCommunity.plantCommunityActions);
+    await saveIndicatorPlants(planId, pastureId, communityId, plantCommunity.indicatorPlants);
+    await saveMonitoringAreas(planId, pastureId, communityId, plantCommunity.monitoringAreas);
+  });
 };
 
-const savePlantCommunityActions = (planId: string | number, pastureId: string | number, communityId: string | number, plantCommunityActions: any[]): any => {
+const savePlantCommunityActions = (
+  planId: string | number,
+  pastureId: string | number,
+  communityId: string | number,
+  plantCommunityActions: any[],
+): any => {
   return sequentialAsyncMap(plantCommunityActions, (action: any) => {
     let { id: actionId, ...values } = action;
     if (uuid.isUUID(actionId)) {
@@ -258,7 +266,12 @@ const savePlantCommunityActions = (planId: string | number, pastureId: string | 
   });
 };
 
-const saveIndicatorPlants = (planId: string | number, pastureId: string | number, communityId: string | number, indicatorPlants: any[]): any => {
+const saveIndicatorPlants = (
+  planId: string | number,
+  pastureId: string | number,
+  communityId: string | number,
+  indicatorPlants: any[],
+): any => {
   return sequentialAsyncMap(indicatorPlants, (plant: any) => {
     let { id: plantId, ...values } = plant;
     if (uuid.isUUID(plantId)) {
@@ -273,7 +286,12 @@ const saveIndicatorPlants = (planId: string | number, pastureId: string | number
   });
 };
 
-const saveMonitoringAreas = (planId: string | number, pastureId: string | number, communityId: string | number, monitoringAreas: any[]): any => {
+const saveMonitoringAreas = (
+  planId: string | number,
+  pastureId: string | number,
+  communityId: string | number,
+  monitoringAreas: any[],
+): any => {
   return sequentialAsyncMap(monitoringAreas, (area: any) => {
     let { id: areaId, ...values } = area;
     if (uuid.isUUID(areaId)) {

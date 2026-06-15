@@ -10,7 +10,10 @@ interface PastureLike {
   [key: string]: any;
 }
 
-export const getPastureNames = (pastureIds: (string | number)[] = [], pasturesMap: Record<string, any> = {}): string => {
+export const getPastureNames = (
+  pastureIds: (string | number)[] = [],
+  pasturesMap: Record<string, any> = {},
+): string => {
   const pastureNames = pastureIds.map((pId) => {
     const pasture = pasturesMap[pId];
     return pasture && pasture.name;

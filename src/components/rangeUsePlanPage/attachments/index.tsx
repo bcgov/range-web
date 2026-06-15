@@ -139,8 +139,7 @@ function Attachments({
                   )
               )}
               <IfEditable permission={ATTACHMENTS.ADD}>
-                <PrimaryButton inverted compact style={{ marginTop: '10px' }} type="button">
-                  <MuiIcon name="add circle" />
+                <PrimaryButton style={{ marginTop: '10px' }} type="button" startIcon={<MuiIcon name="add circle" />}>
                   <label htmlFor={`fileInput${propertyName}`}>Add {label} Attachment</label>
                 </PrimaryButton>
                 <input

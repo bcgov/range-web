@@ -31,7 +31,7 @@ const HayCuttingScheduleEntryRow = ({
   const initialDate = moment().set('year', schedule.year).set('month', 0).set('date', 1);
   const maxDate = moment().set('year', schedule.year).set('month', 11).set('date', 31);
   return (
-    <TableRow className="rup__haycuttring-schedule__row">
+    <TableRow className="rup__haycutting-schedule__row">
       <TableCell>
         <AreasDropdown name={`${namespace}.pastureId`} areaId={areaId} />
       </TableCell>
@@ -54,7 +54,7 @@ const HayCuttingScheduleEntryRow = ({
           component={DateInputField}
           displayValue={moment(dateIn).format('MMM D')}
           dateFormat="MMM D YYYY"
-          icon={null}
+          showPickerIcon={false}
           initialDate={initialDate}
           minDate={initialDate}
           maxDate={maxDate}
@@ -69,7 +69,7 @@ const HayCuttingScheduleEntryRow = ({
           component={DateInputField}
           displayValue={moment(dateOut).format('MMM D')}
           dateFormat="MMM D YYYY"
-          icon={null}
+          showPickerIcon={false}
           initialDate={initialDate}
           minDate={initialDate}
           maxDate={maxDate}

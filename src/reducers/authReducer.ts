@@ -30,7 +30,10 @@ interface AuthAction {
   timeoutIds?: Record<string, ReturnType<typeof setTimeout>>;
 }
 
-const { user, authData } = (getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {}) as { user?: User; authData?: AuthData };
+const { user, authData } = (getAuthAndUserFromLocal ? getAuthAndUserFromLocal() : {}) as {
+  user?: User;
+  authData?: AuthData;
+};
 const initialState: AuthState = {
   authData,
   user,
@@ -77,11 +80,9 @@ const authReducer = (state: AuthState = initialState, action: AuthAction): AuthS
 
 // Private selectors
 export const getAuthData = (state: AuthState): AuthData | undefined => state.authData;
-export const getToken = (state: AuthState): string | undefined =>
-  state.authData?.access_token;
+export const getToken = (state: AuthState): string | undefined => state.authData?.access_token;
 export const getUser = (state: AuthState): User | undefined => state.user;
 export const getReAuthRequired = (state: AuthState): boolean => state.reAuthRequired;
-export const getAuthTimeout = (state: AuthState): Record<string, ReturnType<typeof setTimeout>> =>
-  state.timeoutIds;
+export const getAuthTimeout = (state: AuthState): Record<string, ReturnType<typeof setTimeout>> => state.timeoutIds;
 
 export default authReducer;

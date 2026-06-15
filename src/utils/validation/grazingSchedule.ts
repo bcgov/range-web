@@ -54,8 +54,9 @@ export const handleGrazingScheduleEntryValidation = (
   scheduleYear?: number,
 ): ValidationError | undefined => {
   if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(String(e.livestockCount)))) {
-    const entryYear = new Date(e.dateIn).getFullYear();
-    if (entryYear !== scheduleYear) {
+    const dateInYear = new Date(e.dateIn).getFullYear();
+    const dateOutYear = new Date(e.dateOut).getFullYear();
+    if (dateInYear !== scheduleYear || dateOutYear !== scheduleYear) {
       return {
         error: true,
         message: SCHEDULE_ENTRY_DATE_OUT_OF_RANGE,

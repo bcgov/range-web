@@ -32,8 +32,6 @@ function AdditionalRequirements({ additionalRequirements, planId: _planId }: Add
             <IfEditable permission={ADDITIONAL_REQUIREMENTS.CATEGORY}>
               <PrimaryButton
                 type="button"
-                inverted
-                compact
                 onClick={() => {
                   push({
                     id: uuid(),
@@ -43,8 +41,8 @@ function AdditionalRequirements({ additionalRequirements, planId: _planId }: Add
                   });
                 }}
                 className="icon labeled rup__pastures__add-button"
+                startIcon={<MuiIcon name="add circle" />}
               >
-                <MuiIcon name="add circle" />
                 Add Requirement
               </PrimaryButton>
             </IfEditable>

@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { connect , useField } from 'formik';
+import { connect, useField } from 'formik';
 import { InfoTip } from '../../common';
 import PermissionsField, { canUserEdit } from '../../common/PermissionsField';
 import * as strings from '../../../constants/strings';
@@ -83,6 +83,7 @@ function InvasivePlantChecklist({ namespace, invasivePlantChecklist, formik }: I
             label="Equipment and vehicles will not be parked on invasive plant infestations"
             displayValue={equipmentAndVehiclesParking}
             fast
+            inline
             inputProps={{ disabled: !canEdit }}
           />
 
@@ -93,6 +94,7 @@ function InvasivePlantChecklist({ namespace, invasivePlantChecklist, formik }: I
             label="Any work will begin in un-infested areas before moving to infested locations"
             displayValue={beginInUninfestedArea}
             fast
+            inline
             inputProps={{ disabled: !canEdit }}
           />
 
@@ -103,6 +105,7 @@ function InvasivePlantChecklist({ namespace, invasivePlantChecklist, formik }: I
             label="Clothing and vehicle/equipment undercarriages will be regularly inspected for plant parts or propagules if working in an area known to contain invasive plants"
             displayValue={undercarrigesInspected}
             fast
+            inline
             inputProps={{ disabled: !canEdit }}
           />
 
@@ -113,6 +116,7 @@ function InvasivePlantChecklist({ namespace, invasivePlantChecklist, formik }: I
             label="Revegetate disturbed areas that have exposed mineral soil within one year of disturbance by seeding using Common #1 Forage Mixture or better. The certificate of seed analysis will be requested and seed that contains weed seeds of listed invasive plants and/or invasive plants that are high priority to the area will be rejected. Seeding will occur around range developments and areas of cattle congregation where bare soil is exposed. Revegetated areas will be monitored and revegetated as necessary until exposed soil is eliminated."
             displayValue={revegetate}
             fast
+            inline
             inputProps={{ disabled: !canEdit }}
           />
 

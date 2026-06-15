@@ -47,7 +47,10 @@ export const isSingleClient = (clients: any[] = []): boolean => {
   return clients.length === 1;
 };
 
-export const isClientCurrentUser = (client: ClientLike | null | undefined, user: UserLike | null | undefined): boolean => {
+export const isClientCurrentUser = (
+  client: ClientLike | null | undefined,
+  user: UserLike | null | undefined,
+): boolean => {
   if (client && user) {
     return (user.clients || []).some((c) => c.clientNumber === client.id);
   }

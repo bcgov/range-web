@@ -15,7 +15,13 @@ import { Plan, EntityMap } from '../../types';
  */
 export type NormalizedPlan = Omit<
   Plan,
-  'pastures' | 'schedules' | 'ministerIssues' | 'planStatusHistory' | 'confirmations' | 'additionalRequirements' | 'managementConsiderations'
+  | 'pastures'
+  | 'schedules'
+  | 'ministerIssues'
+  | 'planStatusHistory'
+  | 'confirmations'
+  | 'additionalRequirements'
+  | 'managementConsiderations'
 > & {
   pastures: number[];
   schedules: number[];

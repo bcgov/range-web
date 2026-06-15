@@ -154,9 +154,13 @@ export const copyAdditionalRequirementsToCreateAmendment = (
   });
 };
 
-export const isAmendment = (amendmentTypeId: number | null | undefined): boolean => !!(amendmentTypeId && amendmentTypeId > 0);
+export const isAmendment = (amendmentTypeId: number | null | undefined): boolean =>
+  !!(amendmentTypeId && amendmentTypeId > 0);
 
-export const isSubmittedAsMinor = (amendmentTypeId: number | null | undefined, amendmentTypes: AmendmentTypeLike[]): boolean => {
+export const isSubmittedAsMinor = (
+  amendmentTypeId: number | null | undefined,
+  amendmentTypes: AmendmentTypeLike[],
+): boolean => {
   const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
   if (!amendmentType) {
     return false;
@@ -164,7 +168,10 @@ export const isSubmittedAsMinor = (amendmentTypeId: number | null | undefined, a
   return amendmentType && amendmentType.code === AMENDMENT_TYPE.MINOR;
 };
 
-export const isSubmittedAsMandatory = (amendmentTypeId: number | null | undefined, amendmentTypes: AmendmentTypeLike[]): boolean => {
+export const isSubmittedAsMandatory = (
+  amendmentTypeId: number | null | undefined,
+  amendmentTypes: AmendmentTypeLike[],
+): boolean => {
   const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
   if (!amendmentType) {
     return false;

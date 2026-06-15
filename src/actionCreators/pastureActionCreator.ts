@@ -65,12 +65,21 @@ export const createOrUpdateRUPPasture =
   };
 
 export const createRUPPlantCommunityAction =
-  (planId: string | number, pastureId: string | number, communityId: string | number, action: any): AppThunk<Promise<any>> =>
+  (
+    planId: string | number,
+    pastureId: string | number,
+    communityId: string | number,
+    action: any,
+  ): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
     const { ...data } = action;
 
     return axios
-      .post(API.CREATE_RUP_PLANT_COMMUNITY_ACTION(planId, pastureId, communityId), data, createConfigWithHeader(getState))
+      .post(
+        API.CREATE_RUP_PLANT_COMMUNITY_ACTION(planId, pastureId, communityId),
+        data,
+        createConfigWithHeader(getState),
+      )
       .then(
         (response: any) => {
           return response.data;
@@ -82,7 +91,12 @@ export const createRUPPlantCommunityAction =
   };
 
 export const createRUPIndicatorPlant =
-  (planId: string | number, pastureId: string | number, communityId: string | number, plant: any): AppThunk<Promise<any>> =>
+  (
+    planId: string | number,
+    pastureId: string | number,
+    communityId: string | number,
+    plant: any,
+  ): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
     const { ...data } = plant;
 
@@ -99,7 +113,12 @@ export const createRUPIndicatorPlant =
   };
 
 export const createRUPMonitoringArea =
-  (planId: string | number, pastureId: string | number, communityId: string | number, area: any): AppThunk<Promise<any>> =>
+  (
+    planId: string | number,
+    pastureId: string | number,
+    communityId: string | number,
+    area: any,
+  ): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
     const { ...data } = area;
 

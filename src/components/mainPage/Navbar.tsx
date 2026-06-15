@@ -105,17 +105,18 @@ function Navbar({ user }: NavbarProps) {
           </>
 
           <div className="navbar__avatar">
-            <span
+            <div
               onClick={handleAvatarClick}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleAvatarClick(e as any);
               }}
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             >
               <Avatar user={user} />
               <MuiIcon name="angle down" style={{ marginRight: '-4px' }} />
-            </span>
+            </div>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
               <MenuItem id={ELEMENT_ID.SIGN_OUT} onClick={onLogoutBtnClick}>
                 <ListItemIcon>

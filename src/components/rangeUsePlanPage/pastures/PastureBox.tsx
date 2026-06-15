@@ -174,8 +174,6 @@ function PastureBox({
                     label={strings.PRIVATE_LAND_DEDUCTION}
                     tip={strings.PRIVATE_LAND_DEDUCTION_TIP}
                     inputProps={{
-                      label: '%',
-                      labelPosition: 'right',
                       type: 'number',
                       placeholder: 'Percentage of use occuring on private land',
                     }}

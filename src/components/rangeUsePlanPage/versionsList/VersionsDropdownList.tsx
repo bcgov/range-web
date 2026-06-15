@@ -70,7 +70,7 @@ const VersionRow = ({ option, user }: { option: any; user: any }) => {
         </TableCell>
         <TableCell>
           <PrimaryButton
-            inverted
+            variant="outlined"
             onClick={() => {
               onDownloadClicked(option.version.planId, option.version.version, option.version.snapshot.agreementId);
             }}
@@ -80,7 +80,7 @@ const VersionRow = ({ option, user }: { option: any; user: any }) => {
         </TableCell>
         <TableCell>
           <PrimaryButton
-            inverted
+            variant="outlined"
             onClick={() => {
               setShowAttachments(!showAttachments);
             }}

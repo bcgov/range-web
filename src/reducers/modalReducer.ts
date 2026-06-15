@@ -104,8 +104,7 @@ const modalReducer = (state: ModalState = initialState, action: ModalAction): Mo
   }
 };
 
-export const getConfirmationModalsMap = (state: ModalState): Record<string, ConfirmationModal> =>
-  state.confirmModal;
+export const getConfirmationModalsMap = (state: ModalState): Record<string, ConfirmationModal> => state.confirmModal;
 export const getInputModal = (state: ModalState): InputModal | null => state.inputModal;
 export const getIsPiaModalOpen = (state: ModalState): boolean => state.isPiaModalOpen;
 

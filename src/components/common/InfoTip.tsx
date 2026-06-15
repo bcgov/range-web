@@ -26,7 +26,7 @@ function InfoTip({ header, content, size = 'small' }: InfoTipProps) {
       <span
         ref={anchorRef}
         onClick={() => setOpen(!open)}
-        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', marginLeft: 4 }}
       >
         <MuiIcon name="question circle outline" color="grey" size={size as any} />
       </span>

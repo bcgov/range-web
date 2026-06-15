@@ -4,7 +4,7 @@ import { formatDateFromServer, canUserEditThisPlan, isPlanAmendment } from '../.
 import { useUser } from '../../providers/UserProvider';
 import { useReferences } from '../../providers/ReferencesProvider';
 import { CircularProgress } from '@mui/material';
-import { MuiIcon , Status, PrimaryButton } from '../common';
+import { MuiIcon, Status, PrimaryButton } from '../common';
 import { REFERENCE_KEY } from '../../constants/variables';
 import { INITIAL_PLAN, VIEW } from '../../constants/strings';
 import { RANGE_USE_PLAN } from '../../constants/routes';

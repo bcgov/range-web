@@ -42,7 +42,10 @@ export const deleteFromQueue = async (): Promise<void> => {
   await Promise.all(deletePromises);
 };
 
-export const createDeleteHandler = (key: string, cb: (...args: any[]) => Promise<void>): ((...args: unknown[]) => Promise<void>) => {
+export const createDeleteHandler = (
+  key: string,
+  cb: (...args: any[]) => Promise<void>,
+): ((...args: unknown[]) => Promise<void>) => {
   const handler = async (...args: unknown[]): Promise<void> => {
     const deleteQueue = loadOrInitDeleteQueue();
 
@@ -77,9 +80,12 @@ export const deletePasture = createDeleteHandler('pasture', async (planId: any, 
   await axios.delete(API.DELETE_RUP_PASTURE(planId, pastureId), getAuthHeaderConfig());
 });
 
-export const deletePlantCommunity = createDeleteHandler('plantCommunity', async (planId: any, pastureId: any, communityId: any) => {
-  await axios.delete(API.DELETE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId), getAuthHeaderConfig());
-});
+export const deletePlantCommunity = createDeleteHandler(
+  'plantCommunity',
+  async (planId: any, pastureId: any, communityId: any) => {
+    await axios.delete(API.DELETE_RUP_PLANT_COMMUNITY(planId, pastureId, communityId), getAuthHeaderConfig());
+  },
+);
 
 export const deleteMinisterIssue = createDeleteHandler('ministerIssue', async (planId: any, issueId: any) => {
   await axios.delete(API.DELETE_RUP_MINISTER_ISSUE(planId, issueId), getAuthHeaderConfig());
@@ -120,9 +126,12 @@ export const deleteSchedule = createDeleteHandler('schedule', async (planId: any
   await axios.delete(API.DELETE_RUP_SCHEDULE(planId, scheduleId), getAuthHeaderConfig());
 });
 
-export const deleteScheduleEntry = createDeleteHandler('scheduleEntry', async (planId: any, scheduleId: any, entryId: any) => {
-  await axios.delete(API.DELETE_RUP_SCHEDULE_ENTRY(planId, scheduleId, entryId), getAuthHeaderConfig());
-});
+export const deleteScheduleEntry = createDeleteHandler(
+  'scheduleEntry',
+  async (planId: any, scheduleId: any, entryId: any) => {
+    await axios.delete(API.DELETE_RUP_SCHEDULE_ENTRY(planId, scheduleId, entryId), getAuthHeaderConfig());
+  },
+);
 
 export const deleteIndicatorPlant = createDeleteHandler(
   'indicatorPlant',

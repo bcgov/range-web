@@ -168,7 +168,7 @@ function ExemptionDropdownList({
                               <TableCell>{exemption.status}</TableCell>
                               <TableCell>
                                 <PrimaryButton
-                                  inverted
+                                  variant="outlined"
                                   onClick={() => {
                                     onDownloadClicked(exemption);
                                   }}
@@ -186,13 +186,13 @@ function ExemptionDropdownList({
                                       ) : (
                                         <>
                                           <PrimaryButton
-                                            inverted
+                                            variant="outlined"
                                             onClick={() => onTransitionClicked(exemption, 'approve')}
                                           >
                                             <MuiIcon name="thumbs up" />
                                           </PrimaryButton>
                                           <PrimaryButton
-                                            inverted
+                                            variant="outlined"
                                             onClick={() => onTransitionClicked(exemption, 'reject')}
                                           >
                                             <MuiIcon name="thumbs down" />
@@ -209,7 +209,7 @@ function ExemptionDropdownList({
                                         <CircularProgress size={24} />
                                       ) : (
                                         <PrimaryButton
-                                          inverted
+                                          variant="outlined"
                                           onClick={() => onEditExemption && onEditExemption(exemption)}
                                         >
                                           <MuiIcon name="edit" />
@@ -217,7 +217,7 @@ function ExemptionDropdownList({
                                       )
                                     ) : (
                                       <PrimaryButton
-                                        inverted
+                                        variant="outlined"
                                         onClick={() =>
                                           onEditExemption && onEditExemption({ ...exemption, viewOnly: true })
                                         }
@@ -232,7 +232,7 @@ function ExemptionDropdownList({
                                         <CircularProgress size={24} />
                                       ) : (
                                         <PrimaryButton
-                                          inverted
+                                          variant="outlined"
                                           onClick={() => onTransitionClicked(exemption, 'cancel')}
                                         >
                                           <MuiIcon name="x" />

@@ -39,8 +39,8 @@ function AddMinisterIssueActionButton({ onSubmit }: AddMinisterIssueActionButton
         onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
         type="button"
         className="icon labeled"
+        startIcon={<MuiIcon name="add circle" />}
       >
-        <MuiIcon name="add circle" />
         Add Action
       </PrimaryButton>
       <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>

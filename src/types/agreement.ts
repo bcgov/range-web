@@ -1,5 +1,4 @@
-import { User , Client } from './user';
-import { Plan } from './plan';
+import { User, Client } from './user';
 import { Status } from './status';
 
 /**

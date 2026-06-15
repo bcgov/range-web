@@ -41,8 +41,8 @@ const MinisterIssuePicker = React.memo<MinisterIssuePickerProps>(({ types, onSub
         onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
         type="button"
         className="icon labeled rup__add-button"
+        startIcon={<MuiIcon name="add circle" />}
       >
-        <MuiIcon name="add circle" />
         Add Minister Issue
       </PrimaryButton>
       <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>

@@ -34,9 +34,12 @@ function PlantCommunities({ plantCommunities = [], namespace, planId, pastureId 
         <div className="rup__plant-communities">
           <div className="rup__plant-communities__title">Plant Communities</div>
           <IfEditable permission={PLANT_COMMUNITY.NAME}>
-            <div>
-              <PrimaryButton type="button" onClick={() => setIsImportModalOpen(true)} style={{ marginRight: 8 }}>
-                <MuiIcon name="add circle" />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <PrimaryButton
+                type="button"
+                onClick={() => setIsImportModalOpen(true)}
+                startIcon={<MuiIcon name="add circle" />}
+              >
                 Import Plant Community
               </PrimaryButton>
               <AddPlantCommunityButton

@@ -208,7 +208,15 @@ export const createAmendment = async (plan: any, references: any, staffInitiated
   return getPlan(plan.id);
 };
 
-export const updateStatus = async ({ planId, note, statusId }: { planId: string | number; note: string; statusId: string | number }): Promise<void> => {
+export const updateStatus = async ({
+  planId,
+  note,
+  statusId,
+}: {
+  planId: string | number;
+  note: string;
+  statusId: string | number;
+}): Promise<void> => {
   await axios.put(API.UPDATE_PLAN_STATUS(planId), { note, statusId }, getAuthHeaderConfig());
 };
 
@@ -277,7 +285,12 @@ export const generatePDF = async (planId: string | number): Promise<any> => {
   });
 };
 
-export const updateSortOrder = async (planId: string | number, scheduleId: string | number, sortBy: string, sortOrder: string): Promise<any> => {
+export const updateSortOrder = async (
+  planId: string | number,
+  scheduleId: string | number,
+  sortBy: string,
+  sortOrder: string,
+): Promise<any> => {
   return axios.put(
     API.UPDATE_SCHEDULE_SORT_ORDER(planId, scheduleId),
     {

@@ -18,6 +18,8 @@
 // Created by Kyubin Han.
 //
 
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin');
+
 @import './mixins.scss';
 @import './Normalize.scss';
 @import './Common.scss';
@@ -46,6 +48,42 @@
 
 * {
   font-family: Lato, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.4285em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1e70bf;
+  text-decoration: none;
+}
+
+::-moz-selection {
+  background-color: #cce2ff;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+::selection {
+  background-color: #cce2ff;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 main {

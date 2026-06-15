@@ -126,24 +126,28 @@ function BasicInformation({ plan, agreement }: BasicInformationProps) {
         <div className="rup__plan-info rup__cell-6">
           <div className="rup__divider" />
           <div className="rup__info-title">Plan Information</div>
-          <PermissionsField
-            name="planStartDate"
-            permission={BASIC_INFORMATION.PLAN_START_DATE}
-            component={DateInputField}
-            displayValue={moment(planStartDate).format('MMMM DD, YYYY')}
-            label={strings.PLAN_START_DATE}
-            dateFormat="MMMM DD, YYYY"
-            required
-          />
-          <PermissionsField
-            name="planEndDate"
-            permission={BASIC_INFORMATION.PLAN_END_DATE}
-            component={DateInputField}
-            displayValue={moment(planEndDate).format('MMMM DD, YYYY')}
-            label={strings.PLAN_END_DATE}
-            dateFormat="MMMM DD, YYYY"
-            required
-          />
+          <div style={{ marginBottom: 16 }}>
+            <PermissionsField
+              name="planStartDate"
+              permission={BASIC_INFORMATION.PLAN_START_DATE}
+              component={DateInputField}
+              displayValue={moment(planStartDate).format('MMMM DD, YYYY')}
+              label={strings.PLAN_START_DATE}
+              dateFormat="MMMM DD, YYYY"
+              required
+            />
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <PermissionsField
+              name="planEndDate"
+              permission={BASIC_INFORMATION.PLAN_END_DATE}
+              component={DateInputField}
+              displayValue={moment(planEndDate).format('MMMM DD, YYYY')}
+              label={strings.PLAN_END_DATE}
+              dateFormat="MMMM DD, YYYY"
+              required
+            />
+          </div>
 
           {isFutureDatedPlan && (
             <div>

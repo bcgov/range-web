@@ -154,6 +154,24 @@
           min-width: 100px;
           margin: 5px !important;
         }
+
+        .MuiButton-outlined {
+          color: #fff;
+          border: 2px solid #fff;
+          font-weight: 700;
+          gap: 8px;
+
+          &:hover {
+            background: #fff;
+            color: #333;
+            border: 2px solid #fff;
+
+            .MuiSvgIcon-root,
+            .MuiIcon-root {
+              color: #333;
+            }
+          }
+        }
       }
     }
   }

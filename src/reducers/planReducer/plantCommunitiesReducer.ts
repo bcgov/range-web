@@ -50,7 +50,10 @@ const updatePlantCommunity = (state: PlantCommunitiesState, action: PlantCommuni
   };
 };
 
-const plantCommunitiesReducer = (state: PlantCommunitiesState = {}, action: PlantCommunityAction): PlantCommunitiesState => {
+const plantCommunitiesReducer = (
+  state: PlantCommunitiesState = {},
+  action: PlantCommunityAction,
+): PlantCommunitiesState => {
   switch (action.type) {
     case STORE_PLAN:
       return storePlantCommunities(state, action);

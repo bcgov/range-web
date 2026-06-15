@@ -1,3 +1,19 @@
 .rup__grazing-schedule__row input {
   width: inherit !important;
 }
+
+.rup__grazing-schedule__row .MuiInputBase-root,
+.rup__grazing-schedule__row [class*='-control'] {
+  min-height: 40px;
+}
+
+.rup__grazing-schedule__row input,
+.rup__grazing-schedule__row .MuiInputBase-input,
+.rup__grazing-schedule__row [class*='-control'],
+.rup__grazing-schedule__row td {
+  font-size: 14px;
+}
+
+.rup__grazing-schedule__row .MuiInputAdornment-root {
+  display: none;
+}

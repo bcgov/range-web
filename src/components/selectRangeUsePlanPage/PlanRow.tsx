@@ -72,21 +72,25 @@ function PlanRow({ agreement, user, currentPage, onUpdate }: PlanRowProps) {
         </TableCell>
 
         <TableCell align="left" style={{ minWidth: 150 }}>
-          {agreement.forestFileId}
-          {(agreement.plan?.id || agreement.agreementExemptionStatus) && (
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              style={{ marginLeft: '3px' }}
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          )}
+          <span style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
+            {agreement.forestFileId}
+            {(agreement.plan?.id || agreement.agreementExemptionStatus) && (
+              <IconButton
+                aria-label="expand row"
+                size="small"
+                style={{ marginLeft: '3px' }}
+                onClick={() => setOpen(!open)}
+              >
+                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              </IconButton>
+            )}
+          </span>
         </TableCell>
 
         <TableCell align="left">{agreement.plan?.rangeName ?? '-'}</TableCell>
-        <TableCell align="left">{agreement.clients.find((client: any) => client.clientTypeCode === 'A')?.name}</TableCell>
+        <TableCell align="left">
+          {agreement.clients.find((client: any) => client.clientTypeCode === 'A')?.name}
+        </TableCell>
 
         <TableCell align="left">
           {agreement.zone?.user

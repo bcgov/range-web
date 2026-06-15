@@ -53,8 +53,7 @@ export const createConfigWithHeader = (getState: () => RootState): AxiosRequestC
   };
 };
 
-export const getObjValues = (obj: Record<string, unknown> = {}): unknown[] =>
-  Object.keys(obj).map((e) => obj[e]) || [];
+export const getObjValues = (obj: Record<string, unknown> = {}): unknown[] => Object.keys(obj).map((e) => obj[e]) || [];
 
 export const capitalize = (str = ''): string => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -66,11 +65,7 @@ export const capitalize = (str = ''): string => str.charAt(0).toUpperCase() + st
  * @param notProvided - custom fallback string
  * @returns the value or a 'Not provided' / 'N/P' fallback
  */
-export const handleNullValue = (
-  value: unknown,
-  fullText = true,
-  notProvided?: string,
-): unknown => {
+export const handleNullValue = (value: unknown, fullText = true, notProvided?: string): unknown => {
   if (value || value === 0) {
     return value;
   }
@@ -128,11 +123,7 @@ export const getErrorMessage = (err: unknown): string => {
  * @param ref - The React reference of an a tag
  * @param fileName - The name of the downloaded file
  */
-export const downloadPDFBlob = (
-  blob: BlobPart,
-  ref: HTMLAnchorElement,
-  fileName: string,
-): void => {
+export const downloadPDFBlob = (blob: BlobPart, ref: HTMLAnchorElement, fileName: string): void => {
   // It is necessary to create a new blob object with mime-type explicitly set
   // otherwise only Chrome works like it should
   const newBlob = new Blob([blob], { type: 'application/pdf' });

@@ -47,8 +47,7 @@ const clientReducer = (state: ClientState = initialState, action: ClientAction):
   }
 };
 
-export const getClients = (state: ClientState): Client[] =>
-  state.clientIds.map((id) => state.clients[id]);
+export const getClients = (state: ClientState): Client[] => state.clientIds.map((id) => state.clients[id]);
 export const getClientsMap = (state: ClientState): EntityMap<Client> => state.clients;
 
 export default clientReducer;

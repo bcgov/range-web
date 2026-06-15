@@ -6,33 +6,35 @@ import * as schema from './schema';
 import { GET_USERS } from '../constants/reducerTypes';
 import type { AppThunk } from '../configureStore';
 
-export const fetchUsers = (params?: any): AppThunk<Promise<any>> => (dispatch, getState) => {
-  dispatch(request(GET_USERS));
+export const fetchUsers =
+  (params?: any): AppThunk<Promise<any>> =>
+  (dispatch, getState) => {
+    dispatch(request(GET_USERS));
 
-  const { orderCId, excludeBy, exclude } = params || {};
-  const config = {
-    ...createConfigWithHeader(getState),
-    params: {
-      orderCId,
-      excludeBy,
-      exclude,
-    },
+    const { orderCId, excludeBy, exclude } = params || {};
+    const config = {
+      ...createConfigWithHeader(getState),
+      params: {
+        orderCId,
+        excludeBy,
+        exclude,
+      },
+    };
+
+    return axios.get(API.GET_USERS, config).then(
+      (response: any) => {
+        const users = response.data;
+        dispatch(success(GET_USERS, users));
+        dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
+
+        return users;
+      },
+      (err: any) => {
+        dispatch(error(GET_USERS, err));
+        throw err;
+      },
+    );
   };
-
-  return axios.get(API.GET_USERS, config).then(
-    (response: any) => {
-      const users = response.data;
-      dispatch(success(GET_USERS, users));
-      dispatch(storeUsers(normalize(users, schema.arrayOfUsers)));
-
-      return users;
-    },
-    (err: any) => {
-      dispatch(error(GET_USERS, err));
-      throw err;
-    },
-  );
-};
 
 export const fetchReferences = (): AppThunk<Promise<any>> => (dispatch, getState) => {
   return axios
