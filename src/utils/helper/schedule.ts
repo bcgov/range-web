@@ -33,7 +33,11 @@ interface ReferencesLike {
   [key: string]: any;
 }
 
-export const populateGrazingScheduleFields = (schedule: ScheduleLike, plan: PlanLike, references: ReferencesLike): any => {
+export const populateGrazingScheduleFields = (
+  schedule: ScheduleLike,
+  plan: PlanLike,
+  references: ReferencesLike,
+): any => {
   const { pastures = [] } = plan;
   const livestockTypes: LivestockTypeLike[] = references[REFERENCE_KEY.LIVESTOCK_TYPE] || [];
 

@@ -100,12 +100,10 @@ const commonStoreReducer = (state: CommonStoreState = initialState, action: Comm
 };
 
 // private selectors
-export const getZones = (state: CommonStoreState): Zone[] =>
-  state.zoneIds.map((id) => state.zones[id]);
+export const getZones = (state: CommonStoreState): Zone[] => state.zoneIds.map((id) => state.zones[id]);
 export const getZonesMap = (state: CommonStoreState): EntityMap<Zone> => state.zones;
 export const getReferences = (state: CommonStoreState): References => state.references;
-export const getUsers = (state: CommonStoreState): User[] =>
-  state.userIds.map((id) => state.users[id]);
+export const getUsers = (state: CommonStoreState): User[] => state.userIds.map((id) => state.users[id]);
 export const getUsersMap = (state: CommonStoreState): EntityMap<User> => state.users;
 
 export default commonStoreReducer;

@@ -32,9 +32,4 @@ export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
 
 /** Reusable type for thunk action creators. */
-export type AppThunk<ReturnType = Promise<void>> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  AnyAction
->;
+export type AppThunk<ReturnType = Promise<void>> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;

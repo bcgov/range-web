@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
-import { MuiIcon } from '../../common';
+import { MuiIcon, PrimaryButton } from '../../common';
 import InputModal from '../../common/InputModal';
-import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -48,9 +47,12 @@ const PlantCommunityPicker = React.memo<PlantCommunityPickerProps>(
 
     return (
       <>
-        <IconButton onClick={(e) => setMenuAnchorEl(e.currentTarget)}>
-          <MuiIcon name="add circle" />
-        </IconButton>
+        <PrimaryButton
+          onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
+          startIcon={<MuiIcon name="add circle" />}
+        >
+          Add Plant Community
+        </PrimaryButton>
         <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
           {options.map((opt) => (
             <MenuItem

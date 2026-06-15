@@ -13,10 +13,12 @@
         margin-bottom: 15px;
       }
       &__header {
+        display: flex;
+        align-items: center;
         font-weight: bold;
 
-        > i {
-          margin-right: 5px !important;
+        > svg {
+          margin-right: 4px;
         }
       }
       &__timestamp {

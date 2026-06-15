@@ -7,7 +7,7 @@ import {
   SESSION_EXPIRY_WARNING_TOAST_ID,
   TOAST_TIMEOUT,
 } from '../constants/variables';
-import type { AppThunk, AppDispatch , RootState } from '../configureStore';
+import type { AppThunk, AppDispatch, RootState } from '../configureStore';
 
 const toastMessage = (
   dispatch: AppDispatch,

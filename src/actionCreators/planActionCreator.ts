@@ -180,7 +180,9 @@ export const createAmendment =
         );
 
         const schedules = copySchedulesToCreateAmendment(plan, grazingSchedulesMap, newPastureIdsMap);
-        const newSchedules = await Promise.all(schedules.map((gs: any) => dispatch(createRUPSchedule(amendmentId, gs))));
+        const newSchedules = await Promise.all(
+          schedules.map((gs: any) => dispatch(createRUPSchedule(amendmentId, gs))),
+        );
 
         const ministerIssues = copyMinisterIssuesToCreateAmendment(plan, ministerIssuesMap, newPastureIdsMap);
         const newMinisterIssues = await Promise.all(
@@ -192,7 +194,10 @@ export const createAmendment =
           createRUPInvasivePlantChecklist(amendmentId, invasivePlantChecklist),
         );
 
-        const managementConsiderations = copyManagementConsiderationsToCreateAmendment(plan, managementConsiderationsMap);
+        const managementConsiderations = copyManagementConsiderationsToCreateAmendment(
+          plan,
+          managementConsiderationsMap,
+        );
         const newManagementConsiderations = await Promise.all(
           managementConsiderations.map((mc: any) => dispatch(createRUPManagementConsideration(amendmentId, mc))),
         );
@@ -252,7 +257,17 @@ export const fetchRUP =
   };
 
 export const updateRUPStatus =
-  ({ planId, statusId, note = null, shouldToast = true }: { planId: string | number; statusId: string | number; note?: string | null; shouldToast?: boolean }): AppThunk<Promise<any>> =>
+  ({
+    planId,
+    statusId,
+    note = null,
+    shouldToast = true,
+  }: {
+    planId: string | number;
+    statusId: string | number;
+    note?: string | null;
+    shouldToast?: boolean;
+  }): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
     dispatch(request(reducerTypes.UPDATE_PLAN_STATUS));
     const makeRequest = async () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { FieldArray } from 'formik';
 import uuid from 'uuid-v4';
-import { InfoTip, MuiIcon } from '../../common';
+import { InfoTip, MuiIcon, PrimaryButton } from '../../common';
 import { YEARLY_SCHEDULES, YEARLY_SCHEDULES_TIP } from '../../../constants/strings';
 import { SCHEDULE } from '../../../constants/fields';
 import * as utils from '../../../utils';
@@ -14,7 +14,6 @@ import moment from 'moment';
 import { deleteSchedule } from '../../../api';
 import { populateGrazingScheduleFields, populateHayCuttingScheduleFields } from '../../../utils/helper/schedule';
 import { IfEditable } from '../../common/PermissionsField';
-import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import useConfirm from '../../../providers/ConfrimationModalProvider';
@@ -71,9 +70,13 @@ const Schedules = ({ plan }: SchedulesProps) => {
               </div>
               <IfEditable permission={SCHEDULE.TYPE}>
                 <>
-                  <IconButton onClick={(e) => setMenuAnchorEl(e.currentTarget)} disabled={yearOptions.length === 0}>
-                    <MuiIcon name="add circle" />
-                  </IconButton>
+                  <PrimaryButton
+                    disabled={yearOptions.length === 0}
+                    onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
+                    startIcon={<MuiIcon name="add circle" />}
+                  >
+                    Add Schedule
+                  </PrimaryButton>
                   <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
                     {yearOptions.map((opt) => (
                       <MenuItem

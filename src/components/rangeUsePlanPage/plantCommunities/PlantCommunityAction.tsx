@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { connect , useField } from 'formik';
+import { connect, useField } from 'formik';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import { MuiIcon } from '../../common';

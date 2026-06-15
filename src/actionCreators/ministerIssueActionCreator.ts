@@ -32,7 +32,9 @@ export const createRUPMinisterIssueAndActions =
           createConfigWithHeader(getState),
         );
         const newActions = await Promise.all(
-          issue.ministerIssueActions.map((mia: any) => dispatch(createRUPMinisterIssueAction(planId, newIssue.id, mia))),
+          issue.ministerIssueActions.map((mia: any) =>
+            dispatch(createRUPMinisterIssueAction(planId, newIssue.id, mia)),
+          ),
         );
         const newIssueWithNewActions = {
           ...newIssue,

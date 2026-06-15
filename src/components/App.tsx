@@ -20,6 +20,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider as V5ThemeProvider } from '@mui/material/styles';
 import configureStore from '../configureStore';
 import Router from './router';
 import UserProvider from '../providers/UserProvider';
@@ -27,7 +28,7 @@ import ReferencesProvider from '../providers/ReferencesProvider';
 import ToastProvider from '../providers/ToastProvider';
 import EditableProvider from '../providers/EditableProvider';
 import PlanProvider from '../providers/PlanProvider';
-import theme from './theme';
+import theme, { v5Theme } from './theme';
 import { SWRConfig } from 'swr';
 
 const SWRConfigComponent = SWRConfig as any;
@@ -48,21 +49,23 @@ function App() {
     >
       <EnvironmentBanner />
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <UserProvider>
-            <PlanProvider>
-              <EditableProvider editable={true}>
-                <ReferencesProvider>
-                  <ToastProvider>
-                    <ConfirmationModalProvider>
-                      <Router />
-                    </ConfirmationModalProvider>
-                  </ToastProvider>
-                </ReferencesProvider>
-              </EditableProvider>
-            </PlanProvider>
-          </UserProvider>
-        </ThemeProvider>
+        <V5ThemeProvider theme={v5Theme}>
+          <ThemeProvider theme={theme}>
+            <UserProvider>
+              <PlanProvider>
+                <EditableProvider editable={true}>
+                  <ReferencesProvider>
+                    <ToastProvider>
+                      <ConfirmationModalProvider>
+                        <Router />
+                      </ConfirmationModalProvider>
+                    </ToastProvider>
+                  </ReferencesProvider>
+                </EditableProvider>
+              </PlanProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </V5ThemeProvider>
       </Provider>
     </SWRConfigComponent>
   );

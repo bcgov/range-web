@@ -1,5 +1,5 @@
 import React from 'react';
-import { some, every } from 'lodash';
+import { some, every, omit } from 'lodash';
 import { useField } from 'formik';
 import permissions from '../../constants/permissions';
 import { useUser } from '../../providers/UserProvider';
@@ -70,21 +70,24 @@ function PermissionsField({
 
   return globalIsEditable && !editable && canUserEdit(permission, user) ? (
     <>
-      {props.tip ? (
+      {props.label && !props.inline && (
         <div className="rup__popup-header">
-          <AnyComponent {...props} />
+          <Typography variant="body2" component="label" sx={{ fontWeight: 500 }}>
+            {props.label.endsWith(' *') ? props.label.slice(0, -2) : props.label}
+            {props.label.endsWith(' *') && <span style={{ color: 'red' }}> *</span>}
+          </Typography>
           {props.tip && <InfoTip header={props.label} content={props.tip} />}
         </div>
-      ) : (
-        <AnyComponent {...props} />
       )}
+      <AnyComponent {...(props.inline ? props : omit(props, ['label', 'tip']))} />
     </>
   ) : (
     <FormControl sx={{ m: 0, display: 'block' }}>
       {props.label && (
         <div className="rup__popup-header">
           <Typography variant="body2" component="label" sx={{ fontWeight: 500 }}>
-            {props.label}
+            {props.label.endsWith(' *') ? props.label.slice(0, -2) : props.label}
+            {props.label.endsWith(' *') && <span style={{ color: 'red' }}> *</span>}
           </Typography>
           {props.tip && <InfoTip header={props.label} content={props.tip} />}
         </div>

@@ -9,7 +9,10 @@ export const deleteClientLink = async (userId: string | number, clientNumber: st
   return axios.delete(API.DELETE_USER_CLIENT_LINK(userId, clientNumber), getAuthHeaderConfig());
 };
 
-export const mergeAccounts = async (sourceAccountIds: (string | number)[], destinationAccountId: string | number): Promise<any> => {
+export const mergeAccounts = async (
+  sourceAccountIds: (string | number)[],
+  destinationAccountId: string | number,
+): Promise<any> => {
   return axios.post(API.MERGE_ACCOUNTS(destinationAccountId), { accountIds: sourceAccountIds }, getAuthHeaderConfig());
 };
 

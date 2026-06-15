@@ -75,21 +75,23 @@ function ManagementConsiderationRow({ namespace, managementConsideration, onDele
 
   return (
     <div className="rup__m-consideration__row">
-      <PermissionsField
-        permission={MANAGEMENT_CONSIDERATIONS.TYPE}
-        name={`${namespace}.considerationTypeId`}
-        component={FormikSelect}
-        options={considerTypeOptions}
-        label={'Considerations'}
-        displayValue={
-          considerTypes.find((type: any) => type.id === considerationTypeId)
-            ? considerTypes.find((type: any) => type.id === considerationTypeId).name
-            : ''
-        }
-        inputProps={{
-          fluid: true,
-        }}
-      />
+      <div>
+        <PermissionsField
+          permission={MANAGEMENT_CONSIDERATIONS.TYPE}
+          name={`${namespace}.considerationTypeId`}
+          component={FormikSelect}
+          options={considerTypeOptions}
+          label={'Considerations'}
+          displayValue={
+            considerTypes.find((type: any) => type.id === considerationTypeId)
+              ? considerTypes.find((type: any) => type.id === considerationTypeId).name
+              : ''
+          }
+          inputProps={{
+            fluid: true,
+          }}
+        />
+      </div>
       <div>
         <PermissionsField
           permission={MANAGEMENT_CONSIDERATIONS.DESCRIPTION}

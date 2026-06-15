@@ -6,7 +6,7 @@ import { oxfordComma } from '../../../utils';
 import MinisterIssueAction from './MinisterIssueAction';
 import PermissionsField, { IfEditable } from '../../common/PermissionsField';
 import { MINISTER_ISSUES } from '../../../constants/fields';
-import { connect, getIn, FieldArray , useField } from 'formik';
+import { connect, getIn, FieldArray, useField } from 'formik';
 import { useReferences } from '../../../providers/ReferencesProvider';
 import { REFERENCE_KEY } from '../../../constants/variables';
 import AddMinisterIssueActionButton from './AddMinisterIssueActionButton';

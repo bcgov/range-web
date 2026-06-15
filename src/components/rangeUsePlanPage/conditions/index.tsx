@@ -29,7 +29,7 @@ function Conditions({ plan }: ConditionsProps) {
           <div className="rup__info-title">
             <div className="rup__popup-header">
               Conditions
-              <InfoTip header={strings.CONDITIONS} content={strings.CONDITIONS_TIP} size="tiny" />
+              <InfoTip header={strings.CONDITIONS} content={strings.CONDITIONS_TIP} />
             </div>
           </div>
           <PermissionsField
@@ -46,7 +46,7 @@ function Conditions({ plan }: ConditionsProps) {
             <div className="rup__info-title" style={{ width: 500 }}>
               <div className="rup__popup-header">
                 Staff Recommended Conditions
-                <InfoTip header={strings.RECOMENDATIONS} content={strings.PROPOSED_CONDITIONS_TIP} size="tiny" />
+                <InfoTip header={strings.RECOMENDATIONS} content={strings.PROPOSED_CONDITIONS_TIP} />
               </div>
             </div>
             <EditableProvider editable={isStatusSubmittedForFD(plan?.status)}>

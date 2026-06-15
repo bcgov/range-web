@@ -220,7 +220,11 @@ function PlantCommunityBox({
           <div className="rup__plant-community__title__right">
             <div>
               {'Minister approval for inclusion obtained: '}
-              {approved ? <MuiIcon name="check circle" color="green" /> : <MuiIcon name="remove circle" color="red" />}
+              {approved ? (
+                <MuiIcon name="check circle" style={{ color: 'green' }} />
+              ) : (
+                <MuiIcon name="remove circle" style={{ color: 'red' }} />
+              )}
             </div>
           </div>
 
@@ -301,6 +305,7 @@ function PlantCommunityBox({
             inputProps={{
               toggle: true,
             }}
+            inline
             fast
           />
 

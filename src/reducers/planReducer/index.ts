@@ -37,7 +37,17 @@ import type { ConfirmationsState } from './confirmationsReducer';
 import type { PlanStatusHistoryState } from './planStatusHistoryReducer';
 import type { AdditionalRequirementsState } from './additionalRequirementsReducer';
 import type { ManagementConsiderationsState } from './managementConsiderationsReducer';
-import type { EntityMap , PlanStatusHistory, PlanConfirmation, Pasture, PlantCommunity, Schedule, MinisterIssue, AdditionalRequirement, ManagementConsideration } from '../../types';
+import type {
+  EntityMap,
+  PlanStatusHistory,
+  PlanConfirmation,
+  Pasture,
+  PlantCommunity,
+  Schedule,
+  MinisterIssue,
+  AdditionalRequirement,
+  ManagementConsideration,
+} from '../../types';
 
 export interface PlanReducerState {
   plans: PlansState;
@@ -59,9 +69,12 @@ export const getPlantCommunitiesMap = (state: PlanReducerState): EntityMap<Plant
 export const getSchedulesMap = (state: PlanReducerState): EntityMap<Schedule> => state.schedules;
 export const getMinisterIssuesMap = (state: PlanReducerState): EntityMap<MinisterIssue> => state.ministerIssues;
 export const getConfirmationsMap = (state: PlanReducerState): EntityMap<PlanConfirmation> => state.confirmations;
-export const getPlanStatusHistoryMap = (state: PlanReducerState): EntityMap<PlanStatusHistory> => state.planStatusHistory;
-export const getAdditionalRequirementsMap = (state: PlanReducerState): EntityMap<AdditionalRequirement> => state.additionalRequirements;
-export const getManagementConsiderationsMap = (state: PlanReducerState): EntityMap<ManagementConsideration> => state.managementConsiderations;
+export const getPlanStatusHistoryMap = (state: PlanReducerState): EntityMap<PlanStatusHistory> =>
+  state.planStatusHistory;
+export const getAdditionalRequirementsMap = (state: PlanReducerState): EntityMap<AdditionalRequirement> =>
+  state.additionalRequirements;
+export const getManagementConsiderationsMap = (state: PlanReducerState): EntityMap<ManagementConsideration> =>
+  state.managementConsiderations;
 
 export default combineReducers({
   plans: plansReducer,

@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Paper from '@mui/material/Paper';
 import { Loading } from '../common';
 
 import { LOCAL_STORAGE_KEY } from '../../constants/variables';
@@ -53,7 +52,7 @@ function SignInBox() {
   };
 
   return (
-    <Paper variant="outlined" sx={{ p: 3, border: 'none', boxShadow: 'none', bgcolor: 'transparent' }}>
+    <>
       <Loading active={isFetchingUser} />
 
       <div className="signin__container">
@@ -75,7 +74,7 @@ function SignInBox() {
 
         {!errorOccuredFetchingUser && <SignInButtons />}
       </div>
-    </Paper>
+    </>
   );
 }
 

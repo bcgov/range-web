@@ -29,7 +29,10 @@ const addStatusHistoryRecord = (state: PlanStatusHistoryState, action: StatusHis
   };
 };
 
-const planStatusHistoryReducer = (state: PlanStatusHistoryState = {}, action: StatusHistoryAction): PlanStatusHistoryState => {
+const planStatusHistoryReducer = (
+  state: PlanStatusHistoryState = {},
+  action: StatusHistoryAction,
+): PlanStatusHistoryState => {
   switch (action.type) {
     case STORE_PLAN:
       return storeStatusHistory(state, action);

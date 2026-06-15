@@ -33,6 +33,8 @@ function Loading({
   const pxSize = sizeMap[size] || 40;
 
   if (onlySpinner) {
+    if (!active) return null;
+
     return (
       <div className="loading-spinner__container" {...containerProps}>
         <CircularProgress size={pxSize} />

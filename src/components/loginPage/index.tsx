@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { MuiIcon , Footer, PrimaryButton } from '../common';
+import { MuiIcon, Footer, PrimaryButton } from '../common';
 import { IMAGE_SRC, LOCAL_STORAGE_KEY } from '../../constants/variables';
 import { LOGIN_TITLE, APP_NAME } from '../../constants/strings';
 import { detectIE, isTokenExpired, getDataFromLocalStorage, saveDataInLocalStorage } from '../../utils';

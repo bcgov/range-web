@@ -72,5 +72,4 @@ export const PLAN_EXTENSION_STATUS = {
   REPLACED_WITH_REPLACEMENT_PLAN: 11,
 } as const;
 
-export type PlanExtensionStatusValue =
-  (typeof PLAN_EXTENSION_STATUS)[keyof typeof PLAN_EXTENSION_STATUS];
+export type PlanExtensionStatusValue = (typeof PLAN_EXTENSION_STATUS)[keyof typeof PLAN_EXTENSION_STATUS];

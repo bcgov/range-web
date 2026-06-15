@@ -63,29 +63,25 @@ function Pastures({ pastures, formik, agreementType }: PasturesProps) {
               <InfoTip header={titleText} content={tipText} />
             </div>
             <IfEditable permission={PASTURES.NAME}>
-              <div>
+              <div style={{ display: 'flex', gap: 8 }}>
                 <PrimaryButton
                   type="button"
-                  inverted
-                  compact
                   onClick={() => {
                     setImportPastureModalOpen(true);
                   }}
                   className="icon labeled rup__add-button"
+                  startIcon={<MuiIcon name="add circle" />}
                 >
-                  <MuiIcon name="add circle" />
                   Import {titleText}
                 </PrimaryButton>
                 <PrimaryButton
                   type="button"
-                  inverted
-                  compact
                   onClick={() => {
                     setModalOpen(true);
                   }}
                   className="icon labeled rup__add-button"
+                  startIcon={<MuiIcon name="add circle" />}
                 >
-                  <MuiIcon name="add circle" />
                   Add {titleText}
                 </PrimaryButton>
               </div>

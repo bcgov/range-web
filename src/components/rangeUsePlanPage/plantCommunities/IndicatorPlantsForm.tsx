@@ -90,9 +90,9 @@ function IndicatorPlantsForm({
                     id: uuid(),
                   });
                 }}
+                startIcon={<MuiIcon name="add circle" />}
                 style={{ marginTop: '20px' }}
               >
-                <MuiIcon name="add circle" />
                 Add Indicator Plant
               </PrimaryButton>
             </IfEditable>

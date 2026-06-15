@@ -1,5 +1,5 @@
 import React from 'react';
-import { MuiIcon , PrimaryButton } from '../../../common';
+import { MuiIcon, PrimaryButton } from '../../../common';
 import AHConfirmationList from './AHConfirmationList';
 
 interface LastTabProps {

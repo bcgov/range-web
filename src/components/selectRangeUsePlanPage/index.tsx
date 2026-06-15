@@ -329,15 +329,14 @@ function SelectRangeUsePlanPage() {
                 />
               </StyledTooltip>
             )}
+            <PrimaryButton
+              onClick={() => {
+                setFilterSettings(defaultFilterSettings);
+              }}
+            >
+              Reset Filters
+            </PrimaryButton>
           </div>
-          <PrimaryButton
-            inverted
-            onClick={() => {
-              setFilterSettings(defaultFilterSettings);
-            }}
-          >
-            Reset Filters
-          </PrimaryButton>
           {(isUserAdmin(user) || isUserAgrologist(user) || isUserDecisionMaker(user) || isUserAuditor(user)) && (
             <FormControl>
               {exporting || exportingLivestock ? (

@@ -89,19 +89,23 @@ function AdditionalRequirementRow({
 
   return (
     <div className="rup__a-requirement__row">
-      <PermissionsField
-        permission={ADDITIONAL_REQUIREMENTS.CATEGORY}
-        inputProps={{ placeholder: 'Category' }}
-        name={`${namespace}.categoryId`}
-        component={CategorySelect}
-        options={options}
-        displayValue={
-          options.find((c: any) => c.value === categoryId) ? options.find((c: any) => c.value === categoryId).text : ''
-        }
-        label="Category"
-        fast
-        fieldProps={{ required: true }}
-      />
+      <div>
+        <PermissionsField
+          permission={ADDITIONAL_REQUIREMENTS.CATEGORY}
+          inputProps={{ placeholder: 'Category' }}
+          name={`${namespace}.categoryId`}
+          component={CategorySelect}
+          options={options}
+          displayValue={
+            options.find((c: any) => c.value === categoryId)
+              ? options.find((c: any) => c.value === categoryId).text
+              : ''
+          }
+          label="Category"
+          fast
+          fieldProps={{ required: true }}
+        />
+      </div>
       <div>
         <PermissionsField
           permission={ADDITIONAL_REQUIREMENTS.DESCRIPTION}
@@ -126,14 +130,7 @@ function AdditionalRequirementRow({
         />
       </div>
       <IfEditable permission={ADDITIONAL_REQUIREMENTS.NAME}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: 15,
-          }}
-        >
+        <div style={{ marginLeft: 15, marginTop: 10 }}>
           <IconButton onClick={handleMenuOpen} size="small">
             <MuiIcon name="ellipsis vertical" />
           </IconButton>

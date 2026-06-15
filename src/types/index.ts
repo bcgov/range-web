@@ -26,13 +26,7 @@ export type { AdditionalRequirement } from './additionalRequirement';
 
 export type { ManagementConsideration } from './managementConsideration';
 
-export type {
-  Plan,
-  PlanStatusHistory,
-  PlanConfirmation,
-  PlanFile,
-  PlanExtensionRequest,
-} from './plan';
+export type { Plan, PlanStatusHistory, PlanConfirmation, PlanFile, PlanExtensionRequest } from './plan';
 
 export type {
   Agreement,

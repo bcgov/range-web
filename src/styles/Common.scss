@@ -353,13 +353,21 @@
 .inverted-btn {
   display: inline;
 
-  .ui.button {
-    color: $primary-color !important;
-    box-shadow: 0 0 0 1.5px #003366 inset !important;
-    background: transparent none !important;
+  .MuiButton-outlined {
+    color: #fff;
+    border: 2px solid #fff;
+    font-weight: 700;
+    gap: 8px;
 
     &:hover {
-      background: $light-gray !important;
+      background: #fff;
+      color: #333;
+      border: 2px solid #fff;
+
+      .MuiSvgIcon-root,
+      .MuiIcon-root {
+        color: #333;
+      }
     }
   }
 }

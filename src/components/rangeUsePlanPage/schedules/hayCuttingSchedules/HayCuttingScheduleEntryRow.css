@@ -9,3 +9,19 @@
 .rup__haycutting-schedule__row .sui-error-message {
   display: none !important;
 }
+
+.rup__haycutting-schedule__row .MuiInputBase-root,
+.rup__haycutting-schedule__row [class*='-control'] {
+  min-height: 40px;
+}
+
+.rup__haycutting-schedule__row input,
+.rup__haycutting-schedule__row .MuiInputBase-input,
+.rup__haycutting-schedule__row [class*='-control'],
+.rup__haycutting-schedule__row td {
+  font-size: 14px;
+}
+
+.rup__haycutting-schedule__row .MuiInputAdornment-root {
+  display: none;
+}

@@ -25,23 +25,25 @@ export const createRUPManagementConsideration =
   (planId: string | number, consideration: any): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
     const { ...data } = consideration;
-    return axios
-      .post(CREATE_RUP_MANAGEMENT_CONSIDERATION(planId), data, createConfigWithHeader(getState))
-      .then(
-        (response: any) => {
-          return response.data;
-        },
-        (err: any) => {
-          throw err;
-        },
-      );
+    return axios.post(CREATE_RUP_MANAGEMENT_CONSIDERATION(planId), data, createConfigWithHeader(getState)).then(
+      (response: any) => {
+        return response.data;
+      },
+      (err: any) => {
+        throw err;
+      },
+    );
   };
 
 export const updateRUPManagementConsideration =
   (planId: string | number, consideration: any): AppThunk<Promise<any>> =>
   (dispatch, getState) => {
     return axios
-      .put(UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id), consideration, createConfigWithHeader(getState))
+      .put(
+        UPDATE_RUP_MANAGEMENT_CONSIDERATION(planId, consideration.id),
+        consideration,
+        createConfigWithHeader(getState),
+      )
       .then(
         (response: any) => {
           return response.data;

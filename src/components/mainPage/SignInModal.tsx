@@ -19,8 +19,8 @@ function SignInModal() {
   };
 
   return (
-    <Dialog open={reAuthRequired} maxWidth="xs">
-      <DialogContent>
+    <Dialog open={reAuthRequired} maxWidth={false} sx={{ '& .MuiDialog-paper': { width: 500 } }}>
+      <DialogContent sx={{ p: 0 }}>
         <div className="signin-modal__msg">Your session has expired, please sign in again.</div>
 
         <SignInBox />

@@ -248,7 +248,9 @@ const createConfigReplacingHeaderWithNewToken = (config: AxiosConfig, response: 
 export const setTimeoutForReAuth = (
   reauthenticate: () => void,
   dispatch: any,
-): { authTimeoutId: ReturnType<typeof setTimeout>; warningTimeoutId: ReturnType<typeof setTimeout> | null } | undefined => {
+):
+  | { authTimeoutId: ReturnType<typeof setTimeout>; warningTimeoutId: ReturnType<typeof setTimeout> | null }
+  | undefined => {
   if (!isBundled) console.log('set timeout for re-authentication');
 
   const jstData = getJWTDataFromLocal();

@@ -63,7 +63,13 @@ interface ExemptionDialogProps {
   exemptionToEdit?: any;
 }
 
-export default function ExemptionDialog({ open, onClose, agreementId, onCreated, exemptionToEdit }: ExemptionDialogProps) {
+export default function ExemptionDialog({
+  open,
+  onClose,
+  agreementId,
+  onCreated,
+  exemptionToEdit,
+}: ExemptionDialogProps) {
   const classes = useStyles();
   const confirm = useConfirm()!;
   const [form, setForm] = useState({

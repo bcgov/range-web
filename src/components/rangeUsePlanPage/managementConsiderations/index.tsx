@@ -75,13 +75,11 @@ function ManagementConsiderations({ planId, managementConsiderations }: Manageme
 
               <IfEditable permission={MANAGEMENT_CONSIDERATIONS.ADD}>
                 <PrimaryButton
-                  inverted
-                  compact
                   style={{ marginTop: '10px' }}
                   type="button"
                   onClick={(e: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(e.currentTarget)}
+                  startIcon={<MuiIcon name="add circle" />}
                 >
-                  <MuiIcon name="add circle" />
                   Add Consideration
                 </PrimaryButton>
                 <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>

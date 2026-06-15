@@ -1,6 +1,8 @@
 import React from 'react';
 import { useField } from 'formik';
+import omit from 'lodash/omit';
 import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import { InputRef } from './InputRef';
 import ErrorMessage from './ErrorMessage';
 
@@ -32,7 +34,7 @@ function PercentField({
   fast: _fast,
 }: PercentFieldProps) {
   const [field, meta, helpers] = useField({ name, validate });
-  const { onChange, ...safeInputProps } = inputProps;
+  const { onChange, ...safeInputProps } = omit(inputProps, ['label', 'labelPosition']);
   const id = `percent_field_${name}`;
 
   const displayValue =
@@ -56,6 +58,10 @@ function PercentField({
           error={meta.touched && !!meta.error}
           size="small"
           {...safeInputProps}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">%</InputAdornment>,
+            ...(safeInputProps.InputProps || {}),
+          }}
           onChange={(e) => {
             const raw = e.target.value;
             const num = parseFloat(raw);

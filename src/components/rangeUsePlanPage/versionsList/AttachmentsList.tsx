@@ -68,7 +68,7 @@ const AttachmentsList = ({ attachments, fileType = ATTACHMENT_TYPE.PLAN_ATTACHME
             <TableCell>{attachmentAccess.find((o: any) => o.value === attachment.access)?.text}</TableCell>
             <TableCell>
               <PrimaryButton
-                inverted
+                variant="outlined"
                 onClick={() => {
                   onDownloadClicked(attachment);
                 }}

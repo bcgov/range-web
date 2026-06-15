@@ -19,10 +19,16 @@ const initialState: AgreementWithAllPlansState = {
   agreementIds: [],
 };
 
-const storeAgreement = (state: AgreementWithAllPlansState, action: AgreementWithAllPlansAction): AgreementWithAllPlansState => {
+const storeAgreement = (
+  state: AgreementWithAllPlansState,
+  action: AgreementWithAllPlansAction,
+): AgreementWithAllPlansState => {
   const { entities, result: agreementId } = action.payload;
   const agreements = entities?.agreements ?? {};
-  const handleAgreementIds = (state: AgreementWithAllPlansState, agreementId: string | number): Array<string | number> => {
+  const handleAgreementIds = (
+    state: AgreementWithAllPlansState,
+    agreementId: string | number,
+  ): Array<string | number> => {
     if (state.agreementIds.find((id) => id === agreementId)) {
       return [...state.agreementIds];
     }
