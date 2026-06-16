@@ -125,6 +125,8 @@ const RUPSchema = Yup.object().shape({
   schedules: Yup.array().of(
     Yup.object().shape({
       narative: Yup.string().transform(handleNull()),
+      sortBy: Yup.string().nullable(),
+      sortOrder: Yup.string().nullable(),
       scheduleEntries: Yup.array().of(
         Yup.object().shape({
           dateIn: Yup.string()
